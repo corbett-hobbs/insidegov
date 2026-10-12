@@ -1,6 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import type { CommitteeSummary } from "@/lib/committee-types";
 import { committeePath } from "@/lib/committee-url";
+import { ListSearch } from "@/components/ListSearch";
 import { partyAbbr } from "@/components/senate/format";
 
 function lead(c: CommitteeSummary, role: "chair" | "ranking_member") {
@@ -23,17 +27,27 @@ export function CommitteeNeighborList({
   /** Rows are ordered by distance, so show it. */
   ranked: boolean;
 }) {
+  const [q, setQ] = useState("");
+  const needle = q.trim().toLowerCase();
+  const shown = needle
+    ? rows.filter(({ member }) =>
+        `${member.shortName} ${member.name ?? ""}`.toLowerCase().includes(needle),
+      )
+    : rows;
   return (
     <div className="mt-3 border-t border-line">
-      <p className="py-1.5 text-[0.68rem] text-ink-faint">
-        {ranked ? "Closest first" : "A–Z"} · {rows.length} committees
-      </p>
+      <div className="flex items-center justify-between gap-2 py-1.5">
+        <p className="text-[0.68rem] text-ink-faint">
+          {ranked ? "Closest first" : "A–Z"} · {shown.length} committees
+        </p>
+        <ListSearch value={q} onChange={setQ} label="Search committees by name" />
+      </div>
       <div
         tabIndex={0}
         aria-label="Committees"
         className="max-h-[11rem] overflow-y-auto overscroll-contain touch-scroll"
       >
-        {rows.map(({ member }, i) => (
+        {shown.map(({ member }, i) => (
           <Link
             key={member.committeeId}
             href={committeePath(member)}
@@ -57,9 +71,12 @@ export function CommitteeNeighborList({
                 {lead(member, "ranking_member")}
               </span>
             </span>
-            <span className="flex-none text-[0.7rem] text-ink-faint">{CHAMBER[member.chamber]}</span>
+            <span className="w-10 flex-none text-right text-[0.7rem] text-ink-faint">{CHAMBER[member.chamber]}</span>
           </Link>
         ))}
+        {shown.length === 0 && (
+          <p className="py-2 text-[0.75rem] text-ink-faint">No match.</p>
+        )}
       </div>
     </div>
   );
