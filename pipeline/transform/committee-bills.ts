@@ -256,7 +256,14 @@ export function buildShards(
       if (b.cbo_estimates > 0) row.o = b.cbo_estimates;
       if (b.reports.length > 0) row.e = b.reports;
       const moved = !!(row.h || row.m || row.p || row.d || row.g || row.l || row.y);
-      if (moved && b.latest_action) row.z = [b.latest_action.date, b.latest_action.text];
+      if (moved) {
+        // The source's latest action can lag the bill's own history (a House joint resolution that became law still reads
+        // "Read twice and referred" from its Senate leg), so a law is dated by its signing and any other bill by its newest kept action.
+        const newest = [...b.actions].sort((x, y) => x.date.localeCompare(y.date)).filter((a) => a.text).at(-1);
+        if (row.l && row.w) row.z = [row.w, `Became Public Law No: ${row.l}.`];
+        else if (b.latest_action && (!newest || newest.date <= b.latest_action.date)) row.z = [b.latest_action.date, b.latest_action.text];
+        else if (newest) row.z = [newest.date, newest.text];
+      }
       w.shard.rows.push(row);
       report.rows++;
       report.rows_by_committee[id] = (report.rows_by_committee[id] ?? 0) + 1;
