@@ -33,6 +33,8 @@ interface CompassChartProps {
   /** Fade every dot except the highlighted / selected one (profile pages). */
   dimUnfocused?: boolean;
   variant?: "profile" | "explorer";
+  /** Plot height in viewBox units (width is 640); defaults to the variant's own. */
+  height?: number;
 }
 
 export function CompassChart({
@@ -44,6 +46,7 @@ export function CompassChart({
   onSelect,
   dimUnfocused = false,
   variant = "profile",
+  height,
 }: CompassChartProps) {
   const explorer = variant === "explorer";
   const chamber = members[0]?.chamber ?? "senate";
@@ -133,7 +136,7 @@ export function CompassChart({
       points={members}
       ariaLabel={`Scatter plot of ${memberNoun(chamber, { plural: true })} by DW-NOMINATE ideology score`}
       width={640}
-      height={explorer ? 470 : 600}
+      height={height ?? (explorer ? 470 : 600)}
       margin={explorer ? EXPLORER_MARGIN : MARGIN}
       axisTickLabels={!explorer}
       yAxisCaption={!explorer ? "DIMENSION 2" : undefined}

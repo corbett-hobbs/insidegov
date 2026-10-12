@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   SwarmRows,
@@ -163,6 +163,8 @@ interface DelegationChartProps {
   highlightId?: string;
   /** Click a row to filter the explorer to that state. */
   onSelectState?: (state: string) => void;
+  /** Grow the (single) row to the height of a flex-column parent; see BeeswarmChart `fill`. */
+  fill?: boolean;
 }
 
 export function DelegationChart({
@@ -173,8 +175,18 @@ export function DelegationChart({
   selectedState,
   highlightId,
   onSelectState,
+  fill = false,
 }: DelegationChartProps) {
   const router = useRouter();
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [boxH, setBoxH] = useState(0);
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!fill || !el) return;
+    const ro = new ResizeObserver(([e]) => setBoxH(e.contentRect.height));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [fill]);
 
   const { pairs, ranges } = useMemo(
     () => buildDelegations(members, mode),
@@ -199,7 +211,11 @@ export function DelegationChart({
   const margin =
     mode === "range" ? { ...MARGIN, right: RANGE_RIGHT } : MARGIN;
   // A single embedded row gets more height so dots and names read.
-  const rowHeight = filterState && mode === "pair" ? 52 : ROW_H;
+  const baseRowHeight = filterState && mode === "pair" ? 52 : ROW_H;
+  const rowHeight =
+    fill && filterState
+      ? Math.max(baseRowHeight, boxH - margin.top - margin.bottom)
+      : baseRowHeight;
 
   const rows: SwarmRowData<ChamberMember>[] = sourceRows.map((row) => {
     const isRange = mode === "range";
@@ -244,7 +260,7 @@ export function DelegationChart({
     };
   });
 
-  return (
+  const chart = (
     <SwarmRows<ChamberMember>
       rows={rows}
       margin={margin}
@@ -256,5 +272,15 @@ export function DelegationChart({
       }
       renderTooltip={(m) => <MemberTooltip member={m} />}
     />
+  );
+  if (!fill) return chart;
+  return (
+    <div
+      ref={boxRef}
+      className="relative min-h-0 flex-1"
+      style={{ minHeight: margin.top + margin.bottom + baseRowHeight }}
+    >
+      <div className="absolute inset-0">{chart}</div>
+    </div>
   );
 }

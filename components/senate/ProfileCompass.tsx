@@ -16,10 +16,12 @@ export function ProfileCompass({
   members,
   bioguideId,
   neighborIds,
+  height,
 }: {
   members: ChamberMember[];
   bioguideId: string;
   neighborIds?: readonly string[];
+  height?: number;
 }) {
   const router = useRouter();
   return (
@@ -29,6 +31,7 @@ export function ProfileCompass({
       highlightedId={bioguideId}
       highlightedIds={neighborIds}
       dimUnfocused
+      height={height}
       onSelect={(m) => router.push(memberPath(m))}
     />
   );

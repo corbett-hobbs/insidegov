@@ -92,6 +92,7 @@ export function MemberCompassCard({
         <ProfileCompass
           members={compassMembers}
           bioguideId={inChamber ? bioguideId : ""}
+          height={320}
           neighborIds={
             neighborMode ? neighbors.map((n) => n.member.bioguideId) : undefined
           }
