@@ -263,6 +263,10 @@ primitives as the ideology charts — no parallel chart stack.
 and `wealth-copy.ts`/`wealth-scatter.ts` (pure transform/standout-picking
 helpers, unit-tested) round out the scatter's own supporting files.
 
+### District link in the member header
+
+A House member's "District N" in `ProfileHeader` links to that seat's Wikipedia article ("California's 12th congressional district"; `districtWikiUrl` in `lib/district-wiki.ts`). It is built at render time from the member's state and district, so it follows the daily legislators refresh with no extra data file or step.
+
 ### Wikipedia bio in the member header (`components/profile/ProfileHeader.tsx`)
 
 `MemberProfileView` passes `bio` (`getMemberWikipediaBio()` from
