@@ -100,7 +100,7 @@ export function MemberIdeologySection({
 
         {isHouse ? (
           <ProfilePanel
-            className="lg:flex-1"
+            className="lg:flex lg:flex-1 lg:flex-col"
             label={`${stateName} delegation · dimension 1`}
           >
             <p className="mb-2 max-w-[46rem] text-[0.85rem] leading-[1.6] text-ink-muted">
@@ -121,11 +121,15 @@ export function MemberIdeologySection({
                 Open in the explorer →
               </Link>
             </p>
-            <BeeswarmChart members={stateScored} highlightId={bioguideId} />
+            <BeeswarmChart
+              members={stateScored}
+              highlightId={bioguideId}
+              fill
+            />
           </ProfilePanel>
         ) : (
           <ProfilePanel
-            className="lg:flex-1"
+            className="lg:flex lg:flex-1 lg:flex-col"
             label={`${stateName} delegation · both senators on dimension 1`}
           >
             <p className="mb-2 text-[0.78rem] text-ink-faint">
@@ -141,6 +145,7 @@ export function MemberIdeologySection({
               members={delegationMembers}
               filterState={state}
               highlightId={bioguideId}
+              fill
             />
           </ProfilePanel>
         )}

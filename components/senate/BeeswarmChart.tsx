@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { scaleLinear } from "d3-scale";
 import { forceCollide, forceSimulation, forceX, forceY } from "d3-force";
@@ -33,10 +33,28 @@ interface BeeNode {
 export function BeeswarmChart({
   members,
   highlightId,
+  fill = false,
 }: {
   members: ChamberMember[];
   highlightId?: string;
+  /**
+   * Stretch to the height of a flex parent (the parent must be a flex column):
+   * the plot grows taller, dots stay centred and the gridlines run the full
+   * height, so a card sharing a row with a taller neighbour has no blank space.
+   */
+  fill?: boolean;
 }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!fill || !el) return;
+    const ro = new ResizeObserver(([e]) =>
+      setBox({ w: e.contentRect.width, h: e.contentRect.height }),
+    );
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [fill]);
   const router = useRouter();
   const tip = useTooltip<ChamberMember>();
 
@@ -62,9 +80,13 @@ export function BeeswarmChart({
     return { nodes: ns, swarmHeight: Math.max(hi - lo, 2 * R + 8) };
   }, [members]);
 
-  const height = MARGIN.top + swarmHeight + MARGIN.bottom;
+  const naturalHeight = MARGIN.top + swarmHeight + MARGIN.bottom;
+  // Viewbox units are width/W px; the box's pixel height converts back to units.
+  const wantHeight = box && box.w > 0 ? (box.h * W) / box.w : 0;
+  const height = fill ? Math.max(naturalHeight, wantHeight) : naturalHeight;
+  const shiftY = (height - naturalHeight) / 2;
 
-  return (
+  const frame = (
     <>
       <ChartFrame
         width={W}
@@ -94,7 +116,7 @@ export function BeeswarmChart({
                   <circle
                     key={n.m.bioguideId}
                     cx={n.x}
-                    cy={n.y}
+                    cy={n.y + shiftY}
                     r={isHi ? 8 : R}
                     className={`dot ${partyFillClass(n.m)}${isHi ? " is-highlighted" : ""}`}
                     style={navigable ? { cursor: "pointer" } : undefined}
@@ -113,5 +135,15 @@ export function BeeswarmChart({
       </ChartFrame>
       <Tooltip state={tip.state}>{(m) => <MemberTooltip member={m} />}</Tooltip>
     </>
+  );
+  if (!fill) return frame;
+  return (
+    <div
+      ref={boxRef}
+      className="relative min-h-0 flex-1"
+      style={{ minHeight: box ? (naturalHeight * box.w) / W : undefined }}
+    >
+      <div className="absolute inset-0">{frame}</div>
+    </div>
   );
 }
