@@ -41,7 +41,7 @@ export function CommitteeMembershipsCard({
         {memberships.map((m) => (
           <div
             key={m.committeeId}
-            className="relative -mx-1 grid grid-cols-[1fr_140px] items-center gap-x-4 rounded border-b border-line px-1 py-[0.7rem] hover:bg-surface-raised sm:grid-cols-[1fr_clamp(220px,34%,380px)]"
+            className="relative -mx-1 grid grid-cols-[1fr_140px] items-center gap-x-4 rounded border-b border-line last:border-b-0 px-1 py-[0.7rem] hover:bg-surface-raised sm:grid-cols-[1fr_clamp(220px,34%,380px)]"
           >
             <div className="min-w-0 sm:col-start-1 sm:row-start-1">
               <Link
