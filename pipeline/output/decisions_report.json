@@ -310,9 +310,11 @@
       "Miller v. United States (1958)",
       "Torcaso v. Watkins",
       "Lamont v. Postmaster General",
+      "Green v. County School Board of New Kent County",
       "Miller v. California",
       "Stanley v. Georgia",
       "United States v. Students Challenging Regulatory Agency Procedures",
+      "Nebraska Press Ass'n v. Stuart",
       "Gregg v. Georgia",
       "Hutto v. Finney",
       "Rogers v. Okin",
@@ -337,13 +339,13 @@
   },
   "case_articles": {
     "cases": 8251,
-    "linked": 3402,
+    "linked": 3452,
     "by_via": {
-      "us_cite": 2911,
+      "us_cite": 2970,
       "docket": 267,
       "name_year": 203
     },
-    "no_article": 4850,
+    "no_article": 4791,
     "unlisted": 20,
     "conflicts": [
       {
@@ -1373,19 +1375,19 @@
     ]
   },
   "case_summaries": {
-    "fetched": "2026-10-08",
-    "linked_cases": 3402,
-    "cases_with_summary": 2910,
-    "articles": 3325,
-    "with_lead": 3294,
-    "summarized": 2856,
-    "claude": 853,
+    "fetched": "2026-10-12",
+    "linked_cases": 3452,
+    "cases_with_summary": 2962,
+    "articles": 3374,
+    "with_lead": 3350,
+    "summarized": 2907,
+    "claude": 866,
     "from_sentence": {
-      "1": 1663,
-      "2": 264,
-      "3": 76
+      "1": 1691,
+      "2": 271,
+      "3": 79
     },
-    "without": 492
+    "without": 490
   },
   "justice_votes": {
     "justices": 40,
