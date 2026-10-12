@@ -299,10 +299,10 @@
   {
     "bioguide_id": "B001296",
     "title": "Brendan Boyle",
-    "extract": "Brendan Francis Boyle is an American politician serving as a Democratic Party member of the United States House of Representatives, since 2015 representing successive districts in the Philadelphia area.",
+    "extract": "Brendan Francis Boyle is an American politician serving as a Democratic Party member of the United States House of Representatives since 2015. He represents a district in the Philadelphia area.",
     "url": "https://en.wikipedia.org/wiki/Brendan_Boyle",
-    "revision": "1371786275",
-    "fetched_at": "2026-09-29",
+    "revision": "1379323587",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
@@ -519,6 +519,15 @@
     "url": "https://en.wikipedia.org/wiki/Rob_Bresnahan",
     "revision": "1376511872",
     "fetched_at": "2026-09-29",
+    "needs_review": false
+  },
+  {
+    "bioguide_id": "B001328",
+    "title": "Everton Blair",
+    "extract": "Everton Blair Jr. is an American politician and educator serving as the U.S. representative for Georgia's 13th congressional district since September 2026. A member of the Democratic Party, he won a special election to fill the unexpired term of the late David Scott.",
+    "url": "https://en.wikipedia.org/wiki/Everton_Blair",
+    "revision": "1379905078",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
@@ -1982,10 +1991,10 @@
   {
     "bioguide_id": "H001091",
     "title": "Ashley Hinson",
-    "extract": "Ashley Elizabeth Hinson is an American politician and journalist serving as the U.S. representative for Iowa's 2nd congressional district since 2021. The district, numbered as the 1st district during her first term, covers much of northeastern Iowa, including Cedar Rapids, Waterloo, Cedar Falls, and Dubuque.",
+    "extract": "Ashley Elizabeth Hinson is an American politician, and former broadcast journalist, serving as the U.S. representative for Iowa's 2nd congressional district since 2021.",
     "url": "https://en.wikipedia.org/wiki/Ashley_Hinson",
-    "revision": "1377019106",
-    "fetched_at": "2026-09-29",
+    "revision": "1379666154",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
@@ -2540,10 +2549,10 @@
   {
     "bioguide_id": "L000575",
     "title": "James Lankford",
-    "extract": "James Paul Lankford is an American Southern Baptist minister and politician serving as the senior United States senator from Oklahoma, a seat he has held since 2015. Previously, he represented Oklahoma's 5th congressional district in the U.S. House of Representatives from 2011 to 2015.",
+    "extract": "James Paul Lankford is an American Southern Baptist minister and politician serving as the senior United States senator from Oklahoma, a seat he has held since 2015. From 2011 to 2015, he represented Oklahoma's 5th congressional district in the U.S. House of Representatives.",
     "url": "https://en.wikipedia.org/wiki/James_Lankford",
-    "revision": "1376888380",
-    "fetched_at": "2026-09-29",
+    "revision": "1378832177",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
@@ -3260,10 +3269,10 @@
   {
     "bioguide_id": "M001244",
     "title": "Ashley Moody",
-    "extract": "Ashley Brooke Moody is an American politician and attorney serving since 2025 as the junior United States senator from Florida. A member of the Republican Party, she served from 2019 to 2025 as the 38th attorney general of Florida.",
+    "extract": "Ashley Brooke Moody is an American politician and attorney serving since 2025 as the junior United States senator from Florida. A member of the Republican Party, she served from 2019 to 2025 as the 38th Florida attorney general.",
     "url": "https://en.wikipedia.org/wiki/Ashley_Moody",
-    "revision": "1376311464",
-    "fetched_at": "2026-09-29",
+    "revision": "1378976577",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
@@ -3755,10 +3764,10 @@
   {
     "bioguide_id": "R000617",
     "title": "Delia Ramirez",
-    "extract": "Delia Catalina Ramirez is a self-identifying Guatemalan serving as the U.S. representative for Illinois's 3rd congressional district since 2023. She is a member of the Democratic Party.",
+    "extract": "Delia Catalina Ramirez is a Guatemalan-American serving as the U.S. representative for Illinois's 3rd congressional district since 2023. She is a member of the Democratic Party.",
     "url": "https://en.wikipedia.org/wiki/Delia_Ramirez",
-    "revision": "1377470245",
-    "fetched_at": "2026-09-29",
+    "revision": "1379454293",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
@@ -4794,6 +4803,15 @@
     "url": "https://en.wikipedia.org/wiki/James_Walkinshaw",
     "revision": "1374425349",
     "fetched_at": "2026-09-29",
+    "needs_review": false
+  },
+  {
+    "bioguide_id": "W000832",
+    "title": "Aisha Wahab",
+    "extract": "Aisha Wahab is an American politician who has served since 2026 as the U.S. representative from California's 14th congressional district. A member of the Democratic Party, Wahab served from 2022 to 2026 as a member of the California State Senate from the 10th district and from 2018 to 2022 on the Hayward City Council.",
+    "url": "https://en.wikipedia.org/wiki/Aisha_Wahab",
+    "revision": "1377886809",
+    "fetched_at": "2026-10-12",
     "needs_review": false
   },
   {
