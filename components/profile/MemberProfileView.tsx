@@ -67,11 +67,11 @@ export function MemberProfileView({
         memberships={committeeMemberships}
       />
 
+      <MemberLawsCard bioguideId={profile.bioguideId} name={profile.name} />
+
       {wealthProfile && (
         <MemberWealthSection profile={profile} wealthProfile={wealthProfile} />
       )}
-
-      <MemberLawsCard bioguideId={profile.bioguideId} name={profile.name} />
 
       <SiteFooter />
     </main>
