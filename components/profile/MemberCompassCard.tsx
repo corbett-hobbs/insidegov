@@ -8,7 +8,7 @@ import { CompassPanel } from "@/components/senate/CompassPanel";
 import { ProfileCompass } from "@/components/senate/ProfileCompass";
 import { ordinal } from "@/components/senate/format";
 import { ProfilePanel } from "./ProfilePanel";
-import { NeighborChips } from "./NeighborChips";
+import { MemberNeighborList } from "./MemberNeighborList";
 
 const N = 5;
 
@@ -35,11 +35,19 @@ export function MemberCompassCard({
   const neighbors = inChamber
     ? nearestNeighbors(compassMembers[anchorIndex], compassMembers, N)
     : [];
+  const everyone = compassMembers
+    .filter((m) => m.bioguideId !== bioguideId)
+    .sort(
+      (a, b) =>
+        a.lastName.localeCompare(b.lastName) || a.name.localeCompare(b.name),
+    )
+    .map((member) => ({ member, distance: 0 }));
   const canToggle = neighbors.length > 0;
   const neighborMode = mode === "neighbors" && canToggle;
 
   return (
     <ProfilePanel
+      className="flex h-full flex-col"
       label={`In the ${ordinal(latestCongress)} Congress`}
       action={
         canToggle ? (
@@ -90,11 +98,10 @@ export function MemberCompassCard({
         />
       </CompassPanel>
 
-      {neighborMode && (
-        <div className="mt-4 border-t border-line pt-3">
-          <NeighborChips neighbors={neighbors} />
-        </div>
-      )}
+      <MemberNeighborList
+        rows={neighborMode ? neighbors : everyone}
+        ranked={neighborMode}
+      />
     </ProfilePanel>
   );
 }

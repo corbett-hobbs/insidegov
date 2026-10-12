@@ -78,7 +78,7 @@ export function MemberIdeologySection({
   return (
     <section
       aria-label="Ideology"
-      className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2"
+      className="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-2"
     >
       <MemberCompassCard profile={profile} compassMembers={compassMembers} />
 
@@ -99,7 +99,10 @@ export function MemberIdeologySection({
         </ProfilePanel>
 
         {isHouse ? (
-          <ProfilePanel label={`${stateName} delegation · dimension 1`}>
+          <ProfilePanel
+            className="lg:flex-1"
+            label={`${stateName} delegation · dimension 1`}
+          >
             <p className="mb-2 max-w-[46rem] text-[0.85rem] leading-[1.6] text-ink-muted">
               {stateName}&rsquo;s delegation in the {ordinal(latestCongress)}{" "}
               House:{" "}
@@ -122,6 +125,7 @@ export function MemberIdeologySection({
           </ProfilePanel>
         ) : (
           <ProfilePanel
+            className="lg:flex-1"
             label={`${stateName} delegation · both senators on dimension 1`}
           >
             <p className="mb-2 text-[0.78rem] text-ink-faint">

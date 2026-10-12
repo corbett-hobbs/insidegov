@@ -43,12 +43,10 @@ export function CommitteeCompassCard({
         (c) => c.committeeId,
       )
     : [];
-  const everyone = plottable
-    ? nearestNeighbors<CommitteeSummary>(committee, pool, pool.length, (c) => c.committeeId)
-    : pool
-        .filter((c) => c.committeeId !== committee.committeeId)
-        .sort((a, b) => a.shortName.localeCompare(b.shortName))
-        .map((member) => ({ member, distance: null as number | null }));
+  const everyone = pool
+    .filter((c) => c.committeeId !== committee.committeeId)
+    .sort((a, b) => a.shortName.localeCompare(b.shortName))
+    .map((member) => ({ member, distance: null as number | null }));
   const canToggle = neighbors.length > 0;
   const neighborMode = mode === "neighbors" && canToggle;
 
@@ -110,7 +108,7 @@ export function CommitteeCompassCard({
 
       <CommitteeNeighborList
         rows={neighborMode ? neighbors : everyone}
-        ranked={plottable}
+        ranked={neighborMode}
       />
     </ProfilePanel>
   );
