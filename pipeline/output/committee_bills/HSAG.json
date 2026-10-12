@@ -438,7 +438,7 @@
 {"b":"hr","n":"3718","t":"Sustaining America’s Fisheries for the Future Act of 2025","i":"2025-06-04","s":28,"c":[1,1,0],"a":0,"r":"2025-06-04","x":1},
 {"b":"hr","n":"3685","t":"JUST Act of 2025","i":"2025-06-03","s":130,"c":[2,0,0],"a":3,"r":"2025-06-03"},
 {"b":"hr","n":"3690","t":"Securing Innovation in Financial Regulation Act","i":"2025-06-03","s":52,"a":1,"r":"2025-06-03","x":1},
-{"b":"hr","n":"3633","t":"Digital Asset Market Clarity Act","i":"2025-05-29","s":128,"c":[7,14,0],"a":1,"r":"2025-05-29","m":"2025-06-10","p":"2025-06-24","k":"2025-06-23","x":2,"g":["2025-07-17",null],"q":[47,6],"o":1,"e":["H. Rept. 119-168,Part 1","H. Rept. 119-168,Part 2"],"z":["2026-03-25","Pursuant to the provisions of H.Res. 1131, H.Res. 707 is amended."]},
+{"b":"hr","n":"3633","t":"Digital Asset Market Clarity Act","i":"2025-05-29","s":128,"c":[7,14,0],"a":1,"r":"2025-05-29","m":"2025-06-10","p":"2025-06-24","k":"2025-06-23","x":2,"g":["2025-07-17",null],"q":[47,6],"o":1,"e":["H. Rept. 119-168,Part 1","H. Rept. 119-168,Part 2"],"z":["2026-05-14","Committee on Banking, Housing, and Urban Affairs. Ordered to be reported with an amendment in the nature of a substitute favorably."]},
 {"b":"hr","n":"3635","t":"Foreign Adversary Investment Prohibition Act","i":"2025-05-29","s":129,"c":[1,0,0],"a":12,"r":"2025-05-29","x":1},
 {"b":"hr","n":"3637","t":"Locally Led Restoration Act of 2025","i":"2025-05-29","s":6,"c":[1,2,0],"a":0,"r":"2025-05-29","x":1},
 {"b":"hr","n":"3656","t":"To amend the Agricultural Research, Extension, and Education Reform Act of 1998 to authorize the Secretary of Agriculture to waive the matching funds requirement under the specialty crop research initiative, and for other purposes.","i":"2025-05-29","s":47,"c":[10,4,0],"a":3,"r":"2025-05-29"},
@@ -512,7 +512,7 @@
 {"b":"hr","n":"2536","t":"New Producer Economic Security Act","i":"2025-04-01","s":78,"c":[9,2,0],"a":3,"r":"2025-04-01","u":[4]},
 {"b":"hr","n":"2558","t":"SAFETY Act of 2025","i":"2025-04-01","s":58,"c":[2,4,0],"a":3,"r":"2025-04-01","x":1},
 {"b":"hr","n":"2489","t":"Hunger-Free Future Act of 2025","i":"2025-03-31","s":97,"c":[71,0,0],"a":3,"r":"2025-03-31","u":[2]},
-{"b":"hr","n":"2492","t":"Fire Safe Electrical Corridors Act of 2025","i":"2025-03-31","s":98,"c":[1,2,0],"a":0,"r":"2025-03-31","u":[0],"x":2,"g":["2025-05-13",null],"z":["2025-01-30","Read twice and referred to the Committee on Agriculture, Nutrition, and Forestry."]},
+{"b":"hr","n":"2492","t":"Fire Safe Electrical Corridors Act of 2025","i":"2025-03-31","s":98,"c":[1,2,0],"a":0,"r":"2025-03-31","u":[0],"x":2,"g":["2025-05-13",null],"z":["2025-05-13","Passed/agreed to in House"]},
 {"b":"hr","n":"2496","t":"Dairy Nutrition Incentive Program Act of 2025","i":"2025-03-31","s":30,"c":[8,15,0],"a":3,"r":"2025-03-31","u":[3]},
 {"b":"hr","n":"2512","t":"Hot Foods Act of 2025","i":"2025-03-31","s":99,"c":[110,10,0],"a":3,"r":"2025-03-31","u":[2]},
 {"b":"hr","n":"2517","t":"Community Wood Facilities Assistance Act of 2025","i":"2025-03-31","s":65,"c":[2,1,0],"a":3,"r":"2025-03-31","u":[0],"x":1},
@@ -606,7 +606,7 @@
 {"b":"hr","n":"1213","t":"Forest Data Modernization Act of 2025","i":"2025-02-11","s":47,"c":[1,1,0],"a":0,"r":"2025-02-11"},
 {"b":"hr","n":"1110","t":"Grazing for Wildfire Risk Reduction Act","i":"2025-02-07","s":6,"c":[2,8,0],"a":0,"r":"2025-02-07","u":[0,3],"x":1,"e":["H. Rept. 119-433"]},
 {"b":"hr","n":"1116","t":"REAL Meat Act of 2025","i":"2025-02-07","s":5,"c":[0,6,0],"a":3,"r":"2025-02-07","u":[5]},
-{"b":"hr","n":"1045","t":"Utah Wildfire Research Institute Act of 2025","i":"2025-02-06","s":45,"c":[0,3,0],"a":0,"r":"2025-02-06","d":"2025-09-15","k":"2025-09-15","u":[0],"x":2,"g":["2025-12-15",null],"e":["H. Rept. 119-280"],"z":["2025-02-06","Read twice and referred to the Committee on Energy and Natural Resources."]},
+{"b":"hr","n":"1045","t":"Utah Wildfire Research Institute Act of 2025","i":"2025-02-06","s":45,"c":[0,3,0],"a":0,"r":"2025-02-06","d":"2025-09-15","k":"2025-09-15","u":[0],"x":2,"g":["2025-12-15",null],"e":["H. Rept. 119-280"],"z":["2025-12-15","Passed/agreed to in House"]},
 {"b":"hr","n":"1063","t":"Farm Credit Administration Independent Authority Act","i":"2025-02-06","s":46,"c":[3,11,0],"a":3,"r":"2025-02-06","u":[4],"x":1},
 {"b":"hr","n":"1084","t":"Ski Hill Resources for Economic Development Act","i":"2025-02-06","s":37,"c":[5,4,0],"a":0,"r":"2025-02-06","x":1},
 {"b":"hr","n":"1086","t":"Agriculture Export Promotion Act of 2025","i":"2025-02-06","s":43,"c":[16,14,0],"a":3,"r":"2025-02-06"},
@@ -640,7 +640,7 @@
 {"b":"hr","n":"512","t":"Imported Seafood Safety Standards Act","i":"2025-01-16","s":24,"a":3,"r":"2025-01-16","x":1},
 {"b":"hr","n":"528","t":"Post-Disaster Reforestation and Restoration Act","i":"2025-01-16","s":25,"c":[0,2,0],"a":0,"r":"2025-01-16","d":"2025-09-15","k":"2025-09-15","x":2,"g":["2026-03-16",null],"o":1,"e":["H. Rept. 119-276"],"z":["2026-03-17","Received in the Senate and Read twice and referred to the Committee on Energy and Natural Resources."]},
 {"b":"hr","n":"534","t":"CONTAINER Act","i":"2025-01-16","s":14,"c":[0,9,0],"a":0,"r":"2025-01-16","u":[0],"x":1},
-{"b":"hr","n":"556","t":"Protecting Access for Hunters and Anglers Act","i":"2025-01-16","s":26,"c":[0,83,0],"a":0,"r":"2025-01-16","d":"2025-11-25","k":"2025-11-25","u":[0],"x":2,"g":["2026-03-18",null],"o":1,"e":["H. Rept. 119-385"],"z":["2026-03-17","Motion to reconsider laid on the table Agreed to without objection."]},
+{"b":"hr","n":"556","t":"Protecting Access for Hunters and Anglers Act","i":"2025-01-16","s":26,"c":[0,83,0],"a":0,"r":"2025-01-16","d":"2025-11-25","k":"2025-11-25","u":[0],"x":2,"g":["2026-03-18",null],"o":1,"e":["H. Rept. 119-385"],"z":["2026-03-18","Passed/agreed to in House"]},
 {"b":"hr","n":"416","t":"No Welfare for the Wealthy Act of 2025","i":"2025-01-15","s":17,"c":[0,11,0],"a":3,"r":"2025-01-15","u":[2]},
 {"b":"hr","n":"435","t":"Direct Hire To Fight Fires","i":"2025-01-15","s":18,"c":[0,2,0],"a":5,"r":"2025-01-15","u":[0],"x":2,"o":1,"e":["H. Rept. 119-432"]},
 {"b":"hr","n":"441","t":"Drought Assistance Improvement Act","i":"2025-01-15","s":19,"a":3,"r":"2025-01-15","u":[3,4]},
@@ -669,8 +669,8 @@
 {"b":"hr","n":"183","t":"Law Enforcement Officer and Firefighter Recreation Pass Act","i":"2025-01-03","s":7,"c":[0,1,0],"a":0,"r":"2025-01-03","d":"2025-07-16","k":"2025-07-16","u":[0],"x":2,"g":["2025-07-21",null],"e":["H. Rept. 119-207"],"z":["2026-07-21","Committee on Energy and Natural Resources Subcommittee on National Parks. Hearings held."]},
 {"b":"hr","n":"184","t":"Action Versus No Action Act","i":"2025-01-03","s":7,"a":0,"r":"2025-01-03","u":[0],"x":1},
 {"b":"hr","n":"185","t":"Responsible Legislating Act","i":"2025-01-03","s":2,"a":5,"r":"2025-01-03","u":[3],"x":20},
-{"b":"hr","n":"187","t":"MAPWaters Act of 2025","i":"2025-01-03","s":8,"c":[2,1,0],"a":0,"r":"2025-01-03","x":2,"g":["2025-01-21","2025-12-16"],"l":"119-62","w":"2025-12-26","z":["2025-07-31","Read twice and referred to the Committee on Energy and Natural Resources. (text: CR S5001)"]},
+{"b":"hr","n":"187","t":"MAPWaters Act of 2025","i":"2025-01-03","s":8,"c":[2,1,0],"a":0,"r":"2025-01-03","x":2,"g":["2025-01-21","2025-12-16"],"l":"119-62","w":"2025-12-26","z":["2025-12-26","Became Public Law No: 119-62."]},
 {"b":"hr","n":"191","t":"Inflation Reduction Act of 2025","i":"2025-01-03","s":9,"c":[0,15,0],"a":6,"r":"2025-01-03","x":7},
-{"b":"hr","n":"204","t":"ACRES Act","i":"2025-01-03","s":10,"a":0,"r":"2025-01-03","x":2,"g":["2025-01-21",null],"o":1,"z":["2023-09-14","Received in the Senate and Read twice and referred to the Committee on Energy and Natural Resources."]}
+{"b":"hr","n":"204","t":"ACRES Act","i":"2025-01-03","s":10,"a":0,"r":"2025-01-03","x":2,"g":["2025-01-21",null],"o":1,"z":["2026-03-04","Committee on Energy and Natural Resources. Ordered to be reported without amendment favorably."]}
 ]
 }

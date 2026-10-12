@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { lawId, lawPath } from "@/lib/law-url";
 import { Swatch } from "@/components/decisions/shared";
 import { STAGES, billLabel, congressGovUrl, passedHere, stageVar, timelineSteps, type PreparedBill } from "@/lib/committee-bills-derive";
 import type { BillSponsorCell, CommitteeBillsPayload, Stage } from "@/lib/committee-bills-types";
@@ -8,6 +9,8 @@ import { fmtInt } from "@/lib/decisions-derive";
 import { FOCUS_RING, dateOrDash, fmtDate } from "./shared";
 
 const BADGE = "inline-block whitespace-nowrap rounded-full border border-line-strong bg-surface-raised px-1.5 py-px align-baseline text-[0.66rem] font-medium text-ink-muted";
+/** A link sitting over the row's click-to-open button. */
+const LINK = "pointer-events-auto text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink";
 const PARTY_DOT: Record<string, string> = { D: "var(--dem)", R: "var(--rep)" };
 const partyDot = (p: string) => PARTY_DOT[p] ?? "var(--oth)";
 
@@ -90,20 +93,36 @@ export function BillRow({ b, payload, open, onToggle }: { b: PreparedBill; paylo
       )}
     </>
   );
+  const lawHref = r.l ? lawPath(lawId(payload.congress, Number(r.l.split("-")[1])), r.t) : null;
   const latest = r.y && r.z ? { date: r.z[0], text: `Enacted as part of ${billLabel({ b: r.y[1], n: r.y[2] })} (Pub. L. ${r.y[0].replace("-", "–")})` } : r.z ? { date: r.z[0], text: r.z[1] } : { date: r.r, text: "Referred" };
   return (
     <li className="border-b border-line last:border-b-0">
-      <button type="button" aria-expanded={open} aria-controls={panel} onClick={onToggle} className={`block w-full px-3 py-2.5 text-left text-[0.82rem] hover:bg-surface-raised ${ROW_GRID} lg:items-start ${FOCUS_RING}`}>
+      <div className="relative hover:bg-surface-raised">
+      <button type="button" aria-expanded={open} aria-controls={panel} aria-label={`${billLabel(r)}: show or hide the dated steps`} onClick={onToggle} className={`absolute inset-0 block size-full ${FOCUS_RING}`} />
+      <div className={`pointer-events-none relative px-3 py-2.5 text-left text-[0.82rem] ${ROW_GRID} lg:items-start`}>
         <span className="block min-w-0 break-words leading-[1.3]">
           <span className="mr-1.5 whitespace-nowrap font-mono text-[0.72rem] text-ink-muted">{billLabel(r)}</span>
-          <span className="text-ink">{r.t}</span>
+          {lawHref ? (
+            <Link href={lawHref} className={LINK}>
+              {r.t}
+            </Link>
+          ) : (
+            <span className="text-ink">{r.t}</span>
+          )}
           {hasBadges && <span className="ml-1.5 inline-flex flex-wrap gap-1 align-baseline">{badges}</span>}
         </span>
         <span className="mt-1 block text-[0.76rem] leading-[1.3] text-ink-muted lg:mt-0">
           {sponsor ? (
             <>
               <i aria-hidden className="mr-1.5 inline-block size-2 rounded-full align-baseline" style={{ background: partyDot(sponsor[2]) }} />
-              {sponsor[0]} <span className="text-ink-faint">({sponsor[1]})</span>
+              {sponsor[3] ? (
+                <Link href={sponsor[3]} className={LINK}>
+                  {sponsor[0]}
+                </Link>
+              ) : (
+                sponsor[0]
+              )}{" "}
+              <span className="text-ink-faint">({sponsor[1]})</span>
             </>
           ) : (
             <span className="text-ink-faint">No sponsor recorded</span>
@@ -122,7 +141,8 @@ export function BillRow({ b, payload, open, onToggle }: { b: PreparedBill; paylo
         <span className="mt-1 block text-[0.74rem] leading-[1.35] text-ink-muted lg:mt-0">
           <b className="font-medium tabular-nums text-ink">{fmtDate(latest.date)}</b> {latest.text}
         </span>
-      </button>
+      </div>
+      </div>
       {open && <BillDetail id={panel} b={b} payload={payload} sponsor={sponsor} />}
     </li>
   );
