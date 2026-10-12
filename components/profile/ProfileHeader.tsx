@@ -1,6 +1,7 @@
 import type { MemberProfile } from "@/lib/congress-types";
 import type { WikipediaBio } from "@/lib/wikipedia-types";
 import { chamberLabel, memberNoun } from "@/lib/chamber";
+import { districtWikiUrl } from "@/lib/district-wiki";
 import { MemberPhoto } from "@/components/MemberPhoto";
 import {
   congressStartYear,
@@ -77,9 +78,23 @@ export function ProfileHeader({
               style={{ background: GROUP_VAR[group] }}
             />
             {stateName}
-            {isHouse
-              ? ` · District ${profile.district ?? "at-large"}`
-              : ""} · {partyLabel(profile)}
+            {isHouse && (
+              <>
+                {" · "}
+                <a
+                  href={districtWikiUrl(
+                    profile.state,
+                    stateName,
+                    profile.district,
+                  )}
+                  rel="noopener"
+                  className="underline underline-offset-2 hover:text-accent"
+                >
+                  District {profile.district ?? "at-large"}
+                </a>
+              </>
+            )}{" "}
+            · {partyLabel(profile)}
           </p>
           <p className="mt-1.5 text-[0.9rem] text-ink-muted">
             In the {Chamber} since {congressStartYear(firstCongress)} ·{" "}
