@@ -1,0 +1,492 @@
+[
+  {
+    "committee_id": "HLIG",
+    "source": "wikipedia",
+    "title": "United States House Permanent Select Committee on Intelligence",
+    "extract": "It is the primary committee in the U.S. House of Representatives charged with the oversight of the United States Intelligence Community, though it does share some jurisdiction with other committees in the House, including the Armed Services Committee for some matters dealing with the Department of Defense and the various branches of the U.S. military.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Permanent_Select_Committee_on_Intelligence",
+    "revision": "1372182384",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSAG",
+    "source": "wikipedia",
+    "title": "United States House Committee on Agriculture",
+    "extract": "The United States House of Representatives Committee on Agriculture, or Agriculture Committee is a standing committee of the United States House of Representatives. The House Committee on Agriculture has general jurisdiction over federal agriculture policy and oversight of some federal agencies, and it can recommend funding appropriations for various governmental agencies, programs, and activities, as defined by House rules.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Agriculture",
+    "revision": "1370105589",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSAP",
+    "source": "wikipedia",
+    "title": "United States House Committee on Appropriations",
+    "extract": "The United States House Committee on Appropriations is a committee of the United States House of Representatives that is responsible for passing appropriation bills along with its Senate counterpart.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Appropriations",
+    "revision": "1375704808",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSAS",
+    "source": "wikipedia",
+    "title": "United States House Committee on Armed Services",
+    "extract": "The United States House Committee on Armed Services, commonly known as the House Armed Services Committee or HASC, is a standing committee of the United States House of Representatives. It is responsible for funding and oversight of the Department of Defense (DoD) and the United States Armed Forces, as well as substantial portions of the Department of Energy. Its regular legislative product is the National Defense Authorization Act, which has been passed by Congress and signed into law each year since 1962.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Armed_Services",
+    "revision": "1369770535",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSBA",
+    "source": "wikipedia",
+    "title": "United States House Committee on Financial Services",
+    "extract": "The United States House Committee on Financial Services, also referred to as the House Banking Committee and previously known as the Committee on Banking and Currency, is the committee of the United States House of Representatives that oversees the entire financial services industry, including the securities, insurance, banking and housing industries.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Financial_Services",
+    "revision": "1375903451",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSBU",
+    "source": "wikipedia",
+    "title": "United States House Committee on the Budget",
+    "extract": "The United States House Committee on the Budget, commonly known as the House Budget Committee, is a standing committee of the United States House of Representatives. Its responsibilities include legislative oversight of the federal budget process, reviewing all bills and resolutions on the budget, and monitoring agencies and programs funded outside of the budgetary process.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_the_Budget",
+    "revision": "1370105531",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSED",
+    "source": "written",
+    "title": null,
+    "extract": "Handles legislation on education from preschool through college, and on labor and the workforce, including wages and hours, job training, pensions, unions and workplace safety.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSFA",
+    "source": "wikipedia",
+    "title": "United States House Committee on Foreign Affairs",
+    "extract": "The United States House Committee on Foreign Affairs, also known as the House Foreign Affairs Committee, is a standing committee of the U.S. House of Representatives with jurisdiction over bills and investigations concerning the foreign affairs of the United States. The committee also oversees the U.S. Department of State, American embassies and diplomats, and the U.S. Agency for International Development.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Foreign_Affairs",
+    "revision": "1377506212",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSGO",
+    "source": "wikipedia",
+    "title": "United States House Committee on Oversight and Government Reform",
+    "extract": "The Committee on Oversight and Government Reform is the main investigative committee of the United States House of Representatives. The committee's broad jurisdiction and legislative authority make it one of the most influential and powerful panels in the House.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Oversight_and_Government_Reform",
+    "revision": "1369974350",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSHA",
+    "source": "wikipedia",
+    "title": "United States House Committee on House Administration",
+    "extract": "The United States House Committee on House Administration deals with the general administration matters of the United States House of Representatives, the security of the United States Capitol, and federal elections.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_House_Administration",
+    "revision": "1369974220",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSHM",
+    "source": "wikipedia",
+    "title": "United States House Committee on Homeland Security",
+    "extract": "The U.S. House Committee on Homeland Security is a standing committee of the United States House of Representatives. Its responsibilities include U.S. security legislation and oversight of the Department of Homeland Security.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Homeland_Security",
+    "revision": "1369974270",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSIF",
+    "source": "wikipedia",
+    "title": "United States House Committee on Energy and Commerce",
+    "extract": "The Committee on Energy and Commerce is one of the oldest standing committees of the United States House of Representatives. Established in 1795, it has operated continuously—with various name changes and jurisdictional changes—for more than 200 years. Due to its broad jurisdiction, it is considered one of the most powerful committees in the House.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Energy_and_Commerce",
+    "revision": "1379262521",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSII",
+    "source": "wikipedia",
+    "title": "United States House Committee on Natural Resources",
+    "extract": "The U.S. House Committee on Natural Resources or Natural Resources Committee (often referred to as simply Resources) is a Congressional committee of the United States House of Representatives. Originally called the Committee on Interior and Insular Affairs (1951), the name was changed to the Committee on Natural Resources in 1991. Following the Democratic takeover of the House of Representatives in 2006, the name of the committee was changed back to its title used between 1991 and 1995.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Natural_Resources",
+    "revision": "1369974494",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSJU",
+    "source": "wikipedia",
+    "title": "United States House Committee on the Judiciary",
+    "extract": "The United States House Committee on the Judiciary, also called the House Judiciary Committee, is a standing committee of the United States House of Representatives. It is charged with overseeing the administration of justice within the federal courts, federal administrative agencies, and federal law enforcement entities. Because of the legal nature of its oversight, committee members usually have a legal background, but this is not required.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_the_Judiciary",
+    "revision": "1369974128",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSPW",
+    "source": "written",
+    "title": null,
+    "extract": "Handles legislation on highways, public transit, railroads, aviation, the Coast Guard and maritime transportation, water resources, public buildings, and disaster response and emergency management.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSQJ",
+    "source": "written",
+    "title": null,
+    "extract": "A select panel created by the House in 2025 to look into the unanswered questions about the January 6, 2021 attack on the Capitol.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSRU",
+    "source": "wikipedia",
+    "title": "United States House Committee on Rules",
+    "extract": "The Committee on Rules (or more commonly the Rules Committee) is a committee of the United States House of Representatives. It is responsible for the rules under which bills will be presented to the House of Representatives, unlike other committees, which often deal with a specific area of policy.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Rules",
+    "revision": "1369974285",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSSM",
+    "source": "written",
+    "title": null,
+    "extract": "Has jurisdiction over the Small Business Administration and the federal programs that help small businesses, including loans, government contracting and help for new entrepreneurs.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSSO",
+    "source": "written",
+    "title": null,
+    "extract": "Investigates alleged violations of House rules and federal law by members, officers and staff, enforces the House Code of Official Conduct, and advises members on its rules. Its seats are split evenly between the parties.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSSY",
+    "source": "wikipedia",
+    "title": "United States House Committee on Science, Space, and Technology",
+    "extract": "The Committee on Science, Space, and Technology is a committee of the United States House of Representatives. It has jurisdiction over non-defense federal scientific research and development. More specifically, the committee has complete jurisdiction over the following federal agencies: NASA, NSF, NIST, and the OSTP.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Science,_Space,_and_Technology",
+    "revision": "1369974472",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSVR",
+    "source": "wikipedia",
+    "title": "United States House Committee on Veterans' Affairs",
+    "extract": "The standing Committee on Veterans' Affairs in the United States House of Representatives oversees agencies, reviews current legislation, and recommends new bills or amendments concerning U.S. military veterans. Jurisdiction includes retiring and disability pensions, life insurance, education (including the G.I. Bill), vocational training, medical care, and home loan guarantees.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Veterans%27_Affairs",
+    "revision": "1369974623",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSWM",
+    "source": "wikipedia",
+    "title": "United States House Committee on Ways and Means",
+    "extract": "The Committee on Ways and Means is the chief tax-writing committee of the United States House of Representatives. The committee has jurisdiction over all taxation, tariffs, and other revenue-raising measures, as well as a number of other programs including Social Security, unemployment benefits, Medicare, the enforcement of child support laws, Temporary Assistance for Needy Families, foster care, and adoption programs.",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Committee_on_Ways_and_Means",
+    "revision": "1377743639",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "HSZS",
+    "source": "wikipedia",
+    "title": "United States House Select Committee on Strategic Competition between the United States and the Chinese Communist Party",
+    "extract": "The United States House Select Committee on Strategic Competition between the United States and the Chinese Communist Party is a select committee of the United States House of Representatives established in the 118th Congress, on January 10, 2023. The committee focuses on American economic and security competition with the People's Republic of China, and its ruling party, the Chinese Communist Party (CCP).",
+    "url": "https://en.wikipedia.org/wiki/United_States_House_Select_Committee_on_Strategic_Competition_between_the_United_States_and_the_Chinese_Communist_Party",
+    "revision": "1363828169",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "JCSE",
+    "source": "wikipedia",
+    "title": "Commission on Security and Cooperation in Europe",
+    "extract": "The Commission on Security and Cooperation in Europe (CSCE), also known as the U.S. Helsinki Commission, is an independent U.S. government commission created by Congress in 1976. The commission was established to monitor and encourage compliance with the Helsinki Final Act, an agreement between the United States, Canada, Russia and all of Europe except Albania.",
+    "url": "https://en.wikipedia.org/wiki/Commission_on_Security_and_Cooperation_in_Europe",
+    "revision": "1378556039",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "JSEC",
+    "source": "wikipedia",
+    "title": "United States Congressional Joint Economic Committee",
+    "extract": "The Joint Economic Committee (JEC) is one of four standing joint committees of the U.S. Congress. The committee was established as a part of the Employment Act of 1946, which deemed the committee responsible for reporting the current economic condition of the United States and for making suggestions for improvement to the economy.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Congressional_Joint_Economic_Committee",
+    "revision": "1379490175",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "JSLC",
+    "source": "wikipedia",
+    "title": "United States Congressional Joint Committee on the Library",
+    "extract": "The Joint Committee on the Library is a Joint Committee of the United States Congress devoted to the affairs and administration of the Library of Congress, which is the library of the federal legislature. The Committee currently has oversight of the operations of the Library of Congress, as well as management of the congressional art collection, the National Statuary Hall Collection, and the United States Botanic Garden, but does not have legislative authority.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Congressional_Joint_Committee_on_the_Library",
+    "revision": "1363827831",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "JSPR",
+    "source": "wikipedia",
+    "title": "United States Congressional Joint Committee on Printing",
+    "extract": "The Joint Committee on Printing is a joint committee of the United States Congress devoted to overseeing the functions of the Government Publishing Office and general printing procedures of the federal government of the United States. The authority vested in the Committee is derived from 44 U.S.C. § 101 and the Committee is thereby responsible for ensuring compliance by federal entities to these laws and the Government Printing and Binding Regulations.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Congressional_Joint_Committee_on_Printing",
+    "revision": "1366881189",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "JSTX",
+    "source": "written",
+    "title": null,
+    "extract": "A nonpartisan joint committee of both chambers whose staff estimates the revenue effect of tax bills, reviews large tax refunds, and advises the House and Senate tax-writing committees.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SCNC",
+    "source": "wikipedia",
+    "title": "United States Senate Caucus on International Narcotics Control",
+    "extract": "The United States Senate Caucus on International Narcotics Control (also known as the Senate Narcotics Caucus) is a U.S. congressional caucus created to monitor and encourage the U.S. government and private programs seeking to expand international cooperation against drug abuse and narcotics trafficking, and promote international compliance with narcotics control treaties, including eradication.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Caucus_on_International_Narcotics_Control",
+    "revision": "1363826767",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SLET",
+    "source": "wikipedia",
+    "title": "United States Senate Select Committee on Ethics",
+    "extract": "The U.S. Senate Select Committee on Ethics is a select committee of the United States Senate charged with dealing with matters related to senatorial ethics.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Select_Committee_on_Ethics",
+    "revision": "1376832054",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SLIA",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Indian Affairs",
+    "extract": "The Senate Committee on Indian Affairs is a committee of the United States Senate charged with oversight in matters related to the American Indian, Native Hawaiian, and Alaska Native peoples.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Indian_Affairs",
+    "revision": "1377650461",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SLIN",
+    "source": "wikipedia",
+    "title": "United States Senate Select Committee on Intelligence",
+    "extract": "The United States Senate Select Committee on Intelligence (sometimes referred to as the Intelligence Committee or SSCI) is dedicated to overseeing the United States Intelligence Community—the agencies and bureaus of the federal government of the United States that provide information and analysis for leaders of the executive and legislative branches. The Committee also conducts periodic investigations, audits, and inspections of intelligence activities and programs.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Select_Committee_on_Intelligence",
+    "revision": "1363826738",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SPAG",
+    "source": "wikipedia",
+    "title": "United States Senate Special Committee on Aging",
+    "extract": "The United States Senate Special Committee on Aging is a special committee in the United States Senate established in 1961. As a special committee, it has no legislative authority, but it studies issues related to older Americans, particularly Medicare and Social Security. The committee conducts oversight of the Medicare program, Social Security and the Older Americans Act.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Special_Committee_on_Aging",
+    "revision": "1366882927",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSAF",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Agriculture, Nutrition, and Forestry",
+    "extract": "The Committee on Agriculture, Nutrition, and Forestry is a committee of the United States Senate empowered with legislative oversight of all matters relating to the nation's agriculture industry, farming programs, forestry and logging, and legislation relating to nutrition, home economics, and rural development.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Agriculture,_Nutrition,_and_Forestry",
+    "revision": "1374247381",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSAP",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Appropriations",
+    "extract": "The United States Senate Committee on Appropriations, informally known as the Senate Appropriations Committee, is a standing committee of the United States Senate. It has jurisdiction over all discretionary spending legislation in the Senate.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Appropriations",
+    "revision": "1367305355",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSAS",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Armed Services",
+    "extract": "The Committee on Armed Services, sometimes abbreviated SASC for Senate Armed Services Committee, is a committee of the United States Senate empowered with legislative oversight of the nation's military, including the Department of Defense, military research and development, nuclear energy (as pertaining to national security), benefits for members of the military, the Selective Service System, and other matters related to defense policy.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Armed_Services",
+    "revision": "1367939323",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSBK",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Banking, Housing, and Urban Affairs",
+    "extract": "The United States Senate Committee on Banking, Housing, and Urban Affairs (formerly the Committee on Banking and Currency), also known as the Senate Banking Committee, has jurisdiction over matters related to banks and banking, price controls, deposit insurance, export promotion and controls, federal monetary policy, financial aid to commerce and industry, issuance of redemption of notes, currency and coinage, public and private housing, urban development, mass transit, and government contracts.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Banking,_Housing,_and_Urban_Affairs",
+    "revision": "1375903264",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSBU",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on the Budget",
+    "extract": "The United States Senate Committee on the Budget was established by the Congressional Budget and Impoundment Control Act of 1974. It is responsible for drafting Congress's annual budget plan and monitoring action on the budget for the Federal Government. The committee has jurisdiction over the Congressional Budget Office.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_the_Budget",
+    "revision": "1371135595",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSCM",
+    "source": "written",
+    "title": null,
+    "extract": "Has jurisdiction over interstate commerce, science and technology policy, and transportation, including aviation, railroads, shipping, telecommunications, consumer protection and the Coast Guard.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSEG",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Energy and Natural Resources",
+    "extract": "The United States Senate Committee on Energy and Natural Resources is a standing committee of the United States Senate. It has jurisdiction over matters related to energy and mineral resources, including nuclear development; irrigation and reclamation, territorial possessions of the United States, trust lands appertaining to America's indigenous peoples, and the conservation, use, and disposition of federal lands.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Energy_and_Natural_Resources",
+    "revision": "1378385018",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSEV",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Environment and Public Works",
+    "extract": "The United States Senate Committee on Environment and Public Works is responsible for legislation and oversight of the natural and built environment and for studying matters concerning environmental protection and resource conservation and utilitization.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Environment_and_Public_Works",
+    "revision": "1369873171",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSFI",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Finance",
+    "extract": "The committee concerns itself with matters relating to taxation and other revenue measures generally, and those relating to the insular possessions; bonded debt of the United States; customs, collection districts, and ports of entry and delivery; deposit of public moneys; general revenue sharing; health programs under the Social Security Act (notably Medicare and Medicaid) and health programs financed by a specific tax or trust fund; national social security; reciprocal trade agreements; tariff and import quotas, and related matters thereto; and the transportation of dutiable goods.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Finance",
+    "revision": "1367939045",
+    "fetched_at": "2026-10-13",
+    "needs_review": true
+  },
+  {
+    "committee_id": "SSFR",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Foreign Relations",
+    "extract": "The United States Senate Committee on Foreign Relations is a standing committee of the U.S. Senate charged with leading foreign-policy legislation and debate in the Senate. It is generally responsible for authorizing and overseeing foreign aid programs; arms sales and training for national allies; and holding confirmation hearings for high-level positions in the Department of State.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Foreign_Relations",
+    "revision": "1366892194",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSGA",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Homeland Security and Governmental Affairs",
+    "extract": "The United States Senate Committee on Homeland Security and Governmental Affairs is the chief oversight committee of the United States Senate. It was called the United States Senate Committee on Governmental Affairs before homeland security was added to its responsibilities in 2004. It serves as the Senate's chief investigative and oversight committee.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Homeland_Security_and_Governmental_Affairs",
+    "revision": "1379765125",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSHR",
+    "source": "written",
+    "title": null,
+    "extract": "Handles legislation on health, education, labor and retirement security, covering public health agencies, schools and student aid, workplace rules and private pensions.",
+    "url": null,
+    "revision": null,
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSJU",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on the Judiciary",
+    "extract": "The United States Senate Committee on the Judiciary, informally known as the Senate Judiciary Committee, is a standing committee of 22 U.S. senators whose role is to oversee the Department of Justice (DOJ), consider executive and judicial nominations, and review pending legislation.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_the_Judiciary",
+    "revision": "1367305425",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSRA",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Rules and Administration",
+    "extract": "The Senate Committee on Rules and Administration, also called the Senate Rules and Administration Committee, is responsible for the rules of the United States Senate, administration of congressional buildings, and with credentials and qualifications of members of the Senate, including responsibility for contested elections.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Rules_and_Administration",
+    "revision": "1363826849",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSSB",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Small Business and Entrepreneurship",
+    "extract": "The U.S. Senate Committee on Small Business and Entrepreneurship is a standing committee of the United States Senate. It has jurisdiction over the Small Business Administration and is also charged with researching and investigating all problems of American small business enterprises.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Small_Business_and_Entrepreneurship",
+    "revision": "1376817671",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  },
+  {
+    "committee_id": "SSVA",
+    "source": "wikipedia",
+    "title": "United States Senate Committee on Veterans' Affairs",
+    "extract": "The United States Senate Committee on Veterans' Affairs deals with oversight of United States veterans' problems and issues.",
+    "url": "https://en.wikipedia.org/wiki/United_States_Senate_Committee_on_Veterans%27_Affairs",
+    "revision": "1363826898",
+    "fetched_at": "2026-10-13",
+    "needs_review": false
+  }
+]

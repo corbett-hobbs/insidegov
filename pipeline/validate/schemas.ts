@@ -186,6 +186,29 @@ export const wikipediaSummary = z.strictObject({
 });
 export type WikipediaSummary = z.infer<typeof wikipediaSummary>;
 
+/**
+ * One record of `pipeline/output/committee_summaries.json` — a trimmed
+ * Wikipedia lead per committee, keyed by `committee_id` (THOMAS id). Strict:
+ * our own output.
+ */
+export const committeeSummary = z
+  .strictObject({
+    committee_id: z.string().regex(/^[A-Z]{4}$/),
+    /** `wikipedia` = the article's own sentences; `written` = one line written for this site (no article says what the committee does). */
+    source: z.enum(["wikipedia", "written"]),
+    title: z.string().min(1).nullable(),
+    extract: z.string().min(1),
+    url: z.string().regex(/^https:\/\/en\.wikipedia\.org\/wiki\/\S+$/).nullable(),
+    revision: z.string().regex(/^\d+$/).nullable(),
+    fetched_at: z.string().regex(ISO_DATE),
+    needs_review: z.boolean(),
+  })
+  .refine(
+    (r) => (r.source === "wikipedia" ? r.title && r.url && r.revision : !r.title && !r.url && !r.revision),
+    { message: "a wikipedia record needs title, url and revision; a written one has none" },
+  );
+export type CommitteeWikipediaSummary = z.infer<typeof committeeSummary>;
+
 /** The parts of the Wikipedia REST `page/summary` response we depend on. */
 export const wikipediaApiSummary = z.looseObject({
   type: z.string(),

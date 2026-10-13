@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Committee header (mockup)</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--raised:#f7f8fa;--ink:#1a2233;--muted:#5b6472;--faint:#8890a0;--line:#d7dce3;--strong:#b9c1cc;--accent:#5c4b7a;--rep:#c24a3a}
+@media(prefers-color-scheme:dark){:root{--bg:#14161c;--surface:#1b1e26;--raised:#20242e;--ink:#e9eaee;--muted:#9aa2af;--faint:#6b7280;--line:#2a2e38;--strong:#3a4050;--accent:#9b8bc4;--rep:#d96a56}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif}
+.note{max-width:1180px;margin:0 auto;padding:18px 24px 0;font-size:.82rem;line-height:1.55;color:var(--muted)}
+.fr{max-width:1180px;margin:22px auto 8px;padding:0 24px;font:500 .78rem 'IBM Plex Mono',monospace;color:var(--faint);text-transform:uppercase}
+.board{max-width:1280px;margin:0 auto;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ph{width:390px;margin:0 auto 50px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.site{height:52px;display:flex;align-items:center;padding:0 24px;background:var(--surface);border-bottom:1px solid var(--line);font:500 1.05rem Newsreader,serif}
+main{max-width:1180px;margin:0 auto;padding:36px 24px 30px}.ph main{padding:22px 14px}
+.eyebrow{font:500 .72rem 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+h1{font:600 clamp(2rem,4vw,2.8rem)/1.05 Newsreader,serif;margin:0;letter-spacing:-.01em}.ph h1{font-size:1.9rem}
+.row{display:flex;flex-direction:column;gap:16px}@media(min-width:900px){.board .row{flex-direction:row;align-items:stretch;gap:0}}
+.id{display:flex;gap:24px;align-items:flex-start}.ph .id{gap:16px;align-items:center}
+.ttl{display:flex;align-items:center;gap:20px;margin-bottom:20px}.ttl>div{min-width:0}.seal{width:88px;height:88px;object-fit:contain;flex:none}.ph .seal{width:60px;height:60px}.ph .ttl{gap:12px}
+.det{min-width:0}.board .det{width:380px}
+.m1{margin:0;font-size:1rem;color:var(--muted)}.m2{margin:6px 0 0;font-size:.9rem;color:var(--muted)}.m2 b{color:var(--ink);font-weight:500}
+.dot{display:inline-block;width:.55rem;height:.55rem;border-radius:50%;margin-right:6px}
+.about{border-top:1px solid var(--line);padding-top:16px}@media(min-width:900px){.board .about{flex:1;border-top:0;border-left:1px solid var(--line);padding:0 0 0 32px}}
+.txt{font:1.0625rem/1.35 Newsreader,serif;margin:0 0 6px}.src{font-size:.75rem;color:var(--muted);margin:0}.src a{color:var(--accent);text-decoration:underline}
+.ghost{border:1px dashed var(--strong);border-radius:10px;height:70px;display:grid;place-items:center;color:var(--faint);font-size:.78rem;margin-top:24px}
+.big{width:260px;height:260px}</style></head><body>
+<div class="note"><b>Mock only, nothing committed.</b> Title runs the full width; below it the seal + details sit left and the Wikipedia description sits right (same split as a member profile). Seals are hot-linked from Wikimedia Commons for the mock.</div>
+<div class="fr">Desktop · House</div><div class="board"><div class="pg"><div class="site"><span class="wm">InsideGov</span></div><main><header class="hd">
+<div class="ttl"><img class="seal" src="https://commons.wikimedia.org/wiki/Special:FilePath/Seal_of_the_United_States_House_of_Representatives.svg?width=300" alt="House seal"><div><p class="eyebrow">HOUSE COMMITTEE</p><h1>House Committee on Ways and Means</h1></div></div>
+<div class="row">
+ <div class="id">
+  <div class="det"><p class="m1"><i class="dot" style="background:var(--rep)"></i>Republican control · 26R·19D</p>
+  <p class="m2">Chair: <b>Jason Smith</b> (R)</p><p class="m2">Ranking Member: <b>Richard Neal</b> (D)</p><p class="m2">45 members in the 119th Congress</p></div></div>
+ <section class="about"><p class="eyebrow">About</p><p class="txt">The Committee on Ways and Means is the chief tax-writing committee of the United States House of Representatives. It has jurisdiction over all taxation, tariffs, and other revenue-raising measures, as well as programs including Social Security, unemployment benefits, and Medicare. It has long been regarded as the most prestigious committee of the House.</p>
+ <p class="src">From <a href="#">Wikipedia</a> (text may be abridged), licensed under <a href="#">CC BY-SA 4.0</a>.</p></section>
+</div></header><div class="ghost">Compass + roster cards (unchanged)</div></main></div></div>
+<div class="fr">Desktop · Senate</div><div class="board"><div class="pg"><div class="site"><span class="wm">InsideGov</span></div><main><header class="hd">
+<div class="ttl"><img class="seal" src="https://commons.wikimedia.org/wiki/Special:FilePath/Seal_of_the_United_States_Senate.svg?width=300" alt="Senate seal"><div><p class="eyebrow">SENATE COMMITTEE</p><h1>Senate Committee on Finance</h1></div></div>
+<div class="row">
+ <div class="id">
+  <div class="det"><p class="m1"><i class="dot" style="background:var(--rep)"></i>Republican control · 14R·13D</p>
+  <p class="m2">Chair: <b>Mike Crapo</b> (R)</p><p class="m2">Ranking Member: <b>Ron Wyden</b> (D)</p><p class="m2">27 members in the 119th Congress</p></div></div>
+ <section class="about"><p class="eyebrow">About</p><p class="txt">The Senate Committee on Finance is a standing committee that concerns itself with taxation and other revenue measures, health programs under the Social Security Act, national social security, and tariffs and trade agreements. It is considered one of the most powerful committees in Congress.</p>
+ <p class="src">From <a href="#">Wikipedia</a> (text may be abridged), licensed under <a href="#">CC BY-SA 4.0</a>.</p></section>
+</div></header><div class="ghost">Compass + roster cards (unchanged)</div></main></div></div>
+<div class="fr">Phone · House</div><div class="ph"><div class="pg"><div class="site"><span class="wm">InsideGov</span></div><main><header class="hd">
+<div class="ttl"><img class="seal" src="https://commons.wikimedia.org/wiki/Special:FilePath/Seal_of_the_United_States_House_of_Representatives.svg?width=300" alt="House seal"><div><p class="eyebrow">HOUSE COMMITTEE</p><h1>House Committee on Ways and Means</h1></div></div>
+<div class="row">
+ <div class="id">
+  <div class="det"><p class="m1"><i class="dot" style="background:var(--rep)"></i>Republican control · 26R·19D</p>
+  <p class="m2">Chair: <b>Jason Smith</b> (R)</p><p class="m2">Ranking Member: <b>Richard Neal</b> (D)</p><p class="m2">45 members in the 119th Congress</p></div></div>
+ <section class="about"><p class="eyebrow">About</p><p class="txt">The Committee on Ways and Means is the chief tax-writing committee of the United States House of Representatives. It has jurisdiction over all taxation, tariffs, and other revenue-raising measures, as well as programs including Social Security, unemployment benefits, and Medicare. It has long been regarded as the most prestigious committee of the House.</p>
+ <p class="src">From <a href="#">Wikipedia</a> (text may be abridged), licensed under <a href="#">CC BY-SA 4.0</a>.</p></section>
+</div></header><div class="ghost">Compass + roster cards (unchanged)</div></main></div></div>
+<div class="fr">Joint · option A (redrawn as a seal: navy ring, gold rule, Capitol dome)</div><div class="board"><div class="pg"><div class="site"><span class="wm">InsideGov</span></div><main><header class="hd"><div class="ttl"><svg class="seal" viewBox="0 0 200 200" role="img" aria-label="Joint committee seal">
+<defs><path id="ta" d="M24.7 120.2A78 78 0 1 1 175.3 120.2"/><path id="ba" d="M12 100A88 88 0 0 0 188 100"/></defs>
+<circle cx="100" cy="100" r="98" fill="#1d3b6f"/><circle cx="100" cy="100" r="94" fill="none" stroke="#b8902f" stroke-width="2"/>
+<circle cx="100" cy="100" r="70" fill="#f6f1e4" stroke="#b8902f" stroke-width="3"/><circle cx="100" cy="100" r="66" fill="none" stroke="#1d3b6f" stroke-width="1"/>
+<text font-family="Newsreader,Georgia,serif" font-size="11.5" font-weight="600" letter-spacing="1.1" fill="#f6f1e4" text-anchor="middle"><textPath href="#ta" startOffset="50%">UNITED STATES CONGRESS</textPath></text>
+<text font-family="Newsreader,Georgia,serif" font-size="12" font-weight="600" letter-spacing="2.4" fill="#f6f1e4" text-anchor="middle"><textPath href="#ba" startOffset="50%">JOINT COMMITTEE</textPath></text>
+<g fill="#b8902f"><path id="sa" d="M0-5l1.5 3.5 3.8.3-2.9 2.5.9 3.7L0 2.2-3.3 5l.9-3.7-2.9-2.5 3.8-.3z" transform="translate(13 100)"/><use href="#sa" x="174"/></g>
+<g stroke="#1d3b6f" stroke-width="1.2" stroke-linejoin="round">
+<rect x="50" y="138" width="100" height="5" fill="#b8902f"/><rect x="56" y="132" width="88" height="6" fill="#f6f1e4"/>
+<rect x="58" y="110" width="84" height="22" fill="#1d3b6f"/><rect x="62" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="71" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="80" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="89" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="98" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="107" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="116" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="125" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="134" y="113" width="3.2" height="14" fill="#f6f1e4"/>
+<rect x="54" y="106" width="92" height="4" fill="#b8902f"/>
+<rect x="76" y="92" width="48" height="14" fill="#f6f1e4"/><path d="M82 92v14M90 92v14M100 92v14M110 92v14M118 92v14" fill="none"/>
+<path d="M76 92Q76 60 100 54Q124 60 124 92Z" fill="#1d3b6f"/></g>
+<g fill="none" stroke="#b8902f" stroke-width="1.2"><path d="M84 96Q88 66 100 58" /><path d="M92 96Q94 66 100 58" /><path d="M108 96Q106 66 100 58" /><path d="M116 96Q112 66 100 58" /></g>
+<g stroke="#1d3b6f" stroke-width="1.2" fill="#b8902f"><rect x="94" y="44" width="12" height="11" fill="#f6f1e4"/><path d="M94 44Q100 36 106 44Z"/><rect x="99" y="30" width="2" height="8" stroke="none"/><circle cx="100" cy="29" r="2.4" stroke="none"/></g>
+</svg><div><p class="eyebrow">JOINT COMMITTEE</p><h1>Joint Economic Committee</h1></div></div><div class="row"><div class="id"><div class="det"><p class="m1"><i class="dot" style="background:var(--faint)"></i>No single majority · 10R·10D</p><p class="m2">Chair: <b>—</b></p><p class="m2">20 members in the 119th Congress</p></div></div><section class="about"><p class="eyebrow">About</p><p class="txt">The Joint Economic Committee is a joint committee of the United States Congress, with members from both the House and the Senate. It reviews economic conditions and recommends improvements to economic policy.</p><p class="src">From <a href="#">Wikipedia</a> (text may be abridged), licensed under <a href="#">CC BY-SA 4.0</a>.</p></section></div></header></main></div></div><div class="fr">Joint · option B: half House gold, half Senate teal (the compass chamber colours)</div><div class="board"><div class="pg"><div class="site"><span class="wm">InsideGov</span></div><main><header class="hd"><div class="ttl"><svg class="seal" viewBox="0 0 88 88" role="img" aria-label="House and Senate"><circle cx="44" cy="44" r="42" fill="var(--raised)" stroke="var(--strong)" stroke-width="2"/><path d="M44 2a42 42 0 0 0 0 84z" fill="#b57800" opacity=".85"/><path d="M44 2a42 42 0 0 1 0 84z" fill="#0b8a8f" opacity=".85"/><path d="M44 2v84" stroke="var(--surface)" stroke-width="3"/></svg><div><p class="eyebrow">JOINT COMMITTEE</p><h1>Joint Economic Committee</h1></div></div><div class="row"><div class="id"><div class="det"><p class="m1"><i class="dot" style="background:var(--faint)"></i>No single majority · 10R·10D</p><p class="m2">Chair: <b>—</b></p><p class="m2">20 members in the 119th Congress</p></div></div><section class="about"><p class="eyebrow">About</p><p class="txt">The Joint Economic Committee is a joint committee of the United States Congress, with members from both the House and the Senate. It reviews economic conditions and recommends improvements to economic policy.</p><p class="src">From <a href="#">Wikipedia</a> (text may be abridged), licensed under <a href="#">CC BY-SA 4.0</a>.</p></section></div></header></main></div></div><div class="fr">Joint · option A at large size</div><div style="max-width:1180px;margin:0 auto;padding:0 24px 30px"><div style="width:260px"><svg class="big" viewBox="0 0 200 200" role="img" aria-label="Joint committee seal">
+<defs><path id="tbig" d="M24.7 120.2A78 78 0 1 1 175.3 120.2"/><path id="bbig" d="M12 100A88 88 0 0 0 188 100"/></defs>
+<circle cx="100" cy="100" r="98" fill="#1d3b6f"/><circle cx="100" cy="100" r="94" fill="none" stroke="#b8902f" stroke-width="2"/>
+<circle cx="100" cy="100" r="70" fill="#f6f1e4" stroke="#b8902f" stroke-width="3"/><circle cx="100" cy="100" r="66" fill="none" stroke="#1d3b6f" stroke-width="1"/>
+<text font-family="Newsreader,Georgia,serif" font-size="11.5" font-weight="600" letter-spacing="1.1" fill="#f6f1e4" text-anchor="middle"><textPath href="#tbig" startOffset="50%">UNITED STATES CONGRESS</textPath></text>
+<text font-family="Newsreader,Georgia,serif" font-size="12" font-weight="600" letter-spacing="2.4" fill="#f6f1e4" text-anchor="middle"><textPath href="#bbig" startOffset="50%">JOINT COMMITTEE</textPath></text>
+<g fill="#b8902f"><path id="sbig" d="M0-5l1.5 3.5 3.8.3-2.9 2.5.9 3.7L0 2.2-3.3 5l.9-3.7-2.9-2.5 3.8-.3z" transform="translate(13 100)"/><use href="#sbig" x="174"/></g>
+<g stroke="#1d3b6f" stroke-width="1.2" stroke-linejoin="round">
+<rect x="50" y="138" width="100" height="5" fill="#b8902f"/><rect x="56" y="132" width="88" height="6" fill="#f6f1e4"/>
+<rect x="58" y="110" width="84" height="22" fill="#1d3b6f"/><rect x="62" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="71" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="80" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="89" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="98" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="107" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="116" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="125" y="113" width="3.2" height="14" fill="#f6f1e4"/><rect x="134" y="113" width="3.2" height="14" fill="#f6f1e4"/>
+<rect x="54" y="106" width="92" height="4" fill="#b8902f"/>
+<rect x="76" y="92" width="48" height="14" fill="#f6f1e4"/><path d="M82 92v14M90 92v14M100 92v14M110 92v14M118 92v14" fill="none"/>
+<path d="M76 92Q76 60 100 54Q124 60 124 92Z" fill="#1d3b6f"/></g>
+<g fill="none" stroke="#b8902f" stroke-width="1.2"><path d="M84 96Q88 66 100 58" /><path d="M92 96Q94 66 100 58" /><path d="M108 96Q106 66 100 58" /><path d="M116 96Q112 66 100 58" /></g>
+<g stroke="#1d3b6f" stroke-width="1.2" fill="#b8902f"><rect x="94" y="44" width="12" height="11" fill="#f6f1e4"/><path d="M94 44Q100 36 106 44Z"/><rect x="99" y="30" width="2" height="8" stroke="none"/><circle cx="100" cy="29" r="2.4" stroke="none"/></g>
+</svg></div></div></body></html>
