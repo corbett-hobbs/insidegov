@@ -73,6 +73,8 @@ interface ScatterPlotProps<T> {
   highlightedId?: string | null;
   /** Extra ids to ring with the same treatment as `highlightedId`. */
   highlightedIds?: readonly string[];
+  /** Draw an open ring around this id's dot (a list row hovered elsewhere on the page). */
+  ringId?: string | null;
   selectedId?: string | null;
   /** Fade every dot that isn't highlighted / selected. */
   dimUnfocused?: boolean;
@@ -116,6 +118,7 @@ export function ScatterPlot<T>({
   radius = defaultRadius,
   highlightedId = null,
   highlightedIds,
+  ringId = null,
   selectedId = null,
   dimUnfocused = false,
   onHover,
@@ -298,6 +301,18 @@ export function ScatterPlot<T>({
                     />
                   );
                 })}
+                {ringId != null &&
+                  (() => {
+                    const d = points.find((p) => idOf(p) === ringId);
+                    if (!d) return null;
+                    const r = radius(d, { highlighted: true, selected: false, faded: false });
+                    return (
+                      <g pointerEvents="none">
+                        <circle cx={x(xOf(d))} cy={y(yOf(d))} r={r + 5} fill="none" className="stroke-ink" strokeWidth={4} opacity={0.18} />
+                        <circle cx={x(xOf(d))} cy={y(yOf(d))} r={r + 4} fill="none" className="stroke-ink" strokeWidth={2} />
+                      </g>
+                    );
+                  })()}
               </g>
 
               {labels

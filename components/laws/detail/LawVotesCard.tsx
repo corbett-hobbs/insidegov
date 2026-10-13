@@ -17,8 +17,30 @@ const CAST_WORD = { yea: "Voted yea", nay: "Voted nay", present: "Voted present"
 
 const group = (v: LawVoter) => (v.side === "D" ? "dem" : v.side === "R" ? "rep" : "other");
 
-/** One party's yea voters, a capped, scrollable list in compass order (most liberal first). */
-function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; voters: readonly LawVoter[] }) {
+/** One list row; also rendered invisibly (see `VoterList`) so the lists keep one width across chambers. */
+function VoterRow({ v, linked = true }: { v: LawVoter; linked?: boolean }) {
+  return (
+    <>
+      <MemberFace bioguideId={v.id} hasPhoto={v.hasPhoto} current={v.path !== null} />
+      {v.path && linked ? (
+        <Link href={v.path} className={LINK}>
+          {v.name}
+        </Link>
+      ) : (
+        <span className="text-ink">{v.name}</span>
+      )}
+      <span className="text-ink-faint">{v.label}</span>
+    </>
+  );
+}
+
+const ROW = "flex items-center gap-x-2 whitespace-nowrap border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0";
+
+/**
+ * One party's yea voters, a capped, scrollable list in compass order (most liberal first). `sizers` are the same party's voters in the
+ * other chamber(s): drawn invisibly at zero height so the list is as wide as the widest of them and does not resize on the House / Senate toggle.
+ */
+function VoterList({ title, side, voters, sizers, onHover }: { title: string; side: "D" | "R"; voters: readonly LawVoter[]; sizers: readonly LawVoter[]; onHover: (id: string | null) => void }) {
   return (
     <div className="flex min-h-0 min-w-0 flex-col lg:h-[var(--plot-h)] lg:flex-none">
       <h3 className="m-0 mb-1.5 flex items-center gap-1.5 text-[0.85rem] font-medium text-ink">
@@ -26,21 +48,25 @@ function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; vo
         {title}
         <span className="font-normal tabular-nums text-ink-muted">{`(${voters.length})`}</span>
       </h3>
-      <ul tabIndex={0} aria-label={`${title}, scrollable`} className="touch-scroll m-0 max-h-64 min-h-0 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0 lg:max-h-none lg:flex-1">
+      <ul
+        tabIndex={0}
+        aria-label={`${title}, scrollable`}
+        onPointerLeave={() => onHover(null)}
+        className="touch-scroll m-0 max-h-64 min-h-0 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0 lg:max-h-none lg:flex-1"
+      >
         {voters.length === 0 && <li className="px-3 py-2 text-[0.82rem] text-ink-muted">None.</li>}
         {voters.map((v) => (
-          <li key={v.id} className="flex items-center gap-x-2 whitespace-nowrap border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0">
-            <MemberFace bioguideId={v.id} hasPhoto={v.hasPhoto} current={v.path !== null} />
-            {v.path ? (
-              <Link href={v.path} className={LINK}>
-                {v.name}
-              </Link>
-            ) : (
-              <span className="text-ink">{v.name}</span>
-            )}
-            <span className="text-ink-faint">{v.label}</span>
+          <li key={v.id} className={`${ROW} hover:bg-surface-raised`} onPointerEnter={() => onHover(v.id)} onFocus={() => onHover(v.id)} onBlur={() => onHover(null)}>
+            <VoterRow v={v} />
           </li>
         ))}
+        <li aria-hidden className="pointer-events-none invisible block h-0 overflow-hidden">
+          {sizers.map((v) => (
+            <div key={v.id} className={ROW}>
+              <VoterRow v={v} linked={false} />
+            </div>
+          ))}
+        </li>
       </ul>
     </div>
   );
@@ -62,6 +88,9 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
   const nay = view.voters.filter((v) => v.cast === "nay").length;
   const rest = view.voters.filter((v) => v.cast !== "yea" && v.cast !== "nay" && v.cast !== "none").length;
   const plotted = useMemo(() => view.voters.filter((v) => v.dim1 !== null && v.dim2 !== null), [view]);
+  const [hoverId, setHoverId] = useState<string | null>(null);
+  // The other chamber(s)' yea voters by party, so each list keeps the width of its widest chamber.
+  const otherYea = (side: "D" | "R") => chambers.filter((c) => c !== view).flatMap((c) => c.voters.filter((v) => v.cast === "yea" && v.side === side));
   const yeaIds = useMemo(() => yea.map((v) => v.id), [yea]);
   const plotRef = useRef<HTMLDivElement>(null);
   const [plotH, setPlotH] = useState<number | null>(null);
@@ -117,6 +146,7 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
               colorClass={(v) => partyFillClass({ partyCode: v.partyCode, group: group(v) })}
               radius={(_v, s) => (s.highlighted ? 5.2 : 3.6)}
               highlightedIds={yeaIds}
+              ringId={hoverId}
               dimUnfocused
               isSelectable={(v) => v.path !== null}
               onSelect={(v) => v.path && router.push(v.path)}
@@ -137,8 +167,8 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
             />
           </CompassPanel>
         </div>
-        <VoterList title="Democrats who voted yea" side="D" voters={dem} />
-        <VoterList title="Republicans who voted yea" side="R" voters={rep} />
+        <VoterList title="Democrats who voted yea" side="D" voters={dem} sizers={otherYea("D")} onHover={setHoverId} />
+        <VoterList title="Republicans who voted yea" side="R" voters={rep} sizers={otherYea("R")} onHover={setHoverId} />
       </div>
       <MethodologyNote>
         <p>
