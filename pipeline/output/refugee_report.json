@@ -1,0 +1,1251 @@
+{
+  "first_period": 1980,
+  "last_period": 2027,
+  "rows": 48,
+  "ceiling_years": {
+    "first": 1981,
+    "last": 2027,
+    "missing": [
+      1980
+    ]
+  },
+  "admissions_years": {
+    "first": 1980,
+    "last": 2026,
+    "missing": [
+      2027
+    ]
+  },
+  "ceiling_source": {
+    "determination": [
+      1987,
+      1988,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027
+    ],
+    "compilation": [
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1989,
+      1990
+    ]
+  },
+  "revised_years": [
+    {
+      "period": 1988,
+      "initial": 72500,
+      "final": 87500,
+      "determinations": [
+        "PD 88-01",
+        "PD 88-16"
+      ]
+    },
+    {
+      "period": 1989,
+      "initial": 94000,
+      "final": 116500,
+      "determinations": [
+        "PD 89-2"
+      ]
+    },
+    {
+      "period": 1999,
+      "initial": 78000,
+      "final": 91000,
+      "determinations": [
+        "PD 98-39",
+        "PD 99-33"
+      ]
+    },
+    {
+      "period": 2021,
+      "initial": 15000,
+      "final": 62500,
+      "determinations": [
+        "PD 2021-02",
+        "PD 2021-05",
+        "PD 2021-06"
+      ]
+    },
+    {
+      "period": 2026,
+      "initial": 7500,
+      "final": 17500,
+      "determinations": [
+        "PD 2025-13",
+        "PD 2026-14"
+      ]
+    }
+  ],
+  "status": {
+    "ceiling": {
+      "final": 46,
+      "preliminary": 1
+    },
+    "admissions": {
+      "final": 46,
+      "preliminary": 1
+    }
+  },
+  "blended_periods": [
+    1981,
+    1989,
+    1993,
+    2001,
+    2009,
+    2017,
+    2021,
+    2025
+  ],
+  "determinations": 45,
+  "crs_vs_determinations": [
+    {
+      "fy": 1987,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 1988,
+      "determination": 87500,
+      "crs": 87500,
+      "ok": true
+    },
+    {
+      "fy": 1989,
+      "determination": 94000,
+      "crs": 116500,
+      "ok": false
+    },
+    {
+      "fy": 1991,
+      "determination": 131000,
+      "crs": 131000,
+      "ok": true
+    },
+    {
+      "fy": 1992,
+      "determination": 142000,
+      "crs": 142000,
+      "ok": true
+    },
+    {
+      "fy": 1993,
+      "determination": 132000,
+      "crs": 132000,
+      "ok": true
+    },
+    {
+      "fy": 1994,
+      "determination": 121000,
+      "crs": 121000,
+      "ok": true
+    },
+    {
+      "fy": 1995,
+      "determination": 112000,
+      "crs": 112000,
+      "ok": true
+    },
+    {
+      "fy": 1996,
+      "determination": 90000,
+      "crs": 90000,
+      "ok": true
+    },
+    {
+      "fy": 1997,
+      "determination": 78000,
+      "crs": 78000,
+      "ok": true
+    },
+    {
+      "fy": 1998,
+      "determination": 83000,
+      "crs": 83000,
+      "ok": true
+    },
+    {
+      "fy": 1999,
+      "determination": 91000,
+      "crs": 91000,
+      "ok": true
+    },
+    {
+      "fy": 2000,
+      "determination": 90000,
+      "crs": 90000,
+      "ok": true
+    },
+    {
+      "fy": 2001,
+      "determination": 80000,
+      "crs": 80000,
+      "ok": true
+    },
+    {
+      "fy": 2002,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2003,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2004,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2005,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2006,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2007,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2008,
+      "determination": 80000,
+      "crs": 80000,
+      "ok": true
+    },
+    {
+      "fy": 2009,
+      "determination": 80000,
+      "crs": 80000,
+      "ok": true
+    },
+    {
+      "fy": 2010,
+      "determination": 80000,
+      "crs": 80000,
+      "ok": true
+    },
+    {
+      "fy": 2011,
+      "determination": 80000,
+      "crs": 80000,
+      "ok": true
+    },
+    {
+      "fy": 2012,
+      "determination": 76000,
+      "crs": 76000,
+      "ok": true
+    },
+    {
+      "fy": 2013,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2014,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2015,
+      "determination": 70000,
+      "crs": 70000,
+      "ok": true
+    },
+    {
+      "fy": 2016,
+      "determination": 85000,
+      "crs": 85000,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "determination": 110000,
+      "crs": 110000,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "determination": 45000,
+      "crs": 45000,
+      "ok": true
+    },
+    {
+      "fy": 2019,
+      "determination": 30000,
+      "crs": 30000,
+      "ok": true
+    },
+    {
+      "fy": 2020,
+      "determination": 18000,
+      "crs": 18000,
+      "ok": true
+    },
+    {
+      "fy": 2021,
+      "determination": 62500,
+      "crs": 62500,
+      "ok": true
+    },
+    {
+      "fy": 2022,
+      "determination": 125000,
+      "crs": 125000,
+      "ok": true
+    }
+  ],
+  "state_department_year_end_ceiling_checked": [
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "country_years": {
+    "first": 2001,
+    "last": 2026,
+    "rows": 1686,
+    "countries": 135
+  },
+  "policy_events": 9,
+  "cross_checks": {
+    "crs_admissions_vs_state_department": [
+      {
+        "fy": 2018,
+        "crs": 22615,
+        "state_department": 22676,
+        "diff": 61
+      }
+    ],
+    "ohss_table13_vs_state_department": [
+      {
+        "fy": 1980,
+        "dhs": 207120,
+        "state_department": 207116,
+        "diff": -4,
+        "pct": 0
+      },
+      {
+        "fy": 1981,
+        "dhs": 159250,
+        "state_department": 159252,
+        "diff": 2,
+        "pct": 0
+      },
+      {
+        "fy": 1982,
+        "dhs": 98100,
+        "state_department": 98096,
+        "diff": -4,
+        "pct": 0
+      },
+      {
+        "fy": 1983,
+        "dhs": 61220,
+        "state_department": 61218,
+        "diff": -2,
+        "pct": 0
+      },
+      {
+        "fy": 1984,
+        "dhs": 70390,
+        "state_department": 70393,
+        "diff": 3,
+        "pct": 0
+      },
+      {
+        "fy": 1985,
+        "dhs": 67700,
+        "state_department": 67704,
+        "diff": 4,
+        "pct": 0
+      },
+      {
+        "fy": 1986,
+        "dhs": 62150,
+        "state_department": 62146,
+        "diff": -4,
+        "pct": 0
+      },
+      {
+        "fy": 1987,
+        "dhs": 64530,
+        "state_department": 64528,
+        "diff": -2,
+        "pct": 0
+      },
+      {
+        "fy": 1988,
+        "dhs": 76480,
+        "state_department": 76483,
+        "diff": 3,
+        "pct": 0
+      },
+      {
+        "fy": 1989,
+        "dhs": 107070,
+        "state_department": 107070,
+        "diff": 0,
+        "pct": 0
+      },
+      {
+        "fy": 1990,
+        "dhs": 122070,
+        "state_department": 122066,
+        "diff": -4,
+        "pct": 0
+      },
+      {
+        "fy": 1991,
+        "dhs": 113390,
+        "state_department": 113389,
+        "diff": -1,
+        "pct": 0
+      },
+      {
+        "fy": 1992,
+        "dhs": 115550,
+        "state_department": 132531,
+        "diff": 16981,
+        "pct": 14.7
+      },
+      {
+        "fy": 1993,
+        "dhs": 114180,
+        "state_department": 119448,
+        "diff": 5268,
+        "pct": 4.6
+      },
+      {
+        "fy": 1994,
+        "dhs": 111680,
+        "state_department": 112981,
+        "diff": 1301,
+        "pct": 1.2
+      },
+      {
+        "fy": 1995,
+        "dhs": 98970,
+        "state_department": 99974,
+        "diff": 1004,
+        "pct": 1
+      },
+      {
+        "fy": 1996,
+        "dhs": 75420,
+        "state_department": 76403,
+        "diff": 983,
+        "pct": 1.3
+      },
+      {
+        "fy": 1997,
+        "dhs": 69650,
+        "state_department": 70488,
+        "diff": 838,
+        "pct": 1.2
+      },
+      {
+        "fy": 1998,
+        "dhs": 76710,
+        "state_department": 77080,
+        "diff": 370,
+        "pct": 0.5
+      },
+      {
+        "fy": 1999,
+        "dhs": 85290,
+        "state_department": 85525,
+        "diff": 235,
+        "pct": 0.3
+      },
+      {
+        "fy": 2000,
+        "dhs": 72170,
+        "state_department": 73147,
+        "diff": 977,
+        "pct": 1.4
+      },
+      {
+        "fy": 2001,
+        "dhs": 68920,
+        "state_department": 69886,
+        "diff": 966,
+        "pct": 1.4
+      },
+      {
+        "fy": 2002,
+        "dhs": 26790,
+        "state_department": 27131,
+        "diff": 341,
+        "pct": 1.3
+      },
+      {
+        "fy": 2003,
+        "dhs": 28290,
+        "state_department": 28403,
+        "diff": 113,
+        "pct": 0.4
+      },
+      {
+        "fy": 2004,
+        "dhs": 52840,
+        "state_department": 52873,
+        "diff": 33,
+        "pct": 0.1
+      },
+      {
+        "fy": 2005,
+        "dhs": 53740,
+        "state_department": 53813,
+        "diff": 73,
+        "pct": 0.1
+      },
+      {
+        "fy": 2006,
+        "dhs": 41090,
+        "state_department": 41223,
+        "diff": 133,
+        "pct": 0.3
+      },
+      {
+        "fy": 2007,
+        "dhs": 48220,
+        "state_department": 48282,
+        "diff": 62,
+        "pct": 0.1
+      },
+      {
+        "fy": 2008,
+        "dhs": 60110,
+        "state_department": 60191,
+        "diff": 81,
+        "pct": 0.1
+      },
+      {
+        "fy": 2009,
+        "dhs": 74600,
+        "state_department": 74654,
+        "diff": 54,
+        "pct": 0.1
+      },
+      {
+        "fy": 2010,
+        "dhs": 73290,
+        "state_department": 73311,
+        "diff": 21,
+        "pct": 0
+      },
+      {
+        "fy": 2011,
+        "dhs": 56380,
+        "state_department": 56424,
+        "diff": 44,
+        "pct": 0.1
+      },
+      {
+        "fy": 2012,
+        "dhs": 58180,
+        "state_department": 58238,
+        "diff": 58,
+        "pct": 0.1
+      },
+      {
+        "fy": 2013,
+        "dhs": 69910,
+        "state_department": 69926,
+        "diff": 16,
+        "pct": 0
+      },
+      {
+        "fy": 2014,
+        "dhs": 69980,
+        "state_department": 69987,
+        "diff": 7,
+        "pct": 0
+      },
+      {
+        "fy": 2015,
+        "dhs": 69920,
+        "state_department": 69933,
+        "diff": 13,
+        "pct": 0
+      },
+      {
+        "fy": 2016,
+        "dhs": 84990,
+        "state_department": 84994,
+        "diff": 4,
+        "pct": 0
+      },
+      {
+        "fy": 2017,
+        "dhs": 53690,
+        "state_department": 53716,
+        "diff": 26,
+        "pct": 0
+      },
+      {
+        "fy": 2018,
+        "dhs": 22410,
+        "state_department": 22676,
+        "diff": 266,
+        "pct": 1.2
+      },
+      {
+        "fy": 2019,
+        "dhs": 29920,
+        "state_department": 30000,
+        "diff": 80,
+        "pct": 0.3
+      },
+      {
+        "fy": 2020,
+        "dhs": 11840,
+        "state_department": 11814,
+        "diff": -26,
+        "pct": -0.2
+      },
+      {
+        "fy": 2021,
+        "dhs": 11450,
+        "state_department": 11411,
+        "diff": -39,
+        "pct": -0.3
+      },
+      {
+        "fy": 2022,
+        "dhs": 25520,
+        "state_department": 25465,
+        "diff": -55,
+        "pct": -0.2
+      },
+      {
+        "fy": 2023,
+        "dhs": 60050,
+        "state_department": 60014,
+        "diff": -36,
+        "pct": -0.1
+      },
+      {
+        "fy": 2024,
+        "dhs": 100060,
+        "state_department": 100034,
+        "diff": -26,
+        "pct": 0
+      }
+    ],
+    "ohss_table14_vs_state_department": {
+      "fiscal_years": [
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "beyond_rounding": 119,
+      "largest": [
+        {
+          "fy": 2024,
+          "country_key": "VEN",
+          "dhs": 11350,
+          "state_department": 12875,
+          "diff": 1525
+        },
+        {
+          "fy": 2024,
+          "country_key": "COL",
+          "dhs": 2520,
+          "state_department": 1381,
+          "diff": -1139
+        },
+        {
+          "fy": 2024,
+          "country_key": "CRI",
+          "dhs": 380,
+          "state_department": 1,
+          "diff": -379
+        },
+        {
+          "fy": 2016,
+          "country_key": "BTN",
+          "dhs": 5460,
+          "state_department": 5817,
+          "diff": 357
+        },
+        {
+          "fy": 2024,
+          "country_key": "NIC",
+          "dhs": 2950,
+          "state_department": 3299,
+          "diff": 349
+        },
+        {
+          "fy": 2016,
+          "country_key": "NPL",
+          "dhs": 310,
+          "state_department": 33,
+          "diff": -277
+        },
+        {
+          "fy": 2024,
+          "country_key": "ECU",
+          "dhs": 230,
+          "state_department": 4,
+          "diff": -226
+        },
+        {
+          "fy": 2015,
+          "country_key": "BTN",
+          "dhs": 5560,
+          "state_department": 5775,
+          "diff": 215
+        },
+        {
+          "fy": 2017,
+          "country_key": "BTN",
+          "dhs": 3340,
+          "state_department": 3550,
+          "diff": 210
+        },
+        {
+          "fy": 2018,
+          "country_key": "BTN",
+          "dhs": 2020,
+          "state_department": 2228,
+          "diff": 208
+        },
+        {
+          "fy": 2015,
+          "country_key": "NPL",
+          "dhs": 220,
+          "state_department": 26,
+          "diff": -194
+        },
+        {
+          "fy": 2018,
+          "country_key": "NPL",
+          "dhs": 190,
+          "state_department": 12,
+          "diff": -178
+        },
+        {
+          "fy": 2017,
+          "country_key": "NPL",
+          "dhs": 200,
+          "state_department": 39,
+          "diff": -161
+        },
+        {
+          "fy": 2018,
+          "country_key": "SOM",
+          "dhs": 260,
+          "state_department": 360,
+          "diff": 100
+        },
+        {
+          "fy": 2024,
+          "country_key": "PER",
+          "dhs": 100,
+          "state_department": 1,
+          "diff": -99
+        },
+        {
+          "fy": 2024,
+          "country_key": "COD",
+          "dhs": 19830,
+          "state_department": 19923,
+          "diff": 93
+        },
+        {
+          "fy": 2016,
+          "country_key": "COD",
+          "dhs": 16280,
+          "state_department": 16370,
+          "diff": 90
+        },
+        {
+          "fy": 2016,
+          "country_key": "IND",
+          "dhs": 90,
+          "state_department": 4,
+          "diff": -86
+        },
+        {
+          "fy": 2018,
+          "country_key": "VNM",
+          "dhs": 10,
+          "state_department": 96,
+          "diff": 86
+        },
+        {
+          "fy": 2019,
+          "country_key": "VNM",
+          "dhs": 10,
+          "state_department": 94,
+          "diff": 84
+        },
+        {
+          "fy": 2019,
+          "country_key": "COD",
+          "dhs": 12880,
+          "state_department": 12958,
+          "diff": 78
+        },
+        {
+          "fy": 2023,
+          "country_key": "VEN",
+          "dhs": 1370,
+          "state_department": 1442,
+          "diff": 72
+        },
+        {
+          "fy": 2022,
+          "country_key": "COD",
+          "dhs": 7740,
+          "state_department": 7810,
+          "diff": 70
+        },
+        {
+          "fy": 2015,
+          "country_key": "MMR",
+          "dhs": 18320,
+          "state_department": 18386,
+          "diff": 66
+        },
+        {
+          "fy": 2015,
+          "country_key": "IRQ",
+          "dhs": 12610,
+          "state_department": 12676,
+          "diff": 66
+        }
+      ],
+      "dhs_names_not_matched": []
+    }
+  },
+  "sources": [
+    {
+      "id": "fr-94-25810",
+      "path": "pipeline/raw/refugee/fr-94-25810.htm",
+      "bytes": 7407,
+      "sha256": "8a27f68b737fc47746d0adcac95431fc16cb5282ea575754d08297a67ce30c35"
+    },
+    {
+      "id": "fr-95-25377",
+      "path": "pipeline/raw/refugee/fr-95-25377.htm",
+      "bytes": 6480,
+      "sha256": "e0ee716a8458edb99fb95eefbaf53031f624e3d34f77a0e7fe4dd79ddeefee10"
+    },
+    {
+      "id": "fr-96-28397",
+      "path": "pipeline/raw/refugee/fr-96-28397.htm",
+      "bytes": 7163,
+      "sha256": "6024ee6625537f55a57ccc71ff662c94271ec37b21868b4ecc53ef53220dbf8d"
+    },
+    {
+      "id": "fr-97-27172",
+      "path": "pipeline/raw/refugee/fr-97-27172.htm",
+      "bytes": 7064,
+      "sha256": "6bc5c43c8b2642b2ac7aa4a0c530d86fef5ab41abfe448e32263add778e3449c"
+    },
+    {
+      "id": "fr-98-27599",
+      "path": "pipeline/raw/refugee/fr-98-27599.htm",
+      "bytes": 7607,
+      "sha256": "7ede224e6e2e50689d1130f8498172d9f7ccf907e7a9824f5684dfe3dd2dcf97"
+    },
+    {
+      "id": "fr-99-22779",
+      "path": "pipeline/raw/refugee/fr-99-22779.htm",
+      "bytes": 3210,
+      "sha256": "e14329859832e2192cf0a8dee46ddc19cdffef6027fc5b86a3761a6d1b4ec2a3"
+    },
+    {
+      "id": "fr-99-26269",
+      "path": "pipeline/raw/refugee/fr-99-26269.htm",
+      "bytes": 6976,
+      "sha256": "d659d0c3e84f6034bf70d1aac8dd0ffc02bd3f9a4b428674bce910702b107302"
+    },
+    {
+      "id": "fr-00-25960",
+      "path": "pipeline/raw/refugee/fr-00-25960.htm",
+      "bytes": 6982,
+      "sha256": "0ebf0002f9b7d8b832587e3a86178f887635ea9c3de49370d60fa42fcd80d652"
+    },
+    {
+      "id": "fr-01-30449",
+      "path": "pipeline/raw/refugee/fr-01-30449.htm",
+      "bytes": 6497,
+      "sha256": "43cb3ed296febadead304b4046d5433bf9dcac0c8d92e8bbf836adc536d0097f"
+    },
+    {
+      "id": "fr-02-27365",
+      "path": "pipeline/raw/refugee/fr-02-27365.htm",
+      "bytes": 6789,
+      "sha256": "f0532beaca573e1b7ab6ef90287dbb746476b7551a5fd41ce68eb9379776b232"
+    },
+    {
+      "id": "fr-03-28360",
+      "path": "pipeline/raw/refugee/fr-03-28360.htm",
+      "bytes": 6720,
+      "sha256": "5d0de07ec5eebe759c38047eaa3bdc6487eaff165365a2315e83f498074efd78"
+    },
+    {
+      "id": "fr-04-23046",
+      "path": "pipeline/raw/refugee/fr-04-23046.htm",
+      "bytes": 6952,
+      "sha256": "1999be69a0e22ef88cc5728a742da06ac5a8c0c2b0395ec1fc212de26cf033f8"
+    },
+    {
+      "id": "fr-05-21862",
+      "path": "pipeline/raw/refugee/fr-05-21862.htm",
+      "bytes": 6477,
+      "sha256": "3c5b2c16039cfdf0672861e86cdaf9117f7370b09750eb0ec5a49ba5ece2e674"
+    },
+    {
+      "id": "fr-06-9028",
+      "path": "pipeline/raw/refugee/fr-06-9028.htm",
+      "bytes": 6634,
+      "sha256": "314817ca9e39023c1404bc1ece869160fd6e482b2aca699ca15c5cee16bd5e3a"
+    },
+    {
+      "id": "fr-07-5171",
+      "path": "pipeline/raw/refugee/fr-07-5171.htm",
+      "bytes": 6292,
+      "sha256": "c2a540989db1e4e6dfc96683a940593c318e5a43fad1655feb695e17bfc8c9a7"
+    },
+    {
+      "id": "fr-e8-23950",
+      "path": "pipeline/raw/refugee/fr-e8-23950.htm",
+      "bytes": 6435,
+      "sha256": "21994f44005cbad0cb81a8a5035bb8f2f91ced3244ea088c7070193db1159dd1"
+    },
+    {
+      "id": "fr-e9-24686",
+      "path": "pipeline/raw/refugee/fr-e9-24686.htm",
+      "bytes": 6040,
+      "sha256": "ba387cc392cc8b5f8671bec0a0c35b79c7bce479fbe611a54300529b887f1f72"
+    },
+    {
+      "id": "fr-2010-30826",
+      "path": "pipeline/raw/refugee/fr-2010-30826.htm",
+      "bytes": 6189,
+      "sha256": "a4f58b50b32c67b5b8f92e0ce0aa8bdee294f3a06a45235ed66f791a1c1ea14d"
+    },
+    {
+      "id": "fr-2011-26331",
+      "path": "pipeline/raw/refugee/fr-2011-26331.htm",
+      "bytes": 6199,
+      "sha256": "7bb7a4c940fe4f677fd00cd96134a9fe1e957a7cfd8e5c61ca749f6cb991825a"
+    },
+    {
+      "id": "fr-2012-25035",
+      "path": "pipeline/raw/refugee/fr-2012-25035.htm",
+      "bytes": 6257,
+      "sha256": "1fc3afd08f7d1c9b682d4acde037fe5b7862045973522f9fd7f54ff814eaebc6"
+    },
+    {
+      "id": "fr-2013-24779",
+      "path": "pipeline/raw/refugee/fr-2013-24779.htm",
+      "bytes": 5548,
+      "sha256": "9fe707be5a1dacd45c86d86d484038c45fddc649cf1102398347b42d8c9ea72c"
+    },
+    {
+      "id": "fr-2014-27860",
+      "path": "pipeline/raw/refugee/fr-2014-27860.htm",
+      "bytes": 5828,
+      "sha256": "00da914fcfce63cf89cc38578d0351113fe48966f66e072db492c6e879f1d652"
+    },
+    {
+      "id": "fr-2015-26493",
+      "path": "pipeline/raw/refugee/fr-2015-26493.htm",
+      "bytes": 5680,
+      "sha256": "7c3d70f242fd1b0b8f63bd79990312007a80b610cbc8aa95ad3dc8d0d9b2e949"
+    },
+    {
+      "id": "fr-2016-24736",
+      "path": "pipeline/raw/refugee/fr-2016-24736.htm",
+      "bytes": 5589,
+      "sha256": "ef53cd25a5393b3fc12a1e0aee67ca9857f4c6200de5ed590f31ad9a3c8973ef"
+    },
+    {
+      "id": "fr-2017-23140",
+      "path": "pipeline/raw/refugee/fr-2017-23140.htm",
+      "bytes": 5997,
+      "sha256": "9b281613780139377e06a86899c0432d865cc0c5bb4f3f11bc41f7b7248323ae"
+    },
+    {
+      "id": "fr-2018-24135",
+      "path": "pipeline/raw/refugee/fr-2018-24135.htm",
+      "bytes": 5847,
+      "sha256": "27a4ff06e151fb09da57ba5526883629401e228f3c62b9b3ba5ed0b0771ab66a"
+    },
+    {
+      "id": "fr-2019-26082",
+      "path": "pipeline/raw/refugee/fr-2019-26082.htm",
+      "bytes": 4736,
+      "sha256": "acbb0233dbbe0dc6211d98ed4077a7fbcd77bd4ddb4c5e0c254a141f27113bae"
+    },
+    {
+      "id": "fr-2020-24912",
+      "path": "pipeline/raw/refugee/fr-2020-24912.htm",
+      "bytes": 7999,
+      "sha256": "13c84e3971681d052d5864e7bf222974bf0bd792fe3cf6ab737475256f664b78"
+    },
+    {
+      "id": "fr-2021-08545",
+      "path": "pipeline/raw/refugee/fr-2021-08545.htm",
+      "bytes": 7363,
+      "sha256": "25dc156ed1114dd2ee27e8c9c2d23b274c4e0e6f902e818368e13b1c4e01abde"
+    },
+    {
+      "id": "fr-2021-09861",
+      "path": "pipeline/raw/refugee/fr-2021-09861.htm",
+      "bytes": 6856,
+      "sha256": "c158b24d840195e19e35fb1a5349948487621c8538d33b58022c74f16d822193"
+    },
+    {
+      "id": "fr-2021-22760",
+      "path": "pipeline/raw/refugee/fr-2021-22760.htm",
+      "bytes": 5115,
+      "sha256": "956e2b9b25c6aef161a925d94c8cdc8dc4486b004c41b92d7bef271e94bf9884"
+    },
+    {
+      "id": "fr-2022-21913",
+      "path": "pipeline/raw/refugee/fr-2022-21913.htm",
+      "bytes": 5211,
+      "sha256": "30a9d8d6171b63ed85f1b972935d9c3f8d4aa745f79e243a816860ffc4468101"
+    },
+    {
+      "id": "fr-2023-23733",
+      "path": "pipeline/raw/refugee/fr-2023-23733.htm",
+      "bytes": 5464,
+      "sha256": "8953e88922d43b8e493a4ea841aba8fcbf7d18cdb5948a6c2495ed80f103e797"
+    },
+    {
+      "id": "fr-2024-24321",
+      "path": "pipeline/raw/refugee/fr-2024-24321.htm",
+      "bytes": 4545,
+      "sha256": "35d0db1984f0573ccea23050edeec7319325b13261dfee975cc9e329a49fb6b5"
+    },
+    {
+      "id": "fr-2025-19752",
+      "path": "pipeline/raw/refugee/fr-2025-19752.htm",
+      "bytes": 4314,
+      "sha256": "bc3390d5d7dbfcf0b6526eeb63e5b15080a48d8d21f2007008337c52556e1f4f"
+    },
+    {
+      "id": "fr-2026-10598",
+      "path": "pipeline/raw/refugee/fr-2026-10598.htm",
+      "bytes": 5537,
+      "sha256": "8c6f549cdbdf393e4f8b917b0276cc8dcf3e9d2555a135364d924ffcfd06819c"
+    },
+    {
+      "id": "fr-2026-20318",
+      "path": "pipeline/raw/refugee/fr-2026-20318.htm",
+      "bytes": 4938,
+      "sha256": "549cfa4ae35027b7d9ab63689447a8458bf39041db76a8174e15a552335a1a1f"
+    },
+    {
+      "id": "fr-2017-02281",
+      "path": "pipeline/raw/refugee/fr-2017-02281.htm",
+      "bytes": 25379,
+      "sha256": "5254a8da2b99d001a5ccf0cccfafd2bc90c7277e99c652319b7c86983aec67ab"
+    },
+    {
+      "id": "fr-2017-04837",
+      "path": "pipeline/raw/refugee/fr-2017-04837.htm",
+      "bytes": 49622,
+      "sha256": "4e4f34a58952e988c72168c73bfb00da99a5fb574744154991e5ec87354ddd51"
+    },
+    {
+      "id": "fr-2017-23630",
+      "path": "pipeline/raw/refugee/fr-2017-23630.htm",
+      "bytes": 16225,
+      "sha256": "d9c98b6e8960480aac91a8e69ca5a3db11866ce868e3c428ecddf54945b3bcc0"
+    },
+    {
+      "id": "fr-2021-02804",
+      "path": "pipeline/raw/refugee/fr-2021-02804.htm",
+      "bytes": 27451,
+      "sha256": "4b95602ea57b9f6d2cbc3c20a30712df39a4b64a0e561223e10de85132dada05"
+    },
+    {
+      "id": "fr-2025-02011",
+      "path": "pipeline/raw/refugee/fr-2025-02011.htm",
+      "bytes": 8634,
+      "sha256": "ff94a9bd1f7b8409ba56d5f4185dd8e2bd54f5b82f3ce2215fd0ffd71b4361e3"
+    },
+    {
+      "id": "fr-2025-02630",
+      "path": "pipeline/raw/refugee/fr-2025-02630.htm",
+      "bytes": 6104,
+      "sha256": "d3262bb1461923c554711bf2ceef1b2fe59789a43515cfa363137482af715ba3"
+    },
+    {
+      "id": "fr-2025-10669",
+      "path": "pipeline/raw/refugee/fr-2025-10669.htm",
+      "bytes": 36159,
+      "sha256": "fd0fb00b7b24f7b692147255ae10e53311e138f2040a16b924ded9f1afdb25c0"
+    },
+    {
+      "id": "fr-2025-23570",
+      "path": "pipeline/raw/refugee/fr-2025-23570.htm",
+      "bytes": 54609,
+      "sha256": "a5fe606af80c0bcb8ba9043c3de1af75b7e509ae39ad28cc92221ba0f1030941"
+    },
+    {
+      "id": "app-pd-87-1",
+      "path": "pipeline/raw/refugee/app-pd-87-1.html",
+      "bytes": 64407,
+      "sha256": "2a3541f2678f6aed26c7efdf564cd1583ba90b18e4ca869d92dc13919c4238e0"
+    },
+    {
+      "id": "app-pd-88-1",
+      "path": "pipeline/raw/refugee/app-pd-88-1.html",
+      "bytes": 66743,
+      "sha256": "14691659fb79218af7d83bda9445090633d7c540a78f066c8d71c1b6df47f6f8"
+    },
+    {
+      "id": "app-pd-88-16",
+      "path": "pipeline/raw/refugee/app-pd-88-16.html",
+      "bytes": 65000,
+      "sha256": "8a60b91756b58148c5f69f94de51748600374e4716877fb4b0fa5c71dac15c68"
+    },
+    {
+      "id": "app-pd-89-2",
+      "path": "pipeline/raw/refugee/app-pd-89-2.html",
+      "bytes": 68351,
+      "sha256": "3a9ac11868c7245ed1c9a4e78282de47655048e90f45888f1e47f5c93d9cf197"
+    },
+    {
+      "id": "app-pd-91-3",
+      "path": "pipeline/raw/refugee/app-pd-91-3.html",
+      "bytes": 64402,
+      "sha256": "a059d90bf16ad738e22d8a0afdbccbf4ba062f34bcc9b0cc79eb9f8061ae9d61"
+    },
+    {
+      "id": "app-pd-92-2",
+      "path": "pipeline/raw/refugee/app-pd-92-2.html",
+      "bytes": 68237,
+      "sha256": "57c46cfb410457a10c63b30ecd534913706b6afb6de14f6f31edb83047d295a2"
+    },
+    {
+      "id": "app-pd-2020-04",
+      "path": "pipeline/raw/refugee/app-pd-2020-04.html",
+      "bytes": 66222,
+      "sha256": "1a4b5830e04f71be897215fb3dc7ce40dea9f4080549d6fe0a56c42c4be818bb"
+    },
+    {
+      "id": "gpo-ppp-pd-93-1",
+      "path": "pipeline/raw/refugee/gpo-ppp-pd-93-1.htm",
+      "bytes": 5510,
+      "sha256": "5f15117a04aa347d57282707cb2685829adcb35d3faa940ca87afe8b13844e90"
+    },
+    {
+      "id": "gpo-wcpd-pd-94-1",
+      "path": "pipeline/raw/refugee/gpo-wcpd-pd-94-1.htm",
+      "bytes": 5622,
+      "sha256": "f500fbd0ff00bfe16bb83eed3c664c544757c68258e21aff4d8d8b37a860b2f5"
+    },
+    {
+      "id": "rpc-admissions-2026-09-30",
+      "path": "pipeline/raw/refugee/rpc-refugee-admissions-report-2026-09-30.xlsx",
+      "bytes": 234581,
+      "sha256": "7bbabb24cddf72fab4404ac44245fe4a38ad4de8e1a6cb38fdb7c941ecb411f9"
+    },
+    {
+      "id": "crs-r47399",
+      "path": "pipeline/raw/refugee/crs-r47399.html",
+      "bytes": 210214,
+      "sha256": "ade4b933d56214e66b7dc6d574d8bd9e0c08b188f8244ab863a69e5f98000be8"
+    },
+    {
+      "id": "ohss-yearbook-refugees-fy2024",
+      "path": "pipeline/raw/refugee/ohss-yearbook-refugees-fy2024.xlsx",
+      "bytes": 33114,
+      "sha256": "b795560dbf1dda1df5a0023fe17da8c9e190de91264da500fadf5f459d96a2ea"
+    }
+  ]
+}
