@@ -63,14 +63,19 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
   const yeaIds = useMemo(() => yea.map((v) => v.id), [yea]);
   const plotRef = useRef<HTMLDivElement>(null);
   const [plotH, setPlotH] = useState<number | null>(null);
-  // The party lists are as tall as the compass beside them; the compass keeps its aspect ratio as it widens.
+  // The party lists end level with the bottom of the plot itself (not the axis captions under it); the compass keeps its aspect ratio as it widens.
   useEffect(() => {
     const el = plotRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => setPlotH(el.getBoundingClientRect().height));
+    const measure = () => {
+      const svg = el.querySelector("svg[aria-label^='Scatter']");
+      if (svg) setPlotH(svg.getBoundingClientRect().bottom - el.getBoundingClientRect().top);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [which]);
   const noun = view.chamber === "House" ? "representatives" : "senators";
   return (
     <ChartCard
