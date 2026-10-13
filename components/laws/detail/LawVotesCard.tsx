@@ -46,7 +46,7 @@ function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; vo
 
 /**
  * "Who voted for it": the chamber's ideology compass for the law's Congress with the members who voted yea on final passage highlighted
- * and everyone else faded, then two capped, scrollable lists of the yea voters stacked to its right on desktop (Democrats above Republicans), below it on a phone. A
+ * and everyone else faded, then two capped, scrollable lists of the yea voters: three equal panels on desktop (compass, Democrats, Republicans, with dividers), stacked on a phone. A
  * House / Senate toggle appears when both chambers have a recorded member vote.
  */
 export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly LawChamberVotesView[]; congressLabel: string }) {
@@ -85,43 +85,48 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
           </span>
         )}
       </p>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-4 lg:grid-cols-2 lg:items-stretch">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-3 lg:items-stretch">
         <div className="min-w-0">
-        <CompassPanel congress={Number.parseInt(congressLabel, 10)}>
-          <ScatterPlot<LawVoter>
-            points={plotted}
-            ariaLabel={`Scatter plot of ${noun} by DW-NOMINATE ideology score; those who voted yea are highlighted`}
-            width={640}
-            height={520}
-            margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            x={(v) => v.dim1 as number}
-            y={(v) => v.dim2 as number}
-            id={(v) => v.id}
-            colorClass={(v) => partyFillClass({ partyCode: v.partyCode, group: group(v) })}
-            radius={(_v, s) => (s.highlighted ? 5.2 : 3.6)}
-            highlightedIds={yeaIds}
-            dimUnfocused
-            isSelectable={(v) => v.path !== null}
-            onSelect={(v) => v.path && router.push(v.path)}
-            selectHint="Open profile →"
-            renderTooltip={(v) => (
-              <div className="tt-body">
-                <div>
-                  <b>{v.name}</b>
-                  <br />
-                  {v.label}
-                  <br />
-                  <span className="tt-mono">{CAST_WORD[v.cast]}</span>
+          <CompassPanel congress={Number.parseInt(congressLabel, 10)}>
+            <ScatterPlot<LawVoter>
+              points={plotted}
+              ariaLabel={`Scatter plot of ${noun} by DW-NOMINATE ideology score; those who voted yea are highlighted`}
+              width={640}
+              height={640}
+              margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              x={(v) => v.dim1 as number}
+              y={(v) => v.dim2 as number}
+              id={(v) => v.id}
+              colorClass={(v) => partyFillClass({ partyCode: v.partyCode, group: group(v) })}
+              radius={(_v, s) => (s.highlighted ? 5.2 : 3.6)}
+              highlightedIds={yeaIds}
+              dimUnfocused
+              isSelectable={(v) => v.path !== null}
+              onSelect={(v) => v.path && router.push(v.path)}
+              selectHint="Open profile →"
+              renderTooltip={(v) => (
+                <div className="tt-body">
+                  <div>
+                    <b>{v.name}</b>
+                    <br />
+                    {v.label}
+                    <br />
+                    <span className="tt-mono">{CAST_WORD[v.cast]}</span>
+                  </div>
                 </div>
-              </div>
-            )}
-            zoomable
-          />
-        </CompassPanel>
+              )}
+              zoomable
+            />
+          </CompassPanel>
         </div>
-        <div className="relative lg:min-h-0">
-          <div className="flex flex-col gap-4 lg:absolute lg:inset-0">
+        {/* The two lists take the other two thirds, each as tall as the compass (it sets the row height; the list scrolls inside), behind a divider. */}
+        <div className="relative min-w-0 border-t border-line pt-4 lg:min-h-0 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+          <div className="flex flex-col lg:absolute lg:inset-0 lg:left-6">
             <VoterList title="Democrats who voted yea" side="D" voters={dem} />
+          </div>
+        </div>
+        <div className="relative min-w-0 border-t border-line pt-4 lg:min-h-0 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+          <div className="flex flex-col lg:absolute lg:inset-0 lg:left-6">
             <VoterList title="Republicans who voted yea" side="R" voters={rep} />
           </div>
         </div>
