@@ -309,6 +309,7 @@ export function getMemberSearchIndex(): MemberSearchEntry[] {
         state: m.state,
         district: m.district,
         group: m.group,
+        hasPhoto: m.hasPhoto ?? false,
       });
     }
   }

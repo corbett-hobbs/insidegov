@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Neighbor } from "@/lib/neighbors";
 import { memberPath } from "@/lib/member-url";
+import { MemberFace } from "@/components/MemberPhoto";
 import { ListSearch } from "@/components/ListSearch";
 import {
   GROUP_VAR,
@@ -61,6 +62,7 @@ export function MemberNeighborList({
                 className="size-[0.45rem] flex-none rounded-full"
                 style={{ background: GROUP_VAR[member.group] }}
               />
+              <MemberFace bioguideId={member.bioguideId} hasPhoto={member.hasPhoto ?? false} current />
               <span
                 className="min-w-0 flex-1 truncate text-ink"
                 title={member.name}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { MemberFace } from "@/components/MemberPhoto";
 import type { ChamberMember } from "@/lib/congress-types";
 import type { Chamber, ChamberView } from "@/lib/chamber";
 import { memberPath } from "@/lib/member-url";
@@ -138,12 +139,15 @@ export function SenateTableModal({
                       className="mr-[0.4rem] inline-block size-2 rounded-full align-middle"
                       style={{ background: GROUP_VAR[m.group] }}
                     />
-                    <Link
-                      href={memberPath(m)}
-                      className="hover:text-accent hover:underline"
-                    >
-                      {m.name}
-                    </Link>
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap align-middle">
+                      <MemberFace bioguideId={m.bioguideId} hasPhoto={m.hasPhoto ?? false} current />
+                      <Link
+                        href={memberPath(m)}
+                        className="hover:text-accent hover:underline"
+                      >
+                        {m.name}
+                      </Link>
+                    </span>
                   </td>
                   <td className="border-b border-line px-[0.4rem] py-[0.42rem]">
                     {m.chamber === "house" ? "House" : "Senate"}

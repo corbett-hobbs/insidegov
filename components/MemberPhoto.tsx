@@ -16,6 +16,12 @@ interface MemberPhotoProps {
   alt?: string;
 }
 
+/** A member's photo sized to sit beside one line of body text. `current` members without a committed photo get the grey silhouette; anyone else without one (historical members) gets nothing. */
+export function MemberFace({ bioguideId, hasPhoto, current = false }: { bioguideId: string; hasPhoto: boolean; current?: boolean }) {
+  if (!hasPhoto && !current) return null;
+  return <MemberPhoto bioguideId={bioguideId} hasPhoto={hasPhoto} size="small" className="h-6 w-5 flex-none rounded-[3px] bg-surface object-cover object-top" />;
+}
+
 /**
  * A member's official photo, falling back to the silhouette if the source file
  * is somehow missing at request time (e.g. a manifest that's a step stale).

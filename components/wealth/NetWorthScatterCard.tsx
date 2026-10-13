@@ -4,6 +4,7 @@ import { Y_GUTTER } from "@/lib/chart-bars";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { MemberFace } from "@/components/MemberPhoto";
 import { useRouter } from "next/navigation";
 import { scaleLinear } from "d3-scale";
 import { ChartFrame } from "@/components/charts/ChartFrame";
@@ -379,6 +380,7 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
                         aria-hidden
                         className={`size-2 flex-none rounded-full ${m.caucus === "Democrat" ? "bg-dem" : "bg-rep"}`}
                       />
+                      <MemberFace bioguideId={m.bioguideId} hasPhoto={m.hasPhoto} current />
                       <span className="min-w-0 flex-1 truncate">{m.name}</span>
                       <span className="flex-none font-mono text-[0.7rem] text-ink-faint">
                         {memberTitleLine(m)}
@@ -643,9 +645,12 @@ function WealthScatterTable({ cohort }: { cohort: WealthMember[] }) {
             {cohort.map((m) => (
               <tr key={m.bioguideId} className="border-b border-line last:border-0">
                 <td className="px-2 py-1">
-                  <Link href={memberPath(m)} className="hover:underline">
-                    {m.name}
-                  </Link>
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap align-middle">
+                    <MemberFace bioguideId={m.bioguideId} hasPhoto={m.hasPhoto} current />
+                    <Link href={memberPath(m)} className="hover:underline">
+                      {m.name}
+                    </Link>
+                  </span>
                 </td>
                 <td className="px-2 py-1">{chamberLabel(m.chamber)}</td>
                 <td className="px-2 py-1">{m.state}</td>

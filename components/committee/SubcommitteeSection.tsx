@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { MemberFace } from "@/components/MemberPhoto";
 import type { CommitteeProfile, SubcommitteeProfile } from "@/lib/committee-types";
 import { hasProfilePage, memberPath } from "@/lib/member-url";
 import { AlignmentTrack, type AlignmentTrackPoint } from "@/components/charts/AlignmentTrack";
@@ -104,13 +105,16 @@ function SubcommitteeRow({
                     className="mr-[0.4rem] inline-block size-2 rounded-full align-middle"
                     style={{ background: GROUP_VAR[m.group] }}
                   />
-                  {hasProfilePage(m) ? (
-                    <Link href={memberPath(m)} className="hover:text-accent hover:underline">
-                      {m.name}
-                    </Link>
-                  ) : (
-                    m.name
-                  )}
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap align-middle">
+                    <MemberFace bioguideId={m.bioguideId} hasPhoto={m.hasPhoto} current />
+                    {hasProfilePage(m) ? (
+                      <Link href={memberPath(m)} className="hover:text-accent hover:underline">
+                        {m.name}
+                      </Link>
+                    ) : (
+                      m.name
+                    )}
+                  </span>
                   <RoleTag
                     role={
                       m.bioguideId === sub.chair?.bioguideId
