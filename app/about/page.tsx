@@ -59,23 +59,6 @@ export default function AboutPage() {
             It is spread across dozens of agencies and published in formats meant for specialists. InsideGov does the
             work of lining it up once, in the open, so anyone can see what the records show.
           </p>
-          <p>
-            I studied international politics at Georgetown’s School of Foreign Service and worked in the press office of
-            U.S. Senator Charles Schumer. That showed me how much of politics is an argument about framing. What drew
-            me was the layer underneath: what actually happened, and what the numbers say.
-          </p>
-          <p>
-            In 2013 I joined FindTheBest, later renamed Graphiq, which turned large public datasets into charts anyone
-            could browse or embed. There I launched the original InsideGov.com, which reached 5.1 million visitors a
-            month in its first year. On election night 2016 we sent live-updating results charts to publishers
-            including Reuters, Fox News and Yahoo, and drew 2.3 million people to Graphiq’s site, a company record.
-            After Amazon acquired Graphiq in 2017, I ran the politics vertical for Alexa.
-          </p>
-          <p>
-            I started this version in August 2026. I decide which questions are worth asking, which sources to trust
-            and what the editorial rules are, and Claude writes much of the code. That lets one person build and
-            maintain what once took a team.
-          </p>
         </Section>
 
         <Section title="Questions it helps answer">
@@ -89,7 +72,8 @@ export default function AboutPage() {
         <Section title="How it’s made and how to read it">
           <p>
             Every number comes from a named public source through an automated, checked pipeline, and the code and data
-            are open on <a href={githubUrl} className={LINK}>GitHub</a>. Each chart has Data notes saying what it
+            are open on <a href={githubUrl} className={LINK}>GitHub</a>. I choose the questions and the sources, and
+            Claude writes the code. Each chart has Data notes saying what it
             measures and what to be careful about. The charts describe what the records show; they don’t claim that a
             president or party caused it. <Link href="/methodology" className={LINK}>Methodology and sources</Link>{" "}
             has the detail.
@@ -105,9 +89,14 @@ export default function AboutPage() {
 
         <Section title="Who’s behind it">
           <p>
-            InsideGov is built and maintained by {builderName}. Found a mistake or have an idea? Use the{" "}
-            <Link href="/contact" className={LINK}>contact form</Link>; confirmed errors are fixed and significant ones
-            noted.
+            InsideGov is built and maintained by {builderName}. I studied international politics at Georgetown’s
+            School of Foreign Service and worked in a U.S. Senate press office. In 2013 I launched the original
+            InsideGov.com at Graphiq, a company that turned large public datasets into charts anyone could browse or
+            embed. Amazon acquired Graphiq in 2017 to help power Alexa’s answers.
+          </p>
+          <p>
+            Bringing InsideGov back has been a passion project. This version is entirely my own, so it can grow at its
+            own pace.
           </p>
         </Section>
       </div>
