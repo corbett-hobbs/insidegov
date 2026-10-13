@@ -239,9 +239,9 @@ export function LawPageView({ law }: { law: LawPageData }) {
       </PageHeader>
       <Summary law={law} />
       {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} />}
+      <Committees law={law} />
       <Timeline law={law} />
       {law.full && <Amendments law={law} />}
-      <Committees law={law} />
       {law.full && <Related law={law} />}
       <section aria-label="Official record" className="rounded-[10px] border border-line bg-surface p-[1.1rem_1.35rem] text-[0.85rem] text-ink-muted">
         <h2 className="m-0 font-serif text-[1.05rem] font-medium text-ink">Official record</h2>

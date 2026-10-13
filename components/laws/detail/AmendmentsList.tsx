@@ -93,8 +93,8 @@ export function AmendmentsList({ amendments }: { amendments: readonly LawAmendme
       )}
       <ul tabIndex={0} aria-label="Amendments, scrollable" className="touch-scroll m-0 max-h-[26rem] list-none overflow-y-auto overscroll-contain rounded-md border border-line p-0">
         {shown.map((a) => (
-          <li key={a.label} className="flex items-start gap-3 border-b border-line px-3 py-2 text-[0.82rem] leading-[1.45] last:border-b-0">
-            <div className="min-w-0 flex-1">
+          <li key={a.label} className="flex items-start gap-3 border-b max-sm:flex-col max-sm:gap-1.5 border-line px-3 py-2 text-[0.82rem] leading-[1.45] last:border-b-0">
+            <div className="min-w-0 flex-1 max-sm:w-full">
               <p className="m-0 flex flex-wrap items-center gap-x-2">
                 <a href={a.url} target="_blank" rel="noreferrer" title="Read the amendment text on Congress.gov" className={`${LINK} font-medium`}>
                   {a.label}
@@ -119,7 +119,7 @@ export function AmendmentsList({ amendments }: { amendments: readonly LawAmendme
                 </p>
               )}
             </div>
-            <span className={badgeClass(a.status)}>{LABEL[a.status]}</span>
+            <span className={`${badgeClass(a.status)} max-sm:order-first`}>{LABEL[a.status]}</span>
           </li>
         ))}
         {shown.length === 0 && <li className="px-3 py-2 text-[0.82rem] text-ink-muted">None.</li>}
