@@ -91,7 +91,7 @@ function Timeline({ law }: { law: LawPageData }) {
         {law.full ? (
           <p>Every action the Library of Congress lists for the bill, from introduction to signing, plus the dated committee hearings. The source lists many steps twice (the chamber’s own entry and the Library of Congress copy, or a presidential and a became-law entry with the same words); those are shown once. Amendments are listed in their own section.</p>
         ) : (
-          <p>Shows the introduction, each committee and subcommittee step the source dates (referral, hearings, markup, report, discharge), and the floor, conference, presidential and became-law steps. Calendar placements, messages between the chambers, amendments and committee report numbers are not shown for laws of this Congress yet. Two entries the source lists twice are shown once.</p>
+          <p>Shows the introduction, each committee and subcommittee step the source dates (referral, hearings, markup, report, discharge), and the floor, conference, presidential and became-law steps. Calendar placements, messages between the chambers, amendments and committee report numbers are not shown for laws before the 108th Congress. Two entries the source lists twice are shown once.</p>
         )}
       </MethodologyNote>
     </ChartCard>
@@ -106,7 +106,7 @@ function Amendments({ law }: { law: LawPageData }) {
         <AmendmentsList amendments={law.amendments} />
       )}
       <MethodologyNote>
-        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: each with a status read from its last recorded step: agreed to, rejected, withdrawn, ruled out of order, fell with another amendment, or offered with no vote recorded (most Senate amendments are only ever offered). The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed. {law.congress < 108 ? "For this Congress the source gives a one-line description rather than the sponsor and filing date." : ""}</p>
+        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: each with a status read from its last recorded step: agreed to, rejected, withdrawn, ruled out of order, fell with another amendment, or offered with no vote recorded (most Senate amendments are only ever offered). The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed.</p>
       </MethodologyNote>
     </ChartCard>
   );

@@ -2,12 +2,13 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { rawExtrasFile, RAW_EXTRAS_DIR, type RawLawExtras, rawLawExtras } from "../../lib/law-extras-entities";
 import { BILLSTATUS_FIRST_CONGRESS, LAWS_FIRST_CONGRESS, LawsDataError, ordinal, rawCongressFile } from "../../lib/laws-entities";
-import { CongressApi, extrasFromApiBill, type ApiAmendment, type ApiCosponsorFull, type ApiRelatedBill, type ApiSummary } from "./congress-gov-lib";
+import { CongressApi, extrasFromApiBill, type ApiCosponsorFull, type ApiSummary } from "./congress-gov-lib";
 import { formatRawCongress } from "./laws-raw";
 import { RAW_DIR, run } from "./lib";
 
 /**
- * The law pages' extra fields for the 93rd-107th Congress (full summary, all actions, amendments, related bills, all cosponsors)
+ * The law pages' extra fields for the 93rd-107th Congress (the full summary and every cosponsor with dates; the full action list, amendments
+ * and related bills are kept only from the 108th on, where Bill Status gives them for free)
  * from the Congress.gov API -> `pipeline/raw/law-extras/<congress>.json` (needs `CONGRESS_API_KEY`). The 108th on come from the
  * Bill Status ZIPs (`pnpm fetch:billstatus`). The bills are the ones already in `pipeline/raw/congress-gov/<congress>.json`.
  *
@@ -16,7 +17,7 @@ import { RAW_DIR, run } from "./lib";
  *   pnpm fetch:law-extras -- --per-second 4
  *
  * Resumable: each bill is cached in `pipeline/raw/_scratch/law-extras/` (gitignored) the moment it arrives, so an interrupted
- * run continues where it stopped. The one-time job is about 40,000 calls (a few hours at 5 a second). Not part of `fetch:all`.
+ * run continues where it stopped. The one-time job is about three calls per bill (about 24,000 for the 8,000 bills, a few hours at 5 a second) unless the cache holds them. Not part of `fetch:all`.
  */
 try {
   process.loadEnvFile(".env.local");
@@ -40,13 +41,10 @@ async function fetchBillExtras(api: CongressApi, congress: number, type: string,
   const base = `/bill/${congress}/${type}/${number}`;
   const detail = ((await api.get(base)) as { bill?: unknown } | null)?.bill;
   if (!detail) throw new LawsDataError(`${base} returned nothing`);
-  const list = async (path: string, field: string, n: number) => (n > 0 ? (await api.list(`${base}/${path}`, field)).items : []);
-  const actions = await list("actions", "actions", count(detail, "actions"));
   const summaries = ((await api.get(`${base}/summaries`)) as { summaries?: ApiSummary[] } | null)?.summaries ?? [];
-  const amendments = await list("amendments", "amendments", count(detail, "amendments"));
-  const related = await list("relatedbills", "relatedBills", count(detail, "relatedBills"));
-  const cosponsors = await list("cosponsors", "cosponsors", count(detail, "cosponsors"));
-  return extrasFromApiBill(lawIds, { actions: actions as never[], summaries, amendments: amendments as ApiAmendment[], related: related as ApiRelatedBill[], cosponsors: cosponsors as ApiCosponsorFull[] }).map((x) => rawLawExtras.parse(x));
+  const n = count(detail, "cosponsors");
+  const cosponsors = n > 0 ? (await api.list(`${base}/cosponsors`, "cosponsors")).items : [];
+  return extrasFromApiBill(lawIds, { summaries, cosponsors: cosponsors as ApiCosponsorFull[] }).map((x) => rawLawExtras.parse(x));
 }
 
 async function fetchCongress(api: CongressApi, congress: number) {
@@ -69,7 +67,8 @@ async function fetchCongress(api: CongressApi, congress: number) {
         const file = `${CACHE}/${congress}/${key}.json`;
         let out: RawLawExtras[] | null = null;
         if (existsSync(file)) {
-          out = (JSON.parse(await readFile(file, "utf8")) as unknown[]).map((x) => rawLawExtras.parse(x));
+          // An entry cached by the first, fuller fetch also holds actions, amendments and related bills: keep the summary and cosponsors only.
+          out = (JSON.parse(await readFile(file, "utf8")) as { law_id: string; summary_html: string | null; cosponsors: unknown[] }[]).map((x) => rawLawExtras.parse({ law_id: x.law_id, summary_html: x.summary_html, cosponsors: x.cosponsors }));
           cached++;
         } else {
           out = await fetchBillExtras(api, congress, b.type, b.number, b.lawIds);

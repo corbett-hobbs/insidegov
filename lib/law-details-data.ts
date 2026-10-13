@@ -87,13 +87,15 @@ export function getLawPage(lawId: string): LawPageData | null {
     return s ? { name: s[0], label: s[1], party: s[2], path: s[3] } : null;
   };
   const sponsor = law.sponsor_bioguide_id ? person(law.sponsor_bioguide_id) : null;
-  const full = detail.cosponsors !== undefined;
+  const dates = detail.cosponsors !== undefined;
+  // Amendments and related bills (with the full action list) exist from the 108th Congress on.
+  const full = detail.amendments !== undefined;
   // With the Phase 2 record, cosponsors carry their dates and the ones who withdrew are known; otherwise the id list from laws_cosponsors.json.
   const dated: (LawPerson | null)[] = (detail.cosponsors ?? []).map((c) => {
     const p = person(c[0]);
     return p ? { ...p, joined: c[1], original: c[2] === 1, withdrawn: c[3] } : null;
   });
-  const people = full ? dated.filter((p) => p === null || !p.withdrawn) : (cosponsors[lawId] ?? []).map(person);
+  const people = dates ? dated.filter((p) => p === null || !p.withdrawn) : (cosponsors[lawId] ?? []).map(person);
   const withdrawn = dated.filter((p): p is LawPerson => p !== null && typeof p.withdrawn === "string");
   const amendments: LawAmendmentEntry[] = (detail.amendments ?? []).map((a) => ({
     chamber: a[0] === 0 ? "House" : "Senate",
