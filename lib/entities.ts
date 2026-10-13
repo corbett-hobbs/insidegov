@@ -84,6 +84,8 @@ export const term = z.strictObject({
   /** `null` only for a handful of pre-1820 terms with no recorded party. */
   party: z.string().min(1).nullable(),
   caucus: z.string().min(1).nullable(),
+  /** Start date of the term record this row came from (a mid-Congress appointee's is after the Congress convened). */
+  term_start: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   /** Present only when the member changed affiliation during the Congress. */
   party_affiliations: z.array(partyAffiliation).min(2).optional(),
 });

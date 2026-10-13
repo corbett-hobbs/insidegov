@@ -32,6 +32,7 @@ export function ProfileHeader({
     group,
     latestCongress,
     firstCongress,
+    firstTermYear,
     chamberCongressCount,
     partialCurrentTerm,
     hasPhoto,
@@ -97,7 +98,7 @@ export function ProfileHeader({
             · {partyLabel(profile)}
           </p>
           <p className="mt-1.5 text-[0.9rem] text-ink-muted">
-            In the {Chamber} since {congressStartYear(firstCongress)} ·{" "}
+            In the {Chamber} since {firstTermYear ?? congressStartYear(firstCongress)} ·{" "}
             {chamberCongressCount}{" "}
             {chamberCongressCount === 1 ? "Congress" : "Congresses"} served
           </p>
