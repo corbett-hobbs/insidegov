@@ -1,5 +1,6 @@
 import { LAW_ACTION_TYPES, type LawAction, type LawActionVote } from "./law-details-entities";
 import type { ChamberTally } from "./laws-types";
+import type { AmendmentStatus } from "./law-details-types";
 
 /** Pure shaping for a law page (no file I/O): action labels, vote wording, the cosponsor party split. */
 
@@ -88,3 +89,28 @@ export const PARTY_NAME: Record<PartyLetter, string> = { D: "Democrats", R: "Rep
 
 /** "Sep 30, 2024" from an ISO date, the format the Laws list uses. */
 export const longDate = (iso: string): string => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+
+/** Display order and wording of the amendment statuses. */
+export const AMENDMENT_STATUSES: readonly { value: AmendmentStatus; label: string }[] = [
+  { value: "agreed", label: "Agreed to" },
+  { value: "rejected", label: "Rejected" },
+  { value: "withdrawn", label: "Withdrawn" },
+  { value: "out_of_order", label: "Ruled out of order" },
+  { value: "fell", label: "Fell" },
+  { value: "offered", label: "Offered, no vote recorded" },
+  { value: "other", label: "Other" },
+];
+
+/** An amendment's status from the text of its last recorded action (the source gives no status field). */
+export function amendmentStatus(text: string | null | undefined): AmendmentStatus {
+  if (!text) return "offered";
+  const s = text.toLowerCase();
+  if (/ruled (out of order|non-germane)|not germane|point of order (was )?sustained/.test(s)) return "out_of_order";
+  if (/\bfell\b/.test(s)) return "fell";
+  if (/withdrawn|withdrew/.test(s)) return "withdrawn";
+  // A motion to table that carried kills the amendment; a failed vote or one that missed its threshold does too.
+  if (/not agreed to|failed|rejected|not adopted|motion to table amendment.*agreed|not having achieved/.test(s)) return "rejected";
+  if (/agreed to|adopted|having achieved/.test(s)) return "agreed";
+  if (/^senate amendment submitted|^house amendment offered|^amendment sa \d+ proposed|^amendment .*proposed by/.test(s)) return "offered";
+  return "other";
+}

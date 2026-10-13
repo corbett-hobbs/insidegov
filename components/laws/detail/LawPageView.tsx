@@ -7,7 +7,8 @@ import { longDate, methodText, yeaShare } from "@/lib/law-details-derive";
 import { CommitteeSeal } from "@/components/committee/CommitteeSeal";
 import type { LawCommitteeEntry, LawPageData } from "@/lib/law-details-types";
 import { ordinal } from "@/lib/laws-entities";
-import { AmendmentsList, RelatedList } from "./LawLists";
+import { AmendmentsList } from "./AmendmentsList";
+import { RelatedList } from "./LawLists";
 import { CosponsorsHeader } from "./CosponsorsHeader";
 import { LawVotesCard } from "./LawVotesCard";
 import { SummaryBody } from "./SummaryBody";
@@ -32,16 +33,6 @@ function Facts({ law }: { law: LawPageData }) {
         <span className="whitespace-nowrap text-ink">{law.president.name}</span>
         <span className="text-ink-faint">{` (${signerParty})`}</span>
         {law.veto ? `; passed over the veto on ${longDate(law.date)}` : ` on ${longDate(law.date)}`}
-        {law.sponsor && (
-          <>
-            {" · sponsored by "}
-            <span className="inline-flex items-center gap-1">
-              <Dot party={law.sponsor.party} />
-              <Person p={law.sponsor} />
-            </span>
-            {` (${law.sponsor.label})`}
-          </>
-        )}
         {law.area ? ` · ${law.area}` : ""}
       </p>
       {(law.major === true || law.veto) && (
@@ -52,6 +43,16 @@ function Facts({ law }: { law: LawPageData }) {
             </span>
           )}
           {law.veto && <span className={BADGE}>Veto override</span>}
+        </p>
+      )}
+      {law.sponsor && (
+        <p className="m-0">
+          <span className="text-ink-faint">Sponsor: </span>
+          <span className="inline-flex items-center gap-1">
+            <Dot party={law.sponsor.party} />
+            <Person p={law.sponsor} />
+          </span>
+          {` (${law.sponsor.label})`}
         </p>
       )}
     </>
@@ -105,7 +106,7 @@ function Amendments({ law }: { law: LawPageData }) {
         <AmendmentsList amendments={law.amendments} />
       )}
       <MethodologyNote>
-        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: those agreed to, rejected, withdrawn or never voted on. The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed. {law.congress < 108 ? "For this Congress the source gives a one-line description rather than the sponsor and filing date." : ""}</p>
+        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: each with a status read from its last recorded step: agreed to, rejected, withdrawn, ruled out of order, fell with another amendment, or offered with no vote recorded (most Senate amendments are only ever offered). The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed. {law.congress < 108 ? "For this Congress the source gives a one-line description rather than the sponsor and filing date." : ""}</p>
       </MethodologyNote>
     </ChartCard>
   );
@@ -237,8 +238,8 @@ export function LawPageView({ law }: { law: LawPageData }) {
         <Votes law={law} />
       </PageHeader>
       <Summary law={law} />
-      <Timeline law={law} />
       {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} />}
+      <Timeline law={law} />
       {law.full && <Amendments law={law} />}
       <Committees law={law} />
       {law.full && <Related law={law} />}

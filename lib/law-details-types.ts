@@ -17,6 +17,9 @@ export interface LawPerson {
   withdrawn?: string | null;
 }
 
+/** Where an amendment ended up, read from its last recorded action. */
+export type AmendmentStatus = "agreed" | "rejected" | "withdrawn" | "out_of_order" | "fell" | "offered" | "other";
+
 export interface LawAmendmentEntry {
   chamber: "House" | "Senate";
   /** "S.Amdt. 6622". */
@@ -27,6 +30,9 @@ export interface LawAmendmentEntry {
   submitted: string | null;
   purpose: string | null;
   latest: { date: string | null; text: string } | null;
+  status: AmendmentStatus;
+  /** The amendment's page on Congress.gov, with its full text. */
+  url: string;
 }
 
 export interface LawRelatedEntry {

@@ -5,10 +5,10 @@ import { z } from "zod";
 import { getAllCommittees } from "./committee-data";
 import { committeePath } from "./committee-url";
 import { administration } from "./executive-orders-entities";
-import { timeline } from "./law-details-derive";
+import { amendmentStatus, timeline } from "./law-details-derive";
 import { lawDetailsShard } from "./law-details-entities";
 import type { LawAmendmentEntry, LawCommitteeEntry, LawPageData, LawPerson, LawRelatedEntry } from "./law-details-types";
-import { congressGovBillUrl, lawPath, parseLawId } from "./law-url";
+import { congressGovAmendmentUrl, congressGovBillUrl, lawPath, parseLawId } from "./law-url";
 import { getLawVotes } from "./law-votes-data";
 import { getLawSponsorResolver } from "./laws-data";
 import { administrationOn, billLabel } from "./laws-derive";
@@ -103,6 +103,8 @@ export function getLawPage(lawId: string): LawPageData | null {
     submitted: a[5],
     purpose: a[6],
     latest: a[8] ? { date: a[7], text: a[8] } : null,
+    status: amendmentStatus(a[8]),
+    url: congressGovAmendmentUrl(law.congress, a[0] === 0 ? "House" : "Senate", a[2]),
   }));
   const { byBill: billLaws } = loadRows();
   const related: LawRelatedEntry[] = (detail.related ?? []).map((r) => {
