@@ -4,6 +4,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { longDate, methodText, yeaShare } from "@/lib/law-details-derive";
+import { CommitteeSeal } from "@/components/committee/CommitteeSeal";
 import type { LawCommitteeEntry, LawPageData } from "@/lib/law-details-types";
 import { ordinal } from "@/lib/laws-entities";
 import { AmendmentsList } from "./AmendmentsList";
@@ -32,16 +33,6 @@ function Facts({ law }: { law: LawPageData }) {
         <span className="whitespace-nowrap text-ink">{law.president.name}</span>
         <span className="text-ink-faint">{` (${signerParty})`}</span>
         {law.veto ? `; passed over the veto on ${longDate(law.date)}` : ` on ${longDate(law.date)}`}
-        {law.sponsor && (
-          <>
-            {" · sponsored by "}
-            <span className="inline-flex items-center gap-1">
-              <Dot party={law.sponsor.party} />
-              <Person p={law.sponsor} />
-            </span>
-            {` (${law.sponsor.label})`}
-          </>
-        )}
         {law.area ? ` · ${law.area}` : ""}
       </p>
       {(law.major === true || law.veto) && (
@@ -52,6 +43,16 @@ function Facts({ law }: { law: LawPageData }) {
             </span>
           )}
           {law.veto && <span className={BADGE}>Veto override</span>}
+        </p>
+      )}
+      {law.sponsor && (
+        <p className="m-0">
+          <span className="text-ink-faint">Sponsor: </span>
+          <span className="inline-flex items-center gap-1">
+            <Dot party={law.sponsor.party} />
+            <Person p={law.sponsor} />
+          </span>
+          {` (${law.sponsor.label})`}
         </p>
       )}
     </>
@@ -198,7 +199,9 @@ function Votes({ law }: { law: LawPageData }) {
 
 function CommitteeItem({ c }: { c: LawCommitteeEntry }) {
   return (
-    <li className="border-b border-line px-3 py-2 text-[0.82rem] last:border-b-0">
+    <li className="flex items-start gap-2.5 border-b border-line px-3 py-2 text-[0.82rem] last:border-b-0">
+      {c.chamber && <CommitteeSeal chamber={c.chamber} size={28} className="mt-px size-7" />}
+      <div className="min-w-0">
       {c.path ? (
         <Link href={c.path} className={LINK}>
           {c.name}
@@ -209,6 +212,7 @@ function CommitteeItem({ c }: { c: LawCommitteeEntry }) {
       {c.chamber && <span className="text-ink-faint">{` · ${c.chamber}`}</span>}
       {c.steps.length > 0 && <span className="text-ink-muted">{` · ${c.steps.join(", ")}`}</span>}
       {c.subcommittees.length > 0 && <span className="block text-[0.75rem] text-ink-muted">{`Subcommittee: ${c.subcommittees.join("; ")}`}</span>}
+      </div>
     </li>
   );
 }
