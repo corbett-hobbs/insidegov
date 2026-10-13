@@ -6475,6 +6475,7 @@
 {"series_id":"MORTGAGE30US","date":"2026-09-17","value":6.95},
 {"series_id":"MORTGAGE30US","date":"2026-09-24","value":7.03},
 {"series_id":"MORTGAGE30US","date":"2026-10-01","value":7.28},
+{"series_id":"MORTGAGE30US","date":"2026-10-08","value":7.4},
 {"series_id":"PAYEMS","date":"1939-01-01","value":29923},
 {"series_id":"PAYEMS","date":"1939-02-01","value":30100},
 {"series_id":"PAYEMS","date":"1939-03-01","value":30280},
