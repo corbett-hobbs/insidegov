@@ -52,7 +52,10 @@ export const lawDetail = z.object({
   /** True when the raw summary hit the fetchers' length cap, so the paragraphs stop short of the full text. */
   cut: z.literal(true).optional(),
   actions: z.array(lawAction),
-  /** The fields below come from the Phase 2 fetch (`pipeline/raw/law-extras/`) and are all present or all absent for a law: absent = not captured, `[]` = none. */
+  /**
+   * From the Phase 2 fetch (`pipeline/raw/law-extras/`). `cosponsors` is present for every law; `amendments` and `related` only from the 108th
+   * Congress on, together. Absent = not captured, `[]` = none.
+   */
   amendments: z.array(lawAmendment).optional(),
   related: z.array(lawRelatedBill).optional(),
   cosponsors: z.array(lawCosponsor).optional(),

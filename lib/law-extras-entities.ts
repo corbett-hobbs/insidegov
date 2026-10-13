@@ -2,10 +2,11 @@ import { z } from "zod";
 import { LAWS_FIRST_CONGRESS, rawAction } from "./laws-entities";
 
 /**
- * The fields the individual law pages need beyond the Laws track's raw files (`docs/LAW_PAGES_PLAN.md`, Phase 2a/2b): the full
- * CRS summary, the full action list, amendments, related bills and every cosponsor with dates (withdrawn ones flagged). Both fetchers
- * write the same shape to `pipeline/raw/law-extras/<congress>.json`: GovInfo Bill Status XML for the 108th Congress on (re-read from
- * the cached ZIPs, no network) and the Congress.gov API for the 93rd-107th. The existing `pipeline/raw/<source>/` files are untouched.
+ * The fields the individual law pages need beyond the Laws track's raw files (`docs/LAW_PAGES_PLAN.md`, Phase 2a/2b): the full CRS
+ * summary and every cosponsor with dates (withdrawn ones flagged) for every law, and, for the 108th Congress on, the full action list,
+ * amendments and related bills. Both fetchers write to `pipeline/raw/law-extras/<congress>.json`: GovInfo Bill Status XML for the 108th on
+ * (re-read from the cached ZIPs, no network) and the Congress.gov API for the 93rd-107th (summary and cosponsors only). The existing
+ * `pipeline/raw/<source>/` files are untouched.
  */
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
@@ -52,10 +53,15 @@ export const rawLawExtras = z.object({
   law_id: z.string().regex(/^\d+-pub-\d+$/),
   /** The CRS summary of the enacted version (else the latest), HTML as given, **not** capped. */
   summary_html: z.string().nullable(),
+  /**
+   * The three fields below are present for the 108th Congress on (Bill Status) and absent for the 93rd-107th, where only the summary and
+   * the cosponsors are kept: the rest (about 60% of the size) is little used for laws that old, and those laws keep the Phase 1 action
+   * list built from the Laws raw files. Absent = not captured; `[]` = none.
+   */
   /** Every action the source lists (introduction, committee, floor, presidential), de-duplicated and oldest first. */
-  actions: z.array(rawAction),
-  amendments: z.array(rawAmendment),
-  related: z.array(rawRelatedBill),
+  actions: z.array(rawAction).optional(),
+  amendments: z.array(rawAmendment).optional(),
+  related: z.array(rawRelatedBill).optional(),
   cosponsors: z.array(rawCosponsorRecord),
 });
 export type RawLawExtras = z.infer<typeof rawLawExtras>;

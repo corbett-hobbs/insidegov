@@ -35,7 +35,7 @@ const xml = `<?xml version="1.0"?><billStatus><bill>
 describe("parseBillStatusWithExtras", () => {
   const [x] = parseBillStatusWithExtras(xml);
   it("keeps every action, not only the floor and presidential ones, and the extras parse against the schema", () => {
-    expect(x!.extras.actions.map((a) => a.type)).toEqual(["IntroReferral", "Calendars", "BecameLaw"]);
+    expect(x!.extras.actions!.map((a) => a.type)).toEqual(["IntroReferral", "Calendars", "BecameLaw"]);
     expect(x!.law.actions.map((a) => a.type)).toEqual(["BecameLaw"]);
     expect(() => rawLawExtras.parse(x!.extras)).not.toThrow();
   });
@@ -97,16 +97,14 @@ describe("Congress.gov API mappers", () => {
       { id: "F000041", date: null, original: false, withdrawn: "1986-03-01" },
     ]);
   });
-  it("builds one extras record per law of a bill, with every action and the full summary", () => {
+  it("builds one slim extras record per law of a bill: the full summary and the cosponsors, nothing else", () => {
     const [a, b] = extrasFromApiBill(["99-pub-1", "99-pub-2"], {
-      actions: [{ actionDate: "1985-03-07", type: "IntroReferral", text: "Introduced in House" }, { actionDate: "1985-03-08", type: "", text: "Odd" }],
       summaries: [{ actionDate: "1985-03-07", actionDesc: "Introduced in House", text: "x".repeat(4000) }],
-      amendments: [],
-      related: [],
-      cosponsors: [],
+      cosponsors: [{ bioguideId: "S000663", sponsorshipDate: "1986-02-06", isOriginalCosponsor: true }],
     });
-    expect(a!.actions).toHaveLength(2);
     expect(a!.summary_html).toHaveLength(4000);
+    expect(a!.cosponsors).toEqual([{ id: "S000663", date: "1986-02-06", original: true, withdrawn: null }]);
+    expect(Object.keys(a!).sort()).toEqual(["cosponsors", "law_id", "summary_html"]);
     expect(b!.law_id).toBe("99-pub-2");
   });
 });

@@ -134,6 +134,18 @@ describe("buildLawDetail with the Phase 2 extras", () => {
     const d = buildLawDetail(l, extras());
     expect(d.actions.map((a) => a[2])).toEqual(["Introduced in House", "Placed on the Union Calendar.", "Hearings by House Ways and Means Committee"]);
   });
+  it("for a slim record (summary and cosponsors only) keeps the Phase 1 actions and adds no amendments or related bills", () => {
+    const committees = [{ code: "hswm00", name: "Ways and Means Committee", chamber: "House", activities: [{ name: "Referred to", date: "1980-01-01" }], subcommittees: [] }];
+    const slim: RawLawExtras = { law_id: "118-pub-1", summary_html: `<p>Does a thing. ${"y".repeat(RAW_SUMMARY_CAP)}</p><p>And a last paragraph.</p>`, cosponsors: [{ id: "B000002", date: "1980-01-02", original: false, withdrawn: null }] };
+    const d = buildLawDetail(law({ introduced: "1980-01-01", committees, actions: [act("1980-02-01", "Floor", "Floor same day")] }), slim);
+    expect(d.summary!.at(-1)).toBe("And a last paragraph.");
+    expect(d.cut).toBeUndefined();
+    expect(d.actions.map((a) => a[2])).toEqual(["Introduced in the House", "Referred to House Ways and Means Committee", "Floor same day"]);
+    expect(d.amendments).toBeUndefined();
+    expect(d.related).toBeUndefined();
+    expect(d.cosponsors).toEqual([["B000002", "1980-01-02", 0, null]]);
+    expect(() => lawDetailsShard.parse({ congress: 118, laws: { "118-pub-1": d } })).not.toThrow();
+  });
   it("is the Phase 1 record, without the new fields, when there are no extras", () => {
     const d = buildLawDetail(law());
     expect(d.amendments).toBeUndefined();
