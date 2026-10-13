@@ -6,6 +6,7 @@ import {
   getCommitteeCompassPool,
   getCommitteeProfile,
 } from "@/lib/committee-data";
+import { getCommitteeWikipediaSummary } from "@/lib/committee-summary";
 import { getCommitteeBillsSummary } from "@/lib/committee-bills-data";
 import { committeePath, committeeSlug } from "@/lib/committee-url";
 import { CommitteeProfileView } from "@/components/committee/CommitteeProfileView";
@@ -71,6 +72,7 @@ export default async function CommitteePage({
       compassPool={getCommitteeCompassPool(committee)}
       compassBackdrop={getCommitteeCompassBackdrop(committee)}
       legislation={getCommitteeBillsSummary(committee.committeeId)}
+      about={getCommitteeWikipediaSummary(committee.committeeId)}
     />
   );
 }

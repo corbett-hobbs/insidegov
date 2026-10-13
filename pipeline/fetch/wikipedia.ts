@@ -9,6 +9,7 @@ import {
 } from "../validate/schemas";
 import { needsReview, trimExtract } from "../wikipedia/trim";
 import { RAW_DIR, run } from "./lib";
+import { CONCURRENCY, getSummary, pool } from "../wikipedia/client";
 
 /**
  * A short Wikipedia bio per current member, for the profile header.
@@ -34,13 +35,6 @@ import { RAW_DIR, run } from "./lib";
 const LEGISLATORS = `${RAW_DIR}/congress-legislators/legislators-current.yaml`;
 const OUT = "pipeline/output/wikipedia_summaries.json";
 
-/** Wikimedia asks for a descriptive UA with a way to reach the operator. */
-const USER_AGENT =
-  "congress-ideology/0.1 (https://github.com/corbett-hobbs/congress-ideology)";
-const API = "https://en.wikipedia.org/api/rest_v1/page/summary";
-const CONCURRENCY = 5;
-const MAX_ATTEMPTS = 6;
-
 const yamlEntry = z.looseObject({
   id: z.looseObject({
     bioguide: z.string(),
@@ -48,51 +42,6 @@ const yamlEntry = z.looseObject({
   }),
   name: z.looseObject({ official_full: z.string().optional(), last: z.string() }),
 });
-
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-type Outcome =
-  | { kind: "ok"; body: unknown }
-  | { kind: "skip"; reason: string };
-
-/** GET one summary, retrying 429/5xx/network errors with backoff. */
-async function getSummary(title: string): Promise<Outcome> {
-  const url = `${API}/${encodeURIComponent(title.replace(/ /g, "_"))}`;
-  let lastError = "";
-  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-    let wait = 1000 * 2 ** attempt;
-    try {
-      const res = await fetch(url, {
-        headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
-      });
-      if (res.ok) return { kind: "ok", body: await res.json() };
-      if (res.status === 404) return { kind: "skip", reason: "404 not found" };
-      lastError = `${res.status} ${res.statusText}`;
-      if (res.status !== 429 && res.status < 500) {
-        throw new Error(`GET ${url} -> ${lastError}`); // 4xx: not retryable
-      }
-      const retryAfter = Number(res.headers.get("retry-after"));
-      if (Number.isFinite(retryAfter) && retryAfter > 0) {
-        wait = Math.max(wait, retryAfter * 1000);
-      }
-    } catch (err) {
-      if (err instanceof Error && err.message.startsWith("GET ")) throw err;
-      lastError = err instanceof Error ? err.message : String(err);
-    }
-    await sleep(wait);
-  }
-  throw new Error(`GET ${url} -> gave up after ${MAX_ATTEMPTS} attempts (${lastError})`);
-}
-
-async function pool<T>(items: T[], n: number, fn: (item: T) => Promise<void>) {
-  const queue = [...items];
-  await Promise.all(
-    Array.from({ length: Math.min(n, queue.length) }, async () => {
-      let item: T | undefined;
-      while ((item = queue.shift()) !== undefined) await fn(item);
-    }),
-  );
-}
 
 await run("wikipedia", async () => {
   const entries = (parseYaml(await readFile(LEGISLATORS, "utf8")) as unknown[]).map(
