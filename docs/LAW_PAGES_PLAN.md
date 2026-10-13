@@ -119,7 +119,7 @@ Each step is independent and can ship on its own. The page shows a section only 
 - Slowest and riskiest step. Can be done last or skipped; older laws then show the Phase 1 sections only, with a data
   note.
 
-**As built (2b).** Done with the API fetcher `pipeline/fetch/law-extras-api.ts` (`pnpm fetch:law-extras`): about 18,500 calls at 5 a second, resumable, writing `pipeline/raw/law-extras/93.json`-`107.json` (about 100 MB). It retries a connection dropped mid-response. The API's amendment records carry a description and last action but no sponsor or filing date.
+**As built (2b), the lighter record.** Done with the API fetcher `pipeline/fetch/law-extras-api.ts` (`pnpm fetch:law-extras`, about three calls per bill, resumable), writing `pipeline/raw/law-extras/93.json`-`107.json`. A first version also fetched actions, amendments and related bills (about 120 MB added); it was cut back to the full summary and the cosponsors with dates (about 68 MB added: 43 MB raw, 25 MB more output), because that older data is little used. The 108th-119th keep everything. The extras schema makes `actions`, `amendments` and `related` optional for this reason.
 
 ### 2c. Who voted yea/nay
 
