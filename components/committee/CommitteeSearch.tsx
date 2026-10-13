@@ -3,6 +3,7 @@
 import { useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CommitteeSearchEntry } from "@/lib/committee-types";
+import { CommitteeSeal } from "./CommitteeSeal";
 import { committeePath } from "@/lib/committee-url";
 import { GROUP_VAR } from "@/components/senate/format";
 
@@ -91,6 +92,7 @@ export function CommitteeSearch({ entries }: { entries: CommitteeSearchEntry[] }
                   className="size-[0.55rem] flex-none rounded-full"
                   style={{ background: GROUP_VAR[e.controlGroup] }}
                 />
+                <CommitteeSeal chamber={e.chamber} size={20} className="size-5" />
                 <span className="min-w-0 truncate">{e.shortName}</span>
                 <span className="ml-auto flex-none font-mono text-[0.72rem] text-ink-faint">
                   {CHAMBER_TAG[e.chamber]} · {e.memberCount}

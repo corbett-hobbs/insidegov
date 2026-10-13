@@ -5,6 +5,7 @@ import { justice as justiceSchema, justiceBio } from "../../lib/court-entities";
 import {
   legislator,
   wikipediaSummary,
+  committeeSummary,
   rawCommittee,
   rawCommitteeMember,
   voteviewMemberRow,
@@ -185,6 +186,32 @@ await step("output/wikipedia_summaries.json", async () => {
     );
   }
   return `${rows.length} records ok, bioguide_id unique and resolves`;
+});
+
+// Written by fetch:wikipedia-committees (committed), so CI re-checks it on every push.
+await step("output/committee_summaries.json", async () => {
+  const file = "pipeline/output/committee_summaries.json";
+  const rows = validateAll(
+    file,
+    JSON.parse(await readFile(file, "utf8")) as unknown[],
+    committeeSummary,
+    (row, i) => `record ${i} (committee ${(row as { committee_id?: string }).committee_id ?? "?"})`,
+  );
+  assertUnique(file, rows, (r) => r.committee_id, (r) => `${r.title} [${r.committee_id}]`);
+  const known = new Set(
+    (JSON.parse(await readFile("pipeline/output/committees.json", "utf8")) as { committee_id: string }[]).map(
+      (c) => c.committee_id,
+    ),
+  );
+  const unknown = rows.filter((r) => !known.has(r.committee_id));
+  if (unknown.length > 0) {
+    throw new ValidationError(
+      file,
+      "committee resolution",
+      `${unknown.length} record(s) have a committee_id not in committees.json: ${unknown.map((r) => r.committee_id).join(", ")}`,
+    );
+  }
+  return `${rows.length} records ok, committee_id unique and resolves`;
 });
 
 // Written by fetch:justice-bios (committed, like wikipedia_summaries.json), so CI
