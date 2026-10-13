@@ -79,14 +79,18 @@ export function CommitteeSeal({
   chamber,
   size = 24,
   className = "",
+  showOnMobile = false,
 }: {
   chamber: SealChamber;
   size?: number;
   className?: string;
+  /** Phones hide the seal by default; a row whose layout has room for it opts in. */
+  showOnMobile?: boolean;
 }) {
+  const hide = showOnMobile ? "" : " max-sm:hidden";
   const c = chamber.toLowerCase();
   if (c === "joint") {
-    return <JointSeal size={size} className={`flex-none max-sm:hidden ${className}`} />;
+    return <JointSeal size={size} className={`flex-none${hide} ${className}`} />;
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element -- two tiny static files; see MemberPhoto
@@ -97,7 +101,7 @@ export function CommitteeSeal({
       height={size}
       loading="lazy"
       decoding="async"
-      className={`flex-none object-contain max-sm:hidden ${className}`}
+      className={`flex-none object-contain${hide} ${className}`}
     />
   );
 }
