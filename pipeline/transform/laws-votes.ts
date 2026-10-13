@@ -229,6 +229,8 @@ export interface ResolvedVote {
   join: "clerk" | "date+bill" | "date+tally" | null;
   /** Voteview's tally when joined. */
   voteview: [number, number] | null;
+  /** The joined Voteview roll call, so a law page can show who voted. */
+  row: RollcallTuple | null;
 }
 
 export class VoteGateError extends Error {
@@ -256,7 +258,7 @@ export function resolveVotes(law: { law_id: string; congress: number; bill: stri
   for (const [chamber, v0] of votes) {
     const v: ChamberVote = { ...v0 };
     if (v.kind !== "roll") {
-      out.set(chamber, { vote: v, check: "not-a-roll", join: null, voteview: null });
+      out.set(chamber, { vote: v, check: "not-a-roll", join: null, voteview: null, row: null });
       continue;
     }
     const covered = v.date <= idx.lastDate[chamber === "House" ? "H" : "S"];
@@ -291,7 +293,7 @@ export function resolveVotes(law: { law_id: string; congress: number; bill: stri
       else check = "unverified";
     }
     if (v.yea! + v.nay! > MAX_VOTES[chamber] && check !== "exception") throw fail(`${v.yea}-${v.nay} is more votes than the ${chamber} can cast (${MAX_VOTES[chamber]})`);
-    out.set(chamber, { vote: v, check, join: j?.how ?? null, voteview: vv });
+    out.set(chamber, { vote: v, check, join: j?.how ?? null, voteview: vv, row: j?.row ?? null });
   }
   return out;
 }

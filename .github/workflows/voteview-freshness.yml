@@ -49,6 +49,11 @@ jobs:
       - name: Re-fetch Voteview roll calls
         run: pnpm fetch:voteview-rollcalls
 
+      # Who voted on each law's final passage: only Congresses whose Voteview vote files (or wanted roll calls) changed are re-read.
+      # The gate re-runs the law-votes transform, so a member list that no longer adds up to its roll call keeps the PR open.
+      - name: Re-fetch Voteview member votes for laws
+        run: pnpm fetch:voteview-votes -- --yes
+
       - name: Detect changes
         id: detect
         run: |

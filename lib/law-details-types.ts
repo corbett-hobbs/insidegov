@@ -1,4 +1,5 @@
 import type { TimelineAction, PartyLetter } from "./law-details-derive";
+import type { LawChamberVotesView } from "./law-votes-types";
 import type { ChamberTally } from "./laws-types";
 
 /** Client-safe shape of one law page, joined at build time by `lib/law-details-data.ts`. */
@@ -81,6 +82,8 @@ export interface LawPageData {
   /** Cosponsor ids with no member record (never expected; reported so the list is not silently short). */
   cosponsorsUnresolved: number;
   passage: { house: ChamberTally; senate: ChamberTally; override: [number | null, number | null, number | null, number | null] | null };
+  /** Who voted on final passage, per chamber with a recorded and checked member vote (Phase 2c); empty otherwise. */
+  votes: LawChamberVotesView[];
   committees: LawCommitteeEntry[];
   congressGovUrl: string | null;
   /** The Laws page's data-through date. */

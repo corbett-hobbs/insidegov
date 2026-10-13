@@ -9,6 +9,7 @@ import { timeline } from "./law-details-derive";
 import { lawDetailsShard } from "./law-details-entities";
 import type { LawAmendmentEntry, LawCommitteeEntry, LawPageData, LawPerson, LawRelatedEntry } from "./law-details-types";
 import { congressGovBillUrl, lawPath, parseLawId } from "./law-url";
+import { getLawVotes } from "./law-votes-data";
 import { getLawSponsorResolver } from "./laws-data";
 import { administrationOn, billLabel } from "./laws-derive";
 import { lawCommitteesFile, lawCosponsorsFile, lawRow, lawsMeta, ordinal } from "./laws-entities";
@@ -155,6 +156,7 @@ export function getLawPage(lawId: string): LawPageData | null {
     cosponsors: people.filter((p): p is LawPerson => p !== null),
     cosponsorsUnresolved: people.filter((p) => p === null).length,
     passage: { house: [law.house[0], law.house[1], law.house[2]], senate: [law.senate[0], law.senate[1], law.senate[2]], override: law.override_votes },
+    votes: getLawVotes(lawId, law.congress, law.origin_chamber),
     committees: entries,
     congressGovUrl: congressGovBillUrl(law.congress, law.bill_type, law.bill_number),
     dataThrough: meta.data_through,
