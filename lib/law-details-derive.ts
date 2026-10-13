@@ -90,15 +90,15 @@ export const PARTY_NAME: Record<PartyLetter, string> = { D: "Democrats", R: "Rep
 /** "Sep 30, 2024" from an ISO date, the format the Laws list uses. */
 export const longDate = (iso: string): string => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 
-/** Display order and wording of the amendment statuses. */
+/** Display order and wording of the amendment statuses: the commonest, "offered", first and the one outcome that changed the bill, "agreed", last. */
 export const AMENDMENT_STATUSES: readonly { value: AmendmentStatus; label: string }[] = [
-  { value: "agreed", label: "Agreed to" },
-  { value: "rejected", label: "Rejected" },
-  { value: "withdrawn", label: "Withdrawn" },
-  { value: "out_of_order", label: "Ruled out of order" },
-  { value: "fell", label: "Fell" },
   { value: "offered", label: "Offered, no vote recorded" },
   { value: "other", label: "Other" },
+  { value: "fell", label: "Fell" },
+  { value: "out_of_order", label: "Ruled out of order" },
+  { value: "withdrawn", label: "Withdrawn" },
+  { value: "rejected", label: "Rejected" },
+  { value: "agreed", label: "Agreed to" },
 ];
 
 /** An amendment's status from the text of its last recorded action (the source gives no status field). */
