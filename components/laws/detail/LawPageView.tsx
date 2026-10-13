@@ -19,7 +19,7 @@ import type { ChamberTally } from "@/lib/laws-types";
 const BADGE = "inline-flex items-center rounded-full border border-line-strong px-2 py-px text-[0.68rem] font-medium text-ink-muted";
 
 
-/** Facts line under the title: number, bill, date, signer, sponsor, policy area. */
+/** Facts under the title: number, bill, date, signer, policy area. The sponsor and cosponsors sit in the column to the right. */
 function Facts({ law }: { law: LawPageData }) {
   const signerParty = law.president.party;
   return (
@@ -45,17 +45,32 @@ function Facts({ law }: { law: LawPageData }) {
           {law.veto && <span className={BADGE}>Veto override</span>}
         </p>
       )}
-      {law.sponsor && (
-        <p className="m-0">
-          <span className="text-ink-faint">Sponsor: </span>
-          <span className="inline-flex items-center gap-1">
-            <Dot party={law.sponsor.party} />
-            <Person p={law.sponsor} />
-          </span>
-          {` (${law.sponsor.label})`}
-        </p>
-      )}
     </>
+  );
+}
+
+const LABEL = "m-0 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint";
+
+/** The right-hand header column: the sponsor, then the cosponsors, in the committee header's label-above style. */
+function SponsorColumn({ law }: { law: LawPageData }) {
+  return (
+    <aside aria-label="Sponsor and cosponsors" className="flex min-w-0 flex-col gap-4 border-t border-line pt-4 lg:w-[23rem] lg:flex-none lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+      <div className="flex flex-col gap-1">
+        <p className={LABEL}>Sponsor</p>
+        {law.sponsor ? (
+          <p className="m-0">
+            <span className="inline-flex items-center gap-1">
+              <Dot party={law.sponsor.party} />
+              <Person p={law.sponsor} />
+            </span>
+            {` (${law.sponsor.label})`}
+          </p>
+        ) : (
+          <p className="m-0">Not recorded</p>
+        )}
+      </div>
+      <CosponsorsHeader people={law.cosponsors} unresolved={law.cosponsorsUnresolved} withdrawn={law.withdrawn} />
+    </aside>
   );
 }
 
@@ -233,9 +248,13 @@ export function LawPageView({ law }: { law: LawPageData }) {
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <SetBackLink href="/congress/laws" />
       <PageHeader eyebrow="Congress · Laws" title={law.title}>
-        <Facts law={law} />
-        <CosponsorsHeader people={law.cosponsors} unresolved={law.cosponsorsUnresolved} withdrawn={law.withdrawn} />
-        <Votes law={law} />
+        <div className="flex flex-col gap-5 lg:flex-row lg:gap-8">
+          <div className="flex min-w-0 flex-col gap-3 lg:flex-1">
+            <Facts law={law} />
+            <Votes law={law} />
+          </div>
+          <SponsorColumn law={law} />
+        </div>
       </PageHeader>
       <Summary law={law} />
       {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} />}

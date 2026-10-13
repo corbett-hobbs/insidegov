@@ -7,6 +7,7 @@ import type { LawPerson } from "@/lib/law-details-types";
 import { Dot, LINK, Person } from "./LawPeople";
 
 const SHOWN = 2;
+const LABEL = "m-0 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint";
 
 /**
  * The cosponsors in the law page's header: the first two by name, then "+N others" that opens the full list (party dot, name,
@@ -16,18 +17,19 @@ export function CosponsorsHeader({ people, unresolved, withdrawn = [] }: { peopl
   const [open, setOpen] = useState(false);
   if (people.length === 0) {
     return (
-      <p className="m-0">
-        <span className="text-ink-faint">Cosponsors: </span>none
-      </p>
+      <div className="flex flex-col gap-1">
+        <p className={LABEL}>Cosponsors</p>
+        <p className="m-0">None</p>
+      </div>
     );
   }
   const first = people.slice(0, SHOWN);
   const rest = people.length - first.length;
   const split = partySplit(people.map((p) => p.party));
   return (
-    <div className="m-0">
+    <div className="m-0 flex flex-col gap-1">
+      <p className={LABEL}>{`Cosponsors (${people.length})`}</p>
       <p className="m-0">
-        <span className="text-ink-faint">{`Cosponsors (${people.length}): `}</span>
         {first.map((p, i) => (
           <span key={`${p.name}-${i}`} className="whitespace-nowrap">
             <span className="inline-flex items-center gap-1">
@@ -55,7 +57,7 @@ export function CosponsorsHeader({ people, unresolved, withdrawn = [] }: { peopl
               </span>
             ))}
           </p>
-          <ul tabIndex={0} aria-label="Cosponsors, scrollable" className="touch-scroll m-0 mt-2 max-h-60 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0 sm:max-w-[34rem]">
+          <ul tabIndex={0} aria-label="Cosponsors, scrollable" className="touch-scroll m-0 mt-2 max-h-60 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0">
             {people.map((p, i) => (
               <li key={`${p.name}-${i}`} className="flex flex-wrap items-center gap-x-2 border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0">
                 <Dot party={p.party} />
