@@ -788,7 +788,7 @@ Config/plumbing: `lib/verticals.ts` Court `status: 'live'`; `app/sitemap.ts` alr
 
 ### Member profile: subcommittee seats
 
-`CommitteeMembershipsCard` nests a member's subcommittee seats under each parent committee row in a native `<details>` ("N subcommittees ▸"), collapsed by default. Plain text only (name, role tag, member count): no blended-position strip, since subcommittee rosters are too small for a meaningful mean. Data: `MemberCommitteeMembership.subcommittees` from `lib/committee-data.ts`.
+`CommitteeMembershipsCard` nests a member's subcommittee seats under each parent committee row in a native `<details>` ("Serves on N subcommittees ▸", only the ones the member holds a seat on), collapsed by default. Plain text only (name, role tag, member count): no blended-position strip, since subcommittee rosters are too small for a meaningful mean. Data: `MemberCommitteeMembership.subcommittees` from `lib/committee-data.ts`.
 
 ### Committee seals and descriptions
 

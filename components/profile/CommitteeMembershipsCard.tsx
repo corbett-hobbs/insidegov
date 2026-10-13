@@ -87,7 +87,7 @@ export function CommitteeMembershipsCard({
                   <span className="inline-block transition-transform group-open/sub:rotate-90">
                     ▸
                   </span>
-                  {m.subcommittees.length}{" "}
+                  Serves on {m.subcommittees.length}{" "}
                   {m.subcommittees.length === 1
                     ? "subcommittee"
                     : "subcommittees"}
