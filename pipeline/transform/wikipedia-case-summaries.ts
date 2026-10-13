@@ -14,7 +14,7 @@ import { DecisionsDataError } from "../../lib/decisions-entities";
  *      tail cut off. Otherwise the case has no summary, and the table shows none rather than a mangled one.
  *
  * The text is Wikipedia's (CC BY-SA 4.0); the page links each case name to its article. Where no sentence passes, a sentence the
- * Claude API wrote from the same lead (`classify/case-summaries-auto.ts`, cached in `CASE_SUMMARIES_AI`) fills in; the report and the
+ * Claude API wrote from the same lead (`classification/case-summaries-auto.ts`, cached in `CASE_SUMMARIES_AI`) fills in; the report and the
  * page's Data notes keep the two apart. Pure; `decisions-run.ts` does the I/O.
  */
 export const CASE_SUMMARIES_AI = "pipeline/classification/case_summaries.json";

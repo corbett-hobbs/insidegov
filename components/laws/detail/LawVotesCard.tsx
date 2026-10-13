@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { ScatterPlot } from "@/components/charts/ScatterPlot";
@@ -19,7 +19,7 @@ const group = (v: LawVoter) => (v.side === "D" ? "dem" : v.side === "R" ? "rep" 
 /** One party's yea voters, a capped, scrollable list in compass order (most liberal first). */
 function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; voters: readonly LawVoter[] }) {
   return (
-    <div className="flex min-h-0 min-w-0 flex-col lg:flex-1">
+    <div className="flex min-h-0 min-w-0 flex-col lg:h-[var(--plot-h)] lg:flex-none">
       <h3 className="m-0 mb-1.5 flex items-center gap-1.5 text-[0.85rem] font-medium text-ink">
         <Dot party={side} />
         {title}
@@ -28,7 +28,7 @@ function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; vo
       <ul tabIndex={0} aria-label={`${title}, scrollable`} className="touch-scroll m-0 max-h-64 min-h-0 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0 lg:max-h-none lg:flex-1">
         {voters.length === 0 && <li className="px-3 py-2 text-[0.82rem] text-ink-muted">None.</li>}
         {voters.map((v) => (
-          <li key={v.id} className="flex flex-wrap items-center gap-x-2 border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0">
+          <li key={v.id} className="flex items-center gap-x-2 whitespace-nowrap border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0">
             {v.path ? (
               <Link href={v.path} className={LINK}>
                 {v.name}
@@ -46,7 +46,7 @@ function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; vo
 
 /**
  * "Who voted for it": the chamber's ideology compass for the law's Congress with the members who voted yea on final passage highlighted
- * and everyone else faded, then two capped, scrollable lists of the yea voters: three equal panels on desktop (compass, Democrats, Republicans, with dividers), stacked on a phone. A
+ * and everyone else faded, then two capped, scrollable lists of the yea voters stacked to its right on desktop (Democrats above Republicans), below it on a phone. A
  * House / Senate toggle appears when both chambers have a recorded member vote.
  */
 export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly LawChamberVotesView[]; congressLabel: string }) {
@@ -61,6 +61,16 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
   const rest = view.voters.filter((v) => v.cast !== "yea" && v.cast !== "nay" && v.cast !== "none").length;
   const plotted = useMemo(() => view.voters.filter((v) => v.dim1 !== null && v.dim2 !== null), [view]);
   const yeaIds = useMemo(() => yea.map((v) => v.id), [yea]);
+  const plotRef = useRef<HTMLDivElement>(null);
+  const [plotH, setPlotH] = useState<number | null>(null);
+  // The party lists are as tall as the compass beside them; the compass keeps its aspect ratio as it widens.
+  useEffect(() => {
+    const el = plotRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setPlotH(el.getBoundingClientRect().height));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const noun = view.chamber === "House" ? "representatives" : "senators";
   return (
     <ChartCard
@@ -85,14 +95,14 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
           </span>
         )}
       </p>
-      <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-3 lg:items-stretch">
-        <div className="min-w-0">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-x-5" style={plotH ? ({ "--plot-h": `${plotH}px` } as React.CSSProperties) : undefined}>
+        <div ref={plotRef} className="min-w-0 lg:flex-1">
           <CompassPanel congress={Number.parseInt(congressLabel, 10)}>
             <ScatterPlot<LawVoter>
               points={plotted}
               ariaLabel={`Scatter plot of ${noun} by DW-NOMINATE ideology score; those who voted yea are highlighted`}
               width={640}
-              height={640}
+              height={520}
               margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
               x={(v) => v.dim1 as number}
               y={(v) => v.dim2 as number}
@@ -119,17 +129,8 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
             />
           </CompassPanel>
         </div>
-        {/* The two lists take the other two thirds, each as tall as the compass (it sets the row height; the list scrolls inside), behind a divider. */}
-        <div className="relative min-w-0 border-t border-line pt-4 lg:min-h-0 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-          <div className="flex flex-col lg:absolute lg:inset-0 lg:left-6">
-            <VoterList title="Democrats who voted yea" side="D" voters={dem} />
-          </div>
-        </div>
-        <div className="relative min-w-0 border-t border-line pt-4 lg:min-h-0 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-          <div className="flex flex-col lg:absolute lg:inset-0 lg:left-6">
-            <VoterList title="Republicans who voted yea" side="R" voters={rep} />
-          </div>
-        </div>
+        <VoterList title="Democrats who voted yea" side="D" voters={dem} />
+        <VoterList title="Republicans who voted yea" side="R" voters={rep} />
       </div>
       <MethodologyNote>
         <p>

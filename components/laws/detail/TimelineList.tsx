@@ -15,12 +15,12 @@ export function TimelineList({ actions }: { actions: readonly TimelineAction[] }
   const shown = all ? actions : actions.slice(0, SHOWN);
   return (
     <>
-      <ol className="m-0 list-none p-0">
+      <ol tabIndex={0} aria-label="Timeline, scrollable" className="touch-scroll m-0 max-h-[32rem] list-none overflow-y-auto overscroll-contain p-0">
         {shown.map((a, i) => {
           const first = i === 0 || shown[i - 1]!.date !== a.date;
           return (
-            <li key={i} className={`grid grid-cols-[5.6rem_minmax(0,1fr)] gap-x-3 py-1.5 text-[0.82rem] leading-[1.45] sm:grid-cols-[6.5rem_9rem_minmax(0,1fr)] ${first ? "border-t border-line first:border-t-0" : ""}`}>
-              <span className="tabular-nums text-ink-muted">{first ? longDate(a.date) : ""}</span>
+            <li key={i} className={`grid grid-cols-1 gap-x-3 py-1.5 text-[0.82rem] leading-[1.45] sm:grid-cols-[6.5rem_9rem_minmax(0,1fr)] ${first ? "border-t border-line first:border-t-0" : ""}`}>
+              <span className={`tabular-nums text-ink-muted max-sm:mb-0.5 max-sm:font-medium max-sm:text-ink ${first ? "" : "max-sm:hidden"}`}>{first ? longDate(a.date) : ""}</span>
               <span className="text-[0.72rem] uppercase tracking-[0.04em] text-ink-faint max-sm:hidden">{ACTION_KIND_LABEL[a.kind]}</span>
               <span className="min-w-0">
                 <span className="sm:hidden text-[0.68rem] uppercase tracking-[0.04em] text-ink-faint">{`${ACTION_KIND_LABEL[a.kind]} · `}</span>

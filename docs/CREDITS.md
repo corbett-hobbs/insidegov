@@ -91,7 +91,7 @@ is `id.wikipedia` from `legislators-current.yaml`.
 ## U.S. House Clerk — Financial Disclosure filings
 
 House member net-worth estimates (`pipeline/output/financial_disclosures.json`,
-parsed by `pipeline/financial/`) are derived from Financial Disclosure reports
+parsed by `pipeline/financial_disclosures/`) are derived from Financial Disclosure reports
 published by the **Clerk of the U.S. House of Representatives**, Legislative
 Resource Center.
 

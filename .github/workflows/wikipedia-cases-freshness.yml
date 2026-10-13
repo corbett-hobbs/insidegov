@@ -78,7 +78,7 @@ jobs:
         run: pnpm exec tsx pipeline/transform/decisions-run.ts
 
       # New articles whose opening does not give a ruling sentence the plain picker can take get one written by the Claude API,
-      # held to the article's own words (pipeline/classify/case-summaries-auto.ts). Needs the ANTHROPIC_API_KEY repo secret; with
+      # held to the article's own words (pipeline/classification/case-summaries-auto.ts). Needs the ANTHROPIC_API_KEY repo secret; with
       # none the step does nothing and those cases simply have no sentence. Then the transform again to pick the answers up.
       - name: Summarise new cases the plain picker cannot
         if: steps.detect.outputs.changed == 'true'
