@@ -139,6 +139,27 @@ describe("page data", () => {
   });
 });
 
+describe("agency split and detention on each year", () => {
+  const year = (fy: number) => data.years.find((y) => y.fy === fy)!;
+  it("the split covers FY2008–FY2024 only, and adds up to the year's total", () => {
+    expect(data.years.filter((y) => y.agency).map((y) => y.fy)).toEqual(Array.from({ length: 17 }, (_, i) => 2008 + i));
+    for (const y of data.years) if (y.agency) expect(y.agency.ice + y.agency.cbp).toBe(y.value);
+    expect(year(2007).agency).toBeNull();
+    expect(year(2025).agency).toBeNull();
+    expect(year(2024).agency).toEqual({ ice: 47_732, cbp: 223_752 });
+  });
+  it("detention runs FY2018–FY2025 with the agency split through FY2024, FY2025 preliminary", () => {
+    expect(data.years.filter((y) => y.detention).map((y) => y.fy)).toEqual([2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]);
+    expect(year(2017).detention).toBeNull();
+    expect(year(2019).detention).toEqual({ value: 50_165, status: "final", ice: 20_115, cbp: 30_050 });
+    expect(year(2025).detention).toEqual({ value: 48_706, status: "preliminary", ice: null, cbp: null });
+  });
+  it("criminality views are on the page data", () => {
+    expect(data.criminality.views.all).toHaveLength(13);
+    expect(data.criminality.yMax).toBe(400_000);
+  });
+});
+
 describe("chart geometry", () => {
   it("caps slot at 80 and bar at 52", () => {
     expect(slotLayout(1032, 24).slotW).toBeCloseTo(43);
