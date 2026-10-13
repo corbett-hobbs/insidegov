@@ -28,7 +28,16 @@ export function parseLawId(raw: string): { congress: number; number: number } | 
   return m ? { congress: Number(m[1]), number: Number(m[2]) } : null;
 }
 
-const BILL_SLUG: Record<string, string> = { hr: "house-bill", s: "senate-bill", hjres: "house-joint-resolution", sjres: "senate-joint-resolution" };
+const BILL_SLUG: Record<string, string> = {
+  hr: "house-bill",
+  s: "senate-bill",
+  hjres: "house-joint-resolution",
+  sjres: "senate-joint-resolution",
+  hres: "house-resolution",
+  sres: "senate-resolution",
+  hconres: "house-concurrent-resolution",
+  sconres: "senate-concurrent-resolution",
+};
 
 /** The bill's page on Congress.gov, or null for a bill type we cannot map. */
 export function congressGovBillUrl(congress: number, billType: string, billNumber: string): string | null {

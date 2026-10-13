@@ -71,14 +71,14 @@ export interface SummaryVersion {
 }
 
 /** The CRS summary of the enacted version ("Public Law"), else the latest version by date. Capped. */
-export function pickSummary(versions: SummaryVersion[]): { html: string; stage: string | null } | null {
+export function pickSummary(versions: SummaryVersion[], cap: number = SUMMARY_CAP): { html: string; stage: string | null } | null {
   const usable = versions.filter((v) => v.html.trim() !== "");
   if (usable.length === 0) return null;
   const enacted = usable.filter((v) => /public law/i.test(v.stage ?? ""));
   const pool = enacted.length > 0 ? enacted : usable;
   const best = [...pool].sort((a, b) => (a.date ?? "").localeCompare(b.date ?? "")).at(-1)!;
   const html = best.html.trim();
-  return { html: html.length > SUMMARY_CAP ? html.slice(0, SUMMARY_CAP) : html, stage: best.stage };
+  return { html: html.length > cap ? html.slice(0, cap) : html, stage: best.stage };
 }
 
 /** Build the RawLaw fields shared by a bill's laws (everything except the law number). */

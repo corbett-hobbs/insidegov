@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { lawDetailsShard } from "../../lib/law-details-entities";
 import type { RawAction, RawLaw } from "../../lib/laws-entities";
-import { buildActions, buildLawDetail, cleanActionText, committeeActions, committeeLabel, lawIdDifferences, RAW_SUMMARY_CAP, summaryParagraphs } from "./law-details";
+import type { RawLawExtras } from "../../lib/law-extras-entities";
+import { buildActions, buildLawDetail, cleanActionText, committeeActions, committeeLabel, extrasDisagreements, hearingActions, lawIdDifferences, RAW_SUMMARY_CAP, summaryParagraphs } from "./law-details";
 
 const act = (date: string, type: string, text: string, votes?: RawAction["votes"]): RawAction => ({ date, type, text, src: null, ...(votes ? { votes } : {}) });
 
@@ -103,5 +104,51 @@ describe("committeeActions", () => {
   it("puts them in the stored action list, oldest first, ahead of the floor on a shared date", () => {
     const d = buildLawDetail(law({ introduced: "2025-09-15", committees, actions: [act("2025-09-15", "Floor", "Floor same day")] }));
     expect(d.actions.map((a) => a[2]).slice(0, 3)).toEqual(["Introduced in the House", "Referred to House Ways and Means Committee", "Floor same day"]);
+  });
+});
+
+describe("buildLawDetail with the Phase 2 extras", () => {
+  const extras = (over: Partial<RawLawExtras> = {}): RawLawExtras => ({
+    law_id: "118-pub-1",
+    summary_html: `<p>Does a thing. ${"y".repeat(RAW_SUMMARY_CAP)}</p><p>And a last paragraph.</p>`,
+    actions: [act("2023-01-01", "IntroReferral", "Introduced in House"), act("2023-01-02", "Calendars", "Placed on the Union Calendar.")],
+    amendments: [{ chamber: "Senate", type: "SAMDT", number: "5", sponsor: "A000001", sponsor_name: "Sen. A", submitted: "2023-01-20", purpose: "p", latest: { date: "2023-01-22", text: "Agreed to." } }],
+    related: [{ congress: 118, type: "S", number: "2", title: "T", rel: ["Identical bill"] }],
+    cosponsors: [{ id: "B000002", date: "2023-01-01", original: true, withdrawn: null }, { id: "C000003", date: null, original: false, withdrawn: "2023-01-09" }],
+    ...over,
+  });
+  it("keeps the whole summary (never flagged cut), the source's own action types, and the new fields as tuples", () => {
+    const d = buildLawDetail(law(), extras());
+    expect(d.cut).toBeUndefined();
+    expect(d.summary!.at(-1)).toBe("And a last paragraph.");
+    expect(d.actions.map((a) => a[1])).toEqual([8, 9]);
+    expect(d.amendments).toEqual([[1, "SAMDT", "5", "A000001", "Sen. A", "2023-01-20", "p", "2023-01-22", "Agreed to."]]);
+    expect(d.related).toEqual([[118, "S", "2", "T", ["Identical bill"]]]);
+    expect(d.cosponsors).toEqual([["B000002", "2023-01-01", 1, null], ["C000003", null, 0, "2023-01-09"]]);
+    expect(() => lawDetailsShard.parse({ congress: 118, laws: { "118-pub-1": d } })).not.toThrow();
+  });
+  it("replaces the built introduction and committee steps with the source's, but keeps dated hearings", () => {
+    const committees = [{ code: "hswm00", name: "Ways and Means Committee", chamber: "House", activities: [{ name: "Referred to", date: "2023-01-01" }, { name: "Hearings by", date: "2023-01-05" }], subcommittees: [] }];
+    const l = law({ introduced: "2023-01-01", committees });
+    expect(hearingActions(l).map((a) => a.text)).toEqual(["Hearings by House Ways and Means Committee"]);
+    const d = buildLawDetail(l, extras());
+    expect(d.actions.map((a) => a[2])).toEqual(["Introduced in House", "Placed on the Union Calendar.", "Hearings by House Ways and Means Committee"]);
+  });
+  it("is the Phase 1 record, without the new fields, when there are no extras", () => {
+    const d = buildLawDetail(law());
+    expect(d.amendments).toBeUndefined();
+    expect(d.cosponsors).toBeUndefined();
+  });
+});
+
+describe("extrasDisagreements", () => {
+  it("passes when the summary starts with the capped one and the active cosponsors match", () => {
+    const l = law({ summary_html: "<p>Hi", cosponsors: ["B000002"] });
+    expect(extrasDisagreements(l, { law_id: l.law_id, summary_html: "<p>Hi there</p>", actions: [], amendments: [], related: [], cosponsors: [{ id: "B000002", date: null, original: false, withdrawn: null }, { id: "C000003", date: null, original: false, withdrawn: "2023-01-01" }] })).toEqual([]);
+  });
+  it("names a differing summary and a differing cosponsor list", () => {
+    const l = law({ summary_html: "<p>Hi", cosponsors: ["B000002"] });
+    const out = extrasDisagreements(l, { law_id: l.law_id, summary_html: "<p>Other", actions: [], amendments: [], related: [], cosponsors: [] });
+    expect(out).toHaveLength(2);
   });
 });

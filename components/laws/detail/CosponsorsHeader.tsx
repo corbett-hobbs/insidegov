@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { PARTY_NAME, partySplit } from "@/lib/law-details-derive";
+import { PARTY_NAME, longDate, partySplit } from "@/lib/law-details-derive";
 import type { LawPerson } from "@/lib/law-details-types";
 import { Dot, LINK, Person } from "./LawPeople";
 
@@ -12,7 +12,7 @@ const SHOWN = 2;
  * The cosponsors in the law page's header: the first two by name, then "+N others" that opens the full list (party dot, name,
  * "D-NY-12"). Names link only for current members. The party counts and the two caveats sit in the open list.
  */
-export function CosponsorsHeader({ people, unresolved }: { people: readonly LawPerson[]; unresolved: number }) {
+export function CosponsorsHeader({ people, unresolved, withdrawn = [] }: { people: readonly LawPerson[]; unresolved: number; withdrawn?: readonly LawPerson[] }) {
   const [open, setOpen] = useState(false);
   if (people.length === 0) {
     return (
@@ -61,12 +61,20 @@ export function CosponsorsHeader({ people, unresolved }: { people: readonly LawP
                 <Dot party={p.party} />
                 <Person p={p} />
                 <span className="text-ink-faint">{p.label}</span>
+                {p.joined !== undefined && (
+                  <span className="ml-auto whitespace-nowrap text-[0.75rem] text-ink-faint">
+                    {p.original ? "Original cosponsor" : p.joined ? `Joined ${longDate(p.joined)}` : ""}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
           <MethodologyNote>
             <p>
-              Cosponsors who withdrew are not listed. A name links to a profile only for members of the current Congress.
+              {withdrawn.length > 0
+                ? `Cosponsors who withdrew are not counted or listed: ${withdrawn.map((w) => `${w.name}${w.withdrawn ? ` (withdrew ${longDate(w.withdrawn)})` : ""}`).join("; ")}.`
+                : "Cosponsors who withdrew are not listed."}{" "}
+              A name links to a profile only for members of the current Congress.
               {unresolved > 0 ? ` ${unresolved} cosponsor${unresolved === 1 ? "" : "s"} could not be matched to a member record and ${unresolved === 1 ? "is" : "are"} left out.` : ""}
             </p>
           </MethodologyNote>

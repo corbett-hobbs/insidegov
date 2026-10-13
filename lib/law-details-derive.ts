@@ -3,7 +3,7 @@ import type { ChamberTally } from "./laws-types";
 
 /** Pure shaping for a law page (no file I/O): action labels, vote wording, the cosponsor party split. */
 
-export type ActionKind = "introduced" | "committee" | "floor" | "conference" | "president" | "law" | "veto" | "other";
+export type ActionKind = "introduced" | "committee" | "calendar" | "floor" | "conference" | "president" | "law" | "veto" | "other";
 
 const KIND_BY_TYPE: Record<(typeof LAW_ACTION_TYPES)[number], ActionKind> = {
   Floor: "floor",
@@ -14,11 +14,15 @@ const KIND_BY_TYPE: Record<(typeof LAW_ACTION_TYPES)[number], ActionKind> = {
   NotUsed: "other",
   Committee: "committee",
   Introduced: "introduced",
+  IntroReferral: "committee",
+  Calendars: "calendar",
+  Discharge: "committee",
 };
 
 export const ACTION_KIND_LABEL: Record<ActionKind, string> = {
   introduced: "Introduced",
   committee: "Committee",
+  calendar: "Calendar",
   floor: "Floor",
   conference: "Resolving differences",
   president: "President",
@@ -38,7 +42,7 @@ export interface TimelineAction {
 export const rollLabel = (v: LawActionVote): string => `${v[0] === 0 ? "House" : "Senate"} roll call ${v[1]}`;
 
 /** How far along a kind is, for ordering actions that share a date: the later step of the process comes first in a newest-first list. */
-const KIND_RANK: Record<ActionKind, number> = { other: 0, introduced: 1, committee: 2, floor: 3, conference: 4, president: 5, veto: 6, law: 7 };
+const KIND_RANK: Record<ActionKind, number> = { other: 0, introduced: 1, committee: 2, calendar: 3, floor: 4, conference: 5, president: 6, veto: 7, law: 8 };
 
 /**
  * The stored action tuples as the timeline shows them, **newest first** (the site's rule for dated lists). Actions on one date
@@ -50,7 +54,8 @@ export function timeline(actions: readonly LawAction[]): TimelineAction[] {
     .map((a, i) => {
       const kind = KIND_BY_TYPE[LAW_ACTION_TYPES[a[1]]!];
       const text = a[2];
-      const k: ActionKind = kind === "president" && /^(?:became public law|signed by president)/i.test(text) ? "law" : kind;
+      // The source types both "Introduced in House" and "Referred to ..." as IntroReferral; the first is the introduction.
+      const k: ActionKind = kind === "president" && /^(?:became public law|signed by president)/i.test(text) ? "law" : LAW_ACTION_TYPES[a[1]] === "IntroReferral" && /^introduced\b/i.test(text) ? "introduced" : kind;
       return { i, a: { date: a[0], kind: k, text, rolls: (a[3] ?? []).map(rollLabel) } satisfies TimelineAction };
     })
     .sort((x, y) => y.a.date.localeCompare(x.a.date) || KIND_RANK[y.a.kind] - KIND_RANK[x.a.kind] || x.i - y.i)

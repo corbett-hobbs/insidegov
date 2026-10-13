@@ -1,11 +1,11 @@
 # Individual law pages: plan
 
-A native page for every public law (93rd Congress on, 12,619 laws as of 2026-10-09), so a reader gets the summary,
+A native page for every public law (93rd Congress on, 12,620 laws as of 2026-10-09), so a reader gets the summary,
 actions, sponsor, cosponsors, votes, amendments and related bills here instead of on congress.gov.
 
 Scope is **laws only**, not every bill. Failed and stalled bills are out of scope.
 
-Status: **Phase 1 built** (2026-10-09, uncommitted at the time of writing); Phase 2 planned. Recommended effort: **medium** for Phase 1, **high** for Phase 2.
+Status: **Phase 1 built** (2026-10-09); **Phase 2a built** (2026-10-13); 2b, 2c and 2d in progress. Recommended effort: **medium** for Phase 1, **high** for Phase 2.
 
 ---
 
@@ -34,7 +34,7 @@ Cache situation:
 
 ## Phase 1: law pages from data already in the repo
 
-No new fetching. Ships a useful page for all 12,619 laws.
+No new fetching. Ships a useful page for all 12,620 laws.
 
 ### Pipeline
 
@@ -109,6 +109,8 @@ Each step is independent and can ship on its own. The page shows a section only 
   the committed raw JSON diffs. Review that diff before committing.
 - Update `law-details.ts`, the schemas and the page (timeline gains introduction and committee actions; new
   Amendments and Related bills sections).
+
+**As built (2a).** The extra fields go to a **separate raw file**, `pipeline/raw/law-extras/<congress>.json`, not into the existing `govinfo-billstatus` files: the existing raw files stay byte-identical (apart from their `fetched` date), and the extras' size (about 57 MB for the 108th-119th) does not bloat every read of the Laws raw data. Cosponsor names are not stored (the page names a member from the member record). The rebuild is the same `pnpm fetch:billstatus -- --rebuild` pass. The page gained Amendments and Related bills cards, cosponsor dates, and collapse for a long summary and a long timeline.
 
 ### 2b. Same fields for the 93rd-107th (new API fetch)
 

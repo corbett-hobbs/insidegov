@@ -3,10 +3,13 @@ import { SetBackLink } from "@/components/BackLinkContext";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
-import { ACTION_KIND_LABEL, longDate, methodText, yeaShare, type TimelineAction } from "@/lib/law-details-derive";
+import { longDate, methodText, yeaShare } from "@/lib/law-details-derive";
 import type { LawCommitteeEntry, LawPageData } from "@/lib/law-details-types";
 import { ordinal } from "@/lib/laws-entities";
+import { AmendmentsList, RelatedList } from "./LawLists";
 import { CosponsorsHeader } from "./CosponsorsHeader";
+import { SummaryBody } from "./SummaryBody";
+import { TimelineList } from "./TimelineList";
 import { Dot, LINK, Person } from "./LawPeople";
 import type { ChamberTally } from "@/lib/laws-types";
 
@@ -58,11 +61,7 @@ function Summary({ law }: { law: LawPageData }) {
     <ChartCard title="Summary" lede="The Congressional Research Service’s plain-language summary of what the law does.">
       {law.summary ? (
         <div className="flex flex-col gap-3 text-[0.9rem] leading-[1.65]">
-          {law.summary.map((p, i) => (
-            <p key={i} className="m-0">
-              {p}
-            </p>
-          ))}
+          <SummaryBody paragraphs={law.summary} />
           {law.summaryCut && (
             <p className="m-0 text-[0.82rem] text-ink-muted">
               The summary is cut off here because it is long.{" "}
@@ -83,29 +82,40 @@ function Summary({ law }: { law: LawPageData }) {
 
 function Timeline({ law }: { law: LawPageData }) {
   return (
-    <ChartCard title="Timeline" lede={`From introduction to ${law.veto ? "the override" : "signing"}, newest first: the committees, the floor and the president.`}>
-      <ol className="m-0 list-none p-0">
-        {law.actions.map((a: TimelineAction, i) => {
-          const first = i === 0 || law.actions[i - 1]!.date !== a.date;
-          return (
-            <li key={i} className={`grid grid-cols-[5.6rem_minmax(0,1fr)] gap-x-3 py-1.5 text-[0.82rem] leading-[1.45] sm:grid-cols-[6.5rem_9rem_minmax(0,1fr)] ${first ? "border-t border-line first:border-t-0" : ""}`}>
-              <span className="tabular-nums text-ink-muted">{first ? longDate(a.date) : ""}</span>
-              <span className="text-[0.72rem] uppercase tracking-[0.04em] text-ink-faint max-sm:hidden">{ACTION_KIND_LABEL[a.kind]}</span>
-              <span className="min-w-0">
-                <span className="sm:hidden text-[0.68rem] uppercase tracking-[0.04em] text-ink-faint">{`${ACTION_KIND_LABEL[a.kind]} · `}</span>
-                {a.text}
-                {a.rolls.map((r) => (
-                  <span key={r} className={`${BADGE} ml-2 whitespace-nowrap`}>
-                    {r}
-                  </span>
-                ))}
-              </span>
-            </li>
-          );
-        })}
-      </ol>
+    <ChartCard title="Timeline" lede={`From introduction to ${law.veto ? "the override" : "signing"}, newest first: the committees, the floor and the president. ${law.actions.length} actions.`}>
+      <TimelineList actions={law.actions} />
       <MethodologyNote>
-        <p>Shows the introduction, each committee and subcommittee step the source dates (referral, hearings, markup, report, discharge), and the floor, conference, presidential and became-law steps. Calendar placements, messages between the chambers, amendments and committee report numbers are not shown. Two entries the source lists twice are shown once.</p>
+        {law.full ? (
+          <p>Every action the Library of Congress lists for the bill, from introduction to signing, plus the dated committee hearings. The source lists many steps twice (the chamber’s own entry and the Library of Congress copy, or a presidential and a became-law entry with the same words); those are shown once. Amendments are listed in their own section.</p>
+        ) : (
+          <p>Shows the introduction, each committee and subcommittee step the source dates (referral, hearings, markup, report, discharge), and the floor, conference, presidential and became-law steps. Calendar placements, messages between the chambers, amendments and committee report numbers are not shown for laws of this Congress yet. Two entries the source lists twice are shown once.</p>
+        )}
+      </MethodologyNote>
+    </ChartCard>
+  );
+}
+
+function Amendments({ law }: { law: LawPageData }) {
+  const n = law.amendments.length;
+  return (
+    <ChartCard title="Amendments" lede={n === 0 ? "No amendments to this bill are on record." : `${n} amendment${n === 1 ? "" : "s"} offered to the bill, with the last recorded step of each.`}>
+      {n > 0 && (
+        <AmendmentsList amendments={law.amendments} />
+      )}
+      <MethodologyNote>
+        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: those agreed to, rejected, withdrawn or never voted on. The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed. {law.congress < 108 ? "For this Congress the source gives a one-line description rather than the sponsor and filing date." : ""}</p>
+      </MethodologyNote>
+    </ChartCard>
+  );
+}
+
+function Related({ law }: { law: LawPageData }) {
+  const n = law.related.length;
+  return (
+    <ChartCard title="Related bills" lede={n === 0 ? "The record lists no related bills." : `${n} bill${n === 1 ? "" : "s"} the Library of Congress relates to this one.`}>
+      {n > 0 && <RelatedList related={law.related} />}
+      <MethodologyNote>
+        <p>Related bills are identified by the Congressional Research Service, the House and the Senate: companion and identical bills, bills with similar text, bills that were folded into this law, and rules that brought it to the floor. A bill that is itself a public law in this site’s data links here; the others link to Congress.gov.</p>
       </MethodologyNote>
     </ChartCard>
   );
@@ -218,18 +228,20 @@ export function LawPageView({ law }: { law: LawPageData }) {
       <SetBackLink href="/congress/laws" />
       <PageHeader eyebrow="Congress · Laws" title={law.title}>
         <Facts law={law} />
-        <CosponsorsHeader people={law.cosponsors} unresolved={law.cosponsorsUnresolved} />
+        <CosponsorsHeader people={law.cosponsors} unresolved={law.cosponsorsUnresolved} withdrawn={law.withdrawn} />
         <Votes law={law} />
       </PageHeader>
       <Summary law={law} />
       <Timeline law={law} />
+      {law.full && <Amendments law={law} />}
       <Committees law={law} />
+      {law.full && <Related law={law} />}
       <section aria-label="Official record" className="rounded-[10px] border border-line bg-surface p-[1.1rem_1.35rem] text-[0.85rem] text-ink-muted">
         <h2 className="m-0 font-serif text-[1.05rem] font-medium text-ink">Official record</h2>
         <p className="m-0 mt-1">
           {law.congressGovUrl ? (
             <>
-              The bill’s full text and every action, including introduction and committee steps, are on{" "}
+              The bill’s full text{law.full ? "" : " and every action, including introduction and committee steps,"} {law.full ? "is" : "are"} on{" "}
               <a href={law.congressGovUrl} target="_blank" rel="noreferrer" className={LINK}>
                 Congress.gov
               </a>
