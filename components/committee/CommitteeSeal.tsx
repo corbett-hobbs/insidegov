@@ -86,7 +86,7 @@ export function CommitteeSeal({
 }) {
   const c = chamber.toLowerCase();
   if (c === "joint") {
-    return <JointSeal size={size} className={`flex-none ${className}`} />;
+    return <JointSeal size={size} className={`flex-none max-sm:hidden ${className}`} />;
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element -- two tiny static files; see MemberPhoto
@@ -97,7 +97,7 @@ export function CommitteeSeal({
       height={size}
       loading="lazy"
       decoding="async"
-      className={`flex-none object-contain ${className}`}
+      className={`flex-none object-contain max-sm:hidden ${className}`}
     />
   );
 }

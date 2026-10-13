@@ -42,7 +42,7 @@ export function CommitteeMembershipsCard({
         {memberships.map((m) => (
           <div
             key={m.committeeId}
-            className="relative -mx-1 grid grid-cols-1 items-center gap-x-4 gap-y-2 rounded border-b border-line last:border-b-0 px-1 py-[0.7rem] hover:bg-surface-raised sm:grid-cols-[1fr_clamp(220px,34%,380px)] sm:gap-y-0"
+            className="relative -mx-1 grid grid-cols-[1fr_140px] items-center gap-x-4 rounded border-b border-line last:border-b-0 px-1 py-[0.7rem] hover:bg-surface-raised sm:grid-cols-[1fr_clamp(220px,34%,380px)]"
           >
             <div className="flex min-w-0 items-center gap-2.5 sm:col-start-1 sm:row-start-1">
               <CommitteeSeal chamber={m.chamber} size={28} className="size-7" />
@@ -59,7 +59,7 @@ export function CommitteeMembershipsCard({
               </div>
               </div>
             </div>
-            <div className="max-sm:pl-[2.375rem] sm:col-start-2 sm:row-span-2 sm:row-start-1">
+            <div className="col-start-2 row-span-2 row-start-1">
               {currentDim1 != null && m.blendDim1 != null ? (
                 <>
                   <AlignmentTrack
@@ -79,7 +79,7 @@ export function CommitteeMembershipsCard({
               )}
             </div>
             {m.subcommittees.length > 0 && (
-              <details className="group/sub relative z-10 row-start-3 sm:col-start-1 sm:row-start-2 sm:mt-0.5 sm:pl-[2.375rem]">
+              <details className="group/sub relative z-10 col-span-2 row-start-3 mt-1.5 sm:col-span-1 sm:col-start-1 sm:row-start-2 sm:mt-0.5 sm:pl-[2.375rem]">
                 <summary className="flex w-fit cursor-pointer list-none items-center gap-1 text-[0.72rem] text-ink-muted hover:text-accent [&::-webkit-details-marker]:hidden">
                   <span className="inline-block transition-transform group-open/sub:rotate-90">
                     ▸
