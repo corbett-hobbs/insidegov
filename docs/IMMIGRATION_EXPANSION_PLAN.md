@@ -199,6 +199,13 @@ FY2026 for the same measures.
 
 ## Session B — UI (Sonnet 5.5, medium effort)
 
+> **Status (2026-10-13): built on branch `feat/immigration-ui-cards`, in a different shape from the prompt below.** After mockups
+> (the final design is `docs/mockups/immigration-cards-mockup-v5.html`), the page has: the existing removals chart extended in place (stacked by
+> arresting agency, average-detained line on the same axis, colours no longer by president); one criminal-history card
+> (All / ICE / Border Patrol and Counts / Share pills, one fixed scale); the country card unchanged at the bottom. Arrests and
+> detainers were dropped as too esoteric. The "open question" below was settled: neither combined card nor two cards. See
+> `ARCHITECTURE_MAP.md` (Immigration page) for the recorded decisions.
+
 > **Prompt:**
 >
 > Read `docs/IMMIGRATION_EXPANSION_PLAN.md`, `ARCHITECTURE_MAP.md` (especially
