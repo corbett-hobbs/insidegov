@@ -67,7 +67,16 @@ export class CongressApi {
       const rem = res.headers.get("x-ratelimit-remaining");
       if (rem !== null) this.remaining = Number(rem);
       if (res.status === 404) return null;
-      if (res.ok) return await res.json();
+      if (res.ok) {
+        // A connection dropped mid-body ("terminated") is retried like one dropped before the response.
+        try {
+          return await res.json();
+        } catch (e) {
+          if (attempt >= 6) throw new ApiError(`GET ${path}: ${e instanceof Error ? e.message : "body read failed"}`, 0);
+          await this.sleep(2000 * attempt);
+          continue;
+        }
+      }
       if ((res.status === 429 || res.status >= 500) && attempt < 8) {
         const retry = Number(res.headers.get("retry-after"));
         await this.sleep(res.status === 429 ? (Number.isFinite(retry) && retry > 0 ? retry * 1000 : 60_000) : 2000 * attempt);

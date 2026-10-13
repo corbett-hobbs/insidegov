@@ -41,14 +41,14 @@ describe("law_details shards (real data)", () => {
     const rolled = details.get("118-pub-90")!.actions.find((a) => a[3]);
     expect(rolled![3]).toEqual([[0, 442, 2]]);
   });
-  it("carries the full record (amendments, related bills, dated cosponsors, the whole summary) for the Congresses the Phase 2 fetch covered", () => {
+  it("carries the full record (amendments, related bills, dated cosponsors, the whole summary) for every law (108th-119th from Bill Status, 93rd-107th from the Congress.gov API)", () => {
     const omnibus = details.get("117-pub-328")!;
     expect(omnibus.amendments!.length).toBeGreaterThan(50);
     expect(omnibus.related!.length).toBeGreaterThan(10);
     expect(omnibus.cut).toBeUndefined();
     expect(omnibus.summary!.join(" ").length).toBeGreaterThan(20_000);
     const full = [...details].filter(([, d]) => d.cosponsors !== undefined);
-    expect(full.length).toBeGreaterThanOrEqual(4273);
+    expect(full.length).toBe(laws.length);
     for (const [id, d] of full) {
       expect(d.amendments, id).toBeDefined();
       expect(d.related, id).toBeDefined();
