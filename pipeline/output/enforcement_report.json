@@ -172,15 +172,1570 @@
       "ok": true
     }
   ],
-  "breakdowns": [
-    {
-      "period": 2013,
-      "interior": 133551,
-      "border": 235093,
-      "total": 368644,
-      "ok": true
-    }
-  ],
+  "breakdowns": {
+    "rows": 209,
+    "coverage": [
+      {
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": "convicted",
+        "first_period": 2013,
+        "last_period": 2024,
+        "periods": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "text": 6,
+          "chart_label": 6
+        },
+        "corroborated_periods": [
+          2013,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": "not_convicted",
+        "first_period": 2013,
+        "last_period": 2015,
+        "periods": [
+          2013,
+          2014,
+          2015
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "text": 3
+        },
+        "corroborated_periods": []
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": "pending_charges",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "text": 3,
+          "chart_label": 6
+        },
+        "corroborated_periods": [
+          2017,
+          2018,
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": "other_immigration_violator",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": "convicted_or_pending",
+        "first_period": 2025,
+        "last_period": 2025,
+        "periods": [
+          2025
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [
+          2025
+        ],
+        "by_evidence": {
+          "text": 1
+        },
+        "corroborated_periods": [
+          2025
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": "ice",
+        "criminality": null,
+        "first_period": 2008,
+        "last_period": 2024,
+        "periods": [
+          2008,
+          2009,
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 11,
+          "text": 6
+        },
+        "corroborated_periods": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": "ice",
+        "criminality": "convicted",
+        "first_period": 2017,
+        "last_period": 2024,
+        "periods": [
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": "ice",
+        "criminality": "pending_charges",
+        "first_period": 2017,
+        "last_period": 2024,
+        "periods": [
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": "ice",
+        "criminality": "other_immigration_violator",
+        "first_period": 2017,
+        "last_period": 2024,
+        "periods": [
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "removals",
+        "arresting_agency": "cbp",
+        "criminality": null,
+        "first_period": 2008,
+        "last_period": 2024,
+        "periods": [
+          2008,
+          2009,
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 13,
+          "text": 4
+        },
+        "corroborated_periods": [
+          2013,
+          2014,
+          2015,
+          2019
+        ]
+      },
+      {
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": null,
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2023,
+          2024
+        ],
+        "missing_periods": [
+          2021,
+          2022
+        ],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "text": 5,
+          "chart_label": 1
+        },
+        "corroborated_periods": [
+          2017,
+          2018,
+          2023
+        ]
+      },
+      {
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": "convicted",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "text": 2,
+          "chart_label": 6
+        },
+        "corroborated_periods": [
+          2017,
+          2018,
+          2019
+        ]
+      },
+      {
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": "pending_charges",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "text": 1,
+          "chart_label": 7
+        },
+        "corroborated_periods": [
+          2017,
+          2019
+        ]
+      },
+      {
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": "other_immigration_violator",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "text": 1,
+          "chart_label": 7
+        },
+        "corroborated_periods": [
+          2017,
+          2019
+        ]
+      },
+      {
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": "convicted_or_pending",
+        "first_period": 2025,
+        "last_period": 2025,
+        "periods": [
+          2025
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [
+          2025
+        ],
+        "by_evidence": {
+          "text": 1
+        },
+        "corroborated_periods": [
+          2025
+        ]
+      },
+      {
+        "metric": "at_large_arrests",
+        "arresting_agency": null,
+        "criminality": null,
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "text": 5,
+          "chart_label": 4
+        },
+        "corroborated_periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2023,
+          2024
+        ]
+      },
+      {
+        "metric": "at_large_arrests",
+        "arresting_agency": null,
+        "criminality": "convicted",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "at_large_arrests",
+        "arresting_agency": null,
+        "criminality": "pending_charges",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "at_large_arrests",
+        "arresting_agency": null,
+        "criminality": "other_immigration_violator",
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 1,
+          "chart_label": 8
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "detainers_issued",
+        "arresting_agency": null,
+        "criminality": null,
+        "first_period": 2016,
+        "last_period": 2024,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "text": 6,
+          "chart_label": 3
+        },
+        "corroborated_periods": [
+          2017,
+          2018,
+          2019,
+          2020,
+          2023,
+          2024
+        ]
+      },
+      {
+        "metric": "initial_book_ins",
+        "arresting_agency": null,
+        "criminality": null,
+        "first_period": 2016,
+        "last_period": 2020,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "text": 4,
+          "chart_label": 1
+        },
+        "corroborated_periods": [
+          2017,
+          2018
+        ]
+      },
+      {
+        "metric": "initial_book_ins",
+        "arresting_agency": "ice",
+        "criminality": null,
+        "first_period": 2016,
+        "last_period": 2020,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 2,
+          "chart_label": 3
+        },
+        "corroborated_periods": []
+      },
+      {
+        "metric": "initial_book_ins",
+        "arresting_agency": "cbp",
+        "criminality": null,
+        "first_period": 2016,
+        "last_period": 2020,
+        "periods": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "figure": 2,
+          "chart_label": 2,
+          "text": 1
+        },
+        "corroborated_periods": [
+          2018
+        ]
+      },
+      {
+        "metric": "detention_adp",
+        "arresting_agency": null,
+        "criminality": null,
+        "first_period": 2018,
+        "last_period": 2025,
+        "periods": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [
+          2025
+        ],
+        "by_evidence": {
+          "figure": 1,
+          "text": 7
+        },
+        "corroborated_periods": [
+          2023,
+          2025
+        ]
+      },
+      {
+        "metric": "detention_adp",
+        "arresting_agency": "ice",
+        "criminality": null,
+        "first_period": 2018,
+        "last_period": 2024,
+        "periods": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 7
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      },
+      {
+        "metric": "detention_adp",
+        "arresting_agency": "cbp",
+        "criminality": null,
+        "first_period": 2018,
+        "last_period": 2024,
+        "periods": [
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "missing_periods": [],
+        "preliminary_periods": [],
+        "by_evidence": {
+          "chart_label": 7
+        },
+        "corroborated_periods": [
+          2019
+        ]
+      }
+    ],
+    "partitions": [
+      {
+        "period": 2008,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 369221,
+        "total": 369221,
+        "exception": null
+      },
+      {
+        "period": 2009,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 389834,
+        "total": 389834,
+        "exception": null
+      },
+      {
+        "period": 2010,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 392862,
+        "total": 392862,
+        "exception": null
+      },
+      {
+        "period": 2011,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 396906,
+        "total": 396906,
+        "exception": null
+      },
+      {
+        "period": 2012,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 409849,
+        "total": 409849,
+        "exception": null
+      },
+      {
+        "period": 2013,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 368644,
+        "total": 368644,
+        "exception": null
+      },
+      {
+        "period": 2013,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "two_way",
+        "parts_sum": 368644,
+        "total": 368644,
+        "exception": null
+      },
+      {
+        "period": 2014,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 315943,
+        "total": 315943,
+        "exception": null
+      },
+      {
+        "period": 2014,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "two_way",
+        "parts_sum": 315943,
+        "total": 315943,
+        "exception": null
+      },
+      {
+        "period": 2015,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 235413,
+        "total": 235413,
+        "exception": null
+      },
+      {
+        "period": 2015,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "two_way",
+        "parts_sum": 235413,
+        "total": 235413,
+        "exception": null
+      },
+      {
+        "period": 2016,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 240255,
+        "total": 240255,
+        "exception": null
+      },
+      {
+        "period": 2016,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 240255,
+        "total": 240255,
+        "exception": null
+      },
+      {
+        "period": 2016,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 110104,
+        "total": 110104,
+        "exception": null
+      },
+      {
+        "period": 2016,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 30348,
+        "total": 30348,
+        "exception": null
+      },
+      {
+        "period": 2016,
+        "metric": "initial_book_ins",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 352882,
+        "total": 352882,
+        "exception": null
+      },
+      {
+        "period": 2017,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 226119,
+        "total": 226119,
+        "exception": null
+      },
+      {
+        "period": 2017,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 81603,
+        "total": 81603,
+        "exception": null
+      },
+      {
+        "period": 2017,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 226119,
+        "total": 226119,
+        "exception": null
+      },
+      {
+        "period": 2017,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 143470,
+        "total": 143470,
+        "exception": null
+      },
+      {
+        "period": 2017,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 40066,
+        "total": 40066,
+        "exception": null
+      },
+      {
+        "period": 2017,
+        "metric": "initial_book_ins",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 323591,
+        "total": 323591,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 256085,
+        "total": 256085,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 95360,
+        "total": 95360,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 256085,
+        "total": 256085,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 158581,
+        "total": 158581,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 40536,
+        "total": 40536,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "initial_book_ins",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 396448,
+        "total": 396448,
+        "exception": null
+      },
+      {
+        "period": 2018,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 42188,
+        "total": 42188,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 267258,
+        "total": 267258,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 85958,
+        "total": 85958,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 267258,
+        "total": 267258,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 143099,
+        "total": 143099,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 35666,
+        "total": 35666,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "initial_book_ins",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 510854,
+        "total": 510854,
+        "exception": null
+      },
+      {
+        "period": 2019,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 50165,
+        "total": 50165,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 185884,
+        "total": 185884,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 62739,
+        "total": 62739,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 185884,
+        "total": 185884,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 103603,
+        "total": 103603,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 23932,
+        "total": 23932,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "initial_book_ins",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 182869,
+        "total": 182869,
+        "exception": null
+      },
+      {
+        "period": 2020,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 33724,
+        "total": 33724,
+        "exception": null
+      },
+      {
+        "period": 2021,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 59011,
+        "total": 59011,
+        "exception": null
+      },
+      {
+        "period": 2021,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 31557,
+        "total": 31557,
+        "exception": null
+      },
+      {
+        "period": 2021,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 59011,
+        "total": 59011,
+        "exception": null
+      },
+      {
+        "period": 2021,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 74082,
+        "total": null,
+        "exception": null
+      },
+      {
+        "period": 2021,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 25993,
+        "total": 25993,
+        "exception": null
+      },
+      {
+        "period": 2021,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 19461,
+        "total": 19461,
+        "exception": null
+      },
+      {
+        "period": 2022,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 72177,
+        "total": 72177,
+        "exception": null
+      },
+      {
+        "period": 2022,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 28204,
+        "total": 28204,
+        "exception": null
+      },
+      {
+        "period": 2022,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 72177,
+        "total": 72177,
+        "exception": null
+      },
+      {
+        "period": 2022,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 142750,
+        "total": null,
+        "exception": null
+      },
+      {
+        "period": 2022,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 85343,
+        "total": 85343,
+        "exception": null
+      },
+      {
+        "period": 2022,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 22630,
+        "total": 22630,
+        "exception": null
+      },
+      {
+        "period": 2023,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 142580,
+        "total": 142580,
+        "exception": null
+      },
+      {
+        "period": 2023,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 44255,
+        "total": 44255,
+        "exception": null
+      },
+      {
+        "period": 2023,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 142580,
+        "total": 142580,
+        "exception": null
+      },
+      {
+        "period": 2023,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 170590,
+        "total": 170590,
+        "exception": null
+      },
+      {
+        "period": 2023,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 91497,
+        "total": 91497,
+        "exception": null
+      },
+      {
+        "period": 2023,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 28289,
+        "total": 28289,
+        "exception": null
+      },
+      {
+        "period": 2024,
+        "metric": "removals",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 271484,
+        "total": 271484,
+        "exception": null
+      },
+      {
+        "period": 2024,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": "ice",
+        "scheme": "three_way",
+        "parts_sum": 47732,
+        "total": 47732,
+        "exception": null
+      },
+      {
+        "period": 2024,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 271484,
+        "total": 271484,
+        "exception": null
+      },
+      {
+        "period": 2024,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 113431,
+        "total": 113431,
+        "exception": null
+      },
+      {
+        "period": 2024,
+        "metric": "at_large_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "three_way",
+        "parts_sum": 33242,
+        "total": 33242,
+        "exception": null
+      },
+      {
+        "period": 2024,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "scheme": "agency",
+        "parts_sum": 37721,
+        "total": 37722,
+        "exception": "Rounding. ICE's FY2024 annual report (Figure 17) prints the ICE (12,232) and CBP (25,489) averages, each rounded to a whole person; the total, 37,722, comes from the FY2027 budget overview. Average daily populations are not whole counts, so separately rounded parts can miss the rounded total by one."
+      },
+      {
+        "period": 2025,
+        "metric": "removals",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "partial",
+        "parts_sum": 166939,
+        "total": 442637,
+        "exception": null
+      },
+      {
+        "period": 2025,
+        "metric": "administrative_arrests",
+        "dimension": "criminality",
+        "slice": null,
+        "scheme": "partial",
+        "parts_sum": 167651,
+        "total": null,
+        "exception": null
+      }
+    ],
+    "exceptions": [
+      {
+        "period": 2024,
+        "metric": "detention_adp",
+        "dimension": "arresting_agency",
+        "slice": null,
+        "parts_sum": 37721,
+        "total": 37722,
+        "reason": "Rounding. ICE's FY2024 annual report (Figure 17) prints the ICE (12,232) and CBP (25,489) averages, each rounded to a whole person; the total, 37,722, comes from the FY2027 budget overview. Average daily populations are not whole counts, so separately rounded parts can miss the rounded total by one."
+      }
+    ],
+    "sum_checks": [
+      {
+        "period": 2016,
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": [
+          "pending_charges",
+          "other_immigration_violator"
+        ],
+        "value": 101586,
+        "source": "ice-removal-statistics-2016"
+      },
+      {
+        "period": 2024,
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 88763,
+        "source": "ice-annual-report-fy2024"
+      },
+      {
+        "period": 2024,
+        "metric": "removals",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 88763,
+        "source": "dhs-fy2027-ice-budget"
+      },
+      {
+        "period": 2018,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 138117,
+        "source": "ice-ero-report-fy2018"
+      },
+      {
+        "period": 2019,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 123128,
+        "source": "ice-ero-report-fy2019"
+      },
+      {
+        "period": 2020,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 93061,
+        "source": "ice-ero-report-fy2020"
+      },
+      {
+        "period": 2023,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 73822,
+        "source": "ice-fy2023-annual-report-release"
+      },
+      {
+        "period": 2023,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 73822,
+        "source": "ice-annual-report-fy2024"
+      },
+      {
+        "period": 2024,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 81312,
+        "source": "ice-annual-report-fy2024"
+      },
+      {
+        "period": 2024,
+        "metric": "administrative_arrests",
+        "arresting_agency": null,
+        "criminality": [
+          "convicted",
+          "pending_charges"
+        ],
+        "value": 81312,
+        "source": "dhs-fy2027-ice-budget"
+      }
+    ],
+    "disagreements": [
+      {
+        "period": 2014,
+        "metric": "removals",
+        "arresting_agency": "cbp",
+        "criminality": null,
+        "source": "ice-immigration-removals-fy2014",
+        "printed": 213179,
+        "used": 213719,
+        "resolution": "Typo in the FY2014 report's prose. The same report's bullet and its Border Patrol + Field Operations table (205,058 + 8,661) give 213,719, which also completes the national total (102,224 + 213,719 = 315,943); the FY2015 report's Figure 6 prints 213,719."
+      },
+      {
+        "period": 2024,
+        "metric": "at_large_arrests",
+        "arresting_agency": null,
+        "criminality": null,
+        "source": "ice-annual-report-fy2024",
+        "printed": 33243,
+        "used": 33242,
+        "resolution": "The FY2024 report's summary page says 33,243; its at-large section and Figure 8 say 33,242, and Figure 8's three categories sum to 33,242. 33,242 is used."
+      }
+    ],
+    "figure_files": [
+      "ice-ero-report-fy2018-p02-figure1.png",
+      "ice-ero-report-fy2018-p03-figure2.png",
+      "ice-ero-report-fy2018-p06-figures3-4.png",
+      "ice-ero-report-fy2018-p08-figures6-7.png",
+      "ice-ero-report-fy2018-p11-figures10-11.png",
+      "ice-ero-report-fy2020-p07-figures1-2.png",
+      "ice-ero-report-fy2020-p08-figures3-4.png"
+    ]
+  },
   "sources": [
     {
       "id": "ice-removals-aor-fy2003-2016",
@@ -265,6 +1820,48 @@
       "path": "pipeline/raw/ice/ice-statistics.html",
       "bytes": 137065,
       "sha256": "2901bcbcd7a1743c72c5e3b9ab8a405607fffee99cea9fbf055891f3a6dcd02e"
+    }
+  ],
+  "figures": [
+    {
+      "path": "pipeline/raw/ice/ice-annual-report-fy2024-p31-figure23.png",
+      "bytes": 297639,
+      "sha256": "88f0c49a30602b103ac2811ce70255ebc97baa6d1ba392514b1b6e889ac11288"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2018-p02-figure1.png",
+      "bytes": 212549,
+      "sha256": "eec745e5385394c4635448fc8f8a78b46427af632aaa1f17039d6bd78cd9636e"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2018-p03-figure2.png",
+      "bytes": 66196,
+      "sha256": "16d840e2222ff5aafd4ef7d494f82456a9ba00ea81bfc11acd3051dc387f7d8c"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2018-p06-figures3-4.png",
+      "bytes": 107475,
+      "sha256": "7d739befb6bfdbddd88e7b8bb0c58b21b84319ec7413ba115a67bef1fb9baf21"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2018-p08-figures6-7.png",
+      "bytes": 113379,
+      "sha256": "32bd9875dbb0e919ed052f723164ad425244a3d8d70f87459eae01b6d6cbdb95"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2018-p11-figures10-11.png",
+      "bytes": 152214,
+      "sha256": "cb4b1c325fb5e463e66c51d2e3bc5d96ae652b1b41964993e181e09cef4953bd"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2020-p07-figures1-2.png",
+      "bytes": 97352,
+      "sha256": "60915dfb64cb04ccf526a83dde3200fa6777ebb69a17d931823427b1f1070e1c"
+    },
+    {
+      "path": "pipeline/raw/ice/ice-ero-report-fy2020-p08-figures3-4.png",
+      "bytes": 80045,
+      "sha256": "7d63041ef578017d8ec2b5f68be5c40680638d9c3f86f57fb8954901e46efec1"
     }
   ]
 }

@@ -167,3 +167,111 @@ comparison, but not total removals; not used.)
 - **Definition caveat for the UI:** the country tables carry the same totals as the
   national series, which **include returns from FY2007**. They are not "removals
   under an order of removal" only; copy must not say returns are excluded.
+
+## 6. Breakdowns and other ERO measures — session A findings (2026-10-13)
+
+Data pass for `docs/IMMIGRATION_EXPANSION_PLAN.md` session A, taken **only** from the
+ICE/DHS documents already in `pipeline/raw/ice/` (nothing new fetched). 209 values
+in the catalog's `values`: 56 quoted from prose or tables, 140 chart bar labels
+(in the text extract, but year and category assigned from the rendered PDF page),
+13 read from charts that are images with no text layer (page snapshots committed
+next to the PDFs). 58 are also printed, identically, by a second ICE document.
+
+### Coverage
+
+| Series (`metric` / agency / criminality) | Fiscal years | Main sources |
+| --- | --- | --- |
+| Removals by arresting agency (ICE / CBP) | **FY2008–FY2024** | FY2008–12: FY2015 report Fig. 6 (interior/border labels). FY2013–16: each year's own report (text), FY2015 Fig. 6 and FY2017/FY2018 reports agree. FY2017–19: FY2019 report Fig. 14 + FY2018 prose. FY2020–24: FY2024 report Fig. 26 (FY2020 report Fig. 15, an image, agrees for FY2018–20). |
+| Removals by criminality, two-way (convicted / not convicted) | FY2013–FY2015 | Each year's own report (text). |
+| Removals by criminality, three-way (convicted / pending charges / other immigration violator) | FY2016–FY2024 | FY2016: FY2016 page + FY2018 report (Fig. 11 image for "other"). FY2017–18: FY2018 prose + FY2019 Fig. 16. FY2019–24: FY2019 Fig. 16, FY2024 Fig. 24. |
+| Removals, convicted **or** pending (combined only) | FY2025 (preliminary) | FY2027 budget overview performance measure. |
+| Interior removals (arresting agency ICE) by criminality, three-way | FY2017–FY2024 | FY2019 Fig. 17; FY2024 Fig. 25 (FY2020 Fig. 20, an image, agrees). |
+| ERO administrative arrests, total | FY2016–FY2020, FY2023–FY2024 | FY2018 Fig. 1 (image) for FY2016; prose for the rest. **FY2021–FY2022: no ICE total on file** (see below). |
+| ERO administrative arrests by criminality, three-way | FY2016–FY2024 | FY2018 Fig. 2 (image, FY2016); FY2017 page Table 1; FY2019 Fig. 9; FY2024 Fig. 6. |
+| Administrative arrests, convicted or pending (combined only) | FY2025 (preliminary) | FY2027 budget overview. |
+| At-large arrests, total and by criminality | FY2016–FY2024 | FY2017 page / FY2018 prose; FY2018 Fig. 4 (image, FY2016 split); FY2019 Fig. 10; FY2024 Fig. 8. |
+| Detainers issued | FY2016–FY2024 | FY2017 page, FY2018/FY2020/FY2024 prose; FY2019 Fig. 12; FY2024 Fig. 11. |
+| Initial book-ins, total and by arresting agency | FY2016–FY2020 | FY2018 prose + Fig. 7 (image, FY2016 split); FY2019 Fig. 1; FY2020 prose + Fig. 1 (image, FY2020 split). |
+| Average daily detention population, total | FY2018–FY2025 | FY2020 Fig. 3 (image, FY2018); FY2019/FY2020 prose; FY2027 budget overview for FY2021, FY2022, FY2024, FY2025 (FY2023 also in the FY2023 release). |
+| Average daily population by arresting agency | FY2018–FY2024 | FY2019 Fig. 2 (pies); FY2024 Fig. 17. |
+
+Missing years are absent, never zero or interpolated. FY2025 has only removals,
+the two combined criminality figures and the detention average (all preliminary);
+there is no FY2025 agency split, arrest total, at-large, detainer or book-in figure.
+
+### Checks that tie chart labels to their categories
+
+Every complete breakdown sums to its printed total (69 of them; national removals
+for removals). These printed subtotals also had to match the rows they cover,
+which is what confirms, in text, that a label was filed under the right category:
+FY2016 removals without a conviction 101,586 = pending + other (FY2016 page);
+convicted + pending arrests FY2018 138,117, FY2019 123,128, FY2020 93,061, FY2023
+73,822 (FY2023 release and FY2024 report), FY2024 81,312 (FY2024 report and budget);
+convicted + pending removals FY2024 88,763 (FY2024 report and budget). Prose that
+states a related change also agrees with the image-only FY2016 reads: 143,470 −
+33,366 = 110,104 arrests; 105,736 − 10,985 = 94,751 convicted arrests.
+
+### Chart-label reads that the text alone gets wrong
+
+- **FY2015 report, Fig. 6 (FY2008–FY2015 interior/border).** For FY2008–FY2012 the
+  text layer prints the larger label below the smaller one in a way that reads as
+  border-below-interior. The rendered page shows the blue Interior segment at the
+  bottom of every bar: interior removals were the **larger** part in FY2008–FY2011
+  (e.g. FY2008 234,770 interior, 134,451 border). A text-order reading swaps them.
+- **FY2024 report, Fig. 6 (arrests by criminality).** Clustered, not stacked, bars
+  on a second axis behind a USBP-encounters area. FY2021's pending (8,813) and
+  other (28,650) labels sit in the same text column; read from the page (FY2021
+  convicted 36,619, pending 8,813, other 28,650). The chart prints no totals.
+- **FY2024 report, Figs. 8, 24, 25.** The FY2021–FY2022 pending-charges segments
+  are a few pixels tall; their labels were read from a zoomed render.
+- **FY2019 report, Fig. 2 (detention pies).** Labels interleave across the two pies
+  in the text ("22,969 (60%)"); FY2018 is ICE 22,969 (54%), CBP 19,219 (46%),
+  confirmed by the FY2020 report's Fig. 3.
+- **FY2018 and FY2020 reports** have no text layer on any chart. FY2018 is the only
+  saved source for several FY2016 values (arrest total and split, at-large split,
+  book-in split, other-immigration-violator removals); FY2020 is the only source
+  for the FY2018 detention total (42,188) and the FY2020 book-in split. Those 13
+  values are `figure` reads with page snapshots. The other FY2018/FY2020 chart
+  values match the FY2019 and FY2024 text exactly.
+
+### Disagreements
+
+- **Across report vintages: none.** Every year printed by more than one of the
+  FY2018, FY2019, FY2020 and FY2024 reports (FY2016–FY2020 for most series) is the
+  same in each. ICE calls FY2019–FY2023 "locked and remain static".
+- **FY2014 border removals:** the FY2014 report's prose says 213,179; its bullet,
+  its Border Patrol + Field Operations table (205,058 + 8,661) and the FY2015
+  report say 213,719, which also completes the national total. 213,719 is used
+  (recorded in the catalog's `disagreements`).
+- **FY2024 at-large arrests:** the FY2024 report's summary page says 33,243; its
+  at-large section and Fig. 8 say 33,242, and Fig. 8's parts sum to 33,242. 33,242
+  is used (`disagreements`).
+- **FY2024 detention average:** ICE 12,232 + CBP 25,489 = 37,721 (FY2024 report,
+  Fig. 17); the budget overview's total is 37,722. Separately rounded averages; the
+  only `sum_exceptions` entry. FY2021–FY2023 parts equal the budget totals exactly.
+- **FY2015 non-criminal border removals** (not stored): the prose says 90,103 in one
+  place and 90,106 in the bullets; 96,045 − (69,478 − 63,539) = 90,106.
+- **FY2025 criminality** comes from a measure whose criminal status is "determined
+  at the time of booking into custody", not "at the time of the enforcement action"
+  as in the annual reports. For FY2024 both give the same numbers (88,763 removals,
+  81,312 arrests), so the measures line up for the one year both print.
+- The FY2024 report's Fig. 11 caption says "FY 2019 – FY 2024" but the chart also
+  shows FY2018 (177,147, matching the FY2018 report).
+
+### Found but not ingested
+
+- **Convicted removals FY2007–FY2008** (102,024; 114,415; FY2014 report): ICE says
+  its crime entry screen did not exist before 2011 and capture was limited, and no
+  complement is printed. FY2008–FY2012 criminality otherwise exists only as
+  percentages (FY2015 report Fig. 1). Not used.
+- **Interior removals by criminality before FY2017:** the FY2013–FY2016 reports
+  print only the convicted interior count (110,115; 86,923; 63,539; 60,318), not the
+  rest, so there is no complete split to store.
+- **Arrests, at-large arrests and detainers before FY2016:** the FY2017 page charts
+  FY2015, but its images are not in the snapshot; the FY2015 report has only a
+  monthly line chart with no labels.
+- **FY2021–FY2022 administrative arrest totals:** not printed in any saved document
+  (ICE's FY2021/FY2022 annual-report PDFs 404). The three categories are stored; a
+  UI may add a complete split, but no total row exists.
+- **Initial book-ins FY2021–FY2024:** only a monthly chart without labels, and
+  percentages (CBP 68.6% of book-ins in FY2023, 67.4% in FY2024).

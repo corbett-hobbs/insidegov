@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
-import { enforcementRow } from "../../lib/enforcement-entities";
+import { enforcementRow, isNationalRemovals } from "../../lib/enforcement-entities";
 import { removalsCountryReport, removalsCountryRow } from "../../lib/removals-country-entities";
 import { RAW_DIR } from "../fetch/lib";
 import { buildRemovalsByCountry, COUNTRY_TABLES } from "./removals-country";
@@ -29,7 +29,7 @@ async function main() {
     texts.set(spec.source, await readFile(`${RAW}/${f}`, "utf8"));
   }
   const series = (JSON.parse(await readFile(`${OUT}/enforcement_series.json`, "utf8")) as unknown[]).map((r) => enforcementRow.parse(r));
-  const national = new Map(series.map((r) => [r.period, r.value]));
+  const national = new Map(series.filter(isNationalRemovals).map((r) => [r.period, r.value]));
   const countries = (JSON.parse(await readFile(`${OUT}/countries.json`, "utf8")) as { country_code: string; name: string; kind: string }[]).filter((c) => c.kind === "country" || c.kind === "former");
   const built = buildRemovalsByCountry({ texts, index: indexCountries(countries), national });
 

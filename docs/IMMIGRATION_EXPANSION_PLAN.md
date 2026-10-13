@@ -13,6 +13,13 @@ level. Copy a session's prompt into a new Claude Code session.
 | B | UI: enforcement-process card + criminal-history card | Sonnet 5.5 | Medium | A |
 | C | *(later)* Refugee ceiling vs. admissions | Opus 5.5 for data, Sonnet for UI | High / Medium | — |
 
+**Status (2026-10-13):** A is done, on Opus 5.5, so A′ is not needed. The breakdown
+series are in `pipeline/output/enforcement_series.json`; coverage, chart-label reads
+and disagreements are in `docs/IMMIGRATION_SOURCE_NOTES.md` §6, and the data model
+in the methodology's "Breakdowns and other ERO measures". Two findings for B:
+interior/border runs back to FY2008 (not FY2016), and there is no printed
+administrative-arrest total for FY2021–FY2022.
+
 ---
 
 ## Background (shared by all sessions)

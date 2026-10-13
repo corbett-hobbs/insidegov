@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { enforcementRow, isNationalRemovals } from "../../lib/enforcement-entities";
 import { removalsCountryRow } from "../../lib/removals-country-entities";
 import { buildRemovalsByCountry, COUNTRY_TABLES } from "./removals-country";
 import { ICE_ALIASES, indexCountries, normalizeName, resolveCountry, UnmappedCountryError } from "./removals-country-names";
@@ -107,7 +108,12 @@ describe("buildRemovalsByCountry reconciliation", () => {
 describe("removals_by_country.json (committed output)", () => {
   const read = (f: string) => JSON.parse(readFileSync(`pipeline/output/${f}`, "utf8")) as unknown[];
   const rows = read("removals_by_country.json").map((r) => removalsCountryRow.parse(r));
-  const national = new Map((read("enforcement_series.json") as { period: number; value: number }[]).map((r) => [r.period, r.value]));
+  const national = new Map(
+    read("enforcement_series.json")
+      .map((r) => enforcementRow.parse(r))
+      .filter(isNationalRemovals)
+      .map((r) => [r.period, r.value]),
+  );
 
   it("sums to the national ICE series for every covered fiscal year, with no tolerance", () => {
     const sums = new Map<number, number>();
