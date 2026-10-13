@@ -19,13 +19,13 @@ const group = (v: LawVoter) => (v.side === "D" ? "dem" : v.side === "R" ? "rep" 
 /** One party's yea voters, a capped, scrollable list in compass order (most liberal first). */
 function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; voters: readonly LawVoter[] }) {
   return (
-    <div className="min-w-0">
+    <div className="flex min-h-0 min-w-0 flex-col lg:flex-1">
       <h3 className="m-0 mb-1.5 flex items-center gap-1.5 text-[0.85rem] font-medium text-ink">
         <Dot party={side} />
         {title}
         <span className="font-normal tabular-nums text-ink-muted">{`(${voters.length})`}</span>
       </h3>
-      <ul tabIndex={0} aria-label={`${title}, scrollable`} className="touch-scroll m-0 max-h-64 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0">
+      <ul tabIndex={0} aria-label={`${title}, scrollable`} className="touch-scroll m-0 max-h-64 min-h-0 list-none overflow-y-auto overscroll-contain rounded-md border border-line bg-surface p-0 lg:max-h-none lg:flex-1">
         {voters.length === 0 && <li className="px-3 py-2 text-[0.82rem] text-ink-muted">None.</li>}
         {voters.map((v) => (
           <li key={v.id} className="flex flex-wrap items-center gap-x-2 border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0">
@@ -46,7 +46,7 @@ function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; vo
 
 /**
  * "Who voted for it": the chamber's ideology compass for the law's Congress with the members who voted yea on final passage highlighted
- * and everyone else faded, then two capped, scrollable lists of the yea voters, Democrats on the left and Republicans on the right. A
+ * and everyone else faded, then two capped, scrollable lists of the yea voters stacked to its right on desktop (Democrats above Republicans), below it on a phone. A
  * House / Senate toggle appears when both chambers have a recorded member vote.
  */
 export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly LawChamberVotesView[]; congressLabel: string }) {
@@ -85,40 +85,46 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
           </span>
         )}
       </p>
-      <CompassPanel congress={Number.parseInt(congressLabel, 10)}>
-        <ScatterPlot<LawVoter>
-          points={plotted}
-          ariaLabel={`Scatter plot of ${noun} by DW-NOMINATE ideology score; those who voted yea are highlighted`}
-          width={640}
-          height={470}
-          margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-          x={(v) => v.dim1 as number}
-          y={(v) => v.dim2 as number}
-          id={(v) => v.id}
-          colorClass={(v) => partyFillClass({ partyCode: v.partyCode, group: group(v) })}
-          radius={(_v, s) => (s.highlighted ? 5.2 : 3.6)}
-          highlightedIds={yeaIds}
-          dimUnfocused
-          isSelectable={(v) => v.path !== null}
-          onSelect={(v) => v.path && router.push(v.path)}
-          selectHint="Open profile →"
-          renderTooltip={(v) => (
-            <div className="tt-body">
-              <div>
-                <b>{v.name}</b>
-                <br />
-                {v.label}
-                <br />
-                <span className="tt-mono">{CAST_WORD[v.cast]}</span>
+      <div className="grid grid-cols-1 gap-x-6 gap-y-4 lg:grid-cols-2 lg:items-stretch">
+        <div className="min-w-0">
+        <CompassPanel congress={Number.parseInt(congressLabel, 10)}>
+          <ScatterPlot<LawVoter>
+            points={plotted}
+            ariaLabel={`Scatter plot of ${noun} by DW-NOMINATE ideology score; those who voted yea are highlighted`}
+            width={640}
+            height={520}
+            margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+            x={(v) => v.dim1 as number}
+            y={(v) => v.dim2 as number}
+            id={(v) => v.id}
+            colorClass={(v) => partyFillClass({ partyCode: v.partyCode, group: group(v) })}
+            radius={(_v, s) => (s.highlighted ? 5.2 : 3.6)}
+            highlightedIds={yeaIds}
+            dimUnfocused
+            isSelectable={(v) => v.path !== null}
+            onSelect={(v) => v.path && router.push(v.path)}
+            selectHint="Open profile →"
+            renderTooltip={(v) => (
+              <div className="tt-body">
+                <div>
+                  <b>{v.name}</b>
+                  <br />
+                  {v.label}
+                  <br />
+                  <span className="tt-mono">{CAST_WORD[v.cast]}</span>
+                </div>
               </div>
-            </div>
-          )}
-          zoomable
-        />
-      </CompassPanel>
-      <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-        <VoterList title="Democrats who voted yea" side="D" voters={dem} />
-        <VoterList title="Republicans who voted yea" side="R" voters={rep} />
+            )}
+            zoomable
+          />
+        </CompassPanel>
+        </div>
+        <div className="relative lg:min-h-0">
+          <div className="flex flex-col gap-4 lg:absolute lg:inset-0">
+            <VoterList title="Democrats who voted yea" side="D" voters={dem} />
+            <VoterList title="Republicans who voted yea" side="R" voters={rep} />
+          </div>
+        </div>
       </div>
       <MethodologyNote>
         <p>

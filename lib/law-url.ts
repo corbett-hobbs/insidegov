@@ -43,7 +43,14 @@ const BILL_SLUG: Record<string, string> = {
 export function congressGovBillUrl(congress: number, billType: string, billNumber: string): string | null {
   const slug = BILL_SLUG[billType];
   if (!slug) return null;
-  const v = congress % 100;
-  const ord = `${congress}${v >= 11 && v <= 13 ? "th" : (["th", "st", "nd", "rd"][congress % 10] ?? "th")}`;
-  return `https://www.congress.gov/bill/${ord}-congress/${slug}/${billNumber}`;
+  return `https://www.congress.gov/bill/${congressOrdinal(congress)}-congress/${slug}/${billNumber}`;
 }
+
+const congressOrdinal = (congress: number): string => {
+  const v = congress % 100;
+  return `${congress}${v >= 11 && v <= 13 ? "th" : (["th", "st", "nd", "rd"][congress % 10] ?? "th")}`;
+};
+
+/** An amendment's page on Congress.gov (Senate unprinted amendments live under "senate-amendment" too). */
+export const congressGovAmendmentUrl = (congress: number, chamber: "House" | "Senate", number: string | number): string =>
+  `https://www.congress.gov/amendment/${congressOrdinal(congress)}-congress/${chamber === "House" ? "house" : "senate"}-amendment/${number}`;

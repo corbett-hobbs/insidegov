@@ -6,7 +6,8 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { longDate, methodText, yeaShare } from "@/lib/law-details-derive";
 import type { LawCommitteeEntry, LawPageData } from "@/lib/law-details-types";
 import { ordinal } from "@/lib/laws-entities";
-import { AmendmentsList, RelatedList } from "./LawLists";
+import { AmendmentsList } from "./AmendmentsList";
+import { RelatedList } from "./LawLists";
 import { CosponsorsHeader } from "./CosponsorsHeader";
 import { LawVotesCard } from "./LawVotesCard";
 import { SummaryBody } from "./SummaryBody";
@@ -104,7 +105,7 @@ function Amendments({ law }: { law: LawPageData }) {
         <AmendmentsList amendments={law.amendments} />
       )}
       <MethodologyNote>
-        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: those agreed to, rejected, withdrawn or never voted on. The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed. {law.congress < 108 ? "For this Congress the source gives a one-line description rather than the sponsor and filing date." : ""}</p>
+        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: each with a status read from its last recorded step: agreed to, rejected, withdrawn, ruled out of order, fell with another amendment, or offered with no vote recorded (most Senate amendments are only ever offered). The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed. {law.congress < 108 ? "For this Congress the source gives a one-line description rather than the sponsor and filing date." : ""}</p>
       </MethodologyNote>
     </ChartCard>
   );
@@ -233,8 +234,8 @@ export function LawPageView({ law }: { law: LawPageData }) {
         <Votes law={law} />
       </PageHeader>
       <Summary law={law} />
-      <Timeline law={law} />
       {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} />}
+      <Timeline law={law} />
       {law.full && <Amendments law={law} />}
       <Committees law={law} />
       {law.full && <Related law={law} />}
