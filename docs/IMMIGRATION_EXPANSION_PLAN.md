@@ -278,3 +278,52 @@ Separate source, separate card. Do a source check first, as in
 - The pandemic depressed FY2020–21 admissions on its own.
 
 Data on Opus (high), UI on Sonnet (medium), same split as A/B.
+
+### Session C addendum (2026-10-13): origins and country restrictions
+
+Added after session C had already started; it was sent to that session directly.
+
+**Extra series to source-check:**
+
+- **Admissions by country of nationality** per fiscal year.
+  - Source: State Department Refugee Processing Center (WRAPS) "admissions and
+    arrivals" reports, about FY2002 onward.
+  - Confirm WRAPS still publishes after the January 2025 suspension.
+  - Cross-check against the DHS yearbook's (OHSS) refugee arrivals by
+    nationality where they overlap.
+  - Key by the ISO alpha-3 `country_code` and reuse the alias approach from
+    `removals_by_country`.
+- **Regional allocations** from each presidential determination (Africa, East
+  Asia, Europe/Central Asia, Latin America/Caribbean, Near East/South Asia,
+  unallocated reserve). Presidential determinations cap by region, not by
+  country, so this gives allocation vs. admissions by region.
+- **Mid-year revisions** as dated rows:
+  - FY2026: 7,500, raised to 17,500 by an emergency determination dated
+    May 21, 2026.
+  - FY2027: 17,500, PD No. 2026-24 (91 FR 63119, Oct 2, 2026).
+  - FY2026 and FY2027 allocate "primarily" to Afrikaners (EO 14204) rather than
+    by region, and stay subject to EO 14163. Model group allocation explicitly.
+
+**Country restrictions are rules, not counts.** Keep them in a dated policy
+table for a marker lane:
+
+- EO 14163 (refugee suspension, Jan 20, 2025);
+- the June 2025 travel ban (19 countries, including Afghanistan, Haiti and
+  Somalia);
+- PP 10998 (39 countries, effective Jan 1, 2026);
+- the USCIS processing hold (Dec 2, 2025; widened Jan 1, 2026);
+- the partial asylum restart (Mar 30, 2026);
+- the D.R.I. ruling vacating the hold (Jun 5, 2026).
+
+Only secondary summaries have been checked so far. Verify each against the
+primary text, including how the travel ban applies to refugee admissions.
+Give every row an "as of" date.
+
+**Extra caveats:**
+
+- Refugees, asylum seekers and TPS holders are different statuses; only
+  refugees go on these charts. Much of the Haiti/Somalia/Afghanistan news is
+  about TPS terminations or the travel ban.
+- FY2025 had a ceiling set by the Biden administration but almost no
+  admissions after Jan 20.
+- Nationality is not always the country fled.

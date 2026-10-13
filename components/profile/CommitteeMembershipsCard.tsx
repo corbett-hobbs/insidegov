@@ -33,9 +33,12 @@ export function CommitteeMembershipsCard({
         {memberships.length === 1
           ? "committee assignment"
           : "committee assignments"}{" "}
-        in the {ordinal(latestCongress)} Congress ranked by seniority. Each row
-        also shows how {name}&rsquo;s own position compares to that
-        committee&rsquo;s overall blend.
+        in the {ordinal(latestCongress)} Congress ranked by seniority.
+        <span className="max-sm:hidden">
+          {" "}
+          Each row also shows how {name}&rsquo;s own position compares to that
+          committee&rsquo;s overall blend.
+        </span>
       </p>
 
       <div className="border-t border-line">
@@ -45,7 +48,7 @@ export function CommitteeMembershipsCard({
             className="relative -mx-1 grid grid-cols-1 items-center gap-x-4 gap-y-2 rounded border-b border-line last:border-b-0 px-1 py-[0.7rem] hover:bg-surface-raised sm:grid-cols-[1fr_clamp(220px,34%,380px)] sm:gap-y-0"
           >
             <div className="flex min-w-0 items-center gap-2.5 sm:col-start-1 sm:row-start-1">
-              <CommitteeSeal chamber={m.chamber} size={28} className="size-7" />
+              <CommitteeSeal chamber={m.chamber} size={28} className="size-7" showOnMobile />
               <div className="min-w-0">
               <Link
                 href={committeePath(m)}
@@ -59,7 +62,7 @@ export function CommitteeMembershipsCard({
               </div>
               </div>
             </div>
-            <div className="max-sm:pl-[2.375rem] sm:col-start-2 sm:row-span-2 sm:row-start-1">
+            <div className="max-sm:hidden sm:col-start-2 sm:row-span-2 sm:row-start-1">
               {currentDim1 != null && m.blendDim1 != null ? (
                 <>
                   <AlignmentTrack
@@ -106,7 +109,7 @@ export function CommitteeMembershipsCard({
         ))}
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line pt-2.5 text-[0.72rem] text-ink-muted">
+      <div className="mt-3 flex flex-wrap items-center max-sm:hidden gap-x-4 gap-y-1 border-t border-line pt-2.5 text-[0.72rem] text-ink-muted">
         <span className="flex items-center gap-[0.3rem]">
           <span
             className="size-2 flex-none rounded-full"

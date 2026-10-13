@@ -121,6 +121,8 @@ export interface MemberProfile {
   latestCongress: number;
   trajectory: MemberTrajectoryPoint[];
   firstCongress: number;
+  /** Year the member's first term in this chamber actually began (a mid-Congress appointee's is later than their first Congress); `null` if unrecorded. */
+  firstTermYear: number | null;
   chamberCongressCount: number;
   /** Whether an official photo is committed for this member. */
   hasPhoto: boolean;
