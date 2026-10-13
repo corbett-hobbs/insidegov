@@ -502,14 +502,4790 @@
       "evidence": "In FY 2025, ICE returned or removed 442,637 aliens"
     }
   ],
-  "breakdowns": [
+  "values": [
+    {
+      "fy": 2008,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 234770,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "234,770 237,941 229,235 223,755",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2008 bar, lower (blue, Interior) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2008,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 134451,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "300,000 134,451 151,893 163,627 173,151",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2008 bar, upper (red, Border) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2009,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 237941,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "234,770 237,941 229,235 223,755",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2009 bar, lower (blue, Interior) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2009,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 151893,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "300,000 134,451 151,893 163,627 173,151",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2009 bar, upper (red, Border) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2010,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 229235,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "234,770 237,941 229,235 223,755",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2010 bar, lower (blue, Interior) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2010,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 163627,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "300,000 134,451 151,893 163,627 173,151",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2010 bar, upper (red, Border) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2011,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 223755,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "234,770 237,941 229,235 223,755",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2011 bar, lower (blue, Interior) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2011,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 173151,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "300,000 134,451 151,893 163,627 173,151",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2011 bar, upper (red, Border) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2012,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 180970,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "100,000 180,970",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2012 bar, lower (blue, Interior) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
+    {
+      "fy": 2012,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 228879,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "chart_label",
+      "evidence": "228,879",
+      "chart": {
+        "page": 10,
+        "figure": "Figure 6",
+        "read": "FY2012 bar, upper (red, Border) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016",
+        "agency-fy2008-2012-from-chart"
+      ]
+    },
     {
       "fy": 2013,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 133551,
+      "status": "final",
       "source": "ice-immigration-removals-fy2013",
-      "interior": 133551,
-      "border": 235093,
-      "evidence_interior": "ICE conducted 133,551 removals of individuals apprehended in the interior of the U.S.",
-      "evidence_border": "ICE conducted 235,093 removals of individuals apprehended along our borders"
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 133,551 removals of individuals apprehended in the interior of the U.S.",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "133,551",
+          "chart": {
+            "page": 10,
+            "figure": "Figure 6",
+            "read": "FY2013 bar, lower (blue, Interior) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2013,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 235093,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2013",
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 235,093 removals of individuals apprehended along our borders",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "250,000 235,093",
+          "chart": {
+            "page": 10,
+            "figure": "Figure 6",
+            "read": "FY2013 bar, upper (red, Border) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2014,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 102224,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2014",
+      "evidence_kind": "text",
+      "evidence": "In FY 2014, ICE conducted 102,224 removals of individuals apprehended in the interior of the United States.",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "50,000 102,224",
+          "chart": {
+            "page": 10,
+            "figure": "Figure 6",
+            "read": "FY2014 bar, lower (blue, Interior) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2014,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 213719,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2014",
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 213,719 removals",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "200,000 213,719",
+          "chart": {
+            "page": 10,
+            "figure": "Figure 6",
+            "read": "FY2014 bar, upper (red, Border) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2015,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 69478,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 69,478 removals of individuals apprehended by ICE officers (i.e., interior removals)",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "69,478",
+          "chart": {
+            "page": 10,
+            "figure": "Figure 6",
+            "read": "FY2015 bar, lower (blue, Interior) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2015,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 165935,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 165,935 removals of individuals apprehended at or near the border or ports of entry.",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "150,000 165,935",
+          "chart": {
+            "page": 10,
+            "figure": "Figure 6",
+            "read": "FY2015 bar, upper (red, Border) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 65332,
+      "status": "final",
+      "source": "ice-removal-statistics-2016",
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 65,332 removals of individuals apprehended by ICE officers (i.e., interior removals)",
+      "corroboration": [
+        {
+          "source": "ice-removal-statistics-2017",
+          "evidence": "the proportion resulting from ICE arrests increased from 65,332, or 27 percent of total removals in FY2016"
+        },
+        {
+          "source": "ice-ero-report-fy2018",
+          "evidence": "(from 65,332 to 95,360) in removals tied to ICE arrests"
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 174923,
+      "status": "final",
+      "source": "ice-removal-statistics-2016",
+      "evidence_kind": "text",
+      "evidence": "ICE conducted 174,923 removals of individuals apprehended at or near the border or ports of entry.",
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition",
+        "interior-border-labels-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 81603,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "to 81,603, or 36 percent of total removals in FY2017",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "200,000 81,603 37%",
+          "chart": {
+            "page": 19,
+            "figure": "Figure 14",
+            "read": "FY2017 bar, upper (ICE) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 144516,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "144,516",
+      "chart": {
+        "page": 19,
+        "figure": "Figure 14",
+        "read": "FY2017 bar, lower (CBP) segment, 64%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 95360,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "(from 65,332 to 95,360) in removals tied to ICE arrests",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "95,360 32%",
+          "chart": {
+            "page": 19,
+            "figure": "Figure 14",
+            "read": "FY2018 bar, upper (ICE) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 160725,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "160,725 68%",
+      "chart": {
+        "page": 19,
+        "figure": "Figure 14",
+        "read": "FY2018 bar, lower (CBP) segment, 63%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 85958,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "85,958",
+      "chart": {
+        "page": 19,
+        "figure": "Figure 14",
+        "read": "FY2019 bar, upper (ICE) segment, 32%"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "50,000 85,958 27,454 43,973",
+          "chart": {
+            "page": 33,
+            "figure": "Figure 26",
+            "read": "FY2019 bar, lower (ICE) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 181300,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "100,000 181,300",
+      "chart": {
+        "page": 19,
+        "figure": "Figure 14",
+        "read": "FY2019 bar, lower (CBP) segment, 68%"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "200,000 181,300",
+          "chart": {
+            "page": 33,
+            "figure": "Figure 26",
+            "read": "FY2019 bar, upper (CBP) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 62739,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "62,739 44,255 47,732",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2020 bar, lower (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 123145,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "123,145",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2020 bar, upper (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 31557,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "31,557 28,204",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2021 bar, lower (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 27454,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "50,000 85,958 27,454 43,973",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2021 bar, upper (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 28204,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "31,557 28,204",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2022 bar, lower (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 43973,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "50,000 85,958 27,454 43,973",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2022 bar, upper (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 44255,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "62,739 44,255 47,732",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2023 bar, lower (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 98325,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "100,000 98,325",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2023 bar, upper (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 47732,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "62,739 44,255 47,732",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2024 bar, lower (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 223752,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "223,752",
+      "chart": {
+        "page": 33,
+        "figure": "Figure 26",
+        "read": "FY2024 bar, upper (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2013,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 216810,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2013",
+      "evidence_kind": "text",
+      "evidence": "59 percent of all ICE removals, a total of 216,810, had been previously convicted of a crime.",
+      "corroboration": [
+        {
+          "source": "ice-immigration-removals-fy2014",
+          "evidence": "as compared to 216,810 in FY 2013 and 177,960 in 2014"
+        }
+      ],
+      "note_ids": [
+        "criminality-convicted-only-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2013,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "not_convicted",
+      "value": 151834,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2013",
+      "evidence_kind": "text",
+      "evidence": "Of the 151,834 removals of individuals without a criminal conviction",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-convicted-only-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2014,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 177960,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2014",
+      "evidence_kind": "text",
+      "evidence": "as compared to 216,810 in FY 2013 and 177,960 in 2014",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-convicted-only-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2014,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "not_convicted",
+      "value": 137983,
+      "status": "final",
+      "source": "ice-immigration-removals-fy2014",
+      "evidence_kind": "text",
+      "evidence": "Of the 137,983 individuals",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-convicted-only-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2015,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 139368,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "text",
+      "evidence": "59 percent of all ICE removals, or 139,368, were previously convicted of a crime.",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2015",
+          "evidence": "ICE removed 139,368 convicted criminals, which represented 59 percent of total ICE removals."
+        }
+      ],
+      "note_ids": [
+        "criminality-convicted-only-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2015,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "not_convicted",
+      "value": 96045,
+      "status": "final",
+      "source": "ice-ero-report-fy2015",
+      "evidence_kind": "text",
+      "evidence": "Of the 96,045 individuals removed who had no criminal conviction",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-convicted-only-pre-fy2016"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 138669,
+      "status": "final",
+      "source": "ice-removal-statistics-2016",
+      "evidence_kind": "text",
+      "evidence": "58 percent of all ICE removals, or 138,669, were previously convicted of a crime.",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2018",
+          "evidence": "small decrease from 138,669 in FY2016 to 127,699 in FY2017"
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "criminality-fy2016-three-way-restated"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 12163,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "ICE removals of aliens with pending criminal charges has steadily increased from 12,163 in FY2016",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "criminality-fy2016-three-way-restated"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 89423,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 11. FY2016 - FY2018 ICE Removals by Criminality",
+      "chart": {
+        "page": 11,
+        "figure": "Figure 11",
+        "read": "FY2016 group, third (green, Other Immigration Violator) bar: 89,423"
+      },
+      "figure_file": "ice-ero-report-fy2018-p11-figures10-11.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "criminality-fy2016-three-way-restated",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 127699,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "small decrease from 138,669 in FY2016 to 127,699 in FY2017",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "127,699",
+          "chart": {
+            "page": 22,
+            "figure": "Figure 16",
+            "read": "FY2017 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 16374,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "to 16,374 in FY2017 for a 35 percent increase",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "16,374",
+          "chart": {
+            "page": 22,
+            "figure": "Figure 16",
+            "read": "FY2017 bar, middle (Pending Criminal Charges) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 82046,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "82,046",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 16",
+        "read": "FY2017 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 145262,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "while rising to 145,262 in FY2018",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "145,262 150,141",
+          "chart": {
+            "page": 22,
+            "figure": "Figure 16",
+            "read": "FY2018 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 22796,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "and to 22,796 in FY2018 for another 39 percent increase",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "22,796 23,658",
+          "chart": {
+            "page": 22,
+            "figure": "Figure 16",
+            "read": "FY2018 bar, middle (Pending Criminal Charges) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 88027,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "88,027 93,459",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 16",
+        "read": "FY2018 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 150141,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "145,262 150,141",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 16",
+        "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "150,141 14,078 20,497",
+          "chart": {
+            "page": 32,
+            "figure": "Figure 24",
+            "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 23658,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "22,796 23,658",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 16",
+        "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "23,658",
+          "chart": {
+            "page": 32,
+            "figure": "Figure 24",
+            "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 93459,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "88,027 93,459",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 16",
+        "read": "FY2019 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "93,459",
+          "chart": {
+            "page": 32,
+            "figure": "Figure 24",
+            "read": "FY2019 bar, top (Other Immigration Violator) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 103762,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "103,762",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2020 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 15187,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "15,187 72,678",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2020 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 66935,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "66,935",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2020 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 39149,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "39,149 38,447",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2021 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 5784,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "50,000 5,784 5,649 68,266",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2021 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 14078,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "150,141 14,078 20,497",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2021 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 38447,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "39,149 38,447",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2022 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 5649,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "50,000 5,784 5,649 68,266",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2022 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 28081,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "28,081 12,881",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2022 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 57021,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "57,021",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2023 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 12881,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "28,081 12,881",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2023 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 72678,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "15,187 72,678",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2023 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 68266,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "50,000 5,784 5,649 68,266",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2024 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 20497,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "150,141 14,078 20,497",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2024 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 182721,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "182,721",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 24",
+        "read": "FY2024 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition"
+      ]
+    },
+    {
+      "fy": 2025,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": "convicted_or_pending",
+      "value": 166939,
+      "status": "preliminary",
+      "source": "dhs-fy2027-ice-budget",
+      "evidence_kind": "text",
+      "evidence": "In FY 2025, ICE removed 166,939 aliens with criminal convictions or pending criminal charges",
+      "corroboration": [
+        {
+          "source": "dhs-fy2027-ice-budget",
+          "evidence": "Results: --- --- --- 88,763 166,939 TBD TBD"
+        }
+      ],
+      "note_ids": [
+        "criminality-combined-fy2025"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 67859,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "67,859 72,627",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2017 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 7911,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "7,911 13,498",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2017 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 5833,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "5,833",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2017 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 72627,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "67,859 72,627",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2018 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 14114,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "80,000 14,114 7,469",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2018 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 8619,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "8,619 85,958",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2018 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 64991,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "64,991",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "64,991",
+          "chart": {
+            "page": 32,
+            "figure": "Figure 25",
+            "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 13498,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "7,911 13,498",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "13,498 4,962",
+          "chart": {
+            "page": 32,
+            "figure": "Figure 25",
+            "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 7469,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "80,000 14,114 7,469",
+      "chart": {
+        "page": 22,
+        "figure": "Figure 17",
+        "read": "FY2019 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "7,469",
+          "chart": {
+            "page": 32,
+            "figure": "Figure 25",
+            "read": "FY2019 bar, top (Other Immigration Violator) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 48606,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "30,000 48,606 3,780 3,719",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2020 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 9171,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "60,000 9,171 2,540 3,425",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2020 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 4962,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "13,498 4,962",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2020 bar, label above the top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 26210,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "26,210 23,013",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2021 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 3780,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "30,000 48,606 3,780 3,719",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2021 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 1567,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "1,567 7,522 8,028",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2021 bar, label above the top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 23013,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "26,210 23,013",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2022 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 3719,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "30,000 48,606 3,780 3,719",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2022 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 1472,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "40,000 1,472",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2022 bar, label above the top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 34193,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "20,000 34,193 36,279",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2023 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 7522,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "1,567 7,522 8,028",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2023 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 2540,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "60,000 9,171 2,540 3,425",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2023 bar, label above the top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "convicted",
+      "value": 36279,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "20,000 34,193 36,279",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2024 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "pending_charges",
+      "value": 8028,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "1,567 7,522 8,028",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2024 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": "ice",
+      "criminality": "other_immigration_violator",
+      "value": 3425,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "60,000 9,171 2,540 3,425",
+      "chart": {
+        "page": 32,
+        "figure": "Figure 25",
+        "read": "FY2024 bar, label above the top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 110104,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 1. FY2016 - FY2018 ERO Administrative Arrests",
+      "chart": {
+        "page": 2,
+        "figure": "Figure 1",
+        "read": "FY2016 bar: 110,104"
+      },
+      "figure_file": "ice-ero-report-fy2018-p02-figure1.png",
+      "corroboration": [],
+      "note_ids": [
+        "administrative-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 143470,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "In FY2017, ICE ERO conducted 143,470 overall administrative arrests",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "150,000 143,470 143,099",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 9",
+            "read": "FY2017 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 158581,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "With 158,581 administrative arrests in FY2018",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "158,581",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 9",
+            "read": "FY2018 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 143099,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "150,000 143,470 143,099",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 9",
+        "read": "FY2019 bar total, above the bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 103603,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "text",
+      "evidence": "There were 103,603 ERO administrative arrests in FY 2020",
+      "corroboration": [],
+      "note_ids": [
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 170590,
+      "status": "final",
+      "source": "ice-fy2023-annual-report-release",
+      "evidence_kind": "text",
+      "evidence": "ERO conducted 170,590 administrative arrests in FY 2023",
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "when ERO conducted a total of 170,590 arrests"
+        }
+      ],
+      "note_ids": [
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 113431,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "text",
+      "evidence": "In FY 2024, ERO arrested 113,431 noncitizens",
+      "corroboration": [],
+      "note_ids": [
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 94751,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 2. FY2016 - FY2018 ERO Administrative Arrests by Criminality",
+      "chart": {
+        "page": 3,
+        "figure": "Figure 2",
+        "read": "FY2016 group, first (blue, Convicted Criminal) bar: 94,751"
+      },
+      "figure_file": "ice-ero-report-fy2018-p03-figure2.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 6267,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 2. FY2016 - FY2018 ERO Administrative Arrests by Criminality",
+      "chart": {
+        "page": 3,
+        "figure": "Figure 2",
+        "read": "FY2016 group, second (red, Pending Criminal Charges) bar: 6,267"
+      },
+      "figure_file": "ice-ero-report-fy2018-p03-figure2.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 9086,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 2. FY2016 - FY2018 ERO Administrative Arrests by Criminality",
+      "chart": {
+        "page": 3,
+        "figure": "Figure 2",
+        "read": "FY2016 group, third (green, Other Immigration Violators) bar: 9,086"
+      },
+      "figure_file": "ice-ero-report-fy2018-p03-figure2.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 105736,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "Criminal Convictions 105,736 73.7%",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2018",
+          "evidence": "at 105,736 and 105,140 respectively"
+        },
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "50,000 105,736 105,140",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 9",
+            "read": "FY2017 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 22256,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "Pending Criminal Charges 22,256 15.5%",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "22,256 32,977",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 9",
+            "read": "FY2017 bar, middle (Pending Criminal Charges) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 15478,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "No Known Criminal Charges or Convictions 15,478 10.8%",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "15,478 19,971",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 9",
+            "read": "FY2017 bar, top (Other Immigration Violator) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 105140,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "at 105,736 and 105,140 respectively",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "50,000 105,736 105,140",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 9",
+            "read": "FY2018 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 32977,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "22,256 32,977",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 9",
+        "read": "FY2018 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 20464,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "20,464",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 9",
+        "read": "FY2018 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 92108,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "92,108",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 9",
+        "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "2,000,000 92,108",
+          "chart": {
+            "page": 17,
+            "figure": "Figure 6",
+            "read": "FY2019 group, first (Convicted Criminal) bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 31020,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "31,020",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 9",
+        "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "31,020 32,119",
+          "chart": {
+            "page": 17,
+            "figure": "Figure 6",
+            "read": "FY2019 group, second (Pending Criminal Charges) bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 19971,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "15,478 19,971",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 9",
+        "read": "FY2019 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "500,000 19,971 20,056",
+          "chart": {
+            "page": 17,
+            "figure": "Figure 6",
+            "read": "FY2019 group, third (Other Immigration Violator) bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 70607,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "70,607",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2020 group, first (dark blue, Convicted Criminal) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 22454,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "22,454 23,624",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2020 group, second (light blue, Pending Criminal Charges) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 10542,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "10,542 20,000",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2020 group, third (grey, Other Immigration Violator) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 36619,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "36,619 36,322 40,000",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2021 group, first (dark blue, Convicted Criminal) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "arrest-totals-not-printed-fy2021-2022"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 8813,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "8,813 10,074",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2021 group, second (light blue, Pending Criminal Charges) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "arrest-totals-not-printed-fy2021-2022"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 28650,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "28,650",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2021 group, third (grey, Other Immigration Violator) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "arrest-totals-not-printed-fy2021-2022"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 36322,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "36,619 36,322 40,000",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2022 group, first (dark blue, Convicted Criminal) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "arrest-totals-not-printed-fy2021-2022"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 10074,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "8,813 10,074",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2022 group, second (light blue, Pending Criminal Charges) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "arrest-totals-not-printed-fy2021-2022"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 96354,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "96,354 96,768 100,000",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2022 group, third (grey, Other Immigration Violator) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition",
+        "arrest-totals-not-printed-fy2021-2022"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 53766,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "53,766 60,000",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2023 group, first (dark blue, Convicted Criminal) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 20056,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "500,000 19,971 20,056",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2023 group, second (light blue, Pending Criminal Charges) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 96768,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "96,354 96,768 100,000",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2023 group, third (grey, Other Immigration Violator) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 57688,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "57,688",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2024 group, first (dark blue, Convicted Criminal) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 23624,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "22,454 23,624",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2024 group, second (light blue, Pending Criminal Charges) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 32119,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "31,020 32,119",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 6",
+        "read": "FY2024 group, third (grey, Other Immigration Violator) bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2025,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted_or_pending",
+      "value": 167651,
+      "status": "preliminary",
+      "source": "dhs-fy2027-ice-budget",
+      "evidence_kind": "text",
+      "evidence": "In FY 2025, ICE made 167,651 arrests of aliens with criminal convictions or pending criminal charges",
+      "corroboration": [
+        {
+          "source": "dhs-fy2027-ice-budget",
+          "evidence": "Results: --- --- --- 81,312 167,651 TBD TBD"
+        }
+      ],
+      "note_ids": [
+        "criminality-combined-fy2025",
+        "administrative-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 30348,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "total at-large arrests in FY2017 increased to 40,066 from 30,348 in FY2016",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2018",
+          "evidence": "significantly higher compared to the 30,348 from FY2016"
+        }
+      ],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 40066,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "total at-large arrests in FY2017 increased to 40,066 from 30,348 in FY2016",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2018",
+          "evidence": "with a 1 percent overall increase from 40,066 in FY2017 to 40,536 in FY2018"
+        },
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "40,066 40,536",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 10",
+            "read": "FY2017 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 40536,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "with a 1 percent overall increase from 40,066 in FY2017 to 40,536 in FY2018",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "40,066 40,536",
+          "chart": {
+            "page": 13,
+            "figure": "Figure 10",
+            "read": "FY2018 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 35666,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "40,000 35,666",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2019 bar total, above the bar"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "35,666 33,242",
+          "chart": {
+            "page": 18,
+            "figure": "Figure 8",
+            "read": "FY2019 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 23932,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "23,932 25,993",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2020 bar total, above the bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 25993,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "23,932 25,993",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2021 bar total, above the bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 85343,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "85,343",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2022 bar total, above the bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 91497,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "text",
+      "evidence": "when ERO conducted 91,497 at-large arrests",
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "100,000 91,497",
+          "chart": {
+            "page": 18,
+            "figure": "Figure 8",
+            "read": "FY2023 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 33242,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "text",
+      "evidence": "33,242, or 29.3%, were conducted at-large",
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "35,666 33,242",
+          "chart": {
+            "page": 18,
+            "figure": "Figure 8",
+            "read": "FY2024 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 24850,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 4. FY2016 - FY2018 At-Large Administrative Arrests by Criminality",
+      "chart": {
+        "page": 6,
+        "figure": "Figure 4",
+        "read": "FY2016 group, first (blue, Convicted Criminal) bar: 24,850"
+      },
+      "figure_file": "ice-ero-report-fy2018-p06-figures3-4.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 1528,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 4. FY2016 - FY2018 At-Large Administrative Arrests by Criminality",
+      "chart": {
+        "page": 6,
+        "figure": "Figure 4",
+        "read": "FY2016 group, second (red, Pending Criminal Charges) bar: 1,528"
+      },
+      "figure_file": "ice-ero-report-fy2018-p06-figures3-4.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 3970,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 4. FY2016 - FY2018 At-Large Administrative Arrests by Criminality",
+      "chart": {
+        "page": 6,
+        "figure": "Figure 4",
+        "read": "FY2016 group, third (green, Other Immigration Violator) bar: 3,970"
+      },
+      "figure_file": "ice-ero-report-fy2018-p06-figures3-4.png",
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 26466,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "26,466",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2017 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 4776,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "4,776",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2017 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 8824,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "8,824 10,987",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2017 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 23124,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "23,124",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2018 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 6425,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "6,425",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2018 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 10987,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "8,824 10,987",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2018 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 19773,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "10,000 19,773",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "10,000 19,773 1,402 1,754",
+          "chart": {
+            "page": 18,
+            "figure": "Figure 8",
+            "read": "FY2019 bar, bottom (Convicted Criminal) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 5648,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "5,648",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "5,648 18,391",
+          "chart": {
+            "page": 18,
+            "figure": "Figure 8",
+            "read": "FY2019 bar, middle (Pending Criminal Charges) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 10245,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "30,000 10,245",
+      "chart": {
+        "page": 13,
+        "figure": "Figure 10",
+        "read": "FY2019 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "10,245",
+          "chart": {
+            "page": 18,
+            "figure": "Figure 8",
+            "read": "FY2019 bar, top (Other Immigration Violator) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 13303,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "13,303 9,664 11,457",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2020 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 4034,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "20,000 4,034 18,342",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2020 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 6595,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "6,595",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2020 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 6249,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "6,249 6,127",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2021 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 1402,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "10,000 19,773 1,402 1,754",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2021 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 18342,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "20,000 4,034 18,342",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2021 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 6127,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "6,249 6,127",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2022 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 1754,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "10,000 19,773 1,402 1,754",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2022 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 77462,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "50,000 77,462",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2022 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 9664,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "13,303 9,664 11,457",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2023 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 2712,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "2,712 3,394",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2023 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 79121,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "79,121",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2023 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "convicted",
+      "value": 11457,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "13,303 9,664 11,457",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2024 bar, bottom (Convicted Criminal) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "pending_charges",
+      "value": 3394,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "2,712 3,394",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2024 bar, middle (Pending Criminal Charges) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": "other_immigration_violator",
+      "value": 18391,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "5,648 18,391",
+      "chart": {
+        "page": 18,
+        "figure": "Figure 8",
+        "read": "FY2024 bar, top (Other Immigration Violator) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "criminality-definition",
+        "at-large-arrest-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 86026,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "In FY2017, ERO issued 142,356 detainers, up 65 percent from 86,026 in FY2016",
+      "corroboration": [],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 142356,
+      "status": "final",
+      "source": "ice-removal-statistics-2017",
+      "evidence_kind": "text",
+      "evidence": "In FY2017, ERO issued 142,356 detainers, up 65 percent from 86,026 in FY2016",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2018",
+          "evidence": "an increase of 24 percent from the 142,356 detainers issued in FY2017"
+        },
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "150,000 142,356",
+          "chart": {
+            "page": 17,
+            "figure": "Figure 12",
+            "read": "FY2017 bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 177147,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "In FY2018, ERO issued 177,147 detainers",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "177,147",
+          "chart": {
+            "page": 17,
+            "figure": "Figure 12",
+            "read": "FY2018 bar"
+          }
+        },
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "200,000 177,147",
+          "chart": {
+            "page": 21,
+            "figure": "Figure 11",
+            "read": "FY2018 bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 165487,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "165,487",
+      "chart": {
+        "page": 17,
+        "figure": "Figure 12",
+        "read": "FY2019 bar"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "165,487",
+          "chart": {
+            "page": 21,
+            "figure": "Figure 11",
+            "read": "FY2019 bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 122233,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "text",
+      "evidence": "In FY 2020, ICE ERO issued 122,233 detainers",
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "122,233 125,358",
+          "chart": {
+            "page": 21,
+            "figure": "Figure 11",
+            "read": "FY2020 bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 65940,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "65,940",
+      "chart": {
+        "page": 21,
+        "figure": "Figure 11",
+        "read": "FY2021 bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 78829,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "100,000 78,829",
+      "chart": {
+        "page": 21,
+        "figure": "Figure 11",
+        "read": "FY2022 bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 125358,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "text",
+      "evidence": "when ERO issued 125,358 detainers",
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "122,233 125,358",
+          "chart": {
+            "page": 21,
+            "figure": "Figure 11",
+            "read": "FY2023 bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "detainers_issued",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 149764,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "text",
+      "evidence": "In FY 2024, ERO issued 149,764 detainers",
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "149,764",
+          "chart": {
+            "page": 21,
+            "figure": "Figure 11",
+            "read": "FY2024 bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "detainer-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "initial_book_ins",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 352882,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "compared to FY2016 (352,882)",
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "initial_book_ins",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 323591,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "while overall ICE initial book-ins went down in FY2017 (323,591)",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "323,591",
+          "chart": {
+            "page": 5,
+            "figure": "Figure 1",
+            "read": "FY2017 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "initial_book_ins",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 396448,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "total book-ins increased in FY2018 to 396,448",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "396,448 (27%)",
+          "chart": {
+            "page": 5,
+            "figure": "Figure 1",
+            "read": "FY2018 bar total, above the bar"
+          }
+        }
+      ],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "initial_book_ins",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 510854,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "510,854",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 1",
+        "read": "FY2019 bar total, above the bar"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "initial_book_ins",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 182869,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "text",
+      "evidence": "Overall, there were 182,869 initial book-ins to ICE custody in FY 2020",
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "initial_book_ins",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 108372,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 7. FY2016 - FY2018 Initial Book-ins to ICE Detention by Arresting Agency",
+      "chart": {
+        "page": 8,
+        "figure": "Figure 7",
+        "read": "FY2016 group, first (blue, ICE) bar: 108,372"
+      },
+      "figure_file": "ice-ero-report-fy2018-p08-figures6-7.png",
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2016,
+      "metric": "initial_book_ins",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 244510,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "figure",
+      "evidence": "Figure 7. FY2016 - FY2018 Initial Book-ins to ICE Detention by Arresting Agency",
+      "chart": {
+        "page": 8,
+        "figure": "Figure 7",
+        "read": "FY2016 group, second (red, CBP) bar: 244,510"
+      },
+      "figure_file": "ice-ero-report-fy2018-p08-figures6-7.png",
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition",
+        "fy2016-read-from-image-charts"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "initial_book_ins",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 139553,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "139,553",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 1",
+        "read": "FY2017 bar, upper (ICE) segment, 43%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2017,
+      "metric": "initial_book_ins",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 184038,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "100,000 184,038 (61%)",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 1",
+        "read": "FY2017 bar, lower (CBP) segment, 57%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "initial_book_ins",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 153670,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "153,670",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 1",
+        "read": "FY2018 bar, upper (ICE) segment, 39%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "initial_book_ins",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 242778,
+      "status": "final",
+      "source": "ice-ero-report-fy2018",
+      "evidence_kind": "text",
+      "evidence": "book-ins from CBP increased 32 percent in FY2018 to 242,778",
+      "corroboration": [
+        {
+          "source": "ice-ero-report-fy2019",
+          "evidence": "242,778",
+          "chart": {
+            "page": 5,
+            "figure": "Figure 1",
+            "read": "FY2018 bar, lower (CBP) segment, 61%"
+          }
+        }
+      ],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "initial_book_ins",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 137084,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "137,084",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 1",
+        "read": "FY2019 bar, upper (ICE) segment, 27%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "initial_book_ins",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 373770,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "200,000 373,770",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 1",
+        "read": "FY2019 bar, lower (CBP) segment, 73%"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "initial_book_ins",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 99774,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "figure",
+      "evidence": "Figure 1: FY 2018 - FY 2020 ICE Initial Book-Ins by Arresting Agency",
+      "chart": {
+        "page": 7,
+        "figure": "Figure 1",
+        "read": "FY2020 bar, upper (light blue, ICE) segment: 99,774"
+      },
+      "figure_file": "ice-ero-report-fy2020-p07-figures1-2.png",
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "initial_book_ins",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 83095,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "figure",
+      "evidence": "Figure 1: FY 2018 - FY 2020 ICE Initial Book-Ins by Arresting Agency",
+      "chart": {
+        "page": 7,
+        "figure": "Figure 1",
+        "read": "FY2020 bar, lower (dark blue, CBP) segment: 83,095"
+      },
+      "figure_file": "ice-ero-report-fy2020-p07-figures1-2.png",
+      "corroboration": [],
+      "note_ids": [
+        "initial-book-in-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 42188,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "figure",
+      "evidence": "Figure 3: FY 2018 - FY 2020 Average Daily Population by Arresting Agency",
+      "chart": {
+        "page": 8,
+        "figure": "Figure 3",
+        "read": "FY2018 bar total, above the bar: 42,188"
+      },
+      "figure_file": "ice-ero-report-fy2020-p08-figures3-4.png",
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 50165,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "text",
+      "evidence": "ERO's ADP reached 50,165 in FY 2019",
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 33724,
+      "status": "final",
+      "source": "ice-ero-report-fy2020",
+      "evidence_kind": "text",
+      "evidence": "In FY 2020, the ADP was 33,724",
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 19461,
+      "status": "final",
+      "source": "dhs-fy2027-ice-budget",
+      "evidence_kind": "text",
+      "evidence": "Results: 19,461 22,630 28,289 37,722 48,706 TBD TBD",
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "detention-adp-budget-source"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 22630,
+      "status": "final",
+      "source": "dhs-fy2027-ice-budget",
+      "evidence_kind": "text",
+      "evidence": "Results: 19,461 22,630 28,289 37,722 48,706 TBD TBD",
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "detention-adp-budget-source"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 28289,
+      "status": "final",
+      "source": "ice-fy2023-annual-report-release",
+      "evidence_kind": "text",
+      "evidence": "a daily average of 28,289 people in ICE custody",
+      "corroboration": [
+        {
+          "source": "dhs-fy2027-ice-budget",
+          "evidence": "Results: 19,461 22,630 28,289 37,722 48,706 TBD TBD"
+        }
+      ],
+      "note_ids": [
+        "detention-adp-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 37722,
+      "status": "final",
+      "source": "dhs-fy2027-ice-budget",
+      "evidence_kind": "text",
+      "evidence": "Results: 19,461 22,630 28,289 37,722 48,706 TBD TBD",
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "detention-adp-budget-source"
+      ]
+    },
+    {
+      "fy": 2025,
+      "metric": "detention_adp",
+      "arresting_agency": null,
+      "criminality": null,
+      "value": 48706,
+      "status": "preliminary",
+      "source": "dhs-fy2027-ice-budget",
+      "evidence_kind": "text",
+      "evidence": "ended FY 2025 at 48,706",
+      "corroboration": [
+        {
+          "source": "dhs-fy2027-ice-budget",
+          "evidence": "Results: 19,461 22,630 28,289 37,722 48,706 TBD TBD"
+        }
+      ],
+      "note_ids": [
+        "detention-adp-definition",
+        "detention-adp-budget-source"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 22969,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "22,969 (60%)",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 2",
+        "read": "FY2018 pie, ICE slice (54%)"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2018,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 19219,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "19,219",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 2",
+        "read": "FY2018 pie, CBP slice (46%)"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 20115,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "CBP 20,115",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 2",
+        "read": "FY2019 pie, ICE slice (40%)"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "20,115",
+          "chart": {
+            "page": 25,
+            "figure": "Figure 17",
+            "read": "FY2019 bar, upper (ICE) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2019,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 30050,
+      "status": "final",
+      "source": "ice-ero-report-fy2019",
+      "evidence_kind": "chart_label",
+      "evidence": "ICE 30,050 (40%)",
+      "chart": {
+        "page": 5,
+        "figure": "Figure 2",
+        "read": "FY2019 pie, CBP slice (60%)"
+      },
+      "corroboration": [
+        {
+          "source": "ice-annual-report-fy2024",
+          "evidence": "30,050 7,441",
+          "chart": {
+            "page": 25,
+            "figure": "Figure 17",
+            "read": "FY2019 bar, lower (CBP) segment"
+          }
+        }
+      ],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 16626,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "16,626 9,377",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2020 bar, upper (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2020,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 17098,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "10,000 17,098 16,936 18,912",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2020 bar, lower (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 7441,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "30,050 7,441",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2021 bar, upper (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2021,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 12020,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "12,020",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2021 bar, lower (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 5694,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "20,000 5,694",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2022 bar, upper (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2022,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 16936,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "10,000 17,098 16,936 18,912",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2022 bar, lower (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 9377,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "16,626 9,377",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2023 bar, upper (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2023,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 18912,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "10,000 17,098 16,936 18,912",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2023 bar, lower (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "detention_adp",
+      "arresting_agency": "ice",
+      "criminality": null,
+      "value": 12232,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "12,232",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2024 bar, upper (ICE) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    },
+    {
+      "fy": 2024,
+      "metric": "detention_adp",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "value": 25489,
+      "status": "final",
+      "source": "ice-annual-report-fy2024",
+      "evidence_kind": "chart_label",
+      "evidence": "25,489",
+      "chart": {
+        "page": 25,
+        "figure": "Figure 17",
+        "read": "FY2024 bar, lower (CBP) segment"
+      },
+      "corroboration": [],
+      "note_ids": [
+        "detention-adp-definition",
+        "arresting-agency-definition"
+      ]
+    }
+  ],
+  "sum_checks": [
+    {
+      "fy": 2016,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": [
+        "pending_charges",
+        "other_immigration_violator"
+      ],
+      "value": 101586,
+      "source": "ice-removal-statistics-2016",
+      "evidence": "Of the 101,586 aliens removed who had no criminal conviction"
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 88763,
+      "source": "ice-annual-report-fy2024",
+      "evidence": "Of the 271,484 removals, 88,763 - or 32.7% - had criminal histories"
+    },
+    {
+      "fy": 2024,
+      "metric": "removals",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 88763,
+      "source": "dhs-fy2027-ice-budget",
+      "evidence": "Results: --- --- --- 88,763 166,939 TBD TBD"
+    },
+    {
+      "fy": 2018,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 138117,
+      "source": "ice-ero-report-fy2018",
+      "evidence": "In FY2018, ERO arrested 138,117 aliens with criminal histories (convicted criminal and pending criminal charges)"
+    },
+    {
+      "fy": 2019,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 123128,
+      "source": "ice-ero-report-fy2019",
+      "evidence": "Of the 123,128 ERO administrative arrests in FY 2019 with criminal convictions or pending criminal charges"
+    },
+    {
+      "fy": 2020,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 93061,
+      "source": "ice-ero-report-fy2020",
+      "evidence": "Of the 93,061 ERO administrative arrests with criminal convictions or pending criminal charges in FY 2020"
+    },
+    {
+      "fy": 2023,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 73822,
+      "source": "ice-fy2023-annual-report-release",
+      "evidence": "ERO arrested 73,822 noncitizens with a criminal history"
+    },
+    {
+      "fy": 2023,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 73822,
+      "source": "ice-annual-report-fy2024",
+      "evidence": "73,822, or 43%, of the 170,590 ERO arrested in FY 2023 had criminal histories"
+    },
+    {
+      "fy": 2024,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 81312,
+      "source": "ice-annual-report-fy2024",
+      "evidence": "In FY 2024, 81,312, or 71.7%, of the 113,431 noncitizens ERO arrested were convicted criminals or had pending criminal charges"
+    },
+    {
+      "fy": 2024,
+      "metric": "administrative_arrests",
+      "arresting_agency": null,
+      "criminality": [
+        "convicted",
+        "pending_charges"
+      ],
+      "value": 81312,
+      "source": "dhs-fy2027-ice-budget",
+      "evidence": "Results: --- --- --- 81,312 167,651 TBD TBD"
+    }
+  ],
+  "sum_exceptions": [
+    {
+      "fy": 2024,
+      "metric": "detention_adp",
+      "dimension": "arresting_agency",
+      "slice": null,
+      "parts_sum": 37721,
+      "total": 37722,
+      "reason": "Rounding. ICE's FY2024 annual report (Figure 17) prints the ICE (12,232) and CBP (25,489) averages, each rounded to a whole person; the total, 37,722, comes from the FY2027 budget overview. Average daily populations are not whole counts, so separately rounded parts can miss the rounded total by one."
+    }
+  ],
+  "disagreements": [
+    {
+      "fy": 2014,
+      "metric": "removals",
+      "arresting_agency": "cbp",
+      "criminality": null,
+      "source": "ice-immigration-removals-fy2014",
+      "printed": 213179,
+      "evidence": "In FY 2014, ICE conducted 213,179 removals of recent border crossers.",
+      "used": 213719,
+      "resolution": "Typo in the FY2014 report's prose. The same report's bullet and its Border Patrol + Field Operations table (205,058 + 8,661) give 213,719, which also completes the national total (102,224 + 213,719 = 315,943); the FY2015 report's Figure 6 prints 213,719."
+    },
+    {
+      "fy": 2024,
+      "metric": "at_large_arrests",
+      "arresting_agency": null,
+      "criminality": null,
+      "source": "ice-annual-report-fy2024",
+      "printed": 33243,
+      "evidence": "During FY 2024, ERO conducted 113,431 administrative arrests, including 33,243 at-large arrests",
+      "used": 33242,
+      "resolution": "The FY2024 report's summary page says 33,243; its at-large section and Figure 8 say 33,242, and Figure 8's three categories sum to 33,242. 33,242 is used."
     }
   ],
   "notes": [
@@ -602,6 +5378,141 @@
       "title": "FY2025 comes from ICE's budget submission and is preliminary",
       "text": "No ICE annual report or locked statistics file for FY2025 has been published. The figure is ICE's reported result for the measure 'total number of aliens returned and removed' in its FY2027 budget overview (a DHS document). The same table reports FY2024 as 271,484, identical to the annual report. Marked preliminary because ICE has not confirmed it as locked and may restate it.",
       "source": "dhs-fy2027-ice-budget"
+    },
+    {
+      "id": "arresting-agency-definition",
+      "kind": "context",
+      "fy_start": 2008,
+      "fy_end": null,
+      "title": "Arresting agency is who first apprehended the person",
+      "text": "ICE splits its removals, book-ins and detention population by the agency that first apprehended the person. ICE's FY2024 annual report: \"The 'ICE' Arresting Agency includes ERO, HSI and other programs. The 'CBP' Arresting Agency includes the following programs: Border Patrol, Inspections, Inspections-Air, Inspections-Land and Inspections-Sea.\" A CBP row is still an ICE count (ICE removed or detained someone CBP apprehended), not a CBP figure. It is not strictly interior versus border: CBP includes ports of entry, and ICE removals of people ICE arrested are what ICE calls interior removals.",
+      "source": "ice-annual-report-fy2024"
+    },
+    {
+      "id": "interior-border-labels-pre-fy2016",
+      "kind": "definition_change",
+      "fy_start": 2008,
+      "fy_end": 2016,
+      "title": "Through FY2016 ICE called the split interior and border removals",
+      "text": "ICE's FY2013–FY2016 reports split removals into interior and border removals rather than by arresting agency. Their definitions: \"Interior Removal: An individual removed by ICE who is identified or apprehended in the United States by an ICE officer or agent. This category excludes those apprehended at the immediate border while attempting to unlawfully enter the United States.\" \"Border Removal: An individual removed by ICE who is apprehended by a CBP officer or agent while attempting to illicitly enter the United States at or between the ports of entry.\" They are stored as arresting agency ICE and CBP. FY2016 appears under both labels with identical figures (65,332 and 174,923 in the FY2016 report; the same as removals by arresting agency in the FY2018 report).",
+      "source": "ice-removal-statistics-2016"
+    },
+    {
+      "id": "agency-fy2008-2012-from-chart",
+      "kind": "caveat",
+      "fy_start": 2008,
+      "fy_end": 2012,
+      "title": "FY2008–FY2012 interior and border removals are read from a chart",
+      "text": "These come from the bar labels of Figure 6 (FY 2008-2015 ICE Removals, Interior and Border) in ICE's FY2015 report, the only saved ICE document that covers these years. The text layer prints the labels out of order, so each was assigned to its year and segment from the rendered page. Each year's two labels add up to ICE's total removals for that year.",
+      "source": "ice-ero-report-fy2015"
+    },
+    {
+      "id": "criminality-definition",
+      "kind": "context",
+      "fy_start": 2016,
+      "fy_end": null,
+      "title": "Criminality is what ICE's systems recorded at the time",
+      "text": "ICE's definitions (FY2019 report): \"Convicted Criminal: Immigration Violators with a criminal conviction entered into ICE systems of record at the time of the enforcement action; Pending Criminal Charges: Immigration Violators with pending criminal charges entered into ICE system of record at the time of the enforcement action; Other Immigration Violators: Immigration Violators without any known criminal convictions, or pending charges entered into ICE system of record at the time of the enforcement action.\" Convictions include immigration crimes: \"Immigration crimes include 'illegal entry,' 'illegal reentry,' 'false claim to U.S. citizenship,' and 'alien smuggling.'\" (FY2018 report). A person with both a conviction and pending charges is counted as convicted (FY2017 report). \"Other immigration violator\" means no record in ICE's systems at that moment; it is not a finding about the person's history.",
+      "source": "ice-ero-report-fy2019"
+    },
+    {
+      "id": "criminality-convicted-only-pre-fy2016",
+      "kind": "definition_change",
+      "fy_start": 2013,
+      "fy_end": 2015,
+      "title": "FY2013–FY2015: convicted or not, no pending-charges category",
+      "text": "ICE's FY2013–FY2015 reports split removals only into convicted criminals and removals without a criminal conviction; pending charges are not a separate category, so those years have two categories, not three (none is set to zero). ICE's definition then: \"ICE defines criminality via a recorded criminal conviction obtained by ICE officers and agents from certified criminal history repositories.\" (FY2014 report); \"Criminality is determined by the existence of a criminal conviction within the Crime Entry Screen for an individual.\" (FY2015 report). ICE prints earlier convicted counts (FY2007, FY2008) but warns that its crime entry screen did not exist before 2011, so they are not used.",
+      "source": "ice-immigration-removals-fy2014"
+    },
+    {
+      "id": "criminality-fy2016-three-way-restated",
+      "kind": "caveat",
+      "fy_start": 2016,
+      "fy_end": 2016,
+      "title": "FY2016's three categories come from the FY2018 report",
+      "text": "ICE's own FY2016 report split removals two ways: 138,669 convicted and 101,586 without a conviction. Its FY2018 report splits FY2016 three ways (138,669 convicted, 12,163 pending charges, 89,423 other immigration violators). The two agree: 12,163 + 89,423 = 101,586. The three-way split is used.",
+      "source": "ice-ero-report-fy2018"
+    },
+    {
+      "id": "criminality-combined-fy2025",
+      "kind": "caveat",
+      "fy_start": 2025,
+      "fy_end": 2025,
+      "title": "FY2025: convicted and pending charges combined, no split",
+      "text": "The only FY2025 criminality figures are two performance measures in ICE's FY2027 budget overview (a DHS document): removals and arrests of people \"with criminal convictions or pending criminal charges\". They are not split between the two, and there is no figure for other immigration violators. The budget's definition: \"An alien's status as a convicted criminal or pending criminal is determined at the time of booking into custody, based on their criminal history record in the Enforcement Integrated Database.\" For FY2024 the same measures (88,763 removals, 81,312 arrests) equal the annual report's convicted plus pending charges. Preliminary, like every FY2025 figure.",
+      "source": "dhs-fy2027-ice-budget"
+    },
+    {
+      "id": "administrative-arrest-definition",
+      "kind": "context",
+      "fy_start": 2016,
+      "fy_end": null,
+      "title": "ERO administrative arrests",
+      "text": "\"An administrative arrest is the arrest of an alien for a civil violation of U.S. immigration laws, which is subsequently adjudicated by an immigration judge or through other administrative processes.\" \"ERO administrative arrests include all ERO programs. All statistics are attributed to the current program of the processing officer of an enforcement action.\" (FY2018 report). These are ICE ERO arrests only; Border Patrol apprehensions are not included.",
+      "source": "ice-ero-report-fy2018"
+    },
+    {
+      "id": "at-large-arrest-definition",
+      "kind": "context",
+      "fy_start": 2016,
+      "fy_end": null,
+      "title": "At-large arrests are a subset of administrative arrests",
+      "text": "\"An ERO at-large arrest is conducted in the community, as opposed to a custodial setting such as a prison or jail.\" \"ERO administrative arrests reported as 'at-large' include records from all ERO Programs with Arrest Methods of Located, Non-Custodial Arrest, or Probation and Parole.\" (FY2018 report). Every at-large arrest is also counted in administrative arrests.",
+      "source": "ice-ero-report-fy2018"
+    },
+    {
+      "id": "detainer-definition",
+      "kind": "context",
+      "fy_start": 2016,
+      "fy_end": null,
+      "title": "Detainers issued",
+      "text": "\"A detainer is a request to the receiving law enforcement agency to both notify DHS as early as practicable before a removable alien is released from criminal custody, and to maintain custody of the alien for a period not to exceed 48 hours beyond the time the alien would otherwise have been released to allow DHS to assume custody for removal purposes.\" (FY2018 report). This counts detainers ICE issued, not ones honored, and not people (one person can have more than one).",
+      "source": "ice-ero-report-fy2018"
+    },
+    {
+      "id": "initial-book-in-definition",
+      "kind": "context",
+      "fy_start": 2016,
+      "fy_end": null,
+      "title": "Initial book-ins",
+      "text": "\"An initial book-in is the first book-in to an ICE detention facility to begin a new detention stay. This population includes aliens initially apprehended by CBP who are transferred to ICE for detention and removal.\" (FY2018 report). Transfers between facilities are not counted.",
+      "source": "ice-ero-report-fy2018"
+    },
+    {
+      "id": "detention-adp-definition",
+      "kind": "context",
+      "fy_start": 2018,
+      "fy_end": null,
+      "title": "Average daily population in ICE detention",
+      "text": "\"ERO's Average Daily Population (ADP) measures the number of individuals in ICE custody on an average day during the fiscal year.\" (FY2019 report). \"ICE Detention data exclude ORR transfers/facilities, as well as U.S. Marshals Service Prisoners.\" (FY2024 report). An average, not a count of people detained during the year.",
+      "source": "ice-ero-report-fy2019"
+    },
+    {
+      "id": "detention-adp-budget-source",
+      "kind": "caveat",
+      "fy_start": 2021,
+      "fy_end": 2025,
+      "title": "Some detention totals come from ICE's budget submission",
+      "text": "ICE's FY2024 annual report charts the average daily population by arresting agency but prints no total. The FY2021, FY2022, FY2024 and FY2025 totals come from the performance measure 'Average daily population of aliens maintained in detention facilities' in ICE's FY2027 budget overview (a DHS document); FY2023 also appears in ICE's FY2023 annual-report release. FY2021–FY2023 equal the sum of the two agencies exactly; FY2024's parts sum to 37,721 against 37,722 (rounding). FY2025 is preliminary.",
+      "source": "dhs-fy2027-ice-budget"
+    },
+    {
+      "id": "fy2016-read-from-image-charts",
+      "kind": "caveat",
+      "fy_start": 2016,
+      "fy_end": 2016,
+      "title": "Some FY2016 figures are read from chart images",
+      "text": "ICE's FY2018 report is the only saved ICE document with FY2016 administrative arrests, at-large arrests by criminality, initial book-ins by arresting agency, and the FY2016 other-immigration-violator removals. Its charts are images with no text layer, so those numbers are read from snapshots of the rendered pages (in pipeline/raw/ice). Where the report's prose prints a related number, it agrees: 143,470 − 33,366 = 110,104 arrests; 105,736 − 10,985 = 94,751 convicted arrests; 12,163 + 89,423 = 101,586 removals without a conviction.",
+      "source": "ice-ero-report-fy2018"
+    },
+    {
+      "id": "arrest-totals-not-printed-fy2021-2022",
+      "kind": "caveat",
+      "fy_start": 2021,
+      "fy_end": 2022,
+      "title": "No printed arrest total for FY2021–FY2022",
+      "text": "ICE's FY2024 annual report charts FY2021 and FY2022 administrative arrests by criminality (Figure 6) but prints no total, and ICE's FY2021–FY2022 annual reports could not be retrieved. The three categories are complete, so they add up to the year's arrests, but no ICE total is stored to check them against.",
+      "source": "ice-annual-report-fy2024"
     }
   ]
 }

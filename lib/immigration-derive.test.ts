@@ -1,9 +1,20 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { enforcementNote, enforcementReport, enforcementRow } from "./enforcement-entities";
+import { enforcementNote, enforcementReport, enforcementRow, isNationalRemovals } from "./enforcement-entities";
 import { administration } from "./executive-orders-entities";
-import { assertEnforcementInvariants, buildImmigrationData, filterYears, showsPendingSlot, termOptionLabel, termsNewestFirst, yDomainMax } from "./immigration-derive";
+import {
+  assertBreakdownInvariants,
+  assertEnforcementInvariants,
+  buildImmigrationData,
+  criminalityScheme,
+  filterYears,
+  seriesValues,
+  showsPendingSlot,
+  termOptionLabel,
+  termsNewestFirst,
+  yDomainMax,
+} from "./immigration-derive";
 import { fyPosition, labelsBar, shadeSpan, slotLayout, termSegments, valueLabel, visibleMarkers, yearLabel, yearLabelMode } from "./immigration-chart";
 
 const OUT = join(process.cwd(), "pipeline", "output");
@@ -16,15 +27,76 @@ const data = buildImmigrationData(rows, notes, report, admins);
 
 describe("series invariants (real files)", () => {
   it("23 contiguous years, one preliminary, days and attribution consistent", () => {
-    expect(rows).toHaveLength(23);
+    expect(rows.filter(isNationalRemovals)).toHaveLength(23);
     expect(() => assertEnforcementInvariants(rows, report, admins)).not.toThrow();
   });
   it("fails loudly when the data drifts", () => {
-    expect(() => assertEnforcementInvariants(rows.slice(1), report, admins)).toThrow(/starts at 2004/);
+    expect(() => assertEnforcementInvariants(rows.filter((r) => r.period !== 2003), report, admins)).toThrow(/starts at 2004/);
     const bad = rows.map((r) => (r.period === 2021 ? { ...r, administration_term_id: "2017-01-20" } : r));
     expect(() => assertEnforcementInvariants(bad, report, admins)).toThrow(/majority term/);
     const bad2 = rows.map((r) => (r.period === 2013 ? { ...r, value: 1 } : r));
     expect(() => assertEnforcementInvariants(bad2, report, admins)).toThrow(/anchor/);
+  });
+});
+
+describe("breakdowns (real files)", () => {
+  const values = (metric: Parameters<typeof seriesValues>[1]["metric"], agency: "ice" | "cbp" | null = null, crim: Parameters<typeof seriesValues>[1]["criminality"] = null) =>
+    seriesValues(rows, { metric, arresting_agency: agency, criminality: crim });
+  const years = (xs: { fy: number }[]) => xs.map((x) => x.fy);
+  const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+
+  it("covers the years ICE prints, and nothing else", () => {
+    expect(years(values("removals", "ice"))).toEqual(range(2008, 2024));
+    expect(years(values("removals", null, "convicted"))).toEqual(range(2013, 2024));
+    expect(years(values("removals", null, "not_convicted"))).toEqual([2013, 2014, 2015]);
+    expect(years(values("removals", null, "pending_charges"))).toEqual(range(2016, 2024));
+    expect(years(values("removals", null, "convicted_or_pending"))).toEqual([2025]);
+    expect(years(values("removals", "ice", "convicted"))).toEqual(range(2017, 2024));
+    // No ICE document on file prints FY2021–FY2022 arrest totals: absent, not summed or filled.
+    expect(years(values("administrative_arrests"))).toEqual([2016, 2017, 2018, 2019, 2020, 2023, 2024]);
+    expect(years(values("administrative_arrests", null, "convicted"))).toEqual(range(2016, 2024));
+    expect(years(values("at_large_arrests"))).toEqual(range(2016, 2024));
+    expect(years(values("detainers_issued"))).toEqual(range(2016, 2024));
+    expect(years(values("initial_book_ins", "cbp"))).toEqual(range(2016, 2020));
+    expect(years(values("detention_adp"))).toEqual(range(2018, 2025));
+    expect(years(values("detention_adp", "ice"))).toEqual(range(2018, 2024));
+  });
+
+  it("splits criminality two ways through FY2015, three ways from FY2016, combined only in FY2025", () => {
+    expect([2013, 2015, 2016, 2024, 2025, 2012].map((fy) => criminalityScheme(rows, fy, "removals"))).toEqual(["two_way", "two_way", "three_way", "three_way", "partial", null]);
+    expect(criminalityScheme(rows, 2016, "removals", "ice")).toBeNull();
+    expect(criminalityScheme(rows, 2017, "removals", "ice")).toBe("three_way");
+    expect(values("removals", null, "pending_charges").some((v) => v.value === 0)).toBe(false);
+  });
+
+  it("only FY2025 is preliminary, in every series", () => {
+    const prelim = rows.filter((r) => r.status === "preliminary");
+    expect([...new Set(prelim.map((r) => r.period))]).toEqual([2025]);
+    expect(prelim.map((r) => [r.metric, r.arresting_agency, r.criminality])).toEqual([
+      ["removals", null, null],
+      ["removals", null, "convicted_or_pending"],
+      ["administrative_arrests", null, "convicted_or_pending"],
+      ["detention_adp", null, null],
+    ]);
+  });
+
+  it("holds ICE's own figures (spot checks against the reports)", () => {
+    const at = (fy: number, metric: Parameters<typeof seriesValues>[1]["metric"], agency: "ice" | "cbp" | null = null, crim: Parameters<typeof seriesValues>[1]["criminality"] = null) =>
+      values(metric, agency, crim).find((v) => v.fy === fy)?.value;
+    expect([at(2008, "removals", "ice"), at(2008, "removals", "cbp")]).toEqual([234_770, 134_451]); // FY2015 report Fig. 6: interior was the larger part
+    expect([at(2021, "administrative_arrests", null, "pending_charges"), at(2021, "administrative_arrests", null, "other_immigration_violator")]).toEqual([8_813, 28_650]);
+    expect(at(2024, "at_large_arrests")).toBe(33_242);
+    expect([at(2024, "detention_adp"), at(2024, "detention_adp", "ice")! + at(2024, "detention_adp", "cbp")!]).toEqual([37_722, 37_721]);
+  });
+
+  it("fails loudly when a breakdown stops adding up", () => {
+    expect(() => assertBreakdownInvariants(rows, report)).not.toThrow();
+    const bump = rows.map((r) => (r.period === 2019 && r.metric === "removals" && r.arresting_agency === "cbp" && r.criminality === null ? { ...r, value: r.value + 1 } : r));
+    expect(() => assertBreakdownInvariants(bump, report)).toThrow(/FY2019 removals agencies sum to 267259/);
+    const noExc = { ...report, breakdowns: { exceptions: [] } };
+    expect(() => assertBreakdownInvariants(rows, noExc)).toThrow(/FY2024 detention_adp agencies sum to 37721, total 37722/);
+    const mixed = [...rows, { ...rows.find((r) => r.period === 2014 && r.criminality === "convicted")!, criminality: "pending_charges" as const }];
+    expect(() => assertBreakdownInvariants(mixed, report)).toThrow(/mixes criminality schemes/);
   });
 });
 
