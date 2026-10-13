@@ -3,7 +3,7 @@ import type { LawRelatedEntry } from "@/lib/law-details-types";
 import { LINK } from "./LawPeople";
 
 const BADGE = "inline-flex items-center rounded-full border border-line-strong px-2 py-px text-[0.68rem] font-medium text-ink-muted";
-const LIST = "touch-scroll m-0 max-h-[26rem] list-none overflow-y-auto overscroll-contain rounded-md border border-line p-0";
+const LIST = "touch-scroll m-0 max-h-[16rem] list-none overflow-y-auto overscroll-contain rounded-md border border-line p-0";
 
 /** Related bills: label, title, how related; a public law links to its page here, any other bill to Congress.gov. */
 export function RelatedList({ related }: { related: readonly LawRelatedEntry[] }) {
