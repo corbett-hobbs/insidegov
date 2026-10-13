@@ -8,6 +8,7 @@ import type { LawCommitteeEntry, LawPageData } from "@/lib/law-details-types";
 import { ordinal } from "@/lib/laws-entities";
 import { AmendmentsList, RelatedList } from "./LawLists";
 import { CosponsorsHeader } from "./CosponsorsHeader";
+import { LawVotesCard } from "./LawVotesCard";
 import { SummaryBody } from "./SummaryBody";
 import { TimelineList } from "./TimelineList";
 import { Dot, LINK, Person } from "./LawPeople";
@@ -187,7 +188,7 @@ function Votes({ law }: { law: LawPageData }) {
       )}
       <MethodologyNote>
         <p>
-          The final version of the law, as each chamber passed it. A chamber that passed it by voice vote or unanimous consent has no count. “Method not stated” means the record does not say how the chamber voted. Who voted which way is not shown yet, so the bar is not split by party.
+          The final version of the law, as each chamber passed it. A chamber that passed it by voice vote or unanimous consent has no count. “Method not stated” means the record does not say how the chamber voted. Where the record has a member-by-member vote, the “Who voted for it” section shows who voted yea.
         </p>
       </MethodologyNote>
     </section>
@@ -233,6 +234,7 @@ export function LawPageView({ law }: { law: LawPageData }) {
       </PageHeader>
       <Summary law={law} />
       <Timeline law={law} />
+      {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} />}
       {law.full && <Amendments law={law} />}
       <Committees law={law} />
       {law.full && <Related law={law} />}

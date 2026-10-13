@@ -174,12 +174,21 @@ Every public law has a page, `/congress/laws/<law_id>/<title-slug>` (`docs/LAW_P
 - **Upstream clashes.** Two bills can claim one public-law number while a law is pending (the 119th listed 119-120 on both H.R. 766, unsigned, and S. 766, signed). `dropUnsignedClaims` in `billstatus-lib.ts` keeps the signed claim and records a correction in the raw file's `corrections`; two signed claims still stop the transform.
 - **Gate.** The shards' law ids equal `laws.json`'s exactly (`lawIdDifferences`), checked in `law-details-run.ts` and again by `lib/law-details-entities.test.ts`.
 
+## Who voted (Phase 2c)
+
+`pipeline/output/law_votes/<congress>.json` holds, for each law whose final passage has a recorded vote Voteview confirms, the chamber's member-by-member vote (3,116 laws, 3,839 chamber votes as built). The law page's "Who voted for it" section reads it.
+
+- **Which roll call.** The one the Laws transform already joins to a law's final passage in each chamber (`loadLawRollJoins` in `transform/law-votes-join.ts`, the same `buildPassage` that fills `laws.json`). It is used only when Voteview's totals agree with the action text's (exact, within the Laws gate's two-vote tolerance, or a recorded exception). A join found only by date and bill that disagrees might be another vote the same day, so it is dropped and the page shows no list for that chamber. Override votes and concurrence votes that are not the final passage are not shown.
+- **Casts.** Voteview's codes folded to yea (1-3: yea, paired, announced), nay (4-6), present (7-8), did not vote (9), not a member then (0). The President, whom Voteview lists under the chamber on every vote, is excluded.
+- **Gate.** Each member list must add up to Voteview's own yea and nay counts for that roll call, within two votes (Voteview's counts treat paired and announced votes inconsistently: 3,013 of 3,835 match the cast-1 / cast-6 reading exactly and all are within one under the best of three readings). A missing roll call or a larger gap stops the build.
+- **Page.** The chamber's ideology compass for the law's Congress (per-Congress Nokken-Poole positions, as on the Ideology page, from `ideology_scores.json`) with the yea voters highlighted and everyone else faded, then two capped, scrollable lists of the yea voters: Democrats on the left, Republicans on the right (members of neither party are highlighted on the compass and noted, not listed). A House / Senate toggle appears when both chambers have a member vote. Voice votes, unanimous consent and laws newer than Voteview's file (see `rollcalls_manifest.json`) have no list.
+
 ## Freshness
 
 Three weekly jobs keep the page current; none edits data without a gate.
 
 - **`laws-freshness.yml`** (Mondays): `pnpm fetch:billstatus` HEAD-checks GovInfo's Bill Status ZIPs and re-reads a Congress only when one of its ZIPs changed size or Last-Modified (in practice the in-progress Congress, about 50 MB). The Laws transform then re-runs; its count, number-sequence and vote gates throw on any miss. A pull request opens only if the raw files or `pipeline/output/laws*.json` changed, and merges only through the shared `gate-and-merge` action. The 93rd–107th (Congress.gov API) are closed history and are refreshed by hand with `pnpm fetch:laws`.
-- **`voteview-freshness.yml`** (existing): also re-fetches `rollcalls_93on.json`, the file passage tallies are cross-checked against. The gate re-runs the Laws transform, so a roll call that contradicts a law's tally keeps the PR open for a human.
+- **`voteview-freshness.yml`** (existing): also re-fetches `rollcalls_93on.json`, the file passage tallies are cross-checked against, and `pnpm fetch:voteview-votes`, which re-reads a Congress's member votes only when its Voteview files or the set of roll calls laws need changed. The gate re-runs the Laws transform, so a roll call that contradicts a law's tally keeps the PR open for a human.
 - **`laws-major-review.yml`** (Mondays): opens one issue when a Congress has ended and Mayhew's lists do not cover it (`pipeline/validate/laws-major-coverage.ts`). No provisional flag ships, so nothing is flipped; the fix is adding his entries by hand.
 
 A failed or interrupted run leaves the committed raw data and output untouched: a Congress's file (and its `law-extras` file) is written only after all four of its ZIPs were read, and nothing is committed unless every step passed. If govinfo.gov is unreachable the job ends green with a warning.

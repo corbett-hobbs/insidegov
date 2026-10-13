@@ -5,7 +5,7 @@ actions, sponsor, cosponsors, votes, amendments and related bills here instead o
 
 Scope is **laws only**, not every bill. Failed and stalled bills are out of scope.
 
-Status: **Phase 1 built** (2026-10-09); **Phase 2a built** (2026-10-13); 2b, 2c and 2d in progress. Recommended effort: **medium** for Phase 1, **high** for Phase 2.
+Status: **Phase 1 built** (2026-10-09); **Phase 2a and 2c built** (2026-10-13); 2b and 2d in progress. Recommended effort: **medium** for Phase 1, **high** for Phase 2.
 
 ---
 
@@ -126,6 +126,8 @@ Each step is independent and can ship on its own. The page shows a section only 
 - Page: a vote breakdown by party, and member names that link to a profile only where one exists.
 - Limits to show on the page: voice votes and unanimous consent have no member list; many laws have several roll
   calls (House, Senate, concurrence, override), so each is labelled.
+
+**As built (2c).** Raw `pipeline/raw/voteview/law_votes/<congress>.json` (1.5 MB for all 27 Congresses: only the roll calls laws are joined to, one character per member), output `pipeline/output/law_votes/<congress>.json`. The fetch asks the Laws transform which Voteview roll call is each law's final passage (`loadLawRollJoins`), so nothing unused is kept. The page section is "Who voted for it": the ideology compass with yea voters highlighted and the rest faded, then Democrat and Republican yea lists. Details in `docs/LAWS_METHODOLOGY.md` ("Who voted").
 
 ### 2d. Freshness and docs
 
