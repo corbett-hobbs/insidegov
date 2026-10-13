@@ -20,7 +20,7 @@ export function TimelineList({ actions }: { actions: readonly TimelineAction[] }
           const first = i === 0 || shown[i - 1]!.date !== a.date;
           return (
             <li key={i} className={`grid grid-cols-1 gap-x-3 py-1.5 text-[0.82rem] leading-[1.45] sm:grid-cols-[6.5rem_9rem_minmax(0,1fr)] ${first ? "border-t border-line first:border-t-0" : ""}`}>
-              <span className={`tabular-nums text-ink-muted max-sm:mb-0.5 max-sm:font-medium max-sm:text-ink ${first ? "" : "max-sm:hidden"}`}>{first ? longDate(a.date) : ""}</span>
+              <span className={`tabular-nums text-ink-muted max-sm:mb-1 max-sm:w-fit max-sm:rounded max-sm:border max-sm:border-line-strong max-sm:bg-surface-raised max-sm:px-2 max-sm:py-0.5 max-sm:font-semibold max-sm:text-ink ${first ? "" : "max-sm:hidden"}`}>{first ? longDate(a.date) : ""}</span>
               <span className="text-[0.72rem] uppercase tracking-[0.04em] text-ink-faint max-sm:hidden">{ACTION_KIND_LABEL[a.kind]}</span>
               <span className="min-w-0">
                 <span className="sm:hidden text-[0.68rem] uppercase tracking-[0.04em] text-ink-faint">{`${ACTION_KIND_LABEL[a.kind]} · `}</span>

@@ -120,6 +120,7 @@ export function AmendmentsList({ amendments }: { amendments: readonly LawAmendme
                   a.sponsorText && <span className="text-ink-muted">{a.sponsorText}</span>
                 )}
                 {a.submitted && <span className="text-ink-faint">{`· offered ${longDate(a.submitted)}`}</span>}
+                <span className={`${badgeClass(a.status)} sm:hidden`}>{a.status === "offered" ? "No vote recorded" : LABEL[a.status]}</span>
               </p>
               {a.purpose && <p className="m-0 mt-0.5 text-ink">{a.purpose}</p>}
               {a.latest && (
@@ -129,7 +130,7 @@ export function AmendmentsList({ amendments }: { amendments: readonly LawAmendme
                 </p>
               )}
             </div>
-            <span className={`${badgeClass(a.status)} max-sm:order-first`}>{LABEL[a.status]}</span>
+            <span className={`${badgeClass(a.status)} max-sm:hidden`}>{LABEL[a.status]}</span>
           </li>
         ))}
         {shown.length === 0 && <li className="px-3 py-2 text-[0.82rem] text-ink-muted">None.</li>}
