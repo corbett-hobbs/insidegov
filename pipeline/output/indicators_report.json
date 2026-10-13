@@ -3,7 +3,7 @@
   "counts": {
     "GASREGW": 1880,
     "GASDESW": 1699,
-    "MORTGAGE30US": 2897,
+    "MORTGAGE30US": 2898,
     "PAYEMS": 1053,
     "UNRATE": 944,
     "CPIAUCSL": 955,
@@ -16,7 +16,7 @@
   "last_observation": {
     "GASREGW": "2026-10-05",
     "GASDESW": "2026-10-05",
-    "MORTGAGE30US": "2026-10-01",
+    "MORTGAGE30US": "2026-10-08",
     "PAYEMS": "2026-09-01",
     "UNRATE": "2026-09-01",
     "CPIAUCSL": "2026-08-01",
