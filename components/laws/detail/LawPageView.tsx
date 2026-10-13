@@ -134,7 +134,7 @@ function VoteRow({ chamber, t, label }: { chamber: string; t: ChamberTally; labe
   const counted = t[0] === 0 && t[1] !== null && t[2] !== null;
   const share = yeaShare(t[1], t[2]);
   return (
-    <li className="grid min-w-0 grid-cols-1 items-center gap-x-3 gap-y-1 py-1.5 text-[0.85rem] sm:w-[17rem] sm:grid-cols-[4.5rem_minmax(0,1fr)]">
+    <li className="grid min-w-0 grid-cols-1 items-center gap-x-3 gap-y-1 py-1.5 text-[0.85rem] sm:w-[17rem] sm:grid-cols-[4.5rem_minmax(0,1fr)] lg:w-[12rem]">
       <span className="font-medium text-ink">{chamber}</span>
       <span className="min-w-0 text-ink-muted">
         {label ?? methodText(t)}
@@ -175,7 +175,7 @@ function Votes({ law }: { law: LawPageData }) {
           </span>
         )}
       </h2>
-      <ul className="m-0 grid list-none grid-cols-2 gap-x-5 p-0 sm:flex sm:flex-wrap sm:gap-x-8">
+      <ul className="m-0 grid list-none grid-cols-2 gap-x-5 p-0 sm:flex sm:flex-wrap sm:gap-x-8 lg:gap-x-6">
         <VoteRow chamber="House" t={house} />
         <VoteRow chamber="Senate" t={senate} />
       </ul>
