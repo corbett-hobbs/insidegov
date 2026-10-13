@@ -7,11 +7,11 @@ import { committeePath } from "./committee-url";
 import { administration } from "./executive-orders-entities";
 import { timeline } from "./law-details-derive";
 import { lawDetailsShard } from "./law-details-entities";
-import type { LawCommitteeEntry, LawPageData, LawPerson } from "./law-details-types";
-import { congressGovBillUrl, parseLawId } from "./law-url";
+import type { LawAmendmentEntry, LawCommitteeEntry, LawPageData, LawPerson, LawRelatedEntry } from "./law-details-types";
+import { congressGovBillUrl, lawPath, parseLawId } from "./law-url";
 import { getLawSponsorResolver } from "./laws-data";
 import { administrationOn, billLabel } from "./laws-derive";
-import { lawCommitteesFile, lawCosponsorsFile, lawRow, lawsMeta } from "./laws-entities";
+import { lawCommitteesFile, lawCosponsorsFile, lawRow, lawsMeta, ordinal } from "./laws-entities";
 import type { LawRow } from "./laws-entities";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 
@@ -24,6 +24,7 @@ const OUT = join(process.cwd(), "pipeline", "output");
 const read = (file: string): unknown => JSON.parse(readFileSync(join(OUT, file), "utf8"));
 
 let rows: Map<string, LawRow> | null = null;
+let byBill: Map<string, LawRow> | null = null;
 let all: LawRow[] | null = null;
 const shards = new Map<number, z.infer<typeof lawDetailsShard>>();
 
@@ -31,8 +32,9 @@ function loadRows() {
   if (!rows) {
     all = z.array(lawRow).parse(read("laws.json"));
     rows = new Map(all.map((l) => [l.law_id, l]));
+    byBill = new Map(all.map((l) => [`${l.congress}|${l.bill_type}|${l.bill_number}`, l]));
   }
-  return { rows: rows!, all: all! };
+  return { rows: rows!, all: all!, byBill: byBill! };
 }
 
 /** Every law as the page and the sitemap need it: id, title, Congress and date. Newest first. */
@@ -62,6 +64,9 @@ let meta: z.infer<typeof lawsMeta> | null = null;
 let admins: z.infer<typeof administration>[] | null = null;
 let committeeNames: Map<string, string> | null = null;
 
+const AMDT_LABEL: Record<string, string> = { HAMDT: "H.Amdt.", SAMDT: "S.Amdt.", SUAMDT: "S.Up.Amdt." };
+const RELATED_LABEL: Record<string, string> = { HR: "H.R.", S: "S.", HJRES: "H.J.Res.", SJRES: "S.J.Res.", HRES: "H.Res.", SRES: "S.Res.", HCONRES: "H.Con.Res.", SCONRES: "S.Con.Res." };
+
 export function getLawPage(lawId: string): LawPageData | null {
   const parsed = parseLawId(lawId);
   const law = parsed ? loadRows().rows.get(lawId) : undefined;
@@ -81,7 +86,36 @@ export function getLawPage(lawId: string): LawPageData | null {
     return s ? { name: s[0], label: s[1], party: s[2], path: s[3] } : null;
   };
   const sponsor = law.sponsor_bioguide_id ? person(law.sponsor_bioguide_id) : null;
-  const people = (cosponsors[lawId] ?? []).map(person);
+  const full = detail.cosponsors !== undefined;
+  // With the Phase 2 record, cosponsors carry their dates and the ones who withdrew are known; otherwise the id list from laws_cosponsors.json.
+  const dated: (LawPerson | null)[] = (detail.cosponsors ?? []).map((c) => {
+    const p = person(c[0]);
+    return p ? { ...p, joined: c[1], original: c[2] === 1, withdrawn: c[3] } : null;
+  });
+  const people = full ? dated.filter((p) => p === null || !p.withdrawn) : (cosponsors[lawId] ?? []).map(person);
+  const withdrawn = dated.filter((p): p is LawPerson => p !== null && typeof p.withdrawn === "string");
+  const amendments: LawAmendmentEntry[] = (detail.amendments ?? []).map((a) => ({
+    chamber: a[0] === 0 ? "House" : "Senate",
+    label: `${AMDT_LABEL[a[1]] ?? a[1]} ${a[2]}`,
+    sponsor: a[3] ? person(a[3]) : null,
+    sponsorText: a[4],
+    submitted: a[5],
+    purpose: a[6],
+    latest: a[8] ? { date: a[7], text: a[8] } : null,
+  }));
+  const { byBill: billLaws } = loadRows();
+  const related: LawRelatedEntry[] = (detail.related ?? []).map((r) => {
+    const target = billLaws.get(`${r[0]}|${r[1].toLowerCase()}|${r[2]}`);
+    const label = `${RELATED_LABEL[r[1]] ?? r[1]} ${r[2]}`;
+    return {
+      label: r[0] === law.congress ? label : `${label} (${ordinal(r[0])} Congress)`,
+      title: r[3],
+      rel: r[4],
+      lawPath: target && target.law_id !== lawId ? lawPath(target.law_id, target.title) : null,
+      lawLabel: target && target.law_id !== lawId ? `Public Law ${target.congress}-${target.number}` : null,
+      url: congressGovBillUrl(r[0], r[1].toLowerCase(), r[2]),
+    };
+  });
   const a = administrationOn(law.date, admins);
   if (!a) throw new Error(`${lawId} is dated ${law.date}, which no administration covers`);
 
@@ -113,6 +147,10 @@ export function getLawPage(lawId: string): LawPageData | null {
     summary: detail.summary,
     summaryCut: detail.cut === true,
     actions: timeline(detail.actions),
+    full,
+    amendments,
+    related,
+    withdrawn,
     sponsor,
     cosponsors: people.filter((p): p is LawPerson => p !== null),
     cosponsorsUnresolved: people.filter((p) => p === null).length,

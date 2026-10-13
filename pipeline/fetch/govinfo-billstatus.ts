@@ -2,7 +2,8 @@ import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { existsSync, statSync } from "node:fs";
 import { billstatusManifest, rawCongressFile, BILLSTATUS_FIRST_CONGRESS, LawsDataError, ordinal, type BillstatusManifest, type RawLaw } from "../../lib/laws-entities";
 import { rawBillsFile, type RawBill } from "../../lib/committee-bills-entities";
-import { BILLSTATUS_BASE, LAW_BILL_TYPES, billsFromZip, formatRawBills, lawsFromZip, zipName, zipUrl } from "./billstatus-lib";
+import { RAW_EXTRAS_DIR, rawExtrasFile, type RawLawExtras } from "../../lib/law-extras-entities";
+import { BILLSTATUS_BASE, LAW_BILL_TYPES, billsFromZip, dropUnsignedClaims, formatRawBills, lawsFromZip, zipName, zipUrl } from "./billstatus-lib";
 import { congressForDate, formatRawCongress } from "./laws-raw";
 import { RAW_DIR, download, run } from "./lib";
 
@@ -27,6 +28,7 @@ const DIR = `${RAW_DIR}/govinfo-billstatus`;
 const CACHE = `${RAW_DIR}/_scratch/govinfo-billstatus`;
 const MANIFEST = `${DIR}/manifest.json`;
 const BILLS_DIR = `${RAW_DIR}/govinfo-bills`;
+const EXTRAS_DIR = `${RAW_DIR}/${RAW_EXTRAS_DIR}`;
 const BIG_DOWNLOAD = 150 * 1024 * 1024;
 const USER_AGENT = "InsideGov-pipeline/0.1 (+https://github.com/corbett-hobbs/insidegov; weekly data check)";
 
@@ -62,7 +64,7 @@ async function main() {
         continue;
       }
       const k = known.get(`${congress}|${type}`);
-      const fresh = !rebuildAll && !!k && k.bytes === h.bytes && k.last_modified === h.lastModified && existsSync(`${DIR}/${congress}.json`) && (congress !== last || existsSync(billsFile(congress)));
+      const fresh = !rebuildAll && !!k && k.bytes === h.bytes && k.last_modified === h.lastModified && existsSync(`${DIR}/${congress}.json`) && existsSync(`${EXTRAS_DIR}/${congress}.json`) && (congress !== last || existsSync(billsFile(congress)));
       plan.push({ congress, type, ...h, stale: !fresh });
     }
   }
@@ -77,7 +79,7 @@ async function main() {
 
   await mkdir(CACHE, { recursive: true });
   await mkdir(DIR, { recursive: true });
-  const byCongress = new Map<number, RawLaw[]>();
+  const pairsByCongress = new Map<number, { law: RawLaw; extras: RawLawExtras }[]>();
   const corrected = new Map<number, string[]>();
   const counts = new Map<string, number>();
   const digests: RawBill[] = [];
@@ -90,19 +92,37 @@ async function main() {
       await download(zipUrl(p.congress, p.type), file);
     }
     const zip = await readFile(file);
-    const { laws, bills, corrections } = lawsFromZip(zip);
+    const { laws, extras, bills, corrections } = lawsFromZip(zip);
     if (p.congress === last) digests.push(...billsFromZip(zip));
     for (const c of corrections) console.log(`    corrected: ${c}`);
     corrected.set(p.congress, [...(corrected.get(p.congress) ?? []), ...corrections]);
     console.log(`  ${zipName(p.congress, p.type)}: ${bills} bills, ${laws.length} public laws`);
-    byCongress.set(p.congress, [...(byCongress.get(p.congress) ?? []), ...laws]);
+    pairsByCongress.set(p.congress, [...(pairsByCongress.get(p.congress) ?? []), ...laws.map((law, i) => ({ law, extras: extras[i]! }))]);
     counts.set(`${p.congress}|${p.type}`, laws.length);
   }
   const today = new Date().toISOString().slice(0, 10);
+  const byCongress = new Map<number, RawLaw[]>();
+  const extrasByCongress = new Map<number, RawLawExtras[]>();
+  for (const [congress, pairs] of pairsByCongress) {
+    const found: string[] = [];
+    const kept = dropUnsignedClaims(pairs, found);
+    for (const c of found) console.log(`    corrected: ${c}`);
+    corrected.set(congress, [...(corrected.get(congress) ?? []), ...found]);
+    byCongress.set(congress, kept.map((x) => x.law));
+    extrasByCongress.set(congress, kept.map((x) => x.extras));
+  }
   for (const [congress, laws] of byCongress) {
     laws.sort((a, b) => a.number - b.number || a.law_id.localeCompare(b.law_id));
     const file = rawCongressFile.parse({ source: "govinfo-billstatus", congress, fetched: today, list_count: null, max_number: laws.at(-1)!.number, ...(corrected.get(congress)?.length ? { corrections: corrected.get(congress)!.sort() } : {}), laws });
     await writeFile(`${DIR}/${congress}.json`, formatRawCongress(file));
+  }
+  // The law pages' extra fields (full summary, all actions, amendments, related bills, all cosponsors), one law per line.
+  await mkdir(EXTRAS_DIR, { recursive: true });
+  for (const [congress, list] of extrasByCongress) {
+    const order = new Map(byCongress.get(congress)!.map((l, i) => [l.law_id, i]));
+    list.sort((a, b) => order.get(a.law_id)! - order.get(b.law_id)!);
+    const file = rawExtrasFile.parse({ source: "govinfo-billstatus", congress, fetched: today, laws: list });
+    await writeFile(`${EXTRAS_DIR}/${congress}.json`, formatRawCongress(file));
   }
   if (rebuild.has(last)) {
     await mkdir(BILLS_DIR, { recursive: true });

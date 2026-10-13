@@ -1,7 +1,7 @@
 {
 "source": "govinfo-billstatus",
 "congress": 110,
-"fetched": "2026-10-09",
+"fetched": "2026-10-13",
 "list_count": null,
 "max_number": 460,
 "corrections": ["110-pub-173: Bill Status also lists 108-173 on S 2499 of Congress 110; read as 110-173","110-pub-246: Bill Status also lists 106-246 on HR 6124 of Congress 110; read as 110-246"],

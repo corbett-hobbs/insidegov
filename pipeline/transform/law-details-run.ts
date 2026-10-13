@@ -4,7 +4,8 @@ import { z } from "zod";
 import { lawDetailsShard, type LawDetailsShard } from "../../lib/law-details-entities";
 import { LawsDataError, lawRow, rawCongressFile, RAW_SOURCES, type RawLaw } from "../../lib/laws-entities";
 import { RAW_DIR } from "../fetch/lib";
-import { buildLawDetail, lawIdDifferences } from "./law-details";
+import { RAW_EXTRAS_DIR, rawExtrasFile, type RawLawExtras } from "../../lib/law-extras-entities";
+import { buildLawDetail, extrasDisagreements, lawIdDifferences } from "./law-details";
 import { chooseSources, splitPending } from "./laws";
 
 /**
@@ -41,10 +42,28 @@ async function main() {
   let withSummary = 0;
   let cut = 0;
   let actions = 0;
+  let extrasLaws = 0;
+  const withoutExtras: number[] = [];
   for (const [congress, { primary }] of [...chooseSources(files)].sort((a, b) => a[0] - b[0])) {
     // The same laws `laws-run.ts` keeps: a law with no signing date yet in a Congress still in progress is not a law row.
     const kept: RawLaw[] = splitPending(primary, independent[String(congress)] === undefined).file.laws;
-    const shard = lawDetailsShard.parse({ congress, laws: Object.fromEntries(kept.map((l) => [l.law_id, buildLawDetail(l)])) });
+    // The Phase 2 fields (`pipeline/raw/law-extras/<congress>.json`), where the fetch has covered the Congress: they must cover exactly the kept laws.
+    const extrasPath = `${RAW_DIR}/${RAW_EXTRAS_DIR}/${congress}.json`;
+    let extras: Map<string, RawLawExtras> | null = null;
+    if (existsSync(extrasPath)) {
+      const f = rawExtrasFile.safeParse(await readJson(extrasPath));
+      if (!f.success) throw new LawsDataError(`${extrasPath} fails the schema: ${f.error.message.slice(0, 600)}`);
+      extras = new Map(f.data.laws.map((x) => [x.law_id, x]));
+      // The file may also hold laws still pending signature in a Congress in progress (the Laws track does not list them yet); every listed law must be there.
+      const missing = kept.filter((l) => !extras!.has(l.law_id)).map((l) => l.law_id);
+      if (missing.length > 0) throw new LawsDataError(`${extrasPath} lacks ${missing.length} laws (${missing.slice(0, 5).join(", ")})`);
+      for (const l of kept) {
+        const bad = extrasDisagreements(l, extras.get(l.law_id)!);
+        if (bad.length > 0) throw new LawsDataError(`${l.law_id}: the extras disagree with the Laws track: ${bad.join("; ")}`);
+      }
+      extrasLaws += kept.length;
+    } else withoutExtras.push(congress);
+    const shard = lawDetailsShard.parse({ congress, laws: Object.fromEntries(kept.map((l) => [l.law_id, buildLawDetail(l, extras?.get(l.law_id))])) });
     for (const d of Object.values(shard.laws)) {
       if (d.summary) withSummary++;
       if (d.cut) cut++;
@@ -57,7 +76,7 @@ async function main() {
   if (diff.missing.length > 0 || diff.extra.length > 0) {
     throw new LawsDataError(`law_details shards and laws.json disagree: ${diff.missing.length} missing (${diff.missing.slice(0, 5).join(", ")}), ${diff.extra.length} extra (${diff.extra.slice(0, 5).join(", ")})`);
   }
-  console.log(`transform:law-details ok — ${shardIds.length} laws, ${withSummary} with a summary (${cut} cut at the fetch cap), ${actions} actions`);
+  console.log(`transform:law-details ok — ${shardIds.length} laws, ${withSummary} with a summary (${cut} cut at the fetch cap), ${actions} actions; full record for ${extrasLaws} laws${withoutExtras.length > 0 ? `, not yet for Congresses ${withoutExtras.join(", ")}` : ""}`);
 }
 
 main().catch((err) => {

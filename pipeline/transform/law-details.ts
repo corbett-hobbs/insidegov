@@ -1,4 +1,5 @@
-import { LAW_ACTION_TYPES, type LawAction, type LawActionVote, type LawDetail } from "../../lib/law-details-entities";
+import { LAW_ACTION_TYPES, type LawAction, type LawActionVote, type LawAmendment, type LawCosponsor, type LawDetail, type LawRelatedBill } from "../../lib/law-details-entities";
+import type { RawLawExtras } from "../../lib/law-extras-entities";
 import type { RawAction, RawLaw } from "../../lib/laws-entities";
 import { decode } from "./laws-summary";
 
@@ -22,8 +23,8 @@ const STAGE_NOTE_ONLY = /^\((?:latest summary|(?:this )?measure [^()]*|conferenc
  * collapsed. A leading all-bold paragraph (the law's name, which the page already shows) is dropped. When the fetcher cut
  * the summary, the last paragraph is trimmed back to its last finished sentence so it never ends mid-word.
  */
-export function summaryParagraphs(html: string): { paragraphs: string[]; cut: boolean } {
-  const cut = summaryWasCut(html);
+export function summaryParagraphs(html: string, cap: number = RAW_SUMMARY_CAP): { paragraphs: string[]; cut: boolean } {
+  const cut = html.length >= cap;
   let h = html.replace(/^\s*<p>\s*<strong>[\s\S]*?<\/strong>\s*<\/p>/i, " ").replace(/^\s*<strong>[\s\S]*?<\/strong>/i, " ");
   h = h.replace(/<(?:\/?(?:p|div|ul|ol|h\d)|br\s*\/?)>/gi, "\u0001").replace(/<li>/gi, "\u0001• ").replace(/<\/li>/gi, "\u0001");
   h = h.replace(/<[^>]+>/g, "");
@@ -128,10 +129,51 @@ export function committeeActions(law: RawLaw): RawAction[] {
   return out;
 }
 
-export function buildLawDetail(law: RawLaw): LawDetail {
-  const s = law.summary_html ? summaryParagraphs(law.summary_html) : null;
+/** Committee steps the source's action list does not carry: dated hearings. (Referral, markup, report and discharge are actions of their own.) */
+const HEARING = /^hearings by/i;
+export function hearingActions(law: RawLaw): RawAction[] {
+  return committeeActions(law).filter((a) => a.type === "Committee" && HEARING.test(a.text));
+}
+
+const amendmentTuple = (a: RawLawExtras["amendments"][number]): LawAmendment => [a.chamber === "House" ? 0 : 1, a.type, a.number, a.sponsor, a.sponsor_name, a.submitted, a.purpose, a.latest?.date ?? null, a.latest?.text ?? null];
+const relatedTuple = (r: RawLawExtras["related"][number]): LawRelatedBill => [r.congress, r.type, r.number, r.title, r.rel];
+const cosponsorTuple = (c: RawLawExtras["cosponsors"][number]): LawCosponsor => [c.id, c.date, c.original ? 1 : 0, c.withdrawn];
+
+/**
+ * One law's record. Without `extras` (a Congress the Phase 2 fetch has not covered) it is the Phase 1 record: the capped summary and the
+ * kept actions with the introduction and committee steps built from the committee list. With `extras` the summary is complete, the action
+ * list is the source's own (introduction, referral, markup, report, calendar, floor, presidential) plus dated hearings, and amendments,
+ * related bills and every cosponsor with dates are added.
+ */
+export function buildLawDetail(law: RawLaw, extras?: RawLawExtras): LawDetail {
+  if (!extras) {
+    const s = law.summary_html ? summaryParagraphs(law.summary_html) : null;
+    const has = s !== null && s.paragraphs.length > 0;
+    return { summary: has ? s.paragraphs : null, ...(has && s.cut ? { cut: true as const } : {}), actions: buildActions([...committeeActions(law), ...law.actions]) };
+  }
+  const s = extras.summary_html ? summaryParagraphs(extras.summary_html, Infinity) : null;
   const has = s !== null && s.paragraphs.length > 0;
-  return { summary: has ? s.paragraphs : null, ...(has && s.cut ? { cut: true as const } : {}), actions: buildActions([...committeeActions(law), ...law.actions]) };
+  return {
+    summary: has ? s.paragraphs : null,
+    actions: buildActions([...extras.actions, ...hearingActions(law)]),
+    amendments: extras.amendments.map(amendmentTuple),
+    related: extras.related.map(relatedTuple),
+    cosponsors: extras.cosponsors.map(cosponsorTuple),
+  };
+}
+
+/**
+ * The extras must agree with the Laws track's own record of the same law, or one of the two fetches is wrong: the summary starts with the
+ * capped one, and the cosponsors who had not withdrawn are the Laws track's cosponsors. Returns the disagreements (empty = pass).
+ */
+export function extrasDisagreements(law: RawLaw, extras: RawLawExtras): string[] {
+  const out: string[] = [];
+  if ((law.summary_html ?? null) === null !== ((extras.summary_html ?? null) === null)) out.push("summary present in one and not the other");
+  else if (law.summary_html && extras.summary_html && !extras.summary_html.startsWith(law.summary_html)) out.push("summary text differs");
+  const active = extras.cosponsors.filter((c) => c.withdrawn === null).map((c) => c.id);
+  const want = new Set(law.cosponsors);
+  if (active.length !== want.size || active.some((id) => !want.has(id))) out.push(`cosponsors differ (${active.length} active in the extras, ${want.size} in the law)`);
+  return out;
 }
 
 /** The gate: the shards' law ids equal `laws.json`'s exactly. Returns the differences (empty = pass). */

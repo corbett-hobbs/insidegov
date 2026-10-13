@@ -805,7 +805,7 @@
 {"congress":119,"area_id":"environmental-protection","n":6,"bands":[0,6,0,0,0],"major":0},
 {"congress":119,"area_id":"finance-and-financial-sector","n":6,"bands":[2,3,1,0,0],"major":0},
 {"congress":119,"area_id":"foreign-trade-and-international-finance","n":1,"bands":[1,0,0,0,0],"major":0},
-{"congress":119,"area_id":"government-operations-and-politics","n":4,"bands":[3,1,0,0,0],"major":0},
+{"congress":119,"area_id":"government-operations-and-politics","n":5,"bands":[4,1,0,0,0],"major":0},
 {"congress":119,"area_id":"health","n":2,"bands":[1,0,0,1,0],"major":0},
 {"congress":119,"area_id":"housing-and-community-development","n":2,"bands":[1,0,0,0,1],"major":0},
 {"congress":119,"area_id":"immigration","n":2,"bands":[0,1,1,0,0],"major":0},

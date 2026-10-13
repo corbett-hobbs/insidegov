@@ -1,4 +1,5 @@
 import { BILL_TYPES, type BillType, type RawAction, type RawLaw } from "../../lib/laws-entities";
+import { AMENDMENT_PURPOSE_CAP, type RawAmendment, type RawCosponsorRecord, type RawLawExtras, type RawRelatedBill } from "../../lib/law-extras-entities";
 import { becameLawDates, isoDay, keepAction, normaliseCommittees, lawId, parsePublicLawNumber, pickSummary, slimActions, type SummaryVersion } from "./laws-raw";
 
 /**
@@ -141,7 +142,7 @@ export interface ApiCommittee {
 export const apiCommittees = (list: ApiCommittee[]) =>
   normaliseCommittees(list.map((c) => ({ code: c.systemCode, name: c.name, chamber: c.chamber, activities: c.activities, subcommittees: (c.subcommittees ?? []).map((s) => ({ code: s.systemCode, name: s.name, activities: s.activities })) })));
 
-export const apiActions = (raw: ApiAction[]): RawAction[] =>
+export const apiActions = (raw: ApiAction[], all = false): RawAction[] =>
   raw.flatMap((a) => {
     const date = isoDay(a.actionDate);
     const type = a.type ?? "";
@@ -153,7 +154,7 @@ export const apiActions = (raw: ApiAction[]): RawAction[] =>
         ? [{ chamber: ch, roll: v.rollNumber as number, session: Number.isInteger(v.sessionNumber) ? (v.sessionNumber as number) : null, date: isoDay(v.date) }]
         : [];
     });
-    if (!keepAction(type, text, votes.length > 0)) return [];
+    if (all ? text === "" : !keepAction(type, text, votes.length > 0)) return [];
     return [{ date, type, text, src: Number.isInteger(a.sourceSystem?.code) ? (a.sourceSystem!.code as number) : null, ...(votes.length > 0 ? { votes } : {}) }];
   });
 
@@ -199,4 +200,80 @@ export interface LawListRow {
   number: string;
   updateDate?: string;
   laws: { number: string; type: string }[];
+}
+
+// ---- the law pages' extra fields from the API (93rd-107th Congress) ----
+
+export interface ApiAmendment {
+  number?: string;
+  type?: string;
+  description?: string;
+  purpose?: string;
+  latestAction?: { actionDate?: string; text?: string } | null;
+  sponsors?: { bioguideId?: string; fullName?: string }[];
+}
+export interface ApiRelatedBill {
+  congress?: number;
+  type?: string;
+  number?: number | string;
+  title?: string;
+  relationshipDetails?: { type?: string }[];
+}
+export interface ApiCosponsorFull extends ApiCosponsor {
+  sponsorshipDate?: string;
+  isOriginalCosponsor?: boolean;
+}
+
+const oneLine = (s: string, cap: number) => {
+  const t = s.replace(/\s+/g, " ").trim();
+  return t.length > cap ? t.slice(0, cap - 1) + "…" : t;
+};
+
+export function apiAmendments(list: ApiAmendment[]): RawAmendment[] {
+  return list.flatMap((a) => {
+    const type = (a.type ?? "").toUpperCase();
+    const chamber = type.startsWith("H") ? "House" : type.startsWith("S") ? "Senate" : null;
+    if (!chamber || !a.number || !/^\d+$/.test(a.number)) return [];
+    const purpose = a.purpose ?? a.description ?? null;
+    const sp = a.sponsors?.[0];
+    return [
+      {
+        chamber,
+        type,
+        number: a.number,
+        sponsor: sp?.bioguideId && /^[A-Z]\d{6}$/.test(sp.bioguideId) ? sp.bioguideId : null,
+        sponsor_name: sp?.fullName ? oneLine(sp.fullName, 120) : null,
+        submitted: null,
+        purpose: purpose && purpose.trim() !== "" ? oneLine(purpose, AMENDMENT_PURPOSE_CAP) : null,
+        latest: a.latestAction?.text ? { date: isoDay(a.latestAction.actionDate), text: oneLine(a.latestAction.text, 200) } : null,
+      },
+    ];
+  });
+}
+
+export function apiRelatedBills(list: ApiRelatedBill[]): RawRelatedBill[] {
+  return list
+    .flatMap((r) => {
+      const number = String(r.number ?? "");
+      if (!r.type || !Number.isInteger(r.congress) || !/^\d+$/.test(number)) return [];
+      return [{ congress: r.congress as number, type: r.type.toUpperCase(), number, title: oneLine(r.title ?? "", 220), rel: [...new Set((r.relationshipDetails ?? []).flatMap((d) => d.type ?? []))].sort() }];
+    })
+    .sort((a, b) => a.congress - b.congress || a.type.localeCompare(b.type) || Number(a.number) - Number(b.number));
+}
+
+export function apiCosponsorRecords(list: ApiCosponsorFull[]): RawCosponsorRecord[] {
+  return list.flatMap((c) => (c.bioguideId && /^[A-Z]\d{6}$/.test(c.bioguideId) ? [{ id: c.bioguideId, date: isoDay(c.sponsorshipDate), original: c.isOriginalCosponsor === true, withdrawn: isoDay(c.sponsorshipWithdrawnDate) }] : []));
+}
+
+/** The extras for one bill (shared by every law the bill became). */
+export function extrasFromApiBill(lawIds: string[], parts: { actions: ApiAction[]; summaries: ApiSummary[]; amendments: ApiAmendment[]; related: ApiRelatedBill[]; cosponsors: ApiCosponsorFull[] }): RawLawExtras[] {
+  const versions: SummaryVersion[] = parts.summaries.map((s) => ({ stage: s.actionDesc ?? null, date: isoDay(s.actionDate), html: s.text ?? "" }));
+  const body = {
+    summary_html: pickSummary(versions, Infinity)?.html ?? null,
+    actions: slimActions(apiActions(parts.actions, true)),
+    amendments: apiAmendments(parts.amendments),
+    related: apiRelatedBills(parts.related),
+    cosponsors: apiCosponsorRecords(parts.cosponsors),
+  };
+  return lawIds.map((law_id) => ({ law_id, ...body }));
 }

@@ -1,7 +1,7 @@
 {
 "source": "govinfo-billstatus",
 "congress": 109,
-"fetched": "2026-10-09",
+"fetched": "2026-10-13",
 "list_count": null,
 "max_number": 482,
 "corrections": ["109-pub-295: Bill Status also lists 107-295 on HR 5441 of Congress 109; read as 109-295"],

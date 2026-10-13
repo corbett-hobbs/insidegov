@@ -1,6 +1,7 @@
 import { inflateRawSync } from "node:zlib";
 import { BILL_TYPES, type BillType, type RawAction, type RawLaw } from "../../lib/laws-entities";
 import type { RawBill, RawBillAction } from "../../lib/committee-bills-entities";
+import { AMENDMENT_PURPOSE_CAP, type RawAmendment, type RawCosponsorRecord, type RawLawExtras, type RawRelatedBill } from "../../lib/law-extras-entities";
 import { becameLawDates, isoDay, normaliseCommittees, keepAction, lawId, parsePublicLawNumber, pickSummary, slimActions, type SummaryVersion } from "./laws-raw";
 
 /**
@@ -112,9 +113,103 @@ const chamberOf = (s: string | null): "House" | "Senate" | null => (s === "House
  * or [] when the bill never became a public law.
  */
 export function parseBillStatus(xml: string, corrections?: string[]): RawLaw[] {
+  return parseBillStatusWithExtras(xml, corrections).map((x) => x.law);
+}
+
+const oneLine = (s: string, cap: number) => {
+  const t = s.replace(/\s+/g, " ").trim();
+  return t.length > cap ? t.slice(0, cap - 1) + "…" : t;
+};
+
+/** Amendments the bill lists (`<amendments>`); each carries its own sponsor, dates and actions, which are the amendment's, not the bill's. */
+export function parseAmendments(amendmentsXml: string): RawAmendment[] {
+  const out: RawAmendment[] = [];
+  for (const m of amendmentsXml.matchAll(/<amendment>([\s\S]*?)<\/amendment>/g)) {
+    const a = m[1]!;
+    // Strip nested blocks that reuse tag names, so the lookups below see only the amendment's own.
+    const own = ["sponsors", "cosponsors", "actions", "amendedBill", "amendedAmendment", "amendmentsToAmendment", "latestAction", "links"].reduce((x, t) => x.replace(new RegExp(`<${t}>[\\s\\S]*?</${t}>`, "g"), ""), a);
+    const chamber = /^House/.test(tagText(own, "chamber") ?? "") ? "House" : /^Senate/.test(tagText(own, "chamber") ?? "") ? "Senate" : null;
+    const type = tagText(own, "type");
+    const number = tagText(own, "number");
+    if (!chamber || !type || !number || !/^\d+$/.test(number)) continue;
+    const sponsor = items(a, "sponsors")[0];
+    const id = sponsor ? tagText(sponsor, "bioguideId") : null;
+    const name = sponsor ? (tagText(sponsor, "fullName") ?? tagText(sponsor, "name")) : null;
+    const latestXml = block(a, "latestAction");
+    let latest = latestXml ? { date: isoDay(tagText(latestXml, "actionDate")), text: tagText(latestXml, "text") ?? "" } : null;
+    if (!latest || latest.text === "") {
+      // No latestAction: take the newest of the amendment's own actions (the list is not reliably ordered).
+      const acts = items(a, "actions")
+        .map((it) => ({ date: isoDay(tagText(it, "actionDate")), text: tagText(it, "text") ?? "" }))
+        .filter((x) => x.text !== "");
+      acts.sort((x, y) => (y.date ?? "").localeCompare(x.date ?? ""));
+      latest = acts[0] ?? null;
+    }
+    const purpose = tagText(own, "purpose");
+    out.push({
+      chamber,
+      type,
+      number,
+      sponsor: id && /^[A-Z]\d{6}$/.test(id) ? id : null,
+      sponsor_name: name ? oneLine(name, 120) : null,
+      submitted: isoDay(tagText(own, "submittedDate")),
+      purpose: purpose ? oneLine(purpose, AMENDMENT_PURPOSE_CAP) : null,
+      latest: latest ? { date: latest.date, text: oneLine(latest.text, 200) } : null,
+    });
+  }
+  return out;
+}
+
+/** Bills the source relates to this one, with the relationship names (CRS's, the House's, the Senate's), de-duplicated and sorted. */
+export function parseRelatedBills(bill: string): RawRelatedBill[] {
+  const out: RawRelatedBill[] = [];
+  for (const it of items(bill, "relatedBills")) {
+    const bare = it.replace(/<relationshipDetails>[\s\S]*?<\/relationshipDetails>/, "").replace(/<latestAction>[\s\S]*?<\/latestAction>/, "");
+    const congress = Number(tagText(bare, "congress"));
+    const type = tagText(bare, "type");
+    const number = tagText(bare, "number");
+    if (!Number.isInteger(congress) || !type || !number || !/^\d+$/.test(number)) continue;
+    const rel = [...new Set(items(it, "relationshipDetails").flatMap((r) => tagText(r, "type") ?? []))].sort();
+    out.push({ congress, type: type.toUpperCase(), number, title: oneLine(tagText(bare, "title") ?? "", 220), rel });
+  }
+  return out.sort((a, b) => a.congress - b.congress || a.type.localeCompare(b.type) || Number(a.number) - Number(b.number));
+}
+
+/** Every cosponsor with the date they joined, whether an original cosponsor, and the date they withdrew (null when they did not). */
+export function parseCosponsorRecords(bill: string): RawCosponsorRecord[] {
+  return items(bill, "cosponsors").flatMap((it) => {
+    const id = tagText(it, "bioguideId");
+    if (!id || !/^[A-Z]\d{6}$/.test(id)) return [];
+    return [{ id, date: isoDay(tagText(it, "sponsorshipDate")), original: tagText(it, "isOriginalCosponsor")?.toLowerCase() === "true", withdrawn: isoDay(tagText(it, "sponsorshipWithdrawnDate")) }];
+  });
+}
+
+/** Every action the source lists, as `RawAction`s (no filter): introduction, committee, floor, presidential. */
+export function parseAllActions(bill: string): RawAction[] {
+  return slimActions(
+    items(bill, "actions").flatMap((it) => {
+      const date = isoDay(tagText(it, "actionDate"));
+      const text = tagText(it, "text") ?? "";
+      if (!date || text === "") return [];
+      const votes = [...block(it, "recordedVotes").matchAll(/<recordedVote>([\s\S]*?)<\/recordedVote>/g)].flatMap((m) => {
+        const ch = chamberOf(tagText(m[1]!, "chamber"));
+        const roll = Number(tagText(m[1]!, "rollNumber"));
+        if (!ch || !Number.isInteger(roll)) return [];
+        const session = tagText(m[1]!, "sessionNumber");
+        return [{ chamber: ch, roll, session: session === null ? null : Number(session), date: isoDay(tagText(m[1]!, "date")) }];
+      });
+      const src = tagText(block(it, "sourceSystem"), "code");
+      return [{ date, type: tagText(it, "type") ?? "", text, src: src === null ? null : Number(src), ...(votes.length > 0 ? { votes } : {}) }];
+    }),
+  );
+}
+
+/** The law plus the extra fields the law pages read (full summary, all actions, amendments, related bills, all cosponsors). */
+export function parseBillStatusWithExtras(xml: string, corrections?: string[]): { law: RawLaw; extras: RawLawExtras }[] {
   if (!xml.includes("<type>Public Law</type>")) return [];
+  const fullBill = block(xml, "bill");
   // Amendments carry their own sponsors, cosponsors, actions and types; they are not the bill's.
-  const bill = block(xml, "bill").replace(/<amendments>[\s\S]*?<\/amendments>/g, "");
+  const bill = fullBill.replace(/<amendments>[\s\S]*?<\/amendments>/g, "");
   const lawNumbers = items(bill, "laws")
     .filter((it) => tagText(it, "type") === "Public Law")
     .map((it) => parsePublicLawNumber(tagText(it, "number") ?? ""))
@@ -171,8 +266,15 @@ export function parseBillStatus(xml: string, corrections?: string[]): RawLaw[] {
     if (c !== cited) corrections?.push(`${lawId(c, n)}: Bill Status also lists ${cited}-${n} on ${type.toUpperCase()} ${number} of Congress ${c}; read as ${c}-${n}`);
     corrected.set(lawId(c, n), [c, n]);
   }
+  const extrasBody = {
+    summary_html: pickSummary(versions, Infinity)?.html ?? null,
+    actions: parseAllActions(bill),
+    amendments: parseAmendments(block(fullBill, "amendments")),
+    related: parseRelatedBills(bill),
+    cosponsors: parseCosponsorRecords(bill),
+  };
   return [...corrected.values()].map(([c, n]) => {
-    return {
+    const law: RawLaw = {
     law_id: lawId(c, n),
     congress: c,
     number: n,
@@ -198,20 +300,45 @@ export function parseBillStatus(xml: string, corrections?: string[]): RawLaw[] {
     actions: slim,
     committees,
     };
+    return { law, extras: { law_id: law.law_id, ...extrasBody } };
   });
 }
 
-/** Read every bill in one Bill Status ZIP; returns the public-law records and how many bills the ZIP held. */
-export function lawsFromZip(zip: Buffer): { laws: RawLaw[]; bills: number; corrections: string[] } {
+/**
+ * Two bills can claim one public-law number while a law is pending (the 119th lists 119-120 on both H.R. 766, unsigned, and S. 766, signed).
+ * Keep the claim that carries a signing date and report the other as a correction; two signed claims are left for the transform to reject.
+ */
+export function dropUnsignedClaims<T extends { law: RawLaw }>(entries: T[], corrections: string[]): T[] {
+  const byId = new Map<string, T[]>();
+  for (const e of entries) byId.set(e.law.law_id, [...(byId.get(e.law.law_id) ?? []), e]);
+  const drop = new Set<T>();
+  for (const [id, list] of byId) {
+    const signed = list.filter((e) => e.law.became_law.length > 0);
+    if (list.length < 2 || signed.length !== 1) continue;
+    for (const e of list) {
+      if (e === signed[0]) continue;
+      drop.add(e);
+      corrections.push(`${id}: Bill Status also lists it on ${e.law.bill_type.toUpperCase()} ${e.law.bill_number}, which has no signing action; kept ${signed[0]!.law.bill_type.toUpperCase()} ${signed[0]!.law.bill_number}`);
+    }
+  }
+  return entries.filter((e) => !drop.has(e));
+}
+
+/** Read every bill in one Bill Status ZIP; returns the public-law records (and their page extras) and how many bills the ZIP held. */
+export function lawsFromZip(zip: Buffer): { laws: RawLaw[]; extras: RawLawExtras[]; bills: number; corrections: string[] } {
   const laws: RawLaw[] = [];
+  const extras: RawLawExtras[] = [];
   const corrections: string[] = [];
   let bills = 0;
   for (const e of zipEntries(zip)) {
     if (!e.name.endsWith(".xml")) continue;
     bills++;
-    laws.push(...parseBillStatus(e.data().toString("utf8"), corrections));
+    for (const x of parseBillStatusWithExtras(e.data().toString("utf8"), corrections)) {
+      laws.push(x.law);
+      extras.push(x.extras);
+    }
   }
-  return { laws, bills, corrections };
+  return { laws, extras, bills, corrections };
 }
 
 // ---- every bill of a Congress, as a digest for the committee pages ----------------------------------------------------
