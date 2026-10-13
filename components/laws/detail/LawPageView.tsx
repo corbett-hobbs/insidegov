@@ -4,6 +4,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { longDate, methodText, yeaShare } from "@/lib/law-details-derive";
+import { CommitteeSeal } from "@/components/committee/CommitteeSeal";
 import type { LawCommitteeEntry, LawPageData } from "@/lib/law-details-types";
 import { ordinal } from "@/lib/laws-entities";
 import { AmendmentsList, RelatedList } from "./LawLists";
@@ -197,7 +198,9 @@ function Votes({ law }: { law: LawPageData }) {
 
 function CommitteeItem({ c }: { c: LawCommitteeEntry }) {
   return (
-    <li className="border-b border-line px-3 py-2 text-[0.82rem] last:border-b-0">
+    <li className="flex items-start gap-2.5 border-b border-line px-3 py-2 text-[0.82rem] last:border-b-0">
+      {c.chamber && <CommitteeSeal chamber={c.chamber} size={28} className="mt-px size-7" />}
+      <div className="min-w-0">
       {c.path ? (
         <Link href={c.path} className={LINK}>
           {c.name}
@@ -208,6 +211,7 @@ function CommitteeItem({ c }: { c: LawCommitteeEntry }) {
       {c.chamber && <span className="text-ink-faint">{` · ${c.chamber}`}</span>}
       {c.steps.length > 0 && <span className="text-ink-muted">{` · ${c.steps.join(", ")}`}</span>}
       {c.subcommittees.length > 0 && <span className="block text-[0.75rem] text-ink-muted">{`Subcommittee: ${c.subcommittees.join("; ")}`}</span>}
+      </div>
     </li>
   );
 }
