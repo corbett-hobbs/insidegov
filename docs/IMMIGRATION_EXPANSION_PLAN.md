@@ -12,6 +12,7 @@ level. Copy a session's prompt into a new Claude Code session.
 | A′ | *(only if A ran on Sonnet)* Review A's extracted values | Opus 5.5 | High | A |
 | B | UI: enforcement-process card + criminal-history card | Sonnet 5.5 | Medium | A |
 | C | *(later)* Refugee ceiling vs. admissions | Opus 5.5 for data, Sonnet for UI | High / Medium | — |
+| D | Refresh automation for the refugee and ICE tracks | Sonnet 5.5 | Medium | A, C |
 
 **Status (2026-10-13):** A is done, on Opus 5.5, so A′ is not needed. The breakdown
 series are in `pipeline/output/enforcement_series.json`; coverage, chart-label reads
@@ -320,3 +321,61 @@ Give every row an "as of" date.
 - FY2025 had a ceiling set by the Biden administration but almost no
   admissions after Jan 20.
 - Nationality is not always the country fled.
+
+---
+
+## Session D — refresh automation (Sonnet 5.5, medium effort; after A and C land)
+
+Goal: as little manual upkeep as each source allows. Automate fully where the
+source is stable; elsewhere, detect new data and hand a human a ready-to-review
+change.
+
+Existing patterns to reuse (read them first):
+
+- **Fetch, diff, auto-merge:** `.github/workflows/executive-orders-freshness.yml`
+  and `energy-freshness.yml`. Fetch, diff against `pipeline/raw/`, open a PR with
+  `peter-evans/create-pull-request`, auto-merge only after the full CI gate
+  (`.github/actions/gate-and-merge`). Executive orders also call the Claude API
+  in CI (`ANTHROPIC_API_KEY` secret), with low-confidence answers stored as
+  `needs_review`.
+- **Detect, open an issue:** `.github/workflows/ice-annual-review.yml`
+  (`pipeline/validate/ice-staleness.ts`) and the `*-review.yml` workflows.
+  These open one issue, never edit data and never block a deploy.
+
+| Piece | Target | Pattern |
+| --- | --- | --- |
+| Refugee ceilings, regional/group allocations, mid-year revisions (Federal Register) | Fully automatic | Fetch, diff, auto-merge PR (stable Federal Register API) |
+| Refugee admissions by nationality (WRAPS) | Automatic if session C found stable URLs/formats; otherwise detect + issue | Fetch, diff, PR, or a review issue |
+| ICE breakdown series from session A | Detect + issue | Extend `ice-staleness.ts` to every new metric, not just `removals` |
+| DHS budget overview (FY2028 onward carries the prior year's actuals) | Detect + issue | Check whether the next year's ICE budget overview has been published |
+| Extracting numbers from a new ICE report or budget document | Draft PR, human review | Optional: when the ICE issue opens, a CI job uses the Claude API to draft catalog rows with verbatim quotes and opens a PR. **Never auto-merged**: chart-label reads need a person |
+| Country-restriction policy table | Flag only | Weekly Federal Register search for immigration/refugee proclamations and EOs not yet in the table; open a review issue. Curation and court status stay manual |
+
+> **Prompt:**
+>
+> Read `docs/IMMIGRATION_EXPANSION_PLAN.md` (especially the Session D section),
+> `docs/IMMIGRATION_ENFORCEMENT_METHODOLOGY.md` ("Refreshing"), session C's
+> refugee methodology and source notes, `.github/workflows/executive-orders-freshness.yml`,
+> `.github/workflows/energy-freshness.yml`, `.github/workflows/ice-annual-review.yml`,
+> `.github/actions/gate-and-merge` and `pipeline/validate/ice-staleness.ts` before
+> writing anything.
+>
+> Build the refresh automation in the Session D table, reusing those patterns
+> rather than inventing new ones.
+>
+> - **Refugee Federal Register data:** fetch, diff, PR, gate-and-merge,
+>   on a weekly schedule.
+> - **WRAPS admissions:** automate the same way only if session C's notes say its
+>   source is stable; otherwise add a staleness check that opens a review issue.
+> - **ICE staleness check:** extend it to cover every metric session A added and
+>   the DHS budget overview, still opening one issue and never editing data.
+> - **Policy-table watcher:** opens a review issue for new immigration/refugee
+>   Federal Register documents not yet in the table.
+> - **Draft-PR job (optional):** for the ICE extraction, build it only if it
+>   fits the existing Claude-API-in-CI pattern cleanly. It must never auto-merge.
+>
+> Every workflow must support `workflow_dispatch` and be safe to rerun (no
+> duplicate issues or PRs). Never splice another agency's data into the ICE
+> series. Document the refresh behaviour in each track's methodology doc and in
+> `ARCHITECTURE_MAP.md`. Run each workflow's script locally to show it detects
+> correctly in both directions (stale and not stale).
