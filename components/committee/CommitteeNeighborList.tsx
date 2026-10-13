@@ -13,8 +13,6 @@ function lead(c: CommitteeSummary, role: "chair" | "ranking_member") {
   return m ? `${m.lastName} (${partyAbbr(m.party)})` : "—";
 }
 
-const CHAMBER = { house: "House", senate: "Senate", joint: "Joint" } as const;
-
 /**
  * Scrollable list under the committee compass. It follows the All / Nearest-neighbors toggle: every committee
  * in the field or just the five ringed ones. Capped
@@ -73,7 +71,6 @@ export function CommitteeNeighborList({
                 {lead(member, "ranking_member")}
               </span>
             </span>
-            <span className="w-10 flex-none text-right text-[0.7rem] text-ink-faint">{CHAMBER[member.chamber]}</span>
           </Link>
         ))}
         {shown.length === 0 && (
