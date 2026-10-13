@@ -15,6 +15,8 @@ export interface LawVoter {
   dim1: number | null;
   dim2: number | null;
   cast: VoteCast;
+  /** True only for a member of the current Congress with a committed photo; everyone else shows the silhouette. */
+  hasPhoto: boolean;
   /** Profile path, only for a member of the current Congress. */
   path: string | null;
 }

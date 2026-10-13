@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { MemberFace } from "@/components/MemberPhoto";
 import type { MemberSearchEntry } from "@/lib/congress-types";
 import { memberPath } from "@/lib/member-url";
 import { memberTitleAbbr } from "@/lib/chamber";
@@ -89,6 +90,7 @@ export function SenatorSearch({ entries, noun }: SenatorSearchProps) {
                   className="size-[0.55rem] flex-none rounded-full"
                   style={{ background: GROUP_VAR[e.group] }}
                 />
+                <MemberFace bioguideId={e.bioguideId} hasPhoto={e.hasPhoto} current />
                 {e.name}
                 <span className="ml-auto font-mono text-[0.72rem] text-ink-faint">
                   {memberTitleAbbr(e.chamber)} {seatLabel(e)}

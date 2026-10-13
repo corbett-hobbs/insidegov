@@ -2,6 +2,7 @@ import "server-only";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
+import { getCurrentMemberIndex } from "./congress-data";
 import { ideologyScore, type IdeologyScore } from "./entities";
 import { lawVotesShard } from "./law-votes-entities";
 import type { LawChamberVotesView, LawVoter, VoteCast } from "./law-votes-types";
@@ -43,6 +44,7 @@ export function getLawVotes(lawId: string, congress: number, origin: "House" | "
   const rec = shard?.laws[lawId];
   if (!shard || !rec) return [];
   const resolve = getLawSponsorResolver();
+  const current = getCurrentMemberIndex();
   const out: LawChamberVotesView[] = [];
   for (const [key, chamber] of [["H", "House"], ["S", "Senate"]] as const) {
     const votes = rec[key];
@@ -70,6 +72,7 @@ export function getLawVotes(lawId: string, congress: number, origin: "House" | "
         dim1: s?.nokken_poole_dim1 ?? null,
         dim2: s?.nokken_poole_dim2 ?? null,
         cast: cast.get(id) ?? "none",
+        hasPhoto: current.get(id)?.hasPhoto ?? false,
         path: person?.[3] ?? null,
       });
     }

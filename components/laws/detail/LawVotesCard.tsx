@@ -10,6 +10,7 @@ import { CompassPanel } from "@/components/senate/CompassPanel";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import type { LawChamberVotesView, LawVoter } from "@/lib/law-votes-types";
 import { partyFillClass } from "@/lib/party-palette";
+import { MemberFace, MemberPhoto } from "@/components/MemberPhoto";
 import { Dot, LINK } from "./LawPeople";
 
 const CAST_WORD = { yea: "Voted yea", nay: "Voted nay", present: "Voted present", absent: "Did not vote", none: "Not recorded on this vote" } as const;
@@ -29,6 +30,7 @@ function VoterList({ title, side, voters }: { title: string; side: "D" | "R"; vo
         {voters.length === 0 && <li className="px-3 py-2 text-[0.82rem] text-ink-muted">None.</li>}
         {voters.map((v) => (
           <li key={v.id} className="flex items-center gap-x-2 whitespace-nowrap border-b border-line px-3 py-1.5 text-[0.82rem] last:border-b-0">
+            <MemberFace bioguideId={v.id} hasPhoto={v.hasPhoto} current={v.path !== null} />
             {v.path ? (
               <Link href={v.path} className={LINK}>
                 {v.name}
@@ -121,6 +123,7 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
               selectHint="Open profile →"
               renderTooltip={(v) => (
                 <div className="tt-body">
+                  {(v.hasPhoto || v.path !== null) && <MemberPhoto key={v.id} bioguideId={v.id} hasPhoto={v.hasPhoto} size="small" className="tt-photo" />}
                   <div>
                     <b>{v.name}</b>
                     <br />

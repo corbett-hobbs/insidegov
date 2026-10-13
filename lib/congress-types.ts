@@ -66,6 +66,7 @@ export interface MemberSearchEntry {
   state: string;
   district: number | null;
   group: PartyGroup;
+  hasPhoto: boolean;
 }
 
 /** Small payload — shipped inline on the homepage, per chamber and blended. */

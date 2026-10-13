@@ -1,3 +1,4 @@
+import { MemberPhoto } from "@/components/MemberPhoto";
 import { chamberLabel, memberTitleAbbr } from "@/lib/chamber";
 import { annualizedRate, hasDataGap } from "@/lib/wealth-derive";
 import {
@@ -23,7 +24,13 @@ export function formatPointUSD(point: WealthYearPoint): string {
 /** The scatter's hover/search card — one cohort member's before/after
  *  summary, plus amber notes for a data gap and/or a clipped point. Values
  *  are always the true (unclamped) dollars. */
-export function WealthMemberTooltip({ member, cap = NET_WORTH_CAP }: { member: WealthMember; cap?: number }) {
+export function WealthMemberTooltip({
+  member,
+  cap = NET_WORTH_CAP,
+}: {
+  member: WealthMember;
+  cap?: number;
+}) {
   const first = member.points[0];
   const last = member.points[member.points.length - 1];
   const years = yearsOfData(member);
@@ -33,41 +40,51 @@ export function WealthMemberTooltip({ member, cap = NET_WORTH_CAP }: { member: W
   const clipped = isClipped(member, cap);
 
   return (
-    <div>
-      <b>
-        {member.name} ({member.caucus === "Democrat" ? "D" : "R"}) ·{" "}
-        {chamberLabel(member.chamber)} · {locationLabel(member)}
-      </b>
-      <br />
-      <span className="tt-mono">
-        {years} yrs of data ({first.year}–{last.year})
-      </span>
-      <br />
-      <span className="tt-mono">
-        {formatPointUSD(first)} → {formatPointUSD(last)}
-      </span>
-      <br />
-      <span className="tt-mono">
-        {formatSignedCompactUSD(change)} total ({formatSignedCompactUSD(rate)}/yr over{" "}
-        {years} yrs)
-      </span>
-      {gapped && (
-        <p className="mt-1 text-note">
-          First year with data {first.year}; entered {member.entryYear}
-        </p>
-      )}
-      {clipped && (
-        <p className="mt-1 text-note">
-          One or both values are beyond ±{formatCompactUSD(cap)} and shown at the
-          chart edge.
-        </p>
-      )}
+    <div className="tt-body">
+      <MemberPhoto
+        key={member.bioguideId}
+        bioguideId={member.bioguideId}
+        hasPhoto={member.hasPhoto}
+        size="small"
+        className="tt-photo"
+      />
+      <div>
+        <b>
+          {member.name} ({member.caucus === "Democrat" ? "D" : "R"}) ·{" "}
+          {chamberLabel(member.chamber)} · {locationLabel(member)}
+        </b>
+        <br />
+        <span className="tt-mono">
+          {years} yrs of data ({first.year}–{last.year})
+        </span>
+        <br />
+        <span className="tt-mono">
+          {formatPointUSD(first)} → {formatPointUSD(last)}
+        </span>
+        <br />
+        <span className="tt-mono">
+          {formatSignedCompactUSD(change)} total ({formatSignedCompactUSD(rate)}
+          /yr over {years} yrs)
+        </span>
+        {gapped && (
+          <p className="mt-1 text-note">
+            First year with data {first.year}; entered {member.entryYear}
+          </p>
+        )}
+        {clipped && (
+          <p className="mt-1 text-note">
+            One or both values are beyond ±{formatCompactUSD(cap)} and shown at
+            the chart edge.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
 
 function locationLabel(member: WealthMember): string {
-  const district = member.chamber === "house" && member.district ? `-${member.district}` : "";
+  const district =
+    member.chamber === "house" && member.district ? `-${member.district}` : "";
   return `${member.state}${district}`;
 }
 

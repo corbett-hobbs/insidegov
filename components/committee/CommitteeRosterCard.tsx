@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MemberFace } from "@/components/MemberPhoto";
 import type { CommitteeProfile } from "@/lib/committee-types";
 import { hasProfilePage, memberPath } from "@/lib/member-url";
 import { ProfilePanel } from "@/components/profile/ProfilePanel";
@@ -60,6 +61,7 @@ export function CommitteeRosterCard({
                   className="size-[0.5rem] flex-none rounded-full"
                   style={{ background: GROUP_VAR[m.group] }}
                 />
+                <MemberFace bioguideId={m.bioguideId} hasPhoto={m.hasPhoto} current />
                 <span className="min-w-0 flex-1 truncate">
                   {m.name}
                   {tag && (
