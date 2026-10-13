@@ -6,45 +6,45 @@ import { PARTY_NAME, longDate, partySplit } from "@/lib/law-details-derive";
 import type { LawPerson } from "@/lib/law-details-types";
 import { Dot, LINK, Person } from "./LawPeople";
 
-const SHOWN = 2;
-const LABEL = "m-0 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint";
-
 /**
- * The cosponsors in the law page's header: the first two by name, then "+N others" that opens the full list (party dot, name,
+ * The cosponsors in the law page's header, styled like the Sponsor line: the first one or two by name, then "+N others" that opens the full list (party dot, name,
  * "D-NY-12"). Names link only for current members. The party counts and the two caveats sit in the open list.
  */
 export function CosponsorsHeader({ people, unresolved, withdrawn = [] }: { people: readonly LawPerson[]; unresolved: number; withdrawn?: readonly LawPerson[] }) {
   const [open, setOpen] = useState(false);
   if (people.length === 0) {
     return (
-      <div className="flex flex-col gap-1">
-        <p className={LABEL}>Cosponsors</p>
-        <p className="m-0">None</p>
-      </div>
+      <p className="m-0">
+        <span className="text-ink-faint">Cosponsors: </span>None
+      </p>
     );
   }
-  const first = people.slice(0, SHOWN);
-  const rest = people.length - first.length;
   const split = partySplit(people.map((p) => p.party));
+  const toggle = (rest: number, cls: string) =>
+    rest > 0 && (
+      <button type="button" aria-expanded={open} aria-controls="law-cosponsors" onClick={() => setOpen((o) => !o)} className={`${LINK} cursor-pointer ${cls}`}>
+        {open ? "Show fewer" : `+${rest} other${rest === 1 ? "" : "s"}`}
+      </button>
+    );
+  // Same look as the Sponsor line: faint "Cosponsors (N): " then the names. One name always shows (it wraps if it must); a second
+  // joins from xl up, where the votes column leaves room. The "+N others" count is the total minus the names shown at that width.
+  const rest1 = people.length - 1;
+  const rest2 = people.length - 2;
   return (
-    <div className="m-0 flex flex-col gap-1">
-      <p className={LABEL}>{`Cosponsors (${people.length})`}</p>
+    <div className="m-0">
       <p className="m-0">
-        {first.map((p, i) => (
-          <span key={`${p.name}-${i}`} className="whitespace-nowrap">
+        <span className="text-ink-faint">{`Cosponsors (${people.length}): `}</span>
+        {people.slice(0, 2).map((p, i) => (
+          <span key={`${p.name}-${i}`} className={i === 1 ? "hidden xl:inline" : undefined}>
             <span className="inline-flex items-center gap-1">
               <Dot party={p.party} />
               <Person p={p} />
             </span>
-            {i < first.length - 1 || rest > 0 ? ", " : ""}
+            {i === 0 ? (people.length > 1 ? ", " : "") : rest2 > 0 ? ", " : ""}
           </span>
         ))}
-        {rest > 0 && " "}
-        {rest > 0 && (
-          <button type="button" aria-expanded={open} aria-controls="law-cosponsors" onClick={() => setOpen((o) => !o)} className={`${LINK} cursor-pointer`}>
-            {open ? "Show fewer" : `+${rest} other${rest === 1 ? "" : "s"}`}
-          </button>
-        )}
+        {toggle(rest1, "xl:hidden")}
+        {toggle(rest2, "max-xl:hidden")}
       </p>
       {open && (
         <div id="law-cosponsors" className="mt-2">
