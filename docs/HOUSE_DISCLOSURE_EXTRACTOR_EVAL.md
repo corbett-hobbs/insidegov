@@ -154,3 +154,5 @@ confidence; 8 / 16 (4 members) parse at `low` with itemised review notes; 4 / 16
 
 Net: the approach is sound and the schema is right; the parser is
 sample-validated but not yet scale-ready. Scaling is a separate session.
+
+> **Note:** `pipeline/financial/` (the validation-sample parser this write-up refers to) has been removed; the paths above are in git history. Its successor is `pipeline/financial_disclosures/`.

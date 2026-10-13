@@ -14,7 +14,7 @@ weaker than reading the opinion. A text-based pass is still the way to settle th
 
 ## The logic carried over from the Executive Orders page
 
-From `pipeline/classify/executive-orders*.ts` and `lib/executive-orders-entities.ts`:
+From `pipeline/classification/executive-orders*.ts` and `lib/executive-orders-entities.ts`:
 
 - **One primary topic per case, by main purpose** (not every agency or party it touches), nine topics, **no "other"**.
 - **Rule first, judgement second** — the EO flow inherits a parent's topic when the input already says it (`parent-inherit`), and records everything else as

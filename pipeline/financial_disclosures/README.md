@@ -14,12 +14,11 @@ than `pipeline/house_financial_disclosures/`.
 > is a fresh build: full-scale (~435 members × up to 13 years), a different
 > extraction technique (column-position + literal band-string counting
 > instead of clustering words into visual lines), and a different,
-> band-counted output schema. `pipeline/financial/` is left in place as
-> reference/history, not deleted.
+> band-counted output schema. `pipeline/financial/` has since been removed (it remains in git history).
 
 ## Setup
 
-System Python 3.9 works here (no 3.11+ requirement, unlike `pipeline/financial/`):
+System Python 3.9 works here (no 3.11+ requirement, unlike the removed `pipeline/financial/`):
 
 ```bash
 cd pipeline/financial_disclosures

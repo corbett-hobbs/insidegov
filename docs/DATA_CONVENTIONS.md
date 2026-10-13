@@ -397,11 +397,11 @@ revocation is derived from `revokes`.
 `topic_method`: `parent-inherit` | `model` | `manual`. `pnpm transform`, `pnpm
 validate` and CI only *read* it; a new EO with no cached topic **fails loudly**
 (listing the missing numbers) and is never defaulted to "other". Maintenance is
-`pnpm classify:eos` (`pipeline/classify/executive-orders.ts`): it lets
+`pnpm classify:eos` (`pipeline/classification/executive-orders.ts`): it lets
 amending/revoking orders inherit a parent's topic, then reports the orders still
 needing one; `-- --labels FILE` records labels for those (`model`).
 The weekly freshness workflow does that last step unattended: `pnpm classify:eos:auto`
-(`pipeline/classify/executive-orders-auto.ts`) sends each remaining order's title,
+(`pipeline/classification/executive-orders-auto.ts`) sends each remaining order's title,
 agencies and notes to the Claude API (needs the `ANTHROPIC_API_KEY` repo secret) and
 records the answer as `model`; answers below "high" confidence, or on a pointer-only
 title, are stored `needs_review`. With no key, an API error or an answer outside the
