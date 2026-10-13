@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { CommitteeSeal } from "./CommitteeSeal";
 import type { CommitteeSummary } from "@/lib/committee-types";
 import { committeePath } from "@/lib/committee-url";
 import { ListSearch } from "@/components/ListSearch";
@@ -58,6 +59,7 @@ export function CommitteeNeighborList({
                 {i + 1}
               </span>
             )}
+            <CommitteeSeal chamber={member.chamber} size={20} className="size-5" />
             <span className="min-w-0 flex-1 truncate text-ink" title={member.shortName}>
               {member.shortName}
             </span>

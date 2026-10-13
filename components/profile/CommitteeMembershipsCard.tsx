@@ -4,6 +4,7 @@ import type { MemberProfile } from "@/lib/congress-types";
 import { committeePath } from "@/lib/committee-url";
 import { AlignmentTrack } from "@/components/charts/AlignmentTrack";
 import { GROUP_VAR, fmt2, ordinal } from "@/components/senate/format";
+import { CommitteeSeal } from "@/components/committee/CommitteeSeal";
 import { RoleTag } from "@/components/committee/RoleTag";
 import { ProfilePanel } from "./ProfilePanel";
 
@@ -43,7 +44,9 @@ export function CommitteeMembershipsCard({
             key={m.committeeId}
             className="relative -mx-1 grid grid-cols-[1fr_140px] items-center gap-x-4 rounded border-b border-line last:border-b-0 px-1 py-[0.7rem] hover:bg-surface-raised sm:grid-cols-[1fr_clamp(220px,34%,380px)]"
           >
-            <div className="min-w-0 sm:col-start-1 sm:row-start-1">
+            <div className="flex min-w-0 items-center gap-2.5 sm:col-start-1 sm:row-start-1">
+              <CommitteeSeal chamber={m.chamber} size={28} className="size-7" />
+              <div className="min-w-0">
               <Link
                 href={committeePath(m)}
                 className="group text-[0.9rem] text-ink hover:text-accent hover:underline after:absolute after:inset-0 after:content-['']"
@@ -53,6 +56,7 @@ export function CommitteeMembershipsCard({
               <RoleTag role={m.role} />
               <div className="mt-0.5 text-[0.72rem] text-ink-faint sm:ml-3 sm:mt-0 sm:inline">
                 {m.memberCount} members · seniority rank {m.rank}
+              </div>
               </div>
             </div>
             <div className="col-start-2 row-span-2 row-start-1">
@@ -75,7 +79,7 @@ export function CommitteeMembershipsCard({
               )}
             </div>
             {m.subcommittees.length > 0 && (
-              <details className="group/sub relative z-10 col-span-2 row-start-3 mt-1.5 sm:col-span-1 sm:col-start-1 sm:row-start-2 sm:mt-0.5">
+              <details className="group/sub relative z-10 col-span-2 row-start-3 mt-1.5 sm:col-span-1 sm:col-start-1 sm:row-start-2 sm:mt-0.5 sm:pl-[2.375rem]">
                 <summary className="flex w-fit cursor-pointer list-none items-center gap-1 text-[0.72rem] text-ink-muted hover:text-accent [&::-webkit-details-marker]:hidden">
                   <span className="inline-block transition-transform group-open/sub:rotate-90">
                     ▸

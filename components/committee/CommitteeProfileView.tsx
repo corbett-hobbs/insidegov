@@ -2,6 +2,7 @@ import type {
   CommitteeProfile,
   CommitteeSummary,
 } from "@/lib/committee-types";
+import type { CommitteeAbout } from "@/lib/wikipedia-types";
 import { SiteFooter } from "@/components/senate/SiteFooter";
 import { SetBackLink } from "@/components/BackLinkContext";
 import { CommitteeHeader } from "./CommitteeHeader";
@@ -27,11 +28,14 @@ export function CommitteeProfileView({
   compassPool,
   compassBackdrop,
   legislation,
+  about = null,
 }: {
   committee: CommitteeProfile;
   compassPool: CommitteeSummary[];
   compassBackdrop: { dim1: number | null; dim2: number | null }[];
   legislation: CommitteeBillsSummary | null;
+  /** Wikipedia description for the header's About block. */
+  about?: CommitteeAbout | null;
 }) {
   const backHref =
     committee.chamber === "house"
@@ -44,7 +48,7 @@ export function CommitteeProfileView({
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-6 pb-16 pt-11">
       <SetBackLink href={backHref} />
 
-      <CommitteeHeader committee={committee} />
+      <CommitteeHeader committee={committee} about={about} />
 
       <section
         aria-label="Ideology"
