@@ -67,7 +67,16 @@ export class CongressApi {
       const rem = res.headers.get("x-ratelimit-remaining");
       if (rem !== null) this.remaining = Number(rem);
       if (res.status === 404) return null;
-      if (res.ok) return await res.json();
+      if (res.ok) {
+        // A connection dropped mid-body ("terminated") is retried like one dropped before the response.
+        try {
+          return await res.json();
+        } catch (e) {
+          if (attempt >= 6) throw new ApiError(`GET ${path}: ${e instanceof Error ? e.message : "body read failed"}`, 0);
+          await this.sleep(2000 * attempt);
+          continue;
+        }
+      }
       if ((res.status === 429 || res.status >= 500) && attempt < 8) {
         const retry = Number(res.headers.get("retry-after"));
         await this.sleep(res.status === 429 ? (Number.isFinite(retry) && retry > 0 ? retry * 1000 : 60_000) : 2000 * attempt);
@@ -265,15 +274,13 @@ export function apiCosponsorRecords(list: ApiCosponsorFull[]): RawCosponsorRecor
   return list.flatMap((c) => (c.bioguideId && /^[A-Z]\d{6}$/.test(c.bioguideId) ? [{ id: c.bioguideId, date: isoDay(c.sponsorshipDate), original: c.isOriginalCosponsor === true, withdrawn: isoDay(c.sponsorshipWithdrawnDate) }] : []));
 }
 
-/** The extras for one bill (shared by every law the bill became). */
-export function extrasFromApiBill(lawIds: string[], parts: { actions: ApiAction[]; summaries: ApiSummary[]; amendments: ApiAmendment[]; related: ApiRelatedBill[]; cosponsors: ApiCosponsorFull[] }): RawLawExtras[] {
+/**
+ * The extras for one bill (shared by every law the bill became). For the 93rd-107th only the full summary and every cosponsor with dates
+ * are kept: the full action list, amendments and related bills (about 60% of the size) are little used for laws that old, which keep the
+ * Phase 1 action list built from the Laws raw files.
+ */
+export function extrasFromApiBill(lawIds: string[], parts: { summaries: ApiSummary[]; cosponsors: ApiCosponsorFull[] }): RawLawExtras[] {
   const versions: SummaryVersion[] = parts.summaries.map((s) => ({ stage: s.actionDesc ?? null, date: isoDay(s.actionDate), html: s.text ?? "" }));
-  const body = {
-    summary_html: pickSummary(versions, Infinity)?.html ?? null,
-    actions: slimActions(apiActions(parts.actions, true)),
-    amendments: apiAmendments(parts.amendments),
-    related: apiRelatedBills(parts.related),
-    cosponsors: apiCosponsorRecords(parts.cosponsors),
-  };
+  const body = { summary_html: pickSummary(versions, Infinity)?.html ?? null, cosponsors: apiCosponsorRecords(parts.cosponsors) };
   return lawIds.map((law_id) => ({ law_id, ...body }));
 }

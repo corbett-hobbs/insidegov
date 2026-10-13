@@ -5,7 +5,7 @@ actions, sponsor, cosponsors, votes, amendments and related bills here instead o
 
 Scope is **laws only**, not every bill. Failed and stalled bills are out of scope.
 
-Status: **Phase 1 built** (2026-10-09); **Phase 2a and 2c built** (2026-10-13); 2b and 2d in progress. Recommended effort: **medium** for Phase 1, **high** for Phase 2.
+Status: **Phase 1 built** (2026-10-09); **Phases 1, 2a, 2b, 2c and 2d built** (2026-10-13). Recommended effort: **medium** for Phase 1, **high** for Phase 2.
 
 ---
 
@@ -118,6 +118,8 @@ Each step is independent and can ship on its own. The page shows a section only 
   related bills, cosponsors). Needs rate-limit handling and a resumable cache.
 - Slowest and riskiest step. Can be done last or skipped; older laws then show the Phase 1 sections only, with a data
   note.
+
+**As built (2b), the lighter record.** Done with the API fetcher `pipeline/fetch/law-extras-api.ts` (`pnpm fetch:law-extras`, about three calls per bill, resumable), writing `pipeline/raw/law-extras/93.json`-`107.json`. A first version also fetched actions, amendments and related bills (about 120 MB added); it was cut back to the full summary and the cosponsors with dates (about 68 MB added: 43 MB raw, 25 MB more output), because that older data is little used. The 108th-119th keep everything. The extras schema makes `actions`, `amendments` and `related` optional for this reason.
 
 ### 2c. Who voted yea/nay
 

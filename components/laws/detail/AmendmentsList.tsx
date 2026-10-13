@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { AMENDMENT_STATUSES, longDate } from "@/lib/law-details-derive";
+import { stateName } from "@/lib/states";
 import type { AmendmentStatus, LawAmendmentEntry } from "@/lib/law-details-types";
 import { Dot, LINK, Person } from "./LawPeople";
 
@@ -25,18 +26,23 @@ const sponsorKey = (a: LawAmendmentEntry) => `${a.sponsor?.name}|${a.sponsor?.la
 export function AmendmentsList({ amendments }: { amendments: readonly LawAmendmentEntry[] }) {
   const [status, setStatus] = useState<AmendmentStatus | "all">("all");
   const [sponsor, setSponsor] = useState("all");
-  // Members who offered at least one amendment, A-Z by last name; a committee or other non-member sponsor is not listed.
-  const sponsors = useMemo(() => {
-    const m = new Map<string, { name: string; label: string; n: number }>();
+  // Members who offered at least one amendment, grouped by state (A-Z by state name), A-Z by last name within a state; a committee or other
+  // non-member sponsor is not listed. The state is the second part of the label ("D-AZ", "D-NY-12"); the label is shown whole.
+  const { sponsors, groups } = useMemo(() => {
+    const m = new Map<string, { name: string; label: string; n: number; state: string }>();
     for (const a of amendments) {
       if (!a.sponsor) continue;
       const k = sponsorKey(a);
-      const e = m.get(k) ?? { name: a.sponsor.name, label: a.sponsor.label, n: 0 };
+      const e = m.get(k) ?? { name: a.sponsor.name, label: a.sponsor.label, n: 0, state: a.sponsor.label.split("-")[1] ?? "" };
       e.n++;
       m.set(k, e);
     }
     const last = (n: string) => n.replace(/^(Rep\.|Sen\.|Del\.|Resident Commissioner)\s+/, "").split(" ").slice(-1)[0] ?? n;
-    return [...m].sort((x, y) => last(x[1].name).localeCompare(last(y[1].name)) || x[1].name.localeCompare(y[1].name));
+    const list = [...m].sort((x, y) => last(x[1].name).localeCompare(last(y[1].name)) || x[1].name.localeCompare(y[1].name));
+    const byState = new Map<string, typeof list>();
+    for (const e of list) byState.set(e[1].state, [...(byState.get(e[1].state) ?? []), e]);
+    const groups = [...byState].map(([abbr, members]) => ({ abbr, name: stateName(abbr) || "Other", members })).sort((x, y) => x.name.localeCompare(y.name));
+    return { sponsors: list, groups };
   }, [amendments]);
   const bySponsor = useMemo(() => (sponsor === "all" ? amendments : amendments.filter((a) => a.sponsor && sponsorKey(a) === sponsor)), [amendments, sponsor]);
   const counts = useMemo(() => {
@@ -55,8 +61,12 @@ export function AmendmentsList({ amendments }: { amendments: readonly LawAmendme
           </label>
           <select id="amdt-sponsor" value={sponsor} onChange={(e) => setSponsor(e.target.value)} className="min-w-0 max-w-full flex-1 rounded-md border border-line-strong bg-surface px-2 py-1 text-[0.85rem] text-ink sm:max-w-[22rem] sm:flex-none">
             <option value="all">{`All members (${sponsors.length})`}</option>
-            {sponsors.map(([k, p]) => (
-              <option key={k} value={k}>{`${p.name} (${p.label}) · ${p.n}`}</option>
+            {groups.map((g) => (
+              <optgroup key={g.abbr} label={`${g.name} (${g.members.length})`}>
+                {g.members.map(([k, p]) => (
+                  <option key={k} value={k}>{`${p.name} (${p.label}) · ${p.n}`}</option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </div>
