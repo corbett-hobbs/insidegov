@@ -7,8 +7,6 @@ import { RefugeeCountryCard } from "./RefugeeCountryCard";
 import { RefugeeTopCard } from "./RefugeeTopCard";
 import type { MapFeature } from "./RemovalsMap";
 
-const asOfLabel = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
-
 /**
  * The refugee cards under the ICE ones, on the page's pinned year window (the same slider and president band). When the window
  * reaches ICE's newest year the section also shows the one year beyond it (FY2026, preliminary), as ICE shows its own unlocked
@@ -42,9 +40,6 @@ export function RefugeeSection({
       <RefugeeCeilingCard payload={payload} years={years} fy={fy} onFy={setFy} />
       <RefugeeCountryCard payload={payload} worldMap={worldMap} fy={fy} yearRange={[range[0], lastShown]} onFy={setFy} country={country} onCountry={setCountry} />
       <RefugeeTopCard payload={payload} fromFy={range[0]} toFy={lastShown} fy={fy} onFy={setFy} country={country} />
-      <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-        Source: Presidential Determinations on Refugee Admissions (Federal Register) for the ceilings; State Department Refugee Processing Center, Refugee Admissions Report as of September 30, 2026, for arrivals. The numbered rules are the executive orders and proclamations cited in each note; dates and statuses are as of {asOfLabel(payload.asOf)}, and court status is not tracked. Each fiscal year is assigned to the administration in office on September 30. One program, one definition: refugees only, never combined with ICE or other immigration counts.
-      </p>
     </>
   );
 }

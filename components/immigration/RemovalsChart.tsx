@@ -21,7 +21,7 @@ import {
 } from "@/lib/immigration-chart";
 import { RETURNS_COUNTED_FROM, type IceMarker, type IceTerm, type IceYear } from "@/lib/immigration-derive";
 import { useElementWidth } from "@/lib/use-element-width";
-import { BarCard, MarkerCard } from "./Cards";
+import { BarCard, HOVER_W, MarkerCard, besideBar } from "./Cards";
 
 const FALLBACK_W = 1084;
 const PLOT_TOP = 34;
@@ -156,8 +156,8 @@ export function RemovalsChart({
         <BarCard
           year={yr}
           terms={termById}
-          width={barCardW}
-          left={cardLeft(left + xSlot(i) + slotW / 2, barCardW)}
+          width={open.pinned ? barCardW : HOVER_W}
+          left={open.pinned ? cardLeft(left + xSlot(i) + slotW / 2, barCardW) : besideBar(left + xSlot(i) + slotW / 2, barW, HOVER_W, W)}
           interactive={open.pinned}
         />
       );

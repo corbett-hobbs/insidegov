@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
-import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
@@ -60,7 +60,7 @@ export function LprGreenCardCard({
   );
   return (
     <ChartCard title="Green cards and citizenships by fiscal year" lede={lede} action={toggle}>
-      <div className={`${LEGEND_ROW} mb-2`}>
+      <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {nat
           ? presentRegions.map((r) => (
               <LegendToggle key={r.key} active={onlyRegion === r.key} dimmed={onlyRegion !== null && onlyRegion !== r.key} onClick={() => toggleRegion(r.key)}>

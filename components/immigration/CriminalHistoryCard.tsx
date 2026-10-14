@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
-import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
@@ -87,22 +87,21 @@ export function CriminalHistoryCard({
         />
       }
       action={
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-2">
-            <span id="crim-agency-label" className="text-[0.8rem] text-ink-muted">
-              Arrested by
-            </span>
-            <PillGroup<AgencyView>
-              labelledBy="crim-agency-label"
-              value={view}
-              onChange={setView}
-              options={[
-                { value: "all", label: "All" },
-                { value: "ice", label: "ICE" },
-                { value: "cbp", label: "Border Patrol" },
-              ]}
-            />
-          </div>
+        // Phones: the "Arrested by" label sits on its own line and both toggles share the line under it; from `sm` the label sits beside them.
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+          <span id="crim-agency-label" className="w-full text-[0.8rem] text-ink-muted sm:w-auto">
+            Arrested by
+          </span>
+          <PillGroup<AgencyView>
+            labelledBy="crim-agency-label"
+            value={view}
+            onChange={setView}
+            options={[
+              { value: "all", label: "All" },
+              { value: "ice", label: "ICE" },
+              { value: "cbp", label: "Border Patrol" },
+            ]}
+          />
           <PillGroup<Measure>
             ariaLabel="Counts or shares"
             value={measure}
@@ -123,7 +122,7 @@ export function CriminalHistoryCard({
           return {
             key: v,
             node: (
-              <div className={LEGEND_ROW}>
+              <div className={LEGEND_ROW_CAPPED}>
                 {CRIM_ORDER.filter((k) => vb.some((b) => b.parts.some((p) => p.key === k))).map((k: Criminality) => (
                   <span key={k} className={LEGEND_ITEM}>
                     <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: CRIM_COLOR[k] }} />
