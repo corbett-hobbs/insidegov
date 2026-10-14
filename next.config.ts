@@ -1,6 +1,13 @@
 import type { NextConfig } from "next";
 import { verticalRedirects } from "./lib/verticals";
 
+const API_TABLES = [
+  "./pipeline/output/*.json",
+  "./pipeline/output/court/*.json",
+  "./pipeline/output/trade_by_country/*.json",
+  "./pipeline/output/duties_by_country/*.json",
+];
+
 const nextConfig: NextConfig = {
   // Verticals -> sections (lib/verticals.ts): "/<vertical>" redirects to the
   // vertical's default section. A bare "/" is the hub and must not redirect, so
@@ -47,6 +54,11 @@ const nextConfig: NextConfig = {
     "/supreme-court/ideology": ["./pipeline/output/court/*.json"],
     "/supreme-court/justices/[justice_id]/[name_slug]": ["./pipeline/output/court/*.json"],
     "/": ["./pipeline/output/court/*.json"],
+    // The public API and the MCP server load whole tables by name (lib/api-datasets.ts), including the
+    // per-year trade and duties shards and the Court files.
+    "/api/v1/datasets/[id]": API_TABLES,
+    "/api/v1/datasets/[id]/rows": API_TABLES,
+    "/mcp": API_TABLES,
   },
 };
 
