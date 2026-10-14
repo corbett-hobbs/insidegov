@@ -15,6 +15,7 @@ import { DOLLAR_MIX, SHARE_BINS, SHARE_MIX, buildPathIndex, dollarBins, dollarCl
 import { useAidState } from "./ForeignAidState";
 import { RankedList } from "./RankedList";
 import { TD, TH, TableView, slotColor } from "./shared";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 type Measure = "dollars" | "share";
 /** The one toggle: which measure the map shades and the list ranks by. Clicking the active button reverses the list only. */
@@ -260,7 +261,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
       </div>
       <Tooltip state={tip.state}>{(h) => <MapTip hit={h} year={year} />}</Tooltip>
 
-      <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-1 text-[0.75rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2`}>
         <span className="inline-flex items-center gap-1.5">
           <i className="inline-block h-2.5 w-[22px] rounded-[2px] border border-line" style={{ background: LAND }} />
           {share ? "None / no aid" : "No aid"}

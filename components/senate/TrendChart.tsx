@@ -10,6 +10,7 @@ import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
 import type { PartyMeanPoint } from "@/lib/congress-types";
 import { useElementWidth } from "@/lib/use-element-width";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 /** Used before the container is first measured (avoids a zero-width flash). */
 const FALLBACK_W = 1160;
@@ -180,7 +181,7 @@ export function TrendChart({
         }}
       </ChartFrame>
 
-      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.72rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2`}>
         {([
           { k: "dem", color: "var(--dem)", text: stateOverlay ? `${stateOverlay.label} Democrats` : "Democrats" },
           { k: "rep", color: "var(--rep)", text: stateOverlay ? `${stateOverlay.label} Republicans` : "Republicans" },

@@ -9,6 +9,7 @@ import { fmtMoney } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
 import { BALANCE_BINS, BALANCE_MIX, TOTAL_BINS, TOTAL_MIX, mapFill, type MapModel, type TradeMeasure } from "@/lib/trade-map";
 import type { PartnerChartRow } from "@/lib/trade-partners";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const LAND = "color-mix(in oklab, var(--ink) 7%, var(--surface))";
 const mix = (base: string, pct: number) => `color-mix(in oklab, ${base} ${pct}%, var(--surface))`;
@@ -142,7 +143,7 @@ export function TradeMap({
           <ZoomControls onZoomIn={zoom.zoomIn} onZoomOut={zoom.zoomOut} onReset={zoom.reset} canZoomIn={zoom.canZoomIn} zoomed={zoom.zoomed} />
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 mt-3 text-[0.75rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-3`}>
         <span className="inline-flex items-center gap-1.5">
           <i className="inline-block h-2.5 w-[22px] rounded-[2px] border border-line" style={{ background: LAND }} />
           No trade

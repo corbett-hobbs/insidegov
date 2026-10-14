@@ -5,6 +5,7 @@ import { MapCallouts } from "@/components/charts/MapCallouts";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useZoomPan } from "@/components/charts/use-zoom-pan";
 import { ZoomControls } from "@/components/charts/ZoomControls";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 export interface MapFeature {
   key: string;
@@ -87,7 +88,7 @@ export function RemovalsMap({
 
   return (
     <div className="flex min-w-0 flex-col">
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 text-[0.75rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} justify-between`}>
         <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
           <span className="inline-flex items-center gap-1.5">
             <i className="inline-block h-2.5 w-[22px] rounded-[2px] border border-line" style={{ background: LAND }} />

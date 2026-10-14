@@ -12,6 +12,7 @@ import {
   type ProfileYearStatus,
 } from "@/lib/wealth-derive";
 import { formatCompactUSD, formatOpenEndedUSD } from "@/lib/format-money";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const W = 640;
 const DEFAULT_H = 280;
@@ -322,7 +323,7 @@ export function MemberNetWorthChart({ years, selectedYear, onSelectYear, memberN
         {(p) => <YearHoverCard point={p} />}
       </Tooltip>
 
-      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.72rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2`}>
         <LegendLine className="stroke-accent" label="Midpoint" />
         <span className="flex items-center gap-1.5">
           <span aria-hidden className="h-2.5 w-4 flex-none rounded-sm bg-accent opacity-20" />

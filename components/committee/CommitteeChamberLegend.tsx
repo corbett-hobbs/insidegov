@@ -1,3 +1,4 @@
+import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { CHAMBER_COLOR_META, chamberCssVar } from "@/lib/committee-palette";
 import type { CommitteeChamber } from "@/lib/committee-types";
 
@@ -21,14 +22,14 @@ export function CommitteeChamberLegend({
   if (present.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-x-[1.1rem] gap-y-1 border-t border-line pt-3">
+    <div className={`${LEGEND_ROW} border-t border-line pt-3`}>
       {present.map((chamber) => (
         <span
           key={chamber}
-          className="flex items-center gap-[0.4rem] text-[0.8rem] text-ink-muted"
+          className={LEGEND_ITEM}
         >
           <span
-            className="size-[0.62rem] flex-none rounded-full"
+            className="size-2.5 flex-none rounded-full"
             style={{ background: chamberCssVar(chamber) }}
           />
           {CHAMBER_COLOR_META[chamber].label}

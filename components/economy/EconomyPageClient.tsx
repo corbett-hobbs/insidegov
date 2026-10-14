@@ -12,6 +12,7 @@ import { EconomyCard } from "./EconomyCard";
 import type { EconomyData } from "@/lib/indicator-payload";
 import { EconomyFilterBar } from "./EconomyFilterBar";
 import { CARD_ORDER, SPECS } from "./specs";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const longDate = (iso: string) =>
   new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -132,7 +133,7 @@ function EconomyPage({
           reading={latest.mis}
           desc={SPECS.mis.desc}
           legend={
-            <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.75rem] text-ink-muted">
+            <div className={`${LEGEND_ROW} mt-2.5`}>
               <span className="inline-flex items-center gap-1.5"><Swatch color="color-mix(in srgb, var(--ink) 9%, transparent)" border />Recession (NBER)</span>
             </div>
           }
@@ -150,7 +151,7 @@ function EconomyPage({
               legend={
                 k === "gas" || k === "debt"
                   ? ({ only, isolate }) => (
-                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.75rem] text-ink-muted">
+                      <div className={`${LEGEND_ROW} mt-2`}>
                         <LegendToggle active={only === "main"} dimmed={only === "second"} onClick={() => isolate("main")}>
                           <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>
                           {k === "gas" ? "Regular gasoline" : "Held by the public"}

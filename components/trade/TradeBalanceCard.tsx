@@ -21,6 +21,7 @@ import { TradeBalanceChart, type Era } from "./TradeBalanceChart";
 import { MobileReadout } from "./MobileReadout";
 import { activeDay, useTradeActions, useTradeValues } from "./TradeState";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const MEASURES = [
   { value: "balance", label: "Balance" },
@@ -153,7 +154,7 @@ export function TradeBalanceCard({
         )}
       </div>
 
-      <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.75rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2.5`}>
         {measure === "flows" && (
           <>
             <span className="inline-flex items-center gap-1.5"><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>Exports</span>
