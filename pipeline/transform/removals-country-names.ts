@@ -103,14 +103,27 @@ export interface ResolvedCountry {
   display_name: string;
 }
 
-export function resolveCountry(iceName: string, index: CountryIndex): ResolvedCountry {
+/**
+ * Another track's names (the refugee track) pass their own alias and special-entity tables; the
+ * lookup order is the same: trade names first, then the aliases.
+ */
+export interface NameTables {
+  aliases: Readonly<Record<string, string>>;
+  specials: Readonly<Record<string, string>>;
+  /** Where to add a missing alias, for the error message. */
+  aliasHome: string;
+}
+
+const ICE_TABLES: NameTables = { aliases: ICE_ALIASES, specials: SPECIAL_ENTITIES, aliasHome: "ICE_ALIASES in removals-country-names.ts" };
+
+export function resolveCountry(iceName: string, index: CountryIndex, tables: NameTables = ICE_TABLES): ResolvedCountry {
   const n = normalizeName(iceName);
   const hit = index.byName.get(n);
-  const key = hit?.country_code ?? ICE_ALIASES[n];
-  if (!key) throw new UnmappedCountryError(`ICE country "${iceName}" has no country_key: add it to ICE_ALIASES in removals-country-names.ts`);
-  const special = SPECIAL_ENTITIES[key];
+  const key = hit?.country_code ?? tables.aliases[n];
+  if (!key) throw new UnmappedCountryError(`country "${iceName}" has no country_key: add it to ${tables.aliasHome}`);
+  const special = tables.specials[key];
   if (special) return { country_key: key, display_name: special };
   const ref = index.byKey.get(key);
-  if (!ref) throw new UnmappedCountryError(`ICE country "${iceName}" maps to ${key}, which is not in countries.json`);
+  if (!ref) throw new UnmappedCountryError(`country "${iceName}" maps to ${key}, which is not in countries.json`);
   return { country_key: key, display_name: displayCountryName(key, ref.name) };
 }

@@ -1,0 +1,196 @@
+## sheet: TOC
+Table of Contents
+Click link for corresponding tab:
+Table 13 | Refugee Arrivals: Fiscal Years 1980 to 2024
+Table 14 | Refugee Arrivals by Region and Country of Nationality: Fiscal Years 2015 to 2024
+Table 15 | Refugee Arrivals by Relationship to Principal Applicant and Sex, Age, and Marital Status: Fiscal Year 2024
+## sheet: Table 13
+Return to Table of Contents
+Table 13.
+REFUGEE ARRIVALS: FISCAL YEARS 1980 TO 2024
+Year | Number
+1980 | 207120
+1981 | 159250
+1982 | 98100
+1983 | 61220
+1984 | 70390
+1985 | 67700
+1986 | 62150
+1987 | 64530
+1988 | 76480
+1989 | 107070
+1990 | 122070
+1991 | 113390
+1992 | 115550
+1993 | 114180
+1994 | 111680
+1995 | 98970
+1996 | 75420
+1997 | 69650
+1998 | 76710
+1999 | 85290
+2000 | 72170
+2001 | 68920
+2002 | 26790
+2003 | 28290
+2004 | 52840
+2005 | 53740
+2006 | 41090
+2007 | 48220
+2008 | 60110
+2009 | 74600
+2010 | 73290
+2011 | 56380
+2012 | 58180
+2013 | 69910
+2014 | 69980
+2015 | 69920
+2016 | 84990
+2017 | 53690
+2018 | 22410
+2019 | 29920
+2020 | 11840
+2021 | 11450
+2022 | 25520
+2023 | 60050
+2024 | 100060
+Notes: To protect privacy, we round table cells to the nearest 10. Data series began following the Refugee Act of 1980. Excludes Amerasian immigrants except in Fiscal Years 1989 to 1991. Figures are based on refugee arrival date; certain refugee applicants who arrived in FY 2020-2024 count towards the FY 2018 refugee admissions ceiling.
+Source: February 2025 Office of Homeland Security Statistics Persist Dataset based on data provided by Department of State Bureau of Population, Refugees, and Migration refugee case management system.
+## sheet: Table 14
+Return to Table of Contents
+Table 14.
+REFUGEE ARRIVALS BY REGION AND COUNTRY OF NATIONALITY: FISCAL YEARS 2015 TO 2024
+Region and country of nationality | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024
+REGION
+Total | 69920 | 84990 | 53690 | 22410 | 29920 | 11840 | 11450 | 25520 | 60050 | 100060
+Africa | 22500 | 31640 | 20250 | 10460 | 16370 | 4170 | 6260 | 11410 | 24530 | 34100
+Asia | 43090 | 48270 | 26650 | 7520 | 7850 | 4240 | 3830 | 9470 | 26890 | 37970
+Europe | 2180 | 3680 | 5020 | 3460 | 4850 | 2480 | 920 | 2140 | 2260 | 2580
+North America | 1530 | 810 | 1460 | 830 | 510 | 710 | 350 | 2060 | 3720 | 11140
+Oceania | 0 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 0
+South America | 520 | 530 | 230 | 130 | 300 | 240 | 50 | 420 | 2600 | 14220
+Unknown | 100 | 60 | 90 | 0 | 30 | 0 | 30 | 20 | 60 | 50
+COUNTRY
+Total | 69920 | 84990 | 53690 | 22410 | 29920 | 11840 | 11450 | 25520 | 60050 | 100060
+Afghanistan | 910 | 2740 | 1320 | 800 | 1200 | 600 | 870 | 1620 | 6590 | 14680
+Algeria | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10
+Armenia | 50 | 60 | 60 | 60 | 30 | 60 | 30 | 200 | 190 | 310
+Azerbaijan | 20 | 30 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 10
+Belarus | 100 | 190 | 80 | 180 | 100 | 0 | 0 | 0 | 130 | 390
+Bhutan | 5560 | 5460 | 3340 | 2020 | 30 | 10 | 0 | 10 | 20 | 0
+Burma | 18320 | 12290 | 5050 | 3530 | 4930 | 2110 | 770 | 2140 | 6130 | 7330
+Burundi | 1220 | 730 | 300 | 220 | 260 | 50 | 130 | 220 | 360 | 630
+Cambodia | 0 | 20 | 10 | 0 | 0 | 0 | 0 | 30 | 10 | 70
+Cameroon | 20 | 10 | 20 | 10 | 30 | 10 | 0 | 0 | 30 | 120
+Central African Republic | 260 | 400 | 270 | 140 | 240 | 90 | 20 | 180 | 630 | 860
+Chad | 20 | 10 | 10 | 0 | 10 | 0 | 0 | 0 | 10 | 10
+China, People's Republic | 30 | 60 | 30 | 10 | 0 | 0 | 0 | 10 | 20 | 10
+Colombia | 500 | 520 | 230 | 130 | 300 | 220 | 50 | 250 | 1160 | 2520
+Congo, Democratic Republic | 7820 | 16280 | 9330 | 7840 | 12880 | 2860 | 4880 | 7740 | 18080 | 19830
+Congo, Republic | 50 | 20 | 10 | 10 | 0 | 0 | 0 | 10 | 0 | 340
+Costa Rica | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 380
+Cote d'Ivoire | 30 | 80 | 50 | 20 | 70 | 30 | 30 | 0 | 20 | 80
+Cuba | 1530 | 350 | 180 | 0 | 0 | 10 | 0 | 0 | 40 | 230
+Dominican Republic | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 30
+Ecuador | 20 | 10 | 0 | 0 | 0 | 0 | 0 | 10 | 60 | 230
+Egypt | 10 | 20 | 10 | 0 | 10 | 0 | 0 | 10 | 10 | 0
+El Salvador | 0 | 360 | 1120 | 720 | 310 | 360 | 200 | 520 | 1050 | 1320
+Eritrea | 1580 | 1920 | 1910 | 1260 | 1750 | 480 | 190 | 320 | 970 | 2400
+Ethiopia | 650 | 1150 | 790 | 390 | 260 | 120 | 80 | 270 | 450 | 530
+Gambia | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 20
+Georgia | 10 | 20 | 0 | 0 | 30 | 0 | 0 | 0 | 0 | 30
+Guatemala | 0 | 10 | 50 | 40 | 120 | 250 | 60 | 1080 | 1760 | 5030
+Guinea | 0 | 10 | 10 | 10 | 10 | 0 | 0 | 0 | 30 | 90
+Haiti | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 30 | 260
+Honduras | 0 | 80 | 100 | 60 | 70 | 90 | 80 | 450 | 600 | 900
+India | 20 | 90 | 50 | 30 | 0 | 0 | 0 | 0 | 0 | 10
+Indonesia | 50 | 40 | 30 | 20 | 0 | 0 | 0 | 10 | 50 | 10
+Iran | 3100 | 3740 | 2580 | 40 | 200 | 140 | 180 | 260 | 740 | 470
+Iraq | 12610 | 9840 | 6860 | 140 | 460 | 540 | 500 | 500 | 1220 | 2270
+Jamaica | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 20
+Jordan | 20 | 10 | 10 | 0 | 10 | 0 | 0 | 10 | 10 | 30
+Kazakhstan | 60 | 90 | 40 | 50 | 10 | 30 | 20 | 10 | 80 | 110
+Kenya | 10 | 10 | 10 | 0 | 20 | 0 | 0 | 0 | 10 | 20
+Korea, North | 20 | 10 | 10 | 10 | 0 | 0 | 0 | 0 | 0 | 0
+Kyrgyzstan | 20 | 40 | 30 | 10 | 50 | 0 | 0 | 0 | 150 | 80
+Latvia | 0 | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0
+Lebanon | 10 | 10 | 0 | 0 | 0 | 10 | 0 | 0 | 0 | 10
+Liberia | 10 | 20 | 10 | 10 | 30 | 30 | 20 | 10 | 10 | 30
+Libya | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 10 | 50
+Mali | 0 | 10 | 10 | 0 | 0 | 0 | 0 | 0 | 30 | 180
+Moldova | 320 | 460 | 290 | 200 | 120 | 350 | 80 | 510 | 480 | 370
+Nepal | 220 | 310 | 200 | 190 | 20 | 0 | 20 | 10 | 20 | 10
+Nicaragua | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 210 | 2950
+Nigeria | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 110
+Pakistan | 160 | 550 | 350 | 440 | 270 | 170 | 130 | 40 | 490 | 860
+Peru | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 20 | 100
+Russia | 300 | 490 | 380 | 440 | 200 | 190 | 40 | 40 | 300 | 360
+Rwanda | 190 | 170 | 120 | 120 | 100 | 10 | 50 | 110 | 110 | 270
+Senegal | 0 | 20 | 20 | 10 | 10 | 10 | 0 | 0 | 90 | 90
+Somalia | 8850 | 9030 | 6120 | 260 | 230 | 150 | 200 | 490 | 1410 | 4790
+South Sudan | 80 | 200 | 180 | 10 | 50 | 40 | 100 | 290 | 590 | 1330
+Sri Lanka | 90 | 90 | 10 | 60 | 20 | 40 | 20 | 20 | 30 | 10
+Sudan | 1580 | 1440 | 960 | 70 | 380 | 260 | 510 | 1670 | 1630 | 2180
+Syria | 1690 | 12580 | 6570 | 60 | 560 | 490 | 1260 | 4560 | 10780 | 11240
+Tajikistan | 0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 0
+Thailand | 20 | 30 | 10 | 10 | 0 | 10 | 0 | 0 | 0 | 10
+Togo | 0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0
+Trinidad and Tobago | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 20
+Turkey | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 10 | 10
+Turkmenistan | 0 | 0 | 0 | 10 | 20 | 0 | 0 | 0 | 10 | 10
+Uganda | 70 | 70 | 60 | 40 | 30 | 30 | 30 | 70 | 50 | 60
+Ukraine | 1450 | 2530 | 4250 | 2640 | 4430 | 1940 | 800 | 1590 | 1340 | 1450
+Uzbekistan | 40 | 40 | 40 | 30 | 10 | 10 | 0 | 0 | 80 | 50
+Venezuela | 0 | 0 | 0 | 0 | 0 | 20 | 0 | 160 | 1370 | 11350
+Vietnam | 20 | 60 | 20 | 10 | 10 | 10 | 0 | 10 | 50 | 110
+Yemen | 20 | 20 | 20 | 0 | 0 | 0 | 10 | 20 | 210 | 210
+Zimbabwe | 10 | 10 | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 10
+All other countries1 | 60 | 60 | 60 | 30 | 30 | 20 | 30 | 30 | 40 | 110
+Unknown2 | 100 | 60 | 90 | 0 | 30 | 0 | 30 | 20 | 60 | 50
+1 Includes countries with fewer than 10 refugee arrivals per year.
+2 Includes admissions from Palestinian Territory.
+Notes: To protect privacy, we round table cells to the nearest 10. Totals may not sum due to rounding. Excludes Amerasian immigrants. Figures are based on refugee arrival date; certain refugee applicants who arrived in FY 2020-2024 count towards the FY 2018 refugee admissions ceiling.
+Source: February 2025 Office of Homeland Security Statistics Persist Dataset based on data provided by Department of State Bureau of Population, Refugees, and Migration refugee case management system.
+## sheet: Table 15
+Return to Table of Contents
+Table 15.
+REFUGEE ARRIVALS BY RELATIONSHIP TO PRINCIPAL APPLICANT AND SEX, AGE, AND MARITAL STATUS: FISCAL YEAR 2024
+Characteristic | Total | Principal applicants | Spouses1 | Children | Other
+SEX
+Total | 100060 | 37050 | 14200 | 48580 | 230
+Female | 50410 | 17100 | 9680 | 23500 | 130
+Male | 49650 | 19960 | 4510 | 25070 | 100
+AGE
+Total | 100060 | 37050 | 14200 | 48580 | 230
+Under 1 year | 1330 | 30 | 0 | 1290 | 10
+1 to 4 years | 10110 | 160 | 0 | 9840 | 110
+5 to 9 years | 13430 | 120 | 0 | 13260 | 50
+10 to 14 years | 12040 | 240 | 0 | 11780 | 20
+15 to 19 years | 10380 | 720 | 70 | 9580 | 20
+20 to 24 years | 9360 | 5830 | 910 | 2620 | 10
+25 to 29 years | 9210 | 6650 | 2350 | 200 | 10
+30 to 34 years | 9010 | 6110 | 2890 | 10 | 0
+35 to 39 years | 7720 | 5040 | 2680 | 0 | 0
+40 to 44 years | 5790 | 3750 | 2030 | 0 | 0
+45 to 49 years | 3910 | 2650 | 1260 | 0 | 0
+50 to 54 years | 2860 | 2040 | 820 | 0 | 0
+55 to 59 years | 1800 | 1320 | 480 | 0 | 0
+60 to 64 years | 1350 | 980 | 380 | 0 | 0
+65 to 74 years | 1370 | 1080 | 280 | 0 | 0
+75 years and over | 400 | 340 | 60 | 0 | 0
+BROAD AGE GROUPS
+Total | 100060 | 37050 | 14200 | 48580 | 230
+Under 16 years | 39150 | 620 | 0 | 38340 | 190
+16 to 20 years | 9980 | 980 | 160 | 8810 | 20
+21 years and over | 50920 | 35450 | 14030 | 1430 | 20
+MARITAL STATUS
+Total | 100060 | 37050 | 14200 | 48580 | 230
+Married2 | 31810 | 17700 | 14100 | 20 | 0
+Single | 65070 | 16200 | 90 | 48550 | 230
+Widowed | 1940 | 1940 | 0 | 0 | 0
+Divorced/separated | 1220 | 1210 | 10 | 0 | 0
+Unknown | 10 | 0 | 0 | 10 | 0
+1 Includes persons in a civil union.
+2 Includes persons in common law marriage.
+Notes: To protect privacy, we round table cells to the nearest 10. Totals may not sum due to rounding. Excludes Amerasian immigrants.
+Source: February 2025 Office of Homeland Security Statistics Persist Dataset based on data provided by Department of State Bureau of Population, Refugees, and Migration refugee case management system.
