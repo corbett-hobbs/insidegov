@@ -203,12 +203,33 @@ only through interactive dashboards), so there is no criminality breakdown here.
 
 ## Refreshing
 
-**Manual.** ICE's year-end figures are locked once published, and its URLs are
-unstable (dead links, new locations each year, dashboards with no export), so a
-scheduled scraper would be brittle, so none fetches. A monthly workflow
-(`.github/workflows/ice-annual-review.yml`) opens one issue when a fiscal year
-that should be locked by now (60 days after it ends) is missing from the
-catalog or still `preliminary`. To add a year
+**Manual, with automatic detection.** ICE's year-end figures are locked once
+published, and its URLs are unstable (dead links, new locations each year,
+dashboards with no export), so a scheduled scraper would be brittle, so none
+fetches. A monthly workflow (`.github/workflows/ice-annual-review.yml`, script
+`pipeline/validate/ice-staleness.ts`) checks **each series separately** (`ICE_SERIES`
+in `pipeline/validate/refresh-lib.ts`): national removals, removals by arresting
+agency, removals by criminal history, administrative arrests, at-large arrests,
+detainers and average daily detention population must each have a `final` row for
+the fiscal year that should be locked by now (60 days after it ends). A year
+carried only as `preliminary` (FY2025's budget-document actuals) counts as not
+locked. Initial book-ins are skipped: ICE stopped printing them after FY2020. The
+same run asks DHS whether the next ICE budget overview is published (it fetches
+`dhs.gov/publication/congressional-budget-justification-fiscal-year-fy-<N+1>`
+for the newest `dhs-fy<N>-…` source and looks for the ICE PDF link; the FY2028
+overview should carry FY2026 actuals for the criminal-history, arrest and
+detention measures). It opens, refreshes or closes **one** issue
+(`.github/actions/open-review-issue`), never edits data and never blocks a
+deploy; a DHS page it cannot reach is listed as "could not check", not a finding.
+Run it locally with `pnpm exec tsx pipeline/validate/ice-staleness.ts --report out.md`
+(`--today YYYY-MM-DD` and `--offline` for testing).
+
+**Not automated, on purpose.** Extracting numbers from a new ICE report is not
+drafted by the Claude API in CI. The existing executive-orders pattern classifies
+text it fetched itself; here there is no stable URL to fetch, the values are
+chart-label reads from rendered pages that a person has to check against the
+image, and a wrong figure would sit in a locked series. A drafted PR could never
+be merged without redoing the read, so the issue's checklist is the hand-off. To add a year
 or replace a preliminary one: (1) add the ICE document to `sources` in
 `pipeline/reference/ice-removals-catalog.json`, plus a `years` row with a
 verbatim quote; (2) `pnpm fetch:ice` (needs `pdftotext` and `unzip`) to snapshot

@@ -29,7 +29,7 @@ the shared checkout.
 **Status (2026-10-13):** A is done, on Opus 5.5, so A′ is not needed. The breakdown
 series are in `pipeline/output/enforcement_series.json`; coverage, chart-label reads
 and disagreements are in `docs/IMMIGRATION_SOURCE_NOTES.md` §6, and the data model
-in the methodology's "Breakdowns and other ERO measures". Two findings for B:
+in the methodology's "Breakdowns and other ERO measures". Session D is done (2026-10-13): see "Session D status" below. Two findings for B:
 interior/border runs back to FY2008 (not FY2016), and there is no printed
 administrative-arrest total for FY2021–FY2022.
 
@@ -413,6 +413,20 @@ Existing patterns to reuse (read them first):
 > series. Document the refresh behaviour in each track's methodology doc and in
 > `ARCHITECTURE_MAP.md`. Run each workflow's script locally to show it detects
 > correctly in both directions (stale and not stale).
+
+### Session D status (2026-10-13)
+
+Built, each documented in the track's methodology doc and `ARCHITECTURE_MAP.md`:
+
+| Piece | Built as |
+| --- | --- |
+| Refugee ceilings, allocations, revisions | `.github/workflows/refugee-freshness.yml`: weekly fetch, diff, PR, `gate-and-merge`. A new PD fails the transform by design, so that PR opens "(needs curation)" and is not merged; the allocation tables need quoted numbers a person has to check |
+| WRAPS admissions | Not automated (the workbook's file name changes monthly): `refugee-admissions-review.yml` + `pipeline/validate/refugee-staleness.ts`, one issue; also flags the next DHS refugee yearbook |
+| ICE series | `ice-staleness.ts` now checks each series in `ICE_SERIES` and the DHS budget overview page; `ice-annual-review.yml` opens, refreshes or closes one issue |
+| Policy-table watcher | `immigration-policy-review.yml` + `pipeline/validate/policy-watch.ts`; config and reviewed list in `pipeline/reference/immigration-policy-watch.json` |
+| ICE extraction draft PR | **Not built**: no stable URL to fetch, values are chart-label reads that need a person, and it could never be merged unreviewed |
+
+Shared: `.github/actions/open-review-issue` (one issue per label, refreshed on rerun, closed when clean); pure logic and tests in `pipeline/validate/refresh-lib.ts`.
 
 ---
 

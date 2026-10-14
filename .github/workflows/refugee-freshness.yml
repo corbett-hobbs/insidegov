@@ -1,0 +1,154 @@
+name: Refugee freshness
+
+# Automate the check and the acceptance; the gate is the full CI run (.github/actions/gate-and-merge).
+#
+# Weekly: re-run `pnpm fetch:refugee` (idempotent: it never re-downloads a snapshot the catalog already has, rewrites
+# the text extracts deterministically, and rewrites the Federal Register index of presidential documents that mention
+# "refugee admissions", sorted and with stable fields only, so an unchanged source is no diff). Anything that differs
+# under pipeline/raw/refugee/ opens a PR, which pnpm transform then rebuilds:
+#   - nothing changed: no PR, the working tree is discarded;
+#   - the transform passes (e.g. a Federal Register document's metadata moved): auto-merged after the full CI gate;
+#   - a new or emergency Presidential Determination, or a new document the catalog has not reviewed: the transform
+#     FAILS BY DESIGN naming it (the allocation tables need curated, quoted numbers; see
+#     docs/REFUGEE_ADMISSIONS_METHODOLOGY.md "Validation"). The PR opens labelled needs-curation with the failure in
+#     its body and is NOT merged. A person adds the catalog row on that branch.
+# Ceilings, allocations and mid-year revisions therefore refresh automatically only as far as the source can be trusted
+# unattended: discovery is automatic, the numbers are reviewed. (The workbook of admissions is a separate weekly check:
+# refugee-admissions-review.yml. New immigration policy documents: immigration-policy-review.yml.)
+#
+# Requires Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+# Note: the PR branch is pushed with GITHUB_TOKEN, so it does NOT trigger the CI workflow; run
+# `pnpm pipeline:check` locally before merging a needs-curation PR.
+
+on:
+  schedule:
+    - cron: "11 12 * * 4" # Thursdays 12:11 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refugee-freshness
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Re-fetch the refugee sources and the Federal Register index
+        run: pnpm fetch:refugee
+
+      - name: Did anything change?
+        id: diff
+        run: |
+          if [ -n "$(git status --porcelain -- pipeline/raw/refugee)" ]; then
+            echo "material=true" >> "$GITHUB_OUTPUT"
+            git show HEAD:pipeline/raw/refugee/fr-refugee-admissions-index.json > "$RUNNER_TEMP/index-prev.json"
+            pnpm exec tsx pipeline/fetch/refugee-index-diff.ts "$RUNNER_TEMP/index-prev.json" pipeline/raw/refugee/fr-refugee-admissions-index.json "$RUNNER_TEMP/summary.md"
+          else
+            echo "material=false" >> "$GITHUB_OUTPUT"
+            echo "No change under pipeline/raw/refugee."
+          fi
+
+      - name: Rebuild and validate
+        id: build
+        if: steps.diff.outputs.material == 'true'
+        run: |
+          set +e
+          pnpm exec tsx pipeline/transform/refugee-run.ts > transform.log 2>&1
+          code=$?
+          cat transform.log
+          echo "transform_ok=$([ "$code" -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          {
+            echo "summary<<EOF"
+            cat "$RUNNER_TEMP/summary.md"
+            echo "EOF"
+            echo "failure<<EOF"
+            tail -n 25 transform.log
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          rm -f transform.log
+          exit 0
+
+      - name: Open pull request
+        id: cpr
+        if: steps.diff.outputs.material == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: |
+            pipeline/raw/refugee
+            pipeline/output/refugee_*.json
+          branch: data/refugee-refresh
+          base: main
+          delete-branch: true
+          commit-message: "chore(pipeline): refresh refugee sources"
+          title: "Refugee data refresh${{ steps.build.outputs.transform_ok != 'true' && ' (needs curation)' || '' }}"
+          labels: ${{ steps.build.outputs.transform_ok == 'true' && 'data-refresh' || 'data-refresh,needs-curation' }}
+          body: |
+            The weekly refugee check found a change under `pipeline/raw/refugee/`.
+
+            ${{ steps.build.outputs.summary }}
+
+            **Transform + validation succeeded:** `${{ steps.build.outputs.transform_ok }}`
+
+            ${{ steps.build.outputs.transform_ok == 'true' && 'Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch (.github/actions/gate-and-merge). If you are reading this on an open PR, that gate failed: see the run log.' || 'This PR was NOT sent to the merge gate. A new or emergency Presidential Determination needs a catalog row with verbatim quotes for the ceiling and each allocation (`pipeline/reference/refugee-catalog.json`, see "Refreshing" in `docs/REFUGEE_ADMISSIONS_METHODOLOGY.md`); a document that is not a determination goes in `fr_index_reviewed` with a reason; an order that restricts refugee entry goes in `policy_events`. Add it on this branch, then `pnpm fetch:refugee && pnpm transform`.' }}
+
+            Transform output (last lines):
+
+            ```
+            ${{ steps.build.outputs.failure }}
+            ```
+
+      # Auto-merge only a refresh whose transform passed, and only if the full CI gate passes
+      # (.github/actions/gate-and-merge); otherwise this step fails and the PR stays open for a human.
+      - name: Gate and merge
+        if: steps.build.outputs.transform_ok == 'true' && contains(fromJSON('["created","updated"]'), steps.cpr.outputs.pull-request-operation)
+        uses: ./.github/actions/gate-and-merge
+        with:
+          pr-number: ${{ steps.cpr.outputs.pull-request-number }}
+          branch: ${{ steps.cpr.outputs.pull-request-branch }}
+          head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          token: ${{ github.token }}
+
+      # A needs-curation PR never reaches the merge gate, and a failed gate leaves a PR open: either way a person
+      # has to act, so push a notification (email, then Slack) when the PR is first opened or the gate fails.
+      - name: Notify (needs curation)
+        if: steps.build.outputs.transform_ok == 'false' && steps.cpr.outputs.pull-request-operation == 'created'
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: new refugee determination needs curation"
+          body: "The weekly refugee check found a new or unreviewed Federal Register document. The PR names it and needs a catalog row with verbatim quotes."
+          url: ${{ steps.cpr.outputs.pull-request-url }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
+
+      - name: Notify (gate failed)
+        if: failure() && steps.cpr.outputs.pull-request-url != ''
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: refugee refresh PR failed its checks"
+          body: "The refugee refresh PR did not pass the merge gate and is still open."
+          url: ${{ steps.cpr.outputs.pull-request-url }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}

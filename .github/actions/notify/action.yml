@@ -1,0 +1,50 @@
+name: Notify the maintainer
+description: >
+  Email, then Slack as the fallback, for a data check that needs a manual review. Reads optional secrets
+  passed in as inputs (a composite action cannot read secrets itself). Never fails the job; with nothing
+  configured it only warns. Setup is in docs/DATA_CONVENTIONS.md ("Review notifications").
+
+inputs:
+  subject:
+    required: true
+    description: Email subject / Slack headline
+  body:
+    required: true
+    description: Short plain-text summary
+  url:
+    required: true
+    description: Link to the issue or PR
+  smtp-server:
+    required: false
+    default: ""
+  smtp-port:
+    required: false
+    default: "465"
+  smtp-user:
+    required: false
+    default: ""
+  smtp-password:
+    required: false
+    default: ""
+  email-to:
+    required: false
+    default: ""
+  slack-webhook:
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        SUBJECT: ${{ inputs.subject }}
+        BODY: ${{ inputs.body }}
+        URL: ${{ inputs.url }}
+        SMTP_SERVER: ${{ inputs.smtp-server }}
+        SMTP_PORT: ${{ inputs.smtp-port }}
+        SMTP_USER: ${{ inputs.smtp-user }}
+        SMTP_PASSWORD: ${{ inputs.smtp-password }}
+        EMAIL_TO: ${{ inputs.email-to }}
+        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook }}
+      run: bash "${{ github.action_path }}/notify.sh"

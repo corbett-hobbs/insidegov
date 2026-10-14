@@ -109,7 +109,13 @@ over the real files, and each gate).
 
 ## Refreshing
 
-Manual today; Session D automates detection.
+Detection is automatic (three workflows); accepting new numbers is not, except where nothing needs curating.
+
+- **`refugee-freshness.yml` (weekly, Thursdays).** Runs `pnpm fetch:refugee` and, if anything under `raw/refugee/` differs, opens a PR (`data/refugee-refresh`) with a summary of new, removed or retitled Federal Register documents (`pipeline/fetch/refugee-index-diff.ts`) and runs the refugee transform. If it passes, the PR goes through `.github/actions/gate-and-merge` and merges itself. If it fails, which it does by design when a new or emergency Presidential Determination (or any unreviewed document) appears, the PR opens titled "(needs curation)" with the failure in its body and is **not** merged: step 2 below is the human part. Unchanged sources are no diff, so most weeks open nothing.
+- **`refugee-admissions-review.yml` (weekly, Mondays).** `pipeline/validate/refugee-staleness.ts` reads the Refugee Processing Center's Admissions & Arrivals page, compares the newest "Refugee Admissions Report as of <date>" workbook with the catalog's, and checks whether the next DHS refugee yearbook is due (September of the year after the catalog's edition). It opens, refreshes or closes one issue. A page it cannot read, or one with no workbook links, fails the run instead of passing silently. Not automated further because the file name changes monthly and the catalog row (id, url, file) has to be swapped, then the parser gates run.
+- **`immigration-policy-review.yml` (weekly, Wednesdays).** `pipeline/validate/policy-watch.ts` searches the Federal Register for proclamations and executive orders since 2025-01-20 on refugees, asylum, entry of aliens, section 212(f) and (title-matched) immigration, and lists any that are not a catalog source, not in `fr_index_reviewed`, not in the refugee index, and not in `reviewed` in `pipeline/reference/immigration-policy-watch.json`. Flag only. The 24 documents that matched at baseline (2026-10-13) were screened by title and recorded in `reviewed` with a reason; a document that is a refugee or country-entry instrument becomes a `policy_events` row instead. Court status (the D.R.I. ruling, the USCIS hold) and non-Federal-Register instruments stay manual.
+
+Manual steps for the pieces above:
 
 1. `pnpm fetch:refugee` (idempotent; needs `unzip`). It snapshots any missing catalog source and
    refreshes `raw/refugee/fr-refugee-admissions-index.json` from the Federal Register API.

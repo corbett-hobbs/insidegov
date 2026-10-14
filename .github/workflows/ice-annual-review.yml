@@ -1,11 +1,14 @@
 name: ICE annual review
 
-# ICE's removal figures are locked once published, but its URLs are unstable (dead links, new
-# locations each year, dashboards with no export), so nothing here scrapes. Monthly, check whether
-# a fiscal year that should be locked by now is missing from (or still `preliminary` in)
-# pipeline/reference/ice-removals-catalog.json (lib/enforcement-entities.ts: ICE_REPORT_GRACE_DAYS);
-# if so, open ONE GitHub issue asking a human to add it. An issue, not a red build. Never blocks a
-# deploy and never edits data.
+# ICE's figures are locked once published, but its URLs are unstable (dead links, new locations each
+# year, dashboards with no export), so nothing here scrapes ICE. Monthly, pipeline/validate/ice-staleness.ts
+# checks every ICE series (removals, by agency, by criminal history, administrative and at-large arrests,
+# detainers, detention population) against the fiscal year ICE should have locked by now
+# (lib/enforcement-entities.ts: ICE_REPORT_GRACE_DAYS), and whether DHS has published the next ICE budget
+# overview. If anything is stale it opens ONE GitHub issue listing what; a rerun refreshes that issue, and
+# it closes itself when the check passes. An issue, not a red build. Never blocks a deploy and never edits data.
+#
+# Exit codes: 0 current, 1 stale (issue), anything else is a crash and fails the run.
 
 on:
   schedule:
@@ -28,23 +31,37 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      - name: Is a locked year missing?
+      - name: Is any ICE series behind?
         id: stale
-        continue-on-error: true
-        run: pnpm exec tsx pipeline/validate/ice-staleness.ts
-
-      - name: Open an issue (once)
-        if: steps.stale.outcome == 'failure'
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          gh label create ice-annual-review --color BFD4F2 --description "ICE removals catalog needs a new year" 2>/dev/null || true
-          existing="$(gh issue list --state open --label ice-annual-review --json number --jq 'length')"
-          if [ "$existing" = "0" ]; then
-            gh issue create \
-              --title "Add ICE's latest locked removals year" \
-              --label ice-annual-review \
-              --body "ICE should have published a locked removals figure for a fiscal year the catalog does not carry as final (or still carries as preliminary). Find the ICE annual report or statistics page, add it to pipeline/reference/ice-removals-catalog.json with a verbatim quote, then run pnpm fetch:ice and pnpm transform. See \"Refreshing\" in docs/IMMIGRATION_ENFORCEMENT_METHODOLOGY.md."
-          else
-            echo "An open review issue already exists."
-          fi
+          set +e
+          pnpm exec tsx pipeline/validate/ice-staleness.ts --report "$RUNNER_TEMP/ice-report.md"
+          code=$?
+          echo "found=$([ "$code" -eq 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          [ "$code" -le 1 ] || exit "$code"
+
+      - name: Open, refresh or close the review issue
+        id: issue
+        uses: ./.github/actions/open-review-issue
+        with:
+          label: ice-annual-review
+          label-description: ICE removals catalog needs a new year or series
+          title: Add ICE's latest locked data (removals and breakdown series)
+          body-file: ${{ runner.temp }}/ice-report.md
+          found: ${{ steps.stale.outputs.found }}
+          token: ${{ github.token }}
+
+      # Push notification (email, then Slack) only when this run opened a NEW issue; reruns that refresh it stay quiet.
+      - name: Notify
+        if: steps.issue.outputs.created == 'true'
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: ICE data needs a new year or series"
+          body: "ICE data is behind or DHS published a new budget overview. Details are in the issue."
+          url: ${{ steps.issue.outputs.url }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
