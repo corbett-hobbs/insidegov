@@ -1,0 +1,66 @@
+name: OHSS green-card data review
+
+# OHSS (DHS) posts every quarterly report and Yearbook file at a new address, and its pages' own dates are
+# unreliable (docs/IMMIGRATION_SOURCE_NOTES.md §8), so nothing here fetches data. Weekly,
+# pipeline/validate/ohss-staleness.ts compares the files the quarterly-report page and the Yearbook pages LIST with
+# the sources in pipeline/reference/lpr-catalog.json: a new quarterly file, a repost of one the catalog has, the
+# next Yearbook edition, or a reposted workbook of the newest edition opens ONE issue (a rerun refreshes it; it
+# closes itself once the catalog catches up) and sends a push notification (.github/actions/notify) when a new
+# issue opens. Never edits data and never blocks a deploy.
+#
+# Exit codes: 0 current, 1 new files (issue), anything else (page unreachable, layout changed) fails the run on purpose.
+
+on:
+  schedule:
+    - cron: "49 13 * * 1" # Mondays 13:49 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Does OHSS list a file the catalog lacks?
+        id: stale
+        run: |
+          set +e
+          pnpm exec tsx pipeline/validate/ohss-staleness.ts --report "$RUNNER_TEMP/ohss-report.md"
+          code=$?
+          echo "found=$([ "$code" -eq 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          [ "$code" -le 1 ] || exit "$code"
+
+      - name: Open, refresh or close the review issue
+        id: issue
+        uses: ./.github/actions/open-review-issue
+        with:
+          label: ohss-review
+          label-description: OHSS posted green-card or naturalization files the catalog does not carry
+          title: Add OHSS's new green-card and naturalization files
+          body-file: ${{ runner.temp }}/ohss-report.md
+          found: ${{ steps.stale.outputs.found }}
+          token: ${{ github.token }}
+
+      - name: Notify
+        if: steps.issue.outputs.created == 'true'
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: new OHSS green-card data to add"
+          body: "OHSS posted a new quarterly report or Yearbook file (or reposted one). Details are in the issue."
+          url: ${{ steps.issue.outputs.url }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
