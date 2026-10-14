@@ -34,13 +34,14 @@ const VIEWS: readonly AgencyView[] = ["all", "ice", "cbp"];
 /**
  * Stacks every alternative in one grid cell and shows one: the cell is as tall as the tallest, so a toggle that changes
  * the text (or the number of legend lines) never changes the card's height. Hidden alternatives are `invisible` and
- * `aria-hidden`.
+ * `aria-hidden`. The column is `minmax(0, 1fr)` and the cells `min-w-0`, so a sideways-scrolling legend inside one scrolls
+ * in its card instead of stretching the whole page wider than the phone (which breaks the pinned bars).
  */
 function Reserved<K extends string>({ active, items, as: Tag = "div", className = "" }: { active: K; items: readonly { key: K; node: ReactNode }[]; as?: "div" | "span"; className?: string }) {
   return (
-    <Tag className={`grid ${className}`}>
+    <Tag className={`grid grid-cols-[minmax(0,1fr)] ${className}`}>
       {items.map((it) => (
-        <Tag key={it.key} aria-hidden={it.key !== active} className={`col-start-1 row-start-1 ${it.key === active ? "" : "invisible"}`}>
+        <Tag key={it.key} aria-hidden={it.key !== active} className={`col-start-1 row-start-1 min-w-0 ${it.key === active ? "" : "invisible"}`}>
           {it.node}
         </Tag>
       ))}
