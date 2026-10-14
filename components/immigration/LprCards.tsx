@@ -1,6 +1,7 @@
+import { TipCard } from "../charts/TipCard";
 import { LPR_GROUPS, LPR_REGION_STACK, groupValues, type LprMarker, type LprMetric } from "@/lib/lpr-chart";
 import type { LprRegionKey, LprTerm, LprYear } from "@/lib/lpr-types";
-import { BOX, BOX_COMPACT, TOP } from "./Cards";
+import { BOX, TOP } from "./Cards";
 import { GROUP_COLOR, REGION_COLOR } from "./lpr-style";
 import { n } from "./refugee-style";
 
@@ -47,34 +48,6 @@ export function LprYearCard({
   const groups = groupValues(year);
   const head = metric === "lpr" ? `FY${year.fy} · ${n(year.lpr)} green cards` : `FY${year.fy} · ${year.naturalizations === null ? "—" : n(year.naturalizations)} naturalized`;
   const other = metric === "lpr" ? { label: "Naturalizations", value: year.naturalizations } : { label: "Green cards", value: year.lpr };
-  if (!interactive) {
-    const rows: { key: string; color: string; label: string; value: number }[] =
-      metric === "lpr" && groups
-        ? [...LPR_GROUPS].reverse().map((g) => ({ key: g.key, color: GROUP_COLOR[g.key], label: g.name, value: groups[g.key] }))
-        : metric === "naturalizations" && regions
-          ? [...LPR_REGION_STACK].reverse().filter((r) => (regions[r.key] ?? 0) > 0).map((r) => ({ key: r.key, color: REGION_COLOR[r.key], label: r.short, value: regions[r.key]! }))
-          : [];
-    return (
-      <div role="tooltip" data-lpr-hit className={`${BOX_COMPACT} pointer-events-none text-[0.74rem] leading-[1.45] text-ink-muted`} style={{ top: TOP, left, width }}>
-        <div className="font-mono text-[0.78rem] font-semibold text-ink">{head}</div>
-        <div>{`${year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : (t?.president ?? "")} · ${year.preliminary ? "Preliminary" : "Final"}`}</div>
-        {rows.length > 0 && (
-          <div className="mt-1 grid grid-cols-[1fr_auto] gap-x-2 border-t border-line pt-1">
-            {rows.map((r) => (
-              <div key={r.key} className="contents">
-                <span className="inline-flex items-center gap-1">
-                  <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: r.color }} />
-                  {r.label}
-                </span>
-                <b className="font-mono font-medium text-ink">{n(r.value)}</b>
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="mt-1 text-ink-faint">Select for detail</div>
-      </div>
-    );
-  }
   return (
     <div role="tooltip" data-lpr-hit className={`${BOX} ${interactive ? "" : "pointer-events-none"}`} style={{ top: TOP, left, width }}>
       <div className="font-mono text-[0.82rem] font-semibold text-ink">{head}</div>
@@ -120,4 +93,19 @@ export function LprYearCard({
       </div>
     </div>
   );
+}
+
+/** Hover tooltip for one fiscal year (shared `Tooltip` content; the tap-pinned `LprYearCard` holds the detail). */
+export function LprYearTip({ year, terms, metric, regions }: { year: LprYear; terms: ReadonlyMap<string, LprTerm>; metric: LprMetric; regions: Partial<Record<LprRegionKey, number>> | null }) {
+  const t = terms.get(year.termId);
+  const groups = groupValues(year);
+  const rows =
+    metric === "lpr" && groups
+      ? [...LPR_GROUPS].reverse().map((g) => ({ key: g.key, color: GROUP_COLOR[g.key], label: g.name, value: n(groups[g.key]) }))
+      : metric === "naturalizations" && regions
+        ? [...LPR_REGION_STACK].reverse().filter((r) => (regions[r.key] ?? 0) > 0).map((r) => ({ key: r.key, color: REGION_COLOR[r.key], label: r.short, value: n(regions[r.key]!) }))
+        : [];
+  const total = metric === "lpr" ? year.lpr : year.naturalizations;
+  const who = year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : (t?.president ?? "");
+  return <TipCard title={`FY${year.fy}`} value={total === null ? "—" : n(total)} sub={`${who}${year.preliminary ? " · Preliminary" : ""}`} rows={rows} />;
 }

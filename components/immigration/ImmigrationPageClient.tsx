@@ -90,7 +90,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
         <SectionHeading id="ice" number={3} title="How Many People Does ICE Remove?">
           <p>
             ICE counts how many people it removes each fiscal year. Some were picked up at the border and handed over to ICE; the rest were arrested by ICE’s own officers.
-            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so these charts start there. {snap}</>}
+            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so these charts start there.</>}
           </p>
         </SectionHeading>
 

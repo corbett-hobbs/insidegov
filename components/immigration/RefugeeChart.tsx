@@ -10,8 +10,8 @@ import { axisText, gridTicks, groupLabel, groupRules, niceMax, rulePlacements } 
 import type { GeoGroup, RefugeeMarker, RefugeeTerm, RefugeeYear } from "@/lib/refugee-types";
 import { fitTermLabel, initialsOf } from "@/lib/term-label";
 import { useElementWidth } from "@/lib/use-element-width";
-import { besideBar, HOVER_W } from "./Cards";
-import { RuleCard, YearCard } from "./RefugeeCards";
+import { Tooltip, useTooltip } from "../charts/Tooltip";
+import { RuleCard, YearCard, YearTip } from "./RefugeeCards";
 import { CEILING_TINT, GEO_STACK, REGION_COLOR, n } from "./refugee-style";
 
 const FALLBACK_W = 1084;
@@ -71,6 +71,7 @@ export function RefugeeChart({
   const termById = new Map(terms.map((t) => [t.termId, t]));
 
   const [open, setOpen] = useState<Open>(null);
+  const tip = useTooltip<RefugeeYear>();
   const wrap = useRef<HTMLDivElement>(null);
   const close = useCallback(() => setOpen(null), []);
   useEffect(() => {
@@ -127,7 +128,7 @@ export function RefugeeChart({
   let card: ReactNode = null;
   if (open?.key.startsWith("b")) {
     const yr = years.find((v) => `b${v.fy}` === open.key);
-    if (yr) card = <YearCard year={yr} terms={termById} width={open.pinned ? barCardW : HOVER_W} left={open.pinned ? cardLeft(left + xSlot(years.indexOf(yr)) + slotW / 2, barCardW) : besideBar(left + xSlot(years.indexOf(yr)) + slotW / 2, barW, HOVER_W, W)} interactive={open.pinned} />;
+    if (yr && open.pinned) card = <YearCard year={yr} terms={termById} width={barCardW} left={cardLeft(left + xSlot(years.indexOf(yr)) + slotW / 2, barCardW)} interactive />;
   } else if (open?.key.startsWith("r")) {
     const g = groups[Number(open.key.slice(1))];
     if (g) card = <RuleCard rules={g.markers} width={ruleCardW} left={cardLeft(left + g.at * slotW, ruleCardW)} interactive={open.pinned} />;
@@ -182,8 +183,9 @@ export function RefugeeChart({
                     aria-label={aria(yr)}
                     aria-expanded={active}
                     className="cursor-pointer outline-none"
-                    onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && openBar(yr.fy, false)}
-                    onPointerLeave={(e) => e.pointerType === "mouse" && setOpen((o) => (o && !o.pinned ? null : o))}
+                    onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && (openBar(yr.fy, false), tip.show(yr, e))}
+                    onPointerMove={(e) => e.pointerType === "mouse" && tip.move(e)}
+                                        onPointerLeave={(e) => e.pointerType === "mouse" && setOpen((o) => (o && !o.pinned ? null : o))}
                     onFocus={(e) => e.currentTarget.matches(":focus-visible") && openBar(yr.fy, true)}
                     onClick={() => {
                       toggle(key);
@@ -304,6 +306,7 @@ export function RefugeeChart({
         );
       })}
       {card}
+      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <YearTip year={yr} terms={termById} />}</Tooltip>
     </div>
   );
 }

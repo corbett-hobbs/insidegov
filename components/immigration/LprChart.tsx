@@ -10,8 +10,8 @@ import { LPR_GROUPS, LPR_REGION_STACK, axisText, compactCount, gridTicks, groupV
 import type { LprRegionKey, LprTerm, LprYear } from "@/lib/lpr-types";
 import { fitTermLabel, initialsOf } from "@/lib/term-label";
 import { useElementWidth } from "@/lib/use-element-width";
-import { besideBar, HOVER_W } from "./Cards";
-import { LprMarkerCard, LprYearCard } from "./LprCards";
+import { Tooltip, useTooltip } from "../charts/Tooltip";
+import { LprMarkerCard, LprYearCard, LprYearTip } from "./LprCards";
 import { GROUP_COLOR, REGION_COLOR } from "./lpr-style";
 import { n } from "./refugee-style";
 
@@ -80,6 +80,7 @@ export function LprChart({
   const termById = new Map(terms.map((t) => [t.termId, t]));
 
   const [open, setOpen] = useState<Open>(null);
+  const tip = useTooltip<LprYear>();
   const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -134,7 +135,7 @@ export function LprChart({
   let card: ReactNode = null;
   if (open?.key.startsWith("b")) {
     const yr = years.find((v) => `b${v.fy}` === open.key);
-    if (yr) card = <LprYearCard year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} width={open.pinned ? barCardW : HOVER_W} left={open.pinned ? cardLeft(left + xSlot(years.indexOf(yr)) + slotW / 2, barCardW) : besideBar(left + xSlot(years.indexOf(yr)) + slotW / 2, barW, HOVER_W, W)} interactive={open.pinned} />;
+    if (yr && open.pinned) card = <LprYearCard year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} width={barCardW} left={cardLeft(left + xSlot(years.indexOf(yr)) + slotW / 2, barCardW)} interactive />;
   } else if (open?.key.startsWith("r")) {
     const m = markers[Number(open.key.slice(1))];
     if (m) card = <LprMarkerCard marker={m} width={noteCardW} left={cardLeft(left + markerX(m), noteCardW)} />;
@@ -192,8 +193,9 @@ export function LprChart({
                     aria-label={aria(yr)}
                     aria-expanded={active}
                     className="cursor-pointer outline-none"
-                    onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && openBar(yr.fy, false)}
-                    onPointerLeave={(e) => e.pointerType === "mouse" && setOpen((o) => (o && !o.pinned ? null : o))}
+                    onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && (openBar(yr.fy, false), tip.show(yr, e))}
+                    onPointerMove={(e) => e.pointerType === "mouse" && tip.move(e)}
+                                        onPointerLeave={(e) => e.pointerType === "mouse" && setOpen((o) => (o && !o.pinned ? null : o))}
                     onFocus={(e) => e.currentTarget.matches(":focus-visible") && openBar(yr.fy, true)}
                     onClick={() => {
                       toggle(key);
@@ -315,6 +317,7 @@ export function LprChart({
         </button>
       ))}
       {card}
+      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <LprYearTip year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} />}</Tooltip>
     </div>
   );
 }
