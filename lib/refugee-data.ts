@@ -1,4 +1,5 @@
 import "server-only";
+import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { administration } from "./executive-orders-entities";
@@ -25,7 +26,11 @@ export function getRefugeePayload(): RefugeePayload {
     policy: read("refugee_policy.json").map((r) => refugeePolicyRow.parse(r)),
     notes: read("refugee_notes.json").map((r) => refugeeNote.parse(r)),
     determinations: read("refugee_determinations.json").map((r) => refugeeDeterminationRow.parse(r)),
-    admins: read("administrations.json").map((r) => administration.parse(r)),
+    // The series starts in FY1980, before administrations.json (1993 on), so the historical presidents table is prepended (as the green-card reader does).
+    admins: (() => {
+      const admins = read("administrations.json").map((r) => administration.parse(r));
+      return [...HISTORICAL_ADMINISTRATIONS, ...admins.filter((a) => !HISTORICAL_ADMINISTRATIONS.some((h) => h.term_id === a.term_id))];
+    })(),
   });
   return cache;
 }

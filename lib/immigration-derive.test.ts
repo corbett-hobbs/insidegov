@@ -194,6 +194,8 @@ describe("chart geometry", () => {
     expect(yearLabelMode(25)).toBe("two");
     expect(yearLabelMode(14)).toBe("every4");
     expect([2003, 2004, 2007].map((y) => yearLabel(y, "every4"))).toEqual(["2003", null, "2007"]);
+    expect(yearLabelMode(7)).toBe("every8");
+    expect([1983, 1987, 1991, 2023, 2024].map((y) => yearLabel(y, "every8"))).toEqual(["1983", null, "1991", "2023", null]);
   });
   it("term segments break on administration changes and the pending slot extends the last", () => {
     const seg = termSegments(data.years, true);

@@ -31,7 +31,9 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
   // the selected fiscal year (a click on a bar, or the year dropdown in the country card) picks the year the country list
   // shows and is marked on the timeline. The selected year is always inside the window.
   const covered = useMemo(() => new Set(countries.years.map((y) => y.fy)), [countries]);
-  const bounds: [number, number] = [data.firstFy, data.lastFy];
+  // The slider spans every year the page has data for: from the refugee series' first year (FY1980; green cards begin in FY1977 and
+  // ICE in FY2003) to the newest year all three sections share. Each section clamps to its own years below.
+  const bounds: [number, number] = [refugees.years[0].fy, Math.min(lpr.lastFy, data.lastFy)];
   const [range, setRangeRaw] = useState<[number, number]>(bounds);
   // The newest year in the window that has a country table, else the window's last year.
   const pickYear = (r: readonly [number, number]) => {
@@ -45,10 +47,27 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
     setFyRaw(pickYear(r)); // the country card's year follows the window's last year
   };
   const { pillsRef, stuck, active } = useSectionScroll(SECTIONS);
+  // ICE's figures begin in FY2003 and end at the page's last year, so the ICE cards get the part of the window they have; a window
+  // that ends before FY2003 gets a short notice instead of empty charts.
+  const iceFirst = Math.max(range[0], data.firstFy);
+  const iceLast = Math.min(range[1], data.lastFy);
+  const iceRange: [number, number] | null = iceFirst <= iceLast ? [iceFirst, iceLast] : null;
+  // One tap puts all three sections on the years ICE has: the slider's left end moves to ICE's first year (and its right end up to the
+  // page's last year when the window ended before ICE began). Shown only while the window starts earlier, so there is nothing to keep in sync.
+  const snap = (
+    <button
+      type="button"
+      onClick={() => setRange([data.firstFy, range[1] >= data.firstFy ? range[1] : bounds[1]])}
+      className="cursor-pointer text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+    >
+      Show all three on the same years (FY{data.firstFy} on)
+    </button>
+  );
+  const fyIce = iceRange ? Math.min(iceRange[1], Math.max(iceRange[0], fy)) : fy;
   const lprFy = lpr.years.filter((y) => !y.preliminary).at(-1)?.fy;
   return (
     <>
-      <ImmigrationFilterBar terms={data.terms} years={data.years} bounds={bounds} range={range} onRange={setRange}>
+      <ImmigrationFilterBar terms={lpr.terms} years={lpr.years} bounds={bounds} range={range} onRange={setRange}>
         {stuck && <SectionStrip items={SECTIONS} active={active} />}
       </ImmigrationFilterBar>
       <SectionToc items={SECTIONS} active={active} visible={stuck} />
@@ -71,14 +90,23 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
         <SectionHeading id="ice" number={3} title="How Many People Does ICE Remove?">
           <p>
             ICE counts how many people it removes each fiscal year. Some were picked up at the border and handed over to ICE; the rest were arrested by ICE’s own officers.
+            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so these charts start there. {snap}</>}
           </p>
         </SectionHeading>
 
-        <RemovalsCard data={data} range={range} fy={fy} onFy={setFy} />
+        {iceRange ? (
+          <>
+            <RemovalsCard data={data} range={iceRange} fy={fyIce} onFy={setFy} />
 
-        <CriminalHistoryCard data={data} range={range} fy={fy} onFy={setFy} />
+            <CriminalHistoryCard data={data} range={iceRange} fy={fyIce} onFy={setFy} />
 
-        <RemovalsCountryCard payload={countries} fy={fy} range={range} onFy={setFy} worldMap={worldMap} />
+            <RemovalsCountryCard payload={countries} fy={fyIce} range={iceRange} onFy={setFy} worldMap={worldMap} />
+          </>
+        ) : (
+          <p className="m-0 rounded-[10px] border border-line bg-surface px-5 py-4 text-[0.9rem] text-ink-muted">
+            ICE’s removal figures begin in FY{data.firstFy}. Move the left end of the years slider up to FY{data.firstFy} or later to see them. {snap}
+          </p>
+        )}
 
         <div className="flex flex-col gap-1.5 text-[0.8rem] leading-[1.6] text-ink-muted [&>p]:m-0">
           <p>

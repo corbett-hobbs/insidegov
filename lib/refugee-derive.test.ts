@@ -1,7 +1,8 @@
+import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { administration } from "./executive-orders-entities";
-import { CARD_NOTE_IDS, PAYLOAD_FIRST_FY, buildRefugeePayload, rankCountries, topByYear, topRuns } from "./refugee-derive";
+import { CARD_NOTE_IDS, COUNTRY_FIRST_FY, PAYLOAD_FIRST_FY, buildRefugeePayload, rankCountries, topByYear, topRuns } from "./refugee-derive";
 import { refugeeCountryRow, refugeeDeterminationRow, refugeeNote, refugeePolicyRow, refugeeRegionRow, refugeeSeriesRow } from "./refugee-entities";
 import { GEO_STACK } from "./refugee-types";
 
@@ -13,23 +14,30 @@ const input = {
   policy: read("refugee_policy.json").map((r) => refugeePolicyRow.parse(r)),
   notes: read("refugee_notes.json").map((r) => refugeeNote.parse(r)),
   determinations: read("refugee_determinations.json").map((r) => refugeeDeterminationRow.parse(r)),
-  admins: read("administrations.json").map((r) => administration.parse(r)),
+  admins: [...HISTORICAL_ADMINISTRATIONS, ...read("administrations.json").map((r) => administration.parse(r)).filter((a) => !HISTORICAL_ADMINISTRATIONS.some((h) => h.term_id === a.term_id))],
 };
 const p = buildRefugeePayload(input);
 const year = (fy: number) => p.years.find((y) => y.fy === fy)!;
 
 describe("buildRefugeePayload (real files)", () => {
-  it("runs FY2001 to the latest reported year, with only that year preliminary", () => {
+  it("runs FY1980 to the latest reported year, with only that year preliminary", () => {
     expect(p.firstFy).toBe(PAYLOAD_FIRST_FY);
+    expect(PAYLOAD_FIRST_FY).toBe(1980);
     expect(p.lastFy).toBe(2026);
     expect(p.years.filter((y) => y.preliminary).map((y) => y.fy)).toEqual([2026]);
   });
 
   it("regions and countries add up to every year's admissions", () => {
     for (const y of p.years) {
-      expect(GEO_STACK.reduce((s, g) => s + y.regions[g], 0), `FY${y.fy} regions`).toBe(y.admissions);
-      expect(p.countryYears.find((c) => c.fy === y.fy)!.total, `FY${y.fy} countries`).toBe(y.admissions);
+      expect(GEO_STACK.reduce((s, g) => s + y.regions[g], 0) + y.privateSector, `FY${y.fy} regions`).toBe(y.admissions);
+      const c = p.countryYears.find((x) => x.fy === y.fy);
+      if (y.fy >= COUNTRY_FIRST_FY) expect(c!.total, `FY${y.fy} countries`).toBe(y.admissions);
+      else expect(c, `FY${y.fy} has no country list`).toBeUndefined();
     }
+  });
+  it("reports the Private Sector Initiative as its own slice, FY1988 to FY1993 only", () => {
+    expect(p.years.filter((y) => y.privateSector > 0).map((y) => y.fy)).toEqual([1988, 1989, 1990, 1991, 1992, 1993]);
+    expect(year(1990).privateSector).toBe(3_009);
   });
 
   it("carries the ceiling, the mid-year revision and the president who held office on Sept 30", () => {
@@ -74,7 +82,7 @@ describe("ranked views", () => {
     expect(r[0]).toMatchObject({ key: "AFG", name: "Afghanistan", value: 6_758, rank: 1, change: 6_758 - 14_708 });
     expect(r.map((x) => x.rank)).toEqual(r.map((_, i) => i + 1));
     expect(r.reduce((s, x) => s + x.value, 0)).toBe(38_102);
-    expect(rankCountries(p, PAYLOAD_FIRST_FY)[0].change).toBeNull();
+    expect(rankCountries(p, COUNTRY_FIRST_FY)[0].change).toBeNull();
     expect(rankCountries(p, 1999)).toEqual([]);
   });
 

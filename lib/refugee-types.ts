@@ -54,6 +54,8 @@ export interface RefugeeYear {
   days: { termId: string; last: string; days: number }[];
   /** Admissions by region; the five add up to `admissions`. */
   regions: Record<GeoGroup, number>;
+  /** Admitted under the Private Sector Initiative (FY1988 to FY1993), which the State Department reports outside the five regions. Zero otherwise. */
+  privateSector: number;
   cardNotes: RefugeeCardNote[];
 }
 
@@ -105,12 +107,13 @@ export interface RefugeeCountryYear {
 }
 
 export interface RefugeePayload {
-  /** FY2001 on; the page shows FY2003 on and uses the earlier years for the change column. */
+  /** FY1980 on: one per year with an admissions report. */
   years: RefugeeYear[];
   terms: RefugeeTerm[];
   markers: RefugeeMarker[];
   regionYears: RefugeeRegionYear[];
   countries: RefugeeCountryRef[];
+  /** FY2001 on: the years before it have a region split but no country list. */
   countryYears: RefugeeCountryYear[];
   firstFy: number;
   lastFy: number;

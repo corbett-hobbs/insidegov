@@ -19,6 +19,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
   const present = [...GEO_STACK].filter((g) => years.some((y) => y.regions[g] > 0));
   const termsById = new Map(payload.terms.map((t) => [t.termId, t]));
   const prelim = years.some((y) => y.preliminary);
+  const hasPrivate = years.some((y) => y.privateSector > 0);
   return (
     <ChartCard
       title="Refugee ceiling and admissions by fiscal year"
@@ -31,6 +32,12 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
             {GEO_NAME[g].short}
           </LegendToggle>
         ))}
+        {only === null && years.some((y) => y.privateSector > 0) && (
+          <span className={LEGEND_ITEM}>
+            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--ink-faint)", opacity: 0.55 }} />
+            Private-sector initiative
+          </span>
+        )}
         {only === null && (
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="relative inline-block h-2.5 w-3 rounded-[1px]" style={{ background: CEILING_TINT, boxShadow: "inset 0 2.4px 0 var(--ink)" }} />
@@ -73,6 +80,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
                     {GEO_NAME[g].short}
                   </th>
                 ))}
+                {hasPrivate && <th className="py-1.5 pr-3 text-right font-medium">Private sector</th>}
                 <th className="py-1.5 pr-3 font-medium">Status</th>
                 <th className="py-1.5 font-medium">Administration</th>
               </tr>
@@ -87,6 +95,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
                   {GEO_STACK.map((g) => (
                     <td key={g} className="py-1.5 pr-3 text-right font-mono text-ink">{n(y.regions[g])}</td>
                   ))}
+                  {hasPrivate && <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(y.privateSector)}</td>}
                   <td className="py-1.5 pr-3">{y.preliminary ? "Preliminary" : "Final"}</td>
                   <td className="py-1.5">{y.blended ? y.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : (termsById.get(y.termId)?.president ?? "")}</td>
                 </tr>

@@ -30,16 +30,19 @@ export function RefugeeSection({
   const [country, setCountry] = useState<string | null>(null);
   const lastShown = range[1] >= iceLastFy ? payload.lastFy : range[1];
   const years = payload.years.filter((y) => y.fy >= range[0] && y.fy <= lastShown);
-  const windowKey = `${range[0]}-${range[1]}`;
+  // Admissions run from FY1980 but the country detail only from FY2001: the selected year and the two country cards stay inside it.
+  const detailFirst = Math.max(range[0], Math.min(...payload.countryYears.map((c) => c.fy)));
+  const hasDetail = detailFirst <= lastShown;
+  const windowKey = `${detailFirst}-${range[1]}`;
   const fallback = Math.min(range[1], iceLastFy);
-  const fy = picked && picked.window === windowKey ? Math.min(lastShown, Math.max(range[0], picked.fy)) : fallback;
+  const fy = hasDetail && picked && picked.window === windowKey ? Math.min(lastShown, Math.max(detailFirst, picked.fy)) : hasDetail ? Math.max(detailFirst, fallback) : fallback;
   const setFy = (v: number) => setPicked({ fy: v, window: windowKey });
 
   return (
     <>
       <RefugeeCeilingCard payload={payload} years={years} fy={fy} onFy={setFy} />
-      <RefugeeCountryCard payload={payload} worldMap={worldMap} fy={fy} yearRange={[range[0], lastShown]} onFy={setFy} country={country} onCountry={setCountry} />
-      <RefugeeTopCard payload={payload} fromFy={range[0]} toFy={lastShown} fy={fy} onFy={setFy} country={country} />
+      {hasDetail && <RefugeeCountryCard payload={payload} worldMap={worldMap} fy={fy} yearRange={[detailFirst, lastShown]} onFy={setFy} country={country} onCountry={setCountry} />}
+      {hasDetail && <RefugeeTopCard payload={payload} fromFy={detailFirst} toFy={lastShown} fy={fy} onFy={setFy} country={country} />}
     </>
   );
 }
