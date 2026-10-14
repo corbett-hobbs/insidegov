@@ -52,6 +52,17 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
   const iceFirst = Math.max(range[0], data.firstFy);
   const iceLast = Math.min(range[1], data.lastFy);
   const iceRange: [number, number] | null = iceFirst <= iceLast ? [iceFirst, iceLast] : null;
+  // One tap puts all three sections on the years ICE has: the slider's left end moves to ICE's first year (and its right end up to the
+  // page's last year when the window ended before ICE began). Shown only while the window starts earlier, so there is nothing to keep in sync.
+  const snap = (
+    <button
+      type="button"
+      onClick={() => setRange([data.firstFy, range[1] >= data.firstFy ? range[1] : bounds[1]])}
+      className="cursor-pointer text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+    >
+      Show all three on the same years (FY{data.firstFy} on)
+    </button>
+  );
   const fyIce = iceRange ? Math.min(iceRange[1], Math.max(iceRange[0], fy)) : fy;
   const lprFy = lpr.years.filter((y) => !y.preliminary).at(-1)?.fy;
   return (
@@ -79,7 +90,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
         <SectionHeading id="ice" number={3} title="How Many People Does ICE Remove?">
           <p>
             ICE counts how many people it removes each fiscal year. Some were picked up at the border and handed over to ICE; the rest were arrested by ICE’s own officers.
-            {range[0] < data.firstFy ? ` ICE’s figures begin in FY${data.firstFy}, so these charts start there.` : ""}
+            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so these charts start there. {snap}</>}
           </p>
         </SectionHeading>
 
@@ -93,7 +104,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
           </>
         ) : (
           <p className="m-0 rounded-[10px] border border-line bg-surface px-5 py-4 text-[0.9rem] text-ink-muted">
-            ICE’s removal figures begin in FY{data.firstFy}. Move the left end of the years slider up to FY{data.firstFy} or later to see them.
+            ICE’s removal figures begin in FY{data.firstFy}. Move the left end of the years slider up to FY{data.firstFy} or later to see them. {snap}
           </p>
         )}
 
