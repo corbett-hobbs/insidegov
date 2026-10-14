@@ -44,7 +44,7 @@ export function SiteHeader() {
         <Link
           href={isDetail ? backHref : "/"}
           title={isDetail ? "Back to InsideGov" : undefined}
-          className="group flex h-12 flex-none items-center gap-1.5 whitespace-nowrap pl-4 pr-1 pt-[5px] font-serif text-[1.3rem] font-semibold tracking-tight text-ink md:mr-8 md:h-auto md:flex-none md:pl-0 md:pt-[5px] md:text-[1.35rem]"
+          className={`group flex h-12 flex-none items-center gap-1.5 whitespace-nowrap pl-4 pr-1 font-serif font-semibold tracking-tight text-ink md:mr-8 md:h-auto md:flex-none md:pl-0 md:pt-[5px] md:text-[1.35rem] ${isHome ? "pt-[5px] text-[1.3rem]" : isDetail ? "pt-[3px] text-[min(1.05rem,calc(5.14vw_-_3.08px))]" : "pt-[5px] text-[min(1.3rem,calc(6.4vw_-_3.84px))]"}`}
         >
           {isDetail && (
             <span
