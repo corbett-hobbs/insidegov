@@ -132,6 +132,7 @@ jobs:
           subject: "InsideGov: new refugee determination needs curation"
           body: "The weekly refugee check found a new or unreviewed Federal Register document. The PR names it and needs a catalog row with verbatim quotes."
           url: ${{ steps.cpr.outputs.pull-request-url }}
+          body-file: ${{ runner.temp }}/summary.md
           smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
           smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
           smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}

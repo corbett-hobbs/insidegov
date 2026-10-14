@@ -32,7 +32,7 @@ export function diffIndex(prev: Row[], next: Row[]): { added: Row[]; removed: Ro
   };
 }
 
-const line = (r: Row) => `- ${r.presidential_document_number ? `${r.subtype ?? "Document"} ${r.presidential_document_number}` : r.document_number} (${r.publication_date}${r.citation ? `, ${r.citation}` : ""}): ${r.title} (\`${r.document_number}\`)`;
+const line = (r: Row) => `- ${r.presidential_document_number ? `${r.subtype ?? "Document"} ${r.presidential_document_number}` : r.document_number} (${r.publication_date}${r.citation ? `, ${r.citation}` : ""}): ${r.title} (\`${r.document_number}\`) https://www.federalregister.gov/d/${r.document_number}`;
 
 export function summarise(d: ReturnType<typeof diffIndex>): string {
   const out: string[] = [];

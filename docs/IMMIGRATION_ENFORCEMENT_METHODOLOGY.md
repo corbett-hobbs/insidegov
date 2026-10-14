@@ -220,7 +220,7 @@ for the newest `dhs-fy<N>-…` source and looks for the ICE PDF link; the FY2028
 overview should carry FY2026 actuals for the criminal-history, arrest and
 detention measures). It opens, refreshes or closes **one** issue
 (`.github/actions/open-review-issue`), never edits data and never blocks a
-deploy; a DHS page it cannot reach is listed as "could not check", not a finding.
+deploy; a DHS page it cannot reach is listed as "could not check", not a finding. Only the DHS budget-overview finding is a real new-data signal and sends a push notification (once; `--notify-file`); "ICE is overdue" is a reminder, because ICE's addresses are too unstable for the check to see a release.
 Run it locally with `pnpm exec tsx pipeline/validate/ice-staleness.ts --report out.md`
 (`--today YYYY-MM-DD` and `--offline` for testing).
 

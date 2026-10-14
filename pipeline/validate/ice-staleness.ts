@@ -13,7 +13,11 @@ import { dhsBudgetPageUrl, findIceBudgetPdf, iceSeriesStatus, latestBudgetFiscal
  * on exit 1. A DHS page that cannot be reached is reported as "could not check", never as a finding (exit 0
  * if nothing else is stale; exit 2 only for a crash). Never edits data and never blocks a deploy.
  *
- * Usage: tsx pipeline/validate/ice-staleness.ts [--report <path>] [--offline] [--today YYYY-MM-DD]
+ * Two kinds of finding: *overdue* (ICE should have locked a year and the catalog lacks it; a reminder, since ICE's
+ * addresses are too unstable to see a release) and *published* (DHS's next budget overview is out, a real
+ * new-data signal). Only the second is worth a push notification: `--notify-file <path>` is written when it fires.
+ *
+ * Usage: tsx pipeline/validate/ice-staleness.ts [--report <path>] [--notify-file <path>] [--offline] [--today YYYY-MM-DD]
  */
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -61,6 +65,8 @@ async function main() {
         const pdf = findIceBudgetPdf(await res.text());
         if (pdf) {
           console.log(`DHS FY${next} ICE budget overview: published (${pdf}).`);
+          const notifyFile = arg("--notify-file");
+          if (notifyFile) writeFileSync(notifyFile, `${pdf}\n`);
           if (lines.length) lines.push("");
           lines.push(
             `**DHS has published the FY${next} ICE budget overview** (${pdf}); the catalog's newest is FY${budgetFy}. It should carry FY${next - 2} actuals for the criminal-history, arrest and detention measures: add it as a source (\`dhs-fy${next}-…\`), replace the \`preliminary\` FY${next - 2} figures, then \`pnpm fetch:ice\` and \`pnpm transform\`. Page: ${url}`,
