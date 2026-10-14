@@ -35,10 +35,20 @@ jobs:
         id: stale
         run: |
           set +e
-          pnpm exec tsx pipeline/validate/ice-staleness.ts --report "$RUNNER_TEMP/ice-report.md"
+          pnpm exec tsx pipeline/validate/ice-staleness.ts --report "$RUNNER_TEMP/ice-report.md" --notify-file "$RUNNER_TEMP/ice-notify.txt"
           code=$?
           echo "found=$([ "$code" -eq 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "signal=$([ -f "$RUNNER_TEMP/ice-notify.txt" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
           [ "$code" -le 1 ] || exit "$code"
+
+      # Was the DHS "published" signal already in the open issue? Then it has been announced; stay quiet.
+      - name: Was the budget overview already announced?
+        id: announced
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          body="$(gh issue list --state open --label ice-annual-review --json body --jq '.[0].body // ""')"
+          echo "yes=$(printf '%s' "$body" | grep -q 'DHS has published' && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
       - name: Open, refresh or close the review issue
         id: issue
@@ -51,13 +61,15 @@ jobs:
           found: ${{ steps.stale.outputs.found }}
           token: ${{ github.token }}
 
-      # Push notification (email, then Slack) only when this run opened a NEW issue; reruns that refresh it stay quiet.
+      # Push notification only for a REAL new-data signal (DHS published the next ICE budget overview), and only the
+      # first time. The "ICE is overdue" findings are a reminder in the issue, not worth an email; ICE's addresses are
+      # too unstable for this check to see a release itself.
       - name: Notify
-        if: steps.issue.outputs.created == 'true'
+        if: steps.stale.outputs.signal == 'true' && steps.announced.outputs.yes != 'true'
         uses: ./.github/actions/notify
         with:
-          subject: "InsideGov: ICE data needs a new year or series"
-          body: "ICE data is behind or DHS published a new budget overview. Details are in the issue."
+          subject: "InsideGov: DHS published the next ICE budget overview"
+          body: "DHS published a new ICE budget overview, which carries newer actuals. Details are in the issue."
           url: ${{ steps.issue.outputs.url }}
           smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
           smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
