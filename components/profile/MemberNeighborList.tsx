@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Neighbor } from "@/lib/neighbors";
 import { memberPath } from "@/lib/member-url";
+import { memberTitleAbbr } from "@/lib/chamber";
 import { MemberFace } from "@/components/MemberPhoto";
 import { ListSearch } from "@/components/ListSearch";
 import {
@@ -63,17 +64,30 @@ export function MemberNeighborList({
                 style={{ background: GROUP_VAR[member.group] }}
               />
               <MemberFace bioguideId={member.bioguideId} hasPhoto={member.hasPhoto ?? false} current />
+              <span className="min-w-0 flex-1 truncate" title={member.name}>
+                <span className="text-ink">
+                  {memberTitleAbbr(member.chamber)} {member.name}
+                </span>{" "}
+                <span className="text-ink-faint">
+                  {partyAbbr(member.party)}-{seatLabel(member)}
+                </span>
+              </span>
+              {/* Wide cards only: where the score falls on the −1…+1 left–right axis, so the gap beside the name carries data. */}
               <span
-                className="min-w-0 flex-1 truncate text-ink"
-                title={member.name}
+                aria-hidden
+                className="relative hidden h-[0.9rem] w-24 flex-none sm:block lg:w-20 xl:w-32"
               >
-                {member.name}
-              </span>
-              <span className="w-14 flex-none font-mono text-[0.7rem] tabular-nums text-ink-faint">
-                {seatLabel(member)}
-              </span>
-              <span className="w-4 flex-none text-[0.7rem] text-ink-faint">
-                {partyAbbr(member.party)}
+                <span className="absolute inset-x-0 top-1/2 h-px bg-line-strong" />
+                <span className="absolute inset-y-[0.2rem] left-1/2 w-px bg-line-strong" />
+                {member.dim1 != null && (
+                  <span
+                    className="absolute top-1/2 size-[0.5rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    style={{
+                      left: `${(Math.max(-1, Math.min(1, member.dim1)) + 1) * 50}%`,
+                      background: GROUP_VAR[member.group],
+                    }}
+                  />
+                )}
               </span>
               <span className="w-10 flex-none text-right font-mono text-[0.7rem] tabular-nums text-ink-muted">
                 {fmt2(member.dim1)}

@@ -1,5 +1,17 @@
-import type { EnforcementNote, EnforcementReport, EnforcementRow } from "./enforcement-entities";
+import {
+  ARRESTING_AGENCIES,
+  CRIMINALITY_SCHEMES,
+  PARTIAL_CRIMINALITY,
+  isNationalRemovals,
+  type ArrestingAgency,
+  type Criminality,
+  type EnforcementMetric,
+  type EnforcementNote,
+  type EnforcementReport,
+  type EnforcementRow,
+} from "./enforcement-entities";
 import type { Administration } from "./executive-orders-entities";
+import { criminalityBars, criminalityYMax, type AgencyView, type CrimBar } from "./immigration-breakdown";
 
 /**
  * Pure shaping for /presidency/immigration: ICE removals by fiscal year joined
@@ -39,6 +51,13 @@ export interface IceYear {
   days: { termId: string; last: string; days: number }[];
   corroborated: boolean;
   figureRead: boolean;
+  /**
+   * Removals by the agency that first apprehended the person: ICE's own officers, or Border Patrol (CBP) who handed the
+   * person to ICE. ICE's count either way; the two add up to `value`. Null where ICE prints no split (FY2003–FY2007, FY2025).
+   */
+  agency: { ice: number; cbp: number } | null;
+  /** Average daily population in ICE detention, with the agency split where ICE prints one; null before FY2018. */
+  detention: { value: number; status: "final" | "preliminary"; ice: number | null; cbp: number | null } | null;
   source: string;
   sourceUrl: string;
   /** Notes shown on this year's card: not covered by a numbered marker, not the global Oct 5 lock note. */
@@ -120,6 +139,8 @@ export interface ImmigrationPageData {
   corroboratedCount: number;
   /** ISO date the snapshots were retrieved. */
   asOf: string;
+  /** Removals by criminal history in three views (everyone, first arrested by ICE, first arrested by Border Patrol) on one fixed count scale. */
+  criminality: { views: Record<AgencyView, CrimBar[]>; yMax: number };
 }
 
 const isLeap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
@@ -136,13 +157,14 @@ export function yDomainMax(values: readonly number[]): number {
  * Run at build time by the reader and over the real files in the unit tests.
  */
 export function assertEnforcementInvariants(
-  rows: readonly EnforcementRow[],
+  allRows: readonly EnforcementRow[],
   report: EnforcementReport,
   admins: readonly Administration[],
 ): void {
   const fail = (msg: string): never => {
     throw new Error(`enforcement invariant: ${msg}`);
   };
+  const rows = allRows.filter(isNationalRemovals);
   if (rows.length === 0) fail("no rows");
   const periods = rows.map((r) => r.period);
   const first = periods[0];
@@ -168,15 +190,102 @@ export function assertEnforcementInvariants(
     if (!a?.ok) fail(`report anchor FY${p} missing or not ok`);
     if (rows.find((r) => r.period === p)?.value !== a?.value) fail(`FY${p} value differs from the report anchor`);
   }
+  assertBreakdownInvariants(allRows, report);
+}
+
+// ---- breakdowns (removals by arresting agency and criminality; arrests, detainers, book-ins, detention) ----
+
+/** A series of `enforcement_series.json`; omitted dimensions mean "all" (null). */
+export interface SeriesSelector {
+  metric: EnforcementMetric;
+  arresting_agency?: ArrestingAgency | null;
+  criminality?: Criminality | null;
+}
+
+const matches = (r: EnforcementRow, s: SeriesSelector) =>
+  r.metric === s.metric && r.arresting_agency === (s.arresting_agency ?? null) && r.criminality === (s.criminality ?? null);
+
+/** One series by fiscal year, oldest first. Years ICE prints no figure for are absent, never zero. */
+export function seriesValues(rows: readonly EnforcementRow[], s: SeriesSelector): { fy: number; value: number; status: "final" | "preliminary" }[] {
+  return rows
+    .filter((r) => matches(r, s))
+    .map((r) => ({ fy: r.period, value: r.value, status: r.status }))
+    .sort((a, b) => a.fy - b.fy);
+}
+
+export type CriminalityScheme = keyof typeof CRIMINALITY_SCHEMES | "partial";
+
+/**
+ * How a year's criminality is split for one metric (and agency slice): `two_way` (convicted / not convicted, through
+ * FY2015), `three_way` (convicted / pending charges / other immigration violator), `partial` (only a combined
+ * convicted-or-pending figure, FY2025), or null when ICE prints no criminality for that year.
+ */
+export function criminalityScheme(
+  rows: readonly EnforcementRow[],
+  fy: number,
+  metric: EnforcementMetric,
+  agency: ArrestingAgency | null = null,
+): CriminalityScheme | null {
+  const set = rows.filter((r) => r.period === fy && r.metric === metric && r.arresting_agency === agency && r.criminality !== null).map((r) => r.criminality!);
+  if (!set.length) return null;
+  for (const [k, cats] of Object.entries(CRIMINALITY_SCHEMES) as [keyof typeof CRIMINALITY_SCHEMES, readonly Criminality[]][]) {
+    if (set.length === cats.length && cats.every((c) => set.includes(c))) return k;
+  }
+  if (set.length === 1 && PARTIAL_CRIMINALITY.includes(set[0])) return "partial";
+  throw new Error(`enforcement invariant: FY${fy} ${metric}${agency ? ` (${agency})` : ""} mixes criminality schemes [${set}]`);
+}
+
+/**
+ * The breakdown rows a page can rely on: every year is in the national series with the same status; agency splits
+ * are complete; criminality never mixes schemes; complete splits sum to their totals (exactly, unless the report
+ * lists the slice as a documented exception, e.g. rounded detention averages). The transform checks the same and
+ * more; this re-asserts it at build time over the committed files.
+ */
+export function assertBreakdownInvariants(allRows: readonly EnforcementRow[], report: EnforcementReport): void {
+  const fail = (msg: string): never => {
+    throw new Error(`enforcement invariant: ${msg}`);
+  };
+  const national = new Map(allRows.filter(isNationalRemovals).map((r) => [r.period, r]));
+  const breakdown = allRows.filter((r) => !isNationalRemovals(r));
+  const total = (period: number, metric: EnforcementMetric, agency: ArrestingAgency | null) =>
+    allRows.find((r) => r.period === period && r.metric === metric && r.arresting_agency === agency && r.criminality === null)?.value ?? null;
+  const excused = (period: number, metric: EnforcementMetric, dimension: string, slice: string | null, parts: number, tot: number) =>
+    report.breakdowns.exceptions.some((e) => e.period === period && e.metric === metric && e.dimension === dimension && e.slice === slice && e.parts_sum === parts && e.total === tot);
+
+  const seen = new Set<string>();
+  for (const r of breakdown) {
+    const nat = national.get(r.period);
+    if (!nat) fail(`FY${r.period} ${r.metric} has no national removals row`);
+    if (nat!.status !== r.status) fail(`FY${r.period} ${r.metric} status ${r.status} differs from the national ${nat!.status}`);
+    const k = `${r.period}|${r.metric}`;
+    if (seen.has(k)) continue;
+    seen.add(k);
+    const yearRows = breakdown.filter((x) => x.period === r.period && x.metric === r.metric);
+    const agencyRows = yearRows.filter((x) => x.arresting_agency !== null && x.criminality === null);
+    if (agencyRows.length) {
+      if (agencyRows.length !== ARRESTING_AGENCIES.length) fail(`FY${r.period} ${r.metric} agency split is incomplete`);
+      const parts = agencyRows.reduce((s, x) => s + x.value, 0);
+      const tot = total(r.period, r.metric, null);
+      if (tot !== null && parts !== tot && !excused(r.period, r.metric, "arresting_agency", null, parts, tot)) fail(`FY${r.period} ${r.metric} agencies sum to ${parts}, total ${tot}`);
+    }
+    for (const agency of [null, ...ARRESTING_AGENCIES]) {
+      const scheme = criminalityScheme(allRows, r.period, r.metric, agency);
+      if (scheme === null || scheme === "partial") continue;
+      const parts = yearRows.filter((x) => x.arresting_agency === agency && x.criminality !== null).reduce((s, x) => s + x.value, 0);
+      const tot = total(r.period, r.metric, agency);
+      if (tot !== null && parts !== tot && !excused(r.period, r.metric, "criminality", agency, parts, tot)) fail(`FY${r.period} ${r.metric} criminality sums to ${parts}, total ${tot}`);
+    }
+  }
 }
 
 export function buildImmigrationData(
-  rows: readonly EnforcementRow[],
+  allRows: readonly EnforcementRow[],
   notes: readonly EnforcementNote[],
   report: EnforcementReport,
   admins: readonly Administration[],
 ): ImmigrationPageData {
-  assertEnforcementInvariants(rows, report, admins);
+  assertEnforcementInvariants(allRows, report, admins);
+  const rows = allRows.filter(isNationalRemovals);
   const adminById = new Map(admins.map((a) => [a.term_id, a]));
   const lastName = (id: string) => {
     const name = adminById.get(id)!.president;
@@ -189,6 +298,13 @@ export function buildImmigrationData(
   const corroborated = new Set(report.corroborated_periods);
   const figureRead = new Set(report.figure_read_periods);
 
+  const byFy = (selector: SeriesSelector) => new Map(seriesValues(allRows, selector).map((v) => [v.fy, v]));
+  const agencyIce = byFy({ metric: "removals", arresting_agency: "ice" });
+  const agencyCbp = byFy({ metric: "removals", arresting_agency: "cbp" });
+  const adp = byFy({ metric: "detention_adp" });
+  const adpIce = byFy({ metric: "detention_adp", arresting_agency: "ice" });
+  const adpCbp = byFy({ metric: "detention_adp", arresting_agency: "cbp" });
+
   const years: IceYear[] = rows.map((r) => ({
     fy: r.period,
     value: r.value,
@@ -199,6 +315,10 @@ export function buildImmigrationData(
     days: r.administration_days.map((d) => ({ termId: d.term_id, last: lastName(d.term_id), days: d.days })),
     corroborated: corroborated.has(r.period),
     figureRead: figureRead.has(r.period),
+    agency: agencyIce.has(r.period) ? { ice: agencyIce.get(r.period)!.value, cbp: agencyCbp.get(r.period)!.value } : null,
+    detention: adp.has(r.period)
+      ? { value: adp.get(r.period)!.value, status: adp.get(r.period)!.status, ice: adpIce.get(r.period)?.value ?? null, cbp: adpCbp.get(r.period)?.value ?? null }
+      : null,
     source: r.source,
     sourceUrl: r.source_url,
     cardNotes: r.note_ids
@@ -233,6 +353,10 @@ export function buildImmigrationData(
     finalCount: years.filter((y) => y.status === "final").length,
     corroboratedCount: years.filter((y) => y.corroborated).length,
     asOf: rows[0].as_of,
+    criminality: {
+      views: { all: criminalityBars(allRows, "all"), ice: criminalityBars(allRows, "ice"), cbp: criminalityBars(allRows, "cbp") },
+      yMax: criminalityYMax(allRows),
+    },
   };
 }
 

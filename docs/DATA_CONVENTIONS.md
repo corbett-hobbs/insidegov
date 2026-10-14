@@ -507,10 +507,15 @@ A fifth data track: ICE removals by fiscal year, shown later *by presidential
 administration*. Methodology: `docs/IMMIGRATION_ENFORCEMENT_METHODOLOGY.md`;
 schemas and the curated catalog types: `lib/enforcement-entities.ts`.
 
-**Key.** `(period, metric, scope)` — `period` = fiscal year (the calendar year it
-ends in), `metric = removals`, `scope = ice` (required, no default). **No
-`bioguide_id` and no member-level key.** One fact, one place: the source layer is
-the curated catalog; each output row is derived from it.
+**Key.** `(period, metric, scope, arresting_agency, criminality)` — `period` =
+fiscal year (the calendar year it ends in), `metric` one of `removals`,
+`administrative_arrests`, `at_large_arrests`, `detainers_issued`,
+`initial_book_ins`, `detention_adp`; `scope = ice` (required, no default);
+`arresting_agency` (`ice`/`cbp`) and `criminality` (`convicted`, `not_convicted`,
+`pending_charges`, `other_immigration_violator`, `convicted_or_pending`) are null
+for "all". National removals = `removals` with both null (`isNationalRemovals`).
+**No `bioguide_id` and no member-level key.** One fact, one place: the source layer
+is the curated catalog; each output row is derived from it.
 
 **Join to presidents** is by date through the existing §7 identifier: the row's
 `administration_term_id` (a `term_id` into `administrations.json`) is the
@@ -521,8 +526,8 @@ second presidential-terms table.
 | File | Grain | Key | Notes |
 | --- | --- | --- | --- |
 | `pipeline/raw/ice/*` | one snapshot per ICE/DHS document + `<name>.txt` extract | `id` in the catalog | `pnpm fetch:ice`. Transform reads only the `.txt`. |
-| `pipeline/reference/ice-removals-catalog.json` | sources, one entry per fiscal year (value + verbatim evidence + corroboration), breakdowns, notes | `fy` | Curated by hand from the snapshots; every value is verified against its quote at transform time. |
-| `pipeline/output/enforcement_series.json` | one row per `(period, metric, scope)` | as above | `value`, `source`, `source_url`, `as_of`, `status` (`final`/`preliminary`), `note_ids`, attribution fields. Missing years are absent — never 0/NaN/interpolated. |
+| `pipeline/reference/ice-removals-catalog.json` | sources; `years` (national removals: value + verbatim evidence + corroboration); `values` (breakdowns and other ERO measures, each with an evidence kind: `text`, `chart_label` + where it was read, or `figure` + page snapshot); `sum_checks`, `sum_exceptions`, `disagreements`; notes | `fy` (+ metric, agency, criminality) | Curated by hand from the snapshots; every value is verified against its quote and every breakdown against its total at transform time. |
+| `pipeline/output/enforcement_series.json` | one row per key | as above | `value`, `source`, `source_url`, `as_of`, `status` (`final`/`preliminary`), `note_ids`, attribution fields. National removals first, then each breakdown series. Missing years are absent — never 0/NaN/interpolated. |
 | `pipeline/output/enforcement_notes.json` | one row per note | `id` | `kind` (`definition_change`/`caveat`/`context`), `fy_start`, `fy_end` (null = to latest). |
 | `pipeline/output/enforcement_report.json` | run summary | — | Separate from the Congress `_report.json`, like the other non-Congress tracks. Deterministic. |
 

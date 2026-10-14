@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { type ImmigrationPageData } from "@/lib/immigration-derive";
 import { coverageLabel } from "@/lib/removals-country-derive";
 import type { RemovalsCountryPayload } from "@/lib/removals-country-types";
+import { CriminalHistoryCard } from "./CriminalHistoryCard";
 import { ImmigrationFilterBar } from "./ImmigrationFilterBar";
 import { RemovalsCard } from "./RemovalsCard";
 import { RemovalsCountryCard } from "./RemovalsCountryCard";
@@ -36,15 +37,20 @@ export function ImmigrationPageClient({ data, countries, worldMap }: { data: Imm
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Immigration" title="How Many People Does ICE Remove?">
           <p>
-            ICE publishes a fiscal-year count of the people it removes from the United States. Since FY2007 that count
-            also includes returns — voluntary returns, voluntary departures and withdrawals under docket control — so it
-            runs higher than a tally of formal removals alone. Each bar below is one fiscal year (October to September),
-            colored by the administration in office for most of it; drag the slider’s handles, or tap a president under it, to choose which years the timeline shows, then click a bar (or use the year menu in the card below) to choose the year whose countries are listed. ICE has changed what it counts several times, so numbered markers on the timeline show where one era
-            stops being directly comparable to the next; select a number to see what changed.
+            U.S. Immigration and Customs Enforcement (ICE) publishes a fiscal-year count of the people it removes from the
+            United States. Many were first apprehended at the border by Border Patrol, part of U.S. Customs and Border
+            Protection (CBP), and handed to ICE; the rest were arrested by ICE’s own officers. Since FY2007 the count
+            includes returns (voluntary returns, voluntary departures and withdrawals under docket control), so it runs
+            higher than formal removals alone. Each bar is one fiscal year (October to September), split by the agency that
+            first apprehended the person. Drag the slider’s handles, or tap a president under it, to choose the years shown,
+            then click a bar to choose the year whose countries are listed. Numbered markers show where ICE changed what it
+            counts; select one to see what changed.
           </p>
         </PageHeader>
 
         <RemovalsCard data={data} range={range} fy={fy} onFy={setFy} />
+
+        <CriminalHistoryCard data={data} range={range} fy={fy} onFy={setFy} />
 
         <RemovalsCountryCard payload={countries} fy={fy} range={range} onFy={setFy} worldMap={worldMap} />
 
@@ -52,7 +58,7 @@ export function ImmigrationPageClient({ data, countries, worldMap }: { data: Imm
           Source: U.S. Immigration and Customs Enforcement removal statistics, FY{data.firstFy}–FY{data.lastFy} (FY
           {data.lastFy} from the DHS FY2027 ICE budget overview). Data as of {asOfLabel(data.asOf)}. Each fiscal year is
           assigned to the administration in office for most of it; inauguration-year splits are shown on the year’s card.
-          The country list uses the removals-by-country-of-citizenship tables in ICE’s annual reports ({coverageLabel(countries)}); each year’s
+          Arrests, detention and criminal history come from ICE’s annual enforcement reports (FY2025 detention and criminal history from the budget overview). The country list uses the removals-by-country-of-citizenship tables in ICE’s annual reports ({coverageLabel(countries)}); each year’s
           countries add up to that year’s ICE total. Countries are countries of citizenship, not destinations. One agency, one definition: ICE
           only, never combined with Border Patrol or DHS-wide counts.
         </p>

@@ -36,13 +36,40 @@ const MARKER_Y = 16;
 
 type Open = { key: string; pinned: boolean } | null;
 
+const n = (v: number) => v.toLocaleString("en-US");
+
+/** Screen-reader text for one bar: the removals total, who first apprehended the people, and the detention average. */
+function barAria(yr: IceYear): string {
+  const split = yr.agency ? `, ${n(yr.agency.ice)} first arrested by ICE and ${n(yr.agency.cbp)} by Border Patrol` : "";
+  const held = yr.detention ? `; ${n(yr.detention.value)} people in ICE detention on an average day` : "";
+  return `FY${yr.fy}: ${n(yr.value)} removals${split}${held}, ${yr.status}`;
+}
+
+interface DetentionPoint {
+  fy: number;
+  /** Slot index of the year among the shown ones. */
+  i0: number;
+  value: number;
+  status: "final" | "preliminary";
+  /** Whether the point carries a value label: the peak and the newest point. */
+  label: boolean;
+}
+
+/** The detention line's points inside the shown years, oldest first, with labels on the peak and the latest. */
+function detentionPoints(years: readonly IceYear[]): DetentionPoint[] {
+  const pts = years.flatMap((y, i) => (y.detention ? [{ fy: y.fy, i0: i, value: y.detention.value, status: y.detention.status }] : []));
+  if (pts.length === 0) return [];
+  const peak = pts.reduce((a, b) => (b.value > a.value ? b : a));
+  const last = pts[pts.length - 1];
+  return pts.map((p) => ({ ...p, label: p === peak || p === last }));
+}
+
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
-const tint = (p: "D" | "R") => `color-mix(in srgb, ${partyVar(p)} 16%, var(--surface))`;
 
 /**
- * ICE removals by fiscal year: one bar per year colored whole by the
- * administration in office for most of it, a term band and a regime strip
- * under the axis, numbered definition-change markers, and a card per bar. The
+ * ICE removals by fiscal year: one bar per year stacked by who first apprehended the person (ICE's own officers, teal;
+ * Border Patrol, amber; grey where ICE prints no split), the average people in ICE detention as a line on the same
+ * axis, a term band and a regime strip under the axis, numbered definition-change markers, and a card per bar. The
  * y-axis is fixed across selections (`yMax` is from the whole series).
  */
 export function RemovalsChart({
@@ -78,6 +105,7 @@ export function RemovalsChart({
   const y = scaleLinear().domain([0, yMax]).range([BASE, PLOT_TOP]);
   const xSlot = (i: number) => i * slotW;
   const mode = yearLabelMode(slotW);
+  const detention = detentionPoints(years);
   const idBase = useId().replace(/:/g, "");
 
   const [open, setOpen] = useState<Open>(null);
@@ -157,26 +185,17 @@ export function RemovalsChart({
           width={W}
           height={SVG_H}
           margin={{ top: 0, right, bottom: 0, left }}
-          ariaLabel={`Bar chart of ICE removals by fiscal year, FY${firstFy} to FY${lastFy}, colored by the administration in office for most of each year.`}
+          ariaLabel={`Bar chart of ICE removals by fiscal year, FY${firstFy} to FY${lastFy}, split by the agency that first apprehended the person, with a line for the average number of people in ICE detention.`}
           className="block h-auto w-full max-w-full"
           svgProps={{ role: "group" }}
         >
           {() => (
             <>
               <defs>
-                {(["D", "R"] as const).map((p) => (
-                  <pattern
-                    key={p}
-                    id={`${idBase}-hatch-${p}`}
-                    width="6"
-                    height="6"
-                    patternUnits="userSpaceOnUse"
-                    patternTransform="rotate(45)"
-                  >
-                    <rect width="6" height="6" style={{ fill: tint(p) }} />
-                    <line x1="0" y1="0" x2="0" y2="6" strokeWidth="2.4" style={{ stroke: partyVar(p) }} />
-                  </pattern>
-                ))}
+                <pattern id={`${idBase}-hatch`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="6" height="6" style={{ fill: "color-mix(in srgb, var(--oth) 22%, var(--surface))" }} />
+                  <line x1="0" y1="0" x2="0" y2="6" strokeWidth="2.4" style={{ stroke: "var(--oth)" }} />
+                </pattern>
               </defs>
 
               <Axis
@@ -231,7 +250,7 @@ export function RemovalsChart({
                     data-ice-hit
                     tabIndex={0}
                     role="button"
-                    aria-label={`FY${yr.fy}: ${yr.value.toLocaleString("en-US")} removals, ${yr.status}`}
+                    aria-label={barAria(yr)}
                     aria-expanded={active}
                     className="cursor-pointer outline-none"
                     onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && openBar(yr.fy, false)}
@@ -250,19 +269,28 @@ export function RemovalsChart({
                     }}
                   >
                     <rect x={x} y={PLOT_TOP} width={slotW} height={PLOT_H} rx={2} fill={active ? "var(--accent)" : "transparent"} fillOpacity={0.09} style={yr.fy === selectedFy ? { fill: "var(--surface-raised)", fillOpacity: 1, stroke: "var(--line-strong)" } : undefined} />
-                    <rect
-                      x={bx}
-                      y={top}
-                      width={barW}
-                      height={BASE - top}
-                      style={{
-                        fill: hatched ? `url(#${idBase}-hatch-${yr.party})` : partyVar(yr.party),
-                        fillOpacity: prelim ? 0.55 : 1,
-                        stroke: hatched ? partyVar(yr.party) : prelim ? "var(--ink)" : "none",
-                        strokeWidth: hatched ? 1 : 1.2,
-                        strokeDasharray: prelim ? "4 3" : undefined,
-                      }}
-                    />
+                    {yr.agency ? (
+                      <>
+                        <rect x={bx} y={y(yr.agency.ice)} width={barW} height={BASE - y(yr.agency.ice)} style={{ fill: "var(--agency-ice)", fillOpacity: prelim ? 0.55 : 1 }} />
+                        <rect x={bx} y={top} width={barW} height={y(yr.agency.ice) - top} style={{ fill: "var(--agency-cbp)", fillOpacity: prelim ? 0.55 : 1 }} />
+                      </>
+                    ) : (
+                      <rect
+                        x={bx}
+                        y={top}
+                        width={barW}
+                        height={BASE - top}
+                        style={{
+                          fill: hatched ? `url(#${idBase}-hatch)` : "var(--oth)",
+                          fillOpacity: prelim ? 0.55 : 1,
+                          stroke: hatched ? "var(--oth)" : "none",
+                          strokeWidth: 1,
+                        }}
+                      />
+                    )}
+                    {prelim && (
+                      <rect x={bx} y={top} width={barW} height={BASE - top} style={{ fill: "none", stroke: "var(--ink)", strokeWidth: 1.2, strokeDasharray: "4 3" }} />
+                    )}
                     {showLabel && (
                       <>
                         <text x={labelX} y={top - 6} textAnchor={labelAnchor} className="fill-ink font-mono text-[10.5px] font-semibold">
@@ -278,6 +306,48 @@ export function RemovalsChart({
                   </g>
                 );
               })}
+
+              {detention.length > 0 && (
+                <g aria-hidden pointerEvents="none">
+                  {detention.slice(1).map((d, i) => {
+                    const prev = detention[i];
+                    return (
+                      <line
+                        key={d.fy}
+                        x1={xSlot(prev.i0) + slotW / 2}
+                        y1={y(prev.value)}
+                        x2={xSlot(d.i0) + slotW / 2}
+                        y2={y(d.value)}
+                        style={{ stroke: "var(--ink)", strokeWidth: 2.2, strokeLinecap: "round", strokeDasharray: d.status === "preliminary" ? "4 4" : undefined }}
+                      />
+                    );
+                  })}
+                  {detention.map((d) => (
+                    <circle
+                      key={d.fy}
+                      cx={xSlot(d.i0) + slotW / 2}
+                      cy={y(d.value)}
+                      r={slotW < 20 ? 2.4 : 3.4}
+                      style={{ fill: d.status === "preliminary" ? "var(--surface)" : "var(--ink)", stroke: d.status === "preliminary" ? "var(--ink)" : "var(--surface)", strokeWidth: d.status === "preliminary" ? 2 : 1.2 }}
+                    />
+                  ))}
+                  {slotW >= 24 &&
+                    detention
+                      .filter((d) => d.label)
+                      .map((d) => (
+                        <text
+                          key={d.fy}
+                          x={Math.min(xSlot(d.i0) + slotW / 2, plotW - 12)}
+                          y={y(d.value) - 8}
+                          textAnchor="middle"
+                          className="fill-ink font-mono text-[10px] font-semibold"
+                          style={{ paintOrder: "stroke", stroke: "var(--surface)", strokeWidth: 3 }}
+                        >
+                          {valueLabel(d.value, slotW)}
+                        </text>
+                      ))}
+                </g>
+              )}
 
               {placements.map(({ marker, at }) => (
                 <line

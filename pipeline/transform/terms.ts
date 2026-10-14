@@ -129,6 +129,7 @@ export function buildTerms(
             chamber,
             state: term.state,
             district,
+            term_start: term.start,
             ...partyForCongress(term, congress),
           }) as Term,
         );

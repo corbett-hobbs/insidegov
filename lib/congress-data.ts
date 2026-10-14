@@ -114,6 +114,8 @@ interface FullChamber {
   /** Plottable, sorted by dim1. */
   byCongress: Record<number, ChamberMember[]>;
   trend: PartyMeanPoint[];
+  /** Earliest recorded term start (ISO date) per member in this chamber. */
+  firstTermStart: Map<string, string>;
 }
 
 const fullCache = new Map<Chamber, FullChamber>();
@@ -134,7 +136,12 @@ function buildFullChamber(chamber: Chamber): FullChamber {
   );
 
   const allByCongress: Record<number, ChamberMember[]> = {};
+  const firstTermStart = new Map<string, string>();
   for (const term of terms) {
+    const seen = firstTermStart.get(term.bioguide_id);
+    if (term.term_start && (!seen || term.term_start < seen)) {
+      firstTermStart.set(term.bioguide_id, term.term_start);
+    }
     const leg = legById.get(term.bioguide_id);
     if (!leg) continue;
     const score = scoreByKey.get(`${term.bioguide_id}:${term.congress_number}`);
@@ -211,6 +218,7 @@ function buildFullChamber(chamber: Chamber): FullChamber {
     allByCongress,
     byCongress,
     trend,
+    firstTermStart,
   };
   fullCache.set(chamber, full);
   return full;
@@ -401,6 +409,7 @@ export function getMemberProfile(
     latestCongress: f.latestCongress,
     trajectory,
     firstCongress: trajectory[0]?.congress ?? f.latestCongress,
+    firstTermYear: Number(f.firstTermStart.get(bioguideId)?.slice(0, 4)) || null,
     chamberCongressCount: trajectory.length,
     hasPhoto: current.hasPhoto ?? false,
   };

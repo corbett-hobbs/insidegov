@@ -6,10 +6,13 @@ Feeds `/presidency/immigration` (`lib/immigration-data.ts`). Source findings and
 ## What the series is
 
 **ICE removals, by fiscal year (Oct 1 – Sep 30), FY2003–FY2025**, from ICE's own
-documents only. Key `(period, metric, scope)` with `metric = removals`,
-`scope = ice` (required — no default — so a CBP or DHS-wide series can never be
+documents only. Key `(period, metric, scope, arresting_agency, criminality)`; the
+national series is `metric = removals` with both breakdowns null, and `scope = ice`
+is required on every row (no default, so a CBP or DHS-wide series can never be
 spliced in silently). `period` is the year the fiscal year ends in. No member
-or `bioguide_id` key; it joins to presidents by date (§ Attribution).
+or `bioguide_id` key; it joins to presidents by date (§ Attribution). The same file
+also carries breakdowns of removals and five other ERO measures (§ Breakdowns and
+other ERO measures).
 
 A **removal** is DHS's formal term for what is commonly called deportation: the
 confirmed departure of a non-citizen from the U.S. enforced by the government.
@@ -73,11 +76,82 @@ agency.
 Zod on the catalog and outputs; every figure's quoted evidence must appear
 verbatim in the snapshot's text extract and contain the number; xlsx table values
 are checked by column; corroborating documents are checked the same way; ICE's
-published FY2013 (368,644) and FY2023 (142,580) are hard anchors; FY2013 interior
-+ border = total; no negatives, no duplicate `(period, metric, scope)`, strictly
-increasing periods; unknown note ids fail. Results: `enforcement_report.json`
-(rows, gaps, status counts, blended years, which years are corroborated by a second
-ICE document, which are single-source, the FY2021 chart read, source hashes).
+published FY2013 (368,644) and FY2023 (142,580) are hard anchors; no negatives, no
+duplicate key, strictly increasing periods; unknown note ids fail; the breakdown
+gates below. Results: `enforcement_report.json` (rows, gaps, status counts, blended
+years, which years are corroborated by a second ICE document, which are
+single-source, the FY2021 chart read; under `breakdowns`, per-series coverage,
+every breakdown against its total, subtotal checks, disagreements and exceptions;
+source and figure-snapshot hashes).
+
+## Breakdowns and other ERO measures
+
+Rows of `enforcement_series.json` other than national removals, from the catalog's
+`values` (session A of `docs/IMMIGRATION_EXPANSION_PLAN.md`; findings, coverage and
+disagreements in `docs/IMMIGRATION_SOURCE_NOTES.md` §6). Same agency rule: every
+row is an ICE count from an ICE/DHS document already snapshotted; nothing from CBP
+or DHS-wide series.
+
+**Metrics.** `removals`; `administrative_arrests` (ERO arrests for a civil
+immigration violation); `at_large_arrests` (the subset made in the community, not
+in a jail); `detainers_issued`; `initial_book_ins` (first book-in of a new
+detention stay); `detention_adp` (average daily population in ICE detention, an
+average, not a count of people). ICE's definitions are quoted verbatim in
+`enforcement_notes.json`.
+
+**Two breakdown dimensions** (null = all):
+
+- `arresting_agency`: `ice` or `cbp`, the agency that first apprehended the person.
+  A `cbp` row is ICE's count of people CBP handed to ICE, never a CBP figure. It is
+  not strictly interior vs. border (CBP includes ports of entry). Through FY2016 ICE
+  called the same split interior and border removals (its definitions: identified
+  or apprehended by an ICE officer vs. apprehended by CBP while attempting to
+  enter); FY2016 is printed under both labels with identical numbers, so FY2008–
+  FY2015 interior/border are stored as ICE/CBP with a note.
+- `criminality`, as recorded in ICE systems at the time of the enforcement action
+  ("other immigration violator" = no record there, not a finding about the
+  person; convictions include immigration crimes such as illegal entry and
+  reentry). **Two schemes, never mixed in a year:** `convicted` + `not_convicted`
+  through FY2015 (ICE printed no pending-charges category; no zero is filled in),
+  and `convicted` + `pending_charges` + `other_immigration_violator` from FY2016
+  (FY2016 restated three ways in the FY2018 report; it agrees with the FY2016
+  report's two-way split). **FY2025** has only `convicted_or_pending`, a combined
+  figure from ICE's FY2027 budget overview with no split and no complement: a
+  *partial* breakdown, preliminary, with its own note.
+
+Interior removals by criminality are the `removals` rows with `arresting_agency =
+ice` and a criminality (FY2017–FY2024).
+
+**Coverage** (details in the source notes): agency split of removals FY2008–FY2024;
+removals by criminality FY2013–FY2024 (+ FY2025 combined); interior by criminality
+FY2017–FY2024; arrests by criminality FY2016–FY2024 (+ FY2025 combined), arrest
+totals FY2016–FY2020 and FY2023–FY2024 (no printed total for FY2021–FY2022);
+at-large and detainers FY2016–FY2024; book-ins FY2016–FY2020; detention average
+FY2018–FY2025 (by agency to FY2024). A year's status always equals the national
+series' status for that year, so FY2025 is preliminary everywhere.
+
+**Evidence.** Each value has a kind: `text` (a verbatim quote containing it),
+`chart_label` (a bar label that is in the text extract but whose year and category
+were assigned from the rendered PDF page; `chart` records page, figure and the bar
+and segment read), or `figure` (an image-only chart; the caption must be in the
+extract and a snapshot of the rendered page is committed in `pipeline/raw/ice/`).
+The quote check cannot catch a real number filed under the wrong year or category,
+so chart labels are also tied down by the sums below.
+
+**Gates (fail `pnpm transform`).** (1) Every quote is in its source and contains
+the value; figure snapshots exist. (2) An agency split has both agencies and sums
+to the total; a complete criminality scheme sums to its total (the national value
+for removals; the agency's own row for interior removals). Where ICE prints no
+total (FY2021–FY2022 arrests) the split is reported as unchecked. A mismatch is
+allowed only if `sum_exceptions` documents it with the exact numbers and a reason;
+the one entry is FY2024 detention, 37,721 vs. 37,722, two separately rounded
+averages. A stale exception fails. (3) Printed subtotals (`sum_checks`, e.g.
+"81,312 … convicted criminals or had pending criminal charges") equal their rows.
+(4) Schemes never mix; a partial figure stands alone with a caveat note. (5) Each
+corroborating vintage prints the same number; a number an ICE document prints that
+is not used is listed in `disagreements` with its resolution (never averaged).
+(6) Statuses match the national year. `assertBreakdownInvariants` re-checks (2),
+(4) and (6) at site build.
 
 ## By country of citizenship (`removals_by_country.json`)
 
@@ -138,7 +212,13 @@ catalog or still `preliminary`. To add a year
 or replace a preliminary one: (1) add the ICE document to `sources` in
 `pipeline/reference/ice-removals-catalog.json`, plus a `years` row with a
 verbatim quote; (2) `pnpm fetch:ice` (needs `pdftotext` and `unzip`) to snapshot
-it and write the text extract; (3) `pnpm transform`; (4) review the diff. A new country table is added to `COUNTRY_TABLES` in `pipeline/transform/removals-country.ts`. Append
+it and write the text extract; (3) `pnpm transform`; (4) review the diff. For a
+breakdown, add `values` entries the same way; a chart label needs `chart` (read it
+off the rendered page: `pdftoppm -r 150 -png -f N -l N file.pdf out`), an
+image-only chart also a committed page snapshot (`figure_file`), and a printed
+subtotal goes in `sum_checks`. When a new annual report restates earlier years,
+add it as `corroboration`; if it disagrees, investigate and record it in
+`disagreements` rather than averaging. A new country table is added to `COUNTRY_TABLES` in `pipeline/transform/removals-country.ts`. Append
 the next inauguration to `ADMINISTRATIONS` first when a new term starts.
 
 ## On the page (`/presidency/immigration`)

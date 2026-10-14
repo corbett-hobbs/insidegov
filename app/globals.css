@@ -43,6 +43,15 @@
   --committee-house: #b57800;
   --committee-senate: #0b8a8f;
   --committee-joint: #2f3441;
+  /* Immigration page: who first apprehended the person (ICE's arresting agency) and ICE's criminal-history categories.
+     Deliberately not the party hues (the term band carries the president). Teal ICE and amber Border Patrol reuse the committee
+     chamber hues; the criminal-history ramp is one purple hue stepped in lightness (convicted darkest in light mode). */
+  --agency-ice: #0b8a8f;
+  --agency-cbp: #b57800;
+  --crim-convicted: #3b2f55;
+  --crim-pending: #8d78b5;
+  --crim-none: #d3cce0;
+  --crim-notconvicted: #b9bdc6;
   /* Executive-order topic colours: one solid colour per topic (nine categorical hues), deliberately not the party hues. */
   --topic-government_operations: #7b4f87;
   --topic-economy_labor: #c28a2c;
@@ -161,6 +170,12 @@
     --committee-house: #f2b84b;
     --committee-senate: #45c6c6;
     --committee-joint: #e6e8ee;
+    --agency-ice: #45c6c6;
+    --agency-cbp: #f2b84b;
+    --crim-convicted: #cdbdf0;
+    --crim-pending: #8d78b5;
+    --crim-none: #4a4458;
+    --crim-notconvicted: #5b606c;
     --topic-government_operations: #b58ac4;
     --topic-economy_labor: #e0b04e;
     --topic-trade: #4fb7a2;
@@ -254,6 +269,12 @@
   --committee-house: #f2b84b;
   --committee-senate: #45c6c6;
   --committee-joint: #e6e8ee;
+  --agency-ice: #45c6c6;
+  --agency-cbp: #f2b84b;
+  --crim-convicted: #cdbdf0;
+  --crim-pending: #8d78b5;
+  --crim-none: #4a4458;
+  --crim-notconvicted: #5b606c;
   --topic-government_operations: #b58ac4;
   --topic-economy_labor: #e0b04e;
   --topic-trade: #4fb7a2;
