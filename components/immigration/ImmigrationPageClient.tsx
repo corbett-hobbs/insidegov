@@ -4,16 +4,19 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { type ImmigrationPageData } from "@/lib/immigration-derive";
 import { coverageLabel } from "@/lib/removals-country-derive";
+import type { RefugeePayload } from "@/lib/refugee-types";
 import type { RemovalsCountryPayload } from "@/lib/removals-country-types";
 import { CriminalHistoryCard } from "./CriminalHistoryCard";
 import { ImmigrationFilterBar } from "./ImmigrationFilterBar";
+import { RefugeeSection } from "./RefugeeSection";
 import { RemovalsCard } from "./RemovalsCard";
 import { RemovalsCountryCard } from "./RemovalsCountryCard";
+import { SectionHeading } from "./SectionHeading";
 
 const asOfLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-export function ImmigrationPageClient({ data, countries, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
+export function ImmigrationPageClient({ data, countries, refugees, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
   // Two pieces of page state: the fiscal-year window (the two-handle slider and the term band) narrows the timeline, and
   // the selected fiscal year (a click on a bar, or the year dropdown in the country card) picks the year the country list
   // shows and is marked on the timeline. The selected year is always inside the window.
@@ -35,18 +38,27 @@ export function ImmigrationPageClient({ data, countries, worldMap }: { data: Imm
     <>
       <ImmigrationFilterBar terms={data.terms} years={data.years} bounds={bounds} range={range} onRange={setRange} />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader eyebrow="Presidency · Immigration" title="How Many People Does ICE Remove?">
+        <PageHeader eyebrow="Presidency · Immigration" title="How Many People Come In and Out of the U.S.?">
           <p>
-            U.S. Immigration and Customs Enforcement (ICE) publishes a fiscal-year count of the people it removes from the
-            United States. Many were first apprehended at the border by Border Patrol, part of U.S. Customs and Border
-            Protection (CBP), and handed to ICE; the rest were arrested by ICE’s own officers. Since FY2007 the count
-            includes returns (voluntary returns, voluntary departures and withdrawals under docket control), so it runs
-            higher than formal removals alone. Each bar is one fiscal year (October to September), split by the agency that
-            first apprehended the person. Drag the slider’s handles, or tap a president under it, to choose the years shown,
-            then click a bar to choose the year whose countries are listed. Numbered markers show where ICE changed what it
-            counts; select one to see what changed.
+            Every year, the U.S. sends some people out and lets others in. Here are two pieces of that picture: who ICE removes from the country, and which refugees are resettled here from abroad.
           </p>
+          <nav aria-label="Sections" className="flex flex-wrap gap-2">
+            {[
+              ["#ice", "ICE removals"],
+              ["#refugees", "Refugee admissions"],
+            ].map(([href, label]) => (
+              <a key={href} href={href} className="rounded-full border border-line-strong bg-surface px-3 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+                {label}
+              </a>
+            ))}
+          </nav>
         </PageHeader>
+
+        <SectionHeading id="ice" title="How Many People Does ICE Remove?">
+          <p>
+            ICE counts how many people it removes each fiscal year. Some were picked up at the border and handed over to ICE; the rest were arrested by ICE’s own officers.
+          </p>
+        </SectionHeading>
 
         <RemovalsCard data={data} range={range} fy={fy} onFy={setFy} />
 
@@ -62,6 +74,10 @@ export function ImmigrationPageClient({ data, countries, worldMap }: { data: Imm
           countries add up to that year’s ICE total. Countries are countries of citizenship, not destinations. One agency, one definition: ICE
           only, never combined with Border Patrol or DHS-wide counts.
         </p>
+
+        <SectionHeading id="refugees" title="How Many Refugees Does the U.S. Admit?" />
+
+        <RefugeeSection payload={refugees} worldMap={worldMap} range={range} iceLastFy={data.lastFy} />
       </main>
     </>
   );

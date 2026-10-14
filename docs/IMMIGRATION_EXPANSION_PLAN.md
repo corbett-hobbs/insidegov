@@ -281,6 +281,8 @@ Separate source, separate card. Do a source check first, as in
 Data on Opus (high), UI on Sonnet (medium), same split as A/B.
 
 **Status (2026-10-13): data pass done**, addendum included. Outputs `refugee_*.json`;
+
+**UI (2026-10-14): built** on the Immigration page as a second section under the ICE cards (one page header and two sub-headers; ceiling chart split by region, country/region map and list, "Who's sent the most refugees"). Decisions and the cards that were mocked and cut are in `ARCHITECTURE_MAP.md`'s Immigration section.
 methodology `docs/REFUGEE_ADMISSIONS_METHODOLOGY.md`; source check
 `docs/IMMIGRATION_SOURCE_NOTES.md` §7. Findings that change the UI brief:
 
