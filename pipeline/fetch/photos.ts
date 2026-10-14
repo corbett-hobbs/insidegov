@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import sharp from "sharp";
 import { run } from "./lib";
 
 /**
@@ -11,6 +12,11 @@ import { run } from "./lib";
  * are committed: 225x275 for the scatter-dot tooltip, 450x550 for the profile
  * page. Fetched here at build time and committed to `public/`, exactly like the
  * ideology data: the app never touches the network at request time.
+ *
+ * Former members (served in Congress 100+, not in the latest) get the small
+ * size only, downscaled to 90x110 (shown at 20x24 in lists and 40x49 in
+ * tooltips, so that is already 2x) — thousands of full-size portraits would
+ * bloat the repo. They are listed under `former` in the manifest.
  *
  * Missing photos are expected (not every current member has one in the source).
  * Those bioguide ids are recorded in the manifest and the app falls back to a
@@ -36,8 +42,11 @@ interface TermRow {
   chamber: string;
 }
 
-/** Distinct bioguide ids serving in the latest Congress, sorted. */
-async function currentRoster(): Promise<string[]> {
+/** Earliest Congress the vote data covers; no point fetching anyone older. */
+const FORMER_FROM_CONGRESS = 100;
+
+/** Distinct bioguide ids serving in the latest Congress, sorted, plus former members since FORMER_FROM_CONGRESS. */
+async function rosters(): Promise<{ current: string[]; former: string[] }> {
   if (!existsSync(TERMS)) {
     throw new Error(`${TERMS} not found — run \`pnpm transform\` first.`);
   }
@@ -47,7 +56,13 @@ async function currentRoster(): Promise<string[]> {
   for (const t of terms) {
     if (t.congress_number === latest) ids.add(t.bioguide_id);
   }
-  return [...ids].sort();
+  const former = new Set<string>();
+  for (const t of terms) {
+    if (t.congress_number >= FORMER_FROM_CONGRESS && !ids.has(t.bioguide_id)) {
+      former.add(t.bioguide_id);
+    }
+  }
+  return { current: [...ids].sort(), former: [...former].sort() };
 }
 
 /** A real JPEG starts with the SOI marker; guards against 200-with-HTML. */
@@ -80,6 +95,24 @@ async function fetchMember(bioguide: string): Promise<boolean> {
   if (written.length === Object.keys(SIZES).length) return true;
   await Promise.all(written.map((f) => rm(f, { force: true })));
   return false;
+}
+
+/** One small, downscaled photo for a former member; false when the source has none. */
+async function fetchFormer(bioguide: string): Promise<boolean> {
+  let res: Response;
+  try {
+    res = await fetch(`${IMAGES_BASE}/${SIZES.small}/${bioguide}.jpg`);
+  } catch {
+    return false;
+  }
+  if (!res.ok) return false;
+  const buf = Buffer.from(await res.arrayBuffer());
+  if (!isJpeg(buf)) return false;
+  await sharp(buf)
+    .resize(90, 110, { fit: "cover", position: "top" })
+    .jpeg({ quality: 80, mozjpeg: true })
+    .toFile(`${OUT_DIR}/${bioguide}-small.jpg`);
+  return true;
 }
 
 /** Drop any committed photo whose member is no longer in the roster. */
@@ -115,10 +148,10 @@ async function pool<T>(
 
 await run("photos", async () => {
   await mkdir(OUT_DIR, { recursive: true });
-  const roster = await currentRoster();
-  console.log(`  roster: ${roster.length} current members`);
+  const { current: roster, former } = await rosters();
+  console.log(`  roster: ${roster.length} current, ${former.length} former members`);
 
-  const pruned = await pruneStale(new Set(roster));
+  const pruned = await pruneStale(new Set([...roster, ...former]));
   if (pruned) console.log(`  pruned ${pruned} stale photo file(s)`);
 
   const withPhoto: string[] = [];
@@ -132,6 +165,16 @@ await run("photos", async () => {
   withPhoto.sort();
   missing.sort();
 
+  const formerWithPhoto: string[] = [];
+  let formerDone = 0;
+  await pool(former, CONCURRENCY, async (bioguide) => {
+    const dest = `${OUT_DIR}/${bioguide}-small.jpg`;
+    if (existsSync(dest) || (await fetchFormer(bioguide))) formerWithPhoto.push(bioguide);
+    formerDone += 1;
+    if (formerDone % 500 === 0) console.log(`  former ${formerDone}/${former.length}`);
+  });
+  formerWithPhoto.sort();
+
   await writeFile(
     MANIFEST,
     JSON.stringify(
@@ -143,9 +186,11 @@ await run("photos", async () => {
           roster: roster.length,
           withPhoto: withPhoto.length,
           missing: missing.length,
+          former: formerWithPhoto.length,
         },
         withPhoto,
         missing,
+        former: formerWithPhoto,
       },
       null,
       2,
@@ -156,4 +201,5 @@ await run("photos", async () => {
     `  ${withPhoto.length} with a photo, ${missing.length} missing (placeholder)`,
   );
   if (missing.length) console.log(`  missing: ${missing.join(", ")}`);
+  console.log(`  ${formerWithPhoto.length} of ${former.length} former members have a photo`);
 });

@@ -2,7 +2,7 @@ import "server-only";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
-import { getCurrentMemberIndex } from "./congress-data";
+import { getCurrentMemberIndex, hasFormerMemberPhoto } from "./congress-data";
 import { ideologyScore, type IdeologyScore } from "./entities";
 import { lawVotesShard } from "./law-votes-entities";
 import type { LawChamberVotesView, LawVoter, VoteCast } from "./law-votes-types";
@@ -72,7 +72,7 @@ export function getLawVotes(lawId: string, congress: number, origin: "House" | "
         dim1: s?.nokken_poole_dim1 ?? null,
         dim2: s?.nokken_poole_dim2 ?? null,
         cast: cast.get(id) ?? "none",
-        hasPhoto: current.get(id)?.hasPhoto ?? false,
+        hasPhoto: current.get(id)?.hasPhoto ?? hasFormerMemberPhoto(id),
         path: person?.[3] ?? null,
       });
     }
