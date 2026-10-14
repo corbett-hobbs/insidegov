@@ -4,10 +4,12 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { type ImmigrationPageData } from "@/lib/immigration-derive";
 import { coverageLabel } from "@/lib/removals-country-derive";
+import type { LprPayload } from "@/lib/lpr-types";
 import type { RefugeePayload } from "@/lib/refugee-types";
 import type { RemovalsCountryPayload } from "@/lib/removals-country-types";
 import { CriminalHistoryCard } from "./CriminalHistoryCard";
 import { ImmigrationFilterBar } from "./ImmigrationFilterBar";
+import { LprSection } from "./LprSection";
 import { RefugeeSection } from "./RefugeeSection";
 import { RemovalsCard } from "./RemovalsCard";
 import { RemovalsCountryCard } from "./RemovalsCountryCard";
@@ -16,7 +18,7 @@ import { SectionHeading } from "./SectionHeading";
 const asOfLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-export function ImmigrationPageClient({ data, countries, refugees, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
+export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; lpr: LprPayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
   // Two pieces of page state: the fiscal-year window (the two-handle slider and the term band) narrows the timeline, and
   // the selected fiscal year (a click on a bar, or the year dropdown in the country card) picks the year the country list
   // shows and is marked on the timeline. The selected year is always inside the window.
@@ -40,12 +42,13 @@ export function ImmigrationPageClient({ data, countries, refugees, worldMap }: {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Immigration" title="How Many People Come In and Out of the U.S.?">
           <p>
-            Every year, the U.S. sends some people out and lets others in. Here are two pieces of that picture: who ICE removes from the country, and which refugees are resettled here from abroad.
+            Every year, the U.S. lets some people in and sends others out. Here are three pieces of that picture: who gets a green card, which refugees are resettled here from abroad, and who ICE removes from the country.
           </p>
           <nav aria-label="Sections" className="flex flex-wrap gap-2">
             {[
-              ["#ice", "ICE removals"],
+              ["#green-cards", "Green cards"],
               ["#refugees", "Refugee admissions"],
+              ["#ice", "ICE removals"],
             ].map(([href, label]) => (
               <a key={href} href={href} className="rounded-full border border-line-strong bg-surface px-3 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
                 {label}
@@ -53,6 +56,14 @@ export function ImmigrationPageClient({ data, countries, refugees, worldMap }: {
             ))}
           </nav>
         </PageHeader>
+
+        <SectionHeading id="green-cards" title="How Many People Get Green Cards?" />
+
+        <LprSection payload={lpr} worldMap={worldMap} range={range} />
+
+        <SectionHeading id="refugees" title="How Many Refugees Does the U.S. Admit?" />
+
+        <RefugeeSection payload={refugees} worldMap={worldMap} range={range} iceLastFy={data.lastFy} />
 
         <SectionHeading id="ice" title="How Many People Does ICE Remove?">
           <p>
@@ -74,10 +85,6 @@ export function ImmigrationPageClient({ data, countries, refugees, worldMap }: {
           countries add up to that year’s ICE total. Countries are countries of citizenship, not destinations. One agency, one definition: ICE
           only, never combined with Border Patrol or DHS-wide counts.
         </p>
-
-        <SectionHeading id="refugees" title="How Many Refugees Does the U.S. Admit?" />
-
-        <RefugeeSection payload={refugees} worldMap={worldMap} range={range} iceLastFy={data.lastFy} />
       </main>
     </>
   );

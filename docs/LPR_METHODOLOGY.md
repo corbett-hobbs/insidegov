@@ -1,7 +1,7 @@
 # Green cards and naturalizations — methodology
 
 The first part of the legal-immigration track (plan: `docs/IMMIGRATION_EXPANSION_PLAN.md`, sessions
-E–K). No page uses it yet; session F builds the cards. Source check and findings:
+E–K). The Immigration page's green-card section (`components/immigration/Lpr*`) reads it. Source check and findings:
 `docs/IMMIGRATION_SOURCE_NOTES.md` §8. Schemas: `lib/lpr-entities.ts`. Pipeline: `pnpm fetch:ohss` →
 `pipeline/transform/lpr-run.ts` (pure logic in `lpr.ts`, names in `lpr-country-names.ts`) →
 `lib/lpr-data.ts` (server-only reader) → `lib/lpr-derive.ts` (payload and invariants) →
@@ -63,6 +63,7 @@ Outputs (`pipeline/output/`, one JSON row per line):
 | --- | --- | --- |
 | `lpr_series.json` | (period, metric, admission_type, class) | `metric` `lpr` / `naturalizations`; `admission_type` `new_arrival` / `adjustment` / null (all); `class` one of the seven / null (all). National totals have both null. `value`, `status`, provenance (`source`, `table`, `edition`, `member`, `sheet`, `cells`, `method`, `rounding`), `note_ids`, presidential attribution. |
 | `lpr_by_country.json` | (fy, metric, basis, country_key) | `kind` `country` / `other` (XOT, "All other countries") / `unknown` (XUN) / `withheld` (XWH); rows add up to the year's printed total; zero rows are not stored. |
+| `lpr_by_region.json` | (fy, metric, basis, region) | OHSS's own continents (Africa, Asia, Europe, North America, Oceania, South America, Unknown) read from the REGION section printed above the countries in the same table the by-country rows come from (same basis and status); never assigned here. North America includes Mexico, Central America and the Caribbean. Rows add up to the printed total (within rounding); zero regions are not stored. |
 | `lpr_notes.json` | note | definitions, eras, caveats, restatements, coverage, each with a fiscal-year range and, where it rests on a document, a verbatim quote checked against the snapshot. |
 | `lpr_report.json` | — | which table each year came from, residual and withheld values, every vintage comparison, refugee cross-check, source hashes. |
 
@@ -117,6 +118,7 @@ only in older `.xls` editions whose layouts were not checked here (see the sourc
 - In every by-country table: regions add up to the total, the REGION and COUNTRY totals agree, and
   countries plus buckets (and any withheld remainder) add up to the printed total.
 - Every country name resolves to a key.
+- Every region name is one of OHSS's seven; a year's regions add up to its printed total, and every year with countries has regions on the same basis and status (`assertRegionInvariants`).
 - Every national value printed by two Yearbook editions (or by two tables of one edition) agrees
   within rounding, or a catalog `restatements` entry covers it; a restatement that covers nothing
   fails too.

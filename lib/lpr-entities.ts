@@ -230,5 +230,27 @@ export const lprCountryRow = z.strictObject({
 });
 export type LprCountryRow = z.infer<typeof lprCountryRow>;
 
+/** The continents OHSS prints in the REGION section of its by-country tables, plus its "Unknown" row. */
+export const LPR_REGIONS = ["africa", "asia", "europe", "north_america", "oceania", "south_america", "unknown"] as const;
+export type LprRegion = (typeof LPR_REGIONS)[number];
+
+/**
+ * `lpr_by_region.json`: one row per (fy, metric, basis, region), read from the REGION section printed above the countries in the
+ * same table the by-country rows come from (so a region is OHSS's own, never assigned here). Zero regions are not stored; the rows
+ * add up to the year's printed total.
+ */
+export const lprRegionRow = z.strictObject({
+  fy: lprFiscalYear,
+  metric: lprMetric,
+  basis: countryBasis,
+  region: z.enum(LPR_REGIONS),
+  /** The row as printed. */
+  printed_name: z.string().min(1),
+  value: z.number().int().nonnegative(),
+  status: lprStatus,
+  ...provenance,
+});
+export type LprRegionRow = z.infer<typeof lprRegionRow>;
+
 export const lprNoteRow = lprNote;
 export type LprNoteRow = LprNote;

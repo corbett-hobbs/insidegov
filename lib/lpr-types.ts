@@ -1,7 +1,7 @@
 /**
  * Client-safe shapes for the legal-immigration (green cards and naturalizations) payload: built by the
  * pure `lib/lpr-derive.ts` from `pipeline/output/lpr_*.json`, read by `lib/lpr-data.ts`. No I/O and
- * no Zod here, so client components can import it. No UI uses it yet (session F builds the cards).
+ * no Zod here, so client components can import it. The Immigration page's green-card section reads it.
  */
 
 /** Major classes of admission, bottom to top of a stack (OHSS Table 6 order). */
@@ -76,12 +76,25 @@ export interface LprCountryYear {
   rows: [number, number][];
 }
 
+/** The continents OHSS prints above its country rows (never assigned here); a region with no people that year is absent. */
+export type LprRegionKey = "africa" | "asia" | "europe" | "north_america" | "oceania" | "south_america" | "unknown";
+
+export interface LprRegionYear {
+  fy: number;
+  metric: "lpr" | "naturalizations";
+  basis: "birth" | "nationality";
+  preliminary: boolean;
+  /** Adds up to the year's printed total (within OHSS's rounding). */
+  regions: Partial<Record<LprRegionKey, number>>;
+}
+
 export interface LprPayload {
   years: LprYear[];
   terms: LprTerm[];
   notes: LprNoteOut[];
   countries: LprCountryRef[];
   countryYears: LprCountryYear[];
+  regionYears: LprRegionYear[];
   firstFy: number;
   lastFy: number;
   /** First year with classes, new arrivals vs. adjustments and countries. */
