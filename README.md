@@ -19,7 +19,7 @@ around one question.
 - **Energy** — oil, gas, electricity and the Strategic Petroleum Reserve,
   with the policy actions that touched them.
 - **Trade** — U.S. trade with each country, plus tariffs and duties collected.
-- **Immigration** — ICE removals by fiscal year and by country of citizenship.
+- **Immigration** — green cards, refugee admissions and ICE removals, by fiscal year and country.
 - **National security** — where U.S. troops are stationed abroad, and the
   bases, over time.
 - **Foreign aid** — where U.S. foreign assistance goes, on a world map.

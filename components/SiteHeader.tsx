@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SiteNav, SiteSectionNav } from "./SiteNav";
+import { SiteSearch } from "./SiteSearch";
 import { useBackLinkHref } from "./BackLinkContext";
 import { branches, liveSections } from "@/lib/verticals";
 import { STATIC_PAGES } from "@/lib/site-info";
@@ -19,7 +20,8 @@ const SECTION_PAGES = new Set<string>([
  * One header row at `md`+ (two slim rows below): wordmark, branch tabs
  * (SiteNav), then — on any live vertical's pages, even with one section — a
  * divider and the section pills (SiteSectionNav), all left-aligned; the right
- * is empty. Each explorer/section renders its
+ * is empty except on the homepage, which carries the site search (SiteSearch).
+ * Inner pages have no room for it: the section pills fill the row. Each explorer/section renders its
  * own controls below this — e.g. components/senate/ExplorerToolbar.tsx. The
  * header is not sticky; only those toolbars pin.
  *
@@ -54,6 +56,7 @@ export function SiteHeader() {
         </Link>
         <SiteNav />
         <SiteSectionNav />
+        {pathname === "/" && <SiteSearch />}
       </div>
     </header>
   );
