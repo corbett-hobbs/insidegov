@@ -156,7 +156,7 @@ describe("agency split and detention on each year", () => {
   });
   it("criminality views are on the page data", () => {
     expect(data.criminality.views.all).toHaveLength(13);
-    expect(data.criminality.yMax).toBe(400_000);
+    expect(data.criminality.yMax).toBe(500_000);
   });
 });
 
