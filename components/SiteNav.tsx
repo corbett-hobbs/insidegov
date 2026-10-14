@@ -30,7 +30,7 @@ export function SiteNav() {
               <span
                 key={b.id}
                 aria-disabled="true"
-                className="flex items-center gap-1.5 whitespace-nowrap border-b-[3px] border-transparent px-1.5 pt-[2px] font-mono md:pt-0 text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[0.04em] text-ink-faint md:px-3.5 md:text-[0.8rem] md:tracking-[0.14em]"
+                className="flex items-center gap-1.5 whitespace-nowrap border-b-[3px] border-transparent px-1.5 pt-[2px] font-mono md:pt-[3px] text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[0.04em] text-ink-faint md:px-3.5 md:text-[0.8rem] md:tracking-[0.14em]"
               >
                 {b.label}
                 <SoonTag />
@@ -43,7 +43,7 @@ export function SiteNav() {
               key={b.id}
               href={b.href}
               aria-current={active ? "page" : undefined}
-              className={`flex items-center whitespace-nowrap border-b-[3px] px-1.5 pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[0.04em] transition-colors md:px-3.5 md:pt-0 md:text-[0.8rem] md:tracking-[0.14em] ${
+              className={`flex items-center whitespace-nowrap border-b-[3px] px-1.5 pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[0.04em] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
                 active
                   ? "border-accent text-ink"
                   : "border-transparent text-ink-muted hover:text-ink"
