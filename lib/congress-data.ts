@@ -50,6 +50,7 @@ function readOutput<T>(name: string): T[] {
 }
 
 let photoBioguideCache: Set<string> | null = null;
+let formerPhotoCache: Set<string> | null = null;
 /**
  * Bioguide ids of current members with a committed official photo, from the
  * build-time manifest `pipeline/fetch/photos.ts` writes. Missing manifest →
@@ -64,14 +65,23 @@ function photoBioguides(): Set<string> {
       "output",
       "member-photos.json",
     );
-    const { withPhoto } = JSON.parse(readFileSync(path, "utf8")) as {
+    const { withPhoto, former } = JSON.parse(readFileSync(path, "utf8")) as {
       withPhoto: string[];
+      former?: string[];
     };
     photoBioguideCache = new Set(withPhoto);
+    formerPhotoCache = new Set(former ?? []);
   } catch {
     photoBioguideCache = new Set();
+    formerPhotoCache = new Set();
   }
   return photoBioguideCache;
+}
+
+/** True when a former member (served in Congress 100+, not now) has a committed small photo. */
+export function hasFormerMemberPhoto(bioguideId: string): boolean {
+  photoBioguides();
+  return formerPhotoCache!.has(bioguideId);
 }
 
 let leaderCache: Map<string, { chamber: Chamber; role: NonNullable<ChamberMember["leaderRole"]> }[]> | null = null;

@@ -5,7 +5,8 @@
  * `pipeline/fetch/photos.ts` — nothing here hits the network.
  *
  * `hasPhoto` comes from the build-time manifest (see lib/congress-data.ts); it
- * is only set for current members, so historical rows never render a photo.
+ * is set for current members and, from the manifest's `former` list, for
+ * former members who have a small (90x110) photo; only that size exists for them.
  */
 export const MEMBER_PHOTO_PLACEHOLDER = "/images/member-placeholder.svg";
 
