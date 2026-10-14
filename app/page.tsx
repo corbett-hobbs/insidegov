@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getBothTrend, getViewCurrent } from "@/lib/congress-data";
-import { branches, getBranch } from "@/lib/verticals";
+import { getBranch } from "@/lib/verticals";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { getCourtPayload } from "@/lib/justice-data";
 import { getExecutiveOrdersData } from "@/lib/executive-orders-data";
+import { EO_TOPICS, EO_TOPIC_LABELS, topicFill } from "@/lib/executive-orders-types";
 import { HubEoChart } from "@/components/executive-orders/HubEoChart";
 import { HubCompass } from "@/components/HubCompass";
 import { CourtHubStrip } from "@/components/court/CourtHubStrip";
-import { HubSectionList } from "@/components/HubSectionList";
-import { PageHeader } from "@/components/PageHeader";
+import { HomeHero } from "@/components/home/HomeHero";
+import { BranchStrip } from "@/components/home/BranchStrip";
+import { HomeBranchCard } from "@/components/home/HomeBranchCard";
 
 export const metadata: Metadata = {
   title: { absolute: `${site.name} · ${site.tagline}` },
@@ -33,9 +35,37 @@ const BLURBS: Record<string, string> = {
     "Executive orders, the economy, energy, trade, immigration, foreign aid and troops abroad, laid out against each presidential term, from gas prices and tariffs to deportations.",
 };
 
+const KICKERS: Record<string, string> = {
+  presidency: "The executive",
+  congress: "The legislature",
+  "supreme-court": "The judiciary",
+};
+const NUMERALS = ["I", "II", "III"];
+
+/** Big serif headline figure with a one-line caption, used under each card's chart. */
+function Stat({ figure, children }: { figure: string; children: React.ReactNode }) {
+  return (
+    <>
+      <span className="font-serif text-[2.1rem] font-medium leading-[1.05] tracking-tight text-accent">{figure}</span>
+      <span className="text-[0.85rem] leading-snug text-ink-muted">{children}</span>
+    </>
+  );
+}
+
+/** One topic colour swatch and name, for the executive-orders chart key. */
+function TopicKey({ topic }: { topic: (typeof EO_TOPICS)[number] }) {
+  return (
+    <li className="flex items-center gap-2">
+      <span aria-hidden="true" className="inline-block size-2.5 rounded-[2px]" style={{ background: topicFill(topic) }} />
+      {EO_TOPIC_LABELS[topic]}
+    </li>
+  );
+}
+
 export default function Hub() {
   const presidency = getBranch("presidency");
-  const others = branches.filter((b) => b.id !== "presidency");
+  const congressBranch = getBranch("congress");
+  const courtBranch = getBranch("supreme-court");
   const trend = getBothTrend();
   const congress = getViewCurrent("both");
   const court = getCourtPayload();
@@ -54,163 +84,125 @@ export default function Hub() {
   );
   const gopAppointed = seated.filter((j) => j.party === "R").length;
 
+  const href = (b: { href: string; defaultSection: string }) => `${b.href}/${b.defaultSection}`;
+
   return (
-    <>
-      <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-8 px-4 pb-16 pt-10 sm:px-6 sm:pt-14">
-        <PageHeader title={site.tagline} size="hero">
-          <p>
-            Explore the presidency, Congress, and the Supreme Court through the
-            public record: executive orders, the economy, energy, trade,
-            immigration, foreign aid, troops abroad, ideology, net worth, and
-            court decisions.
-          </p>
+    <main className="flex flex-1 flex-col">
+      <HomeHero
+        kicker={site.tagline}
+        title={
+          <>
+            Three branches. <em className="font-normal italic">One public record.</em>
+          </>
+        }
+        intro={
           <p>
             Every order signed, roll call cast, ruling issued, and financial
             disclosure filed leaves a trail. We turn those records into data you
-            can scrub through, compare, and dig into. Start with the presidency
-            to see what each administration did and what was happening in the
-            country while it did.
+            can scrub through, compare, and dig into.
           </p>
-        </PageHeader>
+        }
+        startHref={href(presidency)}
+        strip={<BranchStrip items={[presidency, congressBranch, courtBranch]} />}
+      />
 
-        <section
-          aria-labelledby="hub-presidency"
-          className="flex flex-col gap-5 rounded-xl border border-line bg-surface p-5 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-8"
-        >
-          <div className="flex flex-col gap-4">
-            <h2
-              id="hub-presidency"
-              className="font-serif text-2xl font-semibold tracking-tight"
-            >
-              <Link
-                href={`${presidency.href}/${presidency.defaultSection}`}
-                className="hover:text-accent"
+      <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
+        <p className="home-reveal pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
+          Explore the presidency, Congress, and the Supreme Court through{" "}
+          <span className="bg-[linear-gradient(transparent_64%,#e8c877_64%)]">the public record</span>:
+          executive orders, the economy, energy, trade, immigration, foreign aid,
+          troops abroad, ideology, net worth, and court decisions.
+        </p>
+
+        <HomeBranchCard
+          index={0}
+          grow
+          branch={presidency}
+          numeral={NUMERALS[0]}
+          kicker={KICKERS.presidency}
+          blurb={BLURBS.presidency}
+          viz={
+            <>
+              <ul
+                aria-label="Topic colours"
+                className="pointer-events-none absolute left-4 top-3.5 z-10 hidden gap-1 font-mono text-[0.68rem] text-white/85 sm:grid"
               >
-                {presidency.label}
-              </Link>
-            </h2>
-            <p className="text-[0.95rem] leading-relaxed text-ink-muted">
-              {BLURBS.presidency}
-            </p>
-            <div className="mt-auto flex flex-col gap-2">
+                {EO_TOPICS.map((t) => (
+                  <TopicKey key={t} topic={t} />
+                ))}
+              </ul>
               <Link
-                href={`${presidency.href}/${presidency.defaultSection}`}
+                href={href(presidency)}
                 aria-label={`${presidency.label}: open the first page`}
-                className="block"
+                className="flex flex-1"
               >
-                <HubEoChart data={orders} />
+                <HubEoChart data={orders} stretch />
               </Link>
-              <p className="text-[0.85rem] text-ink-muted">
-                <span className="font-serif text-2xl font-semibold text-ink">
-                  {orders.total.toLocaleString("en-US")}
-                </span>{" "}
-                executive orders signed since {orders.years[0].year}
-              </p>
-            </div>
-          </div>
-          <HubSectionList
-            sections={presidency.sections}
-            className="self-start border-t-2 border-t-line-strong lg:w-full lg:border-t lg:border-t-line"
-          />
-        </section>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          {others.map((b) => {
-            const live = b.status === "live";
-            const isCongress = b.id === "congress";
-            return (
-              <section
-                key={b.id}
-                aria-labelledby={`hub-${b.id}`}
-                className={`flex flex-col gap-4 rounded-xl border border-line bg-surface p-5 ${
-                  live ? "" : "opacity-70"
-                }`}
+              <ul
+                aria-hidden="true"
+                className="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[0.66rem] text-white/85 sm:hidden"
               >
-                <div className="flex items-baseline justify-between gap-3">
-                  <h2
-                    id={`hub-${b.id}`}
-                    className="font-serif text-2xl font-semibold tracking-tight"
-                  >
-                    {live ? (
-                      <Link
-                        href={`${b.href}/${b.defaultSection}`}
-                        className="hover:text-accent"
-                      >
-                        {b.label}
-                      </Link>
-                    ) : (
-                      b.label
-                    )}
-                  </h2>
-                  {!live && (
-                    <span className="font-mono text-[0.68rem] uppercase tracking-[0.08em] text-ink-faint">
-                      Coming soon
-                    </span>
-                  )}
-                </div>
-                <p className="text-[0.95rem] leading-relaxed text-ink-muted">
-                  {BLURBS[b.id]}
-                </p>
+                {EO_TOPICS.map((t) => (
+                  <TopicKey key={t} topic={t} />
+                ))}
+              </ul>
+            </>
+          }
+          stat={
+            <Stat figure={orders.total.toLocaleString("en-US")}>
+              executive orders signed since {orders.years[0].year}
+            </Stat>
+          }
+        />
 
-                {isCongress && (
-                  <div className="flex flex-1 flex-col gap-2">
-                    <div className="flex flex-1 flex-col justify-center">
-                      <Link
-                        href={`${b.href}/${b.defaultSection}`}
-                        aria-label={`${b.label}: open the first page`}
-                        className="block"
-                      >
-                        <HubCompass members={congress.plottable} />
-                      </Link>
-                    </div>
-                    <p className="text-[0.85rem] text-ink-muted">
-                      <span className="font-serif text-2xl font-semibold text-ink">
-                        {wider === 0
-                          ? "Most divided ever"
-                          : `Most divided since ${lastWider!.year}`}
-                      </span>{" "}
-                      The two parties are{" "}
-                      {wider === 0
-                        ? "farther apart than at any point"
-                        : `farther apart than at any point since ${lastWider!.year}`}
-                      , judging by how members vote
-                    </p>
-                  </div>
-                )}
+        <HomeBranchCard
+          index={1}
+          branch={congressBranch}
+          numeral={NUMERALS[1]}
+          kicker={KICKERS.congress}
+          blurb={BLURBS.congress}
+          viz={
+            <Link
+              href={href(congressBranch)}
+              aria-label={`${congressBranch.label}: open the first page`}
+              className="block"
+            >
+              <HubCompass members={congress.plottable} />
+            </Link>
+          }
+          stat={
+            <Stat figure={wider === 0 ? "Most divided ever" : `Most divided since ${lastWider!.year}`}>
+              The two parties are{" "}
+              {wider === 0
+                ? "farther apart than at any point"
+                : `farther apart than at any point since ${lastWider!.year}`}
+              , judging by how members vote
+            </Stat>
+          }
+        />
 
-                {b.id === "supreme-court" && (
-                  <div className="flex flex-1 flex-col gap-2">
-                    <div className="flex flex-1 flex-col justify-center">
-                      <Link
-                        href={`${b.href}/${b.defaultSection}`}
-                        aria-label={`${b.label}: open the first page`}
-                        className="block"
-                      >
-                        <CourtHubStrip data={court} />
-                      </Link>
-                    </div>
-                    <p className="text-[0.85rem] text-ink-muted">
-                      <span className="font-serif text-2xl font-semibold text-ink">
-                        {gopAppointed} of {seated.length}
-                      </span>{" "}
-                      justices were appointed by Republican presidents,{" "}
-                      {court.lastTerm} term
-                    </p>
-                  </div>
-                )}
-
-                {live && (
-                  <HubSectionList
-                    sections={b.sections}
-                    stacked
-                    className="mt-auto border-t-2 border-t-line-strong"
-                  />
-                )}
-              </section>
-            );
-          })}
-        </div>
-      </main>
-    </>
+        <HomeBranchCard
+          index={2}
+          branch={courtBranch}
+          numeral={NUMERALS[2]}
+          kicker={KICKERS["supreme-court"]}
+          blurb={BLURBS["supreme-court"]}
+          viz={
+            <Link
+              href={href(courtBranch)}
+              aria-label={`${courtBranch.label}: open the first page`}
+              className="block"
+            >
+              <CourtHubStrip data={court} compact />
+            </Link>
+          }
+          stat={
+            <Stat figure={`${gopAppointed} of ${seated.length}`}>
+              justices were appointed by Republican presidents, {court.lastTerm} term
+            </Stat>
+          }
+        />
+      </div>
+    </main>
   );
 }

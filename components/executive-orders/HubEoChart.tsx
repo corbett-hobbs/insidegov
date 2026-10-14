@@ -7,9 +7,10 @@ const M = { top: 6, right: 4, bottom: 4, left: 4 };
 
 /**
  * Static snapshot of the executive-orders explorer: orders per year, stacked by
- * topic (count mode, no axes or interaction).
+ * topic (count mode, no axes or interaction). `stretch` fills the height its
+ * parent gives it (bars and baseline stretch; there is no text to distort).
  */
-export function HubEoChart({ data }: { data: EoPayload }) {
+export function HubEoChart({ data, stretch = false }: { data: EoPayload; stretch?: boolean }) {
   const n = data.years.length;
   const max = Math.max(...data.years.map((y) => y.total));
   const y = scaleLinear().domain([0, max]).range([H - M.bottom, M.top]);
@@ -19,7 +20,8 @@ export function HubEoChart({ data }: { data: EoPayload }) {
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
-      className="h-auto w-full"
+      preserveAspectRatio={stretch ? "none" : undefined}
+      className={stretch ? "h-full min-h-[14rem] w-full" : "h-auto w-full"}
       role="img"
       aria-label={`Executive orders signed per year, ${data.years[0].year} to ${data.years[n - 1].year}, stacked by topic`}
     >
@@ -47,7 +49,7 @@ export function HubEoChart({ data }: { data: EoPayload }) {
           </g>
         );
       })}
-      <line x1={M.left} x2={W - M.right} y1={H - M.bottom} y2={H - M.bottom} stroke="var(--line-strong)" />
+      <line x1={M.left} x2={W - M.right} y1={H - M.bottom} y2={H - M.bottom} stroke="var(--line-strong)" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }
