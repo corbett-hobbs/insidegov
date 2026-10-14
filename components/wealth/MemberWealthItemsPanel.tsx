@@ -224,7 +224,7 @@ export function MemberWealthItemsPanel({ lineItemRows, years, selectedYear, onSe
         </button>
       )}
 
-      <div className="mt-3 space-y-1 border-t border-line pt-2.5 font-mono text-[0.78rem] text-ink-muted">
+      <div className="mt-3 space-y-1 border-t border-line pt-2.5 font-mono text-[0.78rem] tabular-nums text-ink-muted">
         <div className="flex justify-between gap-3">
           <span>Total assets</span>
           <span className="text-ink">{boundText(assetBounds)}</span>
@@ -234,17 +234,24 @@ export function MemberWealthItemsPanel({ lineItemRows, years, selectedYear, onSe
           <span className="text-ink">{boundText(liabilityBounds)}</span>
         </div>
         {meta && (meta.kind === "usable" || meta.kind === "needs_review") && (
-          <div className="flex justify-between gap-3 font-semibold">
-            <span>Net worth (midpoint)</span>
-            <span className="text-ink">
-              {meta.range.openEnded ? formatOpenEndedUSD(meta.midpoint) : formatCompactUSD(meta.midpoint)} ·{" "}
-              {meta.range.unavailable
-                ? "range unavailable"
-                : meta.range.openEnded
-                  ? `${formatCompactUSD(meta.range.lo!)} or more`
-                  : `${formatCompactUSD(meta.range.lo!)} – ${formatCompactUSD(meta.range.hi!)}`}
-            </span>
-          </div>
+          <>
+            <div className="flex justify-between gap-3">
+              <span>Net worth</span>
+              <span className="text-ink">
+                {meta.range.unavailable
+                  ? "range unavailable"
+                  : meta.range.openEnded
+                    ? `${formatCompactUSD(meta.range.lo!)} or more`
+                    : `${formatCompactUSD(meta.range.lo!)} – ${formatCompactUSD(meta.range.hi!)}`}
+              </span>
+            </div>
+            <div className="flex justify-between gap-3 border-t border-line pt-2 font-semibold">
+              <span>Midpoint estimate</span>
+              <span className="text-ink">
+                {meta.range.openEnded ? formatOpenEndedUSD(meta.midpoint) : formatCompactUSD(meta.midpoint)}
+              </span>
+            </div>
+          </>
         )}
       </div>
 
