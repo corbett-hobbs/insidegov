@@ -10,6 +10,7 @@ import { LPR_GROUPS, LPR_REGION_STACK, axisText, compactCount, gridTicks, groupV
 import type { LprRegionKey, LprTerm, LprYear } from "@/lib/lpr-types";
 import { fitTermLabel, initialsOf } from "@/lib/term-label";
 import { useElementWidth } from "@/lib/use-element-width";
+import { besideBar, HOVER_W } from "./Cards";
 import { LprMarkerCard, LprYearCard } from "./LprCards";
 import { GROUP_COLOR, REGION_COLOR } from "./lpr-style";
 import { n } from "./refugee-style";
@@ -133,7 +134,7 @@ export function LprChart({
   let card: ReactNode = null;
   if (open?.key.startsWith("b")) {
     const yr = years.find((v) => `b${v.fy}` === open.key);
-    if (yr) card = <LprYearCard year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} width={barCardW} left={cardLeft(left + xSlot(years.indexOf(yr)) + slotW / 2, barCardW)} interactive={open.pinned} />;
+    if (yr) card = <LprYearCard year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} width={open.pinned ? barCardW : HOVER_W} left={open.pinned ? cardLeft(left + xSlot(years.indexOf(yr)) + slotW / 2, barCardW) : besideBar(left + xSlot(years.indexOf(yr)) + slotW / 2, barW, HOVER_W, W)} interactive={open.pinned} />;
   } else if (open?.key.startsWith("r")) {
     const m = markers[Number(open.key.slice(1))];
     if (m) card = <LprMarkerCard marker={m} width={noteCardW} left={cardLeft(left + markerX(m), noteCardW)} />;

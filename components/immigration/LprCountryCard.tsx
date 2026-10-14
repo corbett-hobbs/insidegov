@@ -89,7 +89,8 @@ export function LprCountryCard({
       action={
         <div className="flex flex-wrap items-center gap-2">
           {chip && <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">{chip}</span>}
-          <div className="flex flex-wrap items-center gap-2">
+          {/* Phones: the play button, year menu and Green cards / Naturalizations toggle share one line (tighter button padding). */}
+          <div className="flex flex-wrap items-center gap-1.5 max-sm:[&_[role=group]_button]:px-1.5 sm:gap-2">
             <YearPicker value={fy} range={yearRange} onChange={onFy} format={(v) => `FY${v}`} ariaLabel="Fiscal year shown" />
             <PillGroup<LprMetric>
               ariaLabel="Count shown"

@@ -5,7 +5,7 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { RETURNS_COUNTED_FROM, type ImmigrationPageData } from "@/lib/immigration-derive";
 import { RemovalsChart } from "./RemovalsChart";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 
 export function RemovalsCard({ data, range, fy, onFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void }) {
   const years = data.years.filter((y) => y.fy >= range[0] && y.fy <= range[1]);
@@ -92,7 +92,7 @@ export function RemovalsCard({ data, range, fy, onFy }: { data: ImmigrationPageD
 function RemovalsLegend() {
   const swatch = (color: string) => <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: color }} />;
   return (
-    <div className={`${LEGEND_ROW} mb-2`}>
+    <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
       <span className={LEGEND_ITEM}>{swatch("var(--agency-ice)")}Interior arrests (ICE)</span>
       <span className={LEGEND_ITEM}>{swatch("var(--agency-cbp)")}Border arrests (Border Patrol)</span>
       <span className={LEGEND_ITEM}>{swatch("var(--oth)")}No split by agency on file</span>

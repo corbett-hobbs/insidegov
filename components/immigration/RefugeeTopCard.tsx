@@ -3,7 +3,7 @@
 import { useId, useMemo, useRef, useState, type PointerEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartFrame } from "@/components/charts/ChartFrame";
-import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
@@ -237,7 +237,7 @@ export function RefugeeTopCard({
         <Tooltip state={tip.state}>{(y) => <TopTip y={y} payload={payload} />}</Tooltip>
       </div>
 
-      <div className={`mt-2.5 ${LEGEND_ROW}`}>
+      <div className={`mt-2.5 ${LEGEND_ROW_CAPPED}`}>
         {regionsPresent.map((g) => (
           <LegendToggle key={g} active={pickRegion === g} dimmed={pickRegion !== null && pickRegion !== g} onClick={() => toggleRegion(g)}>
             <i aria-hidden className="inline-block h-[10px] w-[10px] rounded-[2px]" style={{ background: REGION_COLOR[g] }} />

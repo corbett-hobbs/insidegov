@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
@@ -18,6 +18,7 @@ export function ImmigrationFilterBar({
   bounds,
   range,
   onRange,
+  children,
 }: {
   terms: readonly IceTerm[];
   years: readonly IceYear[];
@@ -25,6 +26,8 @@ export function ImmigrationFilterBar({
   bounds: readonly [number, number];
   range: readonly [number, number];
   onRange: (r: [number, number]) => void;
+  /** Pinned under the slider: the section strip, once the page has scrolled past the header pills. */
+  children?: ReactNode;
 }) {
   // A term's fiscal years are the ones assigned to it (the administration in office for most of the year), so
   // consecutive terms never share a year.
@@ -53,6 +56,7 @@ export function ImmigrationFilterBar({
           action={<RangeReset show={!full} onReset={() => onRange([bounds[0], bounds[1]])} className="mt-0.5 font-sans leading-none" />}
           className="min-w-0"
         />
+        {children}
       </div>
     </div>
   );

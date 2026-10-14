@@ -1,7 +1,7 @@
 "use client";
 
 import { ChartCard } from "@/components/charts/ChartCard";
-import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -24,7 +24,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
       title="Refugee ceiling and admissions by fiscal year"
       lede="Each year the President sets a ceiling on how many refugees can be resettled in the U.S. The bars show how many actually arrived, and where they came from."
     >
-      <div className={`${LEGEND_ROW} mb-2`}>
+      <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {present.map((g) => (
           <LegendToggle key={g} active={only === g} dimmed={only !== null && only !== g} onClick={() => toggleOnly(g)}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: REGION_COLOR[g] }} />
