@@ -166,6 +166,12 @@ describe("chart geometry", () => {
     expect(slotLayout(1032, 24).barW).toBeCloseTo(38);
     expect(slotLayout(1032, 2)).toEqual({ slotW: 80, barW: 52 });
   });
+  it("closes the gap between bars as the slots narrow", () => {
+    const dense = slotLayout(300, 46);
+    expect(dense.slotW - dense.barW).toBeCloseTo(1, 1);
+    expect(dense.barW / dense.slotW).toBeGreaterThan(0.8);
+    expect(slotLayout(1032, 24).slotW - slotLayout(1032, 24).barW).toBeCloseTo(5);
+  });
   it("positions dates on the fiscal-year axis like the mock", () => {
     expect(fyPosition("2006-10-01")).toBe(2007);
     expect(fyPosition("2003-03-01") - 2003).toBeCloseTo(151 / 365, 5);

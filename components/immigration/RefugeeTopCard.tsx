@@ -81,7 +81,7 @@ export function RefugeeTopCard({
     const t = termOf.get(yearRow.get(years[i].fy)?.termId ?? "");
     return t ? { id: t.termId, last: t.last, president: t.president, party: t.party } : null;
   });
-  const bw = Math.min(Math.max(3, step * 0.62), 40);
+  const bw = Math.min(Math.max(3, step * 0.72), 40);
   const dimYear = (y: TopYear) => {
     const t = y.ranked[0];
     if (!t) return false;
