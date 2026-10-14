@@ -1,0 +1,67 @@
+name: Open (or update, or close) one review issue
+description: >
+  Used by the *-review workflows. Keeps at most ONE open issue per label: creates it when the check found
+  something, rewrites its body when it is still open (so a rerun never duplicates it and the list stays
+  current), and closes it with a comment once the check passes. Needs `issues: write` and `GH_TOKEN`
+  available through `token`. Never edits data.
+
+inputs:
+  label:
+    description: Label that identifies the issue (created if missing)
+    required: true
+  label-description:
+    description: Description for the label when it is created
+    required: true
+  title:
+    description: Issue title
+    required: true
+  body-file:
+    description: Markdown file with the issue body (the check's --report output)
+    required: true
+  found:
+    description: "'true' when the check found something to review, 'false' when it is clean"
+    required: true
+  token:
+    description: Token with issues write (github.token)
+    required: true
+
+outputs:
+  created:
+    description: "'true' only when this run opened a NEW issue (not a refresh), the moment to notify"
+    value: ${{ steps.issue.outputs.created }}
+  url:
+    description: URL of the issue that was created or refreshed
+    value: ${{ steps.issue.outputs.url }}
+
+runs:
+  using: composite
+  steps:
+    - id: issue
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        LABEL: ${{ inputs.label }}
+        LABEL_DESC: ${{ inputs.label-description }}
+        TITLE: ${{ inputs.title }}
+        BODY_FILE: ${{ inputs.body-file }}
+        FOUND: ${{ inputs.found }}
+      run: |
+        existing="$(gh issue list --state open --label "$LABEL" --json number --jq '.[0].number // empty')"
+        if [ "$FOUND" = "true" ]; then
+          gh label create "$LABEL" --color BFD4F2 --description "$LABEL_DESC" 2>/dev/null || true
+          if [ -z "$existing" ]; then
+            url="$(gh issue create --title "$TITLE" --label "$LABEL" --body-file "$BODY_FILE")"
+            echo "$url"
+            echo "created=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+          else
+            echo "Issue #$existing is already open; refreshing its body."
+            gh issue edit "$existing" --body-file "$BODY_FILE"
+            echo "created=false" >> "$GITHUB_OUTPUT"
+            echo "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/issues/$existing" >> "$GITHUB_OUTPUT"
+          fi
+        elif [ -n "$existing" ]; then
+          gh issue close "$existing" --comment "The check passes now, so nothing is left to review."
+        else
+          echo "Clean, and no open issue."
+        fi

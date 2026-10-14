@@ -689,3 +689,15 @@ An eleventh data track: every bill and joint resolution of the Congress in progr
 - A bill appears once per committee it was referred to. The page never sums across committees.
 - The card's rows are not read at page build: `getCommitteeBillsPayload()` in `lib/committee-bills-data.ts` joins the shard to the current-member index for sponsor names and links and serves it as `/data/committees/<id>/bills`.
 
+## Review notifications
+
+Data checks that need a person (the ICE, refugee-admissions and policy review issues, and a refugee refresh PR that needs curation or failed its gate) call `.github/actions/notify`: email first, Slack if email is unset or fails. It never fails a job; with nothing configured it warns, and GitHub's own issue/PR emails are the fallback. It fires when an issue or PR is **created**, not on weekly refreshes of an open one. Repository secrets (Settings > Secrets and variables > Actions), all optional:
+
+| Secret | Value |
+| --- | --- |
+| `NOTIFY_EMAIL_TO` | the address to notify |
+| `NOTIFY_SMTP_SERVER` | e.g. `smtp.gmail.com` (implicit-TLS SMTP) |
+| `NOTIFY_SMTP_PORT` | optional, default `465` |
+| `NOTIFY_SMTP_USER` | the sending account, e.g. the Gmail address |
+| `NOTIFY_SMTP_PASSWORD` | an app password (Gmail: Google Account > Security > App passwords), never the account password |
+| `NOTIFY_SLACK_WEBHOOK` | an incoming-webhook URL for the channel |

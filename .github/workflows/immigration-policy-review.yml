@@ -1,0 +1,65 @@
+name: Immigration policy review
+
+# Flag only. Weekly, pipeline/validate/policy-watch.ts searches the Federal Register for presidential
+# proclamations and executive orders on immigration or refugees (pipeline/reference/immigration-policy-watch.json)
+# and lists any that the refugee policy table has neither curated nor recorded as reviewed. It opens ONE issue
+# (a rerun refreshes it; it closes itself when nothing is left). Curation, and court status, stay manual.
+# Never edits data and never blocks a deploy.
+#
+# Exit codes: 0 nothing to review, 1 candidates (issue), anything else (API failure) fails the run.
+
+on:
+  schedule:
+    - cron: "37 13 * * 3" # Wednesdays 13:37 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Any new immigration or refugee proclamations or executive orders?
+        id: watch
+        run: |
+          set +e
+          pnpm exec tsx pipeline/validate/policy-watch.ts --report "$RUNNER_TEMP/policy-report.md"
+          code=$?
+          echo "found=$([ "$code" -eq 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          [ "$code" -le 1 ] || exit "$code"
+
+      - name: Open, refresh or close the review issue
+        id: issue
+        uses: ./.github/actions/open-review-issue
+        with:
+          label: immigration-policy-review
+          label-description: New immigration or refugee presidential documents to curate or dismiss
+          title: Review new immigration and refugee presidential documents
+          body-file: ${{ runner.temp }}/policy-report.md
+          found: ${{ steps.watch.outputs.found }}
+          token: ${{ github.token }}
+
+      # Push notification (email, then Slack) only when this run opened a NEW issue; reruns that refresh it stay quiet.
+      - name: Notify
+        if: steps.issue.outputs.created == 'true'
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: new immigration policy documents to review"
+          body: "New immigration or refugee presidential documents are not yet in the policy table."
+          url: ${{ steps.issue.outputs.url }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}

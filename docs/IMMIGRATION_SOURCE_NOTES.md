@@ -286,12 +286,12 @@ and quotes in `pipeline/reference/refugee-catalog.json`.
 
 | Source | What it gives | Publisher / URL pattern | Format | Stable? | Automate? |
 | --- | --- | --- | --- | --- | --- |
-| Presidential Determinations, FY1995–FY2027 (37 documents, incl. emergency revisions FY1999, FY2021 ×2, FY2026) | Worldwide ceiling, regional/category/group allocations, revision dates | Federal Register via govinfo: `govinfo.gov/content/pkg/FR-<pub date>/html/<doc no>.htm`; discovered through the Federal Register API (`type=PRESDOCU`, term "refugee admissions") | HTML text (FY2020's allocation table is an image; its text comes from the APP copy) | Yes: API and govinfo URLs are permanent | **Discovery: yes. Values: detect + PR for review, not auto-merge** (see below) |
+| Presidential Determinations, FY1995–FY2027 (37 documents, incl. emergency revisions FY1999, FY2021 ×2, FY2026) | Worldwide ceiling, regional/category/group allocations, revision dates | Federal Register via govinfo: `govinfo.gov/content/pkg/FR-<pub date>/html/<doc no>.htm`; discovered through the Federal Register API (`type=PRESDOCU`, term "refugee admissions") | HTML text (FY2020's allocation table is an image; its text comes from the APP copy) | Yes: API and govinfo URLs are permanent | **Discovery: yes. Values: weekly `refugee-freshness.yml` PR; auto-merges only if the transform passes, so a new PD waits for curation** (see below) |
 | Determinations FY1987–FY1994 | Same, older format (private-sector numbers, Orderly Departure Program) | FY1993–94: GPO Public Papers / Weekly Compilation on govinfo. FY1987–92 and FY2020's table: The American Presidency Project (UCSB) copy of the Public Papers | HTML | Fixed history | Never changes; no refresh |
 | CRS R47399 (Jan 20, 2023), Table A-1 | Final ceiling FY1981–FY2022 (cross-check, and the only source for FY1981–86, FY1989 final, FY1990) | EveryCRSReport copy (congress.gov returns 403 to scripts) | HTML | Fixed | No refresh |
-| State Department Refugee Processing Center (WRAPS): "Refugee Admissions Report as of <date>.xlsx" | Admissions FY1975–present (cumulative sheet, by region); FY2001–present per-year sheets by country of chargeability and month, with year-end regional and worldwide ceilings | `wrapsnet.org/documents/...` → redirects to `rpc.state.gov/documents/...` | XLSX, machine-readable, consistent layout FY2001–FY2026 | **No:** the file name carries the date and changes every month (posted on the 5th) | **Check-and-issue only.** A new month means a new catalog source row; the parser gates fail loudly if the layout changes |
+| State Department Refugee Processing Center (WRAPS): "Refugee Admissions Report as of <date>.xlsx" | Admissions FY1975–present (cumulative sheet, by region); FY2001–present per-year sheets by country of chargeability and month, with year-end regional and worldwide ceilings | `wrapsnet.org/documents/...` → redirects to `rpc.state.gov/documents/...` | XLSX, machine-readable, consistent layout FY2001–FY2026 | **No:** the file name carries the date and changes every month (posted on the 5th) | **Check-and-issue only.** `refugee-admissions-review.yml` reads the Admissions & Arrivals page weekly (it lists the current workbook). A new month means a new catalog source row; the parser gates fail loudly if the layout changes |
 | DHS OHSS Yearbook, refugees FY2024 (Tables 13–14) | Arrivals FY1980–FY2024, by nationality FY2015–FY2024 | `ohss.dhs.gov/system/files/<yyyy-mm>/<date>_ohss_yearbook_refugees_fy<year>.xlsx` | XLSX | No: new path per edition (annual) | Check-and-issue; cross-check only |
-| Policy instruments (EOs 13769, 13780, 13815, 14013, 14163, 14204; Proclamations 10949, 10998) | Dated rules for the marker lane | Federal Register via govinfo, as above | HTML | Yes | **Flag only**: curation stays manual |
+| Policy instruments (EOs 13769, 13780, 13815, 14013, 14163, 14204; Proclamations 10949, 10998) | Dated rules for the marker lane | Federal Register via govinfo, as above | HTML | Yes | **Flag only**: `immigration-policy-review.yml`; curation stays manual |
 
 **Why new determinations are not auto-merged.** The Federal Register API makes discovery
 automatic: `pnpm fetch:refugee` writes `raw/refugee/fr-refugee-admissions-index.json` (every
@@ -300,8 +300,9 @@ index lists a document the catalog has neither curated nor recorded in `fr_index
 the numbers are curated: allocation tables have been dotted leaders, bulleted categories, an image
 (FY2020), ranges (FY2024–25) and prose-only group allocations (FY2026–27), and an emergency PD may
 restate or add. A scheduled fetch that finds a new PD will therefore open a PR whose gate fails
-until someone adds the catalog row (with verbatim quotes), which is the intended behaviour. A future
-job could draft that row with the Claude API, never auto-merged.
+until someone adds the catalog row (with verbatim quotes), which is the intended behaviour. A job that
+drafts that row with the Claude API was considered (Session D) and not built: it would still need a person to check every quote, so the
+needs-curation PR is the hand-off.
 
 **Re-running the fetch.** `pnpm fetch:refugee` is idempotent: it downloads only snapshots that are
 missing (`--refresh` re-downloads all), rewrites the text extracts deterministically, and writes the
