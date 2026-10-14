@@ -6,6 +6,7 @@ import { ALL_ROW, GROUP_MEASURES, decadeCells, decadeInWindow, decadesOf, groupI
 import { SUPPORT_COLORS } from "@/lib/laws-derive";
 import { fmtInt } from "@/lib/decisions-derive";
 import { useLawsActions, useLawsValues } from "./LawsState";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 /** Every row, here and in the bars beside it, is this tall, so the two sides line up from `lg` (`check:laws` asserts it). */
 export const ROW_H = "h-[1.9rem]";
@@ -87,7 +88,7 @@ export function LawsHeatmap({ rows, measure }: { rows: readonly GroupRow[]; meas
           );
         })}
       </div>
-      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.7rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2`}>
         <span className="inline-flex items-center gap-1.5">
           0
           <i aria-hidden className="inline-block h-2.5 w-24 rounded-[2px]" style={{ background: `linear-gradient(to right, var(--surface), ${color})`, border: "1px solid var(--line)" }} />

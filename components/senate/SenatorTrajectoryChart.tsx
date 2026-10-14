@@ -13,6 +13,7 @@ import type {
   MemberTrajectoryPoint,
 } from "@/lib/congress-types";
 import { congressStartYear, GROUP_LABEL, GROUP_VAR } from "./format";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const W = 620;
 const H = 240;
@@ -193,7 +194,7 @@ export function SenatorTrajectoryChart({
       }}
     </ChartFrame>
 
-    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.72rem] text-ink-muted">
+    <div className={`${LEGEND_ROW} mt-2`}>
       <LegendToggle active={only === "senator"} dimmed={only !== null && only !== "senator"} onClick={() => isolate("senator")}>
         <Swatch color={GROUP_VAR[group]} /> {memberName}
       </LegendToggle>

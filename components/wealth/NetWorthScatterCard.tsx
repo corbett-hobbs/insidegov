@@ -38,6 +38,7 @@ import {
   memberTitleLine,
   WealthMemberTooltip,
 } from "./WealthMemberTooltip";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const TICKS_DESKTOP = [
   -20_000_000, -5_000_000, -1_000_000, 0, 1_000_000, 5_000_000,
@@ -583,7 +584,7 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
         </Tooltip>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[0.72rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-3`}>
         <LegendSwatch className="bg-dem" label="Democrat" />
         <LegendSwatch className="bg-rep" label="Republican" />
         <span className="flex items-center gap-1.5">

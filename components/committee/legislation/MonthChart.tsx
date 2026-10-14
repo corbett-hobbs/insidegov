@@ -1,5 +1,6 @@
 "use client";
 
+import { LEGEND_ROW } from "@/components/charts/legend";
 import { useMemo } from "react";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { Swatch, TableView, TooltipCard } from "@/components/decisions/shared";
@@ -48,7 +49,7 @@ export function MonthChart({ columns, month, onMonth, pick, onPick }: { columns:
           </TooltipCard>
         )}
       />
-      <ul aria-label="Colour key and step filter: furthest step reached" className="m-0 mt-2 flex list-none flex-wrap gap-x-1 gap-y-1 p-0 text-[0.72rem]">
+      <ul aria-label="Colour key and step filter: furthest step reached" className={`${LEGEND_ROW} m-0 mt-2 list-none p-0`}>
         {STAGES.map((s) => {
           const on = pick === s.k;
           return (

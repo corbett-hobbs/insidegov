@@ -19,6 +19,8 @@ import {
   type EoYear,
 } from "@/lib/executive-orders-types";
 import { sameRange, termYearRange, type YearRange } from "@/lib/year-range";
+import { LegendToggle } from "@/components/charts/LegendToggle";
+import { LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { TopicSwatch } from "./TopicSwatch";
 import { MethodologyNote } from "@/components/MethodologyNote";
 
@@ -156,33 +158,14 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
           lede={`${data.total.toLocaleString("en-US")} orders signed ${first}–${last.year}, counted in the year they were signed. ${last.year} is year to date, through ${fmtDate(data.throughDate)}.`}
           action={<PillGroup ariaLabel="Chart view" options={MODES} value={mode} onChange={pickMode} />}
         >
-          {/* Below `sm` the topic chips stay two rows tall and scroll sideways (see .neighbor-chip-row), so the chart isn't pushed down the page. */}
-          <div
-            role="group"
-            aria-label="Highlight a topic"
-            className="neighbor-chip-row mb-3 grid auto-cols-max grid-flow-col grid-rows-2 gap-1.5 overflow-x-auto pb-1.5 sm:flex sm:flex-wrap sm:overflow-visible sm:pb-0"
-          >
-            {EO_TOPICS.map((t) => {
-              const on = topic === t;
-              return (
-                <button
-                  key={t}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => setTopic(on ? null : t)}
-                  className={`flex items-center gap-1.5 rounded-md border px-2 py-1 text-[0.75rem] transition-colors ${
-                    on
-                      ? "border-accent bg-surface-raised text-ink"
-                      : topic
-                        ? "border-line text-ink-faint hover:text-ink"
-                        : "border-line text-ink-muted hover:border-line-strong hover:text-ink"
-                  }`}
-                >
-                  <TopicSwatch topic={t} />
-                  {EO_TOPIC_LABELS[t]}
-                </button>
-              );
-            })}
+          {/* The topic key is the highlight control, in the shared legend style (rule 10g). Below `sm` it stays two rows tall and scrolls sideways (LEGEND_ROW_CAPPED), so the chart isn't pushed down the page. */}
+          <div role="group" aria-label="Highlight a topic" className={`${LEGEND_ROW_CAPPED} mb-3`}>
+            {EO_TOPICS.map((t) => (
+              <LegendToggle key={t} active={topic === t} dimmed={topic !== null && topic !== t} onClick={() => setTopic(topic === t ? null : t)} title={topic === t ? "Click to show every topic again" : "Click to highlight this topic"}>
+                <TopicSwatch topic={t} size={10} />
+                {EO_TOPIC_LABELS[t]}
+              </LegendToggle>
+            ))}
           </div>
 
           <StackedBars

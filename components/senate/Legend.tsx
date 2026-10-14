@@ -1,3 +1,4 @@
+import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import type { ChamberMember } from "@/lib/congress-types";
 import { PARTY_META, partyCssVar, presentParties } from "@/lib/party-palette";
 
@@ -11,14 +12,14 @@ export function Legend({ members }: { members: ChamberMember[] }) {
   const present = presentParties(members);
 
   return (
-    <div className="flex flex-wrap gap-x-[1.1rem] gap-y-1 border-t border-line pt-3">
+    <div className={`${LEGEND_ROW} border-t border-line pt-3`}>
       {present.map(({ key, count }) => (
         <span
           key={key}
-          className="flex items-center gap-[0.4rem] text-[0.8rem] text-ink-muted"
+          className={LEGEND_ITEM}
         >
           <span
-            className="size-[0.62rem] flex-none rounded-full"
+            className="size-2.5 flex-none rounded-full"
             style={{ background: partyCssVar(key) }}
           />
           {PARTY_META[key].label} —{" "}

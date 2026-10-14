@@ -15,6 +15,7 @@ import { YearPicker } from "@/components/charts/YearPicker";
 import { TradeMap } from "./TradeMap";
 import { buildMapModel } from "@/lib/trade-map";
 import type { TradePageData } from "@/lib/trade-data";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 
 const SORTS = [
@@ -185,7 +186,7 @@ export function TradePartnersCard({
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.75rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-3`}>
         <span className="inline-flex items-center gap-1.5"><svg width="12" height="12" aria-hidden><circle cx="6" cy="6" r="5" fill="var(--ink)" /></svg>Imports</span>
         <span className="inline-flex items-center gap-1.5"><svg width="12" height="12" aria-hidden><circle cx="6" cy="6" r="4.5" fill="var(--surface)" stroke="var(--ink)" strokeWidth="2" /></svg>Exports</span>
         <span className="ml-auto">Scale: symmetric log.</span>

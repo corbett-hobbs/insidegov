@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { decadeCells, decadeInWindow, decadesOf, fmtInt, heatCount, heatCountMax, type AreaRow } from "@/lib/decisions-derive";
 import { ALL_AREAS, BAND_COLORS, type AreaSortKey } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 /** What a cell shows, picked by the card's one toggle: how many cases, how many split 5-4, or how many were unanimous. */
 const MEASURES: Record<AreaSortKey, { band: number | null; noun: string }> = {
@@ -86,7 +87,7 @@ export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; mea
           );
         })}
       </div>
-      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.7rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2`}>
         <span className="inline-flex items-center gap-1.5">
           0
           <i aria-hidden className="inline-block h-2.5 w-24 rounded-[2px]" style={{ background: `linear-gradient(to right, var(--surface), ${color})`, border: "1px solid var(--line)" }} />

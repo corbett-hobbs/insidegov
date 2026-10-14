@@ -18,6 +18,7 @@ import {
   type CourtJustice,
   type CourtPayload,
 } from "@/lib/court-types";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const FALLBACK_W = 1100;
 const H = 340;
@@ -261,7 +262,7 @@ export function JusticeTrajectory({
         }}
       </ChartFrame>
 
-      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.72rem] text-ink-muted">
+      <div className={`${LEGEND_ROW} mt-2`}>
         <Swatch color="var(--dem)" label="Democratic appointee" />
         <Swatch color="var(--rep)" label="Republican appointee" />
         <Swatch color="var(--ink)" label="Court median" thick />

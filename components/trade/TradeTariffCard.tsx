@@ -11,6 +11,7 @@ import type { Era } from "./EraLayers";
 import { AUTHORITY_LABEL, TradeTariffChart } from "./TradeTariffChart";
 import { activeDay, useTradeValues } from "./TradeState";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const dateText = (iso: string) => {
   const [y, m, d] = iso.split("-").map(Number);
@@ -130,7 +131,7 @@ export function TradeTariffCard({
             view={view}
             ariaLabel={aria}
             legend={
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.75rem] text-ink-muted">
+        <div className={`${LEGEND_ROW} mt-2.5`}>
           {reference ? (
             <LegendToggle active={only === "main"} dimmed={only === "reference"} onClick={() => isolate("main")}><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>{countryName ? `${countryName}` : "All countries"}, calculated duties ÷ imports</LegendToggle>
           ) : (

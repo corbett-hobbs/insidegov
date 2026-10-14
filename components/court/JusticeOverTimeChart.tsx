@@ -11,6 +11,7 @@ import { useElementSize } from "@/lib/use-element-size";
 import { fmtScore, partyLabel, termLabel } from "@/lib/court-types";
 import type { JusticeProfile, PeerTrace } from "@/lib/justice-types";
 import { partyVar, type JusticeMode } from "./justice-mode";
+import { LEGEND_ROW } from "@/components/charts/legend";
 
 const FALLBACK = { width: 600, height: 420 };
 /** Fixed chart height below md, where the cards stack and nothing stretches it. */
@@ -380,7 +381,7 @@ export function JusticeOverTimeChart({
 export function ChartLegend({ profile }: { profile: JusticeProfile }) {
   const color = partyVar(profile.justice.party);
   return (
-    <ul className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.72rem] text-ink-muted">
+    <ul className={`${LEGEND_ROW} mt-3`}>
       <li className="flex items-center gap-1.5">
         <svg width="22" height="8" aria-hidden className="flex-none">
           <line x1="0" y1="4" x2="22" y2="4" stroke={color} strokeWidth={3.2} strokeLinecap="round" />
