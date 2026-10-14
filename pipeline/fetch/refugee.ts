@@ -1,9 +1,9 @@
-import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import { RAW_DIR, download, logResult } from "./lib";
 import { htmlToText } from "./ice";
+import { readXlsx, sheetsToText } from "./workbook-lib";
 import { refugeeSource, type RefugeeSource } from "../../lib/refugee-entities";
 
 /**
@@ -24,50 +24,13 @@ import { refugeeSource, type RefugeeSource } from "../../lib/refugee-entities";
 const DIR = `${RAW_DIR}/refugee`;
 const CATALOG = "pipeline/reference/refugee-catalog.json";
 
-const xmlEntities = (s: string) =>
-  s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
-
-/** Column letters -> zero-based index ("A" -> 0, "AB" -> 27). */
-function columnIndex(letters: string): number {
-  let n = 0;
-  for (const ch of letters) n = n * 26 + (ch.charCodeAt(0) - 64);
-  return n - 1;
-}
-
 /**
  * Every sheet of an .xlsx, in workbook order, as `## sheet: <name>` followed by one line per row.
  * Cells keep their column position (`a |  | c`), so a row with a blank middle cell is not shifted
  * left — the per-year admissions sheets leave the ceiling column empty on country rows.
  */
 export function workbookToText(path: string): string {
-  const unzip = (member: string) => execFileSync("unzip", ["-p", path, member], { maxBuffer: 1 << 26 }).toString("utf8");
-  const strings = [...unzip("xl/sharedStrings.xml").matchAll(/<si>([\s\S]*?)<\/si>/g)].map((m) =>
-    xmlEntities([...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((t) => t[1]).join("")),
-  );
-  const rels = new Map(
-    [...unzip("xl/_rels/workbook.xml.rels").matchAll(/<Relationship [^>]*?Id="([^"]+)"[^>]*?Target="([^"]+)"/g)].map((m) => [m[1], m[2]]),
-  );
-  const out: string[] = [];
-  for (const s of unzip("xl/workbook.xml").matchAll(/<sheet [^>]*?name="([^"]+)"[^>]*?r:id="([^"]+)"/g)) {
-    const target = rels.get(s[2]);
-    if (!target) throw new Error(`${path}: sheet "${s[1]}" has no relationship target`);
-    out.push(`## sheet: ${xmlEntities(s[1])}`);
-    const xml = unzip(`xl/${target.replace(/^\/?xl\//, "")}`);
-    for (const row of xml.matchAll(/<row[^>]*>([\s\S]*?)<\/row>/g)) {
-      const cells: string[] = [];
-      for (const c of row[1].matchAll(/<c([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
-        const v = c[2]?.match(/<v>([\s\S]*?)<\/v>/)?.[1] ?? c[2]?.match(/<t[^>]*>([\s\S]*?)<\/t>/)?.[1];
-        if (v === undefined) continue;
-        const ref = c[1].match(/r="([A-Z]+)\d+"/)?.[1];
-        const at = ref ? columnIndex(ref) : cells.length;
-        while (cells.length < at) cells.push("");
-        cells[at] = (/t="s"/.test(c[1]) ? strings[Number(v)] : xmlEntities(v)).replace(/\s+/g, " ").trim();
-      }
-      while (cells.length && cells[cells.length - 1] === "") cells.pop();
-      if (cells.some((c) => c !== "")) out.push(cells.join(" | "));
-    }
-  }
-  return out.join("\n") + "\n";
+  return sheetsToText(readXlsx(path));
 }
 
 async function extract(s: RefugeeSource): Promise<void> {

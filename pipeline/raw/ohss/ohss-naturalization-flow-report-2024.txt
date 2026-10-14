@@ -1,0 +1,942 @@
+-->
+U.S. Naturalizations: 2024 | OHSS
+Skip to main content
+An official website of the United States government
+Here’s how you know
+Here’s how you know
+Official websites use .gov
+A
+.gov
+website belongs to an official government
+organization in the United States.
+Secure .gov websites use HTTPS
+A
+lock
+(
+Lock
+Locked padlock icon
+) or
+https://
+means you’ve safely connected to
+the .gov website. Share sensitive information only on official,
+secure websites.
+OHSS
+Menu
+Search
+-->
+Main navigation
+Data and Reports by Topic
+Data and Reports by Topic
+Immigration
+-->
+Immigration
+Law Enforcement
+-->
+Law Enforcement
+Emergency Management
+-->
+Emergency Management
+Maritime
+-->
+Maritime
+International Trade
+-->
+International Trade
+Cybersecurity
+-->
+Cybersecurity
+Infrastructure Protection
+-->
+Infrastructure Protection
+Screening
+-->
+Screening
+Key Metrics
+Key Metrics
+CBP Encounters
+-->
+CBP Encounters
+ICE Detentions
+-->
+ICE Detentions
+DHS Repatriations
+-->
+DHS Repatriations
+DHS Fentanyl Disruption Seizures
+-->
+DHS Fentanyl Disruption Seizures
+FEMA Deployments
+-->
+FEMA Deployments
+USCG Search and Rescue Responses
+-->
+USCG Search and Rescue Responses
+About Our Data
+About Our Data
+Data Governance
+-->
+Data Governance
+Report Review and Clearance
+-->
+Report Review and Clearance
+Recurring Publications
+-->
+Recurring Publications
+Geographic Region Definitions
+-->
+Geographic Region Definitions
+About OHSS
+About OHSS
+Leadership
+-->
+Leadership
+Migration Analysis Center
+-->
+Migration Analysis Center
+Glossary
+-->
+Glossary
+-->
+-->
+Breadcrumb
+Home
+Data and Reports by Topic
+Immigration
+Naturalizations
+Naturalizations Annual Flow Reports
+U.S. Naturalizations: 2024
+Data and Reports by Topic
+Immigration
+Yearbook of Immigration Statistics
+Lawful Permanent Residents
+Refugees
+Asylees
+Naturalizations
+Profiles on Naturalized Citizens
+Annual Flow Reports
+Historical
+U.S. Naturalizations: 2024
+Legal Immigration and Adjustment of Status Report
+Nonimmigrant Admissions (Temporary Visitors)
+Illegal Aliens
+Immigration Enforcement
+State Immigration Data
+Archive
+Law Enforcement
+Emergency Management
+Maritime
+International Trade
+Cybersecurity
+Infrastructure Protection
+Screening
+OHSS | Office of Homeland Security Statistics
+-->
+U.S. Naturalizations: 2024
+Office of Homeland Security Statistics (OHSS) annual flow reports describe the movement of people into different immigration statuses. This Naturalization flow report presents information obtained from naturalization applications on the characteristics and number of people who naturalized during a given fiscal year.
+Naturalization
+is the most common way for someone to become a citizen in the United States other than by birth.
+The Immigration and Nationality Act (INA)
+[1]
+and
+Title 8 of the Code of Federal Regulations
+[2]
+,
+[3]
+provide the baseline requirements for naturalization, while
+U.S. Citizenship and Immigration Services (USCIS)
+oversees the naturalization process and procedures and decides if an individual has met all the requirements to naturalize. The U.S. Constitution provides equal benefits, rights, and responsibilities to foreign-born U.S. citizens as it does to natural-born U.S. citizens—such as the ability to vote in public elections—with few rights excluded, e.g., only natural-born citizens may become President of the United States. This OHSS
+2024 U.S. Naturalizations Annual Flow Report
+includes the 2024 fiscal year totals and characteristics of adult naturalization applicants and newly naturalized citizens.
+[4]
+Open All
+Close All
+Accordion Content 1
+Summary
+U.S. naturalizations fell to 818,570 in 2024, down from 879,790 in 2023 (Figure 1).
+[5]
+Although that drop was a 16% decrease from 2022 (969,380), naturalizations remained 12% higher than the 10-year average for 2010-2019 (730,100) that preceded COVID-19 restrictions.
+[6]
+Filed applications for naturalization increased 20% from 827,610 in 2023 to 994,130 in 2024 (Figure 2). One-third of all newly naturalized citizens were born in the top 5 countries of origin: Mexico (107,670), India (49,700), the Philippines (41,200), the Dominican Republic (39,880), and Vietnam (34,240). Half the newly naturalized population lived in the top 4 states: California (149,800), Florida (93,240), New York (85,700), and Texas (80,110).
+Figure 1.
+Persons Naturalized by Month: Fiscal Years 2021 to 2024
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Figure 2.
+Naturalization Application Filings and Outcomes: Fiscal Years 2015 to 2024
+Note:
+Applications Denied
+and
+Persons Naturalized
+may not sum to
+Applications Filed
+in a fiscal year because not all applications are adjudicated in the fiscal year they are received.
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Accordion Content 2
+Trends and Characteristics of Persons Naturalizing
+Historical Trend
+Annual naturalization averages have grown nearly sevenfold from 1950 to 2024 (Figure 3).
+1950s–1970s: 122,610
+1980s: 205,490
+1990s: 497,870
+2000s: 682,210
+2010s: 730,100
+2020–2024: 821,970
+The rate of annual naturalizations over time has gradually increased with population growth, but was 28% lower in 2024 than at its historical highs in 1996 (1,040,990) and 2008 (1,046,540). The decision to naturalize is affected by a wide variety of factors, including political dynamics during election years,
+USCIS
+fee increases, and proposed or enacted statutory changes.
+Figure 3.
+Persons Naturalized: Fiscal Years 1910 to 2024
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+USCIS is predominantly funded by application fees and was thus affected by the COVID-19 pandemic’s rapid onset in 2020. Policy changes triggered a budget shortfall after the U.S. Government suspended in-person services and significantly reduced global travel. The data show spending reductions affected all USCIS operations, including naturalizations, which dropped from 843,590 in 2019 to 628,250 in 2020. After application processing fully returned in 2021, naturalizations bounced back to average 870,400 per year for 2021-2024.
+Region and Leading Countries of Birth
+Through the early 1970s, naturalized individuals were predominately European. However, the INA of 1965 increased U.S. immigration from Asia, which surpassed Europe as the leading region of origin for newly naturalized citizens. Large populations of Indochinese refugee arrivals in the 1970s further contributed to increased numbers of Asian immigrant naturalizations, and Asia has remained the top region of origin for the past 50 years (Figure 4).
+Figure 4.
+Percent of Persons Naturalized by Region of Birth: Fiscal Years 2022 to 2024 and Select Decades
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Table 1.
+Persons Naturalized by Region of Birth: Fiscal Years 2022 to 2024
+Region of Birth
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+Africa
+106,090
+10.9%
+95,330
+10.9%
+78,390
+9.6%
+Asia
+361,180
+37.3%
+329,260
+37.5%
+291,930
+35.7%
+Europe
+92,240
+9.5%
+82,040
+9.3%
+76,030
+9.3%
+North America
+324,410
+33.5%
+284,350
+32.4%
+284,400
+34.7%
+Oceania
+5,260
+0.5%
+4,610
+0.5%
+4,540
+0.6%
+South America
+79,980
+8.3%
+74,120
+8.4%
+75,310
+9.2%
+Unknown
+220
+0.0%
+8,750
+1.0%
+7,970
+1.0%
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Naturalizations by nationals from all regions of birth decreased by at least 12% between 2022 and 2024 except for South America, which decreased only 5.8%. Naturalizations from Africa decreased the most at 25%, followed by Asia (19%) and Europe (18%).
+The top 10 countries of origin accounted for 48% of newly naturalized citizens in 2024. Mexico was the leading country of birth (13%), followed by India (6.1%), the Philippines (5.0%), the Dominican Republic (4.9%), and Vietnam (4.2%) (Table 2). From 2022 to 2024, the largest reductions in new naturalizations came from those born in Mexico (21,210), India (16,260), Cuba (13,480), and the Philippines (12,210), while the largest increase came from those born in the Dominican Republic (5,350).
+Table 2.
+Persons Naturalized by Country of Birth: Fiscal Years 2022 to 2024
+(Ranked by 2024 country of birth)
+Country of Birth
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+Mexico
+128,880
+13.3%
+111,460
+12.7%
+107,670
+13.2%
+India
+65,960
+6.8%
+59,050
+6.7%
+49,700
+6.1%
+Philippines
+53,410
+5.5%
+44,760
+5.1%
+41,200
+5.0%
+Dominican Republic
+34,530
+3.6%
+35,220
+4.0%
+39,880
+4.9%
+Vietnam
+33,250
+3.4%
+33,310
+3.8%
+34,240
+4.2%
+Cuba
+46,910
+4.8%
+33,190
+3.8%
+33,430
+4.1%
+China, People's Republic
+27,040
+2.8%
+30,750
+3.5%
+29,200
+3.6%
+El Salvador
+21,450
+2.2%
+21,090
+2.4%
+21,940
+2.7%
+Jamaica
+22,960
+2.4%
+20,190
+2.3%
+19,970
+2.4%
+Colombia
+18,090
+1.9%
+17,090
+1.9%
+17,890
+2.2%
+Haiti
+18,000
+1.9%
+16,100
+1.8%
+14,160
+1.7%
+Brazil
+13,200
+1.4%
+12,980
+1.5%
+14,100
+1.7%
+Korea, South
+14,880
+1.5%
+12,330
+1.4%
+12,760
+1.6%
+Pakistan
+18,010
+1.9%
+15,440
+1.8%
+12,380
+1.5%
+Nigeria
+14,440
+1.5%
+13,530
+1.5%
+12,310
+1.5%
+Bangladesh
+14,180
+1.5%
+12,640
+1.4%
+11,640
+1.4%
+Canada
+12,570
+1.3%
+11,320
+1.3%
+11,290
+1.4%
+Venezuela
+11,500
+1.2%
+10,860
+1.2%
+10,820
+1.3%
+United Kingdom
+12,980
+1.3%
+10,990
+1.3%
+10,790
+1.3%
+Guatemala
+10,910
+1.1%
+10,420
+1.2%
+10,760
+1.3%
+All other countries
+376,250
+38.8%
+345,770
+39.4%
+302,440
+36.9%
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Leading States and Metropolitan Areas of Residence
+In 2024, 71% of newly naturalized individuals lived in the top 10 states. The top three states held 40%, with California home to 18% (149,800), Florida home to 11% (93,240), and New York home to 11% (85,700) (Table 3). Each of the top ten states experienced drops in naturalization numbers between 2022 and 2024, with the largest decreases in California (32,200), Texas (26,010), and New York (18,350).
+Table 3.
+Persons Naturalized by State of Residence: Fiscal Years 2022 to 2024
+(Ranked by 2024 state of residence)
+State of Residence
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+California
+182,000
+18.8%
+154,520
+17.6%
+149,800
+18.3%
+Florida
+105,530
+10.9%
+94,210
+10.7%
+93,240
+11.4%
+New York
+104,050
+10.7%
+91,480
+10.4%
+85,700
+10.5%
+Texas
+106,120
+10.9%
+100,290
+11.4%
+80,110
+9.8%
+New Jersey
+54,950
+5.7%
+38,820
+4.4%
+45,480
+5.6%
+Illinois
+32,520
+3.4%
+33,560
+3.8%
+27,630
+3.4%
+Virginia
+27,320
+2.8%
+23,940
+2.7%
+24,830
+3.0%
+Georgia
+28,440
+2.9%
+20,900
+2.4%
+24,790
+3.0%
+Washington
+31,040
+3.2%
+26,280
+3.0%
+23,700
+2.9%
+Massachusetts
+27,010
+2.8%
+24,220
+2.8%
+23,660
+2.9%
+Other*
+270,400
+27.9%
+270,250
+30.8%
+239,640
+29.3%
+*Includes unknown, U.S. territories, and U.S. armed forces posts.
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+U.S. naturalizations per 100,000 citizens dropped from 290 in 2022 to 240 in 2024. Fourteen states had more naturalizations per capita than the U.S. total, with Georgia and Illinois matching the U.S. total rate. Thirty-seven states, the District of Columbia, and Puerto Rico were below the country-wide per capita rate with West Virginia having the lowest at 30 per 100,000. Conversely, New Jersey had the highest number of naturalizations per capita at 480 per 100,000 citizens (Figure 5).
+[7]
+Figure 5.
+Naturalizations per Capita by State of Residence: Fiscal Year 2024
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Of those naturalized in 2024, 48% lived in the top 10 metropolitan areas (Table 4).
+[8]
+All 10 top metropolitan areas of residence had a decline in new naturalizations between 2022 and 2024. The newly naturalized population declined the most in the New York-Newark-Jersey City, NY-NJ, Houston-Pasadena-The Woodlands, TX, and San Francisco-Oakland-Fremont, CA areas.
+Table 4.
+Persons Naturalized by Core-Based Statistical Area (CBSA) of Residence: Fiscal Years 2022 to 2024
+(Ranked by 2024 CBSA)
+CBSA
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+New York-Newark-Jersey City, NY-NJ
+142,380
+14.7%
+115,040
+13.1%
+114,690
+14.0%
+Miami-Fort Lauderdale-West Palm Beach, FL
+63,480
+6.5%
+50,320
+5.7%
+56,460
+6.9%
+Los Angeles-Long Beach-Anaheim, CA
+60,370
+6.2%
+56,180
+6.4%
+53,060
+6.5%
+Washington-Arlington-Alexandria, DC-VA-MD-WV
+37,360
+3.9%
+31,380
+3.6%
+31,410
+3.8%
+Houston-Pasadena-The Woodlands, TX
+44,590
+4.6%
+34,970
+4.0%
+26,640
+3.3%
+Chicago-Naperville-Elgin, IL-IN
+30,300
+3.1%
+31,160
+3.5%
+25,860
+3.2%
+Dallas-Fort Worth-Arlington, TX
+32,840
+3.4%
+33,470
+3.8%
+25,280
+3.1%
+San Francisco-Oakland-Fremont, CA
+35,330
+3.6%
+23,610
+2.7%
+24,980
+3.1%
+Atlanta-Sandy Springs-Roswell, GA
+23,920
+2.5%
+17,120
+1.9%
+20,070
+2.5%
+Boston-Cambridge-Newton, MA-NH
+21,650
+2.2%
+18,650
+2.1%
+18,530
+2.3%
+Other, including unknown
+477,150
+49.2%
+466,570
+53.1%
+421,590
+51.5%
+Notes: Metropolitan areas defined are based on the 2023 update of
+CBSA definitions
+. Thus, numbers from earlier years may differ with previously published figures.
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Sex
+Females accounted for over half of naturalizations (55%) (Table 5). That ratio has remained virtually unchanged for the past decade.
+Table 5.
+Persons Naturalized by Sex: Fiscal Years 2022 to 2024
+(Ranked by 2024 sex)
+Sex
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+Female
+526,020
+54.3%
+478,030
+54.4%
+448,850
+54.8%
+Male
+443,330
+45.7%
+395,820
+45.1%
+365,340
+44.6%
+Unknown
+30
+0.0%
+4,610
+0.5%
+4,380
+0.5%
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Age
+As with sex, naturalized age groups have remained relatively unchanged for the past 10 years. The median age for newly naturalized adults was 42, a year older than in 2023, and two-thirds were between the ages of 25 and 54 (Table 6).
+[9]
+A quarter were aged 55 years and above, while only 8.9% were between ages 18 and 24 (Figure 6).
+Table 6.
+Persons Naturalized by Age: Fiscal Years 2022 to 2024
+(Ranked by 2024 ascending age)
+Age in Years
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+18 to 24
+88,950
+9.2%
+80,700
+9.2%
+73,020
+8.9%
+25 to 34
+230,510
+23.8%
+205,180
+23.4%
+177,510
+21.7%
+35 to 44
+259,290
+26.7%
+229,580
+26.1%
+206,650
+25.2%
+45 to 54
+175,120
+18.1%
+155,720
+17.7%
+150,030
+18.3%
+55 to 64
+124,640
+12.9%
+113,660
+12.9%
+117,890
+14.4%
+65 and over
+90,870
+9.4%
+93,500
+10.6%
+93,250
+11.4%
+Unknown
+0
+0.0%
+130
+0.0%
+240
+0.0%
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Figure 6.
+Naturalizations by Age and Sex: Fiscal Year 2024
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Marital Status
+Since 2015, Marital status has remained proportionally unchanged with 65% of naturalized individuals married, 20% single, and 15% divorced, separated, widowed, or with unknown marital status (Table 7).
+Table 7.
+Persons Naturalized by Marital Status: Fiscal Years 2022 to 2024
+(Ranked by 2024 marital status)
+Marital Status
+2022 Number
+2022 Percent
+2023 Number
+2023 Percent
+2024 Number
+2024 Percent
+Total
+969,380
+100.0%
+878,460
+100.0%
+818,570
+100.0%
+Married
+632,090
+65.2%
+570,950
+65.0%
+534,000
+65.2%
+Single
+210,220
+21.7%
+174,540
+19.9%
+163,660
+20.0%
+Other*
+127,070
+13.1%
+132,960
+15.1%
+120,910
+14.8%
+*Includes individuals divorced, separated, widowed, or with unknown marital status.
+Notes: To protect privacy, we round table cells to the nearest ten. Totals may not sum due to rounding.
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Years in Immigrant Status
+New citizens in 2024 spent a median of seven years in LPR status before naturalizing, down from a median eight years in LPR status from 2017 to 2019, which matches its pattern before 2016 (Table 8). Of those naturalized, citizens born in Africa and Asia spent the least number of years in LPR status (6 years), followed by Europe and South America (7 years), and North America and Oceania (9 years). Those who naturalized from Europe, North America, and Oceania spent less time in LPR status than in years prior to 2021.
+Table 8.
+Median Years in Lawful Permanent Resident Status for Persons Naturalized by Region of Birth and Year of Naturalization: Fiscal Years 2015 to 2024
+Region of Birth
+2015
+2016
+2017
+2018
+2019
+2020
+2021
+2022
+2023
+2024
+All Regions
+8
+8
+9
+9
+8
+8
+7
+7
+7
+7
+Africa
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Asia
+6
+6
+6
+7
+7
+6
+7
+6
+6
+6
+Europe
+9
+9
+9
+9
+9
+8
+8
+8
+7
+7
+North America
+10
+10
+11
+11
+11
+10
+9
+10
+9
+9
+Oceania
+9
+10
+10
+10
+10
+10
+9
+10
+9
+9
+South America
+7
+7
+8
+8
+8
+7
+7
+7
+7
+7
+Note: Excludes individuals with no permanent residence requirement for naturalization.
+Source: March 2025 Office of Homeland Security Statistics system of record based on data provided by USCIS.
+Accordion Content 3
+Footnotes
+USCIS:
+Immigration and Nationality Act
+.
+↩ Back
+Title 8 of the CFR
+↩ Back
+USCIS:
+Titles of the CFR Relating to Immigration
+.
+↩ Back
+This report includes analysis by the Office of Homeland Security Statistics (OHSS) of relevant statutes, policy, and processes to provide background and context for DHS statistical data. DHS Component statistical officials have reviewed this report for accuracy.
+↩ Back
+Throughout this report, “years” refer to fiscal years, which run from October 1 to September 30. Fiscal Year 2024 ran from October 1, 2023 to September 30, 2024. This report does not include data on children acquiring citizenship based on a parent’s citizenship status. Therefore, naturalizations described in this report–obtained from
+Form N-400,
+Application for Naturalization
+approvals
+–
+are limited to applicants aged 18 and older and do not represent a complete count of persons who obtained citizenship status in each reporting year. The
+2024 Yearbook of Immigration Statistics and other OHSS reports
+contain additional context. This report may cite numbers not contained in the tables. To protect privacy, we round numbers in table cells in all public reports to the nearest ten. The totals may not sum due to rounding. For clarity, we truncate large numbers in the narrative.
+↩ Back
+Numbers reflect changes in received and processed naturalization applications, which may be affected by limited resources for application processing or pending applications from prior years. Exercise caution when using this report’s data to draw conclusions about trends in the underlying demand to naturalize. Average naturalization numbers over a period of years provide a more accurate indication of long-term naturalization trends.
+↩ Back
+State populations sourced from the U.S. Census Bureau, Population Division. December 2024. Estimates of the Total Resident Population and Resident Population Age 18 Years and Older for the United States, Regions, States, District of Columbia, and Puerto Rico: July 1, 2024 (SCPRC-EST2024-18+POP).
+↩ Back
+The most current
+Core-Based Statistical Area (CBSA)
+definitions are available from OMB.
+↩ Back
+This report excludes data on children acquiring citizenship based on the citizenship of a parent; see endnote 5.
+↩ Back
+Last updated: June 4, 2026
+|
+Date created: June 4, 2026
+Back to top
+Data and Reports by Topic
+Key Metrics
+About Our Data
+About OHSS
+Glossary
+ohss@dhs.gov
+-->
+Email:
+ohss@hq.dhs.gov
+Comments:
+202-282-8495
+-->
+OHSS.DHS.gov
+An official website of the
+U.S. Department of Homeland Security
+Accessibility
+FOIA Requests
+Privacy Policy
+DHS.gov
+Looking for U.S. government information and services?
+Visit USA.gov
+-->

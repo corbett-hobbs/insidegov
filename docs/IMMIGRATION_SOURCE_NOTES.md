@@ -372,3 +372,131 @@ documents (full, stored as `PSE`).
   snapshot; FY1981–FY1986 and FY1990 rest on CRS.
 - **Proclamation 9645 (Sept 2017 travel ban) and the Oct 2017 eleven-country refugee review:** not
   reviewed in this pass.
+
+## 8. Green cards and naturalizations — session E source check (2026-10-13)
+
+The first legal-immigration track (`lpr_*.json`, methodology in `docs/LPR_METHODOLOGY.md`). Snapshots
+in `pipeline/raw/ohss/`; which tables are read, the restatements found and the notes' quotes are in
+`pipeline/reference/lpr-catalog.json`. Nothing here is CBP, ICE or State Department data, and none of it
+joins the enforcement or refugee series.
+
+### Sources
+
+| Source | What it gives | URL pattern | Format | Stable? |
+| --- | --- | --- | --- | --- |
+| Yearbook of Immigration Statistics, LPR and naturalization workbooks: FY2024, FY2022, FY2017 and FY2008 editions | Table 1 (LPRs 1820 on), Table 3 (LPRs by region and country of birth, ten years), Table 6 (LPRs by type and major class, ten years), the naturalization long table (1907 on) and naturalizations by country of birth (ten years) | Listed on `ohss.dhs.gov/topics/immigration/yearbook/<year>`; files under `/system/files/<yyyy-mm>/…` (FY2023 on) or `/sites/default/files/2023-12/…` (re-hosted in Dec 2023) | One `.xlsx` workbook per topic from the FY2022 edition; a zip of per-table `.xlsx` for FY2017–FY2021; a zip of per-table Excel 97 `.xls` before FY2017 (read by `pipeline/fetch/workbook-lib.ts`, no dependency) | No: a new address per edition |
+| Legal Immigration and Adjustment of Status Report, FY2016–FY2025 (quarterly tables, each file the full year's Q1–Q4) | Table 1A (LPRs by country of **nationality**, total / adjustments / new arrivals), 1B (LPRs by type and major class), 2 (refugee arrivals by nationality), 3 (naturalizations by nationality), 4A–4B (I-94 nonimmigrant admissions; not extracted) | `ohss.dhs.gov/topics/immigration/legal-immigration-and-adjustment-status-report`; file names change every year | `.xlsx` | No |
+| Annual Flow Reports FY2024 (LPRs; naturalizations) and the quarterly report's landing page | Definitions and caveats quoted in the notes (type and class of admission, rounding, the N-400 age limit, processing effects, "preliminary") | HTML pages | HTML | Pages are rewritten each edition |
+
+The OHSS glossary page (`ohss.dhs.gov/glossary`) renders its entries by script, so a plain fetch gets
+no definitions; the flow reports' footnotes carry the same definitions in the page text.
+
+### Tables read (per edition)
+
+| Table | Sheet (zip member) | Header | Unit |
+| --- | --- | --- | --- |
+| LPRs, all years | `Table 1` (`fy2017_table1.xlsx`, `Table 01.xls`) | one row, four `Year \| Number` pairs; "1976 1" / "1976¹" footnotes the 15-month FY1976 | persons obtaining LPR status |
+| LPRs by type and major class | `Table 6` (`fy2017_table6.xlsx`, `Table 06D.xls`) | `Type and class of admission \| <10 years>`; sections TOTAL, ADJUSTMENTS OF STATUS, NEW ARRIVALS | persons |
+| LPRs by country of birth | `Table 3` / `Table 3d` (`fy2017_table3d.xlsx`, `Table 03D.xls`) | `Region and country of birth \| <10 years>`; REGION then COUNTRY sections; "All other countries", "Unknown" | persons |
+| Naturalizations, all years | `Table 21` (FY2024), `Table 20` (earlier) | one to three header rows; the "Persons naturalized: Total" column | persons naturalized |
+| Naturalizations by country of birth | `Table 22` (FY2024), `Table 21d` / `Table 21` (earlier) | as LPR Table 3 | persons |
+| Quarterly 1A, 1B | `Table 1A`, `Table 1B` | two header rows: `Total \| Adjustments of status \| New arrivals`, each `Total \| Quarter 1–4` | persons |
+| Quarterly 2, 3 | `Table 2`, `Table 3` | `Region and country of nationality \| Total \| Quarter 1–4` | persons |
+
+Cell codes: "D" withheld to limit disclosure (older editions), "-" zero, "X" not applicable (the
+country did not exist yet), "NA" not available (a class not yet counted separately).
+
+### How far back a consistent series goes
+
+| Series | Consistent from | What limits it |
+| --- | --- | --- |
+| Total LPRs | 1820 in Table 1 (stored from FY1977) | FY1976 covers 15 months; the FY1989–FY1991 peak has no class detail in the ingested editions |
+| LPRs by major class | FY1999 ingested; the scheme dates from the Immigration Act of 1990 (FY1992) | FY1992–FY1998 class tables exist only in the FY2000-and-earlier `.xls` editions, not checked or ingested; before FY1992 the 1965-act preference system has different classes |
+| New arrivals vs. adjustments | FY1999 ingested | the FY2020 edition revised FY2013–FY2019 (below) |
+| LPRs by country | FY1999 (birth) | the FY2008 edition's Korea and French overseas departments differ from later editions (below) |
+| Naturalizations, total | 1907 in the long table (stored from FY1977) | 18 and over, N-400 only |
+| Naturalizations by country | FY1999 (birth) | as for LPRs |
+
+The FY2008 edition's Table 6 already has the six major classes the current tables use (immediate
+relatives, family and employment preferences, diversity, refugees, asylees); only the small classes
+grouped as other change (see the methodology's era table).
+
+### Country dimension
+
+The Yearbook counts by **country of birth** (Table 3, the naturalization by-country table; Table 2 is
+country of last residence, not used). The quarterly report counts by **country of nationality**. They
+answer different questions and differ a lot for some countries: FY2024 LPRs, Canada 11,620 by birth vs.
+19,650 by nationality, Cuba 184,040 vs. 178,130; Hong Kong and the former Soviet Union appear as
+birthplaces but not as nationalities; FY2024 naturalizations list 390 people born in the United States
+but 6,350 of U.S. nationality. So the series uses birth for every Yearbook year and nationality only for
+FY2025, labels each row's `basis`, and never ranks or diffs the two together
+(`lpr_report.json` → `vintages.countries` has every year FY2016–FY2024 in both bases).
+
+### Latest final year, and the quarterly page's dates
+
+- **Latest final:** FY2024. The FY2024 Yearbook LPR and naturalization workbooks sit under
+  `/system/files/2026-06/2026_0604_…`; the FY2024 flow reports say "Date created: June 4, 2026"; the
+  tables' source line is the "March 2025 Office of Homeland Security Statistics System of Record".
+- **Preliminary:** FY2025, from the quarterly report only (listed as posted 06/04/2026).
+- **Date inconsistencies on the quarterly page:** its footer says "Last updated: July 25, 2025",
+  although its listing includes the FY2025 file posted 06/04/2026. The FY2022 file is named
+  `2023_0308_…` (prepared March 8, 2023) but listed as posted 07/08/2022, which cannot both be true
+  (the listing date probably belongs to an earlier file it replaced). The FY2016–FY2022 files all live
+  under `/sites/default/files/2023-12/` (the December 2023 site migration), so a path's date is not a
+  publication date. The FY2023 (`2024_0507`, posted 05/07/2024) and FY2024 (`2025_0624`, 06/24/2025)
+  names match their listings. The catalog records the listing's `posted` date as printed.
+- The FY2022 quarterly refugee table's title reads "FISCAL YEAR 20222" (a footnote digit glued on).
+
+### Agreements and disagreements found
+
+- **Totals agree across every edition.** LPR and naturalization totals match in every shared year
+  across the FY2008, FY2017, FY2022 and FY2024 editions and between each edition's tables (Table 1,
+  Table 6, Table 3; the naturalization long and by-country tables), within rounding. Gated.
+- **FY2008 special immigrants** (FY2008 vs. FY2017 edition): 1,770 people move from employment
+  fourth preference (9,524 → 7,754) to classes grouped as other (Iraqi and Afghan special immigrants
+  223; "Other" +1,550; parolees −3). Total unchanged. Recorded (`fy2008-special-immigrants`); newer
+  edition used.
+- **New arrivals vs. adjustments, FY2013–FY2019:** every edition from FY2020 on shows more adjustments
+  and fewer new arrivals than the FY2017–FY2019 editions (FY2015: 542,315 → 546,000 adjustments;
+  FY2019: 572,513 → 578,047), totals unchanged; FY2011–FY2012 untouched. Not explained in the notes or
+  the FY2020 Yearbook text. Recorded (`fy2020-edition-arrival-adjustment-split`); this is why the FY2022
+  edition is in the catalog (FY2013–FY2014 on the revised basis).
+- **Countries between editions:** FY2008's single "Korea" row (FY2008 edition) is "Korea, South" in
+  the FY2017 edition (footnote: "Data for South Korea prior to Fiscal Year 2009 include a small number
+  of cases from North Korea"); filed under KOR. Guadeloupe (33), Martinique (24) and French Guiana (6)
+  are folded into France (4,872 → 4,935) in the FY2017 edition. Naturalizations FY2013–FY2017 have
+  small late updates (largest India FY2017, 50,802 → 50,830). Reported, not gated.
+- **Quarterly report vs. Yearbook:** totals identical FY2016–FY2021 (within rounding); revised
+  FY2022–FY2024: LPRs 1,018,004 → 1,018,350, 1,173,640 → 1,172,910, 1,356,760 → 1,364,090;
+  naturalizations 967,130 → 969,380, 877,770 → 878,460, 818,150 → 818,570. 77 breakdown values differ,
+  mostly the arrival/adjustment split (FY2024 new arrivals 573,990 → 581,290). The Yearbook is used
+  for every year it covers. A total more than 3% off fails the build.
+- **FY2017 quarterly Table 1B is misprinted:** the rows below Asylees carry an older template's
+  labels, one row off (the 19,191 labelled "Children born abroad to alien residents" is the Yearbook's
+  Iraqi and Afghan special immigrants; "NACARA" 1,317 is victims of trafficking; "HRIFA" 18,065 is
+  victims of crimes), and the Yearbook's 26 parolees are missing, so the classes sum to 1,127,141
+  against a printed 1,127,167. Recorded as the table's `defect`: used for its total only.
+- **Refugee arrivals, OHSS quarterly Table 2 vs. the State Department (`refugee_series.json`):**
+  within 0.4% every year FY2016–FY2025 except FY2018 (22,405 vs. 22,676, +1.2%: the Doe v.
+  Trump settlement counts some later arrivals toward FY2018 in the State Department's figure; see §7). Equal in FY2020 and FY2022. Reported only; refugees stay in the refugee
+  track.
+
+### Notes for session G (not ingested here)
+
+- **I-94 admissions are in the same quarterly workbooks:** Table 4A (nonimmigrant admissions, I-94
+  only, by region and country of citizenship) and Table 4B (all nonimmigrant admissions by class of
+  admission), FY2016–FY2025. The snapshots in `pipeline/raw/ohss/ohss-quarterly-fy*.xlsx` contain them;
+  add `"Table 4A", "Table 4B"` to a source's `sheets` to extract. Table 4B's "Total all admissions" is
+  a workload estimate rounded to the nearest hundred thousand (its footnote). The FY2022 Table 4B has
+  two footnotes repeated across all 16,384 columns (about 10 MB as text): extract with care.
+- The FY2024 Yearbook's nonimmigrant workbook (`20260604_ohss_yearbook_nonimmigrants_fy2024.xlsx`, on
+  the yearbook/2024 page) was not downloaded.
+
+### Not ingested
+
+- Yearbook editions FY2007 and earlier other than FY2008 (they would extend classes and countries to
+  FY1992–FY1998; layouts not checked), and the FY2018–FY2021 and FY2023 editions (covered by the
+  editions on either side; FY2023 would add only a rounded FY2014).
+- Table 2 (country of last residence), Tables 4–5 (state, metro area), Table 7 (detailed class),
+  Tables 8–12, the "Tables 8–11 newadj" workbooks and the supplemental tables.
+- The quarterly reports' I-94 sheets (session G) and refugee arrivals (cross-check only).
