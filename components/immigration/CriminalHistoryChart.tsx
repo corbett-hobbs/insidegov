@@ -146,6 +146,9 @@ export function CriminalHistoryChart({
                 const open = tip.state?.data.fy === yr.fy;
                 let acc = 0;
                 const top = b ? y(heightOf(b, b.total)) : BASE;
+                // FY2025: only a combined convicted-or-pending figure is published, so the rest of the year's removals is an outline.
+                const partial = !!b && b.denominator > b.total;
+                const ghostTop = b ? y(heightOf(b, b.denominator)) : BASE;
                 return (
                   <g key={yr.fy}>
                     <rect x={x} y={PLOT_TOP} width={slotW} height={PLOT_H} rx={2} style={{ fill: sel ? "var(--surface-raised)" : open ? "var(--accent)" : "transparent", fillOpacity: sel ? 1 : 0.09, stroke: sel ? "var(--line-strong)" : "none" }} />
@@ -157,9 +160,19 @@ export function CriminalHistoryChart({
                         return <rect key={p.key} x={bx} y={y0} width={barW} height={Math.max(0, h)} style={{ fill: CRIM_COLOR[p.key], fillOpacity: prelim ? 0.55 : 1 }} />;
                       })}
                     {b && prelim && <rect x={bx} y={top} width={barW} height={BASE - top} style={{ fill: "none", stroke: "var(--ink)", strokeWidth: 1.2, strokeDasharray: "4 3" }} />}
+                    {b && partial && (
+                      <>
+                        <rect x={bx} y={ghostTop} width={barW} height={Math.max(0, top - ghostTop)} style={{ fill: "var(--ink)", fillOpacity: 0.04, stroke: "var(--ink-faint)", strokeWidth: 1, strokeDasharray: "3 3" }} />
+                        {top - ghostTop >= 84 && slotW >= 14 && (
+                          <text transform={`translate(${bx + barW / 2 + 3.5},${(top + ghostTop) / 2}) rotate(-90)`} textAnchor="middle" className="fill-ink-muted text-[9.5px]">
+                            no split published
+                          </text>
+                        )}
+                      </>
+                    )}
                     {b && labelled.has(yr.fy) && slotW >= 22 && (
-                      <text x={Math.min(bx + barW / 2, plotW - 12)} y={top - 5} textAnchor="middle" className="fill-ink font-mono text-[10px] font-semibold">
-                        {share ? pct(convictedOrPendingShare(b)) : slotW < 40 ? compact(b.total) : n(b.total)}
+                      <text x={Math.min(bx + barW / 2, plotW - 12)} y={(partial && !share ? ghostTop : top) - 5} textAnchor={partial && !share ? "end" : "middle"} className="fill-ink font-mono text-[10px] font-semibold">
+                        {share ? pct(convictedOrPendingShare(b)) : partial ? `${compact(b.total)} of ${compact(b.denominator)}` : slotW < 40 ? compact(b.total) : n(b.total)}
                       </text>
                     )}
                     {!b && yr.fy > firstBarFy && (

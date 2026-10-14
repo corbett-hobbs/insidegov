@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { PillGroup } from "@/components/charts/PillGroup";
@@ -13,11 +13,40 @@ import { CRIM_COLOR, CRIM_LABEL, CriminalHistoryChart } from "./CriminalHistoryC
 
 const n = (v: number) => v.toLocaleString("en-US");
 
-const LEDE: Record<AgencyView, string> = {
-  all: "Criminal history, as ICE had it on record, of the people ICE removed. Choose who arrested them to see only the people ICE’s own officers arrested, or only those Border Patrol arrested and handed to ICE (FY2017 on).",
-  ice: "Removals of people ICE’s own officers first arrested, FY2017–FY2024, with the criminal history ICE had on record.",
-  cbp: "Removals of people Border Patrol first arrested and handed to ICE, FY2017–FY2024, with the criminal history ICE had on record. A large share have no known record.",
+const SHARE_NOTE = "Each bar is a share of its own total; labels show convicted or pending charges.";
+/** One line each on a desktop-width card; the card reserves the tallest, so switching never moves what is below. */
+const LEDE: Record<AgencyView, Record<Measure, string>> = {
+  all: {
+    counts: "Criminal history, as ICE had it on record, of the people ICE removed. Choose who arrested them to narrow it (FY2017 on).",
+    share: `Criminal history, as ICE had it on record, of the people ICE removed. ${SHARE_NOTE}`,
+  },
+  ice: {
+    counts: "Removals of people ICE’s own officers first arrested, FY2017–FY2024, by the criminal history ICE had on record.",
+    share: `Removals of people ICE’s own officers first arrested, FY2017–FY2024. ${SHARE_NOTE}`,
+  },
+  cbp: {
+    counts: "Removals of people Border Patrol first arrested and handed to ICE, FY2017–FY2024, by the criminal history ICE had on record.",
+    share: `Removals of people Border Patrol first arrested and handed to ICE, FY2017–FY2024. ${SHARE_NOTE}`,
+  },
 };
+const VIEWS: readonly AgencyView[] = ["all", "ice", "cbp"];
+
+/**
+ * Stacks every alternative in one grid cell and shows one: the cell is as tall as the tallest, so a toggle that changes
+ * the text (or the number of legend lines) never changes the card's height. Hidden alternatives are `invisible` and
+ * `aria-hidden`.
+ */
+function Reserved<K extends string>({ active, items, as: Tag = "div", className = "" }: { active: K; items: readonly { key: K; node: ReactNode }[]; as?: "div" | "span"; className?: string }) {
+  return (
+    <Tag className={`grid ${className}`}>
+      {items.map((it) => (
+        <Tag key={it.key} aria-hidden={it.key !== active} className={`col-start-1 row-start-1 ${it.key === active ? "" : "invisible"}`}>
+          {it.node}
+        </Tag>
+      ))}
+    </Tag>
+  );
+}
 
 /**
  * "Criminal history of those removed": ICE removals by criminal history on the removals chart's year slots. Two
@@ -42,14 +71,21 @@ export function CriminalHistoryCard({
   const pending = range[1] >= data.lastFy;
   const bars = data.criminality.views[view];
   const firstBarFy = bars[0].fy;
-  const shownBars = bars.filter((b) => b.fy >= range[0] && b.fy <= range[1]);
+  const inWindow = (v: AgencyView) => data.criminality.views[v].filter((b) => b.fy >= range[0] && b.fy <= range[1]);
+  const shownBars = inWindow(view);
   const present = CRIM_ORDER.filter((k) => shownBars.some((b) => b.parts.some((p) => p.key === k)));
   const share = measure === "share";
 
   return (
     <ChartCard
       title="Criminal history of those removed"
-      lede={`${LEDE[view]} ${share ? "Each bar is a share of its own total, labelled with the share who had a conviction or pending charges." : "Heights share one scale across the three choices."}`}
+      lede={
+        <Reserved<string>
+          as="span"
+          active={`${view}-${measure}`}
+          items={VIEWS.flatMap((v) => (["counts", "share"] as const).map((m) => ({ key: `${v}-${m}`, node: LEDE[v][m] })))}
+        />
+      }
       action={
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2">
@@ -79,20 +115,32 @@ export function CriminalHistoryCard({
         </div>
       }
     >
-      <div className={`${LEGEND_ROW} mb-2`}>
-        {present.map((k: Criminality) => (
-          <span key={k} className={LEGEND_ITEM}>
-            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: CRIM_COLOR[k] }} />
-            {CRIM_LABEL[k]}
-          </span>
-        ))}
-        {shownBars.some((b) => b.status === "preliminary") && (
-          <span className={LEGEND_ITEM}>
-            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-ink" />
-            Preliminary
-          </span>
-        )}
-      </div>
+      <Reserved<AgencyView>
+        active={view}
+        className="mb-2"
+        items={VIEWS.map((v) => {
+          const vb = inWindow(v);
+          return {
+            key: v,
+            node: (
+              <div className={LEGEND_ROW}>
+                {CRIM_ORDER.filter((k) => vb.some((b) => b.parts.some((p) => p.key === k))).map((k: Criminality) => (
+                  <span key={k} className={LEGEND_ITEM}>
+                    <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: CRIM_COLOR[k] }} />
+                    {CRIM_LABEL[k]}
+                  </span>
+                ))}
+                {vb.some((b) => b.status === "preliminary") && (
+                  <span className={LEGEND_ITEM}>
+                    <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-ink" />
+                    Preliminary
+                  </span>
+                )}
+              </div>
+            ),
+          };
+        })}
+      />
 
       <CriminalHistoryChart
         years={years}
