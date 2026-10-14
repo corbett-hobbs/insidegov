@@ -141,7 +141,7 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
       />
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader title="How Does the Supreme Court Lean?">
+        <PageHeader eyebrow="Supreme Court · Ideology" title="How Does the Supreme Court Lean?">
           <p>{introFor(firstTerm)}</p>
           <HowToRead>
             <p>
