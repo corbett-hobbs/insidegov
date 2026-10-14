@@ -21,7 +21,8 @@ import {
 } from "@/lib/immigration-chart";
 import { RETURNS_COUNTED_FROM, type IceMarker, type IceTerm, type IceYear } from "@/lib/immigration-derive";
 import { useElementWidth } from "@/lib/use-element-width";
-import { BarCard, HOVER_W, MarkerCard, besideBar } from "./Cards";
+import { Tooltip, useTooltip } from "../charts/Tooltip";
+import { BarCard, MarkerCard, YearTip } from "./Cards";
 
 const FALLBACK_W = 1084;
 const PLOT_TOP = 34;
@@ -109,6 +110,7 @@ export function RemovalsChart({
   const idBase = useId().replace(/:/g, "");
 
   const [open, setOpen] = useState<Open>(null);
+  const tip = useTooltip<IceYear>();
   const wrap = useRef<HTMLDivElement>(null);
   const close = useCallback(() => setOpen(null), []);
 
@@ -150,15 +152,15 @@ export function RemovalsChart({
   let card: ReactNode = null;
   if (open?.key.startsWith("b")) {
     const yr = years.find((v) => `b${v.fy}` === open.key);
-    if (yr) {
+    if (yr && open.pinned) {
       const i = years.indexOf(yr);
       card = (
         <BarCard
           year={yr}
           terms={termById}
-          width={open.pinned ? barCardW : HOVER_W}
-          left={open.pinned ? cardLeft(left + xSlot(i) + slotW / 2, barCardW) : besideBar(left + xSlot(i) + slotW / 2, barW, HOVER_W, W)}
-          interactive={open.pinned}
+          width={barCardW}
+          left={cardLeft(left + xSlot(i) + slotW / 2, barCardW)}
+          interactive
         />
       );
     }
@@ -253,8 +255,9 @@ export function RemovalsChart({
                     aria-label={barAria(yr)}
                     aria-expanded={active}
                     className="cursor-pointer outline-none"
-                    onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && openBar(yr.fy, false)}
-                    onPointerLeave={(e) => e.pointerType === "mouse" && setOpen((o) => (o && !o.pinned ? null : o))}
+                    onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && (openBar(yr.fy, false), tip.show(yr, e))}
+                    onPointerMove={(e) => e.pointerType === "mouse" && tip.move(e)}
+                                        onPointerLeave={(e) => e.pointerType === "mouse" && setOpen((o) => (o && !o.pinned ? null : o))}
                     onFocus={(e) => e.currentTarget.matches(":focus-visible") && openBar(yr.fy, true)}
                     onClick={() => {
                       toggle(key);
@@ -463,6 +466,7 @@ export function RemovalsChart({
         </button>
       ))}
       {card}
+      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <YearTip year={yr} terms={termById} />}</Tooltip>
     </div>
   );
 }

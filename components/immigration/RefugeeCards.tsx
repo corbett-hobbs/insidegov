@@ -1,5 +1,6 @@
+import { TipCard, type TipRowData } from "../charts/TipCard";
 import { GEO_NAME, GEO_STACK, type RefugeeMarker, type RefugeeTerm, type RefugeeYear } from "@/lib/refugee-types";
-import { BOX, BOX_COMPACT, TOP } from "./Cards";
+import { BOX, TOP } from "./Cards";
 import { REGION_COLOR, dateLabel, n } from "./refugee-style";
 
 const STATUS: Record<RefugeeMarker["status"], string> = { in_effect: "In effect", superseded: "Superseded", expired: "Expired", revoked: "Revoked" };
@@ -65,42 +66,6 @@ export function YearCard({
 }) {
   const president = terms.get(year.termId)?.president ?? "";
   const regions = GEO_STACK.filter((g) => year.regions[g] > 0).sort((a, b) => year.regions[b] - year.regions[a]);
-  if (!interactive) {
-    return (
-      <div role="tooltip" data-rf-hit className={`${BOX_COMPACT} pointer-events-none text-[0.74rem] leading-[1.45] text-ink-muted`} style={{ top: TOP, left, width }}>
-        <div className="flex items-baseline justify-between gap-4 font-mono text-[0.78rem] font-semibold text-ink"><span>{`FY${year.fy}`}</span><span>{n(year.admissions)}</span></div>
-        <div>{`${year.blended ? `${year.days.map((d) => `${d.last} ${d.days} days`).join(" · ")}` : president}${year.preliminary ? " · Preliminary" : ""}`}</div>
-        {year.ceiling !== null && (
-          <div className="flex justify-between gap-2">
-            <span>{`Ceiling${year.share !== null ? ` (${year.share < 0.1 ? (year.share * 100).toFixed(1) : Math.round(year.share * 100)}% used)` : ""}`}</span>
-            <b className="font-mono font-medium text-ink">{n(year.ceiling)}</b>
-          </div>
-        )}
-        {regions.length > 0 && (
-          <div className="mt-1 grid grid-cols-[1fr_auto] gap-x-2 border-t border-line pt-1">
-            {regions.map((g) => (
-              <div key={g} className="contents">
-                <span className="inline-flex items-center gap-1">
-                  <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: REGION_COLOR[g] }} />
-                  {GEO_NAME[g].short}
-                </span>
-                <b className="font-mono font-medium text-ink">{n(year.regions[g])}</b>
-              </div>
-            ))}
-            {year.privateSector > 0 && (
-              <div className="contents">
-                <span className="inline-flex items-center gap-1">
-                  <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: "var(--ink-faint)", opacity: 0.55 }} />
-                  Private sector
-                </span>
-                <b className="font-mono font-medium text-ink">{n(year.privateSector)}</b>
-              </div>
-            )}
-          </div>
-        )}
-              </div>
-    );
-  }
   return (
     <div role="tooltip" data-rf-hit className={`${BOX} ${interactive ? "" : "pointer-events-none"}`} style={{ top: TOP, left, width }}>
       <div className="font-mono text-[0.82rem] font-semibold text-ink">{`FY${year.fy} · ${n(year.admissions)} admitted`}</div>
@@ -147,5 +112,24 @@ export function YearCard({
         </p>
       ))}
     </div>
+  );
+}
+
+/** Hover tooltip for one fiscal year (shared `Tooltip` content; the tap-pinned `YearCard` holds the detail). */
+export function YearTip({ year, terms }: { year: RefugeeYear; terms: ReadonlyMap<string, RefugeeTerm> }) {
+  const president = terms.get(year.termId)?.president ?? "";
+  const who = year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : president;
+  const regions = GEO_STACK.filter((g) => year.regions[g] > 0).sort((a, b) => year.regions[b] - year.regions[a]);
+  const rows: TipRowData[] = regions.map((g) => ({ key: g, color: REGION_COLOR[g], label: GEO_NAME[g].short, value: n(year.regions[g]) }));
+  if (year.privateSector > 0) rows.push({ key: "private", color: "var(--ink-faint)", label: "Private sector", value: n(year.privateSector) });
+  const used = year.share === null ? "" : ` (${year.share < 0.1 ? (year.share * 100).toFixed(1) : Math.round(year.share * 100)}% used)`;
+  return (
+    <TipCard
+      title={`FY${year.fy}`}
+      value={n(year.admissions)}
+      sub={`${who}${year.preliminary ? " · Preliminary" : ""}`}
+      rows={rows}
+      extra={year.ceiling !== null ? [{ key: "ceil", label: `Ceiling${used}`, value: n(year.ceiling) }] : []}
+    />
   );
 }

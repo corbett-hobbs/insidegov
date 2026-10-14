@@ -1,18 +1,9 @@
+import { TipCard } from "../charts/TipCard";
 import type { IceMarker, IceTerm, IceYear } from "@/lib/immigration-derive";
 
 export const BOX =
   "absolute z-[6] box-border rounded-lg border border-line-strong bg-surface px-3.5 py-3 shadow-[0_6px_20px_rgba(26,34,51,0.14)]";
-/** The smaller box a hover card uses: it is placed beside the bar, so it stays narrow and short. */
-export const BOX_COMPACT =
-  "absolute z-[6] box-border whitespace-nowrap rounded-md border border-line-strong bg-surface px-2.5 py-2 shadow-[0_4px_14px_rgba(26,34,51,0.14)]";
 export const TOP = 30;
-/** Width of a hover card (a tap pins the full-size card instead). */
-export const HOVER_W = 288;
-/** Left edge for a hover card of width `w` placed beside a bar centred at `cx`: to its right, or to its left near the chart's right edge, so the bar stays in view. */
-export const besideBar = (cx: number, barW: number, w: number, chartW: number) => {
-  const right = cx + barW / 2 + 8;
-  return right + w <= chartW ? right : Math.max(0, cx - barW / 2 - 8 - w);
-};
 
 /** Card for a numbered definition-change marker. Never interactive. */
 export function MarkerCard({ marker, width, left }: { marker: IceMarker; width: number; left: number }) {
@@ -48,34 +39,6 @@ export function BarCard({
   interactive: boolean;
 }) {
   const president = terms.get(year.termId)?.president ?? "";
-  if (!interactive) {
-    return (
-      <div role="tooltip" data-ice-hit className={`${BOX_COMPACT} pointer-events-none text-[0.74rem] leading-[1.45] text-ink-muted`} style={{ top: TOP, left, width }}>
-        <div className="flex items-baseline justify-between gap-4 font-mono text-[0.78rem] font-semibold text-ink"><span>{`FY${year.fy}`}</span><span>{year.value.toLocaleString("en-US")}</span></div>
-        <div>{`${year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : president}${year.status === "final" ? "" : " · Preliminary"}`}</div>
-        {year.agency && (
-          <div className="mt-1 grid grid-cols-[1fr_auto] gap-x-2 border-t border-line pt-1">
-            <span className="inline-flex items-center gap-1">
-              <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: "var(--agency-ice)" }} />
-              ICE arrests
-            </span>
-            <b className="font-mono font-medium text-ink">{year.agency.ice.toLocaleString("en-US")}</b>
-            <span className="inline-flex items-center gap-1">
-              <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: "var(--agency-cbp)" }} />
-              Border Patrol
-            </span>
-            <b className="font-mono font-medium text-ink">{year.agency.cbp.toLocaleString("en-US")}</b>
-          </div>
-        )}
-        {year.detention && (
-          <div className="mt-1 flex justify-between gap-2 border-t border-line pt-1">
-            <span>Detained daily</span>
-            <b className="font-mono font-medium text-ink">{year.detention.value.toLocaleString("en-US")}</b>
-          </div>
-        )}
-              </div>
-    );
-  }
   return (
     <div
       role="tooltip"
@@ -137,5 +100,23 @@ export function BarCard({
         {year.source}
       </a>
     </div>
+  );
+}
+
+/** Hover tooltip for one fiscal year (shared `Tooltip` content; the tap-pinned `BarCard` holds the detail). */
+export function YearTip({ year, terms }: { year: IceYear; terms: ReadonlyMap<string, IceTerm> }) {
+  const president = terms.get(year.termId)?.president ?? "";
+  const who = year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : president;
+  return (
+    <TipCard
+      title={`FY${year.fy}`}
+      value={year.value.toLocaleString("en-US")}
+      sub={`${who}${year.status === "final" ? "" : " · Preliminary"}`}
+      rows={year.agency ? [
+        { key: "ice", label: "ICE arrests", value: year.agency.ice.toLocaleString("en-US"), color: "var(--agency-ice)" },
+        { key: "cbp", label: "Border Patrol", value: year.agency.cbp.toLocaleString("en-US"), color: "var(--agency-cbp)" },
+      ] : []}
+      extra={year.detention ? [{ key: "det", label: "Detained daily", value: year.detention.value.toLocaleString("en-US") }] : []}
+    />
   );
 }
