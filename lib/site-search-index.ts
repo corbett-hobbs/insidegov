@@ -27,6 +27,12 @@ const PAGE_ALIASES: Record<string, string> = {
   "/supreme-court/decisions": "scotus cases rulings opinions",
 };
 
+const BRANCH_ALIASES: Record<string, string> = {
+  presidency: "president executive white house",
+  congress: "senate house legislature",
+  "supreme-court": "scotus judiciary justices",
+};
+
 const STATIC_LABELS: Record<(typeof STATIC_PAGES)[number], string> = {
   "/about": "About",
   "/methodology": "Methodology",
@@ -38,6 +44,9 @@ const PARTY = { dem: "D", rep: "R", other: "I" } as const;
 /** Every entity the homepage search can jump to: live section pages, current members, justices, committees. */
 export function getSiteSearchIndex(): SearchEntry[] {
   const pages: SearchEntry[] = [
+    ...branches
+      .filter((b) => b.status === "live")
+      .map((b): SearchEntry => ({ n: b.label, s: "Branch of government", u: b.href, k: "page", a: BRANCH_ALIASES[b.id] })),
     ...branches.flatMap((b) =>
       b.sections
         .filter((s) => s.status === "live")

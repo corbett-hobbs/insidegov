@@ -85,8 +85,8 @@ export function SiteSearch() {
   let index = -1;
 
   return (
-    <div ref={rootRef} className="min-w-0 flex-1 self-center pl-2 pr-4 md:relative md:ml-auto md:flex-none md:px-0">
-      <div className="flex h-9 items-center gap-2 rounded-md border border-line-strong bg-surface-raised px-2.5 text-ink focus-within:border-accent md:w-60">
+    <div ref={rootRef} className="ml-auto min-w-0 self-center pl-2 pr-4 md:relative md:px-0">
+      <div className="flex h-8 w-40 items-center gap-2 rounded-md border border-line-strong bg-surface-raised px-2.5 text-ink focus-within:border-accent md:h-9 md:w-60">
         <svg aria-hidden width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" className="flex-none text-ink-faint">
           <circle cx="7" cy="7" r="5" />
           <path d="M11 11l4 4" />
@@ -101,7 +101,7 @@ export function SiteSearch() {
           aria-label="Search members, justices, committees and pages"
           autoComplete="off"
           spellCheck={false}
-          placeholder="Search the site"
+          placeholder="Search"
           value={query}
           onFocus={() => {
             load();
