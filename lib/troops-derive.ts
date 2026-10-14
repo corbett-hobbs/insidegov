@@ -366,6 +366,15 @@ export function topHostRuns(years: readonly TopHostYear[]): { place: number; fro
  * and on the same side of the Dec 2017 break. Null otherwise (the page says so instead of showing a misleading percentage).
  */
 export function changeVsPrior(data: TroopsData, m: number, yi: number, country = -1): { prev: number; pct: number } | null {
+  const prev = likeForLikePrior(data, m, yi);
+  if (prev === null) return null;
+  const x = stackByRegion(data, m, yi, yi, country)[0].total;
+  const y = stackByRegion(data, m, prev, prev, country)[0].total;
+  return y > 0 ? { prev, pct: x / y - 1 } : null;
+}
+
+/** The previous year's index when year `yi` can be compared with it like-for-like (the rules in `changeVsPrior`'s comment), else null. */
+function likeForLikePrior(data: TroopsData, m: number, yi: number): number | null {
   const prev = yi - 1;
   if (prev < 0) return null;
   const { breakYear, years, periods } = data.payload;
@@ -376,9 +385,18 @@ export function changeVsPrior(data: TroopsData, m: number, yi: number, country =
   const b = periods[years[prev].period];
   if (a.source !== b.source || a.snapshot !== b.snapshot) return null;
   if (unavailable(data, m, years[yi].period) || unavailable(data, m, years[prev].period)) return null;
-  const x = stackByRegion(data, m, yi, yi, country)[0].total;
-  const y = stackByRegion(data, m, prev, prev, country)[0].total;
-  return y > 0 ? { prev, pct: x / y - 1 } : null;
+  return prev;
+}
+
+/** The previous year's ranked list, for the per-host change column; null when year `yi` has no like-for-like prior year. */
+export function priorPeriodView(data: TroopsData, m: number, yi: number): PeriodView | null {
+  const prev = likeForLikePrior(data, m, yi);
+  return prev === null ? null : periodView(data, m, data.payload.years[prev].period);
+}
+
+/** "▲ 1,204", "▼ 310", or "–" for no change. */
+export function formatCountChange(change: number): string {
+  return change === 0 ? "–" : `${change > 0 ? "▲" : "▼"} ${formatCount(Math.abs(change))}`;
 }
 
 // --- axis and number formatting ----------------------------------------------------------------------------------

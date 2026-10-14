@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { administration } from "./executive-orders-entities";
 import { REGION_IDS, regionOf } from "./troops-regions";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
-import { buildTroopsPayload, changeVsPrior, contingencyAt, topHostRuns, topHostsByYear, decodeTroops, formatCountAxis, yearLabelEvery, niceCountTicks, periodView, quarterEnd, quarterOf, stackByRegion, termOnDate, unavailable } from "./troops-derive";
+import { buildTroopsPayload, changeVsPrior, contingencyAt, topHostRuns, topHostsByYear, decodeTroops, formatCountAxis, yearLabelEvery, niceCountTicks, periodView, priorPeriodView, formatCountChange, quarterEnd, quarterOf, stackByRegion, termOnDate, unavailable } from "./troops-derive";
 import { historyMeta, historyRow, troopsMeta, troopsRow } from "./troops-entities";
 
 const read = (f: string) => JSON.parse(readFileSync(`pipeline/output/${f}`, "utf8")) as unknown;
@@ -280,5 +280,24 @@ describe("axis helpers", () => {
     expect(formatCountAxis(150000)).toBe("150k");
     expect(formatCountAxis(2500)).toBe("2.5k");
     expect(formatCountAxis(1500000)).toBe("1.5M");
+  });
+});
+
+describe("per-host change column", () => {
+  it("formats a head-count change with an arrow, and a dash for none", () => {
+    expect(formatCountChange(1204)).toBe("▲ 1,204");
+    expect(formatCountChange(-310)).toBe("▼ 310");
+    expect(formatCountChange(0)).toBe("–");
+  });
+  it("has a prior-year list exactly where the year-over-year change is like-for-like", () => {
+    for (const y of [2017, 2018, 2019, 2026]) {
+      expect(priorPeriodView(data, 0, yidx(y)) === null, String(y)).toBe(changeVsPrior(data, 0, yidx(y)) === null);
+    }
+    expect(priorPeriodView(data, 0, 0)).toBeNull();
+  });
+  it("the prior list is the previous year's snapshot", () => {
+    const yi = yidx(2019);
+    const prior = priorPeriodView(data, 0, yi)!;
+    expect(prior.ranked).toEqual(periodView(data, 0, payload.years[yi - 1].period).ranked);
   });
 });

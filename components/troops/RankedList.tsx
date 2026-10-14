@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
-import { BRANCH_NAMES, formatCount, type PeriodView } from "@/lib/troops-derive";
+import { BRANCH_NAMES, formatCount, formatCountChange, priorPeriodView, type PeriodView } from "@/lib/troops-derive";
 import { useTroopsState } from "./TroopsState";
 import { BranchLegend, NO_SPLIT, branchColor, showRest } from "./shared";
 
@@ -13,10 +13,14 @@ import { BranchLegend, NO_SPLIT, branchColor, showRest } from "./shared";
  * one row; the list scrolls inside its box and never auto-scrolls.
  */
 export function RankedList({ view }: { view: PeriodView }) {
-  const { data, country, toggleCountry, measure } = useTroopsState();
+  const { data, yi, country, toggleCountry, measure } = useTroopsState();
   const places = data.payload.places;
   const [pick, setPick] = useState<number | null>(null);
   const only = measure === 0 ? pick : null;
+  // Change in the shown figure from the previous year, only where the two years compare like-for-like (no column otherwise).
+  const prior = useMemo(() => priorPeriodView(data, measure, yi), [data, measure, yi]);
+  const prevOf = useMemo(() => new Map((prior?.ranked ?? []).map((r) => [r.place, r])), [prior]);
+  const shown = (r: { value: number; branches: number[] }) => (only !== null ? r.branches[only] : r.value);
   const scaleMax = Math.max(1, ...view.ranked.map((r) => (only !== null ? r.branches[only] : r.value)));
   const suppressedRow = (p: number): StackedRowData => ({ id: String(p), label: places[p].name, segments: [], total: "n/r", selected: p === country, dimmed: country >= 0 && p !== country });
   const rows: StackedRowData[] = [
@@ -31,6 +35,7 @@ export function RankedList({ view }: { view: PeriodView }) {
           ? [...r.branches.map((v, k) => ({ value: v, color: branchColor(k), title: `${BRANCH_NAMES[k]}: ${formatCount(v)}` })), ...(showRest(r.rest, r.value) ? [{ value: r.rest, color: NO_SPLIT, title: "No branch split published" }] : [])]
           : [{ value: r.value, color: branchColor(measure - 1) }],
       total: formatCount(only !== null ? r.branches[only] : r.value),
+      delta: prior ? formatCountChange(shown(r) - (prevOf.get(r.place) ? shown(prevOf.get(r.place)!) : 0)) : undefined,
       selected: r.place === country,
       dimmed: country >= 0 && r.place !== country,
     })),

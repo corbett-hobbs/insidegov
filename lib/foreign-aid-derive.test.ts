@@ -12,12 +12,14 @@ import {
   countryValue,
   decodeAid,
   formatAidAxis,
+  formatAidChange,
   formatAidMoney,
   latestCompleteFiscalYear,
   militaryShareAvailable,
   niceDollarTicks,
   nonCountryValue,
   rankCountries,
+  slotDeltaVsPrior,
   spendingByYear,
   topRecipientsByYear,
   topRuns,
@@ -184,5 +186,25 @@ describe("formatting", () => {
     const k = niceDollarTicks(80_000);
     expect(k.top).toBeGreaterThanOrEqual(80_000);
     expect(k.top).toBeLessThan(200_000);
+  });
+});
+
+describe("change column", () => {
+  it("formats a dollar change with an arrow, and a dash for none", () => {
+    expect(formatAidChange(3_500_000_000)).toBe("▲ $3.5B");
+    expect(formatAidChange(-310_000)).toBe("▼ $310K");
+    expect(formatAidChange(0)).toBe("–");
+    expect(formatAidChange(null)).toBe("–");
+  });
+  it("gives each ranked country its change from the prior full year, and a slot's change matches the total's when summed", () => {
+    const fy = 2020;
+    const ranked = rankCountries(d, fy, -1);
+    expect(ranked.every((r) => r.delta !== null)).toBe(true);
+    const r = ranked[0];
+    const slots = r.slots.map((_, k) => slotDeltaVsPrior(d, fy, r.ci, -1, r.slots, k) as number);
+    expect(slots.reduce((a, b) => a + b, 0)).toBeCloseTo(r.delta as number, 0);
+  });
+  it("has no change for the first year", () => {
+    expect(rankCountries(d, d.payload.years[0], -1).every((r) => r.delta === null)).toBe(true);
   });
 });
