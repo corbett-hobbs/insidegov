@@ -86,11 +86,13 @@ export function SiteSearch() {
 
   return (
     <div ref={rootRef} className="ml-auto min-w-0 self-center pl-2 pr-4 md:relative md:px-0">
-      <div className="flex h-8 w-48 items-center gap-2 rounded-md border border-line-strong bg-surface-raised px-2.5 text-ink focus-within:border-accent md:h-9 md:w-60">
+      <div className="flex h-7 w-40 items-center gap-2 rounded-md border border-line-strong bg-surface-raised px-2.5 text-ink focus-within:border-accent md:h-9 md:w-60">
         <svg aria-hidden width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" className="flex-none text-ink-faint">
           <circle cx="7" cy="7" r="5" />
           <path d="M11 11l4 4" />
         </svg>
+        {/* Below md the input stays 16px (iOS zooms the page on focus under that) and is scaled to 14px. */}
+        <div className="min-w-0 flex-1 overflow-hidden md:overflow-visible">
         <input
           ref={inputRef}
           type="text"
@@ -113,8 +115,9 @@ export function SiteSearch() {
             setOpen(true);
           }}
           onKeyDown={onInputKey}
-          className="min-w-0 flex-1 bg-transparent text-base md:text-[0.85rem] placeholder:text-ink-faint focus:outline-none"
+          className="w-[114.3%] origin-left scale-[0.875] bg-transparent text-base placeholder:text-ink-faint focus:outline-none md:w-full md:scale-100 md:text-[0.85rem]"
         />
+        </div>
         <kbd aria-hidden className="hidden rounded border border-line px-1 font-mono text-[0.65rem] text-ink-faint md:inline">
           /
         </kbd>
