@@ -1,5 +1,6 @@
 import { slotPosition } from "./immigration-chart";
 import type { RefugeeMarker } from "./refugee-types";
+import { shortCountryName } from "./trade-names";
 
 /**
  * Pure geometry for the refugee cards (`components/immigration/Refugee*`): the ceiling chart's axis and numbered rules, the
@@ -87,12 +88,17 @@ export interface SpanLabel {
 }
 
 /**
- * A run's label: the name when it fits across the span, else the code, else the name (or the code, if the name is long)
- * slanted up and to the right, at any width: a label that does not fit is never dropped (ARCHITECTURE_MAP rule 10). `narrow`
- * (a phone-width chart) prefers slanting a short name to a three-letter code.
+ * A run's label: the full name when it fits across the span, else the country's short form ("DRC", "S. Africa") when it has
+ * one and it fits, else the three-letter ISO code, else the short form, the name (if short) or the code slanted up and to the
+ * right, at any width: a label that does not fit is never dropped (ARCHITECTURE_MAP rule 10). `narrow` (a phone-width chart)
+ * prefers slanting a short name to a three-letter code. A country with a short form never falls back to its ISO code, which
+ * reads worse ("ZAF" for South Africa).
  */
 export function spanLabel(name: string, code: string, widthPx: number, narrow: boolean): SpanLabel {
-  if (widthPx >= name.length * 7.2 + 14) return { flat: name, slant: "" };
-  if (widthPx >= 34 && !(narrow && name.length <= 9)) return { flat: code, slant: "" };
-  return { flat: "", slant: name.length <= 9 ? name : code };
+  const fits = (text: string) => widthPx >= text.length * 7.2 + 14;
+  const short = shortCountryName(code);
+  if (fits(name)) return { flat: name, slant: "" };
+  if (short && fits(short)) return { flat: short, slant: "" };
+  if (!short && widthPx >= 34 && !(narrow && name.length <= 9)) return { flat: code, slant: "" };
+  return { flat: "", slant: short ?? (name.length <= 9 ? name : code) };
 }

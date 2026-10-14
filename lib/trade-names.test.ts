@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { displayCountryName } from "./trade-names";
+import { displayCountryName, shortCountryName } from "./trade-names";
 
 describe("displayCountryName", () => {
   it("replaces legal qualifiers and passes everything else through", () => {
@@ -12,7 +12,15 @@ describe("displayCountryName", () => {
     const rows = JSON.parse(readFileSync("pipeline/output/countries.json", "utf8")) as { country_code: string; name: string; is_aggregate: boolean }[];
     for (const r of rows.filter((x) => !x.is_aggregate)) {
       const shown = displayCountryName(r.country_code, r.name);
-      expect(shown, r.country_code).not.toMatch(/Republic of|formerly|administered by|, except|Federal Republic|\(former\)/);
+      // The two Congos are the exception: "Republic of the Congo" and "Democratic Republic of the Congo" are the names people use.
+      const checked = shown.replace(/^(?:Democratic )?Republic of the Congo$/, "Congo");
+      expect(checked, r.country_code).not.toMatch(/Republic of|formerly|administered by|, except|Federal Republic|\(former\)/);
     }
+  });
+  it("names the two Congos in full and gives the larger a short form", () => {
+    expect(displayCountryName("COD", "Congo (Kinshasa)")).toBe("Democratic Republic of the Congo");
+    expect(displayCountryName("COG", "Congo (Brazzaville)")).toBe("Republic of the Congo");
+    expect(shortCountryName("COD")).toBe("DRC");
+    expect(shortCountryName("CAN")).toBeUndefined();
   });
 });
