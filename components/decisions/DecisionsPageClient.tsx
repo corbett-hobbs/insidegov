@@ -25,7 +25,7 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Supreme Court · Decisions" title="How Does the Supreme Court Decide?">
           <p>
-            The Ideology page shows where each justice sits; this page shows what the Court does with its cases. Every case argued since {first} is tallied by how many justices dissented, so you can watch the docket shrink, unanimity rise and fall, and the 5–4 decision become more or less common. Narrow the years with the slider or the presidents under it, or pick an issue area, a vote or a term in the charts; the list at the bottom names every case that matches.
+            Every case the Supreme Court has argued since {first}, sorted by how many justices dissented. How often the Court speaks with one voice, and how often a ruling turns on a single vote, shows how much the law can shift with one seat.
           </p>
           <JumpToCases />
           <HowToRead>

@@ -22,6 +22,7 @@ import { JusticeStrip } from "./JusticeStrip";
 import { PresidentRows, type PresidentSort } from "./PresidentRows";
 import { JusticeTrajectory } from "./JusticeTrajectory";
 import { PageHeader } from "@/components/PageHeader";
+import { HowToRead } from "@/components/HowToRead";
 import { MethodologyNote } from "@/components/MethodologyNote";
 
 const PLAY_INTERVAL_MS = 220;
@@ -32,8 +33,8 @@ const SORTS = [
 ] as const;
 
 // PLACEHOLDER COPY — every string below awaiting Corby's edit.
-const introFor = (first: number, last: number) =>
-  `Martin–Quinn scores estimate each justice’s ideology from how they vote in divided cases: justices who vote alike land close together, and a justice’s position is allowed to move from one term to the next. Pick a term to see who sat on the Court, which presidents appointed them, and how far each one has moved since. The data run from the ${first} term through the ${last} term.`;
+const introFor = (first: number) =>
+  `Where each justice sits on a liberal–conservative scale, every term since ${first}. One seat can tip the Court’s majority, so who holds it, who appointed them and how far they drift shapes how the country’s biggest cases come out.`;
 
 export function CourtExplorer({ data }: { data: CourtPayload }) {
   const { firstTerm, lastTerm } = data;
@@ -141,7 +142,12 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader title="How Does the Supreme Court Lean?">
-          <p>{introFor(firstTerm, lastTerm)}</p>
+          <p>{introFor(firstTerm)}</p>
+          <HowToRead>
+            <p>
+              Martin&ndash;Quinn scores estimate each justice&rsquo;s ideology from how they vote in divided cases: justices who vote alike land close together, and a justice&rsquo;s position can move from one term to the next. The data run from the {firstTerm} term through the {lastTerm} term. Pick a term to see who sat on the Court and which presidents appointed them.
+            </p>
+          </HowToRead>
         </PageHeader>
 
         {/* Same card-height mechanism as the Congress explorer: the grid row is

@@ -35,7 +35,7 @@ export function DemographicsPageClient({ data }: { data: DemographicsPayload }) 
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Demographics" title="Who Serves in Congress?">
           <p>
-            How old are the people who hold seats in Congress, how many of them are women, and how long have they been there? These charts follow every voting member of each Congress since 1933 and show how those answers have changed over time. Use the chamber switch to compare the House and Senate, and the years slider or the presidential terms under it to zoom in.
+            The age, gender and tenure of every voting member of Congress since 1933. Who holds the seats shapes which questions Congress takes up, and these charts show how fast, or how slowly, that has changed.
           </p>
           <HowToRead>
             <p>
