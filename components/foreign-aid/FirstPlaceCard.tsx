@@ -57,7 +57,7 @@ export function FirstPlaceCard() {
     const t = data.payload.terms.find((x) => years[i].fy >= x.fromFy && years[i].fy <= x.toFy);
     return t ? { id: t.termId, last: t.last, president: t.president, party: t.party } : null;
   });
-  const bw = Math.min(Math.max(3, step * 0.62), 40);
+  const bw = Math.min(Math.max(3, step * 0.72), 40);
 
   const indexAt = (e: { clientX: number }) => {
     const r = svgRef.current!.getBoundingClientRect();

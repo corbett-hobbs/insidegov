@@ -67,7 +67,7 @@ export function TroopsFirstPlaceCard() {
     const t = data.payload.terms[allYears[years[i].yi].term];
     return t ? { id: t.termId, last: t.last, president: t.president, party: t.party } : null;
   });
-  const bw = Math.min(Math.max(3, step * 0.62), 40);
+  const bw = Math.min(Math.max(3, step * 0.72), 40);
   const partial = (i: number) => allYears[range[0] + i].partial;
   const estimate = (i: number) => periods[allYears[range[0] + i].period].estimate;
 
