@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Immigration cards — mockup v5</title>
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--surface-raised:#f7f8fa;--ink:#1a2233;--ink-muted:#5b6472;--ink-faint:#8890a0;--line:#d7dce3;--line-strong:#b9c1cc;--accent:#5c4b7a;--dem:#3a66c2;--rep:#c24a3a;--oth:#83817d;
+ --c-conv:#3b2f55;--c-pend:#8d78b5;--c-other:#d3cce0;--c-notconv:#b9bdc6;--ag-ice:#1f8a7a;--ag-cbp:#d08a1c;--ag-none:#9a9893}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#14161c;--surface:#1b1e26;--surface-raised:#20242e;--ink:#e9eaee;--ink-muted:#9aa2af;--ink-faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--accent:#9b84c7;--dem:#4c7fdb;--rep:#d96a56;--oth:#a5a39c;--c-conv:#cdbdf0;--c-pend:#8d78b5;--c-other:#4a4458;--c-notconv:#5b606c;--ag-ice:#3fb8a5;--ag-cbp:#e8a63c;--ag-none:#7c7a76}}
+:root[data-theme=dark]{--bg:#14161c;--surface:#1b1e26;--surface-raised:#20242e;--ink:#e9eaee;--ink-muted:#9aa2af;--ink-faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--accent:#9b84c7;--dem:#4c7fdb;--rep:#d96a56;--oth:#a5a39c;--c-conv:#cdbdf0;--c-pend:#8d78b5;--c-other:#4a4458;--c-notconv:#5b606c;--ag-ice:#3fb8a5;--ag-cbp:#e8a63c;--ag-none:#7c7a76}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,sans-serif}
+.mono{font-family:ui-monospace,Menlo,monospace}
+.serif{font-family:Georgia,"Times New Roman",serif}
+.mockbar{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--line-strong);padding:8px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.8rem}
+.mockbar b{color:var(--accent)}
+.pill{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 12px;font:inherit;cursor:pointer}
+.pill[aria-pressed=true]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+main{max-width:1180px;margin:0 auto;padding:20px 16px 64px;display:flex;flex-direction:column;gap:24px}
+@media(max-width:639px){.mockbar{position:static}}
+@media(min-width:640px){main{padding-left:24px;padding-right:24px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.35rem 1.35rem 1.1rem;position:relative}
+.card h2{margin:0;font:500 1.05rem Georgia,serif}
+.lede{margin:4px 0 14px;font-size:.82rem;line-height:1.5;color:var(--ink-muted)}
+.ghost{border-style:dashed;color:var(--ink-faint);text-align:center;padding:14px;font-size:.8rem}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:.7rem;color:var(--ink-muted);margin:2px 0 6px}
+.legend span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.sw{width:10px;height:10px;display:inline-block;border-radius:2px}
+details{margin-top:10px;font-size:.8rem;color:var(--ink-muted)}
+summary{cursor:pointer;color:var(--accent);font-weight:500}
+details p{margin:6px 0 0;line-height:1.55}
+.cap{font-size:.74rem;font-weight:600;color:var(--ink);margin:10px 0 0}
+.cap span{font-weight:400;color:var(--ink-muted)}
+.tip{position:fixed;z-index:60;pointer-events:none;background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 6px 20px rgba(26,34,51,.16);padding:8px 11px;font-size:.78rem;max-width:260px;display:none}
+.tip .h{font:600 .82rem ui-monospace,Menlo,monospace}
+.tip .m{color:var(--ink-muted)}
+.note{background:var(--surface-raised);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--ink-muted)}
+.note b{color:var(--ink)}
+.hide{display:none!important}
+.srcline{margin:0;font-size:.8rem;line-height:1.6;color:var(--ink-muted)}
+h1{margin:0;font:500 2rem/1.15 Georgia,serif}
+.intro{margin:10px 0 0;font:1.05rem/1.55 Georgia,serif}
+.seg{display:inline-flex;gap:6px}
+</style>
+</head>
+<body>
+<div class="mockbar">
+  <b>MOCKUP v5</b> <span style="margin-left:auto">Theme:</span>
+  <button class="pill" id="tl" aria-pressed="false">Light</button>
+  <button class="pill" id="td" aria-pressed="false">Dark</button>
+  <span style="flex-basis:100%;color:var(--ink-faint)">Real values from <code>enforcement_series.json</code>. Click any bar to select a fiscal year (it highlights in every chart). Fiscal-year window shown: FY2003–FY2025 (the real cards follow the filter bar).</span>
+</div>
+<main>
+  <div>
+    <div style="font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)">Presidency · Immigration</div>
+    <h1>How Many People Does ICE Remove?</h1>
+    <p class="intro" id="intro"></p>
+  </div>
+  <section class="card" id="rem">
+    <h2>Removals and detention by fiscal year</h2>
+    <p class="lede">ICE’s headline removals figure for each year, split by which agency first apprehended the person: ICE’s own officers, or Border Patrol (who handed the person to ICE to remove). The line is the average number of people in ICE detention on a given day. FY2025 is preliminary.</p>
+    <div class="legend" id="lgr"></div>
+    <div id="pr"></div>
+    <details><summary>Data notes</summary>
+      <p>ICE only: Border Patrol’s own actions, including Title 42 expulsions, are not counted. Every removal here was carried out by ICE; the colours show who first apprehended the person (ICE’s “arresting agency”): ICE officers in the interior, or Border Patrol at the border, who handed the person to ICE. The Border Patrol part is ICE’s count of its own removals, not CBP’s figures. From FY2007 the count includes returns (voluntary returns, voluntary departures and withdrawals) as well as removals under an order, in both colours; before that it is removals only (hatched). ICE reports the split FY2008–FY2024; earlier years and FY2025 have a total only (grey). The detention line is a different kind of number: an average of the people held each day, not a count of people over the year, so it is not part of the bar total. ICE published it from FY2018; earlier years are blank. FY2025 (removals and detention) comes from a DHS budget document and is preliminary. Counts lock around October 5, so late closures roll into the next year.</p>
+    </details>
+  </section>
+
+  <!-- CRIMINAL HISTORY (both options) -->
+  <section class="card" id="crim">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:flex-start">
+      <h2>Criminal history of those removed</h2>
+      
+    </div>
+    <p class="lede" id="crimLede"></p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 12px;align-items:center">
+      <div class="seg" id="agTog"><button class="pill" data-m="all" aria-pressed="true">All removals</button><button class="pill" data-m="ice" aria-pressed="false">Arrested by ICE</button><button class="pill" data-m="cbp" aria-pressed="false">Arrested by Border Patrol</button></div>
+      <div class="seg" id="crimTog"><button class="pill" data-m="counts" aria-pressed="true">Counts</button><button class="pill" data-m="share" aria-pressed="false">Share</button></div>
+    </div>
+    <div class="legend" id="lgc"></div>
+    <div id="pc"></div>
+    <details><summary>Data notes</summary>
+      <p>Criminal history is as recorded in ICE systems at the time of the enforcement action. Convictions include immigration crimes, and “no known record” means nothing is recorded in ICE systems; it is not a finding about the person. People who have just crossed the border usually have no U.S. record, and nearly all FY2023–24 “no known record” removals were people Border Patrol handed to ICE. From FY2017 you can view removals by who first apprehended the person; the Border Patrol view is the year’s total minus ICE’s own arrests, so it is derived, not printed by ICE. Through FY2015 ICE reports only convicted versus not convicted, and for FY2013–16 it prints no split by agency. FY2025 comes from a DHS budget document, is preliminary, and gives one combined convicted-or-pending figure with no further split. Title 42 expulsions are not counted as removals. Years with no ICE figure are blank, not zero.</p>
+    </details>
+  </section>
+
+  <p class="srcline">Source: U.S. Immigration and Customs Enforcement removal statistics and annual enforcement reports, with FY2025 from the DHS FY2027 ICE budget overview. One agency, one definition: ICE only, never combined with Border Patrol or DHS-wide counts.</p>
+</main>
+<div class="tip" id="tip"></div>
+
+<script>
+const DATA = [{"period":2003,"metric":"removals","arresting_agency":null,"criminality":null,"value":157080,"status":"final"},{"period":2004,"metric":"removals","arresting_agency":null,"criminality":null,"value":175106,"status":"final"},{"period":2005,"metric":"removals","arresting_agency":null,"criminality":null,"value":180189,"status":"final"},{"period":2006,"metric":"removals","arresting_agency":null,"criminality":null,"value":207776,"status":"final"},{"period":2007,"metric":"removals","arresting_agency":null,"criminality":null,"value":291060,"status":"final"},{"period":2008,"metric":"removals","arresting_agency":null,"criminality":null,"value":369221,"status":"final"},{"period":2009,"metric":"removals","arresting_agency":null,"criminality":null,"value":389834,"status":"final"},{"period":2010,"metric":"removals","arresting_agency":null,"criminality":null,"value":392862,"status":"final"},{"period":2011,"metric":"removals","arresting_agency":null,"criminality":null,"value":396906,"status":"final"},{"period":2012,"metric":"removals","arresting_agency":null,"criminality":null,"value":409849,"status":"final"},{"period":2013,"metric":"removals","arresting_agency":null,"criminality":null,"value":368644,"status":"final"},{"period":2014,"metric":"removals","arresting_agency":null,"criminality":null,"value":315943,"status":"final"},{"period":2015,"metric":"removals","arresting_agency":null,"criminality":null,"value":235413,"status":"final"},{"period":2016,"metric":"removals","arresting_agency":null,"criminality":null,"value":240255,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":null,"criminality":null,"value":226119,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":null,"criminality":null,"value":256085,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":null,"criminality":null,"value":267258,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":null,"criminality":null,"value":185884,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":null,"criminality":null,"value":59011,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":null,"criminality":null,"value":72177,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":null,"criminality":null,"value":142580,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":null,"criminality":null,"value":271484,"status":"final"},{"period":2025,"metric":"removals","arresting_agency":null,"criminality":null,"value":442637,"status":"preliminary"},{"period":2013,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":216810,"status":"final"},{"period":2014,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":177960,"status":"final"},{"period":2015,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":139368,"status":"final"},{"period":2016,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":138669,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":127699,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":145262,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":150141,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":103762,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":39149,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":38447,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":57021,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":null,"criminality":"convicted","value":68266,"status":"final"},{"period":2013,"metric":"removals","arresting_agency":null,"criminality":"not_convicted","value":151834,"status":"final"},{"period":2014,"metric":"removals","arresting_agency":null,"criminality":"not_convicted","value":137983,"status":"final"},{"period":2015,"metric":"removals","arresting_agency":null,"criminality":"not_convicted","value":96045,"status":"final"},{"period":2016,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":12163,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":16374,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":22796,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":23658,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":15187,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":5784,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":5649,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":12881,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":null,"criminality":"pending_charges","value":20497,"status":"final"},{"period":2016,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":89423,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":82046,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":88027,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":93459,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":66935,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":14078,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":28081,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":72678,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":null,"criminality":"other_immigration_violator","value":182721,"status":"final"},{"period":2025,"metric":"removals","arresting_agency":null,"criminality":"convicted_or_pending","value":166939,"status":"preliminary"},{"period":2008,"metric":"removals","arresting_agency":"ice","criminality":null,"value":234770,"status":"final"},{"period":2009,"metric":"removals","arresting_agency":"ice","criminality":null,"value":237941,"status":"final"},{"period":2010,"metric":"removals","arresting_agency":"ice","criminality":null,"value":229235,"status":"final"},{"period":2011,"metric":"removals","arresting_agency":"ice","criminality":null,"value":223755,"status":"final"},{"period":2012,"metric":"removals","arresting_agency":"ice","criminality":null,"value":180970,"status":"final"},{"period":2013,"metric":"removals","arresting_agency":"ice","criminality":null,"value":133551,"status":"final"},{"period":2014,"metric":"removals","arresting_agency":"ice","criminality":null,"value":102224,"status":"final"},{"period":2015,"metric":"removals","arresting_agency":"ice","criminality":null,"value":69478,"status":"final"},{"period":2016,"metric":"removals","arresting_agency":"ice","criminality":null,"value":65332,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":"ice","criminality":null,"value":81603,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":"ice","criminality":null,"value":95360,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":"ice","criminality":null,"value":85958,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":"ice","criminality":null,"value":62739,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":"ice","criminality":null,"value":31557,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":"ice","criminality":null,"value":28204,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":"ice","criminality":null,"value":44255,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":"ice","criminality":null,"value":47732,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":67859,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":72627,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":64991,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":48606,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":26210,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":23013,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":34193,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":"ice","criminality":"convicted","value":36279,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":7911,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":14114,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":13498,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":9171,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":3780,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":3719,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":7522,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":"ice","criminality":"pending_charges","value":8028,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":5833,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":8619,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":7469,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":4962,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":1567,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":1472,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":2540,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":"ice","criminality":"other_immigration_violator","value":3425,"status":"final"},{"period":2008,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":134451,"status":"final"},{"period":2009,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":151893,"status":"final"},{"period":2010,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":163627,"status":"final"},{"period":2011,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":173151,"status":"final"},{"period":2012,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":228879,"status":"final"},{"period":2013,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":235093,"status":"final"},{"period":2014,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":213719,"status":"final"},{"period":2015,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":165935,"status":"final"},{"period":2016,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":174923,"status":"final"},{"period":2017,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":144516,"status":"final"},{"period":2018,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":160725,"status":"final"},{"period":2019,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":181300,"status":"final"},{"period":2020,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":123145,"status":"final"},{"period":2021,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":27454,"status":"final"},{"period":2022,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":43973,"status":"final"},{"period":2023,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":98325,"status":"final"},{"period":2024,"metric":"removals","arresting_agency":"cbp","criminality":null,"value":223752,"status":"final"},{"period":2016,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":110104,"status":"final"},{"period":2017,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":143470,"status":"final"},{"period":2018,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":158581,"status":"final"},{"period":2019,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":143099,"status":"final"},{"period":2020,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":103603,"status":"final"},{"period":2023,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":170590,"status":"final"},{"period":2024,"metric":"administrative_arrests","arresting_agency":null,"criminality":null,"value":113431,"status":"final"},{"period":2016,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":94751,"status":"final"},{"period":2017,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":105736,"status":"final"},{"period":2018,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":105140,"status":"final"},{"period":2019,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":92108,"status":"final"},{"period":2020,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":70607,"status":"final"},{"period":2021,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":36619,"status":"final"},{"period":2022,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":36322,"status":"final"},{"period":2023,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":53766,"status":"final"},{"period":2024,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted","value":57688,"status":"final"},{"period":2016,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":6267,"status":"final"},{"period":2017,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":22256,"status":"final"},{"period":2018,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":32977,"status":"final"},{"period":2019,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":31020,"status":"final"},{"period":2020,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":22454,"status":"final"},{"period":2021,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":8813,"status":"final"},{"period":2022,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":10074,"status":"final"},{"period":2023,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":20056,"status":"final"},{"period":2024,"metric":"administrative_arrests","arresting_agency":null,"criminality":"pending_charges","value":23624,"status":"final"},{"period":2016,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":9086,"status":"final"},{"period":2017,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":15478,"status":"final"},{"period":2018,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":20464,"status":"final"},{"period":2019,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":19971,"status":"final"},{"period":2020,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":10542,"status":"final"},{"period":2021,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":28650,"status":"final"},{"period":2022,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":96354,"status":"final"},{"period":2023,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":96768,"status":"final"},{"period":2024,"metric":"administrative_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":32119,"status":"final"},{"period":2025,"metric":"administrative_arrests","arresting_agency":null,"criminality":"convicted_or_pending","value":167651,"status":"preliminary"},{"period":2016,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":30348,"status":"final"},{"period":2017,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":40066,"status":"final"},{"period":2018,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":40536,"status":"final"},{"period":2019,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":35666,"status":"final"},{"period":2020,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":23932,"status":"final"},{"period":2021,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":25993,"status":"final"},{"period":2022,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":85343,"status":"final"},{"period":2023,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":91497,"status":"final"},{"period":2024,"metric":"at_large_arrests","arresting_agency":null,"criminality":null,"value":33242,"status":"final"},{"period":2016,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":24850,"status":"final"},{"period":2017,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":26466,"status":"final"},{"period":2018,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":23124,"status":"final"},{"period":2019,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":19773,"status":"final"},{"period":2020,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":13303,"status":"final"},{"period":2021,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":6249,"status":"final"},{"period":2022,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":6127,"status":"final"},{"period":2023,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":9664,"status":"final"},{"period":2024,"metric":"at_large_arrests","arresting_agency":null,"criminality":"convicted","value":11457,"status":"final"},{"period":2016,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":1528,"status":"final"},{"period":2017,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":4776,"status":"final"},{"period":2018,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":6425,"status":"final"},{"period":2019,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":5648,"status":"final"},{"period":2020,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":4034,"status":"final"},{"period":2021,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":1402,"status":"final"},{"period":2022,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":1754,"status":"final"},{"period":2023,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":2712,"status":"final"},{"period":2024,"metric":"at_large_arrests","arresting_agency":null,"criminality":"pending_charges","value":3394,"status":"final"},{"period":2016,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":3970,"status":"final"},{"period":2017,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":8824,"status":"final"},{"period":2018,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":10987,"status":"final"},{"period":2019,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":10245,"status":"final"},{"period":2020,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":6595,"status":"final"},{"period":2021,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":18342,"status":"final"},{"period":2022,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":77462,"status":"final"},{"period":2023,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":79121,"status":"final"},{"period":2024,"metric":"at_large_arrests","arresting_agency":null,"criminality":"other_immigration_violator","value":18391,"status":"final"},{"period":2016,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":86026,"status":"final"},{"period":2017,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":142356,"status":"final"},{"period":2018,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":177147,"status":"final"},{"period":2019,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":165487,"status":"final"},{"period":2020,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":122233,"status":"final"},{"period":2021,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":65940,"status":"final"},{"period":2022,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":78829,"status":"final"},{"period":2023,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":125358,"status":"final"},{"period":2024,"metric":"detainers_issued","arresting_agency":null,"criminality":null,"value":149764,"status":"final"},{"period":2016,"metric":"initial_book_ins","arresting_agency":null,"criminality":null,"value":352882,"status":"final"},{"period":2017,"metric":"initial_book_ins","arresting_agency":null,"criminality":null,"value":323591,"status":"final"},{"period":2018,"metric":"initial_book_ins","arresting_agency":null,"criminality":null,"value":396448,"status":"final"},{"period":2019,"metric":"initial_book_ins","arresting_agency":null,"criminality":null,"value":510854,"status":"final"},{"period":2020,"metric":"initial_book_ins","arresting_agency":null,"criminality":null,"value":182869,"status":"final"},{"period":2016,"metric":"initial_book_ins","arresting_agency":"ice","criminality":null,"value":108372,"status":"final"},{"period":2017,"metric":"initial_book_ins","arresting_agency":"ice","criminality":null,"value":139553,"status":"final"},{"period":2018,"metric":"initial_book_ins","arresting_agency":"ice","criminality":null,"value":153670,"status":"final"},{"period":2019,"metric":"initial_book_ins","arresting_agency":"ice","criminality":null,"value":137084,"status":"final"},{"period":2020,"metric":"initial_book_ins","arresting_agency":"ice","criminality":null,"value":99774,"status":"final"},{"period":2016,"metric":"initial_book_ins","arresting_agency":"cbp","criminality":null,"value":244510,"status":"final"},{"period":2017,"metric":"initial_book_ins","arresting_agency":"cbp","criminality":null,"value":184038,"status":"final"},{"period":2018,"metric":"initial_book_ins","arresting_agency":"cbp","criminality":null,"value":242778,"status":"final"},{"period":2019,"metric":"initial_book_ins","arresting_agency":"cbp","criminality":null,"value":373770,"status":"final"},{"period":2020,"metric":"initial_book_ins","arresting_agency":"cbp","criminality":null,"value":83095,"status":"final"},{"period":2018,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":42188,"status":"final"},{"period":2019,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":50165,"status":"final"},{"period":2020,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":33724,"status":"final"},{"period":2021,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":19461,"status":"final"},{"period":2022,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":22630,"status":"final"},{"period":2023,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":28289,"status":"final"},{"period":2024,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":37722,"status":"final"},{"period":2025,"metric":"detention_adp","arresting_agency":null,"criminality":null,"value":48706,"status":"preliminary"},{"period":2018,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":22969,"status":"final"},{"period":2019,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":20115,"status":"final"},{"period":2020,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":16626,"status":"final"},{"period":2021,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":7441,"status":"final"},{"period":2022,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":5694,"status":"final"},{"period":2023,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":9377,"status":"final"},{"period":2024,"metric":"detention_adp","arresting_agency":"ice","criminality":null,"value":12232,"status":"final"},{"period":2018,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":19219,"status":"final"},{"period":2019,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":30050,"status":"final"},{"period":2020,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":17098,"status":"final"},{"period":2021,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":12020,"status":"final"},{"period":2022,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":16936,"status":"final"},{"period":2023,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":18912,"status":"final"},{"period":2024,"metric":"detention_adp","arresting_agency":"cbp","criminality":null,"value":25489,"status":"final"}];
+const PARTY = {"2003":["R","Bush",false],"2004":["R","Bush",false],"2005":["R","Bush",false],"2006":["R","Bush",false],"2007":["R","Bush",false],"2008":["R","Bush",false],"2009":["D","Obama",true],"2010":["D","Obama",false],"2011":["D","Obama",false],"2012":["D","Obama",false],"2013":["D","Obama",false],"2014":["D","Obama",false],"2015":["D","Obama",false],"2016":["D","Obama",false],"2017":["R","Trump",true],"2018":["R","Trump",false],"2019":["R","Trump",false],"2020":["R","Trump",false],"2021":["D","Biden",true],"2022":["D","Biden",false],"2023":["D","Biden",false],"2024":["D","Biden",false],"2025":["R","Trump",true]};
+const FY0=2003, FY1=2025, FYS=[];for(let f=FY0;f<=FY1;f++)FYS.push(f);
+const S=(metric,ag=null,cr=null)=>{const o={};for(const r of DATA)if(r.metric===metric&&r.arresting_agency===ag&&r.criminality===cr)o[r.period]={v:r.value,p:r.status==='preliminary'};return o};
+const D={
+ arrests:S('administrative_arrests'), atlarge:S('at_large_arrests'), detainers:S('detainers_issued'), adp:S('detention_adp'),
+ adpICE:S('detention_adp','ice'), adpCBP:S('detention_adp','cbp'), remICE:S('removals','ice'), remCBP:S('removals','cbp'), remTot:S('removals'),
+ rem:{conv:S('removals',null,'convicted'),pend:S('removals',null,'pending_charges'),oth:S('removals',null,'other_immigration_violator'),nc:S('removals',null,'not_convicted'),cp:S('removals',null,'convicted_or_pending')},
+ arr:{conv:S('administrative_arrests',null,'convicted'),pend:S('administrative_arrests',null,'pending_charges'),oth:S('administrative_arrests',null,'other_immigration_violator'),cp:S('administrative_arrests',null,'convicted_or_pending')},
+};
+let RIGHT=6, selected=2019, crimMode='counts', agMode='all';
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const pc=fy=>PARTY[fy][0]==='D'?'var(--dem)':'var(--rep)';
+const pt=fy=>`color-mix(in srgb, ${pc(fy)} 38%, var(--surface))`; // light tint of the president's colour
+const fmt=n=>n.toLocaleString('en-US');
+const comp=n=>n>=1e6?(n/1e6).toFixed(1)+'M':(n>=1000?Math.round(n/1000)+'k':String(n));
+const tip=document.getElementById('tip');
+function showTip(e,html){tip.innerHTML=html;tip.style.display='block';const w=tip.offsetWidth;let x=e.clientX+14;if(x+w>innerWidth-8)x=e.clientX-w-14;tip.style.left=Math.max(8,x)+'px';tip.style.top=Math.min(innerHeight-tip.offsetHeight-8,e.clientY+14)+'px'}
+const hideTip=()=>tip.style.display='none';
+
+/* niceMax for a panel */
+function niceMax(max){const steps=[1,1.5,2,2.5,3,4,5,10];const mag=Math.pow(10,Math.floor(Math.log10(max)));for(const s of steps)if(s*mag>=max*1.08)return s*mag;return 10*mag}
+
+/* A panel: bars per FY slot. spec: {title, sub, h, series:[{get(fy)->{v,p}|undefined, color(fy), }], stacked:bool, labelFys, tipFn(fy)} */
+function panelSVG(W,spec,opts={}){
+  const left=44,right=RIGHT,top=spec.top??16,H=spec.h,plotW=W-left-right,slotW=plotW/FYS.length,barW=Math.max(3,Math.min(34,slotW-4));
+  const base=top+H;
+  const totalAt=fy=>{let t=0,any=false;for(const s of spec.layers){const d=s.get(fy);if(d){t+=d.v;any=true}}return any?t:null};
+  const max=niceMax(spec.max??Math.max(...FYS.map(f=>totalAt(f)??0)));
+  const y=v=>base-(v/max)*H;
+  let g='';
+  const ticks=[0,max/2,max];
+  for(const t of ticks){g+=`<line x1="${left}" x2="${W-right}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-width="1"/><text x="${left-6}" y="${y(t)+3.5}" text-anchor="end" font-size="10" fill="var(--ink-faint)" class="mono">${t===0?'0':comp(t)}</text>`}
+  FYS.forEach((fy,i)=>{
+    const x=left+i*slotW, bx=x+(slotW-barW)/2;
+    const sel=fy===selected;
+    g+=`<g class="slot" data-fy="${fy}" style="cursor:pointer">`;
+    g+=`<rect x="${x}" y="${top}" width="${slotW}" height="${H}" rx="2" fill="${sel?'var(--surface-raised)':'transparent'}" stroke="${sel?'var(--line-strong)':'none'}"/>`;
+    const tot=totalAt(fy);
+    if(tot===null){
+      if(spec.gapNote&&spec.gapNote(fy))g+=`<text transform="translate(${x+slotW/2+3},${base-6}) rotate(-90)" font-size="9.5" fill="var(--ink-faint)">${spec.gapNote(fy)}</text>`;
+    }else{
+      let acc=0;
+      spec.layers.forEach((s,li)=>{
+        const d=s.get(fy);if(!d)return;
+        const y0=y(acc+d.v),y1=y(acc);
+        const prelim=d.p;
+        g+=`<rect x="${bx}" y="${y0}" width="${barW}" height="${Math.max(0,y1-y0)}" fill="${(fy<2007&&s.color(fy)===AG.none)?'url(#hatchg)':s.color(fy)}" fill-opacity="${prelim?0.55:1}" ${prelim?'stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"':''}/>`;
+        acc+=d.v;
+      });
+      if(spec.labelFys?.includes(fy)){
+        const prelim=spec.layers.some(s=>s.get(fy)?.p);
+        const nearR=bx+barW/2>W-right-34;const lx=nearR?W-right:bx+barW/2;const anc=nearR?'end':'middle';
+        g+=`<text x="${lx}" y="${y(tot)-5}" text-anchor="${anc}" font-size="10" font-weight="600" fill="var(--ink)" class="mono">${slotW<30?comp(tot):fmt(tot)}</text>`;
+        if(prelim)g+=`<text x="${lx}" y="${y(tot)-16}" text-anchor="${anc}" font-size="9.5" fill="var(--ink-muted)">preliminary</text>`;
+      }
+    }
+    g+=`</g>`;
+  });
+  if(spec.overlay)g+=spec.overlay({left,slotW,top,H,base,W,right,max});
+  return {g,H:top+H,top,left,slotW};
+}
+/* x-axis: year labels + president band */
+function axisSVG(W,y0){
+  const left=44,right=RIGHT,plotW=W-left-right,slotW=plotW/FYS.length;
+  let g='';
+  const every=slotW>=30?1:slotW>=20?2:4;
+  FYS.forEach((fy,i)=>{
+    const lab=slotW>=30?String(fy):(every===4?(fy%4===3?String(fy):''):String(fy).slice(2));
+    if(lab){const b=fy===selected;g+=`<text x="${left+i*slotW+slotW/2}" y="${y0+13}" text-anchor="middle" font-size="10" class="mono" fill="${b?'var(--ink)':'var(--ink-muted)'}" font-weight="${b?700:400}">${lab}</text>`}
+  });
+  // term band
+  let i=0;const bandY=y0+22;
+  while(i<FYS.length){let j=i;while(j+1<FYS.length&&PARTY[FYS[j+1]][1]===PARTY[FYS[i]][1])j++;
+    const x=left+i*slotW,w=(j-i+1)*slotW,fy=FYS[i];const nm=PARTY[fy][1];
+    const lab=w>=nm.length*6.4+8?nm:(w>=34?nm.slice(0,4)+'.':(w>=18?nm[0]+nm[1]:nm[0]));
+    g+=`<rect x="${x+.5}" y="${bandY}" width="${w-1}" height="20" rx="2" fill="color-mix(in oklab, ${pc(fy)} 20%, var(--surface))"/><rect x="${x+.5}" y="${bandY}" width="${w-1}" height="2.5" fill="${pc(fy)}"/><text x="${x+w/2}" y="${bandY+15}" text-anchor="middle" font-size="11" fill="var(--ink)">${lab}</text>`;
+    i=j+1;}
+  return {g,H:bandY+24};
+}
+function panelCaption(t,s){return `<div class="cap">${t} <span>${s}</span></div>`}
+
+/* draw a stack of panels sharing one x-axis */
+function drawStack(el,panels,{band=true}={}){
+  const W=el.clientWidth||900;
+  RIGHT=panels[0].spec.right??6;
+  let html='';
+  panels.forEach((p,pi)=>{
+    const sp=p.spec;
+    const r=sp.custom?sp.custom(W):panelSVG(W,sp);
+    const showAxis=(pi===panels.length-1);
+    const ax=showAxis?axisSVG(W,r.H+4):{g:'',H:r.H+6};
+    const svgH=showAxis?ax.H+2:r.H+6;
+    // coverage-start label for empty lead slots
+    let lead='';
+    const first=sp.layers?FYS.find(f=>sp.layers.some(s=>s.get(f))):0;
+    if(first>FY0){const w=(first-FY0)*r.slotW;lead=`<text x="${r.left+w/2}" y="${r.top+sp.h/2}" text-anchor="middle" font-size="10.5" fill="var(--ink-faint)">${w>150?'no ICE figure before FY'+first:(w>70?'none before FY'+first:'')}</text>`}
+    html+=(sp.title?panelCaption(sp.title,sp.sub):'')+`<div style="margin:0 -12px"><svg viewBox="0 0 ${W} ${svgH}" width="100%" role="img" aria-label="${sp.title}" style="display:block;max-width:100%;height:auto"><defs><pattern id="hatchg" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="color-mix(in srgb, var(--ag-none) 30%, var(--surface))"/><line x1="0" y1="0" x2="0" y2="6" stroke-width="2.4" stroke="var(--ag-none)"/></pattern></defs>${r.g}${lead}${ax.g}</svg></div>`;
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.slot').forEach(s=>{
+    const fy=+s.dataset.fy;
+    s.addEventListener('click',()=>{selected=fy;renderAll()});
+    s.addEventListener('pointermove',e=>{const pnl=panels[[...el.querySelectorAll('svg')].indexOf(s.closest('svg'))];showTip(e,pnl.spec.tip(fy))});
+    s.addEventListener('pointerleave',hideTip);
+  });
+}
+const head=(fy,line2)=>`<div class="h">FY${fy}</div><div class="m">${PARTY[fy][1]}${PARTY[fy][2]?' (term changes in year)':''}</div>${line2}`;
+const row=(k,v)=>`<div style="display:flex;justify-content:space-between;gap:14px"><span class="m">${k}</span><b class="mono">${v}</b></div>`;
+const none=`<div class="m" style="margin-top:3px">No ICE figure for this year</div>`;
+const src=`<div class="m" style="margin-top:3px">ICE annual report</div>`;
+
+/* --- panel specs --- */
+const AG={ice:'var(--ag-ice)',cbp:'var(--ag-cbp)',none:'var(--ag-none)',all:'transparent'};
+let axMode='same';
+const RMAX=60000;
+const remPanel=()=>({spec:{title:'',sub:'',h:230,top:24,right:axMode==='own'?56:6,
+  layers:[
+   {get:f=>D.remICE[f],color:()=>AG.ice},
+   {get:f=>D.remCBP[f],color:()=>AG.cbp},
+   {get:f=>(D.remICE[f]?undefined:D.remTot[f]),color:()=>AG.none}],
+  labelFys:[2012,2021,2025],
+  overlay:c=>{
+    const rmax=axMode==='own'?RMAX:c.max;
+    const yy=v=>c.base-(v/rmax)*c.H, xx=fy=>c.left+(fy-FY0)*c.slotW+c.slotW/2;
+    const pts=FYS.filter(f=>D.adp[f]);
+    let g='<g style="pointer-events:none">';
+    if(axMode==='own'){
+      [0,RMAX/2,RMAX].forEach(t=>{g+=`<text x="${c.W-c.right+6}" y="${yy(t)+3.5}" font-size="10" fill="var(--ink)" class="mono">${t===0?'0':comp(t)}</text>`});
+      g+=`<text transform="translate(${c.W-8},${c.top+c.H/2}) rotate(90)" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)">avg. people detained per day</text>`;
+    }
+    const seg=(a,b,dash)=>`<line x1="${xx(a)}" y1="${yy(D.adp[a].v)}" x2="${xx(b)}" y2="${yy(D.adp[b].v)}" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" ${dash?'stroke-dasharray="4 4"':''}/>`;
+    for(let i=0;i<pts.length-1;i++)g+=seg(pts[i],pts[i+1],D.adp[pts[i+1]].p);
+    pts.forEach(f=>{const pr=D.adp[f].p;g+=`<circle cx="${xx(f)}" cy="${yy(D.adp[f].v)}" r="3.6" fill="${pr?'var(--surface)':'var(--ink)'}" stroke="var(--surface)" stroke-width="${pr?0:1.4}" ${pr?'style="stroke:var(--ink);stroke-width:2"':''}/>`});
+    // label first, peak and last points
+    [[2018,'below'],[2019,'above'],[2025,'below']].forEach(([f,pos])=>{const d=D.adp[f];if(!d)return;const x=Math.min(xx(f),c.W-c.right-14);g+=`<text x="${x}" y="${yy(d.v)+(pos==='above'?-9:17)}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)" class="mono" style="paint-order:stroke;stroke:var(--surface);stroke-width:3px">${comp(d.v)}</text>`});
+    return g+'</g>';
+  },
+  tip:fy=>{const a=D.remICE[fy],b=D.remCBP[fy],t=D.remTot[fy],d=D.adp[fy],dI=D.adpICE[fy],dC=D.adpCBP[fy];
+    const det=d?`<div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--line)">`+row('Avg. people detained per day',fmt(d.v))+(dI?row('  first arrested by ICE',fmt(dI.v))+row('  first arrested by Border Patrol',fmt(dC.v)):'')+(d.p?'<div class="m">Detention: preliminary</div>':'')+`</div>`:`<div class="m" style="margin-top:6px">No detention figure for this year</div>`;
+    if(a)return head(fy,row('Interior arrests (ICE)',fmt(a.v)+' · '+Math.round(a.v/t.v*100)+'%')+row('Border arrests (Border Patrol)',fmt(b.v)+' · '+Math.round(b.v/t.v*100)+'%')+row('Total removals',fmt(t.v))+det+src);
+    return head(fy,row('Total removals',fmt(t.v))+`<div class="m" style="margin-top:3px">${fy===2025?'Preliminary · DHS FY2027 budget overview. ':''}ICE reports no split by arresting agency for this year.</div>`+det)}}});
+const legendHTML=a=>a.map(([c,t])=>`<span><i class="sw" style="background:${c}"></i>${t}</span>`).join('');
+const presLegend=`<span><i class="sw" style="background:var(--rep)"></i><i class="sw" style="background:var(--dem)"></i>Bar colour: president in office for most of the year</span><span><i class="sw" style="background:transparent;border:1.2px dashed var(--ink)"></i>Preliminary</span>`;
+
+/* --- criminal history: per-year bar pairs (ICE-arrested | Border Patrol-arrested) --- */
+const CATS=[['conv','Convicted','var(--c-conv)'],['pend','Pending charges','var(--c-pend)'],['oth','No known record','var(--c-other)'],['nc','Not convicted (through FY2015)','var(--c-notconv)'],['cp','Convicted or pending (FY2025, no split)','var(--c-conv)']];
+const CR={all:{conv:S('removals',null,'convicted'),pend:S('removals',null,'pending_charges'),oth:S('removals',null,'other_immigration_violator'),nc:S('removals',null,'not_convicted'),cp:S('removals',null,'convicted_or_pending')},
+          ice:{conv:S('removals','ice','convicted'),pend:S('removals','ice','pending_charges'),oth:S('removals','ice','other_immigration_violator')}};
+CR.cbp={};for(const k of ['conv','pend','oth']){CR.cbp[k]={};for(const f in CR.ice[k])CR.cbp[k][f]={v:CR.all[k][f].v-CR.ice[k][f].v,p:false}}
+/* bars for a year: [{ag,parts:[{key,v,p}],total}] */
+function crimBars(fy){
+  const mk=(ag,src,keys)=>{const parts=keys.filter(k=>src[k]&&src[k][fy]).map(k=>({key:k,v:src[k][fy].v,p:src[k][fy].p}));return parts.length?{ag,parts,total:parts.reduce((t,x)=>t+x.v,0)}:null};
+  const b=agMode==='ice'?mk('ice',CR.ice,['conv','pend','oth']):agMode==='cbp'?mk('cbp',CR.cbp,['conv','pend','oth']):mk('all',CR.all,['conv','nc','pend','oth','cp']);
+  return b?[b]:[];
+}
+const agName={ice:'Arrested by ICE',cbp:'Arrested by Border Patrol',all:'All removals'};
+const catName=Object.fromEntries(CATS.map(c=>[c[0],c[1]]));
+const catCol=Object.fromEntries(CATS.map(c=>[c[0],c[2]]));
+function crimPanel(){
+  const share=crimMode==='share';
+  const natTot=fy=>D.remTot[fy]?.v;
+  const heightVal=(bar,fy)=>share?(bar.parts.reduce((t,x)=>t+x.v,0)/(bar.ag==='all'&&bar.parts.some(x=>x.key==='cp')?natTot(fy):bar.total)*100):bar.total;
+  const maxV=share?100:Math.max(...FYS.flatMap(f=>crimBars(f).map(b=>b.total)));
+  const spec={title:'',sub:'',h:190,top:24,
+   custom:W=>{
+    const left=44,right=RIGHT,top=24,H=190,plotW=W-left-right,slotW=plotW/FYS.length,base=top+H;
+    const max=share?100:niceMax(maxV);const y=v=>base-(v/max)*H;
+    let g='';
+    for(const t of [0,max/2,max])g+=`<line x1="${left}" x2="${W-right}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${left-6}" y="${y(t)+3.5}" text-anchor="end" font-size="10" fill="var(--ink-faint)" class="mono">${share?(t===0?'0':t+'%'):(t===0?'0':comp(t))}</text>`;
+    const first=FYS.find(f=>crimBars(f).length);
+    FYS.forEach((fy,i)=>{
+      const x=left+i*slotW,sel=fy===selected,bars=crimBars(fy);
+      g+=`<g class="slot" data-fy="${fy}" style="cursor:pointer"><rect x="${x}" y="${top}" width="${slotW}" height="${H}" rx="2" fill="${sel?'var(--surface-raised)':'transparent'}" stroke="${sel?'var(--line-strong)':'none'}"/>`;
+      const n=bars.length,bw=n===2?Math.max(3,Math.min(30,(slotW-5)/2-1)):Math.max(3,Math.min(34,slotW-4));
+      const gap=2,groupW=n*bw+(n-1)*gap,gx=x+(slotW-groupW)/2;
+      bars.forEach((bar,bi)=>{
+        const bx=gx+bi*(bw+gap);
+        const denom=share?(bar.ag==='all'&&bar.parts.some(p=>p.key==='cp')?natTot(fy):bar.total):1;
+        let acc=0;
+        for(const part of bar.parts){const v=share?part.v/denom*100:part.v;
+          g+=`<rect x="${bx}" y="${y(acc+v)}" width="${bw}" height="${Math.max(0,y(acc)-y(acc+v))}" fill="${catCol[part.key]}" fill-opacity="${part.p?.6:1}" ${part.p?'stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="4 3"':''}/>`;acc+=v}
+        if(bar.ag!=='all')g+=`<rect x="${bx}" y="${base+2}" width="${bw}" height="3.5" fill="${AG[bar.ag]}"/>`;
+        // labels
+        const lab=share?[2013,2019,2024,2025]:[2013,2019,2024];
+        if(lab.includes(fy)&&(bar.ag!=='cbp'||slotW>=44)){
+          const cpv=bar.parts.filter(p=>p.key==='conv'||p.key==='pend'||p.key==='cp').reduce((t,p)=>t+p.v,0);
+          const txt=share?Math.round(cpv/denom*100)+'%':(slotW<30?comp(bar.total):fmt(bar.total));
+          const lx=Math.min(bx+bw/2,W-right-12);
+          g+=`<text x="${lx}" y="${y(share?acc:bar.total)-5}" text-anchor="middle" font-size="9.5" font-weight="600" fill="var(--ink)" class="mono">${txt}</text>`;
+        }
+      });
+      g+='</g>';
+    });
+    if(first>FY0){const w=(first-FY0)*slotW;g+=`<text x="${left+w/2}" y="${top+H/2}" text-anchor="middle" font-size="10.5" fill="var(--ink-faint)">${w>150?(agMode==='all'?'no ICE figure before FY'+first:'no split by agency before FY'+first):''}</text>`}
+    if(agMode!=='all'&&!crimBars(2025).length)g+=`<text transform="translate(${left+(2025-FY0)*slotW+slotW/2+3},${base-6}) rotate(-90)" font-size="9.5" fill="var(--ink-faint)">no agency split</text>`;
+    return {g,H:top+H,top,left,slotW};
+   },
+   tip:fy=>{const bars=crimBars(fy);if(!bars.length)return head(fy,none);
+     const nat=natTot(fy);
+     let h='';
+     for(const bar of bars){
+       const denom=bar.ag==='all'&&bar.parts.some(x=>x.key==='cp')?nat:bar.total;
+       h+=(agMode!=='all'?`<div style="margin-top:5px;display:flex;align-items:center;gap:6px"><i class="sw" style="background:${AG[bar.ag]}"></i><b>${agName[bar.ag]}</b>${bar.ag==='cbp'?' <span class="m">(derived)</span>':''}</div>`:'')+bar.parts.map(x=>row(catName[x.key],fmt(x.v)+(x.key==='cp'?` · ${Math.round(x.v/denom*100)}% of removals`:` · ${Math.round(x.v/denom*100)}%`))).join('')+(agMode!=='all'?row('Share of all removals',Math.round(bar.total/nat*100)+'%'):'');
+     }
+     const note=bars[0].parts.some(x=>x.key==='cp')?'Only a combined convicted-or-pending figure (preliminary, DHS budget overview).':(bars[0].parts.some(x=>x.key==='nc')?'Two categories: ICE reported convicted vs. not convicted.':'');
+     return head(fy,h+row('Total removals',fmt(nat))+(note?`<div class="m" style="margin-top:3px">${note}</div>`:''))}};
+  return {spec};
+}
+
+function renderAll(){
+  hideTip();
+  document.getElementById('intro').textContent=
+   'U.S. Immigration and Customs Enforcement (ICE) publishes a fiscal-year count of the people it removes from the United States. Many of them were first apprehended at the border by Border Patrol, part of U.S. Customs and Border Protection (CBP), and handed to ICE; the rest were arrested by ICE’s own officers in the interior. ICE’s annual reports also give the number of people it holds in detention and the criminal history ICE has on record. Click a bar to follow one year across every chart.';
+  const sw=(c,t)=>`<span><i class="sw" style="background:${c}"></i>${t}</span>`;
+  const dash=`<span><i class="sw" style="background:transparent;border:1.2px dashed var(--ink)"></i>Preliminary</span>`;
+  document.getElementById('lgr').innerHTML=sw(AG.ice,'Interior arrests (ICE)')+sw(AG.cbp,'Border arrests (Border Patrol)')+sw(AG.none,'No agency split on file')+`<span><i class="sw" style="background:color-mix(in srgb, var(--ag-none) 30%, var(--surface));border:1px solid var(--ag-none)"></i>Hatched: removals only, before returns counted (FY2007)</span>`+`<span><i style="display:inline-block;width:18px;height:0;border-top:2.4px solid var(--ink);position:relative"></i>Average people detained per day (same axis as the bars; from FY2018)</span>`+dash;
+  drawStack(document.getElementById('pr'),[remPanel()]);
+  const cp=crimPanel();
+  const bar=(c,t)=>`<span><i class="sw" style="background:${c};height:4px;border-radius:0"></i>${t}</span>`;
+  const cats=agMode==='all'?['conv','pend','oth','nc','cp']:['conv','pend','oth'];
+  document.getElementById('lgc').innerHTML=cats.map(k=>sw(catCol[k],CATS.find(c=>c[0]===k)[1])).join('')+(agMode==='all'?'':`<span style="color:var(--ink-faint)">Strip under each bar:</span>`+bar(AG[agMode],agMode==='ice'?'arrested by ICE':'arrested by Border Patrol'))+dash;
+  const sh=crimMode==='share';
+  document.getElementById('crimLede').textContent={
+   all:'People ICE removed, by the criminal history ICE had on record. Use the buttons to see only the people ICE arrested itself, or only those Border Patrol arrested and handed over (FY2017–FY2024). '+(sh?'Each bar is a share of its own total; the label is the share with a conviction or pending charges (FY2025: of all removals).':'Bar heights are people removed.'),
+   ice:'Removals of people ICE’s own officers first arrested, FY2017–FY2024. '+(sh?'Each bar is a share of its own total; the label is the share with a conviction or pending charges.':'The scale fits these bars, not the other views.'),
+   cbp:'Removals of people Border Patrol first arrested and handed to ICE, FY2017–FY2024 (ICE’s total minus its own arrests). '+(sh?'Each bar is a share of its own total; the label is the share with a conviction or pending charges. “No known record” is most of them.':'The scale fits these bars, not the other views.')}[agMode];
+  drawStack(document.getElementById('pc'),[cp]);
+  document.querySelectorAll('#crimTog .pill').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===crimMode));
+  document.querySelectorAll('#agTog .pill').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===agMode));
+}
+
+document.querySelectorAll('#crimTog .pill').forEach(b=>b.onclick=()=>{crimMode=b.dataset.m;renderAll()});
+document.querySelectorAll('#agTog .pill').forEach(b=>b.onclick=()=>{agMode=b.dataset.m;renderAll()});
+const root=document.documentElement;
+document.getElementById('tl').onclick=()=>{root.dataset.theme='light';renderAll()};
+document.getElementById('td').onclick=()=>{root.dataset.theme='dark';renderAll()};
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(renderAll,80)});
+renderAll();
+</script>
+</body>
+</html>

@@ -11,6 +11,7 @@ import {
   type EnforcementRow,
 } from "./enforcement-entities";
 import type { Administration } from "./executive-orders-entities";
+import { criminalityBars, criminalityYMax, type AgencyView, type CrimBar } from "./immigration-breakdown";
 
 /**
  * Pure shaping for /presidency/immigration: ICE removals by fiscal year joined
@@ -50,6 +51,13 @@ export interface IceYear {
   days: { termId: string; last: string; days: number }[];
   corroborated: boolean;
   figureRead: boolean;
+  /**
+   * Removals by the agency that first apprehended the person: ICE's own officers, or Border Patrol (CBP) who handed the
+   * person to ICE. ICE's count either way; the two add up to `value`. Null where ICE prints no split (FY2003–FY2007, FY2025).
+   */
+  agency: { ice: number; cbp: number } | null;
+  /** Average daily population in ICE detention, with the agency split where ICE prints one; null before FY2018. */
+  detention: { value: number; status: "final" | "preliminary"; ice: number | null; cbp: number | null } | null;
   source: string;
   sourceUrl: string;
   /** Notes shown on this year's card: not covered by a numbered marker, not the global Oct 5 lock note. */
@@ -131,6 +139,8 @@ export interface ImmigrationPageData {
   corroboratedCount: number;
   /** ISO date the snapshots were retrieved. */
   asOf: string;
+  /** Removals by criminal history in three views (everyone, first arrested by ICE, first arrested by Border Patrol) on one fixed count scale. */
+  criminality: { views: Record<AgencyView, CrimBar[]>; yMax: number };
 }
 
 const isLeap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
@@ -288,6 +298,13 @@ export function buildImmigrationData(
   const corroborated = new Set(report.corroborated_periods);
   const figureRead = new Set(report.figure_read_periods);
 
+  const byFy = (selector: SeriesSelector) => new Map(seriesValues(allRows, selector).map((v) => [v.fy, v]));
+  const agencyIce = byFy({ metric: "removals", arresting_agency: "ice" });
+  const agencyCbp = byFy({ metric: "removals", arresting_agency: "cbp" });
+  const adp = byFy({ metric: "detention_adp" });
+  const adpIce = byFy({ metric: "detention_adp", arresting_agency: "ice" });
+  const adpCbp = byFy({ metric: "detention_adp", arresting_agency: "cbp" });
+
   const years: IceYear[] = rows.map((r) => ({
     fy: r.period,
     value: r.value,
@@ -298,6 +315,10 @@ export function buildImmigrationData(
     days: r.administration_days.map((d) => ({ termId: d.term_id, last: lastName(d.term_id), days: d.days })),
     corroborated: corroborated.has(r.period),
     figureRead: figureRead.has(r.period),
+    agency: agencyIce.has(r.period) ? { ice: agencyIce.get(r.period)!.value, cbp: agencyCbp.get(r.period)!.value } : null,
+    detention: adp.has(r.period)
+      ? { value: adp.get(r.period)!.value, status: adp.get(r.period)!.status, ice: adpIce.get(r.period)?.value ?? null, cbp: adpCbp.get(r.period)?.value ?? null }
+      : null,
     source: r.source,
     sourceUrl: r.source_url,
     cardNotes: r.note_ids
@@ -332,6 +353,10 @@ export function buildImmigrationData(
     finalCount: years.filter((y) => y.status === "final").length,
     corroboratedCount: years.filter((y) => y.corroborated).length,
     asOf: rows[0].as_of,
+    criminality: {
+      views: { all: criminalityBars(allRows, "all"), ice: criminalityBars(allRows, "ice"), cbp: criminalityBars(allRows, "cbp") },
+      yMax: criminalityYMax(allRows),
+    },
   };
 }
 

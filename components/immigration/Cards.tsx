@@ -14,6 +14,8 @@ export function MarkerCard({ marker, width, left }: { marker: IceMarker; width: 
   );
 }
 
+const pct = (part: number, whole: number) => `${Math.round((part / whole) * 100)}%`;
+
 const fyRange = (fy: number) => `Oct 1, ${fy - 1} to Sep 30, ${fy}`;
 
 /**
@@ -53,6 +55,36 @@ export function BarCard({
       <div className="text-[0.8rem] leading-[1.5] text-ink-muted">
         {`${year.status === "final" ? "Final" : "Preliminary"} · ${year.corroborated ? "Confirmed by a second source" : "Single source"}`}
       </div>
+      {year.agency ? (
+        <div className="mt-1.5 grid grid-cols-[1fr_auto] gap-x-3 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
+          <span className="inline-flex items-center gap-1.5">
+            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--agency-ice)" }} />
+            Interior arrests (ICE)
+          </span>
+          <b className="font-mono font-medium text-ink">{`${year.agency.ice.toLocaleString("en-US")} · ${pct(year.agency.ice, year.value)}`}</b>
+          <span className="inline-flex items-center gap-1.5">
+            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--agency-cbp)" }} />
+            Border arrests (Border Patrol)
+          </span>
+          <b className="font-mono font-medium text-ink">{`${year.agency.cbp.toLocaleString("en-US")} · ${pct(year.agency.cbp, year.value)}`}</b>
+        </div>
+      ) : (
+        <div className="mt-1.5 border-t border-line pt-1.5 text-[0.78rem] leading-[1.5] text-ink-muted">ICE prints no split by arresting agency for this year.</div>
+      )}
+      {year.detention && (
+        <div className="mt-1.5 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
+          <div className="flex justify-between gap-3">
+            <span>People detained, daily average</span>
+            <b className="font-mono font-medium text-ink">{year.detention.value.toLocaleString("en-US")}</b>
+          </div>
+          {year.detention.ice !== null && year.detention.cbp !== null && (
+            <div className="text-[0.74rem]">
+              {`${year.detention.ice.toLocaleString("en-US")} first arrested by ICE · ${year.detention.cbp.toLocaleString("en-US")} by Border Patrol`}
+            </div>
+          )}
+          {year.detention.status === "preliminary" && <div className="text-[0.74rem]">Detention figure is preliminary.</div>}
+        </div>
+      )}
       {year.cardNotes.map((n) => (
         <p key={n.id} className="m-0 mt-1.5 text-[0.78rem] leading-[1.5] text-ink-muted">
           {n.text}
