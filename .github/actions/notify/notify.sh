@@ -2,10 +2,16 @@
 # Tell the maintainer that something needs a manual review: email first, Slack if the email is not configured
 # or fails. Never fails the job (GitHub's own issue/PR notifications are the floor). Inputs come from the
 # environment: SUBJECT, BODY, URL, and the optional secrets SMTP_SERVER, SMTP_PORT, SMTP_USER, SMTP_PASSWORD,
-# EMAIL_TO, SLACK_WEBHOOK_URL.
+# EMAIL_TO, SLACK_WEBHOOK_URL; BODY_FILE (optional) is a markdown report appended to BODY.
 set -u
 
 sent=false
+
+# Append the check's report (findings with their download links), as plain text and capped so a long list stays readable.
+if [ -n "${BODY_FILE:-}" ] && [ -f "$BODY_FILE" ]; then
+  details="$(sed -e 's/\*\*//g' -e 's/`//g' "$BODY_FILE" | head -c 3000)"
+  BODY="${BODY}"$'\n\n'"${details}"
+fi
 
 if [ -n "${SMTP_SERVER:-}" ] && [ -n "${SMTP_USER:-}" ] && [ -n "${SMTP_PASSWORD:-}" ] && [ -n "${EMAIL_TO:-}" ]; then
   mail="$(mktemp)"

@@ -22,6 +22,8 @@ describe("diffIndex", () => {
     expect(summarise(diffIndex([r("a")], [r("a")]))).toMatch(/No change to the index/);
   });
   it("names a new determination", () => {
-    expect(summarise(diffIndex([], [r("2027-00001", "Presidential Determination on Refugee Admissions for Fiscal Year 2028")]))).toMatch(/Fiscal Year 2028/);
+    const text = summarise(diffIndex([], [r("2027-00001", "Presidential Determination on Refugee Admissions for Fiscal Year 2028")]));
+    expect(text).toMatch(/Fiscal Year 2028/);
+    expect(text).toContain("https://www.federalregister.gov/d/2027-00001");
   });
 });

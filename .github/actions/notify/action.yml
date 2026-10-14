@@ -14,6 +14,10 @@ inputs:
   url:
     required: true
     description: Link to the issue or PR
+  body-file:
+    required: false
+    default: ""
+    description: Optional markdown file (the check's report) appended to the body, so the message carries the data download links
   smtp-server:
     required: false
     default: ""
@@ -41,6 +45,7 @@ runs:
         SUBJECT: ${{ inputs.subject }}
         BODY: ${{ inputs.body }}
         URL: ${{ inputs.url }}
+        BODY_FILE: ${{ inputs.body-file }}
         SMTP_SERVER: ${{ inputs.smtp-server }}
         SMTP_PORT: ${{ inputs.smtp-port }}
         SMTP_USER: ${{ inputs.smtp-user }}

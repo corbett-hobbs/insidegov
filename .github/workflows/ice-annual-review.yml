@@ -71,6 +71,7 @@ jobs:
           subject: "InsideGov: DHS published the next ICE budget overview"
           body: "DHS published a new ICE budget overview, which carries newer actuals. Details are in the issue."
           url: ${{ steps.issue.outputs.url }}
+          body-file: ${{ runner.temp }}/ice-report.md
           smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
           smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
           smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}

@@ -719,7 +719,7 @@ is ever summed with ICE, CBP, refugee or State Department counts.
 
 ## Review notifications
 
-Data checks that need a person (the ICE, refugee-admissions and policy review issues, and a refugee refresh PR that needs curation or failed its gate) call `.github/actions/notify`: email first, Slack if email is unset or fails. It never fails a job; with nothing configured it warns, and GitHub's own issue/PR emails are the fallback. It fires when an issue or PR is **created**, not on weekly refreshes of an open one. Repository secrets (Settings > Secrets and variables > Actions), all optional:
+Data checks that need a person (the ICE, refugee-admissions and policy review issues, and a refugee refresh PR that needs curation or failed its gate) call `.github/actions/notify`: email first, Slack if email is unset or fails. It never fails a job; with nothing configured it warns, and GitHub's own issue/PR emails are the fallback. Each message carries the check's findings with the download links (the new file's URL, the Federal Register document, the DHS PDF) plus a link to the issue or PR. It fires when an issue or PR is **created**, not on weekly refreshes of an open one. Repository secrets (Settings > Secrets and variables > Actions), all optional:
 
 | Secret | Value |
 | --- | --- |
