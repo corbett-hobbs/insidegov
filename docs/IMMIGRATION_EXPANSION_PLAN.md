@@ -843,6 +843,10 @@ so reuse whatever it added instead of inventing a second pattern.
 > stale) and show the output. Document the refresh behaviour in each methodology
 > doc and in `ARCHITECTURE_MAP.md`.
 
+### Session K status (2026-10-14): the green-card piece
+
+Built now that E has landed: `.github/workflows/ohss-review.yml` + `pipeline/validate/ohss-staleness.ts` (pure logic and tests in `ohss-lib.ts`), detect + issue as the table specifies, with a push notification on a new issue. It compares the files OHSS's pages list with `lpr-catalog.json`, never the pages' dates. **Still to do, when their pipelines land:** the State visa PDFs (G, fetch + draft PR), the H-1B hub, LCA and cap announcements (I), and extending `policy-watch.ts` to `h1b_policy.json`.
+
 ---
 
 ## Suggested order for the legal track

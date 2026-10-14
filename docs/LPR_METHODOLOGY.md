@@ -137,8 +137,18 @@ invariants over the real outputs).
 
 ## Refreshing
 
-Manual today; session K automates detection. OHSS posts every edition at a new address, so each
-refresh is a catalog edit:
+Detection is automatic; the edit is manual. OHSS posts every edition at a new address and its page
+dates are unreliable, so nothing fetches data. Weekly `.github/workflows/ohss-review.yml`
+(`pipeline/validate/ohss-staleness.ts`, pure logic and tests in `ohss-lib.ts`) reads the **files each page
+lists**, not its dates: the quarterly-report page against the catalog's `ohss-quarterly-fy<year>` sources
+(a file for a year the catalog lacks is a new year; one for a year it has is a repost, a restatement
+candidate), the next Yearbook edition's page (`/topics/immigration/yearbook/<newest + 1>`, a 404 until
+published), and the newest catalogued edition's page for a reposted LPR or naturalization workbook. A new
+file opens, refreshes or closes **one** issue (`ohss-review`) and sends a push notification when it is first
+opened. A page it cannot read, or one that stops listing the catalog's own files (a layout change), fails the
+run instead of passing. Locally: `pnpm exec tsx pipeline/validate/ohss-staleness.ts --report out.md`
+(`--drop <source id>` pretends the catalog lacks a source, to see the new-file path). Each refresh is then a
+catalog edit:
 
 1. **New quarterly report** (a new fiscal year): add an `ohss-quarterly-fy<year>` source (sheets
    Table 1A, 1B, 2, 3) and its four tables, `pnpm fetch:ohss`, `pnpm transform`. The new year
