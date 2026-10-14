@@ -104,6 +104,10 @@ function RemovalsLegend() {
         <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-ink" />
         Preliminary
       </span>
+      <span className={LEGEND_ITEM}>
+        <i aria-hidden className="inline-block h-2.5 w-3.5 rounded-full bg-ink" />
+        Change in what ICE counts, select for detail
+      </span>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import type { IceMarker, IceTerm, IceYear } from "@/lib/immigration-derive";
 
-const BOX =
+export const BOX =
   "absolute z-[6] box-border rounded-lg border border-line-strong bg-surface px-3.5 py-3 shadow-[0_6px_20px_rgba(26,34,51,0.14)]";
-const TOP = 30;
+export const TOP = 30;
 
 /** Card for a numbered definition-change marker. Never interactive. */
 export function MarkerCard({ marker, width, left }: { marker: IceMarker; width: number; left: number }) {

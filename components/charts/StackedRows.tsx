@@ -20,6 +20,12 @@ export interface StackedRowData {
   selected?: boolean;
   /** Fade the row (another row is selected). */
   dimmed?: boolean;
+  /**
+   * A cap the bar is measured against, on the same scale as `segments` (the refugee regions list: arrivals against the region's cap).
+   * Draws a pale bar to `max` (lighter beyond `min` when it is a range) and a black tick at `max`; `null` means this row has no cap.
+   * Any row carrying the field (even null) gives the list the wider last column, for text like "Cap 30,000–50,000".
+   */
+  cap?: { min: number; max: number } | null;
 }
 
 export function StackedRows({
@@ -43,13 +49,19 @@ export function StackedRows({
   const hasDelta = rows.some((r) => !!r.delta);
   // No row has a rank (policy areas, issue areas): drop its column so labels start at the left edge and get the space back.
   const hasRank = rows.some((r) => r.rank !== undefined);
-  const cols = hasRank
+  // Rows with a cap carry text like "Cap 30,000–50,000" in the last column, so it is wider and the bar drops to its own line sooner.
+  const hasCap = rows.some((r) => r.cap !== undefined);
+  const cols = hasCap
+    ? "grid-cols-[24px_minmax(86px,190px)_minmax(60px,1fr)_56px_118px]"
+    : hasRank
     ? hasDelta ? "grid-cols-[24px_minmax(86px,118px)_minmax(60px,1fr)_50px_58px]" : "grid-cols-[24px_minmax(86px,118px)_minmax(60px,1fr)_56px]"
     : hasDelta ? "grid-cols-[minmax(86px,170px)_minmax(60px,1fr)_50px_58px]" : "grid-cols-[minmax(86px,170px)_minmax(60px,1fr)_56px]";
-  const narrow = hasRank
+  const narrow = hasCap
+    ? "@max-[560px]:grid-cols-[24px_1fr_auto_auto] @max-[560px]:gap-y-1"
+    : hasRank
     ? hasDelta ? "@max-[400px]:grid-cols-[24px_1fr_auto_auto]" : "@max-[400px]:grid-cols-[24px_1fr_auto]"
     : hasDelta ? "@max-[400px]:grid-cols-[1fr_auto_auto]" : "@max-[400px]:grid-cols-[1fr_auto]";
-  const barSpan = hasRank ? "@max-[400px]:col-[2/-1]" : "@max-[400px]:col-[1/-1]";
+  const barSpan = hasCap ? "@max-[560px]:col-[2/-1]" : hasRank ? "@max-[400px]:col-[2/-1]" : "@max-[400px]:col-[1/-1]";
   if (rows.length === 0) return <div className="px-2 py-10 text-center text-[0.82rem] text-ink-muted">{emptyText}</div>;
   return (
     <ul aria-label={ariaLabel} className="@container m-0 list-none p-0">
@@ -59,21 +71,43 @@ export function StackedRows({
             type="button"
             onClick={() => onRowClick(r.id)}
             aria-pressed={!!r.selected}
-            className={`grid w-full cursor-pointer ${cols} items-center gap-x-2 rounded-md border-0 px-2 py-1.5 text-left text-ink hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${narrow} @max-[400px]:gap-y-1 ${
+            className={`grid w-full cursor-pointer ${cols} items-center gap-x-2 rounded-md border-0 px-2 py-1.5 text-left text-ink hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${narrow} ${hasCap ? "" : "@max-[400px]:gap-y-1"} ${
               r.selected ? "bg-[color-mix(in_oklab,var(--accent)_13%,var(--surface))]" : "bg-transparent"
             } ${r.dimmed ? "opacity-50" : ""} ${rowClass}`}
           >
             {hasRank && <span className="text-right font-mono text-[0.7rem] tabular-nums text-ink-faint">{r.rank ?? ""}</span>}
-            <span title={r.label} className={`truncate text-[0.82rem] @max-[400px]:whitespace-normal @max-[400px]:text-[0.85rem] @max-[400px]:leading-tight ${r.selected ? "font-semibold" : ""}`}>
+            <span
+              title={r.label}
+              className={`truncate text-[0.82rem] ${hasCap ? "@max-[560px]:whitespace-normal @max-[560px]:text-[0.85rem] @max-[560px]:leading-tight" : "@max-[400px]:whitespace-normal @max-[400px]:text-[0.85rem] @max-[400px]:leading-tight"} ${r.selected ? "font-semibold" : ""}`}
+            >
               {r.label}
             </span>
-            <span className={`flex h-[11px] overflow-hidden rounded-[2px] bg-[color-mix(in_oklab,var(--ink)_5%,transparent)] @max-[400px]:order-last ${barSpan}`}>
-              {r.segments.map((s, i) =>
-                s.value > 0 ? <i key={i} title={s.title} className="block h-full" style={{ width: `${(s.value / scaleMax) * 100}%`, background: s.color }} /> : null,
-              )}
-            </span>
+            {hasCap ? (
+              <span className={`relative h-[11px] rounded-[2px] bg-[color-mix(in_oklab,var(--ink)_5%,transparent)] @max-[560px]:order-last ${barSpan}`}>
+                {r.cap && (
+                  <i
+                    aria-hidden
+                    className="absolute inset-y-0 left-0 block"
+                    style={{ width: `${(r.cap.max / scaleMax) * 100}%`, background: `color-mix(in oklab, var(--accent) ${r.cap.min === r.cap.max ? 16 : 9}%, var(--surface))` }}
+                  />
+                )}
+                {r.cap && r.cap.min !== r.cap.max && (
+                  <i aria-hidden className="absolute inset-y-0 left-0 block" style={{ width: `${(r.cap.min / scaleMax) * 100}%`, background: "color-mix(in oklab, var(--accent) 18%, var(--surface))" }} />
+                )}
+                {r.segments.map((s, i) =>
+                  s.value > 0 ? <i key={i} title={s.title} className="absolute inset-y-0 left-0 block" style={{ width: `${(s.value / scaleMax) * 100}%`, background: s.color }} /> : null,
+                )}
+                {r.cap && <i aria-hidden className="absolute -inset-y-[2px] block w-[2px] bg-ink" style={{ left: `calc(${(r.cap.max / scaleMax) * 100}% - 2px)` }} />}
+              </span>
+            ) : (
+              <span className={`flex h-[11px] overflow-hidden rounded-[2px] bg-[color-mix(in_oklab,var(--ink)_5%,transparent)] @max-[400px]:order-last ${barSpan}`}>
+                {r.segments.map((s, i) =>
+                  s.value > 0 ? <i key={i} title={s.title} className="block h-full" style={{ width: `${(s.value / scaleMax) * 100}%`, background: s.color }} /> : null,
+                )}
+              </span>
+            )}
             <span className="text-right font-mono text-[0.75rem] tabular-nums">{r.total}</span>
-            {hasDelta && <span className="whitespace-nowrap text-left font-mono text-[0.7rem] tabular-nums text-ink-muted">{r.delta ?? ""}</span>}
+            {(hasDelta || hasCap) && <span className="whitespace-nowrap text-left font-mono text-[0.7rem] tabular-nums text-ink-muted">{r.delta ?? ""}</span>}
           </button>
         </li>
       ))}

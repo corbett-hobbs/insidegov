@@ -1,6 +1,6 @@
 # Refugee admissions — methodology
 
-Data for a future refugee card on `/presidency/immigration` (no UI yet). Source check and
+Data for the refugee section of `/presidency/immigration` (`RefugeeSection`; the design is `docs/mockups/refugee-cards-mockup-v7.html`, the build is described in `ARCHITECTURE_MAP.md`'s Immigration section). The page uses FY2001 on from `refugee_series.json`, `refugee_regions.json`, `refugee_by_country.json` and `refugee_policy.json`, and the notes marked as card notes in `lib/refugee-derive.ts`; the monthly file is not shown. Source check and
 coverage: `docs/IMMIGRATION_SOURCE_NOTES.md` §7. Schemas: `lib/refugee-entities.ts`. Pipeline:
 `pnpm fetch:refugee` → `pipeline/transform/refugee-run.ts` (pure logic in `refugee.ts`).
 

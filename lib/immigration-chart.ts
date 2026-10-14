@@ -1,4 +1,4 @@
-import { fiscalYearDays, type IceMarker, type IceYear } from "./immigration-derive";
+import { fiscalYearDays, type IceMarker } from "./immigration-derive";
 
 /**
  * Pure geometry for the ICE removals bar chart (`components/immigration`):
@@ -94,7 +94,7 @@ export interface TermSegment {
  * Runs of consecutive fiscal years under one administration, in slot units.
  * The pending slot extends the last segment, so the band reaches the end of the axis.
  */
-export function termSegments(years: readonly IceYear[], pending: boolean): TermSegment[] {
+export function termSegments(years: readonly { termId: string; party: "D" | "R" }[], pending: boolean): TermSegment[] {
   const out: TermSegment[] = [];
   years.forEach((y, i) => {
     const last = out[out.length - 1];
