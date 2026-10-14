@@ -22,9 +22,9 @@ export function ForeignAidPageClient({ payload, map }: { payload: AidPayload; ma
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Foreign aid" title="Where Does U.S. Foreign Aid Go?">
           <p>
-            ForeignAssistance.gov tracks what the U.S. government actually pays out to other countries and to global and regional
-            programs. This page follows those disbursements, in nominal dollars, by fiscal year (October 1 to September 30) from FY
-            {first} through FY{last}. Drag the slider’s handles, or tap a president under it, to choose which years the charts show, then pick a year from the map’s menu, or click or drag along the spending chart, and the map, the country rankings and the No. 1 strip all move with it. The filters narrow everything to one country or one sector.
+            What the U.S. actually pays out to other countries and to global and regional programs, fiscal year by fiscal
+            year from FY{first} through FY{last}. Aid is one of Washington&rsquo;s most direct tools abroad, and where it
+            goes shows which countries and causes America puts its money behind.
           </p>
         </PageHeader>
 

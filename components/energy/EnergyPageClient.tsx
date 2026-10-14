@@ -52,10 +52,14 @@ function EnergyPage({ payload }: { payload: EnergyPayload }) {
         </div>
         <PageHeader title="How Has U.S. Energy Changed?">
           <p>
-            Where electricity comes from, supply and demand for oil, oil imports and exports, liquefied natural gas exports and the Strategic Petroleum Reserve, since 1991. Electricity is one part of the energy picture, not all of it; oil is the rest of the story told here. The colored bar under each
-            chart shows who was president, the gray columns mark recessions, and the marked dates are executive, congressional and agency actions. These are conditions during each term, not a score of what any one official caused.
+            Where U.S. electricity comes from, how much oil the country produces, uses and trades, how much natural gas it
+            ships abroad, and what is left in the emergency oil reserve, since 1991. Energy costs feed into nearly every
+            other price, and the marked dates show where presidents, Congress and agencies stepped in.
           </p>
           <HowToRead>
+            <p>
+              The colored bar under each chart shows who was president, the gray columns mark recessions, and the marked dates are executive, congressional and agency actions. These are conditions during each term, not a score of what any one official caused.
+            </p>
             <p>
               The cards are not equally tied to Washington. The reserve&rsquo;s level is closest to a presidential decision, and even it is shared: presidents authorize releases and exchanges, Congress mandates sales and funds refills. Oil production, imports, exports and LNG exports are shaped by policy but mostly move with markets and technology, and enabling rules often came years before the trade did, so a mark there reads &ldquo;enabled, not caused.&rdquo; Products supplied and the electricity mix are context.
             </p>
