@@ -86,12 +86,16 @@ export interface SpanLabel {
   slant: string;
 }
 
+/** Three-letter ISO codes that readers know by another short form: the Democratic Republic of the Congo is "DRC", not "COD". */
+const CODE_LABEL: Readonly<Record<string, string>> = { COD: "DRC" };
+
 /**
  * A run's label: the name when it fits across the span, else the code, else the name (or the code, if the name is long)
  * slanted up and to the right, at any width: a label that does not fit is never dropped (ARCHITECTURE_MAP rule 10). `narrow`
  * (a phone-width chart) prefers slanting a short name to a three-letter code.
  */
 export function spanLabel(name: string, code: string, widthPx: number, narrow: boolean): SpanLabel {
+  code = CODE_LABEL[code] ?? code;
   if (widthPx >= name.length * 7.2 + 14) return { flat: name, slant: "" };
   if (widthPx >= 34 && !(narrow && name.length <= 9)) return { flat: code, slant: "" };
   return { flat: "", slant: name.length <= 9 ? name : code };

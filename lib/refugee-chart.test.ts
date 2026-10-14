@@ -51,7 +51,8 @@ describe("numbered rules", () => {
 describe("spanLabel", () => {
   it("never drops a label", () => {
     expect(spanLabel("Congo (Kinshasa)", "COD", 400, false)).toEqual({ flat: "Congo (Kinshasa)", slant: "" });
-    expect(spanLabel("Congo (Kinshasa)", "COD", 60, false)).toEqual({ flat: "COD", slant: "" });
+    expect(spanLabel("Congo (Kinshasa)", "COD", 60, false)).toEqual({ flat: "DRC", slant: "" });
+    expect(spanLabel("Afghanistan", "AFG", 60, false)).toEqual({ flat: "AFG", slant: "" });
     expect(spanLabel("Afghanistan", "AFG", 20, false)).toEqual({ flat: "", slant: "AFG" });
     expect(spanLabel("Somalia", "SOM", 50, true)).toEqual({ flat: "", slant: "Somalia" });
     for (const w of [1, 10, 33, 34, 80, 500]) {
