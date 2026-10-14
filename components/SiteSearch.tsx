@@ -113,7 +113,7 @@ export function SiteSearch() {
             setOpen(true);
           }}
           onKeyDown={onInputKey}
-          className="min-w-0 flex-1 bg-transparent text-[0.85rem] placeholder:text-ink-faint focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-base md:text-[0.85rem] placeholder:text-ink-faint focus:outline-none"
         />
         <kbd aria-hidden className="hidden rounded border border-line px-1 font-mono text-[0.65rem] text-ink-faint md:inline">
           /
