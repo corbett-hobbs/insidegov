@@ -5,7 +5,9 @@ import type { Section } from "@/lib/verticals";
  * A branch's pages as linked rows: title, one-sentence blurb, arrow. Wide
  * cards put the blurb beside the title from `sm` up; `stacked` keeps it under
  * the title at every width (narrow half-width cards). `columns` > 1 lays the
- * rows out side by side from `md` up (one column below it).
+ * rows out side by side from `md` up (one column below it). `fill` makes the
+ * list as tall as its grid cell, rows sharing the height evenly with their
+ * text centred (the homepage cards). Titles get the shared underline sweep.
  */
 const COLUMNS: Record<number, string> = {
   1: "",
@@ -17,28 +19,34 @@ export function HubSectionList({
   sections,
   stacked = false,
   columns = 1,
+  fill = false,
   className = "",
 }: {
   sections: readonly Section[];
   stacked?: boolean;
   columns?: number;
+  fill?: boolean;
   className?: string;
 }) {
   return (
     <ul
-      className={`flex flex-col divide-y divide-line border-y border-line ${
+      className={`flex flex-col divide-y divide-line ${fill ? "h-full" : ""} ${
         COLUMNS[Math.min(columns, 3)] ?? ""
       } ${className}`}
     >
       {sections.map((s) => (
         <li
           key={s.id}
-          className={columns > 1 ? "md:px-4 md:first:pl-0 md:last:pr-0" : ""}
+          className={`${columns > 1 ? "md:px-4 md:first:pl-0 md:last:pr-0" : ""} ${
+            fill ? "flex flex-1 flex-col" : ""
+          }`}
         >
           {s.status === "live" ? (
             <Link
               href={s.href}
-              className="group flex items-baseline justify-between gap-4 py-3 transition-colors"
+              className={`group flex justify-between gap-4 py-3 transition-colors ${
+                fill ? "flex-1 items-center" : "items-baseline"
+              }`}
             >
               <span
                 className={`flex flex-col gap-0.5 ${
@@ -46,11 +54,11 @@ export function HubSectionList({
                 }`}
               >
                 <span
-                  className={`font-serif text-lg font-semibold tracking-tight group-hover:text-accent ${
-                    stacked ? "" : "sm:w-44 sm:shrink-0"
+                  className={`font-serif text-lg font-semibold tracking-tight ${
+                    stacked ? "self-start" : "sm:w-44 sm:shrink-0"
                   }`}
                 >
-                  {s.label}
+                  <span className="home-sweep">{s.label}</span>
                 </span>
                 <span className="text-[0.9rem] leading-snug text-ink-muted">
                   {s.blurb}
@@ -58,7 +66,7 @@ export function HubSectionList({
               </span>
               <span
                 aria-hidden="true"
-                className="font-mono text-ink-faint transition-colors group-hover:text-accent"
+                className="font-mono text-ink-faint transition-all group-hover:translate-x-1 group-hover:text-accent"
               >
                 →
               </span>

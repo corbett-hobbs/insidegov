@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>InsideGov homepage design mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e7; --paper-2:#efe8d9; --surface:#fffdf8; --ink:#1b2233; --ink-muted:#555e6e; --ink-faint:#8a8f9a;
+  --line:#ddd4c2; --line-strong:#c4b9a3;
+  --pres:#1f3a68; --pres-deep:#142748; --pres-tint:#e3e9f4;
+  --cong:#2f6b4f; --cong-deep:#1d4733; --cong-tint:#dfeee6;
+  --court:#7a2e3b; --court-deep:#521c27; --court-tint:#f3e1e4;
+  --gold:#b8892b; --gold-soft:#e8c877;
+  --dem:#3a66c2; --rep:#c24a3a; --oth:#83817d;
+  --serif:"Newsreader",Georgia,serif; --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.mock-note{background:var(--ink);color:#fff;font:500 12px var(--mono);padding:8px 20px;text-align:center;letter-spacing:.02em}
+/* ----- mock chrome ----- */
+.switch{position:sticky;top:0;z-index:50;background:rgba(246,241,231,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.switch .wrap{display:flex;gap:8px;align-items:center;padding-top:10px;padding-bottom:10px;overflow-x:auto}
+.switch b{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);margin-right:6px;white-space:nowrap}
+.switch button,.switch a.jump{font:500 13px var(--sans);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.switch button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.switch .sep{width:1px;height:20px;background:var(--line-strong);margin:0 6px}
+.label{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint)}
+.section-title{font:600 28px/1.15 var(--serif);margin:56px 0 6px}
+.section-sub{color:var(--ink-muted);max-width:70ch;margin-bottom:20px}
+/* ----- site nav (shared) ----- */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;position:relative;z-index:5}
+.logo{font:600 22px var(--serif);letter-spacing:-.01em}
+.nav ul{display:flex;gap:22px;list-style:none;padding:0;font-size:14px}
+.nav li:nth-child(1){--c:var(--pres)}.nav li:nth-child(2){--c:var(--cong)}.nav li:nth-child(3){--c:var(--court)}
+.nav li a{padding-bottom:4px;border-bottom:2px solid transparent}
+.nav li a:hover{border-color:var(--c)}
+.hero-dark .nav,.hero-dark .logo{color:#fff}
+.hero-dark .nav li a:hover{border-color:var(--gold-soft)}
+/* ----- hero common ----- */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero h1{font-family:var(--serif);font-weight:500;letter-spacing:-.025em;line-height:1.02}
+.hero h1 em{font-style:italic;font-weight:400}
+.hero .lede{font-size:18px;max-width:52ch}
+.ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;font-weight:600;font-size:14px;border:1px solid transparent}
+.btn.gold{background:var(--gold-soft);color:#2a2008}
+.btn.ghost{border-color:rgba(255,255,255,.5);color:#fff}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.line{border-color:var(--line-strong);background:var(--surface)}
+.hero-view{display:none}.hero-view.on{display:block}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.pill{font:500 12px var(--mono);padding:5px 10px;border-radius:999px;color:#fff;display:inline-flex;align-items:center;gap:6px}
+.pill i{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+/* A: vector */
+.heroA{background:linear-gradient(180deg,#14284a 0%,#274c85 48%,#e9b872 82%,#f6d9a0 100%);color:#fff;min-height:560px}
+.heroA .copy{position:relative;z-index:3;padding:40px 0 230px;max-width:640px}
+.heroA h1{font-size:clamp(40px,6.4vw,76px)}
+.heroA .lede{color:#dfe6f4;margin-top:18px}
+.sun{position:absolute;left:50%;bottom:150px;width:520px;height:520px;margin-left:-260px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,160,.85) 0,rgba(255,226,160,.35) 38%,rgba(255,226,160,0) 68%);z-index:1}
+.skyline{position:absolute;left:0;right:0;bottom:0;z-index:2;width:100%;height:auto;display:block}
+/* B: photo */
+.heroB{min-height:560px;color:#fff;background:var(--pres-deep)}
+.heroB .photo{position:absolute;inset:0;z-index:0;background:url("https://commons.wikimedia.org/wiki/Special:FilePath/United_States_Capitol_-_west_front.jpg?width=2000") center 35%/cover;filter:grayscale(1) contrast(1.1) brightness(1.1)}
+.heroB .tint{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,#142748 0%,#1f3a68 45%,#b8892b 130%);mix-blend-mode:color}
+.heroB .multiply{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(60,90,150,.85) 0%,rgba(150,170,215,.9) 55%,rgba(255,225,160,.95) 100%);mix-blend-mode:multiply}
+.heroB .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(14,26,48,.78) 0%,rgba(14,26,48,.35) 50%,rgba(14,26,48,0) 80%)}
+.heroB .copy{position:relative;z-index:3;padding:40px 0 90px;max-width:620px}
+.heroB h1{font-size:clamp(40px,6.4vw,76px)}
+.heroB .lede{color:#e5eaf5;margin-top:18px}
+.heroB .credit{position:absolute;right:12px;bottom:8px;z-index:3;font:400 10px var(--mono);opacity:.7}
+.heroB .photo-fail{position:absolute;right:20px;bottom:30px;z-index:3;font:400 11px var(--mono);opacity:.0}
+/* C: hybrid */
+.heroC{background:linear-gradient(180deg,#fbf5e6 0%,#f1e3c3 100%);color:var(--ink);min-height:600px}
+.heroC .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.heroC .copy{position:relative;z-index:3;padding:34px 0 0;max-width:620px}
+.heroC h1{font-size:clamp(40px,6vw,72px)}
+.heroC .lede{color:var(--ink-muted);margin-top:16px}
+.heroC .arc{display:block;width:100%;max-width:1100px;margin:6px auto 0;position:relative;z-index:2}
+.heroC .skyline{position:relative;margin-top:-170px;opacity:1}
+.arc-legend{display:flex;gap:16px;justify-content:center;font:500 11px var(--mono);color:var(--ink-muted);margin-top:26px;position:relative;z-index:4}
+.arc-legend span{display:inline-flex;align-items:center;gap:6px}.arc-legend i{width:9px;height:9px;border-radius:50%}
+/* ----- palette ----- */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.sw{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.sw .chip{height:92px;display:flex;align-items:flex-end;padding:10px;color:#fff;font:500 12px var(--mono)}
+.sw .chip.light{color:var(--ink)}
+.sw .meta{padding:10px 12px;font-size:13px;color:var(--ink-muted)}
+.sw .meta b{display:block;color:var(--ink);font:600 15px var(--serif)}
+/* ----- cards ----- */
+.compare{display:grid;grid-template-columns:1fr;gap:28px}
+@media(min-width:900px){.compare.two{grid-template-columns:1fr 1fr}}
+.frame{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--paper-2)}
+.frame>.label{display:block;margin-bottom:12px}
+.old-grid{display:grid;gap:12px}
+.old-card{background:#fff;border:1px solid #d7dce3;border-radius:12px;padding:16px;font-size:14px;color:#5b6472}
+.old-card h4{font:600 20px var(--serif);color:#1a2233;margin-bottom:6px}
+.spark{display:block;width:100%;height:56px;margin-top:10px}
+.new-grid{display:grid;gap:14px}
+@media(min-width:700px){.new-grid{grid-template-columns:1fr 1fr}.new-grid .feature{grid-column:1/-1}}
+.card{position:relative;border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--line);transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px -14px rgba(20,30,50,.35)}
+.card .band{height:6px;background:var(--c)}
+.card .body{padding:20px}
+.card h3{font:500 30px/1.1 var(--serif);letter-spacing:-.015em}
+.card h3 a{background:linear-gradient(var(--c),var(--c)) 0 100%/0 2px no-repeat;transition:background-size .3s}
+.card:hover h3 a{background-size:100% 2px}
+.card .eyebrow{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--c);margin-bottom:8px}
+.card p{color:var(--ink-muted);font-size:15px;margin-top:8px;max-width:60ch}
+.card .stat{font:500 54px/1 var(--serif);color:var(--c);letter-spacing:-.03em}
+.card .stat small{display:block;font:400 12px var(--mono);letter-spacing:0;color:var(--ink-muted);margin-top:6px;text-transform:none}
+.card.pres{--c:var(--pres)}.card.cong{--c:var(--cong)}.card.court{--c:var(--court)}
+.feature.card{background:linear-gradient(135deg,var(--pres-deep),var(--pres));color:#fff;border:0}
+.feature.card .band{display:none}
+.feature.card .eyebrow{color:var(--gold-soft)}
+.feature.card p{color:#cfd9ee}
+.feature.card .stat{color:var(--gold-soft)}
+.feature.card .stat small{color:#b9c6e2}
+.feature .body{display:grid;gap:22px}
+@media(min-width:700px){.feature .body{grid-template-columns:1.1fr 1fr;align-items:center;padding:28px}}
+.feature .viz{background:rgba(255,255,255,.06);border-radius:12px;padding:12px}
+.feature h3 a{background-image:linear-gradient(var(--gold-soft),var(--gold-soft))}
+.card .row{display:flex;gap:26px;margin-top:16px;align-items:flex-end}
+.more{display:inline-block;margin-top:16px;font-weight:600;font-size:14px;color:var(--c)}
+.feature .more{color:var(--gold-soft)}
+/* ----- type ----- */
+.type-grid{display:grid;gap:16px}
+@media(min-width:900px){.type-grid{grid-template-columns:1fr 1fr 1fr}}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.type .big{font-size:clamp(38px,5vw,56px);line-height:1;letter-spacing:-.03em;margin:12px 0}
+.type .body{font-size:15px;color:var(--ink-muted);max-width:44ch}
+.type .eb{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--court);margin-top:16px}
+.t1 .big{font-family:var(--serif);font-weight:500}
+.t2 .big{font-family:"Fraunces",serif;font-weight:400;font-variation-settings:"opsz" 144,"SOFT" 40}
+.t3 .big{font-family:"Instrument Serif",serif;font-weight:400;letter-spacing:-.02em}
+.type em{font-style:italic}
+.hl{background:linear-gradient(transparent 62%,var(--gold-soft) 62%)}
+/* ----- motion ----- */
+.motion{display:grid;gap:16px}
+@media(min-width:900px){.motion{grid-template-columns:1fr 1fr}}
+.demo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;min-height:230px;position:relative}
+.demo h4{font:600 17px var(--serif);margin-bottom:2px}
+.demo .why{font-size:13px;color:var(--ink-muted);margin-bottom:14px}
+.demo .replay{position:absolute;right:14px;top:14px;font:500 12px var(--mono);border:1px solid var(--line-strong);background:var(--paper);border-radius:999px;padding:4px 10px;cursor:pointer}
+.stagger{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stagger div{height:84px;border-radius:10px;opacity:0;transform:translateY(18px)}
+.stagger.go div{animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards}
+.stagger.go div:nth-child(2){animation-delay:.12s}.stagger.go div:nth-child(3){animation-delay:.24s}
+@keyframes rise{to{opacity:1;transform:none}}
+.counters{display:flex;gap:28px;flex-wrap:wrap}
+.counters .n{font:500 44px/1 var(--serif);letter-spacing:-.03em}
+.counters small{display:block;font:400 11px var(--mono);color:var(--ink-muted);margin-top:4px}
+.drawline path.l{stroke-dasharray:900;stroke-dashoffset:900}
+.drawline.go path.l{animation:draw 1.6s ease forwards}
+.drawline path.a{opacity:0}.drawline.go path.a{animation:fade .8s 1.2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes fade{to{opacity:1}}
+.parallax{height:150px;border-radius:10px;position:relative;overflow:hidden;background:linear-gradient(#274c85,#e9b872)}
+.parallax svg{position:absolute;left:-5%;bottom:0;width:110%;transition:transform .15s ease-out}
+.navhover{display:flex;gap:26px;font-size:15px;padding:6px 0}
+.navhover a{position:relative;padding:4px 0}
+.navhover a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--c);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.navhover a:hover::after{transform:scaleX(1)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.stagger div{opacity:1;transform:none}.drawline path.l{stroke-dashoffset:0}.drawline path.a{opacity:1}}
+footer{padding:50px 0 80px;color:var(--ink-muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="mock-note">DESIGN MOCK · not the live site · charts and numbers are placeholders · photo is hot-linked from Wikimedia Commons</div>
+
+<div class="switch"><div class="wrap">
+  <b>Hero</b>
+  <button data-hero="A" aria-pressed="true">A · Vector skyline</button>
+  <button data-hero="B" aria-pressed="false">B · Duotone photo</button>
+  <button data-hero="C" aria-pressed="false">C · Vector + data</button>
+  <span class="sep"></span>
+  <a class="jump" href="#palette">Palette</a><a class="jump" href="#cards">Card weights</a><a class="jump" href="#type">Typography</a><a class="jump" href="#motion">Motion</a>
+</div></div>
+
+<!-- ============ HERO A ============ -->
+<header class="hero hero-view heroA hero-dark on" id="heroA">
+  <div class="sun"></div>
+  <div class="wrap">
+    <nav class="nav"><span class="logo">InsideGov</span><ul><li><a href="#">Presidency</a></li><li><a href="#">Congress</a></li><li><a href="#">Supreme Court</a></li><li><a href="#">About</a></li></ul></nav>
+    <div class="copy">
+      <h1>The public record of American power, <em>made explorable.</em></h1>
+      <p class="lede">Every order signed, roll call cast, and ruling issued leaves a trail. We turn those records into data you can scrub through, compare, and dig into.</p>
+      <div class="ctas"><a class="btn gold" href="#">Start with the presidency &rarr;</a><a class="btn ghost" href="#">How it works</a></div>
+    </div>
+  </div>
+  <svg class="skyline" id="skyA" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+</header>
+
+<!-- ============ HERO B ============ -->
+<header class="hero hero-view heroB hero-dark" id="heroB">
+  <div class="photo"></div><div class="tint"></div><div class="multiply"></div><div class="scrim"></div>
+  <div class="wrap">
+    <nav class="nav"><span class="logo">InsideGov</span><ul><li><a href="#">Presidency</a></li><li><a href="#">Congress</a></li><li><a href="#">Supreme Court</a></li><li><a href="#">About</a></li></ul></nav>
+    <div class="copy">
+      <h1>Three branches. <em>One public record.</em></h1>
+      <p class="lede">Executive orders, roll-call votes, court decisions, and financial disclosures, laid out so you can see what changed and when.</p>
+      <div class="ctas"><a class="btn gold" href="#">Start with the presidency &rarr;</a><a class="btn ghost" href="#">How it works</a></div>
+      <div class="pills"><span class="pill" style="background:var(--pres)"><i></i>Presidency</span><span class="pill" style="background:var(--cong)"><i></i>Congress</span><span class="pill" style="background:var(--court)"><i></i>Supreme Court</span></div>
+    </div>
+  </div>
+  <div class="credit">Photo: U.S. Capitol, public domain (Wikimedia Commons)</div>
+</header>
+
+<!-- ============ HERO C ============ -->
+<header class="hero hero-view heroC" id="heroC">
+  <div class="wrap">
+    <nav class="nav"><span class="logo">InsideGov</span><ul><li><a href="#">Presidency</a></li><li><a href="#">Congress</a></li><li><a href="#">Supreme Court</a></li><li><a href="#">About</a></li></ul></nav>
+    <div class="copy">
+      <h1>Congress, <em>one dot</em> at a time.</h1>
+      <p class="lede">Each dot is a member of the House or Senate. Hover the arc, then step inside to see how they vote, who they are, and what they own.</p>
+      <div class="ctas"><a class="btn dark" href="#">Explore Congress &rarr;</a><a class="btn line" href="#">Presidency</a><a class="btn line" href="#">Supreme Court</a></div>
+    </div>
+    <div class="arc-legend"><span><i style="background:var(--dem)"></i>Democratic</span><span><i style="background:var(--rep)"></i>Republican</span><span><i style="background:var(--oth)"></i>Independent</span></div>
+    <svg class="arc" id="arcC" viewBox="0 0 1000 440" aria-hidden="true"></svg>
+  </div>
+  <svg class="skyline" id="skyC" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+</header>
+
+<div class="wrap">
+
+<!-- ============ PALETTE ============ -->
+<h2 class="section-title" id="palette">A color for each branch</h2>
+<p class="section-sub">Warm paper in place of cool grey, one deep colour per branch, and a single gold accent that ties them together. Party colours in charts (blue / red) stay as they are, so a branch colour never gets mistaken for a party.</p>
+<div class="swatches">
+  <div class="sw"><div class="chip" style="background:var(--pres)">#1F3A68</div><div class="meta"><b>Presidency · navy</b>Authority, the executive. Deep variant for hero gradients.</div></div>
+  <div class="sw"><div class="chip" style="background:var(--cong)">#2F6B4F</div><div class="meta"><b>Congress · green</b>The chamber floor. Reads as legislative without echoing a party.</div></div>
+  <div class="sw"><div class="chip" style="background:var(--court)">#7A2E3B</div><div class="meta"><b>Supreme Court · burgundy</b>Judicial robes and the court's velvet. Distinct from party red.</div></div>
+  <div class="sw"><div class="chip" style="background:var(--gold)">#B8892B</div><div class="meta"><b>Gold · accent</b>Links, highlights, hero buttons, on dark grounds.</div></div>
+  <div class="sw"><div class="chip light" style="background:var(--paper);border-bottom:1px solid var(--line)">#F6F1E7</div><div class="meta"><b>Paper</b>Page background. Warmer than today's grey-blue #EEF1F5.</div></div>
+  <div class="sw"><div class="chip" style="background:var(--ink)">#1B2233</div><div class="meta"><b>Ink</b>Body text and the dark footer.</div></div>
+</div>
+
+<!-- ============ CARDS ============ -->
+<h2 class="section-title" id="cards">Card weights: today vs. varied</h2>
+<p class="section-sub">"Weight" just means not every card looks equally important. Today the three branches are equal white boxes. In the version on the right, the Presidency (your largest section) is a full-width feature on a dark ground, and Congress and the Court sit beneath it, each with its own colour band, big headline number, and a hover effect. Hover the cards.</p>
+<div class="compare two">
+  <div class="frame"><span class="label">Today · equal cards</span>
+    <div class="old-grid">
+      <div class="old-card"><h4>Presidency</h4>Executive orders, the economy, energy, trade, immigration, foreign aid and troops abroad.
+        <svg class="spark" viewBox="0 0 300 56"><path d="M0 44 L40 36 L80 40 L120 22 L160 30 L200 14 L240 26 L300 10" fill="none" stroke="#5c4b7a" stroke-width="2"/></svg></div>
+      <div class="old-card"><h4>Congress</h4>Every member's votes as a two-dimensional ideology score, laws enacted, who serves, net worth.
+        <svg class="spark" viewBox="0 0 300 56"><path d="M0 30 L50 34 L100 20 L150 28 L200 18 L250 24 L300 14" fill="none" stroke="#5c4b7a" stroke-width="2"/></svg></div>
+      <div class="old-card"><h4>Supreme Court</h4>Where the justices sit over time and how often the Court splits.
+        <svg class="spark" viewBox="0 0 300 56"><path d="M0 20 L60 26 L120 16 L180 34 L240 22 L300 30" fill="none" stroke="#5c4b7a" stroke-width="2"/></svg></div>
+    </div>
+  </div>
+  <div class="frame"><span class="label">Proposed · one feature, two supporting</span>
+    <div class="new-grid">
+      <article class="card pres feature"><div class="body">
+        <div><div class="eyebrow">01 · The executive</div><h3><a href="#">The Presidency</a></h3>
+          <p>Executive orders, the economy, energy, trade, immigration, foreign aid and troops abroad, laid out against each presidential term.</p>
+          <a class="more" href="#">Explore the presidency &rarr;</a></div>
+        <div class="viz"><div class="stat">00<small>sample headline stat · e.g. executive orders this term</small></div>
+          <svg class="spark" viewBox="0 0 300 70" style="height:70px"><path d="M0 60 L40 50 L80 54 L120 30 L160 40 L200 18 L240 30 L300 8" fill="none" stroke="#e8c877" stroke-width="2.5"/><path d="M0 60 L40 50 L80 54 L120 30 L160 40 L200 18 L240 30 L300 8 L300 70 L0 70Z" fill="rgba(232,200,119,.15)"/></svg></div>
+      </div></article>
+      <article class="card cong"><div class="band"></div><div class="body">
+        <div class="eyebrow">02 · The legislature</div><h3><a href="#">Congress</a></h3>
+        <p>Every member as a point in ideology space, plus laws, tenure, and net worth.</p>
+        <div class="row"><div class="stat">535<small>seats</small></div>
+        <svg viewBox="0 0 120 60" style="width:120px"><g fill="var(--dem)"><circle cx="14" cy="50" r="4"/><circle cx="22" cy="34" r="4"/><circle cx="38" cy="22" r="4"/><circle cx="56" cy="14" r="4"/></g><g fill="var(--rep)"><circle cx="64" cy="14" r="4"/><circle cx="82" cy="22" r="4"/><circle cx="98" cy="34" r="4"/><circle cx="106" cy="50" r="4"/></g></svg></div>
+        <a class="more" href="#">Explore Congress &rarr;</a></div></article>
+      <article class="card court"><div class="band"></div><div class="body">
+        <div class="eyebrow">03 · The judiciary</div><h3><a href="#">Supreme Court</a></h3>
+        <p>Where the justices sit over time and how often the Court splits.</p>
+        <div class="row"><div class="stat">9<small>justices</small></div>
+        <svg viewBox="0 0 120 60" style="width:120px"><g stroke="var(--court)" stroke-width="3" stroke-linecap="round"><line x1="12" y1="52" x2="12" y2="30"/><line x1="26" y1="52" x2="26" y2="22"/><line x1="40" y1="52" x2="40" y2="34"/><line x1="54" y1="52" x2="54" y2="16"/><line x1="68" y1="52" x2="68" y2="26"/><line x1="82" y1="52" x2="82" y2="36"/><line x1="96" y1="52" x2="96" y2="20"/><line x1="110" y1="52" x2="110" y2="28"/></g></svg></div>
+        <a class="more" href="#">Explore the Court &rarr;</a></div></article>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TYPE ============ -->
+<h2 class="section-title" id="type">Typography</h2>
+<p class="section-sub">You already use Newsreader for headings; the change is mostly scale, weight and a little italic for emphasis, with small mono labels for structure. Three display options below. Same body text (IBM Plex Sans) in all of them.</p>
+<div class="type-grid">
+  <div class="type t1"><span class="label">1 · Newsreader (what you have)</span><div class="big">Every order, <em>every vote.</em></div><p class="body">Scaled up and lightened, the current face already looks editorial. Zero new font to load.</p><div class="eb">Presidency · 2025</div></div>
+  <div class="type t2"><span class="label">2 · Fraunces</span><div class="big">Every order, <em>every vote.</em></div><p class="body">Softer, warmer, more personality; its curves feel less "newspaper", more "magazine". One extra font file.</p><div class="eb">Presidency · 2025</div></div>
+  <div class="type t3"><span class="label">3 · Instrument Serif</span><div class="big">Every order, <em>every vote.</em></div><p class="body">Condensed and elegant, the most dramatic at large sizes. Display only: keep Newsreader for smaller headings.</p><div class="eb">Presidency · 2025</div></div>
+</div>
+<div class="type" style="margin-top:16px"><span class="label">Supporting details, any option</span>
+  <p style="font:400 22px/1.4 var(--serif);max-width:60ch;margin-top:10px">Pull-quotes and intro copy get a <span class="hl">gold highlighter</span> on the key phrase, and section labels use small <span style="font-family:var(--mono);font-size:.7em;letter-spacing:.1em;text-transform:uppercase;color:var(--cong)">mono caps</span> in the branch colour.</p></div>
+
+<!-- ============ MOTION ============ -->
+<h2 class="section-title" id="motion">Subtle motion</h2>
+<p class="section-sub">Everything is short, runs once, and is turned off automatically for visitors who set "reduce motion" in their system. Press Replay, scroll, hover, or move the mouse over the skyline.</p>
+<div class="motion">
+  <div class="demo"><button class="replay" data-replay="stagger">Replay</button><h4>Staggered entrance</h4><p class="why">Cards rise in one after another as the page loads or scrolls into view.</p>
+    <div class="stagger go" id="stagger"><div style="background:var(--pres)"></div><div style="background:var(--cong)"></div><div style="background:var(--court)"></div></div></div>
+  <div class="demo"><button class="replay" data-replay="counters">Replay</button><h4>Counting numbers</h4><p class="why">Headline stats count up once when they appear.</p>
+    <div class="counters" id="counters"><div><div class="n" data-to="535" style="color:var(--cong)">0</div><small>sample · seats</small></div><div><div class="n" data-to="46" style="color:var(--pres)">0</div><small>sample · terms</small></div><div><div class="n" data-to="9" style="color:var(--court)">0</div><small>sample · justices</small></div></div></div>
+  <div class="demo"><button class="replay" data-replay="draw">Replay</button><h4>Line draws itself</h4><p class="why">Charts trace in from left to right, then the area fades up.</p>
+    <svg class="drawline go" id="draw" viewBox="0 0 400 130" style="width:100%"><path class="a" d="M0 110 L50 92 L100 100 L150 60 L200 72 L250 34 L300 50 L400 12 L400 130 L0 130Z" fill="rgba(31,58,104,.12)"/><path class="l" d="M0 110 L50 92 L100 100 L150 60 L200 72 L250 34 L300 50 L400 12" fill="none" stroke="var(--pres)" stroke-width="3" stroke-linejoin="round"/></svg></div>
+  <div class="demo"><h4>Hero parallax</h4><p class="why">Skyline layers drift at different speeds with the mouse. Move over it.</p>
+    <div class="parallax" id="para">
+      <svg viewBox="0 0 600 150" data-depth="6" style="opacity:.55"><path fill="#142748" d="M0 150V108h70V92h60V108h80V84h40V108h110V70h24V108h120V90h56V108h40V150Z"/></svg>
+      <svg viewBox="0 0 600 150" data-depth="16"><path fill="#0e1b33" d="M0 150V126h120V112h50V126h110V104q20-34 40 0V126h90V112h50V126h140V150Z"/></svg></div></div>
+  <div class="demo"><h4>Link underline sweep</h4><p class="why">Navigation underlines slide in, coloured by branch.</p>
+    <div class="navhover"><a href="#" style="--c:var(--pres)">Presidency</a><a href="#" style="--c:var(--cong)">Congress</a><a href="#" style="--c:var(--court)">Supreme Court</a></div>
+    <p class="why" style="margin-top:22px">The cards above also lift slightly on hover, and the title underline sweeps in.</p></div>
+  <div class="demo reveal" id="rev"><h4>Scroll reveal</h4><p class="why">Sections fade up as you scroll to them (this box just did).</p>
+    <div style="height:84px;border-radius:10px;background:linear-gradient(90deg,var(--pres),var(--cong),var(--court))"></div></div>
+</div>
+
+<footer>Next step: pick a hero (A / B / C or a blend), a display face, and which motion effects to keep, and I'll build it into the real homepage.</footer>
+</div>
+
+<script>
+// ---- hero switcher
+document.querySelectorAll('[data-hero]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('[data-hero]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  document.querySelectorAll('.hero-view').forEach(h=>h.classList.toggle('on',h.id==='hero'+b.dataset.hero));
+}));
+
+// ---- skyline SVG (shared by A and C)
+function skyline(fillBack,fillMid,fillFront,accent){
+  const col=(x,w,n,top,bot,f)=>{let s='';const gap=w/n;for(let i=0;i<n;i++)s+=`<rect x="${x+i*gap+gap*.18}" y="${top}" width="${gap*.5}" height="${bot-top}" fill="${f}"/>`;return s;};
+  return `
+  <g fill="${fillBack}" opacity=".75">
+    <rect x="0" y="238" width="1200" height="62"/>
+    <rect x="60" y="200" width="46" height="40"/><rect x="118" y="214" width="34" height="30"/><rect x="1060" y="196" width="50" height="46"/><rect x="1122" y="210" width="40" height="34"/>
+    <path d="M180 240V196h8v-24h4v24h8v44Z"/><path d="M1000 240V190h10v-20h4v20h10v50Z"/>
+  </g>
+  <g fill="${fillMid}">
+    <!-- White House (left) -->
+    <rect x="70" y="204" width="230" height="56"/><rect x="40" y="226" width="40" height="34"/><rect x="290" y="226" width="40" height="34"/>
+    <path d="M120 204l50-34 50 34Z"/><rect x="132" y="204" width="76" height="56"/>
+    ${col(124,92,6,208,258,fillBack)}
+    <!-- Supreme Court (right) -->
+    <path d="M880 182l95-34 95 34Z"/><rect x="884" y="182" width="182" height="12"/>
+    ${col(892,166,8,196,260,fillBack)}
+    <rect x="876" y="258" width="198" height="8"/><rect x="866" y="266" width="218" height="10"/>
+  </g>
+  <g fill="${fillFront}">
+    <!-- Capitol -->
+    <rect x="360" y="226" width="480" height="64"/>
+    <rect x="410" y="208" width="380" height="22"/>
+    <rect x="500" y="170" width="200" height="42"/>
+    ${col(504,192,11,174,210,fillMid)}
+    <rect x="490" y="164" width="220" height="10"/>
+    <path d="M510 164c0-70 40-106 90-106s90 36 90 106Z"/>
+    <g fill="${fillMid}" opacity=".5"><rect x="548" y="96" width="4" height="62"/><rect x="574" y="76" width="4" height="82"/><rect x="598" y="68" width="4" height="90"/><rect x="622" y="76" width="4" height="82"/><rect x="648" y="96" width="4" height="62"/></g>
+    <rect x="572" y="46" width="56" height="14"/><rect x="584" y="22" width="32" height="26"/><path d="M600 4l-6 18h12Z" fill="${accent}"/>
+    <rect x="0" y="288" width="1200" height="12"/>
+    <rect x="450" y="276" width="300" height="14"/>
+  </g>`;
+}
+document.getElementById('skyA').innerHTML=skyline('#2d4f87','#1a3262','#0e1b33','#e8c877');
+document.getElementById('skyC').innerHTML=skyline('#c9b88f','#8d6f35','#1f3a68','#b8892b');
+
+// ---- hero C: congress hemicycle (seeded, placeholder composition)
+(function(){
+  const svg=document.getElementById('arcC');const cx=500,cy=420;let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const rows=[{r:330,n:96},{r:285,n:84},{r:240,n:70},{r:195,n:56},{r:150,n:40}];
+  const pts=[];rows.forEach(({r,n})=>{for(let i=0;i<n;i++){const a=Math.PI*(1-(i+.5)/n);pts.push({a,x:cx+Math.cos(a)*r,y:cy-Math.sin(a)*r});}});
+  pts.sort((p,q)=>q.a-p.a);let out='';
+  pts.forEach((p,i)=>{const t=i/pts.length;const party=t<.47+(rnd()-.5)*.04?'dem':t>.54+(rnd()-.5)*.04?'rep':(rnd()<.5?'dem':'rep');
+    const c=(i%131===0)?'var(--oth)':(party==='dem'?'var(--dem)':'var(--rep)');
+    out+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6.2" fill="${c}" style="opacity:0;animation:fade .5s ${(i*5)%900+200}ms forwards"/>`;});
+  svg.innerHTML=out;
+})();
+
+// ---- motion demos
+function replay(id){const el=document.getElementById(id);
+  if(id==='stagger'||id==='draw'){el.classList.remove('go');void el.getBoundingClientRect();el.classList.add('go');}
+  if(id==='counters')count();}
+function count(){document.querySelectorAll('#counters .n').forEach(n=>{const to=+n.dataset.to,t0=performance.now(),d=1100;
+  (function f(t){const p=Math.min(1,(t-t0)/d);n.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f);})(t0);});}
+document.querySelectorAll('[data-replay]').forEach(b=>b.addEventListener('click',()=>replay(b.dataset.replay)));
+count();
+const para=document.getElementById('para');
+para.addEventListener('mousemove',e=>{const r=para.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5;
+  para.querySelectorAll('svg').forEach(s=>s.style.transform=`translateX(${-x*s.dataset.depth*2}px)`);});
+new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target);}}),{threshold:.3}).observe(document.getElementById('rev'));
+</script>
+</body>
+</html>

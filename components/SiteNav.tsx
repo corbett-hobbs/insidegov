@@ -119,7 +119,7 @@ export function SiteSectionNav() {
 
 /**
  * The section pills. The row scrolls sideways when it doesn't fit (phones, and desktop widths where the tabs crowd it). While pills are cut off on the
- * right, a raised "+N ›" button over a fade names how many are hidden and scrolls the row on click; a "‹" button mirrors it once the row has been
+ * right, a solid accent-coloured "+N ›" button over a fade names how many are hidden and scrolls the row on click; a "‹" button mirrors it once the row has been
  * scrolled. The active pill is scrolled into view on load.
  */
 function ScrollRow({ label, children }: { label: string; children: ReactNode }) {
@@ -169,14 +169,14 @@ function ScrollRow({ label, children }: { label: string; children: ReactNode }) 
         </span>
       )}
       {hiddenRight > 0 && (
-        <span className="pointer-events-none absolute inset-y-0 right-0 flex w-20 items-center justify-end bg-gradient-to-l from-surface-raised from-55% to-transparent pr-2 md:from-surface">
+        <span className="pointer-events-none absolute inset-y-0 right-0 flex w-24 items-center justify-end bg-gradient-to-l from-surface-raised from-55% to-transparent pr-2 md:from-surface">
           <button
             type="button"
             aria-label={`Show ${hiddenRight} more ${hiddenRight === 1 ? "section" : "sections"}`}
             onClick={() => scrollBy(1)}
-            className={`pointer-events-auto gap-1 px-2.5 ${btn}`}
+            className="pointer-events-auto flex h-8 items-center justify-center gap-1 rounded-full border border-accent bg-accent px-3 font-mono text-[0.78rem] font-semibold text-accent-ink shadow-md transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
-            +{hiddenRight} <span aria-hidden className="text-[1rem] leading-none">›</span>
+            +{hiddenRight} <span aria-hidden className="text-[1.1rem] leading-none">›</span>
           </button>
         </span>
       )}

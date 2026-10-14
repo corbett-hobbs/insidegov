@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SiteNav, SiteSectionNav } from "./SiteNav";
 import { useBackLinkHref } from "./BackLinkContext";
-import { liveSections } from "@/lib/verticals";
+import { branches, liveSections } from "@/lib/verticals";
 import { STATIC_PAGES } from "@/lib/site-info";
 
 /** Pages where the primary nav is itself the way around: the wordmark is a
@@ -32,9 +32,10 @@ export function SiteHeader() {
   const pathname = usePathname();
   const backHref = useBackLinkHref();
   const isDetail = !SECTION_PAGES.has(pathname);
+  const branch = branches.find((b) => b.owns(pathname))?.id;
 
   return (
-    <header className="border-b border-line bg-surface">
+    <header data-branch={branch} className="border-b border-line bg-surface">
       <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-stretch md:h-14 md:flex-nowrap md:px-6">
         <Link
           href={isDetail ? backHref : "/"}
