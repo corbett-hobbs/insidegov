@@ -82,10 +82,12 @@ export const convictedOnly = (b: CrimBar): boolean => b.parts.some((p) => p.key 
 
 /**
  * One fixed count ceiling for all three views, so heights compare when the view changes: the tallest "all" bar x 1.08,
- * up to the next 100,000. (ICE-only and Border Patrol-only bars are parts of the "all" bars.)
+ * up to the next 100,000. (ICE-only and Border Patrol-only bars are parts of the "all" bars.) FY2025's bar is only the
+ * combined convicted-or-pending part, drawn with an outline up to the year's full removals, so the ceiling holds that
+ * (`denominator`), not just the bar.
  */
 export function criminalityYMax(rows: readonly EnforcementRow[]): number {
-  const max = Math.max(...criminalityBars(rows, "all").map((b) => b.total));
+  const max = Math.max(...criminalityBars(rows, "all").map((b) => Math.max(b.total, b.denominator)));
   return Math.ceil((max * 1.08) / 100_000) * 100_000;
 }
 

@@ -51,7 +51,7 @@ describe("criminal-history bars (real files)", () => {
   });
   it("one fixed ceiling holds every bar in every view", () => {
     const max = criminalityYMax(rows);
-    expect(max).toBe(400_000);
-    for (const v of ["all", "ice", "cbp"] as const) for (const b of criminalityBars(rows, v)) expect(b.total).toBeLessThan(max);
+    expect(max).toBe(500_000);
+    for (const v of ["all", "ice", "cbp"] as const) for (const b of criminalityBars(rows, v)) expect(Math.max(b.total, b.denominator)).toBeLessThan(max);
   });
 });
