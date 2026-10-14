@@ -20,8 +20,9 @@ const SECTION_PAGES = new Set<string>([
  * One header row at `md`+ (two slim rows below): wordmark, branch tabs
  * (SiteNav), then — on any live vertical's pages, even with one section — a
  * divider and the section pills (SiteSectionNav), all left-aligned; the right
- * is empty except on the homepage, which carries the site search (SiteSearch).
- * Inner pages have no room for it: the section pills fill the row. Each explorer/section renders its
+ * is empty except on the homepage, which carries the site search (SiteSearch;
+ * below md it replaces the branch tabs). Inner pages have no room for it: the
+ * section pills fill the row. Each explorer/section renders its
  * own controls below this — e.g. components/senate/ExplorerToolbar.tsx. The
  * header is not sticky; only those toolbars pin.
  *
@@ -33,12 +34,13 @@ const SECTION_PAGES = new Set<string>([
 export function SiteHeader() {
   const pathname = usePathname();
   const backHref = useBackLinkHref();
+  const isHome = pathname === "/";
   const isDetail = !SECTION_PAGES.has(pathname);
   const branch = branches.find((b) => b.owns(pathname))?.id;
 
   return (
     <header data-branch={branch} className="border-b border-line bg-surface">
-      <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-stretch md:h-14 md:flex-nowrap md:px-6">
+      <div className="relative mx-auto flex w-full max-w-[1180px] flex-wrap items-stretch md:h-14 md:flex-nowrap md:px-6">
         <Link
           href={isDetail ? backHref : "/"}
           title={isDetail ? "Back to InsideGov" : undefined}
@@ -54,9 +56,17 @@ export function SiteHeader() {
           )}
           InsideGov
         </Link>
-        <SiteNav />
+        {isHome ? (
+          // On the homepage the body already links to each branch, so below md
+          // the search takes the tabs' place in the row.
+          <div className="hidden md:contents">
+            <SiteNav />
+          </div>
+        ) : (
+          <SiteNav />
+        )}
         <SiteSectionNav />
-        {pathname === "/" && <SiteSearch />}
+        {isHome && <SiteSearch />}
       </div>
     </header>
   );
