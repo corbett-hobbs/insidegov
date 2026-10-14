@@ -745,40 +745,12 @@ select:not([multiple]) {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%239aa2af' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 }
 
-/* Branch themes: the site header takes its branch's colour (set by
-   SiteHeader's data-branch) and the page's controls follow it through --accent
-   (set by the branch layout's wrapper div). The
-   header's own tokens are re-pointed to light-on-colour so every control in it
-   (tabs, section pills) restyles without touching its markup. */
+/* Branch themes: the page's controls follow its branch colour through --accent
+   (set by the branch layout's wrapper div); the site header stays neutral, with
+   its own active-tab underline in ink so the branch colour lives in the page only. */
 header[data-branch] {
-  --surface: var(--branch-bg);
-  --surface-raised: rgba(255, 255, 255, 0.55);
-  --ink: #1b2233;
-  --ink-muted: rgba(27, 34, 51, 0.74);
-  --ink-faint: rgba(27, 34, 51, 0.52);
-  --line: rgba(27, 34, 51, 0.18);
-  --line-strong: rgba(27, 34, 51, 0.32);
-  --accent: var(--branch-deep);
-  --accent-ink: #ffffff;
-  background: var(--branch-bg);
-  border-bottom-color: rgba(27, 34, 51, 0.12);
-}
-/* Light pastel tints of each branch colour, with dark text. */
-header[data-branch="presidency"] { --branch-bg: #dce8fb; --branch-deep: #2f4f87; }
-header[data-branch="congress"] { --branch-bg: #d9f0e4; --branch-deep: #2f6b4f; }
-header[data-branch="supreme-court"] { --branch-bg: #f9dde3; --branch-deep: #7a2e3b; }
-/* Dark mode: a muted dark version with light text instead. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) header[data-branch] {
-    --surface-raised: rgba(255, 255, 255, 0.1);
-    --ink: #ffffff; --ink-muted: rgba(255, 255, 255, 0.78); --ink-faint: rgba(255, 255, 255, 0.55);
-    --line: rgba(255, 255, 255, 0.22); --line-strong: rgba(255, 255, 255, 0.4);
-    --accent: #ffffff; --accent-ink: var(--branch-bg);
-    border-bottom-color: transparent;
-  }
-  :root:not([data-theme="light"]) header[data-branch="presidency"] { --branch-bg: #2b3a5c; }
-  :root:not([data-theme="light"]) header[data-branch="congress"] { --branch-bg: #2c4a3d; }
-  :root:not([data-theme="light"]) header[data-branch="supreme-court"] { --branch-bg: #5a2f38; }
+  --accent: var(--ink);
+  --accent-ink: var(--surface);
 }
 
 div[data-branch="presidency"] { --accent: #2f4f87; --accent-ink: #ffffff; }
