@@ -335,10 +335,11 @@ export function slotDeltaVsPrior(d: AidData, fy: number, ci: number, sec: number
   return slots[slot] - prev[slot];
 }
 
-/** "▲ $3.5B", "▼ $310K", or "–" for no change or no comparison. */
+/** "+$3.5B", "−$310K", "0" for no change, and "" where there is nothing to compare (see `formatChange` in `removals-country-derive`). */
 export function formatAidChange(delta: number | null): string {
-  if (delta === null || Math.round(delta) === 0) return "–";
-  return `${delta > 0 ? "▲" : "▼"} ${formatAidMoney(Math.abs(delta))}`;
+  if (delta === null) return "";
+  if (Math.round(delta) === 0) return "0";
+  return formatAidMoney(delta, true);
 }
 
 export interface TopYear {

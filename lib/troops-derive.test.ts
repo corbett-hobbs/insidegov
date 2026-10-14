@@ -285,9 +285,9 @@ describe("axis helpers", () => {
 
 describe("per-host change column", () => {
   it("formats a head-count change with an arrow, and a dash for none", () => {
-    expect(formatCountChange(1204)).toBe("▲ 1,204");
-    expect(formatCountChange(-310)).toBe("▼ 310");
-    expect(formatCountChange(0)).toBe("–");
+    expect(formatCountChange(1204)).toBe("+1,204");
+    expect(formatCountChange(-310)).toBe("−310");
+    expect(formatCountChange(0)).toBe("0");
   });
   it("has a prior-year list exactly where the year-over-year change is like-for-like", () => {
     for (const y of [2017, 2018, 2019, 2026]) {

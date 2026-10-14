@@ -394,9 +394,9 @@ export function priorPeriodView(data: TroopsData, m: number, yi: number): Period
   return prev === null ? null : periodView(data, m, data.payload.years[prev].period);
 }
 
-/** "▲ 1,204", "▼ 310", or "–" for no change. */
+/** "+1,204", "−310", or "0" for no change (a plus or minus, like the other ranked lists; see `formatChange`). */
 export function formatCountChange(change: number): string {
-  return change === 0 ? "–" : `${change > 0 ? "▲" : "▼"} ${formatCount(Math.abs(change))}`;
+  return change === 0 ? "0" : `${change > 0 ? "+" : "−"}${formatCount(Math.abs(change))}`;
 }
 
 // --- axis and number formatting ----------------------------------------------------------------------------------

@@ -36,7 +36,7 @@ export function RankedList({ mode, reversed }: { mode: "dollars" | "share"; reve
 
   const scaleMax = Math.max(1, ...ranked.map((r) => Math.max(0, only !== null ? r.slots[only] : r.value)));
   // No comparison (FY2001, a partial year): no column at all, rather than a column of dashes.
-  const deltaText = (d: number | null) => (d === null ? undefined : formatAidChange(d));
+  const deltaText = (d: number | null) => formatAidChange(d) || undefined;
   const rows: StackedRowData[] = list.map(({ r, share, mil }, i) => ({
     id: String(r.ci),
     rank: mode === "share" ? i + 1 : r.rank,

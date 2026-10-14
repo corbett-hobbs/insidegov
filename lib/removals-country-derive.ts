@@ -97,10 +97,14 @@ export function sortRanked(
   return DEFAULT_DESC[key] !== reversed ? out.reverse() : out;
 }
 
-/** "▲ 1,204", "▼ 310", or "–" for no change or no comparison. */
+/**
+ * "+1,204", "−310", "0" for no change, and "" where there is nothing to compare (the first year). A plus or minus, not an arrow:
+ * it lines up as a number, and a bare "–" would read as a minus. A "" in every row drops the list's change column.
+ */
 export function formatChange(change: number | null): string {
-  if (change === null || change === 0) return "–";
-  return `${change > 0 ? "▲" : "▼"} ${Math.abs(change).toLocaleString("en-US")}`;
+  if (change === null) return "";
+  if (change === 0) return "0";
+  return `${change > 0 ? "+" : "−"}${Math.abs(change).toLocaleString("en-US")}`;
 }
 
 /** Fiscal years the FY control offers: the covered years, narrowed to the selected administration's. */

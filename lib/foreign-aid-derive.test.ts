@@ -191,10 +191,10 @@ describe("formatting", () => {
 
 describe("change column", () => {
   it("formats a dollar change with an arrow, and a dash for none", () => {
-    expect(formatAidChange(3_500_000_000)).toBe("▲ $3.5B");
-    expect(formatAidChange(-310_000)).toBe("▼ $310K");
-    expect(formatAidChange(0)).toBe("–");
-    expect(formatAidChange(null)).toBe("–");
+    expect(formatAidChange(3_500_000_000)).toBe("+$3.5B");
+    expect(formatAidChange(-310_000)).toBe("−$310K");
+    expect(formatAidChange(0)).toBe("0");
+    expect(formatAidChange(null)).toBe("");
   });
   it("gives each ranked country its change from the prior full year, and a slot's change matches the total's when summed", () => {
     const fy = 2020;
