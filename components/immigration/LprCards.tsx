@@ -46,6 +46,7 @@ export function LprYearCard({
   const t = terms.get(year.termId);
   const groups = groupValues(year);
   const head = metric === "lpr" ? `FY${year.fy} · ${n(year.lpr)} green cards` : `FY${year.fy} · ${year.naturalizations === null ? "—" : n(year.naturalizations)} naturalized`;
+  const headValue = metric === "lpr" ? n(year.lpr) : year.naturalizations === null ? "—" : n(year.naturalizations);
   const other = metric === "lpr" ? { label: "Naturalizations", value: year.naturalizations } : { label: "Green cards", value: year.lpr };
   if (!interactive) {
     const rows: { key: string; color: string; label: string; value: number }[] =
@@ -56,8 +57,8 @@ export function LprYearCard({
           : [];
     return (
       <div role="tooltip" data-lpr-hit className={`${BOX_COMPACT} pointer-events-none text-[0.74rem] leading-[1.45] text-ink-muted`} style={{ top: TOP, left, width }}>
-        <div className="font-mono text-[0.78rem] font-semibold text-ink">{head}</div>
-        <div>{`${year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : (t?.president ?? "")} · ${year.preliminary ? "Preliminary" : "Final"}`}</div>
+        <div className="flex items-baseline justify-between gap-4 font-mono text-[0.78rem] font-semibold text-ink"><span>{`FY${year.fy}`}</span><span>{headValue}</span></div>
+        <div>{`${year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : (t?.president ?? "")}${year.preliminary ? " · Preliminary" : ""}`}</div>
         {rows.length > 0 && (
           <div className="mt-1 grid grid-cols-[1fr_auto] gap-x-2 border-t border-line pt-1">
             {rows.map((r) => (
@@ -71,8 +72,7 @@ export function LprYearCard({
             ))}
           </div>
         )}
-        <div className="mt-1 text-ink-faint">Select for detail</div>
-      </div>
+              </div>
     );
   }
   return (

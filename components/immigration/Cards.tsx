@@ -7,7 +7,7 @@ export const BOX_COMPACT =
   "absolute z-[6] box-border whitespace-nowrap rounded-md border border-line-strong bg-surface px-2.5 py-2 shadow-[0_4px_14px_rgba(26,34,51,0.14)]";
 export const TOP = 30;
 /** Width of a hover card (a tap pins the full-size card instead). */
-export const HOVER_W = 212;
+export const HOVER_W = 288;
 /** Left edge for a hover card of width `w` placed beside a bar centred at `cx`: to its right, or to its left near the chart's right edge, so the bar stays in view. */
 export const besideBar = (cx: number, barW: number, w: number, chartW: number) => {
   const right = cx + barW / 2 + 8;
@@ -51,8 +51,8 @@ export function BarCard({
   if (!interactive) {
     return (
       <div role="tooltip" data-ice-hit className={`${BOX_COMPACT} pointer-events-none text-[0.74rem] leading-[1.45] text-ink-muted`} style={{ top: TOP, left, width }}>
-        <div className="font-mono text-[0.78rem] font-semibold text-ink">{`FY${year.fy} · ${year.value.toLocaleString("en-US")}`}</div>
-        <div>{`${year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : president} · ${year.status === "final" ? "Final" : "Preliminary"}`}</div>
+        <div className="flex items-baseline justify-between gap-4 font-mono text-[0.78rem] font-semibold text-ink"><span>{`FY${year.fy}`}</span><span>{year.value.toLocaleString("en-US")}</span></div>
+        <div>{`${year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : president}${year.status === "final" ? "" : " · Preliminary"}`}</div>
         {year.agency && (
           <div className="mt-1 grid grid-cols-[1fr_auto] gap-x-2 border-t border-line pt-1">
             <span className="inline-flex items-center gap-1">
@@ -73,8 +73,7 @@ export function BarCard({
             <b className="font-mono font-medium text-ink">{year.detention.value.toLocaleString("en-US")}</b>
           </div>
         )}
-        <div className="mt-1 text-ink-faint">Select for detail</div>
-      </div>
+              </div>
     );
   }
   return (

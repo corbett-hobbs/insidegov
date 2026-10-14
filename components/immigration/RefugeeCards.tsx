@@ -68,8 +68,8 @@ export function YearCard({
   if (!interactive) {
     return (
       <div role="tooltip" data-rf-hit className={`${BOX_COMPACT} pointer-events-none text-[0.74rem] leading-[1.45] text-ink-muted`} style={{ top: TOP, left, width }}>
-        <div className="font-mono text-[0.78rem] font-semibold text-ink">{`FY${year.fy} · ${n(year.admissions)} admitted`}</div>
-        <div>{`${year.blended ? `${year.days.map((d) => `${d.last} ${d.days} days`).join(" · ")}` : president} · ${year.preliminary ? "Preliminary" : "Final"}`}</div>
+        <div className="flex items-baseline justify-between gap-4 font-mono text-[0.78rem] font-semibold text-ink"><span>{`FY${year.fy}`}</span><span>{n(year.admissions)}</span></div>
+        <div>{`${year.blended ? `${year.days.map((d) => `${d.last} ${d.days} days`).join(" · ")}` : president}${year.preliminary ? " · Preliminary" : ""}`}</div>
         {year.ceiling !== null && (
           <div className="flex justify-between gap-2">
             <span>{`Ceiling${year.share !== null ? ` (${year.share < 0.1 ? (year.share * 100).toFixed(1) : Math.round(year.share * 100)}% used)` : ""}`}</span>
@@ -98,8 +98,7 @@ export function YearCard({
             )}
           </div>
         )}
-        <div className="mt-1 text-ink-faint">Select for detail</div>
-      </div>
+              </div>
     );
   }
   return (
