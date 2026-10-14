@@ -275,3 +275,100 @@ states a related change also agrees with the image-only FY2016 reads: 143,470 �
   UI may add a complete split, but no total row exists.
 - **Initial book-ins FY2021–FY2024:** only a monthly chart without labels, and
   percentages (CBP 68.6% of book-ins in FY2023, 67.4% in FY2024).
+
+## 7. Refugee ceiling vs. admissions — session C source check (2026-10-13)
+
+A separate track from ICE (`refugee_*.json`, methodology in
+`docs/REFUGEE_ADMISSIONS_METHODOLOGY.md`). Snapshots in `pipeline/raw/refugee/`; curated values
+and quotes in `pipeline/reference/refugee-catalog.json`.
+
+### Sources
+
+| Source | What it gives | Publisher / URL pattern | Format | Stable? | Automate? |
+| --- | --- | --- | --- | --- | --- |
+| Presidential Determinations, FY1995–FY2027 (37 documents, incl. emergency revisions FY1999, FY2021 ×2, FY2026) | Worldwide ceiling, regional/category/group allocations, revision dates | Federal Register via govinfo: `govinfo.gov/content/pkg/FR-<pub date>/html/<doc no>.htm`; discovered through the Federal Register API (`type=PRESDOCU`, term "refugee admissions") | HTML text (FY2020's allocation table is an image; its text comes from the APP copy) | Yes: API and govinfo URLs are permanent | **Discovery: yes. Values: detect + PR for review, not auto-merge** (see below) |
+| Determinations FY1987–FY1994 | Same, older format (private-sector numbers, Orderly Departure Program) | FY1993–94: GPO Public Papers / Weekly Compilation on govinfo. FY1987–92 and FY2020's table: The American Presidency Project (UCSB) copy of the Public Papers | HTML | Fixed history | Never changes; no refresh |
+| CRS R47399 (Jan 20, 2023), Table A-1 | Final ceiling FY1981–FY2022 (cross-check, and the only source for FY1981–86, FY1989 final, FY1990) | EveryCRSReport copy (congress.gov returns 403 to scripts) | HTML | Fixed | No refresh |
+| State Department Refugee Processing Center (WRAPS): "Refugee Admissions Report as of <date>.xlsx" | Admissions FY1975–present (cumulative sheet, by region); FY2001–present per-year sheets by country of chargeability and month, with year-end regional and worldwide ceilings | `wrapsnet.org/documents/...` → redirects to `rpc.state.gov/documents/...` | XLSX, machine-readable, consistent layout FY2001–FY2026 | **No:** the file name carries the date and changes every month (posted on the 5th) | **Check-and-issue only.** A new month means a new catalog source row; the parser gates fail loudly if the layout changes |
+| DHS OHSS Yearbook, refugees FY2024 (Tables 13–14) | Arrivals FY1980–FY2024, by nationality FY2015–FY2024 | `ohss.dhs.gov/system/files/<yyyy-mm>/<date>_ohss_yearbook_refugees_fy<year>.xlsx` | XLSX | No: new path per edition (annual) | Check-and-issue; cross-check only |
+| Policy instruments (EOs 13769, 13780, 13815, 14013, 14163, 14204; Proclamations 10949, 10998) | Dated rules for the marker lane | Federal Register via govinfo, as above | HTML | Yes | **Flag only**: curation stays manual |
+
+**Why new determinations are not auto-merged.** The Federal Register API makes discovery
+automatic: `pnpm fetch:refugee` writes `raw/refugee/fr-refugee-admissions-index.json` (every
+presidential document mentioning "refugee admissions"), and the transform **fails** when that
+index lists a document the catalog has neither curated nor recorded in `fr_index_reviewed`. But
+the numbers are curated: allocation tables have been dotted leaders, bulleted categories, an image
+(FY2020), ranges (FY2024–25) and prose-only group allocations (FY2026–27), and an emergency PD may
+restate or add. A scheduled fetch that finds a new PD will therefore open a PR whose gate fails
+until someone adds the catalog row (with verbatim quotes), which is the intended behaviour. A future
+job could draft that row with the Claude API, never auto-merged.
+
+**Re-running the fetch.** `pnpm fetch:refugee` is idempotent: it downloads only snapshots that are
+missing (`--refresh` re-downloads all), rewrites the text extracts deterministically, and writes the
+index sorted with stable fields only, so an unchanged source is no diff.
+
+**WRAPS after the January 2025 suspension:** still publishing monthly. The workbook as of
+Sept 30, 2026 has FY2026 (16,292 admissions, almost all Africa, i.e. South Africa) and the
+17,500 year-end ceiling.
+
+### Coverage
+
+| Series | Covered | Notes |
+| --- | --- | --- |
+| Ceiling (final) | FY1981–FY2027 | FY1980 missing (Refugee Act transition year; no text or compilation found). FY1981–86, FY1990 from CRS only; FY1989 final from CRS (PD 89-2's 94,000 is the initial) |
+| Ceiling (initial) and revisions | FY1987–FY2027 except FY1990 | Revised years: FY1988 (72,500 → 87,500), FY1989 (94,000 → 116,500, revising PD not located), FY1999 (78,000 → 91,000, Kosovo), FY2021 (15,000 → reallocated Apr 16 → 62,500 May 3), FY2026 (7,500 → 17,500, May 21, 2026) |
+| Allocations | Same as initial ceiling | Region FY1987–FY2019 and FY2021 (Apr) – FY2025; category FY2020 and FY2021 (Oct); group FY2026–FY2027 |
+| Admissions | FY1980–FY2026 (stored from FY1980; State Dept prints from FY1975) | FY2026 preliminary until 90 days after year end |
+| Admissions by region | FY1980–FY2026 | |
+| By country of chargeability, by month | FY2001–FY2026 | 135 countries |
+| Year-end regional ceilings | FY2001–FY2026 | none printed for FY2020 (category year) or FY2026 |
+
+### Agreements and disagreements found
+
+- **Determinations vs. CRS final ceilings:** identical in every year both exist (FY1987–FY2022)
+  except FY1989 (CRS 116,500 vs. PD 89-2's 94,000: a revision not located). Gated.
+- **Determinations vs. the State Department's year-end worldwide ceiling, FY2001–FY2026:**
+  identical every year (including FY2012's 76,000, FY2021's 62,500 and FY2026's 17,500). Gated.
+- **Regional allocations vs. year-end regional ceilings:** usually differ (reallocations;
+  FY2013 Africa 12,000 → 15,950). Both stored, not gated.
+- **CRS admissions (as of Nov 30, 2022) vs. the current State Department vintage:** identical
+  except FY2018, 22,615 → 22,676 (+61; the Doe v. Trump settlement counts some later arrivals
+  toward FY2018's ceiling).
+- **DHS OHSS vs. State Department totals:** within 1.5% every year except FY1992 (+14.7%),
+  FY1993 (+4.6%): DHS excludes Amerasian immigrants, which the State Department's Asia column
+  includes. DHS rounds to tens.
+- **By nationality (OHSS Table 14, FY2015–FY2024):** 119 country-years differ by more than
+  rounding, largest Venezuela/Colombia/Costa Rica/Ecuador/Nicaragua in FY2024 and Bhutan/Nepal in
+  FY2015–FY2018. DHS uses nationality; the State Department's country column is country of
+  chargeability, so the two tables answer slightly different questions. Report only.
+- **EO 13769/13780's 50,000 cap on FY2017 entries** does not change the FY2017 ceiling of record
+  (110,000; the State Department's FY2017 sheet prints 110,000).
+
+### How the travel bans touch refugee admissions (verified against the texts)
+
+Proclamations 10949 (June 4, 2025; effective June 9) and 10998 (Dec 16, 2025; effective Jan 1,
+2026) suspend *entry* of nationals of the listed countries. Each exempts "a refugee who has already
+been admitted to the United States" and says nothing in it limits seeking refugee status. The
+determinations close the gap: PD 2025-13 (FY2026) makes admissions "subject to" Proclamation 10949,
+and PD 2026-14 and PD 2026-24 (FY2027) to Proclamation 10998, alongside EO 14163's suspension. So
+for refugees the bans apply through the determinations, on top of a program that has been
+suspended since Jan 27, 2025 except case-by-case admissions.
+
+Proclamation 10998's 39 countries: 19 full (the 12 continued, Laos and Sierra Leone moved up, plus
+Burkina Faso, Mali, Niger, South Sudan, Syria) and 20 partial (Burundi, Cuba, Togo, Venezuela
+continued; 15 added; Turkmenistan narrowed to immigrants), plus Palestinian Authority travel
+documents (full, stored as `PSE`).
+
+### Not ingested
+
+- **USCIS adjudication hold (PM-602-0192, Dec 2, 2025), its Jan 1, 2026 widening, the Mar 30,
+  2026 partial asylum restart, and the June 5, 2026 D.R.I. ruling:** no uscis.gov or court copy was
+  located (only an AILA-hosted reproduction and press summaries). They govern benefit applications
+  (asylum, green cards) from people already in the U.S., not refugee admissions, so they sit
+  outside this track. A future benefits/asylum track should snapshot the primary texts.
+- **Court challenges to EO 14163** (e.g. *Pacito v. Trump*, W.D. Wash.): not tracked; the policy
+  table's status means "as the instruments in the catalog stand", with `status_as_of`.
+- **The 1980s Federal Register itself:** only whole-issue scans (26–76 MB per day), too large to
+  snapshot; FY1981–FY1986 and FY1990 rest on CRS.
+- **Proclamation 9645 (Sept 2017 travel ban) and the Oct 2017 eleven-country refugee review:** not
+  reviewed in this pass.

@@ -12,10 +12,12 @@ import { refugeeSource, type RefugeeSource } from "../../lib/refugee-entities";
  * extract next to each (`<file>.txt`). The transform reads ONLY the extracts and checks every
  * curated number against a verbatim quote, so a snapshot that drifts fails the build.
  *
- * Manual refresh, like the ICE track: the State Department's workbook is renamed every month
- * ("Refugee Admissions Report as of <date>.xlsx"), PDs arrive once or twice a year at new Federal
- * Register addresses, and the 1980s–90s texts are fixed. Existing snapshots are never re-downloaded
- * unless `--refresh`. See docs/REFUGEE_ADMISSIONS_METHODOLOGY.md, "Refreshing".
+ * Safe to re-run (a scheduled job may): existing snapshots are never re-downloaded unless
+ * `--refresh`, extracts are rewritten deterministically, and the Federal Register index below is
+ * written sorted with stable fields, so an unchanged source is no diff. New determinations are found
+ * through that index; the State Department's workbook is renamed every month ("Refugee Admissions
+ * Report as of <date>.xlsx"), so a new month is a new catalog source. See
+ * docs/REFUGEE_ADMISSIONS_METHODOLOGY.md, "Refreshing".
  *
  * Needs `unzip` on PATH for the workbook extracts.
  */

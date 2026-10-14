@@ -7,7 +7,7 @@ import { z } from "zod";
  * admitted through the U.S. Refugee Admissions Program (USRAP), as counted by the State
  * Department's Refugee Processing Center (WRAPS). Keyed by fiscal year; no person key. Joined to
  * presidents through dates, like the enforcement track. See
- * `docs/REFUGEE_ADMISSIONS_METHODOLOGY.md` and `docs/IMMIGRATION_SOURCE_NOTES.md` §6.
+ * `docs/REFUGEE_ADMISSIONS_METHODOLOGY.md` and `docs/IMMIGRATION_SOURCE_NOTES.md` §7.
  */
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "ISO date");

@@ -273,6 +273,19 @@ Separate source, separate card. Do a source check first, as in
 
 Data on Opus (high), UI on Sonnet (medium), same split as A/B.
 
+**Status (2026-10-13): data pass done**, addendum included. Outputs `refugee_*.json`;
+methodology `docs/REFUGEE_ADMISSIONS_METHODOLOGY.md`; source check
+`docs/IMMIGRATION_SOURCE_NOTES.md` §7. Findings that change the UI brief:
+
+- Ceilings cover FY1981–FY2027 (FY1980 has none); FY1981–86 and FY1990 come from a CRS
+  compilation, so they have no initial ceiling or revision dates.
+- The State Department's country column is country of **chargeability**, not nationality.
+- The USCIS benefits hold, the asylum restart and the D.R.I. ruling were **not** ingested: no
+  primary copy was found, and they concern benefit applications, not refugee admissions.
+- For Session D: Federal Register *discovery* is automatic, but a new determination fails the
+  build until its catalog row is curated (so: detect + PR for review, not auto-merge). The State
+  Department workbook is renamed monthly: check-and-issue.
+
 ### Session C addendum (2026-10-13): origins and country restrictions
 
 Added after session C had already started; it was sent to that session directly.
