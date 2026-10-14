@@ -2,16 +2,17 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { administration } from "./executive-orders-entities";
 import { assertLprInvariants, buildLprPayload, rankLprCountries } from "./lpr-derive";
-import { lprCountryRow, lprNoteRow, lprSeriesRow } from "./lpr-entities";
+import { lprCountryRow, lprNoteRow, lprRegionRow, lprSeriesRow } from "./lpr-entities";
 import { LPR_CLASS_STACK } from "./lpr-types";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 
 const read = (f: string) => JSON.parse(readFileSync(`pipeline/output/${f}`, "utf8")) as unknown[];
 const series = read("lpr_series.json").map((r) => lprSeriesRow.parse(r));
 const byCountry = read("lpr_by_country.json").map((r) => lprCountryRow.parse(r));
+const byRegion = read("lpr_by_region.json").map((r) => lprRegionRow.parse(r));
 const notes = read("lpr_notes.json").map((r) => lprNoteRow.parse(r));
 const admins = read("administrations.json").map((r) => administration.parse(r));
-const p = buildLprPayload({ series, byCountry, notes, admins: [...HISTORICAL_ADMINISTRATIONS, ...admins.filter((a) => !HISTORICAL_ADMINISTRATIONS.some((h) => h.term_id === a.term_id))] });
+const p = buildLprPayload({ series, byCountry, byRegion, notes, admins: [...HISTORICAL_ADMINISTRATIONS, ...admins.filter((a) => !HISTORICAL_ADMINISTRATIONS.some((h) => h.term_id === a.term_id))] });
 const year = (fy: number) => p.years.find((y) => y.fy === fy)!;
 
 describe("buildLprPayload (real files)", () => {
@@ -71,5 +72,23 @@ describe("invariants fail loudly", () => {
 
   it("rejects a cited note that does not exist", () => {
     expect(() => assertLprInvariants(series, byCountry, notes.filter((n) => n.id !== "rounding"))).toThrow(/unknown note rounding/);
+  });
+});
+
+describe("regions (OHSS continents)", () => {
+  it("has a region year for every country year, on the same basis, adding up to the national total", () => {
+    expect(p.regionYears.length).toBe(p.countryYears.length);
+    for (const c of p.countryYears) {
+      const r = p.regionYears.find((x) => x.metric === c.metric && x.fy === c.fy)!;
+      expect(r.basis).toBe(c.basis);
+      expect(r.preliminary).toBe(c.preliminary);
+      const sum = Object.values(r.regions).reduce((a, b) => a + b, 0);
+      const national = c.metric === "lpr" ? year(c.fy).lpr : year(c.fy).naturalizations!;
+      expect(Math.abs(sum - national)).toBeLessThanOrEqual(25);
+    }
+  });
+
+  it("fails when a year's regions go missing", () => {
+    expect(() => buildLprPayload({ series, byCountry, byRegion: byRegion.filter((r) => !(r.metric === "naturalizations" && r.fy === 2010)), notes, admins: [...HISTORICAL_ADMINISTRATIONS, ...admins.filter((a) => !HISTORICAL_ADMINISTRATIONS.some((h) => h.term_id === a.term_id))] })).toThrow(/no regions/);
   });
 });

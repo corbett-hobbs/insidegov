@@ -13,7 +13,8 @@ export interface RefugeeMapRow {
   key: string;
   name: string;
   value: number;
-  group: GeoGroup;
+  /** Region of the country; only the refugee Regions view reads it. */
+  group?: GeoGroup;
 }
 
 export type MapMode = "countries" | "regions";
@@ -23,9 +24,28 @@ const mix = (pct: number) => `color-mix(in oklab, var(--accent) ${pct}%, var(--s
 const THRESHOLDS = [100, 1_000, 5_000, 10_000];
 export const BIN_LABELS = ["1–99", "100–999", "1,000–4,999", "5,000–9,999", "10,000+"];
 const BIN_MIX = [22, 38, 56, 76, 100];
-const classOf = (v: number) => {
-  const i = THRESHOLDS.findIndex((t) => v < t);
-  return i === -1 ? THRESHOLDS.length + 1 : i + 1;
+export interface MapBins {
+  /** Upper bounds of every bin but the last, ascending. */
+  thresholds: readonly number[];
+  labels: readonly string[];
+  mix: readonly number[];
+}
+const REFUGEE_BINS: MapBins = { thresholds: THRESHOLDS, labels: BIN_LABELS, mix: BIN_MIX };
+/** Wording that changes with the measure drawn (the green-card map reuses this component). */
+export interface MapWords {
+  /** Tooltip value prefix, "Admitted". */
+  value: string;
+  /** Tooltip text for a country with no count. */
+  none: string;
+  /** In the aria label: "refugees admitted by". */
+  subject: string;
+  /** After "by": "country of chargeability". */
+  basis: string;
+}
+const REFUGEE_WORDS: MapWords = { value: "Admitted", none: "No refugees recorded", subject: "refugees admitted", basis: "country of chargeability" };
+const classOf = (v: number, thresholds: readonly number[]) => {
+  const i = thresholds.findIndex((t) => v < t);
+  return i === -1 ? thresholds.length + 1 : i + 1;
 };
 
 /**
@@ -42,6 +62,8 @@ export function RefugeeMap({
   onPickCountry,
   onPickRegion,
   fy,
+  bins = REFUGEE_BINS,
+  words = REFUGEE_WORDS,
 }: {
   features: readonly MapFeature[];
   rows: readonly RefugeeMapRow[];
@@ -51,6 +73,8 @@ export function RefugeeMap({
   onPickCountry: (key: string | null) => void;
   onPickRegion: (group: GeoGroup | null) => void;
   fy: number;
+  bins?: MapBins;
+  words?: MapWords;
 }) {
   const tip = useTooltip<{ title: string; value: number | null; group: GeoGroup | null }>();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -87,9 +111,9 @@ export function RefugeeMap({
           None
         </span>
         {mode === "countries"
-          ? BIN_LABELS.map((l, i) => (
+          ? bins.labels.map((l, i) => (
               <span key={l} className="inline-flex items-center gap-1.5">
-                <i className="inline-block h-2.5 w-[22px] rounded-[2px] border border-line" style={{ background: mix(BIN_MIX[i]) }} />
+                <i className="inline-block h-2.5 w-[22px] rounded-[2px] border border-line" style={{ background: mix(bins.mix[i]) }} />
                 {l}
               </span>
             ))
@@ -106,7 +130,7 @@ export function RefugeeMap({
             ref={svgRef}
             viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
             role="img"
-            aria-label={`Map of refugees admitted by ${mode === "regions" ? "region" : "country of chargeability"}, FY${fy}. The ranked list and table carry the same figures.`}
+            aria-label={`Map of ${words.subject} by ${mode === "regions" ? "region" : words.basis}, FY${fy}. The ranked list and table carry the same figures.`}
             className="mx-auto block h-auto max-h-[19.5rem] w-full"
             preserveAspectRatio="xMidYMid meet"
             style={{ touchAction: zoom.zoomed ? "none" : "pan-y", cursor: zoom.zoomed ? "grab" : undefined }}
@@ -124,7 +148,7 @@ export function RefugeeMap({
             onClick={(e) => {
               const h = hitFor(e.target as Element);
               if (!h || h.value === null) return;
-              if (mode === "regions") onPickRegion(h.group === region ? null : h.group);
+              if (mode === "regions") onPickRegion(h.group === region ? null : (h.group ?? null));
               else onPickCountry(h.key === country ? null : h.key);
             }}
           >
@@ -138,7 +162,7 @@ export function RefugeeMap({
                   data-k={f.key}
                   d={f.d}
                   style={{
-                    fill: row ? (mode === "regions" ? REGION_COLOR[row.group] : mix(BIN_MIX[classOf(row.value) - 1])) : LAND,
+                    fill: row ? (mode === "regions" ? (row.group ? REGION_COLOR[row.group] : LAND) : mix(bins.mix[classOf(row.value, bins.thresholds) - 1])) : LAND,
                     stroke: sel ? "var(--accent)" : "var(--surface)",
                     strokeWidth: sel ? 1.7 : 0.5,
                     vectorEffect: "non-scaling-stroke",
@@ -158,7 +182,7 @@ export function RefugeeMap({
         {({ title, value, group }) => (
           <div className="flex min-w-[8rem] flex-col gap-0.5 text-[0.78rem]">
             <div className="font-medium">{title}, FY{fy}</div>
-            <div>{value === null ? <span className="opacity-75">No refugees recorded</span> : <>Admitted <span className="font-mono">{n(value)}</span></>}</div>
+            <div>{value === null ? <span className="opacity-75">{words.none}</span> : <>{words.value} <span className="font-mono">{n(value)}</span></>}</div>
             {value !== null && group && mode === "regions" && <div className="opacity-75">{GEO_NAME[group].name}</div>}
           </div>
         )}

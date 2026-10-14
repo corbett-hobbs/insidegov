@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import { lprCatalog } from "../../lib/lpr-entities";
-import { assertLprInvariants } from "../../lib/lpr-derive";
+import { assertLprInvariants, assertRegionInvariants } from "../../lib/lpr-derive";
 import { HISTORICAL_ADMINISTRATIONS } from "../../lib/troops-presidents";
 import { RAW_DIR } from "../fetch/lib";
 import { ADMINISTRATIONS } from "./administrations";
@@ -52,6 +52,7 @@ async function main() {
 
   // The page's invariants fail here, not at the next site build.
   assertLprInvariants(built.series, built.byCountry, built.notes);
+  assertRegionInvariants(built.series, built.byCountry, built.byRegion);
 
   const sources = await Promise.all(
     catalog.sources.map(async (s) => {
@@ -63,6 +64,7 @@ async function main() {
   await mkdir(OUT, { recursive: true });
   await writeFile(`${OUT}/lpr_series.json`, oneRowPerLine(built.series));
   await writeFile(`${OUT}/lpr_by_country.json`, oneRowPerLine(built.byCountry));
+  await writeFile(`${OUT}/lpr_by_region.json`, oneRowPerLine(built.byRegion));
   await writeFile(`${OUT}/lpr_notes.json`, oneRowPerLine(built.notes));
   await writeFile(`${OUT}/lpr_report.json`, JSON.stringify({ ...built.report, sources }, null, 2) + "\n");
 

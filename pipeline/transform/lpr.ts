@@ -3,6 +3,10 @@ import {
   BUCKET_KEYS,
   LPR_CLASSES,
   lprCountryRow,
+  lprRegionRow,
+  LPR_REGIONS,
+  type LprRegion,
+  type LprRegionRow,
   lprSeriesRow,
   type AdmissionType,
   type CountryBasis,
@@ -395,10 +399,23 @@ function checkTitleYears(table: OhssTable, fys: readonly number[]) {
 
 export interface CountryYear {
   total: Count;
+  /** The REGION section's rows as printed (the Total row excluded). */
+  regionRows: { name: string; count: Count }[];
   regionSum: number;
   regions: number;
   rows: { name: string; count: Count }[];
 }
+
+/** OHSS's continent rows, as printed (lower-cased), to a region key. A new label fails the build. */
+const REGION_NAME: Readonly<Record<string, LprRegion>> = {
+  africa: "africa",
+  asia: "asia",
+  europe: "europe",
+  "north america": "north_america",
+  oceania: "oceania",
+  "south america": "south_america",
+  unknown: "unknown",
+};
 
 const BUCKET_NAME: Readonly<Record<string, "other" | "unknown">> = { "all other countries": "other", unknown: "unknown" };
 
@@ -417,7 +434,8 @@ function readCountrySections(ctx: TableContext, fys: readonly number[], dataRows
   const countryTotal = countryRows.find((r) => r.cells[0] === "Total") ?? fail(`${table.id}: no Total in the COUNTRY section`);
   const rt = counts(regionTotal);
   const ct = counts(countryTotal);
-  const regions = regionRows.filter((r) => r !== regionTotal).map(counts);
+  const regionData = regionRows.filter((r) => r !== regionTotal).map((r) => ({ name: label(r.cells[0]), counts: counts(r) }));
+  const regions = regionData.map((r) => r.counts);
   const countries = countryRows.filter((r) => r !== countryTotal).map((r) => ({ name: label(r.cells[0]), counts: counts(r) }));
   checkRounding(ctx, [...rt, ...ct, ...regions.flat(), ...countries.flatMap((c) => c.counts)]);
   fys.forEach((fy, i) => {
@@ -432,6 +450,7 @@ function readCountrySections(ctx: TableContext, fys: readonly number[], dataRows
     }
     out.set(fy, {
       total: ct[i],
+      regionRows: regionData.map((r) => ({ name: r.name, count: r.counts[i] })),
       regionSum: rs.reduce((s, r) => s + (r.value ?? 0), 0),
       regions: rs.length,
       rows: countries.map((c) => ({ name: c.name, count: c.counts[i] })),
@@ -621,6 +640,7 @@ export function buildLpr(input: LprBuildInput) {
 
   // ---- by country ----
   const byCountry: LprCountryRow[] = [];
+  const byRegion: LprRegionRow[] = [];
   const unmapped = new Set<string>();
   const countryHome = new Map<string, Located>();
   for (const metric of ["lpr", "naturalizations"] as const) {
@@ -702,6 +722,25 @@ export function buildLpr(input: LprBuildInput) {
       } else if (!unmapped.size) {
         checkSum(`${home.ctx.table.id} FY${fy} countries`, y.rows.map((r) => r.count), y.total, home.ctx.table.rounding);
       }
+      const regionMerged = new Map<LprRegion, LprRegionRow>();
+      let regionPrinted = 0;
+      let regionWithheld = 0;
+      for (const r of y.regionRows) {
+        if (r.count.withheld) {
+          regionWithheld++;
+          continue;
+        }
+        if (r.count.notApplicable) continue;
+        const region = REGION_NAME[r.name.toLowerCase()] ?? fail(`${home.ctx.table.id} FY${fy}: unknown region "${r.name}" (add it to REGION_NAME in lpr.ts)`);
+        regionPrinted += r.count.value!;
+        if (r.count.value === 0) continue;
+        const prev = regionMerged.get(region);
+        if (prev) fail(`${home.ctx.table.id} FY${fy}: region "${r.name}" printed twice`);
+        regionMerged.set(region, { fy, metric, basis: home.ctx.table.basis!, region, printed_name: r.name, value: r.count.value!, status, ...provenance(home, [r.count.cell], "printed") });
+      }
+      if (regionWithheld) fail(`${home.ctx.table.id} FY${fy}: ${regionWithheld} withheld region cells (no region remainder is modelled)`);
+      if (Math.abs(regionPrinted - total) > roundingSlack(home.ctx.table.rounding, y.regionRows.length + 1)) fail(`${home.ctx.table.id} FY${fy}: regions sum to ${regionPrinted}, printed total ${total}`);
+      byRegion.push(...[...regionMerged.values()].sort((a, b) => LPR_REGIONS.indexOf(a.region) - LPR_REGIONS.indexOf(b.region)).map((r) => lprRegionRow.parse(r)));
       const rows = [...merged.values()].sort((a, b) => b.value - a.value || a.country_key.localeCompare(b.country_key));
       byCountry.push(...rows.map((r) => lprCountryRow.parse(r)));
     }
@@ -777,6 +816,7 @@ export function buildLpr(input: LprBuildInput) {
   return {
     series,
     byCountry,
+    byRegion,
     notes: [...catalog.notes].sort((a, b) => a.fy_start - b.fy_start || a.id.localeCompare(b.id)) as LprNote[],
     report,
     tableById,

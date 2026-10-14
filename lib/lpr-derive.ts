@@ -1,6 +1,6 @@
 import type { Administration } from "./executive-orders-entities";
-import type { LprCountryRow, LprNote, LprSeriesRow } from "./lpr-entities";
-import { LPR_CLASS_STACK, type LprClassKey, type LprCountryRef, type LprCountryYear, type LprPayload, type LprTerm, type LprYear, type RankedLprCountry } from "./lpr-types";
+import type { LprCountryRow, LprNote, LprRegionRow, LprSeriesRow } from "./lpr-entities";
+import { LPR_CLASS_STACK, type LprClassKey, type LprCountryRef, type LprCountryYear, type LprPayload, type LprRegionYear, type LprTerm, type LprYear, type RankedLprCountry } from "./lpr-types";
 
 /**
  * Pure shaping for the legal-immigration track (green cards and naturalizations): the national
@@ -100,11 +100,13 @@ const partyOf = (a: Administration): "D" | "R" => (a.party === "Democratic" ? "D
 export function buildLprPayload(input: {
   series: readonly LprSeriesRow[];
   byCountry: readonly LprCountryRow[];
+  byRegion: readonly LprRegionRow[];
   notes: readonly LprNote[];
   admins: readonly Administration[];
 }): LprPayload {
-  const { series, byCountry, notes, admins } = input;
+  const { series, byCountry, byRegion, notes, admins } = input;
   assertLprInvariants(series, byCountry, notes);
+  assertRegionInvariants(series, byCountry, byRegion);
   const adminById = new Map(admins.map((a) => [a.term_id, a]));
   const admin = (id: string) => adminById.get(id) ?? fail(`term ${id} is not in the administrations table`);
 
@@ -165,12 +167,25 @@ export function buildLprPayload(input: {
     })
     .sort((a, b) => a.metric.localeCompare(b.metric) || a.fy - b.fy);
 
+  const regionGroups = new Map<string, LprRegionRow[]>();
+  for (const r of byRegion) regionGroups.set(`${r.metric}|${r.fy}`, [...(regionGroups.get(`${r.metric}|${r.fy}`) ?? []), r]);
+  const regionYears: LprRegionYear[] = [...regionGroups.values()]
+    .map((rows) => ({
+      fy: rows[0].fy,
+      metric: rows[0].metric,
+      basis: rows[0].basis,
+      preliminary: rows[0].status === "preliminary",
+      regions: Object.fromEntries(rows.map((r) => [r.region, r.value])),
+    }))
+    .sort((a, b) => a.metric.localeCompare(b.metric) || a.fy - b.fy);
+
   return {
     years,
     terms,
     notes: notes.map((n) => ({ id: n.id, kind: n.kind, metric: n.metric, fyStart: n.fy_start, fyEnd: n.fy_end, title: n.title, text: n.text })),
     countries: refs,
     countryYears,
+    regionYears,
     firstFy: years[0].fy,
     lastFy: years[years.length - 1].fy,
     firstDetailFy: years.find((y) => y.classes !== null)?.fy ?? fail("no year with classes"),
@@ -191,4 +206,24 @@ export function rankLprCountries(p: LprPayload, metric: "lpr" | "naturalizations
   return cur.rows
     .filter(([ci]) => p.countries[ci].kind === "country")
     .map(([ci, value], i) => ({ ci, key: p.countries[ci].key, name: p.countries[ci].name, value, rank: i + 1, change: prev ? value - (prevBy.get(ci) ?? 0) : null }));
+}
+
+/**
+ * OHSS's continent rows: for every metric-year with by-country rows there are region rows from the same table (same basis and
+ * status), and they add up to the year's national total within rounding (the printed REGION and COUNTRY totals already agreed in
+ * the transform, so a gap here means the wrong total was used).
+ */
+export function assertRegionInvariants(series: readonly LprSeriesRow[], byCountry: readonly LprCountryRow[], byRegion: readonly LprRegionRow[]): void {
+  const national = new Map(series.filter((r) => r.admission_type === null && r.class === null).map((r) => [`${r.metric}|${r.period}`, r]));
+  const countryBasis = new Map(byCountry.map((r) => [`${r.metric}|${r.fy}`, `${r.basis}|${r.status}`]));
+  const groups = new Map<string, LprRegionRow[]>();
+  for (const r of byRegion) groups.set(`${r.metric}|${r.fy}`, [...(groups.get(`${r.metric}|${r.fy}`) ?? []), r]);
+  for (const k of countryBasis.keys()) if (!groups.has(k)) fail(`${k}: has countries but no regions`);
+  for (const [k, rows] of groups) {
+    const nat = national.get(k) ?? fail(`${k}: regions but no national row`);
+    if (countryBasis.get(k) !== `${rows[0].basis}|${rows[0].status}`) fail(`${k}: regions and countries differ in basis or status`);
+    if (new Set(rows.map((r) => r.region)).size !== rows.length) fail(`${k}: a region appears twice`);
+    const sum = rows.reduce((s, r) => s + r.value, 0);
+    if (Math.abs(sum - nat.value) > slackOf([...rows, nat]) + 10) fail(`${k}: regions sum to ${sum}, national total ${nat.value}`);
+  }
 }
