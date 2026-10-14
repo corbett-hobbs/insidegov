@@ -260,7 +260,7 @@ export function SenateExplorer({
       />
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader title="How Does Congress Vote?">
+        <PageHeader eyebrow="Congress · Ideology" title="How Does Congress Vote?">
           <p>{INTRO}</p>
           <HowToRead>
             <p>

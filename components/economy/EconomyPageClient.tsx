@@ -103,7 +103,7 @@ function EconomyPage({
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader title="What Was the Economy Like?">
+        <PageHeader eyebrow="Presidency · Economy" title="What Was the Economy Like?">
           <p>
             Gas prices, mortgage rates, jobs, inflation, income and the federal budget, month by month since 1991. These
             are the numbers households feel first, lined up against who held the White House and Congress at the time.

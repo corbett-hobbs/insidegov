@@ -50,7 +50,7 @@ function EnergyPage({ payload }: { payload: EnergyPayload }) {
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader title="How Has U.S. Energy Changed?">
+        <PageHeader eyebrow="Presidency · Energy" title="How Has U.S. Energy Changed?">
           <p>
             Where U.S. electricity comes from, how much oil the country produces, uses and trades, how much natural gas it
             ships abroad, and what is left in the emergency oil reserve, since 1991. Energy costs feed into nearly every

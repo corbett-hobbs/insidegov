@@ -71,7 +71,7 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
       />
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-8 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader title="How Much Is Congress Worth?">
+        <PageHeader eyebrow="Congress · Wealth" title="How Much Is Congress Worth?">
           <p>
             Estimated net worth for every member of Congress, built from the
             financial disclosures they file each year. Members write the laws

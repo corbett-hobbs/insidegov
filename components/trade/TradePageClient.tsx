@@ -121,7 +121,7 @@ function TradePage({ data }: { data: TradePageData }) {
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader title="How Does the U.S. Trade With the World?">
+        <PageHeader eyebrow="Presidency · Trade" title="How Does the U.S. Trade With the World?">
           <p>
             Who the U.S. buys from and sells to, and what it charges in tariffs on what comes in. Tariffs change what
             Americans pay and who they trade with, and the marked dates show when the courts, Congress and the White
