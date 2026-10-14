@@ -216,6 +216,12 @@ export function RefugeeChart({
                       acc += v;
                       return <rect key={g} x={bx} y={top} width={barW} height={Math.max(0, h)} style={{ fill: REGION_COLOR[g] }} />;
                     })}
+                    {!only && yr.privateSector > 0 && (() => {
+                      const top = y(acc + yr.privateSector);
+                      const h = y(acc) - top;
+                      acc += yr.privateSector;
+                      return <rect x={bx} y={top} width={barW} height={Math.max(0, h)} style={{ fill: "var(--ink-faint)", opacity: 0.55 }} />;
+                    })()}
                     {yr.preliminary && total > 0 && <rect x={bx} y={y(total)} width={barW} height={BASE - y(total)} fill={`url(#${idBase}-hatch)`} />}
                     {!only && yr.ceiling !== null && <line x1={bx - 1} x2={bx + barW + 1} y1={y(yr.ceiling)} y2={y(yr.ceiling)} style={{ stroke: "var(--ink)", strokeWidth: 2.2 }} />}
                   </g>

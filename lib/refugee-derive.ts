@@ -27,8 +27,11 @@ import {
  * Only type imports from the entities file, so client components can use the ranking helpers below without pulling in Zod.
  */
 
-/** The payload starts here: country detail starts in FY2001, and the page's FY2003 window needs the two years before it for changes. */
-export const PAYLOAD_FIRST_FY = 2001;
+/** The payload starts with the first admissions year (the Refugee Act's FY1980): the page's slider runs from here. */
+export const PAYLOAD_FIRST_FY = 1980;
+
+/** Admissions by source country begin here; the years before it have a region split and a ceiling but no country list. */
+export const COUNTRY_FIRST_FY = 2001;
 
 /** Notes shown on a year's card: the few that explain a year on their own. The generic caveats live in the Data notes. */
 export const CARD_NOTE_IDS: readonly string[] = ["covid-19", "usrap-suspension-2025", "fy2017-50000-cap", "doe-v-trump-fy2018-counting", "fy2026-preliminary"];
@@ -75,7 +78,9 @@ export function buildRefugeePayload(input: {
   const years: RefugeeYear[] = rows.map((r) => {
     const byRegion = Object.fromEntries(GEO_STACK.map((g) => [g, regionBy.get(`${r.period}|${g}`)?.admissions ?? 0])) as Record<GeoGroup, number>;
     const sum = GEO_STACK.reduce((s, g) => s + byRegion[g], 0);
-    if (sum !== r.admissions) fail(`FY${r.period} regions sum to ${sum}, admissions ${r.admissions}`);
+    // The Private Sector Initiative (FY1988-FY1993) is reported outside the five regions: the regions and it add to the year's total.
+    const privateSector = regionBy.get(`${r.period}|private_sector`)?.admissions ?? 0;
+    if (sum + privateSector !== r.admissions) fail(`FY${r.period} regions sum to ${sum} (+${privateSector} private sector), admissions ${r.admissions}`);
     return {
       fy: r.period,
       ceiling: r.ceiling,
@@ -89,6 +94,7 @@ export function buildRefugeePayload(input: {
       blended: r.blended,
       days: r.administration_days.map((d) => ({ termId: d.term_id, last: lastName(adminById.get(d.term_id)!.president), days: d.days })),
       regions: byRegion,
+      privateSector,
       cardNotes: r.note_ids
         .filter((id) => CARD_NOTE_IDS.includes(id))
         .map((id) => ({ id, title: noteById.get(id)!.title, text: noteById.get(id)!.text })),
@@ -141,7 +147,7 @@ export function buildRefugeePayload(input: {
   // Countries.
   const refByKey = new Map<string, number>();
   const refs: { key: string; name: string }[] = [];
-  const countryYears: RefugeeCountryYear[] = years.map((y) => {
+  const countryYears: RefugeeCountryYear[] = years.filter((y) => y.fy >= COUNTRY_FIRST_FY).map((y) => {
     const list = countries.filter((c) => c.fy === y.fy);
     const total = list.reduce((s, c) => s + c.admissions, 0);
     if (total !== y.admissions) fail(`FY${y.fy} countries sum to ${total}, admissions ${y.admissions}`);

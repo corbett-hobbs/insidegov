@@ -74,6 +74,18 @@ export function LprGreenCardCard({
                 {g.name}
               </LegendToggle>
             ))}
+        {!nat && years.some((y) => !y.classes) && (
+          <span className={LEGEND_ITEM}>
+            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--ink-faint)", opacity: 0.55 }} />
+            Total only (not split by class before FY{payload.firstDetailFy})
+          </span>
+        )}
+        {nat && years.some((y) => !regions.get(y.fy)) && (
+          <span className={LEGEND_ITEM}>
+            <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--ink-faint)", opacity: 0.55 }} />
+            Total only (continent not published)
+          </span>
+        )}
         {prelim && (
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-[10px] w-3 rounded-[1px] border border-line-strong" style={{ background: "repeating-linear-gradient(45deg, var(--ink-muted) 0 2px, transparent 2px 5px)" }} />

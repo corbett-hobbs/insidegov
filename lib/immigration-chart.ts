@@ -20,13 +20,17 @@ export const SPARSE_LABEL_YEARS: readonly number[] = [2012, 2021, 2025];
 export const ALL_LABELS_MAX_BARS = 8;
 export const labelsBar = (fy: number, shown: number) => shown <= ALL_LABELS_MAX_BARS || SPARSE_LABEL_YEARS.includes(fy);
 
-export type YearLabelMode = "four" | "two" | "every4";
-/** 4-digit labels when the slot is at least 30px wide, else 2-digit; every 4th year (2003, 2007, ...) under 20px. */
-export const yearLabelMode = (slotW: number): YearLabelMode => (slotW >= 30 ? "four" : slotW >= 20 ? "two" : "every4");
+export type YearLabelMode = "four" | "two" | "every4" | "every8";
+/**
+ * 4-digit labels when the slot is at least 30px wide, else 2-digit; every 4th year (2003, 2007, ...) under 20px, and every 8th
+ * (1983, 1991, ..., 2023) under 12px, so the whole FY1980 to FY2025 window still keeps its year labels apart on a phone.
+ */
+export const yearLabelMode = (slotW: number): YearLabelMode => (slotW >= 30 ? "four" : slotW >= 20 ? "two" : slotW >= 12 ? "every4" : "every8");
 
 export function yearLabel(fy: number, mode: YearLabelMode): string | null {
   if (mode === "four") return String(fy);
   if (mode === "two") return String(fy).slice(2);
+  if (mode === "every8") return fy % 8 === 7 ? String(fy) : null;
   return fy % 4 === 3 ? String(fy) : null;
 }
 

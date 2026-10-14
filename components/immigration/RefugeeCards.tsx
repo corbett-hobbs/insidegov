@@ -87,6 +87,15 @@ export function YearCard({
                 <b className="font-mono font-medium text-ink">{n(year.regions[g])}</b>
               </div>
             ))}
+            {year.privateSector > 0 && (
+              <div className="contents">
+                <span className="inline-flex items-center gap-1">
+                  <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: "var(--ink-faint)", opacity: 0.55 }} />
+                  Private sector
+                </span>
+                <b className="font-mono font-medium text-ink">{n(year.privateSector)}</b>
+              </div>
+            )}
           </div>
         )}
         <div className="mt-1 text-ink-faint">Select for detail</div>
@@ -122,6 +131,15 @@ export function YearCard({
               <b className="font-mono font-medium text-ink">{n(year.regions[g])}</b>
             </div>
           ))}
+          {year.privateSector > 0 && (
+            <div className="contents">
+              <span className="inline-flex items-center gap-1.5">
+                <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--ink-faint)", opacity: 0.55 }} />
+                Private-sector initiative
+              </span>
+              <b className="font-mono font-medium text-ink">{n(year.privateSector)}</b>
+            </div>
+          )}
         </div>
       )}
       {year.cardNotes.map((note) => (
