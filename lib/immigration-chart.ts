@@ -10,9 +10,15 @@ export const MAX_SLOT = 80;
 export const MAX_BAR = 52;
 export const BAR_GAP = 5;
 
+/**
+ * One slot per fiscal year and the bar inside it. The gap between bars is `BAR_GAP` in a wide slot but shrinks with the slot
+ * (about a seventh of it, at least 1px), so a dense window (46 years on a phone) draws near-touching bars like the troops chart
+ * instead of thin bars in wide empty gaps.
+ */
 export function slotLayout(plotWidth: number, slots: number): { slotW: number; barW: number } {
   const slotW = Math.min(MAX_SLOT, plotWidth / Math.max(1, slots));
-  return { slotW, barW: Math.min(MAX_BAR, Math.max(2, slotW - BAR_GAP)) };
+  const gap = Math.min(BAR_GAP, Math.max(1, slotW * 0.15));
+  return { slotW, barW: Math.min(MAX_BAR, Math.max(2, slotW - gap)) };
 }
 
 /** Value labels on every bar when 8 or fewer show; otherwise only these fiscal years. */
