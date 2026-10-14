@@ -15,7 +15,7 @@ export interface StackedRowData {
   label: string;
   segments: { value: number; color: string; title?: string }[];
   total: string;
-  /** Right-hand text, e.g. "▲ $3.5B" or "–". */
+  /** Right-hand text, e.g. "+$3.5B" or "−1,204" (a plus or minus, "0" for no change). Leave it empty in every row to drop the column. */
   delta?: string;
   selected?: boolean;
   /** Fade the row (another row is selected). */

@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
-import { SLOT_NAME, countryMilitary, formatAidMoney, rankCountries } from "@/lib/foreign-aid-derive";
+import { SLOT_NAME, countryMilitary, formatAidChange, formatAidMoney, rankCountries, slotDeltaVsPrior } from "@/lib/foreign-aid-derive";
 import { useAidState } from "./ForeignAidState";
 import { SectorLegend, slotColor } from "./shared";
 
 /**
  * The ranked recipient list inside the combined "Where it goes" card: every country for the selected
  * year, each with a sector-split bar on one shared scale. `mode` is the card's toggle: Dollars ranks
- * by dollars (largest first), Military share by the military slice of each country's total, then by military dollars (countries
+ * by dollars (largest first, with the change from the prior full year beside each total), Military share by the military slice of each country's total, then by military dollars (countries
  * with none last); `reversed` flips either, for this list only, and the map beside it is unaffected.
  * The selected country is highlighted and the rest dimmed, never reduced to one row; the list scrolls
  * inside its box and never auto-scrolls.
@@ -35,14 +35,17 @@ export function RankedList({ mode, reversed }: { mode: "dollars" | "share"; reve
   }, [ranked, mode, reversed, data, yi, sector]);
 
   const scaleMax = Math.max(1, ...ranked.map((r) => Math.max(0, only !== null ? r.slots[only] : r.value)));
+  // No comparison (FY2001, a partial year): no column at all, rather than a column of dashes.
+  const deltaText = (d: number | null) => formatAidChange(d) || undefined;
   const rows: StackedRowData[] = list.map(({ r, share, mil }, i) => ({
     id: String(r.ci),
     rank: mode === "share" ? i + 1 : r.rank,
     label: names[r.ci].name,
     segments: r.slots.map((v, k) => (only !== null && k !== only ? { value: 0, color: slotColor(k) } : { value: v, color: slotColor(k), title: `${SLOT_NAME[k]}: ${formatAidMoney(v)}` })),
     total: mode === "share" ? (share > 0 ? `${Math.round(share * 100)}%` : "–") : (only !== null ? formatAidMoney(r.slots[only]) : formatAidMoney(r.value)),
-    // Military share mode: the share, then the military dollars behind it, in the column that held the change.
-    delta: mode === "share" && share > 0 ? formatAidMoney(mil) : undefined,
+    // Dollars: the change in dollars from the prior full year ("–" where not comparable: FY2001 and partial years). Military share mode:
+    // the military dollars behind the share, in the same column.
+    delta: mode === "share" ? (share > 0 ? formatAidMoney(mil) : undefined) : deltaText(only !== null ? slotDeltaVsPrior(data, year, r.ci, sector, r.slots, only) : r.delta),
     selected: r.ci === country,
     dimmed: country >= 0 && r.ci !== country,
   }));

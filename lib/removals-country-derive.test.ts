@@ -78,10 +78,10 @@ describe("sorting", () => {
 
 describe("formatChange and selectableYears", () => {
   it("formats arrows, zero and missing", () => {
-    expect(formatChange(1204)).toBe("▲ 1,204");
-    expect(formatChange(-310)).toBe("▼ 310");
-    expect(formatChange(0)).toBe("–");
-    expect(formatChange(null)).toBe("–");
+    expect(formatChange(1204)).toBe("+1,204");
+    expect(formatChange(-310)).toBe("−310");
+    expect(formatChange(0)).toBe("0");
+    expect(formatChange(null)).toBe("");
   });
 
   it("narrows to an administration's covered years, and can be empty", () => {

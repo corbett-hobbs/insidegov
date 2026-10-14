@@ -327,6 +327,21 @@ export function rankCountries(d: AidData, fy: number, sec: number): RankedCountr
   return items;
 }
 
+/** Dollar change in one sector slot from the prior full year (the bar shown when a sector is picked in the legend); null when not comparable. */
+export function slotDeltaVsPrior(d: AidData, fy: number, ci: number, sec: number, slots: readonly number[], slot: number): number | null {
+  if (!changeAvailable(d, fy)) return null;
+  const prev = new Array<number>(SLOT_COUNT).fill(0);
+  addCountrySlots(prev, d, ci, fy - d.payload.years[0] - 1, sec);
+  return slots[slot] - prev[slot];
+}
+
+/** "+$3.5B", "−$310K", "0" for no change, and "" where there is nothing to compare (see `formatChange` in `removals-country-derive`). */
+export function formatAidChange(delta: number | null): string {
+  if (delta === null) return "";
+  if (Math.round(delta) === 0) return "0";
+  return formatAidMoney(delta, true);
+}
+
 export interface TopYear {
   fy: number;
   /** Positive-total countries, largest first. */
