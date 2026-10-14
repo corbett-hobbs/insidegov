@@ -689,6 +689,34 @@ An eleventh data track: every bill and joint resolution of the Congress in progr
 - A bill appears once per committee it was referred to. The page never sums across committees.
 - The card's rows are not read at page build: `getCommitteeBillsPayload()` in `lib/committee-bills-data.ts` joins the shard to the current-member index for sponsor names and links and serves it as `/data/committees/<id>/bills`.
 
+---
+
+## 17. Legal immigration track (green cards and naturalizations)
+
+A twelfth data track: people who became lawful permanent residents and people who naturalized, by
+fiscal year, from the DHS Office of Homeland Security Statistics. Methodology:
+`docs/LPR_METHODOLOGY.md`; schemas: `lib/lpr-entities.ts`. Nothing here joins to `bioguide_id`.
+
+**Key.** `(period, metric, admission_type, class)` for the national series (both dimensions null =
+the total), `(fy, metric, basis, country_key)` by country. `country_key` is the trade crosswalk's
+`country_code` (§10), as in the ICE and refugee tracks. **Join to presidents** is by date, through the
+§7 `term_id` (administration in office on Sept 30), with the historical presidents table prepended for
+years before 1993; no second terms table.
+
+| File | Grain | Key | Notes |
+| --- | --- | --- | --- |
+| `pipeline/raw/ohss/*` | one snapshot per OHSS workbook or page + `<name>.txt` extract | `id` in the catalog | `pnpm fetch:ohss`. Workbook extracts keep Excel row numbers, so every value cites its cell. |
+| `pipeline/reference/lpr-catalog.json` | sources; tables read (verbatim title, layout, rounding, defect); restatements between editions; notes with quotes | table `id` | Hand-curated; the numbers are machine-read, never typed in. |
+| `pipeline/output/lpr_series.json` | one row per key | as above | `value`, `status` (`final`/`preliminary`), provenance (`table`, `sheet`, `cells`, `method`, `rounding`), attribution. Missing years are absent. |
+| `pipeline/output/lpr_by_country.json` | one row per key | as above | `basis` `birth` (Yearbook) or `nationality` (quarterly-only year); buckets `XOT`/`XUN`/`XWH`. |
+| `pipeline/output/lpr_notes.json`, `lpr_report.json` | note / run summary | `id` / — | Separate from the Congress `_report.json`, like the other non-Congress tracks. Deterministic. |
+
+**Validation** (fails `pnpm transform`): see the methodology doc. One agency and one definition per
+series: green cards are not visas issued or entries, naturalizations are not green cards, and neither
+is ever summed with ICE, CBP, refugee or State Department counts.
+
+---
+
 ## Review notifications
 
 Data checks that need a person (the ICE, refugee-admissions and policy review issues, and a refugee refresh PR that needs curation or failed its gate) call `.github/actions/notify`: email first, Slack if email is unset or fails. It never fails a job; with nothing configured it warns, and GitHub's own issue/PR emails are the fallback. It fires when an issue or PR is **created**, not on weekly refreshes of an open one. Repository secrets (Settings > Secrets and variables > Actions), all optional:

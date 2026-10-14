@@ -1,0 +1,6770 @@
+{
+  "first_period": 1977,
+  "last_period": 2025,
+  "rows": 719,
+  "latest_yearbook": 2024,
+  "lpr_total_years": {
+    "first": 1977,
+    "last": 2025,
+    "missing": []
+  },
+  "lpr_class_years": {
+    "first": 1999,
+    "last": 2025
+  },
+  "naturalization_years": {
+    "first": 1977,
+    "last": 2025,
+    "missing": []
+  },
+  "status": {
+    "final": 48,
+    "preliminary": 1
+  },
+  "tables_used": {
+    "yb2024-lpr-total": {
+      "lpr": [
+        1977,
+        1978,
+        1979,
+        1980,
+        1981,
+        1982,
+        1983,
+        1984,
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998
+      ],
+      "naturalizations": [],
+      "by_country": []
+    },
+    "yb2008-lpr-class": {
+      "lpr": [
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007
+      ],
+      "naturalizations": [],
+      "by_country": []
+    },
+    "yb2017-lpr-class": {
+      "lpr": [
+        2008,
+        2009,
+        2010,
+        2011,
+        2012
+      ],
+      "naturalizations": [],
+      "by_country": []
+    },
+    "yb2022-lpr-class": {
+      "lpr": [
+        2013,
+        2014
+      ],
+      "naturalizations": [],
+      "by_country": []
+    },
+    "yb2024-lpr-class": {
+      "lpr": [
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "naturalizations": [],
+      "by_country": []
+    },
+    "q2025-lpr-class": {
+      "lpr": [
+        2025
+      ],
+      "naturalizations": [],
+      "by_country": []
+    },
+    "yb2024-naturalizations-total": {
+      "lpr": [],
+      "naturalizations": [
+        1977,
+        1978,
+        1979,
+        1980,
+        1981,
+        1982,
+        1983,
+        1984,
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "by_country": []
+    },
+    "q2025-naturalizations-nationality": {
+      "lpr": [],
+      "naturalizations": [
+        2025
+      ],
+      "by_country": [
+        "naturalizations|2025"
+      ]
+    },
+    "yb2008-lpr-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "lpr|1999",
+        "lpr|2000",
+        "lpr|2001",
+        "lpr|2002",
+        "lpr|2003",
+        "lpr|2004",
+        "lpr|2005",
+        "lpr|2006",
+        "lpr|2007"
+      ]
+    },
+    "yb2017-lpr-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "lpr|2008",
+        "lpr|2009",
+        "lpr|2010",
+        "lpr|2011",
+        "lpr|2012"
+      ]
+    },
+    "yb2022-lpr-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "lpr|2013",
+        "lpr|2014"
+      ]
+    },
+    "yb2024-lpr-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "lpr|2015",
+        "lpr|2016",
+        "lpr|2017",
+        "lpr|2018",
+        "lpr|2019",
+        "lpr|2020",
+        "lpr|2021",
+        "lpr|2022",
+        "lpr|2023",
+        "lpr|2024"
+      ]
+    },
+    "q2025-lpr-nationality": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "lpr|2025"
+      ]
+    },
+    "yb2008-naturalizations-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "naturalizations|1999",
+        "naturalizations|2000",
+        "naturalizations|2001",
+        "naturalizations|2002",
+        "naturalizations|2003",
+        "naturalizations|2004",
+        "naturalizations|2005",
+        "naturalizations|2006",
+        "naturalizations|2007"
+      ]
+    },
+    "yb2017-naturalizations-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "naturalizations|2008",
+        "naturalizations|2009",
+        "naturalizations|2010",
+        "naturalizations|2011",
+        "naturalizations|2012"
+      ]
+    },
+    "yb2022-naturalizations-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "naturalizations|2013",
+        "naturalizations|2014"
+      ]
+    },
+    "yb2024-naturalizations-birth": {
+      "lpr": [],
+      "naturalizations": [],
+      "by_country": [
+        "naturalizations|2015",
+        "naturalizations|2016",
+        "naturalizations|2017",
+        "naturalizations|2018",
+        "naturalizations|2019",
+        "naturalizations|2020",
+        "naturalizations|2021",
+        "naturalizations|2022",
+        "naturalizations|2023",
+        "naturalizations|2024"
+      ]
+    }
+  },
+  "residual_other": [
+    {
+      "fy": 1999,
+      "admission_type": null,
+      "class": "other",
+      "value": 23645,
+      "table": "yb2008-lpr-class"
+    },
+    {
+      "fy": 1999,
+      "admission_type": "adjustment",
+      "class": "other",
+      "value": 22203,
+      "table": "yb2008-lpr-class"
+    }
+  ],
+  "blended_periods": [
+    1977,
+    1981,
+    1989,
+    1993,
+    2001,
+    2009,
+    2017,
+    2021,
+    2025
+  ],
+  "country_years": {
+    "lpr_birth": [
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "lpr_nationality": [
+      2025
+    ],
+    "naturalizations_birth": [
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "naturalizations_nationality": [
+      2025
+    ],
+    "rows": 10778,
+    "countries": 213,
+    "withheld": [
+      {
+        "fy": 1999,
+        "metric": "lpr",
+        "value": 7
+      },
+      {
+        "fy": 2000,
+        "metric": "lpr",
+        "value": 4
+      },
+      {
+        "fy": 2001,
+        "metric": "lpr",
+        "value": 5
+      },
+      {
+        "fy": 2002,
+        "metric": "lpr",
+        "value": 6
+      },
+      {
+        "fy": 2003,
+        "metric": "lpr",
+        "value": 5
+      },
+      {
+        "fy": 2004,
+        "metric": "lpr",
+        "value": 5
+      },
+      {
+        "fy": 2006,
+        "metric": "lpr",
+        "value": 6
+      },
+      {
+        "fy": 2008,
+        "metric": "lpr",
+        "value": 5
+      },
+      {
+        "fy": 2011,
+        "metric": "lpr",
+        "value": 4
+      },
+      {
+        "fy": 1999,
+        "metric": "naturalizations",
+        "value": 8
+      },
+      {
+        "fy": 2000,
+        "metric": "naturalizations",
+        "value": 5
+      },
+      {
+        "fy": 2001,
+        "metric": "naturalizations",
+        "value": 3
+      },
+      {
+        "fy": 2002,
+        "metric": "naturalizations",
+        "value": 3
+      },
+      {
+        "fy": 2003,
+        "metric": "naturalizations",
+        "value": 5
+      },
+      {
+        "fy": 2006,
+        "metric": "naturalizations",
+        "value": 4
+      },
+      {
+        "fy": 2007,
+        "metric": "naturalizations",
+        "value": 5
+      },
+      {
+        "fy": 2009,
+        "metric": "naturalizations",
+        "value": 8
+      }
+    ]
+  },
+  "vintages": {
+    "comparisons": 1526,
+    "yearbook_restatements": [
+      {
+        "metric": "lpr",
+        "fy": 2008,
+        "key": "class:employment_preference",
+        "tables": [
+          "yb2008-lpr-class",
+          "yb2017-lpr-class"
+        ],
+        "values": [
+          166511,
+          164741
+        ],
+        "diff": -1770,
+        "restatement": "fy2008-special-immigrants"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2008,
+        "key": "class:other",
+        "tables": [
+          "yb2008-lpr-class",
+          "yb2017-lpr-class"
+        ],
+        "values": [
+          16218,
+          17988
+        ],
+        "diff": 1770,
+        "restatement": "fy2008-special-immigrants"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2008,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2008-lpr-class",
+          "yb2017-lpr-class"
+        ],
+        "values": [
+          149542,
+          149527
+        ],
+        "diff": -15,
+        "restatement": "fy2008-special-immigrants"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2008,
+        "key": "type:adjustment/class:other",
+        "tables": [
+          "yb2008-lpr-class",
+          "yb2017-lpr-class"
+        ],
+        "values": [
+          15205,
+          15220
+        ],
+        "diff": 15,
+        "restatement": "fy2008-special-immigrants"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2008,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2008-lpr-class",
+          "yb2017-lpr-class"
+        ],
+        "values": [
+          16969,
+          15214
+        ],
+        "diff": -1755,
+        "restatement": "fy2008-special-immigrants"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2008,
+        "key": "type:new_arrival/class:other",
+        "tables": [
+          "yb2008-lpr-class",
+          "yb2017-lpr-class"
+        ],
+        "values": [
+          1013,
+          2768
+        ],
+        "diff": 1755,
+        "restatement": "fy2008-special-immigrants"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          530802,
+          532952
+        ],
+        "diff": 2150,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          1505,
+          1527
+        ],
+        "diff": 22,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          140009,
+          140208
+        ],
+        "diff": 199,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          26415,
+          26618
+        ],
+        "diff": 203,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          232105,
+          233823
+        ],
+        "diff": 1718,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:adjustment/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          11138,
+          11146
+        ],
+        "diff": 8,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          459751,
+          457601
+        ],
+        "diff": -2150,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          44113,
+          44091
+        ],
+        "diff": -22,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          21101,
+          20902
+        ],
+        "diff": -199,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          183888,
+          183685
+        ],
+        "diff": -203,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          207355,
+          205637
+        ],
+        "diff": -1718,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2013,
+        "key": "type:new_arrival/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          3294,
+          3286
+        ],
+        "diff": -8,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          535126,
+          537348
+        ],
+        "diff": 2222,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          1331,
+          1359
+        ],
+        "diff": 28,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          129645,
+          129814
+        ],
+        "diff": 169,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          23202,
+          23401
+        ],
+        "diff": 199,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          228128,
+          229948
+        ],
+        "diff": 1820,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:adjustment/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          18578,
+          18584
+        ],
+        "diff": 6,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          481392,
+          479170
+        ],
+        "diff": -2222,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          52159,
+          52131
+        ],
+        "diff": -28,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          21951,
+          21782
+        ],
+        "diff": -169,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          205902,
+          205703
+        ],
+        "diff": -199,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          188328,
+          186508
+        ],
+        "diff": -1820,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2014,
+        "key": "type:new_arrival/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          13052,
+          13046
+        ],
+        "diff": -6,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          542315,
+          546000
+        ],
+        "diff": 3685,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          542315,
+          546000
+        ],
+        "diff": 3685,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          1268,
+          1292
+        ],
+        "diff": 24,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          1268,
+          1290
+        ],
+        "diff": 22,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          121978,
+          122151
+        ],
+        "diff": 173,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          121978,
+          122150
+        ],
+        "diff": 172,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          16783,
+          17075
+        ],
+        "diff": 292,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          16783,
+          17080
+        ],
+        "diff": 297,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          230194,
+          233381
+        ],
+        "diff": 3187,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          230194,
+          233380
+        ],
+        "diff": 3186,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:adjustment/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          20097,
+          20106
+        ],
+        "diff": 9,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          508716,
+          505031
+        ],
+        "diff": -3685,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          508716,
+          505030
+        ],
+        "diff": -3686,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          46666,
+          46642
+        ],
+        "diff": -24,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          46666,
+          46640
+        ],
+        "diff": -26,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          22069,
+          21896
+        ],
+        "diff": -173,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          22069,
+          21900
+        ],
+        "diff": -169,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          197127,
+          196835
+        ],
+        "diff": -292,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          197127,
+          196840
+        ],
+        "diff": -287,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          234874,
+          231687
+        ],
+        "diff": -3187,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          234874,
+          231690
+        ],
+        "diff": -3184,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2015,
+        "key": "type:new_arrival/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          7980,
+          7971
+        ],
+        "diff": -9,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          565427,
+          570258
+        ],
+        "diff": 4831,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          565427,
+          570260
+        ],
+        "diff": 4833,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          1048,
+          1071
+        ],
+        "diff": 23,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          1048,
+          1070
+        ],
+        "diff": 22,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          113640,
+          114019
+        ],
+        "diff": 379,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          113640,
+          114020
+        ],
+        "diff": 380,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          15116,
+          15433
+        ],
+        "diff": 317,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          15116,
+          15430
+        ],
+        "diff": 314,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          257302,
+          261406
+        ],
+        "diff": 4104,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          257302,
+          261410
+        ],
+        "diff": 4108,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:adjustment/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          20896,
+          20904
+        ],
+        "diff": 8,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          618078,
+          613247
+        ],
+        "diff": -4831,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          618078,
+          613250
+        ],
+        "diff": -4828,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          48817,
+          48794
+        ],
+        "diff": -23,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          48817,
+          48790
+        ],
+        "diff": -27,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          24253,
+          23874
+        ],
+        "diff": -379,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          24253,
+          23870
+        ],
+        "diff": -383,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          222971,
+          222654
+        ],
+        "diff": -317,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          222971,
+          222650
+        ],
+        "diff": -321,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          309404,
+          305300
+        ],
+        "diff": -4104,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          309404,
+          305300
+        ],
+        "diff": -4104,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2016,
+        "key": "type:new_arrival/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          12633,
+          12625
+        ],
+        "diff": -8,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          549086,
+          553393
+        ],
+        "diff": 4307,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          549086,
+          553390
+        ],
+        "diff": 4304,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          918,
+          955
+        ],
+        "diff": 37,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          918,
+          960
+        ],
+        "diff": 42,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          113330,
+          113522
+        ],
+        "diff": 192,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          113330,
+          113520
+        ],
+        "diff": 190,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          13478,
+          13824
+        ],
+        "diff": 346,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          13478,
+          13820
+        ],
+        "diff": 342,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          252231,
+          255954
+        ],
+        "diff": 3723,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          252231,
+          255950
+        ],
+        "diff": 3719,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:adjustment/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          23126,
+          23135
+        ],
+        "diff": 9,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          578081,
+          573774
+        ],
+        "diff": -4307,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          578081,
+          573770
+        ],
+        "diff": -4311,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          50674,
+          50637
+        ],
+        "diff": -37,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:diversity",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          50674,
+          50640
+        ],
+        "diff": -34,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          24525,
+          24333
+        ],
+        "diff": -192,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:employment_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          24525,
+          24330
+        ],
+        "diff": -195,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          218760,
+          218414
+        ],
+        "diff": -346,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:family_preference",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          218760,
+          218410
+        ],
+        "diff": -350,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          264277,
+          260554
+        ],
+        "diff": -3723,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:immediate_relatives",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2024-lpr-class"
+        ],
+        "values": [
+          264277,
+          260550
+        ],
+        "diff": -3727,
+        "restatement": "fy2020-edition-arrival-adjustment-split-2024"
+      },
+      {
+        "metric": "lpr",
+        "fy": 2017,
+        "key": "type:new_arrival/class:other",
+        "tables": [
+          "yb2017-lpr-class",
+          "yb2022-lpr-class"
+        ],
+        "values": [
+          19845,
+          19836
+        ],
+        "diff": -9,
+        "restatement": "fy2020-edition-arrival-adjustment-split"
+      }
+    ],
+    "quarterly_vs_yearbook": {
+      "rule": "The Yearbook is used for every year it covers; the quarterly report only for years after the newest Yearbook.",
+      "totals": [
+        {
+          "metric": "lpr",
+          "fy": 2022,
+          "key": "all",
+          "quarterly_table": "q2022-lpr-class",
+          "quarterly": 1018004,
+          "yearbook_table": "yb2024-lpr-total",
+          "yearbook": 1018350,
+          "diff": -346,
+          "pct": -0.03
+        },
+        {
+          "metric": "lpr",
+          "fy": 2022,
+          "key": "all",
+          "quarterly_table": "q2022-lpr-nationality",
+          "quarterly": 1018004,
+          "yearbook_table": "yb2024-lpr-total",
+          "yearbook": 1018350,
+          "diff": -346,
+          "pct": -0.03
+        },
+        {
+          "metric": "lpr",
+          "fy": 2023,
+          "key": "all",
+          "quarterly_table": "q2023-lpr-class",
+          "quarterly": 1173640,
+          "yearbook_table": "yb2024-lpr-total",
+          "yearbook": 1172910,
+          "diff": 730,
+          "pct": 0.06
+        },
+        {
+          "metric": "lpr",
+          "fy": 2023,
+          "key": "all",
+          "quarterly_table": "q2023-lpr-nationality",
+          "quarterly": 1173640,
+          "yearbook_table": "yb2024-lpr-total",
+          "yearbook": 1172910,
+          "diff": 730,
+          "pct": 0.06
+        },
+        {
+          "metric": "lpr",
+          "fy": 2024,
+          "key": "all",
+          "quarterly_table": "q2024-lpr-class",
+          "quarterly": 1356760,
+          "yearbook_table": "yb2024-lpr-total",
+          "yearbook": 1364090,
+          "diff": -7330,
+          "pct": -0.54
+        },
+        {
+          "metric": "lpr",
+          "fy": 2024,
+          "key": "all",
+          "quarterly_table": "q2024-lpr-nationality",
+          "quarterly": 1356760,
+          "yearbook_table": "yb2024-lpr-total",
+          "yearbook": 1364090,
+          "diff": -7330,
+          "pct": -0.54
+        },
+        {
+          "metric": "naturalizations",
+          "fy": 2022,
+          "key": "all",
+          "quarterly_table": "q2022-naturalizations-nationality",
+          "quarterly": 967130,
+          "yearbook_table": "yb2024-naturalizations-total",
+          "yearbook": 969380,
+          "diff": -2250,
+          "pct": -0.23
+        },
+        {
+          "metric": "naturalizations",
+          "fy": 2023,
+          "key": "all",
+          "quarterly_table": "q2023-naturalizations-nationality",
+          "quarterly": 877770,
+          "yearbook_table": "yb2024-naturalizations-total",
+          "yearbook": 878460,
+          "diff": -690,
+          "pct": -0.08
+        },
+        {
+          "metric": "naturalizations",
+          "fy": 2024,
+          "key": "all",
+          "quarterly_table": "q2024-naturalizations-nationality",
+          "quarterly": 818150,
+          "yearbook_table": "yb2024-naturalizations-total",
+          "yearbook": 818570,
+          "diff": -420,
+          "pct": -0.05
+        }
+      ],
+      "breakdowns_differing": 77,
+      "largest_breakdowns": [
+        {
+          "metric": "lpr",
+          "fy": 2024,
+          "key": "type:new_arrival",
+          "quarterly_table": "q2024-lpr-class",
+          "quarterly": 573990,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 581290,
+          "diff": -7300,
+          "pct": -1.26
+        },
+        {
+          "metric": "lpr",
+          "fy": 2023,
+          "key": "type:adjustment",
+          "quarterly_table": "q2023-lpr-class",
+          "quarterly": 615130,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 608260,
+          "diff": 6870,
+          "pct": 1.13
+        },
+        {
+          "metric": "lpr",
+          "fy": 2023,
+          "key": "type:adjustment/class:immediate_relatives",
+          "quarterly_table": "q2023-lpr-class",
+          "quarterly": 322560,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 315830,
+          "diff": 6730,
+          "pct": 2.13
+        },
+        {
+          "metric": "lpr",
+          "fy": 2023,
+          "key": "type:new_arrival",
+          "quarterly_table": "q2023-lpr-class",
+          "quarterly": 558510,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 564660,
+          "diff": -6150,
+          "pct": -1.09
+        },
+        {
+          "metric": "lpr",
+          "fy": 2019,
+          "key": "type:adjustment",
+          "quarterly_table": "q2019-lpr-class",
+          "quarterly": 572513,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 578050,
+          "diff": -5537,
+          "pct": -0.96
+        },
+        {
+          "metric": "lpr",
+          "fy": 2019,
+          "key": "type:new_arrival",
+          "quarterly_table": "q2019-lpr-class",
+          "quarterly": 459252,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 453720,
+          "diff": 5532,
+          "pct": 1.22
+        },
+        {
+          "metric": "lpr",
+          "fy": 2018,
+          "key": "type:new_arrival",
+          "quarterly_table": "q2018-lpr-class",
+          "quarterly": 528727,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 523880,
+          "diff": 4847,
+          "pct": 0.93
+        },
+        {
+          "metric": "lpr",
+          "fy": 2018,
+          "key": "type:adjustment",
+          "quarterly_table": "q2018-lpr-class",
+          "quarterly": 567884,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 572730,
+          "diff": -4846,
+          "pct": -0.85
+        },
+        {
+          "metric": "lpr",
+          "fy": 2016,
+          "key": "type:adjustment",
+          "quarterly_table": "q2016-lpr-class",
+          "quarterly": 565427,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 570260,
+          "diff": -4833,
+          "pct": -0.85
+        },
+        {
+          "metric": "lpr",
+          "fy": 2016,
+          "key": "type:new_arrival",
+          "quarterly_table": "q2016-lpr-class",
+          "quarterly": 618078,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 613250,
+          "diff": 4828,
+          "pct": 0.79
+        },
+        {
+          "metric": "lpr",
+          "fy": 2019,
+          "key": "type:new_arrival/class:immediate_relatives",
+          "quarterly_table": "q2019-lpr-class",
+          "quarterly": 194291,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 189590,
+          "diff": 4701,
+          "pct": 2.48
+        },
+        {
+          "metric": "lpr",
+          "fy": 2019,
+          "key": "type:adjustment/class:immediate_relatives",
+          "quarterly_table": "q2019-lpr-class",
+          "quarterly": 311474,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 316170,
+          "diff": -4696,
+          "pct": -1.49
+        },
+        {
+          "metric": "lpr",
+          "fy": 2016,
+          "key": "type:adjustment/class:immediate_relatives",
+          "quarterly_table": "q2016-lpr-class",
+          "quarterly": 257302,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 261410,
+          "diff": -4108,
+          "pct": -1.57
+        },
+        {
+          "metric": "lpr",
+          "fy": 2016,
+          "key": "type:new_arrival/class:immediate_relatives",
+          "quarterly_table": "q2016-lpr-class",
+          "quarterly": 309404,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 305300,
+          "diff": 4104,
+          "pct": 1.34
+        },
+        {
+          "metric": "lpr",
+          "fy": 2018,
+          "key": "type:new_arrival/class:immediate_relatives",
+          "quarterly_table": "q2018-lpr-class",
+          "quarterly": 241640,
+          "yearbook_table": "yb2024-lpr-class",
+          "yearbook": 237720,
+          "diff": 3920,
+          "pct": 1.65
+        }
+      ]
+    },
+    "countries": {
+      "note": "Report only. Yearbook pairs are the same question (country of birth) in two vintages; a quarterly-vs-Yearbook pair compares country of nationality with country of birth.",
+      "pairs": [
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2008-lpr-birth",
+            "yb2017-lpr-birth"
+          ],
+          "fiscal_years": [
+            2008
+          ],
+          "compared": 203,
+          "beyond_rounding": 7,
+          "largest": [
+            {
+              "fy": 2008,
+              "country_key": "FRA",
+              "values": [
+                4872,
+                4935
+              ],
+              "diff": 63
+            },
+            {
+              "fy": 2008,
+              "country_key": "GLP",
+              "values": [
+                33,
+                0
+              ],
+              "diff": -33
+            },
+            {
+              "fy": 2008,
+              "country_key": "MTQ",
+              "values": [
+                24,
+                0
+              ],
+              "diff": -24
+            },
+            {
+              "fy": 2008,
+              "country_key": "SLB",
+              "values": [
+                7,
+                0
+              ],
+              "diff": -7
+            },
+            {
+              "fy": 2008,
+              "country_key": "STP",
+              "values": [
+                0,
+                7
+              ],
+              "diff": 7
+            },
+            {
+              "fy": 2008,
+              "country_key": "GUF",
+              "values": [
+                6,
+                0
+              ],
+              "diff": -6
+            },
+            {
+              "fy": 2008,
+              "country_key": "NCL",
+              "values": [
+                0,
+                5
+              ],
+              "diff": 5
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2008-naturalizations-birth",
+            "yb2017-naturalizations-birth"
+          ],
+          "fiscal_years": [
+            2008
+          ],
+          "compared": 199,
+          "beyond_rounding": 7,
+          "largest": [
+            {
+              "fy": 2008,
+              "country_key": "FRA",
+              "values": [
+                2765,
+                2835
+              ],
+              "diff": 70
+            },
+            {
+              "fy": 2008,
+              "country_key": "GLP",
+              "values": [
+                39,
+                0
+              ],
+              "diff": -39
+            },
+            {
+              "fy": 2008,
+              "country_key": "MTQ",
+              "values": [
+                21,
+                0
+              ],
+              "diff": -21
+            },
+            {
+              "fy": 2008,
+              "country_key": "GNQ",
+              "values": [
+                0,
+                9
+              ],
+              "diff": 9
+            },
+            {
+              "fy": 2008,
+              "country_key": "GUF",
+              "values": [
+                8,
+                0
+              ],
+              "diff": -8
+            },
+            {
+              "fy": 2008,
+              "country_key": "VIR",
+              "values": [
+                5,
+                0
+              ],
+              "diff": -5
+            },
+            {
+              "fy": 2008,
+              "country_key": "SRB",
+              "values": [
+                0,
+                3
+              ],
+              "diff": 3
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2017-lpr-birth",
+            "yb2022-lpr-birth"
+          ],
+          "fiscal_years": [
+            2013,
+            2014,
+            2015,
+            2016,
+            2017
+          ],
+          "compared": 1026,
+          "beyond_rounding": 9,
+          "largest": [
+            {
+              "fy": 2015,
+              "country_key": "NCL",
+              "values": [
+                9,
+                0
+              ],
+              "diff": -9
+            },
+            {
+              "fy": 2016,
+              "country_key": "KIR",
+              "values": [
+                9,
+                0
+              ],
+              "diff": -9
+            },
+            {
+              "fy": 2013,
+              "country_key": "NCL",
+              "values": [
+                6,
+                0
+              ],
+              "diff": -6
+            },
+            {
+              "fy": 2014,
+              "country_key": "KIR",
+              "values": [
+                6,
+                0
+              ],
+              "diff": -6
+            },
+            {
+              "fy": 2014,
+              "country_key": "NCL",
+              "values": [
+                6,
+                0
+              ],
+              "diff": -6
+            },
+            {
+              "fy": 2016,
+              "country_key": "NCL",
+              "values": [
+                5,
+                0
+              ],
+              "diff": -5
+            },
+            {
+              "fy": 2015,
+              "country_key": "KIR",
+              "values": [
+                4,
+                0
+              ],
+              "diff": -4
+            },
+            {
+              "fy": 2017,
+              "country_key": "NCL",
+              "values": [
+                4,
+                0
+              ],
+              "diff": -4
+            },
+            {
+              "fy": 2013,
+              "country_key": "COM",
+              "values": [
+                0,
+                3
+              ],
+              "diff": 3
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2017-lpr-birth",
+            "yb2024-lpr-birth"
+          ],
+          "fiscal_years": [
+            2015,
+            2016,
+            2017
+          ],
+          "compared": 620,
+          "beyond_rounding": 1,
+          "largest": [
+            {
+              "fy": 2015,
+              "country_key": "NCL",
+              "values": [
+                9,
+                0
+              ],
+              "diff": -9
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2017-lpr-birth",
+            "q2016-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2016
+          ],
+          "compared": 205,
+          "beyond_rounding": 201,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "CAN",
+              "values": [
+                12793,
+                20266
+              ],
+              "diff": 7473
+            },
+            {
+              "fy": 2016,
+              "country_key": "MMR",
+              "values": [
+                13065,
+                17013
+              ],
+              "diff": 3948
+            },
+            {
+              "fy": 2016,
+              "country_key": "SOM",
+              "values": [
+                6958,
+                9910
+              ],
+              "diff": 2952
+            },
+            {
+              "fy": 2016,
+              "country_key": "NPL",
+              "values": [
+                12851,
+                10163
+              ],
+              "diff": -2688
+            },
+            {
+              "fy": 2016,
+              "country_key": "BTN",
+              "values": [
+                4217,
+                6886
+              ],
+              "diff": 2669
+            },
+            {
+              "fy": 2016,
+              "country_key": "THA",
+              "values": [
+                7039,
+                4399
+              ],
+              "diff": -2640
+            },
+            {
+              "fy": 2016,
+              "country_key": "HKG",
+              "values": [
+                2510,
+                0
+              ],
+              "diff": -2510
+            },
+            {
+              "fy": 2016,
+              "country_key": "MYS",
+              "values": [
+                3382,
+                1592
+              ],
+              "diff": -1790
+            },
+            {
+              "fy": 2016,
+              "country_key": "GBR",
+              "values": [
+                12673,
+                14412
+              ],
+              "diff": 1739
+            },
+            {
+              "fy": 2016,
+              "country_key": "SAU",
+              "values": [
+                2117,
+                391
+              ],
+              "diff": -1726
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2017-lpr-birth",
+            "q2017-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2017
+          ],
+          "compared": 203,
+          "beyond_rounding": 202,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "CAN",
+              "values": [
+                11484,
+                18768
+              ],
+              "diff": 7284
+            },
+            {
+              "fy": 2017,
+              "country_key": "MMR",
+              "values": [
+                12897,
+                17256
+              ],
+              "diff": 4359
+            },
+            {
+              "fy": 2017,
+              "country_key": "SOM",
+              "values": [
+                7404,
+                10953
+              ],
+              "diff": 3549
+            },
+            {
+              "fy": 2017,
+              "country_key": "MYS",
+              "values": [
+                4109,
+                1447
+              ],
+              "diff": -2662
+            },
+            {
+              "fy": 2017,
+              "country_key": "HKG",
+              "values": [
+                2415,
+                0
+              ],
+              "diff": -2415
+            },
+            {
+              "fy": 2017,
+              "country_key": "THA",
+              "values": [
+                6311,
+                4009
+              ],
+              "diff": -2302
+            },
+            {
+              "fy": 2017,
+              "country_key": "COD",
+              "values": [
+                8709,
+                10876
+              ],
+              "diff": 2167
+            },
+            {
+              "fy": 2017,
+              "country_key": "NPL",
+              "values": [
+                11610,
+                9451
+              ],
+              "diff": -2159
+            },
+            {
+              "fy": 2017,
+              "country_key": "BTN",
+              "values": [
+                2940,
+                4893
+              ],
+              "diff": 1953
+            },
+            {
+              "fy": 2017,
+              "country_key": "KEN",
+              "values": [
+                6957,
+                5119
+              ],
+              "diff": -1838
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2017-naturalizations-birth",
+            "yb2022-naturalizations-birth"
+          ],
+          "fiscal_years": [
+            2013,
+            2014,
+            2015,
+            2016,
+            2017
+          ],
+          "compared": 1000,
+          "beyond_rounding": 50,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "IND",
+              "values": [
+                50802,
+                50830
+              ],
+              "diff": 28
+            },
+            {
+              "fy": 2017,
+              "country_key": "SCG",
+              "values": [
+                820,
+                832
+              ],
+              "diff": 12
+            },
+            {
+              "fy": 2017,
+              "country_key": "MEX",
+              "values": [
+                118559,
+                118569
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2017,
+              "country_key": "CHN",
+              "values": [
+                37674,
+                37683
+              ],
+              "diff": 9
+            },
+            {
+              "fy": 2017,
+              "country_key": "ISR",
+              "values": [
+                2466,
+                2473
+              ],
+              "diff": 7
+            },
+            {
+              "fy": 2017,
+              "country_key": "JOR",
+              "values": [
+                2239,
+                2244
+              ],
+              "diff": 5
+            },
+            {
+              "fy": 2017,
+              "country_key": "MNE",
+              "values": [
+                187,
+                192
+              ],
+              "diff": 5
+            },
+            {
+              "fy": 2017,
+              "country_key": "KOR",
+              "values": [
+                14643,
+                14647
+              ],
+              "diff": 4
+            },
+            {
+              "fy": 2017,
+              "country_key": "ANT",
+              "values": [
+                42,
+                46
+              ],
+              "diff": 4
+            },
+            {
+              "fy": 2017,
+              "country_key": "CUB",
+              "values": [
+                25961,
+                25964
+              ],
+              "diff": 3
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2017-naturalizations-birth",
+            "yb2024-naturalizations-birth"
+          ],
+          "fiscal_years": [
+            2015,
+            2016,
+            2017
+          ],
+          "compared": 606,
+          "beyond_rounding": 17,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "IND",
+              "values": [
+                50802,
+                50830
+              ],
+              "diff": 28
+            },
+            {
+              "fy": 2017,
+              "country_key": "MEX",
+              "values": [
+                118559,
+                118570
+              ],
+              "diff": 11
+            },
+            {
+              "fy": 2016,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2017,
+              "country_key": "SCG",
+              "values": [
+                820,
+                830
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2017,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2017,
+              "country_key": "ANT",
+              "values": [
+                42,
+                50
+              ],
+              "diff": 8
+            },
+            {
+              "fy": 2017,
+              "country_key": "KOR",
+              "values": [
+                14643,
+                14650
+              ],
+              "diff": 7
+            },
+            {
+              "fy": 2017,
+              "country_key": "VNM",
+              "values": [
+                19323,
+                19330
+              ],
+              "diff": 7
+            },
+            {
+              "fy": 2017,
+              "country_key": "CHN",
+              "values": [
+                37674,
+                37680
+              ],
+              "diff": 6
+            },
+            {
+              "fy": 2017,
+              "country_key": "COL",
+              "values": [
+                16184,
+                16190
+              ],
+              "diff": 6
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2017-naturalizations-birth",
+            "q2016-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2016
+          ],
+          "compared": 199,
+          "beyond_rounding": 197,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "CAN",
+              "values": [
+                9346,
+                15170
+              ],
+              "diff": 5824
+            },
+            {
+              "fy": 2016,
+              "country_key": "SUN",
+              "values": [
+                2268,
+                56
+              ],
+              "diff": -2212
+            },
+            {
+              "fy": 2016,
+              "country_key": "RUS",
+              "values": [
+                6067,
+                7861
+              ],
+              "diff": 1794
+            },
+            {
+              "fy": 2016,
+              "country_key": "HKG",
+              "values": [
+                1662,
+                0
+              ],
+              "diff": -1662
+            },
+            {
+              "fy": 2016,
+              "country_key": "GBR",
+              "values": [
+                9562,
+                11052
+              ],
+              "diff": 1490
+            },
+            {
+              "fy": 2016,
+              "country_key": "THA",
+              "values": [
+                5211,
+                4002
+              ],
+              "diff": -1209
+            },
+            {
+              "fy": 2016,
+              "country_key": "SCG",
+              "values": [
+                1164,
+                132
+              ],
+              "diff": -1032
+            },
+            {
+              "fy": 2016,
+              "country_key": "IND",
+              "values": [
+                46188,
+                45183
+              ],
+              "diff": -1005
+            },
+            {
+              "fy": 2016,
+              "country_key": "ISR",
+              "values": [
+                3071,
+                3943
+              ],
+              "diff": 872
+            },
+            {
+              "fy": 2016,
+              "country_key": "SAU",
+              "values": [
+                869,
+                128
+              ],
+              "diff": -741
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2017-naturalizations-birth",
+            "q2017-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2017
+          ],
+          "compared": 199,
+          "beyond_rounding": 197,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "CAN",
+              "values": [
+                7829,
+                13649
+              ],
+              "diff": 5820
+            },
+            {
+              "fy": 2017,
+              "country_key": "SUN",
+              "values": [
+                2123,
+                34
+              ],
+              "diff": -2089
+            },
+            {
+              "fy": 2017,
+              "country_key": "RUS",
+              "values": [
+                5534,
+                7166
+              ],
+              "diff": 1632
+            },
+            {
+              "fy": 2017,
+              "country_key": "HKG",
+              "values": [
+                1623,
+                0
+              ],
+              "diff": -1623
+            },
+            {
+              "fy": 2017,
+              "country_key": "GBR",
+              "values": [
+                9049,
+                10485
+              ],
+              "diff": 1436
+            },
+            {
+              "fy": 2017,
+              "country_key": "THA",
+              "values": [
+                4672,
+                3656
+              ],
+              "diff": -1016
+            },
+            {
+              "fy": 2017,
+              "country_key": "IND",
+              "values": [
+                50802,
+                49815
+              ],
+              "diff": -987
+            },
+            {
+              "fy": 2017,
+              "country_key": "SCG",
+              "values": [
+                820,
+                69
+              ],
+              "diff": -751
+            },
+            {
+              "fy": 2017,
+              "country_key": "SAU",
+              "values": [
+                872,
+                142
+              ],
+              "diff": -730
+            },
+            {
+              "fy": 2017,
+              "country_key": "ISR",
+              "values": [
+                2466,
+                3166
+              ],
+              "diff": 700
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "yb2024-lpr-birth"
+          ],
+          "fiscal_years": [
+            2015,
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021,
+            2022
+          ],
+          "compared": 1640,
+          "beyond_rounding": 4,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "KIR",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2020,
+              "country_key": "NRU",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2021,
+              "country_key": "KIR",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2022,
+              "country_key": "MDV",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2016-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2016
+          ],
+          "compared": 203,
+          "beyond_rounding": 199,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "CAN",
+              "values": [
+                12793,
+                20266
+              ],
+              "diff": 7473
+            },
+            {
+              "fy": 2016,
+              "country_key": "MMR",
+              "values": [
+                13065,
+                17013
+              ],
+              "diff": 3948
+            },
+            {
+              "fy": 2016,
+              "country_key": "SOM",
+              "values": [
+                6958,
+                9910
+              ],
+              "diff": 2952
+            },
+            {
+              "fy": 2016,
+              "country_key": "NPL",
+              "values": [
+                12851,
+                10163
+              ],
+              "diff": -2688
+            },
+            {
+              "fy": 2016,
+              "country_key": "BTN",
+              "values": [
+                4217,
+                6886
+              ],
+              "diff": 2669
+            },
+            {
+              "fy": 2016,
+              "country_key": "THA",
+              "values": [
+                7039,
+                4399
+              ],
+              "diff": -2640
+            },
+            {
+              "fy": 2016,
+              "country_key": "HKG",
+              "values": [
+                2510,
+                0
+              ],
+              "diff": -2510
+            },
+            {
+              "fy": 2016,
+              "country_key": "MYS",
+              "values": [
+                3382,
+                1592
+              ],
+              "diff": -1790
+            },
+            {
+              "fy": 2016,
+              "country_key": "GBR",
+              "values": [
+                12673,
+                14412
+              ],
+              "diff": 1739
+            },
+            {
+              "fy": 2016,
+              "country_key": "SAU",
+              "values": [
+                2117,
+                391
+              ],
+              "diff": -1726
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2017-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2017
+          ],
+          "compared": 203,
+          "beyond_rounding": 201,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "CAN",
+              "values": [
+                11484,
+                18768
+              ],
+              "diff": 7284
+            },
+            {
+              "fy": 2017,
+              "country_key": "MMR",
+              "values": [
+                12897,
+                17256
+              ],
+              "diff": 4359
+            },
+            {
+              "fy": 2017,
+              "country_key": "SOM",
+              "values": [
+                7404,
+                10953
+              ],
+              "diff": 3549
+            },
+            {
+              "fy": 2017,
+              "country_key": "MYS",
+              "values": [
+                4109,
+                1447
+              ],
+              "diff": -2662
+            },
+            {
+              "fy": 2017,
+              "country_key": "HKG",
+              "values": [
+                2415,
+                0
+              ],
+              "diff": -2415
+            },
+            {
+              "fy": 2017,
+              "country_key": "THA",
+              "values": [
+                6311,
+                4009
+              ],
+              "diff": -2302
+            },
+            {
+              "fy": 2017,
+              "country_key": "COD",
+              "values": [
+                8709,
+                10876
+              ],
+              "diff": 2167
+            },
+            {
+              "fy": 2017,
+              "country_key": "NPL",
+              "values": [
+                11610,
+                9451
+              ],
+              "diff": -2159
+            },
+            {
+              "fy": 2017,
+              "country_key": "BTN",
+              "values": [
+                2940,
+                4893
+              ],
+              "diff": 1953
+            },
+            {
+              "fy": 2017,
+              "country_key": "KEN",
+              "values": [
+                6957,
+                5119
+              ],
+              "diff": -1838
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2018-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2018
+          ],
+          "compared": 203,
+          "beyond_rounding": 199,
+          "largest": [
+            {
+              "fy": 2018,
+              "country_key": "CAN",
+              "values": [
+                9898,
+                16133
+              ],
+              "diff": 6235
+            },
+            {
+              "fy": 2018,
+              "country_key": "COD",
+              "values": [
+                9941,
+                14671
+              ],
+              "diff": 4730
+            },
+            {
+              "fy": 2018,
+              "country_key": "SOM",
+              "values": [
+                7557,
+                11541
+              ],
+              "diff": 3984
+            },
+            {
+              "fy": 2018,
+              "country_key": "MMR",
+              "values": [
+                8182,
+                11067
+              ],
+              "diff": 2885
+            },
+            {
+              "fy": 2018,
+              "country_key": "TZA",
+              "values": [
+                3186,
+                580
+              ],
+              "diff": -2606
+            },
+            {
+              "fy": 2018,
+              "country_key": "KEN",
+              "values": [
+                7190,
+                4721
+              ],
+              "diff": -2469
+            },
+            {
+              "fy": 2018,
+              "country_key": "HKG",
+              "values": [
+                2075,
+                0
+              ],
+              "diff": -2075
+            },
+            {
+              "fy": 2018,
+              "country_key": "NPL",
+              "values": [
+                11953,
+                9935
+              ],
+              "diff": -2018
+            },
+            {
+              "fy": 2018,
+              "country_key": "MYS",
+              "values": [
+                3051,
+                1322
+              ],
+              "diff": -1729
+            },
+            {
+              "fy": 2018,
+              "country_key": "THA",
+              "values": [
+                5556,
+                3873
+              ],
+              "diff": -1683
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2019-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2019
+          ],
+          "compared": 203,
+          "beyond_rounding": 199,
+          "largest": [
+            {
+              "fy": 2019,
+              "country_key": "CAN",
+              "values": [
+                11388,
+                17827
+              ],
+              "diff": 6439
+            },
+            {
+              "fy": 2019,
+              "country_key": "COD",
+              "values": [
+                8999,
+                13795
+              ],
+              "diff": 4796
+            },
+            {
+              "fy": 2019,
+              "country_key": "TZA",
+              "values": [
+                3142,
+                624
+              ],
+              "diff": -2518
+            },
+            {
+              "fy": 2019,
+              "country_key": "CUB",
+              "values": [
+                41641,
+                39385
+              ],
+              "diff": -2256
+            },
+            {
+              "fy": 2019,
+              "country_key": "SOM",
+              "values": [
+                3752,
+                5924
+              ],
+              "diff": 2172
+            },
+            {
+              "fy": 2019,
+              "country_key": "KEN",
+              "values": [
+                7052,
+                4962
+              ],
+              "diff": -2090
+            },
+            {
+              "fy": 2019,
+              "country_key": "HKG",
+              "values": [
+                2021,
+                0
+              ],
+              "diff": -2021
+            },
+            {
+              "fy": 2019,
+              "country_key": "SAU",
+              "values": [
+                2514,
+                622
+              ],
+              "diff": -1892
+            },
+            {
+              "fy": 2019,
+              "country_key": "GBR",
+              "values": [
+                11337,
+                12858
+              ],
+              "diff": 1521
+            },
+            {
+              "fy": 2019,
+              "country_key": "ARE",
+              "values": [
+                1586,
+                68
+              ],
+              "diff": -1518
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2020-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2020
+          ],
+          "compared": 203,
+          "beyond_rounding": 201,
+          "largest": [
+            {
+              "fy": 2020,
+              "country_key": "CAN",
+              "values": [
+                9526,
+                14496
+              ],
+              "diff": 4970
+            },
+            {
+              "fy": 2020,
+              "country_key": "COD",
+              "values": [
+                7522,
+                11752
+              ],
+              "diff": 4230
+            },
+            {
+              "fy": 2020,
+              "country_key": "TZA",
+              "values": [
+                2312,
+                382
+              ],
+              "diff": -1930
+            },
+            {
+              "fy": 2020,
+              "country_key": "HKG",
+              "values": [
+                1783,
+                0
+              ],
+              "diff": -1783
+            },
+            {
+              "fy": 2020,
+              "country_key": "SAU",
+              "values": [
+                1854,
+                495
+              ],
+              "diff": -1359
+            },
+            {
+              "fy": 2020,
+              "country_key": "MMR",
+              "values": [
+                4000,
+                5293
+              ],
+              "diff": 1293
+            },
+            {
+              "fy": 2020,
+              "country_key": "CUB",
+              "values": [
+                16367,
+                15097
+              ],
+              "diff": -1270
+            },
+            {
+              "fy": 2020,
+              "country_key": "ARE",
+              "values": [
+                1251,
+                105
+              ],
+              "diff": -1146
+            },
+            {
+              "fy": 2020,
+              "country_key": "NPL",
+              "values": [
+                7847,
+                6718
+              ],
+              "diff": -1129
+            },
+            {
+              "fy": 2020,
+              "country_key": "UGA",
+              "values": [
+                1802,
+                810
+              ],
+              "diff": -992
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2021-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2021
+          ],
+          "compared": 201,
+          "beyond_rounding": 200,
+          "largest": [
+            {
+              "fy": 2021,
+              "country_key": "CAN",
+              "values": [
+                9978,
+                15294
+              ],
+              "diff": 5316
+            },
+            {
+              "fy": 2021,
+              "country_key": "COD",
+              "values": [
+                3906,
+                6069
+              ],
+              "diff": 2163
+            },
+            {
+              "fy": 2021,
+              "country_key": "CUB",
+              "values": [
+                23077,
+                21619
+              ],
+              "diff": -1458
+            },
+            {
+              "fy": 2021,
+              "country_key": "ESP",
+              "values": [
+                2644,
+                4024
+              ],
+              "diff": 1380
+            },
+            {
+              "fy": 2021,
+              "country_key": "HKG",
+              "values": [
+                1334,
+                0
+              ],
+              "diff": -1334
+            },
+            {
+              "fy": 2021,
+              "country_key": "SAU",
+              "values": [
+                1780,
+                560
+              ],
+              "diff": -1220
+            },
+            {
+              "fy": 2021,
+              "country_key": "ARE",
+              "values": [
+                1332,
+                113
+              ],
+              "diff": -1219
+            },
+            {
+              "fy": 2021,
+              "country_key": "SUN",
+              "values": [
+                1082,
+                0
+              ],
+              "diff": -1082
+            },
+            {
+              "fy": 2021,
+              "country_key": "GBR",
+              "values": [
+                9229,
+                10215
+              ],
+              "diff": 986
+            },
+            {
+              "fy": 2021,
+              "country_key": "TZA",
+              "values": [
+                1438,
+                474
+              ],
+              "diff": -964
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2022-lpr-birth",
+            "q2022-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2022
+          ],
+          "compared": 201,
+          "beyond_rounding": 200,
+          "largest": [
+            {
+              "fy": 2022,
+              "country_key": "CAN",
+              "values": [
+                11317,
+                19313
+              ],
+              "diff": 7996
+            },
+            {
+              "fy": 2022,
+              "country_key": "CUB",
+              "values": [
+                36642,
+                31347
+              ],
+              "diff": -5295
+            },
+            {
+              "fy": 2022,
+              "country_key": "HKG",
+              "values": [
+                2301,
+                0
+              ],
+              "diff": -2301
+            },
+            {
+              "fy": 2022,
+              "country_key": "SAU",
+              "values": [
+                2764,
+                573
+              ],
+              "diff": -2191
+            },
+            {
+              "fy": 2022,
+              "country_key": "IND",
+              "values": [
+                127012,
+                125130
+              ],
+              "diff": -1882
+            },
+            {
+              "fy": 2022,
+              "country_key": "ARE",
+              "values": [
+                1960,
+                85
+              ],
+              "diff": -1875
+            },
+            {
+              "fy": 2022,
+              "country_key": "COD",
+              "values": [
+                4688,
+                6315
+              ],
+              "diff": 1627
+            },
+            {
+              "fy": 2022,
+              "country_key": "ESP",
+              "values": [
+                2865,
+                4425
+              ],
+              "diff": 1560
+            },
+            {
+              "fy": 2022,
+              "country_key": "GBR",
+              "values": [
+                9143,
+                10548
+              ],
+              "diff": 1405
+            },
+            {
+              "fy": 2022,
+              "country_key": "SUN",
+              "values": [
+                1236,
+                0
+              ],
+              "diff": -1236
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "yb2024-naturalizations-birth"
+          ],
+          "fiscal_years": [
+            2015,
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021,
+            2022
+          ],
+          "compared": 1616,
+          "beyond_rounding": 8,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2017,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2018,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2019,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2019,
+              "country_key": "SYC",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2020,
+              "country_key": "SWZ",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2020,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            },
+            {
+              "fy": 2022,
+              "country_key": "STP",
+              "values": [
+                0,
+                10
+              ],
+              "diff": 10
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2016-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2016
+          ],
+          "compared": 200,
+          "beyond_rounding": 197,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "CAN",
+              "values": [
+                9346,
+                15170
+              ],
+              "diff": 5824
+            },
+            {
+              "fy": 2016,
+              "country_key": "SUN",
+              "values": [
+                2268,
+                56
+              ],
+              "diff": -2212
+            },
+            {
+              "fy": 2016,
+              "country_key": "RUS",
+              "values": [
+                6067,
+                7861
+              ],
+              "diff": 1794
+            },
+            {
+              "fy": 2016,
+              "country_key": "HKG",
+              "values": [
+                1662,
+                0
+              ],
+              "diff": -1662
+            },
+            {
+              "fy": 2016,
+              "country_key": "GBR",
+              "values": [
+                9562,
+                11052
+              ],
+              "diff": 1490
+            },
+            {
+              "fy": 2016,
+              "country_key": "THA",
+              "values": [
+                5211,
+                4002
+              ],
+              "diff": -1209
+            },
+            {
+              "fy": 2016,
+              "country_key": "SCG",
+              "values": [
+                1164,
+                132
+              ],
+              "diff": -1032
+            },
+            {
+              "fy": 2016,
+              "country_key": "IND",
+              "values": [
+                46188,
+                45183
+              ],
+              "diff": -1005
+            },
+            {
+              "fy": 2016,
+              "country_key": "ISR",
+              "values": [
+                3071,
+                3943
+              ],
+              "diff": 872
+            },
+            {
+              "fy": 2016,
+              "country_key": "SAU",
+              "values": [
+                869,
+                128
+              ],
+              "diff": -741
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2017-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2017
+          ],
+          "compared": 200,
+          "beyond_rounding": 196,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "CAN",
+              "values": [
+                7829,
+                13649
+              ],
+              "diff": 5820
+            },
+            {
+              "fy": 2017,
+              "country_key": "SUN",
+              "values": [
+                2123,
+                34
+              ],
+              "diff": -2089
+            },
+            {
+              "fy": 2017,
+              "country_key": "RUS",
+              "values": [
+                5536,
+                7166
+              ],
+              "diff": 1630
+            },
+            {
+              "fy": 2017,
+              "country_key": "HKG",
+              "values": [
+                1623,
+                0
+              ],
+              "diff": -1623
+            },
+            {
+              "fy": 2017,
+              "country_key": "GBR",
+              "values": [
+                9050,
+                10485
+              ],
+              "diff": 1435
+            },
+            {
+              "fy": 2017,
+              "country_key": "THA",
+              "values": [
+                4672,
+                3656
+              ],
+              "diff": -1016
+            },
+            {
+              "fy": 2017,
+              "country_key": "IND",
+              "values": [
+                50830,
+                49815
+              ],
+              "diff": -1015
+            },
+            {
+              "fy": 2017,
+              "country_key": "SCG",
+              "values": [
+                832,
+                69
+              ],
+              "diff": -763
+            },
+            {
+              "fy": 2017,
+              "country_key": "SAU",
+              "values": [
+                872,
+                142
+              ],
+              "diff": -730
+            },
+            {
+              "fy": 2017,
+              "country_key": "ISR",
+              "values": [
+                2473,
+                3166
+              ],
+              "diff": 693
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2018-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2018
+          ],
+          "compared": 200,
+          "beyond_rounding": 196,
+          "largest": [
+            {
+              "fy": 2018,
+              "country_key": "CAN",
+              "values": [
+                9383,
+                15796
+              ],
+              "diff": 6413
+            },
+            {
+              "fy": 2018,
+              "country_key": "SUN",
+              "values": [
+                2253,
+                34
+              ],
+              "diff": -2219
+            },
+            {
+              "fy": 2018,
+              "country_key": "RUS",
+              "values": [
+                6225,
+                8054
+              ],
+              "diff": 1829
+            },
+            {
+              "fy": 2018,
+              "country_key": "HKG",
+              "values": [
+                1769,
+                0
+              ],
+              "diff": -1769
+            },
+            {
+              "fy": 2018,
+              "country_key": "GBR",
+              "values": [
+                10535,
+                12165
+              ],
+              "diff": 1630
+            },
+            {
+              "fy": 2018,
+              "country_key": "THA",
+              "values": [
+                5327,
+                3943
+              ],
+              "diff": -1384
+            },
+            {
+              "fy": 2018,
+              "country_key": "IND",
+              "values": [
+                52228,
+                51325
+              ],
+              "diff": -903
+            },
+            {
+              "fy": 2018,
+              "country_key": "BTN",
+              "values": [
+                6193,
+                7080
+              ],
+              "diff": 887
+            },
+            {
+              "fy": 2018,
+              "country_key": "NPL",
+              "values": [
+                5358,
+                4475
+              ],
+              "diff": -883
+            },
+            {
+              "fy": 2018,
+              "country_key": "SAU",
+              "values": [
+                992,
+                154
+              ],
+              "diff": -838
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2019-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2019
+          ],
+          "compared": 198,
+          "beyond_rounding": 195,
+          "largest": [
+            {
+              "fy": 2019,
+              "country_key": "CAN",
+              "values": [
+                11061,
+                18495
+              ],
+              "diff": 7434
+            },
+            {
+              "fy": 2019,
+              "country_key": "SUN",
+              "values": [
+                2280,
+                54
+              ],
+              "diff": -2226
+            },
+            {
+              "fy": 2019,
+              "country_key": "HKG",
+              "values": [
+                1925,
+                0
+              ],
+              "diff": -1925
+            },
+            {
+              "fy": 2019,
+              "country_key": "THA",
+              "values": [
+                6678,
+                4768
+              ],
+              "diff": -1910
+            },
+            {
+              "fy": 2019,
+              "country_key": "RUS",
+              "values": [
+                7629,
+                9350
+              ],
+              "diff": 1721
+            },
+            {
+              "fy": 2019,
+              "country_key": "GBR",
+              "values": [
+                12195,
+                13907
+              ],
+              "diff": 1712
+            },
+            {
+              "fy": 2019,
+              "country_key": "MMR",
+              "values": [
+                11680,
+                12828
+              ],
+              "diff": 1148
+            },
+            {
+              "fy": 2019,
+              "country_key": "NPL",
+              "values": [
+                7412,
+                6272
+              ],
+              "diff": -1140
+            },
+            {
+              "fy": 2019,
+              "country_key": "BTN",
+              "values": [
+                6921,
+                8048
+              ],
+              "diff": 1127
+            },
+            {
+              "fy": 2019,
+              "country_key": "SAU",
+              "values": [
+                1313,
+                217
+              ],
+              "diff": -1096
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2020-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2020
+          ],
+          "compared": 198,
+          "beyond_rounding": 193,
+          "largest": [
+            {
+              "fy": 2020,
+              "country_key": "CAN",
+              "values": [
+                8423,
+                13564
+              ],
+              "diff": 5141
+            },
+            {
+              "fy": 2020,
+              "country_key": "USA",
+              "values": [
+                163,
+                1757
+              ],
+              "diff": 1594
+            },
+            {
+              "fy": 2020,
+              "country_key": "HKG",
+              "values": [
+                1545,
+                0
+              ],
+              "diff": -1545
+            },
+            {
+              "fy": 2020,
+              "country_key": "SUN",
+              "values": [
+                1589,
+                86
+              ],
+              "diff": -1503
+            },
+            {
+              "fy": 2020,
+              "country_key": "THA",
+              "values": [
+                5573,
+                4223
+              ],
+              "diff": -1350
+            },
+            {
+              "fy": 2020,
+              "country_key": "GBR",
+              "values": [
+                8842,
+                10107
+              ],
+              "diff": 1265
+            },
+            {
+              "fy": 2020,
+              "country_key": "MEX",
+              "values": [
+                84090,
+                82916
+              ],
+              "diff": -1174
+            },
+            {
+              "fy": 2020,
+              "country_key": "RUS",
+              "values": [
+                5361,
+                6396
+              ],
+              "diff": 1035
+            },
+            {
+              "fy": 2020,
+              "country_key": "IND",
+              "values": [
+                48111,
+                47179
+              ],
+              "diff": -932
+            },
+            {
+              "fy": 2020,
+              "country_key": "MMR",
+              "values": [
+                9183,
+                10071
+              ],
+              "diff": 888
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2021-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2021
+          ],
+          "compared": 200,
+          "beyond_rounding": 198,
+          "largest": [
+            {
+              "fy": 2021,
+              "country_key": "CAN",
+              "values": [
+                10928,
+                18368
+              ],
+              "diff": 7440
+            },
+            {
+              "fy": 2021,
+              "country_key": "HKG",
+              "values": [
+                2413,
+                0
+              ],
+              "diff": -2413
+            },
+            {
+              "fy": 2021,
+              "country_key": "SUN",
+              "values": [
+                2106,
+                0
+              ],
+              "diff": -2106
+            },
+            {
+              "fy": 2021,
+              "country_key": "USA",
+              "values": [
+                251,
+                2211
+              ],
+              "diff": 1960
+            },
+            {
+              "fy": 2021,
+              "country_key": "GBR",
+              "values": [
+                11407,
+                13174
+              ],
+              "diff": 1767
+            },
+            {
+              "fy": 2021,
+              "country_key": "RUS",
+              "values": [
+                7303,
+                8621
+              ],
+              "diff": 1318
+            },
+            {
+              "fy": 2021,
+              "country_key": "SAU",
+              "values": [
+                1382,
+                195
+              ],
+              "diff": -1187
+            },
+            {
+              "fy": 2021,
+              "country_key": "THA",
+              "values": [
+                6602,
+                5567
+              ],
+              "diff": -1035
+            },
+            {
+              "fy": 2021,
+              "country_key": "IND",
+              "values": [
+                57043,
+                56085
+              ],
+              "diff": -958
+            },
+            {
+              "fy": 2021,
+              "country_key": "ESP",
+              "values": [
+                2342,
+                3269
+              ],
+              "diff": 927
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2022-naturalizations-birth",
+            "q2022-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2022
+          ],
+          "compared": 200,
+          "beyond_rounding": 199,
+          "largest": [
+            {
+              "fy": 2022,
+              "country_key": "CAN",
+              "values": [
+                12565,
+                21238
+              ],
+              "diff": 8673
+            },
+            {
+              "fy": 2022,
+              "country_key": "USA",
+              "values": [
+                392,
+                5537
+              ],
+              "diff": 5145
+            },
+            {
+              "fy": 2022,
+              "country_key": "HKG",
+              "values": [
+                2463,
+                0
+              ],
+              "diff": -2463
+            },
+            {
+              "fy": 2022,
+              "country_key": "SUN",
+              "values": [
+                2376,
+                0
+              ],
+              "diff": -2376
+            },
+            {
+              "fy": 2022,
+              "country_key": "GBR",
+              "values": [
+                12975,
+                15110
+              ],
+              "diff": 2135
+            },
+            {
+              "fy": 2022,
+              "country_key": "RUS",
+              "values": [
+                8654,
+                10420
+              ],
+              "diff": 1766
+            },
+            {
+              "fy": 2022,
+              "country_key": "SAU",
+              "values": [
+                1915,
+                278
+              ],
+              "diff": -1637
+            },
+            {
+              "fy": 2022,
+              "country_key": "IND",
+              "values": [
+                65960,
+                64438
+              ],
+              "diff": -1522
+            },
+            {
+              "fy": 2022,
+              "country_key": "NPL",
+              "values": [
+                9408,
+                8223
+              ],
+              "diff": -1185
+            },
+            {
+              "fy": 2022,
+              "country_key": "THA",
+              "values": [
+                6502,
+                5317
+              ],
+              "diff": -1185
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2016-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2016
+          ],
+          "compared": 205,
+          "beyond_rounding": 190,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "CAN",
+              "values": [
+                12790,
+                20266
+              ],
+              "diff": 7476
+            },
+            {
+              "fy": 2016,
+              "country_key": "MMR",
+              "values": [
+                13070,
+                17013
+              ],
+              "diff": 3943
+            },
+            {
+              "fy": 2016,
+              "country_key": "SOM",
+              "values": [
+                6960,
+                9910
+              ],
+              "diff": 2950
+            },
+            {
+              "fy": 2016,
+              "country_key": "NPL",
+              "values": [
+                12850,
+                10163
+              ],
+              "diff": -2687
+            },
+            {
+              "fy": 2016,
+              "country_key": "BTN",
+              "values": [
+                4220,
+                6886
+              ],
+              "diff": 2666
+            },
+            {
+              "fy": 2016,
+              "country_key": "THA",
+              "values": [
+                7040,
+                4399
+              ],
+              "diff": -2641
+            },
+            {
+              "fy": 2016,
+              "country_key": "HKG",
+              "values": [
+                2510,
+                0
+              ],
+              "diff": -2510
+            },
+            {
+              "fy": 2016,
+              "country_key": "MYS",
+              "values": [
+                3380,
+                1592
+              ],
+              "diff": -1788
+            },
+            {
+              "fy": 2016,
+              "country_key": "GBR",
+              "values": [
+                12670,
+                14412
+              ],
+              "diff": 1742
+            },
+            {
+              "fy": 2016,
+              "country_key": "SAU",
+              "values": [
+                2120,
+                391
+              ],
+              "diff": -1729
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2017-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2017
+          ],
+          "compared": 205,
+          "beyond_rounding": 184,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "CAN",
+              "values": [
+                11480,
+                18768
+              ],
+              "diff": 7288
+            },
+            {
+              "fy": 2017,
+              "country_key": "MMR",
+              "values": [
+                12900,
+                17256
+              ],
+              "diff": 4356
+            },
+            {
+              "fy": 2017,
+              "country_key": "SOM",
+              "values": [
+                7400,
+                10953
+              ],
+              "diff": 3553
+            },
+            {
+              "fy": 2017,
+              "country_key": "MYS",
+              "values": [
+                4110,
+                1447
+              ],
+              "diff": -2663
+            },
+            {
+              "fy": 2017,
+              "country_key": "HKG",
+              "values": [
+                2420,
+                0
+              ],
+              "diff": -2420
+            },
+            {
+              "fy": 2017,
+              "country_key": "THA",
+              "values": [
+                6310,
+                4009
+              ],
+              "diff": -2301
+            },
+            {
+              "fy": 2017,
+              "country_key": "COD",
+              "values": [
+                8710,
+                10876
+              ],
+              "diff": 2166
+            },
+            {
+              "fy": 2017,
+              "country_key": "NPL",
+              "values": [
+                11610,
+                9451
+              ],
+              "diff": -2159
+            },
+            {
+              "fy": 2017,
+              "country_key": "BTN",
+              "values": [
+                2940,
+                4893
+              ],
+              "diff": 1953
+            },
+            {
+              "fy": 2017,
+              "country_key": "KEN",
+              "values": [
+                6960,
+                5119
+              ],
+              "diff": -1841
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2018-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2018
+          ],
+          "compared": 205,
+          "beyond_rounding": 187,
+          "largest": [
+            {
+              "fy": 2018,
+              "country_key": "CAN",
+              "values": [
+                9900,
+                16133
+              ],
+              "diff": 6233
+            },
+            {
+              "fy": 2018,
+              "country_key": "COD",
+              "values": [
+                9940,
+                14671
+              ],
+              "diff": 4731
+            },
+            {
+              "fy": 2018,
+              "country_key": "SOM",
+              "values": [
+                7560,
+                11541
+              ],
+              "diff": 3981
+            },
+            {
+              "fy": 2018,
+              "country_key": "MMR",
+              "values": [
+                8180,
+                11067
+              ],
+              "diff": 2887
+            },
+            {
+              "fy": 2018,
+              "country_key": "TZA",
+              "values": [
+                3190,
+                580
+              ],
+              "diff": -2610
+            },
+            {
+              "fy": 2018,
+              "country_key": "KEN",
+              "values": [
+                7190,
+                4721
+              ],
+              "diff": -2469
+            },
+            {
+              "fy": 2018,
+              "country_key": "HKG",
+              "values": [
+                2080,
+                0
+              ],
+              "diff": -2080
+            },
+            {
+              "fy": 2018,
+              "country_key": "NPL",
+              "values": [
+                11950,
+                9935
+              ],
+              "diff": -2015
+            },
+            {
+              "fy": 2018,
+              "country_key": "MYS",
+              "values": [
+                3050,
+                1322
+              ],
+              "diff": -1728
+            },
+            {
+              "fy": 2018,
+              "country_key": "THA",
+              "values": [
+                5560,
+                3873
+              ],
+              "diff": -1687
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2019-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2019
+          ],
+          "compared": 205,
+          "beyond_rounding": 192,
+          "largest": [
+            {
+              "fy": 2019,
+              "country_key": "CAN",
+              "values": [
+                11390,
+                17827
+              ],
+              "diff": 6437
+            },
+            {
+              "fy": 2019,
+              "country_key": "COD",
+              "values": [
+                9000,
+                13795
+              ],
+              "diff": 4795
+            },
+            {
+              "fy": 2019,
+              "country_key": "TZA",
+              "values": [
+                3140,
+                624
+              ],
+              "diff": -2516
+            },
+            {
+              "fy": 2019,
+              "country_key": "CUB",
+              "values": [
+                41640,
+                39385
+              ],
+              "diff": -2255
+            },
+            {
+              "fy": 2019,
+              "country_key": "SOM",
+              "values": [
+                3750,
+                5924
+              ],
+              "diff": 2174
+            },
+            {
+              "fy": 2019,
+              "country_key": "KEN",
+              "values": [
+                7050,
+                4962
+              ],
+              "diff": -2088
+            },
+            {
+              "fy": 2019,
+              "country_key": "HKG",
+              "values": [
+                2020,
+                0
+              ],
+              "diff": -2020
+            },
+            {
+              "fy": 2019,
+              "country_key": "SAU",
+              "values": [
+                2510,
+                622
+              ],
+              "diff": -1888
+            },
+            {
+              "fy": 2019,
+              "country_key": "ARE",
+              "values": [
+                1590,
+                68
+              ],
+              "diff": -1522
+            },
+            {
+              "fy": 2019,
+              "country_key": "GBR",
+              "values": [
+                11340,
+                12858
+              ],
+              "diff": 1518
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2020-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2020
+          ],
+          "compared": 205,
+          "beyond_rounding": 184,
+          "largest": [
+            {
+              "fy": 2020,
+              "country_key": "CAN",
+              "values": [
+                9530,
+                14496
+              ],
+              "diff": 4966
+            },
+            {
+              "fy": 2020,
+              "country_key": "COD",
+              "values": [
+                7520,
+                11752
+              ],
+              "diff": 4232
+            },
+            {
+              "fy": 2020,
+              "country_key": "TZA",
+              "values": [
+                2310,
+                382
+              ],
+              "diff": -1928
+            },
+            {
+              "fy": 2020,
+              "country_key": "HKG",
+              "values": [
+                1780,
+                0
+              ],
+              "diff": -1780
+            },
+            {
+              "fy": 2020,
+              "country_key": "SAU",
+              "values": [
+                1850,
+                495
+              ],
+              "diff": -1355
+            },
+            {
+              "fy": 2020,
+              "country_key": "MMR",
+              "values": [
+                4000,
+                5293
+              ],
+              "diff": 1293
+            },
+            {
+              "fy": 2020,
+              "country_key": "CUB",
+              "values": [
+                16370,
+                15097
+              ],
+              "diff": -1273
+            },
+            {
+              "fy": 2020,
+              "country_key": "ARE",
+              "values": [
+                1250,
+                105
+              ],
+              "diff": -1145
+            },
+            {
+              "fy": 2020,
+              "country_key": "NPL",
+              "values": [
+                7850,
+                6718
+              ],
+              "diff": -1132
+            },
+            {
+              "fy": 2020,
+              "country_key": "UGA",
+              "values": [
+                1800,
+                810
+              ],
+              "diff": -990
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2021-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2021
+          ],
+          "compared": 205,
+          "beyond_rounding": 184,
+          "largest": [
+            {
+              "fy": 2021,
+              "country_key": "CAN",
+              "values": [
+                9980,
+                15294
+              ],
+              "diff": 5314
+            },
+            {
+              "fy": 2021,
+              "country_key": "COD",
+              "values": [
+                3910,
+                6069
+              ],
+              "diff": 2159
+            },
+            {
+              "fy": 2021,
+              "country_key": "CUB",
+              "values": [
+                23080,
+                21619
+              ],
+              "diff": -1461
+            },
+            {
+              "fy": 2021,
+              "country_key": "ESP",
+              "values": [
+                2640,
+                4024
+              ],
+              "diff": 1384
+            },
+            {
+              "fy": 2021,
+              "country_key": "HKG",
+              "values": [
+                1330,
+                0
+              ],
+              "diff": -1330
+            },
+            {
+              "fy": 2021,
+              "country_key": "SAU",
+              "values": [
+                1780,
+                560
+              ],
+              "diff": -1220
+            },
+            {
+              "fy": 2021,
+              "country_key": "ARE",
+              "values": [
+                1330,
+                113
+              ],
+              "diff": -1217
+            },
+            {
+              "fy": 2021,
+              "country_key": "SUN",
+              "values": [
+                1080,
+                0
+              ],
+              "diff": -1080
+            },
+            {
+              "fy": 2021,
+              "country_key": "GBR",
+              "values": [
+                9230,
+                10215
+              ],
+              "diff": 985
+            },
+            {
+              "fy": 2021,
+              "country_key": "TZA",
+              "values": [
+                1440,
+                474
+              ],
+              "diff": -966
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2022-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2022
+          ],
+          "compared": 205,
+          "beyond_rounding": 190,
+          "largest": [
+            {
+              "fy": 2022,
+              "country_key": "CAN",
+              "values": [
+                11320,
+                19313
+              ],
+              "diff": 7993
+            },
+            {
+              "fy": 2022,
+              "country_key": "CUB",
+              "values": [
+                36640,
+                31347
+              ],
+              "diff": -5293
+            },
+            {
+              "fy": 2022,
+              "country_key": "HKG",
+              "values": [
+                2300,
+                0
+              ],
+              "diff": -2300
+            },
+            {
+              "fy": 2022,
+              "country_key": "SAU",
+              "values": [
+                2760,
+                573
+              ],
+              "diff": -2187
+            },
+            {
+              "fy": 2022,
+              "country_key": "IND",
+              "values": [
+                127010,
+                125130
+              ],
+              "diff": -1880
+            },
+            {
+              "fy": 2022,
+              "country_key": "ARE",
+              "values": [
+                1960,
+                85
+              ],
+              "diff": -1875
+            },
+            {
+              "fy": 2022,
+              "country_key": "COD",
+              "values": [
+                4690,
+                6315
+              ],
+              "diff": 1625
+            },
+            {
+              "fy": 2022,
+              "country_key": "ESP",
+              "values": [
+                2870,
+                4425
+              ],
+              "diff": 1555
+            },
+            {
+              "fy": 2022,
+              "country_key": "GBR",
+              "values": [
+                9140,
+                10548
+              ],
+              "diff": 1408
+            },
+            {
+              "fy": 2022,
+              "country_key": "SUN",
+              "values": [
+                1240,
+                0
+              ],
+              "diff": -1240
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2023-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2023
+          ],
+          "compared": 205,
+          "beyond_rounding": 165,
+          "largest": [
+            {
+              "fy": 2023,
+              "country_key": "CAN",
+              "values": [
+                11870,
+                20090
+              ],
+              "diff": 8220
+            },
+            {
+              "fy": 2023,
+              "country_key": "CUB",
+              "values": [
+                81600,
+                74040
+              ],
+              "diff": -7560
+            },
+            {
+              "fy": 2023,
+              "country_key": "ESP",
+              "values": [
+                3350,
+                6640
+              ],
+              "diff": 3290
+            },
+            {
+              "fy": 2023,
+              "country_key": "SAU",
+              "values": [
+                3040,
+                540
+              ],
+              "diff": -2500
+            },
+            {
+              "fy": 2023,
+              "country_key": "DOM",
+              "values": [
+                68870,
+                66450
+              ],
+              "diff": -2420
+            },
+            {
+              "fy": 2023,
+              "country_key": "HKG",
+              "values": [
+                2290,
+                0
+              ],
+              "diff": -2290
+            },
+            {
+              "fy": 2023,
+              "country_key": "IND",
+              "values": [
+                78070,
+                76020
+              ],
+              "diff": -2050
+            },
+            {
+              "fy": 2023,
+              "country_key": "COD",
+              "values": [
+                4880,
+                6710
+              ],
+              "diff": 1830
+            },
+            {
+              "fy": 2023,
+              "country_key": "ARE",
+              "values": [
+                1840,
+                60
+              ],
+              "diff": -1780
+            },
+            {
+              "fy": 2023,
+              "country_key": "VNM",
+              "values": [
+                36000,
+                34320
+              ],
+              "diff": -1680
+            }
+          ]
+        },
+        {
+          "metric": "lpr",
+          "tables": [
+            "yb2024-lpr-birth",
+            "q2024-lpr-nationality"
+          ],
+          "fiscal_years": [
+            2024
+          ],
+          "compared": 205,
+          "beyond_rounding": 164,
+          "largest": [
+            {
+              "fy": 2024,
+              "country_key": "CAN",
+              "values": [
+                11620,
+                19650
+              ],
+              "diff": 8030
+            },
+            {
+              "fy": 2024,
+              "country_key": "CUB",
+              "values": [
+                184040,
+                178130
+              ],
+              "diff": -5910
+            },
+            {
+              "fy": 2024,
+              "country_key": "ESP",
+              "values": [
+                2820,
+                5310
+              ],
+              "diff": 2490
+            },
+            {
+              "fy": 2024,
+              "country_key": "SAU",
+              "values": [
+                2700,
+                460
+              ],
+              "diff": -2240
+            },
+            {
+              "fy": 2024,
+              "country_key": "COD",
+              "values": [
+                5040,
+                7210
+              ],
+              "diff": 2170
+            },
+            {
+              "fy": 2024,
+              "country_key": "DOM",
+              "values": [
+                69630,
+                67460
+              ],
+              "diff": -2170
+            },
+            {
+              "fy": 2024,
+              "country_key": "IND",
+              "values": [
+                66800,
+                64660
+              ],
+              "diff": -2140
+            },
+            {
+              "fy": 2024,
+              "country_key": "HKG",
+              "values": [
+                1950,
+                0
+              ],
+              "diff": -1950
+            },
+            {
+              "fy": 2024,
+              "country_key": "MEX",
+              "values": [
+                202600,
+                200720
+              ],
+              "diff": -1880
+            },
+            {
+              "fy": 2024,
+              "country_key": "VNM",
+              "values": [
+                39080,
+                37290
+              ],
+              "diff": -1790
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2016-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2016
+          ],
+          "compared": 202,
+          "beyond_rounding": 184,
+          "largest": [
+            {
+              "fy": 2016,
+              "country_key": "CAN",
+              "values": [
+                9350,
+                15170
+              ],
+              "diff": 5820
+            },
+            {
+              "fy": 2016,
+              "country_key": "SUN",
+              "values": [
+                2270,
+                56
+              ],
+              "diff": -2214
+            },
+            {
+              "fy": 2016,
+              "country_key": "RUS",
+              "values": [
+                6070,
+                7861
+              ],
+              "diff": 1791
+            },
+            {
+              "fy": 2016,
+              "country_key": "HKG",
+              "values": [
+                1660,
+                0
+              ],
+              "diff": -1660
+            },
+            {
+              "fy": 2016,
+              "country_key": "GBR",
+              "values": [
+                9560,
+                11052
+              ],
+              "diff": 1492
+            },
+            {
+              "fy": 2016,
+              "country_key": "THA",
+              "values": [
+                5210,
+                4002
+              ],
+              "diff": -1208
+            },
+            {
+              "fy": 2016,
+              "country_key": "SCG",
+              "values": [
+                1160,
+                132
+              ],
+              "diff": -1028
+            },
+            {
+              "fy": 2016,
+              "country_key": "IND",
+              "values": [
+                46190,
+                45183
+              ],
+              "diff": -1007
+            },
+            {
+              "fy": 2016,
+              "country_key": "ISR",
+              "values": [
+                3070,
+                3943
+              ],
+              "diff": 873
+            },
+            {
+              "fy": 2016,
+              "country_key": "SAU",
+              "values": [
+                870,
+                128
+              ],
+              "diff": -742
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2017-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2017
+          ],
+          "compared": 202,
+          "beyond_rounding": 182,
+          "largest": [
+            {
+              "fy": 2017,
+              "country_key": "CAN",
+              "values": [
+                7830,
+                13649
+              ],
+              "diff": 5819
+            },
+            {
+              "fy": 2017,
+              "country_key": "SUN",
+              "values": [
+                2120,
+                34
+              ],
+              "diff": -2086
+            },
+            {
+              "fy": 2017,
+              "country_key": "RUS",
+              "values": [
+                5540,
+                7166
+              ],
+              "diff": 1626
+            },
+            {
+              "fy": 2017,
+              "country_key": "HKG",
+              "values": [
+                1620,
+                0
+              ],
+              "diff": -1620
+            },
+            {
+              "fy": 2017,
+              "country_key": "GBR",
+              "values": [
+                9050,
+                10485
+              ],
+              "diff": 1435
+            },
+            {
+              "fy": 2017,
+              "country_key": "IND",
+              "values": [
+                50830,
+                49815
+              ],
+              "diff": -1015
+            },
+            {
+              "fy": 2017,
+              "country_key": "THA",
+              "values": [
+                4670,
+                3656
+              ],
+              "diff": -1014
+            },
+            {
+              "fy": 2017,
+              "country_key": "SCG",
+              "values": [
+                830,
+                69
+              ],
+              "diff": -761
+            },
+            {
+              "fy": 2017,
+              "country_key": "SAU",
+              "values": [
+                870,
+                142
+              ],
+              "diff": -728
+            },
+            {
+              "fy": 2017,
+              "country_key": "ISR",
+              "values": [
+                2470,
+                3166
+              ],
+              "diff": 696
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2018-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2018
+          ],
+          "compared": 202,
+          "beyond_rounding": 181,
+          "largest": [
+            {
+              "fy": 2018,
+              "country_key": "CAN",
+              "values": [
+                9380,
+                15796
+              ],
+              "diff": 6416
+            },
+            {
+              "fy": 2018,
+              "country_key": "SUN",
+              "values": [
+                2250,
+                34
+              ],
+              "diff": -2216
+            },
+            {
+              "fy": 2018,
+              "country_key": "RUS",
+              "values": [
+                6230,
+                8054
+              ],
+              "diff": 1824
+            },
+            {
+              "fy": 2018,
+              "country_key": "HKG",
+              "values": [
+                1770,
+                0
+              ],
+              "diff": -1770
+            },
+            {
+              "fy": 2018,
+              "country_key": "GBR",
+              "values": [
+                10540,
+                12165
+              ],
+              "diff": 1625
+            },
+            {
+              "fy": 2018,
+              "country_key": "THA",
+              "values": [
+                5330,
+                3943
+              ],
+              "diff": -1387
+            },
+            {
+              "fy": 2018,
+              "country_key": "IND",
+              "values": [
+                52230,
+                51325
+              ],
+              "diff": -905
+            },
+            {
+              "fy": 2018,
+              "country_key": "BTN",
+              "values": [
+                6190,
+                7080
+              ],
+              "diff": 890
+            },
+            {
+              "fy": 2018,
+              "country_key": "NPL",
+              "values": [
+                5360,
+                4475
+              ],
+              "diff": -885
+            },
+            {
+              "fy": 2018,
+              "country_key": "SAU",
+              "values": [
+                990,
+                154
+              ],
+              "diff": -836
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2019-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2019
+          ],
+          "compared": 202,
+          "beyond_rounding": 181,
+          "largest": [
+            {
+              "fy": 2019,
+              "country_key": "CAN",
+              "values": [
+                11060,
+                18495
+              ],
+              "diff": 7435
+            },
+            {
+              "fy": 2019,
+              "country_key": "SUN",
+              "values": [
+                2280,
+                54
+              ],
+              "diff": -2226
+            },
+            {
+              "fy": 2019,
+              "country_key": "HKG",
+              "values": [
+                1930,
+                0
+              ],
+              "diff": -1930
+            },
+            {
+              "fy": 2019,
+              "country_key": "THA",
+              "values": [
+                6680,
+                4768
+              ],
+              "diff": -1912
+            },
+            {
+              "fy": 2019,
+              "country_key": "RUS",
+              "values": [
+                7630,
+                9350
+              ],
+              "diff": 1720
+            },
+            {
+              "fy": 2019,
+              "country_key": "GBR",
+              "values": [
+                12200,
+                13907
+              ],
+              "diff": 1707
+            },
+            {
+              "fy": 2019,
+              "country_key": "MMR",
+              "values": [
+                11680,
+                12828
+              ],
+              "diff": 1148
+            },
+            {
+              "fy": 2019,
+              "country_key": "NPL",
+              "values": [
+                7410,
+                6272
+              ],
+              "diff": -1138
+            },
+            {
+              "fy": 2019,
+              "country_key": "BTN",
+              "values": [
+                6920,
+                8048
+              ],
+              "diff": 1128
+            },
+            {
+              "fy": 2019,
+              "country_key": "SAU",
+              "values": [
+                1310,
+                217
+              ],
+              "diff": -1093
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2020-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2020
+          ],
+          "compared": 202,
+          "beyond_rounding": 180,
+          "largest": [
+            {
+              "fy": 2020,
+              "country_key": "CAN",
+              "values": [
+                8420,
+                13564
+              ],
+              "diff": 5144
+            },
+            {
+              "fy": 2020,
+              "country_key": "USA",
+              "values": [
+                160,
+                1757
+              ],
+              "diff": 1597
+            },
+            {
+              "fy": 2020,
+              "country_key": "HKG",
+              "values": [
+                1550,
+                0
+              ],
+              "diff": -1550
+            },
+            {
+              "fy": 2020,
+              "country_key": "SUN",
+              "values": [
+                1590,
+                86
+              ],
+              "diff": -1504
+            },
+            {
+              "fy": 2020,
+              "country_key": "THA",
+              "values": [
+                5570,
+                4223
+              ],
+              "diff": -1347
+            },
+            {
+              "fy": 2020,
+              "country_key": "GBR",
+              "values": [
+                8840,
+                10107
+              ],
+              "diff": 1267
+            },
+            {
+              "fy": 2020,
+              "country_key": "MEX",
+              "values": [
+                84090,
+                82916
+              ],
+              "diff": -1174
+            },
+            {
+              "fy": 2020,
+              "country_key": "RUS",
+              "values": [
+                5360,
+                6396
+              ],
+              "diff": 1036
+            },
+            {
+              "fy": 2020,
+              "country_key": "IND",
+              "values": [
+                48110,
+                47179
+              ],
+              "diff": -931
+            },
+            {
+              "fy": 2020,
+              "country_key": "MMR",
+              "values": [
+                9180,
+                10071
+              ],
+              "diff": 891
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2021-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2021
+          ],
+          "compared": 202,
+          "beyond_rounding": 183,
+          "largest": [
+            {
+              "fy": 2021,
+              "country_key": "CAN",
+              "values": [
+                10930,
+                18368
+              ],
+              "diff": 7438
+            },
+            {
+              "fy": 2021,
+              "country_key": "HKG",
+              "values": [
+                2410,
+                0
+              ],
+              "diff": -2410
+            },
+            {
+              "fy": 2021,
+              "country_key": "SUN",
+              "values": [
+                2110,
+                0
+              ],
+              "diff": -2110
+            },
+            {
+              "fy": 2021,
+              "country_key": "USA",
+              "values": [
+                250,
+                2211
+              ],
+              "diff": 1961
+            },
+            {
+              "fy": 2021,
+              "country_key": "GBR",
+              "values": [
+                11410,
+                13174
+              ],
+              "diff": 1764
+            },
+            {
+              "fy": 2021,
+              "country_key": "RUS",
+              "values": [
+                7300,
+                8621
+              ],
+              "diff": 1321
+            },
+            {
+              "fy": 2021,
+              "country_key": "SAU",
+              "values": [
+                1380,
+                195
+              ],
+              "diff": -1185
+            },
+            {
+              "fy": 2021,
+              "country_key": "THA",
+              "values": [
+                6600,
+                5567
+              ],
+              "diff": -1033
+            },
+            {
+              "fy": 2021,
+              "country_key": "IND",
+              "values": [
+                57040,
+                56085
+              ],
+              "diff": -955
+            },
+            {
+              "fy": 2021,
+              "country_key": "ESP",
+              "values": [
+                2340,
+                3269
+              ],
+              "diff": 929
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2022-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2022
+          ],
+          "compared": 202,
+          "beyond_rounding": 190,
+          "largest": [
+            {
+              "fy": 2022,
+              "country_key": "CAN",
+              "values": [
+                12570,
+                21238
+              ],
+              "diff": 8668
+            },
+            {
+              "fy": 2022,
+              "country_key": "USA",
+              "values": [
+                390,
+                5537
+              ],
+              "diff": 5147
+            },
+            {
+              "fy": 2022,
+              "country_key": "HKG",
+              "values": [
+                2460,
+                0
+              ],
+              "diff": -2460
+            },
+            {
+              "fy": 2022,
+              "country_key": "SUN",
+              "values": [
+                2380,
+                0
+              ],
+              "diff": -2380
+            },
+            {
+              "fy": 2022,
+              "country_key": "GBR",
+              "values": [
+                12980,
+                15110
+              ],
+              "diff": 2130
+            },
+            {
+              "fy": 2022,
+              "country_key": "RUS",
+              "values": [
+                8650,
+                10420
+              ],
+              "diff": 1770
+            },
+            {
+              "fy": 2022,
+              "country_key": "SAU",
+              "values": [
+                1920,
+                278
+              ],
+              "diff": -1642
+            },
+            {
+              "fy": 2022,
+              "country_key": "IND",
+              "values": [
+                65960,
+                64438
+              ],
+              "diff": -1522
+            },
+            {
+              "fy": 2022,
+              "country_key": "NPL",
+              "values": [
+                9410,
+                8223
+              ],
+              "diff": -1187
+            },
+            {
+              "fy": 2022,
+              "country_key": "THA",
+              "values": [
+                6500,
+                5317
+              ],
+              "diff": -1183
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2023-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2023
+          ],
+          "compared": 202,
+          "beyond_rounding": 160,
+          "largest": [
+            {
+              "fy": 2023,
+              "country_key": "CAN",
+              "values": [
+                11320,
+                18720
+              ],
+              "diff": 7400
+            },
+            {
+              "fy": 2023,
+              "country_key": "COD",
+              "values": [
+                1360,
+                6720
+              ],
+              "diff": 5360
+            },
+            {
+              "fy": 2023,
+              "country_key": "USA",
+              "values": [
+                410,
+                4570
+              ],
+              "diff": 4160
+            },
+            {
+              "fy": 2023,
+              "country_key": "SUN",
+              "values": [
+                2270,
+                0
+              ],
+              "diff": -2270
+            },
+            {
+              "fy": 2023,
+              "country_key": "IND",
+              "values": [
+                59050,
+                57020
+              ],
+              "diff": -2030
+            },
+            {
+              "fy": 2023,
+              "country_key": "HKG",
+              "values": [
+                1820,
+                0
+              ],
+              "diff": -1820
+            },
+            {
+              "fy": 2023,
+              "country_key": "GBR",
+              "values": [
+                10990,
+                12770
+              ],
+              "diff": 1780
+            },
+            {
+              "fy": 2023,
+              "country_key": "MEX",
+              "values": [
+                111460,
+                109810
+              ],
+              "diff": -1650
+            },
+            {
+              "fy": 2023,
+              "country_key": "RUS",
+              "values": [
+                8480,
+                10130
+              ],
+              "diff": 1650
+            },
+            {
+              "fy": 2023,
+              "country_key": "SAU",
+              "values": [
+                1870,
+                320
+              ],
+              "diff": -1550
+            }
+          ]
+        },
+        {
+          "metric": "naturalizations",
+          "tables": [
+            "yb2024-naturalizations-birth",
+            "q2024-naturalizations-nationality"
+          ],
+          "fiscal_years": [
+            2024
+          ],
+          "compared": 202,
+          "beyond_rounding": 165,
+          "largest": [
+            {
+              "fy": 2024,
+              "country_key": "CAN",
+              "values": [
+                11290,
+                18530
+              ],
+              "diff": 7240
+            },
+            {
+              "fy": 2024,
+              "country_key": "USA",
+              "values": [
+                390,
+                6350
+              ],
+              "diff": 5960
+            },
+            {
+              "fy": 2024,
+              "country_key": "COD",
+              "values": [
+                1260,
+                6330
+              ],
+              "diff": 5070
+            },
+            {
+              "fy": 2024,
+              "country_key": "GBR",
+              "values": [
+                10790,
+                12640
+              ],
+              "diff": 1850
+            },
+            {
+              "fy": 2024,
+              "country_key": "SUN",
+              "values": [
+                1830,
+                0
+              ],
+              "diff": -1830
+            },
+            {
+              "fy": 2024,
+              "country_key": "HKG",
+              "values": [
+                1770,
+                0
+              ],
+              "diff": -1770
+            },
+            {
+              "fy": 2024,
+              "country_key": "SAU",
+              "values": [
+                1600,
+                250
+              ],
+              "diff": -1350
+            },
+            {
+              "fy": 2024,
+              "country_key": "RUS",
+              "values": [
+                7020,
+                8340
+              ],
+              "diff": 1320
+            },
+            {
+              "fy": 2024,
+              "country_key": "ESP",
+              "values": [
+                2250,
+                3380
+              ],
+              "diff": 1130
+            },
+            {
+              "fy": 2024,
+              "country_key": "JOR",
+              "values": [
+                3850,
+                4950
+              ],
+              "diff": 1100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "refugee_arrivals_vs_state_department": [
+    {
+      "fy": 2016,
+      "ohss_quarterly": 84988,
+      "state_department": 84994,
+      "diff": 6,
+      "pct": 0
+    },
+    {
+      "fy": 2017,
+      "ohss_quarterly": 53691,
+      "state_department": 53716,
+      "diff": 25,
+      "pct": 0
+    },
+    {
+      "fy": 2018,
+      "ohss_quarterly": 22405,
+      "state_department": 22676,
+      "diff": 271,
+      "pct": 1.2
+    },
+    {
+      "fy": 2019,
+      "ohss_quarterly": 29916,
+      "state_department": 30000,
+      "diff": 84,
+      "pct": 0.3
+    },
+    {
+      "fy": 2020,
+      "ohss_quarterly": 11814,
+      "state_department": 11814,
+      "diff": 0,
+      "pct": 0
+    },
+    {
+      "fy": 2021,
+      "ohss_quarterly": 11454,
+      "state_department": 11411,
+      "diff": -43,
+      "pct": -0.4
+    },
+    {
+      "fy": 2022,
+      "ohss_quarterly": 25465,
+      "state_department": 25465,
+      "diff": 0,
+      "pct": 0
+    },
+    {
+      "fy": 2023,
+      "ohss_quarterly": 60020,
+      "state_department": 60014,
+      "diff": -6,
+      "pct": 0
+    },
+    {
+      "fy": 2024,
+      "ohss_quarterly": 100030,
+      "state_department": 100034,
+      "diff": 4,
+      "pct": 0
+    },
+    {
+      "fy": 2025,
+      "ohss_quarterly": 38070,
+      "state_department": 38102,
+      "diff": 32,
+      "pct": 0.1
+    }
+  ],
+  "tables": 60,
+  "sources": [
+    {
+      "id": "ohss-yearbook-2024-lpr",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2024-lpr.xlsx",
+      "bytes": 258559,
+      "sha256": "19c500a6e6445e73c0a39c5bc382585e2a13fc8f52f6e4d9a3cf6a84bf9bab6a"
+    },
+    {
+      "id": "ohss-yearbook-2024-naturalizations",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2024-naturalizations.xlsx",
+      "bytes": 165119,
+      "sha256": "84e28f282ac7f6e373a8b87669cd6fb1b054e02139031c2d712fb4f2e5fcd6f6"
+    },
+    {
+      "id": "ohss-yearbook-2022-lpr",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2022-lpr.xlsx",
+      "bytes": 261108,
+      "sha256": "0302858eb2693cc2ac727c9bb6266ce399635cda93363e49cd13336fb2ac4a6b"
+    },
+    {
+      "id": "ohss-yearbook-2022-naturalizations",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2022-naturalizations.xlsx",
+      "bytes": 181900,
+      "sha256": "e5cafbecd281224919baab11f0cef0b0157509fdd323fd17e9d5b6897ae7f1a2"
+    },
+    {
+      "id": "ohss-yearbook-2017-lpr",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2017-lpr.zip",
+      "bytes": 228638,
+      "sha256": "afa2daa99849396a328c18614d322bfe9191e25780e6d32ca13b3d9fcce2569f"
+    },
+    {
+      "id": "ohss-yearbook-2017-naturalizations",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2017-naturalizations.zip",
+      "bytes": 87928,
+      "sha256": "d3ad64cc795a1b3342cd33546d2bdaf34513dd7a7957a4fce9094f1c92b36aca"
+    },
+    {
+      "id": "ohss-yearbook-2008-lpr",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2008-lpr.zip",
+      "bytes": 240129,
+      "sha256": "0fb8b9a71bd19fa8394eaaba3c009c9844e3a75aecaba1199e7ab880ed2ba18d"
+    },
+    {
+      "id": "ohss-yearbook-2008-naturalizations",
+      "path": "pipeline/raw/ohss/ohss-yearbook-2008-naturalizations.zip",
+      "bytes": 161688,
+      "sha256": "ac86d09f374e5719ec39435ea14afbb05bb0f8f83738d33e52234ed8989b3956"
+    },
+    {
+      "id": "ohss-quarterly-fy2016",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2016.xlsx",
+      "bytes": 74842,
+      "sha256": "a408a6bac7376de731223d9f0195822caf3c5dd2acc57191eb76fcd88d067eb5"
+    },
+    {
+      "id": "ohss-quarterly-fy2017",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2017.xlsx",
+      "bytes": 80710,
+      "sha256": "4049b6b5515f71277a003bef39953381cd8c5f1cbd09b0d10fa7d27a9dfd2bbe"
+    },
+    {
+      "id": "ohss-quarterly-fy2018",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2018.xlsx",
+      "bytes": 83256,
+      "sha256": "ec00ffb02750a4d0e75c3dcba89fff7c98fad572e81e268cbd8434b3e2343864"
+    },
+    {
+      "id": "ohss-quarterly-fy2019",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2019.xlsx",
+      "bytes": 73794,
+      "sha256": "21014db04a3b4fc40645ce0eb26fb1dec44afce14b6d5ec36037c4694404dd20"
+    },
+    {
+      "id": "ohss-quarterly-fy2020",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2020.xlsx",
+      "bytes": 77821,
+      "sha256": "2bf268594b1ba64c63ed67c795a2a5f4677c4b5d6286a0f6dfdbf6bbf31d41a3"
+    },
+    {
+      "id": "ohss-quarterly-fy2021",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2021.xlsx",
+      "bytes": 85115,
+      "sha256": "c88fbba84d01f69e9f53ca111cb943ed5bc1784e7a3ec3803df24b1d60cc0048"
+    },
+    {
+      "id": "ohss-quarterly-fy2022",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2022.xlsx",
+      "bytes": 171924,
+      "sha256": "53afe8c09addaab829136472855b268d1e17e10a2d7709e45b5baf75485e2c2e"
+    },
+    {
+      "id": "ohss-quarterly-fy2023",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2023.xlsx",
+      "bytes": 67555,
+      "sha256": "5748f20d8dfc43c2a516a6d6425176bd7a74626fc94e6e741f50a102f786b656"
+    },
+    {
+      "id": "ohss-quarterly-fy2024",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2024.xlsx",
+      "bytes": 88444,
+      "sha256": "01f223391d8d6be67104aa34316a22492e1f17fb7005e2852a4a6c48ace6c295"
+    },
+    {
+      "id": "ohss-quarterly-fy2025",
+      "path": "pipeline/raw/ohss/ohss-quarterly-fy2025.xlsx",
+      "bytes": 74329,
+      "sha256": "7660a03f72bcbee2cf3ff14ab6b8c5fd759faf89e96659b83c6e894f070f58cc"
+    },
+    {
+      "id": "ohss-lpr-flow-report-2024",
+      "path": "pipeline/raw/ohss/ohss-lpr-flow-report-2024.html",
+      "bytes": 131465,
+      "sha256": "9bc2f71d8b610bd18d43a08a74e1705863f5ca3726cf607e6d58874913c872d9"
+    },
+    {
+      "id": "ohss-naturalization-flow-report-2024",
+      "path": "pipeline/raw/ohss/ohss-naturalization-flow-report-2024.html",
+      "bytes": 100772,
+      "sha256": "7c24c8646cce0a296eafd4a3d7507586b42dbb8d726a518d7c5686671adbabf4"
+    },
+    {
+      "id": "ohss-quarterly-report-page",
+      "path": "pipeline/raw/ohss/ohss-quarterly-report-page.html",
+      "bytes": 84006,
+      "sha256": "e11db19e4d7b210c825c08a132cdc83078e5ab0e1b71e602550e9711cb3ec3c2"
+    }
+  ]
+}

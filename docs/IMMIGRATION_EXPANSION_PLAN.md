@@ -487,6 +487,7 @@ them, and never put two in one chart.**
    F's cards are built, propose either another sub-header on the same page or a split
    into sub-pages, with the nav change that implies.
 2. **Order of the sections** on the page (enforcement first, as today, or legal first).
+   **Settled (2026-10-13): legal immigration first, then refugees, then enforcement.**
 3. **Whether to include H-1B at all** if session I finds the bulk data unusable.
 
 ### Not planned
@@ -500,6 +501,23 @@ and asylum grants (different statuses), and any live or monthly tracker.
 ## Session E — legal track pipeline: green cards and naturalizations (Opus 5.5, high effort)
 
 Source: OHSS. This is also the base for F, and G reuses its raw snapshot.
+
+**Status (2026-10-13): done**, on Opus 5.5. Outputs `lpr_series.json`, `lpr_by_country.json`,
+`lpr_notes.json`, `lpr_report.json`; methodology `docs/LPR_METHODOLOGY.md`; source check
+`docs/IMMIGRATION_SOURCE_NOTES.md` §8. Findings that change F's brief:
+
+- **Coverage:** green-card and naturalization totals FY1977–FY2025; classes, new arrivals vs.
+  adjustments and countries FY1999–FY2025. FY2025 is preliminary (quarterly report only).
+- **Country basis changes in the newest year:** the Yearbook (FY1999–FY2024) is by country of
+  **birth**, the quarterly report (FY2025) by country of **nationality**. The map/list must label the
+  basis and never show a change between FY2024 and FY2025 per country (`rankLprCountries` already
+  returns `change: null` there).
+- **Naturalizations are N-400 filers aged 18+**, not every new citizen; they follow USCIS processing.
+- **Two restatements to footnote:** FY2008 special immigrants (1,770 from employment to other) and the
+  FY2013–FY2019 new-arrival/adjustment revision. Totals agree across every edition.
+- **Rounding:** FY2015 on and all naturalization totals are rounded to ten; parts may not add exactly.
+- `lib/lpr-data.ts` → `getLprPayload()` is ready (years with classes, types, naturalizations, terms,
+  notes, countries by year); nothing renders it yet.
 
 > **Prompt:**
 >
