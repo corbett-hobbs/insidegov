@@ -1,3 +1,4 @@
+import { shortCountryName } from "./trade-names";
 import type { TradeCountryRef } from "./trade-types";
 
 /** Lowercase, accents stripped, so "turkiye" finds "Türkiye" and "cote" finds "Côte". */
@@ -17,7 +18,7 @@ export function filterCountries(countries: readonly TradeCountryRef[], query: st
   for (const c of countries) {
     const n = fold(c.name);
     if (n.startsWith(q)) starts.push(c);
-    else if (n.split(/[\s(),-]+/).some((w) => w.startsWith(q))) word.push(c);
+    else if (n.split(/[\s(),-]+/).some((w) => w.startsWith(q)) || fold(shortCountryName(c.code) ?? "").startsWith(q)) word.push(c);
     else if (n.includes(q)) inside.push(c);
   }
   return [...starts, ...word, ...inside];

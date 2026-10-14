@@ -92,7 +92,7 @@ describe("ranked views", () => {
     const runs = topRuns(top);
     const name = (ci: number) => p.countries[ci].name;
     expect(runs.map((r) => [name(r.ci), r.to - r.from + 1])).toEqual([
-      ["Ukraine", 1], ["Somalia", 3], ["Myanmar", 2], ["Iraq", 2], ["Myanmar", 1], ["Bhutan", 1], ["Iraq", 2], ["Myanmar", 1], ["Congo (Kinshasa)", 9], ["Afghanistan", 1], ["South Africa", 1],
+      ["Ukraine", 1], ["Somalia", 3], ["Myanmar", 2], ["Iraq", 2], ["Myanmar", 1], ["Bhutan", 1], ["Iraq", 2], ["Myanmar", 1], ["Democratic Republic of the Congo", 9], ["Afghanistan", 1], ["South Africa", 1],
     ]);
   });
 });
