@@ -53,18 +53,25 @@ export function useSectionScroll(items: readonly SectionNavItem[]) {
 
 const NUM = "font-mono text-[0.7rem] font-medium";
 
-/** The numbered jump pills in the page header. */
+/** The numbered jump pills in the page header: one line on a phone (the short names, scrolling sideways if they still do not fit), wrapping from `sm`. */
 export function SectionPills({ items, pillsRef }: { items: readonly SectionNavItem[]; pillsRef: RefObject<HTMLElement | null> }) {
   return (
-    <nav ref={pillsRef} aria-label="Sections" className="flex flex-wrap gap-2">
+    <nav ref={pillsRef} aria-label="Sections" className="flex gap-1.5 overflow-x-auto sm:flex-wrap sm:gap-2 sm:overflow-visible">
       {items.map((it, i) => (
         <a
           key={it.id}
           href={`#${it.id}`}
-          className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface px-3 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+          className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full border border-line-strong bg-surface px-2.5 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:px-3"
         >
           <span className={`${NUM} text-accent`}>{i + 1}</span>
-          {it.label}
+          {it.short ? (
+            <>
+              <span className="sm:hidden">{it.short}</span>
+              <span className="max-sm:hidden">{it.label}</span>
+            </>
+          ) : (
+            it.label
+          )}
         </a>
       ))}
     </nav>
