@@ -19,6 +19,7 @@ export function GlobalFooter() {
             <li><Link href="/about" className={LINK}>About</Link></li>
             <li><Link href="/methodology" className={LINK}>Methodology and sources</Link></li>
             <li><Link href="/contact" className={LINK}>Contact and corrections</Link></li>
+            <li><Link href="/api" className={LINK}>API and MCP</Link></li>
             <li><a href={siteInfo.githubUrl} className={LINK}>GitHub</a></li>
             <li><a href="/sitemap.xml" className={LINK}>Sitemap</a></li>
           </ul>
