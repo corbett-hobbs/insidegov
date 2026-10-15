@@ -11,6 +11,7 @@ import type { Criminality } from "@/lib/enforcement-entities";
 import { CRIM_ORDER, convictedOrPendingShare, type AgencyView, type Measure } from "@/lib/immigration-breakdown";
 import type { ImmigrationPageData } from "@/lib/immigration-derive";
 import { CRIM_COLOR, CRIM_LABEL, CriminalHistoryChart } from "./CriminalHistoryChart";
+import { SourceLink } from "@/components/SourceLink";
 
 const n = (v: number) => v.toLocaleString("en-US");
 
@@ -160,7 +161,7 @@ export function CriminalHistoryCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Criminal history is as recorded in ICE systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from a DHS budget document, with one combined figure. Years with no ICE figure are blank, not zero.
+            Criminal history is as recorded in <SourceLink id="ice-statistics">ICE</SourceLink> systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from <SourceLink id="dhs-ice-budget-fy2027">a DHS budget document</SourceLink>, with one combined figure. Years with no ICE figure are blank, not zero.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

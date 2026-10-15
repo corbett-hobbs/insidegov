@@ -15,6 +15,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { LATIN_AMERICA, RemovalsMap, undrawnRemovals, type Region } from "./RemovalsMap";
+import { SourceLink } from "@/components/SourceLink";
 
 const n = (v: number) => v.toLocaleString("en-US");
 const dateLabel = (iso: string) =>
@@ -151,9 +152,7 @@ export function RemovalsCountryCard({
             ICE removals, which since FY2007 include returns, by country of citizenship rather than where a person was sent. ICE prints country tables for {coverage} only (FY2013 lists just the top ten; FY2025 has none), and &ldquo;Unknown&rdquo; and &ldquo;Stateless&rdquo; are ICE categories, not countries.
             {off.count > 0 && <> {off.count} rows with no outline ({n(off.removals)} removals) are in the list and table but not on the map.</>}
             {" "}FY{fy}: {n(year.total)} removals across {ranked.length} countries and categories. Source:{" "}
-            <a href={year.sourceUrl} target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">
-              {year.source}
-            </a>
+            <SourceLink href={year.sourceUrl}>{year.source}</SourceLink>
             , data as of {dateLabel(year.asOf)}.
           </p>
         </MethodologyNote>

@@ -13,6 +13,7 @@ import { activeDay, useTradeValues } from "./TradeState";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ROW } from "@/components/charts/legend";
+import { SourceLink } from "@/components/SourceLink";
 
 const dateText = (iso: string) => {
   const [y, m, d] = iso.split("-").map(Number);
@@ -154,7 +155,7 @@ export function TradeTariffCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Calculated duties divided by imports for consumption: Census data from January 2010, U.S. International Trade Commission DataWeb for 1993&ndash;2009 (the two match over 2010&ndash;12). Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Census runs about two months behind, so later actions are pinned to the right edge. Dates are when each action took effect; legal status is as of {dateText(lastReviewed)}.
+            Calculated duties divided by imports for consumption: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12). Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Census runs about two months behind, so later actions are pinned to the right edge. Dates are when each action took effect; legal status is as of {dateText(lastReviewed)}.
           </p>
         </MethodologyNote>
         <EventsTable flags={flags} lastReviewed={lastReviewed} />

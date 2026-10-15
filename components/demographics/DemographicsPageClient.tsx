@@ -12,6 +12,7 @@ import { DemographicsFilterBar } from "./DemographicsFilterBar";
 import { StatStrip } from "./StatStrip";
 import { TenureCard } from "./TenureCard";
 import { WomenCard } from "./WomenCard";
+import { SourceLink } from "@/components/SourceLink";
 
 /**
  * /congress/demographics. Page state: the chamber view, the years-shown window, and one pinned Congress that all three
@@ -51,7 +52,7 @@ export function DemographicsPageClient({ data }: { data: DemographicsPayload }) 
         <TenureCard rows={rows} presidents={data.presidents} pin={livePin} onPin={setPin} />
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-          Source: member biographies and terms from the @unitedstates/congress-legislators project; Congress membership lists from Voteview (Lewis, Poole, Rosenthal, Boche, Rudkin &amp; Sonnet). Voting members only: delegates and resident commissioners are not counted.
+          Source: member biographies and terms from the <SourceLink id="congress-legislators">@unitedstates/congress-legislators</SourceLink> project; Congress membership lists from <SourceLink id="voteview">Voteview</SourceLink> (Lewis, Poole, Rosenthal, Boche, Rudkin &amp; Sonnet). Voting members only: delegates and resident commissioners are not counted.
         </p>
       </main>
     </>

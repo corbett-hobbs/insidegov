@@ -1,3 +1,5 @@
+import { SourceLink } from "@/components/SourceLink";
+
 interface SiteFooterProps {
   children?: React.ReactNode;
 }
@@ -13,40 +15,15 @@ export function SiteFooter({ children }: SiteFooterProps) {
       <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
         Ideology data: Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam
         Boche, Aaron Rudkin &amp; Luke Sonnet (2026),{" "}
-        <a
-          href="https://voteview.com/"
-          className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-        >
-          <em>Voteview: Congressional Roll-Call Votes Database</em>
-        </a>
+        <SourceLink href="https://voteview.com/"><em>Voteview: Congressional Roll-Call Votes Database</em></SourceLink>
         . Biographical data:{" "}
-        <a
-          href="https://github.com/unitedstates/congress-legislators"
-          className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-        >
-          @unitedstates/congress-legislators
-        </a>
+        <SourceLink href="https://github.com/unitedstates/congress-legislators">@unitedstates/congress-legislators</SourceLink>
         . Member photos:{" "}
-        <a
-          href="https://github.com/unitedstates/images"
-          className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-        >
-          @unitedstates/images
-        </a>{" "}
+        <SourceLink href="https://github.com/unitedstates/images">@unitedstates/images</SourceLink>{" "}
         (public-domain GPO portraits). Member bios:{" "}
-        <a
-          href="https://en.wikipedia.org/"
-          className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-        >
-          Wikipedia
-        </a>
+        <SourceLink href="https://en.wikipedia.org/">Wikipedia</SourceLink>
         , text abridged, under{" "}
-        <a
-          href="https://creativecommons.org/licenses/by-sa/4.0/"
-          className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-        >
-          CC BY-SA 4.0
-        </a>
+        <SourceLink href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</SourceLink>
         . DW‑NOMINATE scores estimate each
         member&rsquo;s revealed ideology from their voting record, not stated
         beliefs.

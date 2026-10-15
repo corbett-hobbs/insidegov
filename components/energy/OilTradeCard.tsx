@@ -10,6 +10,7 @@ import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 type Mode = "balance" | "flows";
 const MODES = [
@@ -147,7 +148,7 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
       }
       notes={
         <p>
-          Energy Information Administration, Monthly Energy Review. Imports, exports and net exports are <em>total petroleum</em> (crude plus natural gas liquids and refined products). Net exports are exports minus imports, the sign EIA&rsquo;s net-imports series flipped, so a rise means the U.S. depends less on foreign oil. Above zero means the U.S. exported more than it imported, first true for a full year in 2020. The dashed line is the one crude-only series: crude exports rose from about 0.5 million barrels a day in 2015 to about 3 million in 2019, but the 2015 repeal flag marks an act that enabled the change, not one that caused it.
+          <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>. Imports, exports and net exports are <em>total petroleum</em> (crude plus natural gas liquids and refined products). Net exports are exports minus imports, the sign EIA&rsquo;s net-imports series flipped, so a rise means the U.S. depends less on foreign oil. Above zero means the U.S. exported more than it imported, first true for a full year in 2020. The dashed line is the one crude-only series: crude exports rose from about 0.5 million barrels a day in 2015 to about 3 million in 2019, but the 2015 repeal flag marks an act that enabled the change, not one that caused it.
         </p>
       }
       tables={

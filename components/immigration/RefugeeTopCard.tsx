@@ -17,6 +17,7 @@ import { topByYear, topRuns } from "@/lib/refugee-derive";
 import { GEO_NAME, GEO_STACK, type GeoGroup, type RefugeePayload, type TopYear } from "@/lib/refugee-types";
 import { useElementWidth } from "@/lib/use-element-width";
 import { REGION_COLOR, n } from "./refugee-style";
+import { SourceLink } from "@/components/SourceLink";
 
 const LABEL_H = 22;
 const TICK = 5;
@@ -256,7 +257,7 @@ export function RefugeeTopCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            The country with the most refugees admitted in each fiscal year, by country of chargeability (normally the applicant&rsquo;s nationality, which can differ from the country they fled). A bracket spans the years one country stayed No. 1. Bars are colored by the country&rsquo;s region and hatched where the year is preliminary (FY2026). Click or drag across the chart to choose the year shown in the cards above. State Department data.
+            The country with the most refugees admitted in each fiscal year, by country of chargeability (normally the applicant&rsquo;s nationality, which can differ from the country they fled). A bracket spans the years one country stayed No. 1. Bars are colored by the country&rsquo;s region and hatched where the year is preliminary (FY2026). Click or drag across the chart to choose the year shown in the cards above. <SourceLink id="wraps-admissions">State Department</SourceLink> data.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

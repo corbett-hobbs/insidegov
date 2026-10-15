@@ -23,6 +23,7 @@ import { activeDay, useTradeActions, useTradeValues } from "./TradeState";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ROW } from "@/components/charts/legend";
+import { SourceLink } from "@/components/SourceLink";
 
 const MEASURES = [
   { value: "balance", label: "Balance" },
@@ -162,7 +163,7 @@ export function TradeBalanceCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Census Bureau goods trade, monthly. The national line is seasonally adjusted; the country view is not. Services are excluded, so the figure differs from the goods-and-services deficit usually quoted.
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade, monthly. The national line is seasonally adjusted; the country view is not. Services are excluded, so the figure differs from the goods-and-services deficit usually quoted.
           </p>
         </MethodologyNote>
         {series && <DataTable series={series} era={era} caption={`${title}, monthly, ${adjLabel.toLowerCase()}`} />}

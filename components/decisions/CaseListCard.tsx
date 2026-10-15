@@ -9,6 +9,7 @@ import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
 import { Swatch } from "./shared";
 import { useDecisionCases } from "./useDecisionCases";
+import { SourceLink } from "@/components/SourceLink";
 
 const PAGE = 120;
 
@@ -149,7 +150,7 @@ export function CaseListCard() {
       </div>
       <MethodologyNote>
         <p>
-          The colour is how many justices dissented, so a 5&ndash;3 decision takes the 6&ndash;3 colour. Landmark badges follow Wikipedia&rsquo;s list of landmark decisions ({fmtInt(data.landmarkSource.count)} cases, {data.landmarkSource.revisionDate} revision). The sentence under a case is Wikipedia&rsquo;s ruling sentence (CC BY-SA 4.0, read {data.summarySource.fetched}); for {fmtInt(data.summarySource.claude)}, tagged &ldquo;AI-written&rdquo;, Claude wrote it from the article opening. Neither is checked against the opinion. Liberal and Conservative tags ({fmtInt(data.outcomeSource.coded)} cases) are the database&rsquo;s &ldquo;decision direction&rdquo;: who prevailed under a fixed rule for each issue area, not the justices&rsquo; views.
+          The colour is how many justices dissented, so a 5&ndash;3 decision takes the 6&ndash;3 colour. Landmark badges follow <SourceLink id="wikipedia-landmark-decisions">Wikipedia&rsquo;s list of landmark decisions</SourceLink> ({fmtInt(data.landmarkSource.count)} cases, {data.landmarkSource.revisionDate} revision). The sentence under a case is Wikipedia&rsquo;s ruling sentence (CC BY-SA 4.0, read {data.summarySource.fetched}); for {fmtInt(data.summarySource.claude)}, tagged &ldquo;AI-written&rdquo;, Claude wrote it from the article opening. Neither is checked against the opinion. Liberal and Conservative tags ({fmtInt(data.outcomeSource.coded)} cases) are the database&rsquo;s &ldquo;decision direction&rdquo;: who prevailed under a fixed rule for each issue area, not the justices&rsquo; views.
         </p>
       </MethodologyNote>
     </ChartCard>

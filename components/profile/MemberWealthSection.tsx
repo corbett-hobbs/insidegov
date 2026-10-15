@@ -8,6 +8,7 @@ import { formatCompactUSD, formatOpenEndedUSD } from "@/lib/format-money";
 import { MemberNetWorthChart } from "@/components/wealth/MemberNetWorthChart";
 import { HowToReadNotes } from "@/components/wealth/HowToReadNotes";
 import { MemberWealthItemsPanel } from "@/components/wealth/MemberWealthItemsPanel";
+import { SourceLink } from "@/components/SourceLink";
 
 interface Props {
   profile: MemberProfile;
@@ -106,7 +107,7 @@ export function MemberWealthSection({ profile, wealthProfile }: Props) {
         Years are the year each report covers, so a report filed in 2025
         appears as 2024. The line traces the midpoint and the shaded band
         shows the full reported range. Source:{" "}
-        {chamberLabel(profile.chamber) === "House" ? "House Clerk" : "Senate eFD"}.
+        {chamberLabel(profile.chamber) === "House" ? <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink> : <SourceLink id="senate-efd">Senate eFD</SourceLink>}.
       </p>
     </section>
   );

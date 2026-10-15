@@ -8,6 +8,7 @@ import { monthStartDay, termLabel } from "@/lib/trade-chart";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 const LNG_START = 72; // January 1997, in months since January 1991
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
@@ -96,7 +97,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
       }
       notes={
         <p>
-          Energy Information Administration LNG exports. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. The rise traces to approvals made years earlier: in August 2012 the Energy Department gave final approval to the first terminal to export to countries without a free trade agreement (Sabine Pass, Louisiana), under President Obama. The first cargo sailed on February 24, 2016, after construction. Approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.
+          <SourceLink id="eia-lng-exports">Energy Information Administration</SourceLink> LNG exports. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. The rise traces to approvals made years earlier: in August 2012 the Energy Department gave final approval to the first terminal to export to countries without a free trade agreement (Sabine Pass, Louisiana), under President Obama. The first cargo sailed on February 24, 2016, after construction. Approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.
         </p>
       }
       tables={

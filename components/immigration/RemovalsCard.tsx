@@ -7,6 +7,7 @@ import { RemovalsChart } from "./RemovalsChart";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
+import { SourceLink } from "@/components/SourceLink";
 
 export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void; activeFy?: number | null; onActiveFy?: (fy: number | null) => void }) {
   const years = data.removalsYears.filter((y) => y.fy >= range[0] && y.fy <= range[1]);
@@ -36,7 +37,7 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            The Immigration and Naturalization Service did removals until ICE took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (Yearbook Table 39, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are ICE&rsquo;s own figures, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns, people who leave without a removal order. For FY2008&ndash;FY2024 ICE splits its count by where the person was first stopped (its &ldquo;arresting agency&rdquo;). {data.finalCount} of {iceYears} ICE years are final.
+            The Immigration and Naturalization Service did removals until ICE took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (<SourceLink id="ohss-yearbook-table39">Yearbook Table 39</SourceLink>, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are <SourceLink id="ice-statistics">ICE&rsquo;s own figures</SourceLink>, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns, people who leave without a removal order. For FY2008&ndash;FY2024 ICE splits its count by where the person was first stopped (its &ldquo;arresting agency&rdquo;). {data.finalCount} of {iceYears} ICE years are final.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">
