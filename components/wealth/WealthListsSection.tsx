@@ -1,3 +1,4 @@
+import type { WealthParty } from "@/lib/wealth-copy";
 import { isListEligible, type WealthMember } from "@/lib/wealth-derive";
 import type { ChamberView } from "@/lib/chamber";
 import { WealthList } from "./WealthList";
@@ -5,18 +6,20 @@ import { SourceLink } from "@/components/SourceLink";
 
 /**
  * The two side-by-side highest/lowest lists, plus their shared footnote.
- * `members` is the already chamber+state-filtered pool (unlike the scatter
- * and party chart, which never filter, only dim/overlay — a ranked "top N"
- * list showing another state's members wouldn't make sense).
+ * `members` is the already chamber+state+party-filtered pool (unlike the
+ * scatter, which never filters, only dims — a ranked "top N" list showing
+ * another state's or party's members wouldn't make sense).
  */
 export function WealthListsSection({
   members,
   view,
   stateFilter,
+  party,
 }: {
   members: readonly WealthMember[];
   view: ChamberView;
   stateFilter: string | null;
+  party: WealthParty | null;
 }) {
   const noUsable = members.filter((m) => m.points.length === 0).length;
   const beforeCutoff = members.filter(
@@ -33,6 +36,7 @@ export function WealthListsSection({
           members={members}
           view={view}
           stateFilter={stateFilter}
+          party={party}
         />
         <WealthList
           title="Lowest net worth"
@@ -40,6 +44,7 @@ export function WealthListsSection({
           members={members}
           view={view}
           stateFilter={stateFilter}
+          party={party}
         />
       </div>
       <p className="mt-3 text-[0.72rem] leading-relaxed text-ink-faint">

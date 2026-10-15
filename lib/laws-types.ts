@@ -40,9 +40,22 @@ export interface LawsPresident {
 /** A support band as `[none recorded, under 60%, 60-75, 75-90, 90%+]`. */
 export type BandCounts = [number, number, number, number, number];
 
+/** The party of a law's sponsor, as the page's Party filter offers it. Independents, minor-party sponsors and the few laws with no member sponsor are in neither (they show under "All parties" only). */
+export type SponsorParty = "D" | "R";
+
+/** The four count grids of `LawsPayload` (`[congress][area]`), for the laws one party's members sponsored. */
+export interface LawsGrids {
+  counts: number[][];
+  bands: BandCounts[][];
+  majorBands: BandCounts[][];
+  major: number[][];
+}
+
 export interface LawsPayload {
   /** Congress numbers, ascending (93rd = index 0). */
   congresses: number[];
+  /** The same grids for the laws each party's members sponsored; `lawsForParty` swaps them in for the page's Party filter. */
+  byParty: Record<SponsorParty, LawsGrids>;
   /** True for a Congress still in progress (its counts are partial). */
   partial: boolean[];
   areas: LawsArea[];

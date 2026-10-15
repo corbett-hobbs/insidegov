@@ -2,12 +2,13 @@
 
 import { useMemo } from "react";
 import { ChamberSwitch } from "@/components/ChamberSwitch";
+import { PartyFilter } from "@/components/charts/PartyFilter";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand } from "@/components/charts/TermBand";
 import type { ChamberView } from "@/lib/chamber";
 import { bandTerms, SLIDER_BOUNDS, type PartyPick } from "@/lib/demographics-chart";
-import type { CaucusGroup, DemoCongress, DemoPresident } from "@/lib/demographics-types";
+import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
 import { sameRange, type YearRange } from "@/lib/year-range";
 
 /**
@@ -49,17 +50,15 @@ export function DemographicsFilterBar({
           <div className="flex flex-none items-center gap-2 sm:pt-px">
             <span className="text-[0.72rem] font-medium uppercase tracking-[0.06em] text-ink-muted sm:hidden">Chamber</span>
             <ChamberSwitch value={view} onChange={onView} />
-            <select
-              aria-label="Party"
-              value={party ?? "all"}
-              onChange={(e) => onParty(e.target.value === "all" ? null : (e.target.value as CaucusGroup))}
-              className="rounded-lg border border-line-strong bg-surface-raised px-2 py-[0.35rem] text-[0.8rem] font-medium text-ink-muted hover:text-ink focus:border-accent focus:outline-none"
-            >
-              <option value="all">All parties</option>
-              <option value="D">Democrats</option>
-              <option value="R">Republicans</option>
-              {otherNow && <option value="O">Other parties</option>}
-            </select>
+            <PartyFilter
+              value={party}
+              onChange={onParty}
+              options={[
+                { id: "D", label: "Democrats" },
+                { id: "R", label: "Republicans" },
+                ...(otherNow ? [{ id: "O" as const, label: "Other parties" }] : []),
+              ]}
+            />
           </div>
           <RangeSelector
             min={lo}

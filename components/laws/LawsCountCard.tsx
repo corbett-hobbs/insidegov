@@ -11,7 +11,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { ordinal } from "@/lib/demographics-chart";
 import { fmtInt } from "@/lib/decisions-derive";
-import { bandsPhrase, cellFor, filterLabel, openYear, seriesOf, signedMostSegments } from "@/lib/laws-derive";
+import { bandsPhrase, cellFor, filterLabel, openYear, seriesOf, signedMostSegments, unattributedLaws } from "@/lib/laws-derive";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { EmptyWindow, congressSub, congressTitle, congressYears, controlRowsFor, groupFills } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
@@ -161,7 +161,7 @@ export function LawsCountCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            A law&rsquo;s policy area is the single area <SourceLink id="congress-gov">Congress.gov</SourceLink> assigns its bill, grouped here into {every.filter((s) => s.id !== "not-classified").length} colour-coded topics. &ldquo;Commemorations&rdquo; is our own grouping, applied the same way in every year: Congress.gov filed it there, or its title designates a day, week or year, names a building or landmark, awards a medal or coin, or approves a memorial. Laws from the 93rd&ndash;95th Congresses without a current area were placed by InsideGov from their titles{notClassified > 0 ? `; ${fmtInt(notClassified)} recent laws not yet classified show as “Not classified”` : ""}. The {ordinal(lastCongress)} Congress is in session, so its bar is partial (hatched) and excluded from the peak and low labels.
+            A law&rsquo;s policy area is the single area <SourceLink id="congress-gov">Congress.gov</SourceLink> assigns its bill, grouped here into {every.filter((s) => s.id !== "not-classified").length} colour-coded topics. &ldquo;Commemorations&rdquo; is our own grouping, applied the same way in every year: Congress.gov filed it there, or its title designates a day, week or year, names a building or landmark, awards a medal or coin, or approves a memorial. Laws from the 93rd&ndash;95th Congresses without a current area were placed by InsideGov from their titles{notClassified > 0 ? `; ${fmtInt(notClassified)} recent laws not yet classified show as “Not classified”` : ""}. The {ordinal(lastCongress)} Congress is in session, so its bar is partial (hatched) and excluded from the peak and low labels. Sponsor party is the party the bill&rsquo;s sponsor sat with in that Congress; the {fmtInt(unattributedLaws(data))} laws sponsored by an independent, a minor-party member or no member at all are in &ldquo;All parties&rdquo; only.
           </p>
         </MethodologyNote>
         <TableView

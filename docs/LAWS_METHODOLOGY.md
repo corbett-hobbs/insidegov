@@ -26,6 +26,7 @@ Both fetchers write the same slimmed record per law (`pipeline/raw/govinfo-bills
 - **Cosponsors** are current (not withdrawn) cosponsors, kept in `laws_cosponsors.json` so the list payload stays small.
 - **Committees** come from each bill's committee list (Bill Status `committees`, API `/committees`): the committee, its subcommittees and the dated steps. Committee pages exist only for the current Congress, so a law's committee links work where the committee still exists under the same code; the rest show as plain names.
 - **Sponsor** is the bill's sponsor, often the member whose vehicle carried the text, not its author.
+- **Sponsor party** (the page's Sponsor filter) is the party the sponsor sat with in the law's own Congress, read from their term in the chamber the bill came from (else their first term that Congress). Democrats and Republicans only: laws sponsored by an independent or a minor-party member, and the 15 with no sponsor, count under "All parties" alone, so the two parties' counts do not quite add to the total. It says who introduced the bill, not who voted for it: many laws a Democrat sponsored passed with Republican votes and the reverse.
 
 ## Policy areas and topic groups
 

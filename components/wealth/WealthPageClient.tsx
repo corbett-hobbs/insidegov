@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { stateName } from "@/lib/states";
 import type { ChamberView } from "@/lib/chamber";
 import type { WealthMember } from "@/lib/wealth-data";
+import type { WealthParty } from "@/lib/wealth-copy";
 import { HowToReadNotes } from "@/components/wealth/HowToReadNotes";
 import { WealthFilterBar } from "./WealthFilterBar";
 import { NetWorthScatterCard } from "./NetWorthScatterCard";
@@ -12,16 +13,18 @@ import { WealthListsSection } from "./WealthListsSection";
 import { PageHeader } from "@/components/PageHeader";
 
 /**
- * Owns the one shared chamber/state filter for the whole page (plan §2,
+ * Owns the one shared chamber/state/party filter for the whole page (plan §2,
  * decision 2) — page-level React state, not URL params: unlike the homepage
- * explorer, /congress/wealth's filter bar only has a chamber switch and a state
- * dropdown, no per-view page to link back to from elsewhere, so there's no
- * cross-page link that needs a shareable URL yet. Every section below reads
- * `view/stateFilter` from here; nothing keeps independent filter state.
+ * explorer, /congress/wealth's filter bar only has a chamber switch and state
+ * and party dropdowns, no per-view page to link back to from elsewhere, so
+ * there's no cross-page link that needs a shareable URL yet. Every section
+ * below reads `view/stateFilter/party` from here; nothing keeps independent
+ * filter state. The lists filter to the pick; the scatter dims what it leaves out.
  */
 export function WealthPageClient({ members }: { members: WealthMember[] }) {
   const [view, setView] = useState<ChamberView>("both");
   const [stateFilter, setStateFilter] = useState<string | null>(null);
+  const [party, setParty] = useState<WealthParty | null>(null);
 
   const chamberPool = useMemo(
     () =>
@@ -48,10 +51,12 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
 
   const pool = useMemo(
     () =>
-      effectiveStateFilter
-        ? chamberPool.filter((m) => m.state === effectiveStateFilter)
-        : chamberPool,
-    [chamberPool, effectiveStateFilter],
+      chamberPool.filter(
+        (m) =>
+          (!effectiveStateFilter || m.state === effectiveStateFilter) &&
+          (!party || m.caucus === party),
+      ),
+    [chamberPool, effectiveStateFilter, party],
   );
 
   const withData = useMemo(
@@ -67,6 +72,8 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
         states={states}
         stateFilter={effectiveStateFilter}
         onStateFilterChange={setStateFilter}
+        party={party}
+        onPartyChange={setParty}
         count={withData.length}
       />
 
@@ -88,11 +95,13 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
           view={view}
           chamberMembers={chamberPool}
           stateFilter={effectiveStateFilter}
+          party={party}
         />
         <WealthListsSection
           members={pool}
           view={view}
           stateFilter={effectiveStateFilter}
+          party={party}
         />
       </main>
     </>

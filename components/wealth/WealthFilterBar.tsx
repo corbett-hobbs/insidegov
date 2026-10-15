@@ -1,16 +1,18 @@
 "use client";
 
 import { ChamberSwitch } from "@/components/ChamberSwitch";
+import { PartyFilter } from "@/components/charts/PartyFilter";
 import { StateFilter } from "@/components/senate/StateFilter";
 import { stateName } from "@/lib/states";
-import { wealthCountNoun } from "@/lib/wealth-copy";
+import { wealthPartyName, wealthPartyNoun, type WealthParty } from "@/lib/wealth-copy";
 import type { ChamberView } from "@/lib/chamber";
 
 /**
  * The pinned filter bar for /congress/wealth: chamber switch + state dropdown
- * (reusing the same controls as the homepage explorer's toolbar), plus a
- * right-aligned summary count. Every chart/list on the page reads the same
- * `view`/`stateFilter` pair — there is no independent per-chart filter state.
+ * (reusing the same controls as the homepage explorer's toolbar) + party
+ * dropdown, plus a right-aligned summary count. Every chart/list on the page
+ * reads the same `view`/`stateFilter`/`party` trio — there is no independent
+ * per-chart filter state.
  */
 export function WealthFilterBar({
   view,
@@ -18,6 +20,8 @@ export function WealthFilterBar({
   states,
   stateFilter,
   onStateFilterChange,
+  party,
+  onPartyChange,
   count,
 }: {
   view: ChamberView;
@@ -25,9 +29,11 @@ export function WealthFilterBar({
   states: string[];
   stateFilter: string | null;
   onStateFilterChange: (s: string | null) => void;
+  party: WealthParty | null;
+  onPartyChange: (p: WealthParty | null) => void;
   count: number;
 }) {
-  const summary = `${count.toLocaleString("en-US")} ${wealthCountNoun(view)} with net worth data${
+  const summary = `${count.toLocaleString("en-US")} ${wealthPartyNoun(view, party)} with net worth data${
     stateFilter ? ` in ${stateName(stateFilter)}` : ""
   }`;
 
@@ -48,6 +54,13 @@ export function WealthFilterBar({
               compact
             />
           </div>
+
+          <PartyFilter
+            value={party}
+            onChange={onPartyChange}
+            options={(["Democrat", "Republican"] as const).map((id) => ({ id, label: wealthPartyName(id) }))}
+            selectClassName="max-w-[8.5rem]"
+          />
 
           <p className="ml-auto min-w-0 text-right font-mono text-[0.72rem] leading-snug text-ink-muted">
             {summary}

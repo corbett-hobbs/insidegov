@@ -31,7 +31,7 @@ import {
   yearsOfData,
   zoomTicks,
 } from "@/lib/wealth-scatter";
-import { wealthCountNoun } from "@/lib/wealth-copy";
+import { wealthCountNoun, wealthPartyName, type WealthParty } from "@/lib/wealth-copy";
 import { formatCompactUSD, formatSignedCompactUSD } from "@/lib/format-money";
 import {
   formatPointUSD,
@@ -80,12 +80,16 @@ interface Dot {
 interface Props {
   view: ChamberView;
   /** Every cohort-eligible member of the selected chamber(s) — never
-   *  filtered by state (the state filter dims/highlights, it never hides). */
+   *  filtered by state or party (those dim/highlight, they never hide). */
   chamberMembers: WealthMember[];
   stateFilter: string | null;
+  party: WealthParty | null;
 }
 
-export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props) {
+export function NetWorthScatterCard({ view, chamberMembers, stateFilter, party }: Props) {
+  // What the state and party picks leave in focus: a member matches every pick that is set.
+  const highlighting = !!stateFilter || !!party;
+  const inFocus = (m: WealthMember) => (!stateFilter || m.state === stateFilter) && (!party || m.caucus === party);
   const cohort = useMemo(() => wealthCohort(chamberMembers), [chamberMembers]);
   // The axes run out to the cohort's largest net worth (a round step, never below $20M), so the top movers are
   // plotted where they are instead of pinned to an edge.
@@ -164,9 +168,9 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
     ? Math.round((changes.filter((c) => c > 0).length / changes.length) * 100)
     : 0;
   const medianChange = median(changes);
-  const stateCohortCount = stateFilter
-    ? cohort.filter((m) => m.state === stateFilter).length
-    : null;
+  const focusCount = highlighting ? cohort.filter(inFocus).length : null;
+  const focusName = party && stateFilter ? `${wealthPartyName(party)} in ${stateName(stateFilter)}` : party ? wealthPartyName(party) : stateFilter ? stateName(stateFilter) : "";
+  const focusLabel = !party && stateFilter ? `in ${focusName}` : focusName;
 
   const dots = useMemo<Dot[]>(
     () =>
@@ -191,18 +195,19 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
     const rank = (d: Dot) =>
       d.member.bioguideId === selectedId || d.member.bioguideId === hoverId
         ? 2
-        : stateFilter && d.member.state === stateFilter
+        : highlighting && inFocus(d.member)
           ? 1
           : 0;
     return [...dots].sort((a, b) => rank(a) - rank(b));
-  }, [dots, selectedId, hoverId, stateFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dots, selectedId, hoverId, stateFilter, party]);
 
   // Labels: the richest and poorest member plotted (by latest net worth), plus, on wider screens, the biggest dollar
   // gainers and losers. Only members with 2+ years are plotted, so "Richest plotted" can differ from the top of the
   // Highest list below. All of them are re-picked from the members actually in play: the chamber's cohort, or
-  // just the picked state's members when a state is highlighted.
+  // just the highlighted members (picked state and/or party).
   const standoutLabels = useMemo(() => {
-    const pool = stateFilter ? cohort.filter((m) => m.state === stateFilter) : cohort;
+    const pool = highlighting ? cohort.filter(inFocus) : cohort;
     if (pool.length === 0) return [];
     const byWorth = [...pool].sort(
       (a, b) => latestNetWorth(b) - latestNetWorth(a) || a.bioguideId.localeCompare(b.bioguideId),
@@ -232,7 +237,7 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
     );
     return entries.map((v, i) => ({ key: v.member.bioguideId, ...placed[i], text: v.text }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cohort, stateFilter, dotById, side, compact]);
+  }, [cohort, stateFilter, party, dotById, side, compact]);
 
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -324,9 +329,7 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
       label: "median change",
     },
     { value: cohort.length.toLocaleString("en-US"), label: "plotted" },
-    ...(stateCohortCount != null
-      ? [{ value: String(stateCohortCount), label: `in ${stateName(stateFilter!)}` }]
-      : []),
+    ...(focusCount != null ? [{ value: String(focusCount), label: focusLabel }] : []),
   ];
 
   return (
@@ -336,9 +339,9 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
           <h2 className="font-serif text-xl font-medium text-ink sm:text-2xl">
             Where they started, where they are now
           </h2>
-          {stateFilter && (
+          {highlighting && (
             <p className="mt-1 text-[0.85rem] text-ink-muted">
-              {stateName(stateFilter)} highlighted
+              {focusName} highlighted
             </p>
           )}
         </div>
@@ -505,8 +508,8 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
                 {drawOrder.map((d) => {
                   const id = d.member.bioguideId;
                   const ringed = id === selectedId || id === hoverId;
-                  const matches = !!stateFilter && d.member.state === stateFilter;
-                  const dimmed = !!stateFilter && !matches;
+                  const matches = highlighting && inFocus(d.member);
+                  const dimmed = highlighting && !matches;
                   const r = ringed ? 7 : matches ? 5.6 : dimmed ? 3.6 : 4.4;
                   const cls = `dot ${d.member.caucus === "Democrat" ? "fill-dem" : "fill-rep"}${ringed ? " is-highlighted" : ""}`;
                   const opacity = dimmed ? 0.28 : 1;
@@ -600,7 +603,7 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
         Years are the year each report covers, not the year it was filed. Both axes use the
         same signed-log scale, running out to ±{capLabel}, enough to hold the largest estimate in this group, so the top movers
         are plotted where they are (the spread near zero is tighter as a result: zoom in on it). Zoom with the +/− buttons,
-        Ctrl/⌘ + scroll or a pinch, and drag to pan. Pick a state to highlight its members. Pick a member in the search to see their filings; members
+        Ctrl/⌘ + scroll or a pinch, and drag to pan. Pick a state or a party to highlight its members. Pick a member in the search to see their filings; members
         with missing early years get a note there. Estimates for members reporting an
         open-ended “Over $50,000,000” band are approximate and marked with a +.
       </p>

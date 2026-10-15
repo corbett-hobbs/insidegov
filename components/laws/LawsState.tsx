@@ -2,17 +2,20 @@
 
 import { sameRange, type YearRange } from "@/lib/year-range";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { windowIndexes, yearSpan } from "@/lib/laws-derive";
+import { lawsForParty, windowIndexes, yearSpan } from "@/lib/laws-derive";
 import type { Picked } from "@/lib/multi-select";
-import type { LawsPayload } from "@/lib/laws-types";
+import type { LawsPayload, SponsorParty } from "@/lib/laws-types";
 
 /**
  * The Laws page's one source of truth: the years-shown window, the policy-area filter (null = all, or the set of ticked topic group ids), "major laws only", the support bands (null = any vote, or the set of ticked bands; card 2's legend and the list's pills set one), the party-control rows
- * toggle, and the hovered and pinned Congress, so one crosshair runs through both charts. Two contexts, so components that
+ * toggle, the sponsor party, and the hovered and pinned Congress, so one crosshair runs through both charts. Two contexts, so components that
  * only need the stable actions don't re-render on every hover frame (same shape as `DecisionsState`). Hover is rAF-throttled.
  */
 export interface LawsValues {
+  /** The page's data already narrowed to the sponsor party, so every card reads the counts it should draw. */
   data: LawsPayload;
+  /** Only laws a Democrat or a Republican sponsored; null = every law. */
+  party: SponsorParty | null;
   range: YearRange;
   /** Ticked topic group ids; null = every group. */
   groups: Picked<string>;
@@ -34,6 +37,7 @@ export interface LawsActions {
   setGroups: (g: Picked<string>) => void;
   setMajor: (on: boolean) => void;
   setBands: (b: Picked<number>) => void;
+  setParty: (p: SponsorParty | null) => void;
   setControl: (on: boolean) => void;
   moveHover: (congress: number) => void;
   leaveHover: () => void;
@@ -45,8 +49,10 @@ export interface LawsActions {
 const ValuesCtx = createContext<LawsValues | null>(null);
 const ActionsCtx = createContext<LawsActions | null>(null);
 
-export function LawsStateProvider({ data, children }: { data: LawsPayload; children: ReactNode }) {
-  const full = useMemo(() => yearSpan(data), [data]);
+export function LawsStateProvider({ data: allLaws, children }: { data: LawsPayload; children: ReactNode }) {
+  const full = useMemo(() => yearSpan(allLaws), [allLaws]);
+  const [party, setParty] = useState<SponsorParty | null>(null);
+  const data = useMemo(() => lawsForParty(allLaws, party), [allLaws, party]);
   const [range, setRangeState] = useState<YearRange>(full);
   const [groups, setGroups] = useState<Picked<string>>(null);
   const [major, setMajor] = useState(false);
@@ -65,6 +71,7 @@ export function LawsStateProvider({ data, children }: { data: LawsPayload; child
       setGroups,
       setMajor,
       setBands,
+      setParty,
       setControl,
       moveHover: (c) => {
         pending.current = c;
@@ -93,8 +100,8 @@ export function LawsStateProvider({ data, children }: { data: LawsPayload; child
       const i = c === null ? -1 : data.congresses.indexOf(c);
       return i >= window[0] && i <= window[1] ? c : null;
     };
-    return { data, range, groups, major, bands, control, window, hover: inWin(hover), pin: inWin(pin) };
-  }, [data, range, groups, major, bands, control, window, hover, pin]);
+    return { data, party, range, groups, major, bands, control, window, hover: inWin(hover), pin: inWin(pin) };
+  }, [data, party, range, groups, major, bands, control, window, hover, pin]);
 
   return (
     <ActionsCtx.Provider value={actions}>
