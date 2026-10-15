@@ -48,13 +48,13 @@ export function LawsHeatmap({ rows, measure }: { rows: readonly GroupRow[]; meas
           const on = row.id !== ALL_ROW && isOnly(groups, row.id);
           const select = () => setGroups(row.id === ALL_ROW ? null : toggleOnly(groups, row.id));
           return (
-            <div key={row.id} role="row" className={`contents ${dim ? "opacity-45" : ""}`}>
+            <div key={row.id} role="row" className="contents">
               <button
                 type="button"
                 onClick={select}
                 aria-pressed={on}
                 title={row.label}
-                className={`line-clamp-2 pr-1.5 text-left text-[0.7rem] leading-[1.05rem] text-ink hover:underline min-[520px]:truncate min-[520px]:text-[0.74rem] min-[520px]:leading-[1.9rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${on ? "font-semibold" : ""}`}
+                className={`line-clamp-2 pr-1.5 text-left text-[0.7rem] leading-[1.05rem] text-ink hover:underline min-[520px]:truncate min-[520px]:text-[0.74rem] min-[520px]:leading-[1.9rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${on ? "font-semibold" : ""} ${dim ? "opacity-45" : ""}`}
               >
                 {row.label}
               </button>
@@ -77,7 +77,7 @@ export function LawsHeatmap({ rows, measure }: { rows: readonly GroupRow[]; meas
                     onClick={select}
                     title={partial ? `${title} (the Congress in session is partial)` : title}
                     aria-label={title}
-                    className={`${ROW_H} min-w-0 rounded-[3px] p-0 text-center font-mono text-[0.58rem] tabular-nums min-[520px]:text-[0.62rem] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus ${inWin ? "" : "opacity-40"} ${v === null ? "border border-dashed border-line-strong bg-transparent text-ink-faint" : "border-0"}`}
+                    className={`${ROW_H} min-w-0 rounded-[3px] p-0 text-center font-mono text-[0.58rem] tabular-nums min-[520px]:text-[0.62rem] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus ${dim ? "opacity-45" : inWin ? "" : "opacity-40"} ${v === null ? "border border-dashed border-line-strong bg-transparent text-ink-faint" : "border-0"}`}
                     style={v === null ? undefined : { background: `color-mix(in oklab, ${color} ${Math.round(strength * 100)}%, var(--surface))`, color: strength > 0.5 ? (band === null ? "var(--accent-ink)" : "#fff") : "var(--ink)" }}
                   >
                     {v === null ? "" : <CountText n={v} />}
