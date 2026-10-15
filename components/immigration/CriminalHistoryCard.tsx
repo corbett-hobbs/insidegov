@@ -5,6 +5,7 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import type { Criminality } from "@/lib/enforcement-entities";
 import { CRIM_ORDER, convictedOrPendingShare, type AgencyView, type Measure } from "@/lib/immigration-breakdown";
@@ -156,49 +157,50 @@ export function CriminalHistoryCard({
         onSelectFy={onFy}
       />
 
-      <MethodologyNote>
-        <p>
-          Criminal history is as recorded in ICE systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from a DHS budget document, with one combined figure. Years with no ICE figure are blank, not zero.
-        </p>
-      </MethodologyNote>
-
-      <details className="mt-3 text-[0.8rem] text-ink-muted">
-        <summary className={TABLE_TOGGLE}>View as table</summary>
-        <div className="mt-2 overflow-x-auto">
-          <table className="w-full min-w-[34rem] border-collapse text-left">
-            <caption className="sr-only">{`ICE removals by criminal history: ${view === "all" ? "all removals" : view === "ice" ? "first arrested by ICE" : "first arrested by Border Patrol (derived)"}`}</caption>
-            <thead>
-              <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
-                <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
-                {present.map((k) => (
-                  <th key={k} className="py-1.5 pr-3 text-right font-medium">
-                    {CRIM_LABEL[k].replace(/ \(.*\)$/, "")}
-                  </th>
-                ))}
-                <th className="py-1.5 pr-3 text-right font-medium">Total</th>
-                <th className="py-1.5 font-medium">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shownBars.map((b) => (
-                <tr key={b.fy} className="border-b border-line">
-                  <th scope="row" className="py-1.5 pr-3 font-mono font-medium text-ink">{`FY${b.fy}`}</th>
-                  {present.map((k) => {
-                    const p = b.parts.find((x) => x.key === k);
-                    return (
-                      <td key={k} className="py-1.5 pr-3 text-right font-mono text-ink">
-                        {p ? (share ? `${Math.round((p.value / b.denominator) * 100)}%` : n(p.value)) : "—"}
-                      </td>
-                    );
-                  })}
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{share ? `${Math.round(convictedOrPendingShare(b) * 100)}% convicted or pending` : n(b.total)}</td>
-                  <td className="py-1.5">{b.status === "final" ? "Final" : "Preliminary"}</td>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Criminal history is as recorded in ICE systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from a DHS budget document, with one combined figure. Years with no ICE figure are blank, not zero.
+          </p>
+        </MethodologyNote>
+        <details className="mt-3 text-[0.8rem] text-ink-muted">
+          <summary className={TABLE_TOGGLE}>View as table</summary>
+          <div className="mt-2 overflow-x-auto">
+            <table className="w-full min-w-[34rem] border-collapse text-left">
+              <caption className="sr-only">{`ICE removals by criminal history: ${view === "all" ? "all removals" : view === "ice" ? "first arrested by ICE" : "first arrested by Border Patrol (derived)"}`}</caption>
+              <thead>
+                <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
+                  <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
+                  {present.map((k) => (
+                    <th key={k} className="py-1.5 pr-3 text-right font-medium">
+                      {CRIM_LABEL[k].replace(/ \(.*\)$/, "")}
+                    </th>
+                  ))}
+                  <th className="py-1.5 pr-3 text-right font-medium">Total</th>
+                  <th className="py-1.5 font-medium">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+              </thead>
+              <tbody>
+                {shownBars.map((b) => (
+                  <tr key={b.fy} className="border-b border-line">
+                    <th scope="row" className="py-1.5 pr-3 font-mono font-medium text-ink">{`FY${b.fy}`}</th>
+                    {present.map((k) => {
+                      const p = b.parts.find((x) => x.key === k);
+                      return (
+                        <td key={k} className="py-1.5 pr-3 text-right font-mono text-ink">
+                          {p ? (share ? `${Math.round((p.value / b.denominator) * 100)}%` : n(p.value)) : "—"}
+                        </td>
+                      );
+                    })}
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{share ? `${Math.round(convictedOrPendingShare(b) * 100)}% convicted or pending` : n(b.total)}</td>
+                    <td className="py-1.5">{b.status === "final" ? "Final" : "Preliminary"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

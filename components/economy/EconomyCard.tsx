@@ -1,3 +1,4 @@
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useIsolate } from "@/components/charts/LegendToggle";
@@ -34,7 +35,7 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
   const rows = yearRows(pts);
   const fmt = (v: number) => spec.head(v);
   return (
-    <details className="open:w-full">
+    <details>
       <summary className={TABLE_TOGGLE}>View as table</summary>
       <div className="mt-2 max-h-72 overflow-auto">
         <table className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
@@ -112,10 +113,10 @@ export function EconomyCard({
         <EconomyChart data={data} spec={spec} hero={hero} showCong={showCong} view={view} reading={reading} only={only} />
       </div>
       <div>{typeof legend === "function" ? legend({ only, isolate }) : legend}</div>
-      <div className="mt-auto flex flex-wrap items-start gap-x-4 gap-y-1 pt-3 md:self-end md:w-full">
-        {notes && <MethodologyNote className="mt-0 open:w-full">{notes}</MethodologyNote>}
+      <ChartNotesRow className="mt-auto pt-3 md:w-full md:self-end">
+        {notes && <MethodologyNote>{notes}</MethodologyNote>}
         <DataTable data={data} spec={spec} />
-      </div>
+      </ChartNotesRow>
     </section>
   );
 }

@@ -29,6 +29,7 @@ import {
   type ScatterWindows,
 } from "@/lib/trade-scatter";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 
 const FALLBACK_W = 1080;
 /** Below this chart width the layout drops long titles and labels (a half-width card on a laptop stays above it). */
@@ -421,12 +422,14 @@ export function TradeScatterCard({
         </div>
       )}
 
-      <MethodologyNote>
-        <p>
-          Calculated duties divided by imports for consumption (Census), over {windowText(windows.latest)} against the same months of {windows.baseline.from.slice(0, 4)}{windows.baseline.from.slice(0, 4) !== windows.baseline.to.slice(0, 4) ? " and the year before" : ""}; countries missing any month are not plotted. The vertical axis is a symmetric log scale capped at +{Y_CAP_PCT.toLocaleString("en-US")}%: triangles are pinned outliers, with true values in the tooltip. Re-routed goods can distort a country&rsquo;s figures. Dot area is total trade in the partner chart&rsquo;s latest full year.
-        </p>
-      </MethodologyNote>
-      <DataTable rows={rows} windows={windows} />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Calculated duties divided by imports for consumption (Census), over {windowText(windows.latest)} against the same months of {windows.baseline.from.slice(0, 4)}{windows.baseline.from.slice(0, 4) !== windows.baseline.to.slice(0, 4) ? " and the year before" : ""}; countries missing any month are not plotted. The vertical axis is a symmetric log scale capped at +{Y_CAP_PCT.toLocaleString("en-US")}%: triangles are pinned outliers, with true values in the tooltip. Re-routed goods can distort a country&rsquo;s figures. Dot area is total trade in the partner chart&rsquo;s latest full year.
+          </p>
+        </MethodologyNote>
+        <DataTable rows={rows} windows={windows} />
+      </ChartNotesRow>
     </section>
   );
 }

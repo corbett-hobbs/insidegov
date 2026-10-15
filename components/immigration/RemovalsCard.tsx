@@ -5,6 +5,7 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { RETURNS_COUNTED_FROM, type ImmigrationPageData } from "@/lib/immigration-derive";
 import { RemovalsChart } from "./RemovalsChart";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 
 export function RemovalsCard({ data, range, fy, onFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void }) {
@@ -29,61 +30,62 @@ export function RemovalsCard({ data, range, fy, onFy }: { data: ImmigrationPageD
         onSelectFy={onFy}
       />
 
-      <MethodologyNote>
-        <p>
-          ICE only: Border Patrol&rsquo;s own actions, including Title 42 expulsions, are not counted. Every removal here was carried out by ICE; the colors show who first apprehended the person (ICE&rsquo;s &ldquo;arresting agency&rdquo;), and the Border Patrol part is ICE&rsquo;s count, not CBP&rsquo;s. ICE prints the split for FY2008&ndash;FY2024. From FY2007 the count includes returns. The line is an average of people held each day, not a yearly count. Counts lock around October 5; each bar&rsquo;s card carries its own caveats. {data.finalCount} of {data.years.length} years are final and {data.corroboratedCount} are confirmed by a second source.
-        </p>
-      </MethodologyNote>
-
-      <details className="mt-3 text-[0.8rem] text-ink-muted">
-        <summary className={TABLE_TOGGLE}>
-          View as table
-        </summary>
-        <div className="mt-2 overflow-x-auto">
-          <table className="w-full min-w-[46rem] border-collapse text-left">
-            <caption className="sr-only">ICE removals by fiscal year, by arresting agency, with average daily detention population</caption>
-            <thead>
-              <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
-                <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
-                <th className="py-1.5 pr-3 text-right font-medium">Removals</th>
-                <th className="py-1.5 pr-3 text-right font-medium">ICE-arrested</th>
-                <th className="py-1.5 pr-3 text-right font-medium">Border Patrol-arrested</th>
-                <th className="py-1.5 pr-3 text-right font-medium">Avg. detained per day</th>
-                <th className="py-1.5 pr-3 font-medium">Status</th>
-                <th className="py-1.5 pr-3 font-medium">Administration</th>
-                <th className="py-1.5 font-medium">Source</th>
-              </tr>
-            </thead>
-            <tbody>
-              {years.map((y) => (
-                <tr key={y.fy} className="border-b border-line align-top">
-                  <th scope="row" className="py-1.5 pr-3 font-mono font-medium text-ink">
-                    {`FY${y.fy}`}
-                  </th>
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.value.toLocaleString("en-US")}</td>
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.agency ? y.agency.ice.toLocaleString("en-US") : "—"}</td>
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.agency ? y.agency.cbp.toLocaleString("en-US") : "—"}</td>
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.detention ? y.detention.value.toLocaleString("en-US") : "—"}</td>
-                  <td className="py-1.5 pr-3">
-                    {y.status === "final" ? "Final" : "Preliminary"}
-                    {y.fy < RETURNS_COUNTED_FROM ? ", returns not counted" : ""}
-                  </td>
-                  <td className="py-1.5 pr-3">
-                    {y.blended
-                      ? y.days.map((d) => `${d.last} ${d.days} days`).join(" · ")
-                      : (termsById.get(y.termId)?.president ?? "")}
-                  </td>
-                  <td className="py-1.5">
-                    <a href={y.sourceUrl} target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">
-                      {y.source}
-                    </a>
-                  </td>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            ICE only: Border Patrol&rsquo;s own actions, including Title 42 expulsions, are not counted. Every removal here was carried out by ICE; the colors show who first apprehended the person (ICE&rsquo;s &ldquo;arresting agency&rdquo;), and the Border Patrol part is ICE&rsquo;s count, not CBP&rsquo;s. ICE prints the split for FY2008&ndash;FY2024. From FY2007 the count includes returns. The line is an average of people held each day, not a yearly count. Counts lock around October 5; each bar&rsquo;s card carries its own caveats. {data.finalCount} of {data.years.length} years are final and {data.corroboratedCount} are confirmed by a second source.
+          </p>
+        </MethodologyNote>
+        <details className="mt-3 text-[0.8rem] text-ink-muted">
+          <summary className={TABLE_TOGGLE}>
+            View as table
+          </summary>
+          <div className="mt-2 overflow-x-auto">
+            <table className="w-full min-w-[46rem] border-collapse text-left">
+              <caption className="sr-only">ICE removals by fiscal year, by arresting agency, with average daily detention population</caption>
+              <thead>
+                <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
+                  <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">Removals</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">ICE-arrested</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">Border Patrol-arrested</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">Avg. detained per day</th>
+                  <th className="py-1.5 pr-3 font-medium">Status</th>
+                  <th className="py-1.5 pr-3 font-medium">Administration</th>
+                  <th className="py-1.5 font-medium">Source</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+              </thead>
+              <tbody>
+                {years.map((y) => (
+                  <tr key={y.fy} className="border-b border-line align-top">
+                    <th scope="row" className="py-1.5 pr-3 font-mono font-medium text-ink">
+                      {`FY${y.fy}`}
+                    </th>
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.value.toLocaleString("en-US")}</td>
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.agency ? y.agency.ice.toLocaleString("en-US") : "—"}</td>
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.agency ? y.agency.cbp.toLocaleString("en-US") : "—"}</td>
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{y.detention ? y.detention.value.toLocaleString("en-US") : "—"}</td>
+                    <td className="py-1.5 pr-3">
+                      {y.status === "final" ? "Final" : "Preliminary"}
+                      {y.fy < RETURNS_COUNTED_FROM ? ", returns not counted" : ""}
+                    </td>
+                    <td className="py-1.5 pr-3">
+                      {y.blended
+                        ? y.days.map((d) => `${d.last} ${d.days} days`).join(" · ")
+                        : (termsById.get(y.termId)?.president ?? "")}
+                    </td>
+                    <td className="py-1.5">
+                      <a href={y.sourceUrl} target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">
+                        {y.source}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM } from "@/components/charts/legend";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { REGIONS } from "@/lib/troops-regions";
 import { changeVsPrior, formatCount, measureLabel, stackByRegion } from "@/lib/troops-derive";
 import { useTroopsState } from "./TroopsState";
@@ -68,40 +69,42 @@ export function TroopsChartCard() {
           </span>
         )}
       </RegionLegend>
-      <MethodologyNote>
-        <p>
-          Band under the axis: the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, DMDC&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
-        </p>
-      </MethodologyNote>
-      <TableView caption="Active-duty personnel abroad by region and year">
-        <thead>
-          <tr>
-            <th className={TH}>Year</th>
-            <th className={TH}>Total</th>
-            {REGIONS.map((r) => (
-              <th key={r.id} className={TH}>
-                {r.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {stacks.map((s) => (
-            <tr key={s.yi}>
-              <td className={TD}>
-                {years[s.yi].fy}
-                {years[s.yi].partial ? " (partial)" : periods[s.pi].estimate ? " (estimate)" : ""}
-              </td>
-              <td className={TD}>{s.unavailable ? "n/a" : formatCount(s.total)}</td>
-              {s.regions.map((v, k) => (
-                <td key={k} className={TD}>
-                  {s.unavailable ? "n/a" : formatCount(v)}
-                </td>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Band under the axis: the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, DMDC&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
+          </p>
+        </MethodologyNote>
+        <TableView caption="Active-duty personnel abroad by region and year">
+          <thead>
+            <tr>
+              <th className={TH}>Year</th>
+              <th className={TH}>Total</th>
+              {REGIONS.map((r) => (
+                <th key={r.id} className={TH}>
+                  {r.label}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </TableView>
+          </thead>
+          <tbody>
+            {stacks.map((s) => (
+              <tr key={s.yi}>
+                <td className={TD}>
+                  {years[s.yi].fy}
+                  {years[s.yi].partial ? " (partial)" : periods[s.pi].estimate ? " (estimate)" : ""}
+                </td>
+                <td className={TD}>{s.unavailable ? "n/a" : formatCount(s.total)}</td>
+                {s.regions.map((v, k) => (
+                  <td key={k} className={TD}>
+                    {s.unavailable ? "n/a" : formatCount(v)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </TableView>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

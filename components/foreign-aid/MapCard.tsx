@@ -4,6 +4,7 @@ import { forwardRef, useMemo, useRef, useState, type PointerEvent } from "react"
 import { ChartCard } from "@/components/charts/ChartCard";
 import { YearPicker } from "@/components/charts/YearPicker";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { MapCallouts } from "@/components/charts/MapCallouts";
 import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
@@ -285,40 +286,41 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
       <RankedList mode={share ? "share" : "dollars"} reversed={reversed} />
       </div>
 
-      <MethodologyNote>
-        <p>
-        {share ? (
-          <>Each country’s military assistance as a share of its {sole === 0 ? "Peace and security" : "total"} disbursements in FY{year}.</>
-        ) : (
-          <>
-            <b className="font-semibold text-ink">Not on the map:</b> {formatAidMoney(n.programs)}
-            {n.total > 0 && ` (${pct(n.programs, n.total)}% of the year’s ${formatAidMoney(n.total)})`} went to global and regional programs rather than one country
-            {n.undrawn > 5e6 ? `, plus ${formatAidMoney(n.undrawn)} to entities with no modern outline` : ""}.
-          </>
-        )}
-        </p>
-      </MethodologyNote>
-
-      <TableView caption={`Disbursements by recipient country, FY${year}`}>
-        <thead>
-          <tr>
-            <th className={TH}>Country</th>
-            <th className={TH}>Disbursements</th>
-            <th className={TH}>Military</th>
-            <th className={TH}>Military share</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rowsAll.map((r) => (
-            <tr key={r.ci}>
-              <td className={TD}>{names[r.ci].name}</td>
-              <td className={TD}>{formatAidMoney(r.v)}</td>
-              <td className={TD}>{r.m > 0 ? formatAidMoney(r.m) : "–"}</td>
-              <td className={TD}>{r.m > 0 && r.v > 0 ? `${pct(r.m, r.v)}%` : "–"}</td>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+          {share ? (
+            <>Each country’s military assistance as a share of its {sole === 0 ? "Peace and security" : "total"} disbursements in FY{year}.</>
+          ) : (
+            <>
+              <b className="font-semibold text-ink">Not on the map:</b> {formatAidMoney(n.programs)}
+              {n.total > 0 && ` (${pct(n.programs, n.total)}% of the year’s ${formatAidMoney(n.total)})`} went to global and regional programs rather than one country
+              {n.undrawn > 5e6 ? `, plus ${formatAidMoney(n.undrawn)} to entities with no modern outline` : ""}.
+            </>
+          )}
+          </p>
+        </MethodologyNote>
+        <TableView caption={`Disbursements by recipient country, FY${year}`}>
+          <thead>
+            <tr>
+              <th className={TH}>Country</th>
+              <th className={TH}>Disbursements</th>
+              <th className={TH}>Military</th>
+              <th className={TH}>Military share</th>
             </tr>
-          ))}
-        </tbody>
-      </TableView>
+          </thead>
+          <tbody>
+            {rowsAll.map((r) => (
+              <tr key={r.ci}>
+                <td className={TD}>{names[r.ci].name}</td>
+                <td className={TD}>{formatAidMoney(r.v)}</td>
+                <td className={TD}>{r.m > 0 ? formatAidMoney(r.m) : "–"}</td>
+                <td className={TD}>{r.m > 0 && r.v > 0 ? `${pct(r.m, r.v)}%` : "–"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </TableView>
+      </ChartNotesRow>
     </ChartCard>
   );
 });

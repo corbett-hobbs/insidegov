@@ -6,6 +6,7 @@ import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { areaRows, bandShare, fmtInt, fmtPct, nextAreaSort } from "@/lib/decisions-derive";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type AreaSort, type AreaSortKey } from "@/lib/decisions-types";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
@@ -86,16 +87,18 @@ export function AreasCard() {
           </div>
         </div>
       </div>
-      <MethodologyNote>
-        <p>
-          Issue areas are the Supreme Court Database&rsquo;s 14 categories, a rough guide; the {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
-        </p>
-      </MethodologyNote>
-      <TableView
-        label="Table of issue areas by number of dissenting justices"
-        head={["Issue area", "Cases", ...BAND_SHORT]}
-        rows={rows.map((r) => [r.label, r.total, ...r.bucket])}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Issue areas are the Supreme Court Database&rsquo;s 14 categories, a rough guide; the {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
+          </p>
+        </MethodologyNote>
+        <TableView
+          label="Table of issue areas by number of dissenting justices"
+          head={["Issue area", "Cases", ...BAND_SHORT]}
+          rows={rows.map((r) => [r.label, r.total, ...r.bucket])}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

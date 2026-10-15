@@ -10,6 +10,7 @@ import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { TERM_BAND_H, TermBandSvg, termSegments } from "@/components/charts/TermBandSvg";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { yearLabelEvery } from "@/lib/chart-bars";
 import { compactCount, niceCountTicks, spanLabel } from "@/lib/refugee-chart";
 import { topByYear, topRuns } from "@/lib/refugee-derive";
@@ -252,46 +253,47 @@ export function RefugeeTopCard({
         )}
       </div>
 
-      <MethodologyNote>
-        <p>
-          The country with the most refugees admitted in each fiscal year, by country of chargeability (normally the applicant&rsquo;s nationality, which can differ from the country they fled). A bracket spans the years one country stayed No. 1. Bars are colored by the country&rsquo;s region and hatched where the year is preliminary (FY2026). Click or drag across the chart to choose the year shown in the cards above. State Department data.
-        </p>
-      </MethodologyNote>
-
-      <details className="mt-3 text-[0.8rem] text-ink-muted">
-        <summary className={TABLE_TOGGLE}>View as table</summary>
-        <div className="mt-2 max-h-60 overflow-auto rounded-md border border-line">
-          <table className="w-full min-w-[30rem] border-collapse text-right">
-            <caption className="sr-only">Largest source country of refugees by fiscal year</caption>
-            <thead>
-              <tr>
-                <th className={TH}>Fiscal year</th>
-                <th className={TH}>No. 1</th>
-                <th className={TH}>Region</th>
-                <th className={TH}>Admitted</th>
-                <th className={TH}>Share</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...years].reverse().map((y) => {
-                const t = y.ranked[0];
-                return (
-                  <tr key={y.fy}>
-                    <td className={TD}>
-                      FY{y.fy}
-                      {y.preliminary ? " (preliminary)" : ""}
-                    </td>
-                    <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? names[t.ci].name : "–"}</td>
-                    <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? GEO_NAME[t.group].name : "–"}</td>
-                    <td className={TD}>{t ? n(t.value) : "–"}</td>
-                    <td className={TD}>{t ? `${Math.round((t.value / y.total) * 100)}%` : "–"}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </details>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            The country with the most refugees admitted in each fiscal year, by country of chargeability (normally the applicant&rsquo;s nationality, which can differ from the country they fled). A bracket spans the years one country stayed No. 1. Bars are colored by the country&rsquo;s region and hatched where the year is preliminary (FY2026). Click or drag across the chart to choose the year shown in the cards above. State Department data.
+          </p>
+        </MethodologyNote>
+        <details className="mt-3 text-[0.8rem] text-ink-muted">
+          <summary className={TABLE_TOGGLE}>View as table</summary>
+          <div className="mt-2 max-h-60 overflow-auto rounded-md border border-line">
+            <table className="w-full min-w-[30rem] border-collapse text-right">
+              <caption className="sr-only">Largest source country of refugees by fiscal year</caption>
+              <thead>
+                <tr>
+                  <th className={TH}>Fiscal year</th>
+                  <th className={TH}>No. 1</th>
+                  <th className={TH}>Region</th>
+                  <th className={TH}>Admitted</th>
+                  <th className={TH}>Share</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...years].reverse().map((y) => {
+                  const t = y.ranked[0];
+                  return (
+                    <tr key={y.fy}>
+                      <td className={TD}>
+                        FY{y.fy}
+                        {y.preliminary ? " (preliminary)" : ""}
+                      </td>
+                      <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? names[t.ci].name : "–"}</td>
+                      <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? GEO_NAME[t.group].name : "–"}</td>
+                      <td className={TD}>{t ? n(t.value) : "–"}</td>
+                      <td className={TD}>{t ? `${Math.round((t.value / y.total) * 100)}%` : "–"}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

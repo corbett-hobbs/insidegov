@@ -12,6 +12,7 @@ import {
 } from "@/lib/removals-country-derive";
 import type { RemovalsCountryPayload } from "@/lib/removals-country-types";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { LATIN_AMERICA, RemovalsMap, undrawnRemovals, type Region } from "./RemovalsMap";
 
@@ -144,44 +145,45 @@ export function RemovalsCountryCard({
         </div>
       </div>
 
-      <MethodologyNote>
-        <p>
-          ICE removals, which since FY2007 include returns, by country of citizenship rather than where a person was sent. ICE prints country tables for {coverage} only (FY2013 lists just the top ten; FY2025 has none), and &ldquo;Unknown&rdquo; and &ldquo;Stateless&rdquo; are ICE categories, not countries.
-          {off.count > 0 && <> {off.count} rows with no outline ({n(off.removals)} removals) are in the list and table but not on the map.</>}
-          {" "}FY{fy}: {n(year.total)} removals across {ranked.length} countries and categories. Source:{" "}
-          <a href={year.sourceUrl} target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">
-            {year.source}
-          </a>
-          , data as of {dateLabel(year.asOf)}.
-        </p>
-      </MethodologyNote>
-
-      <details className="mt-3 text-[0.8rem] text-ink-muted">
-        <summary className={TABLE_TOGGLE}>View as table</summary>
-        <div className="mt-2 max-h-[24rem] overflow-auto">
-          <table className="w-full min-w-[26rem] border-collapse text-left">
-            <caption className="sr-only">{`ICE removals by country of citizenship, FY${fy}`}</caption>
-            <thead>
-              <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
-                <th className="py-1.5 pr-3 font-medium">Rank</th>
-                <th className="py-1.5 pr-3 font-medium">Country of citizenship</th>
-                <th className="py-1.5 pr-3 text-right font-medium">Removals</th>
-                <th className="py-1.5 text-right font-medium">{`Change vs. ${prev}`}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ranked.map((r) => (
-                <tr key={r.ci} className="border-b border-line">
-                  <td className="py-1.5 pr-3 font-mono">{r.rank}</td>
-                  <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{names[r.ci].name}</th>
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(r.removals)}</td>
-                  <td className="py-1.5 text-right font-mono">{formatChange(r.change)}</td>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            ICE removals, which since FY2007 include returns, by country of citizenship rather than where a person was sent. ICE prints country tables for {coverage} only (FY2013 lists just the top ten; FY2025 has none), and &ldquo;Unknown&rdquo; and &ldquo;Stateless&rdquo; are ICE categories, not countries.
+            {off.count > 0 && <> {off.count} rows with no outline ({n(off.removals)} removals) are in the list and table but not on the map.</>}
+            {" "}FY{fy}: {n(year.total)} removals across {ranked.length} countries and categories. Source:{" "}
+            <a href={year.sourceUrl} target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">
+              {year.source}
+            </a>
+            , data as of {dateLabel(year.asOf)}.
+          </p>
+        </MethodologyNote>
+        <details className="mt-3 text-[0.8rem] text-ink-muted">
+          <summary className={TABLE_TOGGLE}>View as table</summary>
+          <div className="mt-2 max-h-[24rem] overflow-auto">
+            <table className="w-full min-w-[26rem] border-collapse text-left">
+              <caption className="sr-only">{`ICE removals by country of citizenship, FY${fy}`}</caption>
+              <thead>
+                <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
+                  <th className="py-1.5 pr-3 font-medium">Rank</th>
+                  <th className="py-1.5 pr-3 font-medium">Country of citizenship</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">Removals</th>
+                  <th className="py-1.5 text-right font-medium">{`Change vs. ${prev}`}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+              </thead>
+              <tbody>
+                {ranked.map((r) => (
+                  <tr key={r.ci} className="border-b border-line">
+                    <td className="py-1.5 pr-3 font-mono">{r.rank}</td>
+                    <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{names[r.ci].name}</th>
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(r.removals)}</td>
+                    <td className="py-1.5 text-right font-mono">{formatChange(r.change)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

@@ -21,6 +21,7 @@ import { TradeBalanceChart, type Era } from "./TradeBalanceChart";
 import { MobileReadout } from "./MobileReadout";
 import { activeDay, useTradeActions, useTradeValues } from "./TradeState";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ROW } from "@/components/charts/legend";
 
 const MEASURES = [
@@ -165,12 +166,14 @@ export function TradeBalanceCard({
         <span className="ml-auto">{adjLabel}{countryName ? `. Axis rescales to ${countryName}.` : "."}</span>
       </div>
 
-      <MethodologyNote>
-        <p>
-          Census Bureau goods trade, monthly. The national line is seasonally adjusted; the country view is not. Services are excluded, so the figure differs from the goods-and-services deficit usually quoted.
-        </p>
-      </MethodologyNote>
-      {series && <DataTable series={series} era={era} caption={`${title}, monthly, ${adjLabel.toLowerCase()}`} />}
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Census Bureau goods trade, monthly. The national line is seasonally adjusted; the country view is not. Services are excluded, so the figure differs from the goods-and-services deficit usually quoted.
+          </p>
+        </MethodologyNote>
+        {series && <DataTable series={series} era={era} caption={`${title}, monthly, ${adjLabel.toLowerCase()}`} />}
+      </ChartNotesRow>
     </section>
   );
 }
