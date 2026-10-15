@@ -18,7 +18,7 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
   return (
     <ChartCard
       title="Removals, returns and detention by fiscal year"
-      lede="People removed or returned from the country each fiscal year. A removal follows a formal removal order; a return is leaving without one, after an enforcement encounter. The bars are ICE’s count from FY2003, when it was created, and the Immigration and Naturalization Service’s (INS) before that. Before FY2007 only removals are counted. From FY2008, ICE splits its count by where the person was first stopped: inside the country or at the border. The line is the average number of people in ICE detention on a given day. FY2025 is preliminary: it comes from ICE’s FY2027 budget overview, not a locked statistics release."
+      lede="People removed or returned from the country each fiscal year. That is an outcome, not a stop, so it is not a subset of the encounters above. A removal follows a formal removal order; a return is leaving without one, after an enforcement encounter. The bars are ICE’s count from FY2003, when it was created, and the Immigration and Naturalization Service’s (INS) before that. Before FY2007 only removals are counted. From FY2008, ICE splits its count by who first apprehended the person: its own officers inside the country, or Border Patrol at the border, who handed the person to ICE. The line is the average number of people in ICE detention on a given day. FY2025 is preliminary: it comes from ICE’s FY2027 budget overview, not a locked statistics release."
     >
       <RemovalsLegend />
       <RemovalsChart
@@ -37,7 +37,7 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            The Immigration and Naturalization Service did removals until ICE took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (<SourceLink id="ohss-yearbook-table39">Yearbook Table 39</SourceLink>, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are <SourceLink id="ice-statistics">ICE&rsquo;s own figures</SourceLink>, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns, people who leave without a removal order. For FY2008&ndash;FY2024 ICE splits its count by where the person was first stopped (its &ldquo;arresting agency&rdquo;). {data.finalCount} of {iceYears} ICE years are final.
+            The Immigration and Naturalization Service did removals until ICE took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (<SourceLink id="ohss-yearbook-table39">Yearbook Table 39</SourceLink>, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are <SourceLink id="ice-statistics">ICE&rsquo;s own figures</SourceLink>, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns, people who leave without a removal order. For FY2008&ndash;FY2024 ICE splits its count by who first apprehended the person (its &ldquo;arresting agency&rdquo;). {data.finalCount} of {iceYears} ICE years are final.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">
@@ -46,13 +46,13 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
           </summary>
           <div className="mt-2 overflow-x-auto">
             <table className="w-full min-w-[46rem] border-collapse text-left">
-              <caption className="sr-only">Removals (and, from FY2007, returns) by fiscal year (INS era from DHS statistics, then ICE), by where the person was first stopped, with average daily detention population</caption>
+              <caption className="sr-only">Removals (and, from FY2007, returns) by fiscal year (INS era from DHS statistics, then ICE), by who first apprehended the person, with average daily detention population</caption>
               <thead>
                 <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
                   <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
                   <th className="py-1.5 pr-3 text-right font-medium">Removals</th>
-                  <th className="py-1.5 pr-3 text-right font-medium">After interior stop</th>
-                  <th className="py-1.5 pr-3 text-right font-medium">After border stop</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">After ICE arrest</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">After Border Patrol apprehension</th>
                   <th className="py-1.5 pr-3 text-right font-medium">Avg. detained per day</th>
                   <th className="py-1.5 pr-3 font-medium">Status</th>
                   <th className="py-1.5 pr-3 font-medium">Administration</th>
@@ -99,8 +99,8 @@ function RemovalsLegend() {
   const swatch = (color: string) => <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: color }} />;
   return (
     <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
-      <span className={LEGEND_ITEM}>{swatch("var(--agency-ice)")}After interior stop</span>
-      <span className={LEGEND_ITEM}>{swatch("var(--agency-cbp)")}After border stop</span>
+      <span className={LEGEND_ITEM}>{swatch("var(--agency-ice)")}After ICE arrest</span>
+      <span className={LEGEND_ITEM}>{swatch("var(--agency-cbp)")}After Border Patrol apprehension</span>
       <span className={LEGEND_ITEM}>
         <i
           aria-hidden
