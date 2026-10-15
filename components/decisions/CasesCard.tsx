@@ -7,6 +7,7 @@ import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { areaFilterLabel, areaSeries, presidentSegments, fmtInt, sumBucket, windowIndexes } from "@/lib/decisions-derive";
 import { BAND_LONG, type Bucket } from "@/lib/decisions-types";
 import { isPicked, samePick } from "@/lib/multi-select";
@@ -137,16 +138,18 @@ export function CasesCard() {
           </LegendToggle>
         ))}
       </div>
-      <MethodologyNote>
-        <p>
-          Orally argued cases, counted in the term decided (October to June). Summary reversals and the {fmtInt(data.unclearVotes)} cases with an unclear vote are left out. The six biggest issue areas get a colour; &ldquo;Other areas&rdquo; holds the rest and the {fmtInt(data.unclassified)} cases with none.
-        </p>
-      </MethodologyNote>
-      <TableView
-        label="Table of cases decided per term, by issue area"
-        head={["Term", "Cases", ...series.map((s) => s.label)]}
-        rows={[...cols].reverse().map((c) => [c.term, c.total, ...series.map((s) => c.values[s.id] ?? 0)])}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Orally argued cases, counted in the term decided (October to June). Summary reversals and the {fmtInt(data.unclearVotes)} cases with an unclear vote are left out. The six biggest issue areas get a colour; &ldquo;Other areas&rdquo; holds the rest and the {fmtInt(data.unclassified)} cases with none.
+          </p>
+        </MethodologyNote>
+        <TableView
+          label="Table of cases decided per term, by issue area"
+          head={["Term", "Cases", ...series.map((s) => s.label)]}
+          rows={[...cols].reverse().map((c) => [c.term, c.total, ...series.map((s) => c.values[s.id] ?? 0)])}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

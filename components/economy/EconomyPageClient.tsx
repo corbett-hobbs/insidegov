@@ -11,8 +11,8 @@ import { readAll } from "@/lib/indicator-lookup";
 import { EconomyCard } from "./EconomyCard";
 import type { EconomyData } from "@/lib/indicator-payload";
 import { EconomyFilterBar } from "./EconomyFilterBar";
-import { CARD_ORDER, SPECS } from "./specs";
-import { LEGEND_ROW } from "@/components/charts/legend";
+import { CARD_ROWS, SPECS } from "./specs";
+import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 
 const longDate = (iso: string) =>
   new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -76,16 +76,60 @@ function EconomyPage({
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(data.span, dayOf(range[1] + 1, 0, 1))], [range, data.span]);
   const common = { data, showCong, view };
 
-  const notes: Partial<Record<keyof typeof SPECS, string>> = {
-    gas: "Diesel is the dashed line and begins in March 1994, when the EIA series starts. Both are nominal, so a dollar in 1991 buys more than one today.",
-    infl: "The October 2025 gap is real: prices weren’t collected that month, so that year-over-year figure doesn’t exist.",
-    jobs: "Axis capped at ±1M a month so ordinary months stay readable; months beyond it run to the edge with a triangle, and the largest gain and loss are labeled with their true values.",
-    un: "No survey was collected in October 2025, so the line has a one-month gap.",
-    mort: "Freddie Mac changed how it collects the rate in November 2022, so comparisons across that line aren’t exact.",
-    inc: `Published each September for the prior year, so ${lastIncomeYear + 1} isn’t available yet.`,
-    def: `Fiscal years run October to September. Fiscal ${lastFy + 1} ends September 30, ${lastFy + 1} and isn’t reported yet.`,
+  const incomeDollars = data.incomeUnits.match(/\d{4}/)?.[0] ?? "";
+  const wageMonth = data.wageBase ? `${MONTH_NAMES[Number(data.wageBase.slice(5, 7)) - 1]} ${data.wageBase.slice(0, 4)}` : "";
+  const descs: Partial<Record<keyof typeof SPECS, string>> = {
+    wage: `Average hourly pay of production and nonsupervisory workers, in ${wageMonth} dollars.`,
+    inc: `Median household income, in ${incomeDollars} dollars. One value per year.`,
   };
-  const incomeDesc = `Median household income, adjusted for inflation to ${data.incomeUnits.match(/\d{4}/)?.[0] ?? ""} dollars. One value per year.`;
+  const notes: Partial<Record<keyof typeof SPECS, string>> = {
+    un: "People who are out of work and looking for it, from the Bureau of Labor Statistics’ monthly household survey, seasonally adjusted. People who have stopped looking are not counted, so the rate can fall even when few jobs are added. The survey was not collected in October 2025, so the line has a one-month gap.",
+    infl: "The change in the Consumer Price Index for all urban consumers, all items, from the Bureau of Labor Statistics. It tracks a fixed basket of what households buy, with housing the largest part, so it can differ from any one household’s costs. Prices were not collected in October 2025, so that year-over-year figure does not exist.",
+    jobs: "Month-over-month change in total nonfarm payroll employment from the Bureau of Labor Statistics’ employer survey, in thousands of jobs. Each estimate is revised in the next two months and again every year, so recent bars can change. The axis is capped at ±1M a month so ordinary months stay readable; larger months run to the edge with a triangle, and the largest gain and loss are labeled with their true values.",
+    gdp: "GDP is the value of everything the U.S. produces, here adjusted for inflation. Bars compare each quarter with the same quarter a year earlier; the tooltip adds the annualized quarter-over-quarter rate that headlines report, which exaggerates swings. As first reported, GDP fell in the first two quarters of 2022, a common rule of thumb for recession, but the National Bureau of Economic Research declared none, and later revisions show only one decline.",
+    wage: "Covers production and nonsupervisory employees, about 80% of private-sector workers, from the Bureau of Labor Statistics’ employer survey. Pay is divided by the Consumer Price Index so each point shows what that hourly wage buys in the latest month. Hourly pay misses cuts in hours. The April 2020 jump is a composition effect: lower-paid workers were laid off first, which raised the average.",
+    inc: `Median household income from the Census Bureau, in constant dollars that the Census Bureau re-bases with each release. Published each September for the prior year, so ${lastIncomeYear + 1} isn’t available yet. Because it comes once a year, it lags the monthly charts by most of a year.`,
+    gas: "Weekly national average retail price from the Energy Information Administration, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.",
+    mort: "Freddie Mac’s weekly survey of the average 30-year fixed mortgage rate. It is an average, not the rate every borrower gets, and it is not adjusted for inflation. Freddie Mac changed how it collects the rate in November 2022, to rely on lender applications, so comparisons across that line aren’t exact. The dashed vertical line marks the change. Source: Freddie Mac.",
+    def: `Budget receipts minus outlays as a share of GDP, from the Office of Management and Budget. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal ${lastFy + 1} ends September 30, ${lastFy + 1} and isn’t reported yet. A negative bar is a deficit; a positive bar is a surplus. Values are updated as budget estimates are revised.`,
+    debt: "Debt held by the public is what the government owes investors outside its own accounts; the dashed total also counts what it owes itself, such as to the Social Security trust funds. Both are shown as a share of GDP, quarterly, so the ratio can fall when the economy grows faster than debt does. Sources: Office of Management and Budget and the St. Louis Fed.",
+  };
+  const key = (c: string, label: string) => (
+    <span className={LEGEND_ITEM}>
+      <Swatch color={c} />
+      {label}
+    </span>
+  );
+  const legends: Partial<Record<keyof typeof SPECS, React.ReactNode>> = {
+    jobs: (
+      <div className={`${LEGEND_ROW} mt-2`}>
+        <span className={LEGEND_ITEM}>
+          <svg width="10" height="10" aria-hidden><polygon points="0,9 10,9 5,1" fill="var(--ink)" /></svg>
+          Month beyond the axis (true value in the tooltip)
+        </span>
+      </div>
+    ),
+    gdp: (
+      <div className={`${LEGEND_ROW} mt-2`}>
+        {key("var(--ink-faint)", "Growth")}
+        {key("var(--ink)", "Shrinking economy")}
+      </div>
+    ),
+    mort: (
+      <div className={`${LEGEND_ROW} mt-2`}>
+        <span className={LEGEND_ITEM}>
+          <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-muted)" strokeWidth="1" strokeDasharray="3 3" /></svg>
+          Survey method change, Nov 2022
+        </span>
+      </div>
+    ),
+    def: (
+      <div className={`${LEGEND_ROW} mt-2`}>
+        {key("var(--ink)", "Deficit")}
+        {key("var(--ink-faint)", "Surplus")}
+      </div>
+    ),
+  };
 
   return (
     <>
@@ -105,7 +149,7 @@ function EconomyPage({
         </div>
         <PageHeader eyebrow="Presidency · Economy" title="What Was the Economy Like?">
           <p>
-            Gas prices, mortgage rates, jobs, inflation, income and the federal budget, month by month since 1991. These
+            Unemployment, inflation, jobs, growth, pay, gas prices, mortgage rates and the federal budget, since 1991. These
             are the numbers households feel first, lined up against who held the White House and Congress at the time.
           </p>
           <HowToRead>
@@ -141,38 +185,49 @@ function EconomyPage({
           }
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {CARD_ORDER.map((k) => (
-            <EconomyCard
-              key={k}
-              {...common}
-              spec={SPECS[k]}
-              reading={latest[k]}
-              desc={k === "inc" ? incomeDesc : SPECS[k].desc}
-              footnote={notes[k]}
-              legend={
-                k === "gas" || k === "debt"
-                  ? ({ only, isolate }) => (
-                      <div className={`${LEGEND_ROW} mt-2`}>
-                        <LegendToggle active={only === "main"} dimmed={only === "second"} onClick={() => isolate("main")}>
-                          <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>
-                          {k === "gas" ? "Regular gasoline" : "Held by the public"}
-                        </LegendToggle>
-                        <LegendToggle active={only === "second"} dimmed={only === "main"} onClick={() => isolate("second")}>
-                          <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-faint)" strokeWidth="2" strokeDasharray="4 3" /></svg>
-                          {k === "gas" ? "Diesel (from 1994)" : "Total, including debt the government owes itself"}
-                        </LegendToggle>
-                      </div>
-                    )
-                  : undefined
-              }
-            />
-          ))}
-        </div>
+        {CARD_ROWS.map((row, i) => (
+          <section key={row.label} aria-labelledby={`economy-row-${i}`} className="flex flex-col gap-3">
+            <h2
+              id={`economy-row-${i}`}
+              className="m-0 flex items-center gap-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
+            >
+              {row.label}
+              <span aria-hidden className="h-px flex-1 bg-line" />
+            </h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:grid-rows-[repeat(5,auto)] md:gap-y-0">
+              {row.cards.map((k) => (
+                <EconomyCard
+                  key={k}
+                  {...common}
+                  spec={SPECS[k]}
+                  reading={latest[k]}
+                  desc={descs[k] ?? SPECS[k].desc}
+                  notes={<p>{notes[k]}</p>}
+                  legend={
+                    k === "gas" || k === "debt"
+                      ? ({ only, isolate }) => (
+                          <div className={`${LEGEND_ROW} mt-2`}>
+                            <LegendToggle active={only === "main"} dimmed={only === "second"} onClick={() => isolate("main")}>
+                              <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>
+                              {k === "gas" ? "Regular gasoline" : "Held by the public"}
+                            </LegendToggle>
+                            <LegendToggle active={only === "second"} dimmed={only === "main"} onClick={() => isolate("second")}>
+                              <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-faint)" strokeWidth="2" strokeDasharray="4 3" /></svg>
+                              {k === "gas" ? "Diesel (from 1994)" : "Total, including debt the government owes itself"}
+                            </LegendToggle>
+                          </div>
+                        )
+                      : legends[k]
+                  }
+                />
+              ))}
+            </div>
+          </section>
+        ))}
 
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">
           <p className="m-0">
-            Source: U.S. Bureau of Labor Statistics, U.S. Energy Information Administration, U.S. Census Bureau, U.S.
+            Source: U.S. Bureau of Labor Statistics, U.S. Bureau of Economic Analysis, U.S. Energy Information Administration, U.S. Census Bureau, U.S.
             Office of Management and Budget and the National Bureau of Economic Research, via Federal Reserve Bank of St.
             Louis, FRED®. Mortgage rates: {mortgageAttribution}. Chamber majorities: U.S. Senate and U.S. House
             historians’ party-division tables.

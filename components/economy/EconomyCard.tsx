@@ -1,3 +1,5 @@
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { MethodologyNote } from "@/components/MethodologyNote";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useIsolate } from "@/components/charts/LegendToggle";
 import { memo, type ReactNode } from "react";
@@ -33,7 +35,7 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
   const rows = yearRows(pts);
   const fmt = (v: number) => spec.head(v);
   return (
-    <details className="mt-3">
+    <details>
       <summary className={TABLE_TOGGLE}>View as table</summary>
       <div className="mt-2 max-h-72 overflow-auto">
         <table className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
@@ -62,6 +64,13 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
   );
 });
 
+/**
+ * One chart card. Below `md` it is a plain column. From `md` a non-hero card is a
+ * subgrid over five row tracks (header + reading, description, plot, legend, notes
+ * row) that the pair shares, so two cards side by side get identical track heights:
+ * plots, axes and term bands start and end at the same pixel whatever the
+ * description or legend lengths. The notes row sits at the bottom of its track.
+ */
 export function EconomyCard({
   data,
   spec,
@@ -70,7 +79,7 @@ export function EconomyCard({
   showCong,
   view,
   desc,
-  footnote,
+  notes,
   legend,
 }: {
   data: EconomyData;
@@ -80,28 +89,34 @@ export function EconomyCard({
   showCong: boolean;
   view: readonly [number, number];
   desc: string;
-  footnote?: ReactNode;
+  /** The card's "Data notes" (60-100 words). */
+  notes?: ReactNode;
   /** A legend node, or a function of the line-isolate controls for cards with a second line. */
   legend?: ReactNode | ((c: { only: LineId | null; isolate: (k: LineId) => void }) => ReactNode);
 }) {
   const [only, isolate] = useIsolate<LineId>();
   const Heading = hero ? "h2" : "h3";
   return (
-    <section className={`min-w-0 rounded-[10px] border border-line bg-surface ${hero ? "p-5 sm:p-6" : "p-[1.1rem_1.1rem_0.9rem]"}`}>
+    <section
+      className={`min-w-0 rounded-[10px] border border-line bg-surface ${
+        hero ? "p-5 sm:p-6" : "flex flex-col p-[1.1rem_1.1rem_0.9rem] md:row-span-5 md:grid md:grid-rows-subgrid md:gap-y-0"
+      }`}
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <Heading className={`m-0 font-serif font-medium leading-tight ${hero ? "text-[1.6rem]" : "text-[1.3rem]"}`}>{spec.title}</Heading>
-          {!hero && <p className="m-0 mt-1 text-[0.8rem] leading-[1.45] text-ink-muted">{desc}</p>}
         </div>
         <Readout spec={spec} reading={reading} hero={hero} />
       </div>
-      {hero && <p className="m-0 mt-2 text-[0.875rem] leading-[1.5] text-ink-muted">{desc}</p>}
+      <p className={`m-0 text-ink-muted ${hero ? "mt-2 text-[0.875rem] leading-[1.5]" : "mt-1 text-[0.8rem] leading-[1.45]"}`}>{desc}</p>
       <div className={hero ? "mt-3.5" : "mt-3"}>
         <EconomyChart data={data} spec={spec} hero={hero} showCong={showCong} view={view} reading={reading} only={only} />
       </div>
-      {typeof legend === "function" ? legend({ only, isolate }) : legend}
-      {footnote && <p className="m-0 mt-2 text-[0.75rem] leading-[1.45] text-ink-muted">{footnote}</p>}
-      <DataTable data={data} spec={spec} />
+      <div>{typeof legend === "function" ? legend({ only, isolate }) : legend}</div>
+      <ChartNotesRow className="mt-auto pt-3 md:w-full md:self-end">
+        {notes && <MethodologyNote>{notes}</MethodologyNote>}
+        <DataTable data={data} spec={spec} />
+      </ChartNotesRow>
     </section>
   );
 }

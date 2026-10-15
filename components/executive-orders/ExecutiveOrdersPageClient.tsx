@@ -26,6 +26,7 @@ import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { TopicSwatch } from "./TopicSwatch";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 
 type Mode = "count" | "share";
 
@@ -179,16 +180,17 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
 
           <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setRange(null)} topics={topics} admins={adminById} onClearTopics={() => setTopics(null)} throughDate={data.throughDate} />
 
-          <MethodologyNote>
-            <p>
-              Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were.
-            </p>
-            <p>
-              The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the Federal Register, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
-            </p>
-          </MethodologyNote>
-
-          <TableFallback years={data.years} />
+          <ChartNotesRow>
+            <MethodologyNote>
+              <p>
+                Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were.
+              </p>
+              <p>
+                The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the Federal Register, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
+              </p>
+            </MethodologyNote>
+            <TableFallback years={data.years} />
+          </ChartNotesRow>
         </ChartCard>
 
 

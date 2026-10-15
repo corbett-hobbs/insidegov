@@ -4,6 +4,7 @@ import { memo, type ReactNode } from "react";
 import { PinReadout, type PinLine } from "@/components/charts/PinReadout";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { AUTHORITY_LABEL, dateText, KIND_LABEL, laggedNote, monthLabel } from "@/lib/energy-derive";
 import { monthStartDay, niceScale, type Scale } from "@/lib/trade-chart";
@@ -117,11 +118,13 @@ export function EnergyCardShell({
       <p className={`m-0 mt-2 leading-[1.5] text-ink-muted ${small ? "text-[0.8rem]" : "text-[0.875rem]"}`}>{desc}</p>
       <Readout line={readout} />
       <div className="mt-3.5">{chart}</div>
-      <MethodologyNote>{notes}</MethodologyNote>
-      <details className="mt-3">
-        <summary className={TABLE_TOGGLE}>View as table</summary>
-        {tables}
-      </details>
+      <ChartNotesRow>
+        <MethodologyNote>{notes}</MethodologyNote>
+        <details className="mt-3">
+          <summary className={TABLE_TOGGLE}>View as table</summary>
+          {tables}
+        </details>
+      </ChartNotesRow>
     </section>
   );
 }

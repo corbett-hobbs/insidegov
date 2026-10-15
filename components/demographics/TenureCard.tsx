@@ -6,6 +6,7 @@ import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { fmtShare } from "@/lib/chart-bars";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { congressSpan, presidentById, readoutRow, termSegmentsFor } from "@/lib/demographics-chart";
 import { TENURE_LABELS, type DemoCongress, type DemoPresident } from "@/lib/demographics-types";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
@@ -59,15 +60,17 @@ export function TenureCard({ rows, presidents, pin, onPin }: { rows: readonly De
           </span>
         ))}
       </div>
-      <MethodologyNote>
-        <p>
-          Time in office counts the Congresses a member served in either chamber, gaps and service before 1933 included, at two years each (up to 2 years is a first Congress, 3&ndash;10 years is two to five). Every bar is 100%.
-        </p>
-      </MethodologyNote>
-      <TableView
-        head={["Congress", "Years", "Members", ...TENURE_LABELS.map((l) => `${l} (share)`)]}
-        rows={[...rows].reverse().map((r) => [`${r.congress}th`, `${r.year}–${r.year + 1}`, r.seats, ...r.tenure.map((n) => fmtShare(n / (r.seats || 1)))])}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Time in office counts the Congresses a member served in either chamber, gaps and service before 1933 included, at two years each (up to 2 years is a first Congress, 3&ndash;10 years is two to five). Every bar is 100%.
+          </p>
+        </MethodologyNote>
+        <TableView
+          head={["Congress", "Years", "Members", ...TENURE_LABELS.map((l) => `${l} (share)`)]}
+          rows={[...rows].reverse().map((r) => [`${r.congress}th`, `${r.year}–${r.year + 1}`, r.seats, ...r.tenure.map((n) => fmtShare(n / (r.seats || 1)))])}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

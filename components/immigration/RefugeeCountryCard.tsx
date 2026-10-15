@@ -7,6 +7,7 @@ import { StackedRows, type StackedRowData } from "@/components/charts/StackedRow
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { YearPicker } from "@/components/charts/YearPicker";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { formatChange, rankCountries } from "@/lib/refugee-derive";
 import { GEO_NAME, type GeoGroup, type RefugeePayload } from "@/lib/refugee-types";
 import { RefugeeMap, undrawnRefugees, type MapMode } from "./RefugeeMap";
@@ -171,56 +172,57 @@ export function RefugeeCountryCard({
         </div>
       </div>
 
-      <MethodologyNote>
-        {mode === "countries" ? (
-          <p>
-            Refugees admitted by country of chargeability, from FY2001 (State Department; earlier years have regions only). This is normally the applicant&rsquo;s nationality, which can differ from the country they fled: Burmese refugees processed in Thailand count under Burma. Colour bins are fixed so years compare.
-            {off.names.length > 0 && <> Not on the map (former or unmapped territories): {listNames(off.names)}; they are in the list and table.</>} FY2026 is preliminary.
-          </p>
-        ) : (
-          <p>
-            Refugees admitted by region, by the nationality of the principal applicant (State Department). The cap is the State Department&rsquo;s year-end regional ceiling (FY2001 on), else the last determination&rsquo;s allocation; those numbers are starting points that get reassigned during the year, and FY2024&ndash;25 caps are ranges, shaded to the maximum. Some years have no regional caps: FY2020&ndash;21 were divided by kind of refugee and FY2026 &ldquo;primarily&rdquo; by group. An unallocated reserve is a cap with no arrivals. FY2026 is preliminary.
-          </p>
-        )}
-      </MethodologyNote>
-
-      <details className="mt-3 text-[0.8rem] text-ink-muted">
-        <summary className={TABLE_TOGGLE}>View as table</summary>
-        <div className="mt-2 max-h-[24rem] overflow-auto">
-          <table className="w-full min-w-[26rem] border-collapse text-left">
-            <caption className="sr-only">{mode === "regions" ? `Refugees admitted by region, FY${fy}` : `Refugees admitted by country of chargeability, FY${fy}`}</caption>
-            <thead>
-              <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
-                <th className="py-1.5 pr-3 font-medium">Rank</th>
-                <th className="py-1.5 pr-3 font-medium">{mode === "regions" ? "Region" : "Country of chargeability"}</th>
-                <th className="py-1.5 pr-3 text-right font-medium">Admitted</th>
-                {mode === "regions" && <th className="py-1.5 pr-3 text-right font-medium">Cap</th>}
-                <th className="py-1.5 text-right font-medium">{`Change vs. ${prev}`}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {mode === "countries"
-                ? ranked.map((r) => (
-                    <tr key={r.key} className="border-b border-line">
-                      <td className="py-1.5 pr-3 font-mono">{r.rank}</td>
-                      <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{r.name}</th>
-                      <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(r.value)}</td>
-                      <td className="py-1.5 text-right font-mono">{formatChange(r.change)}</td>
-                    </tr>
-                  ))
-                : (regionYear?.rows ?? []).map((r, i) => (
-                    <tr key={r.group} className="border-b border-line">
-                      <td className="py-1.5 pr-3 font-mono">{r.admissions === null ? "" : i + 1}</td>
-                      <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{GEO_NAME[r.group].name}</th>
-                      <td className="py-1.5 pr-3 text-right font-mono text-ink">{r.admissions === null ? "–" : n(r.admissions)}</td>
-                      <td className="py-1.5 pr-3 text-right font-mono">{r.cap ? capText(r.cap) : "–"}</td>
-                      <td className="py-1.5 text-right font-mono">{r.admissions === null || r.prev === null ? "" : formatChange(r.admissions - r.prev)}</td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+      <ChartNotesRow>
+        <MethodologyNote>
+          {mode === "countries" ? (
+            <p>
+              Refugees admitted by country of chargeability, from FY2001 (State Department; earlier years have regions only). This is normally the applicant&rsquo;s nationality, which can differ from the country they fled: Burmese refugees processed in Thailand count under Burma. Colour bins are fixed so years compare.
+              {off.names.length > 0 && <> Not on the map (former or unmapped territories): {listNames(off.names)}; they are in the list and table.</>} FY2026 is preliminary.
+            </p>
+          ) : (
+            <p>
+              Refugees admitted by region, by the nationality of the principal applicant (State Department). The cap is the State Department&rsquo;s year-end regional ceiling (FY2001 on), else the last determination&rsquo;s allocation; those numbers are starting points that get reassigned during the year, and FY2024&ndash;25 caps are ranges, shaded to the maximum. Some years have no regional caps: FY2020&ndash;21 were divided by kind of refugee and FY2026 &ldquo;primarily&rdquo; by group. An unallocated reserve is a cap with no arrivals. FY2026 is preliminary.
+            </p>
+          )}
+        </MethodologyNote>
+        <details className="mt-3 text-[0.8rem] text-ink-muted">
+          <summary className={TABLE_TOGGLE}>View as table</summary>
+          <div className="mt-2 max-h-[24rem] overflow-auto">
+            <table className="w-full min-w-[26rem] border-collapse text-left">
+              <caption className="sr-only">{mode === "regions" ? `Refugees admitted by region, FY${fy}` : `Refugees admitted by country of chargeability, FY${fy}`}</caption>
+              <thead>
+                <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
+                  <th className="py-1.5 pr-3 font-medium">Rank</th>
+                  <th className="py-1.5 pr-3 font-medium">{mode === "regions" ? "Region" : "Country of chargeability"}</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">Admitted</th>
+                  {mode === "regions" && <th className="py-1.5 pr-3 text-right font-medium">Cap</th>}
+                  <th className="py-1.5 text-right font-medium">{`Change vs. ${prev}`}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mode === "countries"
+                  ? ranked.map((r) => (
+                      <tr key={r.key} className="border-b border-line">
+                        <td className="py-1.5 pr-3 font-mono">{r.rank}</td>
+                        <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{r.name}</th>
+                        <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(r.value)}</td>
+                        <td className="py-1.5 text-right font-mono">{formatChange(r.change)}</td>
+                      </tr>
+                    ))
+                  : (regionYear?.rows ?? []).map((r, i) => (
+                      <tr key={r.group} className="border-b border-line">
+                        <td className="py-1.5 pr-3 font-mono">{r.admissions === null ? "" : i + 1}</td>
+                        <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{GEO_NAME[r.group].name}</th>
+                        <td className="py-1.5 pr-3 text-right font-mono text-ink">{r.admissions === null ? "–" : n(r.admissions)}</td>
+                        <td className="py-1.5 pr-3 text-right font-mono">{r.cap ? capText(r.cap) : "–"}</td>
+                        <td className="py-1.5 text-right font-mono">{r.admissions === null || r.prev === null ? "" : formatChange(r.admissions - r.prev)}</td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

@@ -8,6 +8,7 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { fmtShare } from "@/lib/chart-bars";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { congressSpan, presidentById, readoutRow, termSegmentsFor, type WomenMeasure } from "@/lib/demographics-chart";
 import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
@@ -99,15 +100,17 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
           </LegendToggle>
         ))}
       </div>
-      <MethodologyNote>
-        <p>
-          A Congress has more members than the chambers have seats because replacements are counted. The source records gender as male or female only.
-        </p>
-      </MethodologyNote>
-      <TableView
-        head={["Congress", "Years", "Members", "Women", "Share", "Dem. women", "Rep. women", "Other women"]}
-        rows={[...rows].reverse().map((r) => [`${r.congress}th`, `${r.year}–${r.year + 1}`, r.seats, womenTotal(r), fmtShare(womenTotal(r) / (r.seats || 1)), r.women.D, r.women.R, r.women.O])}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            A Congress has more members than the chambers have seats because replacements are counted. The source records gender as male or female only.
+          </p>
+        </MethodologyNote>
+        <TableView
+          head={["Congress", "Years", "Members", "Women", "Share", "Dem. women", "Rep. women", "Other women"]}
+          rows={[...rows].reverse().map((r) => [`${r.congress}th`, `${r.year}–${r.year + 1}`, r.seats, womenTotal(r), fmtShare(womenTotal(r) / (r.seats || 1)), r.women.D, r.women.R, r.women.O])}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

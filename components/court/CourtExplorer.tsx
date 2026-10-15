@@ -1,5 +1,6 @@
 "use client";
 
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -197,12 +198,14 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
               </p>
             )}
 
-            <MethodologyNote className="mt-2">
-              <p>
-                Martin&ndash;Quinn scores sit on one liberal&ndash;conservative scale and are not comparable in number to the DW-NOMINATE scores on the Congress pages. Hollow dots mark justices who left or joined mid-term; in 1937, 1938, 1956 and 2005, where MQ scores two records, the median is the Court after the change.
-              </p>
-            </MethodologyNote>
-            <SeatedTable term={term} seated={ordered} />
+            <ChartNotesRow>
+              <MethodologyNote className="mt-2">
+                <p>
+                  Martin&ndash;Quinn scores sit on one liberal&ndash;conservative scale and are not comparable in number to the DW-NOMINATE scores on the Congress pages. Hollow dots mark justices who left or joined mid-term; in 1937, 1938, 1956 and 2005, where MQ scores two records, the median is the Court after the change.
+                </p>
+              </MethodologyNote>
+              <SeatedTable term={term} seated={ordered} />
+            </ChartNotesRow>
           </ChartCard>
 
           <ChartCard
@@ -232,12 +235,14 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
                 />
               </div>
             </div>
-            <MethodologyNote className="mt-2">
-              <p>
-                Career average is the mean of a justice&rsquo;s per-term scores, so it can hide justices who moved a long way. Justices still serving are not final.
-              </p>
-            </MethodologyNote>
-            <CareerTable data={data} />
+            <ChartNotesRow>
+              <MethodologyNote className="mt-2">
+                <p>
+                  Career average is the mean of a justice&rsquo;s per-term scores, so it can hide justices who moved a long way. Justices still serving are not final.
+                </p>
+              </MethodologyNote>
+              <CareerTable data={data} />
+            </ChartNotesRow>
           </ChartCard>
         </div>
 
@@ -253,12 +258,14 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
             onSelect={onToggleSelect}
             onScrub={changeTerm}
           />
-          <MethodologyNote className="mt-2">
-            <p>
-              The model smooths scores over time, so a justice&rsquo;s stability is partly an assumption. The shaded band is the 95% estimation interval.
-            </p>
-          </MethodologyNote>
-          <MedianTable data={data} selected={selected} />
+          <ChartNotesRow>
+            <MethodologyNote className="mt-2">
+              <p>
+                The model smooths scores over time, so a justice&rsquo;s stability is partly an assumption. The shaded band is the 95% estimation interval.
+              </p>
+            </MethodologyNote>
+            <MedianTable data={data} selected={selected} />
+          </ChartNotesRow>
         </ChartCard>
 
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">

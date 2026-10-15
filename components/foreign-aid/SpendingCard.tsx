@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { SLOT_NAME, changeVsPrior, formatAidMoney, spendingByYear } from "@/lib/foreign-aid-derive";
 import { useAidState } from "./ForeignAidState";
 import { SpendingChart } from "./SpendingChart";
@@ -36,32 +37,34 @@ export function SpendingCard() {
     >
       <SpendingChart rows={shown} />
       <SectorLegend partial={anyPartial} only={sole === null ? only : null} onPick={(k) => setOnly((c) => (c === k ? null : k))} />
-      <MethodologyNote>
-        <p>
-          Band under the axis: administration in office for most of the year (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic).
-        </p>
-      </MethodologyNote>
-      <TableView caption="Disbursements by fiscal year and sector">
-        <thead>
-          <tr>
-            <th className={TH}>Fiscal year</th>
-            <th className={TH}>Total</th>
-            {sole === null && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.fy}>
-              <td className={TD}>
-                FY{r.fy}
-                {isPartial(r.fy) ? " (partial)" : ""}
-              </td>
-              <td className={TD}>{formatAidMoney(r.total)}</td>
-              {sole === null && r.slots.map((v, k) => <td key={k} className={TD}>{formatAidMoney(v)}</td>)}
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Band under the axis: administration in office for most of the year (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic).
+          </p>
+        </MethodologyNote>
+        <TableView caption="Disbursements by fiscal year and sector">
+          <thead>
+            <tr>
+              <th className={TH}>Fiscal year</th>
+              <th className={TH}>Total</th>
+              {sole === null && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
             </tr>
-          ))}
-        </tbody>
-      </TableView>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.fy}>
+                <td className={TD}>
+                  FY{r.fy}
+                  {isPartial(r.fy) ? " (partial)" : ""}
+                </td>
+                <td className={TD}>{formatAidMoney(r.total)}</td>
+                {sole === null && r.slots.map((v, k) => <td key={k} className={TD}>{formatAidMoney(v)}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </TableView>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

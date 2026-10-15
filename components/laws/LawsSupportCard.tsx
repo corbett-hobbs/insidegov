@@ -8,6 +8,7 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedArea } from "@/components/charts/StackedArea";
 import { Swatch, TableView, TooltipCard } from "@/components/decisions/shared";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { buildStacks, fmtInt, fmtPct, median } from "@/lib/decisions-derive";
 import { isPicked, soleOf, toggleOnly } from "@/lib/multi-select";
 import { ordinal } from "@/lib/demographics-chart";
@@ -145,16 +146,18 @@ export function LawsSupportCard() {
         ))}
       </div>
       {thin && <p className="m-0 mt-2 text-[0.78rem] leading-[1.45] text-ink-muted">Few laws per Congress in this selection, so shares swing widely. Read the trend, not individual Congresses.</p>}
-      <MethodologyNote>
-        <p>
-          A band is the yes share of votes cast, so a 50&ndash;49 vote lands in &ldquo;under 60%&rdquo;. &ldquo;Voice vote or consent&rdquo; means no roll call on final passage in either chamber (for most of the 1970s, no method stated); that is {fmtPct(noVoteShare(data, data.congresses[0]!, lastPre))} of laws before 2000, so the early years show what was recorded, not how divided Congress was. Tallies are checked against Voteview; override votes do not set the band.
-        </p>
-      </MethodologyNote>
-      <TableView
-        label="Table of laws per Congress by closest recorded vote"
-        head={["Congress", "Opened", "Laws", ...BANDS.map((k) => SUPPORT_SHORT[k]!)]}
-        rows={idx.map((ci, i) => [ordinal(data.congresses[ci]!), openYear(data.congresses[ci]!), cells[i]!.reduce((a, b) => a + b, 0), ...BANDS.map((k) => cells[i]![k]!)]).reverse()}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            A band is the yes share of votes cast, so a 50&ndash;49 vote lands in &ldquo;under 60%&rdquo;. &ldquo;Voice vote or consent&rdquo; means no roll call on final passage in either chamber (for most of the 1970s, no method stated); that is {fmtPct(noVoteShare(data, data.congresses[0]!, lastPre))} of laws before 2000, so the early years show what was recorded, not how divided Congress was. Tallies are checked against Voteview; override votes do not set the band.
+          </p>
+        </MethodologyNote>
+        <TableView
+          label="Table of laws per Congress by closest recorded vote"
+          head={["Congress", "Opened", "Laws", ...BANDS.map((k) => SUPPORT_SHORT[k]!)]}
+          rows={idx.map((ci, i) => [ordinal(data.congresses[ci]!), openYear(data.congresses[ci]!), cells[i]!.reduce((a, b) => a + b, 0), ...BANDS.map((k) => cells[i]![k]!)]).reverse()}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

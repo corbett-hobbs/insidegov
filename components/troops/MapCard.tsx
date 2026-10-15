@@ -9,6 +9,7 @@ import { useZoomPan } from "@/components/charts/use-zoom-pan";
 import { YearPicker } from "@/components/charts/YearPicker";
 import { ZoomControls } from "@/components/charts/ZoomControls";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
 import { SITE_LABEL, SITE_ORDER, SITE_TIP_LABEL, type BaseCluster, type BasesPayload } from "@/lib/bases-types";
 import { BRANCH_NAMES, MAP_BINS, formatCount, measureLabel, periodView, type ContingencyNote } from "@/lib/troops-derive";
@@ -325,69 +326,70 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
         <RankedList view={view} />
       </div>
 
-      <MethodologyNote>
-        <p>
-          <b className="font-semibold text-ink">Not on the map:</b>{" "}
-          {view.territories.length > 0
-            ? `U.S. territories ${view.territories.map((t) => `${places[t.place].name} ${formatCount(t.value)}`).join(", ")} (${formatCount(view.territoryTotal)}) are inside DMDC’s overseas total but are not hosts`
-            : "no U.S. territory figures this quarter"}
-          {view.afloat > 0 ? `; ${formatCount(view.afloat)} are afloat or unassigned` : ""}
-          {noOutline.length > 0 ? `; no outline is drawn for ${noOutline.map((r) => `${places[r.place].name} ${formatCount(r.value)}`).join(", ")}` : ""}.{" "}
-          {view.contingency.length > 0 &&
-            `† ${view.contingency.map((c) => places[c.place].name).join(" and ")}: DMDC’s separate theatre total stands in for the country table, which prints zero, so it is on a different basis. `}
-          {view.suppressed.length > 0
-            ? `${view.suppressed.map((x) => places[x].name).join(", ")} ${view.suppressed.length > 1 ? "print" : "prints"} blank or unavailable (“n/r”): not reported, not zero. `
-            : "A blank row is not a zero. "}
-          Counts include deployed forces through 2017, so years before and after 2018 are not like-for-like.
-          {!p.afloatIncluded && " This year’s source has no afloat or unassigned rows."}{" "}
-          <b className="font-semibold text-ink">Known installations</b> ({bases.sites.length} sites in {bases.countries.length} places, through {bases.through}) are one fixed list from David Vine&rsquo;s compilation (troopdata package, GPL-3.0), not tied to the year chosen. Dots carry no headcount, classified sites are missing, and {bases.sites.filter((x) => x.review).length} sites with doubtful coordinates are in the table but not drawn.
-        </p>
-      </MethodologyNote>
-
-      <TableView caption={`Active-duty personnel by host country, ${when}`}>
-        <thead>
-          <tr>
-            <th className={TH}>Country</th>
-            <th className={TH}>Region</th>
-            <th className={TH}>{measureLabel(measure)}</th>
-            {measure === 0 && BRANCH_NAMES.map((n) => <th key={n} className={TH}>{n}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {view.ranked.map((r) => (
-            <tr key={r.place}>
-              <td className={TD}>{places[r.place].name}</td>
-              <td className={TD}>{regionLabel(places[r.place].region!)}</td>
-              <td className={TD}>{formatCount(r.value)}</td>
-              {measure === 0 && r.branches.map((v, i) => <td key={i} className={TD}>{formatCount(v)}</td>)}
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            <b className="font-semibold text-ink">Not on the map:</b>{" "}
+            {view.territories.length > 0
+              ? `U.S. territories ${view.territories.map((t) => `${places[t.place].name} ${formatCount(t.value)}`).join(", ")} (${formatCount(view.territoryTotal)}) are inside DMDC’s overseas total but are not hosts`
+              : "no U.S. territory figures this quarter"}
+            {view.afloat > 0 ? `; ${formatCount(view.afloat)} are afloat or unassigned` : ""}
+            {noOutline.length > 0 ? `; no outline is drawn for ${noOutline.map((r) => `${places[r.place].name} ${formatCount(r.value)}`).join(", ")}` : ""}.{" "}
+            {view.contingency.length > 0 &&
+              `† ${view.contingency.map((c) => places[c.place].name).join(" and ")}: DMDC’s separate theatre total stands in for the country table, which prints zero, so it is on a different basis. `}
+            {view.suppressed.length > 0
+              ? `${view.suppressed.map((x) => places[x].name).join(", ")} ${view.suppressed.length > 1 ? "print" : "prints"} blank or unavailable (“n/r”): not reported, not zero. `
+              : "A blank row is not a zero. "}
+            Counts include deployed forces through 2017, so years before and after 2018 are not like-for-like.
+            {!p.afloatIncluded && " This year’s source has no afloat or unassigned rows."}{" "}
+            <b className="font-semibold text-ink">Known installations</b> ({bases.sites.length} sites in {bases.countries.length} places, through {bases.through}) are one fixed list from David Vine&rsquo;s compilation (troopdata package, GPL-3.0), not tied to the year chosen. Dots carry no headcount, classified sites are missing, and {bases.sites.filter((x) => x.review).length} sites with doubtful coordinates are in the table but not drawn.
+          </p>
+        </MethodologyNote>
+        <TableView caption={`Active-duty personnel by host country, ${when}`}>
+          <thead>
+            <tr>
+              <th className={TH}>Country</th>
+              <th className={TH}>Region</th>
+              <th className={TH}>{measureLabel(measure)}</th>
+              {measure === 0 && BRANCH_NAMES.map((n) => <th key={n} className={TH}>{n}</th>)}
             </tr>
-          ))}
-          {view.suppressed.map((s) => (
-            <tr key={s}>
-              <td className={TD}>{places[s].name}</td>
-              <td className={TD}>{regionLabel(places[s].region!)}</td>
-              <td className={TD}>n/r</td>
-              {measure === 0 && BRANCH_NAMES.map((n) => <td key={n} className={TD}>n/r</td>)}
+          </thead>
+          <tbody>
+            {view.ranked.map((r) => (
+              <tr key={r.place}>
+                <td className={TD}>{places[r.place].name}</td>
+                <td className={TD}>{regionLabel(places[r.place].region!)}</td>
+                <td className={TD}>{formatCount(r.value)}</td>
+                {measure === 0 && r.branches.map((v, i) => <td key={i} className={TD}>{formatCount(v)}</td>)}
+              </tr>
+            ))}
+            {view.suppressed.map((s) => (
+              <tr key={s}>
+                <td className={TD}>{places[s].name}</td>
+                <td className={TD}>{regionLabel(places[s].region!)}</td>
+                <td className={TD}>n/r</td>
+                {measure === 0 && BRANCH_NAMES.map((n) => <td key={n} className={TD}>n/r</td>)}
+              </tr>
+            ))}
+          </tbody>
+          <tbody>
+            <tr>
+              <th className={`${TH_PLAIN} text-left`}>Known installation (source through {bases.through})</th>
+              <th className={TH_PLAIN}>Country</th>
+              <th className={TH_PLAIN}>Type</th>
+              <th className={TH_PLAIN}>On the map</th>
             </tr>
-          ))}
-        </tbody>
-        <tbody>
-          <tr>
-            <th className={`${TH_PLAIN} text-left`}>Known installation (source through {bases.through})</th>
-            <th className={TH_PLAIN}>Country</th>
-            <th className={TH_PLAIN}>Type</th>
-            <th className={TH_PLAIN}>On the map</th>
-          </tr>
-          {bases.sites.map((b, i) => (
-            <tr key={i}>
-              <td className={TD}>{b.name}</td>
-              <td className={TD}>{bases.countries[b.c].name}</td>
-              <td className={TD}>{SITE_LABEL[SITE_ORDER[b.t]]}</td>
-              <td className={TD}>{b.review ? `no (${b.review})` : "yes"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </TableView>
+            {bases.sites.map((b, i) => (
+              <tr key={i}>
+                <td className={TD}>{b.name}</td>
+                <td className={TD}>{bases.countries[b.c].name}</td>
+                <td className={TD}>{SITE_LABEL[SITE_ORDER[b.t]]}</td>
+                <td className={TD}>{b.review ? `no (${b.review})` : "yes"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </TableView>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

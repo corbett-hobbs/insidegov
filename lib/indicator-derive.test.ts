@@ -4,6 +4,7 @@ import {
   congressForFiscalYear,
   monthlyChange,
   periodEnd,
+  realHourlyEarnings,
   termIdForDate,
   windowPoints,
   yearOverYearPercent,
@@ -127,5 +128,28 @@ describe("termIdForDate", () => {
     expect(termIdForDate("2021-01-20", admins)).toBe("2021-01-20");
     expect(termIdForDate("2026-09-01", admins)).toBe("2025-01-20");
     expect(termIdForDate("2010-01-01", admins)).toBeNull();
+  });
+});
+
+describe("realHourlyEarnings", () => {
+  it("restates pay in the dollars of the latest month both series have", () => {
+    const wages = monthly("2020-01-01", [20, 21, 22]);
+    const cpi = monthly("2020-01-01", [100, 105, 110]);
+    const { points, baseDate } = realHourlyEarnings(wages, cpi);
+    expect(baseDate).toBe("2020-03-01");
+    expect(points.map((p) => p.value)).toEqual([22, 22, 22]); // pay rose exactly with prices
+  });
+  it("is null where CPI is missing and picks the base from months with both", () => {
+    const wages = monthly("2025-08-01", [30, 31, 32, 33]);
+    const cpi = [
+      { date: "2025-08-01", value: 100 },
+      { date: "2025-09-01", value: 101 },
+      { date: "2025-11-01", value: 103 },
+    ];
+    const { points, baseDate } = realHourlyEarnings(wages, cpi);
+    expect(baseDate).toBe("2025-11-01");
+    expect(points[2].value).toBeNull(); // 2025-10: no CPI
+    expect(points[3].value).toBeCloseTo(33, 10); // the base month is in its own dollars
+    expect(points[0].value).toBeCloseTo((30 * 103) / 100, 10);
   });
 });

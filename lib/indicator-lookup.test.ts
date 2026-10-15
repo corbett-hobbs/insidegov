@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dayFromFraction, readDebt, readFiscal, readIncome, readMisery, readMonthly, readWeekly } from "./indicator-lookup";
+import { dayFromFraction, readDebt, readFiscal, readGdp, readIncome, readMisery, readMonthly, readWeekly } from "./indicator-lookup";
 import { dayOf } from "./indicator-time";
 
 const d = (y: number, m: number, day: number) => dayOf(y, m - 1, day);
@@ -104,4 +104,21 @@ describe("dayFromFraction", () => {
     expect(dayFromFraction(0.5, 366, 1000)).toBe(1183);
     expect(dayFromFraction(1.2, 13057)).toBe(13056);
   });
+});
+
+describe("readGdp", () => {
+  const gdp = [2.5, -7.4, null];
+  const gdpq = [3, -28, null];
+  it("reads the quarter, with the annualized rate as the second value", () => {
+    const r = readGdp(gdp, gdpq, d(1991, 4, 1));
+    expect(r.value).toBe(-7.4);
+    expect(r.value2).toBe(-28);
+    expect(r.caption).toBe("Q2 1991");
+  });
+  it("snaps to quarter start + 45 days", () => expect(readGdp(gdp, gdpq, d(1991, 2, 1)).snap).toBe(d(1991, 1, 1) + 45));
+  it("says not yet reported past the end or on a null quarter", () => {
+    expect(readGdp(gdp, gdpq, d(1991, 8, 1)).caption).toBe("Q3 1991 not yet reported");
+    expect(readGdp(gdp, gdpq, d(1992, 1, 1)).caption).toBe("Q1 1992 not yet reported");
+  });
+  it("latest skips trailing nulls", () => expect(readGdp(gdp, gdpq, null).caption).toBe("Q2 1991"));
 });

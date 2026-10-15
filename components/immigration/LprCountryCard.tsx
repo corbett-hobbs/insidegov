@@ -7,6 +7,7 @@ import { StackedRows, type StackedRowData } from "@/components/charts/StackedRow
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { YearPicker } from "@/components/charts/YearPicker";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LPR_BINS, type LprMetric } from "@/lib/lpr-chart";
 import { rankLprCountries } from "@/lib/lpr-derive";
 import type { LprPayload } from "@/lib/lpr-types";
@@ -146,39 +147,40 @@ export function LprCountryCard({
         </div>
       </div>
 
-      <MethodologyNote>
-        <p>
-          {nat ? "People aged 18 and over who became U.S. citizens" : "People who became permanent residents"} in the fiscal year, by country of {byNationality ? "nationality (the newest year, preliminary, is the only one the quarterly report gives by nationality)" : "birth (Yearbook)"}. The two bases answer different questions, so a country is never compared across them. Not visas issued or entries, and not the refugee or ICE counts. Colour bins are fixed so years compare.
-          {off.names.length > 0 && <> Not on the map (former or unmapped places): {listNames(off.names)}; they are in the list and table.</>} The &ldquo;all other countries&rdquo;, unknown and withheld-count buckets are not countries and are not listed, so the list can fall a little short of the year&rsquo;s total. Cells from FY2015 on are rounded to the nearest ten.
-        </p>
-      </MethodologyNote>
-
-      <details className="mt-3 text-[0.8rem] text-ink-muted">
-        <summary className={TABLE_TOGGLE}>View as table</summary>
-        <div className="mt-2 max-h-[24rem] overflow-auto">
-          <table className="w-full min-w-[26rem] border-collapse text-left">
-            <caption className="sr-only">{`${measure} by country of ${byNationality ? "nationality" : "birth"}, FY${fy}`}</caption>
-            <thead>
-              <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
-                <th className="py-1.5 pr-3 font-medium">Rank</th>
-                <th className="py-1.5 pr-3 font-medium">Country</th>
-                <th className="py-1.5 pr-3 text-right font-medium">{measure}</th>
-                {hasChange && <th className="py-1.5 text-right font-medium">{`Change vs. ${prev}`}</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {ranked.map((r) => (
-                <tr key={r.key} className="border-b border-line">
-                  <td className="py-1.5 pr-3 font-mono">{r.rank}</td>
-                  <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{r.name}</th>
-                  <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(r.value)}</td>
-                  {hasChange && <td className="py-1.5 text-right font-mono">{formatChange(r.change)}</td>}
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            {nat ? "People aged 18 and over who became U.S. citizens" : "People who became permanent residents"} in the fiscal year, by country of {byNationality ? "nationality (the newest year, preliminary, is the only one the quarterly report gives by nationality)" : "birth (Yearbook)"}. The two bases answer different questions, so a country is never compared across them. Not visas issued or entries, and not the refugee or ICE counts. Colour bins are fixed so years compare.
+            {off.names.length > 0 && <> Not on the map (former or unmapped places): {listNames(off.names)}; they are in the list and table.</>} The &ldquo;all other countries&rdquo;, unknown and withheld-count buckets are not countries and are not listed, so the list can fall a little short of the year&rsquo;s total. Cells from FY2015 on are rounded to the nearest ten.
+          </p>
+        </MethodologyNote>
+        <details className="mt-3 text-[0.8rem] text-ink-muted">
+          <summary className={TABLE_TOGGLE}>View as table</summary>
+          <div className="mt-2 max-h-[24rem] overflow-auto">
+            <table className="w-full min-w-[26rem] border-collapse text-left">
+              <caption className="sr-only">{`${measure} by country of ${byNationality ? "nationality" : "birth"}, FY${fy}`}</caption>
+              <thead>
+                <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
+                  <th className="py-1.5 pr-3 font-medium">Rank</th>
+                  <th className="py-1.5 pr-3 font-medium">Country</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">{measure}</th>
+                  {hasChange && <th className="py-1.5 text-right font-medium">{`Change vs. ${prev}`}</th>}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+              </thead>
+              <tbody>
+                {ranked.map((r) => (
+                  <tr key={r.key} className="border-b border-line">
+                    <td className="py-1.5 pr-3 font-mono">{r.rank}</td>
+                    <th scope="row" className="py-1.5 pr-3 font-normal text-ink">{r.name}</th>
+                    <td className="py-1.5 pr-3 text-right font-mono text-ink">{n(r.value)}</td>
+                    {hasChange && <td className="py-1.5 text-right font-mono">{formatChange(r.change)}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

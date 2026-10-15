@@ -8,6 +8,7 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { Swatch, TableView, TooltipCard } from "@/components/decisions/shared";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { ordinal } from "@/lib/demographics-chart";
 import { fmtInt } from "@/lib/decisions-derive";
 import { bandsPhrase, cellFor, filterLabel, openYear, seriesOf, signedMostSegments } from "@/lib/laws-derive";
@@ -157,16 +158,18 @@ export function LawsCountCard() {
           </LegendToggle>
         ))}
       </div>
-      <MethodologyNote>
-        <p>
-          A law&rsquo;s policy area is the single area Congress.gov assigns its bill, grouped here into {every.filter((s) => s.id !== "not-classified").length} colour-coded topics. &ldquo;Commemorations&rdquo; is our own grouping, applied the same way in every year: Congress.gov filed it there, or its title designates a day, week or year, names a building or landmark, awards a medal or coin, or approves a memorial. Laws from the 93rd&ndash;95th Congresses without a current area were placed by InsideGov from their titles{notClassified > 0 ? `; ${fmtInt(notClassified)} recent laws not yet classified show as “Not classified”` : ""}. The {ordinal(lastCongress)} Congress is in session, so its bar is partial (hatched) and excluded from the peak and low labels.
-        </p>
-      </MethodologyNote>
-      <TableView
-        label="Table of laws enacted per Congress, by topic group"
-        head={["Congress", "Opened", "Laws", ...series.map((s) => s.label)]}
-        rows={[...cols].reverse().map((c) => [ordinal(c.congress), openYear(c.congress), c.total, ...series.map((s) => c.values[s.id] ?? 0)])}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            A law&rsquo;s policy area is the single area Congress.gov assigns its bill, grouped here into {every.filter((s) => s.id !== "not-classified").length} colour-coded topics. &ldquo;Commemorations&rdquo; is our own grouping, applied the same way in every year: Congress.gov filed it there, or its title designates a day, week or year, names a building or landmark, awards a medal or coin, or approves a memorial. Laws from the 93rd&ndash;95th Congresses without a current area were placed by InsideGov from their titles{notClassified > 0 ? `; ${fmtInt(notClassified)} recent laws not yet classified show as “Not classified”` : ""}. The {ordinal(lastCongress)} Congress is in session, so its bar is partial (hatched) and excluded from the peak and low labels.
+          </p>
+        </MethodologyNote>
+        <TableView
+          label="Table of laws enacted per Congress, by topic group"
+          head={["Congress", "Opened", "Laws", ...series.map((s) => s.label)]}
+          rows={[...cols].reverse().map((c) => [ordinal(c.congress), openYear(c.congress), c.total, ...series.map((s) => c.values[s.id] ?? 0)])}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

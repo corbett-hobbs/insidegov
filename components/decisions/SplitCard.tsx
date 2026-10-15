@@ -7,6 +7,7 @@ import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { areaFilterLabel, bandShare, binByDecade, fmtInt, fmtPct, isSmallSample, splitGrain, sumBucket, windowCells, windowSum } from "@/lib/decisions-derive";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type SplitMode } from "@/lib/decisions-types";
 import { SplitDecadeBars } from "./SplitDecadeBars";
@@ -80,16 +81,18 @@ export function SplitCard() {
       ) : small ? (
         <p className="m-0 mt-2 text-[0.78rem] leading-[1.45] text-ink-muted">Few cases per term in this selection, so single-year shares swing widely. Read the trend, not individual years.</p>
       ) : null}
-      <MethodologyNote>
-        <p>
-          Each band counts dissenting justices, not the full tally, so a 5&ndash;3 decision (eight justices sitting) lands in the 6&ndash;3 band. A selection with a median under 15 cases a term is grouped by decade automatically; the first and last decades are partial (1946&ndash;49 and 2020&ndash;25).
-        </p>
-      </MethodologyNote>
-      <TableView
-        label={`Table of cases by number of dissenting justices, per ${grain}`}
-        head={[grain === "decade" ? "Decade" : "Term", "Cases", ...BAND_SHORT]}
-        rows={grain === "decade" ? binByDecade(terms, cells).map((b) => [`${b.decade}s`, b.total, ...b.bucket]).reverse() : terms.map((t, i) => [t, sumBucket(cells[i]), ...cells[i]]).reverse()}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Each band counts dissenting justices, not the full tally, so a 5&ndash;3 decision (eight justices sitting) lands in the 6&ndash;3 band. A selection with a median under 15 cases a term is grouped by decade automatically; the first and last decades are partial (1946&ndash;49 and 2020&ndash;25).
+          </p>
+        </MethodologyNote>
+        <TableView
+          label={`Table of cases by number of dissenting justices, per ${grain}`}
+          head={[grain === "decade" ? "Decade" : "Term", "Cases", ...BAND_SHORT]}
+          rows={grain === "decade" ? binByDecade(terms, cells).map((b) => [`${b.decade}s`, b.total, ...b.bucket]).reverse() : terms.map((t, i) => [t, sumBucket(cells[i]), ...cells[i]]).reverse()}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

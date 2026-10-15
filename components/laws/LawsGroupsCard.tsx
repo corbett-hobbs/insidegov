@@ -7,6 +7,7 @@ import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
 import { Swatch, TableView } from "@/components/decisions/shared";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { ordinal } from "@/lib/demographics-chart";
 import { fmtInt } from "@/lib/decisions-derive";
 import { isPicked, soleOf, toggleOnly } from "@/lib/multi-select";
@@ -106,16 +107,18 @@ export function LawsGroupsCard() {
           </div>
         </div>
       )}
-      <MethodologyNote>
-        <p>
-          Each bar splits a policy area&rsquo;s laws by support band; across all areas, {pct(noRecorded)} passed by voice vote or consent. Small areas swing by several points on a few laws. Heatmap cells share one colour scale, except &ldquo;All policy areas&rdquo;, which has its own{data.partial[data.partial.length - 1] ? `; the last decade is partial (the ${ordinal(data.congresses[data.congresses.length - 1]!)} Congress is in session)` : ""}.
-        </p>
-      </MethodologyNote>
-      <TableView
-        label="Table of policy areas by how broadly their laws were supported"
-        head={["Policy area", "Laws", ...SUPPORT_ORDER.map((k) => SUPPORT_SHORT[k]!)]}
-        rows={rows.map((r) => [r.label, r.total, ...SUPPORT_ORDER.map((k) => r.bands[k]!)])}
-      />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Each bar splits a policy area&rsquo;s laws by support band; across all areas, {pct(noRecorded)} passed by voice vote or consent. Small areas swing by several points on a few laws. Heatmap cells share one colour scale, except &ldquo;All policy areas&rdquo;, which has its own{data.partial[data.partial.length - 1] ? `; the last decade is partial (the ${ordinal(data.congresses[data.congresses.length - 1]!)} Congress is in session)` : ""}.
+          </p>
+        </MethodologyNote>
+        <TableView
+          label="Table of policy areas by how broadly their laws were supported"
+          head={["Policy area", "Laws", ...SUPPORT_ORDER.map((k) => SUPPORT_SHORT[k]!)]}
+          rows={rows.map((r) => [r.label, r.total, ...SUPPORT_ORDER.map((k) => r.bands[k]!)])}
+        />
+      </ChartNotesRow>
     </ChartCard>
   );
 }

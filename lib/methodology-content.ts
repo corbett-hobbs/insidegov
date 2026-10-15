@@ -76,10 +76,11 @@ export const METHODOLOGY: MethodGroup[] = [
         vertical: "presidency",
         title: "Economy",
         description:
-          "Prices, jobs, rates and federal finances on one shared time axis. Jobs added and inflation are calculated from raw levels: jobs added is the monthly change in nonfarm payrolls, and inflation is the 12-month change in consumer prices. The misery index is the unemployment rate plus that inflation rate for the same month.",
+          "Unemployment, inflation, jobs, growth, pay, prices, rates and federal finances on one shared time axis. Jobs added, inflation and real hourly earnings are calculated from raw levels: jobs added is the monthly change in nonfarm payrolls, inflation is the 12-month change in consumer prices, and real hourly earnings are average hourly pay divided by those prices, in latest-month dollars. GDP growth is the change from the same quarter a year earlier. The misery index is the unemployment rate plus that inflation rate for the same month.",
         sources: [
           { name: "FRED", url: "https://fred.stlouisfed.org/", note: "Federal Reserve Bank of St. Louis" },
           { name: "U.S. Bureau of Labor Statistics" },
+          { name: "U.S. Bureau of Economic Analysis" },
           { name: "U.S. Energy Information Administration", url: "https://www.eia.gov/" },
           { name: "U.S. Census Bureau" },
           { name: "U.S. Office of Management and Budget" },
