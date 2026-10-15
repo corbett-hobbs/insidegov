@@ -3,7 +3,7 @@ import type { TermSegment } from "../components/charts/TermBandSvg";
 import { fmtShare } from "./chart-bars";
 import type { YearRange } from "./year-range";
 import { initialsOf } from "./term-label";
-import type { DemoCongress, DemoPresident } from "./demographics-types";
+import type { AgeStat, CaucusGroup, DemoCongress, DemoPresident } from "./demographics-types";
 
 /** The years-shown slider runs 1933 to 2026, the last calendar year of the 119th Congress (it ends Jan 3, 2027). */
 export const SLIDER_BOUNDS: YearRange = [1933, 2026];
@@ -56,11 +56,29 @@ export const congressSpan = (r: DemoCongress) => `${ordinal(r.congress)} Congres
 export const fmtAge = (v: number | null) => (v === null ? "n/a" : v.toFixed(1));
 export const pct = (n: number, d: number) => fmtShare(d ? n / d : 0);
 
-export type AgeMeasure = "median" | "average";
 export type WomenMeasure = "share" | "count" | "party";
 
 /** The latest row at or before the pin (or the last row shown): what the readout above a chart prints. */
 export function readoutRow(rows: readonly DemoCongress[], pin: number | null): DemoCongress | null {
   if (rows.length === 0) return null;
   return rows.find((r) => r.congress === pin) ?? rows[rows.length - 1];
+}
+
+/** The page's party pick: one caucus, or null for everyone. Set by the pinned bar's dropdown and by every legend. */
+export type PartyPick = CaucusGroup | null;
+
+export const PARTY_NAME: Record<CaucusGroup, string> = { D: "Democrats", R: "Republicans", O: "Other parties" };
+
+/** One Congress's figures for everyone (`party` null) or for one caucus: what the strip, the tenure bars and the readouts read. */
+export interface PartySlice {
+  seats: number;
+  women: number;
+  tenure: [number, number, number, number];
+  servedSum: number;
+  age: AgeStat;
+}
+
+export function sliceOf(r: DemoCongress, party: PartyPick): PartySlice {
+  if (party === null) return { seats: r.seats, women: r.women.D + r.women.R + r.women.O, tenure: r.tenure, servedSum: r.servedSum, age: r.ageAll };
+  return { seats: r.seatsBy[party], women: r.women[party], tenure: r.tenureBy[party], servedSum: r.servedBy[party], age: r.age[party] };
 }

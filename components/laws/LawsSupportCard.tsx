@@ -74,7 +74,6 @@ export function LawsSupportCard() {
 
   return (
     <ChartCard
-      tight
       title="How broadly are laws supported?"
       lede={lede}
       action={

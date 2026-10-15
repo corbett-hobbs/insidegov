@@ -12,7 +12,7 @@ import { PinReadout, type PinLine } from "./PinReadout";
 export function ToggleReadout({ toggle, line, pinned, onClear, hint }: { toggle: ReactNode; line: PinLine | null; pinned: boolean; onClear: () => void; hint?: string }) {
   return (
     <>
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         {/* Tighter pills on phones so the value fits beside them (the date wraps under it instead of widening it). */}
         <div className="[&_button]:px-1.5 [&_button]:text-[0.74rem] sm:[&_button]:px-[0.85rem] sm:[&_button]:text-[0.8rem]">{toggle}</div>
         <div className="min-w-[7.5rem] flex-1 text-right" aria-live="off">

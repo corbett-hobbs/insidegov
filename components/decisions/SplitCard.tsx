@@ -50,7 +50,6 @@ export function SplitCard() {
 
   return (
     <ChartCard
-      tight
       title="How divided is the Court?"
       lede={lede}
       action={

@@ -19,7 +19,7 @@ export interface PinLine {
 
 export function PinReadout({ line, pinned, onClear, hint = "Tap or drag the chart to pin a month." }: { line: PinLine | null; pinned: boolean; onClear: () => void; hint?: string }) {
   return (
-    <div className="mt-3 sm:hidden">
+    <div className="mt-2 sm:hidden">
       {line && (
         <div aria-live="off">
           <p className="m-0 text-[0.82rem] font-medium leading-snug tabular-nums text-ink">{line.values.join(" · ")}{line.suffix ? ` ${line.suffix}` : ""}</p>

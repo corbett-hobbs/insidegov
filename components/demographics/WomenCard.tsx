@@ -8,10 +8,12 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { CaucusLines, type CaucusLine } from "./CaucusLines";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { fmtShare } from "@/lib/chart-bars";
+import type { ChamberView } from "@/lib/chamber";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
-import { congressSpan, presidentById, readoutRow, termSegmentsFor, type WomenMeasure } from "@/lib/demographics-chart";
+import { PARTY_NAME, congressSpan, presidentById, readoutRow, termSegmentsFor, type PartyPick, type WomenMeasure } from "@/lib/demographics-chart";
 import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
+import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
 
 interface Col extends StackColumn {
@@ -63,21 +65,12 @@ const partyShare = (r: DemoCongress, k: string) => {
 
 const womenTotal = (r: DemoCongress) => r.women.D + r.women.R + r.women.O;
 
-export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly DemoCongress[]; presidents: readonly DemoPresident[]; pin: number | null; onPin: (c: number | null) => void }) {
-  const [mode, setModeRaw] = useState<WomenMeasure>("count");
-  const [hl, setHl] = useState<string | null>(null);
-  // Picking a series draws it alone, from zero, as a count; going back to Share clears the pick (rule 12c).
-  const setMode = (m: WomenMeasure) => {
-    setModeRaw(m);
-    if (m !== "count") setHl(null);
-  };
-  const pick = (id: string) => {
-    setHl((cur) => (cur === id ? null : id));
-    setModeRaw("count");
-  };
+export function WomenCard({ rows, presidents, pin, onPin, view, roster, party, onParty }: { rows: readonly DemoCongress[]; presidents: readonly DemoPresident[]; pin: number | null; onPin: (c: number | null) => void; view: ChamberView; roster: RosterState; party: PartyPick; onParty: (p: PartyPick) => void }) {
+  const [mode, setMode] = useState<WomenMeasure>("count");
   const by = presidentById(presidents);
   // "Other" is drawn (and listed) only when someone in the years shown is neither a Democrat nor a Republican.
-  const series = useMemo(() => (rows.some((r) => r.seatsBy.O > 0) ? SERIES : SERIES.filter((s) => s.k !== "O")), [rows]);
+  // The party picked (bar dropdown or any legend) narrows every series, line and list to that caucus.
+  const series = useMemo(() => (rows.some((r) => r.seatsBy.O > 0) ? SERIES : SERIES.filter((s) => s.k !== "O")).filter((s) => !party || s.k === party), [rows, party]);
   // Count: the women alone. Share: every member, women then men, so each bar adds to 100%.
   const countSeries = useMemo(() => series.filter((s) => !s.men), [series]);
   const shown = mode === "share" ? series : countSeries;
@@ -95,18 +88,25 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
         return {
           key: String(r.congress),
           label: String(r.year),
-          total: mode === "share" ? r.seats : womenTotal(r),
+          total: mode === "share" ? (party ? r.seatsBy[party] : r.seats) : party ? r.women[party] : womenTotal(r),
           values,
           row: r,
         };
       }),
-    [rows, mode],
+    [rows, mode, party],
   );
   const segs = useMemo(() => termSegmentsFor(rows, presidents), [rows, presidents]);
   const cur = readoutRow(rows, pin);
   const overall = cur ? fmtShare(womenTotal(cur) / (cur.seats || 1)) : "";
   // Per party: each party's own share beside its count, the overall share once on the date line. Otherwise the overall share closes the line.
-  const line = cur && {
+  // With one party picked the line is that party's alone, against its own members.
+  const line = cur && party && {
+    values: [`${PARTY_NAME[party]} ${cur.women[party]}`],
+    suffix: `(${fmtShare(partyShare(cur, party) ?? 0)} of ${cur.seatsBy[party]} members)`,
+    date: congressSpan(cur),
+    term: by.get(cur.termId)?.president,
+  };
+  const lineAll = cur && {
     values:
       mode === "party"
         ? [`Dem. ${cur.women.D} (${fmtShare(partyShare(cur, "D") ?? 0)})`, `Rep. ${cur.women.R} (${fmtShare(partyShare(cur, "R") ?? 0)})`, ...(cur.women.O ? [`Other ${cur.women.O}`] : [])]
@@ -132,19 +132,21 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
         />
       }
     >
-      <CongressReadout line={line} pinned={pin !== null && !!cur && cur.congress === pin} onClear={() => onPin(null)} />
+      <CongressReadout line={line ?? lineAll} pinned={pin !== null && !!cur && cur.congress === pin} onClear={() => onPin(null)} />
       {mode === "party" ? (
         <CaucusLines
           rows={rows}
           presidents={presidents}
           pin={pin}
           onPin={onPin}
-          lines={PARTY_LINES}
+          lines={party === "O" ? [...PARTY_LINES, { k: "O", label: "Other parties", color: "var(--oth)" }] : PARTY_LINES}
           value={partyShare}
           fmt={(v) => fmtShare(v ?? 0)}
           fmtAxis={(v) => `${Math.round(v * 100)}%`}
           domain={(_, hi) => [0, hi * 1.1]}
           detail={(r, k) => `· ${k === "ALL" ? womenTotal(r) : r.women[k as Caucus]} of ${k === "ALL" ? r.seats : r.seatsBy[k as Caucus]}`}
+          only={party}
+          onOnly={(k) => onParty(k === "ALL" ? null : (k as PartyPick))}
           ariaLabel="Line chart of women as a share of each caucus's members and of all members, one point per Congress"
         />
       ) : (
@@ -153,7 +155,7 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
             columns={cols}
             series={shown}
             mode={mode}
-            highlight={hl}
+            highlight={null}
             selectedKey={pin === null ? null : String(pin)}
             onSelect={(k) => onPin(k === null ? null : Number(k))}
             selectedStyle="line"
@@ -161,14 +163,14 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
             terms={segs}
             ariaLabel="Stacked bar chart of women in Congress by caucus, one bar per Congress"
             renderTooltip={(c) => (
-              <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president ? `${by.get(c.row.termId)?.president} was president for most of it` : undefined}>
+              <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president}>
                 <div>
-                  Women: {womenTotal(c.row)} of {c.row.seats} members ({fmtShare(womenTotal(c.row) / (c.row.seats || 1))})
+                  {party ? `${PARTY_NAME[party]} women` : "Women"}: {party ? c.row.women[party] : womenTotal(c.row)} of {party ? c.row.seatsBy[party] : c.row.seats} members ({fmtShare((party ? c.row.women[party] : womenTotal(c.row)) / ((party ? c.row.seatsBy[party] : c.row.seats) || 1))})
                 </div>
                 {shown.map((s) => (
                   <div key={s.id}>
                     <Swatch color={s.fill} /> {s.label}: {c.values[s.id]}
-                    {mode === "share" ? ` (${fmtShare(c.values[s.id] / (c.row.seats || 1))})` : ""}
+                    {mode === "share" ? ` (${fmtShare(c.values[s.id] / ((party ? c.row.seatsBy[party] : c.row.seats) || 1))})` : ""}
                   </div>
                 ))}
               </TooltipCard>
@@ -182,7 +184,7 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
                   {s.label}
                 </span>
               ) : (
-                <LegendToggle key={s.id} active={hl === s.id} dimmed={hl !== null && hl !== s.id} onClick={() => pick(s.id)}>
+                <LegendToggle key={s.id} active={party === s.k} dimmed={party !== null && party !== s.k} onClick={() => onParty(party === s.k ? null : s.k)}>
                   <span className={LEGEND_ITEM}>
                     <Swatch color={s.fill} />
                     {s.label}
@@ -193,6 +195,7 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
           </div>
         </>
       )}
+      <MemberList {...roster} row={cur} rows={rows} view={view} order="tenure" women party={party} onPin={onPin} />
       <ChartNotesRow>
         <MethodologyNote>
           <p>A Congress has more members than the chambers have seats because replacements are counted. The source records gender as male or female only.</p>

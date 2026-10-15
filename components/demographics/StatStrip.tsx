@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useState } from "react";
 import { fmtShare } from "@/lib/chart-bars";
-import { fmtAge, ordinal } from "@/lib/demographics-chart";
+import { PARTY_NAME, fmtAge, ordinal, sliceOf, type PartyPick } from "@/lib/demographics-chart";
 import type { DemoCongress } from "@/lib/demographics-types";
 
 /** Height of the pinned filter bar, so the strip can stick just under it on phones. */
@@ -21,22 +21,24 @@ function usePinnedBarHeight(): number {
 }
 
 /**
- * Three headline numbers for one Congress in the chosen chamber view: the pinned one, else the latest. Every value comes
+ * Three headline numbers for one Congress in the chosen chamber view (and party, when one is picked): the pinned one, else the latest in the years shown. Every value comes
  * from the payload. The tiles share one row (phones drop the detail line) and the strip sticks under the pinned
  * filter bar once scrolled past, so the pinned Congress's numbers stay in view while you use the charts; the same on desktop, where the detail lines stay.
  */
-export function StatStrip({ row }: { row: DemoCongress }) {
+export function StatStrip({ row, party }: { row: DemoCongress; party: PartyPick }) {
   const barH = usePinnedBarHeight();
-  const women = row.women.D + row.women.R + row.women.O;
+  const s = sliceOf(row, party);
+  const of = party ? `${PARTY_NAME[party]}: ` : "";
   const tiles = [
-    { label: "Median age", short: "Median age", value: fmtAge(row.ageAll.median), sub: `Democrats ${fmtAge(row.age.D.median)} · Republicans ${fmtAge(row.age.R.median)}` },
-    { label: "Women", short: "Women", value: fmtShare(women / (row.seats || 1)), sub: `${women} of ${row.seats} members` },
-    { label: "Average time in Congress", short: "Avg. time", value: `${Math.round((row.servedSum / (row.seats || 1)) * 2)} years`, sub: `${fmtShare(row.tenure[0] / (row.seats || 1))} have served up to 2 years` },
+    { label: "Median age", short: "Median age", value: fmtAge(s.age.median), sub: party ? `${PARTY_NAME[party]} · all members ${fmtAge(row.ageAll.median)}` : `Democrats ${fmtAge(row.age.D.median)} · Republicans ${fmtAge(row.age.R.median)}` },
+    { label: "Women", short: "Women", value: s.seats ? fmtShare(s.women / s.seats) : "n/a", sub: `${of}${s.women} of ${s.seats} members` },
+    { label: "Average time in Congress", short: "Avg. time", value: s.seats ? `${Math.round((s.servedSum / s.seats) * 2)} years` : "n/a", sub: s.seats ? `${fmtShare(s.tenure[3] / s.seats)} have served over 20 years` : "no members" },
   ];
   return (
     <div style={{ top: barH }} className="sticky z-30 -mx-4 border-b border-line bg-bg px-4 pb-2 pt-1.5 sm:-mx-6 sm:px-6 sm:pb-3 sm:pt-2">
       <p className="m-0 mb-1.5 text-[0.75rem] text-ink-muted sm:mb-2 sm:text-[0.8rem]">
         {ordinal(row.congress)} Congress, {row.year}–{row.year + 1}
+        {party && ` · ${PARTY_NAME[party]}`}
       </p>
       <dl className="m-0 grid grid-cols-3 gap-2 sm:gap-3">
         {tiles.map((t) => (

@@ -84,6 +84,11 @@ export function hasFormerMemberPhoto(bioguideId: string): boolean {
   return formerPhotoCache!.has(bioguideId);
 }
 
+/** True when a member, current or former, has a committed photo. */
+export function memberHasPhoto(bioguideId: string): boolean {
+  return photoBioguides().has(bioguideId) || formerPhotoCache!.has(bioguideId);
+}
+
 let leaderCache: Map<string, { chamber: Chamber; role: NonNullable<ChamberMember["leaderRole"]> }[]> | null = null;
 /** Current Speaker / floor leaders by bioguide id, from `pipeline/output/leadership.json` (empty before the transform has run). */
 function leadersByBioguide() {

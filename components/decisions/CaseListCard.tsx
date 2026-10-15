@@ -70,7 +70,6 @@ export function CaseListCard() {
 
   return (
     <ChartCard
-      tight
       title="Every case"
       action={
         <input

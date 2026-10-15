@@ -84,7 +84,6 @@ export function LawsListCard() {
 
   return (
     <ChartCard
-      tight
       title="Every law"
       action={
         <input
