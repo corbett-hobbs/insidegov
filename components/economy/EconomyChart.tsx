@@ -22,6 +22,7 @@ import type { EconomyData } from "@/lib/indicator-payload";
 import { recessionLabel } from "@/lib/indicator-payload";
 import { dateOfDay, dayOf, fmtMonthIndex, monthIndexOfDay, quarterIndexOfDay } from "@/lib/indicator-time";
 import { termYearRange } from "@/lib/year-range";
+import { timeAxisTicks } from "@/lib/time-axis-ticks";
 import { termBandText, type EconomyTerm } from "@/lib/economy-presidents";
 import { dayFromFraction, readAll, type Reading } from "@/lib/indicator-lookup";
 import { activeDay, useEconomyActions, useEconomyValues } from "./EconomyState";
@@ -111,11 +112,8 @@ const StaticLayer = memo(function StaticLayer({ data, spec, hero = false, showCo
     .y((p) => Y(p.value as number));
   const clipped = (a: number, b: number): [number, number] => [X(Math.max(vs, a)), X(Math.min(ve, b))];
   const visibleSpan = (a: number, b: number) => b > vs && a < ve;
-  // Label spacing follows the zoom: every year when zoomed in, every 5 or 10 at full width.
-  const yearsShown = (ve - vs) / 365.25;
-  const yearStep = [1, 2, 5, 10].find((s) => (pw / yearsShown) * s >= 42 && !(s === 2 && yearsShown > 20)) ?? 10;
-  const years: number[] = [];
-  for (let y = dateOfDay(vs).year; dayOf(y, 0, 1) < ve; y++) if (y % yearStep === 0 && dayOf(y, 0, 1) >= vs) years.push(y);
+  // Label spacing follows the zoom: months when zoomed far in, then every year, every 5 or 10 at full width.
+  const ticks = timeAxisTicks(vs, ve, pw);
 
 
   return (
@@ -238,10 +236,10 @@ const StaticLayer = memo(function StaticLayer({ data, spec, hero = false, showCo
             {vs === 0 && X(dayOf(1995, 0, 1)) - ml >= 40 && (
               <text x={ml} y={axisY + 14} textAnchor="start" className="fill-ink-muted font-mono text-[11px]">1991</text>
             )}
-            {years.map((y) => (
-              <g key={y}>
-                <line x1={X(dayOf(y, 0, 1))} x2={X(dayOf(y, 0, 1))} y1={axisY} y2={axisY + 4} stroke="var(--line-strong)" />
-                <text x={X(dayOf(y, 0, 1))} y={axisY + 14} textAnchor="middle" className="fill-ink-muted font-mono text-[11px]">{y}</text>
+            {ticks.map((t) => (
+              <g key={t.day}>
+                <line x1={X(t.day)} x2={X(t.day)} y1={axisY} y2={axisY + 4} stroke="var(--line-strong)" />
+                <text x={X(t.day)} y={axisY + 14} textAnchor="middle" className={`font-mono text-[11px] ${t.major ? "fill-ink" : "fill-ink-muted"}`}>{t.label}</text>
               </g>
             ))}
 
