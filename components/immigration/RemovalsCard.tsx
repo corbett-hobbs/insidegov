@@ -16,8 +16,8 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
   const iceYears = data.years.length;
   return (
     <ChartCard
-      title="Removals and detention by fiscal year"
-      lede="People removed from the country each fiscal year: ICE’s own headline figure from FY2003, split by which agency first apprehended the person, and the Immigration and Naturalization Service’s count before March 2003, as DHS republishes it. The line is the average number of people in ICE detention on a given day. FY2025 is preliminary: it comes from ICE’s FY2027 budget overview, not a locked statistics release."
+      title="Removals, returns and detention by fiscal year"
+      lede="People removed or returned from the country each fiscal year. A removal follows a formal removal order; a return is leaving without one, after an enforcement encounter. The bars are ICE’s count from FY2003, when it was created, and the Immigration and Naturalization Service’s (INS) before that. Before FY2007 only removals are counted. From FY2008, ICE splits its count by where the person was first stopped: inside the country or at the border. The line is the average number of people in ICE detention on a given day. FY2025 is preliminary: it comes from ICE’s FY2027 budget overview, not a locked statistics release."
     >
       <RemovalsLegend />
       <RemovalsChart
@@ -36,7 +36,7 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Before March 2003 the Immigration and Naturalization Service did the removing; ICE took over. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are DHS&rsquo;s republished INS-era counts (Yearbook Table 39, {data.history.edition} edition, rounded to tens, removals only): continuity of records, not necessarily the same counting rules. From FY{data.firstFy} the bars are ICE&rsquo;s own figures, which differ from DHS&rsquo;s for the same years. Colors show who first apprehended the person; the Border Patrol part is still ICE&rsquo;s count. ICE prints that split for FY2008&ndash;FY2024 and counts returns from FY2007. CBP&rsquo;s counts are in the card above. {data.finalCount} of {iceYears} ICE years are final.
+            The Immigration and Naturalization Service did removals until ICE took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (Yearbook Table 39, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are ICE&rsquo;s own figures, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns, people who leave without a removal order. For FY2008&ndash;FY2024 ICE splits its count by where the person was first stopped (its &ldquo;arresting agency&rdquo;). {data.finalCount} of {iceYears} ICE years are final.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">
@@ -45,13 +45,13 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
           </summary>
           <div className="mt-2 overflow-x-auto">
             <table className="w-full min-w-[46rem] border-collapse text-left">
-              <caption className="sr-only">Removals by fiscal year (INS era from DHS statistics, then ICE), by arresting agency, with average daily detention population</caption>
+              <caption className="sr-only">Removals (and, from FY2007, returns) by fiscal year (INS era from DHS statistics, then ICE), by where the person was first stopped, with average daily detention population</caption>
               <thead>
                 <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
                   <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
                   <th className="py-1.5 pr-3 text-right font-medium">Removals</th>
-                  <th className="py-1.5 pr-3 text-right font-medium">ICE-arrested</th>
-                  <th className="py-1.5 pr-3 text-right font-medium">Border Patrol-arrested</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">After interior stop</th>
+                  <th className="py-1.5 pr-3 text-right font-medium">After border stop</th>
                   <th className="py-1.5 pr-3 text-right font-medium">Avg. detained per day</th>
                   <th className="py-1.5 pr-3 font-medium">Status</th>
                   <th className="py-1.5 pr-3 font-medium">Administration</th>
@@ -98,24 +98,23 @@ function RemovalsLegend() {
   const swatch = (color: string) => <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: color }} />;
   return (
     <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
-      <span className={LEGEND_ITEM}>{swatch("var(--agency-ice)")}Interior arrests (ICE)</span>
-      <span className={LEGEND_ITEM}>{swatch("var(--agency-cbp)")}Border arrests (Border Patrol)</span>
-      <span className={LEGEND_ITEM}>{swatch("var(--oth)")}No split by agency on file</span>
+      <span className={LEGEND_ITEM}>{swatch("var(--agency-ice)")}After interior stop</span>
+      <span className={LEGEND_ITEM}>{swatch("var(--agency-cbp)")}After border stop</span>
       <span className={LEGEND_ITEM}>
         <i
           aria-hidden
           className="inline-block h-2.5 w-2.5 rounded-sm border border-[var(--oth)]"
-          style={{ background: "repeating-linear-gradient(45deg, var(--oth) 0 1.5px, color-mix(in srgb, var(--oth) 22%, var(--surface)) 1.5px 4px)" }}
+          style={{ background: "linear-gradient(135deg, color-mix(in srgb, var(--oth) 32%, var(--surface)) 50%, var(--oth) 50%)" }}
         />
-        Removals only: INS era (DHS statistics) to FY2002, ICE to FY2006
+        No split on file
       </span>
       <span className={LEGEND_ITEM}>
         <i aria-hidden className="inline-block h-0 w-[18px] border-t-[2.4px] border-ink" />
         Average people detained per day (from FY2018)
       </span>
       <span className={LEGEND_ITEM}>
-        <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-ink" />
-        Preliminary
+        <i aria-hidden className="inline-block h-[10px] w-3 rounded-[1px] border border-line-strong" style={{ background: "repeating-linear-gradient(45deg, var(--ink-muted) 0 2px, transparent 2px 5px)" }} />
+        Preliminary, may be revised
       </span>
       <span className={LEGEND_ITEM}>
         <i aria-hidden className="inline-block h-2.5 w-3.5 rounded-full bg-ink" />

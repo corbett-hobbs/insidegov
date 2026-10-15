@@ -2,7 +2,7 @@
 
 import { Y_GUTTER } from "@/lib/chart-bars";
 import { scaleLinear } from "d3-scale";
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import { Axis } from "@/components/charts/Axis";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { TERM_BAND_H, TermBandSvg, termSegments } from "@/components/charts/TermBandSvg";
@@ -32,7 +32,7 @@ export const CRIM_COLOR: Record<Criminality, string> = {
   pending_charges: "var(--crim-pending)",
   other_immigration_violator: "var(--crim-none)",
   not_convicted: "var(--crim-notconvicted)",
-  // FY2025's combined figure is mostly convictions and sits on the "convicted" colour; it is dashed (preliminary) and named in the legend.
+  // FY2025's combined figure is mostly convictions and sits on the "convicted" colour; it is hatched (preliminary) and named in the legend.
   convicted_or_pending: "var(--crim-convicted)",
 };
 
@@ -77,6 +77,7 @@ export function CriminalHistoryChart({
   onSelectFy?: (fy: number) => void;
 }) {
   const [ref, measured] = useElementWidth<HTMLDivElement>();
+  const idBase = useId().replace(/:/g, "");
   const W = measured || FALLBACK_W;
   const left = Y_GUTTER;
   const right = 8;
@@ -127,6 +128,11 @@ export function CriminalHistoryChart({
         >
           {() => (
             <>
+              <defs>
+                <pattern id={`${idBase}-hatch`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <line x1="0" y1="0" x2="0" y2="6" strokeWidth="2.6" style={{ stroke: "var(--surface)" }} />
+                </pattern>
+              </defs>
               <Axis
                 scale={y}
                 orientation="left"
@@ -157,9 +163,9 @@ export function CriminalHistoryChart({
                         const y0 = y(acc + heightOf(b, p.value));
                         const h = y(acc) - y0;
                         acc += heightOf(b, p.value);
-                        return <rect key={p.key} x={bx} y={y0} width={barW} height={Math.max(0, h)} style={{ fill: CRIM_COLOR[p.key], fillOpacity: prelim ? 0.55 : 1 }} />;
+                        return <rect key={p.key} x={bx} y={y0} width={barW} height={Math.max(0, h)} style={{ fill: CRIM_COLOR[p.key] }} />;
                       })}
-                    {b && prelim && <rect x={bx} y={top} width={barW} height={BASE - top} style={{ fill: "none", stroke: "var(--ink)", strokeWidth: 1.2, strokeDasharray: "4 3" }} />}
+                    {b && prelim && <rect x={bx} y={top} width={barW} height={BASE - top} fill={`url(#${idBase}-hatch)`} />}
                     {b && partial && (
                       <>
                         <rect x={bx} y={ghostTop} width={barW} height={Math.max(0, top - ghostTop)} style={{ fill: "var(--ink)", fillOpacity: 0.04, stroke: "var(--ink-faint)", strokeWidth: 1, strokeDasharray: "3 3" }} />

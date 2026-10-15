@@ -62,17 +62,17 @@ export function BarCard({
         <div className="mt-1.5 grid grid-cols-[1fr_auto] gap-x-3 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
           <span className="inline-flex items-center gap-1.5">
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--agency-ice)" }} />
-            Interior arrests (ICE)
+            After interior stop
           </span>
           <b className="font-mono font-medium text-ink">{`${year.agency.ice.toLocaleString("en-US")} · ${pct(year.agency.ice, year.value)}`}</b>
           <span className="inline-flex items-center gap-1.5">
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "var(--agency-cbp)" }} />
-            Border arrests (Border Patrol)
+            After border stop
           </span>
           <b className="font-mono font-medium text-ink">{`${year.agency.cbp.toLocaleString("en-US")} · ${pct(year.agency.cbp, year.value)}`}</b>
         </div>
       ) : (
-        <div className="mt-1.5 border-t border-line pt-1.5 text-[0.78rem] leading-[1.5] text-ink-muted">{year.era === "ins" ? "No split by arresting agency on file for the INS era." : "ICE prints no split by arresting agency for this year."}</div>
+        <div className="mt-1.5 border-t border-line pt-1.5 text-[0.78rem] leading-[1.5] text-ink-muted">{year.era === "ins" ? "No split by where the person was stopped on file for the INS era." : "ICE prints no split by where the person was stopped for this year."}</div>
       )}
       {year.detention && (
         <div className="mt-1.5 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
@@ -82,7 +82,7 @@ export function BarCard({
           </div>
           {year.detention.ice !== null && year.detention.cbp !== null && (
             <div className="text-[0.74rem]">
-              {`${year.detention.ice.toLocaleString("en-US")} first arrested by ICE · ${year.detention.cbp.toLocaleString("en-US")} by Border Patrol`}
+              {`${year.detention.ice.toLocaleString("en-US")} first stopped inside the country · ${year.detention.cbp.toLocaleString("en-US")} at the border`}
             </div>
           )}
           {year.detention.status === "preliminary" && <div className="text-[0.74rem]">Detention figure is preliminary.</div>}
@@ -115,8 +115,8 @@ export function YearTip({ year, terms }: { year: IceYear; terms: ReadonlyMap<str
       value={year.value.toLocaleString("en-US")}
       sub={`${who}${year.era === "ins" ? " · INS era, DHS statistics" : year.status === "final" ? "" : " · Preliminary"}`}
       rows={year.agency ? [
-        { key: "ice", label: "ICE arrests", value: year.agency.ice.toLocaleString("en-US"), color: "var(--agency-ice)" },
-        { key: "cbp", label: "Border Patrol", value: year.agency.cbp.toLocaleString("en-US"), color: "var(--agency-cbp)" },
+        { key: "ice", label: "After interior stop", value: year.agency.ice.toLocaleString("en-US"), color: "var(--agency-ice)" },
+        { key: "cbp", label: "After border stop", value: year.agency.cbp.toLocaleString("en-US"), color: "var(--agency-cbp)" },
       ] : []}
       extra={year.detention ? [{ key: "det", label: "Detained daily", value: year.detention.value.toLocaleString("en-US") }] : []}
     />
