@@ -10,7 +10,7 @@ export function CongressReadout({ line, pinned, onClear }: { line: PinLine | nul
     <>
       {line && (
         <div className="mb-2 hidden sm:block" aria-live="off">
-          <p className="m-0 text-[0.85rem] font-medium tabular-nums text-ink">{line.values.join(" · ")}</p>
+          <p className="m-0 text-[0.85rem] font-medium tabular-nums text-ink">{line.values.join(" · ")}{line.suffix ? ` ${line.suffix}` : ""}</p>
           <p className="m-0 text-[0.78rem] text-ink-muted">
             {line.date}
             {line.term ? ` · ${line.term}` : ""}

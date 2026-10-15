@@ -8,6 +8,10 @@
 export interface PinLine {
   /** Values shown together on one line, divided by " · ", e.g. "Produced 21.7M b/d". */
   values: string[];
+  /** The bold value `ToggleReadout` shows beside a toggle (cards without a toggle use `values`). */
+  headline?: string;
+  /** Printed after the values on the same line, e.g. "(23% of members)". */
+  suffix?: string;
   /** The month (and any "preliminary" note), then the president's term on the same last line. */
   date: string;
   term?: string;
@@ -18,7 +22,7 @@ export function PinReadout({ line, pinned, onClear, hint = "Tap or drag the char
     <div className="mt-3 sm:hidden">
       {line && (
         <div aria-live="off">
-          <p className="m-0 text-[0.82rem] font-medium leading-snug tabular-nums text-ink">{line.values.join(" · ")}</p>
+          <p className="m-0 text-[0.82rem] font-medium leading-snug tabular-nums text-ink">{line.values.join(" · ")}{line.suffix ? ` ${line.suffix}` : ""}</p>
           <p className="m-0 mt-0.5 text-[0.78rem] leading-snug text-ink-muted">
             {line.date}
             {line.term ? ` · ${line.term}` : ""}

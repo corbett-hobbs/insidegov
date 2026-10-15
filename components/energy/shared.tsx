@@ -2,6 +2,7 @@
 
 import { memo, type ReactNode } from "react";
 import { PinReadout, type PinLine } from "@/components/charts/PinReadout";
+import { ToggleReadout } from "@/components/charts/ToggleReadout";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
@@ -86,9 +87,10 @@ export function Legend({ children }: { children: ReactNode }) {
 }
 
 /** The phone readout line wired to `EnergyState`. */
-export function Readout({ line }: { line: PinLine | null }) {
+export function Readout({ line, toggle }: { line: PinLine | null; toggle?: ReactNode }) {
   const { pin } = useEnergyValues();
   const { clearPin } = useEnergyActions();
+  if (toggle) return <ToggleReadout toggle={toggle} line={line} pinned={pin !== null} onClear={clearPin} />;
   return <PinReadout line={line} pinned={pin !== null} onClear={clearPin} />;
 }
 
@@ -98,6 +100,7 @@ export function EnergyCardShell({
   title,
   desc,
   readout,
+  toggle,
   chart,
   notes,
   tables,
@@ -107,6 +110,8 @@ export function EnergyCardShell({
   title: string;
   desc: ReactNode;
   readout: PinLine | null;
+  /** The card's measure toggle, if any: it takes the readout row, with the value to its right. */
+  toggle?: ReactNode;
   chart: ReactNode;
   notes: ReactNode;
   tables: ReactNode;
@@ -116,7 +121,7 @@ export function EnergyCardShell({
     <section id={id} aria-labelledby={`${id}-title`} className={`min-w-0 scroll-mt-24 rounded-[10px] border border-line bg-surface ${small ? "p-[1.1rem_1.1rem_0.9rem] sm:p-5" : "p-5 sm:p-6"}`}>
       <h2 id={`${id}-title`} className={`m-0 font-serif font-medium leading-tight ${small ? "text-[1.3rem]" : "text-[1.6rem]"}`}>{title}</h2>
       <p className={`m-0 mt-2 leading-[1.5] text-ink-muted ${small ? "text-[0.8rem]" : "text-[0.875rem]"}`}>{desc}</p>
-      <Readout line={readout} />
+      <Readout line={readout} toggle={toggle} />
       <div className="mt-3.5">{chart}</div>
       <ChartNotesRow>
         <MethodologyNote>{notes}</MethodologyNote>

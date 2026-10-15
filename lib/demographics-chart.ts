@@ -57,7 +57,7 @@ export const fmtAge = (v: number | null) => (v === null ? "n/a" : v.toFixed(1));
 export const pct = (n: number, d: number) => fmtShare(d ? n / d : 0);
 
 export type AgeMeasure = "median" | "average";
-export type WomenMeasure = "share" | "count";
+export type WomenMeasure = "share" | "count" | "party";
 
 /** The latest row at or before the pin (or the last row shown): what the readout above a chart prints. */
 export function readoutRow(rows: readonly DemoCongress[], pin: number | null): DemoCongress | null {

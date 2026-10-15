@@ -18,7 +18,7 @@ import {
 import { balance } from "@/lib/trade-derive";
 import { MONTH_NAMES } from "@/lib/indicator-time";
 import { TradeBalanceChart, type Era } from "./TradeBalanceChart";
-import { MobileReadout } from "./MobileReadout";
+import { ToggleReadout } from "@/components/charts/ToggleReadout";
 import { activeDay, useTradeActions, useTradeValues } from "./TradeState";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
@@ -104,22 +104,18 @@ export function TradeBalanceCard({
   error: boolean;
 }) {
   const { measure, showCong } = useTradeValues();
-  const { setMeasure } = useTradeActions();
+  const { setMeasure, clearPin } = useTradeActions();
   const v = useTradeValues();
   const day = activeDay(v);
   const scale = useMemo(() => (series ? scaleFor(series, measure) : { lo: 0, hi: 1, ticks: [0, 1] }), [series, measure]);
   const last = series ? lastIndexWithData(series) : -1;
   const reading = series ? readingAtDay(series, day ?? (last >= 0 ? monthStartDay(last) : -1)) : null;
   const title = countryName ? `The goods trade balance with ${countryName}` : "The goods trade balance";
-  const headline = reading
-    ? measure === "balance"
-      ? reading.balance === null ? "—" : fmtMoney(reading.balance, { signed: true })
-      : reading.exports === null || reading.imports === null ? "—" : `${fmtMoney(reading.exports)} / ${fmtMoney(reading.imports)}`
-    : "—";
   const pres = reading ? termAtDay(era.terms, monthStartDay(reading.month)) : undefined;
   const mobileLine = reading
     ? {
         values: measure === "balance" ? [`Balance ${reading.balance === null ? "\u2014" : fmtMoney(reading.balance, { signed: true })}`] : [`Exports ${reading.exports === null ? "\u2014" : fmtMoney(reading.exports)}`, `Imports ${reading.imports === null ? "\u2014" : fmtMoney(reading.imports)}`],
+        headline: measure === "balance" ? (reading.balance === null ? "—" : fmtMoney(reading.balance, { signed: true })) : reading.exports === null || reading.imports === null ? "—" : `${fmtMoney(reading.exports)} / ${fmtMoney(reading.imports)}`,
         date: reading.label,
         term: pres ? termLabel(pres) : undefined,
       }
@@ -135,16 +131,13 @@ export function TradeBalanceCard({
           ? `Exports minus imports of goods with ${countryName}, month by month, under each president. Recessions are shaded.`
           : "Exports minus imports of goods, month by month, under each president. Recessions are shaded."}
       </p>
-      {/* The measure toggle and the headline number share one line under the subhead. */}
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-        <PillGroup options={MEASURES} value={measure} onChange={(m) => setMeasure(m as Measure)} ariaLabel="Measure" />
-        <div className="min-w-0 text-right">
-          <div className="whitespace-nowrap font-mono text-[1.25rem] font-medium leading-tight text-ink sm:text-[1.6rem]">{headline}</div>
-          <div className="mt-0.5 text-[0.75rem] text-ink-muted">{reading ? reading.label : ""}</div>
-        </div>
-      </div>
-
-      {series && <MobileReadout line={mobileLine} />}
+      {/* The measure toggle with the headline number to its right; the small readout line is not repeated. */}
+      <ToggleReadout
+        toggle={<PillGroup options={MEASURES} value={measure} onChange={(m) => setMeasure(m as Measure)} ariaLabel="Measure" />}
+        line={mobileLine}
+        pinned={v.pin !== null}
+        onClear={clearPin}
+      />
       <div className="mt-3.5">
         {series ? (
           <TradeBalanceChart series={series} measure={measure} scale={scale} era={era} showCong={showCong} view={view} ariaLabel={aria} />

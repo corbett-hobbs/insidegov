@@ -11,6 +11,7 @@ const row = (congress: number, termId: string): DemoCongress => ({
   age: { D: { median: null, average: null, n: 0 }, R: { median: null, average: null, n: 0 } },
   ageAll: { median: null, average: null, n: 0 },
   ageMissing: 0,
+  seatsBy: { D: 0, R: 0, O: 0 },
   women: { D: 0, R: 0, O: 0 },
   tenure: [1, 0, 0, 0],
   servedSum: 1,
