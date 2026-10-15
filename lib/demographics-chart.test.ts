@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bandTerms, ordinal, SLIDER_BOUNDS, termSegmentsFor, windowRows } from "./demographics-chart";
+import { bandTerms, ordinal, SLIDER_BOUNDS, sliceOf, termSegmentsFor, windowRows } from "./demographics-chart";
 import type { DemoCongress, DemoPresident } from "./demographics-types";
 
 const row = (congress: number, termId: string): DemoCongress => ({
@@ -8,13 +8,15 @@ const row = (congress: number, termId: string): DemoCongress => ({
   year: 1789 + 2 * (congress - 1),
   termId,
   seats: 1,
-  age: { D: { median: null, average: null, n: 0 }, R: { median: null, average: null, n: 0 } },
+  age: { D: { median: null, average: null, n: 0 }, R: { median: null, average: null, n: 0 }, O: { median: null, average: null, n: 0 } },
   ageAll: { median: null, average: null, n: 0 },
   ageMissing: 0,
   seatsBy: { D: 0, R: 0, O: 0 },
   women: { D: 0, R: 0, O: 0 },
   tenure: [1, 0, 0, 0],
   servedSum: 1,
+  tenureBy: { D: [1, 0, 0, 0], R: [0, 0, 0, 0], O: [0, 0, 0, 0] },
+  servedBy: { D: 1, R: 0, O: 0 },
 });
 const presidents: DemoPresident[] = [
   { id: "a", president: "Alice Aa", last: "Aa", party: "D" },
@@ -38,5 +40,11 @@ describe("demographics chart helpers", () => {
   });
   it("writes ordinals", () => {
     expect([73, 101, 102, 111, 112, 113, 119].map(ordinal)).toEqual(["73rd", "101st", "102nd", "111th", "112th", "113th", "119th"]);
+  });
+  it("slices one Congress by party, and everyone when none is picked", () => {
+    const r = { ...row(80, "a"), seats: 3, seatsBy: { D: 1, R: 1, O: 1 }, women: { D: 1, R: 0, O: 0 }, tenure: [2, 1, 0, 0] as [number, number, number, number], servedSum: 4, tenureBy: { D: [0, 1, 0, 0], R: [1, 0, 0, 0], O: [1, 0, 0, 0] } as DemoCongress["tenureBy"], servedBy: { D: 2, R: 1, O: 1 } };
+    expect(sliceOf(r, null)).toMatchObject({ seats: 3, women: 1, servedSum: 4, tenure: [2, 1, 0, 0] });
+    expect(sliceOf(r, "D")).toMatchObject({ seats: 1, women: 1, servedSum: 2, tenure: [0, 1, 0, 0] });
+    expect(sliceOf(r, "O")).toMatchObject({ seats: 1, women: 0, tenure: [1, 0, 0, 0] });
   });
 });

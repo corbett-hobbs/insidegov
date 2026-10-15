@@ -72,7 +72,6 @@ export function LawsGroupsCard() {
 
   return (
     <ChartCard
-      tight
       title="Which kinds of laws pass, and how?"
       lede={`Left: how many laws, how many passed with under 60% yes or by voice vote or consent, in each decade, by policy area. Right: how broadly each area's laws were supported, over the years shown. The toggle picks the measure for the heatmap and orders both; click it again to reverse.${locked ? " The vote filter in the bar above has set the measure to that band; tick more bands or choose Any vote there to pick another." : ""} Click a policy area in either to filter the charts and the list.`}
       action={

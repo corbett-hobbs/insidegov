@@ -6,18 +6,22 @@ import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand } from "@/components/charts/TermBand";
 import type { ChamberView } from "@/lib/chamber";
-import { bandTerms, SLIDER_BOUNDS } from "@/lib/demographics-chart";
-import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
+import { bandTerms, SLIDER_BOUNDS, type PartyPick } from "@/lib/demographics-chart";
+import type { CaucusGroup, DemoCongress, DemoPresident } from "@/lib/demographics-types";
 import { sameRange, type YearRange } from "@/lib/year-range";
 
 /**
- * The pinned filter bar for /congress/demographics, directly under the site navigation: the Chamber switch, then the
- * Years-shown slider with the presidential-term band under its track (no President dropdown). On a phone Chamber has its
- * own row and the slider row follows. The slider is the window every chart draws.
+ * The pinned filter bar for /congress/demographics, directly under the site navigation: the Chamber switch and the Party
+ * dropdown, then the Years-shown slider with the presidential-term band under its track (no President dropdown). On a phone
+ * Chamber and Party share a row and the slider row follows. The slider is the window every chart draws; Party is the one
+ * pick every chart, the strip and the lists follow, and the legends set it too.
  */
 export function DemographicsFilterBar({
   view,
   onView,
+  party,
+  onParty,
+  otherNow,
   rows,
   presidents,
   range,
@@ -25,6 +29,10 @@ export function DemographicsFilterBar({
 }: {
   view: ChamberView;
   onView: (v: ChamberView) => void;
+  party: PartyPick;
+  onParty: (p: PartyPick) => void;
+  /** The Congress shown has a member who is neither a Democrat nor a Republican; "Other" is listed only then. */
+  otherNow: boolean;
   /** Every Congress (the term band shows all of them regardless of the window). */
   rows: readonly DemoCongress[];
   presidents: readonly DemoPresident[];
@@ -41,6 +49,17 @@ export function DemographicsFilterBar({
           <div className="flex flex-none items-center gap-2 sm:pt-px">
             <span className="text-[0.72rem] font-medium uppercase tracking-[0.06em] text-ink-muted sm:hidden">Chamber</span>
             <ChamberSwitch value={view} onChange={onView} />
+            <select
+              aria-label="Party"
+              value={party ?? "all"}
+              onChange={(e) => onParty(e.target.value === "all" ? null : (e.target.value as CaucusGroup))}
+              className="rounded-lg border border-line-strong bg-surface-raised px-2 py-[0.35rem] text-[0.8rem] font-medium text-ink-muted hover:text-ink focus:border-accent focus:outline-none"
+            >
+              <option value="all">All parties</option>
+              <option value="D">Democrats</option>
+              <option value="R">Republicans</option>
+              {otherNow && <option value="O">Other parties</option>}
+            </select>
           </div>
           <RangeSelector
             min={lo}

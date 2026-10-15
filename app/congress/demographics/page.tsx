@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DemographicsPageClient } from "@/components/demographics/DemographicsPageClient";
-import { getDemographicsPayload } from "@/lib/demographics-data";
+import { getDemographicsPayload, getRosterVersion } from "@/lib/demographics-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 
 /** /congress/demographics — the Congress vertical's Demographics section. */
@@ -18,5 +18,5 @@ export const metadata: Metadata = {
 };
 
 export default function DemographicsPage() {
-  return <DemographicsPageClient data={getDemographicsPayload()} />;
+  return <DemographicsPageClient data={getDemographicsPayload()} rosterVersion={getRosterVersion()} />;
 }

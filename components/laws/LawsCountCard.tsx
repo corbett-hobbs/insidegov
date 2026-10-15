@@ -90,7 +90,6 @@ export function LawsCountCard() {
 
   return (
     <ChartCard
-      tight
       title="How many laws does Congress pass?"
       lede={lede || "No laws in this selection."}
       action={

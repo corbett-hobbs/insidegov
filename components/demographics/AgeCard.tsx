@@ -1,46 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
-import { PillGroup } from "@/components/charts/PillGroup";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
-import { congressSpan, fmtAge, presidentById, readoutRow, type AgeMeasure } from "@/lib/demographics-chart";
+import type { ChamberView } from "@/lib/chamber";
+import { PARTY_NAME, congressSpan, fmtAge, presidentById, readoutRow, type PartyPick } from "@/lib/demographics-chart";
 import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
 import { AgeChart } from "./AgeChart";
+import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, TableView } from "./shared";
 
-export function AgeCard({ rows, presidents, pin, onPin }: { rows: readonly DemoCongress[]; presidents: readonly DemoPresident[]; pin: number | null; onPin: (c: number | null) => void }) {
-  const [measure, setMeasure] = useState<AgeMeasure>("median");
+export function AgeCard({ rows, presidents, pin, onPin, view, roster, party, onParty }: { rows: readonly DemoCongress[]; presidents: readonly DemoPresident[]; pin: number | null; onPin: (c: number | null) => void; view: ChamberView; roster: RosterState; party: PartyPick; onParty: (p: PartyPick) => void }) {
   const by = presidentById(presidents);
   const cur = readoutRow(rows, pin);
   const line = cur && {
-    values: [`Democrats ${fmtAge(cur.age.D[measure])}`, `Republicans ${fmtAge(cur.age.R[measure])}`],
+    values: party ? [`${PARTY_NAME[party]} ${fmtAge(cur.age[party].median)}`] : [`Democrats ${fmtAge(cur.age.D.median)}`, `Republicans ${fmtAge(cur.age.R.median)}`],
     date: congressSpan(cur),
     term: by.get(cur.termId)?.president,
   };
   return (
     <ChartCard
       title="Is Congress getting older?"
-      lede="Age in years on the first day of each Congress, by caucus."
-      action={
-        <PillGroup
-          ariaLabel="Age measure"
-          value={measure}
-          onChange={setMeasure}
-          options={[
-            { value: "median", label: "Median" },
-            { value: "average", label: "Average" },
-          ]}
-        />
-      }
+      lede="Median age in years on the first day of each Congress, by caucus."
     >
       <CongressReadout line={line} pinned={pin !== null && !!cur && cur.congress === pin} onClear={() => onPin(null)} />
-      <AgeChart rows={rows} presidents={presidents} measure={measure} pin={pin} onPin={onPin} />
+      <AgeChart rows={rows} presidents={presidents} pin={pin} onPin={onPin} only={party} onOnly={(k) => onParty(k as PartyPick)} />
+      <MemberList {...roster} row={cur} rows={rows} view={view} order="age" party={party} onPin={onPin} />
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Age is exact on the day the Congress convened. Members with no recorded birthdate are left out, and independents who caucus with a party are grouped with it.
+            Age is exact on the day the Congress convened, and the line is the median. The average is within about a year of it in most Congresses (it is in the tooltip and in View as table, with the number of members behind each figure). Members with no recorded birthdate are left out, and independents who caucus with a party are grouped with it.
           </p>
         </MethodologyNote>
         <TableView

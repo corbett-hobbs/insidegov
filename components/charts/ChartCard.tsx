@@ -6,8 +6,6 @@ interface ChartCardProps {
   action?: ReactNode;
   className?: string;
   style?: CSSProperties;
-  /** Less room between the lede and the body (the Decisions cards, whose charts carry their own top margin). */
-  tight?: boolean;
   children: ReactNode;
 }
 
@@ -23,7 +21,6 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
   action,
   className,
   style,
-  tight,
   children,
 }, ref) {
   return (
@@ -36,7 +33,7 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
         <h2 className="font-serif text-[1.05rem] font-medium">{title}</h2>
         {action}
       </div>
-      <p className={`${tight ? "mb-2" : "mb-4"} mt-1 text-[0.82rem] leading-[1.5] text-ink-muted`}>
+      <p className="mb-2 mt-1 text-[0.82rem] leading-[1.5] text-ink-muted">
         {lede}
       </p>
       {children}

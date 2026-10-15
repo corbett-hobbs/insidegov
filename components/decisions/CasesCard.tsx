@@ -76,7 +76,6 @@ export function CasesCard() {
 
   return (
     <ChartCard
-      tight
       title="How many cases does the Court decide?"
       lede={[lede, filters].filter(Boolean).join(" ")}
       action={

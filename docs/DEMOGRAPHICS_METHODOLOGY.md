@@ -1,6 +1,6 @@
 # Demographics page ("Who Serves in Congress?") — methodology
 
-Page: `/congress/demographics`. Code: `lib/demographics-{entities,types,derive,data,chart}.ts`, `components/demographics/`. Tests:
+Page: `/congress/demographics`. Code: `lib/demographics-{entities,types,derive,data,chart,list}.ts`, `components/demographics/`. Tests:
 `lib/demographics-derive.test.ts` (over the real committed files). Pre-flight findings and the decision behind the roster
 definition: `docs/DEMOGRAPHICS_PREFLIGHT.md`.
 
@@ -41,7 +41,7 @@ definition: `docs/DEMOGRAPHICS_PREFLIGHT.md`.
 - **Gender.** The source is binary (M/F); every row in range has a value.
 - **Congresses served.** Distinct Congresses up to and including this one with any `terms.json` row for the person, either
   chamber, gaps included, delegate service included, counted back to the 1st Congress (so a member first elected in the 63rd is
-  in the top band in the 73rd). Bands, labeled in years at two years a Congress: up to 2 years (1 Congress), 3-10 (2-5), 11-20 (6-10), over 20 (11 or more). The stat strip's average time is the mean count x 2.
+  in the top band in the 73rd). Bands, labeled in years at two years a Congress: up to 2 years (1 Congress), 3-10 (2-5), 11-20 (6-10), over 20 (11 or more). The stat strip's average time is the mean count x 2, with the share who have served over 20 years beneath it.
 - **President for a Congress.** The president in office for most of the Congress: the most days between its convening day and
   the next Congress's. A Congress that convenes on Jan 3 of an inauguration year goes to the incoming president (sworn in Jan
   20), and a mid-term succession goes to whoever held the office longer: 79th Truman (Roosevelt died April 1945), 88th Johnson
@@ -53,7 +53,7 @@ definition: `docs/DEMOGRAPHICS_PREFLIGHT.md`.
 
 ## Charts
 
-1. Age by caucus: two lines (Democrats, Republicans), Median / Average. No peak/low (two lines); one example value per line
+1. Age by caucus: two lines (Democrats, Republicans), Median only (the average sits within about a year of it in three Congresses of four, so there is no toggle; it is in the tooltip and the table). No peak/low (two lines); one example value per line
    three quarters across the window.
 2. Women: stacked by caucus (Democratic, Republican, Other), Share of members / Number of members. In share mode the y-axis
    fits the tallest share (it stops near 30%, not 100%). Peak and low columns are labeled. Picking a legend entry draws that
@@ -63,7 +63,29 @@ definition: `docs/DEMOGRAPHICS_PREFLIGHT.md`.
 All three share one pinned Congress (a dashed playhead) and one years window, and sit on the same per-Congress slots as the
 presidential-term strip under each axis.
 
+## Member lists
+
+Each card ends with the members of one Congress: the pinned one, else the latest in the years shown. The names come from
+`buildRoster`, which reads the same per-Congress rosters as the counts (so each list adds up to its chart) and is served as
+static JSON from `/data/demographics/members`. Age is exact years on the convening day, shown in whole years; tenure is
+Congresses served counting the listed one, x 2 years, with ties broken by the earlier first Congress. A member who sat in both
+chambers in one Congress appears once, in the state of the later term; in the House and Senate views a member is listed in
+the chamber of the view, and in "Both" as a senator if they sat in the Senate. Only the latest Congress's members link to a
+profile page.
+
+## Party filter
+
+One page-level pick (All / Democrats / Republicans / Other parties) in the pinned bar, also set by the legends. It filters the
+Age lines, the Women series and lines, the Tenure bars (shares of that party's members), the stat strip and the lists. Per-party
+figures come from `DemoCongress`: `age[D|R|O]`, `women`, `seatsBy`, `tenureBy`, `servedBy` (each adds up to the all-members
+figure, a test checks it). "Other" is anyone whose caucus is neither Democratic nor Republican (early minor parties, independents
+who caucus with neither); independents who caucus with a party are grouped with it. It is listed only while the Congress shown
+has such a member.
+
 ## Sanity gates (tests)
+
+- Every list adds up to its chart, in every Congress and chamber view: seats, seats by caucus, women, tenure, sum of Congresses
+  served and median age.
 
 - Seat-holders per Congress are never below the real seat count (Senate 96 through the 85th, 98 in the 86th, 100 after; House
   435) and stay under a ceiling (Senate 120, House 470).

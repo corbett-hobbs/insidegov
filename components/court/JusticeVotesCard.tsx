@@ -102,7 +102,6 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
 
   return (
     <ChartCard
-      tight
       title={`How ${last} voted`}
       action={
         <input

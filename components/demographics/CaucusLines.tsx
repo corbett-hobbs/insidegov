@@ -6,7 +6,7 @@ import { line } from "d3-shape";
 import { Axis } from "@/components/charts/Axis";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { ExampleMarks, aboveFlags, pickExample } from "@/components/charts/ExampleMarks";
-import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
+import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { TERM_BAND_H, TermBandSvg } from "@/components/charts/TermBandSvg";
 import { Tooltip, useStickyTooltip } from "@/components/charts/Tooltip";
@@ -42,6 +42,8 @@ export function CaucusLines({
   fmtAxis,
   domain,
   detail,
+  only,
+  onOnly,
   ariaLabel,
 }: {
   rows: readonly DemoCongress[];
@@ -57,18 +59,21 @@ export function CaucusLines({
   domain: (lo: number, hi: number) => [number, number];
   /** Extra text after a line's value in the tooltip. */
   detail?: (r: DemoCongress, k: string) => ReactNode;
+  /** The one line drawn alone (null = all), owned by the card so the member list under it can follow the same pick. */
+  only: string | null;
+  onOnly: (k: string | null) => void;
   ariaLabel: string;
 }) {
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const width = measured || 960;
   const narrow = width < NARROW_W;
   const height = (narrow ? 250 : 290) + TERM_BAND_H + 6;
-  const [only, isolate] = useIsolate<string>();
   const tip = useStickyTooltip<DemoCongress>();
   const segs = useMemo(() => termSegmentsFor(rows, presidents), [rows, presidents]);
   const by = useMemo(() => presidentById(presidents), [presidents]);
   const val = value;
-  const shown = lines.filter((l) => only === null || only === l.k);
+  // A dashed reference line (all members) stays drawn beside whichever caucus is picked.
+  const shown = lines.filter((l) => l.dash || only === null || only === l.k);
 
   const nums = rows.flatMap((r) => shown.map((l) => val(r, l.k))).filter((v): v is number => v !== null);
   const lo = nums.length ? Math.min(...nums) : 0;
@@ -160,7 +165,7 @@ export function CaucusLines({
         </ChartFrame>
         <Tooltip state={tip.state}>
           {(r) => (
-            <TooltipCard title={congressSpan(r)} sub={by.get(r.termId)?.president ? `${by.get(r.termId)?.president} was president for most of it` : undefined}>
+            <TooltipCard title={congressSpan(r)} sub={by.get(r.termId)?.president}>
               {lines.map((l) => (
                 <div key={l.k} className="whitespace-nowrap">
                   <span style={{ color: l.color }}>●</span> {l.label}: {fmt(val(r, l.k))} {detail && <span className="text-ink-muted">{detail(r, l.k)}</span>}
@@ -171,16 +176,23 @@ export function CaucusLines({
         </Tooltip>
       </div>
       <div className={`mt-2 ${LEGEND_ROW}`}>
-        {lines.map((l) => (
-          <LegendToggle key={l.k} active={only === l.k} dimmed={only !== null && only !== l.k} onClick={() => isolate(l.k)}>
+        {lines.map((l) => {
+          const item = (
             <span className={LEGEND_ITEM}>
               <svg width="20" height="8" viewBox="0 0 20 8" aria-hidden className="flex-none">
                 <line x1="0" y1="4" x2="20" y2="4" stroke={l.color} strokeWidth={l.dash ? 1.5 : 2.25} strokeDasharray={l.dash} />
               </svg>
               {l.label}
             </span>
-          </LegendToggle>
-        ))}
+          );
+          return l.dash ? (
+            <span key={l.k}>{item}</span>
+          ) : (
+            <LegendToggle key={l.k} active={only === l.k} dimmed={only !== null && only !== l.k} onClick={() => onOnly(only === l.k ? null : l.k)}>
+              {item}
+            </LegendToggle>
+          );
+        })}
       </div>
     </div>
   );

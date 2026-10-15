@@ -64,7 +64,6 @@ function Loaded({ payload }: { payload: CommitteeBillsPayload }) {
   return (
     <section aria-label="Legislation" className="flex flex-col gap-5">
       <ChartCard
-        tight
         title={TITLE}
         lede={
           <>
@@ -90,7 +89,6 @@ function Loaded({ payload }: { payload: CommitteeBillsPayload }) {
       </ChartCard>
 
       <ChartCard
-        tight
         title="Where do bills go after referral?"
         lede={
           <>
