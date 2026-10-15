@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { Section } from "@/lib/verticals";
 
 /**
@@ -30,13 +31,14 @@ export function HubSectionList({
 }) {
   return (
     <ul
-      className={`flex flex-col divide-y divide-line ${fill ? "h-full" : ""} ${
+      className={`home-rows flex flex-col divide-y divide-line ${fill ? "h-full" : ""} ${
         COLUMNS[Math.min(columns, 3)] ?? ""
       } ${className}`}
     >
-      {sections.map((s) => (
+      {sections.map((s, i) => (
         <li
           key={s.id}
+          style={{ "--k": i } as CSSProperties}
           className={`${columns > 1 ? "md:px-4 md:first:pl-0 md:last:pr-0" : ""} ${
             fill ? "flex flex-1 flex-col" : ""
           }`}

@@ -891,23 +891,104 @@ a.home-sweep:hover,
   background-size: 100% 2px;
 }
 
-/* The one motion effect: a staggered rise. The hero builds in on load; the
-   cards rise as they scroll into view where the browser supports scroll-driven
-   animation (elsewhere they simply show). */
+/* Motion, kept to three things. (1) The hero builds in on load: a staggered
+   rise. (2) The intro sentence lights up word by word as it scrolls into view,
+   and its gold marker wipes in (scroll-driven, so only where `animation-timeline`
+   exists; elsewhere the sentence just shows). (3) Each branch card draws itself
+   the first time it scrolls into view: the chart first (bars grow, the gold
+   running-total line traces, the dots fly in from the centre), then the page
+   rows fade in as their divider rules wipe across. (3) is switched on by
+   components/home/HomeMotion, which sets html[data-home-motion] and marks each
+   card `data-seen`; without it, or with reduced motion, nothing is hidden. */
 @keyframes home-rise {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes home-word { to { opacity: 1; } }
+@keyframes home-marker { to { background-size: 100% 36%; } }
+@keyframes home-grow { from { transform: scaleY(0); } }
+@keyframes home-wipe { from { transform: scaleX(0); } }
+@keyframes home-fade { from { opacity: 0; } }
+
+.home-hl {
+  background: linear-gradient(#e8c877, #e8c877) 0 100% / 100% 36% no-repeat;
+}
+.hub-trend {
+  fill: none;
+  stroke: #e8c877;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hub-yr,
+.hub-dot {
+  transform-box: fill-box;
+}
+.hub-yr { transform-origin: 50% 100%; }
+.hub-dot { transform-origin: center; }
+
 @media (prefers-reduced-motion: no-preference) {
   .home-st {
     animation: home-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both;
     animation-delay: calc(var(--i, 0) * 90ms);
   }
   @supports (animation-timeline: view()) {
-    .home-reveal {
-      animation: home-rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 30%;
+    .home-intro { view-timeline: --home-intro block; }
+    .home-intro .home-w {
+      opacity: 0.35;
+      animation: home-word linear both;
+      animation-timeline: --home-intro;
+      animation-range: cover calc(var(--w) * 36%) cover calc(var(--w) * 36% + 12%);
+    }
+    .home-intro .home-hl {
+      background-size: 0 36%;
+      animation: home-marker linear both;
+      animation-timeline: --home-intro;
+      animation-range: cover 34% cover 48%;
     }
   }
+}
+
+/* The card draw-in. Hidden states apply only until the card is seen. */
+html[data-home-motion] .home-card:not([data-seen]) .hub-yr { transform: scaleY(0); }
+html[data-home-motion] .home-card:not([data-seen]) .hub-trend { stroke-dasharray: 1; stroke-dashoffset: 1; }
+html[data-home-motion] .home-card:not([data-seen]) .hub-trend-lab,
+html[data-home-motion] .home-card:not([data-seen]) .hub-dot,
+html[data-home-motion] .home-card:not([data-seen]) .home-rows > li { opacity: 0; }
+html[data-home-motion] .home-card:not([data-seen]) .hub-dot { transform: translate(var(--dx), var(--dy)) scale(0.2); }
+html[data-home-motion] .home-card .home-rows > li { position: relative; border-color: transparent; }
+html[data-home-motion] .home-card .home-rows > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left;
+}
+html[data-home-motion] .home-card:not([data-seen]) .home-rows > li::after { transform: scaleX(0); }
+
+html[data-home-motion] .home-card[data-seen] .hub-yr {
+  animation: home-grow 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(var(--k, 0) * 26ms + 150ms);
+}
+html[data-home-motion] .home-card[data-seen] .hub-trend {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 2.1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+}
+html[data-home-motion] .home-card[data-seen] .hub-trend-lab {
+  transition: opacity 0.6s ease 2.4s;
+}
+html[data-home-motion] .home-card[data-seen] .hub-dot {
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s;
+  transition-delay: calc(var(--k, 0) * 2ms + 200ms);
+}
+html[data-home-motion] .home-card[data-seen] .home-rows > li {
+  animation: home-fade 0.6s ease backwards;
+  animation-delay: calc(var(--k, 0) * 90ms + 600ms);
+}
+html[data-home-motion] .home-card[data-seen] .home-rows > li:not(:last-child)::after {
+  animation: home-wipe 0.8s ease backwards;
+  animation-delay: calc(var(--k, 0) * 110ms + 650ms);
 }
