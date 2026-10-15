@@ -127,4 +127,9 @@ last month, so the address changes every month. `encounters-vintages.json` keeps
 - the transform fails if any year between FY2020 and the newest is in no file.
 
 The fixed sources (history PDFs, archived CBP pages, OHSS workbooks) download only when missing (`--refresh`
-re-downloads). The weekly refresh workflow is session N.
+re-downloads). 
+`.github/workflows/encounters-freshness.yml` runs this weekly (Wednesdays) and rebuilds with the transform. The fetch
+rewrites the listing-page snapshot on every run, so that snapshot is not a change: only a new or replaced CSV (or
+`encounters-vintages.json`) opens a PR. If the transform passes, the PR is merged through `gate-and-merge`; if CBP changed
+the file's shape or a gate fails, the PR opens labelled `needs-curation` and is not merged. A change to CBP's page layout
+fails the fetch itself (the run goes red, no PR). No yearly review issue: OHSS stopped publishing its tables after Nov 2024.
