@@ -306,7 +306,7 @@ export function RefugeeChart({
         );
       })}
       {card}
-      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <YearTip year={yr} terms={termById} />}</Tooltip>
+      <Tooltip state={open && !open.pinned && open.key.startsWith("b") ? tip.state : null}>{(yr) => <YearTip year={yr} terms={termById} />}</Tooltip>
     </div>
   );
 }

@@ -82,6 +82,8 @@ export function RemovalsChart({
   pendingFy,
   selectedFy,
   onSelectFy,
+  activeFy,
+  onActiveFy,
 }: {
   years: readonly IceYear[];
   terms: readonly IceTerm[];
@@ -92,6 +94,10 @@ export function RemovalsChart({
   /** The fiscal year the pinned slider is on (its country list is the card below). */
   selectedFy?: number;
   onSelectFy?: (fy: number) => void;
+  /** The year the encounters card above is on (hover or an open card): lit here too. */
+  activeFy?: number | null;
+  /** Reports the year this chart is on, so the encounters card can light it. */
+  onActiveFy?: (fy: number | null) => void;
 }) {
   const [ref, measured] = useElementWidth<HTMLDivElement>();
   const W = measured || FALLBACK_W;
@@ -128,10 +134,16 @@ export function RemovalsChart({
     };
   }, [open, close]);
 
+  const openFy = open?.key.startsWith("b") ? Number(open.key.slice(1)) : null;
+  useEffect(() => {
+    onActiveFy?.(openFy);
+  }, [openFy, onActiveFy]);
+  useEffect(() => () => onActiveFy?.(null), [onActiveFy]);
+
   const placements = visibleMarkers(markers, firstFy, lastFy);
   const shade = markers.map((m) => ({ m, span: shadeSpan(m, firstFy, slots) })).find((s) => s.span);
   const shadeW = shade?.span ? (shade.span[1] - shade.span[0]) * slotW : 0;
-  const shadeLabelled = shadeW >= 110;
+  const shadeLabelled = shadeW >= 124;
 
   const segs = termSegments(years, pending);
   const termById = new Map(terms.map((t) => [t.termId, t]));
@@ -226,7 +238,7 @@ export function RemovalsChart({
                         Title 42 expulsions
                       </text>
                       <text x={xSlot(shade.span[0]) + shadeW / 2} y={163} textAnchor="middle" className="fill-ink-muted text-[10.5px]">
-                        not counted
+                        counted by CBP, above
                       </text>
                     </>
                   )}
@@ -235,7 +247,7 @@ export function RemovalsChart({
 
               {years.map((yr, i) => {
                 const key = `b${yr.fy}`;
-                const active = open?.key === key;
+                const active = open?.key === key || activeFy === yr.fy;
                 const x = xSlot(i);
                 const bx = x + (slotW - barW) / 2;
                 const top = y(yr.value);
@@ -253,7 +265,7 @@ export function RemovalsChart({
                     tabIndex={0}
                     role="button"
                     aria-label={barAria(yr)}
-                    aria-expanded={active}
+                    aria-expanded={open?.key === key}
                     className="cursor-pointer outline-none"
                     onPointerEnter={(e) => e.pointerType === "mouse" && !open?.pinned && (openBar(yr.fy, false), tip.show(yr, e))}
                     onPointerMove={(e) => e.pointerType === "mouse" && tip.move(e)}
@@ -383,7 +395,7 @@ export function RemovalsChart({
               {[...years.map((v) => v.fy), ...(pending ? [pendingFy] : [])].map((fy, i) => {
                 const label = yearLabel(fy, mode);
                 if (!label) return null;
-                const bold = open?.key === `b${fy}` || fy === selectedFy;
+                const bold = open?.key === `b${fy}` || fy === selectedFy || fy === activeFy;
                 return (
                   <text
                     key={fy}
@@ -466,7 +478,7 @@ export function RemovalsChart({
         </button>
       ))}
       {card}
-      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <YearTip year={yr} terms={termById} />}</Tooltip>
+      <Tooltip state={open && !open.pinned && open.key.startsWith("b") ? tip.state : null}>{(yr) => <YearTip year={yr} terms={termById} />}</Tooltip>
     </div>
   );
 }

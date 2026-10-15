@@ -86,7 +86,7 @@ const DEFS: readonly BranchDef[] = [
         label: "Immigration",
         status: "live",
         blurb:
-          "Green cards, refugee admissions and ICE removals by fiscal year and administration, with changes in what is counted marked.",
+          "Green cards, refugee admissions, border encounters and ICE removals by fiscal year and administration, with changes in what is counted marked.",
       },
       {
         id: "trade",

@@ -8,7 +8,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 
-export function RemovalsCard({ data, range, fy, onFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void }) {
+export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void; activeFy?: number | null; onActiveFy?: (fy: number | null) => void }) {
   const years = data.years.filter((y) => y.fy >= range[0] && y.fy <= range[1]);
   // The unlocked-year slot follows the newest year: shown whenever the window reaches it.
   const pending = range[1] >= data.lastFy;
@@ -28,12 +28,14 @@ export function RemovalsCard({ data, range, fy, onFy }: { data: ImmigrationPageD
         pendingFy={data.lastFy + 1}
         selectedFy={fy}
         onSelectFy={onFy}
+        activeFy={activeFy}
+        onActiveFy={onActiveFy}
       />
 
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            ICE only: Border Patrol&rsquo;s own actions, including Title 42 expulsions, are not counted. Every removal here was carried out by ICE; the colors show who first apprehended the person (ICE&rsquo;s &ldquo;arresting agency&rdquo;), and the Border Patrol part is ICE&rsquo;s count, not CBP&rsquo;s. ICE prints the split for FY2008&ndash;FY2024. From FY2007 the count includes returns. The line is an average of people held each day, not a yearly count. Counts lock around October 5; each bar&rsquo;s card carries its own caveats. {data.finalCount} of {data.years.length} years are final and {data.corroboratedCount} are confirmed by a second source.
+            ICE only: CBP&rsquo;s own actions, including Border Patrol apprehensions and Title 42 expulsions, are not counted here; they are in the encounters card above. Every removal here was carried out by ICE; the colors show who first apprehended the person (ICE&rsquo;s &ldquo;arresting agency&rdquo;), and the Border Patrol part is ICE&rsquo;s count, not CBP&rsquo;s. ICE prints the split for FY2008&ndash;FY2024. From FY2007 the count includes returns. The line is an average of people held each day, not a yearly count. Counts lock around October 5; each bar&rsquo;s card carries its own caveats. {data.finalCount} of {data.years.length} years are final and {data.corroboratedCount} are confirmed by a second source.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">
