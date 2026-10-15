@@ -187,6 +187,9 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
             <p>
               Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were.
             </p>
+            <p>
+              The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the Federal Register, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
+            </p>
           </MethodologyNote>
 
           <TableFallback years={data.years} />
@@ -416,6 +419,7 @@ function OrderRows({ items, showPresident, admins }: { items: EoYear["items"]; s
               Signed {fmtDate(i.signed)}
               {showPresident ? ` · ${admins.get(i.termId)?.president ?? ""}` : ""}
             </div>
+            {i.summary && <OrderSummary text={i.summary} />}
           </div>
           <span className="flex items-center gap-1.5 text-[0.74rem] text-ink-muted sm:justify-end">
             <TopicSwatch topic={i.topic} size={10} />
@@ -424,5 +428,28 @@ function OrderRows({ items, showPresident, admins }: { items: EoYear["items"]; s
         </li>
       ))}
     </ol>
+  );
+}
+
+/**
+ * What the order does, in one or two sentences Claude wrote from the order's Federal Register text (tagged "AI-written"; the Data
+ * notes say how it is checked). On phones it holds to three lines and a tap opens the rest; wider screens show it whole (≤300 characters).
+ */
+function OrderSummary({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <p className="m-0 mt-1 text-[0.78rem] leading-[1.45] text-ink-muted">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className={`block w-full cursor-pointer border-0 bg-transparent p-0 text-left font-[inherit] text-inherit sm:cursor-text ${open ? "" : "max-sm:line-clamp-3"} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
+      >
+        {text}
+        <span className="ml-1.5 whitespace-nowrap text-ink-faint" title="Written by Claude from the order's text in the Federal Register">
+          · AI-written
+        </span>
+      </button>
+    </p>
   );
 }

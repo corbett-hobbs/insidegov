@@ -33,9 +33,11 @@
     "fetch:refugee": "tsx pipeline/fetch/refugee.ts",
     "fetch:ohss": "tsx pipeline/fetch/ohss.ts",
     "fetch:executive-orders": "tsx pipeline/fetch/executive-orders.ts",
+    "fetch:eo-texts": "tsx pipeline/fetch/executive-order-texts.ts",
     "classify:eos": "tsx pipeline/classification/executive-orders.ts",
     "classify:eos:auto": "tsx pipeline/classification/executive-orders-auto.ts",
     "summarize:cases": "tsx pipeline/classification/case-summaries-auto.ts",
+    "summarize:eos": "tsx pipeline/classification/eo-summaries-auto.ts",
     "classify:audit": "tsx pipeline/classification/executive-orders-audit.ts",
     "fetch:billstatus": "tsx pipeline/fetch/govinfo-billstatus.ts",
     "fetch:laws": "tsx pipeline/fetch/congress-gov.ts",
@@ -69,6 +71,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "0.134.0",
     "@tailwindcss/postcss": "^4",
     "@types/d3-array": "^3.2.2",
     "@types/d3-force": "^3.0.10",

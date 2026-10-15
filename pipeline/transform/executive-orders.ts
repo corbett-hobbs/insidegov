@@ -123,6 +123,8 @@ export function buildExecutiveOrders(
   norm: NormalizedRaw,
   administrations: readonly Administration[],
   cache: ReadonlyMap<number, EoTopicCacheEntry>,
+  /** Checked summaries by order number (`eo-summaries.ts`); an order without one gets `summary: null`. */
+  summaries: ReadonlyMap<number, string> = new Map(),
 ): ExecutiveOrder[] {
   const missing: number[] = [];
   const rows: ExecutiveOrder[] = [];
@@ -155,6 +157,7 @@ export function buildExecutiveOrders(
       topic: cached.topic,
       topic_method: cached.topic_method,
       needs_review: cached.needs_review,
+      summary: summaries.get(r.eo_number) ?? null,
     });
   }
   if (missing.length > 0) {

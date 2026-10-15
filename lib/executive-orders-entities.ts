@@ -84,6 +84,11 @@ export const executiveOrder = z.strictObject({
   topic: eoTopic,
   topic_method: eoTopicMethod,
   needs_review: z.boolean(),
+  /**
+   * What the order does, in one or two sentences, written by the Claude API from the order's Federal Register text and checked
+   * against it (`pipeline/transform/eo-summaries.ts`); null until summarised.
+   */
+  summary: z.string().min(1).nullable(),
 });
 export type ExecutiveOrder = z.infer<typeof executiveOrder>;
 
