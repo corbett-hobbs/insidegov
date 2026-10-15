@@ -5,9 +5,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionPills, SectionStrip, SectionToc, useSectionScroll, type SectionNavItem } from "@/components/SectionNav";
 import { type ImmigrationPageData } from "@/lib/immigration-derive";
 import { coverageLabel } from "@/lib/removals-country-derive";
+import type { EncountersPayload } from "@/lib/encounters-types";
 import type { LprPayload } from "@/lib/lpr-types";
 import type { RefugeePayload } from "@/lib/refugee-types";
 import type { RemovalsCountryPayload } from "@/lib/removals-country-types";
+import { EncountersCard } from "./EncountersCard";
 import { CriminalHistoryCard } from "./CriminalHistoryCard";
 import { ImmigrationFilterBar } from "./ImmigrationFilterBar";
 import { LprSection } from "./LprSection";
@@ -23,10 +25,10 @@ const asOfLabel = (iso: string) =>
 const SECTIONS: readonly SectionNavItem[] = [
   { id: "green-cards", label: "Green cards" },
   { id: "refugees", label: "Refugee admissions", short: "Refugees" },
-  { id: "ice", label: "ICE removals" },
+  { id: "border", label: "Border encounters and ICE removals", short: "Border & removals" },
 ];
 
-export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; lpr: LprPayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
+export function ImmigrationPageClient({ data, countries, refugees, lpr, encounters, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; lpr: LprPayload; encounters: EncountersPayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
   // Two pieces of page state: the fiscal-year window (the two-handle slider and the term band) narrows the timeline, and
   // the selected fiscal year (a click on a bar, or the year dropdown in the country card) picks the year the country list
   // shows and is marked on the timeline. The selected year is always inside the window.
@@ -46,6 +48,10 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
     setRangeRaw(r);
     setFyRaw(pickYear(r)); // the country card's year follows the window's last year
   };
+  // The fiscal year either section-3 card is hovered or pinned on, lit on both so a year can be read straight down. Each card keeps
+  // its own tooltip and numbers; a card reports its own year and is lit by the other's.
+  const [syncFy, setSyncFy] = useState<number | null>(null);
+  const iceByFy = useMemo(() => new Map(data.years.map((y) => [y.fy, y.value])), [data.years]);
   const { pillsRef, stuck, active } = useSectionScroll(SECTIONS);
   // ICE's figures begin in FY2003 and end at the page's last year, so the ICE cards get the part of the window they have; a window
   // that ends before FY2003 gets a short notice instead of empty charts.
@@ -87,16 +93,18 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
 
         <RefugeeSection payload={refugees} worldMap={worldMap} range={range} iceLastFy={data.lastFy} />
 
-        <SectionHeading id="ice" number={3} title="How Many People Does ICE Remove?">
+        <SectionHeading id="border" number={3} title="Who Is Stopped at the Border, and Who Is Removed?">
           <p>
-            ICE counts how many people it removes each fiscal year. Some were picked up at the border and handed over to ICE; the rest were arrested by ICE’s own officers.
-            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so these charts start there.</>}
+            CBP (U.S. Customs and Border Protection) guards the border: its Border Patrol agents catch people between ports of entry, and its officers at the ports turn away people who are not admissible. Each stop is an “encounter”. ICE (Immigration and Customs Enforcement) works inside the country and carries out removals, including of some people CBP handed to it. The two cards count different things, encounters at the border and people removed, so they are never added together.
+            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so the ICE charts start there.</>}
           </p>
         </SectionHeading>
 
+        <EncountersCard payload={encounters} range={range} iceLastFy={data.lastFy} removals={iceByFy} activeFy={syncFy} onActiveFy={setSyncFy} />
+
         {iceRange ? (
           <>
-            <RemovalsCard data={data} range={iceRange} fy={fyIce} onFy={setFy} />
+            <RemovalsCard data={data} range={iceRange} fy={fyIce} onFy={setFy} activeFy={syncFy} onActiveFy={setSyncFy} />
 
             <CriminalHistoryCard data={data} range={iceRange} fy={fyIce} onFy={setFy} />
 
@@ -119,9 +127,9 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, worldMap
           </p>
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">3</span>
-            ICE removals: ICE annual enforcement reports, FY{data.firstFy}–FY{data.lastFy} (FY{data.lastFy} arrests, detention and criminal history from the DHS FY2027 ICE budget overview). Countries are countries of citizenship ({coverageLabel(countries)}). As of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
+            Border encounters: CBP Nationwide Encounters (FY2020–FY{encounters.lastFy}, FY{encounters.lastFy} preliminary) and CBP Border Patrol apprehension histories (FY1980 on); port-of-entry figures begin in FY{encounters.firstOfoFy}, FY{encounters.firstOfoFy}–FY2014 from DHS Office of Homeland Security Statistics (rounded). As of {asOfLabel(encounters.asOf)}. ICE removals: ICE annual enforcement reports, FY{data.firstFy}–FY{data.lastFy} (FY{data.lastFy} arrests, detention and criminal history from the DHS FY2027 ICE budget overview). Countries are countries of citizenship ({coverageLabel(countries)}). As of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
           </p>
-          <p>Each section is one agency and one definition; the counts are never combined across sections.</p>
+          <p>Each card is one agency and one definition; the counts are never combined across cards or sections.</p>
         </div>
       </main>
     </>

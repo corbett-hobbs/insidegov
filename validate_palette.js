@@ -98,6 +98,10 @@ FORCED_PAIRS.push(...STAGE_KEYS.flatMap((a, i) => STAGE_KEYS.slice(i + 1).map((b
 const SPLIT_KEYS = ["split-0", "split-1", "split-2", "split-3", "split-4"];
 FORCED_PAIRS.push(...SPLIT_KEYS.flatMap((a, i) => SPLIT_KEYS.slice(i + 1).map((b) => [a, b])));
 FORCED_PAIRS.push(...SPLIT_KEYS.flatMap((a) => [[a, "dem"], [a, "rep"]]));
+// Border-encounter stack (components/immigration/EncountersChart): Border Patrol (the removals chart's own --agency-cbp), port-of-entry
+// inadmissibles and Title 42 expulsions are stacked on one bar. The neutral --oth bar (Border Patrol only, FY1980–FY2003) is never stacked with them.
+const ENCOUNTER_KEYS = ["agency-cbp", "sector-econ", "sector-ps"];
+FORCED_PAIRS.push(...ENCOUNTER_KEYS.flatMap((a, i) => ENCOUNTER_KEYS.slice(i + 1).map((b) => [a, b])));
 const NEW_KEYS = ["committee-house", "committee-senate", "committee-joint", ...SECTOR_KEYS, ...FUEL_KEYS, ...TENURE_KEYS, ...STAGE_KEYS, ...SPLIT_KEYS];
 
 // ---- CLI overrides -------------------------------------------------------

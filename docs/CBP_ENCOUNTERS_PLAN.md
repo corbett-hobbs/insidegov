@@ -15,6 +15,11 @@ checkout.
 
 M and N touch different files and can run side by side once L has merged.
 
+### Session M status (2026-10-15): done
+
+Card built: `components/immigration/Encounters{Card,Chart,Cards}.tsx`, helpers `lib/encounters-chart.ts`. Decisions are in the Immigration
+section of `ARCHITECTURE_MAP.md`. The cards align by fiscal year only when the window starts at FY2003 or later.
+
 ### Session L status (2026-10-15): done
 
 - **Data:** `pipeline/output/encounters_{series,monthly,notes,report}.json`, FY1980 to FY2026 (FY2026 preliminary,
