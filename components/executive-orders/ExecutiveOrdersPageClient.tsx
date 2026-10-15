@@ -147,7 +147,9 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
             Every executive order signed since 1994, counted by year and sorted
             by topic. Orders let a president direct the federal government
             without a new law, so how many each one signs, and on what, shows
-            where they chose to act alone.
+            where they chose to act alone. Presidents act first through orders,
+            and the economy, energy, immigration, trade, foreign aid and
+            national security pages track what changed afterward.
           </p>
         </PageHeader>
 
