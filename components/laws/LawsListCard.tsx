@@ -13,6 +13,7 @@ import { lawId, lawPath } from "@/lib/law-url";
 import { ordinal } from "@/lib/demographics-chart";
 import { useLawsActions, useLawsValues } from "./LawsState";
 import { useLawsList } from "./useLawsList";
+import { useLawsSearchIndex } from "./useLawsSearchIndex";
 
 const PAGE = 120;
 
@@ -58,7 +59,8 @@ export function LawsListCard() {
   const { setGroup, setMajor, setBand, clearPin } = useLawsActions();
   const { list, failed, rows } = useFilteredLaws();
   const [query, setQuery] = useState("");
-  const matched = useMemo(() => (list ? matchLaws(data, list, rows, query) : []), [data, list, rows, query]);
+  const { summaryHas } = useLawsSearchIndex(data.searchVersion, query.trim() !== "");
+  const matched = useMemo(() => (list ? matchLaws(data, list, rows, query, summaryHas) : []), [data, list, rows, query, summaryHas]);
   const sig = `${win[0]}-${win[1]}|${group}|${major}|${band}|${pin}|${query.trim().toLowerCase()}`;
   const [shown, setShown] = useState<{ sig: string; n: number }>({ sig, n: PAGE });
   const n = shown.sig === sig ? shown.n : PAGE;
@@ -79,7 +81,7 @@ export function LawsListCard() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search name, bill, sponsor or area"
+          placeholder="Search name, bill, sponsor, area or summary"
           aria-label="Search laws by name, bill, sponsor, policy area or summary"
           className="w-full rounded-md border border-line-strong bg-surface-raised px-2.5 py-1 text-[0.82rem] text-ink placeholder:text-ink-faint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:w-64"
         />
@@ -141,7 +143,7 @@ export function LawsListCard() {
       </div>
       <MethodologyNote>
         <p>
-          The date is when the president signed the law (or the veto was overridden). Laws after the {ordinal(data.majorThrough)} Congress read &ldquo;Not yet assessed&rdquo;, not &ldquo;not major&rdquo;. The sentence under a law is the first sentence of the Congressional Research Service summary, kept only where it stands alone, so many of the oldest and newest laws have none. The swatch is the closest recorded final-passage vote, with each chamber&rsquo;s tally beside it. A sponsor links to their page only for members of the current Congress.
+          The date is when the president signed the law (or the veto was overridden). Laws after the {ordinal(data.majorThrough)} Congress read &ldquo;Not yet assessed&rdquo;, not &ldquo;not major&rdquo;. The sentence under a law is the first sentence of the Congressional Research Service summary, kept only where it stands alone, so many of the oldest and newest laws have none. Search also looks through the full summary, so a law can match on words that do not appear on its row. The swatch is the closest recorded final-passage vote, with each chamber&rsquo;s tally beside it. A sponsor links to their page only for members of the current Congress.
         </p>
       </MethodologyNote>
     </ChartCard>
