@@ -1,3 +1,4 @@
+import { lawKey } from "./laws-search";
 import type { MemberLaws } from "./laws-types";
 
 /**
@@ -13,6 +14,8 @@ export interface LawFilter {
   major: boolean;
   /** Lower-case search words; every one must appear. */
   terms: readonly string[];
+  /** The full-summary word lookup (`makeSummarySearch`), once its index has loaded; a word may also match there. */
+  summaryHas?: (term: string) => ReadonlySet<number>;
 }
 
 export const NO_LAW_FILTER: LawFilter = { role: "all", major: false, terms: [] };
@@ -26,7 +29,8 @@ export function lawMatches(laws: MemberLaws, i: number, f: LawFilter): boolean {
   if ((f.role === "sponsored" && !sponsor) || (f.role === "cosponsored" && sponsor) || (f.major && r[9] !== 1)) return false;
   if (f.terms.length === 0) return true;
   const hay = `${r[3]} ${r[12]} ${laws.areas[r[4]]?.name ?? "Not classified"} ${r[11]} ${r[0]}-${r[1]} pub. l. ${r[0]}–${r[1]}`.toLowerCase();
-  return f.terms.every((t) => hay.includes(t));
+  const key = lawKey(r[0], r[1]);
+  return f.terms.every((t) => hay.includes(t) || (f.summaryHas?.(t).has(key) ?? false));
 }
 
 /** Indices of the rows that pass, in list order (newest first). */
