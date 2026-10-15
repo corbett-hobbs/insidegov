@@ -10,13 +10,13 @@ import { SectorLegend, TD, TH, TableView, useSectorLabel } from "./shared";
 
 /** "How much the U.S. spends": the stacked-bar time series and everything that explains it. */
 export function SpendingCard() {
-  const { data, year, range, country, sector, isPartial } = useAidState();
+  const { data, year, range, country, secs, sole, isPartial } = useAidState();
   const sectorLabel = useSectorLabel();
-  const rows = useMemo(() => spendingByYear(data, range[0], range[1], country, sector), [data, range, country, sector]);
+  const rows = useMemo(() => spendingByYear(data, range[0], range[1], country, secs), [data, range, country, secs]);
   const [only, setOnly] = useState<number | null>(null);
-  const shown = useMemo(() => (only === null || sector >= 0 ? rows : rows.map((r) => { const slots = r.slots.map((v, k) => (k === only ? v : 0)); return { ...r, slots, drawn: Math.max(0, slots[only]) }; })), [rows, only, sector]);
+  const shown = useMemo(() => (only === null || sole !== null ? rows : rows.map((r) => { const slots = r.slots.map((v, k) => (k === only ? v : 0)); return { ...r, slots, drawn: Math.max(0, slots[only]) }; })), [rows, only, sole]);
   const cur = rows.find((r) => r.fy === year);
-  const change = changeVsPrior(data, year, country, sector);
+  const change = changeVsPrior(data, year, country, secs);
   const showing = [country >= 0 ? data.payload.countries[country].name : null, sectorLabel].filter(Boolean);
   const anyPartial = rows.some((r) => isPartial(r.fy));
 
@@ -32,10 +32,10 @@ export function SpendingCard() {
     <ChartCard
       title="How much the U.S. spends"
       lede={lede}
-      action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")} only</span> : undefined}
+      action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")}</span> : undefined}
     >
       <SpendingChart rows={shown} />
-      <SectorLegend partial={anyPartial} only={sector < 0 ? only : null} onPick={(k) => setOnly((c) => (c === k ? null : k))} />
+      <SectorLegend partial={anyPartial} only={sole === null ? only : null} onPick={(k) => setOnly((c) => (c === k ? null : k))} />
       <MethodologyNote>
         <p>
           Band under the axis: administration in office for most of the year (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic).
@@ -46,7 +46,7 @@ export function SpendingCard() {
           <tr>
             <th className={TH}>Fiscal year</th>
             <th className={TH}>Total</th>
-            {sector < 0 && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
+            {sole === null && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
           </tr>
         </thead>
         <tbody>
@@ -57,7 +57,7 @@ export function SpendingCard() {
                 {isPartial(r.fy) ? " (partial)" : ""}
               </td>
               <td className={TD}>{formatAidMoney(r.total)}</td>
-              {sector < 0 && r.slots.map((v, k) => <td key={k} className={TD}>{formatAidMoney(v)}</td>)}
+              {sole === null && r.slots.map((v, k) => <td key={k} className={TD}>{formatAidMoney(v)}</td>)}
             </tr>
           ))}
         </tbody>

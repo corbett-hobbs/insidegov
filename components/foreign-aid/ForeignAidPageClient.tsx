@@ -40,8 +40,8 @@ export function ForeignAidPageClient({ payload, map }: { payload: AidPayload; ma
           {partial.length > 0 &&
             ` ${partial.join(" and ")} ${partial.length > 1 ? "are" : "is"} shown as partial because the source reports with a lag of about 45 days and publishes no per-year completeness flag, so changes from the prior year aren’t shown for ${partial.length > 1 ? "them" : "it"}.`}{" "}
           Negative disbursements are documented source adjustments and are kept as published. Military assistance is recorded almost entirely within
-          Peace and Security; it is a split of that sector, not a separate one, and the map’s military share counts every military dollar when Sector is
-          All and only Peace and Security’s own when that sector is picked. The map shows only dollars tied to a single country, and global and regional
+          Peace and Security; it is a split of that sector, not a separate one, and the map’s military share counts every military dollar when every sector is
+          ticked and only Peace and Security’s own when that is the only sector ticked. The map shows only dollars tied to a single country, and global and regional
           programs are listed beneath it. Sudan (former) is drawn on today’s Sudan and South Sudan, and West Bank and Gaza on the Palestine outline.
           Entities with no modern outline, such as Czechoslovakia (former), are counted in totals but not drawn.
         </p>

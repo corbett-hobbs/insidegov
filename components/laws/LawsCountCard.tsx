@@ -10,8 +10,9 @@ import { Swatch, TableView, TooltipCard } from "@/components/decisions/shared";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ordinal } from "@/lib/demographics-chart";
 import { fmtInt } from "@/lib/decisions-derive";
-import { ALL_GROUPS, SUPPORT_LABELS, cellFor, filterLabel, openYear, seriesOf, signedMostSegments } from "@/lib/laws-derive";
-import { EmptyWindow, congressSub, congressTitle, congressYears, controlRowsFor } from "./shared";
+import { bandsPhrase, cellFor, filterLabel, openYear, seriesOf, signedMostSegments } from "@/lib/laws-derive";
+import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
+import { EmptyWindow, congressSub, congressTitle, congressYears, controlRowsFor, groupFills } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
 
 interface Col extends StackColumn {
@@ -20,35 +21,30 @@ interface Col extends StackColumn {
   all: number;
 }
 
-/** Eight validated categorical slots (globals.css `--laws-1..8`), one per topic group in stack order; "Not classified", when it shows, is neutral grey. */
-const FILLS = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `var(--laws-${i})`);
-const NOT_CLASSIFIED_FILL = "var(--ink-faint)";
 type Mode = "count" | "share";
 
 /**
  * Card 1: public laws enacted per Congress, stacked by topic group, narrowed by the years window, the policy area, "major
- * laws only" and the support band picked on card 2 (rule 4). A legend entry picks that policy area for the whole page (the
- * dropdown's value); a second click clears it. The in-progress Congress is hatched and left out of the peak and low labels,
+ * laws only" and the support bands (rule 4). A legend entry picks that policy area alone for the whole page (the
+ * filter bar's ticks); a second click clears it. The in-progress Congress is hatched and left out of the peak and low labels,
  * the president under each bar signed most of that Congress's laws, and the House / Senate strips show on request.
  */
 export function LawsCountCard() {
-  const { data, group, major, band, control, window: win, hover, pin } = useLawsValues();
-  const { moveHover, leaveHover, togglePin, clearPin, setGroup } = useLawsActions();
+  const { data, groups, major, bands, control, window: win, hover, pin } = useLawsValues();
+  const { moveHover, leaveHover, togglePin, clearPin, setGroups } = useLawsActions();
   const [mode, setMode] = useState<Mode>("count");
   const every = useMemo(() => seriesOf(data), [data]);
-  const fillOf = useMemo(() => new Map(every.map((s, i) => [s.id, s.id === "not-classified" ? NOT_CLASSIFIED_FILL : FILLS[i]!])), [every]);
+  const fillOf = useMemo(() => groupFills(data), [data]);
 
-  // One series per topic group, or just the picked one.
-  const series = useMemo<(StackSeries & { groups: string[] })[]>(() => {
-    if (group === ALL_GROUPS) return every.map((s) => ({ id: s.id, label: s.label, fill: fillOf.get(s.id)!, groups: s.groups }));
-    const hit = every.find((s) => s.id === group);
-    if (hit) return [{ id: hit.id, label: hit.label, fill: fillOf.get(hit.id)!, groups: hit.groups }];
-    return [{ id: group, label: filterLabel(data, group), fill: NOT_CLASSIFIED_FILL, groups: [group] }];
-  }, [group, every, fillOf, data]);
+  // One series per ticked topic group.
+  const series = useMemo<(StackSeries & { groups: string[] })[]>(
+    () => every.filter((s) => isPicked(groups, s.id)).map((s) => ({ id: s.id, label: s.label, fill: fillOf.get(s.id)!, groups: s.groups })),
+    [groups, every, fillOf],
+  );
 
   const cols = useMemo<Col[]>(() => {
     const rows: Col[] = [];
-    const pick = (n: number, bands: readonly number[]) => (band === null ? n : bands[band]!);
+    const pick = (n: number, by: readonly number[]) => (bands === null ? n : by.reduce((t, v, k) => t + (bands.has(k) ? v : 0), 0));
     for (let ci = win[0]; ci <= win[1]; ci++) {
       const values: Record<string, number> = {};
       for (const s of series) {
@@ -68,7 +64,7 @@ export function LawsCountCard() {
       });
     }
     return rows;
-  }, [data, win, band, major, series]);
+  }, [data, win, bands, major, series]);
 
   const segs = useMemo(() => signedMostSegments(data, cols.map((c) => c.ci)), [data, cols]);
   const partialKeys = useMemo(() => new Set(cols.filter((c) => data.partial[c.ci]).map((c) => c.key)), [cols, data]);
@@ -81,12 +77,12 @@ export function LawsCountCard() {
   const windowTotal = cols.reduce((t, c) => t + c.total, 0);
   const lede = !first
     ? ""
-    : group === ALL_GROUPS && band === null && !major
+    : groups === null && bands === null && !major
       ? cols.length === 1
         ? `${fmtInt(first.total)} laws enacted by the ${ordinal(first.congress)} Congress (${congressYears(data, first.ci)}).`
         : `${fmtInt(first.total)} laws enacted by the ${ordinal(first.congress)} Congress (${congressYears(data, first.ci)}), ${fmtInt(last.total)} by the ${ordinal(last.congress)} (${congressYears(data, last.ci)}).`
-      : `${fmtInt(windowTotal)} ${noun} in these years${group === ALL_GROUPS ? "" : `: ${filterLabel(data, group).toLowerCase()}`}${band === null ? "" : `, with ${SUPPORT_LABELS[band]!.toLowerCase()}`}.${major ? ` Major laws are assessed through the ${ordinal(data.majorThrough)} Congress.` : ""}`;
-  const filtered = group !== ALL_GROUPS || band !== null || major;
+      : `${fmtInt(windowTotal)} ${noun} in these years${groups === null ? "" : `: ${filterLabel(data, groups).toLowerCase()}`}${bands === null ? "" : `, ${bandsPhrase(bands)}`}.${major ? ` Major laws are assessed through the ${ordinal(data.majorThrough)} Congress.` : ""}`;
+  const filtered = groups !== null || bands !== null || major;
   const ncByCongress = data.counts.map((row) => row.reduce((t, n, ai) => t + (data.areas[ai]!.group === "not-classified" ? n : 0), 0));
   const notClassified = ncByCongress.reduce((a, b) => a + b, 0);
   const lastCongress = data.congresses[data.congresses.length - 1]!;
@@ -110,6 +106,8 @@ export function LawsCountCard() {
     >
       {cols.length === 0 ? (
         <EmptyWindow majorThrough={data.majorThrough} />
+      ) : series.length === 0 ? (
+        <p className="m-0 rounded-md border border-dashed border-line-strong p-4 text-[0.82rem] text-ink-muted">No policy area is ticked. Tick one in the filter bar, or choose All.</p>
       ) : (
         <StackedBars
           columns={cols}
@@ -135,8 +133,8 @@ export function LawsCountCard() {
             <TooltipCard title={congressTitle(data, c.ci)} sub={congressSub(data, c.ci)}>
               <div>
                 {fmtInt(c.total)} {noun}
-                {band !== null ? ` with ${SUPPORT_LABELS[band]!.toLowerCase()}` : ""}
-                {filtered && group !== ALL_GROUPS && c.all ? ` (${Math.round((c.total / c.all) * 100)}% of the Congress)` : ""}
+                {bands !== null ? ` ${bandsPhrase(bands)}` : ""}
+                {filtered && groups !== null && c.all ? ` (${Math.round((c.total / c.all) * 100)}% of the Congress)` : ""}
               </div>
               {[...series].reverse().map((s) =>
                 (c.values[s.id] ?? 0) > 0 ? (
@@ -151,7 +149,7 @@ export function LawsCountCard() {
       )}
       <div className={`mt-2 ${LEGEND_ROW}`}>
         {every.map((s) => (
-          <LegendToggle key={s.id} active={group === s.id} dimmed={group !== ALL_GROUPS && group !== s.id} onClick={() => setGroup(group === s.id ? ALL_GROUPS : s.id)}>
+          <LegendToggle key={s.id} active={isOnly(groups, s.id)} dimmed={groups !== null && !isPicked(groups, s.id)} onClick={() => setGroups(toggleOnly(groups, s.id))}>
             <span className={LEGEND_ITEM}>
               <Swatch color={fillOf.get(s.id)!} />
               {s.label}

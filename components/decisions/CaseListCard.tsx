@@ -4,7 +4,7 @@ import { useMemo, useState, type ReactNode, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ALL_AREAS_LABEL, areaFilterLabel, filterCases, fmtInt, wikiArticleUrl, wikiCaseUrl } from "@/lib/decisions-derive";
-import { ALL_AREAS, BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
+import { BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
 import { Swatch } from "./shared";
@@ -44,11 +44,11 @@ function Chip({ children, onClear, label }: { children: string; onClear: () => v
  * scrolled, so 8,000 cases never sit in the page at once.
  */
 export function CaseListCard() {
-  const { data, range, area, band, pin, landmark } = useDecisionsValues();
-  const { setArea, setBand, clearPin, setLandmark } = useDecisionsActions();
+  const { data, range, areas, band, pin, landmark } = useDecisionsValues();
+  const { setAreas, setBand, clearPin, setLandmark } = useDecisionsActions();
   const { cases, failed } = useDecisionCases(data.casesVersion);
   const [direction, setDirection] = useState<DecisionDirection | null>(null);
-  const rows = useMemo(() => (cases ? filterCases(data, cases, { range, area, band, term: pin, landmark, direction }) : []), [data, cases, range, area, band, pin, landmark, direction]);
+  const rows = useMemo(() => (cases ? filterCases(data, cases, { range, area: areas, band, term: pin, landmark, direction }) : []), [data, cases, range, areas, band, pin, landmark, direction]);
   const [query, setQuery] = useState("");
   const terms = useMemo(() => query.toLowerCase().split(/\s+/).filter(Boolean), [query]);
   const matched = useMemo(() => {
@@ -58,7 +58,7 @@ export function CaseListCard() {
       return terms.every((t) => hay.includes(t));
     });
   }, [rows, terms, data]);
-  const sig = `${range[0]}-${range[1]}|${area}|${band}|${pin}|${landmark}|${direction}|${terms.join(" ")}`;
+  const sig = `${range[0]}-${range[1]}|${areas === null ? "*" : [...areas].sort().join(",")}|${band}|${pin}|${landmark}|${direction}|${terms.join(" ")}`;
   const [shown, setShown] = useState<{ sig: string; n: number }>({ sig, n: PAGE });
   const n = shown.sig === sig ? shown.n : PAGE;
   const grow = (e: UIEvent<HTMLElement>) => {
@@ -106,9 +106,9 @@ export function CaseListCard() {
             Landmark cases
           </Chip>
         )}
-        {area !== ALL_AREAS && (
-          <Chip onClear={() => setArea(ALL_AREAS)} label="Clear the issue area filter">
-            {areaFilterLabel(data, area)}
+        {areas !== null && (
+          <Chip onClear={() => setAreas(null)} label="Clear the issue area filter">
+            {areaFilterLabel(data, areas)}
           </Chip>
         )}
         {band !== null && (
@@ -126,7 +126,7 @@ export function CaseListCard() {
             {`“${query.trim()}”`}
           </Chip>
         )}
-        {area === ALL_AREAS && band === null && pin === null && !landmark && terms.length === 0 && direction === null && <span>{ALL_AREAS_LABEL}, any vote.</span>}
+        {areas === null && band === null && pin === null && !landmark && terms.length === 0 && direction === null && <span>{ALL_AREAS_LABEL}, any vote.</span>}
       </div>
       <div
         key={sig}

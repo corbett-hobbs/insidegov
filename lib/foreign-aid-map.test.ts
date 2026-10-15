@@ -20,10 +20,10 @@ const ci = (n: string) => d.payload.countries.findIndex((c) => c.name === n);
 
 describe("bins", () => {
   it("absolute bins: edges, and lower bins for one sector", () => {
-    const all = dollarBins(-1);
+    const all = dollarBins(null);
     expect([0, 5e6, 1e7, 4.9e7, 5e7, 2.5e8, 1e9, 6.7e9].map((v) => dollarClass(v, all))).toEqual([0, 1, 2, 2, 3, 4, 5, 5]);
     expect(dollarClass(-5, all)).toBe(0);
-    expect(dollarClass(5e6, dollarBins(1))).toBe(3);
+    expect(dollarClass(5e6, dollarBins(new Set([1])))).toBe(3);
   });
   it("military share classes", () => {
     expect(SHARE_BINS.labels).toHaveLength(4);
@@ -46,7 +46,7 @@ describe("path index", () => {
 
 describe("not on the map (FY2025)", () => {
   it("about a third of the year goes to global and regional programs", () => {
-    const n = notOnMap(d, undrawnCountries(d, map), 2025, -1);
+    const n = notOnMap(d, undrawnCountries(d, map), 2025, null);
     expect(n.total).toBe(47_841_390_743);
     expect(n.programs / n.total).toBeCloseTo(0.341, 2);
     expect(n.countries + n.programs).toBe(n.total);
@@ -54,7 +54,7 @@ describe("not on the map (FY2025)", () => {
   });
   it("a node sums the country rows drawn on it", () => {
     const yi = 2025 - 2001;
-    const v = nodeValue(d, [ci("Israel")], yi, -1);
+    const v = nodeValue(d, [ci("Israel")], yi, null);
     expect(v.v).toBe(3_310_792_558);
     expect(v.m).toBe(3_305_572_360);
     expect(v.slots.reduce((a, b) => a + b, 0)).toBe(v.v);

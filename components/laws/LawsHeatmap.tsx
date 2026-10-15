@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { ALL_GROUPS } from "@/lib/laws-derive";
-import { ALL_ROW, GROUP_MEASURES, decadeCells, decadeInWindow, decadesOf, groupInFilter, groupSelected, heatCount, heatMax, type GroupRow, type GroupSortKey } from "@/lib/laws-derive";
+import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
+import { ALL_ROW, GROUP_MEASURES, decadeCells, decadeInWindow, decadesOf, heatCount, heatMax, type GroupRow, type GroupSortKey } from "@/lib/laws-derive";
 import { SUPPORT_COLORS } from "@/lib/laws-derive";
 import { fmtInt } from "@/lib/decisions-derive";
 import { useLawsActions, useLawsValues } from "./LawsState";
@@ -17,12 +17,12 @@ export const BAR_ROW_H = "lg:h-[calc(1.9rem+1px)]";
  * The companion to the topic-group rows: groups down the side (same order as the rows), decades across. The card's one toggle
  * picks the measure: laws enacted (accent), laws passed with under 60% yes or laws passed by voice vote or consent (those two in their
  * band's colour). The rows show a whole window; this shows when. Darker = more laws, on one scale for every group (the busiest
- * decade of any one) with "All policy areas" on its own. A click picks the group for the whole page (the dropdown's value);
+ * decade of any one) with "All policy areas" on its own. A click makes the group the only ticked policy area for the whole page;
  * decades outside the years window fade; a picked group dims the others (a comparison chart highlights, rule 4).
  */
 export function LawsHeatmap({ rows, measure }: { rows: readonly GroupRow[]; measure: GroupSortKey }) {
-  const { data, group, major, window: win } = useLawsValues();
-  const { setGroup } = useLawsActions();
+  const { data, groups, major, window: win } = useLawsValues();
+  const { setGroups } = useLawsActions();
   const { band, noun } = GROUP_MEASURES[measure];
   const counts = band === null;
   const decades = useMemo(() => decadesOf(data), [data]);
@@ -44,9 +44,9 @@ export function LawsHeatmap({ rows, measure }: { rows: readonly GroupRow[]; meas
           ))}
         </div>
         {grid.map(({ row, cells, max }) => {
-          const dim = group !== ALL_GROUPS && row.id !== ALL_ROW && !groupInFilter(data, group, row.id);
-          const on = row.id !== ALL_ROW && groupSelected(data, group, row.id);
-          const select = () => setGroup(row.id === ALL_ROW || on ? ALL_GROUPS : row.id);
+          const dim = groups !== null && row.id !== ALL_ROW && !isPicked(groups, row.id);
+          const on = row.id !== ALL_ROW && isOnly(groups, row.id);
+          const select = () => setGroups(row.id === ALL_ROW ? null : toggleOnly(groups, row.id));
           return (
             <div key={row.id} role="row" className={`contents ${dim ? "opacity-45" : ""}`}>
               <button

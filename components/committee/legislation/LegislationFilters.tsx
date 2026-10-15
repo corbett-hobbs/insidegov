@@ -1,9 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
+import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import type { BillFilter } from "@/lib/committee-bills-derive";
-import { monthLabel } from "@/lib/committee-bills-derive";
+import { NONE, monthLabel } from "@/lib/committee-bills-derive";
 import { STAGES } from "@/lib/committee-bills-derive";
 import type { CommitteeBillsPayload } from "@/lib/committee-bills-types";
+import { pickLabel } from "@/lib/multi-select";
 import { FOCUS_RING } from "./shared";
 
 const FIELD = `h-[1.85rem] rounded-md border border-line-strong bg-surface-raised px-2.5 text-[0.8rem] text-ink ${FOCUS_RING}`;
@@ -25,23 +28,38 @@ function Chip({ children, onClear, label }: { children: string; onClear: () => v
   );
 }
 
-/** Search, sponsor party, policy area, subcommittee and the bipartisan checkbox; the active filters of every kind show as chips that clear themselves. */
+/**
+ * Search, sponsor party, policy area, subcommittee (both checkbox dropdowns, `MultiSelectFilter`, each row with its bills in this
+ * Congress; a bill with none assigned is its own row) and the bipartisan checkbox; the active filters of every kind show as chips that clear themselves.
+ */
 export function LegislationFilters({
   payload,
   filter,
   onChange,
 }: {
-  payload: Pick<CommitteeBillsPayload, "areas" | "subs">;
+  payload: Pick<CommitteeBillsPayload, "areas" | "subs" | "rows">;
   filter: BillFilter;
   onChange: (patch: Partial<BillFilter>) => void;
 }) {
+  const areaOptions = useMemo<MultiOption<number>[]>(() => {
+    const n = new Map<number, number>();
+    for (const r of payload.rows) n.set(r.a ?? NONE, (n.get(r.a ?? NONE) ?? 0) + 1);
+    const opts = payload.areas.map((label, id) => ({ id, label, count: String(n.get(id) ?? 0) })).sort((x, y) => x.label.localeCompare(y.label));
+    return n.has(NONE) ? [...opts, { id: NONE, label: "No policy area", count: String(n.get(NONE)) }] : opts;
+  }, [payload.areas, payload.rows]);
+  const subOptions = useMemo<MultiOption<number>[]>(() => {
+    const n = new Map<number, number>();
+    for (const r of payload.rows) for (const u of r.u?.length ? r.u : [NONE]) n.set(u, (n.get(u) ?? 0) + 1);
+    const opts = payload.subs.map((s, id) => ({ id, label: s.name, count: String(n.get(id) ?? 0) })).sort((x, y) => x.label.localeCompare(y.label));
+    return n.has(NONE) ? [...opts, { id: NONE, label: "No subcommittee", count: String(n.get(NONE)) }] : opts;
+  }, [payload.subs, payload.rows]);
   const chips: { key: string; text: string; clear: Partial<BillFilter>; label: string }[] = [];
   if (filter.stage) chips.push({ key: "stage", text: `${filter.stage.mode === "stop" ? "Stopped at" : "Reached"}: ${STAGES[filter.stage.k - 1]!.label}`, clear: { stage: null }, label: "Clear the step filter" });
   if (filter.month) chips.push({ key: "month", text: `Referred ${monthLabel(filter.month)}`, clear: { month: null }, label: "Clear the month" });
   if (filter.party) chips.push({ key: "party", text: filter.party === "R" ? "Republican sponsor" : "Democratic sponsor", clear: { party: "" }, label: "Clear the sponsor party" });
   if (filter.bipartisan) chips.push({ key: "bip", text: "Both parties cosponsor", clear: { bipartisan: false }, label: "Clear the bipartisan filter" });
-  if (filter.area !== null) chips.push({ key: "area", text: payload.areas[filter.area] ?? "", clear: { area: null }, label: "Clear the policy area" });
-  if (filter.sub !== null) chips.push({ key: "sub", text: payload.subs[filter.sub]?.name ?? "", clear: { sub: null }, label: "Clear the subcommittee" });
+  if (filter.area !== null) chips.push({ key: "area", text: pickLabel(filter.area, areaOptions, "policy areas"), clear: { area: null }, label: "Clear the policy area" });
+  if (filter.sub !== null) chips.push({ key: "sub", text: pickLabel(filter.sub, subOptions, "subcommittees"), clear: { sub: null }, label: "Clear the subcommittee" });
   if (filter.query.trim()) chips.push({ key: "q", text: `“${filter.query.trim()}”`, clear: { query: "" }, label: "Clear the search" });
 
   return (
@@ -59,29 +77,15 @@ export function LegislationFilters({
             <option value="D">Democratic</option>
           </select>
         </label>
-        <label className="flex min-w-0 flex-[1_1_40%] flex-col gap-0.5 sm:flex-none">
+        <div className="flex min-w-0 flex-[1_1_40%] flex-col gap-0.5 sm:flex-none">
           <span className={LABEL}>Policy area</span>
-          <select value={filter.area ?? ""} onChange={(e) => onChange({ area: e.target.value === "" ? null : Number(e.target.value) })} className={`${FIELD} sm:w-[11rem]`}>
-            <option value="">All areas</option>
-            {payload.areas.map((a, i) => ({ a, i })).sort((x, y) => x.a.localeCompare(y.a)).map(({ a, i }) => (
-              <option key={a} value={i}>
-                {a}
-              </option>
-            ))}
-          </select>
-        </label>
+          <MultiSelectFilter label="Policy area" noun="policy areas" allLabel="All areas" options={areaOptions} value={filter.area} onChange={(area) => onChange({ area })} className="sm:w-[11rem]" />
+        </div>
         {payload.subs.length > 0 && (
-          <label className="flex min-w-0 flex-[1_1_40%] flex-col gap-0.5 sm:flex-none">
+          <div className="flex min-w-0 flex-[1_1_40%] flex-col gap-0.5 sm:flex-none">
             <span className={LABEL}>Subcommittee</span>
-            <select value={filter.sub ?? ""} onChange={(e) => onChange({ sub: e.target.value === "" ? null : Number(e.target.value) })} className={`${FIELD} sm:w-[12rem]`}>
-              <option value="">All</option>
-              {payload.subs.map((s, i) => ({ s, i })).sort((x, y) => x.s.name.localeCompare(y.s.name)).map(({ s, i }) => (
-                <option key={s.id} value={i}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </label>
+            <MultiSelectFilter label="Subcommittee" noun="subcommittees" allLabel="All" options={subOptions} value={filter.sub} onChange={(sub) => onChange({ sub })} className="sm:w-[12rem]" />
+          </div>
         )}
         <label className="inline-flex h-[1.85rem] items-center gap-1.5 whitespace-nowrap text-[0.78rem] text-ink-muted">
           <input type="checkbox" checked={filter.bipartisan} onChange={(e) => onChange({ bipartisan: e.target.checked })} />

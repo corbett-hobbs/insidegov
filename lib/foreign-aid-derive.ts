@@ -2,14 +2,15 @@ import type { Administration } from "./executive-orders-entities";
 import type { AidMeta, AidRow } from "./foreign-aid-entities";
 import { AidDataError } from "./foreign-aid-entities";
 import type { AidCountryRef, AidPayload, AidTerm } from "./foreign-aid-types";
+import { isPicked, type Picked } from "./multi-select";
 
 /**
  * Pure shaping and arithmetic for /presidency/foreign-aid. No file I/O (the reader is
  * `lib/foreign-aid-data.ts`), so it is unit-tested over the real committed files.
  *
- * Every function takes the decoded `AidData` plus an index filter: `ci` is a country id
- * (-1 = all countries, regional and global programs included) and `sec` is a sector id
- * (-1 = all sectors). Dollars are exact nominal disbursements; negatives are kept as
+ * Every function takes the decoded `AidData` plus filters: `ci` is a country id
+ * (-1 = all countries, regional and global programs included) and `secs` is the set of ticked
+ * sector ids (null = all sectors). Dollars are exact nominal disbursements; negatives are kept as
  * published (the source documents them as recoveries/adjustments) and only clamped where a
  * chart cannot draw them.
  */
@@ -203,53 +204,69 @@ export function buildAidPayload(rows: readonly AidRow[], meta: AidMeta, admins: 
 
 const at = (d: AidData, ci: number, yi: number) => (ci * d.ny + yi) * d.ns;
 
-/** One country's disbursements in a year (one sector, or all when `sec` = -1). */
-export function countryValue(d: AidData, ci: number, yi: number, sec: number): number {
+/** One country's disbursements in a year, over the ticked sectors (null = all). */
+export function countryValue(d: AidData, ci: number, yi: number, secs: Picked<number>): number {
   const b = at(d, ci, yi);
-  if (sec >= 0) return d.disb[b + sec];
   let t = 0;
-  for (let s = 0; s < d.ns; s++) t += d.disb[b + s];
+  for (let s = 0; s < d.ns; s++) if (isPicked(secs, s)) t += d.disb[b + s];
   return t;
 }
 
 /**
- * Military assistance for the map's share view. All sectors: every military dollar. Peace and
- * Security: only that sector's own rows. Any other sector: 0. About $4.6B of ~$300B military
- * dollars is recorded under other sectors; "All" counts it, Peace and Security does not
- * (docs/FOREIGN_AID_METHODOLOGY.md).
+ * Military assistance for the map's share view, over the ticked sectors. All sectors (null): every
+ * military dollar. Peace and Security among the ticked: the military dollars of the ticked sectors
+ * (Peace and Security alone: only that sector's own rows). Without Peace and Security: 0. About
+ * $4.6B of ~$300B military dollars is recorded under other sectors; "All" counts it, Peace and
+ * Security alone does not (docs/FOREIGN_AID_METHODOLOGY.md).
  */
-export function countryMilitary(d: AidData, ci: number, yi: number, sec: number): number {
+export function countryMilitary(d: AidData, ci: number, yi: number, secs: Picked<number>): number {
+  if (!militaryShareAvailable(secs)) return 0;
   const b = at(d, ci, yi);
-  if (sec === SECTOR_PEACE) return d.mil[b + SECTOR_PEACE];
-  if (sec > 0) return 0;
   let t = 0;
-  for (let s = 0; s < d.ns; s++) t += d.mil[b + s];
+  for (let s = 0; s < d.ns; s++) if (isPicked(secs, s)) t += d.mil[b + s];
   return t;
 }
 
-/** The map's military-share view only makes sense where military dollars are counted. */
-export const militaryShareAvailable = (sec: number) => sec <= SECTOR_PEACE;
+/** The map's military-share view only makes sense where military dollars are counted: all sectors, or Peace and Security among them. */
+export const militaryShareAvailable = (secs: Picked<number>) => isPicked(secs, SECTOR_PEACE);
 
-/** Dollars to regional and global programs in a year. */
-export function nonCountryValue(d: AidData, yi: number, sec: number): number {
+/** Dollars to regional and global programs in a year, over the ticked sectors. */
+export function nonCountryValue(d: AidData, yi: number, secs: Picked<number>): number {
   const b = yi * d.ns;
-  if (sec >= 0) return d.non[b + sec];
   let t = 0;
-  for (let s = 0; s < d.ns; s++) t += d.non[b + s];
+  for (let s = 0; s < d.ns; s++) if (isPicked(secs, s)) t += d.non[b + s];
   return t;
 }
 
-/** Adds one country-year's disbursements into the six chart slots. */
-export function addCountrySlots(out: number[], d: AidData, ci: number, yi: number, sec: number): void {
+/** Adds one country-year's disbursements into the six chart slots (ticked sectors only). */
+export function addCountrySlots(out: number[], d: AidData, ci: number, yi: number, secs: Picked<number>): void {
   const b = at(d, ci, yi);
-  if (sec >= 0) out[slotOfSector(sec)] += d.disb[b + sec];
-  else for (let s = 0; s < d.ns; s++) out[slotOfSector(s)] += d.disb[b + s];
+  for (let s = 0; s < d.ns; s++) if (isPicked(secs, s)) out[slotOfSector(s)] += d.disb[b + s];
 }
 
-export function addNonCountrySlots(out: number[], d: AidData, yi: number, sec: number): void {
+export function addNonCountrySlots(out: number[], d: AidData, yi: number, secs: Picked<number>): void {
   const b = yi * d.ns;
-  if (sec >= 0) out[slotOfSector(sec)] += d.non[b + sec];
-  else for (let s = 0; s < d.ns; s++) out[slotOfSector(s)] += d.non[b + s];
+  for (let s = 0; s < d.ns; s++) if (isPicked(secs, s)) out[slotOfSector(s)] += d.non[b + s];
+}
+
+/** A sector's display name. */
+export const sectorName = (d: AidData, si: number): string => SECTOR_LABEL[d.payload.sectors[si] as keyof typeof SECTOR_LABEL] ?? d.payload.sectors[si];
+
+/** The ticked sectors in words, for a lede, chip or aria-label: "Health", "Health and Humanitarian assistance", "all sectors except Peace and security", "3 of 9 sectors". */
+export function sectorPhrase(d: AidData, secs: Picked<number>): string {
+  if (secs === null) return "all sectors";
+  const on = Array.from({ length: d.ns }, (_, i) => i).filter((i) => secs.has(i));
+  if (on.length === 0) return "no sectors";
+  if (on.length <= 2) return on.map((i) => sectorName(d, i)).join(" and ");
+  if (d.ns - on.length === 1) return `all sectors except ${sectorName(d, Array.from({ length: d.ns }, (_, i) => i).find((i) => !secs.has(i))!)}`;
+  return `${on.length} of ${d.ns} sectors`;
+}
+
+/** The chart slots the ticked sectors fall in, ascending (all six for null). */
+export function slotsOfSectors(d: AidData, secs: Picked<number>): number[] {
+  const out = new Set<number>();
+  for (let s = 0; s < d.ns; s++) if (isPicked(secs, s)) out.add(slotOfSector(s));
+  return [...out].sort((a, b) => a - b);
 }
 
 export interface SpendingYear {
@@ -263,15 +280,15 @@ export interface SpendingYear {
 }
 
 /** Stacked totals per fiscal year. `ci` = -1: every country plus regional and global programs. */
-export function spendingByYear(d: AidData, fromFy: number, toFy: number, ci: number, sec: number): SpendingYear[] {
+export function spendingByYear(d: AidData, fromFy: number, toFy: number, ci: number, secs: Picked<number>): SpendingYear[] {
   const out: SpendingYear[] = [];
   for (let fy = fromFy; fy <= toFy; fy++) {
     const yi = fy - d.payload.years[0];
     const slots = new Array<number>(SLOT_COUNT).fill(0);
-    if (ci >= 0) addCountrySlots(slots, d, ci, yi, sec);
+    if (ci >= 0) addCountrySlots(slots, d, ci, yi, secs);
     else {
-      for (let c = 0; c < d.nc; c++) addCountrySlots(slots, d, c, yi, sec);
-      addNonCountrySlots(slots, d, yi, sec);
+      for (let c = 0; c < d.nc; c++) addCountrySlots(slots, d, c, yi, secs);
+      addNonCountrySlots(slots, d, yi, secs);
     }
     out.push({ fy, yi, slots, total: slots.reduce((a, b) => a + b, 0), drawn: slots.reduce((a, b) => a + Math.max(0, b), 0) });
   }
@@ -279,19 +296,19 @@ export function spendingByYear(d: AidData, fromFy: number, toFy: number, ci: num
 }
 
 /** The year's all-countries (or one country's) net total. */
-export function yearTotal(d: AidData, fy: number, ci: number, sec: number): number {
-  return spendingByYear(d, fy, fy, ci, sec)[0].total;
+export function yearTotal(d: AidData, fy: number, ci: number, secs: Picked<number>): number {
+  return spendingByYear(d, fy, fy, ci, secs)[0].total;
 }
 
 /**
  * Percent change from the prior fiscal year, or null when it isn't comparable: the first
  * year, a partial year (either side), or a prior total of zero.
  */
-export function changeVsPrior(d: AidData, fy: number, ci: number, sec: number): number | null {
+export function changeVsPrior(d: AidData, fy: number, ci: number, secs: Picked<number>): number | null {
   if (!changeAvailable(d, fy)) return null;
-  const prev = yearTotal(d, fy - 1, ci, sec);
+  const prev = yearTotal(d, fy - 1, ci, secs);
   if (prev <= 0) return null;
-  return (yearTotal(d, fy, ci, sec) - prev) / prev;
+  return (yearTotal(d, fy, ci, secs) - prev) / prev;
 }
 
 /** "Change vs. prior year" is disabled for FY2001 (no prior year) and for any partial year. */
@@ -311,16 +328,16 @@ export interface RankedCountry {
 }
 
 /** Every country with a nonzero total in the year, ranked by total (largest first). */
-export function rankCountries(d: AidData, fy: number, sec: number): RankedCountry[] {
+export function rankCountries(d: AidData, fy: number, secs: Picked<number>): RankedCountry[] {
   const yi = fy - d.payload.years[0];
   const comparable = changeAvailable(d, fy);
   const items: RankedCountry[] = [];
   for (let c = 0; c < d.nc; c++) {
-    const value = countryValue(d, c, yi, sec);
+    const value = countryValue(d, c, yi, secs);
     if (value === 0) continue;
     const slots = new Array<number>(SLOT_COUNT).fill(0);
-    addCountrySlots(slots, d, c, yi, sec);
-    items.push({ ci: c, value, slots, delta: comparable ? value - countryValue(d, c, yi - 1, sec) : null, rank: 0 });
+    addCountrySlots(slots, d, c, yi, secs);
+    items.push({ ci: c, value, slots, delta: comparable ? value - countryValue(d, c, yi - 1, secs) : null, rank: 0 });
   }
   items.sort((a, b) => b.value - a.value || a.ci - b.ci);
   items.forEach((it, i) => (it.rank = i + 1));
@@ -328,10 +345,10 @@ export function rankCountries(d: AidData, fy: number, sec: number): RankedCountr
 }
 
 /** Dollar change in one sector slot from the prior full year (the bar shown when a sector is picked in the legend); null when not comparable. */
-export function slotDeltaVsPrior(d: AidData, fy: number, ci: number, sec: number, slots: readonly number[], slot: number): number | null {
+export function slotDeltaVsPrior(d: AidData, fy: number, ci: number, secs: Picked<number>, slots: readonly number[], slot: number): number | null {
   if (!changeAvailable(d, fy)) return null;
   const prev = new Array<number>(SLOT_COUNT).fill(0);
-  addCountrySlots(prev, d, ci, fy - d.payload.years[0] - 1, sec);
+  addCountrySlots(prev, d, ci, fy - d.payload.years[0] - 1, secs);
   return slots[slot] - prev[slot];
 }
 
@@ -352,14 +369,14 @@ export interface TopYear {
 }
 
 /** The No. 1 recipient country per fiscal year (countries only; regional and global programs never rank). */
-export function topRecipientsByYear(d: AidData, fromFy: number, toFy: number, sec: number): TopYear[] {
+export function topRecipientsByYear(d: AidData, fromFy: number, toFy: number, secs: Picked<number>): TopYear[] {
   const out: TopYear[] = [];
   for (let fy = fromFy; fy <= toFy; fy++) {
     const yi = fy - d.payload.years[0];
     const ranked: TopYear["ranked"] = [];
     let countryTotal = 0;
     for (let c = 0; c < d.nc; c++) {
-      const value = countryValue(d, c, yi, sec);
+      const value = countryValue(d, c, yi, secs);
       if (value > 0) {
         ranked.push({ ci: c, value });
         countryTotal += value;
@@ -367,7 +384,7 @@ export function topRecipientsByYear(d: AidData, fromFy: number, toFy: number, se
     }
     ranked.sort((a, b) => b.value - a.value || a.ci - b.ci);
     const topSlots = new Array<number>(SLOT_COUNT).fill(0);
-    if (ranked[0]) addCountrySlots(topSlots, d, ranked[0].ci, yi, sec);
+    if (ranked[0]) addCountrySlots(topSlots, d, ranked[0].ci, yi, secs);
     out.push({ fy, ranked, countryTotal, topSlots });
   }
   return out;

@@ -3,6 +3,7 @@
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
+import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
@@ -19,6 +20,7 @@ import {
   type EoListItem,
   type EoYear,
 } from "@/lib/executive-orders-types";
+import { isOnly, isPicked, pickLabel, toggleOnly, type Picked } from "@/lib/multi-select";
 import { sameRange, termYearRange, type YearRange } from "@/lib/year-range";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ROW_CAPPED } from "@/components/charts/legend";
@@ -32,6 +34,7 @@ const MODES = [
   { value: "share", label: "Share of year" },
 ] as const;
 
+const TOPIC_ITEMS = EO_TOPICS.map((t) => ({ id: t, label: EO_TOPIC_LABELS[t] }));
 const SERIES: StackSeries[] = EO_TOPICS.map((t) => ({ id: t, label: EO_TOPIC_LABELS[t], fill: topicFill(t) }));
 
 const fmtDate = (iso: string) =>
@@ -60,16 +63,8 @@ function termBands(admins: readonly EoAdmin[], firstYear: number, columns: numbe
 
 export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
   const [mode, setMode] = useState<Mode>("count");
-  const [topic, setTopicRaw] = useState<EoTopic | null>(null);
-  // A topic is shown alone, as a count; Share of year compares the whole mix, so the two never combine.
-  const setTopic = (t: EoTopic | null) => {
-    setTopicRaw(t);
-    if (t) setMode("count");
-  };
-  const pickMode = (m: Mode) => {
-    setMode(m);
-    if (m === "share") setTopicRaw(null);
-  };
+  // Ticked topics (null = all). The chart draws only these; Share of year then reads "share of the year's orders".
+  const [topics, setTopics] = useState<Picked<EoTopic>>(null);
   const [selected, setSelected] = useState<string | null>(null);
 
   const first = data.years[0].year;
@@ -103,7 +98,19 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data.administrations, first, lastYear],
   );
-  const visible = useMemo(() => columns.filter((c) => c.year.year >= from && c.year.year <= to), [columns, from, to]);
+  const series = useMemo(() => SERIES.filter((s) => isPicked(topics, s.id as EoTopic)), [topics]);
+  const visible = useMemo(
+    () =>
+      columns
+        .filter((c) => c.year.year >= from && c.year.year <= to)
+        .map((c) => ({ ...c, total: EO_TOPICS.reduce((n, t) => n + (isPicked(topics, t) ? c.year.counts[t] : 0), 0), denom: c.year.total })),
+    [columns, from, to, topics],
+  );
+  // The control's rows: orders per topic in the years shown, so each row says what ticking it would add.
+  const topicOptions = useMemo<MultiOption<EoTopic>[]>(
+    () => EO_TOPICS.map((t) => ({ id: t, label: EO_TOPIC_LABELS[t], swatch: topicFill(t), count: data.years.filter((y) => y.year >= from && y.year <= to).reduce((n, y) => n + y.counts[t], 0).toLocaleString("en-US") })),
+    [data.years, from, to],
+  );
   const bands = useMemo(() => termBands(data.administrations, from, visible.length), [data.administrations, from, visible.length]);
   const selectedYear = data.years.find((y) => String(y.year) === selected) ?? null;
   const last = data.years[data.years.length - 1];
@@ -113,21 +120,10 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
       <div className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-[1180px] flex-col px-4 py-2.5 sm:flex-row sm:items-center sm:px-6">
           {/* Phones: Topic alone on its row, so its label sits beside it (rule 5a); the slider and term band below. */}
-          <label className="flex min-w-0 items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint">Topic</span>
-            <select
-              value={topic ?? ""}
-              onChange={(e) => setTopic((e.target.value || null) as EoTopic | null)}
-              className="w-full min-w-0 truncate rounded-md border border-line-strong bg-surface-raised px-[0.55rem] py-[0.42rem] text-[0.8rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:w-[13rem]"
-            >
-              <option value="">All topics</option>
-              {EO_TOPICS.map((t) => (
-                <option key={t} value={t}>
-                  {EO_TOPIC_LABELS[t]}
-                </option>
-              ))}
-            </select>
-          </label>
+            <MultiSelectFilter label="Topic" noun="topics" options={topicOptions} value={topics} onChange={setTopics} className="flex-1 sm:w-[13rem] sm:flex-none" />
+          </div>
           <RangeSelector
             min={first}
             max={lastYear}
@@ -156,12 +152,12 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
         <ChartCard
           title="Executive orders signed per year, by topic"
           lede={`${data.total.toLocaleString("en-US")} orders signed ${first}–${last.year}, counted in the year they were signed. ${last.year} is year to date, through ${fmtDate(data.throughDate)}.`}
-          action={<PillGroup ariaLabel="Chart view" options={MODES} value={mode} onChange={pickMode} />}
+          action={<PillGroup ariaLabel="Chart view" options={MODES} value={mode} onChange={setMode} />}
         >
           {/* The topic key is the highlight control, in the shared legend style (rule 10g). Below `sm` it stays two rows tall and scrolls sideways (LEGEND_ROW_CAPPED), so the chart isn't pushed down the page. */}
-          <div role="group" aria-label="Highlight a topic" className={`${LEGEND_ROW_CAPPED} mb-3`}>
+          <div role="group" aria-label="Show only a topic" className={`${LEGEND_ROW_CAPPED} mb-3`}>
             {EO_TOPICS.map((t) => (
-              <LegendToggle key={t} active={topic === t} dimmed={topic !== null && topic !== t} onClick={() => setTopic(topic === t ? null : t)} title={topic === t ? "Click to show every topic again" : "Click to highlight this topic"}>
+              <LegendToggle key={t} active={isOnly(topics, t)} dimmed={!isPicked(topics, t)} onClick={() => setTopics(toggleOnly(topics, t))} title={isOnly(topics, t) ? "Click to show every topic again" : "Click to show only this topic"}>
                 <TopicSwatch topic={t} size={10} />
                 {EO_TOPIC_LABELS[t]}
               </LegendToggle>
@@ -170,18 +166,18 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
 
           <StackedBars
             columns={visible}
-            series={SERIES}
+            series={series}
             mode={mode}
-            highlight={topic}
+            highlight={null}
             selectedKey={selected}
             onSelect={setSelected}
             bands={bands}
             yAxisLabel={mode === "share" ? "SHARE OF YEAR’S ORDERS" : "EXECUTIVE ORDERS"}
             ariaLabel={`Stacked columns of executive orders signed per year, ${from} to ${to}, by topic. Select a column to list that year's orders.`}
-            renderTooltip={(c) => <YearTooltip col={c} admins={adminById} mode={mode} throughDate={data.throughDate} />}
+            renderTooltip={(c) => <YearTooltip col={c} admins={adminById} mode={mode} topics={topics} throughDate={data.throughDate} />}
           />
 
-          <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setRange(null)} topic={topic} admins={adminById} onClearTopic={() => setTopic(null)} throughDate={data.throughDate} />
+          <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setRange(null)} topics={topics} admins={adminById} onClearTopics={() => setTopics(null)} throughDate={data.throughDate} />
 
           <MethodologyNote>
             <p>
@@ -216,11 +212,13 @@ function YearTooltip({
   col,
   admins,
   mode,
+  topics,
   throughDate,
 }: {
   col: StackColumn & { year: EoYear };
   admins: Map<string, EoAdmin>;
   mode: Mode;
+  topics: Picked<EoTopic>;
   throughDate: string;
 }) {
   const y = col.year;
@@ -240,7 +238,7 @@ function YearTooltip({
         </div>
       )}
       <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
-        {EO_TOPICS.filter((t) => y.counts[t] > 0).map((t) => (
+        {EO_TOPICS.filter((t) => y.counts[t] > 0 && isPicked(topics, t)).map((t) => (
           <li key={t} className="flex items-center gap-1.5">
             <TopicSwatch topic={t} size={10} backed />
             <span className="flex-1">{EO_TOPIC_LABELS[t]}</span>
@@ -260,9 +258,9 @@ function YearList({
   range,
   president,
   onClearPresident,
-  topic,
+  topics,
   admins,
-  onClearTopic,
+  onClearTopics,
   throughDate,
 }: {
   year: EoYear | null;
@@ -271,16 +269,17 @@ function YearList({
   range: readonly [number, number];
   president: string | null;
   onClearPresident: () => void;
-  topic: EoTopic | null;
+  topics: Picked<EoTopic>;
   admins: Map<string, EoAdmin>;
-  onClearTopic: () => void;
+  onClearTopics: () => void;
   throughDate: string;
 }) {
+  const topicText = pickLabel(topics, TOPIC_ITEMS, "topics");
   if (president) {
     const a = admins.get(president);
     const scope = year ? [year] : years;
     const all = scope.flatMap((y) => y.items).filter((i) => i.termId === president).sort((a, b) => b.n - a.n);
-    const items = topic ? all.filter((i) => i.topic === topic) : all;
+    const items = topics ? all.filter((i) => isPicked(topics, i.topic)) : all;
     return (
       <section aria-live="polite" aria-label={`Executive orders signed by ${a?.president ?? "this president"}`} className="mt-4 overflow-hidden rounded-lg border border-line">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-5 py-3">
@@ -293,22 +292,22 @@ function YearList({
         </div>
         <ListNote items={items}>
           Newest first.
-          {(topic || year) && ` Also filtered by${year ? ` year ${year.year}` : ""}${topic ? `${year ? " and" : ""} topic ${EO_TOPIC_LABELS[topic]}` : ""}.`}
+          {(topics || year) && ` Also filtered by${year ? ` year ${year.year}` : ""}${topics ? `${year ? " and" : ""} topic: ${topicText}` : ""}.`}
         </ListNote>
         <OrderRows items={items} showPresident={false} admins={admins} />
       </section>
     );
   }
-  if (!year && topic) {
+  if (!year && topics) {
     // A topic with no year selected: every order on that topic in the years the chart shows, newest first.
-    const items = years.filter((y) => y.year >= range[0] && y.year <= range[1]).flatMap((y) => y.items).filter((i) => i.topic === topic).sort((a, b) => b.n - a.n);
+    const items = years.filter((y) => y.year >= range[0] && y.year <= range[1]).flatMap((y) => y.items).filter((i) => isPicked(topics, i.topic)).sort((a, b) => b.n - a.n);
     return (
-      <section aria-live="polite" aria-label={`Executive orders on ${EO_TOPIC_LABELS[topic]}`} className="mt-4 overflow-hidden rounded-lg border border-line">
+      <section aria-live="polite" aria-label={`Executive orders on ${topicText}`} className="mt-4 overflow-hidden rounded-lg border border-line">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-5 py-3">
           <h2 className="font-serif text-[1.05rem] font-medium">
-            {EO_TOPIC_LABELS[topic]}: {items.length} executive orders, {range[0]}–{range[1]}
+            {topicText}: {items.length} executive orders, {range[0]}–{range[1]}
           </h2>
-          <button type="button" onClick={onClearTopic} className="text-[0.78rem] font-medium text-accent hover:underline">
+          <button type="button" onClick={onClearTopics} className="text-[0.78rem] font-medium text-accent hover:underline">
             Show all topics
           </button>
         </div>
@@ -332,7 +331,7 @@ function YearList({
       </section>
     );
   }
-  const items = topic ? year.items.filter((i) => i.topic === topic) : year.items;
+  const items = topics ? year.items.filter((i) => isPicked(topics, i.topic)) : year.items;
   return (
     <section aria-live="polite" aria-label={`Executive orders signed in ${year.year}`} className="mt-4 overflow-hidden rounded-lg border border-line">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-5 py-3">
@@ -346,10 +345,10 @@ function YearList({
       </div>
       <ListNote items={items}>
         Newest first.
-        {topic && (
+        {topics && (
           <>
-            {" "}Showing {items.length} of {year.total}, topic: {EO_TOPIC_LABELS[topic]}.{" "}
-            <button type="button" onClick={onClearTopic} className="font-medium text-accent hover:underline">
+            {" "}Showing {items.length} of {year.total}, topic: {topicText}.{" "}
+            <button type="button" onClick={onClearTopics} className="font-medium text-accent hover:underline">
               Show all topics
             </button>
           </>

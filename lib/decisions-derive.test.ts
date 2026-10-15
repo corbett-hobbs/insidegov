@@ -5,6 +5,7 @@ import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 import {
   ALL_AREAS_LABEL,
   areaCells,
+  areaFilterLabel,
   decadeCells,
   decadeInWindow,
   decadeOf,
@@ -204,7 +205,32 @@ describe("Other areas and card 1's series", () => {
     expect(inAreaFilter(d, OTHER_AREAS, -1)).toBe(true);
     expect(inAreaFilter(d, OTHER_AREAS, d.topAreas[0])).toBe(false);
     expect(inAreaFilter(d, 3, 3)).toBe(true);
-    expect(inAreaFilter(d, 3, 4)).toBe(false);
+    expect(inAreaFilter(d, null, -1)).toBe(true);
+    expect(inAreaFilter(d, new Set([3, 5]), 5)).toBe(true);
+    expect(inAreaFilter(d, new Set([3, 5]), 4)).toBe(false);
+    expect(inAreaFilter(d, new Set([3, 5]), -1)).toBe(false); // a case with no area coded is only in "all"
+  });
+  it("a ticked set sums its areas; null is every case and an empty set none", () => {
+    expect(areaCells(d, null)).toBe(d.all);
+    const two = areaCells(d, new Set([0, 3]));
+    d.terms.forEach((_, ti) => d.all[ti].forEach((_v, k) => expect(two[ti][k]).toBe(d.by[0][ti][k] + d.by[3][ti][k])));
+    expect(areaCells(d, new Set()).every((b) => sumBucket(b) === 0)).toBe(true);
+    // Every area ticked is the whole docket less the cases with no area coded.
+    const every = new Set(d.areas.map((_, i) => i));
+    expect(sumBucket(windowSum(d, every, FULL))).toBe(d.caseCount - d.unclassified);
+    expect(areaFilterLabel(d, null)).toBe("All issue areas");
+    expect(areaFilterLabel(d, new Set([2]))).toBe(d.areas[2].label);
+    expect(areaFilterLabel(d, new Set(d.areas.map((_, i) => i).filter((i) => i !== 2)))).toBe(`All but ${d.areas[2].label}`);
+    expect(areaFilterLabel(d, new Set([1, 2, 3]))).toBe("3 of 14 issue areas");
+  });
+  it("the list lists what the charts count for a ticked set", () => {
+    const sets = [new Set([0, 7]), new Set(d.areas.map((_, i) => i).filter((i) => i !== d.topAreas[0])), new Set<number>()];
+    for (const area of sets) {
+      for (const band of [null, 4]) {
+        const want = windowCells(d, area, FULL).cells.reduce((t, b) => t + (band === null ? sumBucket(b) : b[band]), 0);
+        expect(filterCases(d, cases, { range: FULL, area, band, term: null }).length, `${[...area]}/${band}`).toBe(want);
+      }
+    }
   });
 });
 

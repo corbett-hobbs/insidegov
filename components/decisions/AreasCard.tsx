@@ -6,8 +6,9 @@ import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { inAreaFilter, areaRows, bandShare, fmtInt, fmtPct, nextAreaSort } from "@/lib/decisions-derive";
-import { ALL_AREAS, BAND_COLORS, BAND_LONG, BAND_SHORT, type AreaSort, type AreaSortKey } from "@/lib/decisions-types";
+import { areaRows, bandShare, fmtInt, fmtPct, nextAreaSort } from "@/lib/decisions-derive";
+import { BAND_COLORS, BAND_LONG, BAND_SHORT, type AreaSort, type AreaSortKey } from "@/lib/decisions-types";
+import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DecadeHeatmap } from "./DecadeHeatmap";
 import { Swatch, TableView } from "./shared";
@@ -22,11 +23,11 @@ const SORTS: { key: AreaSortKey; label: string; hint: string }[] = [
 /**
  * Card 3: one row per issue area, a 100% bar of the five dissent bands over the years in the window, case count at right
  * (a comparison chart, so a selection dims the other rows instead of removing them, rule 4). "All issue areas" is pinned
- * first. Clicking a row sets the same Issue area as the pinned bar's dropdown; clicking it again, or All, clears it.
+ * first. Clicking a row ticks just that issue area in the pinned bar; clicking it again, or All, clears the filter.
  */
 export function AreasCard() {
-  const { data, range, area } = useDecisionsValues();
-  const { setArea } = useDecisionsActions();
+  const { data, range, areas } = useDecisionsValues();
+  const { setAreas } = useDecisionsActions();
   const [sort, setSort] = useState<AreaSort>({ key: "n", reversed: false });
   const rows = useMemo(() => areaRows(data, range, sort), [data, range, sort]);
   const stacked = useMemo<StackedRowData[]>(
@@ -35,19 +36,19 @@ export function AreasCard() {
         id: r.id,
         label: r.label,
         total: fmtInt(r.total),
-        selected: area === r.index,
-        dimmed: area !== ALL_AREAS && r.index >= 0 && !inAreaFilter(data, area, r.index),
+        selected: r.index >= 0 && isOnly(areas, r.index),
+        dimmed: areas !== null && r.index >= 0 && !isPicked(areas, r.index),
         segments: [0, 1, 2, 3, 4].map((k) => ({
           value: bandShare(r.bucket, k),
           color: BAND_COLORS[k],
           title: `${r.label}: ${BAND_LONG[k]}, ${fmtPct(bandShare(r.bucket, k))} (${fmtInt(r.bucket[k])} of ${fmtInt(r.total)})`,
         })),
       })),
-    [rows, area, data],
+    [rows, areas],
   );
   const click = (id: string) => {
     const row = rows.find((r) => r.id === id);
-    setArea(!row || row.index < 0 || row.index === area ? -1 : row.index);
+    setAreas(!row || row.index < 0 ? null : toggleOnly(areas, row.index));
   };
   const lo = range[0];
   const hi = range[1];

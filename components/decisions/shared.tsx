@@ -63,3 +63,13 @@ export function chiefLine(d: DecisionsPayload, term: number): string | undefined
   const c = chiefOfTerm(d, term);
   return c ? `Chief Justice ${c.name} (appointed by ${c.president.split(" ").pop()})` : undefined;
 }
+
+/**
+ * One colour per series of card 1 (the six biggest issue areas, then Other), in stack order. The pinned bar's Issue area control and
+ * card 1's bars and legend read this, so an area wears the same colour in both; every area outside the six wears Other's.
+ */
+export const AREA_FILLS = ["var(--fuel-coal)", "var(--fuel-gas)", "var(--fuel-nuclear)", "var(--fuel-hydro)", "var(--fuel-wind)", "var(--fuel-solar)", "var(--fuel-other)"];
+export const areaFill = (d: DecisionsPayload, areaIndex: number): string => {
+  const pos = d.topAreas.indexOf(areaIndex);
+  return AREA_FILLS[pos >= 0 ? pos : AREA_FILLS.length - 1];
+};

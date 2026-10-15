@@ -3,6 +3,7 @@ import type { TermSegment } from "../components/charts/TermBandSvg";
 import type { DecisionCaseRow, DecisionCountRow, DecisionsMeta } from "./decisions-entities";
 import { initialsOf } from "./term-label";
 import { ALL_AREAS, OTHER_AREAS, type AreaSort, type AreaSortKey, type Bucket, type DecisionCase, type DecisionDirection, type DecisionsChief, type DecisionsPayload, type DecisionsPresident, type LandmarkCells, type SplitMode } from "./decisions-types";
+import { pickLabel } from "./multi-select";
 import type { Administration } from "./executive-orders-entities";
 import type { YearRange } from "./year-range";
 
@@ -106,27 +107,48 @@ export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta:
 /** How many issue areas get their own series in card 1; the rest are "Other areas". */
 export const TOP_AREAS = 6;
 
-/** The per-term buckets for an area filter value (ALL_AREAS, OTHER_AREAS or an index). */
-export const areaCells = (d: DecisionsPayload, area: number): Bucket[] => (area === ALL_AREAS ? d.all : area === OTHER_AREAS ? d.other : d.by[area]);
+/**
+ * An area filter. The page's own value is the set of ticked issue-area indexes (`null` = all); one row's value is a single
+ * number: an index, `ALL_AREAS` or `OTHER_AREAS`. An empty set is nothing ticked yet, and counts no cases.
+ */
+export type AreaSel = number | ReadonlySet<number> | null;
+
+/** The per-term buckets for an area filter value: a ticked set sums its areas (cases with no area coded count only under all). */
+export function areaCells(d: DecisionsPayload, sel: AreaSel): Bucket[] {
+  if (sel === null || sel === ALL_AREAS) return d.all;
+  if (typeof sel === "number") return sel === OTHER_AREAS ? d.other : d.by[sel];
+  const out = d.terms.map(() => zero());
+  for (const i of sel) d.by[i]?.forEach((b, ti) => addInto(out[ti], b));
+  return out;
+}
 /** The payload as the page shows it: the whole docket, or only the landmark cases (the pinned bar's checkbox). Series and colours stay fixed. */
 export const viewOf = (d: DecisionsPayload, landmarkOnly: boolean): DecisionsPayload =>
   landmarkOnly ? { ...d, all: d.landmark.all, by: d.landmark.by, other: d.landmark.other, caseCount: d.landmark.caseCount, unclassified: d.landmark.unclassified } : d;
 
-export const cellAt = (d: DecisionsPayload, area: number, ti: number): Bucket => areaCells(d, area)[ti];
+export const cellAt = (d: DecisionsPayload, area: AreaSel, ti: number): Bucket => areaCells(d, area)[ti];
 
 /** Does issue-area index `index` (-1 = none coded) fall inside the area filter? */
-export const inAreaFilter = (d: DecisionsPayload, area: number, index: number): boolean =>
-  area === ALL_AREAS || (area === OTHER_AREAS ? !d.topAreas.includes(index) : index === area);
+export function inAreaFilter(d: DecisionsPayload, area: AreaSel, index: number): boolean {
+  if (area === null || area === ALL_AREAS) return true;
+  if (typeof area !== "number") return area.has(index);
+  return area === OTHER_AREAS ? !d.topAreas.includes(index) : index === area;
+}
 
-export const areaFilterLabel = (d: DecisionsPayload, area: number): string =>
-  area === ALL_AREAS ? "All issue areas" : area === OTHER_AREAS ? OTHER_LABEL(d) : d.areas[area].label;
+export function areaFilterLabel(d: DecisionsPayload, area: AreaSel): string {
+  if (area === null || area === ALL_AREAS) return "All issue areas";
+  if (typeof area !== "number") return pickLabel(area, areaOptions(d), "issue areas");
+  return area === OTHER_AREAS ? OTHER_LABEL(d) : d.areas[area].label;
+}
+
+/** Every issue area as a control option (id = index into `areas`), in catalog order. */
+export const areaOptions = (d: DecisionsPayload): { id: number; label: string }[] => d.areas.map((a, id) => ({ id, label: a.label }));
 export const OTHER_LABEL = (d: DecisionsPayload): string => `Other areas (${d.areas.length - TOP_AREAS})`;
 
-/** Card 1's series, in stack order: the six biggest areas, then Other. `area` is the filter value that picks the series. */
-export function areaSeries(d: DecisionsPayload): { id: string; label: string; area: number; short: string }[] {
+/** Card 1's series, in stack order: the six biggest areas, then Other. `area` is the single filter value that picks the series; `areas` are the area indexes it covers. */
+export function areaSeries(d: DecisionsPayload): { id: string; label: string; area: number; short: string; areas: number[] }[] {
   return [
-    ...d.topAreas.map((i) => ({ id: d.areas[i].id, label: d.areas[i].label, short: d.areas[i].label, area: i })),
-    { id: "other", label: OTHER_LABEL(d), short: "Other areas", area: OTHER_AREAS },
+    ...d.topAreas.map((i) => ({ id: d.areas[i].id, label: d.areas[i].label, short: d.areas[i].label, area: i, areas: [i] })),
+    { id: "other", label: OTHER_LABEL(d), short: "Other areas", area: OTHER_AREAS, areas: d.areas.map((_, i) => i).filter((i) => !d.topAreas.includes(i)) },
   ];
 }
 
@@ -140,13 +162,13 @@ export function windowIndexes(d: DecisionsPayload, range: YearRange): [number, n
 }
 
 /** The terms in the window and the bucket counts of the chosen area in each. */
-export function windowCells(d: DecisionsPayload, area: number, range: YearRange): { terms: number[]; cells: Bucket[] } {
+export function windowCells(d: DecisionsPayload, area: AreaSel, range: YearRange): { terms: number[]; cells: Bucket[] } {
   const [a, b] = windowIndexes(d, range);
   return { terms: d.terms.slice(a, b + 1), cells: areaCells(d, area).slice(a, b + 1) };
 }
 
 /** Bucket totals over the whole window. */
-export function windowSum(d: DecisionsPayload, area: number, range: YearRange): Bucket {
+export function windowSum(d: DecisionsPayload, area: AreaSel, range: YearRange): Bucket {
   const out = zero();
   for (const c of windowCells(d, area, range).cells) addInto(out, c);
   return out;
@@ -162,7 +184,7 @@ export function median(values: readonly number[]): number {
 }
 
 /** Few cases per term in this selection (a thin issue area, or the landmark filter): shares from single years are rough. */
-export function isSmallSample(d: DecisionsPayload, area: number, range: YearRange): boolean {
+export function isSmallSample(d: DecisionsPayload, area: AreaSel, range: YearRange): boolean {
   return median(casesPerTerm(windowCells(d, area, range).cells)) < SMALL_SAMPLE_MEDIAN;
 }
 
@@ -365,7 +387,7 @@ export function binByDecade(terms: readonly number[], cells: readonly Bucket[]):
  * fewer than two decades, where there is nothing to group. There is no manual override: per term on a thin selection is
  * the spiky view the grouping exists to avoid.
  */
-export function splitGrain(d: DecisionsPayload, area: number, range: YearRange): SplitGrain {
+export function splitGrain(d: DecisionsPayload, area: AreaSel, range: YearRange): SplitGrain {
   const { terms } = windowCells(d, area, range);
   const decades = new Set(terms.map(decadeOf)).size;
   return decades >= 2 && isSmallSample(d, area, range) ? "decade" : "term";
@@ -375,7 +397,8 @@ export function splitGrain(d: DecisionsPayload, area: number, range: YearRange):
 
 export interface CaseFilter {
   range: YearRange;
-  area: number;
+  /** The ticked issue areas (null = all); a single legacy value (an index, `ALL_AREAS`, `OTHER_AREAS`) also works. */
+  area: AreaSel;
   /** Dissent band 0-4, or null for any. */
   band: number | null;
   /** A single pinned term, or null for the whole window. */

@@ -20,7 +20,7 @@ import { Swatch, TableView } from "./shared";
  * the count view; going back to Share clears it. Few-cases note when the issue area is thin; the chart is never hidden.
  */
 export function SplitCard() {
-  const { data, range, area } = useDecisionsValues();
+  const { data, range, areas } = useDecisionsValues();
   const [mode, setModeRaw] = useState<SplitMode>("share");
   const { band: iso } = useDecisionsValues();
   const { setBand } = useDecisionsActions();
@@ -34,18 +34,18 @@ export function SplitCard() {
     setModeRaw("count");
   };
 
-  const w = windowSum(data, area, range);
+  const w = windowSum(data, areas, range);
   const total = sumBucket(w);
   const lo = range[0];
   const hi = range[1];
-  const who = areaFilterLabel(data, area);
+  const who = areaFilterLabel(data, areas);
   const lede = total
     ? `${who}, ${lo === hi ? lo : `${lo}–${hi}`}: ${fmtPct(bandShare(w, 0))} of ${fmtInt(total)} cases were unanimous, ${fmtPct(bandShare(w, 4))} split 5–4.`
     : "No cases in this selection.";
-  const { terms, cells } = windowCells(data, area, range);
+  const { terms, cells } = windowCells(data, areas, range);
   // Per term while a term has enough cases to read a share from; per decade once the selection is thin.
-  const grain = splitGrain(data, area, range);
-  const small = isSmallSample(data, area, range);
+  const grain = splitGrain(data, areas, range);
+  const small = isSmallSample(data, areas, range);
 
   return (
     <ChartCard
