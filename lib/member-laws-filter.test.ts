@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { MemberLaws } from "./laws-types";
+import { buildSearchIndex, lawKey, makeSummarySearch } from "./laws-search";
 import { NO_LAW_FILTER, filterLaws, isFiltered, tileCounts } from "./member-laws-filter";
 
 // rows: [congress, number, date, title, area, ..., major flag at [9], ..., summary at [11], short title at [12]]
@@ -35,5 +36,12 @@ describe("member laws filter", () => {
     expect(filterLaws(laws, { ...NO_LAW_FILTER, terms: ["armed", "beta"] })).toEqual([1]);
     expect(filterLaws(laws, { ...NO_LAW_FILTER, terms: ["119-3"] })).toEqual([2]);
     expect(isFiltered({ ...NO_LAW_FILTER, terms: ["x"] })).toBe(true);
+  });
+  it("also matches the start of a word in the full summary, once the index is loaded", () => {
+    const summaryHas = makeSummarySearch(buildSearchIndex([[lawKey(119, 2), "Funds national parks and trails."]]));
+    expect(filterLaws(laws, { ...NO_LAW_FILTER, terms: ["trail"] })).toEqual([]);
+    expect(filterLaws(laws, { ...NO_LAW_FILTER, terms: ["trail"], summaryHas })).toEqual([1]);
+    expect(filterLaws(laws, { ...NO_LAW_FILTER, terms: ["beta", "trail"], summaryHas })).toEqual([1]);
+    expect(filterLaws(laws, { ...NO_LAW_FILTER, terms: ["alpha", "trail"], summaryHas })).toEqual([]);
   });
 });

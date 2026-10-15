@@ -2,6 +2,7 @@ import type { TermSegment } from "@/components/charts/TermBandSvg";
 import type { CongressControlRow } from "./congress-control";
 import type { Administration } from "./executive-orders-entities";
 import type { LawCountRow, LawRow, LawsMeta } from "./laws-entities";
+import { lawKey } from "./laws-search";
 import type { BandCounts, ChamberTally, LawListRow, LawSigner, LawSponsor, LawsList, LawsPayload, LawsPresident, SignedMost } from "./laws-types";
 import { initialsOf } from "./term-label";
 import type { BandTerm } from "@/components/charts/TermBand";
@@ -118,6 +119,7 @@ export function buildLawsPayload(
     dataThrough: meta.data_through,
     lawCount: meta.law_count,
     listVersion: "",
+    searchVersion: "",
   };
 }
 
@@ -362,14 +364,23 @@ export function filterLaws(p: LawsPayload, rows: readonly LawListRow[], f: LawFi
   return rows.filter((r) => r[0] >= lo && r[0] <= hi && ok.has(r[4]) && (!f.major || r[9] === 1) && (f.band === null || r[5] === f.band));
 }
 
-/** Every word of `query` must appear in the law's name, bill, sponsor, policy area, summary or Pub. L. number. */
-export function matchLaws(p: LawsPayload, list: Pick<LawsList, "sponsors">, rows: readonly LawListRow[], query: string): LawListRow[] {
+/**
+ * Every word of `query` must appear in the law's name, bill, sponsor, policy area, summary sentence or Pub. L. number, or (when
+ * `summaryHas` is given) start a word in the law's full CRS summary.
+ */
+export function matchLaws(
+  p: LawsPayload,
+  list: Pick<LawsList, "sponsors">,
+  rows: readonly LawListRow[],
+  query: string,
+  summaryHas?: (term: string) => ReadonlySet<number>,
+): LawListRow[] {
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
   if (terms.length === 0) return [...rows];
   return rows.filter((r) => {
     const sp = r[8] >= 0 ? list.sponsors[r[8]]![0] : "";
-    const hay = `${r[3]} ${r[12]} ${sp} ${p.areas[r[4]]!.name ?? "Not classified"} ${p.groups.find((g) => g.id === p.areas[r[4]]!.group)?.label ?? ""} ${r[11]} ${r[0]}-${r[1]} pub. l. ${r[0]}–${r[1]}`.toLowerCase();
-    return terms.every((t) => hay.includes(t));
+    const hay = `${r[3]} ${r[12]} ${sp} ${p.areas[r[4]]!.name ?? "Not classified"} ${p.groups.find((g) => g.id === p.areas[r[4]]!.group)?.label ?? ""} ${r[11]} ${r[0]}-${r[1]} pub. l. ${r[0]}\u2013${r[1]}`.toLowerCase();
+    return terms.every((t) => hay.includes(t) || (summaryHas?.(t).has(lawKey(r[0], r[1])) ?? false));
   });
 }
 
