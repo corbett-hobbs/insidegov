@@ -44,7 +44,7 @@ export function EncountersCard({
   const hasBpOnly = years.some((y) => y.detail === "usbp_only");
   const anyMarker = markerGroups(payload.markers, years[0].fy, years.length, 40, 0).length > 0;
   const shownSeries = ENCOUNTER_SERIES.filter((s) => s.key === "usbp" || years.some((y) => y[scope][s.key] !== null));
-  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught between ports of entry, people found inadmissible at ports of entry, and people expelled under Title 42. Each is an event, not a person. ${SCOPE_NAME[scope]}${prelim ? `; FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}` : ""}.`;
+  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). Each is an event, not a person. ${SCOPE_NAME[scope]}${prelim ? `; FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}` : ""}.`;
   const toggle = (
     <PillGroup<EncounterScopeKey>
       ariaLabel="Border shown"
@@ -68,7 +68,7 @@ export function EncountersCard({
         {hasBpOnly && (
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: USBP_ONLY_COLOR }} />
-            Border Patrol only, no port-of-entry figures
+            Border Patrol only (no figures for official crossings)
           </span>
         )}
         {prelim && (
@@ -100,7 +100,7 @@ export function EncountersCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            CBP only. An encounter is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. Bars add Border Patrol apprehensions between ports of entry, people found inadmissible at ports (from FY2004; FY2004–FY2014 are DHS statistics, rounded to tens) and Title 42 expulsions (March 2020 to May 2023). Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered. The 1980s and 1990s peaks counted mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: CBP and DHS Office of Homeland Security Statistics.
+            CBP only. An encounter is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. Bars add Border Patrol apprehensions between ports of entry (the official crossings), people who came to a port and were found inadmissible, meaning not allowed in, by CBP’s Office of Field Operations (from FY2004; FY2004–FY2014 are DHS statistics, rounded to tens), and Title 42 expulsions (March 2020 to May 2023). Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered. The 1980s and 1990s peaks counted mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: CBP and DHS Office of Homeland Security Statistics.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

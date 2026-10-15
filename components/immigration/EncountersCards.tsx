@@ -18,7 +18,7 @@ function rowsOf(y: EncountersYear, scope: EncounterScopeKey, only: EncounterSeri
     .reverse()
     .map((s) =>
       s.key === "usbp_only"
-        ? { key: s.key, label: "Border Patrol only", value: n(s.value), color: USBP_ONLY_COLOR }
+        ? { key: s.key, label: "Caught by Border Patrol", value: n(s.value), color: USBP_ONLY_COLOR }
         : { key: s.key, label: ENCOUNTER_SERIES.find((x) => x.key === s.key)!.short, value: n(s.value), color: ENCOUNTER_SERIES.find((x) => x.key === s.key)!.color },
     );
 }
@@ -29,7 +29,7 @@ const iceRow = (removals: number | undefined): TipRowData[] => (removals === und
 /** Hover tooltip for one fiscal year (shared `Tooltip` content; the tap-pinned card holds the detail). */
 export function EncountersYearTip({ year, scope, only, terms, removals }: { year: EncountersYear; scope: EncounterScopeKey; only: EncounterSeriesKey | null; terms: ReadonlyMap<string, EncountersTerm>; removals: number | undefined }) {
   const p = partsOf(year, scope);
-  const sub = [whoOf(year, terms), year.preliminary ? `Preliminary · ${year.months} months` : null, year.detail === "usbp_only" ? "No port-of-entry figures" : null].filter(Boolean).join(" · ");
+  const sub = [whoOf(year, terms), year.preliminary ? `Preliminary · ${year.months} months` : null, year.detail === "usbp_only" ? "Border Patrol only" : null].filter(Boolean).join(" · ");
   return <TipCard title={`FY${year.fy}`} value={n(only ? (p[only] ?? 0) : p.total)} sub={sub} rows={rowsOf(year, scope, only)} extra={iceRow(removals)} />;
 }
 
@@ -74,10 +74,10 @@ export function EncountersYearCard({
             <b className="font-mono font-medium text-ink">{r.value}</b>
           </div>
         ))}
-        {year.detail === "usbp_only" && <span className="col-span-2 text-[0.74rem]">Port-of-entry figures begin in FY2004: this year is Border Patrol apprehensions only.</span>}
-        {year.ofoRounded && p.ofo !== null && <span className="col-span-2 text-[0.74rem]">Port figures are DHS statistics, rounded to the nearest ten.</span>}
+        {year.detail === "usbp_only" && <span className="col-span-2 text-[0.74rem]">Figures for official crossings begin in FY2004: this year is Border Patrol only.</span>}
+        {year.ofoRounded && p.ofo !== null && <span className="col-span-2 text-[0.74rem]">Crossing figures are DHS statistics, rounded to the nearest ten.</span>}
         {p.title42ByComponent && (
-          <span className="col-span-2 text-[0.74rem]">{`Title 42: ${n(p.title42ByComponent.usbp)} by Border Patrol, ${n(p.title42ByComponent.ofo)} at ports.`}</span>
+          <span className="col-span-2 text-[0.74rem]">{`Title 42: ${n(p.title42ByComponent.usbp)} by Border Patrol, ${n(p.title42ByComponent.ofo)} at official crossings.`}</span>
         )}
       </div>
       {removals !== undefined && (

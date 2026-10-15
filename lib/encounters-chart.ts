@@ -11,9 +11,9 @@ export type EncounterSeriesKey = "usbp" | "ofo" | "title42";
 
 /** Stack order, bottom to top; the legend, bars and table all read in this order. */
 export const ENCOUNTER_SERIES: readonly { key: EncounterSeriesKey; name: string; short: string; color: string }[] = [
-  { key: "usbp", name: "Border Patrol apprehensions (between ports)", short: "Border Patrol", color: "var(--agency-cbp)" },
-  { key: "ofo", name: "Port-of-entry inadmissibles (OFO)", short: "Ports of entry", color: "var(--sector-econ)" },
-  { key: "title42", name: "Title 42 expulsions (both components)", short: "Title 42", color: "var(--sector-ps)" },
+  { key: "usbp", name: "Caught by Border Patrol away from official crossings", short: "Caught by Border Patrol", color: "var(--agency-cbp)" },
+  { key: "ofo", name: "Turned away at official crossings", short: "Turned away at crossings", color: "var(--sector-econ)" },
+  { key: "title42", name: "Expelled under the COVID-19 order (Title 42)", short: "Expelled (Title 42)", color: "var(--sector-ps)" },
 ];
 
 /** The neutral bar for years with Border Patrol figures only. */

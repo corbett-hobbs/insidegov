@@ -302,7 +302,7 @@ export function EncountersChart({
         </button>
       ))}
       {card}
-      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <EncountersYearTip year={yr} scope={scope} only={only} terms={termById} removals={removals.get(yr.fy)} />}</Tooltip>
+      <Tooltip state={open && !open.pinned && open.key.startsWith("b") ? tip.state : null}>{(yr) => <EncountersYearTip year={yr} scope={scope} only={only} terms={termById} removals={removals.get(yr.fy)} />}</Tooltip>
     </div>
   );
 }
