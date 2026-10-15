@@ -15,6 +15,7 @@ import { ordinal } from "@/lib/demographics-chart";
 import { useLawsActions, useLawsValues } from "./LawsState";
 import { useLawsList } from "./useLawsList";
 import { useLawsSearchIndex } from "./useLawsSearchIndex";
+import { SourceLink } from "@/components/SourceLink";
 
 const PAGE = 120;
 
@@ -151,7 +152,7 @@ export function LawsListCard() {
       </div>
       <MethodologyNote>
         <p>
-          The date is when the president signed the law (or the veto was overridden). Laws after the {ordinal(data.majorThrough)} Congress read &ldquo;Not yet assessed&rdquo;, not &ldquo;not major&rdquo;. The sentence under a law is the first sentence of the Congressional Research Service summary, kept only where it stands alone, so many of the oldest and newest laws have none. Search also looks through the full summary, so a law can match on words that do not appear on its row. The swatch is the closest recorded final-passage vote, with each chamber&rsquo;s tally beside it. A sponsor links to their page only for members of the current Congress.
+          The date is when the president signed the law (or the veto was overridden). Laws after the {ordinal(data.majorThrough)} Congress read &ldquo;Not yet assessed&rdquo;, not &ldquo;not major&rdquo;. The sentence under a law is the first sentence of the <SourceLink id="congress-gov">Congressional Research Service summary</SourceLink>, kept only where it stands alone, so many of the oldest and newest laws have none. Search also looks through the full summary, so a law can match on words that do not appear on its row. The swatch is the closest recorded final-passage vote, with each chamber&rsquo;s tally beside it. A sponsor links to their page only for members of the current Congress.
         </p>
       </MethodologyNote>
     </ChartCard>

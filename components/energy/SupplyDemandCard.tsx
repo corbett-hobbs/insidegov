@@ -9,6 +9,7 @@ import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 /** Colours reuse the validated sector tokens, as on the imports and exports card. */
 const LINES: { key: MonthlyKey; label: string; short: string; color: string }[] = [
@@ -107,7 +108,7 @@ export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; vi
       }
       notes={
         <p>
-          Energy Information Administration, Monthly Energy Review. Both lines are <em>total petroleum</em> (crude plus natural gas liquids and refined products); crude alone is smaller, about 13.7 million barrels a day produced in 2025 against 21.2 million for total. Products supplied is what left refineries, blending and storage for the domestic market, adjusted for stock changes, and approximates consumption. Prices, weather and the vehicle fleet drive both lines, so the card carries no policy marks.
+          <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>. Both lines are <em>total petroleum</em> (crude plus natural gas liquids and refined products); crude alone is smaller, about 13.7 million barrels a day produced in 2025 against 21.2 million for total. Products supplied is what left refineries, blending and storage for the domestic market, adjusted for stock changes, and approximates consumption. Prices, weather and the vehicle fleet drive both lines, so the card carries no policy marks.
         </p>
       }
       tables={

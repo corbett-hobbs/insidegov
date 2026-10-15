@@ -13,6 +13,7 @@ import { GEO_NAME, type GeoGroup, type RefugeePayload } from "@/lib/refugee-type
 import { RefugeeMap, undrawnRefugees, type MapMode } from "./RefugeeMap";
 import type { MapFeature } from "./RemovalsMap";
 import { capText, n } from "./refugee-style";
+import { SourceLink } from "@/components/SourceLink";
 
 type WorldMap = { width: number; height: number; features: MapFeature[] };
 
@@ -176,12 +177,12 @@ export function RefugeeCountryCard({
         <MethodologyNote>
           {mode === "countries" ? (
             <p>
-              Refugees admitted by country of chargeability, from FY2001 (State Department; earlier years have regions only). This is normally the applicant&rsquo;s nationality, which can differ from the country they fled: Burmese refugees processed in Thailand count under Burma. Colour bins are fixed so years compare.
+              Refugees admitted by country of chargeability, from FY2001 (<SourceLink id="wraps-admissions">State Department</SourceLink>; earlier years have regions only). This is normally the applicant&rsquo;s nationality, which can differ from the country they fled: Burmese refugees processed in Thailand count under Burma. Colour bins are fixed so years compare.
               {off.names.length > 0 && <> Not on the map (former or unmapped territories): {listNames(off.names)}; they are in the list and table.</>} FY2026 is preliminary.
             </p>
           ) : (
             <p>
-              Refugees admitted by region, by the nationality of the principal applicant (State Department). The cap is the State Department&rsquo;s year-end regional ceiling (FY2001 on), else the last determination&rsquo;s allocation; those numbers are starting points that get reassigned during the year, and FY2024&ndash;25 caps are ranges, shaded to the maximum. Some years have no regional caps: FY2020&ndash;21 were divided by kind of refugee and FY2026 &ldquo;primarily&rdquo; by group. An unallocated reserve is a cap with no arrivals. FY2026 is preliminary.
+              Refugees admitted by region, by the nationality of the principal applicant (<SourceLink id="wraps-admissions">State Department</SourceLink>). The cap is the State Department&rsquo;s year-end regional ceiling (FY2001 on), else the last <SourceLink id="refugee-determinations">determination</SourceLink>&rsquo;s allocation; those numbers are starting points that get reassigned during the year, and FY2024&ndash;25 caps are ranges, shaded to the maximum. Some years have no regional caps: FY2020&ndash;21 were divided by kind of refugee and FY2026 &ldquo;primarily&rdquo; by group. An unallocated reserve is a cap with no arrivals. FY2026 is preliminary.
             </p>
           )}
         </MethodologyNote>

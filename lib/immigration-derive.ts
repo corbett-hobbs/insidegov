@@ -11,6 +11,7 @@ import {
   type EnforcementRow,
 } from "./enforcement-entities";
 import type { Administration } from "./executive-orders-entities";
+import { HISTORY_FIRST_FY, HISTORY_LAST_FY, type RemovalsHistoryReport, type RemovalsHistoryRow } from "./removals-history-entities";
 import { criminalityBars, criminalityYMax, type AgencyView, type CrimBar } from "./immigration-breakdown";
 
 /**
@@ -42,6 +43,11 @@ export interface IceCardNote {
 export interface IceYear {
   /** Fiscal year, named by the calendar year it ends in. */
   fy: number;
+  /**
+   * Who counted: `ice` is ICE's own headline figure (FY2003 on); `ins` is the Immigration and Naturalization Service's
+   * removals as DHS republishes them (FY1980 to FY2002). Never combined: each year has one.
+   */
+  era: "ice" | "ins";
   value: number;
   status: "final" | "preliminary";
   termId: string;
@@ -85,8 +91,8 @@ export const ICE_MARKERS: readonly IceMarker[] = [
   {
     n: 1,
     date: "2003-03-01",
-    title: "FY2003 · ICE is created",
-    text: "ICE began operating March 1, 2003, so FY2003 is a part-year count.",
+    title: "March 2003 · ICE takes over from the INS",
+    text: "Before March 1, 2003 the Immigration and Naturalization Service (INS) did the removing; ICE took over, so FY2003 is a part-year ICE count. DHS republishes the INS-era counts shown before it, but that is continuity of records, not necessarily the same counting rules.",
     noteIds: ["ice-formed-fy2003"],
   },
   {
@@ -120,6 +126,13 @@ export const ICE_MARKERS: readonly IceMarker[] = [
   },
 ];
 
+/** Shown on every INS-era bar's card: who counted, and why it is not the same line as ICE's. */
+export const INS_ERA_NOTE = {
+  id: "ins-era",
+  title: "INS era",
+  text: "Counted by the Immigration and Naturalization Service and republished by DHS. Continuity of records, not necessarily the same counting rules as ICE's, so not a like-for-like step into FY2003. DHS rounds these counts to the nearest ten.",
+} as const;
+
 /** Notes that live in the page footnote instead of on a bar's card. */
 const GLOBAL_NOTE_IDS = ["oct5-lock-and-lag"];
 
@@ -127,7 +140,15 @@ const GLOBAL_NOTE_IDS = ["oct5-lock-and-lag"];
 export const RETURNS_COUNTED_FROM = 2007;
 
 export interface ImmigrationPageData {
+  /** ICE's own years, FY2003 on. The criminal-history and country cards use these. */
   years: IceYear[];
+  /** The removals card's years: the INS-era years (FY1980 to FY2002, DHS statistics) followed by `years`. */
+  removalsYears: IceYear[];
+  /** Presidents with at least one of `removalsYears`, oldest first. */
+  removalsTerms: IceTerm[];
+  /** First year of the INS-era series, and the DHS Yearbook edition it comes from. */
+  historyFirstFy: number;
+  history: { edition: number; url: string; asOf: string; source: string; iceComparison: RemovalsHistoryReport["ice_comparison"] };
   /** Presidents with at least one fiscal year, oldest first. */
   terms: IceTerm[];
   markers: readonly IceMarker[];
@@ -191,6 +212,41 @@ export function assertEnforcementInvariants(
     if (rows.find((r) => r.period === p)?.value !== a?.value) fail(`FY${p} value differs from the report anchor`);
   }
   assertBreakdownInvariants(allRows, report);
+}
+
+/**
+ * The INS-era rows join onto the ICE series without a gap or an overlap: FY1980 to the year before ICE's first, one
+ * edition, days and attribution consistent, and the report agrees with the rows and with ICE's own figures.
+ */
+export function assertRemovalsHistoryInvariants(
+  history: readonly RemovalsHistoryRow[],
+  report: RemovalsHistoryReport,
+  iceRows: readonly EnforcementRow[],
+  admins: readonly Administration[],
+): void {
+  const fail = (msg: string): never => {
+    throw new Error(`removals history invariant: ${msg}`);
+  };
+  if (history.length === 0) fail("no rows");
+  const ice = iceRows.filter(isNationalRemovals);
+  history.forEach((r, i) => {
+    if (r.period !== HISTORY_FIRST_FY + i) fail(`periods not contiguous at ${r.period}`);
+    const total = r.administration_days.reduce((s, d) => s + d.days, 0);
+    if (total !== fiscalYearDays(r.period)) fail(`FY${r.period} days sum to ${total}`);
+    const majority = [...r.administration_days].sort((a, b) => b.days - a.days)[0].term_id;
+    if (majority !== r.administration_term_id) fail(`FY${r.period} majority term ${majority} != ${r.administration_term_id}`);
+    if (r.blended !== r.administration_days.length > 1) fail(`FY${r.period} blended flag disagrees with its days`);
+    if (!admins.some((a) => a.term_id === r.administration_term_id)) fail(`FY${r.period} term ${r.administration_term_id} is not in the presidents tables`);
+    if (r.edition !== report.edition) fail(`FY${r.period} is from the ${r.edition} edition, the report says ${report.edition}`);
+  });
+  const last = history[history.length - 1].period;
+  if (last !== HISTORY_LAST_FY) fail(`series ends at FY${last}, expected FY${HISTORY_LAST_FY}`);
+  if (ice[0].period !== last + 1) fail(`ICE starts at FY${ice[0].period}, the INS-era series ends at FY${last}`);
+  if (report.rows !== history.length || report.first_period !== history[0].period || report.last_period !== last) fail("the report disagrees with the rows");
+  for (const c of report.ice_comparison) {
+    const mine = ice.find((r) => r.period === c.period);
+    if (!mine || mine.value !== c.ice) fail(`the report's ICE FY${c.period} (${c.ice}) is not the series' (${mine?.value})`);
+  }
 }
 
 // ---- breakdowns (removals by arresting agency and criminality; arrests, detainers, book-ins, detention) ----
@@ -283,8 +339,10 @@ export function buildImmigrationData(
   notes: readonly EnforcementNote[],
   report: EnforcementReport,
   admins: readonly Administration[],
+  history: { rows: readonly RemovalsHistoryRow[]; report: RemovalsHistoryReport },
 ): ImmigrationPageData {
   assertEnforcementInvariants(allRows, report, admins);
+  assertRemovalsHistoryInvariants(history.rows, history.report, allRows, admins);
   const rows = allRows.filter(isNationalRemovals);
   const adminById = new Map(admins.map((a) => [a.term_id, a]));
   const lastName = (id: string) => {
@@ -305,8 +363,10 @@ export function buildImmigrationData(
   const adpIce = byFy({ metric: "detention_adp", arresting_agency: "ice" });
   const adpCbp = byFy({ metric: "detention_adp", arresting_agency: "cbp" });
 
+  const partyOf = (id: string): IceParty => (adminById.get(id)!.party === "Democratic" ? "D" : "R");
   const years: IceYear[] = rows.map((r) => ({
     fy: r.period,
+    era: "ice" as const,
     value: r.value,
     status: r.status,
     termId: r.administration_term_id,
@@ -330,21 +390,43 @@ export function buildImmigrationData(
       }),
   }));
 
-  const termIds = [...new Set(years.map((y) => y.termId))];
-  const terms: IceTerm[] = termIds
-    .map((id) => adminById.get(id)!)
-    .sort((a, b) => a.start.localeCompare(b.start))
-    .map((a) => ({
-      termId: a.term_id,
-      president: a.president,
-      last: a.president.split(" ").pop() ?? a.president,
-      party: a.party === "Democratic" ? "D" : "R",
-      startYear: Number(a.start.slice(0, 4)),
-      endYear: a.end === null ? null : Number(new Date(Date.parse(`${a.end}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 4)),
-    }));
+  const insYears: IceYear[] = history.rows.map((r) => ({
+    fy: r.period,
+    era: "ins" as const,
+    value: r.removals,
+    status: r.status,
+    termId: r.administration_term_id,
+    party: partyOf(r.administration_term_id),
+    blended: r.blended,
+    days: r.administration_days.map((d) => ({ termId: d.term_id, last: lastName(d.term_id), days: d.days })),
+    corroborated: false,
+    figureRead: false,
+    agency: null,
+    detention: null,
+    source: r.source,
+    sourceUrl: r.source_url,
+    cardNotes: [{ id: INS_ERA_NOTE.id, title: INS_ERA_NOTE.title, text: INS_ERA_NOTE.text }],
+  }));
+  const termsOf = (ys: readonly IceYear[]): IceTerm[] =>
+    [...new Set(ys.map((y) => y.termId))]
+      .map((id) => adminById.get(id)!)
+      .sort((a, b) => a.start.localeCompare(b.start))
+      .map((a) => ({
+        termId: a.term_id,
+        president: a.president,
+        last: a.president.split(" ").pop() ?? a.president,
+        party: a.party === "Democratic" ? "D" : "R",
+        startYear: Number(a.start.slice(0, 4)),
+        endYear: a.end === null ? null : Number(new Date(Date.parse(`${a.end}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 4)),
+      }));
+  const terms = termsOf(years);
 
   return {
     years,
+    removalsYears: [...insYears, ...years],
+    removalsTerms: termsOf([...insYears, ...years]),
+    historyFirstFy: insYears[0].fy,
+    history: { edition: history.report.edition, url: history.report.url, asOf: history.report.as_of, source: insYears[0].source, iceComparison: history.report.ice_comparison },
     terms,
     markers: ICE_MARKERS,
     yMax: yDomainMax(years.map((y) => y.value)),

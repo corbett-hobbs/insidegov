@@ -9,6 +9,7 @@ import { termLabel } from "@/lib/trade-chart";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, scaleOver } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
 const fmtShort = (v: number) => `${(v / 1000).toFixed(1)}M bbl`;
@@ -106,7 +107,7 @@ export function SprCard({ payload, view }: { payload: EnergyPayload; view: reado
       }
       notes={
         <p>
-          Weekly stock level from the Energy Information Administration: a level, not a flow. A sale sells the oil, an exchange lends it to be returned with a premium, and a refill buys oil or takes back what was lent; the 2026 drawdown is an exchange, so the lower level is not a sale. A date marks when an action was authorized, not when barrels moved. Actions are hand-curated and checked against Department of Energy and Federal Register pages; the 1991 sale predates the first weekly reading, and the 2005 and 2011 sales are unmarked because their months are unconfirmed.
+          Weekly stock level from the <SourceLink id="eia-spr">Energy Information Administration</SourceLink>: a level, not a flow. A sale sells the oil, an exchange lends it to be returned with a premium, and a refill buys oil or takes back what was lent; the 2026 drawdown is an exchange, so the lower level is not a sale. A date marks when an action was authorized, not when barrels moved. Actions are hand-curated and checked against Department of Energy and Federal Register pages; the 1991 sale predates the first weekly reading, and the 2005 and 2011 sales are unmarked because their months are unconfirmed.
         </p>
       }
       tables={

@@ -1,6 +1,7 @@
 import { isListEligible, type WealthMember } from "@/lib/wealth-derive";
 import type { ChamberView } from "@/lib/chamber";
 import { WealthList } from "./WealthList";
+import { SourceLink } from "@/components/SourceLink";
 
 /**
  * The two side-by-side highest/lowest lists, plus their shared footnote.
@@ -56,7 +57,7 @@ export function WealthListsSection({
             .{" "}
           </>
         )}
-        How we estimate this. Sources: House Clerk, Senate eFD.
+        How we estimate this. Sources: <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink>, <SourceLink id="senate-efd">Senate eFD</SourceLink>.
       </p>
     </div>
   );

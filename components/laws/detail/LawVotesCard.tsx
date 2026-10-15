@@ -12,6 +12,7 @@ import type { LawChamberVotesView, LawVoter } from "@/lib/law-votes-types";
 import { partyFillClass } from "@/lib/party-palette";
 import { MemberFace, MemberPhoto } from "@/components/MemberPhoto";
 import { Dot, LINK } from "./LawPeople";
+import { SourceLink } from "@/components/SourceLink";
 
 const CAST_WORD = { yea: "Voted yea", nay: "Voted nay", present: "Voted present", absent: "Did not vote", none: "Not recorded on this vote" } as const;
 
@@ -172,7 +173,7 @@ export function LawVotesCard({ chambers, congressLabel }: { chambers: readonly L
       </div>
       <MethodologyNote>
         <p>
-          {`The ${view.chamber}’s recorded vote on the final version of the law (roll call ${view.roll} in Voteview), matched to the vote the record cites and checked against its totals. `}
+          {`The ${view.chamber}’s recorded vote on the final version of the law (roll call ${view.roll} in `}<SourceLink id="voteview">Voteview</SourceLink>{`), matched to the vote the record cites and checked against its totals. `}
           Positions are each member’s DW-NOMINATE score for that Congress, as on the Ideology page; left to right is more liberal to more conservative. Paired and announced yea votes count as yea. Lists follow the compass, most liberal first.
           {other > 0 ? ` ${other} yea vote${other === 1 ? " was" : "s were"} cast by members of neither major party and ${other === 1 ? "is" : "are"} highlighted on the compass but not listed.` : ""} A name links to a profile only for members of the current Congress. A law passed by voice vote or unanimous consent has no member list, and neither does a vote Voteview has not yet recorded.
         </p>

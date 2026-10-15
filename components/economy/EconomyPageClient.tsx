@@ -1,6 +1,7 @@
 "use client";
 
 import { HowToRead } from "@/components/HowToRead";
+import { SourceLink } from "@/components/SourceLink";
 import { useMemo, useState } from "react";
 import { EconomyStateProvider, activeDay, useEconomyActions, useEconomyValues } from "./EconomyState";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
@@ -82,17 +83,17 @@ function EconomyPage({
     wage: `Average hourly pay of production and nonsupervisory workers, in ${wageMonth} dollars.`,
     inc: `Median household income, in ${incomeDollars} dollars. One value per year.`,
   };
-  const notes: Partial<Record<keyof typeof SPECS, string>> = {
-    un: "People who are out of work and looking for it, from the Bureau of Labor Statistics’ monthly household survey, seasonally adjusted. People who have stopped looking are not counted, so the rate can fall even when few jobs are added. The survey was not collected in October 2025, so the line has a one-month gap.",
-    infl: "The change in the Consumer Price Index for all urban consumers, all items, from the Bureau of Labor Statistics. It tracks a fixed basket of what households buy, with housing the largest part, so it can differ from any one household’s costs. Prices were not collected in October 2025, so that year-over-year figure does not exist.",
-    jobs: "Month-over-month change in total nonfarm payroll employment from the Bureau of Labor Statistics’ employer survey, in thousands of jobs. Each estimate is revised in the next two months and again every year, so recent bars can change. The axis is capped at ±1M a month so ordinary months stay readable; larger months run to the edge with a triangle, and the largest gain and loss are labeled with their true values.",
-    gdp: "GDP is the value of everything the U.S. produces, here adjusted for inflation. Bars compare each quarter with the same quarter a year earlier; the tooltip adds the annualized quarter-over-quarter rate that headlines report, which exaggerates swings. As first reported, GDP fell in the first two quarters of 2022, a common rule of thumb for recession, but the National Bureau of Economic Research declared none, and later revisions show only one decline.",
-    wage: "Covers production and nonsupervisory employees, about 80% of private-sector workers, from the Bureau of Labor Statistics’ employer survey. Pay is divided by the Consumer Price Index so each point shows what that hourly wage buys in the latest month. Hourly pay misses cuts in hours. The April 2020 jump is a composition effect: lower-paid workers were laid off first, which raised the average.",
-    inc: `Median household income from the Census Bureau, in constant dollars that the Census Bureau re-bases with each release. Published each September for the prior year, so ${lastIncomeYear + 1} isn’t available yet. Because it comes once a year, it lags the monthly charts by most of a year.`,
-    gas: "Weekly national average retail price from the Energy Information Administration, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.",
-    mort: "Freddie Mac’s weekly survey of the average 30-year fixed mortgage rate. It is an average, not the rate every borrower gets, and it is not adjusted for inflation. Freddie Mac changed how it collects the rate in November 2022, to rely on lender applications, so comparisons across that line aren’t exact. The dashed vertical line marks the change. Source: Freddie Mac.",
-    def: `Budget receipts minus outlays as a share of GDP, from the Office of Management and Budget. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal ${lastFy + 1} ends September 30, ${lastFy + 1} and isn’t reported yet. A negative bar is a deficit; a positive bar is a surplus. Values are updated as budget estimates are revised.`,
-    debt: "Debt held by the public is what the government owes investors outside its own accounts; the dashed total also counts what it owes itself, such as to the Social Security trust funds. Both are shown as a share of GDP, quarterly, so the ratio can fall when the economy grows faster than debt does. Sources: Office of Management and Budget and the St. Louis Fed.",
+  const notes: Partial<Record<keyof typeof SPECS, React.ReactNode>> = {
+    un: <>People who are out of work and looking for it, from the <SourceLink id="fred-unrate">Bureau of Labor Statistics</SourceLink>’ monthly household survey, seasonally adjusted. People who have stopped looking are not counted, so the rate can fall even when few jobs are added. The survey was not collected in October 2025, so the line has a one-month gap.</>,
+    infl: <>The change in the Consumer Price Index for all urban consumers, all items, from the <SourceLink id="fred-cpi">Bureau of Labor Statistics</SourceLink>. It tracks a fixed basket of what households buy, with housing the largest part, so it can differ from any one household’s costs. Prices were not collected in October 2025, so that year-over-year figure does not exist.</>,
+    jobs: <>Month-over-month change in total nonfarm payroll employment from the <SourceLink id="fred-payrolls">Bureau of Labor Statistics</SourceLink>’ employer survey, in thousands of jobs. Each estimate is revised in the next two months and again every year, so recent bars can change. The axis is capped at ±1M a month so ordinary months stay readable; larger months run to the edge with a triangle, and the largest gain and loss are labeled with their true values.</>,
+    gdp: <>GDP is the value of everything the U.S. produces, here adjusted for inflation. Bars compare each quarter with the same quarter a year earlier; the tooltip adds the annualized quarter-over-quarter rate that headlines report, which exaggerates swings. As first reported, GDP fell in the first two quarters of 2022, a common rule of thumb for recession, but the <SourceLink id="nber">National Bureau of Economic Research</SourceLink> declared none, and later revisions show only one decline.</>,
+    wage: <>Covers production and nonsupervisory employees, about 80% of private-sector workers, from the <SourceLink id="fred-wage">Bureau of Labor Statistics</SourceLink>’ employer survey. Pay is divided by the Consumer Price Index so each point shows what that hourly wage buys in the latest month. Hourly pay misses cuts in hours. The April 2020 jump is a composition effect: lower-paid workers were laid off first, which raised the average.</>,
+    inc: <>Median household income from the <SourceLink id="fred-income">Census Bureau</SourceLink>, in constant dollars that the Census Bureau re-bases with each release. Published each September for the prior year, so {lastIncomeYear + 1} isn’t available yet. Because it comes once a year, it lags the monthly charts by most of a year.</>,
+    gas: <>Weekly national average retail price from the <SourceLink id="fred-gas">Energy Information Administration</SourceLink>, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.</>,
+    mort: <><SourceLink id="freddie-mac-pmms">Freddie Mac</SourceLink>’s weekly survey of the average 30-year fixed mortgage rate. It is an average, not the rate every borrower gets, and it is not adjusted for inflation. Freddie Mac changed how it collects the rate in November 2022, to rely on lender applications, so comparisons across that line aren’t exact. The dashed vertical line marks the change. Source: <SourceLink id="fred-mortgage">Freddie Mac</SourceLink>.</>,
+    def: <>Budget receipts minus outlays as a share of GDP, from the <SourceLink id="fred-deficit">Office of Management and Budget</SourceLink>. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal {lastFy + 1} ends September 30, {lastFy + 1} and isn’t reported yet. A negative bar is a deficit; a positive bar is a surplus. Values are updated as budget estimates are revised.</>,
+    debt: <>Debt held by the public is what the government owes investors outside its own accounts; the dashed total also counts what it owes itself, such as to the Social Security trust funds. Both are shown as a share of GDP, quarterly, so the ratio can fall when the economy grows faster than debt does. Sources: <SourceLink id="fred-debt">Office of Management and Budget</SourceLink> and the <SourceLink id="fred">St. Louis Fed</SourceLink>.</>,
   };
   const key = (c: string, label: string) => (
     <span className={LEGEND_ITEM}>
@@ -228,9 +229,9 @@ function EconomyPage({
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">
           <p className="m-0">
             Source: U.S. Bureau of Labor Statistics, U.S. Bureau of Economic Analysis, U.S. Energy Information Administration, U.S. Census Bureau, U.S.
-            Office of Management and Budget and the National Bureau of Economic Research, via Federal Reserve Bank of St.
-            Louis, FRED®. Mortgage rates: {mortgageAttribution}. Chamber majorities: U.S. Senate and U.S. House
-            historians’ party-division tables.
+            Office of Management and Budget and the <SourceLink id="nber">National Bureau of Economic Research</SourceLink>, via <SourceLink id="fred">Federal Reserve Bank of St.
+            Louis, FRED®</SourceLink>. Mortgage rates: {mortgageAttribution}. Chamber majorities: <SourceLink id="senate-party-division">U.S. Senate</SourceLink> and <SourceLink id="house-party-division">U.S. House
+            historians’ party-division tables</SourceLink>.
           </p>
           <p className="m-0">{fredNotice}</p>
         </div>

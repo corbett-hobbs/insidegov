@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { dim2Context } from "@/lib/dim2-context";
+import { SourceLink } from "@/components/SourceLink";
 
 /**
  * The "i" marker beside the compass's vertical-axis label. On a mouse it opens
@@ -84,14 +85,7 @@ export function Dim2Note({ congress }: { congress: number }) {
           </span>
           <span className="mt-1.5 block text-[0.72rem] text-ink-muted">
             Source:{" "}
-            <a
-              href={ctx.sourceHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-            >
-              {ctx.sourceLabel}
-            </a>
+            <SourceLink href={ctx.sourceHref}>{ctx.sourceLabel}</SourceLink>
           </span>
         </span>
       )}

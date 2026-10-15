@@ -15,6 +15,7 @@ import { SummaryBody } from "./SummaryBody";
 import { TimelineList } from "./TimelineList";
 import { Dot, LINK, Person } from "./LawPeople";
 import type { ChamberTally } from "@/lib/laws-types";
+import { SourceLink } from "@/components/SourceLink";
 
 const BADGE = "inline-flex items-center rounded-full border border-line-strong px-2 py-px text-[0.68rem] font-medium text-ink-muted";
 
@@ -89,7 +90,7 @@ function Timeline({ law }: { law: LawPageData }) {
       <TimelineList actions={law.actions} />
       <MethodologyNote>
         {law.full ? (
-          <p>Every action the Library of Congress lists for the bill, from introduction to signing, plus the dated committee hearings. The source lists many steps twice (the chamber’s own entry and the Library of Congress copy, or a presidential and a became-law entry with the same words); those are shown once. Amendments are listed in their own section.</p>
+          <p>Every action the <SourceLink id="congress-gov">Library of Congress</SourceLink> lists for the bill, from introduction to signing, plus the dated committee hearings. The source lists many steps twice (the chamber’s own entry and the Library of Congress copy, or a presidential and a became-law entry with the same words); those are shown once. Amendments are listed in their own section.</p>
         ) : (
           <p>Shows the introduction, each committee and subcommittee step the source dates (referral, hearings, markup, report, discharge), and the floor, conference, presidential and became-law steps. Calendar placements, messages between the chambers, amendments and committee report numbers are not shown for laws before the 108th Congress. Two entries the source lists twice are shown once.</p>
         )}
@@ -106,7 +107,7 @@ function Amendments({ law }: { law: LawPageData }) {
         <AmendmentsList amendments={law.amendments} />
       )}
       <MethodologyNote>
-        <p>Amendments offered to this bill in either chamber, as the Library of Congress records them: each with a status read from its last recorded step: agreed to, rejected, withdrawn, ruled out of order, fell with another amendment, or offered with no vote recorded (most Senate amendments are only ever offered). The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed.</p>
+        <p>Amendments offered to this bill in either chamber, as the <SourceLink id="congress-gov">Library of Congress</SourceLink> records them: each with a status read from its last recorded step: agreed to, rejected, withdrawn, ruled out of order, fell with another amendment, or offered with no vote recorded (most Senate amendments are only ever offered). The wording of each amendment is the source’s. Amendments to amendments and amendments to other bills are not listed.</p>
       </MethodologyNote>
     </ChartCard>
   );
@@ -118,7 +119,7 @@ function Related({ law }: { law: LawPageData }) {
     <ChartCard title="Related bills" lede={n === 0 ? "The record lists no related bills." : `${n} bill${n === 1 ? "" : "s"} the Library of Congress relates to this one.`}>
       {n > 0 && <RelatedList related={law.related} />}
       <MethodologyNote>
-        <p>Related bills are identified by the Congressional Research Service, the House and the Senate: companion and identical bills, bills with similar text, bills that were folded into this law, and rules that brought it to the floor. A bill that is itself a public law in this site’s data links here; the others link to Congress.gov.</p>
+        <p>Related bills are identified by the Congressional Research Service, the House and the Senate: companion and identical bills, bills with similar text, bills that were folded into this law, and rules that brought it to the floor. A bill that is itself a public law in this site’s data links here; the others link to <SourceLink id="congress-gov">Congress.gov</SourceLink>.</p>
       </MethodologyNote>
     </ChartCard>
   );

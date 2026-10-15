@@ -13,6 +13,7 @@ import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DecadeHeatmap } from "./DecadeHeatmap";
 import { Swatch, TableView } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 /** One toggle for the whole card: what the heatmap shades and how both charts order their rows. */
 const SORTS: { key: AreaSortKey; label: string; hint: string }[] = [
@@ -89,7 +90,7 @@ export function AreasCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Issue areas are the Supreme Court Database&rsquo;s 14 categories, a rough guide; the {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
+            Issue areas are the <SourceLink id="scdb">Supreme Court Database</SourceLink>&rsquo;s 14 categories, a rough guide; the {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
           </p>
         </MethodologyNote>
         <TableView

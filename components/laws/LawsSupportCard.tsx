@@ -17,6 +17,7 @@ import { SMALL_LAWS_MEDIAN, SUPPORT_COLORS, SUPPORT_ORDER, SUPPORT_LABELS, SUPPO
 import type { BandCounts } from "@/lib/laws-types";
 import { EmptyWindow, congressSub, congressTitle, controlRowsFor } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
+import { SourceLink } from "@/components/SourceLink";
 
 const CAPTIONS: Record<SplitMode, readonly string[]> = {
   share: ["Share of laws by the closest recorded vote on final passage, percent", "Share of laws by vote, percent", "Share of laws, %"],
@@ -148,7 +149,7 @@ export function LawsSupportCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            A band is the yes share of votes cast, so a 50&ndash;49 vote lands in &ldquo;under 60%&rdquo;. &ldquo;Voice vote or consent&rdquo; means no roll call on final passage in either chamber (for most of the 1970s, no method stated); that is {fmtPct(noVoteShare(data, data.congresses[0]!, lastPre))} of laws before 2000, so the early years show what was recorded, not how divided Congress was. Tallies are checked against Voteview; override votes do not set the band.
+            A band is the yes share of votes cast, so a 50&ndash;49 vote lands in &ldquo;under 60%&rdquo;. &ldquo;Voice vote or consent&rdquo; means no roll call on final passage in either chamber (for most of the 1970s, no method stated); that is {fmtPct(noVoteShare(data, data.congresses[0]!, lastPre))} of laws before 2000, so the early years show what was recorded, not how divided Congress was. Tallies are checked against <SourceLink id="voteview">Voteview</SourceLink>; override votes do not set the band.
           </p>
         </MethodologyNote>
         <TableView

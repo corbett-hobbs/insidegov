@@ -11,6 +11,7 @@ import type { Criminality } from "@/lib/enforcement-entities";
 import { CRIM_ORDER, convictedOrPendingShare, type AgencyView, type Measure } from "@/lib/immigration-breakdown";
 import type { ImmigrationPageData } from "@/lib/immigration-derive";
 import { CRIM_COLOR, CRIM_LABEL, CriminalHistoryChart } from "./CriminalHistoryChart";
+import { SourceLink } from "@/components/SourceLink";
 
 const n = (v: number) => v.toLocaleString("en-US");
 
@@ -54,7 +55,7 @@ function Reserved<K extends string>({ active, items, as: Tag = "div", className 
  * "Criminal history of those removed": ICE removals by criminal history on the removals chart's year slots. Two
  * pick-one controls in the site's pill chrome: who first arrested the person (all, ICE, Border Patrol) and counts or
  * shares. The three views share one fixed count scale, so heights compare as the view changes. FY2025 is a single
- * combined convicted-or-pending bar (dashed, preliminary).
+ * combined convicted-or-pending bar (hatched, preliminary).
  */
 export function CriminalHistoryCard({
   data,
@@ -133,8 +134,8 @@ export function CriminalHistoryCard({
                 ))}
                 {vb.some((b) => b.status === "preliminary") && (
                   <span className={LEGEND_ITEM}>
-                    <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-ink" />
-                    Preliminary
+                    <i aria-hidden className="inline-block h-[10px] w-3 rounded-[1px] border border-line-strong" style={{ background: "repeating-linear-gradient(45deg, var(--ink-muted) 0 2px, transparent 2px 5px)" }} />
+                    Preliminary, may be revised
                   </span>
                 )}
               </div>
@@ -160,7 +161,7 @@ export function CriminalHistoryCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Criminal history is as recorded in ICE systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from a DHS budget document, with one combined figure. Years with no ICE figure are blank, not zero.
+            Criminal history is as recorded in <SourceLink id="ice-statistics">ICE</SourceLink> systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from <SourceLink id="dhs-ice-budget-fy2027">a DHS budget document</SourceLink>, with one combined figure. Years with no ICE figure are blank, not zero.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

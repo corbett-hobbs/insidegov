@@ -11,6 +11,7 @@ import { CommitteeRosterCard } from "./CommitteeRosterCard";
 import { SubcommitteeSection } from "./SubcommitteeSection";
 import { CommitteeLegislation } from "./legislation/CommitteeLegislation";
 import type { CommitteeBillsSummary } from "@/lib/committee-bills-types";
+import { SourceLink } from "@/components/SourceLink";
 
 /**
  * A committee's page: the same shape as a member profile
@@ -69,7 +70,7 @@ export function CommitteeProfileView({
       <SiteFooter>
         {legislation && (
           <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-            Source: Bills, sponsors, cosponsors and committee steps from GovInfo Bill Status (U.S. Government Publishing Office, with the Library of Congress and the Congressional Research Service), through {new Date(`${legislation.dataThrough}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" })}.
+            Source: Bills, sponsors, cosponsors and committee steps from <SourceLink id="govinfo-billstatus">GovInfo Bill Status</SourceLink> (U.S. Government Publishing Office, with the Library of Congress and the Congressional Research Service), through {new Date(`${legislation.dataThrough}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" })}.
           </p>
         )}
       </SiteFooter>

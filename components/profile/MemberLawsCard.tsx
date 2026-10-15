@@ -8,6 +8,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { fmtInt } from "@/lib/decisions-derive";
 import type { MemberLaws } from "@/lib/laws-types";
 import { NO_LAW_FILTER, filterLaws, isFiltered, tileCounts, type LawFilter, type RoleFilter } from "@/lib/member-laws-filter";
+import { SourceLink } from "@/components/SourceLink";
 
 const PAGE = 120;
 
@@ -154,7 +155,7 @@ export function MemberLawsCard({ bioguideId, name }: { bioguideId: string; name:
       </div>
       <MethodologyNote>
         <p>
-          Public laws from the 93rd Congress (1973) on, from Congress.gov and GovInfo bill data, listed under the bill that was enacted. Cosponsors who withdrew are not counted. &ldquo;Major&rdquo; follows David Mayhew&rsquo;s list of important enactments, which stops at the 118th Congress; later laws are not yet assessed. Votes and policy areas are as on the Laws page.
+          Public laws from the 93rd Congress (1973) on, from <SourceLink id="congress-gov">Congress.gov</SourceLink> and <SourceLink id="govinfo-billstatus">GovInfo bill data</SourceLink>, listed under the bill that was enacted. Cosponsors who withdrew are not counted. &ldquo;Major&rdquo; follows <SourceLink id="mayhew">David Mayhew&rsquo;s list of important enactments</SourceLink>, which stops at the 118th Congress; later laws are not yet assessed. Votes and policy areas are as on the Laws page.
         </p>
       </MethodologyNote>
     </ChartCard>

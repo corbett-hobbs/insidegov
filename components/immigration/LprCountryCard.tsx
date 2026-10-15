@@ -15,6 +15,7 @@ import { formatChange } from "@/lib/refugee-derive";
 import { RefugeeMap, undrawnRefugees, type MapWords } from "./RefugeeMap";
 import type { MapFeature } from "./RemovalsMap";
 import { n } from "./refugee-style";
+import { SourceLink } from "@/components/SourceLink";
 
 type WorldMap = { width: number; height: number; features: MapFeature[] };
 
@@ -150,7 +151,7 @@ export function LprCountryCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            {nat ? "People aged 18 and over who became U.S. citizens" : "People who became permanent residents"} in the fiscal year, by country of {byNationality ? "nationality (the newest year, preliminary, is the only one the quarterly report gives by nationality)" : "birth (Yearbook)"}. The two bases answer different questions, so a country is never compared across them. Not visas issued or entries, and not the refugee or ICE counts. Colour bins are fixed so years compare.
+            {nat ? "People aged 18 and over who became U.S. citizens" : "People who became permanent residents"} in the fiscal year, by country of {byNationality ? <>nationality (the newest year, preliminary, is the only one <SourceLink id="ohss-legal-immigration">the quarterly report</SourceLink> gives by nationality)</> : <>birth (<SourceLink id="ohss-yearbook">Yearbook</SourceLink>)</>}. The two bases answer different questions, so a country is never compared across them. Not visas issued or entries, and not the refugee or ICE counts. Colour bins are fixed so years compare.
             {off.names.length > 0 && <> Not on the map (former or unmapped places): {listNames(off.names)}; they are in the list and table.</>} The &ldquo;all other countries&rdquo;, unknown and withheld-count buckets are not countries and are not listed, so the list can fall a little short of the year&rsquo;s total. Cells from FY2015 on are rounded to the nearest ten.
           </p>
         </MethodologyNote>

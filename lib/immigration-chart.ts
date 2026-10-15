@@ -21,8 +21,8 @@ export function slotLayout(plotWidth: number, slots: number): { slotW: number; b
   return { slotW, barW: Math.min(MAX_BAR, Math.max(2, slotW - gap)) };
 }
 
-/** Value labels on every bar when 8 or fewer show; otherwise only these fiscal years. */
-export const SPARSE_LABEL_YEARS: readonly number[] = [2012, 2021, 2025];
+/** Value labels on every bar when 8 or fewer show; otherwise only these fiscal years (2000 is the INS era's peak). */
+export const SPARSE_LABEL_YEARS: readonly number[] = [2000, 2012, 2021, 2025];
 export const ALL_LABELS_MAX_BARS = 8;
 export const labelsBar = (fy: number, shown: number) => shown <= ALL_LABELS_MAX_BARS || SPARSE_LABEL_YEARS.includes(fy);
 
