@@ -44,7 +44,7 @@ export function EncountersCard({
   const hasBpOnly = years.some((y) => y.detail === "usbp_only");
   const anyMarker = markerGroups(payload.markers, years[0].fy, years.length, 40, 0).length > 0;
   const shownSeries = ENCOUNTER_SERIES.filter((s) => s.key === "usbp" || years.some((y) => y[scope][s.key] !== null));
-  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). Each is an event, not a person. ${prelim ? `FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}.` : ""}`;
+  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). Each is an event, not a person, and what happens to the person afterwards is not in this chart. ${prelim ? `FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}.` : ""}`;
   return (
     <ChartCard title="Border encounters by fiscal year" lede={lede}>
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>

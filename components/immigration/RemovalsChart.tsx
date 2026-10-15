@@ -42,7 +42,7 @@ const n = (v: number) => v.toLocaleString("en-US");
 /** Screen-reader text for one bar: the removals total (INS era: who counted), who first apprehended the people, and the detention average. */
 function barAria(yr: IceYear): string {
   if (yr.era === "ins") return `FY${yr.fy}: ${n(yr.value)} removals counted by the INS, DHS statistics, removals only, ${yr.status}`;
-  const split = yr.agency ? `, ${n(yr.agency.ice)} removed after an interior stop and ${n(yr.agency.cbp)} after a border stop` : "";
+  const split = yr.agency ? `, ${n(yr.agency.ice)} removed after an ICE arrest and ${n(yr.agency.cbp)} after a Border Patrol apprehension` : "";
   const held = yr.detention ? `; ${n(yr.detention.value)} people in ICE detention on an average day` : "";
   return `FY${yr.fy}: ${n(yr.value)} removals${split}${held}, ${yr.status}`;
 }
@@ -201,7 +201,7 @@ export function RemovalsChart({
           width={W}
           height={SVG_H}
           margin={{ top: 0, right, bottom: 0, left }}
-          ariaLabel={`Bar chart of removals (and, from FY2007, returns) by fiscal year, FY${firstFy} to FY${lastFy}: the Immigration and Naturalization Service's before March 2003, as DHS republishes them, then ICE's, split by where the person was first stopped, with a line for the average number of people in ICE detention.`}
+          ariaLabel={`Bar chart of removals (and, from FY2007, returns) by fiscal year, FY${firstFy} to FY${lastFy}: the Immigration and Naturalization Service's before March 2003, as DHS republishes them, then ICE's, split by who first apprehended the person, with a line for the average number of people in ICE detention.`}
           className="block h-auto w-full max-w-full"
           svgProps={{ role: "group" }}
         >
