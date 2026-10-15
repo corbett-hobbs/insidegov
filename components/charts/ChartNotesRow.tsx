@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
  * ARCHITECTURE_MAP "Page-level layout rules", rule 7a.
  */
 export const NOTES_ROW =
-  "mt-3 flex flex-wrap items-start gap-x-4 gap-y-1 [&>details]:mt-0 [&>details[open]]:w-full";
+  "mt-2 flex flex-wrap items-start gap-x-4 gap-y-1 [&>details]:mt-0 [&>details[open]]:w-full";
 
 export function ChartNotesRow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`${NOTES_ROW} ${className}`.trim()}>{children}</div>;

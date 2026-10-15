@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
 export function MethodologyNote({
   children,
   label = "Data notes",
-  className = "mt-3",
+  className = "mt-2",
 }: {
   children: ReactNode;
   label?: string;
@@ -24,7 +24,7 @@ export function MethodologyNote({
       <summary className="cursor-pointer text-[0.75rem] text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
         {label}
       </summary>
-      <div className="m-0 mt-1.5 text-[0.75rem] leading-[1.45] text-ink-muted [&>p]:m-0 [&>p+p]:mt-2">{children}
+      <div className="m-0 mt-1 text-[0.75rem] leading-[1.45] text-ink-muted [&>p]:m-0 [&>p+p]:mt-2">{children}
         <p>
           <Link
             href={`/contact?topic=correction&page=${encodeURIComponent(pathname)}`}
