@@ -61,8 +61,6 @@ export function EncountersYearCard({
       <div className="mt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">{whoOf(year, terms)}</div>
       <div className="text-[0.8rem] leading-[1.5] text-ink-muted">
         {year.preliminary ? `Preliminary: ${monthsLabel(year.months)}, may be revised` : "Final"}
-        {" · "}
-        {scope === "southwest" ? "Southwest border" : "All borders"}
       </div>
       <div className="mt-1.5 grid grid-cols-[1fr_auto] gap-x-3 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
         {rows.map((r) => (

@@ -172,7 +172,7 @@ export function EncountersChart({
           width={W}
           height={SVG_H}
           margin={{ top: 0, right, bottom: 0, left }}
-          ariaLabel={`Bar chart of CBP border encounters by fiscal year, FY${firstFy} to FY${lastFy}, ${scope === "southwest" ? "southwest border" : "all borders"}${only ? `, ${ENCOUNTER_SERIES.find((s) => s.key === only)!.short} only` : ", split into Border Patrol apprehensions, port-of-entry inadmissibles and Title 42 expulsions"}. The table view lists the same figures.`}
+          ariaLabel={`Bar chart of CBP border encounters by fiscal year, FY${firstFy} to FY${lastFy}${only ? `, ${ENCOUNTER_SERIES.find((s) => s.key === only)!.short} only` : ", split into Border Patrol apprehensions, port-of-entry inadmissibles and Title 42 expulsions"}. The table view lists the same figures.`}
           className="block h-auto w-full max-w-full"
           svgProps={{ role: "group" }}
         >

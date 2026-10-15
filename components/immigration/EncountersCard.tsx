@@ -1,11 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
-import { PillGroup } from "@/components/charts/PillGroup";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ENCOUNTER_SERIES, USBP_ONLY_COLOR, markerGroups, monthsLabel, windowYears, type EncounterSeriesKey } from "@/lib/encounters-chart";
@@ -13,12 +12,13 @@ import type { EncounterScopeKey, EncountersPayload } from "@/lib/encounters-type
 import { EncountersChart } from "./EncountersChart";
 
 const n = (v: number) => v.toLocaleString("en-US");
-const SCOPE_NAME: Record<EncounterScopeKey, string> = { nationwide: "All borders", southwest: "Southwest border" };
+// Every CBP encounter, nationwide. The southwest-only series is in the data but not offered: what counts as "the southwest border" is unclear to a reader.
+const scope: EncounterScopeKey = "nationwide";
 
 /**
  * "Border encounters by fiscal year" (CBP): the section's first card, directly above the ICE removals chart. Bars are stacked
- * Border Patrol apprehensions / port-of-entry inadmissibles / Title 42 expulsions; an All borders / Southwest border pill
- * switches the scope, and a legend entry draws one series from zero. Shows the page's year window, plus the in-progress newest
+ * Border Patrol apprehensions / port-of-entry inadmissibles / Title 42 expulsions; a legend entry draws one series
+ * from zero (no scope toggle). Shows the page's year window, plus the in-progress newest
  * year when the window reaches ICE's newest year. CBP only: never added to, subtracted from or divided by an ICE figure.
  */
 export function EncountersCard({
@@ -36,7 +36,6 @@ export function EncountersCard({
   activeFy: number | null;
   onActiveFy: (fy: number | null) => void;
 }) {
-  const [scope, setScope] = useState<EncounterScopeKey>("nationwide");
   const [only, toggleOnly] = useIsolate<EncounterSeriesKey>();
   const years = useMemo(() => windowYears(payload.years, range, iceLastFy), [payload.years, range, iceLastFy]);
   const termsById = new Map(payload.terms.map((t) => [t.termId, t]));
@@ -44,20 +43,9 @@ export function EncountersCard({
   const hasBpOnly = years.some((y) => y.detail === "usbp_only");
   const anyMarker = markerGroups(payload.markers, years[0].fy, years.length, 40, 0).length > 0;
   const shownSeries = ENCOUNTER_SERIES.filter((s) => s.key === "usbp" || years.some((y) => y[scope][s.key] !== null));
-  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). Each is an event, not a person. ${SCOPE_NAME[scope]}${prelim ? `; FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}` : ""}.`;
-  const toggle = (
-    <PillGroup<EncounterScopeKey>
-      ariaLabel="Border shown"
-      value={scope}
-      onChange={setScope}
-      options={[
-        { value: "nationwide", label: SCOPE_NAME.nationwide },
-        { value: "southwest", label: SCOPE_NAME.southwest },
-      ]}
-    />
-  );
+  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). Each is an event, not a person. ${prelim ? `FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}.` : ""}`;
   return (
-    <ChartCard title="Border encounters by fiscal year" lede={lede} action={toggle}>
+    <ChartCard title="Border encounters by fiscal year" lede={lede}>
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {shownSeries.map((s) => (
           <LegendToggle key={s.key} active={only === s.key} dimmed={only !== null && only !== s.key} onClick={() => toggleOnly(s.key)}>
@@ -100,7 +88,7 @@ export function EncountersCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            CBP only. Each count is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered.
+            CBP only. Each count is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. The counts cover every CBP encounter nationwide, including airports and seaports. Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered.
           </p>
           <p>
             The two big bars measure different things. Border Patrol counts everyone it catches between ports of entry (the official crossings), which is where anyone crossing without permission has to cross. The port bar counts only people CBP officers at a crossing found inadmissible, meaning not allowed in; the many people admitted there are not counted, so a small port bar does not mean few people use ports. Port figures begin in FY2004 (FY2004–FY2014 from DHS, rounded to tens). Title 42 expulsions ran March 2020 to May 2023. The 1980s and 1990s peaks were mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: CBP and DHS Office of Homeland Security Statistics.
@@ -110,7 +98,7 @@ export function EncountersCard({
           <summary className={TABLE_TOGGLE}>View as table</summary>
           <div className="mt-2 max-h-[24rem] overflow-auto">
             <table className="w-full min-w-[46rem] border-collapse text-left">
-              <caption className="sr-only">{`CBP border encounters by fiscal year, ${SCOPE_NAME[scope].toLowerCase()}, by Border Patrol apprehensions, port-of-entry inadmissibles and Title 42 expulsions. A dash means not published.`}</caption>
+              <caption className="sr-only">{`CBP border encounters by fiscal year, by Border Patrol apprehensions, port-of-entry inadmissibles and Title 42 expulsions. A dash means not published.`}</caption>
               <thead>
                 <tr className="border-b border-line-strong text-[0.7rem] uppercase tracking-[0.06em] text-ink-faint">
                   <th className="py-1.5 pr-3 font-medium">Fiscal year</th>
