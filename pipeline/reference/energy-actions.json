@@ -2,6 +2,28 @@
  "last_reviewed": "2026-10-06",
  "actions": [
   {
+   "action_id": "2012-08-07-lng-sabine-pass-final",
+   "date": "2012-08-07",
+   "label_short": "DOE finalizes Sabine Pass non-FTA LNG export approval",
+   "description": "DOE Order 2961-A granted Sabine Pass Liquefaction final long-term authorization to export LNG to countries without a free trade agreement.",
+   "authority_type": "agency",
+   "area": "lng",
+   "kind": "permit_granted",
+   "series": [
+    "N9133US2"
+   ],
+   "lagged_effect": true,
+   "flag_priority": 1,
+   "sources": [
+    {
+     "title": "Sabine Pass Liquefaction, LLC, FE Dkt. No. 10-111-LNG (docket index of orders)",
+     "publisher": "U.S. Department of Energy",
+     "url": "https://hgeo.energy.gov/ng_regulation/sabine-pass-liquefaction-llc-fe-dkt-no-10-111-lng",
+     "kind": "primary"
+    }
+   ]
+  },
+  {
    "action_id": "2015-11-06-keystone-xl-rejected",
    "date": "2015-11-06",
    "label_short": "Keystone XL rejected as not in the national interest",
@@ -39,6 +61,28 @@
      "title": "Public Law 114-113, Consolidated Appropriations Act, 2016, sec. 101",
      "publisher": "U.S. Government Publishing Office",
      "url": "https://www.govinfo.gov/content/pkg/PLAW-114publ113/html/PLAW-114publ113.htm",
+     "kind": "primary"
+    }
+   ]
+  },
+  {
+   "action_id": "2016-02-24-lng-first-sabine-pass-cargo",
+   "date": "2016-02-24",
+   "label_short": "First Sabine Pass LNG export cargo sails",
+   "description": "The first export cargo of the shale era left the Sabine Pass terminal in Louisiana aboard the Asia Vision for Brazil, carrying 3.3 billion cubic feet of LNG.",
+   "authority_type": "agency",
+   "area": "lng",
+   "kind": "announcement",
+   "series": [
+    "N9133US2"
+   ],
+   "lagged_effect": false,
+   "flag_priority": 2,
+   "sources": [
+    {
+     "title": "Ten years after first Sabine Pass cargo, U.S. LNG exports are still on the rise",
+     "publisher": "U.S. Energy Information Administration",
+     "url": "https://www.eia.gov/todayinenergy/detail.php?id=67224",
      "kind": "primary"
     }
    ]
