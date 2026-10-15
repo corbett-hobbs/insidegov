@@ -17,6 +17,7 @@ import { RefugeeSection } from "./RefugeeSection";
 import { RemovalsCard } from "./RemovalsCard";
 import { RemovalsCountryCard } from "./RemovalsCountryCard";
 import { SectionHeading } from "./SectionHeading";
+import { SourceLink } from "@/components/SourceLink";
 
 const asOfLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -119,15 +120,15 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
         <div className="flex flex-col gap-1.5 text-[0.8rem] leading-[1.6] text-ink-muted [&>p]:m-0">
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">1</span>
-            Green cards: DHS Office of Homeland Security Statistics, Yearbook of Immigration Statistics through FY{lprFy}, and its quarterly Legal Immigration and Adjustment of Status Report for the newest year (preliminary). As of {asOfLabel(lpr.asOf)}. Years go to the administration in office on September 30.
+            Green cards: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics, Yearbook of Immigration Statistics</SourceLink> through FY{lprFy}, and its quarterly <SourceLink id="ohss-legal-immigration">Legal Immigration and Adjustment of Status Report</SourceLink> for the newest year (preliminary). As of {asOfLabel(lpr.asOf)}. Years go to the administration in office on September 30.
           </p>
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">2</span>
-            Refugee admissions: Presidential Determinations on Refugee Admissions (Federal Register) for ceilings; State Department Refugee Processing Center, Refugee Admissions Report through September 30, 2026, for arrivals. As of {asOfLabel(refugees.asOf)}; court status is not tracked. Years go to the administration in office on September 30.
+            Refugee admissions: <SourceLink id="refugee-determinations">Presidential Determinations on Refugee Admissions</SourceLink> (Federal Register) for ceilings; <SourceLink id="wraps-admissions">State Department Refugee Processing Center, Refugee Admissions Report</SourceLink> through September 30, 2026, for arrivals. As of {asOfLabel(refugees.asOf)}; court status is not tracked. Years go to the administration in office on September 30.
           </p>
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">3</span>
-            Border encounters: CBP Nationwide Encounters (FY2020–FY{encounters.lastFy}, FY{encounters.lastFy} preliminary) and CBP Border Patrol apprehension histories (FY1980 on); port-of-entry figures begin in FY{encounters.firstOfoFy}, FY{encounters.firstOfoFy}–FY2014 from DHS Office of Homeland Security Statistics (rounded). As of {asOfLabel(encounters.asOf)}. ICE removals: ICE annual enforcement reports, FY{data.firstFy}–FY{data.lastFy} (FY{data.lastFy} arrests, detention and criminal history from the DHS FY2027 ICE budget overview). Countries are countries of citizenship ({coverageLabel(countries)}). As of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
+            Border encounters: <SourceLink id="cbp-encounters">CBP Nationwide Encounters</SourceLink> (FY2020–FY{encounters.lastFy}, FY{encounters.lastFy} preliminary) and <SourceLink id="cbp-encounters">CBP Border Patrol apprehension histories</SourceLink> (FY1980 on); port-of-entry figures begin in FY{encounters.firstOfoFy}, FY{encounters.firstOfoFy}–FY2014 from <SourceLink id="ohss-cbp-encounters">DHS Office of Homeland Security Statistics</SourceLink> (rounded). As of {asOfLabel(encounters.asOf)}. ICE removals: <SourceLink id="ice-statistics">ICE annual enforcement reports</SourceLink>, FY{data.firstFy}–FY{data.lastFy} (FY{data.lastFy} arrests, detention and criminal history from the <SourceLink id="dhs-ice-budget-fy2027">DHS FY2027 ICE budget overview</SourceLink>). Countries are countries of citizenship ({coverageLabel(countries)}). As of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
           </p>
           <p>Each card is one agency and one definition; the counts are never combined across cards or sections.</p>
         </div>

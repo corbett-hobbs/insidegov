@@ -10,6 +10,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ENCOUNTER_SERIES, USBP_ONLY_COLOR, markerGroups, monthsLabel, windowYears, type EncounterSeriesKey } from "@/lib/encounters-chart";
 import type { EncounterScopeKey, EncountersPayload } from "@/lib/encounters-types";
 import { EncountersChart } from "./EncountersChart";
+import { SourceLink } from "@/components/SourceLink";
 
 const n = (v: number) => v.toLocaleString("en-US");
 // Every CBP encounter, nationwide. The southwest-only series is in the data but not offered: what counts as "the southwest border" is unclear to a reader.
@@ -91,7 +92,7 @@ export function EncountersCard({
             CBP only. Each count is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. The counts cover every CBP encounter nationwide, including airports and seaports. Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered.
           </p>
           <p>
-            The two big bars measure different things. Border Patrol counts everyone it catches between ports of entry (the official crossings), which is where anyone crossing without permission has to cross. The port bar counts only people CBP officers at a crossing found inadmissible, meaning not allowed in; the many people admitted there are not counted, so a small port bar does not mean few people use ports. Port figures begin in FY2004 (FY2004–FY2014 from DHS, rounded to tens). Title 42 expulsions ran March 2020 to May 2023. The 1980s and 1990s peaks were mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: CBP and DHS Office of Homeland Security Statistics.
+            The two big bars measure different things. Border Patrol counts everyone it catches between ports of entry (the official crossings), which is where anyone crossing without permission has to cross. The port bar counts only people CBP officers at a crossing found inadmissible, meaning not allowed in; the many people admitted there are not counted, so a small port bar does not mean few people use ports. Port figures begin in FY2004 (FY2004–FY2014 from DHS, rounded to tens). Title 42 expulsions ran March 2020 to May 2023. The 1980s and 1990s peaks were mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: <SourceLink id="cbp-encounters">CBP</SourceLink> and <SourceLink id="ohss-cbp-encounters">DHS Office of Homeland Security Statistics</SourceLink>.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

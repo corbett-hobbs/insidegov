@@ -8,6 +8,7 @@ import { JusticeHeader } from "./JusticeHeader";
 import { ChartLegend, JusticeOverTimeChart, STACKED_CHART_HEIGHT } from "./JusticeOverTimeChart";
 import { JusticeRosterCard } from "./JusticeRosterCard";
 import type { JusticeMode } from "./justice-mode";
+import { SourceLink } from "@/components/SourceLink";
 
 /**
  * A justice's profile page: identity row, then two cards side by side (the
@@ -95,15 +96,9 @@ export function JusticeProfileView({ profile, votes }: { profile: JusticeProfile
           Ideal Point Estimation via Markov Chain Monte Carlo for the U.S.
           Supreme Court, 1953&ndash;1999.&rdquo; Political Analysis
           10:134&ndash;153, from{" "}
-          <a
-            href="https://mqscores.wustl.edu/"
-            rel="noopener"
-            className="text-accent underline underline-offset-2"
-          >
-            mqscores.wustl.edu
-          </a>
-          . Appointment data: Federal Judicial Center
-          biographical directory. Biographies: Wikipedia, text abridged, under
+          <SourceLink href="https://mqscores.wustl.edu/">mqscores.wustl.edu</SourceLink>
+          . Appointment data: <SourceLink id="fjc">Federal Judicial Center
+          biographical directory</SourceLink>. Biographies: <SourceLink href="https://en.wikipedia.org/">Wikipedia</SourceLink>, text abridged, under
           CC BY-SA 4.0. Portraits: public-domain images via Wikimedia Commons.
         </p>
       </footer>

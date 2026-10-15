@@ -8,6 +8,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { VOTE_DISSENT, VOTE_DIVIDED, VOTE_MAJORITY, VOTE_NONE, type JusticeVote } from "@/lib/decisions-entities";
 import { fmtInt } from "@/lib/decisions-derive";
 import { ROLE_LABEL, VOTE_FILTERS, VOTE_LABEL, joinVotes, matchesVote, pct, voteStats, type VoteFilter, type VotedCase } from "@/lib/justice-votes-derive";
+import { SourceLink } from "@/components/SourceLink";
 
 const PAGE = 120;
 
@@ -175,7 +176,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
       </div>
       <MethodologyNote>
         <p>
-          The Decisions page&rsquo;s argued cases with this justice&rsquo;s vote from the Supreme Court Database. &ldquo;Majority&rdquo; includes a concurrence; a vote that dissented in part is coded by the side the justice took overall. Cases the justice sat out and equally divided cases are left out of the percentages. &ldquo;Wrote&rdquo; means authored an opinion. Source: Supreme Court Database (Spaeth et al.).
+          The Decisions page&rsquo;s argued cases with this justice&rsquo;s vote from the Supreme Court Database. &ldquo;Majority&rdquo; includes a concurrence; a vote that dissented in part is coded by the side the justice took overall. Cases the justice sat out and equally divided cases are left out of the percentages. &ldquo;Wrote&rdquo; means authored an opinion. Source: <SourceLink id="scdb">Supreme Court Database</SourceLink> (Spaeth et al.).
         </p>
       </MethodologyNote>
     </ChartCard>

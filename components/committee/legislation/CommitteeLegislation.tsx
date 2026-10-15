@@ -14,6 +14,7 @@ import { MonthChart } from "./MonthChart";
 import { StageTiles, type StageView } from "./StageTiles";
 import { fmtDate, pct } from "./shared";
 import { useCommitteeBills } from "./useCommitteeBills";
+import { SourceLink } from "@/components/SourceLink";
 
 const TITLE = "Legislation in this committee";
 
@@ -84,7 +85,7 @@ function Loaded({ payload }: { payload: CommitteeBillsPayload }) {
         </div>
         <MethodologyNote>
           <p>
-            Each bill is placed at the furthest step this committee is logged as taking: a hearing the bill was on, a markup (or “ordered to be reported”), a report or a discharge. “Passed chamber” and “Became law” belong to the bill, so a bill referred to several committees appears on each one’s page. Steps appear only where the Library of Congress logged them, so a bill with no recorded action may still have been discussed; subcommittee referral is logged for {pct(withSub, total)} of this committee’s bills. Months count the referral; the latest month is still filling in. Source: GovInfo Bill Status.
+            Each bill is placed at the furthest step this committee is logged as taking: a hearing the bill was on, a markup (or “ordered to be reported”), a report or a discharge. “Passed chamber” and “Became law” belong to the bill, so a bill referred to several committees appears on each one’s page. Steps appear only where the Library of Congress logged them, so a bill with no recorded action may still have been discussed; subcommittee referral is logged for {pct(withSub, total)} of this committee’s bills. Months count the referral; the latest month is still filling in. Source: <SourceLink id="govinfo-billstatus">GovInfo Bill Status</SourceLink>.
           </p>
         </MethodologyNote>
       </ChartCard>
@@ -101,7 +102,7 @@ function Loaded({ payload }: { payload: CommitteeBillsPayload }) {
         <FlowChart counts={counts} pick={pick} view={view} onPick={(k, v) => setPick(k, v)} />
         <MethodologyNote>
           <p>
-            The steps are the stage tiles’. A bill counts as having reached a step only if it is recorded as reaching it, so a bill marked up with no recorded hearing counts at “Markup” but not “Hearing”. A bill that passed the chamber without a report from this committee (another committee handled it, or it was discharged) is counted at “Passed chamber”. Bands follow every filter above except the step. Source: GovInfo Bill Status.
+            The steps are the stage tiles’. A bill counts as having reached a step only if it is recorded as reaching it, so a bill marked up with no recorded hearing counts at “Markup” but not “Hearing”. A bill that passed the chamber without a report from this committee (another committee handled it, or it was discharged) is counted at “Passed chamber”. Bands follow every filter above except the step. Source: <SourceLink id="govinfo-billstatus">GovInfo Bill Status</SourceLink>.
           </p>
         </MethodologyNote>
       </ChartCard>

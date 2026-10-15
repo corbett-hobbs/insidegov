@@ -9,6 +9,7 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { GEO_NAME, type GeoGroup, type RefugeePayload, type RefugeeYear } from "@/lib/refugee-types";
 import { RefugeeChart } from "./RefugeeChart";
 import { CEILING_TINT, GEO_STACK, REGION_COLOR, n } from "./refugee-style";
+import { SourceLink } from "@/components/SourceLink";
 
 /**
  * "Refugee ceiling and admissions by fiscal year": the ceiling chart (`RefugeeChart`) with its key, Data notes and table. The key
@@ -62,7 +63,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Ceiling: the most refugees the President authorizes for the year, a maximum rather than a quota, so arrivals under it are not a shortfall. It is the figure in force at year end, so a mid-year revision (FY2021, FY2026) shows the revised number; the year&rsquo;s card gives the first. Admitted: refugees resettled from abroad, by fiscal year of arrival (State Department); asylum seekers, parolees and people with Temporary Protected Status are not included. Regions follow the applicant&rsquo;s nationality. FY2026 is the first year-end report and may be revised. A year belongs to the president in office on Sept 30, so FY2025&rsquo;s ceiling was set by the previous administration.
+            Ceiling: the most refugees <SourceLink id="refugee-determinations">the President authorizes</SourceLink> for the year, a maximum rather than a quota, so arrivals under it are not a shortfall. It is the figure in force at year end, so a mid-year revision (FY2021, FY2026) shows the revised number; the year&rsquo;s card gives the first. Admitted: refugees resettled from abroad, by fiscal year of arrival (<SourceLink id="wraps-admissions">State Department</SourceLink>); asylum seekers, parolees and people with Temporary Protected Status are not included. Regions follow the applicant&rsquo;s nationality. FY2026 is the first year-end report and may be revised. A year belongs to the president in office on Sept 30, so FY2025&rsquo;s ceiling was set by the previous administration.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

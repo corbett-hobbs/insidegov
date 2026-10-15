@@ -27,6 +27,7 @@ import { LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { TopicSwatch } from "./TopicSwatch";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { SourceLink } from "@/components/SourceLink";
 
 type Mode = "count" | "share";
 
@@ -186,7 +187,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
                 Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were.
               </p>
               <p>
-                The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the Federal Register, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
+                The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the <SourceLink id="federal-register-eo">Federal Register</SourceLink>, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
               </p>
             </MethodologyNote>
             <TableFallback years={data.years} />
@@ -196,12 +197,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
             Source:{" "}
-            <a
-              href="https://www.federalregister.gov/presidential-documents/executive-orders"
-              className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-            >
-              Federal Register
-            </a>{" "}
+            <SourceLink id="federal-register-eo">Federal Register</SourceLink>{" "}
             (federalregister.gov API), executive orders signed {first} to present. Each order links to its
             Federal Register page.
         </p>

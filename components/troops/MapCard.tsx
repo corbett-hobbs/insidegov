@@ -18,6 +18,7 @@ import { useTroopsState } from "./TroopsState";
 import { BASE_R, BaseGlyph, BasesLayer } from "./BasesLayer";
 import { RankedList } from "./RankedList";
 import { TD, TH, TableView, branchColor } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 const TH_PLAIN = TH.replace("sticky top-0 ", "");
 
@@ -331,7 +332,7 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
           <p>
             <b className="font-semibold text-ink">Not on the map:</b>{" "}
             {view.territories.length > 0
-              ? `U.S. territories ${view.territories.map((t) => `${places[t.place].name} ${formatCount(t.value)}`).join(", ")} (${formatCount(view.territoryTotal)}) are inside DMDC’s overseas total but are not hosts`
+              ? <>{`U.S. territories ${view.territories.map((t) => `${places[t.place].name} ${formatCount(t.value)}`).join(", ")} (${formatCount(view.territoryTotal)}) are inside `}<SourceLink id="dmdc">DMDC</SourceLink>{`’s overseas total but are not hosts`}</>
               : "no U.S. territory figures this quarter"}
             {view.afloat > 0 ? `; ${formatCount(view.afloat)} are afloat or unassigned` : ""}
             {noOutline.length > 0 ? `; no outline is drawn for ${noOutline.map((r) => `${places[r.place].name} ${formatCount(r.value)}`).join(", ")}` : ""}.{" "}
@@ -342,7 +343,7 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
               : "A blank row is not a zero. "}
             Counts include deployed forces through 2017, so years before and after 2018 are not like-for-like.
             {!p.afloatIncluded && " This year’s source has no afloat or unassigned rows."}{" "}
-            <b className="font-semibold text-ink">Known installations</b> ({bases.sites.length} sites in {bases.countries.length} places, through {bases.through}) are one fixed list from David Vine&rsquo;s compilation (troopdata package, GPL-3.0), not tied to the year chosen. Dots carry no headcount, classified sites are missing, and {bases.sites.filter((x) => x.review).length} sites with doubtful coordinates are in the table but not drawn.
+            <b className="font-semibold text-ink">Known installations</b> ({bases.sites.length} sites in {bases.countries.length} places, through {bases.through}) are one fixed list from David Vine&rsquo;s compilation (<SourceLink id="troopdata">troopdata package</SourceLink>, GPL-3.0), not tied to the year chosen. Dots carry no headcount, classified sites are missing, and {bases.sites.filter((x) => x.review).length} sites with doubtful coordinates are in the table but not drawn.
           </p>
         </MethodologyNote>
         <TableView caption={`Active-duty personnel by host country, ${when}`}>

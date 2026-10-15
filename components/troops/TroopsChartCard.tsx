@@ -10,6 +10,7 @@ import { changeVsPrior, formatCount, measureLabel, stackByRegion } from "@/lib/t
 import { useTroopsState } from "./TroopsState";
 import { TroopsChart } from "./TroopsChart";
 import { RegionLegend, TD, TH, TableView } from "./shared";
+import { SourceLink } from "@/components/SourceLink";
 
 /** "How many troops are stationed abroad": the stacked-bar time series and everything that explains it. */
 export function TroopsChartCard() {
@@ -72,7 +73,7 @@ export function TroopsChartCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Band under the axis: the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, DMDC&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
+            Band under the axis: the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, <SourceLink id="dmdc">DMDC</SourceLink>&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
           </p>
         </MethodologyNote>
         <TableView caption="Active-duty personnel abroad by region and year">

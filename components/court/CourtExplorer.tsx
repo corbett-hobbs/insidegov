@@ -25,6 +25,7 @@ import { JusticeTrajectory } from "./JusticeTrajectory";
 import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { SourceLink } from "@/components/SourceLink";
 
 const PLAY_INTERVAL_MS = 220;
 
@@ -201,7 +202,7 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
             <ChartNotesRow>
               <MethodologyNote className="mt-2">
                 <p>
-                  Martin&ndash;Quinn scores sit on one liberal&ndash;conservative scale and are not comparable in number to the DW-NOMINATE scores on the Congress pages. Hollow dots mark justices who left or joined mid-term; in 1937, 1938, 1956 and 2005, where MQ scores two records, the median is the Court after the change.
+                  <SourceLink id="martin-quinn">Martin&ndash;Quinn scores</SourceLink> sit on one liberal&ndash;conservative scale and are not comparable in number to the <SourceLink id="voteview">DW-NOMINATE scores</SourceLink> on the Congress pages. Hollow dots mark justices who left or joined mid-term; in 1937, 1938, 1956 and 2005, where MQ scores two records, the median is the Court after the change.
                 </p>
               </MethodologyNote>
               <SeatedTable term={term} seated={ordered} />
@@ -274,17 +275,12 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
             Ideal Point Estimation via Markov Chain Monte Carlo for the U.S.
             Supreme Court, 1953&ndash;1999.&rdquo; Political Analysis
             10:134&ndash;153. Scores from{" "}
-            <a
-              href="https://mqscores.wustl.edu/"
-              className="text-ink-muted underline decoration-line-strong underline-offset-2 hover:decoration-accent"
-            >
-              mqscores.wustl.edu
-            </a>
+            <SourceLink href="https://mqscores.wustl.edu/">mqscores.wustl.edu</SourceLink>
             .
           </p>
           <p className="m-0">
-            Appointing president and party from the Federal Judicial Center
-            biographical directory.
+            Appointing president and party from the <SourceLink id="fjc">Federal Judicial Center
+            biographical directory</SourceLink>.
           </p>
         </div>
       </main>

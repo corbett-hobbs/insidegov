@@ -17,6 +17,7 @@ import { TradeMap } from "./TradeMap";
 import { buildMapModel } from "@/lib/trade-map";
 import type { TradePageData } from "@/lib/trade-data";
 import { LEGEND_ROW } from "@/components/charts/legend";
+import { SourceLink } from "@/components/SourceLink";
 
 
 const SORTS = [
@@ -198,7 +199,7 @@ export function TradePartnersCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Census Bureau goods trade. The map is shaded on fixed bins so years compare; the list uses a symmetric log scale so small partners stay visible beside China, so distances are not proportional. Before 1992 Census lists fewer partners, so rows can fall a little short of the total.{model.undrawn.length > 0 ? ` ${model.undrawn.length} small partners with no outline (${fmtMoney(model.undrawn.reduce((a, r) => a + r.exports + r.imports, 0))} of ${fmtMoney(model.totals.total)}) are in the list and table but not on the map.` : ""}
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade. The map is shaded on fixed bins so years compare; the list uses a symmetric log scale so small partners stay visible beside China, so distances are not proportional. Before 1992 Census lists fewer partners, so rows can fall a little short of the total.{model.undrawn.length > 0 ? ` ${model.undrawn.length} small partners with no outline (${fmtMoney(model.undrawn.reduce((a, r) => a + r.exports + r.imports, 0))} of ${fmtMoney(model.totals.total)}) are in the list and table but not on the map.` : ""}
           </p>
         </MethodologyNote>
         {rows.length > 0 && <DataTable rows={rows} year={shown} />}

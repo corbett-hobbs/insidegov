@@ -13,6 +13,7 @@ import { LawsGroupsCard } from "./LawsGroupsCard";
 import { LAW_LIST_ID, LawsListCard } from "./LawsListCard";
 import { LawsStateProvider, useLawsActions, useLawsValues } from "./LawsState";
 import { LawsSupportCard } from "./LawsSupportCard";
+import { SourceLink } from "@/components/SourceLink";
 
 function ControlToggle() {
   const { control } = useLawsValues();
@@ -59,7 +60,7 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
         </div>
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-          Source: Congress.gov (Library of Congress) for laws, policy areas and sponsors; Voteview (Lewis, Poole, Rosenthal, Boche, Rudkin and Sonnet) as the check on roll-call tallies; David Mayhew, lists of important enactments, for major laws; the Senate Historical Office and the Clerk of the House for party control. Presidents: the White House Historical Association. Data through {data.dataThrough}.
+          Source: <SourceLink id="congress-gov">Congress.gov</SourceLink> (Library of Congress) for laws, policy areas and sponsors; <SourceLink id="voteview">Voteview</SourceLink> (Lewis, Poole, Rosenthal, Boche, Rudkin and Sonnet) as the check on roll-call tallies; <SourceLink id="mayhew">David Mayhew, lists of important enactments</SourceLink>, for major laws; the <SourceLink id="senate-party-division">Senate Historical Office</SourceLink> and the <SourceLink id="house-party-division">Clerk of the House</SourceLink> for party control. Presidents: the White House Historical Association. Data through {data.dataThrough}.
         </p>
       </main>
     </LawsStateProvider>

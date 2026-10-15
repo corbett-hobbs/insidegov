@@ -15,6 +15,7 @@ import { LngCard } from "./LngCard";
 import { OilTradeCard } from "./OilTradeCard";
 import { SupplyDemandCard } from "./SupplyDemandCard";
 import { SprCard } from "./SprCard";
+import { SourceLink } from "@/components/SourceLink";
 
 export function EnergyPageClient({ payload }: { payload: EnergyPayload }) {
   return (
@@ -76,7 +77,7 @@ function EnergyPage({ payload }: { payload: EnergyPayload }) {
         <SprCard payload={payload} view={view} />
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-          {EIA_ATTRIBUTION}, Monthly Energy Review, Petroleum Supply Monthly, Electric Power Monthly and Natural Gas Monthly, retrieved {longDate(payload.fetchedAt)}. Policy actions are hand-curated from Department of
+          {EIA_ATTRIBUTION}, <SourceLink id="eia-mer">Monthly Energy Review</SourceLink>, <SourceLink href="https://www.eia.gov/petroleum/supply/monthly/">Petroleum Supply Monthly</SourceLink>, <SourceLink id="eia-electricity">Electric Power Monthly</SourceLink> and <SourceLink href="https://www.eia.gov/naturalgas/monthly/">Natural Gas Monthly</SourceLink>, retrieved {longDate(payload.fetchedAt)}. Policy actions are hand-curated from Department of
           Energy, Federal Register and govinfo.gov pages. Presidential terms and recession dates match the Economy page.
         </p>
       </main>
