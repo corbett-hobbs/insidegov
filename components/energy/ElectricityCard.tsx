@@ -165,7 +165,8 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
   const month = Math.min(day !== null ? monthOfDay(day) : last, last);
   const term = termAtDay(payload.terms, monthStartDay(month));
   const gasShare = m.total[month] ? ((m.gas[month] as number) / (m.total[month] as number)) * 100 : null;
-  const readout = { values: [fmtTwh(m.total[month] as number), `Gas ${gasShare === null ? "—" : `${gasShare.toFixed(0)}%`}`], date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  const gasText = `Gas ${gasShare === null ? "—" : `${gasShare.toFixed(0)}%`}`;
+  const readout = { values: [fmtTwh(m.total[month] as number), gasText], headline: mode === "share" ? gasText : fmtTwh(m.total[month] as number), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell
@@ -173,11 +174,9 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
       title="Where U.S. electricity comes from"
       desc="Net generation by source, utility-scale, monthly: each fuel’s share of the total or its amount. Small-scale solar is estimated separately and drawn on its own line."
       readout={readout}
+      toggle={<PillGroup options={MODES} value={mode} onChange={pickMode} ariaLabel="Electricity chart measure" />}
       chart={
         <>
-          <div className="mb-2.5 w-fit">
-            <PillGroup options={MODES} value={mode} onChange={pickMode} ariaLabel="Electricity chart measure" />
-          </div>
           <EnergyChart
             panels={panels}
             era={era}

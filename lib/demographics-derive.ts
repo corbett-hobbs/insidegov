@@ -135,6 +135,7 @@ export function buildDemographics(legislators: readonly DemoLegislator[], terms:
       let servedSum = 0;
       const women: Record<CaucusGroup, number> = { D: 0, R: 0, O: 0 };
       const tenure: [number, number, number, number] = [0, 0, 0, 0];
+      const seatsBy: Record<CaucusGroup, number> = { D: 0, R: 0, O: 0 };
       let seats = 0;
       let ageMissing = 0;
       for (const [id, e] of roster as Map<string, { caucus: string | null; chambers: Set<Chamber> }>) {
@@ -143,6 +144,7 @@ export function buildDemographics(legislators: readonly DemoLegislator[], terms:
         if (!p) throw new Error(`demographics: ${id} is in terms.json but not legislators.json`);
         const g = (CAUCUS_OVERRIDE[`${id}@${c}`] as CaucusGroup | undefined) ?? caucusGroup(e.caucus);
         seats++;
+        seatsBy[g]++;
         const n = servedThrough(id, c);
         tenure[tenureBand(n)]++;
         servedSum += n;
@@ -159,6 +161,7 @@ export function buildDemographics(legislators: readonly DemoLegislator[], terms:
         year: Number(date.slice(0, 4)),
         termId,
         seats,
+        seatsBy,
         age: { D: ageStat(ages.D), R: ageStat(ages.R) },
         ageAll: ageStat(all),
         ageMissing,

@@ -29,6 +29,8 @@ export interface DemoCongress {
   ageAll: AgeStat;
   /** Members left out of the age figures for want of a birthdate. */
   ageMissing: number;
+  /** Seats by caucus (sums to `seats`), so men by caucus is this minus `women`. */
+  seatsBy: Record<CaucusGroup, number>;
   /** Women by caucus. */
   women: Record<CaucusGroup, number>;
   /** Members by Congresses served, counting this one: 1 / 2-5 / 6-10 / 11 or more. */
