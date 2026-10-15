@@ -631,7 +631,7 @@
         "ofo"
       ],
       "title": "Title 42 expulsions begin",
-      "text": "From March 2020, CBP expelled people under a public-health order (Title 42) with no immigration processing: Border Patrol from March 21, ports of entry from March 27. Expulsions are counted as encounters alongside Title 8 apprehensions and inadmissibles.",
+      "text": "Normally (under Title 8 of the immigration law) a person CBP encounters is processed: they can be placed in removal proceedings and can ask for asylum. From March 2020 a COVID-19 public-health order (Title 42) let CBP expel people quickly instead, without that processing: Border Patrol from March 21, ports of entry from March 27. Each expulsion is still counted as an encounter, alongside the Title 8 ones.",
       "source": "cbp-data-dictionary",
       "evidence": [
         "CBP has been assisting in enforcing the CDC Order, pursuant to Title 42, by USBP and OFO starting 3/21/2020 and 3/27/2020, respectively."
