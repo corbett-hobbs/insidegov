@@ -131,7 +131,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
             <span className="mr-1.5 font-mono font-medium text-accent">3</span>
             Border encounters: CBP Nationwide Encounters (FY2020–FY{encounters.lastFy}, FY{encounters.lastFy} preliminary) and CBP Border Patrol apprehension histories (FY1980 on); port-of-entry figures begin in FY{encounters.firstOfoFy}, FY{encounters.firstOfoFy}–FY2014 from DHS Office of Homeland Security Statistics (rounded). As of {asOfLabel(encounters.asOf)}. Removals before March 2003 (Immigration and Naturalization Service era): DHS Office of Homeland Security Statistics, Yearbook of Immigration Statistics {data.history.edition}, Table 39, FY{data.historyFirstFy}–FY{data.firstFy - 1}, removals only, rounded to tens, as of {asOfLabel(data.history.asOf)}. ICE removals: ICE annual enforcement reports, FY{data.firstFy}–FY{data.lastFy} (FY{data.lastFy} arrests, detention and criminal history from the DHS FY2027 ICE budget overview). Countries are countries of citizenship ({coverageLabel(countries)}). As of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
           </p>
-          <p>Each card is one agency and one definition; the counts are never combined across cards or sections.</p>
+          <p>Counts are never combined across cards or sections. Where a card’s source or definition changes, the chart marks it.</p>
         </div>
       </main>
     </>
