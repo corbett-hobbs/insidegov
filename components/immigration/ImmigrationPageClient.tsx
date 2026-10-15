@@ -101,8 +101,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
             CBP (U.S. Customs and Border Protection) guards the border. Its Border Patrol agents catch people between ports of entry, and its officers at the ports turn away people who are not admissible; each stop is an “encounter”.
           </p>
           <p>
-            An encounter is where a story starts, not where it ends. Afterwards a person may be released to pursue their case, sent back by CBP itself, or handed to ICE (Immigration and Customs Enforcement), which carries out removals and returns. ICE also arrests people inside the country. The removals card counts only what ICE removes or returns, in whatever year that happens, and the data does not link a stop to its outcome, so the two cards are never added together or compared.
-            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}: the removals chart shows the Immigration and Naturalization Service’s earlier counts, as DHS republishes them, and the two charts below it start in FY{data.firstFy}.</>}
+            An encounter is where a story starts, not where it ends. Afterwards a person may be released to pursue their case, sent back by CBP itself, or handed to ICE (Immigration and Customs Enforcement), which carries out removals and returns and also arrests people inside the country. The two cards are steps of one process: the first counts stops at the border, the second counts what ICE later removes or returns, in whatever year that happens. They belong together but measure different moments, so they sit side by side rather than being added up or matched stop to outcome.
           </p>
         </SectionHeading>
 
