@@ -20,7 +20,7 @@ export interface DemoCongress {
   date: string;
   /** Calendar year the Congress convened. */
   year: number;
-  /** `term_id` of the president in office on the convening day. */
+  /** `term_id` of the president in office for most of the Congress. */
   termId: string;
   /** Voting members who held a seat at any time in the Congress (each person once). */
   seats: number;

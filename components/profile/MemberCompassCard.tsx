@@ -42,6 +42,7 @@ export function MemberCompassCard({
         a.lastName.localeCompare(b.lastName) || a.name.localeCompare(b.name),
     )
     .map((member) => ({ member, distance: 0 }));
+  const formerCount = compassMembers.filter((m) => m.isFormer).length;
   const canToggle = neighbors.length > 0;
   const neighborMode = mode === "neighbors" && canToggle;
 
@@ -84,7 +85,7 @@ export function MemberCompassCard({
         {neighborMode
           ? `The ${neighbors.length} ${nounPlural} closest to ${name} in ideological space, ringed below; the rest of the chamber is faded.`
           : inChamber && rank
-            ? `${name} sits ${ordinal(rank)} from the left of ${compassMembers.length} scored ${nounPlural}. Ringed below; the rest of the chamber is faded.`
+            ? `${name} sits ${ordinal(rank)} from the left of ${compassMembers.length} scored ${nounPlural}${formerCount ? ` (${formerCount} of them since left office, marked "former" below)` : ""}. Ringed below; the rest of the chamber is faded.`
             : `No plottable ${ordinal(latestCongress)}-Congress position for ${name} (too few votes). The chamber is shown for context.`}
       </p>
 

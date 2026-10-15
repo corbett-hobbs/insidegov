@@ -69,6 +69,17 @@ export async function readLegislators(): Promise<Legislator[]> {
   return lists.flat();
 }
 
+/**
+ * Bioguide ids of the members in office today: everyone in `legislators-current.yaml`. A member who died, resigned or was
+ * replaced mid-Congress has moved to the historical file, so this is what tells a sitting member from a former one.
+ */
+export async function readSittingBioguides(): Promise<string[]> {
+  const file = LEGISLATOR_YAML[0];
+  const doc: unknown = parseYaml(await readFile(file, "utf8"));
+  if (!Array.isArray(doc)) throw new Error(`${file}: expected a YAML list`);
+  return parseRows(file, doc, legislatorSchema).map((l) => l.id.bioguide).sort();
+}
+
 /** Top-level committees (`committees-current.yaml`), validated. */
 export async function readRawCommittees(): Promise<RawCommittee[]> {
   const doc: unknown = parseYaml(await readFile(COMMITTEES_YAML, "utf8"));

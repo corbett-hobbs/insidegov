@@ -99,6 +99,18 @@ function leadersByBioguide() {
   return map;
 }
 
+let sittingCache: Set<string> | null = null;
+/** Bioguide ids of the members in office today, from `pipeline/output/sitting.json` (`null` before the transform has written it). */
+function sittingBioguides(): Set<string> | null {
+  if (sittingCache) return sittingCache;
+  try {
+    sittingCache = new Set(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "output", "sitting.json"), "utf8")) as string[]);
+  } catch {
+    return null; // no manifest yet: nobody is marked former (and retry on the next call)
+  }
+  return sittingCache;
+}
+
 let legByIdCache: Map<string, Legislator> | null = null;
 function legislatorsById(): Map<string, Legislator> {
   if (!legByIdCache) {
@@ -196,10 +208,13 @@ function buildFullChamber(chamber: Chamber): FullChamber {
   const latestCongress = congresses[congresses.length - 1];
 
   // Mark the current Congress's members: they're the ones with a profile page
-  // and a committed photo. Historical rows keep both flags undefined.
+  // and a committed photo. Historical rows keep both flags undefined. Members
+  // who have since left (died, resigned, replaced) are also marked `isFormer`.
   const withPhoto = photoBioguides();
+  const sitting = sittingBioguides();
   for (const m of allByCongress[latestCongress] ?? []) {
     m.isCurrent = true;
+    if (sitting && !sitting.has(m.bioguideId)) m.isFormer = true;
     m.hasPhoto = withPhoto.has(m.bioguideId);
     const held = leadersByBioguide().get(m.bioguideId)?.find((r) => r.chamber === m.chamber);
     if (held) m.leaderRole = held.role;

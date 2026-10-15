@@ -5,13 +5,13 @@ import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 
 /** /presidency/executive-orders — the Presidency vertical's Executive orders section. */
 export const metadata: Metadata = {
-  title: "Executive orders by year and topic",
+  title: "How many executive orders does each president sign?",
   description:
     "Executive orders signed each year since 1994, stacked by primary topic, with presidential terms marked. From the Federal Register.",
   alternates: { canonical: "/presidency/executive-orders" },
   openGraph: {
     ...ogDefaults,
-    title: `Executive orders by year and topic · ${site.name}`,
+    title: `How many executive orders does each president sign? · ${site.name}`,
     description: "Executive orders signed each year since 1994, by primary topic. From the Federal Register.",
     url: "/presidency/executive-orders",
   },

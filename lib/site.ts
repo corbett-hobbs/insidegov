@@ -19,7 +19,7 @@ export const site = {
   tagline: "The U.S. government, by the numbers",
   /** Whole-site blurb: the default meta description and the share-card text. */
   description:
-    "Explore the U.S. government through its own records: executive orders, the economy, energy, trade, immigration, foreign aid, troops abroad, Congress and the Supreme Court.",
+    "Explore the U.S. government through its own records: executive orders, the economy, energy, trade, immigration, foreign aid, troops abroad, the laws Congress passes, who serves in it, and Supreme Court decisions.",
   /** The Congress ideology explorer's own blurb (`/congress/ideology`). */
   congressIdeologyDescription:
     "Every member of Congress's votes reduced to a two-dimensional ideology score (DW-NOMINATE, 1st–119th Congress). Scrub through 236 years of the House and Senate, filter a state's delegation, and read any current member's trajectory.",

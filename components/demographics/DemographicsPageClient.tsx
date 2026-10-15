@@ -39,7 +39,7 @@ export function DemographicsPageClient({ data }: { data: DemographicsPayload }) 
           </p>
           <HowToRead>
             <p>
-              Each bar or point is one Congress and counts everyone who held a seat at any time in its two years, so mid-term replacements are included. The strip under each chart shows the president in office on the Congress&rsquo;s first day, tinted by party. Click a Congress to pin it across all three charts.
+              Each bar or point is one Congress and counts everyone who held a seat at any time in its two years, so mid-term replacements are included. The strip under each chart shows the president in office for most of each Congress, tinted by party. Click a Congress to pin it across all three charts.
             </p>
           </HowToRead>
         </PageHeader>

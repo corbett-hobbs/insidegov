@@ -14,12 +14,12 @@ import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { SenateExplorer } from "@/components/senate/SenateExplorer";
 
 export const metadata: Metadata = {
-  title: "Congress ideology explorer",
+  title: "How does Congress vote?",
   description: site.congressIdeologyDescription,
   alternates: { canonical: "/congress/ideology" },
   openGraph: {
     ...ogDefaults,
-    title: `Congress ideology explorer · ${site.name}`,
+    title: `How does Congress vote? · ${site.name}`,
     description: site.congressIdeologyDescription,
     url: "/congress/ideology",
   },

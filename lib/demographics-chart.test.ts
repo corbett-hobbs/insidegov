@@ -28,7 +28,7 @@ describe("demographics chart helpers", () => {
     expect(windowRows(rows, SLIDER_BOUNDS)).toHaveLength(5);
     expect(windowRows(rows, [1934, 1934])).toEqual([]);
   });
-  it("spans each president over the years of the Congresses they opened, and skips presidents who opened none", () => {
+  it("spans each president over the years of the Congresses they held most of, and skips presidents who held none", () => {
     const t = bandTerms(rows, presidents);
     expect(t.map((x) => [x.id, x.from, x.to])).toEqual([["a", 1933, 1936], ["b", 1937, 1942]]);
   });

@@ -128,7 +128,7 @@ export function AgeChart({ rows, presidents, measure, pin, onPin }: { rows: read
         </ChartFrame>
         <Tooltip state={tip.state}>
           {(r) => (
-            <TooltipCard title={congressSpan(r)} sub={by.get(r.termId)?.president ? `${by.get(r.termId)?.president} was president on the first day` : undefined}>
+            <TooltipCard title={congressSpan(r)} sub={by.get(r.termId)?.president ? `${by.get(r.termId)?.president} was president for most of it` : undefined}>
               {LINES.map((l) => (
                 <div key={l.k} className="whitespace-nowrap">
                   <span style={{ color: l.color }}>●</span> {l.label}: {fmtAge(val(r, l.k))} <span className="text-ink-muted">· {r.age[l.k].n} members</span>

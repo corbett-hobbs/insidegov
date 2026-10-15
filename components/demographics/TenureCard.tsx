@@ -42,7 +42,7 @@ export function TenureCard({ rows, presidents, pin, onPin }: { rows: readonly De
         terms={segs}
         ariaLabel="Stacked bar chart of members by Congresses served, one bar per Congress"
         renderTooltip={(c) => (
-          <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president ? `${by.get(c.row.termId)?.president} was president on the first day` : undefined}>
+          <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president ? `${by.get(c.row.termId)?.president} was president for most of it` : undefined}>
             {TENURE_LABELS.map((l, i) => (
               <div key={l}>
                 <Swatch color={SERIES[i].fill} /> {l}: {fmtShare(c.row.tenure[i] / (c.row.seats || 1))} ({c.row.tenure[i]})

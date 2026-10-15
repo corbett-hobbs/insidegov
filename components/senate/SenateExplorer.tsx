@@ -226,8 +226,12 @@ export function SenateExplorer({
 
   const hovered = plottable.find((m) => m.bioguideId === hoveredId) ?? null;
   const shown = stateFilter ? stateMembers : plottable;
-  const mostLiberal = shown[0];
-  const mostConservative = shown[shown.length - 1];
+  // Extremes are picked from sitting members: someone who left early in the
+  // Congress (Sylvester Turner died in March 2025) casts few votes, so their
+  // score sits at an edge on thin evidence.
+  const sittingShown = shown.filter((m) => !m.isFormer);
+  const mostLiberal = sittingShown[0];
+  const mostConservative = sittingShown[sittingShown.length - 1];
 
   const noun = viewNoun(view);
   const nounPlural = viewNoun(view, { plural: true });

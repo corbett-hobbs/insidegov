@@ -17,9 +17,11 @@ around one question.
 - **Economy** — jobs, inflation, mortgage rates and more, laid against
   administrations.
 - **Energy** — oil, gas, electricity and the Strategic Petroleum Reserve,
-  with the policy actions that touched them.
+  with the policy actions marked.
 - **Trade** — U.S. trade with each country, plus tariffs and duties collected.
-- **Immigration** — green cards, refugee admissions and ICE removals, by fiscal year and country.
+- **Immigration** — green cards and naturalizations (FY1977 on), refugee
+  admissions against each year's ceiling (FY1980 on) and ICE removals (FY2003
+  on), by fiscal year and country.
 - **National security** — where U.S. troops are stationed abroad, and the
   bases, over time.
 - **Foreign aid** — where U.S. foreign assistance goes, on a world map.
@@ -30,6 +32,10 @@ around one question.
   two-dimensional space (**DW-NOMINATE**), from the 1st Congress (1789) to the
   119th (2025–27). Scrub through 236 years, compare a state's delegation, and
   read any current member's trajectory against their party's mean.
+- **Laws** ([`/congress/laws`](https://insidegov.fyi/congress/laws)) — every
+  public law since the 93rd Congress (1973), by policy area and by how close the
+  final-passage vote was, with David Mayhew's major laws marked and a page for
+  each law showing who voted for it.
 - **Who serves** — age, gender and length of service, for every Congress since
   1933.
 - **Net worth** ([`/congress/wealth`](https://insidegov.fyi/congress/wealth))
@@ -68,6 +74,7 @@ remembers.
 | Congress | [**@unitedstates/congress-legislators**](https://github.com/unitedstates/congress-legislators) | Names, states, parties, terms, leadership, the `icpsr` ↔ `bioguide_id` crosswalk, and current committees and rosters |
 | Congress | [**@unitedstates/images**](https://github.com/unitedstates/images) | Official member portraits (current members only), committed under `public/images/members/` |
 | Congress | **House Clerk** ([disclosures-clerk.house.gov](https://disclosures-clerk.house.gov/)) and **Senate eFD** ([efdsearch.senate.gov](https://efdsearch.senate.gov/)) | Annual financial disclosures behind `/congress/wealth` and each profile's net worth card |
+| Congress | GovInfo [**Bill Status**](https://www.govinfo.gov/bulkdata/BILLSTATUS) (108th on), the [**Congress.gov API**](https://api.congress.gov/) (93rd–107th) and Voteview roll calls | Public laws, sponsors and cosponsors, policy areas and final-passage votes behind `/congress/laws` |
 | Court | [**Martin–Quinn scores**](https://mqscores.wustl.edu/) | Per-term ideal points for every justice |
 | Court | [**Supreme Court Database**](http://scdb.wustl.edu/) (Washington University) | Case counts, dissents, issue areas, outcomes and each justice's vote |
 | Court | [**Federal Judicial Center**](https://www.fjc.gov/history/judges) | Justice biographies |
@@ -76,6 +83,8 @@ remembers.
 | Presidency | [**U.S. Energy Information Administration**](https://www.eia.gov/) | Energy series |
 | Presidency | **U.S. Census Bureau** and [**USITC DataWeb**](https://dataweb.usitc.gov/) | Trade by country; duties collected (DataWeb for 1993–2009) |
 | Presidency | [**ICE**](https://www.ice.gov/statistics) | Removals by year and by country of citizenship |
+| Presidency | [**DHS Office of Homeland Security Statistics**](https://ohss.dhs.gov/topics/immigration/yearbook) | Green cards (by class and country) and naturalizations: the Yearbook of Immigration Statistics, plus the quarterly report for the newest year |
+| Presidency | **Presidential Determinations** ([Federal Register](https://www.federalregister.gov/)) and the State Department's [**Refugee Processing Center**](https://www.wrapsnet.org/admissions-and-arrivals/) | Refugee ceilings and admissions |
 | Presidency | [**ForeignAssistance.gov**](https://foreignassistance.gov/) | Foreign aid obligations and disbursements |
 | Presidency | **Defense Manpower Data Center**, [**troopdata**](https://github.com/meflynn/troopdata), David Vine's base lists | Troop locations and overseas bases |
 | All | [**Wikipedia**](https://en.wikipedia.org/) (CC BY-SA 4.0) | Short bios on member and justice profiles, and the landmark-case list and case articles, fetched in the pipeline |
@@ -166,12 +175,12 @@ pnpm pipeline:check # validate + transform + assert pipeline/output is unchanged
   decision counts from the Supreme Court Database from 1946.
 - **The presidency:** executive orders from 1994; economic and energy series
   with a display window starting in the modern era; trade and duties from
-  1991 and 1993; ICE removals FY2003 on; foreign aid, troops and bases over
+  1991 and 1993; green cards and naturalizations FY1977 on, refugee admissions
+  FY1980 on, ICE removals FY2003 on; foreign aid, troops and bases over
   their source's span. Each page's "Data notes" give the exact window.
 
-Still future work: a page for the laws Congress passes (the data layer is
-built; see [`docs/LAWS_METHODOLOGY.md`](docs/LAWS_METHODOLOGY.md)) and a
-per-member bills and votes record.
+Still future work: a per-member record of every roll-call vote (profiles
+list the laws a member sponsored or cosponsored, not their votes).
 
 ## Licence
 

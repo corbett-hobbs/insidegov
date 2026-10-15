@@ -105,12 +105,16 @@ export const METHODOLOGY: MethodGroup[] = [
         vertical: "presidency",
         title: "Immigration",
         description:
-          "ICE removals by fiscal year (FY2003 to FY2025) and by country of citizenship (FY2014 to FY2024). Country tables are checked against their printed totals and the national series.",
+          "Three tracks. ICE removals by fiscal year (FY2003 to FY2025) and by country of citizenship (FY2014 to FY2024), with country tables checked against their printed totals and the national series. Green cards (people who became lawful permanent residents, by class and country) and naturalizations, FY1977 to FY2025, from the DHS Yearbook of Immigration Statistics and, for the newest year, the preliminary quarterly report. Refugee admissions against each year’s ceiling, FY1980 on, from the annual Presidential Determinations and the State Department’s Refugee Processing Center; asylum, TPS and parole are separate statuses and are not counted.",
         sources: [
           { name: "U.S. Immigration and Customs Enforcement", url: "https://www.ice.gov/statistics" },
+          { name: "DHS Office of Homeland Security Statistics", url: "https://ohss.dhs.gov/topics/immigration/yearbook" },
+          { name: "Presidential Determinations on refugee admissions", url: "https://www.federalregister.gov/", note: "Federal Register" },
+          { name: "State Department Refugee Processing Center", url: "https://www.wrapsnet.org/admissions-and-arrivals/" },
         ],
         credit: "U.S. Immigration and Customs Enforcement, Enforcement and Removal Operations.",
-        updates: "Refreshed by hand after ICE publishes a fiscal year’s figures.",
+        updates:
+          "ICE removals refreshed by hand after ICE publishes a fiscal year’s figures. Green cards and naturalizations checked weekly for a new quarterly report or Yearbook edition (Yearbook yearly, quarterly report about every three months). Refugee admissions checked weekly; the State Department posts a new monthly report around the 5th, swapped in by hand.",
         docPath: "docs/IMMIGRATION_ENFORCEMENT_METHODOLOGY.md",
       },
       {

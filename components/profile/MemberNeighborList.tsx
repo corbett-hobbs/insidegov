@@ -70,6 +70,7 @@ export function MemberNeighborList({
                 </span>{" "}
                 <span className="text-ink-faint">
                   {partyAbbr(member.party)}-{seatLabel(member)}
+                  {member.isFormer && " · former"}
                 </span>
               </span>
               {/* Wide cards only: where the score falls on the −1…+1 left–right axis, so the gap beside the name carries data. */}
