@@ -44,9 +44,9 @@ function Chip({ children, onClear, label }: { children: string; onClear: () => v
 
 /** The laws the page-level filters keep, and the count the list and the jump link both show. */
 export function useFilteredLaws(): { list: LawsList | null; failed: boolean; rows: LawListRow[] } {
-  const { data, window: win, groups, major, bands, pin } = useLawsValues();
+  const { data, window: win, groups, major, bands, party, pin } = useLawsValues();
   const { list, failed } = useLawsList(data.listVersion);
-  const rows = useMemo(() => (list ? filterLaws(data, list.rows, { window: win, congress: pin, groups, major, bands }) : []), [data, list, win, pin, groups, major, bands]);
+  const rows = useMemo(() => (list ? filterLaws(data, list.rows, { window: win, congress: pin, groups, major, bands, party }, list.sponsors) : []), [data, list, win, pin, groups, major, bands, party]);
   return { list, failed, rows };
 }
 
@@ -57,13 +57,13 @@ export function useFilteredLaws(): { list: LawsList | null; failed: boolean; row
  * matches name, bill, sponsor, policy area and summary: every word must. Rows are added as the box is scrolled.
  */
 export function LawsListCard() {
-  const { data, groups, major, bands, pin, window: win, range } = useLawsValues();
-  const { setGroups, setMajor, setBands, clearPin } = useLawsActions();
+  const { data, groups, major, bands, party, pin, window: win, range } = useLawsValues();
+  const { setGroups, setMajor, setBands, setParty, clearPin } = useLawsActions();
   const { list, failed, rows } = useFilteredLaws();
   const [query, setQuery] = useState("");
   const { summaryHas } = useLawsSearchIndex(data.searchVersion, query.trim() !== "");
   const matched = useMemo(() => (list ? matchLaws(data, list, rows, query, summaryHas) : []), [data, list, rows, query, summaryHas]);
-  const sig = `${win[0]}-${win[1]}|${groups === null ? "*" : [...groups].sort().join(",")}|${major}|${bands === null ? "*" : [...bands].sort().join(",")}|${pin}|${query.trim().toLowerCase()}`;
+  const sig = `${win[0]}-${win[1]}|${groups === null ? "*" : [...groups].sort().join(",")}|${major}|${bands === null ? "*" : [...bands].sort().join(",")}|${party}|${pin}|${query.trim().toLowerCase()}`;
   const [shown, setShown] = useState<{ sig: string; n: number }>({ sig, n: PAGE });
   const n = shown.sig === sig ? shown.n : PAGE;
   const grow = (e: UIEvent<HTMLElement>) => {
@@ -72,7 +72,7 @@ export function LawsListCard() {
   };
   const years = range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`;
   const queryOn = query.trim() !== "";
-  const anyFilter = groups !== null || bands !== null || pin !== null || major || queryOn;
+  const anyFilter = groups !== null || bands !== null || party !== null || pin !== null || major || queryOn;
   // A vote pill adds or drops its band; the last one dropped, or all five ticked, is "Any vote" again.
   const toggleBand = (b: number) => {
     if (bands === null) return setBands(new Set([b]));
@@ -125,6 +125,11 @@ export function LawsListCard() {
         {groups !== null && (
           <Chip onClear={() => setGroups(null)} label="Clear the policy area filter">
             {filterLabel(data, groups)}
+          </Chip>
+        )}
+        {party !== null && (
+          <Chip onClear={() => setParty(null)} label="Clear the sponsor party filter">
+            {party === "D" ? "Democratic sponsors" : "Republican sponsors"}
           </Chip>
         )}
         {pin !== null && (

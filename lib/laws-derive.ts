@@ -3,7 +3,7 @@ import type { CongressControlRow } from "./congress-control";
 import type { Administration } from "./executive-orders-entities";
 import type { LawCountRow, LawRow, LawsMeta } from "./laws-entities";
 import { lawKey } from "./laws-search";
-import type { BandCounts, ChamberTally, LawListRow, LawSigner, LawSponsor, LawsList, LawsPayload, LawsPresident, SignedMost } from "./laws-types";
+import type { BandCounts, ChamberTally, LawListRow, LawSigner, LawSponsor, LawsGrids, LawsList, LawsPayload, LawsPresident, SignedMost, SponsorParty } from "./laws-types";
 import { isOnly, isPicked, pickLabel, type Picked } from "./multi-select";
 import { initialsOf } from "./term-label";
 import type { BandTerm } from "@/components/charts/TermBand";
@@ -67,13 +67,62 @@ export function groupCountsByCongress(counts: readonly LawCountRow[], meta: Pick
   return out;
 }
 
+const INDEPENDENT = /^(independent|ind\.)/i;
+
+/** A member's caucus in a Congress as one letter: Democrats and Republicans, and "I" for every other caucus (independents, minor parties). */
+export const partyLetterOf = (caucus: string | null): "D" | "R" | "I" =>
+  caucus === "Democrat" || caucus?.startsWith("Democrat") ? "D" : caucus === "Republican" ? "R" : INDEPENDENT.test(caucus ?? "") ? "I" : caucus?.includes("Democrat") ? "D" : caucus?.includes("Republican") ? "R" : "I";
+
+/** Who a law's sponsor was, party-wise, in the law's Congress: "D", "R" or "I", or null when the id is unknown. */
+export type SponsorPartyOf = (bioguideId: string, congress: number, origin: LawRow["origin_chamber"]) => "D" | "R" | "I" | null;
+
+/**
+ * The party of a member in a Congress, from their terms (`terms.json`): the term in the chamber the bill came from when they had
+ * one in both, else the first. A party switcher counts under the party they sat with in the law's own Congress.
+ */
+export function sponsorPartyFromTerms(terms: readonly { bioguide_id: string; congress_number: number; chamber: string; caucus: string | null; party: string | null }[]): SponsorPartyOf {
+  const by = new Map<string, (typeof terms)[number][]>();
+  for (const t of terms) {
+    const key = `${t.bioguide_id}|${t.congress_number}`;
+    by.set(key, [...(by.get(key) ?? []), t]);
+  }
+  return (id, congress, origin) => {
+    const mine = by.get(`${id}|${congress}`);
+    if (!mine) return null;
+    const t = mine.find((x) => x.chamber === origin?.toLowerCase()) ?? mine[0]!;
+    return partyLetterOf(t.caucus ?? t.party ?? null);
+  };
+}
+
+const emptyGrids = (congresses: readonly number[], areas: LawsMeta["areas"]): LawsGrids => ({
+  counts: congresses.map(() => areas.map(() => 0)),
+  bands: congresses.map(() => areas.map((): BandCounts => [0, 0, 0, 0, 0])),
+  majorBands: congresses.map(() => areas.map((): BandCounts => [0, 0, 0, 0, 0])),
+  major: congresses.map(() => areas.map(() => 0)),
+});
+
+/**
+ * The page's data narrowed to the laws one party's members sponsored (null = all laws): the same payload with the party's grids in
+ * place of the totals, so every chart, count and filter that reads `counts` / `bands` / `majorBands` / `major` follows without knowing.
+ */
+export function lawsForParty(p: LawsPayload, party: SponsorParty | null): LawsPayload {
+  return party === null ? p : { ...p, ...p.byParty[party] };
+}
+
+/** Laws sponsored by neither a Democrat nor a Republican (independents, minor parties, no member sponsor): in "All parties" only. */
+export function unattributedLaws(p: LawsPayload): number {
+  const total = (g: LawsGrids) => g.counts.reduce((n, row) => n + row.reduce((a, b) => a + b, 0), 0);
+  return p.lawCount - total(p.byParty.D) - total(p.byParty.R);
+}
+
 /** The dense payload the page receives: counts as `[congress][area]`, no per-law rows. */
 export function buildLawsPayload(
   counts: readonly LawCountRow[],
   laws: readonly LawRow[],
   meta: LawsMeta,
   admins: readonly Administration[],
-  controlRows: readonly CongressControlRow[] = [],
+  controlRows: readonly CongressControlRow[],
+  sponsorParty: SponsorPartyOf,
 ): LawsPayload {
   const congresses: number[] = [];
   for (let c = meta.first_congress; c <= meta.last_congress; c++) congresses.push(c);
@@ -98,6 +147,22 @@ export function buildLawsPayload(
     if (ci === undefined || ai === undefined) throw new Error(`laws: ${l.law_id} is outside the catalog`);
     majorBandGrid[ci]![ai]![l.band]!++;
   }
+  // The same grids per sponsor party, counted from the law rows (the counts file has no sponsors).
+  const byParty: Record<SponsorParty, LawsGrids> = { D: emptyGrids(congresses, meta.areas), R: emptyGrids(congresses, meta.areas) };
+  for (const l of laws) {
+    const party = l.sponsor_bioguide_id ? sponsorParty(l.sponsor_bioguide_id, l.congress, l.origin_chamber) : null;
+    if (party !== "D" && party !== "R") continue;
+    const ci = cIndex.get(l.congress);
+    const ai = areaIndex.get(l.area_id);
+    if (ci === undefined || ai === undefined) throw new Error(`laws: ${l.law_id} is outside the catalog`);
+    const g = byParty[party];
+    g.counts[ci]![ai]!++;
+    g.bands[ci]![ai]![l.band]!++;
+    if (l.major === true) {
+      g.major[ci]![ai]!++;
+      g.majorBands[ci]![ai]![l.band]!++;
+    }
+  }
   const signed = signedMostByCongress(laws, admins);
   const last = congresses[congresses.length - 1]!;
   return {
@@ -109,6 +174,7 @@ export function buildLawsPayload(
     bands: bandGrid,
     majorBands: majorBandGrid,
     major: majorGrid,
+    byParty,
     majorThrough: meta.major_covered_through_congress,
     signedMost: congresses.map((c) => {
       const s = signed.get(c);
@@ -374,13 +440,15 @@ export interface LawFilter {
   major: boolean;
   /** Ticked support bands (null = any vote). */
   bands: Picked<number>;
+  /** Only laws a Democrat or a Republican sponsored (null = every law). */
+  party: SponsorParty | null;
 }
 
-/** The list rows a set of page-level filters keeps (order kept: newest first). */
-export function filterLaws(p: LawsPayload, rows: readonly LawListRow[], f: LawFilter): LawListRow[] {
+/** The list rows a set of page-level filters keeps (order kept: newest first). `sponsors` is the list's sponsor table, which the party pick reads. */
+export function filterLaws(p: LawsPayload, rows: readonly LawListRow[], f: LawFilter, sponsors: readonly LawSponsor[]): LawListRow[] {
   const [lo, hi] = f.congress !== null ? [f.congress, f.congress] : [p.congresses[f.window[0]] ?? 1, p.congresses[f.window[1]] ?? 0];
   const ok = new Set(p.areas.flatMap((a, i) => (isPicked(f.groups, a.group) ? [i] : [])));
-  return rows.filter((r) => r[0] >= lo && r[0] <= hi && ok.has(r[4]) && (!f.major || r[9] === 1) && isPicked(f.bands, r[5]));
+  return rows.filter((r) => r[0] >= lo && r[0] <= hi && ok.has(r[4]) && (!f.major || r[9] === 1) && isPicked(f.bands, r[5]) && (f.party === null || (r[8] >= 0 && sponsors[r[8]]![2] === f.party)));
 }
 
 /**

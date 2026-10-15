@@ -9,7 +9,7 @@ import { displayName } from "./display-name";
 import { legislator, term } from "./entities";
 import { administration } from "./executive-orders-entities";
 import { lawDetailsShard } from "./law-details-entities";
-import { buildLawsList, buildLawsPayload } from "./laws-derive";
+import { buildLawsList, buildLawsPayload, partyLetterOf, sponsorPartyFromTerms } from "./laws-derive";
 import { lawCountRow, lawRow, lawsMeta } from "./laws-entities";
 import { buildSearchIndex, lawKey } from "./laws-search";
 import type { LawsSearchIndex } from "./laws-search";
@@ -35,12 +35,10 @@ export function getLawsPageData(): LawsPayload {
   const meta = lawsMeta.parse(read("laws_meta.json"));
   const admins = [...HISTORICAL_ADMINISTRATIONS, ...z.array(administration).parse(read("administrations.json"))];
   const control = congressControlFile.parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "congress-control.json"), "utf8")));
-  cache = { ...buildLawsPayload(counts, laws, meta, admins, control.rows), listVersion: listVersion(), searchVersion: searchVersion() };
+  const terms = z.array(term).parse(read("terms.json")).filter((t) => t.congress_number >= meta.first_congress);
+  cache = { ...buildLawsPayload(counts, laws, meta, admins, control.rows, sponsorPartyFromTerms(terms)), listVersion: listVersion(), searchVersion: searchVersion() };
   return cache;
 }
-
-const INDEPENDENT = /^(independent|ind\.)/i;
-const partyOf = (caucus: string | null): "D" | "R" | "I" => (caucus === "Democrat" || caucus?.startsWith("Democrat") ? "D" : caucus === "Republican" ? "R" : INDEPENDENT.test(caucus ?? "") ? "I" : caucus?.includes("Democrat") ? "D" : caucus?.includes("Republican") ? "R" : "I");
 
 /**
  * Every public law as a compact tuple, newest first, with the sponsor table (name, party-state, and a profile path only for
@@ -79,7 +77,7 @@ export function getLawSponsorResolver() {
     const mine = terms.get(`${id}|${congress}`) ?? [];
     const t = mine.find((x) => x.chamber === origin?.toLowerCase()) ?? mine[0];
     const name = displayName(person.name, id);
-    const party = partyOf(t?.caucus ?? t?.party ?? null);
+    const party = partyLetterOf(t?.caucus ?? t?.party ?? null);
     const place = t ? `${t.state}${t.chamber === "house" && t.district ? `-${t.district}` : ""}` : "";
     const cur = current.get(id);
     return [`${t?.chamber === "senate" ? "Sen." : t ? "Rep." : ""} ${name}`.trim(), place ? `${party}-${place}` : party, party, cur ? memberPath({ bioguideId: id, chamber: cur.chamber, name: cur.name }) : null];

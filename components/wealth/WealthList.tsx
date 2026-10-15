@@ -4,7 +4,7 @@ import { MemberPhoto } from "@/components/MemberPhoto";
 import { chamberLabel } from "@/lib/chamber";
 import { memberPath } from "@/lib/member-url";
 import { isListEligible, type WealthMember, type WealthYearPoint } from "@/lib/wealth-derive";
-import { wealthCountNoun } from "@/lib/wealth-copy";
+import { wealthPartyNoun, type WealthParty } from "@/lib/wealth-copy";
 import { formatCompactUSD, formatOpenEndedUSD } from "@/lib/format-money";
 import { stateName } from "@/lib/states";
 import { Sparkline } from "./Sparkline";
@@ -21,10 +21,11 @@ interface WealthListProps {
   members: readonly WealthMember[];
   view: ChamberView;
   stateFilter: string | null;
+  party: WealthParty | null;
 }
 
 /** One of the two side-by-side ranked lists on /congress/wealth. */
-export function WealthList({ title, direction, members, view, stateFilter }: WealthListProps) {
+export function WealthList({ title, direction, members, view, stateFilter, party }: WealthListProps) {
   const eligible = members.filter(isListEligible);
   const ranked = [...eligible].sort((a, b) => {
     const av = a.points[a.points.length - 1].midpoint;
@@ -33,7 +34,7 @@ export function WealthList({ title, direction, members, view, stateFilter }: Wea
     return lastNameOf(a.name).localeCompare(lastNameOf(b.name));
   });
 
-  const noun = wealthCountNoun(view);
+  const noun = wealthPartyNoun(view, party);
 
   return (
     <section className="@container flex min-w-0 flex-col rounded-xl border border-line-strong bg-surface p-3 sm:p-6">

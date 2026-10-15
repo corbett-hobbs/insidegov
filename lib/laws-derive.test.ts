@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
+import { term } from "./entities";
 import { administration } from "./executive-orders-entities";
 import { congressControlFile } from "./congress-control";
 import {
@@ -18,6 +19,10 @@ import {
   tallyText,
   buildLawsPayload,
   cellFor,
+  lawsForParty,
+  partyLetterOf,
+  sponsorPartyFromTerms,
+  unattributedLaws,
   groupCountsByCongress,
   noVoteShare,
   openYear,
@@ -43,6 +48,7 @@ const counts = z.array(lawCountRow).parse(read("laws_counts.json"));
 const laws = z.array(lawRow).parse(read("laws.json"));
 const meta = lawsMeta.parse(read("laws_meta.json"));
 const admins = [...HISTORICAL_ADMINISTRATIONS, ...z.array(administration).parse(read("administrations.json"))];
+const sponsorParty = sponsorPartyFromTerms(z.array(term).parse(read("terms.json")).filter((t) => t.congress_number >= meta.first_congress));
 
 describe("the committed Laws files", () => {
   const totals = totalsByCongress(counts);
@@ -132,7 +138,7 @@ describe("passage votes and support bands", () => {
   });
   it("add the band counts up to the law counts, in every row and in the payload", () => {
     for (const c of counts) expect(c.bands.reduce((a, b) => a + b, 0)).toBe(c.n);
-    const p = buildLawsPayload(counts, laws, meta, admins);
+    const p = buildLawsPayload(counts, laws, meta, admins, [], sponsorParty);
     for (let i = 0; i < p.congresses.length; i++) for (let j = 0; j < p.areas.length; j++) expect(p.bands[i]![j]!.reduce((a, b) => a + b, 0)).toBe(p.counts[i]![j]);
   });
   it("show most laws passed by voice vote or consent before 2000, as the pre-flight found", () => {
@@ -261,7 +267,7 @@ describe("groupCountsByCongress and buildLawsPayload", () => {
     for (const [c, per] of groupCountsByCongress(counts, meta)) expect([...per.values()].reduce((a, b) => a + b, 0)).toBe(totals.get(c));
   });
   it("builds a dense payload that matches the counts", () => {
-    const p = buildLawsPayload(counts, laws, meta, admins);
+    const p = buildLawsPayload(counts, laws, meta, admins, [], sponsorParty);
     expect(p.majorThrough).toBe(118);
     expect(p.major.flat().reduce((a, b) => a + b, 0)).toBe(laws.filter((l) => l.major).length);
     expect(p.congresses[0]).toBe(93);
@@ -274,7 +280,7 @@ describe("groupCountsByCongress and buildLawsPayload", () => {
 
 describe("the Laws page derivations (over the committed files)", () => {
   const control = congressControlFile.parse(JSON.parse(readFileSync("pipeline/reference/congress-control.json", "utf8")));
-  const p = buildLawsPayload(counts, laws, meta, admins, control.rows);
+  const p = buildLawsPayload(counts, laws, meta, admins, control.rows, sponsorParty);
   const all = null;
 
   it("opens the 93rd in 1973 and spans 1973 to the second year of the latest Congress", () => {
@@ -359,11 +365,11 @@ describe("the Laws page derivations (over the committed files)", () => {
 });
 
 describe("the list of every law and card 3", () => {
-  const p = buildLawsPayload(counts, laws, meta, admins);
+  const p = buildLawsPayload(counts, laws, meta, admins, [], sponsorParty);
   const sponsors = (id: string): [string, string, "D" | "R" | "I", string | null] => [`Rep. ${id}`, "D-XX", "D", null];
   const list = buildLawsList(laws, meta, admins, (id) => sponsors(id));
   const all = (): [number, number] => [0, p.congresses.length - 1];
-  const filt = { window: all(), congress: null, groups: null, major: false, bands: null } as const;
+  const filt = { window: all(), congress: null, groups: null, major: false, bands: null, party: null } as const;
 
   it("carries every law once, newest first", () => {
     expect(list.rows).toHaveLength(laws.length);
@@ -383,7 +389,7 @@ describe("the list of every law and card 3", () => {
     for (const r of list.rows) expect(r[9] === 2).toBe(r[0] > p.majorThrough);
   });
   it("counts the same laws as the charts under any filter", () => {
-    expect(filterLaws(p, list.rows, filt)).toHaveLength(laws.length);
+    expect(filterLaws(p, list.rows, filt, list.sponsors)).toHaveLength(laws.length);
     const fromCharts = (groups: Set<string> | null, major: boolean, bands: Set<number> | null, a: number, b: number) => {
       let n = 0;
       for (let ci = a; ci <= b; ci++) {
@@ -404,10 +410,10 @@ describe("the list of every law and card 3", () => {
     ];
     for (const [groups, major, bands] of cases) {
       const w = windowIndexes(p, [1990, 2010], major);
-      expect(filterLaws(p, list.rows, { window: w, congress: null, groups, major, bands }), `${[...(groups ?? [])]}/${major}/${[...(bands ?? [])]}`).toHaveLength(fromCharts(groups, major, bands, w[0], w[1]));
+      expect(filterLaws(p, list.rows, { window: w, congress: null, groups, major, bands, party: null }, list.sponsors), `${[...(groups ?? [])]}/${major}/${[...(bands ?? [])]}`).toHaveLength(fromCharts(groups, major, bands, w[0], w[1]));
     }
-    expect(filterLaws(p, list.rows, { ...filt, congress: 93 })).toHaveLength(651);
-    expect(filterLaws(p, list.rows, { ...filt, congress: 118 })).toHaveLength(274);
+    expect(filterLaws(p, list.rows, { ...filt, congress: 93 }, list.sponsors)).toHaveLength(651);
+    expect(filterLaws(p, list.rows, { ...filt, congress: 118 }, list.sponsors)).toHaveLength(274);
   });
   it("words the policy-area and vote filters, and totals laws per group for the control", () => {
     const opts = groupOptions(p);
@@ -473,5 +479,70 @@ describe("the list of every law and card 3", () => {
 describe("the vote filter's card 3 measure", () => {
   it("maps every support band to a toggle key that measures that band", () => {
     for (const band of [0, 1, 2, 3, 4]) expect(GROUP_MEASURES[GROUP_KEY_FOR_BAND[band]!].band).toBe(band);
+  });
+});
+
+describe("the sponsor party filter", () => {
+  const p = buildLawsPayload(counts, laws, meta, admins, [], sponsorParty);
+  const sum = (g: number[][]) => g.reduce((n, row) => n + row.reduce((a, b) => a + b, 0), 0);
+  const sumBands = (g: number[][][]) => g.reduce((n, row) => n + row.reduce((a, c) => a + c.reduce((x, y) => x + y, 0), 0), 0);
+
+  it("reads a caucus as one letter", () => {
+    expect(partyLetterOf("Democrat")).toBe("D");
+    expect(partyLetterOf("Republican")).toBe("R");
+    expect(partyLetterOf("Popular Democrat")).toBe("D");
+    expect(partyLetterOf("Independent")).toBe("I");
+    expect(partyLetterOf(null)).toBe("I");
+  });
+  it("splits every law that has a Democratic or Republican sponsor, and only those", () => {
+    const d = sum(p.byParty.D.counts);
+    const r = sum(p.byParty.R.counts);
+    expect(d + r + unattributedLaws(p)).toBe(laws.length);
+    expect(unattributedLaws(p)).toBeGreaterThan(0);
+    expect(unattributedLaws(p)).toBeLessThan(60); // a few independents and the laws with no member sponsor
+    expect(d).toBeGreaterThan(5000);
+    expect(r).toBeGreaterThan(4000);
+  });
+  it("keeps each party's bands and major counts adding up to its own counts", () => {
+    for (const party of ["D", "R"] as const) {
+      const g = p.byParty[party];
+      for (let i = 0; i < p.congresses.length; i++)
+        for (let j = 0; j < p.areas.length; j++) {
+          expect(g.bands[i]![j]!.reduce((a, b) => a + b, 0), `${party} ${p.congresses[i]} ${p.areas[j]!.id}`).toBe(g.counts[i]![j]);
+          expect(g.majorBands[i]![j]!.reduce((a, b) => a + b, 0)).toBe(g.major[i]![j]);
+        }
+      expect(sumBands(g.bands)).toBe(sum(g.counts));
+    }
+  });
+  it("never counts a party above the total, in any Congress and area", () => {
+    for (let i = 0; i < p.congresses.length; i++)
+      for (let j = 0; j < p.areas.length; j++) {
+        expect(p.byParty.D.counts[i]![j]! + p.byParty.R.counts[i]![j]!).toBeLessThanOrEqual(p.counts[i]![j]!);
+        expect(p.byParty.D.major[i]![j]! + p.byParty.R.major[i]![j]!).toBeLessThanOrEqual(p.major[i]![j]!);
+      }
+  });
+  it("hands the page the same payload for 'all parties' and the party's grids otherwise", () => {
+    expect(lawsForParty(p, null)).toBe(p);
+    const d = lawsForParty(p, "D");
+    expect(d.counts).toBe(p.byParty.D.counts);
+    expect(d.congresses).toBe(p.congresses);
+    expect(sum(d.counts)).toBeLessThan(sum(p.counts));
+  });
+  it("tells the Democrats from the Republicans who held the 93rd (a Democratic Congress sponsored more laws)", () => {
+    const first = (g: number[][]) => g[0]!.reduce((a, b) => a + b, 0);
+    expect(first(p.byParty.D.counts)).toBeGreaterThan(first(p.byParty.R.counts));
+  });
+  it("narrows the list to the same laws the charts count", () => {
+    const list = buildLawsList(laws, meta, admins, (id, congress, origin) => {
+      const party = sponsorParty(id, congress, origin);
+      return party ? [`Rep. ${id}`, `${party}-XX`, party, null] : null;
+    });
+    const all: [number, number] = [0, p.congresses.length - 1];
+    const base = { window: all, congress: null, groups: null, major: false, bands: null } as const;
+    for (const party of ["D", "R"] as const) {
+      expect(filterLaws(p, list.rows, { ...base, party }, list.sponsors)).toHaveLength(sum(p.byParty[party].counts));
+      const major = { ...base, major: true, window: windowIndexes(p, [1973, 2100], true) } as const;
+      expect(filterLaws(p, list.rows, { ...major, party }, list.sponsors)).toHaveLength(sum(p.byParty[party].major));
+    }
   });
 });
