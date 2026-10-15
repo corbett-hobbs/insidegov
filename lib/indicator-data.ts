@@ -22,6 +22,7 @@ import { dayOf, dayOfIso, fiscalYearOfDay } from "./indicator-time";
 import { MORTGAGE_METHOD_CHANGE } from "./indicator-entities";
 import {
   monthlyChange,
+  realHourlyEarnings,
   windowPoints,
   yearOverYearPercent,
   type DerivedPoint,
@@ -85,6 +86,12 @@ export function getInflation(): DerivedPoint[] {
   return windowPoints(yearOverYearPercent(load().byId.get("CPIAUCSL") ?? []), "monthly");
 }
 
+/** Real hourly earnings (latest-month dollars): AHETPI divided by CPIAUCSL over full history, windowed. */
+export function getRealHourlyEarnings(): { points: DerivedPoint[]; baseDate: string | null } {
+  const { points, baseDate } = realHourlyEarnings(load().byId.get("AHETPI") ?? [], load().byId.get("CPIAUCSL") ?? []);
+  return { points: windowPoints(points, "monthly"), baseDate };
+}
+
 /**
  * The economy page's client payload: every series inside the display window,
  * compacted (see `lib/indicator-payload.ts`), plus recession spans, presidential
@@ -101,6 +108,7 @@ export function getEconomyPayload(): EconomyPayload {
   const control = congressControlFile.parse(
     JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "congress-control.json"), "utf8")),
   );
+  const wage = getRealHourlyEarnings();
   return {
     span,
     gas: weeklyTuples(get("GASREGW"), 3),
@@ -109,6 +117,10 @@ export function getEconomyPayload(): EconomyPayload {
     jobs: monthlySeries(getJobsAdded(), 0),
     un: monthlySeries(get("UNRATE"), 1),
     infl: monthlySeries(getInflation(), 3),
+    gdp: quarterlySeries(get("A191RO1Q156NBEA"), 1),
+    gdpq: quarterlySeries(get("A191RL1Q225SBEA"), 1),
+    wage: monthlySeries(wage.points, 2),
+    wageBase: wage.baseDate ?? "",
     inc: annualTuples(get("MEHOINUSA672N"), 0),
     def: annualTuples(get("FYFSGDA188S"), 2),
     held: quarterlySeries(get("FYGFGDQ188S"), 2),

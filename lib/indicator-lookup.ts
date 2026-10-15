@@ -63,6 +63,15 @@ export function readWeekly(a: readonly [number, number][], day: number | null): 
   return some(a[i][1], a[i][0], `week of ${fmtDay(a[i][0])}`);
 }
 
+/** Quarterly GDP growth (year over year), with the annualized quarter-over-quarter rate as the second value. */
+export function readGdp(gdp: readonly (number | null)[], gdpq: readonly (number | null)[], day: number | null): Reading {
+  const q = day === null ? lastNonNull(gdp) : quarterIndexOfDay(day);
+  const qy = 1991 + Math.floor(q / 4);
+  const qn = (q % 4) + 1;
+  if (q >= gdp.length || gdp[q] === null) return none(`Q${qn} ${qy} not yet reported`);
+  return some(gdp[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `Q${qn} ${qy}`, gdpq[q] ?? null);
+}
+
 /** Regular gasoline, with diesel at the same date as the second value (null before diesel begins in 1994). */
 export function readGas(gas: readonly [number, number][], diesel: readonly [number, number][], day: number | null): Reading {
   const r = readWeekly(gas, day);
@@ -125,7 +134,7 @@ export function readDebt(held: readonly (number | null)[], tot: readonly (number
   return some(held[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `held by the public, Q${qn} ${qy}`, tot[q] ?? null);
 }
 
-export type EconomyKey = "mis" | "gas" | "infl" | "jobs" | "un" | "mort" | "inc" | "def" | "debt";
+export type EconomyKey = "mis" | "gas" | "infl" | "jobs" | "gdp" | "wage" | "un" | "mort" | "inc" | "def" | "debt";
 
 /** Every chart's reading for one date (or the latest values for `null`). */
 export function readAll(d: EconomyData, day: number | null): Record<EconomyKey, Reading> {
@@ -134,6 +143,8 @@ export function readAll(d: EconomyData, day: number | null): Record<EconomyKey, 
     gas: readGas(d.gas, d.diesel, day),
     infl: readMonthly(d.infl, day, "not collected"),
     jobs: readMonthly(d.jobs, day, "no data"),
+    gdp: readGdp(d.gdp, d.gdpq, day),
+    wage: readMonthly(d.wage, day, "not collected"),
     un: readMonthly(d.un, day, "not collected"),
     mort: readWeekly(d.mort, day),
     inc: readIncome(d.inc, day),

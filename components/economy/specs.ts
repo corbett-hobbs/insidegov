@@ -1,11 +1,11 @@
 import type { EconomyKey } from "@/lib/indicator-lookup";
 
-/** Presentation config for the nine economy charts. Domains were checked against the 1991-onward data. */
+/** Presentation config for the eleven economy charts. Domains were checked against the 1991-onward data. */
 export interface ChartSpec {
   key: EconomyKey;
   title: string;
   desc: string;
-  kind: "line" | "jobs" | "income" | "fiscal" | "debt";
+  kind: "line" | "jobs" | "growth" | "income" | "fiscal" | "debt";
   domain: [number, number];
   ticks: number[];
   tick: (v: number) => string;
@@ -42,7 +42,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   gas: {
     key: "gas",
     title: "Gas price",
-    desc: "Regular gasoline and diesel, national weekly average retail price, dollars per gallon. Not adjusted for inflation. Diesel data begins in 1994.",
+    desc: "National weekly average retail price, dollars per gallon.",
     label2: "Diesel",
     kind: "line",
     domain: [0.5, 6.7],
@@ -67,7 +67,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   jobs: {
     key: "jobs",
     title: "Jobs added",
-    desc: "Change in total nonfarm payrolls from the previous month, in jobs.",
+    desc: "Change in total nonfarm payrolls from the previous month.",
     kind: "jobs",
     domain: [-JOBS_CAP, JOBS_CAP],
     ticks: [-1000, -500, 0, 500, 1000],
@@ -75,6 +75,31 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     head: (v) => `${v >= 0 ? "+" : MINUS}${nf(v)}K`,
     aria: "Bar chart of monthly job gains and losses since 1991, axis capped at plus or minus one million with larger months marked at the edges",
     unit: "thousand jobs",
+  },
+  gdp: {
+    key: "gdp",
+    title: "GDP growth",
+    desc: "Change in real (inflation-adjusted) output from the same quarter a year earlier.",
+    label2: "Annualized quarterly rate",
+    kind: "growth",
+    domain: [-9, 14],
+    ticks: [-5, 0, 5, 10],
+    tick: (v) => (v === 0 ? "0%" : `${v < 0 ? MINUS : ""}${Math.abs(v)}%`),
+    head: (v) => `${fx(v, 1)}%`,
+    aria: "Bar chart of real GDP growth from a year earlier, quarterly since 1991, with the 2020 drop and rebound shown at full size",
+    unit: "% vs. a year earlier",
+  },
+  wage: {
+    key: "wage",
+    title: "Real hourly earnings",
+    desc: "", // filled with the base month at render time
+    kind: "line",
+    domain: [24.5, 33.5],
+    ticks: [26, 28, 30, 32],
+    tick: (v) => `$${v}`,
+    head: (v) => `$${fx(v, 2)}`,
+    aria: "Line chart of average hourly earnings of production and nonsupervisory workers in latest-month dollars, monthly since 1991",
+    unit: "$ per hour, latest-month dollars",
   },
   un: {
     key: "un",
@@ -115,7 +140,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   def: {
     key: "def",
     title: "Federal deficit",
-    desc: "Federal budget surplus (+) or deficit (−) as a share of GDP, by fiscal year.",
+    desc: "Federal surplus (+) or deficit (−) as a share of GDP, by fiscal year.",
     kind: "fiscal",
     domain: [-16, 4],
     ticks: [-15, -10, -5, 0],
@@ -127,7 +152,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   debt: {
     key: "debt",
     title: "Federal debt",
-    desc: "Debt as a share of GDP, quarterly. The headline measure is debt held by the public.",
+    desc: "Federal debt as a share of GDP, quarterly.",
     kind: "debt",
     label2: "Total",
     domain: [20, 140],
@@ -139,5 +164,11 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   },
 };
 
-/** Card order, after the hero. */
-export const CARD_ORDER: EconomyKey[] = ["gas", "infl", "jobs", "un", "mort", "inc", "def", "debt"];
+/** The cards after the hero, in pairs: each row is a theme with a quiet label. */
+export const CARD_ROWS: { label: string; cards: [EconomyKey, EconomyKey] }[] = [
+  { label: "Behind the misery index", cards: ["un", "infl"] },
+  { label: "Jobs and output", cards: ["jobs", "gdp"] },
+  { label: "What people earn", cards: ["wage", "inc"] },
+  { label: "Everyday costs", cards: ["gas", "mort"] },
+  { label: "Federal finances", cards: ["def", "debt"] },
+];

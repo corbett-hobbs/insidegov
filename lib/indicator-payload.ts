@@ -34,6 +34,14 @@ export interface EconomyPayload {
   jobs: (number | null)[];
   un: (number | null)[];
   infl: (number | null)[];
+  /** Real GDP growth, percent change from a year earlier, quarterly. */
+  gdp: (number | null)[];
+  /** The headline rate: change from the previous quarter, at an annual rate. Tooltip only. */
+  gdpq: (number | null)[];
+  /** Real hourly earnings in latest-month dollars, monthly. */
+  wage: (number | null)[];
+  /** ISO date of the month whose dollars `wage` is stated in. */
+  wageBase: string;
   inc: Annual;
   def: Annual;
   held: (number | null)[];

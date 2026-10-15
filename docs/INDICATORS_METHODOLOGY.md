@@ -26,6 +26,9 @@ observation; counts exclude `.` rows):
 | Nonfarm payrolls | `PAYEMS` | monthly | 1939-01-01 | 2026-08-01 | 1,052 | Thousands of persons, SA. A level. |
 | Unemployment rate | `UNRATE` | monthly | 1948-01-01 | 2026-08-01 | 943 | %, SA. 2025-10 missing. |
 | Consumer prices | `CPIAUCSL` | monthly | 1947-01-01 | 2026-08-01 | 955 | Index 1982-84=100, SA. 2025-10 missing. |
+| Real GDP growth, y/y | `A191RO1Q156NBEA` | quarterly | 1948-01-01 | 2026-04-01 | 314 | %, SA. BEA's percent change from the same quarter a year earlier; the plotted measure. |
+| Real GDP growth, headline | `A191RL1Q225SBEA` | quarterly | 1947-04-01 | 2026-04-01 | 317 | %, SA annual rate. Quarter-over-quarter, annualized: the rate the news reports. Tooltip only. |
+| Average hourly earnings | `AHETPI` | monthly | 1964-01-01 | 2026-09-01 | 753 | $/hour, SA. Production and nonsupervisory employees on private nonfarm payrolls (about 80% of private workers), current dollars. Divided by `CPIAUCSL` for the real series. |
 | Real median household income | `MEHOINUSA672N` | annual | 1984-01-01 | 2025-01-01 | 42 | "2025 C-CPI-U dollars" per units field (notes say 2024). Census. |
 | Federal surplus/deficit, % GDP | `FYFSGDA188S` | annual (FY) | 1929-01-01 | 2025-01-01 | 97 | % of GDP, negative = deficit. |
 | Debt held by the public, % GDP | `FYGFGDQ188S` | quarterly | **1970-01-01** | 2026-01-01 | 225 | **Headline debt measure** (CBO's). Starts 1970, not 1966. |
@@ -107,6 +110,16 @@ windowed, so the pre-window lookback exists:
 
 - **Jobs added** = month-over-month change in `PAYEMS` (thousands).
 - **Inflation** = year-over-year percent change in `CPIAUCSL`.
+- **Real hourly earnings** = `AHETPI` x (`CPIAUCSL` of the base month / `CPIAUCSL` of
+  the month), where the base is the latest month both series have, so every point is in
+  latest-month dollars (`realHourlyEarnings`; null where CPI is missing, i.e. 2025-10).
+  Hourly rather than weekly earnings: it is the more intuitive unit. Covers about 80% of
+  private workers; hourly pay misses cuts in hours; April 2020's jump is a composition effect.
+- **GDP growth** needs no derivation: BEA's own year-over-year series is plotted, which
+  keeps the 2020 swing (-7.4% to +12.6%) on the axis without capping it. The annualized
+  quarter-over-quarter rate (`A191RL1Q225SBEA`) is the tooltip's second value. As first
+  reported, 2022 had two negative quarters; BEA's later revisions leave only Q1 negative,
+  and NBER declared no recession.
 
 Both return `null` — never a longer-span change — when the lookback month is
 missing: jobs added is null for 2025-11 (no 2025-10 to subtract), and inflation is null for
@@ -144,7 +157,7 @@ Compared our committed values with sources other than FRED:
 ## Licensing
 
 FRED's API terms permit caching and require the notice in `docs/CREDITS.md`;
-they bar mirroring all of FRED or replicating its user experience (ten series
+they bar mirroring all of FRED or replicating its user experience (thirteen series
 does neither). Third-party-copyrighted series are those with "Copyright" in
 their FRED notes — of ours only `MORTGAGE30US` (Freddie Mac). See CREDITS.md for
 the decision and the unresolved permission question.

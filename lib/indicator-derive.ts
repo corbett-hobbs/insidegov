@@ -52,6 +52,28 @@ export function yearOverYearPercent(points: readonly Point[]): DerivedPoint[] {
   return derive(points, 12, (now, then) => (now / then - 1) * 100);
 }
 
+/**
+ * Real hourly earnings: average hourly earnings (AHETPI) deflated by the CPI
+ * index (CPIAUCSL) and restated in the dollars of the latest month both series
+ * have, so every value reads as "what this paycheck buys today". Returns the
+ * series and that base month. A month with no CPI (October 2025) is null.
+ */
+export function realHourlyEarnings(
+  earnings: readonly Point[],
+  cpi: readonly Point[],
+): { points: DerivedPoint[]; baseDate: string | null } {
+  const cpiBy = new Map(cpi.map((p) => [p.date, p.value]));
+  const baseDate = earnings.map((p) => p.date).filter((d) => cpiBy.has(d)).sort().pop() ?? null;
+  const baseCpi = baseDate === null ? null : cpiBy.get(baseDate)!;
+  return {
+    baseDate,
+    points: earnings.map((p) => {
+      const c = cpiBy.get(p.date);
+      return { date: p.date, value: c === undefined || baseCpi === null ? null : (p.value * baseCpi) / c };
+    }),
+  };
+}
+
 const pad = (n: number) => String(n).padStart(2, "0");
 const iso = (y: number, m: number, d: number) => `${y}-${pad(m)}-${pad(d)}`;
 

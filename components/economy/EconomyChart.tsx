@@ -20,7 +20,7 @@ import {
 } from "@/lib/economy-series";
 import type { EconomyData } from "@/lib/indicator-payload";
 import { recessionLabel } from "@/lib/indicator-payload";
-import { dateOfDay, dayOf, fmtMonthIndex, monthIndexOfDay } from "@/lib/indicator-time";
+import { dateOfDay, dayOf, fmtMonthIndex, monthIndexOfDay, quarterIndexOfDay } from "@/lib/indicator-time";
 import { termYearRange } from "@/lib/year-range";
 import { termBandText, type EconomyTerm } from "@/lib/economy-presidents";
 import { dayFromFraction, readAll, type Reading } from "@/lib/indicator-lookup";
@@ -34,6 +34,8 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
     case "gas": return weeklyPoints(d.gas);
     case "mort": return weeklyPoints(d.mort);
     case "jobs": return monthlyPoints(d.jobs);
+    case "gdp": return quarterlyPoints(d.gdp);
+    case "wage": return monthlyPoints(d.wage);
     case "un": return monthlyPoints(d.un);
     case "infl": return monthlyPoints(d.infl);
     case "inc": return incomePoints(d.inc);
@@ -45,8 +47,6 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
 const party = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 const MUTED = "var(--ink-muted)";
 const EST_CHAR_W = 6.4;
-/** Halo so annotation text stays legible where it crosses a line or recession band. */
-const HALO = { stroke: "var(--surface)", strokeWidth: 3, paintOrder: "stroke" } as const;
 
 /** The two lines of a comparison chart: the card's own series and the dashed one beside it. */
 export type LineId = "main" | "second";
@@ -162,6 +162,19 @@ const StaticLayer = memo(function StaticLayer({ data, spec, hero = false, showCo
                   );
                 })}
 
+              {spec.kind === "growth" &&
+                pts.map((p) => {
+                  if (p.value === null) return null;
+                  const q = quarterIndexOfDay(p.day);
+                  const x0 = X(dayOf(1991 + Math.floor(q / 4), (q % 4) * 3, 1));
+                  const x1 = X(dayOf(1991 + Math.floor((q + 1) / 4), ((q + 1) % 4) * 3, 1));
+                  const y0 = Y(0);
+                  const y1 = Y(p.value);
+                  return (
+                    <rect key={p.day} x={x0 + 0.3} width={Math.max(1, x1 - x0 - 0.6)} y={Math.min(y0, y1)} height={Math.max(0.5, Math.abs(y1 - y0))} fill={p.value < 0 ? "var(--ink)" : "var(--ink-faint)"} />
+                  );
+                })}
+
               {spec.kind === "jobs" &&
                 pts.map((p) => {
                   if (p.value === null) return null;
@@ -202,9 +215,6 @@ const StaticLayer = memo(function StaticLayer({ data, spec, hero = false, showCo
             {spec.key === "mort" && data.mortBreak >= vs && data.mortBreak < ve && (
               <g>
                 <line x1={X(data.mortBreak)} x2={X(data.mortBreak)} y1={mt} y2={axisY} stroke={MUTED} strokeWidth={1} strokeDasharray="3 3" />
-                <text x={X(data.mortBreak) - 5} y={mt + 10} textAnchor="end" className="fill-ink-muted text-[10px]" style={HALO}>
-                  Survey method change, Nov 2022
-                </text>
               </g>
             )}
 
@@ -297,6 +307,7 @@ function markDate(kind: ChartSpec["kind"], day: number): string {
   const { year } = dateOfDay(day);
   if (kind === "income") return String(year);
   if (kind === "fiscal") return `FY${year}`;
+  if (kind === "growth" || kind === "debt") return `Q${(quarterIndexOfDay(day) % 4) + 1} ${year}`;
   return fmtMonthIndex(monthIndexOfDay(day)).slice(0, 3) + ` ${year}`;
 }
 
@@ -344,7 +355,7 @@ function Overlay({ W, hero, spec, view, showCong, reading }: { W: number; hero: 
   if (day === null || day < view[0] || day >= view[1])
     return <g pointerEvents="none"><line x1={g.X(v.pin!)} x2={g.X(v.pin!)} y1={g.mt} y2={g.axisY} stroke="var(--accent)" strokeWidth={1.5} /></g>;
   const dot = dotPos(reading, spec, g);
-  const dot2 = reading.value2 !== null && reading.snap !== null ? { x: g.X(reading.snap), y: g.Y(reading.value2) } : null;
+  const dot2 = spec.kind !== "growth" && reading.value2 !== null && reading.snap !== null ? { x: g.X(reading.snap), y: g.Y(reading.value2) } : null;
   const x = g.X(day);
   return (
     <g pointerEvents="none">
