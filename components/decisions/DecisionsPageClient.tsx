@@ -2,6 +2,7 @@
 
 import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
+import { PageShortcuts } from "@/components/PageShortcuts";
 import { fmtInt } from "@/lib/decisions-derive";
 import type { DecisionsPayload } from "@/lib/decisions-types";
 import { AreasCard } from "./AreasCard";
@@ -27,12 +28,14 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
           <p>
             Every case the Supreme Court has argued since {first}, sorted by how many justices dissented. How often the Court speaks with one voice, and how often a ruling turns on a single vote, shows how much the law can shift with one seat.
           </p>
-          <JumpToCases />
           <HowToRead>
             <p>
               A case counts once, in the term it was decided. &ldquo;Unanimous&rdquo; means no justice dissented; the other bands count dissents, so &ldquo;5&ndash;4&rdquo; is four dissents (a 4&ndash;4 tie counts there too). Select a term to pin it across both charts and the case list. The band under each axis marks the president in office for most of the term.
             </p>
           </HowToRead>
+          <PageShortcuts>
+            <JumpToCases />
+          </PageShortcuts>
         </PageHeader>
 
         <CasesCard />

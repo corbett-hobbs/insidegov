@@ -22,6 +22,8 @@ import {
   noVoteShare,
   openYear,
   presidentTerms,
+  SUPPORT_ORDER,
+  SUPPORT_SHORT,
   seriesOf,
   bandsLabel,
   filterLabel,
@@ -416,7 +418,8 @@ describe("the list of every law and card 3", () => {
     expect(filterLabel(p, new Set(opts.slice(1).map((o) => o.id)))).toBe(`All but ${opts[0]!.label}`);
     expect(filterLabel(p, new Set(opts.slice(0, 2).map((o) => o.id)))).toBe(`2 of ${opts.length} policy areas`);
     expect(bandsLabel(null)).toBe("Any vote");
-    expect(bandsLabel(new Set([0, 4]))).toBe("90%+ or Voice vote");
+    // Joined in the stack's display order, whatever that order is.
+    expect(bandsLabel(new Set([0, 4]))).toBe(SUPPORT_ORDER.filter((k) => k === 0 || k === 4).map((k) => SUPPORT_SHORT[k]).join(" or "));
     expect(bandsLabel(new Set())).toBe("No votes");
     const w = windowIndexes(p, [1990, 2010], false);
     const totals = groupWindowTotals(p, w, false);
