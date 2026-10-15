@@ -100,7 +100,10 @@ export function EncountersCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            CBP only. An encounter is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. Bars add Border Patrol apprehensions between ports of entry (the official crossings), people who came to a port and were found inadmissible, meaning not allowed in, by CBP’s Office of Field Operations (from FY2004; FY2004–FY2014 are DHS statistics, rounded to tens), and Title 42 expulsions (March 2020 to May 2023). Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered. The 1980s and 1990s peaks counted mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: CBP and DHS Office of Homeland Security Statistics.
+            CBP only. Each count is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered.
+          </p>
+          <p>
+            The two big bars measure different things. Border Patrol counts everyone it catches between ports of entry (the official crossings), which is where anyone crossing without permission has to cross. The port bar counts only people CBP officers at a crossing found inadmissible, meaning not allowed in; the many people admitted there are not counted, so a small port bar does not mean few people use ports. Port figures begin in FY2004 (FY2004–FY2014 from DHS, rounded to tens). Title 42 expulsions ran March 2020 to May 2023. The 1980s and 1990s peaks were mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: CBP and DHS Office of Homeland Security Statistics.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">
