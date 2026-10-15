@@ -44,7 +44,7 @@ M and N touch different files and can run side by side once L has merged.
   - CBP and OHSS differ on FY2000 Border Patrol (5.1%).
 
   All three are documented exceptions; the methodology lists them.
-- **Session N:** `pnpm fetch:cbp` is the refresh. CBP renames the monthly file each month, and the fetch finds it on
+- **Session N:** done, `.github/workflows/encounters-freshness.yml`. `pnpm fetch:cbp` is the refresh. CBP renames the monthly file each month, and the fetch finds it on
   the listing page. The fixed sources (history PDFs, archived pages, OHSS workbooks) never change; the OHSS KHSM and
   monthly tables stopped after Nov 2024, so no review issue is needed for them unless OHSS resumes.
 

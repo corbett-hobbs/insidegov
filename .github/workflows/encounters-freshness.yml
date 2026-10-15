@@ -1,0 +1,168 @@
+name: Encounters freshness
+
+# Automate the check and the acceptance; the gate is the full CI run (.github/actions/gate-and-merge).
+#
+# Weekly (CBP posts the monthly encounters file around mid-month, named for its range of years and last month, so the
+# address changes every month): re-run `pnpm fetch:cbp`, which reads CBP's Nationwide Encounters document page, downloads
+# the newest area-of-responsibility CSV and updates pipeline/raw/cbp/encounters-vintages.json. The fetch snapshots that
+# listing page on EVERY run, and the page changes constantly, so the snapshot is not a change. Only a CSV or the
+# vintages file counts (the fixed sources, i.e. the history PDFs, archived pages and OHSS workbooks, never change):
+#   - no CSV change: no PR, the working tree is discarded;
+#   - a new or replaced CSV and the transform passes (pipeline/transform/encounters-run.ts, with its gates): PR opened
+#     and auto-merged after the full CI gate;
+#   - the transform FAILS (CBP changed the file's shape, a year went missing, a total no longer adds up, a source
+#     disagrees beyond the catalog's exceptions): the PR opens labelled needs-curation with the failure in its body and
+#     is NOT merged. If CBP's page layout changed so the fetch itself fails, the run goes red and no PR opens.
+# No yearly review issue: OHSS stopped publishing its enforcement tables after Nov 2024 (docs/CBP_ENCOUNTERS_METHODOLOGY.md).
+#
+# Requires Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+# Note: the PR branch is pushed with GITHUB_TOKEN, so it does NOT trigger the CI workflow; run
+# `pnpm pipeline:check` locally before merging a needs-curation PR.
+
+on:
+  schedule:
+    - cron: "23 13 * * 3" # Wednesdays 13:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: encounters-freshness
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # pnpm fetch:cbp extracts text from the fixed PDFs with pdftotext
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Re-fetch the CBP encounters files
+        run: pnpm fetch:cbp
+
+      - name: Did a CSV change?
+        id: diff
+        run: |
+          # The listing-page snapshot (cbp-nationwide-encounters-document.*) is rewritten every run and is not a change.
+          changed="$(git status --porcelain -- 'pipeline/raw/cbp/*.csv' pipeline/raw/cbp/encounters-vintages.json)"
+          if [ -n "$changed" ]; then
+            echo "material=true" >> "$GITHUB_OUTPUT"
+            {
+              echo '```'
+              echo "$changed"
+              echo '```'
+              echo
+              echo 'Files kept now (`pipeline/raw/cbp/encounters-vintages.json`):'
+              echo
+              echo '```'
+              cat pipeline/raw/cbp/encounters-vintages.json
+              echo '```'
+            } > "$RUNNER_TEMP/summary.md"
+          else
+            echo "material=false" >> "$GITHUB_OUTPUT"
+            echo "No new or changed encounters CSV."
+          fi
+
+      - name: Rebuild and validate
+        id: build
+        if: steps.diff.outputs.material == 'true'
+        run: |
+          set +e
+          pnpm exec tsx pipeline/transform/encounters-run.ts > transform.log 2>&1
+          code=$?
+          cat transform.log
+          echo "transform_ok=$([ "$code" -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          {
+            echo "summary<<EOF"
+            cat "$RUNNER_TEMP/summary.md"
+            echo "EOF"
+            echo "failure<<EOF"
+            tail -n 25 transform.log
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          rm -f transform.log
+          exit 0
+
+      - name: Open pull request
+        id: cpr
+        if: steps.diff.outputs.material == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: |
+            pipeline/raw/cbp/*.csv
+            pipeline/raw/cbp/encounters-vintages.json
+            pipeline/raw/cbp/cbp-nationwide-encounters-document.*
+            pipeline/output/encounters_*.json
+          branch: data/encounters-refresh
+          base: main
+          delete-branch: true
+          commit-message: "chore(pipeline): refresh CBP encounters"
+          title: "CBP encounters refresh${{ steps.build.outputs.transform_ok != 'true' && ' (needs curation)' || '' }}"
+          labels: ${{ steps.build.outputs.transform_ok == 'true' && 'data-refresh' || 'data-refresh,needs-curation' }}
+          body: |
+            The weekly check found a new or changed CBP encounters CSV.
+
+            ${{ steps.build.outputs.summary }}
+
+            **Transform + validation succeeded:** `${{ steps.build.outputs.transform_ok }}`
+
+            ${{ steps.build.outputs.transform_ok == 'true' && 'Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch (.github/actions/gate-and-merge). If you are reading this on an open PR, that gate failed: see the run log.' || 'This PR was NOT sent to the merge gate. CBP probably changed the file (columns, a year missing, totals that no longer add up) or a source now disagrees beyond the catalog exceptions (`pipeline/reference/cbp-encounters-catalog.json`, see "Refreshing" in `docs/CBP_ENCOUNTERS_METHODOLOGY.md`). Fix it on this branch, then `pnpm transform`.' }}
+
+            Transform output (last lines):
+
+            ```
+            ${{ steps.build.outputs.failure }}
+            ```
+
+      # Auto-merge only a refresh whose transform passed, and only if the full CI gate passes
+      # (.github/actions/gate-and-merge); otherwise this step fails and the PR stays open for a human.
+      - name: Gate and merge
+        if: steps.build.outputs.transform_ok == 'true' && contains(fromJSON('["created","updated"]'), steps.cpr.outputs.pull-request-operation)
+        uses: ./.github/actions/gate-and-merge
+        with:
+          pr-number: ${{ steps.cpr.outputs.pull-request-number }}
+          branch: ${{ steps.cpr.outputs.pull-request-branch }}
+          head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          token: ${{ github.token }}
+
+      - name: Notify (needs curation)
+        if: steps.build.outputs.transform_ok == 'false' && steps.cpr.outputs.pull-request-operation == 'created'
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: CBP encounters refresh needs curation"
+          body: "The weekly CBP encounters check found a new file the transform rejects. The PR has the failure."
+          url: ${{ steps.cpr.outputs.pull-request-url }}
+          body-file: ${{ runner.temp }}/summary.md
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
+
+      - name: Notify (gate failed)
+        if: failure() && steps.cpr.outputs.pull-request-url != ''
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: CBP encounters refresh PR failed its checks"
+          body: "The CBP encounters refresh PR did not pass the merge gate and is still open."
+          url: ${{ steps.cpr.outputs.pull-request-url }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
