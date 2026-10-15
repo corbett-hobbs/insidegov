@@ -1,0 +1,105 @@
+## sheet: TOC
+1	Table of Contents
+3	Click link for corresponding tab:
+4	Table 33 | DHS Initial Enforcement Actions: Fiscal Years 1925 to 2023
+5	Table 34 | DHS Initial Enforcement Actions by Region and Country of Nationality: Fiscal Years 2014 to 2023
+6	Table 35 | DHS Initial Enforcement Actions by Agency and Enforcement Region: Fiscal Years 2014 to 2023
+7	Table 36 | CBP OFO Encounters: Fiscal Years 2005 to 2023
+8	Table 37 | CBP OFO Inadmissibility Determinations by Region and Country of Nationality: Fiscal Years 2014 to 2023
+9	Table 38 | CBP OFO Inadmissibility Determinations by Field Office: Fiscal Years 2014 to 2023
+10	Table 39 | DHS Repatriations: Fiscal Years 1892 to 2023
+11	Table 40 | DHS Administrative Returns by Region and Country of Nationality: Fiscal Years 2014 to 2023
+12	Table 41 | DHS Enforcement Returns by Region and Country of Nationality: Fiscal Years 2014 to 2023
+13	Table 42 | DHS Removals by Known Criminal Status and Region and Country of Nationality: Fiscal Years 2014 to 2023
+## sheet: Table 33
+1	Return to Table of Contents
+3	Table 33.
+4	DHS INITIAL ENFORCEMENT ACTIONS: FISCAL YEARS 1925 TO 2023
+6	Year | Number | Year | Number
+7	1925 | 22200 | 1981 | 975780
+8	1926 | 12740 | 1982 | 970250
+9	1927 | 16390 | 1983 | 1251360
+10	1928 | 23570 | 1984 | 1246980
+11	1929 | 32710 | 1985 | 1348750
+12	1930 | 20880 | 1986 | 1767400
+13	1931 | 22280 | 1987 | 1190490
+14	1932 | 22740 | 1988 | 1008150
+15	1933 | 20950 | 1989 | 954240
+16	1934 | 10320 | 1990 | 1169940
+17	1935 | 11020 | 1991 | 1197880
+18	1936 | 11730 | 1992 | 1258480
+19	1937 | 13050 | 1993 | 1327260
+20	1938 | 12850 | 1994 | 1094720
+21	1939 | 12040 | 1995 | 1394550
+22	1940 | 10490 | 1996 | 1649990
+23	1941 | 11290 | 1997 | 1536520
+24	1942 | 11780 | 1998 | 1679440
+25	1943 | 11180 | 1999 | 1714040
+26	1944 | 31170 | 2000 | 1814730
+27	1945 | 69160 | 2001 | 1387490
+28	1946 | 99590 | 2002 | 1062270
+29	1947 | 193660 | 2003 | 1046420
+30	1948 | 192780 | 2004 | 1264230
+31	1949 | 288250 | 2005 | 1291070
+32	1950 | 468340 | 2006 | 1206410
+33	1951 | 509040 | 2007 | 960670
+34	1952 | 543540 | 2008 | 1043760
+35	1953 | 885590 | 2009 | 889210
+36	1954 | 1089580 | 2010 | 796590
+37	1955 | 254100 | 2011 | 678610
+38	1956 | 87700 | 2012 | 795740
+39	1957 | 59920 | 2013 | 786220
+40	1958 | 53470 | 2014 | 807320
+41	1959 | 45340 | 2015 | 598350
+42	1960 | 70680 | 2016 | 683780
+43	1961 | 88820 | 2017 | 607680
+44	1962 | 92760 | 2018 | 739490
+45	1963 | 88710 | 2019 | 1175840
+46	1964 | 86600 | 2020 | 609280
+47	1965 | 110370 | 2021 | 1865380
+48	1966 | 138520 | 2022 | 2584220
+49	1967 | 161610 | 2023 | 2818660
+50	1968 | 212060
+51	1969 | 283560
+52	1970 | 345350
+53	1971 | 420130
+54	1972 | 505950
+55	1973 | 655970
+56	1974 | 788150
+57	1975 | 766600
+58	1976 | 1097740
+59	1977 | 1042220
+60	1978 | 1057980
+61	1979 | 1076420
+62	1980 | 910360
+63	Notes: To protect privacy, table cells are rounded to the nearest ten. The totals may not sum due to rounding. Data prior to 1952 are limited to USBP apprehensions. Beginning in 1952, data also include HSI administrative arrests. The data for 1976 includes the 15 months from July 1, 1975 to September 30, 1976 because the end date of fiscal years was changed from June 30 to September 30. Beginning in 2006, data also include arrests of fugitive and nonfugitive aliens under the National Fugitive Operations Program of ERO. Beginning in 2008, data include all administrative arrests conducted by ERO. Beginning in 2012, data include enforcement encounters by OFO, reflecting attempted unlawful entries into the United States. While pre-FY 2014 data are limited to one ERO administrative arrest for a single person on a single day, beginning in 2014 the reporting methodology was revised to align with ERO reporting, which may include multiple arrests on a single day. FY 2020-2023 data include CBP encounters resulting in expulsions on public health grounds under U.S. Code Title 42 in response to the COVID-19 pandemic.
+64	Source: Office of Homeland Security Statistics.
+## sheet: Table 36
+1	Return to Table of Contents
+3	Table 36.
+4	CBP OFO ENCOUNTERS: FISCAL YEARS 2005 TO 2023
+6	Year | Total | Administrative1 | Enforcement2
+7	2005 | 251200 | NA | NA
+8	2006 | 207630 | NA | NA
+9	2007 | 202030 | NA | NA
+10	2008 | 222800 | NA | NA
+11	2009 | 223910 | NA | NA
+12	2010 | 229580 | NA | NA
+13	2011 | 213350 | NA | NA
+14	2012 | 195800 | 71400 | 124410
+15	2013 | 205620 | 81880 | 123740
+16	2014 | 225020 | 99680 | 125340
+17	2015 | 254710 | 120540 | 134170
+18	2016 | 274620 | 121090 | 153530
+19	2017 | 216260 | 70120 | 146140
+20	2018 | 281930 | 115010 | 166920
+21	2019 | 287980 | 125680 | 162300
+22	2020 | 241760 | 151100 | 90670
+23	2021 | 294350 | 172770 | 121580
+24	2022 | 551930 | 330480 | 221450
+25	2023 | 1137450 | 559430 | 578010
+26	NA Not Available
+27	1 OFO administrative encounters are inadmissibility determinations that do not reflect attempted unlawful entry into the United States. Unlike enforcement encounters, they do not result in immigration proceedings. Examples of administrative encounters include crew members of foreign vessels required to remain aboard their ships, encounters resulting in parole dispositions, and FY 2018-2023 withdrawals of application for admission terminated without prejudice.
+28	2 OFO enforcement encounters are inadmissibility determinations that reflect an attempted unlawful entry into the United States, including all determinations of inadmissibility not defined as administrative encounters. In FY 2020-2023, OFO encounters resulting in expulsions on public health grounds under U.S. Code Title 42 in response to the COVID-19 pandemic are also included.
+29	Notes: To protect privacy, table cells are rounded to the nearest ten. The totals may not sum due to rounding. Data include OFO encounters (administrative and enforcement). Before April 2008, data did not include all crew members detained onboard vessels. Beginning in 2012, data include breakout of administrative and enforcement encounters. FY 2020-2023 data include OFO encounters resulting in expulsions on public health grounds under U.S. Code Title 42 in response to the COVID-19 pandemic.
+30	Source: Office of Homeland Security Statistics.

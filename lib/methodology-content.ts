@@ -119,6 +119,19 @@ export const METHODOLOGY: MethodGroup[] = [
         docPath: "docs/IMMIGRATION_ENFORCEMENT_METHODOLOGY.md",
       },
       {
+        id: "border-encounters",
+        vertical: "presidency",
+        title: "Border encounters",
+        description:
+          "CBP encounters by fiscal year from FY1980, nationwide and on the southwest border: Border Patrol apprehensions between ports of entry, people found inadmissible at ports of entry (from FY2004) and Title 42 expulsions (March 2020 to May 2023). Encounters count events, not people. CBP publishes no yearly count of unique people. Port-of-entry figures for FY2004 to FY2014 are CBP records as republished by the DHS Office of Homeland Security Statistics, rounded to tens. Every printed total and every overlap between sources is checked at build time. Never combined with ICE removals.",
+        sources: [
+          { name: "U.S. Customs and Border Protection", url: "https://www.cbp.gov/newsroom/stats/nationwide-encounters", note: "encounters files, Border Patrol history tables" },
+          { name: "DHS Office of Homeland Security Statistics", url: "https://ohss.dhs.gov/khsm/cbp-encounters", note: "port-of-entry figures, FY2004 to FY2014" },
+        ],
+        updates: "CBP posts a new monthly file around mid-month; the year in progress is marked preliminary until September is in.",
+        docPath: "docs/CBP_ENCOUNTERS_METHODOLOGY.md",
+      },
+      {
         id: "trade",
         vertical: "presidency",
         title: "Trade",

@@ -15,6 +15,39 @@ checkout.
 
 M and N touch different files and can run side by side once L has merged.
 
+### Session L status (2026-10-15): done
+
+- **Data:** `pipeline/output/encounters_{series,monthly,notes,report}.json`, FY1980 to FY2026 (FY2026 preliminary,
+  11 months through August). Methodology: `docs/CBP_ENCOUNTERS_METHODOLOGY.md`; source check:
+  `docs/IMMIGRATION_SOURCE_NOTES.md` §9. Reader: `getEncountersPayload()` in `lib/encounters-data.ts` (shapes in
+  `lib/encounters-types.ts`).
+- **Coverage:** Border Patrol every year; **port-of-entry (OFO) figures from FY2004** (owner, 2026-10-15). FY2004–FY2014
+  are OHSS's figures (CBP records, rounded to tens; `ofoRounded` on the year); FY2015 on are CBP's own. FY1980–FY2003
+  have no OFO rows (`detail: "usbp_only"`), so the card draws them "Border Patrol only, no port-of-entry figures". The
+  removals chart starts FY2003, so the two cards differ by one year.
+- **Southwest toggle:** supported for every year, with the same rows as the nationwide view; no "not published"
+  years.
+- **Unique people: dropped.** CBP publishes no fiscal-year count of unique people (only single months against a
+  rolling 12-month window, in 2021–2024 press releases). Session M builds no "Encounters / Unique people" pill; the
+  `unique-people-not-published` note says why.
+- **Markers for session M** (`encounters_notes.json`, `marker` set; `buildEncountersPayload().markers`):
+  1. port figures begin (FY2004);
+  2. ship crews counted (Apr 2008);
+  3. Title 42 begins (Mar 21, 2020);
+  4. CBP One appointments (Jan 2023, month precision);
+  5. Title 42 ends (May 11, 2023).
+
+  The pre-2000 "different mix of people" caveat is a note without a marker, for the Data notes.
+- **Findings beyond the plan:**
+  - CBP's FY2025 statistics page misprints FY2024 Border Patrol (1,577,319 for 1,557,319).
+  - The same page's FY2018 total is 2,845 short of its own parts.
+  - CBP and OHSS differ on FY2000 Border Patrol (5.1%).
+
+  All three are documented exceptions; the methodology lists them.
+- **Session N:** `pnpm fetch:cbp` is the refresh. CBP renames the monthly file each month, and the fetch finds it on
+  the listing page. The fixed sources (history PDFs, archived pages, OHSS workbooks) never change; the OHSS KHSM and
+  monthly tables stopped after Nov 2024, so no review issue is needed for them unless OHSS resumes.
+
 **This reverses one earlier "not planned" item.** `docs/IMMIGRATION_EXPANSION_PLAN.md`
 listed "Monthly Border Patrol encounters (not planned: different agency)". The
 reason was the page's rule of one agency per chart and never summing across

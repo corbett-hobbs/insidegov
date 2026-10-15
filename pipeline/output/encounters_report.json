@@ -1,0 +1,823 @@
+{
+  "first_period": 1980,
+  "last_period": 2026,
+  "rows": 156,
+  "monthly_rows": 524,
+  "coverage": {
+    "usbp": {
+      "first": 1980,
+      "last": 2026
+    },
+    "ofo": {
+      "first": 2004,
+      "last": 2026
+    },
+    "title42": {
+      "first": 2020,
+      "last": 2023
+    },
+    "detail": {
+      "usbp_only": {
+        "first": 1980,
+        "last": 2003
+      },
+      "components": {
+        "first": 2004,
+        "last": 2019
+      },
+      "full": {
+        "first": 2020,
+        "last": 2026
+      }
+    }
+  },
+  "sources_by_year": {
+    "usbp": [
+      {
+        "source": "usbp-nationwide-history",
+        "first": 1980,
+        "last": 2019
+      },
+      {
+        "source": "nationwide-encounters-fy20-fy23-aor.csv",
+        "first": 2020,
+        "last": 2022
+      },
+      {
+        "source": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
+        "first": 2023,
+        "last": 2026
+      }
+    ],
+    "ofo": [
+      {
+        "source": "ohss-khsm-ofo",
+        "first": 2004,
+        "last": 2014
+      },
+      {
+        "source": "cbp-enforcement-fy2017",
+        "first": 2015,
+        "last": 2017
+      },
+      {
+        "source": "cbp-enforcement-fy2025",
+        "first": 2018,
+        "last": 2019
+      },
+      {
+        "source": "nationwide-encounters-fy20-fy23-aor.csv",
+        "first": 2020,
+        "last": 2022
+      },
+      {
+        "source": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
+        "first": 2023,
+        "last": 2026
+      }
+    ]
+  },
+  "status": {
+    "final": 46,
+    "preliminary": 1
+  },
+  "preliminary": {
+    "fy": 2026,
+    "months": 11
+  },
+  "blended_periods": [
+    1981,
+    1989,
+    1993,
+    2001,
+    2009,
+    2017,
+    2021,
+    2025
+  ],
+  "encounters_files": [
+    {
+      "file": "nationwide-encounters-fy20-fy23-aor.csv",
+      "fy_start": 2020,
+      "fy_end": 2023,
+      "through": null,
+      "posted": "2023-11",
+      "years_used": [
+        2020,
+        2021,
+        2022
+      ]
+    },
+    {
+      "file": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
+      "fy_start": 2023,
+      "fy_end": 2026,
+      "through": "aug",
+      "posted": "2026-09",
+      "years_used": [
+        2023,
+        2024,
+        2025,
+        2026
+      ]
+    }
+  ],
+  "csv_overlaps": [
+    {
+      "fy": 2023,
+      "used": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
+      "compared": "nationwide-encounters-fy20-fy23-aor.csv",
+      "max_abs_diff": 0
+    }
+  ],
+  "title42_months": {
+    "2020-03": 7170,
+    "2020-04": 15544,
+    "2020-05": 20959,
+    "2020-06": 29957,
+    "2020-07": 37138,
+    "2020-08": 45080,
+    "2020-09": 50935,
+    "2020-10": 65798,
+    "2020-11": 63807,
+    "2020-12": 63118,
+    "2021-01": 64781,
+    "2021-02": 74564,
+    "2021-03": 109621,
+    "2021-04": 112898,
+    "2021-05": 113785,
+    "2021-06": 105454,
+    "2021-07": 97021,
+    "2021-08": 96562,
+    "2021-09": 103666,
+    "2021-10": 95451,
+    "2021-11": 90986,
+    "2021-12": 83364,
+    "2022-01": 80878,
+    "2022-02": 94468,
+    "2022-03": 113667,
+    "2022-04": 102274,
+    "2022-05": 108077,
+    "2022-06": 97518,
+    "2022-07": 81039,
+    "2022-08": 78780,
+    "2022-09": 77464,
+    "2022-10": 85101,
+    "2022-11": 73440,
+    "2022-12": 55421,
+    "2023-01": 70047,
+    "2023-02": 80129,
+    "2023-03": 94997,
+    "2023-04": 87210,
+    "2023-05": 32739
+  },
+  "printed_totals": [
+    {
+      "fy": 2018,
+      "page": "cbp-enforcement-fy2025",
+      "parts_sum": 686023,
+      "total": 683178,
+      "exception": "fy2018-total-short"
+    },
+    {
+      "fy": 2024,
+      "page": "cbp-enforcement-fy2025",
+      "parts_sum": 2921142,
+      "total": 2901142,
+      "exception": "fy2024-usbp-misprint"
+    }
+  ],
+  "pages_vs_series": [
+    {
+      "fy": 2015,
+      "printed_row": "fy2017-page-ofo",
+      "printed": 255342,
+      "series": 255342,
+      "ok": true
+    },
+    {
+      "fy": 2016,
+      "printed_row": "fy2017-page-ofo",
+      "printed": 274821,
+      "series": 274821,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "fy2017-page-ofo",
+      "printed": 216370,
+      "series": 216370,
+      "ok": true
+    },
+    {
+      "fy": 2015,
+      "printed_row": "fy2017-page-usbp",
+      "printed": 337117,
+      "series": 337117,
+      "ok": true
+    },
+    {
+      "fy": 2016,
+      "printed_row": "fy2017-page-usbp",
+      "printed": 415816,
+      "series": 415816,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "fy2017-page-usbp",
+      "printed": 310531,
+      "series": 310531,
+      "ok": true
+    },
+    {
+      "fy": 2015,
+      "printed_row": "fy2017-page-total",
+      "printed": 592459,
+      "series": 592459,
+      "ok": true
+    },
+    {
+      "fy": 2016,
+      "printed_row": "fy2017-page-total",
+      "printed": 690637,
+      "series": 690637,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "fy2017-page-total",
+      "printed": 526901,
+      "series": 526901,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 216370,
+      "series": 216370,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 281881,
+      "series": 281881,
+      "ok": true
+    },
+    {
+      "fy": 2019,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 288523,
+      "series": 288523,
+      "ok": true
+    },
+    {
+      "fy": 2020,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 241786,
+      "series": 241786,
+      "ok": true
+    },
+    {
+      "fy": 2021,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 294352,
+      "series": 294352,
+      "ok": true
+    },
+    {
+      "fy": 2022,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 551930,
+      "series": 551930,
+      "ok": true
+    },
+    {
+      "fy": 2023,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 1137452,
+      "series": 1137452,
+      "ok": true
+    },
+    {
+      "fy": 2024,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 1343823,
+      "series": 1343823,
+      "ok": true
+    },
+    {
+      "fy": 2025,
+      "printed_row": "fy2025-page-ofo",
+      "printed": 437723,
+      "series": 437723,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 310531,
+      "series": 310531,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 404142,
+      "series": 404142,
+      "ok": true
+    },
+    {
+      "fy": 2019,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 859501,
+      "series": 859501,
+      "ok": true
+    },
+    {
+      "fy": 2020,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 405036,
+      "series": 405036,
+      "ok": true
+    },
+    {
+      "fy": 2021,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 1662167,
+      "series": 1662167,
+      "ok": true
+    },
+    {
+      "fy": 2022,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 2214652,
+      "series": 2214652,
+      "ok": true
+    },
+    {
+      "fy": 2023,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 2063692,
+      "series": 2063692,
+      "ok": true
+    },
+    {
+      "fy": 2024,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 1577319,
+      "series": 1557319,
+      "ok": false,
+      "exception": "fy2024-usbp-misprint"
+    },
+    {
+      "fy": 2025,
+      "printed_row": "fy2025-page-usbp",
+      "printed": 254183,
+      "series": 254183,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "fy2025-page-total",
+      "printed": 526901,
+      "series": 526901,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "printed_row": "fy2025-page-total",
+      "printed": 683178,
+      "series": 686023,
+      "ok": false,
+      "exception": "fy2018-total-short"
+    },
+    {
+      "fy": 2019,
+      "printed_row": "fy2025-page-total",
+      "printed": 1148024,
+      "series": 1148024,
+      "ok": true
+    },
+    {
+      "fy": 2020,
+      "printed_row": "fy2025-page-total",
+      "printed": 646822,
+      "series": 646822,
+      "ok": true
+    },
+    {
+      "fy": 2021,
+      "printed_row": "fy2025-page-total",
+      "printed": 1956519,
+      "series": 1956519,
+      "ok": true
+    },
+    {
+      "fy": 2022,
+      "printed_row": "fy2025-page-total",
+      "printed": 2766582,
+      "series": 2766582,
+      "ok": true
+    },
+    {
+      "fy": 2023,
+      "printed_row": "fy2025-page-total",
+      "printed": 3201144,
+      "series": 3201144,
+      "ok": true
+    },
+    {
+      "fy": 2024,
+      "printed_row": "fy2025-page-total",
+      "printed": 2901142,
+      "series": 2901142,
+      "ok": true
+    },
+    {
+      "fy": 2025,
+      "printed_row": "fy2025-page-total",
+      "printed": 691906,
+      "series": 691906,
+      "ok": true
+    },
+    {
+      "fy": 2014,
+      "printed_row": "sw-fy2017-page-ofo",
+      "printed": 90601,
+      "series": 90680,
+      "ok": true
+    },
+    {
+      "fy": 2015,
+      "printed_row": "sw-fy2017-page-ofo",
+      "printed": 114486,
+      "series": 114486,
+      "ok": true
+    },
+    {
+      "fy": 2016,
+      "printed_row": "sw-fy2017-page-ofo",
+      "printed": 150825,
+      "series": 150825,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "sw-fy2017-page-ofo-table",
+      "printed": 111275,
+      "series": 111601,
+      "ok": false,
+      "exception": "fy2017-southwest-ofo-restated"
+    },
+    {
+      "fy": 2014,
+      "printed_row": "sw-fy2017-page-usbp",
+      "printed": 479371,
+      "series": 479371,
+      "ok": true
+    },
+    {
+      "fy": 2015,
+      "printed_row": "sw-fy2017-page-usbp",
+      "printed": 331333,
+      "series": 331333,
+      "ok": true
+    },
+    {
+      "fy": 2016,
+      "printed_row": "sw-fy2017-page-usbp",
+      "printed": 408870,
+      "series": 408870,
+      "ok": true
+    },
+    {
+      "fy": 2017,
+      "printed_row": "sw-fy2018-page-ofo",
+      "printed": 111601,
+      "series": 111601,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "printed_row": "sw-fy2018-page-ofo",
+      "printed": 124511,
+      "series": 124511,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "printed_row": "sw-fy2019-page-ofo",
+      "printed": 124511,
+      "series": 124511,
+      "ok": true
+    },
+    {
+      "fy": 2019,
+      "printed_row": "sw-fy2019-page-ofo",
+      "printed": 126001,
+      "series": 126001,
+      "ok": true
+    },
+    {
+      "fy": 2018,
+      "printed_row": "sw-fy2019-page-usbp",
+      "printed": 396579,
+      "series": 396579,
+      "ok": true
+    },
+    {
+      "fy": 2019,
+      "printed_row": "sw-fy2019-page-usbp",
+      "printed": 851508,
+      "series": 851508,
+      "ok": true
+    },
+    {
+      "fy": 2020,
+      "printed_row": "sw-fy2020-page-ofo",
+      "printed": 57437,
+      "series": 57437,
+      "ok": true
+    },
+    {
+      "fy": 2020,
+      "printed_row": "sw-fy2020-page-usbp",
+      "printed": 400651,
+      "series": 400651,
+      "ok": true
+    }
+  ],
+  "history_tables_vs_csv": [
+    {
+      "fy": 2020,
+      "scope": "nationwide",
+      "value": 405036
+    },
+    {
+      "fy": 2020,
+      "scope": "southwest",
+      "value": 400651
+    }
+  ],
+  "cbp_vs_ohss": {
+    "tolerance_pct": 1,
+    "largest": [
+      {
+        "fy": 2000,
+        "scope": "nationwide",
+        "component": "usbp",
+        "cbp": 1676438,
+        "ohss": 1590310,
+        "pct": 5.1376,
+        "exception": "fy2000-usbp-nationwide-ohss"
+      },
+      {
+        "fy": 2000,
+        "scope": "southwest",
+        "component": "usbp",
+        "cbp": 1643679,
+        "ohss": 1566420,
+        "pct": 4.7004,
+        "exception": "fy2000-usbp-southwest-ohss"
+      },
+      {
+        "fy": 2018,
+        "scope": "southwest",
+        "component": "ofo",
+        "cbp": 124511,
+        "ohss": 123370,
+        "pct": 0.9164
+      },
+      {
+        "fy": 2015,
+        "scope": "southwest",
+        "component": "ofo",
+        "cbp": 114486,
+        "ohss": 113520,
+        "pct": 0.8438
+      },
+      {
+        "fy": 2001,
+        "scope": "nationwide",
+        "component": "usbp",
+        "cbp": 1266214,
+        "ohss": 1255920,
+        "pct": 0.813
+      },
+      {
+        "fy": 2016,
+        "scope": "southwest",
+        "component": "ofo",
+        "cbp": 150825,
+        "ohss": 150120,
+        "pct": 0.4674
+      },
+      {
+        "fy": 2001,
+        "scope": "southwest",
+        "component": "usbp",
+        "cbp": 1235718,
+        "ohss": 1231410,
+        "pct": 0.3486
+      },
+      {
+        "fy": 2017,
+        "scope": "southwest",
+        "component": "ofo",
+        "cbp": 111601,
+        "ohss": 111280,
+        "pct": 0.2876
+      },
+      {
+        "fy": 2015,
+        "scope": "nationwide",
+        "component": "ofo",
+        "cbp": 255342,
+        "ohss": 254710,
+        "pct": 0.2475
+      },
+      {
+        "fy": 2019,
+        "scope": "southwest",
+        "component": "ofo",
+        "cbp": 126001,
+        "ohss": 125720,
+        "pct": 0.223
+      }
+    ],
+    "checked": 70
+  },
+  "ohss_yearbook_vs_khsm": {
+    "checked": 19,
+    "identical": true
+  },
+  "exceptions": [
+    {
+      "id": "fy2024-usbp-misprint",
+      "kind": "misprint",
+      "fy": 2024,
+      "scope": "nationwide",
+      "component": "usbp",
+      "values": [
+        1577319,
+        1557319
+      ]
+    },
+    {
+      "id": "fy2018-total-short",
+      "kind": "unexplained",
+      "fy": 2018,
+      "scope": "nationwide",
+      "component": "total",
+      "values": [
+        683178,
+        686023
+      ]
+    },
+    {
+      "id": "fy2017-southwest-ofo-restated",
+      "kind": "restatement",
+      "fy": 2017,
+      "scope": "southwest",
+      "component": "ofo",
+      "values": [
+        111275,
+        111601
+      ]
+    },
+    {
+      "id": "fy2000-usbp-nationwide-ohss",
+      "kind": "unexplained",
+      "fy": 2000,
+      "scope": "nationwide",
+      "component": "usbp",
+      "values": [
+        1676438,
+        1590310
+      ]
+    },
+    {
+      "id": "fy2000-usbp-southwest-ohss",
+      "kind": "unexplained",
+      "fy": 2000,
+      "scope": "southwest",
+      "component": "usbp",
+      "values": [
+        1643679,
+        1566420
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "usbp-nationwide-history",
+      "path": "pipeline/raw/cbp/usbp-total-apprehensions-fy1925-fy2020.pdf",
+      "bytes": 122808,
+      "sha256": "8f714ea67d6d0f0603990f84935d0539982f4fc582fd5f736a13f070b49d1b2c"
+    },
+    {
+      "id": "usbp-southwest-sectors",
+      "path": "pipeline/raw/cbp/usbp-southwest-sector-apprehensions-fy1960-fy2020.pdf",
+      "bytes": 164416,
+      "sha256": "f9498084c165e6fb4e87c4fa8b9a28d36088bae37ef18e18ac19af95912938d4"
+    },
+    {
+      "id": "ohss-khsm-ofo",
+      "path": "pipeline/raw/cbp/ohss-khsm-encounters-ofo-fy25m11.xlsx",
+      "bytes": 3643078,
+      "sha256": "9c5cb876bcf8c41d7f73430b354ff048582378036912b6956cb0c563c0240722"
+    },
+    {
+      "id": "ohss-khsm-usbp",
+      "path": "pipeline/raw/cbp/ohss-khsm-encounters-usbp-fy25m11.xlsx",
+      "bytes": 1158782,
+      "sha256": "cb9723f7503c2ddc63952ab694e06f21f65e249fcf26964db31968e5099c084f"
+    },
+    {
+      "id": "ohss-yearbook-2023-enforcement",
+      "path": "pipeline/raw/cbp/ohss-yearbook-2023-enforcement.xlsx",
+      "bytes": 120487,
+      "sha256": "2df928de97c757e5cd57eb02e7c928eb8f18e8f8337c6ace10acccd9e20d192d"
+    },
+    {
+      "id": "ohss-monthly-tables-2024-11",
+      "path": "pipeline/raw/cbp/ohss-enforcement-monthly-tables-2024-11.xlsx",
+      "bytes": 711849,
+      "sha256": "aba84741553827732e583e53e4d5373b596d840081072ff4f8e3622cc6750a38"
+    },
+    {
+      "id": "cbp-enforcement-fy2017",
+      "path": "pipeline/raw/cbp/cbp-enforcement-statistics-fy2017.html",
+      "bytes": 121416,
+      "sha256": "0a251d8db3c1c15b6628c23d2f1edcfc247db52432a9cde00fd2b80ec4fb77ae"
+    },
+    {
+      "id": "cbp-enforcement-fy2025",
+      "path": "pipeline/raw/cbp/cbp-enforcement-statistics-fy2025.html",
+      "bytes": 182814,
+      "sha256": "962e531f2c414daad87b10099ab4105684799298f221586069d38332cbca1c10"
+    },
+    {
+      "id": "cbp-sw-fy2017",
+      "path": "pipeline/raw/cbp/cbp-sw-border-migration-fy2017.html",
+      "bytes": 108888,
+      "sha256": "f28dbc2fe602125e5f3cf859985ce62920683c28c42e5b7b707b1af3845f0358"
+    },
+    {
+      "id": "cbp-sw-fy2018",
+      "path": "pipeline/raw/cbp/cbp-sw-border-migration-fy2018.html",
+      "bytes": 109634,
+      "sha256": "083872038ff3d60be2bab0b2b5dd1afa3d6d14d6cfa318db48856e0e0896115d"
+    },
+    {
+      "id": "cbp-sw-fy2019",
+      "path": "pipeline/raw/cbp/cbp-sw-border-migration-fy2019.html",
+      "bytes": 115210,
+      "sha256": "56dc93669eb05f58e34641074f2506533ee9cd59b16d8b00242091cac548a415"
+    },
+    {
+      "id": "cbp-sw-fy2020",
+      "path": "pipeline/raw/cbp/cbp-sw-border-migration-fy2020.html",
+      "bytes": 115559,
+      "sha256": "750f84bebe0626b2e614adacc835c067c79d129945af8ebf603449ce915fe52d"
+    },
+    {
+      "id": "cbp-data-dictionary",
+      "path": "pipeline/raw/cbp/nationwide-encounters-data-dictionary.pdf",
+      "bytes": 124951,
+      "sha256": "043666239408841bf04b9b22f6685648408cb5dc5d79a1ecc8d75de3f86d9940"
+    },
+    {
+      "id": "cbp-nationwide-page",
+      "path": "pipeline/raw/cbp/cbp-nationwide-encounters-page.html",
+      "bytes": 119410,
+      "sha256": "572cd515c8cdc32ad6e61369eda5bfc3ac57324f04c9c1af0b5b4613ad80a74e"
+    },
+    {
+      "id": "cbp-southwest-page",
+      "path": "pipeline/raw/cbp/cbp-southwest-land-border-encounters-page.html",
+      "bytes": 110776,
+      "sha256": "c2d87afacc055b6b4c760413167887c90611c9be33c9eba1e9af39256398d4c9"
+    },
+    {
+      "id": "cbp-title42-page",
+      "path": "pipeline/raw/cbp/cbp-title-8-and-title-42-statistics.html",
+      "bytes": 107041,
+      "sha256": "57faf6902f67bc5e1e15e5083782ff5742422080390af32aa10265d598c63a10"
+    },
+    {
+      "id": "cbp-release-2023-02",
+      "path": "pipeline/raw/cbp/cbp-releases-february-2023-monthly-operational-update.html",
+      "bytes": 130258,
+      "sha256": "2a99cb23dc969a4b7a9643d721a5808f98e46d40972b6d7bcbc1d626a149c436"
+    },
+    {
+      "id": "cbp-release-2023-08",
+      "path": "pipeline/raw/cbp/cbp-releases-august-2023-monthly-update.html",
+      "bytes": 124886,
+      "sha256": "aa1b15bc00fcda914d38e664b5245bb665abdf8ceb119c09b8c33b064958fd04"
+    }
+  ]
+}
