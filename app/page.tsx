@@ -149,8 +149,8 @@ export default function Hub() {
             </>
           }
           stat={
-            <Stat figure={orders.total.toLocaleString("en-US")}>
-              executive orders signed since {orders.years[0].year}
+            <Stat figure={(orders.years.find((y) => y.year === 2025)?.total ?? 0).toLocaleString("en-US")}>
+              executive orders signed in 2025
             </Stat>
           }
         />
@@ -198,7 +198,7 @@ export default function Hub() {
           }
           stat={
             <Stat figure={`${gopAppointed} of ${seated.length}`}>
-              justices were appointed by Republican presidents, {court.lastTerm} term
+              justices were appointed by Republican presidents
             </Stat>
           }
         />
