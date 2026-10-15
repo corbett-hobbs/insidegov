@@ -102,7 +102,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
             </>
           );
         },
-        // Band names sit inside their band where it is thick enough, otherwise in the right gutter (wide charts), never under the preliminary hatch.
+        // Band names sit inside their band where it is thick enough, otherwise omitted (the legend below names every fuel), never under the preliminary hatch.
         renderLabels: ({ X, Y, ml, pw, prelimX, compact }) => {
           const stacked = stackedValues();
           const inView = months.filter((i) => monthMidDay(i) >= view[0] && monthMidDay(i) < view[1]);
@@ -112,7 +112,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
               width: FUELS[k].short.length * 6.2 + 8,
               samples: inView.map((i) => ({ x: X(monthMidDay(i)), y0: Y(stacked[k].get(i)!.lo), y1: Y(stacked[k].get(i)!.hi) })),
             })),
-            { maxX: prelimX, gutterX: ml + pw + 8, useGutter: !compact },
+            { maxX: prelimX, gutterX: ml + pw + 8, useGutter: false },
           );
           return (
             <g pointerEvents="none">
@@ -183,7 +183,6 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
             view={view}
             flags={flags}
             prelim={prelim}
-            rightGutter={78}
             ariaLabel="Utility-scale electricity net generation by source, monthly, as a share of the total or in terawatthours, with small-scale solar estimated on its own line below, two laws marked, presidential terms and recessions. The same data is in the table below."
             legend={
               <Legend>

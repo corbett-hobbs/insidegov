@@ -122,10 +122,10 @@ export function EnergyCardShell({
       <h2 id={`${id}-title`} className={`m-0 font-serif font-medium leading-tight ${small ? "text-[1.3rem]" : "text-[1.6rem]"}`}>{title}</h2>
       <p className={`m-0 mt-2 leading-[1.5] text-ink-muted ${small ? "text-[0.8rem]" : "text-[0.875rem]"}`}>{desc}</p>
       <Readout line={readout} toggle={toggle} />
-      <div className="mt-3.5">{chart}</div>
+      <div className="mt-3">{chart}</div>
       <ChartNotesRow>
         <MethodologyNote>{notes}</MethodologyNote>
-        <details className="mt-3">
+        <details className="mt-2">
           <summary className={TABLE_TOGGLE}>View as table</summary>
           {tables}
         </details>

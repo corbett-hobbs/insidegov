@@ -3,6 +3,7 @@
 import type { ControlSpan } from "@/lib/congress-control";
 import { termBandText, type EconomyTerm } from "@/lib/economy-presidents";
 import { dateOfDay, dayOf } from "@/lib/indicator-time";
+import { timeAxisTicks } from "@/lib/time-axis-ticks";
 import { recessionLabel } from "@/lib/indicator-payload";
 import { termYearRange } from "@/lib/year-range";
 
@@ -60,20 +61,17 @@ export function RecessionLabels({ era, view, X, y }: View & { era: Era; y: numbe
 }
 
 export function YearAxis({ view, X, left, plotW, axisY }: View & { left: number; plotW: number; axisY: number }) {
-  const yearsShown = (view[1] - view[0]) / 365.25;
-  const step = [1, 2, 5, 10].find((s) => (plotW / yearsShown) * s >= 42 && !(s === 2 && yearsShown > 20)) ?? 10;
-  const years: number[] = [];
-  for (let y = dateOfDay(view[0]).year; dayOf(y, 0, 1) < view[1]; y++) if (y % step === 0 && dayOf(y, 0, 1) >= view[0]) years.push(y);
+  const ticks = timeAxisTicks(view[0], view[1], plotW);
   return (
     <>
       <line x1={left} x2={left + plotW} y1={axisY} y2={axisY} stroke="var(--line-strong)" />
       {view[0] === 0 && X(dayOf(1995, 0, 1)) - left >= 40 && (
         <text x={left} y={axisY + 14} textAnchor="start" className="fill-ink-muted font-mono text-[11px]">1991</text>
       )}
-      {years.map((y) => (
-        <g key={y}>
-          <line x1={X(dayOf(y, 0, 1))} x2={X(dayOf(y, 0, 1))} y1={axisY} y2={axisY + 4} stroke="var(--line-strong)" />
-          <text x={X(dayOf(y, 0, 1))} y={axisY + 14} textAnchor="middle" className="fill-ink-muted font-mono text-[11px]">{y}</text>
+      {ticks.map((t) => (
+        <g key={t.day}>
+          <line x1={X(t.day)} x2={X(t.day)} y1={axisY} y2={axisY + 4} stroke="var(--line-strong)" />
+          <text x={X(t.day)} y={axisY + 14} textAnchor="middle" className={`font-mono text-[11px] ${t.major ? "fill-ink" : "fill-ink-muted"}`}>{t.label}</text>
         </g>
       ))}
     </>

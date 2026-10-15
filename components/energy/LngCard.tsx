@@ -12,7 +12,7 @@ import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, m
 const LNG_START = 72; // January 1997, in months since January 1991
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
 
-/** Card 4 (small): liquefied natural gas exports, with the 2024 pause and the 2025 reversal marked. Policy here leads the trade by years. */
+/** Card 4 (small): liquefied natural gas exports, with the 2012 export approval, the first 2016 cargo, the 2024 pause and the 2025 reversal marked. Policy here leads the trade by years. */
 export function LngCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
   const v = useEnergyValues();
   const m = payload.monthly;
@@ -63,7 +63,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
       id="lng"
       small
       title="Liquefied natural gas exports"
-      desc="Natural gas shipped abroad as liquid, billions of cubic feet a month. The Energy Department’s 2024 pause on new export approvals and its 2025 reversal are marked."
+      desc="Natural gas shipped abroad as liquid, billions of cubic feet a month. The Energy Department’s first non-free-trade-agreement export approval (2012), the first cargo (2016), its 2024 pause on new approvals and its 2025 reversal are marked."
       readout={readout}
       chart={
         <EnergyChart
@@ -72,7 +72,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
           view={view}
           flags={flags}
           prelim={prelim}
-          ariaLabel="U.S. liquefied natural gas exports in billion cubic feet per month, from 1997, with two Energy Department actions marked, presidential terms and recessions. The same data is in the table below."
+          ariaLabel="U.S. liquefied natural gas exports in billion cubic feet per month, from 1997, with the 2012 approval, the first 2016 cargo and two 2024–25 Energy Department actions marked, presidential terms and recessions. The same data is in the table below."
           legend={
             <Legend>
               <span className="inline-flex items-center gap-1 whitespace-nowrap"><LineKey color="var(--ink)" />LNG exports, billion cubic feet per month</span>
@@ -96,7 +96,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
       }
       notes={
         <p>
-          Energy Information Administration LNG exports. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. Export approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.
+          Energy Information Administration LNG exports. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. The rise traces to approvals made years earlier: in August 2012 the Energy Department gave final approval to the first terminal to export to countries without a free trade agreement (Sabine Pass, Louisiana), under President Obama. The first cargo sailed on February 24, 2016, after construction. Approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.
         </p>
       }
       tables={

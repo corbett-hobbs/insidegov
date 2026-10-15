@@ -108,10 +108,10 @@ describe("flags", () => {
     expect(spr.map((f) => KIND_LABEL[f.kind])).toEqual(["Sale and exchange", "Sale", "Refill", "Exchange"]);
     expect(flagLabel(spr[3])).toMatch(/^Executive · Exchange · /);
   });
-  it("puts the export repeal on the oil card, the two laws on electricity and the pause and reversal on LNG", () => {
+  it("puts the export repeal on the oil card, the two laws on electricity and the approvals, pause and reversal on LNG", () => {
     expect(flagsForCard(flags, "oil").map((f) => f.date)).toEqual(["2015-12-18"]);
     expect(flagsForCard(flags, "electricity").filter((f) => f.priority === 1).map((f) => f.date)).toEqual(["2022-08-16", "2025-07-04"]);
-    expect(flagsForCard(flags, "lng").map((f) => f.date)).toEqual(["2024-01-26", "2025-01-20"]);
+    expect(flagsForCard(flags, "lng").map((f) => f.date)).toEqual(["2012-08-07", "2016-02-24", "2024-01-26", "2025-01-20"]);
   });
   it("never leaves a lagged action without the flag the UI keys its wording on", () => {
     for (const a of actions) expect(toFlag(a).lagged).toBe(a.lagged_effect);
