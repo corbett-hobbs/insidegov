@@ -7,7 +7,10 @@ import {
   rawExecutiveOrder,
   type EoTopicCacheEntry,
 } from "../../lib/executive-orders-entities";
+import { existsSync } from "node:fs";
+import { readEoTexts } from "../fetch/executive-order-texts";
 import { RAW_DIR } from "../fetch/lib";
+import { EO_SUMMARIES, checkedSummaries, eoSummaryCache } from "./eo-summaries";
 import { ADMINISTRATIONS } from "./administrations";
 import {
   ExecutiveOrderDataError,
@@ -21,6 +24,9 @@ import {
  * classification cache -> pipeline/output/{executive_orders,administrations}.json
  * + executive_orders_report.json. The build never classifies: a topic missing
  * from the cache is fatal (see executive-orders.ts), never silently defaulted.
+ * Summaries come from the committed cache `classification/eo_summaries.json`,
+ * each re-checked against the order's text in raw/federal-register/executive_order_texts.json;
+ * an order without a passing summary gets `summary: null`.
  */
 export const RAW = `${RAW_DIR}/federal-register/executive_orders.json`;
 export const CACHE = "pipeline/classification/eo_topics.json";
@@ -54,7 +60,10 @@ async function main() {
   console.log("transform:executive-orders");
   const administrations = ADMINISTRATIONS.map((a) => administration.parse(a));
   const norm = normalizeRaw(await readRaw());
-  const rows = buildExecutiveOrders(norm, administrations, await readCache()).map((r) => executiveOrder.parse(r));
+  const cached = existsSync(EO_SUMMARIES) ? eoSummaryCache.parse(JSON.parse(await readFile(EO_SUMMARIES, "utf8"))) : [];
+  const texts = new Map([...readEoTexts()].map(([n, r]) => [n, r.text] as const));
+  const { summaries, report: summaryReport } = checkedSummaries(cached, texts, new Set(norm.rows.map((r) => r.eo_number)));
+  const rows = buildExecutiveOrders(norm, administrations, await readCache(), summaries).map((r) => executiveOrder.parse(r));
   const summary = validateExecutiveOrders(rows, administrations);
 
   const byMethod: Record<string, number> = {};
@@ -75,6 +84,7 @@ async function main() {
         anchors: { biden: summary.bidenCount, trump_2025: summary.trump2025Count, total_2025: summary.total2025 },
         topic_method: byMethod,
         needs_review: rows.filter((r) => r.needs_review).length,
+        summaries: { ...summaryReport, without: rows.length - summaryReport.summarized },
       },
       null,
       2,
@@ -83,6 +93,7 @@ async function main() {
   console.log(
     `  ${rows.length} executive orders ${summary.firstSigning}..${summary.lastSigning}; anchors ok (Biden ${summary.bidenCount}, Trump 2025 ${summary.trump2025Count}, 2025 total ${summary.total2025})`,
   );
+  console.log(`  summaries: ${summaryReport.summarized} of ${rows.length} orders${summaryReport.failing_check.length ? `; ${summaryReport.failing_check.length} cached summaries fail the check and are not shown: ${summaryReport.failing_check.join(", ")}` : ""}`);
   console.log(`  dropped: ${norm.droppedNoNumber.length} non-EO, ${norm.droppedCorrections.length} correction/republication docs; topics by method ${JSON.stringify(byMethod)}`);
 }
 

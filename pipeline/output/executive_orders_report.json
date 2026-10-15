@@ -38,5 +38,14 @@
     "model": 1422,
     "parent-inherit": 123
   },
-  "needs_review": 73
+  "needs_review": 73,
+  "summaries": {
+    "summarized": 947,
+    "failing_check": [],
+    "orphans": [],
+    "by_model": {
+      "claude-sonnet-5-5": 947
+    },
+    "without": 598
+  }
 }

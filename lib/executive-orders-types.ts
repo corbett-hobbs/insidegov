@@ -23,6 +23,8 @@ export interface EoListItem {
   /** ISO signing date. */
   signed: string;
   termId: string;
+  /** What the order does, one or two sentences written by Claude from the order's text; absent until summarised. */
+  summary?: string;
 }
 
 export interface EoAdmin {

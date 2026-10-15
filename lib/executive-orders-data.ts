@@ -60,6 +60,7 @@ export function aggregateByYear(
           doc: o.document_number,
           signed: o.signing_date,
           termId: o.term_id,
+          ...(o.summary ? { summary: o.summary } : {}),
         }))
         .sort((a, b) => b.n - a.n), // newest first, everywhere the orders are listed
     });

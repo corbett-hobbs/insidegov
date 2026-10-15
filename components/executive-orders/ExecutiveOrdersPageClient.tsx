@@ -1,7 +1,7 @@
 "use client";
 
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { RangeReset } from "@/components/charts/RangeReset";
@@ -16,6 +16,7 @@ import {
   type EoAdmin,
   type EoPayload,
   type EoTopic,
+  type EoListItem,
   type EoYear,
 } from "@/lib/executive-orders-types";
 import { sameRange, termYearRange, type YearRange } from "@/lib/year-range";
@@ -146,7 +147,9 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
             Every executive order signed since 1994, counted by year and sorted
             by topic. Orders let a president direct the federal government
             without a new law, so how many each one signs, and on what, shows
-            where they chose to act alone.
+            where they chose to act alone. Presidents act first through orders,
+            and the economy, energy, immigration, trade, foreign aid and
+            national security pages track what changed afterward.
           </p>
         </PageHeader>
 
@@ -183,6 +186,9 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
           <MethodologyNote>
             <p>
               Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were.
+            </p>
+            <p>
+              The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the Federal Register, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
             </p>
           </MethodologyNote>
 
@@ -285,12 +291,10 @@ function YearList({
             Show all presidents
           </button>
         </div>
-        {(topic || year) && (
-          <div className="border-b border-line bg-surface-raised px-5 py-2 text-[0.78rem] text-ink-muted">
-            Also filtered by{year ? ` year ${year.year}` : ""}
-            {topic ? `${year ? " and" : ""} topic ${EO_TOPIC_LABELS[topic]}` : ""}.
-          </div>
-        )}
+        <ListNote items={items}>
+          Newest first.
+          {(topic || year) && ` Also filtered by${year ? ` year ${year.year}` : ""}${topic ? `${year ? " and" : ""} topic ${EO_TOPIC_LABELS[topic]}` : ""}.`}
+        </ListNote>
         <OrderRows items={items} showPresident={false} admins={admins} />
       </section>
     );
@@ -308,7 +312,7 @@ function YearList({
             Show all topics
           </button>
         </div>
-        <div className="border-b border-line bg-surface-raised px-5 py-2 text-[0.78rem] text-ink-muted">Newest first. Select a year in the chart to narrow the list to that year.</div>
+        <ListNote items={items}>Newest first. Select a year in the chart to narrow the list to that year.</ListNote>
         <OrderRows items={items} showPresident admins={admins} />
       </section>
     );
@@ -323,7 +327,7 @@ function YearList({
             All executive orders: {items.length}, {range[0]}–{range[1]}
           </h2>
         </div>
-        <div className="border-b border-line bg-surface-raised px-5 py-2 text-[0.78rem] text-ink-muted">Newest first. Select a year or a topic in the chart to narrow the list.</div>
+        <ListNote items={items}>Newest first. Select a year or a topic in the chart to narrow the list.</ListNote>
         <OrderRows items={items} showPresident admins={admins} />
       </section>
     );
@@ -340,14 +344,17 @@ function YearList({
           {year.byTerm.map((t) => `${admins.get(t.termId)?.president ?? ""}: ${t.total}`).join(" · ")}
         </div>
       </div>
-      {topic && (
-        <div className="flex flex-wrap items-center gap-2 border-b border-line bg-surface-raised px-5 py-2 text-[0.78rem] text-ink-muted">
-          Showing {items.length} of {year.total}, topic: {EO_TOPIC_LABELS[topic]}.
-          <button type="button" onClick={onClearTopic} className="font-medium text-accent hover:underline">
-            Show all topics
-          </button>
-        </div>
-      )}
+      <ListNote items={items}>
+        Newest first.
+        {topic && (
+          <>
+            {" "}Showing {items.length} of {year.total}, topic: {EO_TOPIC_LABELS[topic]}.{" "}
+            <button type="button" onClick={onClearTopic} className="font-medium text-accent hover:underline">
+              Show all topics
+            </button>
+          </>
+        )}
+      </ListNote>
       <OrderRows items={items} showPresident={year.byTerm.length > 1} admins={admins} />
     </section>
   );
@@ -413,6 +420,7 @@ function OrderRows({ items, showPresident, admins }: { items: EoYear["items"]; s
               Signed {fmtDate(i.signed)}
               {showPresident ? ` · ${admins.get(i.termId)?.president ?? ""}` : ""}
             </div>
+            {i.summary && <OrderSummary text={i.summary} />}
           </div>
           <span className="flex items-center gap-1.5 text-[0.74rem] text-ink-muted sm:justify-end">
             <TopicSwatch topic={i.topic} size={10} />
@@ -421,5 +429,38 @@ function OrderRows({ items, showPresident, admins }: { items: EoYear["items"]; s
         </li>
       ))}
     </ol>
+  );
+}
+
+/**
+ * What the order does, in one or two sentences Claude wrote from the order's Federal Register text (the list's note above the rows
+ * says they are AI-written; the Data notes say how they are checked). On phones it holds to three lines and a tap opens the rest; wider screens show it whole (≤300 characters).
+ */
+function OrderSummary({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <p className="m-0 mt-1 text-[0.78rem] leading-[1.45] text-ink-muted">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className={`block w-full cursor-pointer border-0 bg-transparent p-0 text-left font-[inherit] text-inherit sm:cursor-text ${open ? "" : "max-sm:line-clamp-3"} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
+      >
+        {text}
+      </button>
+    </p>
+  );
+}
+
+/**
+ * The strip above an order list: how it is sorted and filtered, plus, when any listed order has a summary, that the summaries are
+ * AI-written. It says so once here rather than on every row; it rides along in every list view so narrowing the list never drops it.
+ */
+function ListNote({ items, children }: { items: readonly EoListItem[]; children: ReactNode }) {
+  return (
+    <div className="border-b border-line bg-surface-raised px-5 py-2 text-[0.78rem] text-ink-muted">
+      {children}
+      {items.some((i) => i.summary) && " The summary under each order is AI-written from the order's text in the Federal Register; see Data notes."}
+    </div>
   );
 }

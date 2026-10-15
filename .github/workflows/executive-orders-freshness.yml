@@ -11,7 +11,10 @@ name: Executive orders freshness
 # (`pnpm classify:eos`, deterministic), (2) labels the rest with the Claude API
 # (`pnpm classify:eos:auto`, needs the ANTHROPIC_API_KEY repo secret; low-
 # confidence answers are stored needs_review) and (3) re-runs the executive-
-# orders transform. Any order still without a topic (no key, API failure) makes
+# orders transform, then (4) fetches the new orders' text and writes their
+# one- or two-sentence summaries (`pnpm fetch:eo-texts`, `pnpm summarize:eos`,
+# same secret; an order whose summary fails the check simply has none yet).
+# Any order still without a topic (no key, API failure) makes
 # the transform fail LOUDLY: the PR is opened anyway with the list of orders to
 # classify, and its CI stays red until a human adds a topic for each to
 # pipeline/classification/eo_topics.json.
@@ -77,10 +80,21 @@ jobs:
           pnpm classify:eos > classify.log 2>&1
           pnpm exec tsx pipeline/transform/executive-orders-run.ts > transform.log 2>&1
           code=$?
-          cat classify.log auto.log transform.log
+          # One- or two-sentence summaries of the new orders: their text, then Claude, then the transform again to join them.
+          if [ "$code" -eq 0 ]; then
+            pnpm fetch:eo-texts > texts.log 2>&1
+            # --from: summaries cover Obama onward; older orders are summarised only by a deliberate local run.
+            pnpm summarize:eos -- --from 2009-01-20 > summarize.log 2>&1
+            pnpm exec tsx pipeline/transform/executive-orders-run.ts > transform.log 2>&1
+            code=$?
+          fi
+          cat classify.log auto.log texts.log summarize.log transform.log 2>/dev/null
           {
             echo "unclassified<<EOF"
             sed -n '/still need a topic/,$p' classify.log
+            echo "EOF"
+            echo "summarized<<EOF"
+            grep -E '^summarize:eos|^  [0-9]{5}: ' summarize.log
             echo "EOF"
             echo "autolabelled<<EOF"
             grep -E '^  [0-9]{5}  ' auto.log
@@ -115,6 +129,12 @@ jobs:
 
             ```
             ${{ steps.build.outputs.autolabelled }}
+            ```
+
+            **Summaries** (Claude API, from each new order's text; orders listed failed the check and show no summary yet):
+
+            ```
+            ${{ steps.build.outputs.summarized }}
             ```
 
             **Orders still needing a topic** (empty means none). CI never classifies and never defaults to "other":
