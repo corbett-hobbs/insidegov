@@ -67,6 +67,8 @@ export interface LawsPayload {
   lawCount: number;
   /** Short hash of the list payload, for its fetch URL (set by `lib/laws-data.ts`). */
   listVersion: string;
+  /** Short hash of the summary word index, for its fetch URL (set by `lib/laws-data.ts`). */
+  searchVersion: string;
 }
 
 /** One chamber's final passage: `[kind 0 roll call / 1 voice vote / 2 unanimous consent / 3 method not stated, yea, nay]`. */
@@ -100,4 +102,6 @@ export interface LawsList {
 export interface MemberLaws extends LawsList {
   areas: LawsArea[];
   roles: (0 | 1)[];
+  /** Short hash of the summary word index, for its fetch URL (set by `lib/member-laws-data.ts`). */
+  searchVersion?: string;
 }

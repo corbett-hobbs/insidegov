@@ -2,7 +2,7 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
-import { getLawsList } from "./laws-data";
+import { getLawsList, searchVersion } from "./laws-data";
 import { lawCosponsorsFile, lawRow, lawsMeta } from "./laws-entities";
 import type { MemberLaws } from "./laws-types";
 import { buildMemberLaws, indexMemberRoles } from "./member-laws";
@@ -27,5 +27,5 @@ function load() {
 
 export function getMemberLaws(bioguideId: string): MemberLaws {
   const l = load();
-  return buildMemberLaws(getLawsList(), l.areas, l.roles.get(bioguideId));
+  return { ...buildMemberLaws(getLawsList(), l.areas, l.roles.get(bioguideId)), searchVersion: searchVersion() };
 }

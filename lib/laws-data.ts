@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
 import { congressControlFile } from "./congress-control";
@@ -8,8 +8,11 @@ import { getCurrentMemberIndex } from "./congress-data";
 import { displayName } from "./display-name";
 import { legislator, term } from "./entities";
 import { administration } from "./executive-orders-entities";
+import { lawDetailsShard } from "./law-details-entities";
 import { buildLawsList, buildLawsPayload } from "./laws-derive";
 import { lawCountRow, lawRow, lawsMeta } from "./laws-entities";
+import { buildSearchIndex, lawKey } from "./laws-search";
+import type { LawsSearchIndex } from "./laws-search";
 import type { LawSponsor, LawsList, LawsPayload } from "./laws-types";
 import { memberPath } from "./member-url";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
@@ -32,7 +35,7 @@ export function getLawsPageData(): LawsPayload {
   const meta = lawsMeta.parse(read("laws_meta.json"));
   const admins = [...HISTORICAL_ADMINISTRATIONS, ...z.array(administration).parse(read("administrations.json"))];
   const control = congressControlFile.parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "congress-control.json"), "utf8")));
-  cache = { ...buildLawsPayload(counts, laws, meta, admins, control.rows), listVersion: listVersion() };
+  cache = { ...buildLawsPayload(counts, laws, meta, admins, control.rows), listVersion: listVersion(), searchVersion: searchVersion() };
   return cache;
 }
 
@@ -87,4 +90,30 @@ export function getLawSponsorResolver() {
 /** A short hash of the list, for the fetch URL. */
 function listVersion(): string {
   return createHash("sha1").update(JSON.stringify(getLawsList())).digest("hex").slice(0, 10);
+}
+
+let searchCache: LawsSearchIndex | null = null;
+
+/**
+ * The word index over every law's full CRS summary, for the list's search box (see `lib/laws-search.ts`). Built from the
+ * per-Congress `law_details` shards, one at a time; served to the browser at `/data/laws/search` and fetched on first keystroke.
+ */
+export function getLawsSearchIndex(): LawsSearchIndex {
+  if (searchCache) return searchCache;
+  const docs: [number, string][] = [];
+  for (const file of readdirSync(join(OUT, "law_details")).filter((f) => f.endsWith(".json"))) {
+    const congress = Number.parseInt(file, 10);
+    const shard = lawDetailsShard.parse(read(`law_details/${congress}.json`));
+    for (const [id, d] of Object.entries(shard.laws)) if (d.summary) docs.push([lawKey(congress, Number(id.split("-pub-")[1])), d.summary.join(" ")]);
+  }
+  searchCache = buildSearchIndex(docs);
+  return searchCache;
+}
+
+let searchVersionCache: string | null = null;
+
+/** A short hash of the search index, for the fetch URL (the Laws page and the member pages share it). */
+export function searchVersion(): string {
+  searchVersionCache ??= createHash("sha1").update(JSON.stringify(getLawsSearchIndex())).digest("hex").slice(0, 10);
+  return searchVersionCache;
 }

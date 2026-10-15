@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LawRow } from "@/components/laws/LawsListCard";
+import { useLawsSearchIndex } from "@/components/laws/useLawsSearchIndex";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { fmtInt } from "@/lib/decisions-derive";
 import type { MemberLaws } from "@/lib/laws-types";
@@ -67,7 +68,8 @@ export function MemberLawsCard({ bioguideId, name }: { bioguideId: string; name:
   const [major, setMajor] = useState(false);
   const [query, setQuery] = useState("");
   const terms = useMemo(() => query.toLowerCase().split(/\s+/).filter(Boolean), [query]);
-  const filter = useMemo<LawFilter>(() => ({ role, major, terms }), [role, major, terms]);
+  const { summaryHas } = useLawsSearchIndex(laws?.searchVersion ?? "", laws !== null && !!laws.searchVersion && terms.length > 0);
+  const filter = useMemo<LawFilter>(() => ({ role, major, terms, summaryHas }), [role, major, terms, summaryHas]);
 
   // Each tile shows what picking it would leave of the rest of the selection (see `tileCounts`).
   const counts = useMemo(() => (laws ? tileCounts(laws, filter) : { sponsored: 0, cosponsored: 0, major: 0 }), [laws, filter]);
@@ -99,7 +101,7 @@ export function MemberLawsCard({ bioguideId, name }: { bioguideId: string; name:
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search name, bill or area"
+          placeholder="Search name, bill, area or summary"
           aria-label={`Search ${name}'s laws by name, bill, policy area or summary`}
           className="w-full rounded-md border border-line-strong bg-surface-raised px-2.5 py-1 text-[0.82rem] text-ink placeholder:text-ink-faint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:w-60"
         />
