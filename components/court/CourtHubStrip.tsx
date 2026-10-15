@@ -1,4 +1,5 @@
 import { scaleLinear } from "d3-scale";
+import type { CSSProperties } from "react";
 import { isSeated, scoreAt, type CourtPayload } from "@/lib/court-types";
 
 const W = 320;
@@ -49,9 +50,11 @@ export function CourtHubStrip({ data, compact = false }: { data: CourtPayload; c
       <text x={mx} y={axisY - reach - 6} textAnchor="middle" fontSize={11} fontWeight={600} fill="var(--ink)">
         Median
       </text>
-      {dots.map(({ j, cx, cy }) => (
+      {dots.map(({ j, cx, cy }, k) => (
         <circle
           key={j.id}
+          className="hub-dot"
+          style={{ "--dx": `${Math.round(W / 2 - cx)}px`, "--dy": "0px", "--k": k * 40 } as CSSProperties}
           cx={cx}
           cy={cy}
           r={R}

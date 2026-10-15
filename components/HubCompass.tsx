@@ -1,4 +1,5 @@
 import { scaleLinear } from "d3-scale";
+import type { CSSProperties } from "react";
 import type { ChamberMember } from "@/lib/congress-types";
 import { partyFillClass } from "@/lib/party-palette";
 
@@ -9,7 +10,9 @@ const PAD = 6;
 /**
  * Static snapshot of the Congress explorer's scatter (House and Senate
  * blended, latest Congress). Server-rendered, no interaction; d3 is used for
- * scales only (cf. components/senate/CompassChart.tsx).
+ * scales only (cf. components/senate/CompassChart.tsx). Each dot carries its
+ * offset from the centre (`--dx`, `--dy`) and order (`--k`) so the homepage can
+ * fly the dots in (`.hub-dot` in globals.css).
  */
 export function HubCompass({ members }: { members: ChamberMember[] }) {
   const x = scaleLinear().domain([-1, 1]).range([PAD, W - PAD]);
@@ -23,16 +26,21 @@ export function HubCompass({ members }: { members: ChamberMember[] }) {
     >
       <line x1={x(0)} x2={x(0)} y1={PAD} y2={H - PAD} stroke="var(--line)" />
       <line x1={PAD} x2={W - PAD} y1={y(0)} y2={y(0)} stroke="var(--line)" />
-      {members.map((m) => (
-        <circle
-          key={m.bioguideId}
-          cx={x(m.dim1 as number)}
-          cy={y(m.dim2 as number)}
-          r={2.6}
-          className={partyFillClass(m)}
-          fillOpacity={0.85}
-        />
-      ))}
+      {members.map((m, k) => {
+        const cx = x(m.dim1 as number);
+        const cy = y(m.dim2 as number);
+        return (
+          <circle
+            key={m.bioguideId}
+            cx={cx}
+            cy={cy}
+            r={2.6}
+            className={`hub-dot ${partyFillClass(m)}`}
+            style={{ "--dx": `${Math.round(x(0) - cx)}px`, "--dy": `${Math.round(y(0) - cy)}px`, "--k": k } as CSSProperties}
+            fillOpacity={0.85}
+          />
+        );
+      })}
     </svg>
   );
 }

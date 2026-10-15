@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { HubSectionList } from "@/components/HubSectionList";
 import type { Branch } from "@/lib/verticals";
 
@@ -20,7 +20,6 @@ export function HomeBranchCard({
   viz,
   stat,
   grow = false,
-  index,
 }: {
   branch: Branch;
   numeral: string;
@@ -29,15 +28,14 @@ export function HomeBranchCard({
   viz: ReactNode;
   stat: ReactNode;
   grow?: boolean;
-  index: number;
 }) {
   const first = `${branch.href}/${branch.defaultSection}`;
   return (
     <section
       data-branch={branch.id}
       aria-labelledby={`hub-${branch.id}`}
-      className="home-card home-reveal overflow-hidden rounded-2xl"
-      style={{ "--i": index } as CSSProperties}
+      data-home-reveal=""
+      className="home-card overflow-hidden rounded-2xl"
     >
       <div className="grid gap-x-11 gap-y-5 p-6 lg:grid-cols-[5fr_7fr] lg:grid-rows-[auto_1fr] lg:p-8 lg:[grid-template-areas:'head_list'_'left_list']">
         <div className="flex flex-col gap-2 lg:[grid-area:head]">

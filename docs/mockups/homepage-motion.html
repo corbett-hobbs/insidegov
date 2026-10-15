@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>InsideGov homepage motion options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e7; --paper-2:#efe8d9; --surface:#fffdf8; --ink:#1b2233; --ink-muted:#555e6e; --ink-faint:#8a8f9a;
+  --line:#ddd4c2; --line-strong:#c4b9a3;
+  --pres:#1f3a68; --pres-deep:#142748;
+  --cong:#2f6b4f; --cong-deep:#1d4733;
+  --court:#7a2e3b; --court-deep:#521c27;
+  --gold:#b8892b; --gold-soft:#e8c877;
+  --dem:#3a66c2; --rep:#c24a3a; --oth:#83817d;
+  --serif:"Newsreader",Georgia,serif; --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.mock-note{background:var(--ink);color:#fff;font:500 11px var(--mono);padding:7px 20px;text-align:center;letter-spacing:.03em}
+
+/* ---- underline sweep (the one link effect) ---- */
+.sweep{background:linear-gradient(var(--c,currentColor),var(--c,currentColor)) 0 100%/0 2px no-repeat;transition:background-size .3s ease;padding-bottom:2px}
+a:hover .sweep,a.sweep:hover,.card:hover h3 .sweep{background-size:100% 2px}
+
+/* ---- staggered entrance (the one motion effect) ---- */
+/* ---- motion layer: every effect is gated on html[data-fx] and on .fx-on (off when the visitor asks for reduced motion) ---- */
+.fx-on[data-fx~=stagger] .st{opacity:0;transform:translateY(18px)}
+.fx-on[data-fx~=stagger] .seen .st,.fx-on[data-fx~=stagger] .st.seen{opacity:1;transform:none;animation:rise .65s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i,0)*90ms)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+@keyframes wipe{from{transform:scaleX(0)}}
+@keyframes grow{from{transform:scaleY(0)}}
+@keyframes slidein{from{opacity:0;transform:translateX(22px)}}
+.num{font-variant-numeric:tabular-nums}
+.stat b .num{font:inherit;color:inherit;letter-spacing:inherit}
+
+/* count-up: nothing to style; the numbers are changed by script */
+
+/* lines draw themselves */
+.yr{transform-box:fill-box;transform-origin:50% 100%}
+.trend,.trend-lab{display:none}
+.trend{fill:none;stroke:#e8c877;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.trend-lab{position:absolute;left:46%;top:14px;z-index:2;font:500 11px var(--mono);color:#e8c877;letter-spacing:.04em;opacity:0}
+.fx-on[data-fx~=draw] .yr{transform:scaleY(0)}
+.fx-on[data-fx~=draw] .seen .yr{transform:none;animation:grow .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--k)*26ms + 150ms)}
+.fx-on[data-fx~=draw] .trend{display:block;stroke-dasharray:1;stroke-dashoffset:1}
+.fx-on[data-fx~=draw] .seen .trend{stroke-dashoffset:0;transition:stroke-dashoffset 2.1s cubic-bezier(.4,0,.2,1) .5s}
+.fx-on[data-fx~=draw] .trend-lab{display:block}
+.fx-on[data-fx~=draw] .eo-key{text-shadow:0 0 5px #1b3358,0 0 5px #1b3358,0 0 9px #1b3358}
+.fx-on[data-fx~=draw] .seen .trend-lab{opacity:1;transition:opacity .6s ease 2.4s}
+.dot{transform-box:fill-box;transform-origin:center}
+.fx-on[data-fx~=draw] .dot{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2)}
+.fx-on[data-fx~=draw] .seen .dot{opacity:var(--o,1);transform:none;transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .5s;transition-delay:calc(var(--k)*5ms + 200ms)}
+.fx-on[data-fx~=draw] .list li{position:relative;border-bottom-color:transparent}
+.fx-on[data-fx~=draw] .list li::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left}
+.fx-on[data-fx~=draw] .card.solid .list li::after{background:rgba(255,255,255,.17)}
+.fx-on[data-fx~=draw] .list li:last-child::after{display:none}
+.fx-on[data-fx~=draw] .seen .list li::after{transform:none;animation:wipe .8s ease backwards;animation-delay:calc(var(--k,0)*110ms + 250ms)}
+.fx-on[data-fx~=draw] .eyebrow::before{transform:scaleX(0);transform-origin:left}
+.fx-on[data-fx~=draw] .seen .eyebrow::before{transform:none;animation:wipe 1s ease .5s backwards}
+.fx-on[data-fx~=draw] .ix::before{transform:scaleX(0);transform-origin:left}
+.fx-on[data-fx~=draw] .seen .ix::before{transform:none;animation:wipe .9s ease backwards;animation-delay:calc(var(--k,0)*180ms + 800ms)}
+
+/* parallax */
+.bg{position:absolute;inset:0;z-index:0;will-change:transform}
+.bg>div{position:absolute;inset:0}
+.fx-on[data-fx~=pscroll] .bg{top:-270px}
+.fx-on[data-fx~=pmouse] .bg{left:-40px;right:-40px;top:-40px;bottom:-40px}
+.fx-on[data-fx~=pscroll][data-fx~=pmouse] .bg{top:-270px}
+.copy,.viz{will-change:transform}
+
+/* scroll reveal */
+.hl{background:linear-gradient(var(--gold-soft),var(--gold-soft)) 0 100%/100% 36% no-repeat}
+.fx-on[data-fx~=reveal] .hl{background-size:0 36%;transition:background-size .9s ease .1s}
+.fx-on[data-fx~=reveal] .hl.on{background-size:100% 36%}
+.fx-on[data-fx~=reveal] .list li{opacity:0;transform:translateX(22px)}
+.fx-on[data-fx~=reveal] .seen .list li{opacity:1;transform:none;animation:slidein .6s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--k,0)*90ms + 250ms)}
+
+/* ---- hero ---- */
+.hero{position:relative;overflow:hidden;isolation:isolate;color:#fff;background:var(--pres-deep)}
+.hero .photo{background:url("https://commons.wikimedia.org/wiki/Special:FilePath/United_States_Capitol_-_west_front.jpg?width=2000") center 38%/cover;filter:grayscale(1) contrast(1.1) brightness(1.1)}
+.hero .tint{background:linear-gradient(100deg,#142748 0%,#1f3a68 45%,#b8892b 130%);mix-blend-mode:color}
+.hero .multiply{background:linear-gradient(100deg,rgba(60,90,150,.85) 0%,rgba(150,170,215,.9) 55%,rgba(255,225,160,.95) 100%);mix-blend-mode:multiply}
+.hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(14,26,48,.8) 0%,rgba(14,26,48,.4) 50%,rgba(14,26,48,0) 82%),linear-gradient(0deg,rgba(10,20,40,.75) 0%,rgba(10,20,40,0) 38%)}
+.hero .in-wrap{position:relative;z-index:3}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.logo{font:600 24px var(--serif);letter-spacing:-.01em}
+.nav ul{display:flex;gap:26px;list-style:none;padding:0;font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.14em}
+.nav li a{padding:6px 0}
+.nav li:nth-child(1){--c:#8fb0ea}.nav li:nth-child(2){--c:#7fcaa3}.nav li:nth-child(3){--c:#e29aa8}.nav li:nth-child(4){--c:var(--gold-soft)}
+.copy{max-width:640px;padding:70px 0 120px}
+.eyebrow{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.16em;color:var(--gold-soft);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold-soft)}
+.hero h1{font:500 clamp(42px,6.6vw,80px)/1.02 var(--serif);letter-spacing:-.025em;margin-top:18px}
+.hero h1 em{font-style:italic;font-weight:400}
+.lede{font-size:18px;color:#e5eaf5;margin-top:20px;max-width:52ch}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:4px;font:600 14px var(--sans);border:1px solid transparent;transition:background .2s}
+.btn.gold{background:var(--gold-soft);color:#2a2008}.btn.gold:hover{background:#f1d68e}
+.btn.ghost{border-color:rgba(255,255,255,.55);color:#fff}.btn.ghost:hover{background:rgba(255,255,255,.1)}
+
+/* ---- branch index strip (replaces the rounded pills) ---- */
+.index{position:relative;z-index:3;border-top:1px solid rgba(232,200,119,.55);background:rgba(10,20,42,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.index .wrap{display:grid;grid-template-columns:1fr}
+@media(min-width:820px){.index .wrap{grid-template-columns:repeat(3,1fr)}}
+.ix{--c:#fff;position:relative;display:flex;align-items:center;gap:16px;padding:22px 24px 22px 0;border-bottom:1px solid rgba(255,255,255,.14);transition:background .25s}
+@media(min-width:820px){.ix{border-bottom:0;padding:26px 28px}.ix+.ix{border-left:1px solid rgba(255,255,255,.18)}.ix:first-child{padding-left:0}}
+.ix::before{content:"";position:absolute;left:0;top:-1px;height:3px;width:100%;background:var(--bc)}
+.ix:first-child::before{width:calc(100% - 0px)}
+.ix:hover{background:rgba(255,255,255,.07)}
+.ix .num{font:500 12px var(--mono);letter-spacing:.12em;color:var(--gold-soft);width:22px}
+.ix .t{flex:1}
+.ix .name{font:500 25px/1.1 var(--serif);letter-spacing:-.01em}
+.ix .meta{font:400 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:#b9c6e2;margin-top:6px}
+.ix .arr{font-size:20px;color:var(--gold-soft);transition:transform .25s}
+.ix:hover .arr{transform:translateX(5px)}
+.ix.p{--bc:#4d78c4;--c:#8fb0ea}.ix.c{--bc:#4ea67f;--c:#7fcaa3}.ix.j{--bc:#b5586a;--c:#e29aa8}
+.credit{position:absolute;right:12px;top:8px;z-index:4;font:400 10px var(--mono);color:rgba(255,255,255,.55)}
+
+/* ---- statement ---- */
+.statement{padding:64px 0 24px}
+.statement p{font:400 clamp(22px,2.6vw,30px)/1.4 var(--serif);letter-spacing:-.01em;max-width:none;color:var(--ink)}
+.statement p+p{margin-top:14px;font-size:clamp(17px,1.8vw,20px);color:var(--ink-muted);font-family:var(--sans);line-height:1.6}
+
+/* ---- cards (stacked full-width) ---- */
+.cards{display:grid;gap:18px;padding:30px 0 70px}
+.card{--c:var(--pres);--deep:var(--pres-deep);--d:#3a66c2;--r:#c24a3a;--ds:transparent;position:relative;border-radius:14px;overflow:hidden;background:var(--surface);border:1px solid var(--line);transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 34px -18px rgba(20,30,50,.4)}
+.card.cong{--c:var(--cong);--deep:var(--cong-deep)}.card.court{--c:var(--court);--deep:var(--court-deep)}
+.card .band{height:6px;background:var(--c)}
+.card .body{padding:24px;display:grid;gap:18px 26px;grid-template-columns:1fr}
+.head{display:flex;flex-direction:column;gap:8px}
+@media(min-width:900px){.card .body{grid-template-columns:5fr 7fr;grid-template-areas:"head list" "left list";gap:22px 44px;padding:32px}.head{grid-area:head}.left{grid-area:left}.list{grid-area:list}}
+.left{display:flex;flex-direction:column;gap:14px}
+.card .eb{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--c)}
+.card h3{font:500 34px/1.05 var(--serif);letter-spacing:-.02em}
+.card p.blurb{color:var(--ink-muted);font-size:15px;max-width:60ch}
+.viz svg{display:block;width:100%;height:auto}
+.viz.grow{flex:1;display:flex;position:relative}
+.eo-key{position:absolute;left:16px;top:14px;display:grid;gap:5px;font:400 11px var(--mono);color:rgba(255,255,255,.82);z-index:2}
+.eo-key span{display:flex;align-items:center;gap:8px}.eo-key i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.eo-yrs{position:absolute;left:16px;right:16px;bottom:-1px;display:none}.viz.grow svg{flex:1;height:auto;min-height:200px}
+.stat{display:flex;flex-direction:column;gap:4px;margin-top:auto}
+.stat b{font:500 34px/1.05 var(--serif);letter-spacing:-.025em;color:var(--c)}
+.stat span{font-size:13px;color:var(--ink-muted)}
+.list{list-style:none;padding:0;align-self:stretch;display:flex;flex-direction:column}
+.cong .list,.court .list{padding-block:var(--lp,46px)}
+.list li{border-bottom:1px solid var(--line);display:flex;flex:1}.list li:last-child{border-bottom:0}
+.list a{flex:1;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+.list .rt{display:flex;flex-direction:column;gap:2px}
+.list .rt b{font:600 18px var(--serif);letter-spacing:-.01em;color:var(--ink);align-self:flex-start}
+.list .rt span{font-size:14px;line-height:1.4;color:var(--ink-muted)}
+.list .go{font-size:16px;color:var(--c);opacity:.5;transition:opacity .2s,transform .2s}
+.list a:hover .go{opacity:1;transform:translateX(4px)}
+
+/* solid (coloured) treatment: Presidency always; Congress + Court by default */
+.card.solid{background:linear-gradient(135deg,var(--deep),var(--c));color:#fff;border:0;--d:#8fb0ea;--r:#f0907e;--ds:rgba(255,255,255,.9)}
+.card.solid .band{display:none}
+.card.solid .eb{color:var(--gold-soft)}
+.card.solid p.blurb{color:rgba(255,255,255,.82)}
+.card.solid .stat b{color:var(--gold-soft)}
+.card.solid .stat span{color:rgba(255,255,255,.72)}
+.card.solid .viz{background:rgba(255,255,255,.08);border-radius:10px;padding:14px 14px 10px}
+.card.solid .list li{border-bottom-color:rgba(255,255,255,.17)}
+.card.solid .list .rt b{color:#fff}.card.solid .list .rt span{color:rgba(255,255,255,.75)}
+.card.solid .list .go{color:var(--gold-soft)}
+.card.solid h3 .sweep,.card.solid .list .sweep{--c:var(--gold-soft)}
+.card.solid .axis{fill:rgba(255,255,255,.65)}.card.solid .track{stroke:rgba(255,255,255,.45)}
+.axis{fill:#8a8f9a}.track{stroke:#c4b9a3}
+
+/* mock-only toggle */
+.fxbar{position:sticky;top:0;z-index:20;background:rgba(246,241,231,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 20px 9px}
+.fxbar .row{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:500 12px var(--mono);color:var(--ink-muted)}
+.fxbar .lab{text-transform:uppercase;letter-spacing:.12em;margin-right:4px}
+.fxbar button{font:500 12.5px var(--sans);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.fxbar button:hover{border-color:var(--ink)}
+.fxbar button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fxbar small{font:400 10px var(--mono);opacity:.7;margin-left:4px}
+.fxbar .sp{flex:1}
+.fxbar .act{background:transparent}
+.fxbar .cap{max-width:1180px;margin:7px auto 0;font:400 13px/1.45 var(--sans);color:var(--ink-muted)}
+.fxbar .rm{max-width:1180px;margin:6px auto 0;font:500 12px var(--sans);color:#8a3a2a}
+.fxbar .rm button{padding:2px 9px;margin-left:6px}
+
+footer{background:var(--ink);color:#aab3c4;padding:44px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer .logo{color:#fff;font-size:20px}
+footer ul{display:flex;gap:22px;list-style:none;padding:0;font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.12em}
+</style>
+</head>
+<body>
+<div class="mock-note">MOTION MOCK · not the live site · same homepage as the full mock, with each motion effect switchable · statistics are real, chart shapes are placeholders · photo hot-linked from Wikimedia Commons</div>
+
+<div class="fxbar">
+  <div class="row">
+    <span class="lab">Motion</span>
+    <button data-fx-chip="stagger" aria-pressed="true">Staggered entrance <small>live today</small></button>
+    <button data-fx-chip="count" aria-pressed="false">Counting numbers</button>
+    <button data-fx-chip="draw" aria-pressed="false">Lines draw themselves</button>
+    <button data-fx-chip="pscroll" aria-pressed="false">Parallax · scroll</button>
+    <button data-fx-chip="pmouse" aria-pressed="false">Parallax · mouse</button>
+    <button data-fx-chip="reveal" aria-pressed="false">Scroll reveal</button>
+    <span class="sp"></span>
+    <button class="act" id="fxNone">Current site only</button>
+    <button class="act" id="fxAll">Everything</button>
+    <button class="act" id="fxReplay">Replay &#8634;</button>
+  </div>
+  <p class="cap" id="fxCap">Switch effects on and off. Each one replays from the top when toggled. The underline sweep on links is always on.</p>
+  <p class="rm" id="fxRM" hidden>Your system has &ldquo;reduce motion&rdquo; turned on, so every effect is off, which is exactly what those visitors see.<button id="fxIgnoreRM">Preview the motion anyway</button></p>
+</div>
+
+<header class="hero" data-reveal>
+  <div class="bg"><div class="photo"></div><div class="tint"></div><div class="multiply"></div></div><div class="scrim"></div>
+  <div class="credit">Photo: U.S. Capitol, public domain (Wikimedia Commons)</div>
+  <div class="in-wrap">
+    <div class="wrap">
+      <nav class="nav st" style="--i:0"><a class="logo" href="#">InsideGov</a>
+        <ul><li><a class="sweep" href="#" style="--c:var(--c)">Presidency</a></li><li><a class="sweep" href="#" style="--c:var(--c)">Congress</a></li><li><a class="sweep" href="#" style="--c:var(--c)">Supreme Court</a></li><li><a class="sweep" href="#" style="--c:var(--c)">About</a></li></ul></nav>
+      <div class="copy">
+        <div class="eyebrow st" style="--i:1">The U.S. government, by the numbers</div>
+        <h1 class="st" style="--i:2">Three branches. <em>One public record.</em></h1>
+        <p class="lede st" style="--i:3">Every order signed, roll call cast, ruling issued, and financial disclosure filed leaves a trail. We turn those records into data you can scrub through, compare, and dig into.</p>
+        <div class="ctas st" style="--i:4"><a class="btn gold" href="#">Start with the presidency &rarr;</a><a class="btn ghost" href="#">Read the methodology</a></div>
+      </div>
+    </div>
+    <div class="index st" style="--i:5"><div class="wrap">
+      <a class="ix p" href="#presidency"><span class="num">I</span><span class="t"><div class="name"><span class="sweep" style="--c:#8fb0ea">The Presidency</span></div><div class="meta"><span class="num" data-count data-from="0" data-to="7" data-dur="1000">7</span> sections · orders, economy, trade</div></span><span class="arr">&rarr;</span></a>
+      <a class="ix c" href="#congress"><span class="num">II</span><span class="t"><div class="name"><span class="sweep" style="--c:#7fcaa3">Congress</span></div><div class="meta"><span class="num" data-count data-from="0" data-to="4" data-dur="1000">4</span> sections · votes, laws, wealth</div></span><span class="arr">&rarr;</span></a>
+      <a class="ix j" href="#court"><span class="num">III</span><span class="t"><div class="name"><span class="sweep" style="--c:#e29aa8">The Supreme Court</span></div><div class="meta"><span class="num" data-count data-from="0" data-to="2" data-dur="1000">2</span> sections · ideology, decisions</div></span><span class="arr">&rarr;</span></a>
+    </div></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="statement" data-reveal id="statement">
+    <p class="st">Explore the presidency, Congress, and the Supreme Court through <span class="hl">the public record</span>: executive orders, the economy, energy, trade, immigration, foreign aid, troops abroad, ideology, net worth, and court decisions.</p>
+  </section>
+
+  <div class="cards">
+    <article class="card solid st" id="presidency" data-reveal style="--i:0"><div class="body">
+      <div class="head"><div class="eb">I · The executive</div><h3><a href="#"><span class="sweep">The Presidency</span></a></h3></div>
+      <div class="left">
+        <p class="blurb">Executive orders, the economy, energy, trade, immigration, foreign aid and troops abroad, laid out against each presidential term, from gas prices and tariffs to deportations.</p>
+        <div class="viz grow"><div class="eo-key" id="eoKey"></div><div class="trend-lab">Running total &middot; 1,545</div><svg viewBox="0 0 330 96" preserveAspectRatio="none" id="eoChart" role="img" aria-label="Executive orders per year (placeholder shape)"></svg></div>
+        <div class="stat"><b class="num" data-count data-from="0" data-to="1545" data-comma="1" data-dur="2200">1,545</b><span>executive orders signed since 1994</span></div>
+      </div>
+      <ul class="list"><li><a href="#"><span class="rt"><b><span class="sweep">Executive orders</span></b><span>Every executive order since 1994, by year and topic, set against each presidential term.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Economy</span></b><span>Jobs, inflation, gas prices and more, lined up with who was in the White House.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Energy</span></b><span>Oil, electricity, LNG exports and the Strategic Petroleum Reserve, with the policy actions that moved them.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Immigration</span></b><span>ICE removals by fiscal year and administration, with changes in what is counted marked.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Trade</span></b><span>Goods trade and the duties charged on imports, by country, through each tariff change.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Foreign aid</span></b><span>Where U.S. foreign assistance went, by country and sector, year by year.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">National security</span></b><span>Where active-duty U.S. troops are stationed, by country, region and branch.</span></span><span class="go">&rarr;</span></a></li></ul>
+    </div></article>
+
+    <article class="card cong solid st" id="congress" data-reveal style="--i:0"><div class="band"></div><div class="body">
+      <div class="head"><div class="eb">II · The legislature</div><h3><a href="#"><span class="sweep">Congress</span></a></h3></div>
+      <div class="left">
+        <p class="blurb">Every member&rsquo;s votes as a two-dimensional ideology score, the laws Congress enacts and how broadly they are supported, who serves by age, gender and tenure, and estimated net worth from financial disclosures.</p>
+        <div class="viz"><svg viewBox="0 0 330 130" id="compass" role="img" aria-label="Members of Congress by ideology (placeholder shape)"></svg></div>
+        <div class="stat"><b>Most divided since <span class="num" data-count data-from="1800" data-to="1903" data-dur="1800">1903</span></b><span>The two parties are farther apart than at any point since 1903, judging by how members vote</span></div>
+      </div>
+      <ul class="list"><li><a href="#"><span class="rt"><b><span class="sweep">Ideology</span></b><span>Every member of the House and Senate placed on a two-dimensional map from their roll-call votes.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Laws</span></b><span>How many public laws Congress enacts each Congress, by policy area, and how broadly they are supported, since 1973.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Demographics</span></b><span>How old members of Congress are, how many are women, and how long they have served, since 1933.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Wealth</span></b><span>Estimated net worth for members of Congress, from their annual financial disclosures.</span></span><span class="go">&rarr;</span></a></li></ul>
+    </div></article>
+
+    <article class="card court solid st" id="court" data-reveal style="--i:0"><div class="band"></div><div class="body">
+      <div class="head"><div class="eb">III · The judiciary</div><h3><a href="#"><span class="sweep">The Supreme Court</span></a></h3></div>
+      <div class="left">
+        <p class="blurb">Where the justices sit over time, from Martin&ndash;Quinn ideology scores, and how many cases the Court decides and how often it splits.</p>
+        <div class="viz"><svg viewBox="0 0 330 58" id="court-strip" role="img" aria-label="Justices by ideology (placeholder shape)"></svg></div>
+        <div class="stat"><b><span class="num" data-count data-from="0" data-to="6" data-dur="1200">6</span> of 9</b><span>justices were appointed by Republican presidents, 2024 term</span></div>
+      </div>
+      <ul class="list"><li><a href="#"><span class="rt"><b><span class="sweep">Ideology</span></b><span>Where each justice has sat since 1937 and how the Court&rsquo;s median has moved, term by term.</span></span><span class="go">&rarr;</span></a></li><li><a href="#"><span class="rt"><b><span class="sweep">Decisions</span></b><span>How many argued cases the Court decides each term, and how often it splits, by issue area since 1946.</span></span><span class="go">&rarr;</span></a></li></ul>
+    </div></article>
+  </div>
+</main>
+
+<footer><div class="wrap"><div><a class="logo" href="#">InsideGov</a><p style="margin-top:6px;max-width:44ch">Public records on the presidency, Congress, and the Supreme Court.</p></div>
+  <ul><li><a class="sweep" style="--c:var(--gold-soft)" href="#">Methodology</a></li><li><a class="sweep" style="--c:var(--gold-soft)" href="#">About</a></li><li><a class="sweep" style="--c:var(--gold-soft)" href="#">Contact</a></li></ul></div></footer>
+
+<script>
+// ---- placeholder chart shapes (seeded)
+let seed=11;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+(function(){ // executive orders per year, stacked by topic: real counts + the site's topic colours (dark-surface set)
+  const fills=["#b58ac4", "#e0b04e", "#4fb7a2", "#98c460", "#e88ca4", "#c08a62", "#7fa8d6", "#c1c1c1", "#b5a4ea"];
+  const rows=[[16,6,5,7,2,1,8,8,1],[8,5,3,5,3,0,8,8,0],[9,7,5,5,7,4,5,6,1],[6,8,3,3,7,0,5,5,1],[9,5,1,5,3,0,6,7,2],[7,2,4,4,1,1,5,9,2],[13,9,2,4,6,0,1,1,5],[20,13,4,6,8,0,6,8,1],[9,4,1,1,6,3,2,5,0],[13,1,1,2,3,3,10,6,2],[9,8,0,4,5,1,8,10,0],[7,6,0,1,1,0,4,7,0],[8,3,0,0,2,3,7,4,0],[7,2,2,5,3,0,7,6,0],[13,3,0,1,1,1,5,6,0],[15,10,1,2,6,1,2,5,2],[10,4,2,3,5,0,5,6,0],[9,7,0,1,3,0,10,4,0],[10,5,2,3,3,1,11,4,0],[7,2,1,3,1,0,2,3,1],[3,7,2,2,2,2,9,4,0],[6,4,1,3,3,1,7,4,0],[15,3,3,4,1,0,8,8,0],[16,11,4,6,5,9,6,4,1],[12,7,0,3,1,3,7,4,0],[9,8,1,2,6,4,9,5,1],[7,16,5,2,17,3,7,10,2],[12,17,0,7,19,12,12,7,5],[1,7,0,2,4,1,8,4,2],[4,3,0,2,3,1,2,7,2],[4,5,0,0,3,1,2,3,1],[54,28,34,22,25,21,19,21,14],[8,16,3,6,8,5,6,8,4]]; // 1994..2026, one row of 9 topic counts each
+  const W=320,H=200,top=6,bot=4,n=rows.length,slot=W/n,bw=slot*.8,tot=rows.map(r=>r.reduce((a,b)=>a+b,0)),max=Math.max(...tot);
+  let out='';
+  rows.forEach((r,i)=>{let acc=0;out+=`<g class="yr" style="--k:${i}">`;r.forEach((v,k)=>{if(!v)return;const y1=H-bot-(acc+v)/max*(H-top-bot),h=v/max*(H-top-bot);acc+=v;
+    out+=`<rect x="${(i*slot+(slot-bw)/2).toFixed(2)}" y="${y1.toFixed(2)}" width="${bw.toFixed(2)}" height="${h.toFixed(2)}" fill="${fills[k]}"/>`;});out+='</g>';});
+  out+=`<line x1="0" x2="${W}" y1="${H-bot}" y2="${H-bot}" stroke="rgba(255,255,255,.4)"/>`;
+  // running total of orders, drawn as a gold line when "lines draw themselves" is on
+  const all=tot.reduce((a,b)=>a+b,0);let cum=0,d='';
+  tot.forEach((t,i)=>{cum+=t;d+=(i?'L':'M')+(i*slot+slot/2).toFixed(2)+' '+(H-bot-cum/all*(H-top-bot)).toFixed(2)+' ';});
+  out+=`<path class="trend" pathLength="1" d="${d}"/>`;
+  const labels=['Government operations','Economy, labor & tech','Trade & tariffs','Energy & environment','Health & education','Immigration & justice','Foreign policy','National security','Civil rights & civic life'];
+  document.getElementById('eoKey').innerHTML=labels.map((l,k)=>`<span><i style="background:${fills[k]}"></i>${l}</span>`).join('');
+  const svg=document.getElementById('eoChart');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=out;
+})();
+(function(){ // congress compass: two clusters
+  const svg=document.getElementById('compass');let out='<line class="track" x1="165" y1="6" x2="165" y2="124" stroke-dasharray="3 4"/><line class="track" x1="6" y1="65" x2="324" y2="65" stroke-dasharray="3 4"/>';
+  const g=()=>(rnd()+rnd()+rnd()-1.5);let k=0;
+  const dot=(x,y,fill)=>`<circle class="dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.1" fill="${fill}" style="--o:.85;--k:${k++};--dx:${(165-x).toFixed(1)}px;--dy:${(65-y).toFixed(1)}px" opacity=".85"/>`;
+  for(let i=0;i<150;i++)out+=dot(90+g()*58,68+g()*48,'var(--d)');
+  for(let i=0;i<150;i++)out+=dot(240+g()*50,62+g()*44,'var(--r)');
+  svg.innerHTML=out;
+})();
+(function(){ // court strip: nine justices, compact
+  const svg=document.getElementById('court-strip');
+  const j=[{x:38,p:'D'},{x:62,p:'D'},{x:86,p:'D'},{x:176,p:'R'},{x:200,p:'R'},{x:226,p:'R'},{x:250,p:'R'},{x:274,p:'R'},{x:298,p:'R'}];
+  let out='<line class="track" x1="14" y1="22" x2="316" y2="22" stroke-width="2"/>';
+  j.forEach((d,i)=>{out+=`<circle class="dot" cx="${d.x}" cy="22" r="9" fill="${d.p==='R'?'var(--r)':'var(--d)'}" stroke="var(--ds)" stroke-width="1.5" style="--k:${i*14};--dx:${165-d.x}px;--dy:0px"/>`;});
+  out+='<text class="axis" x="14" y="52" font-family="IBM Plex Mono" font-size="9" letter-spacing="1">MORE LIBERAL</text><text class="axis" x="316" y="52" text-anchor="end" font-family="IBM Plex Mono" font-size="9" letter-spacing="1">MORE CONSERVATIVE</text>';
+  svg.innerHTML=out;
+})();
+
+// ---- motion layer
+const CAPS={
+  stagger:'Staggered entrance: the hero builds in one piece at a time on load, and each card rises as it scrolls into view. This is the motion on the live homepage today.',
+  count:'Counting numbers: the headline figures tick up to their real value when they scroll into view: 1,545 orders, the year in “most divided since”, “6 of 9”, and the page counts in the branch strip.',
+  draw:'Lines draw themselves: the order bars grow from the baseline year by year while a gold running-total line traces across them, ideology dots fly in from the centre, and the divider rules and strip rules wipe in.',
+  pscroll:'Parallax on scroll: the Capitol photo drifts at about a third of scroll speed, and each chart panel sits slightly deeper than the text beside it. Scroll slowly to see the depth.',
+  pmouse:'Parallax on mouse: the photo, the headline block and the branch strip shift by different small amounts as the pointer moves over the hero. Move the mouse across the photo. Touch screens would not get this one.',
+  reveal:'Scroll reveal: the intro sentence lights up word by word as you scroll, the gold highlight wipes in once the phrase is lit, and each card’s page rows slide in one after another.'
+};
+const html=document.documentElement;
+const rmq=matchMedia('(prefers-reduced-motion: reduce)');
+let ignoreRM=false;
+const active=()=>!rmq.matches||ignoreRM;
+const on=new Set((new URLSearchParams(location.search).get('fx')||'stagger').split(',').filter(k=>k in CAPS));
+const chips=[...document.querySelectorAll('[data-fx-chip]')];
+const cap=document.getElementById('fxCap');
+
+function applyFx(){
+  html.classList.toggle('fx-on',active());
+  html.dataset.fx=[...on].join(' ');
+  chips.forEach(c=>c.setAttribute('aria-pressed',on.has(c.dataset.fxChip)));
+  document.getElementById('fxRM').hidden=!(rmq.matches&&!ignoreRM);
+  const q=new URLSearchParams(location.search);q.set('fx',[...on].join(','));
+  try{history.replaceState(null,'','?'+q.toString()+location.hash)}catch(e){}
+}
+
+// numbers
+const fmt=(n,el)=>el.dataset.comma?Math.round(n).toLocaleString('en-US'):String(Math.round(n));
+function setCounts(){document.querySelectorAll('[data-count]').forEach(el=>{cancelAnimationFrame(el._t);
+  el.textContent=fmt(+el.dataset[on.has('count')&&active()?'from':'to'],el);});}
+function runCounts(root){
+  if(!on.has('count')||!active())return;
+  root.querySelectorAll('[data-count]').forEach(el=>{cancelAnimationFrame(el._t);
+    const from=+el.dataset.from,to=+el.dataset.to,dur=+el.dataset.dur||1600,t0=performance.now()+300;
+    const step=t=>{const p=Math.max(0,Math.min(1,(t-t0)/dur)),e=1-Math.pow(1-p,3);el.textContent=fmt(from+(to-from)*e,el);if(p<1)el._t=requestAnimationFrame(step);};
+    el._t=requestAnimationFrame(step);});
+}
+
+// in-view trigger shared by every effect: adds .seen to the hero, statement and cards
+let io;
+function arm(){
+  io&&io.disconnect();
+  io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('seen');runCounts(e.target);io.unobserve(e.target);}}),{threshold:.15});
+  document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+}
+function replay(toTop){
+  document.querySelectorAll('.seen').forEach(e=>e.classList.remove('seen'));
+  document.querySelectorAll('.hl').forEach(e=>e.classList.remove('on'));
+  setCounts();
+  if(toTop)scrollTo(0,0);
+  void document.body.offsetWidth;
+  setTimeout(arm,60);
+}
+
+// per-row index for the staggered rows and rules
+document.querySelectorAll('.list').forEach(l=>[...l.children].forEach((li,i)=>li.style.setProperty('--k',i)));
+document.querySelectorAll('.ix').forEach((e,i)=>e.style.setProperty('--k',i));
+
+// split the intro sentence into words for the scroll reveal
+const stmt=document.querySelector('#statement p');
+const words=[];
+(function split(node){[...node.childNodes].forEach(n=>{
+  if(n.nodeType===3){const f=document.createDocumentFragment();
+    n.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){f.append(t);return;}const w=document.createElement('span');w.className='w';w.textContent=t;words.push(w);f.append(w);});
+    n.replaceWith(f);}
+  else if(n.nodeType===1)split(n);});})(stmt);
+const hl=stmt.querySelector('.hl'),hlLast=hl&&hl.querySelector('.w:last-child');
+
+// parallax + scroll reveal, one animation frame loop
+const bg=document.querySelector('.hero .bg'),copy=document.querySelector('.hero .copy'),strip=document.querySelector('.hero .index'),hero=document.querySelector('.hero');
+const vizs=[...document.querySelectorAll('.card .viz')];
+let tmx=0,tmy=0,mx=0,my=0,lastKey='';
+hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();tmx=(e.clientX-r.left)/r.width*2-1;tmy=(e.clientY-r.top)/r.height*2-1;});
+hero.addEventListener('pointerleave',()=>{tmx=0;tmy=0;});
+function frame(){
+  const act=active(),ps=act&&on.has('pscroll'),pm=act&&on.has('pmouse'),rv=act&&on.has('reveal'),vh=innerHeight,y=scrollY;
+  mx+=(tmx-mx)*.08;my+=(tmy-my)*.08;
+  let tx=0,ty=0;
+  if(ps)ty+=Math.min(y,hero.offsetHeight)*.35;
+  if(pm){tx-=mx*22;ty-=my*12;}
+  bg.style.transform=(ps||pm)?`translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,0)`:'';
+  copy.style.transform=pm?`translate3d(${(mx*9).toFixed(1)}px,${(my*5).toFixed(1)}px,0)`:'';
+  strip.style.transform=pm?`translate3d(${(mx*3).toFixed(1)}px,0,0)`:'';
+  vizs.forEach(v=>{if(!ps){v.style.transform='';return;}const r=v.getBoundingClientRect();v.style.transform=`translate3d(0,${(((r.top+r.height/2-vh/2)/vh)*-22).toFixed(1)}px,0)`;});
+  if(rv){const r=stmt.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.88-r.top)/(vh*.45))),n=words.length;
+    words.forEach((w,i)=>{w.style.opacity=(.16+.84*Math.max(0,Math.min(1,(p*(n+6)-i)/3))).toFixed(2);});
+    hl&&hl.classList.toggle('on',parseFloat(hlLast.style.opacity||0)>.95);}
+  else{words.forEach(w=>w.style.opacity='');hl&&hl.classList.remove('on');}
+  requestAnimationFrame(frame);
+}
+
+// controls
+chips.forEach(c=>c.onclick=()=>{
+  const k=c.dataset.fxChip;on.has(k)?on.delete(k):on.add(k);applyFx();cap.textContent=CAPS[k];
+  if(!['pscroll','pmouse'].includes(k))replay(false);
+});
+document.getElementById('fxNone').onclick=()=>{on.clear();on.add('stagger');applyFx();cap.textContent='Current site: the staggered entrance and the underline sweep, nothing else.';replay(true);};
+document.getElementById('fxAll').onclick=()=>{Object.keys(CAPS).forEach(k=>on.add(k));applyFx();cap.textContent='Everything at once, to show how busy it gets. Pick the ones worth keeping.';replay(true);};
+document.getElementById('fxReplay').onclick=()=>replay(true);
+document.getElementById('fxIgnoreRM').onclick=()=>{ignoreRM=true;applyFx();replay(true);};
+rmq.addEventListener('change',()=>{applyFx();replay(false);});
+
+applyFx();setCounts();arm();requestAnimationFrame(frame);
+</script>
+</body>
+</html>

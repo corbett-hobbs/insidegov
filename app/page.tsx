@@ -12,6 +12,8 @@ import { CourtHubStrip } from "@/components/court/CourtHubStrip";
 import { HomeHero } from "@/components/home/HomeHero";
 import { BranchStrip } from "@/components/home/BranchStrip";
 import { HomeBranchCard } from "@/components/home/HomeBranchCard";
+import { HomeMotion } from "@/components/home/HomeMotion";
+import { IntroWords } from "@/components/home/IntroWords";
 
 export const metadata: Metadata = {
   title: { absolute: `${site.name} · ${site.tagline}` },
@@ -88,6 +90,7 @@ export default function Hub() {
 
   return (
     <main className="flex flex-1 flex-col">
+      <HomeMotion />
       <HomeHero
         kicker={site.tagline}
         title={
@@ -107,16 +110,15 @@ export default function Hub() {
       />
 
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
-        <p className="home-reveal pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
-          Explore the presidency, Congress, and the Supreme Court through{" "}
-          <span className="bg-[linear-gradient(transparent_64%,#e8c877_64%)]">the public record</span>:
-          executive orders, the economy, energy, trade, immigration, foreign aid,
-          troops abroad, the laws Congress passes, ideology, demographics, net
-          worth, and court decisions.
+        <p className="home-intro pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
+          <IntroWords
+            before="Explore the presidency, Congress, and the Supreme Court through "
+            highlight="the public record"
+            after=": executive orders, the economy, energy, trade, immigration, foreign aid, troops abroad, the laws Congress passes, ideology, demographics, net worth, and court decisions."
+          />
         </p>
 
         <HomeBranchCard
-          index={0}
           grow
           branch={presidency}
           numeral={NUMERALS[0]}
@@ -137,8 +139,14 @@ export default function Hub() {
                 aria-label={`${presidency.label}: open the first page`}
                 className="flex flex-1"
               >
-                <HubEoChart data={orders} stretch />
+                <HubEoChart data={orders} stretch runningTotal />
               </Link>
+              <span
+                aria-hidden="true"
+                className="hub-trend-lab pointer-events-none absolute left-[46%] top-3.5 z-10 hidden font-mono text-[0.68rem] text-[#e8c877] sm:block"
+              >
+                Running total · {orders.years.reduce((n, y) => n + y.total, 0).toLocaleString("en-US")}
+              </span>
               <ul
                 aria-hidden="true"
                 className="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[0.66rem] text-white/85 sm:hidden"
@@ -157,7 +165,6 @@ export default function Hub() {
         />
 
         <HomeBranchCard
-          index={1}
           branch={congressBranch}
           numeral={NUMERALS[1]}
           kicker={KICKERS.congress}
@@ -183,7 +190,6 @@ export default function Hub() {
         />
 
         <HomeBranchCard
-          index={2}
           branch={courtBranch}
           numeral={NUMERALS[2]}
           kicker={KICKERS["supreme-court"]}
