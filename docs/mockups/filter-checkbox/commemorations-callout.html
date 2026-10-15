@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commemorations callout (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+/* Tokens copied from app/globals.css so the mock reads like the site. */
+:root{--bg:#eef1f5;--surface:#fff;--surface-raised:#f7f8fa;--ink:#1a2233;--ink-muted:#5b6472;--ink-faint:#8890a0;--line:#d7dce3;--line-strong:#b9c1cc;--accent:#5c4b7a;--accent-ink:#fff;
+--laws-1:#2a78d6;--laws-2:#eb6834;--laws-3:#1baf7a;--laws-4:#eda100;--laws-5:#e87ba4;--laws-6:#008300;--laws-7:#4a3aa7;--laws-8:#e34948}
+@media (prefers-color-scheme:dark){:root{--bg:#14161c;--surface:#1b1e26;--surface-raised:#20242e;--ink:#e9eaee;--ink-muted:#9aa2af;--ink-faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--accent:#9b84c7;--accent-ink:#14161c;
+--laws-1:#3987e5;--laws-2:#d95926;--laws-3:#199e70;--laws-4:#c98500;--laws-5:#d55181;--laws-6:#008300;--laws-7:#9085e9;--laws-8:#e66767}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif}
+.note{max-width:1180px;margin:0 auto;padding:22px 24px 0;font-size:.84rem;line-height:1.6;color:var(--ink-muted)}
+.note h1{font:400 1.7rem/1.2 Newsreader,Georgia,serif;color:var(--ink);margin:0 0 .5rem}
+.note b{color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding:6px 24px 60px}
+h3.frame{margin:26px 0 8px;font:500 .8rem 'IBM Plex Mono',monospace;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:980px){.grid{grid-template-columns:1fr}}
+.cell h4{margin:0 0 .15rem;font:500 .98rem Newsreader,Georgia,serif}
+.cell p{margin:0 0 .6rem;font-size:.74rem;line-height:1.5;color:var(--ink-muted)}
+/* the panel, as components/charts/MultiSelectFilter draws it */
+.panel{width:100%;max-width:23rem;background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 8px 24px rgba(26,34,51,.16);overflow:hidden}
+.head{display:flex;justify-content:space-between;align-items:center;padding:.4rem .75rem;border-bottom:1px solid var(--line);background:var(--surface-raised)}
+.head .cnt{font:400 .66rem 'IBM Plex Mono',monospace;color:var(--ink-muted)}
+.head a{color:var(--accent);font-size:.75rem;text-decoration:underline;text-underline-offset:2px}
+.row{display:flex;align-items:center;gap:8px;padding:.38rem .75rem;min-height:2.1rem;font-size:.8rem;position:relative}
+.row input{width:16px;height:16px;margin:0;accent-color:var(--accent);flex:none}
+.sw{width:10px;height:10px;border-radius:2px;flex:none}
+.row.off .sw{opacity:.35}.row.off .nm{color:var(--ink-muted)}
+.mid{flex:1;min-width:0}
+.nm{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hint{display:block;font-size:.7rem;line-height:1.25;color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.num{flex:none;text-align:right;font:400 .72rem 'IBM Plex Mono',monospace;color:var(--ink-muted);font-variant-numeric:tabular-nums;line-height:1.2}
+.num small{display:block;font-size:.64rem;color:var(--ink-faint)}
+/* variant 3: tint */
+.row.tint{background:color-mix(in oklab,var(--laws-1) 10%,var(--surface));box-shadow:inset 3px 0 0 var(--laws-1)}
+.row.tint.off{background:color-mix(in oklab,var(--laws-1) 6%,var(--surface))}
+.row.tint .num{color:var(--ink)}
+.bar{display:block;height:3px;border-radius:2px;background:var(--line);margin-top:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--laws-1)}
+</style>
+</head>
+<body>
+<div class="note">
+  <h1>Calling out Commemorations in the Policy area panel</h1>
+  <p>Commemorations are <b>3,137 of 12,620 laws (25%)</b>, the largest policy area by a wide margin and the one most people will want to leave out. Three ways to say so inside the panel, with no extra control. Top row: Commemorations ticked (the default). Bottom row: unticked, to show what each does once you have left it out. Everything else in the panel is unchanged.</p>
+</div>
+<div class="wrap">
+  <h3 class="frame">Commemorations ticked</h3>
+  <div class="grid" id="on"></div>
+  <h3 class="frame">Commemorations unticked</h3>
+  <div class="grid" id="off"></div>
+</div>
+<script>
+const ROWS=[
+  ['Commemorations',3137,'var(--laws-1)'],['Land, water & farming',2232,'var(--laws-2)'],['Government, justice & rights',1978,'var(--laws-3)'],
+  ['Economy, taxes & trade',1743,'var(--laws-4)'],['Defense & foreign affairs',1171,'var(--laws-5)'],['Health, education & culture',1124,'var(--laws-6)'],
+  ['Transport, housing & emergencies',710,'var(--laws-7)'],['Energy & environment',525,'var(--laws-8)']];
+const TOTAL=ROWS.reduce((s,r)=>s+r[1],0);
+const fmt=n=>n.toLocaleString('en-US');
+const VARIANTS=[
+  {t:'A · Note only (what is built now)',d:'A grey line says what the row holds. The count beside it is the only hint at size.',
+   row:(r,i)=>i===0?{hint:'Days, weeks, buildings, medals and memorials'}:{}},
+  {t:'B · Note plus share',d:'The same note, ending in the share of all laws, and the share under the count. Share is of the laws in the years shown, so it moves with the slider.',
+   row:(r,i)=>i===0?{hint:`Days, weeks, buildings, medals · ${Math.round(100*r[1]/TOTAL)}% of laws`}:{}},
+  {t:'C · Tint, note and share',d:'B, plus a faint wash of the row’s own chart colour and a bar-colour edge, so the row reads as the one to look at. Every row also gets a share under its count so the tint is not the only thing marking it.',
+   row:(r,i)=>i===0?{hint:'Days, weeks, buildings, medals and memorials',tint:true,share:true}:{share:true}},
+];
+function panel(v,ticked){
+  const shown=ROWS.filter((r,i)=>i>0||ticked);
+  const rows=ROWS.map((r,i)=>{
+    const x=v.row(r,i),on=i>0||ticked;
+    const pct=Math.round(100*r[1]/TOTAL);
+    const showShare=(v.t[0]==='B'&&i===0)||x.share;
+    return `<label class="row ${on?'':'off'} ${x.tint?'tint':''}"><input type="checkbox" ${on?'checked':''} tabindex="-1"><span class="sw" style="background:${r[2]}"></span>
+      <span class="mid"><span class="nm">${r[0]}</span>${x.hint?`<span class="hint">${x.hint}</span>`:''}</span>
+      <span class="num">${fmt(r[1])}${showShare?`<small>${pct}%</small>`:''}</span></label>`;
+  }).join('');
+  return `<div class="cell"><h4>${v.t}</h4><p>${v.d}</p><div class="panel"><div class="head"><span class="cnt">${ticked?8:7} of 8 shown</span><span><a>All</a> · <a>Clear</a></span></div>${rows}</div></div>`;
+}
+document.getElementById('on').innerHTML=VARIANTS.map(v=>panel(v,true)).join('');
+document.getElementById('off').innerHTML=VARIANTS.map(v=>panel(v,false)).join('');
+</script>
+</body>
+</html>

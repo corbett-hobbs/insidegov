@@ -1,6 +1,6 @@
 import type { ControlRow } from "@/components/charts/ControlRowsSvg";
 import { ordinal } from "@/lib/demographics-chart";
-import { openYear } from "@/lib/laws-derive";
+import { openYear, seriesOf } from "@/lib/laws-derive";
 import type { LawsPayload } from "@/lib/laws-types";
 
 /** "1973–74" for the Congress at index `ci`. */
@@ -33,4 +33,13 @@ export function EmptyWindow({ majorThrough }: { majorThrough: number }) {
       No assessed Congress falls in these years: major laws are assessed through the {ordinal(majorThrough)} Congress. Widen the years or untick Major laws.
     </p>
   );
+}
+
+/**
+ * One colour per topic group, in the stack's order (globals.css `--laws-1..8`, validated as a set); "Not classified", when it
+ * has laws, is neutral grey. Card 1's bars and legend and the filter bar's policy-area control all read this.
+ */
+export const NOT_CLASSIFIED_FILL = "var(--ink-faint)";
+export function groupFills(d: LawsPayload): Map<string, string> {
+  return new Map(seriesOf(d).map((s, i) => [s.id, s.id === "not-classified" ? NOT_CLASSIFIED_FILL : `var(--laws-${i + 1})`]));
 }

@@ -25,8 +25,8 @@ function ControlToggle() {
 }
 
 /**
- * /congress/laws. One shared state (`LawsState`): the years window, the policy area, major laws only, the support band and
- * the hovered / pinned Congress. The window and the policy area narrow both cards (rule 4); the band picked on card 2 also
+ * /congress/laws. One shared state (`LawsState`): the years window, the ticked policy areas, major laws only, the ticked support bands and
+ * the hovered / pinned Congress. The window and the policy areas narrow both cards (rule 4); the bands ticked in the bar or picked on card 2 also
  * narrows card 1. Card 3 compares policy areas (rows over the window, a heatmap by decade) and sets the policy area; the list of every law follows the same filters.
  */
 export function LawsPageClient({ data }: { data: LawsPayload }) {

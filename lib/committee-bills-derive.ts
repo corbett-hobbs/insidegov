@@ -1,5 +1,6 @@
 import type { CommitteeBillRow } from "./committee-bills-entities";
 import type { BillSponsorCell, CommitteeBillsPayload, Stage } from "./committee-bills-types";
+import { isPicked, type Picked } from "./multi-select";
 
 /**
  * Pure shaping for the legislation card on a committee page: the stage a bill has reached, the page's filters, the counts the
@@ -107,14 +108,17 @@ export interface BillFilter {
   /** Sponsor's party. */
   party: "" | "D" | "R";
   bipartisan: boolean;
-  /** Index into the shard's `areas`. */
-  area: number | null;
-  /** Index into the shard's `subs`. */
-  sub: number | null;
+  /** Ticked indexes into the shard's `areas` (null = every area); `NONE` stands for a bill with no policy area. */
+  area: Picked<number>;
+  /** Ticked indexes into the shard's `subs` (null = every one); `NONE` stands for a bill not referred to a subcommittee. A bill matches when any of its subcommittees is ticked. */
+  sub: Picked<number>;
   /** `YYYY-MM` of the referral. */
   month: string | null;
   query: string;
 }
+
+/** The area / subcommittee id of "none assigned": a bill with no policy area, or none referred to a subcommittee. */
+export const NONE = -1;
 
 export const NO_FILTER: BillFilter = { stage: null, party: "", bipartisan: false, area: null, sub: null, month: null, query: "" };
 
@@ -125,8 +129,8 @@ export function matchesBill(b: PreparedBill, f: BillFilter, sponsorParty: (b: Pr
   if (skip !== "month" && f.month && b.month !== f.month) return false;
   if (f.party && sponsorParty(b) !== f.party) return false;
   if (f.bipartisan && !b.bipartisan) return false;
-  if (f.area !== null && b.row.a !== f.area) return false;
-  if (f.sub !== null && !(b.row.u ?? []).includes(f.sub)) return false;
+  if (f.area !== null && !isPicked(f.area, b.row.a ?? NONE)) return false;
+  if (f.sub !== null && !(b.row.u?.length ? b.row.u : [NONE]).some((u) => isPicked(f.sub, u))) return false;
   const words = f.query.toLowerCase().split(/\s+/).filter(Boolean);
   return words.every((w) => b.haystack.includes(w));
 }

@@ -20,6 +20,8 @@ import {
   nonCountryValue,
   rankCountries,
   slotDeltaVsPrior,
+  sectorPhrase,
+  slotsOfSectors,
   spendingByYear,
   topRecipientsByYear,
   topRuns,
@@ -38,12 +40,12 @@ const ci = (n: string) => payload.countries.findIndex((c) => c.name === n);
 
 describe("fixtures from the pipeline report", () => {
   it("annual totals are exact, regional and global programs included", () => {
-    expect(yearTotal(d, 2024, -1, -1)).toBe(71_550_094_693);
-    expect(yearTotal(d, 2025, -1, -1)).toBe(47_841_390_743);
-    expect(yearTotal(d, 2026, -1, -1)).toBe(11_754_427_569);
+    expect(yearTotal(d, 2024, -1, null)).toBe(71_550_094_693);
+    expect(yearTotal(d, 2025, -1, null)).toBe(47_841_390_743);
+    expect(yearTotal(d, 2026, -1, null)).toBe(11_754_427_569);
   });
   it("FY2025 top five countries", () => {
-    const top = rankCountries(d, 2025, -1).slice(0, 5).map((r) => [name(r.ci), r.value]);
+    const top = rankCountries(d, 2025, null).slice(0, 5).map((r) => [name(r.ci), r.value]);
     expect(top).toEqual([
       ["Ukraine", 6_752_933_185],
       ["Israel", 3_310_792_558],
@@ -53,7 +55,7 @@ describe("fixtures from the pipeline report", () => {
     ]);
   });
   it("No. 1 runs", () => {
-    const runs = topRuns(topRecipientsByYear(d, 2001, 2026, -1)).map((r) => [name(r.ci), payload.years[r.from], payload.years[r.to]]);
+    const runs = topRuns(topRecipientsByYear(d, 2001, 2026, null)).map((r) => [name(r.ci), payload.years[r.from], payload.years[r.to]]);
     expect(runs).toEqual([
       ["Israel", 2001, 2003],
       ["Iraq", 2004, 2007],
@@ -64,13 +66,13 @@ describe("fixtures from the pipeline report", () => {
     ]);
   });
   it("country-attributed share of FY2025 is about 65.9%", () => {
-    const total = yearTotal(d, 2025, -1, -1);
-    expect(1 - nonCountryValue(d, 2025 - 2001, -1) / total).toBeCloseTo(0.659, 3);
+    const total = yearTotal(d, 2025, -1, null);
+    expect(1 - nonCountryValue(d, 2025 - 2001, null) / total).toBeCloseTo(0.659, 3);
   });
   it("every row's dollars survive the pivot", () => {
     const sum = rows.reduce((a, r) => a + r.disbursements_usd, 0);
     let t = 0;
-    for (let fy = 2001; fy <= 2026; fy++) t += yearTotal(d, fy, -1, -1);
+    for (let fy = 2001; fy <= 2026; fy++) t += yearTotal(d, fy, -1, null);
     expect(t).toBe(sum);
   });
 });
@@ -85,43 +87,72 @@ describe("meta and partial years", () => {
     expect(changeAvailable(d, 2001)).toBe(false);
     expect(changeAvailable(d, 2026)).toBe(false);
     expect(changeAvailable(d, 2025)).toBe(true);
-    expect(changeVsPrior(d, 2026, -1, -1)).toBeNull();
-    expect(changeVsPrior(d, 2025, -1, -1)).toBeCloseTo(47_841_390_743 / 71_550_094_693 - 1, 6);
+    expect(changeVsPrior(d, 2026, -1, null)).toBeNull();
+    expect(changeVsPrior(d, 2025, -1, null)).toBeCloseTo(47_841_390_743 / 71_550_094_693 - 1, 6);
   });
 });
 
 describe("filters", () => {
   it("country and sector filters narrow the totals", () => {
     const ukr = ci("Ukraine");
-    expect(yearTotal(d, 2025, ukr, -1)).toBe(6_752_933_185);
-    expect(yearTotal(d, 2025, -1, 1)).toBe(10_937_153_596); // Health
-    expect(yearTotal(d, 2025, -1, 2)).toBe(8_987_429_153); // Humanitarian
+    expect(yearTotal(d, 2025, ukr, null)).toBe(6_752_933_185);
+    expect(yearTotal(d, 2025, -1, new Set([1]))).toBe(10_937_153_596); // Health
+    expect(yearTotal(d, 2025, -1, new Set([2]))).toBe(8_987_429_153); // Humanitarian
   });
   it("military: All counts every military dollar, Peace and Security only its own rows, other sectors none", () => {
     const isr = ci("Israel");
-    expect(countryMilitary(d, isr, 2025 - 2001, -1)).toBe(3_305_572_360);
-    expect(countryMilitary(d, isr, 2025 - 2001, 1)).toBe(0);
+    expect(countryMilitary(d, isr, 2025 - 2001, null)).toBe(3_305_572_360);
+    expect(countryMilitary(d, isr, 2025 - 2001, new Set([1]))).toBe(0);
     let all = 0;
     let ps = 0;
     for (let c = 0; c < d.nc; c++) for (let y = 0; y < d.ny; y++) {
-      all += countryMilitary(d, c, y, -1);
-      ps += countryMilitary(d, c, y, 0);
+      all += countryMilitary(d, c, y, null);
+      ps += countryMilitary(d, c, y, new Set([0]));
     }
     expect(ps).toBeLessThanOrEqual(all);
     expect(all - ps).toBeGreaterThan(0);
-    expect(militaryShareAvailable(-1)).toBe(true);
-    expect(militaryShareAvailable(0)).toBe(true);
-    expect(militaryShareAvailable(3)).toBe(false);
+    expect(militaryShareAvailable(null)).toBe(true);
+    expect(militaryShareAvailable(new Set([0]))).toBe(true);
+    expect(militaryShareAvailable(new Set([3]))).toBe(false);
+  });
+  it("several ticked sectors add up, null is all, and an empty set is nothing", () => {
+    const sum = (ids: number[]) => yearTotal(d, 2025, -1, new Set(ids));
+    expect(sum([1, 2])).toBe(10_937_153_596 + 8_987_429_153);
+    expect(sum(Array.from({ length: d.ns }, (_, i) => i))).toBe(yearTotal(d, 2025, -1, null));
+    expect(sum([])).toBe(0);
+    // "everything except Peace and security" is the all-sector total minus that sector.
+    const rest = new Set(Array.from({ length: d.ns }, (_, i) => i).filter((i) => i !== 0));
+    expect(yearTotal(d, 2025, -1, rest) + yearTotal(d, 2025, -1, new Set([0]))).toBe(yearTotal(d, 2025, -1, null));
+    expect(slotsOfSectors(d, null)).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(slotsOfSectors(d, new Set([1, 7, 8]))).toEqual([1, 5]);
+    expect(slotsOfSectors(d, new Set())).toEqual([]);
+  });
+  it("words the ticked sectors", () => {
+    expect(sectorPhrase(d, null)).toBe("all sectors");
+    expect(sectorPhrase(d, new Set())).toBe("no sectors");
+    expect(sectorPhrase(d, new Set([1]))).toBe("Health");
+    expect(sectorPhrase(d, new Set([1, 2]))).toBe("Health and Humanitarian assistance");
+    expect(sectorPhrase(d, new Set(Array.from({ length: d.ns }, (_, i) => i).filter((i) => i !== 0)))).toBe("all sectors except Peace and security");
+    expect(sectorPhrase(d, new Set([1, 2, 3]))).toBe(`3 of ${d.ns} sectors`);
+  });
+  it("military follows the ticked sectors: any set holding Peace and Security counts its military dollars, others none", () => {
+    const isr = ci("Israel");
+    const y = 2025 - 2001;
+    expect(countryMilitary(d, isr, y, new Set([0, 1]))).toBeGreaterThanOrEqual(countryMilitary(d, isr, y, new Set([0])));
+    expect(countryMilitary(d, isr, y, new Set([1, 2]))).toBe(0);
+    expect(militaryShareAvailable(new Set([0, 1]))).toBe(true);
+    expect(militaryShareAvailable(new Set([1, 2]))).toBe(false);
+    expect(militaryShareAvailable(new Set())).toBe(false);
   });
   it("negative disbursements are kept as published", () => {
     expect(rows.some((r) => r.disbursements_usd < 0)).toBe(true);
     const neg = rows.find((r) => r.recipient_type === "country" && r.disbursements_usd < 0)!;
     const c = ci(neg.recipient_name);
     const s = payload.sectors.indexOf(neg.sector_category);
-    expect(countryValue(d, c, neg.fiscal_year - 2001, s)).toBe(neg.disbursements_usd);
+    expect(countryValue(d, c, neg.fiscal_year - 2001, new Set([s]))).toBe(neg.disbursements_usd);
   });
   it("spending series draws only the positive slots but reports the net total", () => {
-    const s = spendingByYear(d, 2025, 2025, -1, -1)[0];
+    const s = spendingByYear(d, 2025, 2025, -1, null)[0];
     expect(s.total).toBe(47_841_390_743);
     expect(s.drawn).toBeGreaterThanOrEqual(s.total);
   });
@@ -198,13 +229,13 @@ describe("change column", () => {
   });
   it("gives each ranked country its change from the prior full year, and a slot's change matches the total's when summed", () => {
     const fy = 2020;
-    const ranked = rankCountries(d, fy, -1);
+    const ranked = rankCountries(d, fy, null);
     expect(ranked.every((r) => r.delta !== null)).toBe(true);
     const r = ranked[0];
-    const slots = r.slots.map((_, k) => slotDeltaVsPrior(d, fy, r.ci, -1, r.slots, k) as number);
+    const slots = r.slots.map((_, k) => slotDeltaVsPrior(d, fy, r.ci, null, r.slots, k) as number);
     expect(slots.reduce((a, b) => a + b, 0)).toBeCloseTo(r.delta as number, 0);
   });
   it("has no change for the first year", () => {
-    expect(rankCountries(d, d.payload.years[0], -1).every((r) => r.delta === null)).toBe(true);
+    expect(rankCountries(d, d.payload.years[0], null).every((r) => r.delta === null)).toBe(true);
   });
 });

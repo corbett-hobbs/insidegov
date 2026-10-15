@@ -22,9 +22,9 @@ const SERIES: StackSeries[] = [0, 1, 2, 3, 4].map((k) => ({ id: String(k), label
  * The picked band (the page's vote filter) isolates in the same way as the area chart.
  */
 export function SplitDecadeBars({ mode }: { mode: SplitMode }) {
-  const { data, range, area, band } = useDecisionsValues();
+  const { data, range, areas, band } = useDecisionsValues();
   const cols = useMemo<Col[]>(() => {
-    const { terms, cells } = windowCells(data, area, range);
+    const { terms, cells } = windowCells(data, areas, range);
     return binByDecade(terms, cells).map((b) => ({
       key: String(b.decade),
       label: `${b.decade}s`,
@@ -35,7 +35,7 @@ export function SplitDecadeBars({ mode }: { mode: SplitMode }) {
       last: b.last,
       bucket: b.bucket,
     }));
-  }, [data, area, range]);
+  }, [data, areas, range]);
   return (
     <StackedBars
       columns={cols}

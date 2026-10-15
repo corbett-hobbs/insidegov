@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import { decadeCells, decadeInWindow, decadesOf, fmtInt, heatCount, heatCountMax, type AreaRow } from "@/lib/decisions-derive";
-import { ALL_AREAS, BAND_COLORS, type AreaSortKey } from "@/lib/decisions-types";
+import { BAND_COLORS, type AreaSortKey } from "@/lib/decisions-types";
+import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { LEGEND_ROW } from "@/components/charts/legend";
 
@@ -18,12 +19,12 @@ const MEASURES: Record<AreaSortKey, { band: number | null; noun: string }> = {
  * toggle picks the measure for both charts, in the same numbers as the rows: cases decided (accent), cases that split 5–4, or
  * cases that were unanimous (those two in their band's colour). The rows show a whole window; this shows when. Darker = more
  * cases, on one scale for every area (the busiest decade of any one) with "All issue areas" on its own, being several times any
- * area. A click picks the area for the whole page (the dropdown's value);
+ * area. A click ticks just that area in the pinned bar for the whole page;
  * decades outside the years window fade; a picked area dims the other rows (a comparison chart highlights, rule 4).
  */
 export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; measure: AreaSortKey }) {
-  const { data, range, area } = useDecisionsValues();
-  const { setArea } = useDecisionsActions();
+  const { data, range, areas } = useDecisionsValues();
+  const { setAreas } = useDecisionsActions();
   const { band, noun } = MEASURES[measure];
   const counts = band === null;
   const decades = useMemo(() => decadesOf(data), [data]);
@@ -44,16 +45,17 @@ export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; mea
           ))}
         </div>
         {grid.map(({ row, cells }) => {
-          const dim = area !== ALL_AREAS && row.index >= 0 && row.index !== area;
-          const select = () => setArea(row.index < 0 || row.index === area ? ALL_AREAS : row.index);
+          const dim = areas !== null && row.index >= 0 && !isPicked(areas, row.index);
+          const on = row.index >= 0 && isOnly(areas, row.index);
+          const select = () => setAreas(row.index < 0 ? null : toggleOnly(areas, row.index));
           return (
             <div key={row.id} role="row" className={`contents ${dim ? "opacity-45" : ""}`}>
               <button
                 type="button"
                 onClick={select}
-                aria-pressed={row.index === area}
+                aria-pressed={on}
                 title={row.label}
-                className={`line-clamp-2 pr-1.5 text-left text-[0.7rem] leading-[1.05rem] text-ink hover:underline min-[520px]:truncate min-[520px]:text-[0.74rem] min-[520px]:leading-[1.9rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${row.index === area ? "font-semibold" : ""}`}
+                className={`line-clamp-2 pr-1.5 text-left text-[0.7rem] leading-[1.05rem] text-ink hover:underline min-[520px]:truncate min-[520px]:text-[0.74rem] min-[520px]:leading-[1.9rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${on ? "font-semibold" : ""}`}
               >
                 {row.label}
               </button>

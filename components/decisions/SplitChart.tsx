@@ -18,11 +18,11 @@ const CAPTIONS: Record<SplitMode, readonly string[]> = {
  * the Decisions state. `iso` draws one band alone from zero on its own axis.
  */
 export function SplitChart({ mode, onIso }: { mode: SplitMode; onIso: (k: number) => void }) {
-  const { data, range, area, band: iso, hover, pin } = useDecisionsValues();
+  const { data, range, areas, band: iso, hover, pin } = useDecisionsValues();
   const { moveHover, leaveHover, togglePin, pinTerm, clearPin } = useDecisionsActions();
   const eff: SplitMode = iso !== null ? "count" : mode;
 
-  const { terms, cells } = useMemo(() => windowCells(data, area, range), [data, area, range]);
+  const { terms, cells } = useMemo(() => windowCells(data, areas, range), [data, areas, range]);
   const segs = useMemo(() => presidentSegments(data, terms), [data, terms]);
   const vis = useMemo(() => (iso === null ? [0, 1, 2, 3, 4] : [iso]), [iso]);
   const stacks = useMemo(() => buildStacks(cells, eff, vis), [cells, eff, vis]);

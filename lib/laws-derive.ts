@@ -3,6 +3,7 @@ import type { CongressControlRow } from "./congress-control";
 import type { Administration } from "./executive-orders-entities";
 import type { LawCountRow, LawRow, LawsMeta } from "./laws-entities";
 import type { BandCounts, ChamberTally, LawListRow, LawSigner, LawSponsor, LawsList, LawsPayload, LawsPresident, SignedMost } from "./laws-types";
+import { isOnly, isPicked, pickLabel, type Picked } from "./multi-select";
 import { initialsOf } from "./term-label";
 import type { BandTerm } from "@/components/charts/TermBand";
 import type { YearRange } from "./year-range";
@@ -173,8 +174,6 @@ export const yearSpan = (p: LawsPayload): YearRange => [openYear(p.congresses[0]
 
 // --------------------------------------------------------------------------- the page's filters
 
-/** Value of the topic filter that means "every group". */
-export const ALL_GROUPS = "";
 /** Topic groups the page can draw: one colour each, eight being the most a categorical palette keeps distinguishable (no "Other topics"). */
 export const MAX_GROUPS = 8;
 const NOT_CLASSIFIED = "not-classified";
@@ -207,14 +206,33 @@ export function seriesOf(p: LawsPayload): LawsSeries[] {
   return ranked.map((g) => ({ id: g.id, label: label.get(g.id)!, groups: [g.id] }));
 }
 
-/** The groups a filter value selects; null = all. */
-export function filterGroups(_p: LawsPayload, filter: string): ReadonlySet<string> | null {
-  return filter === ALL_GROUPS ? null : new Set([filter]);
+/** The policy-area control's options, in the legend's order (largest first, Not classified last), each with its label. */
+export function groupOptions(p: LawsPayload): { id: string; label: string }[] {
+  const label = new Map(p.groups.map((g) => [g.id, g.label]));
+  return seriesOf(p).flatMap((s) => s.groups.map((id) => ({ id, label: label.get(id) ?? id })));
 }
 
-export function filterLabel(p: LawsPayload, filter: string): string {
-  if (filter === ALL_GROUPS) return "All policy areas";
-  return p.groups.find((g) => g.id === filter)?.label ?? filter;
+/** The policy-area filter in words: "All policy areas", one area, "All but Commemorations", "3 of 8 policy areas". */
+export function filterLabel(p: LawsPayload, groups: Picked<string>): string {
+  return pickLabel(groups, groupOptions(p), "policy areas");
+}
+
+/** Does the support-band filter keep band `k`? */
+export const bandInFilter = (bands: Picked<number>, k: number): boolean => isPicked(bands, k);
+
+/** The support-band filter as a phrase after "laws": "" for any vote, "with 90% or more yes" for one band, "with under 60% or voice vote" for several. */
+export function bandsPhrase(bands: Picked<number>): string {
+  if (bands === null) return "";
+  const on = SUPPORT_ORDER.filter((k) => bands.has(k));
+  if (on.length === 0) return "with no vote band ticked";
+  return `with ${on.length === 1 ? SUPPORT_LABELS[on[0]!]!.toLowerCase() : on.map((k) => SUPPORT_SHORT[k]!.toLowerCase()).join(" or ")}`;
+}
+
+/** The support-band filter in words: "any vote", one band, or the ticked bands joined with "or". */
+export function bandsLabel(bands: Picked<number>): string {
+  if (bands === null) return "Any vote";
+  const on = SUPPORT_ORDER.filter((k) => bands.has(k)).map((k) => SUPPORT_SHORT[k]!);
+  return on.length === 0 ? "No votes" : on.join(" or ");
 }
 
 export interface Cell {
@@ -223,7 +241,7 @@ export interface Cell {
 }
 
 /** Laws in one Congress for the chosen groups (null = all): every law, or only the major ones. */
-export function cellFor(p: LawsPayload, ci: number, groups: ReadonlySet<string> | null, major: boolean): Cell {
+export function cellFor(p: LawsPayload, ci: number, groups: Picked<string>, major: boolean): Cell {
   const bands: BandCounts = [0, 0, 0, 0, 0];
   const src = major ? p.majorBands[ci]! : p.bands[ci]!;
   p.areas.forEach((a, ai) => {
@@ -349,17 +367,18 @@ export interface LawFilter {
   window: [number, number];
   /** A pinned Congress number overrides the window. */
   congress: number | null;
-  group: string;
+  /** Ticked topic groups (null = all). */
+  groups: Picked<string>;
   major: boolean;
-  band: number | null;
+  /** Ticked support bands (null = any vote). */
+  bands: Picked<number>;
 }
 
 /** The list rows a set of page-level filters keeps (order kept: newest first). */
 export function filterLaws(p: LawsPayload, rows: readonly LawListRow[], f: LawFilter): LawListRow[] {
   const [lo, hi] = f.congress !== null ? [f.congress, f.congress] : [p.congresses[f.window[0]] ?? 1, p.congresses[f.window[1]] ?? 0];
-  const groups = filterGroups(p, f.group);
-  const ok = new Set(p.areas.flatMap((a, i) => (!groups || groups.has(a.group) ? [i] : [])));
-  return rows.filter((r) => r[0] >= lo && r[0] <= hi && ok.has(r[4]) && (!f.major || r[9] === 1) && (f.band === null || r[5] === f.band));
+  const ok = new Set(p.areas.flatMap((a, i) => (isPicked(f.groups, a.group) ? [i] : [])));
+  return rows.filter((r) => r[0] >= lo && r[0] <= hi && ok.has(r[4]) && (!f.major || r[9] === 1) && isPicked(f.bands, r[5]));
 }
 
 /** Every word of `query` must appear in the law's name, bill, sponsor, policy area, summary or Pub. L. number. */
@@ -409,7 +428,7 @@ export interface GroupRow {
 const sumBands = (b: readonly number[]): number => b[0]! + b[1]! + b[2]! + b[3]! + b[4]!;
 
 /** Laws in the Congresses `[a, b]` for `groups` (null = all): the five band counts. */
-function windowBands(p: LawsPayload, a: number, b: number, groups: ReadonlySet<string> | null, major: boolean): BandCounts {
+export function windowBands(p: LawsPayload, a: number, b: number, groups: Picked<string>, major: boolean): BandCounts {
   const out: BandCounts = [0, 0, 0, 0, 0];
   for (let ci = a; ci <= b; ci++) cellFor(p, ci, groups, major).bands.forEach((n, k) => (out[k]! += n));
   return out;
@@ -474,14 +493,15 @@ export function heatMax(p: LawsPayload, id: string, band: number | null, major: 
 export const decadeInWindow = (p: LawsPayload, decade: number, window: readonly [number, number]): boolean =>
   p.congresses.some((c, ci) => decadeOfCongress(c) === decade && ci >= window[0] && ci <= window[1]);
 
-/** Is the topic group `id` selected by the policy-area filter? */
-export function groupSelected(p: LawsPayload, filter: string, id: string): boolean {
-  const g = filterGroups(p, filter);
-  return g !== null && g.has(id) && g.size === 1;
-}
+/** Is the topic group `id` the only one the policy-area filter keeps (what a row's or legend entry's click sets)? */
+export const groupSelected = (groups: Picked<string>, id: string): boolean => isOnly(groups, id);
 
-/** Does the policy-area filter keep topic group `id` (everything, or the group / groups it names)? */
-export function groupInFilter(p: LawsPayload, filter: string, id: string): boolean {
-  const g = filterGroups(p, filter);
-  return g === null || g.has(id);
+/** Does the policy-area filter keep topic group `id`? */
+export const groupInFilter = (groups: Picked<string>, id: string): boolean => isPicked(groups, id);
+
+/** Laws per topic group in the window (with "major laws only" when set), for the policy-area control's counts. */
+export function groupWindowTotals(p: LawsPayload, window: readonly [number, number], major: boolean): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const g of p.groups) out.set(g.id, window[0] > window[1] ? 0 : sumBands(windowBands(p, window[0], window[1], new Set([g.id]), major)));
+  return out;
 }

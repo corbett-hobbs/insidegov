@@ -1,27 +1,27 @@
 "use client";
 
 import { CountryCombobox } from "@/components/trade/CountryCombobox";
-import { SECTOR_LABEL } from "@/lib/foreign-aid-derive";
+import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
+import { formatAidMoney, sectorName, slotOfSector, yearTotal } from "@/lib/foreign-aid-derive";
 import type { TradeCountryRef } from "@/lib/trade-types";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import { useMemo } from "react";
 import { useAidState } from "./ForeignAidState";
+import { slotColor } from "./shared";
 
-const SELECT =
-  "min-w-0 rounded-md border border-line-strong bg-surface-raised px-[0.55rem] py-[0.42rem] text-[0.8rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:flex-none";
 const LABEL = "font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint";
 
 /**
  * The pinned filter bar for /presidency/foreign-aid, directly under the site navigation: Country (reuses the trade
  * page's combobox), Sector, and the two-handle fiscal-year slider with the presidential-term band under its track (tap
  * a term to add or drop it; there is no President dropdown). The slider sets the window; the one selected year is set by
- * a click on the spending chart or the year menu in the map card. Every control writes the shared `AidState`. Phones:
+ * a click on the spending chart or the year menu in the map card. Sector is a checkbox dropdown (`MultiSelectFilter`; each row says the dollars disbursed in the years shown). Every control writes the shared `AidState`. Phones:
  * Country and Sector share a row, the slider its own.
  */
 export function ForeignAidFilterBar() {
-  const { data, range, setRange, country, setCountry, sector, setSector } = useAidState();
+  const { data, range, setRange, country, setCountry, secs, setSecs } = useAidState();
   const { terms, countries, sectors, years } = data.payload;
   const refs = useMemo<TradeCountryRef[]>(() => countries.map((c) => ({ code: c.name, name: c.name, firstYear: null, lastYear: null })), [countries]);
   const first = years[0];
@@ -31,6 +31,16 @@ export function ForeignAidFilterBar() {
     [terms],
   );
   const full = range[0] === first && range[1] === last;
+  // Dollars per sector over the years shown (every country plus regional and global programs), so a row says what ticking it adds.
+  const sectorOptions = useMemo<MultiOption<number>[]>(
+    () =>
+      sectors.map((_, si) => {
+        let sum = 0;
+        for (let fy = range[0]; fy <= range[1]; fy++) sum += yearTotal(data, fy, -1, new Set([si]));
+        return { id: si, label: sectorName(data, si), count: formatAidMoney(sum), swatch: slotColor(slotOfSector(si)) };
+      }),
+    [data, sectors, range],
+  );
   const indexOf = useMemo(() => new Map(countries.map((c, i) => [c.name, i])), [countries]);
   return (
     <div className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur sm:shadow-none">
@@ -45,17 +55,10 @@ export function ForeignAidFilterBar() {
               className="w-full sm:w-[9rem]"
             />
           </div>
-          <label className="flex min-w-0 flex-col gap-0.5 sm:flex-none sm:flex-row sm:items-center sm:gap-2">
+          <div className="flex min-w-0 flex-col gap-0.5 sm:flex-none sm:flex-row sm:items-center sm:gap-2">
             <span className={LABEL}>Sector</span>
-            <select value={sector} onChange={(e) => setSector(Number(e.target.value))} aria-label="Sector" className={`${SELECT} w-full sm:w-[10rem]`}>
-              <option value={-1}>All sectors</option>
-              {sectors.map((s, i) => (
-                <option key={s} value={i}>
-                  {SECTOR_LABEL[s as keyof typeof SECTOR_LABEL] ?? s}
-                </option>
-              ))}
-            </select>
-          </label>
+            <MultiSelectFilter label="Sector" noun="sectors" options={sectorOptions} value={secs} onChange={setSecs} className="w-full sm:w-[10rem]" />
+          </div>
           <RangeSelector
             min={first}
             max={last}

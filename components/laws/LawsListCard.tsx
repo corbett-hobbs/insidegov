@@ -7,9 +7,10 @@ import { Swatch } from "@/components/decisions/shared";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { fmtDate } from "@/components/decisions/CaseListCard";
 import { fmtInt } from "@/lib/decisions-derive";
-import { ALL_GROUPS, SUPPORT_COLORS, SUPPORT_LABELS, SUPPORT_ORDER, SUPPORT_SHORT, filterLabel, filterLaws, matchLaws, tallyText } from "@/lib/laws-derive";
+import { SUPPORT_COLORS, SUPPORT_LABELS, SUPPORT_ORDER, SUPPORT_SHORT, filterLabel, filterLaws, matchLaws, tallyText } from "@/lib/laws-derive";
 import type { LawListRow, LawsArea, LawsList } from "@/lib/laws-types";
 import { lawId, lawPath } from "@/lib/law-url";
+import { isPicked, normalizePick } from "@/lib/multi-select";
 import { ordinal } from "@/lib/demographics-chart";
 import { useLawsActions, useLawsValues } from "./LawsState";
 import { useLawsList } from "./useLawsList";
@@ -41,25 +42,25 @@ function Chip({ children, onClear, label }: { children: string; onClear: () => v
 
 /** The laws the page-level filters keep, and the count the list and the jump link both show. */
 export function useFilteredLaws(): { list: LawsList | null; failed: boolean; rows: LawListRow[] } {
-  const { data, window: win, group, major, band, pin } = useLawsValues();
+  const { data, window: win, groups, major, bands, pin } = useLawsValues();
   const { list, failed } = useLawsList(data.listVersion);
-  const rows = useMemo(() => (list ? filterLaws(data, list.rows, { window: win, congress: pin, group, major, band }) : []), [data, list, win, pin, group, major, band]);
+  const rows = useMemo(() => (list ? filterLaws(data, list.rows, { window: win, congress: pin, groups, major, bands }) : []), [data, list, win, pin, groups, major, bands]);
   return { list, failed, rows };
 }
 
 /**
  * Card 4: every public law that matches the page's filters, newest first, in a fixed-height scrolling box (the Decisions case
- * list pattern). It follows the pinned bar (years, policy area, major laws), card 1's legend (policy area), card 2's band and a
+ * list pattern). It follows the pinned bar (years, policy areas, votes, major laws), card 1's legend (policy area), card 2's band and a
  * pinned Congress; each active filter is a chip that clears itself, and the support-band pills are card 2's own filter. Search
  * matches name, bill, sponsor, policy area and summary: every word must. Rows are added as the box is scrolled.
  */
 export function LawsListCard() {
-  const { data, group, major, band, pin, window: win, range } = useLawsValues();
-  const { setGroup, setMajor, setBand, clearPin } = useLawsActions();
+  const { data, groups, major, bands, pin, window: win, range } = useLawsValues();
+  const { setGroups, setMajor, setBands, clearPin } = useLawsActions();
   const { list, failed, rows } = useFilteredLaws();
   const [query, setQuery] = useState("");
   const matched = useMemo(() => (list ? matchLaws(data, list, rows, query) : []), [data, list, rows, query]);
-  const sig = `${win[0]}-${win[1]}|${group}|${major}|${band}|${pin}|${query.trim().toLowerCase()}`;
+  const sig = `${win[0]}-${win[1]}|${groups === null ? "*" : [...groups].sort().join(",")}|${major}|${bands === null ? "*" : [...bands].sort().join(",")}|${pin}|${query.trim().toLowerCase()}`;
   const [shown, setShown] = useState<{ sig: string; n: number }>({ sig, n: PAGE });
   const n = shown.sig === sig ? shown.n : PAGE;
   const grow = (e: UIEvent<HTMLElement>) => {
@@ -68,7 +69,15 @@ export function LawsListCard() {
   };
   const years = range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`;
   const queryOn = query.trim() !== "";
-  const anyFilter = group !== ALL_GROUPS || band !== null || pin !== null || major || queryOn;
+  const anyFilter = groups !== null || bands !== null || pin !== null || major || queryOn;
+  // A vote pill adds or drops its band; the last one dropped, or all five ticked, is "Any vote" again.
+  const toggleBand = (b: number) => {
+    if (bands === null) return setBands(new Set([b]));
+    const next = new Set(bands);
+    if (next.has(b)) next.delete(b);
+    else next.add(b);
+    setBands(next.size === 0 ? null : normalizePick(next, SUPPORT_ORDER));
+  };
 
   return (
     <ChartCard
@@ -90,13 +99,13 @@ export function LawsListCard() {
         <span className="tabular-nums text-ink">{list ? `${fmtInt(matched.length)} law${matched.length === 1 ? "" : "s"}` : failed ? "Laws unavailable" : "Loading laws…"}</span>
         <div role="group" aria-label="Support" className="flex flex-wrap items-center gap-1.5">
           {[null, ...SUPPORT_ORDER].map((b) => {
-            const on = band === b;
+            const on = b === null ? bands === null : bands !== null && isPicked(bands, b);
             return (
               <button
                 key={b ?? "all"}
                 type="button"
                 aria-pressed={on}
-                onClick={() => setBand(b)}
+                onClick={() => (b === null ? setBands(null) : toggleBand(b))}
                 title={b === null ? undefined : SUPPORT_LABELS[b]}
                 className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[0.75rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${on ? "border-ink bg-surface text-ink" : "border-line-strong bg-surface-raised text-ink-muted hover:text-ink"}`}
               >
@@ -111,9 +120,9 @@ export function LawsListCard() {
             Major laws
           </Chip>
         )}
-        {group !== ALL_GROUPS && (
-          <Chip onClear={() => setGroup(ALL_GROUPS)} label="Clear the policy area filter">
-            {filterLabel(data, group)}
+        {groups !== null && (
+          <Chip onClear={() => setGroups(null)} label="Clear the policy area filter">
+            {filterLabel(data, groups)}
           </Chip>
         )}
         {pin !== null && (

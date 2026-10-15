@@ -3,7 +3,8 @@
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import type { ReactNode } from "react";
-import { SECTOR_LABEL, SLOT_COUNT, SLOT_NAME, SLOT_VAR, slotOfSector } from "@/lib/foreign-aid-derive";
+import { SLOT_COUNT, SLOT_NAME, SLOT_VAR, sectorPhrase, slotsOfSectors } from "@/lib/foreign-aid-derive";
+import { pickedCount } from "@/lib/multi-select";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { useAidState } from "./ForeignAidState";
 
@@ -20,12 +21,10 @@ export function HatchDefs({ id }: { id: string }) {
   );
 }
 
-/** Label for the sector currently filtered (or null for all). */
+/** Words for the sectors currently ticked (or null for all). */
 export function useSectorLabel(): string | null {
-  const { sector, data } = useAidState();
-  if (sector < 0) return null;
-  const s = data.payload.sectors[sector];
-  return SECTOR_LABEL[s as keyof typeof SECTOR_LABEL] ?? s;
+  const { secs, data } = useAidState();
+  return secs === null ? null : sectorPhrase(data, secs);
 }
 
 /**
@@ -33,23 +32,24 @@ export function useSectorLabel(): string | null {
  * `extra` adds chart-specific entries (partial year, term band).
  */
 export function SectorLegend({ partial = false, only = null, onPick, children }: { partial?: boolean; only?: number | null; onPick?: (slot: number) => void; children?: ReactNode }) {
-  const { sector, data } = useAidState();
+  const { secs, sole, data } = useAidState();
   const label = useSectorLabel();
-  const others = data.ns - (SLOT_COUNT - 1);
-  const slots = sector >= 0 ? [slotOfSector(sector)] : Array.from({ length: SLOT_COUNT }, (_, k) => k);
+  // How many of the ticked sectors share the neutral "Other" slot (every sector past the fifth).
+  const others = pickedCount(secs, Array.from({ length: data.ns - (SLOT_COUNT - 1) }, (_, i) => SLOT_COUNT - 1 + i));
+  const slots = slotsOfSectors(data, secs);
   return (
     <div className={`mt-2.5 ${LEGEND_ROW}`}>
       {slots.map((k) => {
         const inner = (
           <>
             <i className="inline-block h-[10px] w-[10px] rounded-[2px]" style={{ background: slotColor(k) }} />
-            {sector >= 0 ? label : k === SLOT_COUNT - 1 ? `Other (${others} sectors)` : SLOT_NAME[k]}
+            {sole !== null ? label : k === SLOT_COUNT - 1 ? `Other (${others} sector${others === 1 ? "" : "s"})` : SLOT_NAME[k]}
           </>
         );
-        return onPick && sector < 0 ? (
+        return onPick && sole === null ? (
           <LegendToggle key={k} active={only === k} dimmed={only !== null && only !== k} onClick={() => onPick(k)}>{inner}</LegendToggle>
         ) : (
-          <span key={k} className={LEGEND_ITEM} title={k === SLOT_COUNT - 1 && sector < 0 ? "Multi-sector; democracy, human rights, and governance; education and social services; environment" : undefined}>{inner}</span>
+          <span key={k} className={LEGEND_ITEM} title={k === SLOT_COUNT - 1 && secs === null ? "Multi-sector; democracy, human rights, and governance; education and social services; environment" : undefined}>{inner}</span>
         );
       })}
       {partial && (

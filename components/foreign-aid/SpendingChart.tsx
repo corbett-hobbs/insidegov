@@ -11,7 +11,7 @@ import { findExtremes } from "@/lib/chart-extremes";
 import { yGutter } from "@/lib/chart-bars";
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { administrationForTermLabel } from "./term-labels";
-import { SLOT_NAME, fiscalYearSpan, formatAidAxis, formatAidMoney, niceDollarTicks, type SpendingYear } from "@/lib/foreign-aid-derive";
+import { SLOT_NAME, fiscalYearSpan, sectorPhrase, formatAidAxis, formatAidMoney, niceDollarTicks, type SpendingYear } from "@/lib/foreign-aid-derive";
 import { useAidState } from "./ForeignAidState";
 import { HatchDefs, slotColor } from "./shared";
 
@@ -25,8 +25,8 @@ const BAND_H = 20;
  * sets the fiscal year; arrow keys move it when the chart has focus. Partial years are hatched.
  */
 export function SpendingChart({ rows }: { rows: SpendingYear[] }) {
-  const { data, year, range, setYear, isPartial, country, sector } = useAidState();
-  const { terms, countries, sectors } = data.payload;
+  const { data, year, range, setYear, isPartial, country, secs } = useAidState();
+  const { terms, countries } = data.payload;
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const width = measured || 960;
   const narrow = width < NARROW_W;
@@ -112,7 +112,7 @@ export function SpendingChart({ rows }: { rows: SpendingYear[] }) {
         width={width}
         height={height}
         margin={{ top: mt, right: mr, bottom: mb, left: ml }}
-        ariaLabel={`Stacked bars of U.S. foreign assistance disbursements by fiscal year, FY${range[0]} to FY${range[1]}${country >= 0 ? `, ${countries[country].name} only` : ""}${sector >= 0 ? `, ${sectors[sector]} only` : ""}`}
+        ariaLabel={`Stacked bars of U.S. foreign assistance disbursements by fiscal year, FY${range[0]} to FY${range[1]}${country >= 0 ? `, ${countries[country].name} only` : ""}${secs !== null ? `, ${sectorPhrase(data, secs)} only` : ""}`}
         svgRef={svgRef}
         onPointerLeave={onLeave}
         svgProps={{ onPointerDown: onDown, onPointerMove: onMove, onPointerUp: onUp, onPointerCancel: onUp, style: { cursor: "crosshair", touchAction: "pan-y" } }}
@@ -239,7 +239,7 @@ export function SpendingChart({ rows }: { rows: SpendingYear[] }) {
 }
 
 function SpendingTip({ r }: { r: SpendingYear }) {
-  const { data, isPartial, country, sector } = useAidState();
+  const { data, isPartial, country, sole } = useAidState();
   const term = administrationForTermLabel(data.payload.terms, r.fy);
   const rowsOut = r.slots.map((v, k) => [v, k] as const).filter(([v]) => v !== 0).sort((a, b) => b[0] - a[0]);
   return (
@@ -253,7 +253,7 @@ function SpendingTip({ r }: { r: SpendingYear }) {
         {isPartial(r.fy) ? " · partial year" : ""}
         {country >= 0 ? ` · ${data.payload.countries[country].name}` : ""}
       </div>
-      {sector < 0 &&
+      {sole === null &&
         rowsOut.map(([v, k]) => (
           <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 14 }}>
             <span>
@@ -263,8 +263,8 @@ function SpendingTip({ r }: { r: SpendingYear }) {
             <span className="tt-mono">{formatAidMoney(v)}</span>
           </div>
         ))}
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 14, fontWeight: 600, borderTop: sector < 0 ? "1px solid color-mix(in oklab, var(--bg) 30%, transparent)" : undefined, marginTop: sector < 0 ? 3 : 0, paddingTop: sector < 0 ? 3 : 0 }}>
-        <span>{sector >= 0 ? data.payload.sectors[sector] : "Total"}</span>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 14, fontWeight: 600, borderTop: sole === null ? "1px solid color-mix(in oklab, var(--bg) 30%, transparent)" : undefined, marginTop: sole === null ? 3 : 0, paddingTop: sole === null ? 3 : 0 }}>
+        <span>{sole !== null ? data.payload.sectors[sole] : "Total"}</span>
         <span className="tt-mono">{formatAidMoney(r.total)}</span>
       </div>
     </div>

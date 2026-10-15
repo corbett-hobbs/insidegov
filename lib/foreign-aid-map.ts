@@ -1,4 +1,5 @@
 import type { AidData } from "./foreign-aid-derive";
+import type { Picked } from "./multi-select";
 import { SLOT_COUNT, addCountrySlots, countryMilitary, countryValue, nonCountryValue } from "./foreign-aid-derive";
 import type { WorldMapFile } from "./foreign-aid-entities";
 
@@ -31,9 +32,9 @@ export interface Bins {
   labels: string[];
 }
 
-/** All sectors: <$10M … $1B+. One sector's totals are an order of magnitude smaller, so it gets lower bins. */
-export const dollarBins = (sec: number): Bins =>
-  sec < 0
+/** All sectors, or several: <$10M … $1B+. One sector's totals are an order of magnitude smaller, so it gets lower bins. */
+export const dollarBins = (secs: Picked<number>): Bins =>
+  secs === null || secs.size !== 1
     ? { thresholds: [1e7, 5e7, 2.5e8, 1e9], labels: ["<$10M", "$10–50M", "$50–250M", "$250M–1B", "$1B+"] }
     : { thresholds: [1e6, 5e6, 2.5e7, 1e8], labels: ["<$1M", "$1–5M", "$5–25M", "$25–100M", "$100M+"] };
 export const SHARE_BINS: Bins = { thresholds: [0.25, 0.5, 0.75], labels: ["<25%", "25–50%", "50–75%", "75%+"] };
@@ -66,14 +67,14 @@ export interface NodeValue {
 }
 
 /** One outline or marker: the sum over the country rows drawn on it. */
-export function nodeValue(d: AidData, cis: readonly number[], yi: number, sec: number): NodeValue {
+export function nodeValue(d: AidData, cis: readonly number[], yi: number, secs: Picked<number>): NodeValue {
   let v = 0;
   let m = 0;
   const slots = new Array<number>(SLOT_COUNT).fill(0);
   for (const ci of cis) {
-    v += countryValue(d, ci, yi, sec);
-    m += countryMilitary(d, ci, yi, sec);
-    addCountrySlots(slots, d, ci, yi, sec);
+    v += countryValue(d, ci, yi, secs);
+    m += countryMilitary(d, ci, yi, secs);
+    addCountrySlots(slots, d, ci, yi, secs);
   }
   return { v, m, slots };
 }
@@ -91,16 +92,16 @@ export interface NotOnMap {
   countryCount: number;
 }
 
-export function notOnMap(d: AidData, undrawn: readonly number[], fy: number, sec: number): NotOnMap {
+export function notOnMap(d: AidData, undrawn: readonly number[], fy: number, secs: Picked<number>): NotOnMap {
   const yi = fy - d.payload.years[0];
   let countries = 0;
   let countryCount = 0;
   for (let c = 0; c < d.nc; c++) {
-    const v = countryValue(d, c, yi, sec);
+    const v = countryValue(d, c, yi, secs);
     if (v !== 0) countryCount++;
     countries += v;
   }
-  const programs = nonCountryValue(d, yi, sec);
-  const u = undrawn.reduce((a, c) => a + countryValue(d, c, yi, sec), 0);
+  const programs = nonCountryValue(d, yi, secs);
+  const u = undrawn.reduce((a, c) => a + countryValue(d, c, yi, secs), 0);
   return { programs, undrawn: u, countries, total: countries + programs, countryCount };
 }

@@ -17,14 +17,14 @@ const TICK = 5;
 
 /**
  * "Who's been No. 1": the largest recipient country per fiscal year as run-length spans, with a bar
- * per year below (the No. 1's dollars, colored by its sector mix). Sector filters to the No. 1 within
- * that sector; Country highlights the years that country led and dims the rest. Click or drag sets the year.
+ * per year below (the No. 1's dollars, colored by its sector mix). The ticked sectors set the No. 1 within
+ * those sectors; Country highlights the years that country led and dims the rest. Click or drag sets the year.
  */
 export function FirstPlaceCard() {
-  const { data, year, range, setYear, country, sector, isPartial } = useAidState();
+  const { data, year, range, setYear, country, secs, sole, isPartial } = useAidState();
   const sectorLabel = useSectorLabel();
   const names = data.payload.countries;
-  const years = useMemo(() => topRecipientsByYear(data, range[0], range[1], sector), [data, range, sector]);
+  const years = useMemo(() => topRecipientsByYear(data, range[0], range[1], secs), [data, range, secs]);
   const runs = useMemo(() => topRuns(years), [years]);
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -48,7 +48,7 @@ export function FirstPlaceCard() {
   const baseY = plotTop + maxH;
   const H = baseY + 24 + TERM_BAND_H + 4;
   const [pick, setPick] = useState<number | null>(null);
-  const only = sector < 0 ? pick : null;
+  const only = sole === null ? pick : null;
   const topVal = (y: (typeof years)[number]) => (only !== null ? y.topSlots[only] ?? 0 : y.ranked[0]?.value ?? 0);
   const { ticks, top: maxTop } = niceDollarTicks(Math.max(1, ...years.map(topVal)));
   const yOf = (v: number) => baseY - (v / maxTop) * maxH;
@@ -222,7 +222,7 @@ export function FirstPlaceCard() {
             <th className={TH}>No. 1</th>
             <th className={TH}>Disbursements</th>
             <th className={TH}>Share</th>
-            {sector < 0 && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
+            {sole === null && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
           </tr>
         </thead>
         <tbody>
@@ -237,7 +237,7 @@ export function FirstPlaceCard() {
                 <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? names[t.ci].name : "–"}</td>
                 <td className={TD}>{t ? formatAidMoney(t.value) : "–"}</td>
                 <td className={TD}>{t ? `${Math.round((t.value / y.countryTotal) * 100)}%` : "–"}</td>
-                {sector < 0 && y.topSlots.map((v, k) => <td key={k} className={TD}>{v > 0 ? formatAidMoney(v) : "–"}</td>)}
+                {sole === null && y.topSlots.map((v, k) => <td key={k} className={TD}>{v > 0 ? formatAidMoney(v) : "–"}</td>)}
               </tr>
             );
           })}
@@ -248,7 +248,7 @@ export function FirstPlaceCard() {
 }
 
 function FirstTip({ y }: { y: TopYear }) {
-  const { data, isPartial, sector } = useAidState();
+  const { data, isPartial, sole } = useAidState();
   const names = data.payload.countries;
   const term = administrationForTermLabel(data.payload.terms, y.fy);
   const top = y.ranked[0];
@@ -270,7 +270,7 @@ function FirstTip({ y }: { y: TopYear }) {
           <span className="tt-mono">{formatAidMoney(r.value)}</span>
         </div>
       ))}
-      {top && sector < 0 && (
+      {top && sole === null && (
         <>
           <div className="tt-mono" style={{ margin: "6px 0 2px" }}>{names[top.ci].name} by sector</div>
           {sectors.map(([v, k]) => (

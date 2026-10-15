@@ -17,6 +17,7 @@ import {
   stageCounts,
   stageOf,
   timelineSteps,
+  NONE,
 } from "./committee-bills-derive";
 import type { BillSponsorCell } from "./committee-bills-types";
 
@@ -118,10 +119,21 @@ describe("filterBills", () => {
   it("filters by sponsor party, bipartisanship, area, subcommittee and month", () => {
     expect(ids({ party: "R" })).toEqual(["1", "3", "5"]);
     expect(ids({ bipartisan: true })).toEqual(["1"]);
-    expect(ids({ area: 1 })).toEqual(["2"]);
-    expect(ids({ sub: 1 })).toEqual(["3"]);
+    expect(ids({ area: new Set([1]) })).toEqual(["2"]);
+    expect(ids({ sub: new Set([1]) })).toEqual(["3"]);
     expect(ids({ month: "2025-02" })).toEqual(["2", "3"]);
     expect(ids({ month: "2025-02" }, "month")).toHaveLength(6);
+  });
+  it("ticks several areas or subcommittees; a bill with none assigned is its own option", () => {
+    expect(ids({ area: new Set([0, 1]) })).toEqual(["1", "2"]);
+    expect(ids({ area: new Set([NONE]) })).toEqual(["3", "4", "5", "6"]);
+    expect(ids({ area: new Set([1, NONE]) })).toEqual(["2", "3", "4", "5", "6"]); // everything but Energy
+    expect(ids({ area: new Set() })).toEqual([]);
+    expect(ids({ sub: new Set([0]) })).toEqual(["1", "3"]); // a bill in two subcommittees matches either
+    expect(ids({ sub: new Set([0, 1]) })).toEqual(["1", "3"]);
+    expect(ids({ sub: new Set([NONE]) })).toEqual(["2", "4", "5", "6"]);
+    expect(ids({ sub: new Set([1, NONE]) })).toEqual(["2", "3", "4", "5", "6"]);
+    expect(ids({ area: new Set([1, NONE]), sub: new Set([NONE]), party: "R" })).toEqual(["5"]);
   });
   it("searches every word across bill, title, sponsor, area and law number", () => {
     expect(ids({ query: "clean water" })).toEqual(["2"]);

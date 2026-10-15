@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkbox filters (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+/* Tokens copied from app/globals.css so the mock reads like the site. */
+:root{--bg:#eef1f5;--surface:#fff;--surface-raised:#f7f8fa;--ink:#1a2233;--ink-muted:#5b6472;--ink-faint:#8890a0;--line:#d7dce3;--line-strong:#b9c1cc;--accent:#5c4b7a;--accent-ink:#fff;--focus:#5c4b7a;
+--laws-1:#2a78d6;--laws-2:#eb6834;--laws-3:#1baf7a;--laws-4:#eda100;--laws-5:#e87ba4;--laws-6:#008300;--laws-7:#4a3aa7;--laws-8:#e34948}
+@media (prefers-color-scheme:dark){:root{--bg:#14161c;--surface:#1b1e26;--surface-raised:#20242e;--ink:#e9eaee;--ink-muted:#9aa2af;--ink-faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--accent:#9b84c7;--accent-ink:#14161c;--focus:#9b84c7;
+--laws-1:#3987e5;--laws-2:#d95926;--laws-3:#199e70;--laws-4:#c98500;--laws-5:#d55181;--laws-6:#008300;--laws-7:#9085e9;--laws-8:#e66767}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif}
+.note{max-width:1180px;margin:0 auto;padding:22px 24px 0;font-size:.84rem;line-height:1.6;color:var(--ink-muted)}
+.note h1{font:400 1.7rem/1.2 Newsreader,Georgia,serif;color:var(--ink);margin:0 0 .5rem}
+.note b{color:var(--ink)} .note code{font-family:'IBM Plex Mono',monospace;font-size:.78rem}
+.note ul{margin:.4rem 0 0 1.1rem;padding:0}.note li{margin:.15rem 0}
+h3.frame{max-width:1180px;margin:30px auto 8px;padding:0 24px;font:500 .8rem 'IBM Plex Mono',monospace;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.04em}
+.board-d{max-width:1180px;margin:0 24px;border:1px solid var(--line);border-radius:8px}
+@media (min-width:1230px){.board-d{margin:0 auto}}
+.board-p{width:390px;margin:0 auto;border:1px solid var(--line);border-radius:14px}
+.pg{background:var(--bg);position:relative;border-radius:inherit}
+
+/* ---- pinned filter bar (same chrome as components/laws/LawsFilterBar) ---- */
+.bar{position:relative;z-index:30;background:var(--surface);border-bottom:1px solid var(--line-strong);padding:10px 24px 8px;border-radius:8px 8px 0 0}
+.bar .row{display:flex;align-items:flex-start;gap:20px}
+.bar .ctrls{display:flex;align-items:center;gap:12px;flex:none;padding-top:1px}
+.p .bar{padding:8px 16px;border-radius:14px 14px 0 0}
+.p .bar .row{flex-direction:column;gap:6px}
+.p .bar .ctrls{flex-wrap:wrap;width:100%;gap:8px 12px}
+.lab{font:500 .62rem 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.fld{display:flex;align-items:center;gap:8px;min-width:0}
+.p .fld{flex:1 1 calc(50% - 6px)}.p .fld .lab{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.sel{appearance:none;border:1px solid var(--line-strong);background:var(--surface-raised) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238890a0' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right .55rem center;color:var(--ink);border-radius:6px;padding:.42rem 1.6rem .42rem .55rem;font:inherit;font-size:.8rem;width:9.5rem;min-width:0}
+.p .sel{width:100%}
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--ink);white-space:nowrap;cursor:pointer}
+.chk input{width:16px;height:16px;margin:0;accent-color:var(--accent)}
+.q{display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--line-strong);border-radius:50%;font:.65rem 'IBM Plex Mono',monospace;color:var(--ink-muted)}
+.p .chk-wrap{flex-basis:100%}
+.slider{flex:1;min-width:0}.p .slider{width:100%}
+.trk{position:relative;height:20px;margin:0 8px}
+.trk i{position:absolute;left:0;right:0;top:9px;height:3px;background:var(--accent);border-radius:2px}
+.trk b{position:absolute;top:3px;width:14px;height:14px;border:2px solid var(--accent);background:var(--surface);border-radius:50%}
+.trk b:first-of-type{left:-7px}.trk b:last-of-type{right:-7px}
+.tband{display:flex;height:16px;margin:0 8px;gap:1px}
+.tband span{display:grid;place-items:center;font-size:.58rem;color:var(--ink);overflow:hidden;white-space:nowrap;border-top:2.5px solid;border-radius:2px;background:color-mix(in oklab,var(--c) 18%,var(--surface));border-top-color:var(--c)}
+.rd{font:500 .8rem 'IBM Plex Mono',monospace;color:var(--ink);text-align:right;padding:2px 8px 0}
+
+/* ---- the multi-select ---- */
+.ms{position:relative;flex:none}
+.ms-btn{display:flex;align-items:center;justify-content:space-between;gap:6px;width:12.5rem;max-width:100%;border:1px solid var(--line-strong);background:var(--surface-raised);color:var(--ink);border-radius:6px;padding:.42rem .55rem;font:inherit;font-size:.8rem;cursor:pointer;text-align:left}
+.p .ms{position:static;width:100%}.p .ms-btn{width:100%}
+.ms-btn[aria-expanded=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.ms-btn:focus-visible,.ms input:focus-visible,.ms-act:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.ms-btn .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ms-btn.on{border-color:var(--accent)}
+.ms-btn .badge{flex:none;font:500 .62rem 'IBM Plex Mono',monospace;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:1px 6px}
+.ms-btn svg{flex:none;width:10px;height:6px}
+.ms-panel{position:absolute;left:0;top:calc(100% + 4px);z-index:50;width:23rem;max-width:calc(100vw - 2rem);background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;box-shadow:0 8px 24px rgba(26,34,51,.16);overflow:hidden}
+.p .ms-panel{left:0;right:0;top:100%;width:auto;max-width:none;border-radius:0 0 14px 14px;border-top:0}
+.ms-panel[hidden]{display:none}
+.ms-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:.45rem .7rem;border-bottom:1px solid var(--line);background:var(--surface-raised)}
+.ms-head .cnt{font:500 .66rem 'IBM Plex Mono',monospace;color:var(--ink-muted)}
+.ms-act{border:0;background:none;color:var(--accent);font:inherit;font-size:.75rem;padding:2px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;border-radius:3px}
+.ms-list{max-height:19rem;overflow-y:auto;overscroll-behavior:contain}
+.ms-row{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:.38rem .7rem;font-size:.8rem;cursor:pointer;min-height:2.1rem}
+.p .ms-row{min-height:2.75rem}.p .ms-list{max-height:23rem}.p .ms-btn .badge{display:none}
+.ms-row:hover{background:var(--surface-raised)}
+.ms-row input{width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
+.ms-row .sw{width:10px;height:10px;border-radius:2px}
+.ms-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-row.off .nm{color:var(--ink-muted)}.ms-row.off .sw{opacity:.35}
+.ms-row .ct{font:400 .72rem 'IBM Plex Mono',monospace;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.ms-foot{padding:.5rem .7rem;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;justify-content:space-between;background:var(--surface-raised);font-size:.74rem;color:var(--ink-muted)}
+.ms-quick{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:.74rem;padding:3px 10px;cursor:pointer}
+.ms-quick:hover{border-color:var(--accent)}
+
+/* ---- demo content under the bar ---- */
+.main{padding:18px 24px 26px;min-height:23rem}
+.p .main{padding:14px 16px 22px;min-height:21rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1rem 1.15rem}
+h2{font:500 1.05rem Newsreader,Georgia,serif;margin:0}
+.tally{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:.35rem 0 .7rem;font-size:.82rem;color:var(--ink-muted)}
+.tally b{font:500 1.35rem 'IBM Plex Mono',monospace;color:var(--ink);font-variant-numeric:tabular-nums}
+.tally .pct{font-family:'IBM Plex Mono',monospace;font-size:.78rem}
+svg.ch{display:block;width:100%;height:auto;overflow:visible}
+svg.ch text{font-family:'IBM Plex Sans',sans-serif;fill:var(--ink-faint);font-size:10px}
+.legend{margin-top:.6rem;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.7rem;color:var(--ink-muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
+.dn{margin-top:.7rem;font-size:.74rem;line-height:1.5;color:var(--ink-muted)}
+
+/* ---- the other candidates ---- */
+.grid{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem 1.1rem;min-height:27rem;position:relative}
+.mini h4{margin:0 0 .15rem;font:500 .98rem Newsreader,Georgia,serif}
+.mini .why{font-size:.74rem;line-height:1.5;color:var(--ink-muted);margin:0 0 .7rem}
+.mini .fld{margin-bottom:.7rem}
+.mini .ms-panel{z-index:40}
+.share{display:grid;gap:5px;margin-top:.8rem}
+.sh{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr) 3.4rem;gap:8px;align-items:center;font-size:.72rem;color:var(--ink)}
+.sh span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh .bx{height:10px;background:var(--surface-raised);border-radius:2px;overflow:hidden}.sh .bx i{display:block;height:100%;border-radius:2px}
+.sh .v{font:400 .7rem 'IBM Plex Mono',monospace;color:var(--ink-muted);text-align:right}
+.sh.gone{opacity:.3}
+table.aud{width:100%;border-collapse:collapse;font-size:.78rem;line-height:1.45;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table.aud th{font:500 .62rem 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:.55rem .7rem;background:var(--surface-raised);border-bottom:1px solid var(--line-strong)}
+table.aud td{padding:.55rem .7rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-muted)}
+table.aud td:first-child{color:var(--ink);white-space:nowrap}
+table.aud tr:last-child td{border-bottom:0}
+.v1,.v2,.v3{display:inline-block;border-radius:999px;padding:1px 8px;font-size:.68rem;font-weight:500;white-space:nowrap}
+.v1{background:var(--accent);color:var(--accent-ink)}
+.v2{border:1px solid var(--accent);color:var(--ink)}
+.v3{border:1px dashed var(--line-strong);color:var(--ink-muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 60px}
+</style>
+</head>
+<body>
+
+<div class="note">
+  <h1>Checkbox filters instead of single-select dropdowns</h1>
+  <p><b>The idea.</b> Where a filter's options are <i>parts of a whole</i> and one of them is big enough to swamp the rest, a dropdown can only answer "show me just this one". A checkbox list also answers "show me everything <i>except</i> this one", and "these three". Same bar footprint (one control, panel overlays the page), same state the charts already read.</p>
+  <ul>
+    <li><b>Laws · Policy area:</b> Commemorations is <b>3,137 of 12,620 laws (25%)</b>, and 255 of the 713 laws in the 100th Congress (36%). Untick it and every chart, the heatmap and the list show what Congress did beyond naming post offices and commemorative days.</li>
+    <li>The panel starts open below with <b>Commemorations unticked</b>. Everything is live: tick, untick, All / Clear, and the one-tap "Skip commemorations".</li>
+    <li>The mock uses real counts from <code>pipeline/output</code>. Colours are the site's <code>--laws-*</code> palette (checkbox accent is <code>--accent</code> like the existing Major laws checkbox).</li>
+  </ul>
+</div>
+
+<h3 class="frame">1 · Laws page, desktop (replaces the Policy area select)</h3>
+<div class="board-d"><div class="pg" id="laws-d"></div></div>
+
+<h3 class="frame">2 · Laws page, phone 390px (Policy area + Vote still share a row)</h3>
+<div class="board-p"><div class="pg p" id="laws-p"></div></div>
+
+<h3 class="frame">3 · Same control, three other filters (each tallies what is left)</h3>
+<div class="grid">
+  <div class="mini" id="eo"></div>
+  <div class="mini" id="aid"></div>
+  <div class="mini" id="dec"></div>
+</div>
+
+<h3 class="frame">4 · Audit: every single-select filter on the site</h3>
+<div class="wrap">
+<table class="aud">
+  <thead><tr><th>Filter</th><th>Verdict</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>Laws · Policy area</td><td><span class="v1">Switch</span></td><td>8 groups; Commemorations is a quarter of all laws. Exclusion is the real question. Card 1, the heatmap, the groups card and the list already read one <code>group</code>; they would read a set instead.</td></tr>
+    <tr><td>Foreign aid · Sector</td><td><span class="v1">Switch</span></td><td>Peace and security is <b>$313B of $799B (39%)</b> of country disbursements since 2001. "Without military and security aid" is a natural view. The chart's five colour slots + "All other" would be built from the ticked set.</td></tr>
+    <tr><td>Executive orders · Topic</td><td><span class="v1">Switch</span></td><td>9 topics; Government operations is 23% of 1,545 orders (ceremonial and housekeeping). The stacked bars already stack by topic, so a subset is a natural draw.</td></tr>
+    <tr><td>Decisions · Issue area</td><td><span class="v1">Switch</span></td><td>14 areas, top two are 21% each. Today's bar has "top 8 + Other areas (n)"; with checkboxes the long tail can be listed in the panel, no "Other" bucket.</td></tr>
+    <tr><td>Committee bills · Policy area, Subcommittee</td><td><span class="v2">Switch</span></td><td>Dozens of policy areas and "pick two related areas" is a common ask. Same component. Sponsor party can stay a select (or become two tick boxes).</td></tr>
+    <tr><td>Laws · Vote band</td><td><span class="v2">Maybe</span></td><td>5 ordered bands; the legend and list pills already toggle it. Multi would let you drop voice votes. Lower priority, and the card-2 click-to-pick behaviour needs a decision.</td></tr>
+    <tr><td>National security · Branch</td><td><span class="v3">Low</span></td><td>Branches add up to the "All branches" total, so a subset works, but nobody needs "everything except the Army". Leave unless asked.</td></tr>
+    <tr><td>Court · Appointing president, Senate / Wealth · State, Trade · Country</td><td><span class="v3">Keep</span></td><td>Pick-one identity filters with long lists (15 presidents, 50 states, ~200 countries). Excluding one is not the question; a search combobox serves better than 50 checkboxes.</td></tr>
+    <tr><td>Year pickers, sort menus, Contact topic, Amendment sponsor</td><td><span class="v3">Keep</span></td><td>Mutually exclusive by nature (one year, one sort order, one reason for writing).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<script>
+const DATA={"laws":{"groups":[{"id":"commemorations","label":"Commemorations","n":3137},{"id":"land-water-farming","label":"Land, water & farming","n":2232},{"id":"government-justice-rights","label":"Government, justice & rights","n":1978},{"id":"economy-taxes-trade","label":"Economy, taxes & trade","n":1743},{"id":"defense-foreign-affairs","label":"Defense & foreign affairs","n":1171},{"id":"health-education-culture","label":"Health, education & culture","n":1124},{"id":"transport-housing-emergencies","label":"Transport, housing & emergencies","n":710},{"id":"energy-environment","label":"Energy & environment","n":525}],"congresses":[93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119],"counts":{"93":[55,110,114,132,86,63,56,35],"94":[41,101,109,117,68,69,43,40],"95":[55,121,123,133,52,51,52,46],"96":[85,115,100,104,62,51,50,46],"97":[105,103,83,74,40,22,21,25],"98":[205,132,73,79,36,52,30,16],"99":[265,98,96,73,36,47,29,20],"100":[255,157,86,58,42,45,34,36],"101":[236,106,87,67,43,54,28,29],"102":[197,111,69,71,59,58,15,10],"103":[135,99,63,66,40,27,22,13],"104":[42,65,68,58,28,30,10,32],"105":[57,85,80,66,32,33,17,24],"106":[120,185,88,76,39,37,18,17],"107":[87,78,54,60,39,30,17,12],"108":[136,106,56,62,47,56,23,12],"109":[139,109,46,59,36,51,32,10],"110":[163,34,81,51,35,62,21,13],"111":[107,27,67,67,34,44,30,7],"112":[70,35,61,47,27,14,22,7],"113":[74,47,44,27,38,34,20,12],"114":[87,30,62,30,50,30,35,5],"115":[118,46,77,45,59,51,26,20],"116":[101,34,55,41,45,44,16,8],"117":[102,32,71,36,59,34,22,6],"118":[94,33,48,22,22,28,17,10],"119":[6,33,17,22,17,7,4,14]}},"eo":{"items":[{"id":"government_operations","label":"Government operations","n":356,"color":"#7b4f87"},{"id":"economy_labor","label":"Economy, labor & technology","n":242,"color":"#c28a2c"},{"id":"foreign_policy","label":"Foreign policy","n":219,"color":"#5a86b5"},{"id":"national_security","label":"National security & defense","n":207,"color":"#4a4a4a"},{"id":"health_education","label":"Health & education","n":173,"color":"#d0627f"},{"id":"energy_environment","label":"Energy & environment","n":126,"color":"#6f9a3c"},{"id":"trade","label":"Trade & tariffs","n":90,"color":"#3e9886"},{"id":"immigration_justice","label":"Immigration & justice","n":82,"color":"#8a5a3c"},{"id":"civil_rights_civic","label":"Civil rights & civic life","n":50,"color":"#9a8fd0"}]},"aid":{"items":[{"id":"Peace and Security","label":"Peace and security","n":312.5,"color":"#620dc4"},{"id":"Economic Development","label":"Economic development","n":120.9,"color":"#297322"},{"id":"Health","label":"Health","n":119.2,"color":"#948d0f"},{"id":"Humanitarian Assistance","label":"Humanitarian assistance","n":116.4,"color":"#0f5d82"},{"id":"Democracy, Human Rights, and Governance","label":"Democracy, human rights & governance","n":55.4,"color":"#453620"},{"id":"Education and Social Services","label":"Education and social services","n":33.0,"color":"#7c7a78"},{"id":"Program Support","label":"Program support","n":29.5,"color":"#b5527a"},{"id":"Multi-sector","label":"Multi-sector","n":7.0,"color":"#c28a2c"},{"id":"Environment","label":"Environment","n":5.2,"color":"#3e9886"}]},"dec":{"items":[{"id":"criminal-procedure","label":"Criminal procedure","n":1760,"color":"#2a78d6"},{"id":"economic-activity","label":"Economic activity","n":1754,"color":"#eb6834"},{"id":"civil-rights","label":"Civil rights","n":1292,"color":"#1baf7a"},{"id":"judicial-power","label":"Judicial power","n":1068,"color":"#eda100"},{"id":"first-amendment","label":"First Amendment","n":628,"color":"#e87ba4"},{"id":"federalism","label":"Federalism","n":379,"color":"#008300"},{"id":"unions","label":"Unions","n":358,"color":"#4a3aa7"},{"id":"due-process","label":"Due process","n":335,"color":"#e34948"},{"id":"federal-taxation","label":"Federal taxation","n":304,"color":"#7c7a78"},{"id":"privacy","label":"Privacy","n":110,"color":"#9aa2af"},{"id":"attorneys","label":"Attorneys","n":93,"color":"#9aa2af"},{"id":"interstate-relations","label":"Interstate relations","n":66,"color":"#9aa2af"},{"id":"miscellaneous","label":"Miscellaneous","n":32,"color":"#9aa2af"},{"id":"private-action","label":"Private action","n":5,"color":"#9aa2af"}]}};
+const LAW_COLORS=['var(--laws-1)','var(--laws-2)','var(--laws-3)','var(--laws-4)','var(--laws-5)','var(--laws-6)','var(--laws-7)','var(--laws-8)'];
+const fmt=n=>n.toLocaleString('en-US');
+const CHEV='<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+
+/* One reusable control: items [{id,label,n,color}], checked Set, onChange(set). */
+function MultiSelect(host,{label,noun,items,checked,onChange,quick,open=false,fmtN=fmt}){
+  const all=new Set(items.map(i=>i.id));
+  const state={checked:new Set(checked),open};
+  const uid='ms'+Math.random().toString(36).slice(2,7);
+  host.classList.add('ms');
+  host.innerHTML=`<button type="button" class="ms-btn" aria-haspopup="true" aria-expanded="false" aria-controls="${uid}"><span class="t"></span><span class="badge" hidden></span>${CHEV}</button>
+  <div class="ms-panel" id="${uid}" role="group" aria-label="${label}" hidden>
+    <div class="ms-head"><span class="cnt"></span><span><button type="button" class="ms-act" data-a="all">All</button> · <button type="button" class="ms-act" data-a="none">Clear</button></span></div>
+    <div class="ms-list"></div>
+    ${quick?`<div class="ms-foot"><span>Quick pick</span><button type="button" class="ms-quick">${quick.label}</button></div>`:''}
+  </div>`;
+  const btn=host.querySelector('.ms-btn'),panel=host.querySelector('.ms-panel'),list=host.querySelector('.ms-list');
+  list.innerHTML=items.map(i=>`<label class="ms-row" data-id="${i.id}"><input type="checkbox" value="${i.id}"><span class="sw" style="background:${i.color}"></span><span class="nm">${i.label}</span><span class="ct">${fmtN(i.n)}</span></label>`).join('');
+  function text(){
+    const c=state.checked,k=c.size,m=items.length;
+    if(k===m)return `All ${noun}`;
+    if(k===0)return `No ${noun}`;
+    if(k===1)return items.find(i=>c.has(i.id)).label;
+    if(m-k===1)return 'All but '+items.find(i=>!c.has(i.id)).label;
+    return `${k} of ${m} ${noun}`;
+  }
+  function paint(){
+    const c=state.checked;
+    btn.querySelector('.t').textContent=text();
+    btn.classList.toggle('on',c.size!==items.length);
+    const b=btn.querySelector('.badge');b.hidden=c.size===items.length;b.textContent=c.size+'/'+items.length;
+    host.querySelector('.cnt').textContent=c.size+' of '+items.length+' shown';
+    list.querySelectorAll('.ms-row').forEach(r=>{const on=c.has(r.dataset.id);r.classList.toggle('off',!on);r.querySelector('input').checked=on});
+    btn.setAttribute('aria-expanded',String(state.open));panel.hidden=!state.open;
+  }
+  function set(next){state.checked=next;paint();onChange(new Set(next))}
+  btn.addEventListener('click',()=>{state.open=!state.open;paint()});
+  list.addEventListener('change',e=>{const n=new Set(state.checked);e.target.checked?n.add(e.target.value):n.delete(e.target.value);set(n)});
+  host.querySelectorAll('.ms-act').forEach(a=>a.addEventListener('click',()=>set(a.dataset.a==='all'?new Set(all):new Set())));
+  if(quick)host.querySelector('.ms-quick').addEventListener('click',()=>set(quick.pick(all)));
+  document.addEventListener('pointerdown',e=>{if(state.open&&!host.contains(e.target)){state.open=false;paint()}});
+  host.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.open){state.open=false;paint();btn.focus()}});
+  paint();onChange(new Set(state.checked));
+}
+
+/* ---------- Laws board ---------- */
+function lawsBoard(root,mobile){
+  const L=DATA.laws,G=L.groups;
+  const items=G.map((g,i)=>({id:g.id,label:g.label,n:g.n,color:LAW_COLORS[i]}));
+  const total=G.reduce((s,g)=>s+g.n,0);
+  root.innerHTML=`<div class="bar"><div class="row">
+    <div class="ctrls">
+      <div class="fld"><span class="lab">Policy area</span><div class="msHost"></div></div>
+      <label class="fld"><span class="lab">Vote</span><select class="sel" aria-label="Vote"><option>Any vote</option></select></label>
+      <div class="chk-wrap" style="display:flex;align-items:center;gap:4px"><label class="chk"><input type="checkbox">Major laws</label><span class="q">?</span></div>
+    </div>
+    <div class="slider"><div style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div class="trk"><i></i><b></b><b></b></div><div class="tband">${[['#c24a3a',3],['#3a66c2',4],['#c24a3a',5],['#3a66c2',2],['#c24a3a',3],['#3a66c2',2]].map(([c,w])=>`<span style="--c:${c};flex:${w}"></span>`).join('')}</div></div><div class="rd">1973–2026</div></div></div>
+  </div></div>
+  <div class="main"><div class="card"><h2>Laws enacted per Congress, by policy area</h2>
+    <div class="tally"><b class="n"></b><span>laws shown of ${fmt(total)}</span><span class="pct"></span></div>
+    <svg class="ch" role="img" aria-label="Stacked bars of laws per Congress"></svg><div class="legend"></div>
+    <p class="dn">Data notes · counts are laws by their primary policy area, grouped into eight topics (as on the live page).</p>
+  </div></div>`;
+  const svg=root.querySelector('svg'),legend=root.querySelector('.legend');
+  function draw(set){
+    const idx=G.map((g,i)=>set.has(g.id)?i:-1).filter(i=>i>=0);
+    const sums=L.congresses.map(c=>idx.reduce((s,i)=>s+L.counts[c][i],0));
+    const shown=sums.reduce((a,b)=>a+b,0);
+    root.querySelector('.n').textContent=fmt(shown);
+    root.querySelector('.pct').textContent=Math.round(100*shown/total)+'%';
+    const W=mobile?358:1090,H=mobile?190:230,pl=30,pb=18,pt=6,max=Math.max(10,...sums);
+    const step=max>400?200:max>200?100:max>100?50:max>50?20:10,top=Math.ceil(max/step)*step;
+    const bw=(W-pl)/L.congresses.length;
+    let s='';
+    for(let t=0;t<=top;t+=step){const y=pt+(H-pt-pb)*(1-t/top);s+=`<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl-5}" y="${y+3}" text-anchor="end">${t}</text>`}
+    L.congresses.forEach((c,ci)=>{let acc=0;idx.forEach(i=>{const n=L.counts[c][i];if(!n)return;const y1=pt+(H-pt-pb)*(1-(acc+n)/top),hh=(H-pt-pb)*n/top;s+=`<rect x="${pl+ci*bw+1}" y="${y1}" width="${Math.max(1,bw-2)}" height="${hh}" fill="${items[i].color}"/>`;acc+=n});
+      if(ci%(mobile?4:2)===0)s+=`<text x="${pl+ci*bw+bw/2}" y="${H-4}" text-anchor="middle">${c}</text>`});
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=s;
+    legend.innerHTML=idx.length?idx.map(i=>`<span><i style="background:${items[i].color}"></i>${items[i].label}</span>`).join(''):'<span>Nothing ticked: tick at least one policy area.</span>';
+  }
+  MultiSelect(root.querySelector('.msHost'),{label:'Policy area',noun:'policy areas',items,checked:items.filter(i=>i.id!=='commemorations').map(i=>i.id),onChange:draw,open:true,
+    quick:{label:'Skip commemorations',pick:all=>{const s=new Set(all);s.delete('commemorations');return s}}});
+}
+lawsBoard(document.getElementById('laws-d'),false);
+lawsBoard(document.getElementById('laws-p'),true);
+
+/* ---------- three more filters ---------- */
+function miniBoard(id,{title,why,label,noun,data,unit,pick,fmtN,sumFmt}){
+  const root=document.getElementById(id);
+  root.innerHTML=`<h4>${title}</h4><p class="why">${why}</p><label class="fld"><span class="lab">${label}</span><div class="h"></div></label><div class="tally"><b class="n"></b><span class="u"></span></div><div class="share"></div>`;
+  const total=data.reduce((s,d)=>s+d.n,0),max=Math.max(...data.map(d=>d.n));
+  function draw(set){
+    const shown=data.filter(d=>set.has(d.id)).reduce((s,d)=>s+d.n,0);
+    root.querySelector('.n').textContent=sumFmt(shown);
+    root.querySelector('.u').textContent=`${unit} of ${sumFmt(total)} · ${Math.round(100*shown/total)}%`;
+    root.querySelector('.share').innerHTML=data.map(d=>`<div class="sh ${set.has(d.id)?'':'gone'}"><span>${d.label}</span><span class="bx"><i style="width:${100*d.n/max}%;background:${d.color}"></i></span><span class="v">${set.has(d.id)?Math.round(100*d.n/shown)+'%':'—'}</span></div>`).join('');
+  }
+  MultiSelect(root.querySelector('.h'),{label,noun,items:data,checked:data.filter(d=>pick(d)).map(d=>d.id),onChange:draw,fmtN});
+}
+miniBoard('eo',{title:'Executive orders · Topic',why:'Government operations is 23% of all orders. Untick it to see the policy mix.',label:'Topic',noun:'topics',data:DATA.eo.items,unit:'orders',pick:d=>d.id!=='government_operations',fmtN:fmt,sumFmt:fmt});
+miniBoard('aid',{title:'Foreign aid · Sector',why:'Peace and security is 39% of the money. Untick it to compare the rest ($ billions, disbursed 2001 on).',label:'Sector',noun:'sectors',data:DATA.aid.items,unit:'disbursed',pick:d=>d.id!=='Peace and Security',fmtN:n=>'$'+n.toFixed(0)+'B',sumFmt:n=>'$'+Math.round(n).toLocaleString('en-US')+'B'});
+miniBoard('dec',{title:'Decisions · Issue area',why:'Compare two or three areas side by side, no "Other areas (n)" bucket needed. Starts as Criminal procedure + Civil rights + First Amendment.',label:'Issue area',noun:'issue areas',data:DATA.dec.items,unit:'cases',pick:d=>['criminal-procedure','civil-rights','first-amendment'].includes(d.id),fmtN:fmt,sumFmt:fmt});
+</script>
+</body>
+</html>

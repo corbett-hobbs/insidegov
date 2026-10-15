@@ -9,7 +9,7 @@ import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useZoomPan } from "@/components/charts/use-zoom-pan";
 import { ZoomControls } from "@/components/charts/ZoomControls";
-import { SECTOR_LABEL, SLOT_NAME, formatAidMoney, militaryShareAvailable, slotOfSector } from "@/lib/foreign-aid-derive";
+import { SLOT_NAME, formatAidMoney, militaryShareAvailable, sectorName, slotOfSector } from "@/lib/foreign-aid-derive";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
 import { DOLLAR_MIX, SHARE_BINS, SHARE_MIX, buildPathIndex, dollarBins, dollarClass, nodeValue, notOnMap, shareClass, undrawnCountries, type NodeValue } from "@/lib/foreign-aid-map";
 import { useAidState } from "./ForeignAidState";
@@ -39,7 +39,7 @@ const MAX_ZOOM = 8;
  * marker. Regional and global programs and entities with no outline are stated under the map.
  */
 export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function MapCard({ map }, ref) {
-  const { data, year, range, setYear, sector, country, toggleCountry, isPartial } = useAidState();
+  const { data, year, range, setYear, secs, sole, country, toggleCountry, isPartial } = useAidState();
   const [pick, setPick] = useState<Pick>({ key: "dollars", reversed: false });
   const tip = useTooltip<Hit>();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -54,7 +54,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
   const { k, cx, cy } = zoom.view;
   const vb = { x: ((cx + 1) / 2) * map.width - map.width / (2 * k), y: ((1 - cy) / 2) * map.height - map.height / (2 * k), w: map.width / k, h: map.height / k };
   const yi = year - data.payload.years[0];
-  const shareOk = militaryShareAvailable(sector);
+  const shareOk = militaryShareAvailable(secs);
   const share = pick.key === "share" && shareOk;
   const reversed = (share ? pick.key === "share" : pick.key === "dollars") && pick.reversed;
   const names = data.payload.countries;
@@ -63,23 +63,23 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
   const undrawn = useMemo(() => undrawnCountries(data, map), [data, map]);
   const pathValue = useMemo(() => {
     const m = new Map<string, NodeValue>();
-    for (const [k, cis] of pathIndex) m.set(k, nodeValue(data, cis, yi, sector));
+    for (const [k, cis] of pathIndex) m.set(k, nodeValue(data, cis, yi, secs));
     return m;
-  }, [data, pathIndex, yi, sector]);
+  }, [data, pathIndex, yi, secs]);
   const markers = useMemo(
     () =>
       map.recipients
         .filter((r) => r.marker)
         .map((r) => {
           const ci = names.findIndex((c) => c.name === r.name);
-          return { name: r.name, ci, x: r.marker!.x, y: r.marker!.y, value: nodeValue(data, [ci], yi, sector) };
+          return { name: r.name, ci, x: r.marker!.x, y: r.marker!.y, value: nodeValue(data, [ci], yi, secs) };
         })
         .filter((m) => m.value.v !== 0),
-    [map, names, data, yi, sector],
+    [map, names, data, yi, secs],
   );
 
-  const bins = dollarBins(sector);
-  const base = share ? "var(--sector-ps)" : sector < 0 ? "var(--ink)" : slotColor(slotOfSector(sector));
+  const bins = dollarBins(secs);
+  const base = share ? "var(--sector-ps)" : sole === null ? "var(--ink)" : slotColor(slotOfSector(sole));
   const mixes = share ? SHARE_MIX : DOLLAR_MIX;
   const fillOf = (v: NodeValue) => {
     const c = share ? shareClass(v.v, v.m) : dollarClass(v.v, bins);
@@ -109,20 +109,20 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
   const onClick = (e: React.MouseEvent<SVGSVGElement>) => {
     const h = hitFor(e.target as Element);
     if (!h || !h.cis.length) return;
-    toggleCountry(h.cis.find((c) => nodeValue(data, [c], yi, sector).v !== 0) ?? h.cis[0]);
+    toggleCountry(h.cis.find((c) => nodeValue(data, [c], yi, secs).v !== 0) ?? h.cis[0]);
   };
 
-  const n = notOnMap(data, undrawn, year, sector);
+  const n = notOnMap(data, undrawn, year, secs);
   const pct = (a: number, b: number) => Math.round((a / b) * 100);
-  const sectorWord = sector === 0 ? "Peace and security" : "all";
+  const sectorWord = sole === 0 ? "Peace and security" : "all";
   const rowsAll = useMemo(() => {
     const out: { ci: number; v: number; m: number }[] = [];
     for (let c = 0; c < data.nc; c++) {
-      const v = nodeValue(data, [c], yi, sector);
+      const v = nodeValue(data, [c], yi, secs);
       if (v.v !== 0) out.push({ ci: c, v: v.v, m: v.m });
     }
     return out.sort((a, b) => b.v - a.v);
-  }, [data, yi, sector]);
+  }, [data, yi, secs]);
 
   // The three leading recipients (by dollars, or by military share in that view), named on the map.
   const callouts = useMemo(() => {
@@ -183,7 +183,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
               {
                 key: "share",
                 label: "Military share",
-                hint: shareOk ? "Highest military share first; click again to reverse the list" : "Military assistance sits within Peace and Security, so this view needs Sector set to All or Peace and security.",
+                hint: shareOk ? "Highest military share first; click again to reverse the list" : "Military assistance sits within Peace and Security, so this view needs Peace and security among the ticked sectors.",
                 disabled: !shareOk,
               },
             ]}
@@ -288,7 +288,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
       <MethodologyNote>
         <p>
         {share ? (
-          <>Each country’s military assistance as a share of its {sector === 0 ? "Peace and security" : "total"} disbursements in FY{year}.</>
+          <>Each country’s military assistance as a share of its {sole === 0 ? "Peace and security" : "total"} disbursements in FY{year}.</>
         ) : (
           <>
             <b className="font-semibold text-ink">Not on the map:</b> {formatAidMoney(n.programs)}
@@ -324,9 +324,8 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
 });
 
 function MapTip({ hit, year }: { hit: Hit; year: number }) {
-  const { sector, isPartial, data } = useAidState();
+  const { sole, isPartial, data } = useAidState();
   const { v, m, slots } = hit.value;
-  const sectorName = sector >= 0 ? data.payload.sectors[sector] : "";
   const top = slots.map((s, k) => [s, k] as const).filter(([s]) => s > 0).sort((a, b) => b[0] - a[0]).slice(0, 3);
   return (
     <div>
@@ -340,10 +339,10 @@ function MapTip({ hit, year }: { hit: Hit; year: number }) {
       ) : (
         <>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 14, marginTop: 4 }}>
-            <span>{sector >= 0 ? (SECTOR_LABEL[sectorName as keyof typeof SECTOR_LABEL] ?? sectorName) : "Total"}</span>
+            <span>{sole !== null ? sectorName(data, sole) : "Total"}</span>
             <span className="tt-mono">{formatAidMoney(v)}</span>
           </div>
-          {sector < 0 &&
+          {sole === null &&
             top.map(([s, k]) => (
               <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 14, opacity: 0.85 }}>
                 <span>

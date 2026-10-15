@@ -15,16 +15,16 @@ import { SectorLegend, slotColor } from "./shared";
  * inside its box and never auto-scrolls.
  */
 export function RankedList({ mode, reversed }: { mode: "dollars" | "share"; reversed: boolean }) {
-  const { data, year, sector, country, toggleCountry } = useAidState();
+  const { data, year, secs, sole, country, toggleCountry } = useAidState();
   const yi = year - data.payload.years[0];
-  const ranked = useMemo(() => rankCountries(data, year, sector), [data, year, sector]);
+  const ranked = useMemo(() => rankCountries(data, year, secs), [data, year, secs]);
   const names = data.payload.countries;
   const [pick, setPick] = useState<number | null>(null);
-  const only = sector < 0 ? pick : null;
+  const only = sole === null ? pick : null;
 
   const list = useMemo(() => {
     const items = ranked.map((r) => {
-      const mil = countryMilitary(data, r.ci, yi, sector);
+      const mil = countryMilitary(data, r.ci, yi, secs);
       return { r, mil, share: r.value > 0 ? mil / r.value : 0 };
     });
     // Largest first; ranked already comes back dollars-descending, so Dollars only needs `reversed`.
@@ -32,7 +32,7 @@ export function RankedList({ mode, reversed }: { mode: "dollars" | "share"; reve
     if (mode === "share") items.sort((a, b) => Math.round(b.share * 100) - Math.round(a.share * 100) || b.mil - a.mil || b.r.value - a.r.value);
     if (reversed) items.reverse();
     return items;
-  }, [ranked, mode, reversed, data, yi, sector]);
+  }, [ranked, mode, reversed, data, yi, secs]);
 
   const scaleMax = Math.max(1, ...ranked.map((r) => Math.max(0, only !== null ? r.slots[only] : r.value)));
   // No comparison (FY2001, a partial year): no column at all, rather than a column of dashes.
@@ -45,7 +45,7 @@ export function RankedList({ mode, reversed }: { mode: "dollars" | "share"; reve
     total: mode === "share" ? (share > 0 ? `${Math.round(share * 100)}%` : "–") : (only !== null ? formatAidMoney(r.slots[only]) : formatAidMoney(r.value)),
     // Dollars: the change in dollars from the prior full year ("–" where not comparable: FY2001 and partial years). Military share mode:
     // the military dollars behind the share, in the same column.
-    delta: mode === "share" ? (share > 0 ? formatAidMoney(mil) : undefined) : deltaText(only !== null ? slotDeltaVsPrior(data, year, r.ci, sector, r.slots, only) : r.delta),
+    delta: mode === "share" ? (share > 0 ? formatAidMoney(mil) : undefined) : deltaText(only !== null ? slotDeltaVsPrior(data, year, r.ci, secs, r.slots, only) : r.delta),
     selected: r.ci === country,
     dimmed: country >= 0 && r.ci !== country,
   }));

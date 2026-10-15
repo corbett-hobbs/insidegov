@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { decodeAid, type AidData } from "@/lib/foreign-aid-derive";
 import type { AidPayload } from "@/lib/foreign-aid-types";
+import { soleOf, type Picked } from "@/lib/multi-select";
 
 /**
  * The foreign-aid page's one source of truth: the selected fiscal year, president, country and
@@ -13,7 +14,8 @@ import type { AidPayload } from "@/lib/foreign-aid-types";
  *   president filter). The selected year is always clamped into it.
  * - `country` is an index into `data.payload.countries` (-1 = all). Comparison charts highlight it
  *   and dim the rest; time series show that country's own dollars.
- * - `sector` is an index into `data.payload.sectors` (-1 = all).
+ * - `secs` is the set of ticked indexes into `data.payload.sectors` (null = all). `sole` is the one sector when exactly
+ *   one is ticked, else null: a single sector draws in its own colour, several split by sector slot.
  */
 export interface AidState {
   data: AidData;
@@ -21,7 +23,8 @@ export interface AidState {
   /** Fiscal years the page shows, inclusive. */
   range: [number, number];
   country: number;
-  sector: number;
+  secs: Picked<number>;
+  sole: number | null;
   isPartial: (fy: number) => boolean;
   setYear: (fy: number) => void;
   /** Set the shown window (the two-handle slider); the selected year jumps to its last year. */
@@ -29,7 +32,7 @@ export interface AidState {
   /** Select `ci`, or clear it when it is already selected. */
   toggleCountry: (ci: number) => void;
   setCountry: (ci: number) => void;
-  setSector: (si: number) => void;
+  setSecs: (s: Picked<number>) => void;
 }
 
 const Ctx = createContext<AidState | null>(null);
@@ -46,7 +49,8 @@ export function AidStateProvider({ payload, children }: { payload: AidPayload; c
   const last = payload.years[payload.years.length - 1];
   const [year, setYearRaw] = useState(payload.defaultYear);
   const [country, setCountry] = useState(-1);
-  const [sector, setSector] = useState(-1);
+  const [secs, setSecs] = useState<Picked<number>>(null);
+  const sole = soleOf(secs);
   const [range, setRangeRaw] = useState<[number, number]>([first, last]);
 
   const setYear = useCallback((fy: number) => setYearRaw(Math.min(range[1], Math.max(range[0], fy))), [range]);
@@ -58,8 +62,8 @@ export function AidStateProvider({ payload, children }: { payload: AidPayload; c
   const partial = useMemo(() => new Set(payload.partialYears), [payload.partialYears]);
 
   const value = useMemo<AidState>(
-    () => ({ data, year, range, country, sector, isPartial: (fy) => partial.has(fy), setYear, setRange, toggleCountry, setCountry, setSector }),
-    [data, year, range, country, sector, partial, setYear, setRange, toggleCountry],
+    () => ({ data, year, range, country, secs, sole, isPartial: (fy) => partial.has(fy), setYear, setRange, toggleCountry, setCountry, setSecs }),
+    [data, year, range, country, secs, sole, partial, setYear, setRange, toggleCountry],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

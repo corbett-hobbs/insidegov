@@ -4,7 +4,6 @@ import { z } from "zod";
 import { administration } from "./executive-orders-entities";
 import { congressControlFile } from "./congress-control";
 import {
-  ALL_GROUPS,
   ALL_ROW,
   GROUP_KEY_FOR_BAND,
   GROUP_MEASURES,
@@ -19,12 +18,15 @@ import {
   tallyText,
   buildLawsPayload,
   cellFor,
-  filterGroups,
   groupCountsByCongress,
   noVoteShare,
   openYear,
   presidentTerms,
   seriesOf,
+  bandsLabel,
+  filterLabel,
+  groupOptions,
+  groupWindowTotals,
   signedMostByCongress,
   signedMostSegments,
   totalsByCongress,
@@ -271,7 +273,7 @@ describe("groupCountsByCongress and buildLawsPayload", () => {
 describe("the Laws page derivations (over the committed files)", () => {
   const control = congressControlFile.parse(JSON.parse(readFileSync("pipeline/reference/congress-control.json", "utf8")));
   const p = buildLawsPayload(counts, laws, meta, admins, control.rows);
-  const all = filterGroups(p, ALL_GROUPS);
+  const all = null;
 
   it("opens the 93rd in 1973 and spans 1973 to the second year of the latest Congress", () => {
     expect(openYear(93)).toBe(1973);
@@ -359,7 +361,7 @@ describe("the list of every law and card 3", () => {
   const sponsors = (id: string): [string, string, "D" | "R" | "I", string | null] => [`Rep. ${id}`, "D-XX", "D", null];
   const list = buildLawsList(laws, meta, admins, (id) => sponsors(id));
   const all = (): [number, number] => [0, p.congresses.length - 1];
-  const filt = { window: all(), congress: null, group: "", major: false, band: null } as const;
+  const filt = { window: all(), congress: null, groups: null, major: false, bands: null } as const;
 
   it("carries every law once, newest first", () => {
     expect(list.rows).toHaveLength(laws.length);
@@ -380,20 +382,48 @@ describe("the list of every law and card 3", () => {
   });
   it("counts the same laws as the charts under any filter", () => {
     expect(filterLaws(p, list.rows, filt)).toHaveLength(laws.length);
-    const fromCharts = (group: string, major: boolean, band: number | null, a: number, b: number) => {
+    const fromCharts = (groups: Set<string> | null, major: boolean, bands: Set<number> | null, a: number, b: number) => {
       let n = 0;
       for (let ci = a; ci <= b; ci++) {
-        const c = cellFor(p, ci, filterGroups(p, group), major);
-        n += band === null ? c.n : c.bands[band]!;
+        const c = cellFor(p, ci, groups, major);
+        n += bands === null ? c.n : c.bands.reduce((t, v, k) => t + (bands.has(k) ? v : 0), 0);
       }
       return n;
     };
-    for (const [group, major, band] of [["", true, null], ["", false, 1], [seriesOf(p)[0]!.groups[0]!, false, null], [seriesOf(p)[3]!.groups[0]!, true, 0]] as const) {
+    const g = (i: number) => seriesOf(p)[i]!.groups[0]!;
+    const cases: [Set<string> | null, boolean, Set<number> | null][] = [
+      [null, true, null],
+      [null, false, new Set([1])],
+      [new Set([g(0)]), false, null],
+      [new Set([g(3)]), true, new Set([0])],
+      [new Set([g(1), g(2)]), false, new Set([0, 4])], // several groups and several bands
+      [new Set(seriesOf(p).flatMap((s) => s.groups).filter((id) => id !== g(0))), true, new Set([1, 2, 3])], // everything but one group
+      [new Set(), false, null], // Clear, before the first tick: nothing
+    ];
+    for (const [groups, major, bands] of cases) {
       const w = windowIndexes(p, [1990, 2010], major);
-      expect(filterLaws(p, list.rows, { window: w, congress: null, group, major, band }), `${group}/${major}/${band}`).toHaveLength(fromCharts(group, major, band, w[0], w[1]));
+      expect(filterLaws(p, list.rows, { window: w, congress: null, groups, major, bands }), `${[...(groups ?? [])]}/${major}/${[...(bands ?? [])]}`).toHaveLength(fromCharts(groups, major, bands, w[0], w[1]));
     }
     expect(filterLaws(p, list.rows, { ...filt, congress: 93 })).toHaveLength(651);
     expect(filterLaws(p, list.rows, { ...filt, congress: 118 })).toHaveLength(274);
+  });
+  it("words the policy-area and vote filters, and totals laws per group for the control", () => {
+    const opts = groupOptions(p);
+    expect(opts.map((o) => o.id)).toEqual(seriesOf(p).flatMap((s) => s.groups));
+    expect(filterLabel(p, null)).toBe("All policy areas");
+    expect(filterLabel(p, new Set())).toBe("No policy areas");
+    expect(filterLabel(p, new Set([opts[0]!.id]))).toBe(opts[0]!.label);
+    expect(filterLabel(p, new Set(opts.slice(1).map((o) => o.id)))).toBe(`All but ${opts[0]!.label}`);
+    expect(filterLabel(p, new Set(opts.slice(0, 2).map((o) => o.id)))).toBe(`2 of ${opts.length} policy areas`);
+    expect(bandsLabel(null)).toBe("Any vote");
+    expect(bandsLabel(new Set([0, 4]))).toBe("90%+ or Voice vote");
+    expect(bandsLabel(new Set())).toBe("No votes");
+    const w = windowIndexes(p, [1990, 2010], false);
+    const totals = groupWindowTotals(p, w, false);
+    let sum = 0;
+    for (let ci = w[0]; ci <= w[1]; ci++) sum += cellFor(p, ci, null, false).n;
+    expect([...totals.values()].reduce((a, b) => a + b, 0)).toBe(sum);
+    expect(groupWindowTotals(p, [0, -1], false).get(opts[0]!.id)).toBe(0);
   });
   it("searches every word across name, bill, sponsor, area and Pub. L. number", () => {
     expect(matchLaws(p, list, list.rows, "").length).toBe(laws.length);

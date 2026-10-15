@@ -9,9 +9,10 @@ import { StackedArea } from "@/components/charts/StackedArea";
 import { Swatch, TableView, TooltipCard } from "@/components/decisions/shared";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { buildStacks, fmtInt, fmtPct, median } from "@/lib/decisions-derive";
+import { isPicked, soleOf, toggleOnly } from "@/lib/multi-select";
 import { ordinal } from "@/lib/demographics-chart";
 import type { SplitMode } from "@/lib/decisions-types";
-import { SMALL_LAWS_MEDIAN, SUPPORT_COLORS, SUPPORT_ORDER, SUPPORT_LABELS, SUPPORT_SHORT, cellFor, filterGroups, filterLabel, noVoteShare, openYear, signedMostSegments } from "@/lib/laws-derive";
+import { SMALL_LAWS_MEDIAN, SUPPORT_COLORS, SUPPORT_ORDER, SUPPORT_LABELS, SUPPORT_SHORT, cellFor, filterLabel, noVoteShare, openYear, signedMostSegments } from "@/lib/laws-derive";
 import type { BandCounts } from "@/lib/laws-types";
 import { EmptyWindow, congressSub, congressTitle, controlRowsFor } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
@@ -33,25 +34,26 @@ const share = (b: readonly number[], k: number): number => {
  * narrows card 1; going back to Share clears it. Few laws per Congress (a thin area, or major laws only) get a note; the chart is never hidden.
  */
 export function LawsSupportCard() {
-  const { data, group, major, band: iso, control, window: win, hover, pin } = useLawsValues();
-  const { moveHover, leaveHover, togglePin, pinCongress, clearPin, setBand } = useLawsActions();
+  const { data, groups, major, bands, control, window: win, hover, pin } = useLawsValues();
+  const { moveHover, leaveHover, togglePin, pinCongress, clearPin, setBands } = useLawsActions();
+  // `iso` is the one band drawn alone (the legend's pick, or the only band ticked in the bar); several ticked bands stack, in the count view.
+  const iso = soleOf(bands);
   const [mode, setModeRaw] = useState<SplitMode>("share");
-  const eff: SplitMode = iso !== null ? "count" : mode;
+  const eff: SplitMode = bands !== null ? "count" : mode;
   const setMode = (m: SplitMode) => {
     setModeRaw(m);
-    if (m === "share") setBand(null);
+    if (m === "share") setBands(null);
   };
   const pick = (k: number) => {
-    setBand(iso === k ? null : k);
+    setBands(toggleOnly(bands, k));
     setModeRaw("count");
   };
 
-  const groups = useMemo(() => filterGroups(data, group), [data, group]);
   const idx = useMemo(() => Array.from({ length: Math.max(0, win[1] - win[0] + 1) }, (_, i) => win[0] + i), [win]);
   const congresses = useMemo(() => idx.map((ci) => data.congresses[ci]!), [idx, data]);
   const cells = useMemo<BandCounts[]>(() => idx.map((ci) => cellFor(data, ci, groups, major).bands), [idx, data, groups, major]);
   const segs = useMemo(() => signedMostSegments(data, idx), [data, idx]);
-  const vis = useMemo(() => (iso === null ? BANDS : [iso]), [iso]);
+  const vis = useMemo(() => BANDS.filter((k) => isPicked(bands, k)), [bands]);
   const stacks = useMemo(() => buildStacks(cells, eff, vis), [cells, eff, vis]);
   const ctl = controlRowsFor(data, control, win[0], win[1]);
 
@@ -60,7 +62,7 @@ export function LawsSupportCard() {
   const total = sum.reduce((a, b) => a + b, 0);
   const lo = idx.length ? openYear(data.congresses[idx[0]!]!) : 0;
   const hi = idx.length ? openYear(data.congresses[idx[idx.length - 1]!]!) + 1 : 0;
-  const who = `${major ? "Major laws, " : ""}${filterLabel(data, group)}`;
+  const who = `${major ? "Major laws, " : ""}${filterLabel(data, groups)}`;
   const lede = total
     ? `${who}, ${lo}–${hi}: ${fmtPct(share(sum, 0))} of ${fmtInt(total)} laws were passed by voice vote or consent in both chambers, ${fmtPct(share(sum, 4))} passed with at least 90% yes and ${fmtPct(share(sum, 1))} with under 60%.`
     : "No laws in this selection.";
@@ -87,6 +89,8 @@ export function LawsSupportCard() {
     >
       {idx.length === 0 ? (
         <EmptyWindow majorThrough={data.majorThrough} />
+      ) : vis.length === 0 ? (
+        <p className="m-0 rounded-md border border-dashed border-line-strong p-4 text-[0.82rem] text-ink-muted">No vote band is ticked. Tick one in the filter bar, or choose Any vote.</p>
       ) : (
         <StackedArea
           slots={congresses}
@@ -132,7 +136,7 @@ export function LawsSupportCard() {
       )}
       <div className={`mt-2 ${LEGEND_ROW}`}>
         {BANDS.map((k) => (
-          <LegendToggle key={k} active={iso === k} dimmed={iso !== null && iso !== k} onClick={() => pick(k)}>
+          <LegendToggle key={k} active={iso === k} dimmed={!isPicked(bands, k)} onClick={() => pick(k)}>
             <span className={LEGEND_ITEM}>
               <Swatch color={SUPPORT_COLORS[k]!} />
               {SUPPORT_LABELS[k]}
