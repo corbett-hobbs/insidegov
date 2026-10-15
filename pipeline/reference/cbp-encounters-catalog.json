@@ -491,7 +491,7 @@
         "ofo"
       ],
       "title": "What an encounter is",
-      "text": "CBP counts three things as encounters: Border Patrol apprehensions of people caught between ports of entry, people who came to a port of entry and were found inadmissible by the Office of Field Operations (OFO), and expulsions under the Title 42 public-health order (March 2020 to May 11, 2023). An apprehension is not necessarily an arrest.",
+      "text": "CBP counts three things as encounters: Border Patrol apprehensions of people caught between ports of entry (the official crossings), people who came to a port of entry and were found inadmissible, meaning not allowed in, by CBP's Office of Field Operations (the officers at the ports), and expulsions under the Title 42 public-health order (March 2020 to May 11, 2023). An apprehension is not necessarily an arrest.",
       "source": "cbp-southwest-page",
       "evidence": [
         "Encounter data includes U.S. Border Patrol (USBP) Title 8 Apprehensions, Office of Field Operations (OFO) Title 8 Inadmissibles, and Title 42 Expulsions.",
@@ -508,7 +508,7 @@
         "ofo"
       ],
       "title": "Who counts as inadmissible at a port of entry",
-      "text": "OFO's count includes people found inadmissible when they seek admission, people who present themselves at a port to seek humanitarian protection, and people who withdraw their application for admission and return home within a short time.",
+      "text": "The port-of-entry count includes people found inadmissible when they seek admission, people who present themselves at a port to seek humanitarian protection, and people who withdraw their application for admission and return home within a short time.",
       "source": "cbp-southwest-page",
       "evidence": [
         "Inadmissibles refers to individuals encountered at ports of entry (POEs) by OFO who are seeking lawful admission into the United States (U.S.) but are determined to be inadmissible, individuals presenting themselves to seek humanitarian protection under our laws, and individuals who withdraw an application for admission and return to their countries of origin within a short timeframe."
@@ -594,7 +594,7 @@
         "ofo"
       ],
       "title": "FY2004–FY2014 port figures come from DHS statistics",
-      "text": "CBP's own published OFO figures start in FY2015. For FY2004–FY2014 the series uses the same CBP records as republished by the DHS Office of Homeland Security Statistics, rounded to the nearest ten. Where both exist (FY2014–FY2024) they agree within 1%.",
+      "text": "CBP's own published port-of-entry figures start in FY2015. For FY2004–FY2014 the series uses the same CBP records as republished by the DHS Office of Homeland Security Statistics, rounded to the nearest ten. Where both exist (FY2014–FY2024) they agree within 1%.",
       "source": "ohss-yearbook-2023-enforcement",
       "evidence": [
         "To protect privacy, table cells are rounded to the nearest ten."
@@ -672,7 +672,7 @@
         "ofo"
       ],
       "title": "Port figures include CBP One appointments and parole arrivals",
-      "text": "From January 2023 the port-of-entry count includes people who booked an appointment through the CBP One app to present at a port, and people paroled in at ports, including Cubans, Haitians, Nicaraguans and Venezuelans flying in under the parole processes. This is most of the rise in OFO encounters in FY2023–FY2024.",
+      "text": "From January 2023 the port-of-entry count includes people who booked an appointment through the CBP One app to present at a port, and people paroled in at ports, including Cubans, Haitians, Nicaraguans and Venezuelans flying in under the parole processes. This is most of the rise in port-of-entry encounters in FY2023–FY2024.",
       "source": "cbp-release-2023-02",
       "evidence": [
         "This total includes Border Patrol encounters and includes noncitizens processed at Ports of Entry including individuals who sought an exception to the Title 42 public health order based on certain vulnerabilities and scheduled an appointment to present in advance via the CBP One mobile application.",
@@ -693,7 +693,7 @@
         "ofo"
       ],
       "title": "Paroled people are in the port count",
-      "text": "OFO's count includes administrative encounters that never lead to removal proceedings, such as foreign ship crews required to stay aboard and people paroled into the United States at a port.",
+      "text": "The port-of-entry count includes administrative encounters that never lead to removal proceedings, such as foreign ship crews required to stay aboard and people paroled into the United States at a port.",
       "source": "ohss-monthly-tables-2024-11",
       "evidence": [
         "persons paroled into the United States and released from OFO custody without being placed into removal proceedings."
