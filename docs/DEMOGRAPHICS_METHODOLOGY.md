@@ -42,15 +42,14 @@ definition: `docs/DEMOGRAPHICS_PREFLIGHT.md`.
 - **Congresses served.** Distinct Congresses up to and including this one with any `terms.json` row for the person, either
   chamber, gaps included, delegate service included, counted back to the 1st Congress (so a member first elected in the 63rd is
   in the top band in the 73rd). Bands, labeled in years at two years a Congress: up to 2 years (1 Congress), 3-10 (2-5), 11-20 (6-10), over 20 (11 or more). The stat strip's average time is the mean count x 2.
-- **President for a Congress.** The president in office on the Congress's first (convening) day. It differs from "who served
-  most of the Congress" in 14 of 47 Congresses, every one that convenes before the January 20 inauguration of a new president or
-  a mid-term succession: 79th (Roosevelt; Truman from April 1945), 83rd (Truman; Eisenhower), 87th (Eisenhower; Kennedy), 88th
-  (Kennedy; Johnson from Nov 1963), 91st (Johnson; Nixon), 95th (Ford; Carter), 97th (Carter; Reagan), 101st (Reagan; G.H.W.
-  Bush), 103rd (G.H.W. Bush; Clinton), 107th (Clinton; G.W. Bush), 111th (G.W. Bush; Obama), 115th (Obama; Trump), 117th
-  (Trump; Biden), 119th (Biden; Trump). Trump's second term therefore has no Congress under the rule, so it has no segment.
-- **Years-shown window.** The slider runs 1933-2027 (the 119th ends Jan 3, 2027). A Congress is drawn when the year it convened
-  is inside the window. A president's slider segment covers the years of the Congresses they opened (first convening year to
-  that Congress's second year), so terms never overlap on the slider.
+- **President for a Congress.** The president in office for most of the Congress: the most days between its convening day and
+  the next Congress's. A Congress that convenes on Jan 3 of an inauguration year goes to the incoming president (sworn in Jan
+  20), and a mid-term succession goes to whoever held the office longer: 79th Truman (Roosevelt died April 1945), 88th Johnson
+  (Kennedy died Nov 1963), 115th Trump, 117th Biden, 119th Trump. (Until Oct 2026 the rule was "in office on the convening
+  day", which gave 14 of 47 Congresses, including the 119th, to the outgoing president.)
+- **Years-shown window.** The slider runs 1933-2026, the last calendar year of the 119th (it ends Jan 3, 2027). A Congress is drawn when the year it convened
+  is inside the window. A president's slider segment covers the years of the Congresses they held most of (first convening year
+  to the last one's second year), so terms never overlap on the slider.
 
 ## Charts
 
@@ -70,4 +69,4 @@ presidential-term strip under each axis.
   435) and stay under a ceiling (Senate 120, House 470).
 - Tenure bands sum to the roster in every view (each tenure bar is 100%); Both = Senate + House - people in both chambers.
 - Fewer than 0.5% of member-Congress rows lack a birthdate; ages sit between 40 and 70.
-- The 73rd, 79th, 115th and 119th Congresses resolve to the presidents above; convening dates match the source.
+- The 73rd, 79th, 88th, 114th, 115th, 117th and 119th Congresses resolve to the presidents above; convening dates match the source.

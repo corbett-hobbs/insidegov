@@ -22,6 +22,7 @@ export function MemberTooltip({ member }: { member: ChamberMember }) {
           ? `${stateName(member.state)} · ${seatLabel(member)}`
           : stateName(member.state)}{" "}
         · {partyLabel(member)}
+        {member.isFormer && " · Former member"}
         <br />
         <span className="tt-mono">
           dim1 {fmt3(member.dim1)} &nbsp; dim2 {fmt3(member.dim2)}

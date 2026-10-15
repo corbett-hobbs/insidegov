@@ -79,7 +79,7 @@ const DEFS: readonly BranchDef[] = [
         label: "Energy",
         status: "live",
         blurb:
-          "Oil, electricity, LNG exports and the Strategic Petroleum Reserve, with the policy actions that moved them.",
+          "Oil, electricity, LNG exports and the Strategic Petroleum Reserve, with the policy actions marked.",
       },
       {
         id: "immigration",

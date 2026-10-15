@@ -197,8 +197,9 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
     return [...dots].sort((a, b) => rank(a) - rank(b));
   }, [dots, selectedId, hoverId, stateFilter]);
 
-  // Labels: the richest and poorest member (by latest net worth), plus, on wider screens, the biggest dollar
-  // gainers and losers. All of them are re-picked from the members actually in play: the chamber's cohort, or
+  // Labels: the richest and poorest member plotted (by latest net worth), plus, on wider screens, the biggest dollar
+  // gainers and losers. Only members with 2+ years are plotted, so "Richest plotted" can differ from the top of the
+  // Highest list below. All of them are re-picked from the members actually in play: the chamber's cohort, or
   // just the picked state's members when a state is highlighted.
   const standoutLabels = useMemo(() => {
     const pool = stateFilter ? cohort.filter((m) => m.state === stateFilter) : cohort;
@@ -216,8 +217,8 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter }: Props
       items.push({ member, text });
     };
     const tag = (m: WealthMember) => `${lastNameOf(m.name)} (${partyLetter(m)})`;
-    add(richest, `Richest: ${tag(richest)} ${formatCompactUSD(latestNetWorth(richest))}`);
-    if (poorest) add(poorest, `Poorest: ${tag(poorest)} ${formatCompactUSD(latestNetWorth(poorest))}`);
+    add(richest, `Richest plotted: ${tag(richest)} ${formatCompactUSD(latestNetWorth(richest))}`);
+    if (poorest) add(poorest, `Poorest plotted: ${tag(poorest)} ${formatCompactUSD(latestNetWorth(poorest))}`);
     if (!compact) {
       const { top, bottom } = pickStandouts(pool, 3);
       for (const e of [...top, ...bottom]) add(e.member, `${tag(e.member)} ${formatSignedCompactUSD(e.change)}`);

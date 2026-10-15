@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { parse } from "yaml";
 import { describe, expect, it } from "vitest";
-import { ageOn, ageYearsOn, buildDemographics, caucusGroup, conveningDate, isVotingTerm, presidentOnConvening, type DemoLegislator, type DemoTerm } from "./demographics-derive";
+import { ageOn, ageYearsOn, buildDemographics, caucusGroup, conveningDate, isVotingTerm, presidentForCongress, type DemoLegislator, type DemoTerm } from "./demographics-derive";
 import { CONVENING, tenureBand } from "./demographics-entities";
 import { legislator, term } from "./entities";
 import { administration } from "./executive-orders-entities";
@@ -145,11 +145,14 @@ describe("the real data", () => {
     const total = payload.views.both.reduce((a, r) => a + r.seats, 0);
     expect(missing / total).toBeLessThan(0.005);
   });
-  it("puts the president in office on the first day on each Congress", () => {
-    expect(presidentOnConvening(admins, 73).president).toBe("Franklin D. Roosevelt");
-    expect(presidentOnConvening(admins, 79).president).toBe("Franklin D. Roosevelt"); // Jan 1945, Truman came in April
-    expect(presidentOnConvening(admins, 115).president).toBe("Barack Obama"); // Jan 3, 2017
-    expect(presidentOnConvening(admins, 119).president).toBe("Joe Biden"); // Jan 3, 2025
+  it("puts the president in office for most of each Congress on it", () => {
+    expect(presidentForCongress(admins, 73).president).toBe("Franklin D. Roosevelt");
+    expect(presidentForCongress(admins, 79).president).toBe("Harry S. Truman"); // Roosevelt died April 1945
+    expect(presidentForCongress(admins, 88).president).toBe("Lyndon B. Johnson"); // Kennedy died Nov 1963
+    expect(presidentForCongress(admins, 114).president).toBe("Barack Obama");
+    expect(presidentForCongress(admins, 115).president).toBe("Donald Trump"); // convened Jan 3, 2017; inauguration Jan 20
+    expect(presidentForCongress(admins, 117).president).toBe("Joe Biden");
+    expect(presidentForCongress(admins, 119).term_id).toBe("2025-01-20"); // convened Jan 3, 2025: Trump's second term
     expect(payload.views.both[0].termId).toBe("1933-03-04");
   });
   it("ages run in a plausible range and the latest Congress is older than the 1970s", () => {

@@ -48,6 +48,12 @@ export interface ChamberMember {
    * navigate-on-click with `hasProfilePage()` in lib/member-url.ts.
    */
   isCurrent?: boolean;
+  /**
+   * A current-Congress member who has left office since (died, resigned or was
+   * replaced): `isCurrent` but no longer sitting. Set only on current-Congress
+   * rows, from `pipeline/output/sitting.json`.
+   */
+  isFormer?: boolean;
   /** Speaker / floor-leader post held today. Set only on current-Congress members (see `pipeline/transform/leadership.ts`). */
   leaderRole?: "speaker" | "majority_leader" | "minority_leader";
 }

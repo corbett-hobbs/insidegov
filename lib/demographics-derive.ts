@@ -71,12 +71,24 @@ export function toPresidents(admins: readonly Administration[]): DemoPresident[]
     .map((a) => ({ id: a.term_id, president: a.president, last: a.president.split(" ").pop() ?? a.president, party: a.party === "Democratic" ? "D" : "R" }));
 }
 
-/** The president in office on the Congress's convening day. */
-export function presidentOnConvening(admins: readonly Administration[], congress: number): Administration {
-  const day = conveningDate(congress);
-  const hit = [...admins].sort((a, b) => a.start.localeCompare(b.start)).filter((a) => a.start <= day).pop();
-  if (!hit) throw new Error(`demographics: no president on ${day}`);
-  return hit;
+/**
+ * The president in office for most of the Congress: the most days between its convening day and the next Congress's (two
+ * years on when that isn't known yet). A Congress that convenes on Jan 3 of an inauguration year goes to the incoming
+ * president, who takes office on Jan 20.
+ */
+export function presidentForCongress(admins: readonly Administration[], congress: number): Administration {
+  const day = (iso: string) => Date.parse(`${iso}T00:00:00Z`) / 86_400_000;
+  const from = day(conveningDate(congress));
+  const next = CONVENING[congress + 1];
+  const to = next ? day(next) : from + 730;
+  let best: Administration | undefined;
+  let bestDays = 0;
+  for (const a of admins) {
+    const days = Math.min(to, a.end ? day(a.end) + 1 : Infinity) - Math.max(from, day(a.start));
+    if (days > bestDays) [best, bestDays] = [a, days];
+  }
+  if (!best) throw new Error(`demographics: no president during the ${congress}th Congress`);
+  return best;
 }
 
 /**
@@ -116,7 +128,7 @@ export function buildDemographics(legislators: readonly DemoLegislator[], terms:
   for (let c = FIRST_DEMO_CONGRESS; c <= lastCongress; c++) {
     const date = conveningDate(c);
     const roster = byCongress.get(c) ?? new Map();
-    const termId = presidentOnConvening(admins, c).term_id;
+    const termId = presidentForCongress(admins, c).term_id;
     for (const view of ["both", "senate", "house"] as const) {
       const ages: Record<"D" | "R", number[]> = { D: [], R: [] };
       const all: number[] = [];

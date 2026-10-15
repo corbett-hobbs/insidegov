@@ -22,6 +22,7 @@ import {
   readLegislators,
   readRawCommittees,
   readRawCommitteeMembership,
+  readSittingBioguides,
   readVoteviewMembers,
   writeEntities,
   writeJson,
@@ -31,7 +32,8 @@ import {
  * Transform: raw/ -> normalized, bioguide_id-keyed JSON in output/.
  *
  * Emits id_crosswalk.json, legislators.json, terms.json, ideology_scores.json
- * (each row validated against its schema in lib/entities.ts) plus _report.json.
+ * (each row validated against its schema in lib/entities.ts), leadership.json,
+ * sitting.json (ids of the members in office today) and _report.json.
  * Fatal on a crosswalk conflict, a crosswalk/Voteview bioguide mismatch, or an
  * unresolvable Voteview row that is not in the KNOWN_UNRESOLVABLE allowlist.
  */
@@ -97,6 +99,7 @@ async function main() {
   await writeEntities("legislators", legislatorEntity, legislatorEntities);
 
   await writeJson("leadership.json", buildLeadership(legislators));
+  await writeJson("sitting.json", await readSittingBioguides());
 
   // --- terms ---------------------------------------------------------- -
   const { terms, collisions } = buildTerms(legislators, capCongress);

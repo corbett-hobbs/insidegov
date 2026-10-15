@@ -77,7 +77,7 @@ export function WomenCard({ rows, presidents, pin, onPin }: { rows: readonly Dem
         terms={segs}
         ariaLabel="Stacked bar chart of women in Congress by caucus, one bar per Congress"
         renderTooltip={(c) => (
-          <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president ? `${by.get(c.row.termId)?.president} was president on the first day` : undefined}>
+          <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president ? `${by.get(c.row.termId)?.president} was president for most of it` : undefined}>
             <div>
               Women: {womenTotal(c.row)} of {c.row.seats} members ({fmtShare(womenTotal(c.row) / (c.row.seats || 1))})
             </div>

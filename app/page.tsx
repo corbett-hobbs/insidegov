@@ -111,7 +111,8 @@ export default function Hub() {
           Explore the presidency, Congress, and the Supreme Court through{" "}
           <span className="bg-[linear-gradient(transparent_64%,#e8c877_64%)]">the public record</span>:
           executive orders, the economy, energy, trade, immigration, foreign aid,
-          troops abroad, ideology, net worth, and court decisions.
+          troops abroad, the laws Congress passes, ideology, demographics, net
+          worth, and court decisions.
         </p>
 
         <HomeBranchCard

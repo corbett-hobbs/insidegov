@@ -5,8 +5,8 @@ import type { YearRange } from "./year-range";
 import { initialsOf } from "./term-label";
 import type { DemoCongress, DemoPresident } from "./demographics-types";
 
-/** The years-shown slider runs 1933 to 2027 (the 119th Congress ends Jan 3, 2027). */
-export const SLIDER_BOUNDS: YearRange = [1933, 2027];
+/** The years-shown slider runs 1933 to 2026, the last calendar year of the 119th Congress (it ends Jan 3, 2027). */
+export const SLIDER_BOUNDS: YearRange = [1933, 2026];
 
 /** A Congress is shown when the year it convened is inside the window. */
 export function windowRows<T extends { year: number }>(rows: readonly T[], range: YearRange): T[] {
@@ -21,7 +21,7 @@ export function ordinal(n: number): string {
 
 export const presidentById = (presidents: readonly DemoPresident[]) => new Map(presidents.map((p) => [p.id, p]));
 
-/** Term-band runs for the rows shown: one slot per Congress, the president in office on its first day. */
+/** Term-band runs for the rows shown: one slot per Congress, the president in office for most of it. */
 export function termSegmentsFor(rows: readonly DemoCongress[], presidents: readonly DemoPresident[]): TermSegment[] {
   const by = presidentById(presidents);
   const out: TermSegment[] = [];
@@ -35,7 +35,7 @@ export function termSegmentsFor(rows: readonly DemoCongress[], presidents: reado
   return out;
 }
 
-/** The slider's term band: each president spans the years of the Congresses they opened (first convening year to its last second year). Presidents who opened none are left out. */
+/** The slider's term band: each president spans the years of the Congresses they held most of (first convening year to the last one's second year). Presidents who held none are left out. */
 export function bandTerms(rows: readonly DemoCongress[], presidents: readonly DemoPresident[]): BandTerm[] {
   const by = presidentById(presidents);
   const out: BandTerm[] = [];
