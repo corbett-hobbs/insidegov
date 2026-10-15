@@ -47,7 +47,7 @@ definition: `docs/DEMOGRAPHICS_PREFLIGHT.md`.
   20), and a mid-term succession goes to whoever held the office longer: 79th Truman (Roosevelt died April 1945), 88th Johnson
   (Kennedy died Nov 1963), 115th Trump, 117th Biden, 119th Trump. (Until Oct 2026 the rule was "in office on the convening
   day", which gave 14 of 47 Congresses, including the 119th, to the outgoing president.)
-- **Years-shown window.** The slider runs 1933-2027 (the 119th ends Jan 3, 2027). A Congress is drawn when the year it convened
+- **Years-shown window.** The slider runs 1933-2026, the last calendar year of the 119th (it ends Jan 3, 2027). A Congress is drawn when the year it convened
   is inside the window. A president's slider segment covers the years of the Congresses they held most of (first convening year
   to the last one's second year), so terms never overlap on the slider.
 

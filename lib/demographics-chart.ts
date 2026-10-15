@@ -5,8 +5,8 @@ import type { YearRange } from "./year-range";
 import { initialsOf } from "./term-label";
 import type { DemoCongress, DemoPresident } from "./demographics-types";
 
-/** The years-shown slider runs 1933 to 2027 (the 119th Congress ends Jan 3, 2027). */
-export const SLIDER_BOUNDS: YearRange = [1933, 2027];
+/** The years-shown slider runs 1933 to 2026, the last calendar year of the 119th Congress (it ends Jan 3, 2027). */
+export const SLIDER_BOUNDS: YearRange = [1933, 2026];
 
 /** A Congress is shown when the year it convened is inside the window. */
 export function windowRows<T extends { year: number }>(rows: readonly T[], range: YearRange): T[] {
