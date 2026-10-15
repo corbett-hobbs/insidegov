@@ -59,6 +59,8 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
   const iceFirst = Math.max(range[0], data.firstFy);
   const iceLast = Math.min(range[1], data.lastFy);
   const iceRange: [number, number] | null = iceFirst <= iceLast ? [iceFirst, iceLast] : null;
+  // The removals card also carries the INS-era years (FY1980 on, DHS statistics), so it has every year of the window.
+  const removalsRange: [number, number] = [Math.max(range[0], data.historyFirstFy), Math.min(range[1], data.lastFy)];
   // One tap puts all three sections on the years ICE has: the slider's left end moves to ICE's first year (and its right end up to the
   // page's last year when the window ended before ICE began). Shown only while the window starts earlier, so there is nothing to keep in sync.
   const snap = (
@@ -97,40 +99,40 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
         <SectionHeading id="border" number={3} title="Who Is Stopped at the Border, and Who Is Removed?">
           <p>
             CBP (U.S. Customs and Border Protection) guards the border: its Border Patrol agents catch people between ports of entry, and its officers at the ports turn away people who are not admissible. Each stop is an “encounter”. ICE (Immigration and Customs Enforcement) works inside the country and carries out removals, including of some people CBP handed to it. The two cards count different things, encounters at the border and people removed, so they are never added together.
-            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}, so the ICE charts start there.</>}
+            {range[0] < data.firstFy && <> ICE’s figures begin in FY{data.firstFy}: the removals chart shows the Immigration and Naturalization Service’s earlier counts, as DHS republishes them, and the two charts below it start in FY{data.firstFy}.</>}
           </p>
         </SectionHeading>
 
         <EncountersCard payload={encounters} range={range} iceLastFy={data.lastFy} removals={iceByFy} activeFy={syncFy} onActiveFy={setSyncFy} />
 
+        <RemovalsCard data={data} range={removalsRange} fy={fyIce} onFy={setFy} activeFy={syncFy} onActiveFy={setSyncFy} />
+
         {iceRange ? (
           <>
-            <RemovalsCard data={data} range={iceRange} fy={fyIce} onFy={setFy} activeFy={syncFy} onActiveFy={setSyncFy} />
-
             <CriminalHistoryCard data={data} range={iceRange} fy={fyIce} onFy={setFy} />
 
             <RemovalsCountryCard payload={countries} fy={fyIce} range={iceRange} onFy={setFy} worldMap={worldMap} />
           </>
         ) : (
           <p className="m-0 rounded-[10px] border border-line bg-surface px-5 py-4 text-[0.9rem] text-ink-muted">
-            ICE’s removal figures begin in FY{data.firstFy}. Move the left end of the years slider up to FY{data.firstFy} or later to see them. {snap}
+            ICE’s own figures, which the criminal-history and country charts use, begin in FY{data.firstFy}. Move the left end of the years slider up to FY{data.firstFy} or later to see them. {snap}
           </p>
         )}
 
         <div className="flex flex-col gap-1.5 text-[0.8rem] leading-[1.6] text-ink-muted [&>p]:m-0">
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">1</span>
-            Green cards: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics, Yearbook of Immigration Statistics</SourceLink> through FY{lprFy}, and its quarterly <SourceLink id="ohss-legal-immigration">Legal Immigration and Adjustment of Status Report</SourceLink> for the newest year (preliminary). As of {asOfLabel(lpr.asOf)}. Years go to the administration in office on September 30.
+            Source: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics, Yearbook of Immigration Statistics</SourceLink> through FY{lprFy}; <SourceLink id="ohss-legal-immigration">Legal Immigration and Adjustment of Status Report</SourceLink> (quarterly) for the newest year (preliminary). As of {asOfLabel(lpr.asOf)}. Years go to the administration in office on September 30.
           </p>
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">2</span>
-            Refugee admissions: <SourceLink id="refugee-determinations">Presidential Determinations on Refugee Admissions</SourceLink> (Federal Register) for ceilings; <SourceLink id="wraps-admissions">State Department Refugee Processing Center, Refugee Admissions Report</SourceLink> through September 30, 2026, for arrivals. As of {asOfLabel(refugees.asOf)}; court status is not tracked. Years go to the administration in office on September 30.
+            Source: <SourceLink id="refugee-determinations">Presidential Determinations on Refugee Admissions</SourceLink> (Federal Register) for ceilings; <SourceLink id="wraps-admissions">State Department Refugee Processing Center, Refugee Admissions Report</SourceLink> through September 30, 2026, for arrivals. As of {asOfLabel(refugees.asOf)}; court status is not tracked. Years go to the administration in office on September 30.
           </p>
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">3</span>
-            Border encounters: <SourceLink id="cbp-encounters">CBP Nationwide Encounters</SourceLink> (FY2020–FY{encounters.lastFy}, FY{encounters.lastFy} preliminary) and <SourceLink id="cbp-encounters">CBP Border Patrol apprehension histories</SourceLink> (FY1980 on); port-of-entry figures begin in FY{encounters.firstOfoFy}, FY{encounters.firstOfoFy}–FY2014 from <SourceLink id="ohss-cbp-encounters">DHS Office of Homeland Security Statistics</SourceLink> (rounded). As of {asOfLabel(encounters.asOf)}. ICE removals: <SourceLink id="ice-statistics">ICE annual enforcement reports</SourceLink>, FY{data.firstFy}–FY{data.lastFy} (FY{data.lastFy} arrests, detention and criminal history from the <SourceLink id="dhs-ice-budget-fy2027">DHS FY2027 ICE budget overview</SourceLink>). Countries are countries of citizenship ({coverageLabel(countries)}). As of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
+            Source: <SourceLink id="cbp-encounters">CBP Nationwide Encounters</SourceLink>, FY2020–FY{encounters.lastFy} (FY{encounters.lastFy} preliminary); <SourceLink id="cbp-encounters">CBP Border Patrol apprehension histories</SourceLink>, FY1980 on; <SourceLink id="ohss-cbp-encounters">DHS Office of Homeland Security Statistics</SourceLink>, port-of-entry figures FY{encounters.firstOfoFy}–FY2014 (rounded; port-of-entry figures begin in FY{encounters.firstOfoFy}); <SourceLink id="ohss-yearbook-table39">Yearbook of Immigration Statistics {data.history.edition}, Table 39</SourceLink>, removals before March 2003 (Immigration and Naturalization Service era), FY{data.historyFirstFy}–FY{data.firstFy - 1}, removals only, rounded to tens, as of {asOfLabel(data.history.asOf)}; <SourceLink id="ice-statistics">ICE annual enforcement reports</SourceLink>, removals FY{data.firstFy}–FY{data.lastFy}; <SourceLink id="dhs-ice-budget-fy2027">DHS FY2027 ICE budget overview</SourceLink>, FY{data.lastFy} arrests, detention and criminal history. Border encounters as of {asOfLabel(encounters.asOf)}. Countries are countries of citizenship ({coverageLabel(countries)}). Removals as of {asOfLabel(data.asOf)}. Years go to the administration in office for most of the year.
           </p>
-          <p>Each card is one agency and one definition; the counts are never combined across cards or sections.</p>
+          <p>Counts are never combined across cards or sections. Where a card’s source or definition changes, the chart marks it.</p>
         </div>
       </main>
     </>

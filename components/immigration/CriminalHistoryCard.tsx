@@ -55,7 +55,7 @@ function Reserved<K extends string>({ active, items, as: Tag = "div", className 
  * "Criminal history of those removed": ICE removals by criminal history on the removals chart's year slots. Two
  * pick-one controls in the site's pill chrome: who first arrested the person (all, ICE, Border Patrol) and counts or
  * shares. The three views share one fixed count scale, so heights compare as the view changes. FY2025 is a single
- * combined convicted-or-pending bar (dashed, preliminary).
+ * combined convicted-or-pending bar (hatched, preliminary).
  */
 export function CriminalHistoryCard({
   data,
@@ -134,8 +134,8 @@ export function CriminalHistoryCard({
                 ))}
                 {vb.some((b) => b.status === "preliminary") && (
                   <span className={LEGEND_ITEM}>
-                    <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm border border-dashed border-ink" />
-                    Preliminary
+                    <i aria-hidden className="inline-block h-[10px] w-3 rounded-[1px] border border-line-strong" style={{ background: "repeating-linear-gradient(45deg, var(--ink-muted) 0 2px, transparent 2px 5px)" }} />
+                    Preliminary, may be revised
                   </span>
                 )}
               </div>

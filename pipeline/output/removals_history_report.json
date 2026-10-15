@@ -1,0 +1,181 @@
+{
+  "table": "Table 39",
+  "edition": 2023,
+  "url": "https://ohss.dhs.gov/topics/immigration/yearbook/2023/table39",
+  "title": "Table 39. DHS Repatriations: Fiscal Years 1892 to 2023",
+  "as_of": "2026-10-15",
+  "table_years": {
+    "first": 1892,
+    "last": 2023
+  },
+  "first_period": 1980,
+  "last_period": 2002,
+  "rows": 23,
+  "columns": [
+    "Administrative Returns",
+    "Enforcement Returns",
+    "Removals",
+    "Expulsions",
+    "Total removals and returns",
+    "Total enforcement repatriations",
+    "Total repatriations"
+  ],
+  "quoted_notes": [
+    "rounded to the nearest ten",
+    "Data include all DHS removals, returns, and expulsions",
+    "FY 1976 includes the 15 months from July 1, 1975 to September 30, 1976"
+  ],
+  "ice_comparison": [
+    {
+      "period": 2003,
+      "dhs": 211100,
+      "ice": 157080,
+      "difference": 54020
+    },
+    {
+      "period": 2004,
+      "dhs": 240670,
+      "ice": 175106,
+      "difference": 65564
+    },
+    {
+      "period": 2005,
+      "dhs": 246430,
+      "ice": 180189,
+      "difference": 66241
+    },
+    {
+      "period": 2006,
+      "dhs": 280970,
+      "ice": 207776,
+      "difference": 73194
+    },
+    {
+      "period": 2007,
+      "dhs": 319380,
+      "ice": 291060,
+      "difference": 28320
+    },
+    {
+      "period": 2008,
+      "dhs": 359800,
+      "ice": 369221,
+      "difference": -9421
+    },
+    {
+      "period": 2009,
+      "dhs": 379740,
+      "ice": 389834,
+      "difference": -10094
+    },
+    {
+      "period": 2010,
+      "dhs": 382450,
+      "ice": 392862,
+      "difference": -10412
+    },
+    {
+      "period": 2011,
+      "dhs": 390410,
+      "ice": 396906,
+      "difference": -6496
+    },
+    {
+      "period": 2012,
+      "dhs": 415580,
+      "ice": 409849,
+      "difference": 5731
+    },
+    {
+      "period": 2013,
+      "dhs": 432330,
+      "ice": 368644,
+      "difference": 63686
+    },
+    {
+      "period": 2014,
+      "dhs": 404700,
+      "ice": 315943,
+      "difference": 88757
+    },
+    {
+      "period": 2015,
+      "dhs": 323680,
+      "ice": 235413,
+      "difference": 88267
+    },
+    {
+      "period": 2016,
+      "dhs": 331550,
+      "ice": 240255,
+      "difference": 91295
+    },
+    {
+      "period": 2017,
+      "dhs": 286670,
+      "ice": 226119,
+      "difference": 60551
+    },
+    {
+      "period": 2018,
+      "dhs": 327280,
+      "ice": 256085,
+      "difference": 71195
+    },
+    {
+      "period": 2019,
+      "dhs": 347320,
+      "ice": 267258,
+      "difference": 80062
+    },
+    {
+      "period": 2020,
+      "dhs": 234510,
+      "ice": 185884,
+      "difference": 48626
+    },
+    {
+      "period": 2021,
+      "dhs": 85450,
+      "ice": 59011,
+      "difference": 26439
+    },
+    {
+      "period": 2022,
+      "dhs": 103840,
+      "ice": 72177,
+      "difference": 31663
+    },
+    {
+      "period": 2023,
+      "dhs": 183360,
+      "ice": 142580,
+      "difference": 40780
+    }
+  ],
+  "edition_revisions": {
+    "compared_edition": 2022,
+    "years": 23,
+    "changed": 22,
+    "max_abs_difference": 5,
+    "later_years": {
+      "changed": 20,
+      "max_abs_difference": 4893,
+      "max_abs_year": 2022
+    }
+  },
+  "sources": [
+    {
+      "id": "yearbook-2023-table39",
+      "path": "pipeline/raw/ohss-removals/yearbook-2023-table39.html",
+      "bytes": 117894,
+      "sha256": "450f6e24bacfbd7c710ba8cd2a645b2b398e4d3231c6baa71c6b1be33a5f92dd"
+    },
+    {
+      "id": "yearbook-2022-table39",
+      "path": "pipeline/raw/ohss-removals/yearbook-2022-table39.html",
+      "bytes": 99475,
+      "sha256": "0ba5fbf4f220e9ee81883cc2e18e447c9531f2faa5e335f3bcac8f602bd86cd3"
+    }
+  ]
+}

@@ -34,6 +34,7 @@ export const SOURCE_LINKS = {
   // Immigration
   "wraps-admissions": "https://www.wrapsnet.org/admissions-and-arrivals/",
   "ohss-yearbook": "https://ohss.dhs.gov/topics/immigration/yearbook",
+  "ohss-yearbook-table39": "https://ohss.dhs.gov/topics/immigration/yearbook/2023/table39",
   "ohss-legal-immigration": "https://ohss.dhs.gov/topics/immigration/legal-immigration-and-adjustment-status-report",
   "ohss-cbp-encounters": "https://ohss.dhs.gov/khsm/cbp-encounters",
   "cbp-encounters": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",

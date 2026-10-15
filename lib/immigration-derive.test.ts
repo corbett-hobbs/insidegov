@@ -3,8 +3,11 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { enforcementNote, enforcementReport, enforcementRow, isNationalRemovals } from "./enforcement-entities";
 import { administration } from "./executive-orders-entities";
+import { removalsHistoryReport, removalsHistoryRow } from "./removals-history-entities";
+import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 import {
   assertBreakdownInvariants,
+  assertRemovalsHistoryInvariants,
   assertEnforcementInvariants,
   buildImmigrationData,
   criminalityScheme,
@@ -23,7 +26,11 @@ const rows = (read("enforcement_series.json") as unknown[]).map((r) => enforceme
 const notes = (read("enforcement_notes.json") as unknown[]).map((r) => enforcementNote.parse(r));
 const report = enforcementReport.parse(read("enforcement_report.json"));
 const admins = (read("administrations.json") as unknown[]).map((r) => administration.parse(r));
-const data = buildImmigrationData(rows, notes, report, admins);
+const historyRows = (read("removals_history_series.json") as unknown[]).map((r) => removalsHistoryRow.parse(r));
+const historyReport = removalsHistoryReport.parse(read("removals_history_report.json"));
+const allAdmins = [...HISTORICAL_ADMINISTRATIONS, ...admins.filter((a) => !HISTORICAL_ADMINISTRATIONS.some((h) => h.term_id === a.term_id))];
+const history = { rows: historyRows, report: historyReport };
+const data = buildImmigrationData(rows, notes, report, allAdmins, history);
 
 describe("series invariants (real files)", () => {
   it("23 contiguous years, one preliminary, days and attribution consistent", () => {
@@ -194,6 +201,7 @@ describe("chart geometry", () => {
     expect(labelsBar(2015, 8)).toBe(true);
     expect(labelsBar(2015, 9)).toBe(false);
     expect(labelsBar(2021, 23)).toBe(true);
+    expect(labelsBar(2000, 46)).toBe(true); // the INS era's peak
     expect(valueLabel(410_000, 35)).toBe("410k");
     expect(valueLabel(410_000, 45)).toBe("410,000");
     expect(yearLabelMode(43)).toBe("four");
@@ -206,5 +214,44 @@ describe("chart geometry", () => {
   it("term segments break on administration changes and the pending slot extends the last", () => {
     const seg = termSegments(data.years, true);
     expect(seg.map((s) => [s.party, s.from, s.to])).toEqual([["R", 0, 6], ["D", 6, 14], ["R", 14, 18], ["D", 18, 22], ["R", 22, 24]]);
+  });
+});
+
+describe("INS-era years on the removals card (real files)", () => {
+  const ins = data.removalsYears.filter((y) => y.era === "ins");
+  it("run FY1980–FY2002 and join ICE's FY2003 with no gap; the other cards keep ICE's years only", () => {
+    expect(data.removalsYears.map((y) => y.fy)).toEqual(Array.from({ length: 46 }, (_, i) => 1980 + i));
+    expect(ins).toHaveLength(23);
+    expect(data.years[0].fy).toBe(2003);
+    expect(data.years.every((y) => y.era === "ice")).toBe(true);
+    expect(data.historyFirstFy).toBe(1980);
+    expect(data.history.edition).toBe(2023);
+  });
+  it("INS years are final, one neutral bar (no agency split, no detention), carry the INS-era note, and ICE's headline stays ICE's", () => {
+    expect(ins.every((y) => y.status === "final" && y.agency === null && y.detention === null && y.cardNotes.some((n) => n.id === "ins-era"))).toBe(true);
+    expect(data.removalsYears.find((y) => y.fy === 2003)).toMatchObject({ era: "ice", value: 157_080 });
+    expect(data.removalsYears.find((y) => y.fy === 2002)).toMatchObject({ era: "ins", value: 165_170 });
+  });
+  it("terms include the pre-1993 presidents, oldest first, while the ICE terms are unchanged", () => {
+    expect(data.removalsTerms[0].president).toBe("Jimmy Carter");
+    expect(data.removalsTerms.map((t) => t.last).slice(0, 5)).toEqual(["Carter", "Reagan", "Bush", "Clinton", "Bush"]);
+    expect(data.terms[0].president).toBe("George W. Bush");
+  });
+  it("the y-axis still comes from ICE's series (the INS era is lower)", () => {
+    expect(Math.max(...ins.map((y) => y.value))).toBeLessThan(data.yMax);
+    expect(data.yMax).toBe(480_000);
+  });
+  it("marker 1 names the agency change", () => {
+    expect(data.markers[0].title).toMatch(/ICE takes over from the INS/);
+    expect(data.markers[0].text).toMatch(/Immigration and Naturalization Service/);
+    expect(data.markers[0].text).toMatch(/not necessarily the same counting rules/);
+  });
+  it("fails loudly when the history stops joining ICE or the edition drifts", () => {
+    const run = (h: typeof historyRows, rep = historyReport) => assertRemovalsHistoryInvariants(h, rep, rows, allAdmins);
+    expect(() => run(historyRows)).not.toThrow();
+    expect(() => run(historyRows.slice(0, -1))).toThrow(/ends at FY2001|disagrees/);
+    expect(() => run(historyRows.slice(1))).toThrow(/not contiguous/);
+    expect(() => run(historyRows.map((r) => (r.period === 1990 ? { ...r, edition: 2022 } : r)))).toThrow(/edition/);
+    expect(() => run(historyRows, { ...historyReport, ice_comparison: [{ ...historyReport.ice_comparison[0], ice: 1 }] })).toThrow(/not the series/);
   });
 });

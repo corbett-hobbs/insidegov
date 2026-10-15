@@ -39,9 +39,10 @@ type Open = { key: string; pinned: boolean } | null;
 
 const n = (v: number) => v.toLocaleString("en-US");
 
-/** Screen-reader text for one bar: the removals total, who first apprehended the people, and the detention average. */
+/** Screen-reader text for one bar: the removals total (INS era: who counted), who first apprehended the people, and the detention average. */
 function barAria(yr: IceYear): string {
-  const split = yr.agency ? `, ${n(yr.agency.ice)} first arrested by ICE and ${n(yr.agency.cbp)} by Border Patrol` : "";
+  if (yr.era === "ins") return `FY${yr.fy}: ${n(yr.value)} removals counted by the INS, DHS statistics, removals only, ${yr.status}`;
+  const split = yr.agency ? `, ${n(yr.agency.ice)} removed after an interior stop and ${n(yr.agency.cbp)} after a border stop` : "";
   const held = yr.detention ? `; ${n(yr.detention.value)} people in ICE detention on an average day` : "";
   return `FY${yr.fy}: ${n(yr.value)} removals${split}${held}, ${yr.status}`;
 }
@@ -68,7 +69,7 @@ function detentionPoints(years: readonly IceYear[]): DetentionPoint[] {
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
- * ICE removals by fiscal year: one bar per year stacked by who first apprehended the person (ICE's own officers, teal;
+ * Removals by fiscal year (the INS's, as DHS republishes them, FY1980 to FY2002; ICE's own from FY2003): one bar per year stacked by who first apprehended the person (ICE's own officers, teal;
  * Border Patrol, amber; grey where ICE prints no split), the average people in ICE detention as a line on the same
  * axis, a term band and a regime strip under the axis, numbered definition-change markers, and a card per bar. The
  * y-axis is fixed across selections (`yMax` is from the whole series).
@@ -147,11 +148,12 @@ export function RemovalsChart({
 
   const segs = termSegments(years, pending);
   const termById = new Map(terms.map((t) => [t.termId, t]));
+  const hasIns = years.some((yr) => yr.era === "ins");
   const hatchedCount = years.filter((yr) => yr.fy < RETURNS_COUNTED_FROM).length;
   const hatchedFull = years.length > 0 && hatchedCount === years.length;
   const returnsFrom = hatchedCount;
-  const lead = regimeLabel(hatchedCount * slotW, "Removals only", "Removals");
-  const rest = regimeLabel((slots - returnsFrom) * slotW, "ICE count includes returns", "Includes returns");
+  const lead = regimeLabel(hatchedCount * slotW, hasIns ? "INS era, then ICE · removals only" : "ICE era · removals only", "Removals only");
+  const rest = regimeLabel((slots - returnsFrom) * slotW, "ICE era · removals and returns", "Removals + returns");
 
   const openBar = (fy: number, pinned: boolean) => setOpen({ key: `b${fy}`, pinned });
   const openMarker = (n: number, pinned: boolean) => setOpen({ key: `m${n}`, pinned });
@@ -199,7 +201,7 @@ export function RemovalsChart({
           width={W}
           height={SVG_H}
           margin={{ top: 0, right, bottom: 0, left }}
-          ariaLabel={`Bar chart of ICE removals by fiscal year, FY${firstFy} to FY${lastFy}, split by the agency that first apprehended the person, with a line for the average number of people in ICE detention.`}
+          ariaLabel={`Bar chart of removals (and, from FY2007, returns) by fiscal year, FY${firstFy} to FY${lastFy}: the Immigration and Naturalization Service's before March 2003, as DHS republishes them, then ICE's, split by where the person was first stopped, with a line for the average number of people in ICE detention.`}
           className="block h-auto w-full max-w-full"
           svgProps={{ role: "group" }}
         >
@@ -207,8 +209,7 @@ export function RemovalsChart({
             <>
               <defs>
                 <pattern id={`${idBase}-hatch`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                  <rect width="6" height="6" style={{ fill: "color-mix(in srgb, var(--oth) 22%, var(--surface))" }} />
-                  <line x1="0" y1="0" x2="0" y2="6" strokeWidth="2.4" style={{ stroke: "var(--oth)" }} />
+                  <line x1="0" y1="0" x2="0" y2="6" strokeWidth="2.6" style={{ stroke: "var(--surface)" }} />
                 </pattern>
               </defs>
 
@@ -273,21 +274,21 @@ export function RemovalsChart({
                     onFocus={(e) => e.currentTarget.matches(":focus-visible") && openBar(yr.fy, true)}
                     onClick={() => {
                       toggle(key);
-                      onSelectFy?.(yr.fy);
+                      if (yr.era === "ice") onSelectFy?.(yr.fy); // the selected year drives ICE's country card, which has no INS-era years
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         toggle(key);
-                        onSelectFy?.(yr.fy);
+                        if (yr.era === "ice") onSelectFy?.(yr.fy); // the selected year drives ICE's country card, which has no INS-era years
                       }
                     }}
                   >
                     <rect x={x} y={PLOT_TOP} width={slotW} height={PLOT_H} rx={2} fill={active ? "var(--accent)" : "transparent"} fillOpacity={0.09} style={yr.fy === selectedFy ? { fill: "var(--surface-raised)", fillOpacity: 1, stroke: "var(--line-strong)" } : undefined} />
                     {yr.agency ? (
                       <>
-                        <rect x={bx} y={y(yr.agency.ice)} width={barW} height={BASE - y(yr.agency.ice)} style={{ fill: "var(--agency-ice)", fillOpacity: prelim ? 0.55 : 1 }} />
-                        <rect x={bx} y={top} width={barW} height={y(yr.agency.ice) - top} style={{ fill: "var(--agency-cbp)", fillOpacity: prelim ? 0.55 : 1 }} />
+                        <rect x={bx} y={y(yr.agency.ice)} width={barW} height={BASE - y(yr.agency.ice)} style={{ fill: "var(--agency-ice)" }} />
+                        <rect x={bx} y={top} width={barW} height={y(yr.agency.ice) - top} style={{ fill: "var(--agency-cbp)" }} />
                       </>
                     ) : (
                       <rect
@@ -296,15 +297,15 @@ export function RemovalsChart({
                         width={barW}
                         height={BASE - top}
                         style={{
-                          fill: hatched ? `url(#${idBase}-hatch)` : "var(--oth)",
-                          fillOpacity: prelim ? 0.55 : 1,
+                          // Removals only (before FY2007): a pale tint of the no-split grey, matching the lighter band under the axis.
+                          fill: hatched ? "color-mix(in srgb, var(--oth) 32%, var(--surface))" : "var(--oth)",
                           stroke: hatched ? "var(--oth)" : "none",
                           strokeWidth: 1,
                         }}
                       />
                     )}
                     {prelim && (
-                      <rect x={bx} y={top} width={barW} height={BASE - top} style={{ fill: "none", stroke: "var(--ink)", strokeWidth: 1.2, strokeDasharray: "4 3" }} />
+                      <rect x={bx} y={top} width={barW} height={BASE - top} fill={`url(#${idBase}-hatch)`} />
                     )}
                     {showLabel && (
                       <>
@@ -429,7 +430,7 @@ export function RemovalsChart({
               <g aria-hidden>
                 {returnsFrom > 0 && (
                   <>
-                    <rect x={0.5} y={STRIP_Y} width={returnsFrom * slotW - 1} height={STRIP_H} fill="var(--oth)" fillOpacity={0.24} />
+                    <rect x={0.5} y={STRIP_Y} width={returnsFrom * slotW - 1} height={STRIP_H} fill="var(--oth)" fillOpacity={0.1} />
                     {lead && (
                       <text x={(returnsFrom * slotW) / 2} y={STRIP_Y + 12.5} textAnchor="middle" className="fill-ink text-[10.5px]">
                         {lead}
@@ -445,7 +446,7 @@ export function RemovalsChart({
                       width={(slots - returnsFrom) * slotW - 1}
                       height={STRIP_H}
                       fill="var(--oth)"
-                      fillOpacity={0.1}
+                      fillOpacity={0.24}
                     />
                     {rest && (
                       <text x={returnsFrom * slotW + ((slots - returnsFrom) * slotW) / 2} y={STRIP_Y + 12.5} textAnchor="middle" className="fill-ink text-[10.5px]">

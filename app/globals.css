@@ -46,7 +46,7 @@
   /* Immigration page: who first apprehended the person (ICE's arresting agency) and ICE's criminal-history categories.
      Deliberately not the party hues (the term band carries the president). Teal ICE and amber Border Patrol reuse the committee
      chamber hues; the criminal-history ramp is one purple hue stepped in lightness (convicted darkest in light mode). */
-  --agency-ice: #0b8a8f;
+  --agency-ice: #1d4e89;
   --agency-cbp: #b57800;
   --crim-convicted: #3b2f55;
   --crim-pending: #8d78b5;
@@ -170,7 +170,7 @@
     --committee-house: #f2b84b;
     --committee-senate: #45c6c6;
     --committee-joint: #e6e8ee;
-    --agency-ice: #45c6c6;
+    --agency-ice: #7aa7e8;
     --agency-cbp: #f2b84b;
     --crim-convicted: #cdbdf0;
     --crim-pending: #8d78b5;
@@ -269,7 +269,7 @@
   --committee-house: #f2b84b;
   --committee-senate: #45c6c6;
   --committee-joint: #e6e8ee;
-  --agency-ice: #45c6c6;
+  --agency-ice: #7aa7e8;
   --agency-cbp: #f2b84b;
   --crim-convicted: #cdbdf0;
   --crim-pending: #8d78b5;
