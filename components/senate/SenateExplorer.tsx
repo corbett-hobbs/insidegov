@@ -38,13 +38,14 @@ import { CommitteeSearch } from "@/components/committee/CommitteeSearch";
 import { CommitteeChamberLegend } from "@/components/committee/CommitteeChamberLegend";
 import { ordinal } from "./format";
 import { ChartCard as Card } from "@/components/charts/ChartCard";
+import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 
 const PLAY_INTERVAL_MS = 450;
 const PRELOAD_DELAY_MS = 1500;
 
 const INTRO =
-  "Political scientists Keith Poole and Howard Rosenthal built DW-NOMINATE to measure ideology from behavior. It looks at every yes-or-no vote a member has ever cast and finds the position that best explains their whole record, so members who vote alike land close together and members who vote oppositely land far apart. Each member ends up with two coordinates, plotted below as one dot — the horizontal position (dimension 1) is the familiar economic left–right spectrum and on its own explains most of how members differ; the vertical position (dimension 2) captures a secondary pattern whose meaning has shifted across history (tap the “i” by the vertical axis). Doing this for every Congress since 1789 turns the slider into a way to watch the chamber pull apart or come together over time, and picking a state shows whether its delegation votes as a bloc or splits down the middle.";
+  "Every member of Congress since 1789, placed on a left–right map by how they actually vote. The distance between the parties decides what can pass, and this map shows that gap opening and closing, Congress by Congress.";
 
 interface ExplorerProps {
   senate: ChamberCurrent;
@@ -259,8 +260,13 @@ export function SenateExplorer({
       />
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader title="How Does Congress Vote?">
+        <PageHeader eyebrow="Congress · Ideology" title="How Does Congress Vote?">
           <p>{INTRO}</p>
+          <HowToRead>
+            <p>
+              Political scientists Keith Poole and Howard Rosenthal built DW-NOMINATE to measure ideology from behavior. It looks at every yes-or-no vote a member has cast and finds the position that best explains their whole record, so members who vote alike land close together. The horizontal position (dimension 1) is the familiar economic left&ndash;right spectrum and explains most of how members differ; the vertical position (dimension 2) captures a secondary pattern whose meaning has shifted across history (tap the &ldquo;i&rdquo; by the vertical axis). Picking a state shows whether its delegation votes as a bloc or splits.
+            </p>
+          </HowToRead>
         </PageHeader>
 
         {/*

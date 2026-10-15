@@ -71,20 +71,12 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
       />
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-8 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader title="How Much Is Congress Worth?">
+        <PageHeader eyebrow="Congress · Wealth" title="How Much Is Congress Worth?">
           <p>
-            Members of Congress don&apos;t report their net worth. They file an
-            annual financial disclosure listing what they own and what they owe,
-            and for almost every line, they report a range instead of a dollar
-            figure. A stock might be &ldquo;$15,001-$50,000&rdquo;; a loan might
-            be &ldquo;$100,001-$250,000.&rdquo; We take the midpoint of each
-            range, add up the assets, subtract the liabilities, and get an
-            estimate of net worth for each member and year. The ranges are wide,
-            so treat every number here as an estimate rather than a precise
-            total. Where they add up to something big enough, the estimates
-            still show which members have grown their wealth the fastest, which
-            have fallen behind, and how much a member&apos;s finances have
-            changed since they took office.
+            Estimated net worth for every member of Congress, built from the
+            financial disclosures they file each year. Members write the laws
+            that move markets, and these estimates show whose wealth has grown
+            fastest since they took office.
           </p>
           <HowToRead>
             <HowToReadNotes />

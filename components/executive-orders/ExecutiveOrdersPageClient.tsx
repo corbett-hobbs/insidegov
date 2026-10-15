@@ -141,15 +141,12 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
         </div>
       </div>
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader title="How Many Executive Orders Does Each President Sign?">
+        <PageHeader eyebrow="Presidency · Executive orders" title="How Many Executive Orders Does Each President Sign?">
           <p>
-            An executive order is a written directive from the president to the
-            federal government, published in the Federal Register with its own
-            number. This chart counts the orders signed in each calendar year
-            since 1994, split by each order&apos;s primary topic. Switch to
-            share of year to compare the mix of topics rather than the totals,
-            and select a year to read its orders. The bands under the axis mark
-            whose term each stretch of the chart falls in.
+            Every executive order signed since 1994, counted by year and sorted
+            by topic. Orders let a president direct the federal government
+            without a new law, so how many each one signs, and on what, shows
+            where they chose to act alone.
           </p>
         </PageHeader>
 

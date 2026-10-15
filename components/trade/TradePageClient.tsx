@@ -121,12 +121,11 @@ function TradePage({ data }: { data: TradePageData }) {
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader title="How Does the U.S. Trade With the World?">
+        <PageHeader eyebrow="Presidency · Trade" title="How Does the U.S. Trade With the World?">
           <p>
-            Who the country buys from and sells to, what tariffs were in force, and what changed when the courts,
-            Congress and the White House pulled different levers. Trade values come from the Census Bureau. Calculated
-            duties on imports come from the Census Bureau from 2010 and from the U.S. International Trade Commission
-            for 1993 to 2009. Drag the years slider (or tap a president under it) or pick a country above and every chart follows.
+            Who the U.S. buys from and sells to, and what it charges in tariffs on what comes in. Tariffs change what
+            Americans pay and who they trade with, and the marked dates show when the courts, Congress and the White
+            House pulled the levers.
           </p>
         </PageHeader>
 

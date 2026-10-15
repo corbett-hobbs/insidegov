@@ -37,7 +37,7 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Laws" title="What Laws Does Congress Pass?">
           <p>
-            The Ideology page shows where each member sits; this page shows what Congress enacts. Every public law since {first} is tallied by the Congress that passed it and its policy area, so you can watch the output shrink, the mix shift and the votes narrow. Narrow the years with the slider or the presidents under it, or pick a policy area or a vote in the charts; the list at the bottom names every law that matches.
+            Every public law Congress has passed since {first}, by policy area and by how close the vote was. How much Congress passes, on what, and by what margin shows whether it is governing or gridlocked.
           </p>
           <JumpToLaws />
           <HowToRead>

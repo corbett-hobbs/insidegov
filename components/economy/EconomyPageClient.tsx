@@ -103,13 +103,15 @@ function EconomyPage({
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader title="What Was the Economy Like?">
+        <PageHeader eyebrow="Presidency · Economy" title="What Was the Economy Like?">
           <p>
-            Gas, mortgage rates, jobs, prices, income and the federal budget, month by month since 1991. The colored bar
-            under each chart shows who was president, and the gray columns mark recessions. These are conditions during
-            each term, not a score of what any one official caused.
+            Gas prices, mortgage rates, jobs, inflation, income and the federal budget, month by month since 1991. These
+            are the numbers households feel first, lined up against who held the White House and Congress at the time.
           </p>
           <HowToRead>
+            <p>
+              The colored bar under each chart shows who was president, and the gray columns mark recessions. These are conditions during each term, not a score of what any one official caused.
+            </p>
             <p>
               The bands show who held office, not who controlled the number: the Federal Reserve sets short-term rates on its own, and recessions, oil prices and older laws all move these figures. Congress bands show each chamber&rsquo;s majority party, with the Senate&rsquo;s mid-Congress changes (2001, 2002, 2021) on their dates. Values are the latest revised numbers as of {longDate(payload.fetchedAt)}; jobs and income figures are routinely revised.
             </p>

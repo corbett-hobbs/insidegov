@@ -233,6 +233,11 @@ export function MemberNetWorthChart({ years, selectedYear, onSelectYear, memberN
 
   return (
     <div className="relative">
+    {/* On wide layouts the chart wrapper below is absolutely positioned, so
+        it adds no height of its own; when the sibling items panel is short
+        the row collapsed and the legend/notes overlapped the plot. This
+        spacer holds the row open to the chart's minimum size plus legend. */}
+    <div aria-hidden className="hidden lg:block lg:pb-14" style={{ aspectRatio: `${W} / ${MIN_H}`, boxSizing: "content-box" }} />
     <div className="flex flex-col lg:absolute lg:inset-0">
       <div ref={areaRef} className="lg:min-h-0 lg:flex-1">
       <ChartFrame width={W} height={H} margin={MARGIN} ariaLabel={ariaSummary} svgRef={svgRef}>

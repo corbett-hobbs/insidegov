@@ -37,6 +37,7 @@ const STATIC_LABELS: Record<(typeof STATIC_PAGES)[number], string> = {
   "/about": "About",
   "/methodology": "Methodology",
   "/contact": "Contact",
+  "/api": "API and MCP",
 };
 
 const PARTY = { dem: "D", rep: "R", other: "I" } as const;
