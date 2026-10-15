@@ -1,0 +1,25 @@
+{
+  "table": "Table 39",
+  "sources": [
+    {
+      "id": "yearbook-2023-table39",
+      "role": "primary",
+      "edition": 2023,
+      "title": "Yearbook of Immigration Statistics 2023, Table 39. DHS Repatriations: Fiscal Years 1892 to 2023",
+      "url": "https://ohss.dhs.gov/topics/immigration/yearbook/2023/table39",
+      "file": "yearbook-2023-table39.html",
+      "text_file": "yearbook-2023-table39.txt",
+      "as_of": "2026-10-15"
+    },
+    {
+      "id": "yearbook-2022-table39",
+      "role": "comparison",
+      "edition": 2022,
+      "title": "Yearbook of Immigration Statistics 2022, Table 39. Noncitizen Removals, Returns, and Expulsions: Fiscal Years 1892 to 2022",
+      "url": "https://ohss.dhs.gov/topics/immigration/yearbook/2022/table39",
+      "file": "yearbook-2022-table39.html",
+      "text_file": "yearbook-2022-table39.txt",
+      "as_of": "2026-10-15"
+    }
+  ]
+}

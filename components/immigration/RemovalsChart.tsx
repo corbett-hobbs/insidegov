@@ -39,8 +39,9 @@ type Open = { key: string; pinned: boolean } | null;
 
 const n = (v: number) => v.toLocaleString("en-US");
 
-/** Screen-reader text for one bar: the removals total, who first apprehended the people, and the detention average. */
+/** Screen-reader text for one bar: the removals total (INS era: who counted), who first apprehended the people, and the detention average. */
 function barAria(yr: IceYear): string {
+  if (yr.era === "ins") return `FY${yr.fy}: ${n(yr.value)} removals counted by the INS, DHS statistics, removals only, ${yr.status}`;
   const split = yr.agency ? `, ${n(yr.agency.ice)} first arrested by ICE and ${n(yr.agency.cbp)} by Border Patrol` : "";
   const held = yr.detention ? `; ${n(yr.detention.value)} people in ICE detention on an average day` : "";
   return `FY${yr.fy}: ${n(yr.value)} removals${split}${held}, ${yr.status}`;
@@ -68,7 +69,7 @@ function detentionPoints(years: readonly IceYear[]): DetentionPoint[] {
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
- * ICE removals by fiscal year: one bar per year stacked by who first apprehended the person (ICE's own officers, teal;
+ * Removals by fiscal year (the INS's, as DHS republishes them, FY1980 to FY2002; ICE's own from FY2003): one bar per year stacked by who first apprehended the person (ICE's own officers, teal;
  * Border Patrol, amber; grey where ICE prints no split), the average people in ICE detention as a line on the same
  * axis, a term band and a regime strip under the axis, numbered definition-change markers, and a card per bar. The
  * y-axis is fixed across selections (`yMax` is from the whole series).
@@ -147,10 +148,12 @@ export function RemovalsChart({
 
   const segs = termSegments(years, pending);
   const termById = new Map(terms.map((t) => [t.termId, t]));
+  const insCount = years.filter((yr) => yr.era === "ins").length;
   const hatchedCount = years.filter((yr) => yr.fy < RETURNS_COUNTED_FROM).length;
   const hatchedFull = years.length > 0 && hatchedCount === years.length;
   const returnsFrom = hatchedCount;
-  const lead = regimeLabel(hatchedCount * slotW, "Removals only", "Removals");
+  const insLabel = regimeLabel(insCount * slotW, "INS era · DHS statistics, removals only", "INS era · removals only") ?? regimeLabel(insCount * slotW, "INS era", "INS");
+  const lead = regimeLabel((hatchedCount - insCount) * slotW, "Removals only", "Removals");
   const rest = regimeLabel((slots - returnsFrom) * slotW, "ICE count includes returns", "Includes returns");
 
   const openBar = (fy: number, pinned: boolean) => setOpen({ key: `b${fy}`, pinned });
@@ -199,7 +202,7 @@ export function RemovalsChart({
           width={W}
           height={SVG_H}
           margin={{ top: 0, right, bottom: 0, left }}
-          ariaLabel={`Bar chart of ICE removals by fiscal year, FY${firstFy} to FY${lastFy}, split by the agency that first apprehended the person, with a line for the average number of people in ICE detention.`}
+          ariaLabel={`Bar chart of removals by fiscal year, FY${firstFy} to FY${lastFy}: the Immigration and Naturalization Service's before March 2003, as DHS republishes them, then ICE's, split by the agency that first apprehended the person, with a line for the average number of people in ICE detention.`}
           className="block h-auto w-full max-w-full"
           svgProps={{ role: "group" }}
         >
@@ -273,13 +276,13 @@ export function RemovalsChart({
                     onFocus={(e) => e.currentTarget.matches(":focus-visible") && openBar(yr.fy, true)}
                     onClick={() => {
                       toggle(key);
-                      onSelectFy?.(yr.fy);
+                      if (yr.era === "ice") onSelectFy?.(yr.fy); // the selected year drives ICE's country card, which has no INS-era years
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         toggle(key);
-                        onSelectFy?.(yr.fy);
+                        if (yr.era === "ice") onSelectFy?.(yr.fy); // the selected year drives ICE's country card, which has no INS-era years
                       }
                     }}
                   >
@@ -427,11 +430,21 @@ export function RemovalsChart({
               })}
 
               <g aria-hidden>
-                {returnsFrom > 0 && (
+                {insCount > 0 && (
                   <>
-                    <rect x={0.5} y={STRIP_Y} width={returnsFrom * slotW - 1} height={STRIP_H} fill="var(--oth)" fillOpacity={0.24} />
+                    <rect x={0.5} y={STRIP_Y} width={insCount * slotW - 1} height={STRIP_H} fill="var(--oth)" fillOpacity={0.34} />
+                    {insLabel && (
+                      <text x={(insCount * slotW) / 2} y={STRIP_Y + 12.5} textAnchor="middle" className="fill-ink text-[10.5px]">
+                        {insLabel}
+                      </text>
+                    )}
+                  </>
+                )}
+                {returnsFrom > insCount && (
+                  <>
+                    <rect x={insCount * slotW + 0.5} y={STRIP_Y} width={(returnsFrom - insCount) * slotW - 1} height={STRIP_H} fill="var(--oth)" fillOpacity={0.2} />
                     {lead && (
-                      <text x={(returnsFrom * slotW) / 2} y={STRIP_Y + 12.5} textAnchor="middle" className="fill-ink text-[10.5px]">
+                      <text x={(insCount * slotW + returnsFrom * slotW) / 2} y={STRIP_Y + 12.5} textAnchor="middle" className="fill-ink text-[10.5px]">
                         {lead}
                       </text>
                     )}

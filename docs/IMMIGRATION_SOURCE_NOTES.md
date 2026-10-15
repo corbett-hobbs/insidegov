@@ -624,3 +624,73 @@ FY2022–FY2025): every cell they hold is identical in the files kept.
   Lifecycle reports. The lifecycle reports estimate repeat-encounter shares by cohort; they could
   serve a future "unique people" view but aren't a fiscal-year series.
 - "Got-aways" (out of scope by plan).
+
+## 10. Removals before FY2003 — INS-era source check (2026-10-15)
+
+Extends the removals card back to FY1980 (the page's first year) with DHS's republished record of what the Immigration and
+Naturalization Service (INS) did, because ICE's own series begins when ICE was created (March 1, 2003). Snapshots and text
+extracts are in `pipeline/raw/ohss-removals/`; the source list is `pipeline/reference/removals-history-catalog.json`; the
+transform is `pipeline/transform/removals-history{,-run}.ts`; outputs are `pipeline/output/removals_history_{series,report}.json`.
+
+### Which edition
+
+- **The 2023 Yearbook is the newest edition that carries Table 39.** OHSS's Yearbook index lists a 2024 edition, but its
+  "Tables 34-43: Enforcement Actions" section says "Coming soon" and `.../yearbook/2024/table39` returns 404 (checked
+  2026-10-15). The 2023 page is the source of truth for every figure, per the owner's rule.
+- URL: `https://ohss.dhs.gov/topics/immigration/yearbook/2023/table39`. Title: "Table 39. DHS Repatriations: Fiscal Years
+  1892 to 2023". The 2022 edition (`.../2022/table39`, "Noncitizen Removals, Returns, and Expulsions: Fiscal Years 1892 to 2022")
+  is kept as a comparison snapshot only.
+- OHSS posts each edition at a new address. The weekly `ohss-review` workflow already flags a new Yearbook edition; when the 2024
+  enforcement tables appear, add a catalog entry, re-run `pnpm fetch:ohss-removals && pnpm transform`, and read the diff (every
+  figure may be revised).
+
+### Columns and definitions (2023 edition, as printed)
+
+Year, Administrative Returns, Enforcement Returns, **Removals**, Expulsions, Total removals and returns, Total enforcement
+repatriations, Total repatriations; FY1892–FY2023, one row per fiscal year. The page uses **only the Removals column**; returns and
+expulsions are never summed in (the card's FY2003–FY2006 bars are "removals only", and ICE counts returns only from FY2007).
+
+- **Removals**: "the compulsory and confirmed movement of an inadmissible or deportable alien out of the United States based on an
+  order of removal."
+- **Returns**: "the confirmed movement of an inadmissible or deportable alien out of the United States not based on an order of
+  removal." All returns are reported as enforcement returns 1927–2008; administrative returns appear from 2009. FY1986 shows 1.59
+  million returns against 24,590 removals, which is why summing them would make the INS era unreadable.
+- **Expulsions**: Title 42 public-health expulsions, FY2020 on. Not used.
+- **Table notes**: "To protect privacy, table cells are rounded to the nearest ten"; "Data include all DHS removals, returns, and
+  expulsions"; "FY 1976 includes the 15 months from July 1, 1975 to September 30, 1976" (the fiscal year end moved from June 30 to
+  September 30). FY1976 is outside the page's range; FY1980 on are ordinary 12-month years. The build checks that these three
+  sentences are still printed, that the years are contiguous, and that each row's "Total removals and returns" equals its three
+  parts within the rounding, so a shifted column fails.
+
+### What was stored
+
+FY1980–FY2002 removals, 23 rows, each with its president(s) by the same last-day rule as the ICE series (FY1981, FY1989, FY1993 and FY2001
+split between two administrations; the pre-1993 presidents come from `HISTORICAL_ADMINISTRATIONS`). FY2003 on is not stored as page
+data (ICE's own figures stay the headline) but is in the report as a comparison.
+
+### Agreements and disagreements
+
+**DHS Table 39 vs. ICE's headline (FY2003–FY2023).** The two never agree exactly, and the direction changes:
+
+| Years | DHS removals vs. ICE | Reading |
+| --- | --- | --- |
+| FY2003–FY2006 | DHS 34–37% higher (FY2003: 211,100 vs. ICE's 157,080) | ICE's count excludes returns here, and the table's own note says it covers "all DHS removals", which reads as wider than ICE's own count (not verified further). The page's DHS-wide INS-era bars therefore sit above where an ICE-only count would have been; the step from FY2002 (165,170) to FY2003 (157,080) is partly a change in who is counted. |
+| FY2007 | DHS 10% higher | ICE's count starts including returns. |
+| FY2008–FY2011 | DHS 2–3% **lower** | ICE's headline now includes returns; DHS's Removals column does not. |
+| FY2012 | DHS 1% higher | |
+| FY2013–FY2023 | DHS 17–45% higher (FY2016: 331,550 vs. 240,255) | After June 2013 returns without an ICE intake are no longer ICE removals (marker 3), and DHS counts removals by all components, including CBP. |
+
+None of this is a source error. They are different counts: ICE's headline is ICE's own, DHS's is the department-wide Removals
+column. This is why the page keeps ICE's figures from FY2003 and labels the earlier bars as DHS statistics, and why it never
+subtracts or mixes the two. The full per-year comparison is `ice_comparison` in `removals_history_report.json`.
+
+**2023 vs. 2022 edition.** The 2023 edition rounds to tens; the 2022 edition prints exact counts. FY1980–FY2002 differ by at most 5
+(22 of 23 years), which is rounding, not revision (FY1980: 18,010 vs. 18,013). FY2003 on, the editions differ by real revisions of
+up to 4,893 (FY2022; FY2017 286,670 vs. 284,365; FY2014 404,700 vs. 405,193). The owner's rule (newest edition for every number)
+means the page shows the rounded figures; the Data notes say so.
+
+### Not like-for-like (said on the page)
+
+DHS republishes the INS's counts, which is continuity of records, not evidence that the INS and ICE counted by the same rules.
+The card's marker 1 and its Data notes say so, and the INS-era bars carry a neutral hatched look, a legend entry ("Removals only:
+INS era (DHS statistics)…"), and a note on every bar's card.

@@ -54,7 +54,9 @@ export function BarCard({
         {year.blended ? year.days.map((d) => `${d.last} ${d.days} days`).join(" · ") : president}
       </div>
       <div className="text-[0.8rem] leading-[1.5] text-ink-muted">
-        {`${year.status === "final" ? "Final" : "Preliminary"} · ${year.corroborated ? "Confirmed by a second source" : "Single source"}`}
+        {year.era === "ins"
+          ? "Final · INS era, DHS statistics, removals only"
+          : `${year.status === "final" ? "Final" : "Preliminary"} · ${year.corroborated ? "Confirmed by a second source" : "Single source"}`}
       </div>
       {year.agency ? (
         <div className="mt-1.5 grid grid-cols-[1fr_auto] gap-x-3 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
@@ -70,7 +72,7 @@ export function BarCard({
           <b className="font-mono font-medium text-ink">{`${year.agency.cbp.toLocaleString("en-US")} · ${pct(year.agency.cbp, year.value)}`}</b>
         </div>
       ) : (
-        <div className="mt-1.5 border-t border-line pt-1.5 text-[0.78rem] leading-[1.5] text-ink-muted">ICE prints no split by arresting agency for this year.</div>
+        <div className="mt-1.5 border-t border-line pt-1.5 text-[0.78rem] leading-[1.5] text-ink-muted">{year.era === "ins" ? "No split by arresting agency on file for the INS era." : "ICE prints no split by arresting agency for this year."}</div>
       )}
       {year.detention && (
         <div className="mt-1.5 border-t border-line pt-1.5 text-[0.8rem] leading-[1.5] text-ink-muted">
@@ -111,7 +113,7 @@ export function YearTip({ year, terms }: { year: IceYear; terms: ReadonlyMap<str
     <TipCard
       title={`FY${year.fy}`}
       value={year.value.toLocaleString("en-US")}
-      sub={`${who}${year.status === "final" ? "" : " · Preliminary"}`}
+      sub={`${who}${year.era === "ins" ? " · INS era, DHS statistics" : year.status === "final" ? "" : " · Preliminary"}`}
       rows={year.agency ? [
         { key: "ice", label: "ICE arrests", value: year.agency.ice.toLocaleString("en-US"), color: "var(--agency-ice)" },
         { key: "cbp", label: "Border Patrol", value: year.agency.cbp.toLocaleString("en-US"), color: "var(--agency-cbp)" },
