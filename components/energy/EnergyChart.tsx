@@ -236,13 +236,13 @@ function Examples({ panels, geo, view }: { panels: readonly Panel[]; geo: Geo; v
         const right = geo.ml + geo.pw;
         return (
           <g key={p.id} pointerEvents="none" opacity={faded ? 0.25 : 1} style={{ transition: "opacity .12s" }}>
-            {picks.map((q) => {
+            {picks.map((q, qi) => {
               const y = geo.Ys[i](q.value);
               const w = q.text.length * EX_CHAR_W;
               const cx = Math.min(Math.max(q.x, left + w / 2 + 2), right - w / 2 - 2);
               const ty = Math.min(Math.max(q.value === top ? y - 9 : y + 17, geo.stack.tops[i] + 10), geo.stack.bottoms[i] - 4);
               return (
-                <g key={q.color + q.x}>
+                <g key={`${q.color}${q.x}${qi}`}>
                   <circle cx={q.x} cy={y} r={3.5} fill={q.color} stroke="var(--surface)" strokeWidth={1.5} />
                   <text x={cx} y={ty} textAnchor="middle" className="fill-ink text-[11px] font-medium" style={EX_HALO}>{q.text}</text>
                 </g>

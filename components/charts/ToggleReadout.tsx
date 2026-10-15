@@ -13,9 +13,10 @@ export function ToggleReadout({ toggle, line, pinned, onClear, hint }: { toggle:
   return (
     <>
       <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-        {toggle}
-        <div className="ml-auto min-w-0 text-right" aria-live="off">
-          <div className="whitespace-nowrap font-mono text-[1.05rem] font-medium leading-tight tabular-nums text-ink sm:text-[1.6rem]">{line ? (line.headline ?? line.values.join(" / ")) : "—"}</div>
+        {/* Tighter pills on phones so the value fits beside them (the date wraps under it instead of widening it). */}
+        <div className="[&_button]:px-1.5 [&_button]:text-[0.74rem] sm:[&_button]:px-[0.85rem] sm:[&_button]:text-[0.8rem]">{toggle}</div>
+        <div className="min-w-[7.5rem] flex-1 text-right" aria-live="off">
+          <div className="whitespace-nowrap font-mono text-[1rem] font-medium leading-tight tabular-nums text-ink sm:text-[1.6rem]">{line ? (line.headline ?? line.values.join(" / ")) : "—"}</div>
           {line && (
             <div className="mt-0.5 text-[0.75rem] leading-snug text-ink-muted">
               {line.date}
