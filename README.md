@@ -83,6 +83,7 @@ remembers.
 | Presidency | [**U.S. Energy Information Administration**](https://www.eia.gov/) | Energy series |
 | Presidency | **U.S. Census Bureau** and [**USITC DataWeb**](https://dataweb.usitc.gov/) | Trade by country; duties collected (DataWeb for 1993–2009) |
 | Presidency | [**ICE**](https://www.ice.gov/statistics) | Removals by year and by country of citizenship |
+| Presidency | [**U.S. Customs and Border Protection**](https://www.cbp.gov/newsroom/stats/nationwide-encounters) | Border encounters: Border Patrol apprehensions, port-of-entry inadmissibles and Title 42 expulsions (port-of-entry figures for FY2004–FY2014 via DHS OHSS) |
 | Presidency | [**DHS Office of Homeland Security Statistics**](https://ohss.dhs.gov/topics/immigration/yearbook) | Green cards (by class and country) and naturalizations: the Yearbook of Immigration Statistics, plus the quarterly report for the newest year |
 | Presidency | **Presidential Determinations** ([Federal Register](https://www.federalregister.gov/)) and the State Department's [**Refugee Processing Center**](https://www.wrapsnet.org/admissions-and-arrivals/) | Refugee ceilings and admissions |
 | Presidency | [**ForeignAssistance.gov**](https://foreignassistance.gov/) | Foreign aid obligations and disbursements |

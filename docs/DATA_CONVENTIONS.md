@@ -717,6 +717,31 @@ is ever summed with ICE, CBP, refugee or State Department counts.
 
 ---
 
+## 18. CBP border encounters track
+
+A thirteenth data track: CBP border encounters by fiscal year: Border Patrol apprehensions, OFO port-of-entry
+inadmissibles and Title 42 expulsions. Methodology: `docs/CBP_ENCOUNTERS_METHODOLOGY.md`; schemas:
+`lib/encounters-entities.ts`. Nothing here joins to `bioguide_id`.
+
+**Key.** `(period, scope, component, authority)`: `period` = fiscal year (the calendar year it ends in), `scope`
+`nationwide`/`southwest`, `component` `usbp`/`ofo`, `authority` `title8`/`title42`. Monthly rows add `month`
+(YYYY-MM). No total rows, no person key. **Join to presidents** is by date, through the §7 `term_id` (administration in
+office on Sept 30), with the historical presidents table prepended for years before 1993; no second terms table.
+
+| File | Grain | Key | Notes |
+| --- | --- | --- | --- |
+| `pipeline/raw/cbp/*` | one snapshot per source + `<name>.txt` extract; the encounters CSVs; `encounters-vintages.json` (the CSVs kept, one per range of years) | catalog `id` / file | `pnpm fetch:cbp`. Workbook extracts keep Excel row numbers. |
+| `pipeline/reference/cbp-encounters-catalog.json` | sources; printed page figures with verbatim quotes; overlap exceptions; notes with quotes and axis markers | `id` | Hand-curated; the tables and CSVs are machine-read. |
+| `pipeline/output/encounters_series.json` | one row per key, FY1980 on | as above | `value`, `status`, `months`, `detail`, provenance (`source`, `publisher` CBP or DHS OHSS, `method`, `location`, `rounding`), attribution. OFO absent before FY2004, Title 42 absent outside FY2020–FY2023: missing is absent, never 0. |
+| `pipeline/output/encounters_monthly.json` | one row per key and month, FY2020 on | `fy`+`month`+`scope`+`component`+`authority` | From CBP's monthly CSVs. |
+| `pipeline/output/encounters_notes.json`, `encounters_report.json` | note / run summary | `id` / — | Deterministic. |
+
+**Validation** (fails `pnpm transform`): see the methodology doc. **CBP only:** one agency per series, never summed with,
+subtracted from or divided by ICE removals or any other agency's count, in data, copy or tables. Encounters are events,
+not people.
+
+---
+
 ## Review notifications
 
 Data checks that need a person (the ICE, refugee-admissions and policy review issues, and a refugee refresh PR that needs curation or failed its gate) call `.github/actions/notify`: email first, Slack if email is unset or fails. It never fails a job; with nothing configured it warns, and GitHub's own issue/PR emails are the fallback. Each message carries the check's findings with the download links (the new file's URL, the Federal Register document, the DHS PDF) plus a link to the issue or PR. It fires when an issue or PR is **created**, not on weekly refreshes of an open one. Repository secrets (Settings > Secrets and variables > Actions), all optional:

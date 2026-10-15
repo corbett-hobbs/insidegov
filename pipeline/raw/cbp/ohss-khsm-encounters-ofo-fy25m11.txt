@@ -1,0 +1,160 @@
+## sheet: Annual Count
+1	Fiscal Year | Quantity
+2	2004 | 170510
+3	2005 | 251200
+4	2006 | 207630
+5	2007 | 202030
+6	2008 | 222800
+7	2009 | 223910
+8	2010 | 229580
+9	2011 | 213350
+10	2012 | 195800
+11	2013 | 205620
+12	2014 | 225020
+13	2015 | 254710
+14	2016 | 274620
+15	2017 | 216260
+16	2018 | 281930
+17	2019 | 287980
+18	2020 | 241760
+19	2021 | 294350
+20	2022 | 551930
+21	2023 | 1137450
+22	2024 | 1343820
+23	2025 | 162570
+## sheet: Annual Region
+1	Fiscal Year | Region | Quantity
+2	2004 | Air Ports of Entry/Interior | 38030
+3	2004 | Coastal Border | 1400
+4	2004 | Northern Land Border | 59640
+5	2004 | Southwest Land Border | 71450
+6	2005 | Air Ports of Entry/Interior | 78420
+7	2005 | Coastal Border | 2640
+8	2005 | Northern Land Border | 72290
+9	2005 | Southwest Land Border | 97860
+10	2006 | Air Ports of Entry/Interior | 48920
+11	2006 | Coastal Border | 3810
+12	2006 | Northern Land Border | 58520
+13	2006 | Southwest Land Border | 96380
+14	2007 | Air Ports of Entry/Interior | 44610
+15	2007 | Coastal Border | 12800
+16	2007 | Northern Land Border | 48430
+17	2007 | Southwest Land Border | 96190
+18	2008 | Air Ports of Entry/Interior | 42520
+19	2008 | Coastal Border | 52100
+20	2008 | Northern Land Border | 40670
+21	2008 | Southwest Land Border | 87500
+22	2009 | Air Ports of Entry/Interior | 45110
+23	2009 | Coastal Border | 64540
+24	2009 | Northern Land Border | 35980
+25	2009 | Southwest Land Border | 78270
+26	2010 | Air Ports of Entry/Interior | 45160
+27	2010 | Coastal Border | 68250
+28	2010 | Northern Land Border | 36480
+29	2010 | Southwest Land Border | 79690
+30	2011 | Air Ports of Entry/Interior | 39970
+31	2011 | Coastal Border | 66540
+32	2011 | Northern Land Border | 33340
+33	2011 | Southwest Land Border | 73500
+34	2012 | Air Ports of Entry/Interior | 41780
+35	2012 | Coastal Border | 53770
+36	2012 | Northern Land Border | 30990
+37	2012 | Southwest Land Border | 69250
+38	2013 | Air Ports of Entry/Interior | 50080
+39	2013 | Coastal Border | 52330
+40	2013 | Northern Land Border | 28000
+41	2013 | Southwest Land Border | 75220
+42	2014 | Air Ports of Entry/Interior | 53970
+43	2014 | Coastal Border | 52700
+44	2014 | Northern Land Border | 27680
+45	2014 | Southwest Land Border | 90680
+46	2015 | Air Ports of Entry/Interior | 65610
+47	2015 | Coastal Border | 49670
+48	2015 | Northern Land Border | 25910
+49	2015 | Southwest Land Border | 113520
+50	2016 | Air Ports of Entry/Interior | 64660
+51	2016 | Coastal Border | 35330
+52	2016 | Northern Land Border | 24510
+53	2016 | Southwest Land Border | 150120
+54	2017 | Air Ports of Entry/Interior | 60250
+55	2017 | Coastal Border | 19780
+56	2017 | Northern Land Border | 24940
+57	2017 | Southwest Land Border | 111280
+58	2018 | Air Ports of Entry/Interior | 109730
+59	2018 | Coastal Border | 19020
+60	2018 | Northern Land Border | 29820
+61	2018 | Southwest Land Border | 123370
+62	2019 | Air Ports of Entry/Interior | 53420
+63	2019 | Coastal Border | 77580
+64	2019 | Northern Land Border | 31260
+65	2019 | Southwest Land Border | 125720
+66	2020 | Air Ports of Entry/Interior | 43060
+67	2020 | Coastal Border | 111060
+68	2020 | Northern Land Border | 30220
+69	2020 | Southwest Land Border | 57430
+70	2021 | Air Ports of Entry/Interior | 52960
+71	2021 | Coastal Border | 139650
+72	2021 | Northern Land Border | 26270
+73	2021 | Southwest Land Border | 75480
+74	2022 | Air Ports of Entry/Interior | 114350
+75	2022 | Coastal Border | 157780
+76	2022 | Northern Land Border | 107300
+77	2022 | Southwest Land Border | 172510
+78	2023 | Air Ports of Entry/Interior | 391750
+79	2023 | Coastal Border | 136490
+80	2023 | Northern Land Border | 179380
+81	2023 | Southwest Land Border | 429830
+82	2024 | Air Ports of Entry/Interior | 439530
+83	2024 | Coastal Border | 124600
+84	2024 | Northern Land Border | 175210
+85	2024 | Southwest Land Border | 604480
+86	2025 | Air Ports of Entry/Interior | 19020
+87	2025 | Coastal Border | 20530
+88	2025 | Northern Land Border | 25620
+89	2025 | Southwest Land Border | 97390
+## sheet: Annual Enforce-Admin
+1	Fiscal Year | Enforcement/Administrative | Quantity
+2	2004 | Administrative | 8650
+3	2004 | Enforcement | 161870
+4	2005 | Administrative | 55330
+5	2005 | Enforcement | 195870
+6	2006 | Administrative | 20880
+7	2006 | Enforcement | 186760
+8	2007 | Administrative | 26350
+9	2007 | Enforcement | 175680
+10	2008 | Administrative | 63950
+11	2008 | Enforcement | 158850
+12	2009 | Administrative | 76270
+13	2009 | Enforcement | 147640
+14	2010 | Administrative | 79720
+15	2010 | Enforcement | 149850
+16	2011 | Administrative | 79330
+17	2011 | Enforcement | 134010
+18	2012 | Administrative | 71400
+19	2012 | Enforcement | 124410
+20	2013 | Administrative | 81880
+21	2013 | Enforcement | 123740
+22	2014 | Administrative | 99680
+23	2014 | Enforcement | 125340
+24	2015 | Administrative | 120540
+25	2015 | Enforcement | 134170
+26	2016 | Administrative | 121090
+27	2016 | Enforcement | 153530
+28	2017 | Administrative | 70120
+29	2017 | Enforcement | 146140
+30	2018 | Administrative | 115010
+31	2018 | Enforcement | 166920
+32	2019 | Administrative | 125680
+33	2019 | Enforcement | 162300
+34	2020 | Administrative | 151100
+35	2020 | Enforcement | 90670
+36	2021 | Administrative | 172770
+37	2021 | Enforcement | 121580
+38	2022 | Administrative | 330480
+39	2022 | Enforcement | 221450
+40	2023 | Administrative | 559430
+41	2023 | Enforcement | 578010
+42	2024 | Administrative | 547950
+43	2024 | Enforcement | 795870
+44	2025 | Administrative | 36860
+45	2025 | Enforcement | 125700

@@ -1,0 +1,81 @@
+                                          Nationwide Encounters
+
+The goal of this data dictionary is to provide insight into how users should read and analyze the
+raw data available for download.
+
+I.        Tips when working with Encounter data:
+       1. Statistical information is subject to change due to corrections, systems changes, change in
+          data definition, additional information, or encounters pending final review.
+       2. Nationwide numbers are calculated by adding together “Northern Land Border,”
+          “Southwest Land Border,” and “Other” regions
+
+
+II.       Data Dictionary
+       1. Data Source: Secure Government Integrated Mainframe Access (SIGMA); Unified
+          Secondary (USEC); Enforcement Integrated Database (EID)
+       2. Data Elements:
+    Data Variable     Description                                               Examples
+    Fiscal Year       The fiscal year the encounter took place                  2018
+                                                                                2019
+                                                                                2020
+    Month Grouping    Allows for comparisons between completed FY months        FYTD
+                      vs. those remaining                                       Remaining
+    Month (abbv)      The month the encounter took place (abbreviated)          JAN
+                                                                                FEB
+                                                                                MAR
+    Component         Who in CBP was involved in the encounter                  Office of Field Operations (OFO)
+                                                                                U.S. Border Patrol (USBP)
+    Land Border       The border region in which the encounter occurred;        Northern Land Border
+    Region            border regions are defined by each component              Southwest Land Border
+                      Nationwide numbers are calculated by adding together      Other
+                      Northern Land Border, Southwest Land Border, and
+                      Other regions
+    Area of           The field office or sector where the encounter occurred   Atlanta Field Office
+    Responsibility                                                              Big Bend Sector
+
+    AOR (abbv)        The field office or sector where the encounter occurred   San Diego
+                      (abbreviated)                                             RGV
+    Demographic       Categories under which individuals were encountered       Accompanied Minors1
+                      based on factors such as age, admissibility, and          Single Adults
+                      relationship                                              Unaccompanied Children / Single
+                                                                                Minors (UC / Single Minors)
+
+
+
+
+1
+  Accompanied Minor represents a child accompanied by a parent or legal guardian and the parent or legal guardian
+is either a U.S. Citizen, Lawful Permanent Resident, or admissible noncitizen, and the child is determined to be
+inadmissible. Accompanied minors is a demographic used only by OFO
+                                             Nationwide Encounters
+
+                                                                                 Individuals in a Family Unit2
+                                                                                 (FMUA)
+    Citizenship          Citizenship of the individual encountered               Canada
+                                                                                 El Salvador
+                                                                                 Guatemala
+                                                                                 Mexico
+    Title of Authority   The authority under which the noncitizen was            Title 8
+                         processed3                                              Title 42
+    Encounter Type       The category of encounter based on Title of Authority   Apprehensions
+                         and component                                           Expulsions
+                           • Title 8 for USBP = Apprehensions;                   Inadmissibles
+                           • Title 8 for OFO = Inadmissibles;
+                           • Title 42 = Expulsions
+
+    Encounter Count      The number of individuals encountered                   (Discrete variable)
+
+
+
+
+2
+  FMUA represents the number of encountered individuals within the family unit, not the number of units. A Family
+Unit is defined as a least one noncitizen minor child and at least one noncitizen adult parent or legal guardian. For
+example, a family unit consisting of two or more individuals is encountered. (Continued on page two footer)
+The data would show two or more individuals, not one family unit. Beginning in March 2020, FMUA data also
+includes Title 42 Expulsions of a family group of at least one child and one related adult (regardless of whether the
+adult and child met the definition of a family unit).
+3
+  CBP has been assisting in enforcing the CDC Order, pursuant to Title 42, by USBP and OFO starting 3/21/2020
+and 3/27/2020, respectively.
+

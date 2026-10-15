@@ -65,6 +65,7 @@ const EIA = "U.S. Energy Information Administration";
 const CENSUS = "U.S. Census Bureau, Foreign Trade Division";
 const OHSS = "U.S. Department of Homeland Security, Office of Homeland Security Statistics";
 const ICE = "U.S. Immigration and Customs Enforcement";
+const CBP = "U.S. Customs and Border Protection";
 const VOTEVIEW =
   "Lewis, Poole, Rosenthal, Boche, Rudkin and Sonnet (2026), Voteview: Congressional Roll-Call Votes Database, https://voteview.com/";
 const CONGRESS_LEGISLATORS = "@unitedstates/congress-legislators (CC0)";
@@ -311,6 +312,38 @@ const DEFS: DatasetDef[] = [
     doc: "docs/IMMIGRATION_ENFORCEMENT_METHODOLOGY.md",
     fieldNotes: { country_key: "ISO alpha-3 code.", needs_review: "True where the source table was hard to read; parse_confidence says how hard." },
     load: () => rows("removals_by_country.json"),
+  },
+  {
+    id: "encounters-series",
+    title: "Border encounters",
+    group: "presidency",
+    page: { label: "Immigration", href: "/presidency/immigration" },
+    description: "CBP encounters by fiscal year from FY1980, nationwide and on the southwest border: Border Patrol apprehensions, port-of-entry inadmissibles (from FY2004) and Title 42 expulsions (FY2020 to FY2023). Events, not people. Never combine with ICE removals.",
+    grain: "one scope, component and authority in one fiscal year",
+    units: "Encounters (events; a person caught twice counts twice).",
+    sources: [CBP, `${OHSS} (port-of-entry figures, FY2004 to FY2014)`],
+    doc: "docs/CBP_ENCOUNTERS_METHODOLOGY.md",
+    fieldNotes: {
+      scope: "nationwide or southwest (the Southwest Land Border region).",
+      component: "usbp (Border Patrol, between ports of entry) or ofo (Office of Field Operations, at ports of entry).",
+      authority: "title8 or title42 (expulsions under the public-health order, March 2020 to May 2023).",
+      months: "Months of the fiscal year included; under 12 only for the year in progress (status preliminary).",
+      rounding: "10 where the value is the DHS statistics office's, rounded to the nearest ten.",
+      administration_term_id: "Joins to administrations.term_id.",
+    },
+    load: () => rows("encounters_series.json"),
+  },
+  {
+    id: "encounters-monthly",
+    title: "Border encounters: by month",
+    group: "presidency",
+    page: { label: "Immigration", href: "/presidency/immigration" },
+    description: "CBP encounters by month from FY2020, nationwide and on the southwest border, by component and title of authority.",
+    grain: "one scope, component and authority in one month",
+    units: "Encounters (events).",
+    sources: [CBP],
+    doc: "docs/CBP_ENCOUNTERS_METHODOLOGY.md",
+    load: () => rows("encounters_monthly.json"),
   },
   {
     id: "lpr-series",

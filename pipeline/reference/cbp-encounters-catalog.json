@@ -1,0 +1,765 @@
+{
+  "retrieved_at": "2026-10-15",
+  "first_fiscal_year": 1980,
+  "ofo_first_fiscal_year": 2004,
+  "ofo_cbp_first_fiscal_year": 2015,
+  "usbp_tables_last_fiscal_year": 2019,
+  "overlap_tolerance": 0.01,
+  "sources": [
+    {
+      "id": "usbp-nationwide-history",
+      "title": "United States Border Patrol Nationwide Encounters, Fiscal Years 1925 - 2020",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/sites/default/files/assets/documents/2021-Aug/U.S.%20Border%20Patrol%20Total%20Apprehensions%20%28FY%201925%20-%20FY%202020%29%20%28508%29.pdf",
+      "file": "usbp-total-apprehensions-fy1925-fy2020.pdf",
+      "text_file": "usbp-total-apprehensions-fy1925-fy2020.txt",
+      "kind": "pdf",
+      "role": "table"
+    },
+    {
+      "id": "usbp-southwest-sectors",
+      "title": "United States Border Patrol Southwest Border Sectors, Total Encounters By Fiscal Year (FY1960 - FY2020)",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/sites/default/files/assets/documents/2021-Aug/US59B8~1.PDF",
+      "file": "usbp-southwest-sector-apprehensions-fy1960-fy2020.pdf",
+      "text_file": "usbp-southwest-sector-apprehensions-fy1960-fy2020.txt",
+      "kind": "pdf",
+      "role": "table"
+    },
+    {
+      "id": "ohss-khsm-ofo",
+      "title": "Key Homeland Security Metrics: CBP Encounters (OFO), data through November 2024 (fy25m11)",
+      "publisher": "DHS OHSS",
+      "url": "https://ohss.dhs.gov/sites/default/files/2025-01/KHSM%20Encounters%20%28OFO%29%20fy25m11.xlsx",
+      "file": "ohss-khsm-encounters-ofo-fy25m11.xlsx",
+      "text_file": "ohss-khsm-encounters-ofo-fy25m11.txt",
+      "kind": "xlsx",
+      "sheets": [
+        "Annual Count",
+        "Annual Region",
+        "Annual Enforce-Admin"
+      ],
+      "role": "table"
+    },
+    {
+      "id": "ohss-khsm-usbp",
+      "title": "Key Homeland Security Metrics: CBP Encounters (USBP), data through November 2024 (fy25m11)",
+      "publisher": "DHS OHSS",
+      "url": "https://ohss.dhs.gov/sites/default/files/2025-01/KHSM%20Encounters%20%28USBP%29%20fy25m11.xlsx",
+      "file": "ohss-khsm-encounters-usbp-fy25m11.xlsx",
+      "text_file": "ohss-khsm-encounters-usbp-fy25m11.txt",
+      "kind": "xlsx",
+      "sheets": [
+        "Annual Count",
+        "Annual Region"
+      ],
+      "role": "cross_check"
+    },
+    {
+      "id": "ohss-yearbook-2023-enforcement",
+      "title": "Yearbook of Immigration Statistics FY2023, enforcement tables (Tables 33 and 36)",
+      "publisher": "DHS OHSS",
+      "url": "https://ohss.dhs.gov/system/files/2026-08/2026_0806_ohss_yearbook_enforcement_fy2023.xlsx",
+      "file": "ohss-yearbook-2023-enforcement.xlsx",
+      "text_file": "ohss-yearbook-2023-enforcement.txt",
+      "kind": "xlsx",
+      "sheets": [
+        "TOC",
+        "Table 33",
+        "Table 36"
+      ],
+      "role": "cross_check"
+    },
+    {
+      "id": "ohss-monthly-tables-2024-11",
+      "title": "Immigration Enforcement and Legal Processes Monthly Tables, November 2024",
+      "publisher": "DHS OHSS",
+      "url": "https://ohss.dhs.gov/sites/default/files/2025-01/2025_0116_ohss_immigration-enforcement-and-legal-processes-tables-november-2024.xlsx",
+      "file": "ohss-enforcement-monthly-tables-2024-11.xlsx",
+      "text_file": "ohss-enforcement-monthly-tables-2024-11.txt",
+      "kind": "xlsx",
+      "sheets": [
+        "TOC",
+        "CBP Encounter by Type + Region"
+      ],
+      "role": "definition"
+    },
+    {
+      "id": "cbp-enforcement-fy2017",
+      "title": "CBP Enforcement Statistics FY 2017",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/cbp-enforcement-statistics-fy2017",
+      "file": "cbp-enforcement-statistics-fy2017.html",
+      "text_file": "cbp-enforcement-statistics-fy2017.txt",
+      "kind": "html",
+      "role": "printed"
+    },
+    {
+      "id": "cbp-enforcement-fy2025",
+      "title": "CBP Enforcement Statistics Fiscal Year 2025",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/cbp-enforcement-statistics-fy2025",
+      "file": "cbp-enforcement-statistics-fy2025.html",
+      "text_file": "cbp-enforcement-statistics-fy2025.txt",
+      "kind": "html",
+      "role": "printed"
+    },
+    {
+      "id": "cbp-sw-fy2017",
+      "title": "Southwest Border Migration FY2017",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/sw-border-migration-fy2017",
+      "file": "cbp-sw-border-migration-fy2017.html",
+      "text_file": "cbp-sw-border-migration-fy2017.txt",
+      "kind": "html",
+      "role": "printed"
+    },
+    {
+      "id": "cbp-sw-fy2018",
+      "title": "Southwest Border Migration FY 2018",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/sw-border-migration/fy-2018",
+      "file": "cbp-sw-border-migration-fy2018.html",
+      "text_file": "cbp-sw-border-migration-fy2018.txt",
+      "kind": "html",
+      "role": "printed"
+    },
+    {
+      "id": "cbp-sw-fy2019",
+      "title": "Southwest Border Migration FY 2019",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/sw-border-migration/fy-2019",
+      "file": "cbp-sw-border-migration-fy2019.html",
+      "text_file": "cbp-sw-border-migration-fy2019.txt",
+      "kind": "html",
+      "role": "printed"
+    },
+    {
+      "id": "cbp-sw-fy2020",
+      "title": "Southwest Border Migration FY 2020",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/sw-border-migration-fy2020",
+      "file": "cbp-sw-border-migration-fy2020.html",
+      "text_file": "cbp-sw-border-migration-fy2020.txt",
+      "kind": "html",
+      "role": "printed"
+    },
+    {
+      "id": "cbp-data-dictionary",
+      "title": "Nationwide Encounters data dictionary",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/sites/default/files/assets/documents/2023-Sep/nationwide-encounters-data-dictionary.pdf",
+      "file": "nationwide-encounters-data-dictionary.pdf",
+      "text_file": "nationwide-encounters-data-dictionary.txt",
+      "kind": "pdf",
+      "role": "definition"
+    },
+    {
+      "id": "cbp-nationwide-page",
+      "title": "Nationwide Encounters (dashboard page)",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "file": "cbp-nationwide-encounters-page.html",
+      "text_file": "cbp-nationwide-encounters-page.txt",
+      "kind": "html",
+      "role": "definition"
+    },
+    {
+      "id": "cbp-southwest-page",
+      "title": "Southwest Land Border Encounters (dashboard page)",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/southwest-land-border-encounters",
+      "file": "cbp-southwest-land-border-encounters-page.html",
+      "text_file": "cbp-southwest-land-border-encounters-page.txt",
+      "kind": "html",
+      "role": "definition"
+    },
+    {
+      "id": "cbp-title42-page",
+      "title": "Nationwide Enforcement Encounters: Title 8 Enforcement Actions and Title 42 Expulsions",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/stats/cbp-enforcement-statistics/title-8-and-title-42-statistics",
+      "file": "cbp-title-8-and-title-42-statistics.html",
+      "text_file": "cbp-title-8-and-title-42-statistics.txt",
+      "kind": "html",
+      "role": "definition"
+    },
+    {
+      "id": "cbp-release-2023-02",
+      "title": "CBP Releases February 2023 Monthly Operational Update",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/national-media-release/cbp-releases-february-2023-monthly-operational-update",
+      "file": "cbp-releases-february-2023-monthly-operational-update.html",
+      "text_file": "cbp-releases-february-2023-monthly-operational-update.txt",
+      "kind": "html",
+      "role": "definition"
+    },
+    {
+      "id": "cbp-release-2023-08",
+      "title": "CBP Releases August 2023 Monthly Update",
+      "publisher": "CBP",
+      "url": "https://www.cbp.gov/newsroom/national-media-release/cbp-releases-august-2023-monthly-update",
+      "file": "cbp-releases-august-2023-monthly-update.html",
+      "text_file": "cbp-releases-august-2023-monthly-update.txt",
+      "kind": "html",
+      "role": "definition"
+    }
+  ],
+  "printed": [
+    {
+      "id": "fy2017-page-ofo",
+      "source": "cbp-enforcement-fy2017",
+      "scope": "nationwide",
+      "component": "ofo",
+      "values": {
+        "2015": 255342,
+        "2016": 274821,
+        "2017": 216370
+      },
+      "evidence": "Total Inadmissibles 1 255,342 274,821 216,370",
+      "use": "series"
+    },
+    {
+      "id": "fy2017-page-usbp",
+      "source": "cbp-enforcement-fy2017",
+      "scope": "nationwide",
+      "component": "usbp",
+      "values": {
+        "2015": 337117,
+        "2016": 415816,
+        "2017": 310531
+      },
+      "evidence": "Total Apprehensions 2 337,117 415,816 310,531",
+      "use": "check"
+    },
+    {
+      "id": "fy2017-page-total",
+      "source": "cbp-enforcement-fy2017",
+      "scope": "nationwide",
+      "component": "total",
+      "values": {
+        "2015": 592459,
+        "2016": 690637,
+        "2017": 526901
+      },
+      "evidence": "Total Enforcement Actions 592,459 690,637 526,901",
+      "use": "check"
+    },
+    {
+      "id": "fy2025-page-ofo",
+      "source": "cbp-enforcement-fy2025",
+      "scope": "nationwide",
+      "component": "ofo",
+      "values": {
+        "2017": 216370,
+        "2018": 281881,
+        "2019": 288523,
+        "2020": 241786,
+        "2021": 294352,
+        "2022": 551930,
+        "2023": 1137452,
+        "2024": 1343823,
+        "2025": 437723
+      },
+      "evidence": "Office of Field Operations (OFO) 1 216,370 281,881 288,523 241,786 294,352 551,930 1,137,452 1,343,823 437,723",
+      "use": "series"
+    },
+    {
+      "id": "fy2025-page-usbp",
+      "source": "cbp-enforcement-fy2025",
+      "scope": "nationwide",
+      "component": "usbp",
+      "values": {
+        "2017": 310531,
+        "2018": 404142,
+        "2019": 859501,
+        "2020": 405036,
+        "2021": 1662167,
+        "2022": 2214652,
+        "2023": 2063692,
+        "2024": 1577319,
+        "2025": 254183
+      },
+      "evidence": "U.S. Border Patrol (USBP) 2 310,531 404,142 859,501 405,036 1,662,167 2,214,652 2,063,692 1,577,319 254,183",
+      "use": "check"
+    },
+    {
+      "id": "fy2025-page-total",
+      "source": "cbp-enforcement-fy2025",
+      "scope": "nationwide",
+      "component": "total",
+      "values": {
+        "2017": 526901,
+        "2018": 683178,
+        "2019": 1148024,
+        "2020": 646822,
+        "2021": 1956519,
+        "2022": 2766582,
+        "2023": 3201144,
+        "2024": 2901142,
+        "2025": 691906
+      },
+      "evidence": "Total Enforcement Encounters 526,901 683,178 1,148,024 646,822 1,956,519 2,766,582 3,201,144 2,901,142 691,906",
+      "use": "check"
+    },
+    {
+      "id": "sw-fy2017-page-ofo",
+      "source": "cbp-sw-fy2017",
+      "scope": "southwest",
+      "component": "ofo",
+      "values": {
+        "2014": 90601,
+        "2015": 114486,
+        "2016": 150825
+      },
+      "evidence": "In Fiscal Year (FY) 2016, 150,825 were deemed inadmissible compared to 114,486 in FY15 and 90,601 in FY14.",
+      "use": "series"
+    },
+    {
+      "id": "sw-fy2017-page-ofo-table",
+      "source": "cbp-sw-fy2017",
+      "scope": "southwest",
+      "component": "ofo",
+      "values": {
+        "2017": 111275
+      },
+      "evidence": "Southwest Border Total Inadmissibles 20,524 16,150 15,161 10,887 4,801 4,393 4,639 5,421 5,570 6,832 8,279 8,618 111,275",
+      "use": "check"
+    },
+    {
+      "id": "sw-fy2017-page-usbp",
+      "source": "cbp-sw-fy2017",
+      "scope": "southwest",
+      "component": "usbp",
+      "values": {
+        "2014": 479371,
+        "2015": 331333,
+        "2016": 408870
+      },
+      "evidence": "In Fiscal Year (FY) 2016, USBP apprehended 408,870 individuals along our Southwest Border, compared to 331,333 in FY15, and 479,371 in FY14.",
+      "use": "check"
+    },
+    {
+      "id": "sw-fy2018-page-ofo",
+      "source": "cbp-sw-fy2018",
+      "scope": "southwest",
+      "component": "ofo",
+      "values": {
+        "2017": 111601,
+        "2018": 124511
+      },
+      "evidence": "In FY 2018, 124,511 people presenting themselves at ports of entry on the Southwest Border were deemed inadmissible. In FY 2017 111,601 individuals were deemed inadmissible.",
+      "use": "series"
+    },
+    {
+      "id": "sw-fy2019-page-ofo",
+      "source": "cbp-sw-fy2019",
+      "scope": "southwest",
+      "component": "ofo",
+      "values": {
+        "2018": 124511,
+        "2019": 126001
+      },
+      "evidence": "In Fiscal Year (FY) 2019, 126,001 people presenting themselves at ports of entry on the Southwest Border were deemed inadmissible. In FY18, 124,511 people presenting themselves at ports of entry on the Southwest Border were deemed inadmissible.",
+      "use": "series"
+    },
+    {
+      "id": "sw-fy2019-page-usbp",
+      "source": "cbp-sw-fy2019",
+      "scope": "southwest",
+      "component": "usbp",
+      "values": {
+        "2018": 396579,
+        "2019": 851508
+      },
+      "evidence": "In Fiscal Year (FY) 2019, a total of 851,508 individuals were apprehended between ports of entry on our Southwest Border. In FY18, a total of 396,579 individuals were apprehended between ports of entry on our Southwest Border.",
+      "use": "check"
+    },
+    {
+      "id": "sw-fy2020-page-ofo",
+      "source": "cbp-sw-fy2020",
+      "scope": "southwest",
+      "component": "ofo",
+      "values": {
+        "2020": 57437
+      },
+      "evidence": "Southwest Border Total Inadmissibles 9,737 9,119 7,712 7,380 6,610 4,071 924 1,644 2,213 2,393 2,731 2,903 57,437",
+      "use": "check"
+    },
+    {
+      "id": "sw-fy2020-page-usbp",
+      "source": "cbp-sw-fy2020",
+      "scope": "southwest",
+      "component": "usbp",
+      "values": {
+        "2020": 400651
+      },
+      "evidence": "Southwest Border Total Apprehensions 35,402 33,524 32,853 29,205 30,077 30,389 16,182 21,593 30,836 38,536 47,283 54,771 400,651",
+      "use": "check"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "fy2024-usbp-misprint",
+      "kind": "misprint",
+      "fy": 2024,
+      "scope": "nationwide",
+      "component": "usbp",
+      "between": [
+        "fy2025-page-usbp",
+        "csv"
+      ],
+      "values": [
+        1577319,
+        1557319
+      ],
+      "resolution": "The page prints 1,577,319, but its own total (2,901,142 = 1,343,823 OFO + 1,557,319) and the encounters CSV (1,557,319) agree, as does OHSS (1,557,320, rounded). The CSV figure is used."
+    },
+    {
+      "id": "fy2018-total-short",
+      "kind": "unexplained",
+      "fy": 2018,
+      "scope": "nationwide",
+      "component": "total",
+      "between": [
+        "fy2025-page-total",
+        "fy2025-page-ofo"
+      ],
+      "values": [
+        683178,
+        686023
+      ],
+      "resolution": "The FY2025 page prints an FY2018 total of 683,178, 2,845 less than its own OFO (281,881) plus Border Patrol (404,142) figures. OHSS confirms both parts (281,930 and 404,140, rounded), so the total, not a part, is out of step. The series stores the parts and no total."
+    },
+    {
+      "id": "fy2017-southwest-ofo-restated",
+      "kind": "restatement",
+      "fy": 2017,
+      "scope": "southwest",
+      "component": "ofo",
+      "between": [
+        "sw-fy2017-page-ofo-table",
+        "sw-fy2018-page-ofo"
+      ],
+      "values": [
+        111275,
+        111601
+      ],
+      "resolution": "CBP's FY2018 page restates the FY2017 southwest figure printed on the FY2017 page (+326). The later figure is used; OHSS (111,280) has the earlier one, within the 1% tolerance of both."
+    },
+    {
+      "id": "fy2000-usbp-nationwide-ohss",
+      "kind": "unexplained",
+      "fy": 2000,
+      "scope": "nationwide",
+      "component": "usbp",
+      "between": [
+        "usbp-pdf",
+        "ohss"
+      ],
+      "values": [
+        1676438,
+        1590310
+      ],
+      "resolution": "OHSS's figure is 5.1% lower than CBP's history table; FY2001 differs by 0.8% and later years by under 0.2%. Neither source explains it. CBP's own figure is used."
+    },
+    {
+      "id": "fy2000-usbp-southwest-ohss",
+      "kind": "unexplained",
+      "fy": 2000,
+      "scope": "southwest",
+      "component": "usbp",
+      "between": [
+        "usbp-pdf",
+        "ohss"
+      ],
+      "values": [
+        1643679,
+        1566420
+      ],
+      "resolution": "As for the nationwide figure: OHSS is 4.7% lower than CBP's sector table for FY2000. CBP's own figure is used."
+    }
+  ],
+  "notes": [
+    {
+      "id": "what-encounters-are",
+      "kind": "definition",
+      "fy_start": 1980,
+      "fy_end": null,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "What an encounter is",
+      "text": "CBP counts three things as encounters: Border Patrol apprehensions of people caught between ports of entry, people who came to a port of entry and were found inadmissible by the Office of Field Operations (OFO), and expulsions under the Title 42 public-health order (March 2020 to May 11, 2023). An apprehension is not necessarily an arrest.",
+      "source": "cbp-southwest-page",
+      "evidence": [
+        "Encounter data includes U.S. Border Patrol (USBP) Title 8 Apprehensions, Office of Field Operations (OFO) Title 8 Inadmissibles, and Title 42 Expulsions.",
+        "Apprehensions refers to the physical control or temporary detainment of a person by USBP between POEs who is not lawfully in the U.S. which may or may not result in an arrest."
+      ],
+      "marker": null
+    },
+    {
+      "id": "inadmissibles-defined",
+      "kind": "definition",
+      "fy_start": 2004,
+      "fy_end": null,
+      "components": [
+        "ofo"
+      ],
+      "title": "Who counts as inadmissible at a port of entry",
+      "text": "OFO's count includes people found inadmissible when they seek admission, people who present themselves at a port to seek humanitarian protection, and people who withdraw their application for admission and return home within a short time.",
+      "source": "cbp-southwest-page",
+      "evidence": [
+        "Inadmissibles refers to individuals encountered at ports of entry (POEs) by OFO who are seeking lawful admission into the United States (U.S.) but are determined to be inadmissible, individuals presenting themselves to seek humanitarian protection under our laws, and individuals who withdraw an application for admission and return to their countries of origin within a short timeframe."
+      ],
+      "marker": null
+    },
+    {
+      "id": "events-not-people",
+      "kind": "caveat",
+      "fy_start": 1980,
+      "fy_end": null,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "Encounters count events, not people",
+      "text": "Someone caught twice in a year is counted twice. Border Patrol reported that 16% of the people it apprehended in FY2013 were apprehended more than once that year, falling to 10% in FY2017.",
+      "source": "cbp-enforcement-fy2017",
+      "evidence": [
+        "FY13 FY14 FY15 FY16 FY17 Recidivism 5 16% 14% 14% 12% 10%",
+        "Recidivism refers to percentage of individuals apprehended more than one time by the Border Patrol within a fiscal year."
+      ],
+      "marker": null
+    },
+    {
+      "id": "unique-people-not-published",
+      "kind": "coverage",
+      "fy_start": 1980,
+      "fy_end": null,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "No yearly count of unique people",
+      "text": "CBP has not published a fiscal-year count of the distinct people it encountered. Its monthly updates in 2021–2024 gave \"unique encounters\" for single months, defined against a rolling 12-month window, so they cannot be added up to a year.",
+      "source": "cbp-release-2023-02",
+      "evidence": [
+        "Unique encounters include persons not previously encountered in the prior 12 months."
+      ],
+      "marker": null
+    },
+    {
+      "id": "nationwide-and-southwest",
+      "kind": "definition",
+      "fy_start": 1980,
+      "fy_end": null,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "Nationwide and southwest border",
+      "text": "Nationwide counts every CBP encounter: the northern and southwest land borders, airports and seaports, and Border Patrol sectors with no land border. The southwest border counts Border Patrol's southwest sectors and the field offices at southwest land ports.",
+      "source": "cbp-nationwide-page",
+      "evidence": [
+        "Nationwide encounters are the sum of CBP encounters across all areas of responsibility including Northern Land Border, Southwest Land Border, OFO non-land border ports of entry (e.g., airports, seaports), and USBP sectors that do not share a land border with Canada or Mexico (e.g., Miami Sector)."
+      ],
+      "marker": null
+    },
+    {
+      "id": "port-figures-begin",
+      "kind": "change",
+      "fy_start": 2004,
+      "fy_end": null,
+      "components": [
+        "ofo"
+      ],
+      "title": "Port-of-entry figures begin in FY2004",
+      "text": "CBP was created in March 2003. No CBP or DHS source publishes port-of-entry inadmissibles before FY2004, so FY1980–FY2003 show Border Patrol apprehensions only. Those years are not zero at the ports; they are unpublished.",
+      "source": null,
+      "evidence": [],
+      "marker": {
+        "date": "2003-10-01",
+        "precision": "day",
+        "label": "Port figures begin"
+      }
+    },
+    {
+      "id": "ofo-from-ohss",
+      "kind": "coverage",
+      "fy_start": 2004,
+      "fy_end": 2014,
+      "components": [
+        "ofo"
+      ],
+      "title": "FY2004–FY2014 port figures come from DHS statistics",
+      "text": "CBP's own published OFO figures start in FY2015. For FY2004–FY2014 the series uses the same CBP records as republished by the DHS Office of Homeland Security Statistics, rounded to the nearest ten. Where both exist (FY2014–FY2024) they agree within 1%.",
+      "source": "ohss-yearbook-2023-enforcement",
+      "evidence": [
+        "To protect privacy, table cells are rounded to the nearest ten."
+      ],
+      "marker": null
+    },
+    {
+      "id": "crew-members-2008",
+      "kind": "change",
+      "fy_start": 2004,
+      "fy_end": 2008,
+      "components": [
+        "ofo"
+      ],
+      "title": "Ship crews counted fully from April 2008",
+      "text": "Before April 2008, the port-of-entry figures did not include all crew members of foreign ships who were held on board.",
+      "source": "ohss-yearbook-2023-enforcement",
+      "evidence": [
+        "Before April 2008, data did not include all crew members detained onboard vessels."
+      ],
+      "marker": {
+        "date": "2008-04-01",
+        "precision": "month",
+        "label": "Ship crews counted"
+      }
+    },
+    {
+      "id": "title-42-begins",
+      "kind": "change",
+      "fy_start": 2020,
+      "fy_end": 2023,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "Title 42 expulsions begin",
+      "text": "From March 2020, CBP expelled people under a public-health order (Title 42) with no immigration processing: Border Patrol from March 21, ports of entry from March 27. Expulsions are counted as encounters alongside Title 8 apprehensions and inadmissibles.",
+      "source": "cbp-data-dictionary",
+      "evidence": [
+        "CBP has been assisting in enforcing the CDC Order, pursuant to Title 42, by USBP and OFO starting 3/21/2020 and 3/27/2020, respectively."
+      ],
+      "marker": {
+        "date": "2020-03-21",
+        "precision": "day",
+        "label": "Title 42 begins"
+      }
+    },
+    {
+      "id": "title-42-ends",
+      "kind": "change",
+      "fy_start": 2023,
+      "fy_end": 2023,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "Title 42 expulsions end",
+      "text": "The Title 42 order ended on May 11, 2023. Every encounter since is under Title 8.",
+      "source": "cbp-title42-page",
+      "evidence": [
+        "Title 42 expulsions began March 21, 2020, and ended on May 11, 2023."
+      ],
+      "marker": {
+        "date": "2023-05-11",
+        "precision": "day",
+        "label": "Title 42 ends"
+      }
+    },
+    {
+      "id": "cbp-one-and-parole",
+      "kind": "change",
+      "fy_start": 2023,
+      "fy_end": null,
+      "components": [
+        "ofo"
+      ],
+      "title": "Port figures include CBP One appointments and parole arrivals",
+      "text": "From January 2023 the port-of-entry count includes people who booked an appointment through the CBP One app to present at a port, and people paroled in at ports, including Cubans, Haitians, Nicaraguans and Venezuelans flying in under the parole processes. This is most of the rise in OFO encounters in FY2023–FY2024.",
+      "source": "cbp-release-2023-02",
+      "evidence": [
+        "This total includes Border Patrol encounters and includes noncitizens processed at Ports of Entry including individuals who sought an exception to the Title 42 public health order based on certain vulnerabilities and scheduled an appointment to present in advance via the CBP One mobile application.",
+        "were paroled into the country by the CBP Office of Field Operations through the parole processes established for Venezuelans in October and expanded to the additional nationalities in January."
+      ],
+      "marker": {
+        "date": "2023-01-01",
+        "precision": "month",
+        "label": "CBP One appointments"
+      }
+    },
+    {
+      "id": "parole-counted-at-ports",
+      "kind": "definition",
+      "fy_start": 2004,
+      "fy_end": null,
+      "components": [
+        "ofo"
+      ],
+      "title": "Paroled people are in the port count",
+      "text": "OFO's count includes administrative encounters that never lead to removal proceedings, such as foreign ship crews required to stay aboard and people paroled into the United States at a port.",
+      "source": "ohss-monthly-tables-2024-11",
+      "evidence": [
+        "persons paroled into the United States and released from OFO custody without being placed into removal proceedings."
+      ],
+      "marker": null
+    },
+    {
+      "id": "before-2000-different-mix",
+      "kind": "caveat",
+      "fy_start": 1980,
+      "fy_end": 2000,
+      "components": [
+        "usbp"
+      ],
+      "title": "The 1980s and 1990s peaks counted a different mix of people",
+      "text": "Before the 2000s most people Border Patrol caught were Mexican adults, usually given voluntary return and often caught several times a year. Today a larger share are families and asylum seekers from farther away. The FY1986 and FY2000 peaks are not like-for-like with the FY2021–FY2023 counts.",
+      "source": null,
+      "evidence": [],
+      "marker": null
+    },
+    {
+      "id": "fy2000-sources-differ",
+      "kind": "caveat",
+      "fy_start": 2000,
+      "fy_end": 2001,
+      "components": [
+        "usbp"
+      ],
+      "title": "FY2000–FY2001 Border Patrol figures differ between CBP and DHS",
+      "text": "CBP's history table gives 1,676,438 apprehensions in FY2000; the DHS statistics office gives 1,590,310 (5.1% lower), and 0.8% lower for FY2001. Later years agree within 0.2%. Neither source explains the difference. CBP's own figures are used.",
+      "source": null,
+      "evidence": [],
+      "marker": null
+    },
+    {
+      "id": "fy2017-southwest-restated",
+      "kind": "caveat",
+      "fy_start": 2017,
+      "fy_end": 2017,
+      "components": [
+        "ofo"
+      ],
+      "title": "CBP restated FY2017 southwest port figures",
+      "text": "CBP's FY2017 page printed 111,275 southwest inadmissibles for FY2017; its FY2018 page gives 111,601. The later figure is used.",
+      "source": "cbp-sw-fy2018",
+      "evidence": [
+        "In FY 2017 111,601 individuals were deemed inadmissible."
+      ],
+      "marker": null
+    },
+    {
+      "id": "operational-data",
+      "kind": "caveat",
+      "fy_start": 2020,
+      "fy_end": null,
+      "components": [
+        "usbp",
+        "ofo"
+      ],
+      "title": "Monthly figures come from live systems",
+      "text": "CBP's monthly files are drawn from live systems and can change. The year in progress is marked preliminary and covers only the months posted so far; earlier years have not changed between CBP's files.",
+      "source": "cbp-nationwide-page",
+      "evidence": [
+        "Statistical information is subject to change due to corrections, systems changes, change in data definition, additional information, or encounters pending final review. Final statistics are available at the conclusion of each fiscal year."
+      ],
+      "marker": null
+    }
+  ]
+}

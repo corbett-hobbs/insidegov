@@ -501,3 +501,126 @@ FY2025, labels each row's `basis`, and never ranks or diffs the two together
 - Table 2 (country of last residence), Tables 4–5 (state, metro area), Table 7 (detailed class),
   Tables 8–12, the "Tables 8–11 newadj" workbooks and the supplemental tables.
 - The quarterly reports' I-94 sheets (session G) and refugee arrivals (cross-check only).
+
+## 9. CBP border encounters — session L source check (2026-10-15)
+
+A new track for the encounters card planned in `docs/CBP_ENCOUNTERS_PLAN.md`. Snapshots in
+`pipeline/raw/cbp/` (each `.html`, `.pdf` and `.xlsx` has a `.txt` extract next to it; the CSVs
+are already text). Everything here is CBP data, either from CBP or as republished by DHS OHSS.
+None of it joins the ICE removals series.
+
+### Sources
+
+| Source | What it gives | URL pattern | Format | Stable? |
+| --- | --- | --- | --- | --- |
+| CBP Nationwide Encounters data files (4 vintages: `fy20-fy23`, `fy21-fy24`, `fy22-fy25`, `fy23-fy26-aug`) | Monthly encounters FY2020–FY2026 (through August) by component (USBP / OFO), land border region (Southwest / Northern / Other), area of responsibility, demographic, citizenship, title of authority (Title 8 / Title 42) and encounter type | Listed on `cbp.gov/document/stats/nationwide-encounters`; files at `/sites/default/files/<yyyy-mm>/nationwide-encounters-fy<a>-fy<b>[-<mon>]-aor[_0].csv` (an `-aor` and a `-state` file per vintage; the AOR file is used) | CSV, one header row, `Encounter Count` per cell | **No.** A new name every month (the `_0` suffix on the August file is a re-upload). Discover from the document page, like `fetch:ice` |
+| Data dictionary (`2023-Sep`) | Column meanings, the Title 42 start dates per component, "Nationwide = Northern + Southwest + Other" | same page | PDF | Fixed |
+| CBP Enforcement Statistics page, plus its FY2017 and FY2025 archived editions | Nationwide OFO and USBP totals and the printed total, FY2015–FY2026 (FY2015–FY2016 from the FY2017 edition) | `cbp.gov/newsroom/stats/cbp-enforcement-statistics[-fy<year>]` | HTML | Current page rewritten monthly; archived editions fixed |
+| Southwest Border Migration pages FY2017–FY2020 | Southwest USBP apprehensions and OFO inadmissibles by month and demographic; prose gives southwest OFO FY2014–FY2016 | `cbp.gov/newsroom/stats/sw-border-migration[-fy2017 \| /fy-2018 \| /fy-2019 \| -fy2020]` | HTML | Fixed |
+| USBP Nationwide Encounters (Apprehensions), FY1925–FY2020 | USBP nationwide total per fiscal year | `cbp.gov/document/stats/us-border-patrol-total-apprehensions-fy-1925-fy-2020` → `2021-Aug/…(508).pdf` | PDF, two columns | Fixed (not updated since Aug 2021) |
+| USBP Southwest Border Sectors, FY1960–FY2020 | USBP southwest apprehensions per sector and the southwest total | `…/us-border-patrol-fiscal-year-southwest-border-sector-apprehensions-fy-1960-fy-2020` → `2021-Aug/US59B8~1.PDF` | PDF | Fixed |
+| Title 8 / Title 42 statistics page | Title 42 dates as CBP states them | `cbp.gov/newsroom/stats/cbp-enforcement-statistics/title-8-and-title-42-statistics` | HTML | Rewritten |
+| CBP monthly updates, Feb 2023 and Aug 2023 | The only place "unique encounters" appear (see below); what the OFO total includes (CBP One) | `cbp.gov/newsroom/national-media-release/…` | HTML | Fixed |
+| OHSS Yearbook FY2023 enforcement workbook (posted 2026-08-06) | Table 33 "DHS initial enforcement actions" FY1925–FY2023; Table 36 OFO encounters FY2005–FY2023 (administrative / enforcement from FY2012) | `ohss.dhs.gov/system/files/2026-08/2026_0806_ohss_yearbook_enforcement_fy2023.xlsx` | XLSX, rounded to tens | New path per edition |
+| OHSS Key Homeland Security Metrics (KHSM), USBP and OFO, data through Nov 2024 (`fy25m11`) | USBP FY2000–FY2025 YTD and OFO FY2004–FY2025 YTD, nationwide and by region | `ohss.dhs.gov/khsm/cbp-encounters` | XLSX, rounded to tens; only the annual sheets are extracted (the citizenship sheets are about 60,000 rows) | No updates since Jan 2025 |
+| OHSS Immigration Enforcement and Legal Processes monthly tables, Nov 2024 | CBP encounters FY2014–FY2025 YTD by type (enforcement / administrative) and region | `ohss.dhs.gov/topics/immigration/immigration-enforcement/monthly-tables` | XLSX, rounded to tens | Last edition posted 2025-01-16; none since |
+
+### Coverage
+
+| Series | Nationwide | Southwest | Source used |
+| --- | --- | --- | --- |
+| Border Patrol (USBP) apprehensions, Title 8 | FY1925– (stored from FY1980) | FY1960– | FY1980–FY2019 from the two USBP PDFs; FY2020– from the CSVs |
+| OFO inadmissibles, Title 8 (CBP's own figures) | FY2015– | FY2014– | FY2015–FY2019 from the enforcement-statistics and southwest-migration pages; FY2020– from the CSVs |
+| OFO inadmissibles (OHSS, rounded) | FY2004– (KHSM), FY2005– (Yearbook) | FY2004– (KHSM) | Used for FY2004–FY2014 (decision below) |
+| Title 42 expulsions, by component | FY2020 (Mar) – FY2023 (May) | same | CSVs only |
+| Monthly rows | FY2020– | FY2020– | CSVs |
+| Before FY2004 | No port-of-entry figures in any CBP or OHSS source (ports were INS inspections; not looked for further) | | |
+
+So the southwest toggle has the same years as the nationwide view for each component: Border Patrol
+for every year FY1980–FY2026, and OFO from whichever start year is chosen.
+
+**Latest year.** FY2026 runs through August in the newest file (rows labelled `2026 (FYTD)`).
+September should post mid-October. CBP: "Final statistics are available at the conclusion of each
+fiscal year." Earlier years show no revisions at all between vintages (below), so in practice a year
+is final once its September is in.
+
+### Agreements and disagreements found
+
+- **The four CSV vintages agree exactly.** Every (fiscal year, component, region, title) cell that two
+  vintages share is identical, FY2020–FY2025. Totals: FY2020 646,822; FY2021 1,956,519; FY2022
+  2,766,582; FY2023 3,201,144; FY2024 2,901,142; FY2025 691,906; FY2026 to August 348,866.
+- **CSVs vs. the enforcement-statistics page, FY2020–FY2026:** OFO, USBP and total identical in every
+  year except one misprint: the page prints **FY2024 USBP as 1,577,319**, but its own total
+  (2,901,142 = 1,343,823 + 1,557,319), the CSV (1,557,319) and OHSS (1,557,320) agree on
+  1,557,319. The FY2025 archived edition carries the same misprint. A documented exception for the
+  gate.
+- **USBP PDFs vs. the CSV, FY2020:** identical (nationwide 405,036; southwest 400,651). The PDFs
+  vs. the enforcement page FY2015–FY2019: identical.
+- **Southwest sector rows add up to the printed southwest total** in all 61 years FY1960–FY2020.
+- **The FY2025 page's FY2018 total is short of its own parts** (found by the build's gate): it prints 683,178, but its
+  OFO (281,881) plus Border Patrol (404,142) figures make 686,023, and OHSS confirms both parts (281,930 and 404,140).
+  The total, not a part, is out of step. A documented exception; the series stores no totals.
+- **CBP vs. OHSS, Border Patrol:** within 0.2% every year FY2002–FY2020 (OHSS rounds to tens).
+  FY2000 and FY2001 differ: nationwide 1,676,438 vs. 1,590,310 (−5.1%) and 1,266,214 vs.
+  1,255,920 (−0.8%); southwest 1,643,679 vs. 1,566,420 (−4.7%). Neither source explains it. CBP's
+  figure is used, and the difference goes in a note.
+- **CBP vs. OHSS, OFO nationwide:** within 0.25% FY2015–FY2024 (FY2015 255,342 vs. 254,710;
+  FY2019 288,523 vs. 287,980; FY2022 identical).
+- **CBP vs. OHSS, OFO southwest:** within 1% FY2014–FY2020 (FY2018 124,511 vs. 123,370 is the widest).
+  **CBP restated its own FY2017** southwest OFO figure: 111,275 on the FY2017 page, 111,601 on the FY2018
+  page. OHSS has 111,280, the earlier vintage. Use the later CBP figure and record it.
+- **OHSS Table 33 is not a Border Patrol series** after FY1951: "Beginning in 1952, data also include
+  HSI administrative arrests." It is not used.
+
+### Definition changes (candidate numbered markers)
+
+1. **Title 42 starts, March 2020.** USBP from 3/21/2020, OFO from 3/27/2020 (data dictionary). Title 42 rows in the
+   CSVs fall in FY2020 March–September, all of FY2021–FY2022, and FY2023 October–May only, so the
+   planned gate holds on the current files.
+2. **Title 42 ends, May 11, 2023.**
+3. **OFO figures begin** (FY2015 on CBP's own figures, or FY2004 with OHSS).
+4. **CBP One appointments, January 2023.** The OFO count then includes people who booked a port
+   appointment: "This total includes … individuals who … scheduled an appointment to present in advance
+   via the CBP One mobile application" (Feb 2023 update). It also includes people paroled at ports, so
+   CHNV parole arrivals at airports are counted: OHSS defines administrative encounters to include
+   "persons paroled into the United States and released from OFO custody" (monthly tables, footnote
+   2). OHSS's airport/interior OFO figure jumps from 114,350 (FY2022) to 391,750 (FY2023). This is the
+   main reason FY2023–FY2024 OFO is three to four times FY2021. Readers need this marker.
+5. **Before FY2000, a different mix of people** (the plan's note on voluntary return and repeat Mexican
+   adults). No source in the snapshot quantifies it; the note will carry the wording, not a number.
+   The best available sign is CBP's own Border Patrol recidivism rate, 16% (FY13) to 10% (FY17)
+   ("percentage of individuals apprehended more than one time by the Border Patrol within a fiscal
+   year"), and the "average one-year re-encounter rate of 14% for FY2014–2019" quoted in the 2023
+   updates.
+6. **Demographic labels** changed between vintages ("UC / Single Minors" → "UAC"). This doesn't affect
+   totals or the card.
+7. Region names: the CSVs say "Other", and OHSS splits that into "Coastal Border" and "Air Ports of
+   Entry/Interior". Same total within rounding.
+
+### The owner's two decisions
+
+- **Southwest toggle: supported for every year.** Border Patrol southwest FY1960 on; OFO southwest from the
+  same start year as nationwide OFO (FY2004, decided below); Title 42 southwest FY2020–FY2023. No year needs "no
+  southwest split published".
+- **Unique encounters: no consistent series. Drop the toggle.** CBP published "unique encounters"
+  only in monthly press-release prose, roughly FY2021–FY2024, sometimes southwest and sometimes
+  nationwide, defined as "persons not previously encountered in the prior 12 months". That is a rolling
+  window, so months can't be summed to a fiscal-year count of people. The Feb 2023 update's 61% unique
+  plus 25% repeat leaves 14% unexplained. Neither the CSVs, the PDFs nor any OHSS table has a
+  unique-individuals column. Border Patrol's recidivism *rate* (FY2013–FY2017, five values) is a
+  percentage of one component, not a count.
+
+### Decision (owner, 2026-10-15)
+
+OFO starts in **FY2004**. FY2004–FY2014 use OHSS's KHSM figures, and FY2015 on use CBP's own. That keeps the card's full
+detail close to the removals chart's FY2003 start. Unique encounters are dropped. The data model and gates are in
+`docs/CBP_ENCOUNTERS_METHODOLOGY.md`. Two of the four CSV vintages were dropped from the snapshot (FY2021–FY2024 and
+FY2022–FY2025): every cell they hold is identical in the files kept.
+
+### Not ingested
+
+- The `-state` CSVs (by state, same totals), the USBP sector-by-citizenship PDF (FY2007–FY2018), the
+  OHSS Border Security Metrics Reports, and the OHSS Southwest Border Enforcement and Enforcement
+  Lifecycle reports. The lifecycle reports estimate repeat-encounter shares by cohort; they could
+  serve a future "unique people" view but aren't a fiscal-year series.
+- "Got-aways" (out of scope by plan).

@@ -1,0 +1,108 @@
+## sheet: Annual Count
+1	Fiscal Year | Quantity
+2	2000 | 1590310
+3	2001 | 1255920
+4	2002 | 953690
+5	2003 | 931900
+6	2004 | 1160350
+7	2005 | 1189030
+8	2006 | 1089100
+9	2007 | 876800
+10	2008 | 723870
+11	2009 | 556030
+12	2010 | 463380
+13	2011 | 340250
+14	2012 | 364770
+15	2013 | 420790
+16	2014 | 486650
+17	2015 | 337120
+18	2016 | 415820
+19	2017 | 310530
+20	2018 | 404140
+21	2019 | 859500
+22	2020 | 405040
+23	2021 | 1662170
+24	2022 | 2214650
+25	2023 | 2063690
+26	2024 | 1557320
+27	2025 | 105660
+## sheet: Annual Region
+1	Fiscal Year | Region | Quantity
+2	2000 | Coastal Border | 9720
+3	2000 | Northern Land Border | 14170
+4	2000 | Southwest Land Border | 1566420
+5	2001 | Coastal Border | 9300
+6	2001 | Northern Land Border | 15200
+7	2001 | Southwest Land Border | 1231410
+8	2002 | Coastal Border | 10060
+9	2002 | Northern Land Border | 13290
+10	2002 | Southwest Land Border | 930340
+11	2003 | Coastal Border | 12850
+12	2003 | Northern Land Border | 12320
+13	2003 | Southwest Land Border | 906730
+14	2004 | Coastal Border | 9170
+15	2004 | Northern Land Border | 10940
+16	2004 | Southwest Land Border | 1140250
+17	2005 | Coastal Border | 10220
+18	2005 | Northern Land Border | 7420
+19	2005 | Southwest Land Border | 1171390
+20	2006 | Coastal Border | 10520
+21	2006 | Northern Land Border | 6600
+22	2006 | Southwest Land Border | 1071980
+23	2007 | Coastal Border | 11690
+24	2007 | Northern Land Border | 6380
+25	2007 | Southwest Land Border | 858740
+26	2008 | Coastal Border | 10900
+27	2008 | Northern Land Border | 7920
+28	2008 | Southwest Land Border | 705050
+29	2009 | Coastal Border | 8370
+30	2009 | Northern Land Border | 6810
+31	2009 | Southwest Land Border | 540850
+32	2010 | Coastal Border | 8220
+33	2010 | Northern Land Border | 7430
+34	2010 | Southwest Land Border | 447730
+35	2011 | Coastal Border | 6550
+36	2011 | Northern Land Border | 6120
+37	2011 | Southwest Land Border | 327580
+38	2012 | Coastal Border | 3690
+39	2012 | Northern Land Border | 4210
+40	2012 | Southwest Land Border | 356870
+41	2013 | Coastal Border | 3160
+42	2013 | Northern Land Border | 3230
+43	2013 | Southwest Land Border | 414400
+44	2014 | Coastal Border | 3940
+45	2014 | Northern Land Border | 3340
+46	2014 | Southwest Land Border | 479370
+47	2015 | Coastal Border | 3160
+48	2015 | Northern Land Border | 2630
+49	2015 | Southwest Land Border | 331330
+50	2016 | Coastal Border | 4660
+51	2016 | Northern Land Border | 2280
+52	2016 | Southwest Land Border | 408870
+53	2017 | Coastal Border | 3590
+54	2017 | Northern Land Border | 3030
+55	2017 | Southwest Land Border | 303920
+56	2018 | Coastal Border | 3250
+57	2018 | Northern Land Border | 4320
+58	2018 | Southwest Land Border | 396580
+59	2019 | Coastal Border | 3590
+60	2019 | Northern Land Border | 4410
+61	2019 | Southwest Land Border | 851510
+62	2020 | Coastal Border | 2230
+63	2020 | Northern Land Border | 2160
+64	2020 | Southwest Land Border | 400650
+65	2021 | Coastal Border | 2050
+66	2021 | Northern Land Border | 920
+67	2021 | Southwest Land Border | 1659210
+68	2022 | Coastal Border | 5980
+69	2022 | Northern Land Border | 2240
+70	2022 | Southwest Land Border | 2206440
+71	2023 | Coastal Border | 7830
+72	2023 | Northern Land Border | 10020
+73	2023 | Southwest Land Border | 2045840
+74	2024 | Coastal Border | 3080
+75	2024 | Northern Land Border | 23720
+76	2024 | Southwest Land Border | 1530520
+77	2025 | Coastal Border | 540
+78	2025 | Northern Land Border | 1990
+79	2025 | Southwest Land Border | 103140
