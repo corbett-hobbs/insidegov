@@ -317,7 +317,7 @@ export function LprChart({
         </button>
       ))}
       {card}
-      <Tooltip state={open && !open.pinned ? tip.state : null}>{(yr) => <LprYearTip year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} />}</Tooltip>
+      <Tooltip state={open && !open.pinned && open.key.startsWith("b") ? tip.state : null}>{(yr) => <LprYearTip year={yr} terms={termById} metric={metric} regions={regions.get(yr.fy) ?? null} />}</Tooltip>
     </div>
   );
 }
