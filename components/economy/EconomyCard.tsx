@@ -66,10 +66,11 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
 
 /**
  * One chart card. Below `md` it is a plain column. From `md` a non-hero card is a
- * subgrid over five row tracks (header + reading, description, plot, legend, notes
+ * subgrid over five row tracks (header + reading, takeaway, plot, legend, notes
  * row) that the pair shares, so two cards side by side get identical track heights:
  * plots, axes and term bands start and end at the same pixel whatever the
- * description or legend lengths. The notes row sits at the bottom of its track.
+ * takeaway or legend lengths. The takeaway is ink, not muted: it is the card's
+ * one-line reading; what the chart measures lives in Data notes. The notes row sits at the bottom of its track.
  */
 export function EconomyCard({
   data,
@@ -78,7 +79,7 @@ export function EconomyCard({
   hero = false,
   showCong,
   view,
-  desc,
+  takeaway,
   notes,
   legend,
 }: {
@@ -88,7 +89,8 @@ export function EconomyCard({
   hero?: boolean;
   showCong: boolean;
   view: readonly [number, number];
-  desc: string;
+  /** One or two sentences on what the chart shows (`spec.takeaway`). */
+  takeaway: string;
   /** The card's "Data notes" (60-100 words). */
   notes?: ReactNode;
   /** A legend node, or a function of the line-isolate controls for cards with a second line. */
@@ -108,7 +110,7 @@ export function EconomyCard({
         </div>
         <Readout spec={spec} reading={reading} hero={hero} />
       </div>
-      <p className={`m-0 text-ink-muted ${hero ? "mt-2 text-[0.875rem] leading-[1.5]" : "mt-1 text-[0.8rem] leading-[1.45]"}`}>{desc}</p>
+      <p className={`m-0 text-ink ${hero ? "mt-2 text-[0.95rem] leading-[1.55]" : "mt-1.5 text-[0.875rem] leading-[1.5]"}`}>{takeaway}</p>
       <div className={hero ? "mt-3.5" : "mt-3"}>
         <EconomyChart data={data} spec={spec} hero={hero} showCong={showCong} view={view} reading={reading} only={only} />
       </div>
