@@ -1,4 +1,4 @@
-import type { SourceId } from "../../lib/source-links";
+import type { ContextEntry } from "../../lib/chart-context";
 
 /**
  * The takeaway under each Immigration chart title (ARCHITECTURE_MAP rule 7c): what the chart shows over its full default window
@@ -71,11 +71,6 @@ export const IMMIGRATION_TAKEAWAYS = {
  * multi-factor causes never go here (they would be dated policy markers on the chart instead). Each line names its sources,
  * and every figure is checked in lib/immigration-takeaways.test.ts.
  */
-export interface ContextEntry {
-  text: string;
-  sources: readonly { id: SourceId; label: string }[];
-}
-
 export const IMMIGRATION_CONTEXT = {
   greenCards: {
     text: "The FY1989–FY1991 peak includes legalization under the Immigration Reform and Control Act of 1986: DHS reports that nearly 2.7M people got green cards through it, almost all in 1989–1992.",
@@ -128,3 +123,7 @@ export const IMMIGRATION_CONTEXT = {
   },
 
 } satisfies Partial<Record<keyof typeof IMMIGRATION_TAKEAWAYS, ContextEntry>>;
+
+/** The context entry for a card, or null where it has none. */
+export const contextFor = (card: keyof typeof IMMIGRATION_TAKEAWAYS): ContextEntry | null =>
+  (IMMIGRATION_CONTEXT as Partial<Record<keyof typeof IMMIGRATION_TAKEAWAYS, ContextEntry>>)[card] ?? null;

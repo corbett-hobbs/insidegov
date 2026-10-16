@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { IMMIGRATION_CONTEXT, IMMIGRATION_TAKEAWAYS, type ContextEntry } from "../components/immigration/takeaways";
+import { IMMIGRATION_CONTEXT, IMMIGRATION_TAKEAWAYS } from "../components/immigration/takeaways";
+import type { ContextEntry } from "./chart-context";
 import { SOURCE_LINKS } from "./source-links";
 import { buildEncountersPayload } from "./encounters-derive";
 import { encountersNoteRow, encountersSeriesRow } from "./encounters-entities";

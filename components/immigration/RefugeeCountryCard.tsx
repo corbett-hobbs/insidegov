@@ -14,7 +14,8 @@ import { RefugeeMap, undrawnRefugees, type MapMode } from "./RefugeeMap";
 import type { MapFeature } from "./RemovalsMap";
 import { capText, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { useTakeaway } from "./ContextLine";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 type WorldMap = { width: number; height: number; features: MapFeature[] };
 
@@ -124,7 +125,7 @@ export function RefugeeCountryCard({
   const mapRows = ranked.map((r) => ({ key: r.key, name: r.name, value: r.value, group: r.group }));
   const off = undrawnRefugees(worldMap.features, mapRows);
 
-  const context = useTakeaway("refugeeCountries");
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.refugeeCountries.takeaway, contextFor("refugeeCountries"));
   return (
     <ChartCard
       title="Where refugees came from"

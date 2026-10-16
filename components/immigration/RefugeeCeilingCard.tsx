@@ -10,7 +10,8 @@ import { GEO_NAME, type GeoGroup, type RefugeePayload, type RefugeeYear } from "
 import { RefugeeChart } from "./RefugeeChart";
 import { CEILING_TINT, GEO_STACK, REGION_COLOR, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { useTakeaway } from "./ContextLine";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 /**
  * "Refugee ceiling and admissions by fiscal year": the ceiling chart (`RefugeeChart`) with its key, Data notes and table. The key
@@ -23,7 +24,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
   const termsById = new Map(payload.terms.map((t) => [t.termId, t]));
   const prelim = years.some((y) => y.preliminary);
   const hasPrivate = years.some((y) => y.privateSector > 0);
-  const context = useTakeaway("refugeeCeiling");
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.refugeeCeiling.takeaway, contextFor("refugeeCeiling"));
   return (
     <ChartCard
       title="Refugee ceiling and admissions by fiscal year"

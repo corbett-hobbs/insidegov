@@ -12,7 +12,8 @@ import { CRIM_ORDER, convictedOrPendingShare, type AgencyView, type Measure } fr
 import type { ImmigrationPageData } from "@/lib/immigration-derive";
 import { CRIM_COLOR, CRIM_LABEL, CriminalHistoryChart } from "./CriminalHistoryChart";
 import { SourceLink } from "@/components/SourceLink";
-import { useTakeaway } from "./ContextLine";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 const n = (v: number) => v.toLocaleString("en-US");
 
@@ -64,7 +65,7 @@ export function CriminalHistoryCard({
   const present = CRIM_ORDER.filter((k) => shownBars.some((b) => b.parts.some((p) => p.key === k)));
   const share = measure === "share";
 
-  const context = useTakeaway("criminalHistory");
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.criminalHistory.takeaway, contextFor("criminalHistory"));
   return (
     <ChartCard
       title="Criminal history of those removed"

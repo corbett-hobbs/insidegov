@@ -11,7 +11,8 @@ import { ENCOUNTER_SERIES, USBP_ONLY_COLOR, markerGroups, monthsLabel, windowYea
 import type { EncounterScopeKey, EncountersPayload } from "@/lib/encounters-types";
 import { EncountersChart } from "./EncountersChart";
 import { SourceLink } from "@/components/SourceLink";
-import { useTakeaway } from "./ContextLine";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 const n = (v: number) => v.toLocaleString("en-US");
 // Every CBP encounter, nationwide. The southwest-only series is in the data but not offered: what counts as "the southwest border" is unclear to a reader.
@@ -45,7 +46,7 @@ export function EncountersCard({
   const hasBpOnly = years.some((y) => y.detail === "usbp_only");
   const anyMarker = markerGroups(payload.markers, years[0].fy, years.length, 40, 0).length > 0;
   const shownSeries = ENCOUNTER_SERIES.filter((s) => s.key === "usbp" || years.some((y) => y[scope][s.key] !== null));
-  const context = useTakeaway("encounters");
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.encounters.takeaway, contextFor("encounters"));
   return (
     <ChartCard title="Border encounters by fiscal year" takeaway={context.takeaway}>
       {context.panel}

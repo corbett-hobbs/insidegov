@@ -8,7 +8,8 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { SourceLink } from "@/components/SourceLink";
-import { useTakeaway } from "./ContextLine";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void; activeFy?: number | null; onActiveFy?: (fy: number | null) => void }) {
   const years = data.removalsYears.filter((y) => y.fy >= range[0] && y.fy <= range[1]);
@@ -16,7 +17,7 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
   const pending = range[1] >= data.lastFy;
   const termsById = new Map(data.removalsTerms.map((t) => [t.termId, t]));
   const iceYears = data.years.length;
-  const context = useTakeaway("removals");
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.removals.takeaway, contextFor("removals"));
   return (
     <ChartCard
       title="Removals, returns and detention by fiscal year"

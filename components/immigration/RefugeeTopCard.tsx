@@ -18,7 +18,8 @@ import { GEO_NAME, GEO_STACK, type GeoGroup, type RefugeePayload, type TopYear }
 import { useElementWidth } from "@/lib/use-element-width";
 import { REGION_COLOR, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { useTakeaway } from "./ContextLine";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 const LABEL_H = 22;
 const TICK = 5;
@@ -122,7 +123,7 @@ export function RefugeeTopCard({
   const regionsPresent = GEO_STACK.filter((g) => years.some((y) => y.ranked[0]?.group === g));
   const anyPrelim = years.some((y) => y.preliminary);
 
-  const context = useTakeaway("refugeeTop");
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.refugeeTop.takeaway, contextFor("refugeeTop"));
   if (count === 0) return null;
   return (
     <ChartCard title="Who’s sent the most refugees" takeaway={context.takeaway}>
