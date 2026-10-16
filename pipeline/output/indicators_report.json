@@ -14,6 +14,9 @@
     "FYFSGDA188S": 97,
     "FYGFGDQ188S": 225,
     "GFDEGDQ188S": 241,
+    "FYFSD": 125,
+    "FYGFDPUN": 226,
+    "GFDEBTN": 242,
     "USREC": 2062
   },
   "last_observation": {
@@ -30,6 +33,9 @@
     "FYFSGDA188S": "2025-01-01",
     "FYGFGDQ188S": "2026-01-01",
     "GFDEGDQ188S": "2026-01-01",
+    "FYFSD": "2025-09-30",
+    "FYGFDPUN": "2026-04-01",
+    "GFDEBTN": "2026-04-01",
     "USREC": "2026-09-01"
   },
   "skipped_missing_values": {

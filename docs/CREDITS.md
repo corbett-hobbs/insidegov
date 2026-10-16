@@ -204,6 +204,9 @@ Cite the underlying agency per series (also stored in `indicator_series.json`
 | `A191RO1Q156NBEA`, `A191RL1Q225SBEA` | U.S. Bureau of Economic Analysis |
 | `MEHOINUSA672N` | U.S. Census Bureau |
 | `FYFSGDA188S`, `FYGFGDQ188S`, `GFDEGDQ188S` | U.S. Office of Management and Budget; calculated by the Federal Reserve Bank of St. Louis |
+| `FYFSD`, `FYGFDPUN` | U.S. Office of Management and Budget; Federal Reserve Bank of St. Louis |
+| `GFDEBTN` | U.S. Department of the Treasury, Fiscal Service, via the Federal Reserve Bank of St. Louis |
+| Treasury supplement (`treasury_fiscal.json`) | U.S. Department of the Treasury, Fiscal Service: Debt to the Penny and the Monthly Treasury Statement (Treasury Fiscal Data) |
 | `USREC` | National Bureau of Economic Research business-cycle dates, as interpreted by the Federal Reserve Bank of St. Louis |
 
 The FRED notice and agency credits are **not yet in the site footer**: no page
