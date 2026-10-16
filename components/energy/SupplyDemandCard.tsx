@@ -10,6 +10,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** Colours reuse the validated sector tokens, as on the imports and exports card. */
 const LINES: { key: MonthlyKey; label: string; short: string; color: string }[] = [
@@ -67,8 +68,9 @@ export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; vi
   return (
     <EnergyCardShell
       id="supply"
-      title="Oil supply and demand"
-      desc="What U.S. fields produce against what refiners supply to the market, monthly, in total petroleum. Products supplied is EIA’s stand-in for consumption, so the gap between the lines is roughly how much the country relies on imports or exports."
+      title={ENERGY_TAKEAWAYS.supply.title}
+      takeaway={ENERGY_TAKEAWAYS.supply.takeaway}
+      context={contextFor("supply")}
       readout={readout}
       chart={
         <EnergyChart
@@ -108,7 +110,7 @@ export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; vi
       }
       notes={
         <p>
-          <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>. Both lines are <em>total petroleum</em> (crude plus natural gas liquids and refined products); crude alone is smaller, about 13.7 million barrels a day produced in 2025 against 21.2 million for total. Products supplied is what left refineries, blending and storage for the domestic market, adjusted for stock changes, and approximates consumption. Prices, weather and the vehicle fleet drive both lines, so the card carries no policy marks.
+          <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>, monthly: what U.S. fields produce against what refiners supply to the market. Both lines are <em>total petroleum</em> (crude plus natural gas liquids and refined products); crude alone is smaller, about 13.7 million barrels a day produced in 2025 against 21.2 million for total. Products supplied is what left refineries, blending and storage for the domestic market, adjusted for stock changes: EIA&rsquo;s stand-in for consumption, so the gap between the lines is roughly how much the country relies on imports or exports. Prices, weather and the vehicle fleet drive both lines, so the card carries no policy marks.
         </p>
       }
       tables={

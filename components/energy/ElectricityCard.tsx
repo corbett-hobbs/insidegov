@@ -13,6 +13,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText, Swatch } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 const FUELS: Record<FuelKey, { label: string; short: string; color: string }> = {
   coal: { label: "Coal", short: "Coal", color: "var(--fuel-coal)" },
@@ -172,8 +173,9 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
   return (
     <EnergyCardShell
       id="electricity"
-      title="Where U.S. electricity comes from"
-      desc="Net generation by source, utility-scale, monthly: each fuel’s share of the total or its amount. Small-scale solar is estimated separately and drawn on its own line."
+      title={ENERGY_TAKEAWAYS.electricity.title}
+      takeaway={ENERGY_TAKEAWAYS.electricity.takeaway}
+      context={contextFor("electricity")}
       readout={readout}
       toggle={<PillGroup options={MODES} value={mode} onChange={pickMode} ariaLabel="Electricity chart measure" />}
       chart={
@@ -223,7 +225,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
       }
       notes={
         <p>
-          <SourceLink id="eia-electricity">Energy Information Administration</SourceLink> net generation, all sectors, <em>utility-scale only</em>. Small-scale solar such as rooftop panels is estimated separately from 2014 (about a quarter of all solar in 2025), so solar and the total are understated from then. &ldquo;Other&rdquo; is the total minus the six named fuels (petroleum, biomass, geothermal, waste, pumped storage, other gases). The hatched stretch is the current and previous calendar year, preliminary until EIA&rsquo;s annual figures. The 2022 Inflation Reduction Act and 2025 reconciliation flags mark when Congress acted, not any month&rsquo;s mix.
+          <SourceLink id="eia-electricity">Energy Information Administration</SourceLink> net generation by source, monthly, all sectors, <em>utility-scale only</em>: each fuel&rsquo;s share of the total or its amount. Small-scale solar such as rooftop panels is estimated separately from 2014 and drawn on its own line (about a quarter of all solar in 2025), so solar and the total are understated from then. &ldquo;Other&rdquo; is the total minus the six named fuels (petroleum, biomass, geothermal, waste, pumped storage, other gases). The hatched stretch is the current and previous calendar year, preliminary until EIA&rsquo;s annual figures. The 2022 Inflation Reduction Act and 2025 reconciliation flags mark when Congress acted, not any month&rsquo;s mix.
         </p>
       }
       tables={

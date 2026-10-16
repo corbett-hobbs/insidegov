@@ -12,7 +12,6 @@ import { CONTINENTS, continentOf } from "@/lib/trade-continents";
 import { Tooltip, usePinnedTooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import { useMediaQuery } from "@/lib/use-media-query";
-import { MONTH_NAMES } from "@/lib/indicator-time";
 import { fmtMoney } from "@/lib/trade-chart";
 import {
   fmtPct,
@@ -20,6 +19,7 @@ import {
   placeLabels,
   scatterAxes,
   toDot,
+  windowText,
   Y_CAP_PCT,
   Y_MIN_PCT,
   Y_SYMLOG_CONSTANT,
@@ -31,6 +31,8 @@ import {
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { SourceLink } from "@/components/SourceLink";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TRADE_TAKEAWAYS, contextFor } from "./takeaways";
 
 const FALLBACK_W = 1080;
 /** Below this chart width the layout drops long titles and labels (a half-width card on a laptop stays above it). */
@@ -41,8 +43,6 @@ const COMPACT_LABEL_COUNT = 3;
 const MAX_ZOOM = 12;
 const contFill = (code: string) => `var(--cont-${continentOf(code)})`;
 
-const monthYear = (p: string) => `${MONTH_NAMES[Number(p.slice(5)) - 1].slice(0, 3)} ${p.slice(0, 4)}`;
-const windowText = (w: { from: string; to: string }) => (w.from.slice(0, 4) === w.to.slice(0, 4) ? `${MONTH_NAMES[Number(w.from.slice(5)) - 1].slice(0, 3)}–${monthYear(w.to)}` : `${monthYear(w.from)}–${monthYear(w.to)}`);
 const pctRate = (r: number | null) => (r === null ? "—" : `${(r * 100).toFixed(1)}%`);
 
 interface Dot {
@@ -119,6 +119,7 @@ export function TradeScatterCard({
   /** Legend filter: one continent, or null for all. */
   const [continent, setContinent] = useState<string | null>(null);
   const tip = useTooltip<Dot>();
+  const context = useTakeawayContext(TRADE_TAKEAWAYS.scatter.takeaway(windowText(windows.baseline), windowText(windows.latest)), contextFor("scatter"));
   // Scatter rule: a click on a dot pins its card, and the card is the action (here: pick the country above).
   const pin = usePinnedTooltip<Dot>();
   const W = measured || FALLBACK_W;
@@ -258,9 +259,8 @@ export function TradeScatterCard({
           )}
         </div>
       </div>
-      <p className="m-0 mt-3 text-[0.875rem] leading-[1.5] text-ink-muted">
-            Each dot is a country. Across: how much calculated duties as a share of its imports changed, from {windowText(windows.baseline)} to {windowText(windows.latest)}. Up: how much U.S. imports from it changed over the same months.
-          </p>
+      <p className="m-0 mt-2 text-[0.875rem] leading-[1.5] text-ink">{context.takeaway}</p>
+      <div className="mt-2">{context.panel}</div>
 
       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.78rem] text-ink-muted">
         <span><b className="text-ink">{plotted ? `${Math.round((higher / plotted) * 100)}%` : "—"}</b> higher duty rate</span>
@@ -426,7 +426,7 @@ export function TradeScatterCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Calculated duties divided by imports for consumption (<SourceLink id="census-trade">Census</SourceLink>), over {windowText(windows.latest)} against the same months of {windows.baseline.from.slice(0, 4)}{windows.baseline.from.slice(0, 4) !== windows.baseline.to.slice(0, 4) ? " and the year before" : ""}; countries missing any month are not plotted. The vertical axis is a symmetric log scale capped at +{Y_CAP_PCT.toLocaleString("en-US")}%: triangles are pinned outliers, with true values in the tooltip. Re-routed goods can distort a country&rsquo;s figures. Dot area is total trade in the partner chart&rsquo;s latest full year.
+            Each dot is a country. Across: the change in its calculated duties divided by imports for consumption (<SourceLink id="census-trade">Census</SourceLink>); up: the change in U.S. imports from it; both over {windowText(windows.latest)} against the same months of {windows.baseline.from.slice(0, 4)}{windows.baseline.from.slice(0, 4) !== windows.baseline.to.slice(0, 4) ? " and the year before" : ""}. Countries missing any month are not plotted. The vertical axis is a symmetric log scale capped at +{Y_CAP_PCT.toLocaleString("en-US")}%: triangles are pinned outliers, with true values in the tooltip. Re-routed goods can distort a country&rsquo;s figures. Dot area is total trade in the partner chart&rsquo;s latest full year.
           </p>
         </MethodologyNote>
         <DataTable rows={rows} windows={windows} />

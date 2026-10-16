@@ -15,6 +15,7 @@ import { PARTY_NAME, congressSpan, presidentById, readoutRow, termSegmentsFor, t
 import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
 import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
+import { DEMO_TAKEAWAYS } from "./takeaways";
 
 interface Col extends StackColumn {
   row: DemoCongress;
@@ -117,8 +118,8 @@ export function WomenCard({ rows, presidents, pin, onPin, view, roster, party, o
   };
   return (
     <ChartCard
-      title="How many members are women?"
-      lede="Women in each Congress by caucus: how many, their share of all members (the rest are men), or their share of each party’s own members."
+      title={DEMO_TAKEAWAYS.women.title}
+      takeaway={DEMO_TAKEAWAYS.women.takeaway[view]}
       action={
         <PillGroup
           ariaLabel="Women measure"
@@ -198,7 +199,7 @@ export function WomenCard({ rows, presidents, pin, onPin, view, roster, party, o
       <MemberList {...roster} row={cur} rows={rows} view={view} order="tenure" women party={party} onPin={onPin} />
       <ChartNotesRow>
         <MethodologyNote>
-          <p>A Congress has more members than the chambers have seats because replacements are counted. The source records gender as male or female only.</p>
+          <p>Women in each Congress by caucus: how many, their share of all members (the rest are men), or their share of each party&rsquo;s own members. A Congress has more members than the chambers have seats because replacements are counted. The source records gender as male or female only.</p>
         </MethodologyNote>
         <TableView
           head={["Congress", "Years", "Members", "Women", "Share", "Dem. women", "Rep. women", "Other women"]}

@@ -17,7 +17,8 @@ import { regionLabel } from "@/lib/troops-regions";
 import { useTroopsState } from "./TroopsState";
 import { BASE_R, BaseGlyph, BasesLayer } from "./BasesLayer";
 import { RankedList } from "./RankedList";
-import { TD, TH, TableView, branchColor } from "./shared";
+import { Reading, TD, TH, TableView, branchColor } from "./shared";
+import { TROOPS_TAKEAWAYS } from "./takeaways";
 import { SourceLink } from "@/components/SourceLink";
 
 const TH_PLAIN = TH.replace("sticky top-0 ", "");
@@ -161,21 +162,8 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
 
   return (
     <ChartCard
-      title="Where they are, and who hosts the most"
-      lede={
-        view.unavailable ? (
-          <>
-            {when} · the Army did not report, so the map and list need a single branch from the Branch filter
-          </>
-        ) : (
-          <>
-            {when} · <b className="font-semibold text-ink">{formatCount(view.hostTotal)}</b> in {nHosts} countries
-            {view.afloat > 0 && `, plus ${formatCount(view.afloat)} afloat or unassigned`}
-            {measure > 0 && ` · ${measureLabel(measure)} only`}
-            {measure === 0 && " · bars show each country’s branch mix"}
-          </>
-        )
-      }
+      title={TROOPS_TAKEAWAYS.map.title}
+      takeaway={TROOPS_TAKEAWAYS.map.takeaway}
       action={
         <div className="flex w-full flex-wrap items-center justify-between gap-x-2 gap-y-2 sm:w-auto sm:gap-x-3 sm:justify-end">
           {country >= 0 && (
@@ -200,6 +188,17 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
         </div>
       }
     >
+      <Reading>
+        {view.unavailable ? (
+          <>{when} · the Army did not report, so the map and list need a single branch from the Branch filter</>
+        ) : (
+          <>
+            {when} · <b className="font-semibold text-ink">{formatCount(view.hostTotal)}</b> in {nHosts} countries
+            {view.afloat > 0 && `, plus ${formatCount(view.afloat)} afloat or unassigned`}
+            {measure > 0 && ` · ${measureLabel(measure)} only`}
+          </>
+        )}
+      </Reading>
       <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-[1.5fr_1fr] md:items-stretch">
         <div className="flex min-w-0 flex-col">
           <div className="relative">
@@ -330,6 +329,7 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
       <ChartNotesRow>
         <MethodologyNote>
           <p>
+            The map and list count active-duty personnel at each foreign host in the year chosen; with all branches, each list bar shows that country&rsquo;s branch mix.{" "}
             <b className="font-semibold text-ink">Not on the map:</b>{" "}
             {view.territories.length > 0
               ? <>{`U.S. territories ${view.territories.map((t) => `${places[t.place].name} ${formatCount(t.value)}`).join(", ")} (${formatCount(view.territoryTotal)}) are inside `}<SourceLink id="dmdc">DMDC</SourceLink>{`’s overseas total but are not hosts`}</>

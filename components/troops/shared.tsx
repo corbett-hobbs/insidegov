@@ -28,6 +28,11 @@ export function TableView({ caption, children }: { caption: string; children: Re
   );
 }
 
+/** The selected year's figures, muted, under the card's takeaway (rule 7c: the takeaway leaves the latest value to this line). */
+export function Reading({ children }: { children: ReactNode }) {
+  return <p className="-mt-1 mb-2 text-[0.82rem] leading-[1.5] text-ink-muted">{children}</p>;
+}
+
 export const TH = "sticky top-0 border-b border-line-strong bg-surface-raised px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.05em] text-ink-faint first:text-left";
 export const TD = "border-b border-line px-2.5 py-1 font-mono text-ink first:text-left";
 

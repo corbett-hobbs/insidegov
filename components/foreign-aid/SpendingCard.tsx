@@ -7,7 +7,8 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { SLOT_NAME, changeVsPrior, formatAidMoney, spendingByYear } from "@/lib/foreign-aid-derive";
 import { useAidState } from "./ForeignAidState";
 import { SpendingChart } from "./SpendingChart";
-import { SectorLegend, TD, TH, TableView, useSectorLabel } from "./shared";
+import { CardReadout, SectorLegend, TD, TH, TableView, useSectorLabel } from "./shared";
+import { AID_TAKEAWAYS } from "./takeaways";
 
 /** "How much the U.S. spends": the stacked-bar time series and everything that explains it. */
 export function SpendingCard() {
@@ -21,7 +22,7 @@ export function SpendingCard() {
   const showing = [country >= 0 ? data.payload.countries[country].name : null, sectorLabel].filter(Boolean);
   const anyPartial = rows.some((r) => isPartial(r.fy));
 
-  const lede = (
+  const readout = (
     <>
       FY{year} · <b className="font-semibold text-ink">{formatAidMoney(cur?.total ?? 0)}</b>
       {isPartial(year) && " · partial year"}
@@ -32,15 +33,16 @@ export function SpendingCard() {
   return (
     <ChartCard
       title="How much the U.S. spends"
-      lede={lede}
+      takeaway={AID_TAKEAWAYS.spending}
       action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")}</span> : undefined}
     >
+      <CardReadout>{readout}</CardReadout>
       <SpendingChart rows={shown} />
       <SectorLegend partial={anyPartial} only={sole === null ? only : null} onPick={(k) => setOnly((c) => (c === k ? null : k))} />
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Band under the axis: administration in office for most of the year (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic).
+            Disbursements each fiscal year in nominal dollars, to every country and to global and regional programs, stacked by sector. Band under the axis: administration in office for most of the year (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic).
           </p>
         </MethodologyNote>
         <TableView caption="Disbursements by fiscal year and sector">

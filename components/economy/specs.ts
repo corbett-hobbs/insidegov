@@ -1,3 +1,4 @@
+import type { ContextEntry } from "@/lib/chart-context";
 import type { EconomyKey } from "@/lib/indicator-lookup";
 
 /** Presentation config for the eleven economy charts. Domains were checked against the 1991-onward data. */
@@ -226,3 +227,34 @@ export const CARD_ROWS: { label: string; cards: [EconomyKey, EconomyKey] }[] = [
   { label: "Federal finances", cards: ["def", "debt"] },
   { label: "Jobs and output", cards: ["jobs", "gdp"] },
 ];
+
+/**
+ * Context lines (ARCHITECTURE_MAP rule 7d): what a cited source says happened behind a card's highlight, never why a number
+ * moved. Cards not listed have none: the misery index, inflation and gas prices have no single source-stated cause, wages and
+ * income are already explained in their takeaways, and the October 2025 gap is in the Data notes. Checked by
+ * lib/economy-takeaways.test.ts.
+ */
+export const ECONOMY_CONTEXT = {
+  jobs: {
+    text: "NBER dates the 2020 recession from a February 2020 peak to an April 2020 trough, two months long. It dates the earlier one from December 2007 to June 2009.",
+    sources: [{ id: "nber", label: "NBER business cycle dates" }],
+  },
+  gdp: {
+    text: "NBER also dates a recession from March to November 2001, when output never fell from a year earlier. NBER says it weighs jobs, income and spending, not output alone.",
+    sources: [{ id: "nber", label: "NBER business cycle dates" }],
+  },
+  mort: {
+    text: "The Federal Reserve held its target rate at 0–0.25% from March 2020 to March 2022, then raised it 11 times, to 5.25–5.50% in July 2023.",
+    sources: [{ id: "fomc-statements", label: "FOMC statements" }],
+  },
+  def: {
+    text: "The CARES Act was enacted March 27, 2020, and the American Rescue Plan Act March 11, 2021. CBO estimated the CARES Act alone would add about $1.8T to deficits over 2020–2030.",
+    sources: [
+      { id: "cbo-cares-act", label: "CBO" },
+      { id: "congress-arpa", label: "Congress.gov" },
+    ],
+  },
+} satisfies Partial<Record<EconomyKey, ContextEntry>>;
+
+export const contextFor = (key: EconomyKey): ContextEntry | null =>
+  (ECONOMY_CONTEXT as Partial<Record<EconomyKey, ContextEntry>>)[key] ?? null;

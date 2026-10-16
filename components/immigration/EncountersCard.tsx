@@ -11,6 +11,8 @@ import { ENCOUNTER_SERIES, USBP_ONLY_COLOR, markerGroups, monthsLabel, windowYea
 import type { EncounterScopeKey, EncountersPayload } from "@/lib/encounters-types";
 import { EncountersChart } from "./EncountersChart";
 import { SourceLink } from "@/components/SourceLink";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 const n = (v: number) => v.toLocaleString("en-US");
 // Every CBP encounter, nationwide. The southwest-only series is in the data but not offered: what counts as "the southwest border" is unclear to a reader.
@@ -44,9 +46,10 @@ export function EncountersCard({
   const hasBpOnly = years.some((y) => y.detail === "usbp_only");
   const anyMarker = markerGroups(payload.markers, years[0].fy, years.length, 40, 0).length > 0;
   const shownSeries = ENCOUNTER_SERIES.filter((s) => s.key === "usbp" || years.some((y) => y[scope][s.key] !== null));
-  const lede = `CBP’s count of encounters at the border each year: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). Each is an event, not a person, and what happens to the person afterwards is not in this chart. ${prelim ? `FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}.` : ""}`;
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.encounters.takeaway, contextFor("encounters"));
   return (
-    <ChartCard title="Border encounters by fiscal year" lede={lede}>
+    <ChartCard title="Border encounters by fiscal year" takeaway={context.takeaway}>
+      {context.panel}
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {shownSeries.map((s) => (
           <LegendToggle key={s.key} active={only === s.key} dimmed={only !== null && only !== s.key} onClick={() => toggleOnly(s.key)}>
@@ -89,7 +92,7 @@ export function EncountersCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            CBP only. Each count is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. The counts cover every CBP encounter nationwide, including airports and seaports. Most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered.
+            CBP&rsquo;s count of encounters each year, nationwide, including airports and seaports: people Border Patrol caught away from official crossings, people turned away at official crossings, and people expelled under the COVID-19 health order (Title 42). CBP only. Each count is an event, not a person: someone caught twice counts twice, and CBP publishes no yearly count of unique people. What happens to the person afterwards is not in this chart; most encounters end with CBP and never reach ICE, so this is not a count of removals or of people who entered.{prelim ? ` FY${prelim.fy} is preliminary: ${monthsLabel(prelim.months)}.` : ""}
           </p>
           <p>
             The two big bars measure different things. Border Patrol counts everyone it catches between ports of entry (the official crossings), which is where anyone crossing without permission has to cross. The port bar counts only people CBP officers at a crossing found inadmissible, meaning not allowed in; the many people admitted there are not counted, so a small port bar does not mean few people use ports. Port figures begin in FY2004 (FY2004–FY2014 from DHS, rounded to tens). Title 42 expulsions ran March 2020 to May 2023. The 1980s and 1990s peaks were mostly Mexican adults given voluntary return, a different mix from today&rsquo;s. Source: <SourceLink id="cbp-encounters">CBP</SourceLink> and <SourceLink id="ohss-cbp-encounters">DHS Office of Homeland Security Statistics</SourceLink>.

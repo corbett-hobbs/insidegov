@@ -9,6 +9,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 const LNG_START = 72; // January 1997, in months since January 1991
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
@@ -63,8 +64,9 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
     <EnergyCardShell
       id="lng"
       small
-      title="Liquefied natural gas exports"
-      desc="Natural gas shipped abroad as liquid, billions of cubic feet a month. The Energy Department’s first non-free-trade-agreement export approval (2012), the first cargo (2016), its 2024 pause on new approvals and its 2025 reversal are marked."
+      title={ENERGY_TAKEAWAYS.lng.title}
+      takeaway={ENERGY_TAKEAWAYS.lng.takeaway}
+      context={contextFor("lng")}
       readout={readout}
       chart={
         <EnergyChart
@@ -97,7 +99,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
       }
       notes={
         <p>
-          <SourceLink id="eia-lng-exports">Energy Information Administration</SourceLink> LNG exports. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. The rise traces to approvals made years earlier: in August 2012 the Energy Department gave final approval to the first terminal to export to countries without a free trade agreement (Sabine Pass, Louisiana), under President Obama. The first cargo sailed on February 24, 2016, after construction. Approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.
+          <SourceLink id="eia-lng-exports">Energy Information Administration</SourceLink> LNG exports: natural gas shipped abroad as liquid, in billions of cubic feet a month. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. The rise traces to approvals made years earlier: in August 2012 the Energy Department gave final approval to the first terminal to export to countries without a free trade agreement (Sabine Pass, Louisiana), under President Obama. The first cargo sailed on February 24, 2016, after construction. The Energy Department&rsquo;s 2024 pause on new approvals and its 2025 reversal are marked too. Approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.
         </p>
       }
       tables={

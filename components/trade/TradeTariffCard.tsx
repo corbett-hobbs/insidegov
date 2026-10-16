@@ -14,6 +14,8 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ROW } from "@/components/charts/legend";
 import { SourceLink } from "@/components/SourceLink";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TRADE_TAKEAWAYS, contextFor } from "./takeaways";
 
 const dateText = (iso: string) => {
   const [y, m, d] = iso.split("-").map(Number);
@@ -107,15 +109,15 @@ export function TradeTariffCard({
   const pres = rd ? termAtDay(era.terms, monthStartDay(rd.month)) : undefined;
   const mobileLine = rd ? { values: [`Duty rate ${rd.rate === null ? "\u2014" : fmtPercent(rd.rate)}`, ...(rd.duties !== null ? [`Duties ${fmtDollars(rd.duties)}`] : [])], date: rd.label, term: pres ? termLabel(pres) : undefined } : null;
   const title = countryName ? `Tariffs on imports from ${countryName}` : "Tariffs on imports";
+  const context = useTakeawayContext(TRADE_TAKEAWAYS.tariff.takeaway, countryName ? null : contextFor("tariff"));
   const aria = `${title}: calculated duties as a share of imports, monthly from 1993, with ${flags.length} tariff actions and court rulings marked, presidential terms and recessions. The same data is in the table below.`;
 
   return (
     <section className="min-w-0 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">{title}</h2>
-      <p className="m-0 mt-2 text-[0.875rem] leading-[1.5] text-ink-muted">
-        Calculated duties as a share of the value of imports, from January 1993, on the same timeline as the trade balance.
-        Tariff actions and court rulings are marked where they took effect.
-      </p>
+      {/* The takeaway is about all countries, so a country view goes without one. */}
+      {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{context.takeaway}</p>}
+      {!countryName && <div className="mt-2">{context.panel}</div>}
 
       {main && shown && <MobileReadout line={mobileLine} />}
       <div className="mt-3.5">
@@ -155,7 +157,7 @@ export function TradeTariffCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Calculated duties divided by imports for consumption: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12). Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Census runs about two months behind, so later actions are pinned to the right edge. Dates are when each action took effect; legal status is as of {dateText(lastReviewed)}.
+            Calculated duties divided by the value of imports for consumption, monthly from January 1993, on the same timeline as the trade balance: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12). Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Tariff actions and court rulings are marked on the date each took effect; Census runs about two months behind, so later actions are pinned to the right edge. Legal status is as of {dateText(lastReviewed)}.
           </p>
         </MethodologyNote>
         <EventsTable flags={flags} lastReviewed={lastReviewed} />

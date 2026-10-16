@@ -18,6 +18,7 @@ import { buildMapModel } from "@/lib/trade-map";
 import type { TradePageData } from "@/lib/trade-data";
 import { LEGEND_ROW } from "@/components/charts/legend";
 import { SourceLink } from "@/components/SourceLink";
+import { TRADE_TAKEAWAYS } from "./takeaways";
 
 
 const SORTS = [
@@ -133,7 +134,7 @@ export function TradePartnersCard({
     <ChartCard
       className="h-full min-w-0"
       title={`Who the U.S. trades with, ${shown}${partial ? " so far" : ""}`}
-      lede={<>Imports and exports of goods for the selected year. The line between them is the balance. The map shades each partner by the same measure.{partial ? ` ${shown} covers January to ${through}.` : ""}</>}
+      takeaway={TRADE_TAKEAWAYS.partners.takeaway(through)}
       action={
         <div className="flex flex-nowrap items-center gap-2">
           <YearPicker value={year} range={[firstYear, lastYear]} onChange={onYear} format={String} ariaLabel="Year shown on the map and list" />
@@ -199,7 +200,7 @@ export function TradePartnersCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade. The map is shaded on fixed bins so years compare; the list uses a symmetric log scale so small partners stay visible beside China, so distances are not proportional. Before 1992 Census lists fewer partners, so rows can fall a little short of the total.{model.undrawn.length > 0 ? ` ${model.undrawn.length} small partners with no outline (${fmtMoney(model.undrawn.reduce((a, r) => a + r.exports + r.imports, 0))} of ${fmtMoney(model.totals.total)}) are in the list and table but not on the map.` : ""}
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade for the selected year: imports (filled) and exports (hollow), with the balance as the line between them; the map shades each partner by the same measure.{partial ? ` ${shown} covers January to ${through}.` : ""} The map is shaded on fixed bins so years compare; the list uses a symmetric log scale so small partners stay visible beside China, so distances are not proportional. Before 1992 Census lists fewer partners, so rows can fall a little short of the total.{model.undrawn.length > 0 ? ` ${model.undrawn.length} small partners with no outline (${fmtMoney(model.undrawn.reduce((a, r) => a + r.exports + r.imports, 0))} of ${fmtMoney(model.totals.total)}) are in the list and table but not on the map.` : ""}
           </p>
         </MethodologyNote>
         {rows.length > 0 && <DataTable rows={rows} year={shown} />}
