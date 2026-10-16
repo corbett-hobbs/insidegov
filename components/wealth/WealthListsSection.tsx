@@ -1,14 +1,14 @@
 import type { WealthParty } from "@/lib/wealth-copy";
-import { isListEligible, type WealthMember } from "@/lib/wealth-derive";
+import type { WealthMember } from "@/lib/wealth-derive";
 import type { ChamberView } from "@/lib/chamber";
 import { WealthList } from "./WealthList";
-import { SourceLink } from "@/components/SourceLink";
+import { WEALTH_TAKEAWAYS } from "./takeaways";
 
 /**
- * The two side-by-side highest/lowest lists, plus their shared footnote.
- * `members` is the already chamber+state+party-filtered pool (unlike the
- * scatter, which never filters, only dims — a ranked "top N" list showing
- * another state's or party's members wouldn't make sense).
+ * The two side-by-side highest/lowest lists, each with its own takeaway and
+ * Data notes. `members` is the already chamber+state+party-filtered pool
+ * (unlike the scatter, which never filters, only dims — a ranked "top N" list
+ * showing another state's or party's members wouldn't make sense).
  */
 export function WealthListsSection({
   members,
@@ -21,49 +21,20 @@ export function WealthListsSection({
   stateFilter: string | null;
   party: WealthParty | null;
 }) {
-  const noUsable = members.filter((m) => m.points.length === 0).length;
-  const beforeCutoff = members.filter(
-    (m) => m.points.length > 0 && !isListEligible(m),
-  ).length;
-  const excluded = noUsable + beforeCutoff;
-
   return (
-    <div>
-      <div className="grid gap-5 md:grid-cols-2">
+    <div className="grid gap-5 md:grid-cols-2 md:grid-rows-[repeat(4,auto)] md:gap-y-0">
+      {(["highest", "lowest"] as const).map((direction) => (
         <WealthList
-          title="Highest net worth"
-          direction="highest"
+          key={direction}
+          title={WEALTH_TAKEAWAYS[direction].title}
+          takeaway={WEALTH_TAKEAWAYS[direction].takeaway}
+          direction={direction}
           members={members}
           view={view}
           stateFilter={stateFilter}
           party={party}
         />
-        <WealthList
-          title="Lowest net worth"
-          direction="lowest"
-          members={members}
-          view={view}
-          stateFilter={stateFilter}
-          party={party}
-        />
-      </div>
-      <p className="mt-3 text-[0.72rem] leading-relaxed text-ink-faint">
-        High-confidence parses only; members whose latest report couldn&rsquo;t
-        be parsed are left out of the rankings. Years are the year each report
-        covers. Sparklines share one 2013–2025 axis, each scaled to that
-        member&rsquo;s own range, so compare members by the midpoint; dashed
-        segments bridge years with no usable filing.{" "}
-        {excluded > 0 && (
-          <>
-            {excluded} current {excluded === 1 ? "member is" : "members are"}{" "}
-            left out of the rankings: {noUsable} with no usable filing
-            {beforeCutoff > 0 &&
-              `, ${beforeCutoff} whose latest usable filing is before 2023`}
-            .{" "}
-          </>
-        )}
-        How we estimate this. Sources: <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink>, <SourceLink id="senate-efd">Senate eFD</SourceLink>.
-      </p>
+      ))}
     </div>
   );
 }
