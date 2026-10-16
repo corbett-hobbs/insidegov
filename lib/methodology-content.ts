@@ -303,6 +303,26 @@ export const METHODOLOGY: MethodGroup[] = [
         updates: "Checked weekly with the Economy data.",
       },
       {
+        id: "timeline",
+        vertical: "shared",
+        title: "Timeline",
+        description:
+          "Who held the White House, the Senate, the House and the Supreme Court on the day each hand-picked landmark law or case happened, 1933 to now. Party control comes from the two chambers’ party-division tables and each term’s Court lean from Martin-Quinn scores; votes come from our own Laws and Decisions data. Which events make the list is an editorial choice, and who held power describes the setting of an event, not its cause.",
+        sources: [
+          { name: "Clerk of the House, party divisions", url: "https://history.house.gov/Institution/Party-Divisions/Party-Divisions/", note: "House majorities and seats" },
+          { name: "Senate Historical Office, party division", url: "https://www.senate.gov/history/partydiv.htm", note: "Senate majorities and seats" },
+          { name: "Martin-Quinn scores", url: "https://mqscores.wustl.edu/measures.php", note: "the Court’s median lean" },
+          { name: "Supreme Court Database", url: "http://scdb.wustl.edu/data.php", note: "case dates and votes" },
+          { name: "Congress.gov", url: "https://www.congress.gov/", note: "laws and veto overrides" },
+          { name: "Voteview", url: "https://voteview.com/", note: "final-passage votes by party" },
+          { name: "Wikipedia", url: "https://www.wikipedia.org/", note: "article titles for each event" },
+        ],
+        credit:
+          VOTEVIEW_CITATION + " Wikipedia text is available under the Creative Commons Attribution-ShareAlike 4.0 license.",
+        updates: "Rebuilt with the Laws and Court data; the event list is reviewed by hand.",
+        docPath: "docs/TIMELINE_METHODOLOGY.md",
+      },
+      {
         id: "maps",
         vertical: "shared",
         title: "Maps",

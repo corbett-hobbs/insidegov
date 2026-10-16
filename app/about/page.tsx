@@ -29,6 +29,7 @@ const QUESTIONS = [
   "How many people are removed, get green cards, become citizens or arrive as refugees each year?",
   "Where do U.S. troops and foreign aid go, and how has that changed?",
   "What has the Supreme Court decided, and how has its middle moved over time?",
+  "Who held the White House, Congress and the Court when a landmark law passed or a big case was decided?",
 ];
 
 const LINK =

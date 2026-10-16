@@ -6,13 +6,14 @@ import { SiteNav, SiteSectionNav } from "./SiteNav";
 import { SiteSearch } from "./SiteSearch";
 import { useBackLinkHref } from "./BackLinkContext";
 import { branches, liveSections } from "@/lib/verticals";
-import { STATIC_PAGES } from "@/lib/site-info";
+import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "@/lib/site-info";
 
 /** Pages where the primary nav is itself the way around: the wordmark is a
  *  plain link to "/" with no arrow. Every other page is a detail page. */
 const SECTION_PAGES = new Set<string>([
   "/",
   ...STATIC_PAGES,
+  ...CROSS_BRANCH_PAGES.map((p) => p.href),
   ...liveSections().map((s) => s.href),
 ]);
 

@@ -3,7 +3,7 @@ import { dayOfIso } from "./indicator-time";
 
 /**
  * Chamber-majority reference table (`pipeline/reference/congress-control.json`).
- * Hand-curated with a primary-source citation per chamber (rows run from the 93rd Congress, 1973; the Economy and Trade charts clip them to their own 1991 axis) because roster counts
+ * Hand-curated with a primary-source citation per chamber (rows run from the 73rd Congress, 1933-03-04; the Laws page, Economy and Trade charts clip them to their own axes) because roster counts
  * in terms.json cannot reliably say who held the majority (mid-Congress
  * replacements, caucusing independents, tie-breaking vice presidents).
  */
@@ -17,10 +17,14 @@ export const congressControlRow = z.strictObject({
   congresses: z.string(),
   note: z.string().optional(),
 });
+const seatCount = z.strictObject({ D: z.number().int().nonnegative(), R: z.number().int().nonnegative(), other: z.number().int().nonnegative() });
+/** Party seats at the start of a Congress (Senate independents counted with the party they caucused with). */
+export const congressSeats = z.strictObject({ congress: z.number().int(), house: seatCount, senate: seatCount });
 export const congressControlFile = z.strictObject({
   _note: z.string(),
   sources: z.strictObject({ house: z.string(), senate: z.string() }),
   rows: z.array(congressControlRow),
+  seats: z.array(congressSeats).optional(),
 });
 export type CongressControlRow = z.infer<typeof congressControlRow>;
 
