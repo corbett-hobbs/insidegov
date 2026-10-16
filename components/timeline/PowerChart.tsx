@@ -26,8 +26,8 @@ import type { TimelinePayload, TlEvent, TlPresident } from "@/lib/timeline-types
 import { useElementWidth } from "@/lib/use-element-width";
 import { TipCard } from "../charts/TipCard";
 import { Tooltip, useStickyTooltip } from "../charts/Tooltip";
-import { EventNotes } from "./EventNote";
-import { partyColor, partyTint } from "./shared";
+import { EventNotes, HeldNow } from "./EventNote";
+import { FOCUS_RING, partyColor, partyTint } from "./shared";
 
 export interface OpenNote {
   /** An event in the marker whose note is open; the note lists every event that marker holds. */
@@ -374,7 +374,11 @@ export function PowerChart({
           style={{ left: noteLeft, top: noteTop, width: noteW }}
           onPointerLeave={(ev) => ev.pointerType === "mouse" && open && !open.pinned && setOpen(null)}
         >
-          <EventNotes items={notesFor} focus={open?.focus ?? null} stateOf={stateOf} mode={mode} byId={byId} onJump={onJump} />
+          <HeldNow items={notesFor} stateOf={stateOf} mode={mode} />
+          <EventNotes items={notesFor} focus={open?.focus ?? null} byId={byId} onJump={onJump} />
+          <button type="button" aria-label="Close" onClick={() => setOpen(null)} className={`absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded text-[1rem] leading-none text-ink-muted hover:text-ink ${FOCUS_RING}`}>
+  ×
+</button>
         </div>
       )}
       {/* A tooltip and a note card are never on screen together (rule 6c). */}

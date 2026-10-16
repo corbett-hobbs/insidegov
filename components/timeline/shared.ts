@@ -1,7 +1,7 @@
 import type { CourtSide, PowerStatus } from "@/lib/timeline-derive";
 import type { Side, TlEvent } from "@/lib/timeline-types";
 
-/** Party colour token: Democratic, Republican, else the neutral "other" grey (third parties, the Court's centre, an even split). */
+/** Party colour token: Democratic, Republican, else the neutral "other" grey (the Court's centre, an even split). */
 export const partyColor = (p: CourtSide | "O") => (p === "D" ? "var(--dem)" : p === "R" ? "var(--rep)" : "var(--oth)");
 
 /** A light tint of the party colour, the same mix as every presidential-term band (rule 10b). */

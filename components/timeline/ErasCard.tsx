@@ -5,7 +5,7 @@ import { EventNotes } from "./EventNote";
 
 import { ChartCard } from "../charts/ChartCard";
 import { ListSearch } from "../ListSearch";
-import { eraLabel, lastName, matchesQuery, type CourtMode, type CourtSide, type Era, type PowerState, type PowerStatus } from "@/lib/timeline-derive";
+import { eraLabel, lastName, matchesQuery, type CourtMode, type CourtSide, type Era, type PowerStatus } from "@/lib/timeline-derive";
 import type { TlEvent } from "@/lib/timeline-types";
 import { FOCUS_RING, numberBadge, partyColor } from "./shared";
 
@@ -19,8 +19,7 @@ const GRID = "grid grid-cols-[minmax(0,1fr)] gap-1 sm:grid-cols-[8.6rem_9.4rem_m
 
 /**
  * "Era by era": each row a stretch when no institution changed hands, newest first (rule 15a), with the events of the
- * stretch as buttons. A button opens the event's note under its era row (the same note as the chart's), with "See on timeline"
- * to jump to its marker; links inside the note open the linked event there too. Its own search box filters the rows to eras with a matching event and
+ * stretch as buttons. A button opens the event's note under its era row (the same note as the chart's), whose "See on timeline" jumps to its marker; links inside the note open the linked event there too. Its own search box filters the rows to eras with a matching event and
  * highlights the matching markers on the chart.
  */
 export function ErasCard({
@@ -33,7 +32,6 @@ export function ErasCard({
   onQuery,
   onJump,
   today,
-  stateOf,
   byId,
 }: {
   eras: readonly Era[];
@@ -46,7 +44,6 @@ export function ErasCard({
   onQuery: (q: string) => void;
   onJump: (no: number) => void;
   today: string;
-  stateOf: (e: TlEvent) => PowerState;
   byId: ReadonlyMap<string, TlEvent>;
 }) {
   const [picked, setPicked] = useState<number | null>(null);
@@ -137,16 +134,11 @@ export function ErasCard({
                 <div className="text-[0.72rem] text-ink-faint">No hand-picked events in this stretch</div>
               )}
               {picked !== null && evs.some((e) => e.no === picked) && byNo.has(picked) && (
-                <div ref={noteRef} className="mt-2 rounded-lg border border-line-strong bg-surface px-3 py-2.5 text-[0.8rem] leading-[1.45] shadow-[0_4px_14px_rgba(26,34,51,0.12)]">
-                  <EventNotes items={[byNo.get(picked)!]} focus={null} stateOf={stateOf} mode={mode} byId={byId} onJump={(no) => setPicked(no)} />
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <button type="button" data-tl-jump onClick={() => onJump(picked)} className={`text-[0.78rem] font-medium text-accent underline-offset-2 hover:underline ${FOCUS_RING}`}>
-                      See on timeline ↑
-                    </button>
-                    <button type="button" onClick={() => setPicked(null)} className={`text-[0.74rem] text-ink-muted hover:text-ink ${FOCUS_RING}`}>
-                      Close
-                    </button>
-                  </div>
+                <div ref={noteRef} className="relative mt-2 rounded-lg border border-line-strong bg-surface px-3 py-2.5 text-[0.8rem] leading-[1.45] shadow-[0_4px_14px_rgba(26,34,51,0.12)]">
+                  <EventNotes items={[byNo.get(picked)!]} focus={null} byId={byId} onJump={(no) => setPicked(no)} onSee={onJump} />
+                  <button type="button" aria-label="Close" onClick={() => setPicked(null)} className={`absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded text-[1rem] leading-none text-ink-muted hover:text-ink ${FOCUS_RING}`}>
+  ×
+</button>
                 </div>
               )}
             </div>

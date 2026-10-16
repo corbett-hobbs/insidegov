@@ -7,6 +7,7 @@ import { decisionCaseRow, justiceVotesFile, ROLE_MAJORITY, VOTE_DISSENT, VOTE_MA
 import { administration, type Administration } from "./executive-orders-entities";
 import { lawVotesShard, type LawVotesShard } from "./law-votes-entities";
 import { lawRow, type LawRow } from "./laws-entities";
+import { lawPath } from "./law-url";
 import { timelineEventsFile, type TimelineEventsFile } from "./timeline-entities";
 import { applyVacancyRule, TIMELINE_START } from "./timeline-derive";
 import type { Side, TimelinePayload, TlCongress, TlEvent, TlJustice, TlLean, TlPresident, TlTally } from "./timeline-types";
@@ -199,7 +200,7 @@ export function buildTimelinePayload(inputs: TimelineInputs, today: string): Tim
       const law = inputs.laws.get(e.law_id)!;
       if (e.date && e.date !== law.date) throw new Error(`timeline: ${e.id}: date ${e.date} disagrees with laws.json's ${law.date}`);
       const split = lawSplit(law, inputs);
-      return { ...base, date: law.date, ...(split ? { split } : {}), ...(law.veto_override ? { override: true } : {}) };
+      return { ...base, date: law.date, lawPath: lawPath(law.law_id, law.title), ...(split ? { split } : {}), ...(law.veto_override ? { override: true } : {}) };
     }
     if (!e.date) throw new Error(`timeline: ${e.id}: no date, and ${e.law_id} is not in laws.json`);
     return { ...base, date: e.date, ...(e.hand_split ? { split: e.hand_split, splitHand: true } : {}) };
