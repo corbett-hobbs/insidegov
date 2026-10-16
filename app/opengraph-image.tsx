@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { site } from "@/lib/site";
 
@@ -5,32 +7,22 @@ export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const BG = "#14161c";
-const SURFACE = "#1b1e26";
-const INK = "#e9eaee";
-const INK_MUTED = "#9aa2af";
-const ACCENT = "#9b84c7";
-const DEM = "#4c7fdb";
-const REP = "#d96a56";
+const GOLD = "#e8c877";
 
-// Deterministic pseudo-random so the image is byte-stable across builds.
-function rng(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 1664525 + 1013904223) % 4294967296;
-    return s / 4294967296;
-  };
-}
-
-export default function OpengraphImage() {
-  // A decorative scatter: a left-leaning blue cluster, a right-leaning red one.
-  const rand = rng(20250901);
-  const dots = Array.from({ length: 40 }, (_, i) => {
-    const rep = i % 2 === 0;
-    const cx = rep ? 0.62 + rand() * 0.22 : 0.16 + rand() * 0.22;
-    const cy = 0.15 + rand() * 0.7;
-    return { rep, cx, cy };
-  });
+/**
+ * Share card that mirrors the homepage hero: the Capitol under the navy-to-gold
+ * wash (pre-baked into `_og/hero-bg.jpg`, since the image renderer has no blend
+ * modes), the serif wordmark, kicker and headline. Keep the copy in step with
+ * `app/page.tsx`'s hero.
+ */
+export default async function OpengraphImage() {
+  const dir = join(process.cwd(), "app/_og");
+  const [bg, serif, serifItalic] = await Promise.all([
+    readFile(join(dir, "hero-bg.jpg")),
+    readFile(join(dir, "Newsreader.ttf")),
+    readFile(join(dir, "Newsreader-Italic.ttf")),
+  ]);
+  const bgSrc = `data:image/jpeg;base64,${bg.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -41,72 +33,60 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: BG,
-          padding: 72,
-          fontFamily: "sans-serif",
+          position: "relative",
+          background: "#142748",
+          padding: "64px 80px",
+          color: "#fff",
+          fontFamily: "Newsreader",
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+        <img
+          src={bgSrc}
+          width={1200}
+          height={630}
+          alt=""
+          style={{ position: "absolute", top: 0, left: 0 }}
+        />
+        <div style={{ display: "flex", fontSize: 52, fontWeight: 600, letterSpacing: -1 }}>
+          {site.name}
+        </div>
+
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
+              display: "flex",
               fontSize: 24,
               letterSpacing: 4,
-              color: ACCENT,
-              fontWeight: 600,
+              color: GOLD,
+              fontFamily: "monospace",
+              textTransform: "uppercase",
             }}
           >
-            THE PRESIDENCY · CONGRESS · THE SUPREME COURT
+            {site.tagline}
           </div>
           <div
             style={{
-              fontSize: 92,
-              color: INK,
-              fontWeight: 700,
-              marginTop: 12,
-              lineHeight: 1.05,
+              display: "flex",
+              flexDirection: "column",
+              fontSize: 104,
+              lineHeight: 1.02,
+              letterSpacing: -2,
+              marginTop: 18,
             }}
           >
-            {site.name}
+            <div style={{ display: "flex" }}>Three branches.</div>
+            <div style={{ display: "flex", fontStyle: "italic" }}>One public record.</div>
           </div>
-          <div
-            style={{
-              fontSize: 34,
-              color: INK_MUTED,
-              marginTop: 20,
-              maxWidth: 900,
-              lineHeight: 1.35,
-            }}
-          >
-            {`${site.tagline}. Executive orders, the economy, trade, immigration, ideology and court decisions, charted from the public record.`}
-          </div>
-        </div>
-
-        <div
-          style={{
-            position: "relative",
-            height: 150,
-            background: SURFACE,
-            borderRadius: 14,
-            display: "flex",
-          }}
-        >
-          {dots.map((d, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: 24 + d.cx * (1200 - 144 - 48),
-                top: 12 + d.cy * 126,
-                width: 12,
-                height: 12,
-                borderRadius: 12,
-                background: d.rep ? REP : DEM,
-              }}
-            />
-          ))}
         </div>
       </div>
     ),
-    size,
+    {
+      ...size,
+      fonts: [
+        { name: "Newsreader", data: serif, weight: 500, style: "normal" },
+        { name: "Newsreader", data: serifItalic, weight: 500, style: "italic" },
+      ],
+    },
   );
 }
