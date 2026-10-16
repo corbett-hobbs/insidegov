@@ -95,6 +95,10 @@ export const SOURCE_LINKS = {
   "fred-debt-usd": "https://fred.stlouisfed.org/series/FYGFDPUN",
   "freddie-mac-pmms": "https://www.freddiemac.com/pmms",
   nber: "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions",
+  // Economy context lines (rule 7d), added with them: the Fed's FOMC statements and CBO's CARES Act estimate (April 16, 2020).
+  "fomc-statements": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+  "cbo-cares-act": "https://www.cbo.gov/publication/56334",
+  "congress-arpa": "https://www.congress.gov/bill/117th-congress/house-bill/1319",
   // Foreign aid and troops
   "foreign-assistance": "https://foreignassistance.gov/",
   dmdc: "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
