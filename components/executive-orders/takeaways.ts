@@ -8,6 +8,6 @@ export const EO_TAKEAWAYS = {
   perYear: {
     title: "Executive orders signed per year, by topic",
     takeaway:
-      "Presidents signed 19 to 91 orders a year from 1994 through 2024, then 238 in 2025, the most of any year. Trump signed 225 of them, more than Biden’s 162 in his whole term, including 34 on trade, which had never topped 5 a year.",
+      "From 1994 through 2024, presidents signed 19 to 91 executive orders a year. In 2025, the year Trump returned, there were 238; 34 were on trade, a topic that had never passed 5 in a year.",
   },
 } as const;

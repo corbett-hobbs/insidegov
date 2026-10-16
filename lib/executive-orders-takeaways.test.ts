@@ -29,22 +29,15 @@ const termOf = (president: string, startYear: number) => admins.find((a) => a.pr
 
 const cases: Record<keyof typeof EO_TAKEAWAYS, { says: string[]; check: () => void }> = {
   perYear: {
-    says: ["19 to 91 orders a year from 1994 through 2024", "238 in 2025", "the most of any year", "Trump signed 225 of them", "Biden’s 162 in his whole term", "34 on trade", "never topped 5 a year"],
+    says: ["From 1994 through 2024", "19 to 91 executive orders a year", "In 2025, the year Trump returned, there were 238", "34 were on trade", "never passed 5 in a year"],
     check: () => {
       expect(years[0]).toBe(1994);
       const before = between(1994, 2024).map((y) => byYear.get(y)!);
       expect(Math.min(...before)).toBe(19);
       expect(Math.max(...before)).toBe(91);
+      expect(termOf("Donald Trump", 2025).end).toBeNull();
       expect(byYear.get(2025)).toBe(238);
-      expect(Math.max(...byYear.values())).toBe(238);
-      // Jan 1–19, 2025 was Biden's (13 orders), so Trump's share of the year is counted by term.
-      const trump2 = termOf("Donald Trump", 2025);
-      const trump2025 = orders.filter((o) => o.signing_date.startsWith("2025-") && o.term_id === trump2.term_id);
-      expect(trump2025).toHaveLength(225);
-      expect(trump2025.filter((o) => o.topic === "trade")).toHaveLength(34);
-      const biden = termOf("Joe Biden", 2021);
-      expect(biden.end).not.toBeNull();
-      expect(orders.filter((o) => o.term_id === biden.term_id)).toHaveLength(162);
+      expect(tradeByYear.get(2025)).toBe(34);
       expect(Math.max(...between(1994, 2024).map((y) => tradeByYear.get(y) ?? 0))).toBe(5);
     },
   },
