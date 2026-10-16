@@ -5,7 +5,7 @@ import { siteInfo } from "@/lib/site-info";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 
 const DESCRIPTION =
-  "InsideGov puts public government records into charts you can explore: the presidency, Congress and the Supreme Court, without reading the raw files.";
+  "InsideGov charts the data behind the news, from gas prices and tariffs to new laws and Supreme Court rulings, drawn straight from public government records.";
 
 export const metadata: Metadata = {
   title: "About",
@@ -25,7 +25,7 @@ const QUESTIONS = [
   "How divided is Congress, and does my state’s delegation vote as a bloc?",
   "Which laws has Congress passed, and who voted for them?",
   "How wealthy are members of Congress, and how has their net worth changed?",
-  "How have prices, jobs, trade and energy moved from one administration to the next?",
+  "How have gas prices, mortgage rates, tariffs, jobs and the deficit moved from one administration to the next?",
   "How many people are removed, get green cards, become citizens or arrive as refugees each year?",
   "Where do U.S. troops and foreign aid go, and how has that changed?",
   "What has the Supreme Court decided, and how has its middle moved over time?",
@@ -49,13 +49,24 @@ export default function AboutPage() {
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-8 px-4 pb-16 pt-10 sm:px-6 sm:pt-14">
       <PageHeader title="About InsideGov">
         <p>
-          InsideGov puts public government records into charts you can explore, so you can see what the data shows about
-          the presidency, Congress and the Supreme Court without reading the raw files.
+          InsideGov is a companion to the news. When a story is about gas prices, mortgage rates, tariffs, deportations, the
+          deficit, a new law or a Supreme Court ruling, this is where you can see the numbers behind it, charted from the government&rsquo;s own records
+          on the presidency, Congress and the Supreme Court.
         </p>
       </PageHeader>
 
       <div className="flex flex-col gap-7 text-[0.95rem] leading-[1.65] [&_p]:m-0">
         <Section title="Why I built this">
+          <p>
+            Much of the news cycle is about numbers. Gas prices and mortgage rates come up constantly. Tariffs make
+            headlines whenever a new round is announced. Deportations stay in the news as ICE enforcement shifts. The
+            deficit is a slower-burning story that resurfaces with each budget fight. Congress makes news when a major
+            bill passes, and the vote count shows how much support it really had. The Supreme Court&rsquo;s biggest
+            rulings arrive each June, and the headline is often the split. Articles quote those figures, but
+            they rarely show them in context. You read that something rose or fell without seeing how it compares with last year or with
+            the last administration. I wanted one place where anyone following the news can pull up the chart and see
+            the trend for themselves.
+          </p>
           <p>
             Almost everything the federal government does leaves a public record: roll-call votes, executive orders,
             financial disclosures, trade statistics, court decisions, troop counts. Very little of it is easy to read.

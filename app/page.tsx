@@ -100,9 +100,11 @@ export default function Hub() {
         }
         intro={
           <p>
-            Every order signed, roll call cast, ruling issued, and financial
-            disclosure filed leaves a trail. We turn those records into data you
-            can scrub through, compare, and dig into.
+            The news runs on numbers: gas prices, mortgage rates, tariffs,
+            deportations, the deficit, the vote on a new law, a 6&ndash;3 ruling.
+            The stories rarely come with the charts. InsideGov is where
+            you find them, drawn from the government&rsquo;s own records so you
+            can see the data behind the headlines for yourself.
           </p>
         }
         startHref={href(presidency)}
@@ -112,9 +114,9 @@ export default function Hub() {
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
         <p className="home-intro pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
           <IntroWords
-            before="Explore the presidency, Congress, and the Supreme Court through "
+            before="One place for the data driving the news cycle, straight from "
             highlight="the public record"
-            after=": executive orders, the economy, energy, trade, immigration, foreign aid, troops abroad, the laws Congress passes, ideology, demographics, net worth, and court decisions."
+            after=": gas prices, mortgage rates, tariffs, deportations, the deficit, the laws Congress passes and the Supreme Court’s rulings, plus executive orders, energy, foreign aid, troops abroad, and who serves in Congress and how they vote."
           />
         </p>
 
