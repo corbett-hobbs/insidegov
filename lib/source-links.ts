@@ -61,6 +61,9 @@ export const SOURCE_LINKS = {
   "fred-mortgage": "https://fred.stlouisfed.org/series/MORTGAGE30US",
   "fred-deficit": "https://fred.stlouisfed.org/series/FYFSGDA188S",
   "fred-debt": "https://fred.stlouisfed.org/series/FYGFGDQ188S",
+  "treasury-fiscal-data": "https://fiscaldata.treasury.gov/",
+  "fred-deficit-usd": "https://fred.stlouisfed.org/series/FYFSD",
+  "fred-debt-usd": "https://fred.stlouisfed.org/series/FYGFDPUN",
   "freddie-mac-pmms": "https://www.freddiemac.com/pmms",
   nber: "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions",
   // Foreign aid and troops

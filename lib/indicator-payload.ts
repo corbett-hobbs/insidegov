@@ -46,6 +46,10 @@ export interface EconomyPayload {
   def: Annual;
   held: (number | null)[];
   tot: (number | null)[];
+  /** The same three fiscal series in billions of nominal dollars (the page's default view; `def`/`held`/`tot` are percent of GDP). */
+  defUsd: Annual;
+  heldUsd: (number | null)[];
+  totUsd: (number | null)[];
   /** `[firstDay, endDayExclusive]` of NBER recessions, in axis days (the first may start before 0). */
   rec: [number, number][];
   terms: EconomyTerm[];
@@ -57,13 +61,22 @@ export interface EconomyPayload {
   fetchedAt: string;
 }
 
-export interface EconomyData extends Omit<EconomyPayload, "inc" | "def"> {
+export interface EconomyData extends Omit<EconomyPayload, "inc" | "def" | "defUsd"> {
   inc: Record<number, number>;
   def: Record<number, number>;
+  defUsd: Record<number, number>;
 }
 
 export function fromEconomyPayload(p: EconomyPayload): EconomyData {
-  return { ...p, inc: Object.fromEntries(p.inc), def: Object.fromEntries(p.def) };
+  return { ...p, inc: Object.fromEntries(p.inc), def: Object.fromEntries(p.def), defUsd: Object.fromEntries(p.defUsd) };
+}
+
+/** How the two federal-finance charts are measured: nominal dollars, or a share of GDP. */
+export type FiscalUnit = "usd" | "pct";
+
+/** The data with the deficit and debt series (`def`, `held`, `tot`) read in the chosen unit. Everything else is shared. */
+export function withFiscalUnit(d: EconomyData, unit: FiscalUnit): EconomyData {
+  return unit === "pct" ? d : { ...d, def: d.defUsd, held: d.heldUsd, tot: d.totUsd };
 }
 
 export function toEconomyPayload(d: EconomyData): EconomyPayload {
@@ -71,7 +84,7 @@ export function toEconomyPayload(d: EconomyData): EconomyPayload {
     Object.entries(r)
       .map(([k, v]): [number, number] => [Number(k), v])
       .sort((a, b) => a[0] - b[0]);
-  return { ...d, inc: pairs(d.inc), def: pairs(d.def) };
+  return { ...d, inc: pairs(d.inc), def: pairs(d.def), defUsd: pairs(d.defUsd) };
 }
 
 const round = (v: number, dp: number) => Math.round(v * 10 ** dp) / 10 ** dp;

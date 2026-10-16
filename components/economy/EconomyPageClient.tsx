@@ -7,12 +7,13 @@ import { EconomyStateProvider, activeDay, useEconomyActions, useEconomyValues } 
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { PageHeader } from "@/components/PageHeader";
-import { fromEconomyPayload, type EconomyPayload } from "@/lib/indicator-payload";
+import { fromEconomyPayload, withFiscalUnit, type EconomyPayload, type FiscalUnit } from "@/lib/indicator-payload";
+import { PillGroup } from "@/components/charts/PillGroup";
 import { readAll } from "@/lib/indicator-lookup";
 import { EconomyCard } from "./EconomyCard";
 import type { EconomyData } from "@/lib/indicator-payload";
 import { EconomyFilterBar } from "./EconomyFilterBar";
-import { CARD_ROWS, SPECS } from "./specs";
+import { CARD_ROWS, SPECS, USD_SPECS, type ChartSpec } from "./specs";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 
 const longDate = (iso: string) =>
@@ -52,10 +53,18 @@ function EconomyPage({
   const values = useEconomyValues();
   const { setRange, clearPin } = useEconomyActions();
   const [showCong, setShowCong] = useState(false);
+  // Deficit and debt open in dollars; the toggle switches both to a share of GDP. The other unit stays beside the headline and in the tooltip.
+  const [unit, setUnit] = useState<FiscalUnit>("usd");
+  const other: FiscalUnit = unit === "usd" ? "pct" : "usd";
+  const fiscal = useMemo(() => withFiscalUnit(data, unit), [data, unit]);
+  const fiscalAlt = useMemo(() => withFiscalUnit(data, other), [data, other]);
+  const specs = useMemo<Record<keyof typeof SPECS, ChartSpec>>(() => ({ ...SPECS, ...(unit === "usd" ? USD_SPECS : {}) }), [unit]);
+  const altSpecs = useMemo(() => (unit === "usd" ? SPECS : USD_SPECS), [unit]);
   const day = activeDay(values);
   // Hero and cards read the same date, from the same lookup module.
-  const latest = useMemo(() => readAll(data, day), [data, day]);
-  const pinned = useMemo(() => (values.pin === null ? null : readAll(data, values.pin)), [data, values.pin]);
+  const latest = useMemo(() => readAll(fiscal, day), [fiscal, day]);
+  const latestAlt = useMemo(() => readAll(fiscalAlt, day), [fiscalAlt, day]);
+  const pinned = useMemo(() => (values.pin === null ? null : readAll(fiscal, values.pin)), [fiscal, values.pin]);
   const status =
     day === null
       ? "Hover over a chart to compare a date. Click to pin it."
@@ -66,16 +75,18 @@ function EconomyPage({
       ? ""
       : `Pinned ${describeDay(data, values.pin)}. ` +
         (Object.keys(pinned) as (keyof typeof pinned)[])
-          .map((k) => `${SPECS[k].title} ${pinned[k].value === null ? "no reading" : SPECS[k].head(pinned[k].value!)}`)
+          .map((k) => `${specs[k].title} ${pinned[k].value === null ? "no reading" : specs[k].head(pinned[k].value!)}`)
           .join("; ");
 
-  const lastFy = Math.max(...Object.keys(data.def).map(Number));
+  const lastFy = Math.max(...Object.keys(fiscal.def).map(Number));
   const lastIncomeYear = Math.max(...Object.keys(data.inc).map(Number));
   const firstYear = dateOfDay(0).year;
   const lastYear = dateOfDay(data.span - 1).year;
   const range = useMemo<[number, number]>(() => values.range ?? [firstYear, lastYear], [values.range, firstYear, lastYear]);
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(data.span, dayOf(range[1] + 1, 0, 1))], [range, data.span]);
   const common = { data, showCong, view };
+  /** Deficit and debt read the unit-swapped data and spec, with the other unit beside them. */
+  const isFiscal = (k: keyof typeof SPECS): k is "def" | "debt" => k === "def" || k === "debt";
 
   const incomeDollars = data.incomeUnits.match(/\d{4}/)?.[0] ?? "";
   const wageMonth = data.wageBase ? `${MONTH_NAMES[Number(data.wageBase.slice(5, 7)) - 1]} ${data.wageBase.slice(0, 4)}` : "";
@@ -92,8 +103,8 @@ function EconomyPage({
     inc: <>Median household income from the <SourceLink id="fred-income">Census Bureau</SourceLink>, in constant dollars that the Census Bureau re-bases with each release. Published each September for the prior year, so {lastIncomeYear + 1} isn’t available yet. Because it comes once a year, it lags the monthly charts by most of a year.</>,
     gas: <>Weekly national average retail price from the <SourceLink id="fred-gas">Energy Information Administration</SourceLink>, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.</>,
     mort: <><SourceLink id="freddie-mac-pmms">Freddie Mac</SourceLink>’s weekly survey of the average 30-year fixed mortgage rate. It is an average, not the rate every borrower gets, and it is not adjusted for inflation. Freddie Mac changed how it collects the rate in November 2022, to rely on lender applications, so comparisons across that line aren’t exact. The dashed vertical line marks the change. Source: <SourceLink id="fred-mortgage">Freddie Mac</SourceLink>.</>,
-    def: <>Budget receipts minus outlays as a share of GDP, from the <SourceLink id="fred-deficit">Office of Management and Budget</SourceLink>. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal {lastFy + 1} ends September 30, {lastFy + 1} and isn’t reported yet. A negative bar is a deficit; a positive bar is a surplus. Values are updated as budget estimates are revised.</>,
-    debt: <>Debt held by the public is what the government owes investors outside its own accounts; the dashed total also counts what it owes itself, such as to the Social Security trust funds. Both are shown as a share of GDP, quarterly, so the ratio can fall when the economy grows faster than debt does. Sources: <SourceLink id="fred-debt">Office of Management and Budget</SourceLink> and the <SourceLink id="fred">St. Louis Fed</SourceLink>.</>,
+    def: <>Budget receipts minus outlays, from the <SourceLink id="fred-deficit-usd">Office of Management and Budget</SourceLink>, in dollars or as a <SourceLink id="fred-deficit">share of GDP</SourceLink>. Dollars are not adjusted for inflation, so later years look larger partly because prices and the economy grew; the share of GDP corrects for that. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal {lastFy + 1} isn’t reported yet. Negative is a deficit; positive is a surplus. The newest year can come from <SourceLink id="treasury-fiscal-data">Treasury Fiscal Data</SourceLink> before the other sources publish it.</>,
+    debt: <>Total public debt, the figure the news reports, counts what the government owes itself, such as to the Social Security trust funds. The dashed line is debt held by the public, owed to investors outside government. Dollars are not adjusted for inflation, so the line climbs with prices and the economy; as a <SourceLink id="fred-debt">share of GDP</SourceLink> the ratio can fall when the economy grows faster than debt does. Sources: <SourceLink id="fred-debt-usd">Office of Management and Budget</SourceLink> and the <SourceLink id="fred">St. Louis Fed</SourceLink>; the newest dollar figures come from <SourceLink id="treasury-fiscal-data">Treasury Fiscal Data</SourceLink>.</>,
   };
   const key = (c: string, label: string) => (
     <span className={LEGEND_ITEM}>
@@ -188,21 +199,35 @@ function EconomyPage({
 
         {CARD_ROWS.map((row, i) => (
           <section key={row.label} aria-labelledby={`economy-row-${i}`} className="flex flex-col gap-3">
-            <h2
-              id={`economy-row-${i}`}
-              className="m-0 flex items-center gap-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
-            >
-              {row.label}
-              <span aria-hidden className="h-px flex-1 bg-line" />
-            </h2>
+            <div className="flex items-center gap-3">
+              <h2
+                id={`economy-row-${i}`}
+                className="m-0 flex flex-1 items-center gap-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
+              >
+                {row.label}
+                <span aria-hidden className="h-px flex-1 bg-line" />
+              </h2>
+              {row.cards.some(isFiscal) && (
+                <PillGroup
+                  ariaLabel="Show deficit and debt as"
+                  value={unit}
+                  onChange={setUnit}
+                  options={[
+                    { value: "usd", label: "Dollars" },
+                    { value: "pct", label: "% of GDP" },
+                  ]}
+                />
+              )}
+            </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:grid-rows-[repeat(5,auto)] md:gap-y-0">
               {row.cards.map((k) => (
                 <EconomyCard
                   key={k}
                   {...common}
-                  spec={SPECS[k]}
+                  {...(isFiscal(k) ? { data: fiscal, alt: { data: fiscalAlt, spec: altSpecs[k] }, altReading: latestAlt[k] } : {})}
+                  spec={specs[k]}
                   reading={latest[k]}
-                  desc={descs[k] ?? SPECS[k].desc}
+                  desc={descs[k] ?? specs[k].desc}
                   notes={<p>{notes[k]}</p>}
                   legend={
                     k === "gas" || k === "debt"
@@ -210,11 +235,11 @@ function EconomyPage({
                           <div className={`${LEGEND_ROW} mt-2`}>
                             <LegendToggle active={only === "main"} dimmed={only === "second"} onClick={() => isolate("main")}>
                               <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>
-                              {k === "gas" ? "Regular gasoline" : "Held by the public"}
+                              {k === "gas" ? "Regular gasoline" : "Total public debt"}
                             </LegendToggle>
                             <LegendToggle active={only === "second"} dimmed={only === "main"} onClick={() => isolate("second")}>
                               <svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-faint)" strokeWidth="2" strokeDasharray="4 3" /></svg>
-                              {k === "gas" ? "Diesel (from 1994)" : "Total, including debt the government owes itself"}
+                              {k === "gas" ? "Diesel (from 1994)" : "Held by the public"}
                             </LegendToggle>
                           </div>
                         )

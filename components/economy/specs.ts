@@ -16,6 +16,8 @@ export interface ChartSpec {
   unit: string;
   /** Name of the second series (shown in the tooltip and readout) when the chart has one. */
   label2?: string;
+  /** Values are a share of GDP, so a tooltip names the base ("of GDP"). */
+  share?: boolean;
 }
 
 const MINUS = "−";
@@ -148,19 +150,57 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     head: (v) => `${v < 0 ? MINUS : "+"}${fx(Math.abs(v), 1)}%`,
     aria: "Bar chart of the federal surplus or deficit as a percent of GDP by fiscal year since 1991",
     unit: "% of GDP",
+    share: true,
   },
   debt: {
     key: "debt",
     title: "Federal debt",
-    desc: "Federal debt as a share of GDP, quarterly.",
+    desc: "Total federal debt as a share of GDP, quarterly.",
     kind: "debt",
-    label2: "Total",
+    label2: "Held by the public",
     domain: [20, 140],
     ticks: [40, 80, 120],
     tick: (v) => `${v}%`,
     head: (v) => `${fx(v, 1)}%`,
-    aria: "Line chart of federal debt as a percent of GDP, quarterly since 1991, showing debt held by the public and total public debt",
+    aria: "Line chart of federal debt as a percent of GDP, quarterly since 1991, showing total public debt and the part held by the public",
     unit: "% of GDP",
+    share: true,
+  },
+};
+
+/** Dollars from a figure in billions: "$1.8T" from a trillion up, "$269B" below. */
+export const usd = (billions: number, dp = 1) => {
+  const a = Math.abs(billions);
+  const body = a >= 1000 ? `$${fx(a / 1000, dp)}T` : `$${nf(a)}B`;
+  return billions < 0 ? `${MINUS}${body}` : body;
+};
+
+/** The deficit and debt charts in nominal dollars (their data is in billions). The default view; `SPECS` holds the percent-of-GDP versions. */
+export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
+  def: {
+    key: "def",
+    title: "Federal deficit",
+    desc: "Federal surplus (+) or deficit (−) in dollars, by fiscal year.",
+    kind: "fiscal",
+    domain: [-3500, 500],
+    ticks: [-3000, -2000, -1000, 0],
+    tick: (v) => (v === 0 ? "$0" : usd(v, 0)),
+    head: (v) => `${v > 0 ? "+" : ""}${usd(v)}`,
+    aria: "Bar chart of the federal surplus or deficit in dollars by fiscal year since 1991",
+    unit: "$ billions",
+  },
+  debt: {
+    key: "debt",
+    title: "Federal debt",
+    desc: "Total federal debt in dollars, quarterly.",
+    kind: "debt",
+    label2: "Held by the public",
+    domain: [0, 42000],
+    ticks: [10000, 20000, 30000, 40000],
+    tick: (v) => usd(v, 0),
+    head: (v) => usd(v),
+    aria: "Line chart of federal debt in dollars, quarterly since 1991, showing total public debt and the part held by the public",
+    unit: "$ billions",
   },
 };
 
