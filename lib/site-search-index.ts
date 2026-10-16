@@ -7,7 +7,7 @@ import { committeePath } from "./committee-url";
 import { justicePath } from "./justice-url";
 import { stateName } from "./states";
 import { branches } from "./verticals";
-import { STATIC_PAGES } from "./site-info";
+import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "./site-info";
 import type { SearchEntry } from "./site-search";
 
 /** Extra words people type for a page, keyed by `/<vertical>/<section>`. */
@@ -53,6 +53,7 @@ export function getSiteSearchIndex(): SearchEntry[] {
         .filter((s) => s.status === "live")
         .map((s): SearchEntry => ({ n: s.label, s: b.label, u: s.href, k: "page", a: PAGE_ALIASES[s.href] })),
     ),
+    ...CROSS_BRANCH_PAGES.map((p): SearchEntry => ({ n: "Who held power when it happened", s: "All three branches", u: p.href, k: "page", a: "timeline landmark laws cases president senate house court party control history" })),
     ...STATIC_PAGES.map((u): SearchEntry => ({ n: STATIC_LABELS[u], s: "InsideGov", u, k: "page" })),
   ];
 

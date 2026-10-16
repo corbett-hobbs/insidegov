@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
@@ -49,6 +50,11 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
           <PageShortcuts>
             <JumpToLaws />
             <ControlToggle />
+            <p>
+              <Link href="/timeline" className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+                See who held power, 1933&ndash;now →
+              </Link>
+            </p>
           </PageShortcuts>
         </PageHeader>
 

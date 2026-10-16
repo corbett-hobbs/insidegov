@@ -11,6 +11,8 @@ import { HubCompass } from "@/components/HubCompass";
 import { CourtHubStrip } from "@/components/court/CourtHubStrip";
 import { HomeHero } from "@/components/home/HomeHero";
 import { BranchStrip } from "@/components/home/BranchStrip";
+import { HomeTimelineCard } from "@/components/home/HomeTimelineCard";
+import { getTimelinePayload } from "@/lib/timeline-data";
 import { HomeBranchCard } from "@/components/home/HomeBranchCard";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { IntroWords } from "@/components/home/IntroWords";
@@ -211,6 +213,8 @@ export default function Hub() {
             </Stat>
           }
         />
+
+        <HomeTimelineCard data={getTimelinePayload()} />
       </div>
     </main>
   );
