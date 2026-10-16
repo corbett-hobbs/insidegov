@@ -1,6 +1,7 @@
 "use client";
 
 import { CountryCombobox } from "./CountryCombobox";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
@@ -9,7 +10,6 @@ import type { EconomyTerm } from "@/lib/economy-presidents";
 import type { TradeCountryRef } from "@/lib/trade-types";
 import { sameRange, termYearRange, type YearRange } from "@/lib/year-range";
 
-const LABEL = "font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint";
 
 /**
  * The pinned filter bar for /presidency/trade, same shell as the Economy, Congress and Court bars: a Country dropdown
@@ -58,7 +58,7 @@ export function TradeFilterBar({
             From sm up: one row. */}
         <div className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2">
           <div className="flex min-w-0 items-center gap-2">
-            <span className={LABEL}>Country</span>
+            <FilterCaption phone>Country</FilterCaption>
             <CountryCombobox countries={countries} value={country} onChange={onCountry} className="w-full sm:w-[12rem]" />
           </div>
           <RangeSelector

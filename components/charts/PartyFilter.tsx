@@ -1,6 +1,6 @@
 "use client";
 
-import { FILTER_LABEL } from "./FilterBarParts";
+import { FilterCaption } from "./FilterBarParts";
 
 export interface PartyOption<T extends string> {
   id: T;
@@ -36,7 +36,7 @@ export function PartyFilter<T extends string>({
 }) {
   return (
     <div className={`flex min-w-0 items-center gap-2 ${className}`}>
-      <span className={`${FILTER_LABEL} max-sm:sr-only`}>{label}</span>
+      <FilterCaption>{label}</FilterCaption>
       <select
         aria-label={ariaLabel ?? label}
         value={value ?? ""}

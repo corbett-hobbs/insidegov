@@ -4,6 +4,7 @@ import { CountryCombobox } from "@/components/trade/CountryCombobox";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { formatAidMoney, sectorName, slotOfSector, yearTotal } from "@/lib/foreign-aid-derive";
 import type { TradeCountryRef } from "@/lib/trade-types";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
@@ -11,7 +12,6 @@ import { useMemo } from "react";
 import { useAidState } from "./ForeignAidState";
 import { slotColor } from "./shared";
 
-const LABEL = "font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint";
 
 /**
  * The pinned filter bar for /presidency/foreign-aid, directly under the site navigation: Country (reuses the trade
@@ -46,8 +46,8 @@ export function ForeignAidFilterBar() {
     <div className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur sm:shadow-none">
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
         <div className="grid grid-cols-2 gap-x-3 gap-y-1 sm:flex sm:flex-nowrap sm:items-center sm:gap-x-4 sm:gap-y-2">
-          <div className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-2">
-            <span className={LABEL}>Country</span>
+          <div className="flex min-w-0 items-center gap-2">
+            <FilterCaption>Country</FilterCaption>
             <CountryCombobox
               countries={refs}
               value={country >= 0 ? countries[country].name : null}
@@ -55,8 +55,8 @@ export function ForeignAidFilterBar() {
               className="w-full sm:w-[9rem]"
             />
           </div>
-          <div className="flex min-w-0 flex-col gap-0.5 sm:flex-none sm:flex-row sm:items-center sm:gap-2">
-            <span className={LABEL}>Sector</span>
+          <div className="flex min-w-0 items-center gap-2 sm:flex-none">
+            <FilterCaption>Sector</FilterCaption>
             <MultiSelectFilter label="Sector" noun="sectors" options={sectorOptions} value={secs} onChange={setSecs} className="w-full sm:w-[10rem]" />
           </div>
           <RangeSelector

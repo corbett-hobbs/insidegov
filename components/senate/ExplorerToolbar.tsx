@@ -2,6 +2,7 @@
 
 import { useExplorerUrl } from "@/lib/use-chamber";
 import { ChamberSwitch } from "@/components/ChamberSwitch";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { StateFilter } from "./StateFilter";
 import { ordinal, congressYears } from "./format";
@@ -69,6 +70,8 @@ export function ExplorerToolbar({
         <div className="flex flex-wrap items-center gap-x-2 gap-y-3 sm:gap-x-5">
           <ChamberSwitch value={view} onChange={setView} />
 
+          <div className="flex flex-none items-center gap-2">
+          <FilterCaption>Show</FilterCaption>
           <div
             role="group"
             aria-label="Show"
@@ -100,6 +103,7 @@ export function ExplorerToolbar({
               );
             })}
           </div>
+          </div>
 
           {/* Below `sm` this is a real flex row, merging the state control into
               the transport group on one line. At `sm`+ it's `display:contents`,
@@ -107,9 +111,7 @@ export function ExplorerToolbar({
               exactly the original, unwrapped desktop layout. */}
           <div className="flex w-full items-center gap-2 sm:contents">
             <div className="flex flex-none items-center gap-1.5 sm:gap-2">
-              <span className="hidden font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint sm:inline">
-                State
-              </span>
+              <FilterCaption>State</FilterCaption>
               <StateFilter
                 states={states}
                 value={stateFilter}

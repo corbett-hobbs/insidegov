@@ -2,6 +2,7 @@
 
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useMemo, useState, type ReactNode } from "react";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { PillGroup } from "@/components/charts/PillGroup";
@@ -123,7 +124,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
         <div className="mx-auto flex w-full max-w-[1180px] flex-col px-4 py-2.5 sm:flex-row sm:items-center sm:px-6">
           {/* Phones: Topic alone on its row, so its label sits beside it (rule 5a); the slider and term band below. */}
           <div className="flex min-w-0 items-center gap-2">
-            <span className="font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint">Topic</span>
+            <FilterCaption phone>Topic</FilterCaption>
             <MultiSelectFilter label="Topic" noun="topics" options={topicOptions} value={topics} onChange={setTopics} className="flex-1 sm:w-[13rem] sm:flex-none" />
           </div>
           <RangeSelector

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { FILTER_LABEL, HelpTip } from "@/components/charts/FilterBarParts";
+import { FilterCaption, HelpTip } from "@/components/charts/FilterBarParts";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
@@ -43,7 +43,7 @@ export function DecisionsFilterBar() {
         <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:gap-x-5">
           <div className="flex flex-none items-center gap-3 sm:pt-px">
           <div className="flex min-w-0 flex-1 items-center gap-2 sm:flex-none">
-            <span className={FILTER_LABEL}>Issue area</span>
+            <FilterCaption>Issue area</FilterCaption>
             <MultiSelectFilter label="Issue area" noun="issue areas" options={options} value={areas} onChange={setAreas} className="flex-1 sm:w-[10.5rem] sm:flex-none" />
           </div>
           <div className="flex flex-none items-center gap-1">

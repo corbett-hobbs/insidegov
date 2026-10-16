@@ -1,6 +1,7 @@
 "use client";
 
 import { RangeReset } from "@/components/charts/RangeReset";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { PillGroup } from "@/components/charts/PillGroup";
 import {
   termLabel,
@@ -56,18 +57,14 @@ export function CourtToolbar({
       <div className="mx-auto w-full max-w-[1180px] px-4 py-2.5 sm:px-6">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-3 sm:gap-x-5">
           <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:flex-none">
-            <span
-              id="court-appointed-label"
-              className="hidden font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint sm:inline"
-            >
-              Appointed by
-            </span>
+            <FilterCaption id="court-appointed-label">Appointed by</FilterCaption>
             <PillGroup
               options={APPOINTED}
               value={appointed}
               onChange={onAppointed}
               ariaLabel="Appointed by"
             />
+            <FilterCaption>President</FilterCaption>
             <select
               aria-label="Appointing president"
               value={president ?? ""}
