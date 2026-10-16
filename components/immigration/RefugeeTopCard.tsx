@@ -18,6 +18,7 @@ import { GEO_NAME, GEO_STACK, type GeoGroup, type RefugeePayload, type TopYear }
 import { useElementWidth } from "@/lib/use-element-width";
 import { REGION_COLOR, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
+import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
 
 const LABEL_H = 22;
 const TICK = 5;
@@ -118,21 +119,12 @@ export function RefugeeTopCard({
 
   const cur = years[si];
   const peak = years.reduce<TopYear | null>((a, b) => (b.ranked[0] && (!a || !a.ranked[0] || topVal(b) > topVal(a)) ? b : a), null);
-  const lede = cur?.ranked[0] ? (
-    <>
-      Largest source country each fiscal year, with bars colored by region. FY{cur.fy}: <b className="font-semibold text-ink">{names[cur.ranked[0].ci].name}</b> · {n(cur.ranked[0].value)} ·{" "}
-      {Math.round((cur.ranked[0].value / cur.total) * 100)}% of refugees admitted
-      {cur.preliminary ? " (preliminary)" : ""}
-    </>
-  ) : (
-    "Largest source country each fiscal year"
-  );
   const regionsPresent = GEO_STACK.filter((g) => years.some((y) => y.ranked[0]?.group === g));
   const anyPrelim = years.some((y) => y.preliminary);
 
   if (count === 0) return null;
   return (
-    <ChartCard title="Who’s sent the most refugees" lede={lede}>
+    <ChartCard title="Who’s sent the most refugees" takeaway={IMMIGRATION_TAKEAWAYS.refugeeTop.takeaway}>
       <div ref={wrapRef} className="touch-scroll relative -mx-3 sm:mx-0">
         <ChartFrame
           width={W}
@@ -257,7 +249,8 @@ export function RefugeeTopCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            The country with the most refugees admitted in each fiscal year, by country of chargeability (normally the applicant&rsquo;s nationality, which can differ from the country they fled). A bracket spans the years one country stayed No. 1. Bars are colored by the country&rsquo;s region and hatched where the year is preliminary (FY2026). Click or drag across the chart to choose the year shown in the cards above. <SourceLink id="wraps-admissions">State Department</SourceLink> data.
+            The country with the most refugees admitted in each fiscal year, by country of chargeability (normally the applicant&rsquo;s nationality, which can differ from the country they fled).
+            {cur?.ranked[0] && <> FY{cur.fy}: {names[cur.ranked[0].ci].name}, {n(cur.ranked[0].value)}, {Math.round((cur.ranked[0].value / cur.total) * 100)}% of refugees admitted{cur.preliminary ? " (preliminary)" : ""}.</>} A bracket spans the years one country stayed No. 1. Bars are colored by the country&rsquo;s region and hatched where the year is preliminary (FY2026). Click or drag across the chart to choose the year shown in the cards above. <SourceLink id="wraps-admissions">State Department</SourceLink> data.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

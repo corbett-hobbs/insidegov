@@ -12,25 +12,10 @@ import { CRIM_ORDER, convictedOrPendingShare, type AgencyView, type Measure } fr
 import type { ImmigrationPageData } from "@/lib/immigration-derive";
 import { CRIM_COLOR, CRIM_LABEL, CriminalHistoryChart } from "./CriminalHistoryChart";
 import { SourceLink } from "@/components/SourceLink";
+import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
 
 const n = (v: number) => v.toLocaleString("en-US");
 
-const SHARE_NOTE = "Each bar is a share of its own total; labels show convicted or pending charges.";
-/** One line each on a desktop-width card; the card reserves the tallest, so switching never moves what is below. */
-const LEDE: Record<AgencyView, Record<Measure, string>> = {
-  all: {
-    counts: "Criminal history, as ICE had it on record, of the people ICE removed. Choose who arrested them to narrow it (FY2017 on).",
-    share: `Criminal history, as ICE had it on record, of the people ICE removed. ${SHARE_NOTE}`,
-  },
-  ice: {
-    counts: "Removals of people ICE’s own officers first arrested, FY2017–FY2024, by the criminal history ICE had on record.",
-    share: `Removals of people ICE’s own officers first arrested, FY2017–FY2024. ${SHARE_NOTE}`,
-  },
-  cbp: {
-    counts: "Removals of people Border Patrol first arrested and handed to ICE, FY2017–FY2024, by the criminal history ICE had on record.",
-    share: `Removals of people Border Patrol first arrested and handed to ICE, FY2017–FY2024. ${SHARE_NOTE}`,
-  },
-};
 const VIEWS: readonly AgencyView[] = ["all", "ice", "cbp"];
 
 /**
@@ -82,13 +67,7 @@ export function CriminalHistoryCard({
   return (
     <ChartCard
       title="Criminal history of those removed"
-      lede={
-        <Reserved<string>
-          as="span"
-          active={`${view}-${measure}`}
-          items={VIEWS.flatMap((v) => (["counts", "share"] as const).map((m) => ({ key: `${v}-${m}`, node: LEDE[v][m] })))}
-        />
-      }
+      takeaway={IMMIGRATION_TAKEAWAYS.criminalHistory.takeaway}
       action={
         // Phones: the "Arrested by" label sits on its own line and both toggles share the line under it; from `sm` the label sits beside them.
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
@@ -161,7 +140,7 @@ export function CriminalHistoryCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Criminal history is as recorded in <SourceLink id="ice-statistics">ICE</SourceLink> systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from <SourceLink id="dhs-ice-budget-fy2027">a DHS budget document</SourceLink>, with one combined figure. Years with no ICE figure are blank, not zero.
+            Criminal history of the people ICE removed, as recorded in <SourceLink id="ice-statistics">ICE</SourceLink> systems at the time of the enforcement action; convictions include immigration crimes. &ldquo;Arrested by&rdquo; narrows it to the people ICE&rsquo;s own officers first arrested, or those Border Patrol first arrested and handed to ICE (FY2017&ndash;FY2024). In the Share view each bar is a share of its own total, and labels show convicted or pending charges. &ldquo;No known record&rdquo; is not a finding about the person: people who have just crossed the border usually have no U.S. record, and nearly all FY2023&ndash;FY2024 &ldquo;no known record&rdquo; removals were Border Patrol handoffs. ICE does not print the Border Patrol view; it is the year&rsquo;s total minus ICE&rsquo;s own arrests. ICE reports only convicted versus not convicted through FY2015 (share labels then show convicted only). FY2025 is preliminary, from <SourceLink id="dhs-ice-budget-fy2027">a DHS budget document</SourceLink>, with one combined figure. Years with no ICE figure are blank, not zero.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

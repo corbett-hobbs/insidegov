@@ -16,6 +16,7 @@ import { RefugeeMap, undrawnRefugees, type MapWords } from "./RefugeeMap";
 import type { MapFeature } from "./RemovalsMap";
 import { n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
+import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
 
 type WorldMap = { width: number; height: number; features: MapFeature[] };
 
@@ -65,7 +66,6 @@ export function LprCountryCard({
   const topShare = total > 0 ? top3.reduce((a, r) => a + r.value, 0) / total : 0;
   const hasChange = ranked.some((r) => r.change !== null);
 
-  const lede = `FY${fy}: ${n(total)} ${nat ? "people became U.S. citizens" : "people became permanent residents"}${prelim ? " (preliminary)" : ""}, by country of ${byNationality ? "nationality" : "birth"}${top3.length ? `; ${listNames(top3.map((r) => r.name))} led, with ${Math.round(topShare * 100)}% together.` : "."}`;
   const rows: StackedRowData[] = ranked.map((r) => ({
     id: r.key,
     rank: r.rank,
@@ -87,7 +87,7 @@ export function LprCountryCard({
   return (
     <ChartCard
       title="Where new permanent residents come from"
-      lede={lede}
+      takeaway={IMMIGRATION_TAKEAWAYS[nat ? "naturalizationCountries" : "greenCardCountries"].takeaway}
       action={
         <div className="flex flex-wrap items-center gap-2">
           {chip && <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">{chip}</span>}
@@ -151,7 +151,7 @@ export function LprCountryCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            {nat ? "People aged 18 and over who became U.S. citizens" : "People who became permanent residents"} in the fiscal year, by country of {byNationality ? <>nationality (the newest year, preliminary, is the only one <SourceLink id="ohss-legal-immigration">the quarterly report</SourceLink> gives by nationality)</> : <>birth (<SourceLink id="ohss-yearbook">Yearbook</SourceLink>)</>}. The two bases answer different questions, so a country is never compared across them. Not visas issued or entries, and not the refugee or ICE counts. Colour bins are fixed so years compare.
+            {nat ? "People aged 18 and over who became U.S. citizens" : "People who became permanent residents"} in the fiscal year, by country of {byNationality ? <>nationality (the newest year, preliminary, is the only one <SourceLink id="ohss-legal-immigration">the quarterly report</SourceLink> gives by nationality)</> : <>birth (<SourceLink id="ohss-yearbook">Yearbook</SourceLink>)</>}: {n(total)} in FY{fy}{prelim && !byNationality ? " (preliminary)" : ""}{top3.length ? `, with ${listNames(top3.map((r) => r.name))} leading at ${Math.round(topShare * 100)}% together` : ""}. The two bases answer different questions, so a country is never compared across them. Not visas issued or entries, and not the refugee or ICE counts. Colour bins are fixed so years compare.
             {off.names.length > 0 && <> Not on the map (former or unmapped places): {listNames(off.names)}; they are in the list and table.</>} The &ldquo;all other countries&rdquo;, unknown and withheld-count buckets are not countries and are not listed, so the list can fall a little short of the year&rsquo;s total. Cells from FY2015 on are rounded to the nearest ten.
           </p>
         </MethodologyNote>

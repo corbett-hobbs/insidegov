@@ -14,6 +14,7 @@ import { LprChart } from "./LprChart";
 import { GROUP_COLOR, REGION_COLOR } from "./lpr-style";
 import { n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
+import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
 
 /**
  * "Green cards and citizenships by fiscal year": the green-card bars stacked by class of admission, with a Green cards /
@@ -46,9 +47,6 @@ export function LprGreenCardCard({
   const markers = useMemo(() => lprMarkers(payload.notes, metric, years[0].fy, years[years.length - 1].fy, prelim), [payload.notes, metric, years, prelim]);
   const cur = years.find((y) => y.fy === fy) ?? years[years.length - 1];
   const share = cur.classes ? Math.round((cur.classes.immediate_relatives / cur.lpr) * 100) : null;
-  const lede = nat
-    ? `FY${cur.fy}: ${cur.naturalizations === null ? "no figure" : `${n(cur.naturalizations)} people aged 18 and over became U.S. citizens`}${cur.preliminary ? " (preliminary)" : ""}. Bars show the continent each was born on; citizenship comes years after a green card, so these are different people from the green cards, counted on their own.`
-    : `FY${cur.fy}: ${n(cur.lpr)} people became permanent residents${cur.preliminary ? " (preliminary)" : ""}${share !== null ? `, ${share}% of them as immediate relatives of U.S. citizens` : ""}. Bars are colored by the class they were admitted under.`;
   const toggle = (
     <PillGroup<LprMetric>
       ariaLabel="Count shown"
@@ -61,7 +59,7 @@ export function LprGreenCardCard({
     />
   );
   return (
-    <ChartCard title="Green cards and citizenships by fiscal year" lede={lede} action={toggle}>
+    <ChartCard title="Green cards and citizenships by fiscal year" takeaway={IMMIGRATION_TAKEAWAYS[nat ? "naturalizations" : "greenCards"].takeaway} action={toggle}>
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {nat
           ? presentRegions.map((r) => (
@@ -108,12 +106,12 @@ export function LprGreenCardCard({
         <MethodologyNote>
           {nat ? (
             <p>
-              Naturalizations: people aged 18 and over who became U.S. citizens through an application (Form N-400) in the fiscal year; children who become citizens through a parent are not counted. Bars are split by the continent OHSS prints above its country rows, by country of birth (the newest year, preliminary, by country of nationality): North America here includes Mexico, Central America and the Caribbean. Continents are OHSS&rsquo;s, not assigned here; &ldquo;Unknown&rdquo; is people whose birthplace was not reported. The count follows how many applications USCIS processed, not only how many people applied. A person usually naturalizes five or more years after getting a green card, so these are different people from the green cards in the same year; the two are never added. Source: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics</SourceLink> (Yearbook through FY2024; <SourceLink id="ohss-legal-immigration">quarterly report</SourceLink> for FY2025, preliminary). Rounded to the nearest ten. USCIS suspended in-person services in 2020.
+              Naturalizations: people aged 18 and over who became U.S. citizens through an application (Form N-400) in the fiscal year (FY{cur.fy}: {cur.naturalizations === null ? "no figure" : n(cur.naturalizations)}{cur.preliminary ? ", preliminary" : ""}); children who become citizens through a parent are not counted. Bars are split by the continent OHSS prints above its country rows, by country of birth (the newest year, preliminary, by country of nationality): North America here includes Mexico, Central America and the Caribbean. Continents are OHSS&rsquo;s, not assigned here; &ldquo;Unknown&rdquo; is people whose birthplace was not reported. The count follows how many applications USCIS processed, not only how many people applied. A person usually naturalizes five or more years after getting a green card, so these are different people from the green cards in the same year; the two are never added. Source: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics</SourceLink> (Yearbook through FY2024; <SourceLink id="ohss-legal-immigration">quarterly report</SourceLink> for FY2025, preliminary). Rounded to the nearest ten. USCIS suspended in-person services in 2020.
             </p>
           ) : (
             <>
               <p>
-                Green cards: people who became lawful permanent residents in the fiscal year, counted when DHS grants the status, either on arrival with an immigrant visa or by adjusting status inside the U.S. This is not the number of visas the State Department issues, and not entries. The class is the category a person became a resident under; refugees and asylees appear when they adjust to permanent residence, usually a year or more after arriving, so this is not the refugee admissions count above. Source: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics</SourceLink> (Yearbook through FY2024; <SourceLink id="ohss-legal-immigration">quarterly report</SourceLink> for FY2025, preliminary).
+                Green cards: people who became lawful permanent residents in the fiscal year (FY{cur.fy}: {n(cur.lpr)}{cur.preliminary ? ", preliminary" : ""}{share !== null ? `, ${share}% of them as immediate relatives of U.S. citizens` : ""}), counted when DHS grants the status, either on arrival with an immigrant visa or by adjusting status inside the U.S. This is not the number of visas the State Department issues, and not entries. Bars are colored by the class, the category a person became a resident under; refugees and asylees appear when they adjust to permanent residence, usually a year or more after arriving, so this is not the refugee admissions count above. Source: <SourceLink id="ohss-yearbook">DHS Office of Homeland Security Statistics</SourceLink> (Yearbook through FY2024; <SourceLink id="ohss-legal-immigration">quarterly report</SourceLink> for FY2025, preliminary).
               </p>
               <p>
                 OHSS prints six major classes and the “Other” that holds every other printed class (what it holds changes by edition). Refugees and asylees are drawn together; the table splits them. Class detail starts in FY1999. Cells from FY2015 on are rounded to the nearest ten. The split between new arrivals and adjustments of status is not drawn; FY2013–FY2019 were revised in the FY2020 Yearbook.
