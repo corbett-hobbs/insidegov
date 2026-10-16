@@ -39,6 +39,10 @@ import {
   WealthMemberTooltip,
 } from "./WealthMemberTooltip";
 import { LEGEND_ROW } from "@/components/charts/legend";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { MethodologyNote } from "@/components/MethodologyNote";
+import { SourceLink } from "@/components/SourceLink";
+import { WEALTH_TAKEAWAYS } from "./takeaways";
 
 const TICKS_DESKTOP = [
   -20_000_000, -5_000_000, -1_000_000, 0, 1_000_000, 5_000_000,
@@ -335,10 +339,11 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter, party }
   return (
     <section className="rounded-xl border border-line-strong bg-surface p-4 sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-4">
-        <div>
+        <div className="min-w-0 sm:flex-1">
           <h2 className="font-serif text-xl font-medium text-ink sm:text-2xl">
-            Where they started, where they are now
+            {WEALTH_TAKEAWAYS.scatter.title}
           </h2>
+          <p className="m-0 mt-2 text-[0.95rem] leading-[1.55] text-ink">{WEALTH_TAKEAWAYS.scatter.takeaway}</p>
           {highlighting && (
             <p className="mt-1 text-[0.85rem] text-ink-muted">
               {focusName} highlighted
@@ -422,13 +427,7 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter, party }
         </p>
       )}
 
-      <p className="mt-4 text-[0.85rem] leading-relaxed text-ink-muted">
-        Includes {chamberNoun} with 2+ years of data. Diagonal = no change. Above it, they grew. Below it, they shrank. Distance from the
-        line is the size of the change, not how fast it happened — the hover card has years
-        and rate.
-      </p>
-
-      <div ref={wrapRef} className="relative mt-3 -mx-3 sm:mx-0">
+      <div ref={wrapRef} className="relative mt-4 -mx-3 sm:mx-0">
         <ChartFrame
           width={W}
           height={H}
@@ -599,16 +598,21 @@ export function NetWorthScatterCard({ view, chamberMembers, stateFilter, party }
         </span>
       </div>
 
-      <p className="mt-3 text-[0.72rem] leading-relaxed text-ink-faint">
-        Years are the year each report covers, not the year it was filed. Both axes use the
-        same signed-log scale, running out to ±{capLabel}, enough to hold the largest estimate in this group, so the top movers
-        are plotted where they are (the spread near zero is tighter as a result: zoom in on it). Zoom with the +/− buttons,
-        Ctrl/⌘ + scroll or a pinch, and drag to pan. Pick a state or a party to highlight its members. Pick a member in the search to see their filings; members
-        with missing early years get a note there. Estimates for members reporting an
-        open-ended “Over $50,000,000” band are approximate and marked with a +.
-      </p>
-
-      <WealthScatterTable cohort={cohort} />
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            Includes {chamberNoun} with 2+ years of data: net worth at their first usable filing (across) against their
+            latest (up). Above the diagonal they grew, below it they shrank; distance from the line is the size of the
+            change, not how fast it happened (the hover card has years and rate). Years are the year each report covers,
+            not the year it was filed. Both axes use the same signed-log scale out to ±{capLabel}, enough to hold the
+            largest estimate here, so the spread near zero is tight: zoom in on it. Estimates for an open-ended
+            “Over $50,000,000” band are approximate and marked with a +. Sources:{" "}
+            <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink>,{" "}
+            <SourceLink id="senate-efd">Senate eFD</SourceLink>.
+          </p>
+        </MethodologyNote>
+        <WealthScatterTable cohort={cohort} />
+      </ChartNotesRow>
     </section>
   );
 }
@@ -626,7 +630,7 @@ function LegendSwatch({ className, label }: { className: string; label: string }
  *  before/after as a plain table, collapsed by default. */
 function WealthScatterTable({ cohort }: { cohort: WealthMember[] }) {
   return (
-    <details className="mt-3">
+    <details className="mt-2">
       <summary className={TABLE_TOGGLE}>
         View as table
       </summary>
