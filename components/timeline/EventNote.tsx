@@ -1,11 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactNode } from "react";
-import { fmtDate, lastName, statusNames, wikiUrl, type CourtMode, type PowerState } from "@/lib/timeline-derive";
+import { eraLabel, fmtDate, wikiUrl, type CourtMode, type PowerState } from "@/lib/timeline-derive";
 import type { Side, TlEvent, TlLink, TlTally } from "@/lib/timeline-types";
-import { FOCUS_RING, PARTY_ADJ, PARTY_PLURAL, STATUS_COLOR, numberBadge, partyColor } from "./shared";
-
-const seats = (s: readonly [number, number, number]) => (s[0] >= s[1] ? `${s[0]}–${s[1]}` : `${s[1]}–${s[0]}`);
+import { FOCUS_RING, numberBadge, partyColor } from "./shared";
 
 function VoteRow({ label, yes, no, party }: { label: string; yes: number; no: number; party: Side }) {
   const pct = yes + no ? Math.round((100 * yes) / (yes + no)) : 0;
@@ -106,62 +105,49 @@ function Links({ e, byId, onJump }: { e: TlEvent; byId: ReadonlyMap<string, TlEv
   );
 }
 
-/** Who held power that day: a law gets the President and both chambers as chips; a case one muted line on the elected branches (the Court is in its vote). */
-function HeldPower({ e, st, mode }: { e: TlEvent; st: PowerState; mode: CourtMode }) {
-  const status = statusNames(mode)[st.status].name;
-  const tag = (
-    <span className="mt-1.5 inline-block rounded border px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-[0.06em] text-ink" style={{ borderColor: STATUS_COLOR[st.status] }}>
-      {status}
-    </span>
-  );
-  if (e.kind === "law") {
-    const chip = (p: Side, t: string) => (
-      <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-[5px] border border-line px-1.5 py-px text-[0.7rem] text-ink">
-        <i aria-hidden className="inline-block h-2 w-2 rounded-sm" style={{ background: partyColor(p) }} />
-        {t}
-      </span>
-    );
-    return (
-      <>
-        <div className="mt-[7px] flex flex-wrap gap-1">
-          {chip(st.P, `${lastName(st.pres.name)} signed`)}
-          {chip(st.S, `Senate ${seats(st.cong.senate)}`)}
-          {chip(st.H, `House ${seats(st.cong.house)}`)}
-        </div>
-        {tag}
-      </>
-    );
+/**
+ * Who held power, once at the top of a chart note: the era's own sentence with a dot in the party's colour (neutral when the
+ * White House and Congress were split). Events in one marker can fall in different eras, so each distinct sentence shows once.
+ */
+export function HeldNow({ items, stateOf, mode }: { items: readonly TlEvent[]; stateOf: (e: TlEvent) => PowerState; mode: CourtMode }) {
+  const seen = new Map<string, PowerState>();
+  for (const e of items) {
+    const st = stateOf(e);
+    seen.set(eraLabel(st, mode), st);
   }
-  const cong = st.S === st.H ? `${PARTY_PLURAL[st.S]} held the Senate and House` : `${PARTY_PLURAL[st.S]} held the Senate, ${PARTY_PLURAL[st.H]} the House`;
   return (
-    <>
-      <p className="m-0 mt-[7px] text-[0.74rem] text-ink-faint">
-        Elected branches that day: {lastName(st.pres.name)} ({PARTY_ADJ[st.P]}) was president; {cong}.
-      </p>
-      {tag}
-    </>
+    <div className="mb-2 border-b border-line pb-2 pr-6">
+      {[...seen].map(([label, st]) => {
+        const color = st.status === "split" ? "var(--ink-muted)" : partyColor(st.P);
+        return (
+          <div key={label} className="flex items-start gap-1.5 text-[0.78rem] font-medium leading-snug" style={{ color: `color-mix(in oklab, ${color} 72%, var(--ink))` }}>
+            <i aria-hidden className="mt-[0.32rem] inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: color }} />
+            {label}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
 /**
- * The note card's content for one marker: every event it holds, each with its date, Wikipedia link, one line, the vote
- * (party yes-vote bars for a law, appointing-party bars for a case), its links to other events on the list, and who held
- * power that day.
+ * The note card's content for one marker: every event it holds, each with its date, one line, the vote
+ * (party yes-vote bars for a law, appointing-party bars for a case) and its links to other events on the list. The title is the
+ * link: the law's page here, else its Wikipedia article (cases always go to Wikipedia). Who held power is on the chart and era rows, not repeated here.
  */
 export function EventNotes({
   items,
   focus,
-  stateOf,
-  mode,
   byId,
   onJump,
+  onSee,
 }: {
   items: readonly TlEvent[];
   focus: number | null;
-  stateOf: (e: TlEvent) => PowerState;
-  mode: CourtMode;
   byId: ReadonlyMap<string, TlEvent>;
   onJump: (no: number) => void;
+  /** Set by the Era by era card: adds "See on timeline" to the date line. */
+  onSee?: (no: number) => void;
 }) {
   return (
     <>
@@ -171,21 +157,33 @@ export function EventNotes({
           data-no={e.no}
           className={`[&+&]:mt-2.5 [&+&]:border-t [&+&]:border-line [&+&]:pt-2.5 ${focus === e.no && items.length > 1 ? "-mx-1.5 rounded-md bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-1.5" : ""}`}
         >
-          <div>
+          <div className="pr-6">
             <span className={numberBadge(e.kind)}>{e.no}</span>
-            <span className="font-semibold text-ink">{e.name}</span>
+            {e.lawPath ? (
+              <Link href={e.lawPath} className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
+                {e.name}
+              </Link>
+            ) : (
+              <a href={wikiUrl(e.wiki)} target="_blank" rel="noreferrer" className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
+                {e.name} ↗
+              </a>
+            )}
           </div>
           <div className="font-mono text-[0.7rem] text-ink-faint">
-            {e.kind === "law" ? "Signed" : "Decided"} {fmtDate(e.date)} ·{" "}
-            <a href={wikiUrl(e.wiki)} target="_blank" rel="noreferrer" className={`underline underline-offset-2 hover:text-ink ${FOCUS_RING}`}>
-              Wikipedia ↗
-            </a>
+            {e.kind === "law" ? "Signed" : "Decided"} {fmtDate(e.date)}
+            {onSee && (
+              <>
+                {" · "}
+                <button type="button" data-tl-jump onClick={() => onSee(e.no)} className={`font-medium text-accent underline-offset-2 hover:underline ${FOCUS_RING}`}>
+                  See on timeline ↑
+                </button>
+              </>
+            )}
           </div>
           <p className="m-0 mt-[3px] text-ink-muted">{e.what}</p>
           <Votes e={e} />
           <Links e={e} byId={byId} onJump={onJump} />
-          <HeldPower e={e} st={stateOf(e)} mode={mode} />
-        </div>
+                  </div>
       ))}
     </>
   );

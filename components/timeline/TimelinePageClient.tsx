@@ -131,12 +131,12 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
             <p>
               The top four rows are the four institutions. The White House shows who was president; the Senate and House show the share of seats
               each party held at the start of each Congress (Democrats from the bottom, Republicans from the top, the dashed line is half); the
-              Court shows which way its median justice leaned each term (bar down for liberal, up for conservative, grey near the centre). Switch{" "}
-              <i>Court by</i> to <i>Appointed by</i> to see how many sitting justices each party&rsquo;s presidents appointed instead.
+              Court shows which way its median justice leaned each term (bar down for liberal, up for conservative, grey near the centre). Set{" "}
+              <i>Court</i> to <i>Appointees</i> to see how many sitting justices each party&rsquo;s presidents appointed instead.
             </p>
             <p>
               The thin strip above them is filled when one party held the White House and both chambers and the Court leaned its way (liberal for
-              Democrats, conservative for Republicans), and lightly tinted when the Court didn&rsquo;t. With <i>Appointed by</i>, the Court counts
+              Democrats, conservative for Republicans), and lightly tinted when the Court didn&rsquo;t. With <i>Appointees</i>, the Court counts
               with the party that appointed most of it.
             </p>
             <p>
@@ -203,7 +203,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
             </span>
             <span className={LEGEND_ITEM}>
               <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("T") }} />
-              {mode === "lean" ? "Third party · Court at the centre" : "Third party"}
+              {mode === "lean" ? "Court at the centre" : "Court split evenly"}
             </span>
             <span className={LEGEND_ITEM}>
               <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyTint("D", 30) }} />
@@ -276,7 +276,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
           </ChartNotesRow>
         </ChartCard>
 
-        <ErasCard eras={eras} mode={mode} range={range} status={status} events={shown} query={query} onQuery={(q) => (setQuery(q), setOpen(null))} onJump={jumpTo} today={data.today} stateOf={stateOf} byId={byId} />
+        <ErasCard eras={eras} mode={mode} range={range} status={status} events={shown} query={query} onQuery={(q) => (setQuery(q), setOpen(null))} onJump={jumpTo} today={data.today} byId={byId} />
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: {nLaws} laws and {nCases} Supreme Court cases picked by hand (list last reviewed {fmtDate(data.reviewed)}), each linked to its{" "}

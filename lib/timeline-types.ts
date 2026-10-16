@@ -77,6 +77,8 @@ export interface TlEvent {
   /** The vote was entered by hand (before the SCDB data starts in 1946). */
   voteHand?: boolean;
   // Laws
+  /** The law's page on this site, when it has one (93rd Congress on). */
+  lawPath?: string;
   /** Final-passage yes and no votes by party, per chamber, where recorded. */
   split?: { house?: TlTally; senate?: TlTally };
   /** The split was typed in by hand from the record (1964 and 1965). */
