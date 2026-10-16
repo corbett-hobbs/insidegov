@@ -16,6 +16,7 @@ import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { EmptyWindow, congressSub, congressTitle, congressYears, controlRowsFor, groupFills } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
 import { SourceLink } from "@/components/SourceLink";
+import { LAWS_TAKEAWAYS } from "./takeaways";
 
 interface Col extends StackColumn {
   ci: number;
@@ -77,13 +78,14 @@ export function LawsCountCard() {
   const first = cols[0];
   const last = done[done.length - 1] ?? cols[cols.length - 1];
   const windowTotal = cols.reduce((t, c) => t + c.total, 0);
-  const lede = !first
+  // What the selection holds, as the Data notes' opening words (the line under the title is the fixed takeaway, rule 7c).
+  const selection = !first
     ? ""
     : groups === null && bands === null && !major
       ? cols.length === 1
-        ? `${fmtInt(first.total)} laws enacted by the ${ordinal(first.congress)} Congress (${congressYears(data, first.ci)}).`
-        : `${fmtInt(first.total)} laws enacted by the ${ordinal(first.congress)} Congress (${congressYears(data, first.ci)}), ${fmtInt(last.total)} by the ${ordinal(last.congress)} (${congressYears(data, last.ci)}).`
-      : `${fmtInt(windowTotal)} ${noun} in these years${groups === null ? "" : `: ${filterLabel(data, groups).toLowerCase()}`}${bands === null ? "" : `, ${bandsPhrase(bands)}`}.${major ? ` Major laws are assessed through the ${ordinal(data.majorThrough)} Congress.` : ""}`;
+        ? `The ${ordinal(first.congress)} Congress (${congressYears(data, first.ci)}) enacted ${fmtInt(first.total)} laws. `
+        : `The ${ordinal(first.congress)} Congress (${congressYears(data, first.ci)}) enacted ${fmtInt(first.total)} laws, the ${ordinal(last.congress)} (${congressYears(data, last.ci)}) ${fmtInt(last.total)}. `
+      : `${fmtInt(windowTotal)} ${noun} in these years${groups === null ? "" : `: ${filterLabel(data, groups).toLowerCase()}`}${bands === null ? "" : `, ${bandsPhrase(bands)}`}.${major ? ` Major laws are assessed through the ${ordinal(data.majorThrough)} Congress.` : ""} `;
   const filtered = groups !== null || bands !== null || major;
   const ncByCongress = data.counts.map((row) => row.reduce((t, n, ai) => t + (data.areas[ai]!.group === "not-classified" ? n : 0), 0));
   const notClassified = ncByCongress.reduce((a, b) => a + b, 0);
@@ -91,8 +93,8 @@ export function LawsCountCard() {
 
   return (
     <ChartCard
-      title="How many laws does Congress pass?"
-      lede={lede || "No laws in this selection."}
+      title={LAWS_TAKEAWAYS.count.title}
+      takeaway={LAWS_TAKEAWAYS.count.takeaway}
       action={
         <PillGroup
           ariaLabel="Laws measure"
@@ -161,7 +163,7 @@ export function LawsCountCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            A law&rsquo;s policy area is the single area <SourceLink id="congress-gov">Congress.gov</SourceLink> assigns its bill, grouped here into {every.filter((s) => s.id !== "not-classified").length} colour-coded topics. &ldquo;Commemorations&rdquo; is our own grouping, applied the same way in every year: Congress.gov filed it there, or its title designates a day, week or year, names a building or landmark, awards a medal or coin, or approves a memorial. Laws from the 93rd&ndash;95th Congresses without a current area were placed by InsideGov from their titles{notClassified > 0 ? `; ${fmtInt(notClassified)} recent laws not yet classified show as “Not classified”` : ""}. The {ordinal(lastCongress)} Congress is in session, so its bar is partial (hatched) and excluded from the peak and low labels. Sponsor party is the party the bill&rsquo;s sponsor sat with in that Congress; the {fmtInt(unattributedLaws(data))} laws sponsored by an independent, a minor-party member or no member at all are in &ldquo;All parties&rdquo; only.
+            {selection}A law&rsquo;s policy area is the single area <SourceLink id="congress-gov">Congress.gov</SourceLink> assigns its bill, grouped here into {every.filter((s) => s.id !== "not-classified").length} colour-coded topics. &ldquo;Commemorations&rdquo; is our own grouping, applied the same way in every year: Congress.gov filed it there, or its title designates a day, week or year, names a building or landmark, awards a medal or coin, or approves a memorial. Laws from the 93rd&ndash;95th Congresses without a current area were placed by InsideGov from their titles{notClassified > 0 ? `; ${fmtInt(notClassified)} recent laws not yet classified show as “Not classified”` : ""}. The {ordinal(lastCongress)} Congress is in session, so its bar is partial (hatched) and excluded from the peak and low labels. Sponsor party is the party the bill&rsquo;s sponsor sat with in that Congress; the {fmtInt(unattributedLaws(data))} laws sponsored by an independent, a minor-party member or no member at all are in &ldquo;All parties&rdquo; only.
           </p>
         </MethodologyNote>
         <TableView
