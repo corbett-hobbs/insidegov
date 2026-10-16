@@ -26,7 +26,7 @@ import {
  */
 export interface Reading {
   value: number | null;
-  /** Second series (total debt), when the chart has one. */
+  /** Second series (debt held by the public, diesel), when the chart has one. */
   value2: number | null;
   /** Axis day the dot snaps to (the series' own observation), or null with no reading. */
   snap: number | null;
@@ -126,12 +126,13 @@ export function readFiscal(def: Readonly<Record<number, number>>, day: number | 
   return some(v, dayOf(fy, 3, 1), `fiscal ${fy}`);
 }
 
-export function readDebt(held: readonly (number | null)[], tot: readonly (number | null)[], day: number | null): Reading {
-  const q = day === null ? lastNonNull(held) : quarterIndexOfDay(day);
+/** Total public debt (the figure the news reports) with debt held by the public as the second value. */
+export function readDebt(tot: readonly (number | null)[], held: readonly (number | null)[], day: number | null): Reading {
+  const q = day === null ? lastNonNull(tot) : quarterIndexOfDay(day);
   const qy = 1991 + Math.floor(q / 4);
   const qn = (q % 4) + 1;
-  if (q >= held.length || held[q] === null) return none(`Q${qn} ${qy} not yet reported`);
-  return some(held[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `held by the public, Q${qn} ${qy}`, tot[q] ?? null);
+  if (q >= tot.length || tot[q] === null) return none(`Q${qn} ${qy} not yet reported`);
+  return some(tot[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `total debt, Q${qn} ${qy}`, held[q] ?? null);
 }
 
 export type EconomyKey = "mis" | "gas" | "infl" | "jobs" | "gdp" | "wage" | "un" | "mort" | "inc" | "def" | "debt";
@@ -149,7 +150,7 @@ export function readAll(d: EconomyData, day: number | null): Record<EconomyKey, 
     mort: readWeekly(d.mort, day),
     inc: readIncome(d.inc, day),
     def: readFiscal(d.def, day),
-    debt: readDebt(d.held, d.tot, day),
+    debt: readDebt(d.tot, d.held, day),
   };
 }
 

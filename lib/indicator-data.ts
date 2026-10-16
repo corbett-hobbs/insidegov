@@ -8,6 +8,7 @@ import {
   type IndicatorSeries,
 } from "./indicator-entities";
 import { administration } from "./executive-orders-entities";
+import { treasuryFiscal } from "./treasury-fiscal";
 import { congressControlFile, controlSpans } from "./congress-control";
 import { buildEconomyTerms } from "./economy-presidents";
 import {
@@ -39,6 +40,15 @@ import {
  */
 
 const OUT = join(process.cwd(), "pipeline", "output");
+
+/** FRED's points, then Treasury's for any later period (FRED always wins where it has a value). */
+const withNewer = (fred: readonly Point[], treasury: readonly Point[]): Point[] => {
+  const last = fred.length > 0 ? fred[fred.length - 1].date : "";
+  return [...fred, ...treasury.filter((p) => p.date > last)];
+};
+
+/** Millions of dollars (how FRED states the fiscal series) to billions. */
+const billions = (points: readonly Point[]): Point[] => points.map((p) => ({ ...p, value: p.value / 1000 }));
 
 function readRows<T>(file: string, parse: (row: unknown) => T): T[] {
   return (JSON.parse(readFileSync(join(OUT, file), "utf8")) as unknown[]).map(parse);
@@ -109,6 +119,7 @@ export function getEconomyPayload(): EconomyPayload {
     JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "congress-control.json"), "utf8")),
   );
   const wage = getRealHourlyEarnings();
+  const tf = treasuryFiscal.parse(JSON.parse(readFileSync(join(OUT, "treasury_fiscal.json"), "utf8")));
   return {
     span,
     gas: weeklyTuples(get("GASREGW"), 3),
@@ -125,6 +136,11 @@ export function getEconomyPayload(): EconomyPayload {
     def: annualTuples(get("FYFSGDA188S"), 2),
     held: quarterlySeries(get("FYGFGDQ188S"), 2),
     tot: quarterlySeries(get("GFDEGDQ188S"), 2),
+    // FRED states these in millions of dollars; the page works in billions.
+    // Treasury's own figures extend them past FRED's last release (see lib/treasury-fiscal.ts).
+    defUsd: annualTuples(billions(withNewer(get("FYFSD"), tf.deficit.map((d) => ({ date: `${d.fiscal_year}-09-30`, value: d.value })))), 1),
+    heldUsd: quarterlySeries(billions(withNewer(get("FYGFDPUN"), tf.debt.map((d) => ({ date: d.date, value: d.held })))), 1),
+    totUsd: quarterlySeries(billions(withNewer(get("GFDEBTN"), tf.debt.map((d) => ({ date: d.date, value: d.total })))), 1),
     // Full history so a run that began before the window still has its true start.
     rec: recessionSpans(byId.get("USREC") ?? []),
     terms: buildEconomyTerms(admins, span),

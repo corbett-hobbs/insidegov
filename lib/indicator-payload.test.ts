@@ -6,6 +6,7 @@ import {
   recessionLabel,
   recessionSpans,
   toEconomyPayload,
+  withFiscalUnit,
   weeklyTuples,
   type EconomyData,
 } from "./indicator-payload";
@@ -57,11 +58,20 @@ describe("indicator payload builders", () => {
 
 describe("EconomyPayload codec", () => {
   it("round-trips annual records through tuples", () => {
-    const d = { inc: { 1991: 1, 2024: 3 }, def: { 2000: -1.5 } } as unknown as EconomyData;
+    const d = { inc: { 1991: 1, 2024: 3 }, def: { 2000: -1.5 }, defUsd: { 2000: 236.2 } } as unknown as EconomyData;
     const p = toEconomyPayload(d);
     expect(p.inc).toEqual([[1991, 1], [2024, 3]]);
     const back = fromEconomyPayload(p);
     expect(back.inc).toEqual(d.inc);
     expect(back.def).toEqual(d.def);
+    expect(back.defUsd).toEqual(d.defUsd);
+  });
+
+  it("reads the fiscal series in the chosen unit and leaves the rest alone", () => {
+    const d = { gas: [[1, 2]], def: { 2000: -1.5 }, held: [50], tot: [60], defUsd: { 2000: -200 }, heldUsd: [5000], totUsd: [6000] } as unknown as EconomyData;
+    const usd = withFiscalUnit(d, "usd");
+    expect([usd.def, usd.held, usd.tot]).toEqual([{ 2000: -200 }, [5000], [6000]]);
+    expect(usd.gas).toBe(d.gas);
+    expect(withFiscalUnit(d, "pct")).toBe(d);
   });
 });

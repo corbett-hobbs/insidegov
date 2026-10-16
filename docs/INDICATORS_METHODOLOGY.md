@@ -33,9 +33,14 @@ observation; counts exclude `.` rows):
 | Federal surplus/deficit, % GDP | `FYFSGDA188S` | annual (FY) | 1929-01-01 | 2025-01-01 | 97 | % of GDP, negative = deficit. |
 | Debt held by the public, % GDP | `FYGFGDQ188S` | quarterly | **1970-01-01** | 2026-01-01 | 225 | **Headline debt measure** (CBO's). Starts 1970, not 1966. |
 | Total public debt, % GDP | `GFDEGDQ188S` | quarterly | 1966-01-01 | 2026-01-01 | 241 | Includes intragovernmental debt; ingested alongside, display decision deferred. |
+| Federal surplus/deficit, dollars | `FYFSD` | annual (FY) | 1901-06-30 | 2025-09-30 | 125 | Millions of nominal dollars, negative = deficit. **Dated at the fiscal year's end (Sept 30)**, unlike the % series (Jan 1); both map to the year the FY ends. The economy page's default view. |
+| Debt held by the public, dollars | `FYGFDPUN` | quarterly | 1970-01-01 | 2026-04-01 | 226 | Millions of nominal dollars. Runs one quarter ahead of the % of GDP series. |
+| Total public debt, dollars | `GFDEBTN` | quarterly | 1966-01-01 | 2026-04-01 | 242 | Millions of nominal dollars, including intragovernmental debt (Treasury). Shown as the dashed line on the debt card. |
 | NBER recession indicator | `USREC` | monthly | 1854-12-01 | 2026-08-01 | 2,061 | 1/0, context for shading only. |
 
 `indicators_report.json` carries the live counts and last-observation dates.
+
+**Treasury supplement (dollar debt and deficit only).** FRED's dollar series lag Treasury's own releases (FY2026's deficit was published by Treasury weeks before FRED updated `FYFSD`; the newest quarter's debt waits for FRED too). `pnpm fetch:treasury-fiscal` (no key) stores, in `pipeline/raw/treasury/fiscal.json`, Debt to the Penny at each completed quarter end since 2024 and the September Monthly Treasury Statement's fiscal-year deficit; `pnpm transform` writes `pipeline/output/treasury_fiscal.json` in FRED's dating (quarter start) and sign (negative = deficit), in millions. `lib/indicator-data.ts` appends a Treasury value only for a period **after** FRED's last observation, so FRED wins wherever it has one. Cross-check: Treasury's total debt equals `GFDEBTN` exactly for every overlapping quarter, its FY2025 deficit differs from `FYFSD` by under $1B, and its held-by-the-public figure differs from `FYGFDPUN` by about 0.1% (OMB vs Treasury definitions). The percent-of-GDP series have no Treasury equivalent and keep FRED's later cutoff; the page labels the period whenever the two units differ. Not yet on a freshness workflow.
 
 ## How FRED dates each frequency (verified, not assumed)
 
