@@ -1,11 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /** The pinned filter bars' dropdown and caption styles (Decisions, Laws). */
 export const FILTER_SELECT =
   "min-w-0 rounded-md border border-line-strong bg-surface-raised px-[0.55rem] py-[0.42rem] text-[0.8rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 export const FILTER_LABEL = "font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint";
+
+/**
+ * The mono caption beside a control in a pinned filter bar (rule 5d): shown from `sm`, read by screen readers only on phones, so two or three
+ * controls still fit a phone row. `phone` keeps it visible there too, for rule 5a: a dropdown that has a phone row to itself (Trade Country,
+ * Executive orders Topic) carries its label beside it. `from="lg"` holds the caption back until `lg` where a bar is tight (Troops).
+ */
+export function FilterCaption({ children, phone = false, from = "sm", id }: { children: ReactNode; phone?: boolean; from?: "sm" | "lg"; id?: string }) {
+  return (
+    <span id={id} className={`${FILTER_LABEL} ${phone ? "" : from === "lg" ? "max-lg:sr-only" : "max-sm:sr-only"}`}>
+      {children}
+    </span>
+  );
+}
 
 
 /**

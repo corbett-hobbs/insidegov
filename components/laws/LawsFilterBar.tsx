@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { PartyFilter } from "@/components/charts/PartyFilter";
-import { FILTER_LABEL, HelpTip } from "@/components/charts/FilterBarParts";
+import { FilterCaption, HelpTip } from "@/components/charts/FilterBarParts";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand } from "@/components/charts/TermBand";
@@ -26,7 +26,7 @@ const MAJOR_DEFINITION =
  * (the Decisions bar's shape). Policy area lists the topic groups in the order and colours of card 1's legend; Vote lists the
  * support bands and is the same filter card 2's legend and the list's pills set. Sponsor party (`PartyFilter`) narrows every chart and the list to the laws
  * a Democrat or a Republican sponsored. Phones: Policy area, Vote and Sponsor party share a row (labels read by screen readers
- * only), Major laws moves into the Policy area panel, then the slider.
+ * only), Major laws moves into the Policy area panel (below `xl` as well, where the bar has no room for it), then the slider.
  */
 export function LawsFilterBar() {
   const { data, range, groups, major, bands, party, window: win } = useLawsValues();
@@ -46,10 +46,11 @@ export function LawsFilterBar() {
         <div className="flex flex-col gap-1.5 lg:flex-row lg:items-start lg:gap-x-5">
           <div className="flex flex-none flex-wrap items-center gap-x-1.5 gap-y-1.5 sm:gap-x-3 lg:flex-nowrap lg:pt-px">
             <div className="flex min-w-0 flex-[1.6] basis-0 items-center gap-2 sm:flex-none sm:basis-auto">
-              <span className={`${FILTER_LABEL} max-sm:sr-only`}>Policy area</span>
+              <FilterCaption>Policy area</FilterCaption>
               <MultiSelectFilter label="Policy area" noun="policy areas" options={areaOptions} value={groups} onChange={setGroups}
                 dot={major ? "major laws only" : undefined}
-                footerClassName="sm:hidden"
+                footerClassName="xl:hidden"
+                dotClassName="xl:hidden"
                 footer={
                   <label className="flex cursor-pointer items-start gap-2 text-[0.8rem] text-ink">
                     <input type="checkbox" checked={major} onChange={(e) => setMajor(e.target.checked)} className="m-0 mt-0.5 h-4 w-4 flex-none cursor-pointer accent-[var(--accent)]" />
@@ -63,7 +64,7 @@ export function LawsFilterBar() {
               />
             </div>
             <div className="flex min-w-0 flex-1 basis-0 items-center gap-2 sm:flex-none sm:basis-auto">
-              <span className={`${FILTER_LABEL} max-sm:sr-only`}>Vote</span>
+              <FilterCaption>Vote</FilterCaption>
               <MultiSelectFilter label="Vote: the closest recorded final-passage vote" noun="votes" allLabel="Any vote" options={voteOptions} value={bands} onChange={setBands} className="flex-1 sm:w-[9.5rem] sm:flex-none" />
             </div>
             <PartyFilter
@@ -78,7 +79,7 @@ export function LawsFilterBar() {
               className="flex-[1.25] basis-0 sm:flex-none sm:basis-auto"
               selectClassName="flex-1 sm:w-[8.5rem] sm:flex-none"
             />
-            <div className="flex flex-none items-center gap-1 max-sm:hidden">
+            <div className="flex flex-none items-center gap-1 max-xl:hidden">
               <label className="flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[0.8rem] text-ink">
                 <input type="checkbox" checked={major} onChange={(e) => setMajor(e.target.checked)} className="h-4 w-4 cursor-pointer accent-[var(--accent)]" />
                 Major laws

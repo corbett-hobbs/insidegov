@@ -30,6 +30,7 @@ export function MultiSelectFilter<T extends string | number>({
   allLabel,
   footer,
   footerClassName = "",
+  dotClassName = "sm:hidden",
   dot,
 }: {
   /** Names the group for screen readers ("Policy area"). */
@@ -45,6 +46,8 @@ export function MultiSelectFilter<T extends string | number>({
   /** Extra controls under the list (Laws: the Major laws checkbox, on phones, where the bar has no room for it). `footerClassName` can hide the section at some widths. */
   footer?: ReactNode;
   footerClassName?: string;
+  /** Hides the `dot` at the widths where the footer control it stands for is out of the panel (default: shown on phones only). */
+  dotClassName?: string;
   /** When set, the button wears an accent dot (below `sm`) and says this to screen readers: a filter that lives in the footer is on. */
   dot?: string;
 }) {
@@ -114,7 +117,7 @@ export function MultiSelectFilter<T extends string | number>({
             {ticked}/{options.length}
           </span>
         )}
-        {dot && <span aria-hidden title={dot} className="h-1.5 w-1.5 flex-none rounded-full bg-accent sm:hidden" />}
+        {dot && <span aria-hidden title={dot} className={`h-1.5 w-1.5 flex-none rounded-full bg-accent ${dotClassName}`} />}
         <svg aria-hidden viewBox="0 0 10 6" className="h-1.5 w-2.5 flex-none text-ink-faint">
           <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.4" />
         </svg>

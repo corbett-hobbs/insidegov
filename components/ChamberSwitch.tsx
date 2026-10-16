@@ -1,9 +1,10 @@
 "use client";
 
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { CHAMBER_VIEWS, viewLabel, type ChamberView } from "@/lib/chamber";
 
 /**
- * The three-way Both / Senate / House pill switch — a controlled component,
+ * The three-way Both / Senate / House pill switch with its "Chamber" caption (rule 5d: from `sm`) — a controlled component,
  * no state of its own. Used by the explorer's toolbar
  * (components/senate/ExplorerToolbar.tsx, wired to the shared URL state) and
  * /congress/wealth's filter bar (components/wealth/WealthFilterBar.tsx, wired to
@@ -17,11 +18,13 @@ export function ChamberSwitch({
   onChange: (v: ChamberView) => void;
 }) {
   return (
-    <div
-      role="group"
-      aria-label="Chamber"
-      className="flex flex-none overflow-hidden rounded-lg border border-line-strong text-[0.8rem] font-medium"
-    >
+    <div className="flex flex-none items-center gap-2">
+      <FilterCaption>Chamber</FilterCaption>
+      <div
+        role="group"
+        aria-label="Chamber"
+        className="flex flex-none overflow-hidden rounded-lg border border-line-strong text-[0.8rem] font-medium"
+      >
       {CHAMBER_VIEWS.map((v) => (
         <button
           key={v}
@@ -37,6 +40,7 @@ export function ChamberSwitch({
           {viewLabel(v)}
         </button>
       ))}
+      </div>
     </div>
   );
 }
