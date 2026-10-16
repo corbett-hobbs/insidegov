@@ -40,6 +40,8 @@ import { ordinal } from "./format";
 import { ChartCard as Card } from "@/components/charts/ChartCard";
 import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
+import { MethodologyNote } from "@/components/MethodologyNote";
+import { IDEOLOGY_TAKEAWAYS } from "./takeaways";
 
 const PLAY_INTERVAL_MS = 450;
 const PRELOAD_DELAY_MS = 1500;
@@ -242,7 +244,7 @@ export function SenateExplorer({
     overlayVisible && stateMembers.length > 0 && stateMembers.length <= 3;
   const bodyLabel = view === "both" ? "Congress" : chamberLabel(view);
   // "senators sit" / "representatives sit" / "delegation sits" — chamber-aware
-  // subject for the "How each state votes" lede.
+  // subject for the "How each state votes" Data notes.
   const delegationClause =
     view === "senate"
       ? "senators sit"
@@ -293,14 +295,12 @@ export function SenateExplorer({
         <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.15fr_1fr] md:items-stretch">
           <Card
             title={
-              committeesActive
-                ? "Where committees stand"
-                : "Where members stand"
+              IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
+                .title
             }
-            lede={
-              committeesActive
-                ? `Each dot is a committee, blended from the average position of its members in the ${ordinal(congress)} Congress.`
-                : `Each dot is a ${noun}, positioned by how they voted in the ${ordinal(congress)} Congress.`
+            takeaway={
+              IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
+                .byView[view]
             }
             action={
               <div className="w-full sm:w-auto">
@@ -408,18 +408,28 @@ export function SenateExplorer({
                 </p>
               </>
             )}
+
+            <MethodologyNote>
+              {committeesActive ? (
+                <p>
+                  Each dot is a committee, blended from the average position of its members in the {ordinal(congress)} Congress; members with no score yet are left out of the average. Committee rosters are tracked for the current Congress only, so moving the slider to an earlier one switches back to members.
+                </p>
+              ) : (
+                <p>
+                  Each dot is a {noun}, positioned by how they voted in the {ordinal(congress)} Congress: Voteview&rsquo;s DW-NOMINATE score estimated for that Congress alone (the Nokken&ndash;Poole version), on a scale from about &minus;1 (most liberal) to +1 (most conservative) with 0 at the center line. Members who cast fewer than 10 scored votes in a Congress are left off.
+                </p>
+              )}
+            </MethodologyNote>
           </Card>
 
           <Card
             title={
-              committeesActive
-                ? "How each committee votes"
-                : "How each state votes"
+              IDEOLOGY_TAKEAWAYS[committeesActive ? "committeeSpread" : "states"]
+                .title
             }
-            lede={
-              committeesActive
-                ? `How far apart each committee's members sit in the ${ordinal(congress)} Congress.`
-                : `How far apart each state's ${delegationClause} in the ${ordinal(congress)} Congress.`
+            takeaway={
+              IDEOLOGY_TAKEAWAYS[committeesActive ? "committeeSpread" : "states"]
+                .byView[view]
             }
             action={
               <SortToggle
@@ -457,14 +467,29 @@ export function SenateExplorer({
                 )}
               </div>
             </div>
+
+            <MethodologyNote>
+              {committeesActive ? (
+                <p>
+                  How far apart each committee&rsquo;s members sit in the {ordinal(congress)} Congress: each row runs from its most liberal scored member to its most conservative. Independents who caucus with Democrats count with them.
+                </p>
+              ) : (
+                <p>
+                  How far apart each state&rsquo;s {delegationClause} in the {ordinal(congress)} Congress.{" "}
+                  {isSenate
+                    ? "Each row joins a state's two senators; where a seat changed hands during the Congress, it shows the two who cast the most votes. Independents who caucus with Democrats count with them."
+                    : "Each row runs from a delegation's most liberal member to its most conservative. DC and the five territories appear with their non-voting delegates but are not counted as states."}
+                </p>
+              )}
+            </MethodologyNote>
           </Card>
         </div>
 
         {/* Committee membership is only tracked for the current Congress, so there is no party trend to show: the card is hidden in the Committees view. */}
         {!committeesActive && (
           <Card
-            title="How far apart are the parties?"
-            lede="Each party's average position on the economic left–right axis, every Congress since 1789. Click or drag the chart to jump to any point — it moves the same slider as everything above."
+            title={IDEOLOGY_TAKEAWAYS.trend.title}
+            takeaway={IDEOLOGY_TAKEAWAYS.trend.byView[view]}
           >
             {overlayVisible && (
               <p className="mb-2 text-[0.76rem] text-ink-faint">
@@ -489,6 +514,11 @@ export function SenateExplorer({
                   : null
               }
             />
+            <MethodologyNote>
+              <p>
+                Each party&rsquo;s average position on the economic left&ndash;right axis, every Congress since 1789; the gap is the distance between the two lines. Click the chart to jump to any Congress: it moves the same slider as everything above. The Republican line starts in the 1850s; members labelled Republican before then were Jeffersonian Democratic-Republicans, a different party, and sit in neither line.
+              </p>
+            </MethodologyNote>
           </Card>
         )}
 
