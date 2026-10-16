@@ -80,19 +80,19 @@ describe("fiscal-year deficit", () => {
 });
 
 describe("quarterly debt", () => {
-  const held = [50, 51, null];
-  const tot = [60, 61, 62];
-  it("quarter boundaries", () => {
-    expect(readDebt(held, tot, d(1991, 3, 31)).value).toBe(50);
-    expect(readDebt(held, tot, d(1991, 4, 1)).value).toBe(51);
-    expect(readDebt(held, tot, d(1991, 4, 1)).value2).toBe(61);
+  const tot = [60, 61, null];
+  const held = [50, 51, 52];
+  it("quarter boundaries: total public debt is the reading, held by the public the second value", () => {
+    expect(readDebt(tot, held, d(1991, 3, 31)).value).toBe(60);
+    expect(readDebt(tot, held, d(1991, 4, 1)).value).toBe(61);
+    expect(readDebt(tot, held, d(1991, 4, 1)).value2).toBe(51);
   });
-  it("snaps to quarter start + 45 days", () => expect(readDebt(held, tot, d(1991, 5, 5)).snap).toBe(d(1991, 4, 1) + 45));
+  it("snaps to quarter start + 45 days", () => expect(readDebt(tot, held, d(1991, 5, 5)).snap).toBe(d(1991, 4, 1) + 45));
   it("missing or later quarters are not yet reported", () => {
-    expect(readDebt(held, tot, d(1991, 8, 1)).caption).toBe("Q3 1991 not yet reported");
-    expect(readDebt(held, tot, d(1992, 1, 1)).caption).toBe("Q1 1992 not yet reported");
+    expect(readDebt(tot, held, d(1991, 8, 1)).caption).toBe("Q3 1991 not yet reported");
+    expect(readDebt(tot, held, d(1992, 1, 1)).caption).toBe("Q1 1992 not yet reported");
   });
-  it("latest skips trailing nulls", () => expect(readDebt(held, tot, null).caption).toBe("held by the public, Q2 1991"));
+  it("latest skips trailing nulls", () => expect(readDebt(tot, held, null).caption).toBe("total debt, Q2 1991"));
 });
 
 describe("dayFromFraction", () => {

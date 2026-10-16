@@ -6,18 +6,29 @@ import { memo, type ReactNode } from "react";
 import { fiscalBars, quarterlyPoints, yearRows } from "@/lib/economy-series";
 import type { EconomyData } from "@/lib/indicator-payload";
 import type { Reading } from "@/lib/indicator-lookup";
-import { EconomyChart, chartPoints, type LineId } from "./EconomyChart";
+import { EconomyChart, altText, chartPoints, type AltView, type LineId } from "./EconomyChart";
 import { type ChartSpec } from "./specs";
 
-function Readout({ spec, reading, hero }: { spec: ChartSpec; reading: Reading; hero: boolean }) {
+/** The other unit's value under the headline ("5.8% of GDP"), with its own period when that data ends earlier or later. */
+function altLine(alt: AltView | undefined, altReading: Reading | undefined, reading: Reading): string | null {
+  if (!alt || !altReading || altReading.value === null) return null;
+  const text = altText(alt, altReading.value);
+  if (altReading.snap === reading.snap) return text;
+  const period = altReading.caption.match(/Q\d \d{4}|fiscal \d{4}/)?.[0];
+  return period ? `${text} in ${period}` : text;
+}
+
+function Readout({ spec, reading, hero, alt, altReading }: { spec: ChartSpec; reading: Reading; hero: boolean; alt?: AltView; altReading?: Reading }) {
+  const other = altLine(alt, altReading, reading);
   return (
     <div className={`shrink-0 text-right ${hero ? "min-w-[120px]" : "min-w-[110px]"}`}>
       <div className={`font-mono font-medium leading-tight text-ink ${hero ? "text-[1.6rem]" : "text-[1.25rem]"}`}>
         {reading.value === null ? "—" : spec.head(reading.value)}
       </div>
-      {spec.key === "gas" && reading.value2 !== null && (
+      {(spec.key === "gas" || spec.key === "debt") && reading.value2 !== null && (
         <div className="mt-0.5 font-mono text-[0.8rem] text-ink-muted">{`${spec.label2} ${spec.head(reading.value2)}`}</div>
       )}
+      {other && <div className="mt-0.5 font-mono text-[0.8rem] text-ink-muted">{other}</div>}
       <div className="mt-0.5 text-[0.75rem] text-ink-muted">{reading.caption}</div>
     </div>
   );
@@ -29,7 +40,7 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
     spec.kind === "fiscal"
       ? fiscalBars(data.def).map((b) => ({ day: b.mid, value: b.value }))
       : spec.kind === "debt"
-        ? quarterlyPoints(data.held)
+        ? quarterlyPoints(data.tot)
         : chartPoints(data, spec.key);
   const annual = spec.kind === "fiscal" || spec.kind === "income";
   const rows = yearRows(pts);
@@ -39,7 +50,7 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
       <summary className={TABLE_TOGGLE}>View as table</summary>
       <div className="mt-2 max-h-72 overflow-auto">
         <table className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
-          <caption className="sr-only">{`${spec.title}, ${spec.unit}${spec.kind === "debt" ? ", held by the public" : ""}`}</caption>
+          <caption className="sr-only">{`${spec.title}, ${spec.unit}${spec.kind === "debt" ? ", total public debt" : ""}`}</caption>
           <thead className="sticky top-0 bg-surface-raised">
             <tr className="font-mono text-[0.65rem] uppercase tracking-[0.05em] text-ink-muted">
               <th scope="col" className="px-2 py-1.5">{spec.kind === "fiscal" ? "Fiscal year" : "Year"}</th>
@@ -82,6 +93,8 @@ export function EconomyCard({
   takeaway,
   notes,
   legend,
+  alt,
+  altReading,
 }: {
   data: EconomyData;
   spec: ChartSpec;
@@ -95,6 +108,9 @@ export function EconomyCard({
   notes?: ReactNode;
   /** A legend node, or a function of the line-isolate controls for cards with a second line. */
   legend?: ReactNode | ((c: { only: LineId | null; isolate: (k: LineId) => void }) => ReactNode);
+  /** The chart in its other unit (deficit and debt: dollars vs share of GDP), shown beside the main reading and in the tooltip. */
+  alt?: AltView;
+  altReading?: Reading;
 }) {
   const [only, isolate] = useIsolate<LineId>();
   const Heading = hero ? "h2" : "h3";
@@ -108,11 +124,11 @@ export function EconomyCard({
         <div className="min-w-0">
           <Heading className={`m-0 font-serif font-medium leading-tight ${hero ? "text-[1.6rem]" : "text-[1.3rem]"}`}>{spec.title}</Heading>
         </div>
-        <Readout spec={spec} reading={reading} hero={hero} />
+        <Readout spec={spec} reading={reading} hero={hero} alt={alt} altReading={altReading} />
       </div>
       <p className={`m-0 text-ink ${hero ? "mt-2 text-[0.95rem] leading-[1.55]" : "mt-1.5 text-[0.875rem] leading-[1.5]"}`}>{takeaway}</p>
       <div className={hero ? "mt-3.5" : "mt-3"}>
-        <EconomyChart data={data} spec={spec} hero={hero} showCong={showCong} view={view} reading={reading} only={only} />
+        <EconomyChart data={data} spec={spec} hero={hero} showCong={showCong} view={view} reading={reading} only={only} alt={alt} />
       </div>
       <div>{typeof legend === "function" ? legend({ only, isolate }) : legend}</div>
       <ChartNotesRow className="mt-auto pt-3 md:w-full md:self-end">

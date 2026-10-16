@@ -41,7 +41,7 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
     case "infl": return monthlyPoints(d.infl);
     case "inc": return incomePoints(d.inc);
     case "def": return fiscalBars(d.def).map((b) => ({ day: b.mid, value: b.value }));
-    case "debt": return quarterlyPoints(d.held);
+    case "debt": return quarterlyPoints(d.tot);
   }
 }
 
@@ -61,7 +61,18 @@ interface Props {
   view: readonly [number, number];
   /** The one line kept on the chart (legend click), or null for both. */
   only?: LineId | null;
+  /** The same chart in its other unit (dollars / share of GDP): the tooltip adds its reading under the main one. */
+  alt?: AltView;
 }
+
+/** A chart's other-unit twin: its data and spec, for readings shown beside the main ones. */
+export interface AltView {
+  data: EconomyData;
+  spec: ChartSpec;
+}
+
+/** "5.8% of GDP" for a share-of-GDP spec, "$1.8T" for a dollar one. */
+export const altText = (alt: AltView, v: number) => `${alt.spec.head(v)}${alt.spec.share ? " of GDP" : ""}`;
 
 function termText(t: EconomyTerm, width: number, hero: boolean): string | null {
   return termBandText(t, width, EST_CHAR_W, hero && t.last === "Bush" ? [t.label] : []);
@@ -155,7 +166,7 @@ const StaticLayer = memo(function StaticLayer({ data, spec, hero = false, showCo
                       height={Math.abs(y1 - y0)}
                       fill={b.value < 0 ? "var(--ink)" : "var(--ink-faint)"}
                     >
-                      <title>{`Fiscal ${b.fy}: ${spec.head(b.value)} of GDP`}</title>
+                      <title>{`Fiscal ${b.fy}: ${spec.head(b.value)}${spec.share ? " of GDP" : ""}`}</title>
                     </rect>
                   );
                 })}
@@ -192,7 +203,7 @@ const StaticLayer = memo(function StaticLayer({ data, spec, hero = false, showCo
                     <path d={lineGen(weeklyPoints(data.diesel)) ?? ""} fill="none" stroke="var(--ink-faint)" strokeWidth={2} strokeDasharray="4 3" strokeLinejoin="round" />
                   )}
                   {spec.kind === "debt" && only !== "main" && (
-                    <path d={lineGen(quarterlyPoints(data.tot)) ?? ""} fill="none" stroke="var(--ink-faint)" strokeWidth={2} strokeDasharray="4 3" strokeLinejoin="round" />
+                    <path d={lineGen(quarterlyPoints(data.held)) ?? ""} fill="none" stroke="var(--ink-faint)" strokeWidth={2} strokeDasharray="4 3" strokeLinejoin="round" />
                   )}
                   {only !== "second" && <path d={lineGen(pts) ?? ""} fill="none" stroke="var(--ink)" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />}
                 </>
@@ -323,8 +334,8 @@ function Marks({ data, spec, hero, showCong, view, W, only = null }: { only?: Li
     return [{ kind, x: g.X(p.day), y: g.Y(val), text: `${markDate(spec.kind, p.day)}: ${spec.kind === "jobs" && Math.abs(p.value) >= 1000 ? `${p.value > 0 ? "+" : "−"}${(Math.abs(p.value) / 1000).toFixed(1)}M` : spec.head(p.value)}` }];
   };
   const marks = only === "second" ? [] : [...mark(peak, "peak"), ...mark(low, "low")];
-  // The dashed comparison line (diesel on the gas chart, total debt on the held-debt chart) gets one example value.
-  const second = spec.key === "gas" ? weeklyPoints(data.diesel) : spec.kind === "debt" ? quarterlyPoints(data.tot) : null;
+  // The dashed comparison line (diesel on the gas chart, debt held by the public on the debt chart) gets one example value.
+  const second = spec.key === "gas" ? weeklyPoints(data.diesel) : spec.kind === "debt" ? quarterlyPoints(data.held) : null;
   const ex = second && only !== "main" ? pickExample(second, view) : null;
   const examples = ex && ex.value !== null ? [{ x: g.X(ex.day), y: g.Y(ex.value), text: `${markDate(spec.kind, ex.day)}: ${spec.head(ex.value)}`, color: "var(--ink-muted)", above: false }] : [];
   const faded = activeDay(v) !== null || v.pin !== null;
@@ -365,7 +376,7 @@ function Overlay({ W, hero, spec, view, showCong, reading }: { W: number; hero: 
   );
 }
 
-export function EconomyChart({ data, spec, hero = false, showCong, view, reading, only = null }: Props & { reading: Reading }) {
+export function EconomyChart({ data, spec, hero = false, showCong, view, reading, only = null, alt }: Props & { reading: Reading }) {
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const W = measured || (hero ? 1140 : 540);
   const g = geometry(W, hero, spec, view, showCong);
@@ -419,11 +430,13 @@ export function EconomyChart({ data, spec, hero = false, showCong, view, reading
       <Tooltip state={tip.state}>
         {(day) => {
           const r = readAll(data, day)[spec.key]; // computed from the pointer's own date, not the rAF-throttled shared state
+          const a = alt ? readAll(alt.data, day)[spec.key] : null;
           return (
           <div className="flex min-w-[8rem] flex-col gap-0.5 text-[0.78rem]">
             <div className="opacity-75">{r.caption}</div>
             <div className="font-mono text-[0.95rem] font-medium">{r.value === null ? "\u2014" : spec.head(r.value)}</div>
             {r.value2 !== null && <div className="opacity-75">{`${spec.label2 ?? "Total"} ${spec.head(r.value2)}`}</div>}
+            {alt && a && a.value !== null && <div className="opacity-75">{altText(alt, a.value)}</div>}
           </div>
           );
         }}

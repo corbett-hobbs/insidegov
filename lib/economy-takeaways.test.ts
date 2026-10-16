@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { SPECS } from "../components/economy/specs";
+import { SPECS, USD_SPECS } from "../components/economy/specs";
 import { monthlyChange, realHourlyEarnings, yearOverYearPercent, type Point } from "./indicator-derive";
 
 /**
@@ -28,7 +28,16 @@ const gas = shown(raw("GASREGW"));
 const diesel = shown(raw("GASDESW"));
 const mort = shown(raw("MORTGAGE30US"));
 const def = shown(raw("FYFSGDA188S"));
-const debt = shown(raw("FYGFGDQ188S"));
+const debt = shown(raw("GFDEGDQ188S"));
+// Dollar series: FRED's, then Treasury's for any later period, exactly as lib/indicator-data.ts merges them.
+const treasury = JSON.parse(readFileSync("pipeline/output/treasury_fiscal.json", "utf8")) as {
+  debt: { date: string; total: number }[];
+  deficit: { fiscal_year: number; value: number }[];
+};
+const fredDebt = raw("GFDEBTN");
+const debtUsd = shown([...fredDebt, ...treasury.debt.filter((d) => d.date > fredDebt.at(-1)!.date).map((d) => ({ date: d.date, value: d.total }))]);
+const fredDef = raw("FYFSD");
+const defUsd = shown([...fredDef, ...treasury.deficit.map((d) => ({ date: `${d.fiscal_year}-09-30`, value: d.value })).filter((d) => d.date > fredDef.at(-1)!.date)]);
 const inflBy = new Map(infl.map((p) => [p.date, p.value]));
 const misery = un.filter((p) => inflBy.has(p.date)).map((p) => ({ date: p.date, value: p.value + inflBy.get(p.date)! }));
 
@@ -144,15 +153,43 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
     },
   },
   debt: {
-    says: ["31% of GDP in 2001", "103% in mid-2020", "91% in early 2023", "99% by early 2026"],
+    says: ["54% of GDP in 2001", "133% in mid-2020", "116% in early 2023", "123% by early 2026"],
     check: () => {
       expect(min(debt).date.slice(0, 4)).toBe("2001");
-      expect(Math.round(min(debt).value)).toBe(31);
+      expect(Math.round(min(debt).value)).toBe(54);
       expect(max(debt).date).toBe("2020-04-01");
-      expect(Math.round(max(debt).value)).toBe(103);
-      expect(Math.round(min(within(debt, "2020-07", "2027")).value)).toBe(91);
+      expect(Math.round(max(debt).value)).toBe(133);
+      expect(min(debt).value * 2).toBeLessThan(max(debt).value);
+      expect(Math.round(min(within(debt, "2020-07", "2027")).value)).toBe(116);
       expect(min(within(debt, "2020-07", "2027")).date.slice(0, 4)).toBe("2023");
-      expect(Math.round(at(debt, "2026-01-01"))).toBe(99);
+      expect(Math.round(at(debt, "2026-01-01"))).toBe(123);
+    },
+  },
+};
+
+/** The dollar versions of the deficit and debt cards (the page's default view), in millions of dollars. */
+const usdCases: Record<keyof typeof USD_SPECS, { says: string[]; check: () => void }> = {
+  def: {
+    says: ["record $3.1 trillion in fiscal 2020", "$1.4 trillion in 2022", "$2.0 trillion in 2026", "surplus only in 1998–2001"],
+    check: () => {
+      expect(min(defUsd)).toMatchObject({ date: "2020-09-30" });
+      expect(Math.round(min(defUsd).value / 1e5) / 10).toBe(-3.1);
+      expect(max(within(defUsd, "2021", "2027")).date.slice(0, 4)).toBe("2022"); // the smallest deficit since 2020
+      expect(Math.round(max(within(defUsd, "2021", "2027")).value / 1e5) / 10).toBe(-1.4);
+      expect(Math.round(at(defUsd, "2026-09-30") / 1e5) / 10).toBe(-2);
+      expect(defUsd.filter((p) => p.value > 0).map((p) => p.date.slice(0, 4))).toEqual(["1998", "1999", "2000", "2001"]);
+    },
+  },
+  debt: {
+    says: ["more than elevenfold", "$3.5 trillion to $40.2 trillion in 2026", "$10 trillion in 2008", "$20 trillion in 2017", "$30 trillion in 2022"],
+    check: () => {
+      expect(Math.round(debtUsd[0].value / 1e5) / 10).toBe(3.5);
+      expect(debtUsd.at(-1)!.value / debtUsd[0].value).toBeGreaterThan(11);
+      expect(debtUsd.at(-1)!.date).toBe("2026-07-01");
+      expect(Math.round(debtUsd.at(-1)!.value / 1e5) / 10).toBe(40.2);
+      for (const [t, y] of [[10e6, "2008"], [20e6, "2017"], [30e6, "2022"]] as const) {
+        expect(debtUsd.find((p) => p.value > t)!.date.slice(0, 4)).toBe(y);
+      }
     },
   },
 };
@@ -165,8 +202,15 @@ describe("Economy card takeaways", () => {
     });
   }
 
+  for (const [key, c] of Object.entries(usdCases) as [keyof typeof USD_SPECS, (typeof usdCases)[keyof typeof USD_SPECS]][]) {
+    it(`${USD_SPECS[key].title} in dollars: "${USD_SPECS[key].takeaway.slice(0, 48)}…" holds`, () => {
+      for (const phrase of c.says) expect(USD_SPECS[key].takeaway).toContain(phrase);
+      c.check();
+    });
+  }
+
   it("stays short: two sentences, at most 45 words", () => {
-    for (const s of Object.values(SPECS)) {
+    for (const s of [...Object.values(SPECS), ...Object.values(USD_SPECS)]) {
       expect(s.takeaway.split(/(?<=[.;])\s/).filter((x) => x.endsWith(".")).length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
     }
