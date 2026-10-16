@@ -365,6 +365,16 @@ export function resolveCrosswalk(
 
 // --- justices.json --------------------------------------------------------
 
+/**
+ * FJC's start date is the commission date, not the day the justice took the
+ * seat. Jackson was commissioned 2022-04-08 but took her seat when Breyer left
+ * on 2022-06-30; without this she would count as sitting on cases decided
+ * April-June 2022 (e.g. Dobbs). Keyed by FJC nid.
+ */
+export const SERVICE_START_OVERRIDES: Record<number, string> = {
+  1394151: "2022-06-30", // Ketanji Brown Jackson
+};
+
 export function buildJustices(spans: MqSpan[], matched: Map<number, FjcJustice>): Justice[] {
   return spans.map((span) => {
     const j = matched.get(span.justice_id)!;
@@ -413,7 +423,7 @@ export function buildJustices(spans: MqSpan[], matched: Map<number, FjcJustice>)
             start_date: chief.start,
           }
         : null,
-      service_start: j.start,
+      service_start: SERVICE_START_OVERRIDES[j.nid] ?? j.start,
       service_end: j.end,
     };
   });

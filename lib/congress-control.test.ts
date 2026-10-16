@@ -15,10 +15,29 @@ describe("congress control reference", () => {
       for (let i = 1; i < spans.length; i++) expect(spans[i].s).toBe(spans[i - 1].e);
     }
   });
-  it("runs back to the 93rd Congress, contiguous, with the changes of majority in 1981 and 1987", () => {
+  it("runs back to the 73rd Congress (1933-03-04), contiguous, with the Republican Congresses of 1947 and 1953", () => {
+    const first = (ch: "house" | "senate") => file.rows.filter((r) => r.chamber === ch).sort((a, b) => a.from.localeCompare(b.from))[0]!;
+    expect(first("house").from).toBe("1933-03-04");
+    expect(first("senate").from).toBe("1933-03-04");
+    const at = (ch: "house" | "senate", iso: string) => file.rows.find((r) => r.chamber === ch && r.from <= iso && (r.to === null || r.to >= iso))!.party;
+    for (const ch of ["house", "senate"] as const) {
+      expect([at(ch, "1946-12-31"), at(ch, "1947-01-03"), at(ch, "1949-01-03"), at(ch, "1953-01-03"), at(ch, "1955-01-03")]).toEqual(["D", "R", "D", "R", "D"]);
+    }
+  });
+  it("gives seat counts for every Congress 73-119 that agree with the majority rows", () => {
+    expect(file.seats!.map((s) => s.congress)).toEqual(Array.from({ length: 47 }, (_, i) => 73 + i));
+    for (const s of file.seats!) {
+      const start = s.congress === 73 ? "1933-03-04" : `${1789 + 2 * (s.congress - 1)}-01-03`;
+      const maj = (ch: "house" | "senate") => file.rows.find((r) => r.chamber === ch && r.from <= start && (r.to === null || r.to >= start))!.party;
+      expect(maj("house"), `house ${s.congress}`).toBe(s.house.D > s.house.R ? "D" : "R");
+      if (s.senate.D !== s.senate.R) expect(maj("senate"), `senate ${s.congress}`).toBe(s.senate.D > s.senate.R ? "D" : "R");
+    }
+  });
+  it("is contiguous from the 93rd Congress, with the changes of majority in 1981 and 1987", () => {
     for (const ch of ["house", "senate"] as const) {
       const mine = file.rows.filter((r) => r.chamber === ch).sort((a, b) => a.from.localeCompare(b.from));
-      expect(mine[0]!.from).toBe("1973-01-03");
+      const from73 = mine.filter((r) => r.to === null || r.to >= "1973-01-03");
+      expect(from73[0]!.from <= "1973-01-03").toBe(true);
       for (let i = 1; i < mine.length; i++) expect(mine[i]!.from, `${ch} row ${i}`).toBe(new Date(Date.parse(mine[i - 1]!.to!) + 864e5).toISOString().slice(0, 10));
       expect(mine.at(-1)!.to).toBeNull();
     }

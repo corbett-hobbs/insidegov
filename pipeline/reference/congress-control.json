@@ -1,10 +1,48 @@
 {
-  "_note": "Which party held the majority of each chamber, by date. A committed reference table, not derived from terms.json: roster counts include mid-Congress replacements and caucusing independents, so a raw count can mislabel the majority (e.g. the 110th Senate is 51-51 on the roster). `from`/`to` are inclusive ISO dates; `to` null = current. Every chamber's rows are contiguous from 1973-01-03 (the 93rd Congress, where the Laws page starts). Validated against roster counts (loosely) by lib/congress-control.test.ts.",
+  "_note": "Which party held the majority of each chamber, by date. A committed reference table, not derived from terms.json: roster counts include mid-Congress replacements and caucusing independents, so a raw count can mislabel the majority (e.g. the 110th Senate is 51-51 on the roster). `from`/`to` are inclusive ISO dates; `to` null = current. Every chamber's rows are contiguous from 1933-03-04 (the 73rd Congress; the Laws page clips to its own 1973 start, and the Economy and Trade charts to theirs). `seats` gives each Congress's party seat counts at its start (Democrats, Republicans, other; Senate independents counted with the party they caucused with), for the 73rd to the 119th; the majority rows above, not the counts, say who held control. Validated against roster counts (loosely) by lib/congress-control.test.ts.",
   "sources": {
-    "senate": "U.S. Senate, Party Division in the Senate, 1789-Present, https://www.senate.gov/history/partydiv.htm (control by date, incl. the 1981 and 1987 changes of majority and the 2001 and 2021 mid-Congress changes; 1973-93 re-read 2026-10-08, no majority changed hands mid-Congress)",
-    "house": "U.S. House of Representatives, History, Art & Archives, Party Divisions of the House of Representatives, https://history.house.gov/Institution/Party-Divisions/Party-Divisions/ (fetched 2026-10-01; 1973-95 re-read 2026-10-08: the Democrats held a majority of seats in every Congress from the 93rd to the 103rd)"
+    "senate": "U.S. Senate, Party Division in the Senate, 1789-Present, https://www.senate.gov/history/partydiv.htm (control by date, incl. the 1981 and 1987 changes of majority and the 2001 and 2021 mid-Congress changes; 1973-93 re-read 2026-10-08, no majority changed hands mid-Congress); 1933-73 and the seat counts added 2026-10-16 from the same page",
+    "house": "U.S. House of Representatives, History, Art & Archives, Party Divisions of the House of Representatives, https://history.house.gov/Institution/Party-Divisions/Party-Divisions/ (fetched 2026-10-01; 1973-95 re-read 2026-10-08: the Democrats held a majority of seats in every Congress from the 93rd to the 103rd); 1933-73 and the seat counts added 2026-10-16 (Democrats held both chambers in every Congress from the 73rd to the 92nd except the 80th and 83rd)"
   },
   "rows": [
+    {
+      "chamber": "house",
+      "from": "1933-03-04",
+      "to": "1947-01-02",
+      "party": "D",
+      "congresses": "73-79"
+    },
+    {
+      "chamber": "house",
+      "from": "1947-01-03",
+      "to": "1949-01-02",
+      "party": "R",
+      "congresses": "80",
+      "note": "Republicans won both chambers in 1946"
+    },
+    {
+      "chamber": "house",
+      "from": "1949-01-03",
+      "to": "1953-01-02",
+      "party": "D",
+      "congresses": "81-82"
+    },
+    {
+      "chamber": "house",
+      "from": "1953-01-03",
+      "to": "1955-01-02",
+      "party": "R",
+      "congresses": "83",
+      "note": "Republicans won both chambers in 1952"
+    },
+    {
+      "chamber": "house",
+      "from": "1955-01-03",
+      "to": "1973-01-02",
+      "party": "D",
+      "congresses": "84-92",
+      "note": "Democratic majority in every Congress"
+    },
     {
       "chamber": "house",
       "from": "1973-01-03",
@@ -47,6 +85,44 @@
       "to": null,
       "party": "R",
       "congresses": "118-119"
+    },
+    {
+      "chamber": "senate",
+      "from": "1933-03-04",
+      "to": "1947-01-02",
+      "party": "D",
+      "congresses": "73-79"
+    },
+    {
+      "chamber": "senate",
+      "from": "1947-01-03",
+      "to": "1949-01-02",
+      "party": "R",
+      "congresses": "80",
+      "note": "Republicans won both chambers in 1946"
+    },
+    {
+      "chamber": "senate",
+      "from": "1949-01-03",
+      "to": "1953-01-02",
+      "party": "D",
+      "congresses": "81-82"
+    },
+    {
+      "chamber": "senate",
+      "from": "1953-01-03",
+      "to": "1955-01-02",
+      "party": "R",
+      "congresses": "83",
+      "note": "Republicans won both chambers in 1952; 48-47 with one independent (Morse), who later joined the Democrats"
+    },
+    {
+      "chamber": "senate",
+      "from": "1955-01-03",
+      "to": "1973-01-02",
+      "party": "D",
+      "congresses": "84-92",
+      "note": "Democratic majority in every Congress"
     },
     {
       "chamber": "senate",
@@ -138,6 +214,619 @@
       "to": null,
       "party": "R",
       "congresses": "119"
+    }
+  ],
+  "seats": [
+    {
+      "congress": 73,
+      "house": {
+        "D": 313,
+        "R": 117,
+        "other": 5
+      },
+      "senate": {
+        "D": 59,
+        "R": 36,
+        "other": 1
+      }
+    },
+    {
+      "congress": 74,
+      "house": {
+        "D": 322,
+        "R": 103,
+        "other": 10
+      },
+      "senate": {
+        "D": 69,
+        "R": 25,
+        "other": 2
+      }
+    },
+    {
+      "congress": 75,
+      "house": {
+        "D": 334,
+        "R": 88,
+        "other": 13
+      },
+      "senate": {
+        "D": 76,
+        "R": 16,
+        "other": 4
+      }
+    },
+    {
+      "congress": 76,
+      "house": {
+        "D": 262,
+        "R": 169,
+        "other": 4
+      },
+      "senate": {
+        "D": 69,
+        "R": 23,
+        "other": 4
+      }
+    },
+    {
+      "congress": 77,
+      "house": {
+        "D": 267,
+        "R": 162,
+        "other": 6
+      },
+      "senate": {
+        "D": 66,
+        "R": 28,
+        "other": 2
+      }
+    },
+    {
+      "congress": 78,
+      "house": {
+        "D": 222,
+        "R": 209,
+        "other": 4
+      },
+      "senate": {
+        "D": 57,
+        "R": 38,
+        "other": 1
+      }
+    },
+    {
+      "congress": 79,
+      "house": {
+        "D": 244,
+        "R": 189,
+        "other": 2
+      },
+      "senate": {
+        "D": 57,
+        "R": 38,
+        "other": 1
+      }
+    },
+    {
+      "congress": 80,
+      "house": {
+        "D": 188,
+        "R": 246,
+        "other": 1
+      },
+      "senate": {
+        "D": 45,
+        "R": 51,
+        "other": 0
+      }
+    },
+    {
+      "congress": 81,
+      "house": {
+        "D": 263,
+        "R": 171,
+        "other": 1
+      },
+      "senate": {
+        "D": 54,
+        "R": 42,
+        "other": 0
+      }
+    },
+    {
+      "congress": 82,
+      "house": {
+        "D": 235,
+        "R": 199,
+        "other": 1
+      },
+      "senate": {
+        "D": 49,
+        "R": 47,
+        "other": 0
+      }
+    },
+    {
+      "congress": 83,
+      "house": {
+        "D": 213,
+        "R": 221,
+        "other": 1
+      },
+      "senate": {
+        "D": 47,
+        "R": 48,
+        "other": 1
+      }
+    },
+    {
+      "congress": 84,
+      "house": {
+        "D": 232,
+        "R": 203,
+        "other": 0
+      },
+      "senate": {
+        "D": 48,
+        "R": 47,
+        "other": 1
+      }
+    },
+    {
+      "congress": 85,
+      "house": {
+        "D": 232,
+        "R": 203,
+        "other": 0
+      },
+      "senate": {
+        "D": 49,
+        "R": 47,
+        "other": 0
+      }
+    },
+    {
+      "congress": 86,
+      "house": {
+        "D": 282,
+        "R": 153,
+        "other": 1
+      },
+      "senate": {
+        "D": 65,
+        "R": 35,
+        "other": 0
+      }
+    },
+    {
+      "congress": 87,
+      "house": {
+        "D": 264,
+        "R": 173,
+        "other": 0
+      },
+      "senate": {
+        "D": 64,
+        "R": 36,
+        "other": 0
+      }
+    },
+    {
+      "congress": 88,
+      "house": {
+        "D": 258,
+        "R": 176,
+        "other": 1
+      },
+      "senate": {
+        "D": 66,
+        "R": 34,
+        "other": 0
+      }
+    },
+    {
+      "congress": 89,
+      "house": {
+        "D": 295,
+        "R": 140,
+        "other": 0
+      },
+      "senate": {
+        "D": 68,
+        "R": 32,
+        "other": 0
+      }
+    },
+    {
+      "congress": 90,
+      "house": {
+        "D": 248,
+        "R": 187,
+        "other": 0
+      },
+      "senate": {
+        "D": 64,
+        "R": 36,
+        "other": 0
+      }
+    },
+    {
+      "congress": 91,
+      "house": {
+        "D": 243,
+        "R": 192,
+        "other": 0
+      },
+      "senate": {
+        "D": 57,
+        "R": 43,
+        "other": 0
+      }
+    },
+    {
+      "congress": 92,
+      "house": {
+        "D": 255,
+        "R": 180,
+        "other": 0
+      },
+      "senate": {
+        "D": 55,
+        "R": 45,
+        "other": 0
+      }
+    },
+    {
+      "congress": 93,
+      "house": {
+        "D": 243,
+        "R": 192,
+        "other": 0
+      },
+      "senate": {
+        "D": 57,
+        "R": 43,
+        "other": 0
+      }
+    },
+    {
+      "congress": 94,
+      "house": {
+        "D": 291,
+        "R": 144,
+        "other": 0
+      },
+      "senate": {
+        "D": 62,
+        "R": 38,
+        "other": 0
+      }
+    },
+    {
+      "congress": 95,
+      "house": {
+        "D": 292,
+        "R": 143,
+        "other": 0
+      },
+      "senate": {
+        "D": 62,
+        "R": 38,
+        "other": 0
+      }
+    },
+    {
+      "congress": 96,
+      "house": {
+        "D": 278,
+        "R": 157,
+        "other": 0
+      },
+      "senate": {
+        "D": 59,
+        "R": 41,
+        "other": 0
+      }
+    },
+    {
+      "congress": 97,
+      "house": {
+        "D": 243,
+        "R": 192,
+        "other": 0
+      },
+      "senate": {
+        "D": 47,
+        "R": 53,
+        "other": 0
+      }
+    },
+    {
+      "congress": 98,
+      "house": {
+        "D": 269,
+        "R": 166,
+        "other": 0
+      },
+      "senate": {
+        "D": 45,
+        "R": 55,
+        "other": 0
+      }
+    },
+    {
+      "congress": 99,
+      "house": {
+        "D": 253,
+        "R": 181,
+        "other": 0
+      },
+      "senate": {
+        "D": 47,
+        "R": 53,
+        "other": 0
+      }
+    },
+    {
+      "congress": 100,
+      "house": {
+        "D": 258,
+        "R": 177,
+        "other": 0
+      },
+      "senate": {
+        "D": 55,
+        "R": 45,
+        "other": 0
+      }
+    },
+    {
+      "congress": 101,
+      "house": {
+        "D": 260,
+        "R": 175,
+        "other": 0
+      },
+      "senate": {
+        "D": 55,
+        "R": 45,
+        "other": 0
+      }
+    },
+    {
+      "congress": 102,
+      "house": {
+        "D": 267,
+        "R": 167,
+        "other": 1
+      },
+      "senate": {
+        "D": 56,
+        "R": 44,
+        "other": 0
+      }
+    },
+    {
+      "congress": 103,
+      "house": {
+        "D": 258,
+        "R": 176,
+        "other": 1
+      },
+      "senate": {
+        "D": 57,
+        "R": 43,
+        "other": 0
+      }
+    },
+    {
+      "congress": 104,
+      "house": {
+        "D": 204,
+        "R": 230,
+        "other": 1
+      },
+      "senate": {
+        "D": 48,
+        "R": 52,
+        "other": 0
+      }
+    },
+    {
+      "congress": 105,
+      "house": {
+        "D": 207,
+        "R": 226,
+        "other": 2
+      },
+      "senate": {
+        "D": 45,
+        "R": 55,
+        "other": 0
+      }
+    },
+    {
+      "congress": 106,
+      "house": {
+        "D": 211,
+        "R": 223,
+        "other": 1
+      },
+      "senate": {
+        "D": 45,
+        "R": 55,
+        "other": 0
+      }
+    },
+    {
+      "congress": 107,
+      "house": {
+        "D": 212,
+        "R": 221,
+        "other": 2
+      },
+      "senate": {
+        "D": 50,
+        "R": 50,
+        "other": 0
+      }
+    },
+    {
+      "congress": 108,
+      "house": {
+        "D": 205,
+        "R": 229,
+        "other": 1
+      },
+      "senate": {
+        "D": 49,
+        "R": 51,
+        "other": 0
+      }
+    },
+    {
+      "congress": 109,
+      "house": {
+        "D": 202,
+        "R": 232,
+        "other": 1
+      },
+      "senate": {
+        "D": 45,
+        "R": 55,
+        "other": 0
+      }
+    },
+    {
+      "congress": 110,
+      "house": {
+        "D": 233,
+        "R": 202,
+        "other": 0
+      },
+      "senate": {
+        "D": 51,
+        "R": 49,
+        "other": 0
+      }
+    },
+    {
+      "congress": 111,
+      "house": {
+        "D": 257,
+        "R": 178,
+        "other": 0
+      },
+      "senate": {
+        "D": 59,
+        "R": 41,
+        "other": 0
+      }
+    },
+    {
+      "congress": 112,
+      "house": {
+        "D": 193,
+        "R": 242,
+        "other": 0
+      },
+      "senate": {
+        "D": 53,
+        "R": 47,
+        "other": 0
+      }
+    },
+    {
+      "congress": 113,
+      "house": {
+        "D": 201,
+        "R": 234,
+        "other": 0
+      },
+      "senate": {
+        "D": 55,
+        "R": 45,
+        "other": 0
+      }
+    },
+    {
+      "congress": 114,
+      "house": {
+        "D": 188,
+        "R": 247,
+        "other": 0
+      },
+      "senate": {
+        "D": 46,
+        "R": 54,
+        "other": 0
+      }
+    },
+    {
+      "congress": 115,
+      "house": {
+        "D": 194,
+        "R": 241,
+        "other": 0
+      },
+      "senate": {
+        "D": 49,
+        "R": 51,
+        "other": 0
+      }
+    },
+    {
+      "congress": 116,
+      "house": {
+        "D": 235,
+        "R": 199,
+        "other": 0
+      },
+      "senate": {
+        "D": 47,
+        "R": 53,
+        "other": 0
+      }
+    },
+    {
+      "congress": 117,
+      "house": {
+        "D": 222,
+        "R": 212,
+        "other": 0
+      },
+      "senate": {
+        "D": 50,
+        "R": 50,
+        "other": 0
+      }
+    },
+    {
+      "congress": 118,
+      "house": {
+        "D": 213,
+        "R": 222,
+        "other": 0
+      },
+      "senate": {
+        "D": 51,
+        "R": 49,
+        "other": 0
+      }
+    },
+    {
+      "congress": 119,
+      "house": {
+        "D": 215,
+        "R": 220,
+        "other": 0
+      },
+      "senate": {
+        "D": 47,
+        "R": 53,
+        "other": 0
+      }
     }
   ]
 }
