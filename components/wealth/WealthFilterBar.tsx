@@ -1,6 +1,7 @@
 "use client";
 
 import { ChamberSwitch } from "@/components/ChamberSwitch";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { PartyFilter } from "@/components/charts/PartyFilter";
 import { StateFilter } from "@/components/senate/StateFilter";
 import { stateName } from "@/lib/states";
@@ -44,9 +45,7 @@ export function WealthFilterBar({
           <ChamberSwitch value={view} onChange={onViewChange} />
 
           <div className="flex flex-none items-center gap-1.5 sm:gap-2">
-            <span className="hidden font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint sm:inline">
-              State
-            </span>
+            <FilterCaption>State</FilterCaption>
             <StateFilter
               states={states}
               value={stateFilter}

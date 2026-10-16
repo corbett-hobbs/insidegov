@@ -48,7 +48,6 @@ export function DemographicsFilterBar({
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
         <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:gap-x-5">
           <div className="flex flex-none items-center gap-2 sm:pt-px">
-            <span className="text-[0.72rem] font-medium uppercase tracking-[0.06em] text-ink-muted sm:hidden">Chamber</span>
             <ChamberSwitch value={view} onChange={onView} />
             <PartyFilter
               value={party}
