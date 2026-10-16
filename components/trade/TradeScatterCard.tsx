@@ -31,7 +31,8 @@ import {
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { SourceLink } from "@/components/SourceLink";
-import { TRADE_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TRADE_TAKEAWAYS, contextFor } from "./takeaways";
 
 const FALLBACK_W = 1080;
 /** Below this chart width the layout drops long titles and labels (a half-width card on a laptop stays above it). */
@@ -118,6 +119,7 @@ export function TradeScatterCard({
   /** Legend filter: one continent, or null for all. */
   const [continent, setContinent] = useState<string | null>(null);
   const tip = useTooltip<Dot>();
+  const context = useTakeawayContext(TRADE_TAKEAWAYS.scatter.takeaway(windowText(windows.baseline), windowText(windows.latest)), contextFor("scatter"));
   // Scatter rule: a click on a dot pins its card, and the card is the action (here: pick the country above).
   const pin = usePinnedTooltip<Dot>();
   const W = measured || FALLBACK_W;
@@ -257,7 +259,8 @@ export function TradeScatterCard({
           )}
         </div>
       </div>
-      <p className="m-0 mt-2 text-[0.875rem] leading-[1.5] text-ink">{TRADE_TAKEAWAYS.scatter.takeaway(windowText(windows.baseline), windowText(windows.latest))}</p>
+      <p className="m-0 mt-2 text-[0.875rem] leading-[1.5] text-ink">{context.takeaway}</p>
+      <div className="mt-2">{context.panel}</div>
 
       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.78rem] text-ink-muted">
         <span><b className="text-ink">{plotted ? `${Math.round((higher / plotted) * 100)}%` : "—"}</b> higher duty rate</span>

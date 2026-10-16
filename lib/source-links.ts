@@ -63,6 +63,15 @@ export const SOURCE_LINKS = {
   // Trade, economy, energy
   "census-trade": "https://www.census.gov/foreign-trade/index.html",
   "usitc-dataweb": "https://dataweb.usitc.gov/",
+  // Tariff actions behind the Trade page's context lines (rule 7d); each URL is recorded in pipeline/output/tariff_actions.json.
+  "fr-301-china-2018": "https://www.federalregister.gov/documents/2018/06/20/2018-13248/notice-of-action-and-request-for-public-comment-concerning-proposed-determination-of-action-pursuant",
+  "fr-301-china-list-4a": "https://www.federalregister.gov/documents/2019/08/20/2019-17865/notice-of-modification-of-section-301-action-chinas-acts-policies-and-practices-related-to",
+  "fr-301-china-2024": "https://www.federalregister.gov/documents/2024/09/18/2024-21217/notice-of-modification-chinas-acts-policies-and-practices-related-to-technology-transfer",
+  "fr-eo-14257": "https://www.federalregister.gov/documents/2025/04/07/2025-06063/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large-and",
+  "scotus-learning-resources": "https://www.supremecourt.gov/opinions/25pdf/607us2r12_8nj9.pdf",
+  "fr-eo-14389": "https://www.federalregister.gov/documents/2026/02/25/2026-03832/ending-certain-tariff-actions",
+  "fr-section-122-2026": "https://www.federalregister.gov/documents/2026/02/25/2026-03824/imposing-a-temporary-import-surcharge-to-address-fundamental-international-payments-problems",
+  "fr-301-forced-labor-2026": "https://www.federalregister.gov/documents/2026/07/28/2026-15181/notice-of-actions-in-section-301-investigations-of-acts-policies-and-practices-of-various-economies",
   eia: "https://www.eia.gov/",
   "eia-lng-exports": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_m.htm",
   "eia-spr": "https://www.eia.gov/dnav/pet/pet_stoc_wstk_dcu_nus_w.htm",

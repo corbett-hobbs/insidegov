@@ -14,7 +14,8 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ROW } from "@/components/charts/legend";
 import { SourceLink } from "@/components/SourceLink";
-import { TRADE_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TRADE_TAKEAWAYS, contextFor } from "./takeaways";
 
 const dateText = (iso: string) => {
   const [y, m, d] = iso.split("-").map(Number);
@@ -108,13 +109,15 @@ export function TradeTariffCard({
   const pres = rd ? termAtDay(era.terms, monthStartDay(rd.month)) : undefined;
   const mobileLine = rd ? { values: [`Duty rate ${rd.rate === null ? "\u2014" : fmtPercent(rd.rate)}`, ...(rd.duties !== null ? [`Duties ${fmtDollars(rd.duties)}`] : [])], date: rd.label, term: pres ? termLabel(pres) : undefined } : null;
   const title = countryName ? `Tariffs on imports from ${countryName}` : "Tariffs on imports";
+  const context = useTakeawayContext(TRADE_TAKEAWAYS.tariff.takeaway, countryName ? null : contextFor("tariff"));
   const aria = `${title}: calculated duties as a share of imports, monthly from 1993, with ${flags.length} tariff actions and court rulings marked, presidential terms and recessions. The same data is in the table below.`;
 
   return (
     <section className="min-w-0 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">{title}</h2>
       {/* The takeaway is about all countries, so a country view goes without one. */}
-      {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{TRADE_TAKEAWAYS.tariff.takeaway}</p>}
+      {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{context.takeaway}</p>}
+      {!countryName && <div className="mt-2">{context.panel}</div>}
 
       {main && shown && <MobileReadout line={mobileLine} />}
       <div className="mt-3.5">

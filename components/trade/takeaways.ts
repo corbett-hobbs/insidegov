@@ -1,3 +1,5 @@
+import type { ContextEntry } from "@/lib/chart-context";
+
 /**
  * The takeaway under each Trade chart title (ARCHITECTURE_MAP rule 7c): what the
  * chart shows over its full default window (all countries, every year), in at most
@@ -33,3 +35,33 @@ export const TRADE_TAKEAWAYS = {
       `From ${baseline} to ${latest}, duty rates rose on goods from most countries. Of the five largest partners, China's rate rose the most and only imports from China fell; imports from Taiwan and Vietnam grew the most.`,
   },
 } as const;
+
+/**
+ * Context lines (ARCHITECTURE_MAP rule 7d): what a dated tariff action did, from its Federal Register document or ruling, next to
+ * the chart's highlight. Timing only, never a cause. Every date and rate is checked against pipeline/output/tariff_actions.json in
+ * lib/trade-takeaways.test.ts. The balance and partners cards have none: what moves the deficit and which country leads it are
+ * multi-factor questions economists dispute, and no cited document states them.
+ */
+export const TRADE_CONTEXT = {
+  tariff: {
+    text: "Section 301 tariffs on goods from China began July 6, 2018, and reached a fourth list September 1, 2019. A 10% IEEPA tariff on all partners began April 5, 2025; IEEPA tariffs ended February 24, 2026, after the Supreme Court ruled.",
+    sources: [
+      { id: "fr-301-china-2018", label: "USTR, 2018" },
+      { id: "fr-301-china-list-4a", label: "USTR, 2019" },
+      { id: "fr-eo-14257", label: "EO 14257" },
+      { id: "scotus-learning-resources", label: "Supreme Court" },
+      { id: "fr-eo-14389", label: "EO 14389" },
+    ],
+  },
+  scatter: {
+    text: "USTR raised Section 301 duties on selected goods from China on September 27, 2024. A 10% Section 122 surcharge began February 24, 2026, and Section 301 tariffs of 10% or 12.5% began July 24 on 60 economies, China among them.",
+    sources: [
+      { id: "fr-301-china-2024", label: "USTR, 2024" },
+      { id: "fr-section-122-2026", label: "Proclamation 11012" },
+      { id: "fr-301-forced-labor-2026", label: "USTR, 2026" },
+    ],
+  },
+} as const satisfies Partial<Record<keyof typeof TRADE_TAKEAWAYS, ContextEntry>>;
+
+export const contextFor = (card: keyof typeof TRADE_TAKEAWAYS): ContextEntry | null =>
+  (TRADE_CONTEXT as Partial<Record<keyof typeof TRADE_TAKEAWAYS, ContextEntry>>)[card] ?? null;

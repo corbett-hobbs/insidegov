@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { TRADE_TAKEAWAYS } from "../components/trade/takeaways";
+import { TRADE_CONTEXT, TRADE_TAKEAWAYS } from "../components/trade/takeaways";
+import { SOURCE_LINKS } from "./source-links";
 import { MONTH_NAMES } from "./indicator-time";
 import { ratePercentSeries } from "./trade-chart";
 import { monthCount, monthIndex, partnerBalance, partnerTotal } from "./trade-derive";
@@ -136,6 +137,56 @@ const cases: { title: string; text: string; says: string[]; check: () => void }[
   },
 ];
 
+/**
+ * The context lines (rule 7d): every date, rate and count is checked against the tariff action log in pipeline/output, and
+ * each cited link must be one that log records for that action.
+ */
+type Action = { action_id: string; date: string; rate_note?: string; scope_note?: string; description: string; sources: { url: string }[] };
+const actions = new Map(JSON.parse(readFileSync(`${OUT}/tariff_actions.json`, "utf8")).actions.map((a: Action) => [a.action_id, a]) as [string, Action][]);
+const action = (id: string) => {
+  const a = actions.get(id);
+  expect(a, id).toBeDefined();
+  return a!;
+};
+const cites = (id: string, src: keyof typeof SOURCE_LINKS) => expect(action(id).sources.map((s) => s.url)).toContain(SOURCE_LINKS[src]);
+const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: () => void }> = {
+  tariff: {
+    says: ["began July 6, 2018", "a fourth list September 1, 2019", "A 10% IEEPA tariff on all partners began April 5, 2025", "ended February 24, 2026, after the Supreme Court ruled"],
+    check: () => {
+      expect(action("2018-07-06-section-301-china-list-1").date).toBe("2018-07-06");
+      expect(action("2019-09-01-section-301-china-list-4a").date).toBe("2019-09-01");
+      const base = action("2025-04-05-reciprocal-baseline");
+      expect([base.date, base.rate_note, base.description]).toEqual(["2025-04-05", "10 percent", expect.stringContaining("all trading partners")]);
+      expect(action("2026-02-20-supreme-court-ieepa-ruling").date).toBe("2026-02-20");
+      expect(action("2026-02-24-ieepa-ends-section-122-begins").date).toBe("2026-02-24");
+      // The line sits next to the 2019 and 2025 highs the takeaway names.
+      expect(peak("2008-03", "2024-12").at).toBe(monthIndex("2019-09"));
+      expect(peak("1993-01", national.lastPeriod).at).toBe(monthIndex("2025-10"));
+      cites("2018-07-06-section-301-china-list-1", "fr-301-china-2018");
+      cites("2019-09-01-section-301-china-list-4a", "fr-301-china-list-4a");
+      cites("2025-04-05-reciprocal-baseline", "fr-eo-14257");
+      cites("2026-02-20-supreme-court-ieepa-ruling", "scotus-learning-resources");
+      cites("2026-02-24-ieepa-ends-section-122-begins", "fr-eo-14389");
+    },
+  },
+  scatter: {
+    says: ["Section 301 duties on selected goods from China on September 27, 2024", "A 10% Section 122 surcharge began February 24, 2026", "10% or 12.5% began July 24 on 60 economies, China among them"],
+    check: () => {
+      const review = action("2024-09-27-section-301-china-four-year-review");
+      expect([review.date, review.description]).toEqual(["2024-09-27", expect.stringContaining("increases Section 301 duties on selected products of China")]);
+      const s122 = action("2026-02-24-ieepa-ends-section-122-begins");
+      expect(s122.rate_note).toMatch(/^Section 122 surcharge: 10 percent/);
+      const fl = action("2026-07-24-section-301-forced-labor") as Action & { countries: string[] };
+      expect([fl.date, fl.rate_note?.startsWith("10 percent or 12.5 percent"), fl.scope_note?.startsWith("60 economies"), fl.countries.includes("CHN")]).toEqual(["2026-07-24", true, true, true]);
+      // Every action named falls between the scatter's baseline and the end of its latest window.
+      for (const d of ["2024-09", "2026-02", "2026-07"]) expect(d > windows.baseline.to && d <= windows.latest.to, d).toBe(true);
+      cites("2024-09-27-section-301-china-four-year-review", "fr-301-china-2024");
+      cites("2026-02-24-ieepa-ends-section-122-begins", "fr-section-122-2026");
+      cites("2026-07-24-section-301-forced-labor", "fr-301-forced-labor-2026");
+    },
+  },
+};
+
 describe("Trade card takeaways", () => {
   for (const c of cases) {
     it(`${c.title}: "${c.text.slice(0, 48)}…" holds`, () => {
@@ -149,6 +200,23 @@ describe("Trade card takeaways", () => {
       const sentences = c.text.replaceAll("U.S.", "US").split(/(?<=[.!?])\s+/).filter(Boolean);
       expect(sentences.length, c.title).toBeLessThanOrEqual(2);
       expect(c.text.split(/\s+/).length, c.title).toBeLessThanOrEqual(45);
+    }
+  });
+
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof TRADE_CONTEXT, (typeof contextCases)[keyof typeof TRADE_CONTEXT]][]) {
+    it(`context, ${TRADE_TAKEAWAYS[key].title}: holds and names real sources`, () => {
+      for (const phrase of c.says) expect(TRADE_CONTEXT[key].text).toContain(phrase);
+      for (const src of TRADE_CONTEXT[key].sources) expect(SOURCE_LINKS[src.id], src.id).toMatch(/^https:\/\//);
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal claim", () => {
+    expect(Object.keys(TRADE_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(TRADE_CONTEXT)) {
+      expect(line.text.replace(/U\.S\./g, "US").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged)\b/i);
     }
   });
 });
