@@ -221,8 +221,8 @@ export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
 /** The cards after the hero, in pairs: each row is a theme with a quiet label. */
 export const CARD_ROWS: { label: string; cards: [EconomyKey, EconomyKey] }[] = [
   { label: "Behind the misery index", cards: ["un", "infl"] },
-  { label: "Jobs and output", cards: ["jobs", "gdp"] },
-  { label: "What people earn", cards: ["wage", "inc"] },
   { label: "Everyday costs", cards: ["gas", "mort"] },
+  { label: "What people earn", cards: ["wage", "inc"] },
   { label: "Federal finances", cards: ["def", "debt"] },
+  { label: "Jobs and output", cards: ["jobs", "gdp"] },
 ];
