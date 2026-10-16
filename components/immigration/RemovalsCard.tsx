@@ -8,7 +8,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { SourceLink } from "@/components/SourceLink";
-import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
+import { useTakeaway } from "./ContextLine";
 
 export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { data: ImmigrationPageData; range: readonly [number, number]; fy: number; onFy: (fy: number) => void; activeFy?: number | null; onActiveFy?: (fy: number | null) => void }) {
   const years = data.removalsYears.filter((y) => y.fy >= range[0] && y.fy <= range[1]);
@@ -16,11 +16,13 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
   const pending = range[1] >= data.lastFy;
   const termsById = new Map(data.removalsTerms.map((t) => [t.termId, t]));
   const iceYears = data.years.length;
+  const context = useTakeaway("removals");
   return (
     <ChartCard
       title="Removals, returns and detention by fiscal year"
-      takeaway={IMMIGRATION_TAKEAWAYS.removals.takeaway}
+      takeaway={context.takeaway}
     >
+      {context.panel}
       <RemovalsLegend />
       <RemovalsChart
         years={years}
@@ -41,7 +43,7 @@ export function RemovalsCard({ data, range, fy, onFy, activeFy, onActiveFy }: { 
             People removed or returned from the country each fiscal year: an outcome, not a stop, so not a subset of the encounters above. A removal follows a formal removal order; a return is leaving without one, after an enforcement encounter. The line is the average number of people in ICE detention on a given day.
           </p>
           <p>
-            The Immigration and Naturalization Service (INS) did removals until ICE was created and took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (<SourceLink id="ohss-yearbook-table39">Yearbook Table 39</SourceLink>, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are <SourceLink id="ice-statistics">ICE&rsquo;s own figures</SourceLink>, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns. For FY2008&ndash;FY2024 ICE splits its count by who first apprehended the person (its &ldquo;arresting agency&rdquo;): its own officers inside the country, or Border Patrol at the border, who handed the person to ICE. {data.finalCount} of {iceYears} ICE years are final; FY{data.lastFy} is preliminary, from ICE&rsquo;s FY2027 budget overview, not a locked statistics release.
+            The Immigration and Naturalization Service (INS) did removals until ICE was created and took over in March 2003. FY{data.historyFirstFy}&ndash;FY{data.firstFy - 1} are its counts as DHS republishes them (<SourceLink id="ohss-yearbook-table39">Yearbook Table 39</SourceLink>, {data.history.edition} edition, rounded to tens), which may not follow ICE&rsquo;s counting rules. From FY{data.firstFy} the bars are <SourceLink id="ice-statistics">ICE&rsquo;s own figures</SourceLink>, which differ from DHS&rsquo;s for the same years. Through FY2006 they count removals only; from FY2007 ICE also counts returns. From June 1, 2013, Border Patrol voluntary returns with no ICE intake are left out, and from May 12, 2023, Border Patrol expedited removals flown out by ICE Air are counted. For FY2008&ndash;FY2024 ICE splits its count by who first apprehended the person (its &ldquo;arresting agency&rdquo;): its own officers inside the country, or Border Patrol at the border, who handed the person to ICE. {data.finalCount} of {iceYears} ICE years are final; FY{data.lastFy} is preliminary, from ICE&rsquo;s FY2027 budget overview, not a locked statistics release.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

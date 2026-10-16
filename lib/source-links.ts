@@ -40,6 +40,24 @@ export const SOURCE_LINKS = {
   "cbp-encounters": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
   "ice-statistics": "https://www.ice.gov/statistics",
   "dhs-ice-budget-fy2027": "https://www.dhs.gov/sites/default/files/2026-04/26_0403_ocfo_fy27-budget-immigration-and-customs-enforcement.pdf",
+  // Immigration context lines (rule 7d, draft). The ICE, CBP, executive-order and determination URLs are the ones
+  // pipeline/reference/*-catalog.json and pipeline/output/refugee_*.json already record; the DHS fact sheets and the
+  // State Department report are new here.
+  "ohss-irca-fact-sheet-2009": "https://ohss.dhs.gov/sites/default/files/2023-12/Naturalization%2520Rates%2520IRCA%2520Immigrants%25202009.pdf",
+  "ohss-naturalizations-2008": "https://ohss.dhs.gov/sites/default/files/2023-12/Naturalizations_2008.pdf",
+  "state-refugee-report-fy2015": "https://www.rpc.state.gov/documents/Report+to+Congress+for+FY+2015+USRAP.pdf",
+  "refugee-pd-2021-02": "https://www.federalregister.gov/d/2020-24912",
+  "eo-14163": "https://www.govinfo.gov/content/pkg/FR-2025-01-30/html/2025-02011.htm",
+  "eo-14204": "https://www.govinfo.gov/content/pkg/FR-2025-02-12/html/2025-02630.htm",
+  "refugee-pd-2025-13": "https://www.govinfo.gov/content/pkg/FR-2025-10-31/html/2025-19752.htm",
+  "cbp-release-2023-02": "https://www.cbp.gov/newsroom/national-media-release/cbp-releases-february-2023-monthly-operational-update",
+  "cbp-release-2021-07": "https://www.cbp.gov/newsroom/national-media-release/cbp-releases-july-2021-operational-update",
+  "crs-securing-the-border-2024": "https://www.everycrsreport.com/reports/LSB11178.html",
+  "proclamation-10888": "https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-01951.htm",
+  "ice-ero-report-fy2015": "https://www.ice.gov/sites/default/files/documents/Report/2016/fy2015removalStats.pdf",
+  "ice-ero-report-fy2018": "https://www.ice.gov/doclib/about/offices/ero/pdf/eroFY2018Report.pdf",
+  "ice-ero-report-fy2019": "https://www.ice.gov/sites/default/files/documents/Document/2019/eroReportFY2019.pdf",
+  "ice-fy2023-annual-report-release": "https://www.ice.gov/news/releases/ice-releases-fiscal-year-2023-annual-report",
   // Trade, economy, energy
   "census-trade": "https://www.census.gov/foreign-trade/index.html",
   "usitc-dataweb": "https://dataweb.usitc.gov/",

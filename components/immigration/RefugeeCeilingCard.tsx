@@ -10,7 +10,7 @@ import { GEO_NAME, type GeoGroup, type RefugeePayload, type RefugeeYear } from "
 import { RefugeeChart } from "./RefugeeChart";
 import { CEILING_TINT, GEO_STACK, REGION_COLOR, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
+import { useTakeaway } from "./ContextLine";
 
 /**
  * "Refugee ceiling and admissions by fiscal year": the ceiling chart (`RefugeeChart`) with its key, Data notes and table. The key
@@ -23,11 +23,13 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
   const termsById = new Map(payload.terms.map((t) => [t.termId, t]));
   const prelim = years.some((y) => y.preliminary);
   const hasPrivate = years.some((y) => y.privateSector > 0);
+  const context = useTakeaway("refugeeCeiling");
   return (
     <ChartCard
       title="Refugee ceiling and admissions by fiscal year"
-      takeaway={IMMIGRATION_TAKEAWAYS.refugeeCeiling.takeaway}
+      takeaway={context.takeaway}
     >
+      {context.panel}
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {present.map((g) => (
           <LegendToggle key={g} active={only === g} dimmed={only !== null && only !== g} onClick={() => toggleOnly(g)}>

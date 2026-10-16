@@ -18,7 +18,7 @@ import { GEO_NAME, GEO_STACK, type GeoGroup, type RefugeePayload, type TopYear }
 import { useElementWidth } from "@/lib/use-element-width";
 import { REGION_COLOR, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
+import { useTakeaway } from "./ContextLine";
 
 const LABEL_H = 22;
 const TICK = 5;
@@ -122,9 +122,11 @@ export function RefugeeTopCard({
   const regionsPresent = GEO_STACK.filter((g) => years.some((y) => y.ranked[0]?.group === g));
   const anyPrelim = years.some((y) => y.preliminary);
 
+  const context = useTakeaway("refugeeTop");
   if (count === 0) return null;
   return (
-    <ChartCard title="Who’s sent the most refugees" takeaway={IMMIGRATION_TAKEAWAYS.refugeeTop.takeaway}>
+    <ChartCard title="Who’s sent the most refugees" takeaway={context.takeaway}>
+      {context.panel}
       <div ref={wrapRef} className="touch-scroll relative -mx-3 sm:mx-0">
         <ChartFrame
           width={W}

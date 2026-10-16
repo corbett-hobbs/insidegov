@@ -14,7 +14,7 @@ import { LprChart } from "./LprChart";
 import { GROUP_COLOR, REGION_COLOR } from "./lpr-style";
 import { n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
+import { useTakeaway } from "./ContextLine";
 
 /**
  * "Green cards and citizenships by fiscal year": the green-card bars stacked by class of admission, with a Green cards /
@@ -58,8 +58,10 @@ export function LprGreenCardCard({
       ]}
     />
   );
+  const context = useTakeaway(nat ? "naturalizations" : "greenCards");
   return (
-    <ChartCard title="Green cards and citizenships by fiscal year" takeaway={IMMIGRATION_TAKEAWAYS[nat ? "naturalizations" : "greenCards"].takeaway} action={toggle}>
+    <ChartCard title="Green cards and citizenships by fiscal year" takeaway={context.takeaway} action={toggle}>
+      {context.panel}
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {nat
           ? presentRegions.map((r) => (

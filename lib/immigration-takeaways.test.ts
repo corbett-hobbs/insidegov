@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { IMMIGRATION_TAKEAWAYS } from "../components/immigration/takeaways";
+import { IMMIGRATION_CONTEXT, IMMIGRATION_TAKEAWAYS, type ContextEntry } from "../components/immigration/takeaways";
+import { SOURCE_LINKS } from "./source-links";
 import { buildEncountersPayload } from "./encounters-derive";
 import { encountersNoteRow, encountersSeriesRow } from "./encounters-entities";
 import { enforcementNote, enforcementReport, enforcementRow, iceCatalog } from "./enforcement-entities";
@@ -65,21 +66,21 @@ const convictedShare = (fy: number, view: "all" | "ice") => {
 
 const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check: () => void }> = {
   greenCards: {
-    says: ["1.83 million in FY1991", "From FY2001 through FY2025", "703,542 in FY2003", "1.36 million in FY2024", "immediate relatives of U.S. citizens were the largest class every year"],
+    says: ["1.8M in FY1991", "From FY2001 through FY2025", "703.5k in FY2003", "1.4M in FY2024", "immediate relatives of U.S. citizens were the largest class every year"],
     check: () => {
       expect(lpr.lastFy).toBe(2025);
       const peak = argmax(lprYears, (y) => y.lpr);
-      expect([peak.fy, millions(peak.lpr, 2)]).toEqual([1991, "1.83"]);
+      expect([peak.fy, millions(peak.lpr, 1)]).toEqual([1991, "1.8"]);
       const recent = between(lprYears, 2001, 2025);
       expect(argmin(recent, (y) => y.lpr)).toMatchObject({ fy: 2003, lpr: 703_542 });
       const hi = argmax(recent, (y) => y.lpr);
-      expect([hi.fy, millions(hi.lpr, 2)]).toEqual([2024, "1.36"]);
+      expect([hi.fy, millions(hi.lpr, 1)]).toEqual([2024, "1.4"]);
       // Every year with class detail (FY1999 on), so every year of FY2001–FY2025.
       for (const y of between(lprYears, 1999, 2025)) expect(argmax(LPR_CLASS_STACK, (c) => y.classes![c]), `FY${y.fy}`).toBe("immediate_relatives");
     },
   },
   naturalizations: {
-    says: ["passed 1 million in two years, FY1996 and FY2008", "low of 141,000 in FY1982", "From FY2009 through FY2025", "619,910 in FY2010", "969,380 in FY2022"],
+    says: ["passed 1M in two years, FY1996 and FY2008", "low of 141k in FY1982", "From FY2009 through FY2025", "619.9k in FY2010", "969.4k in FY2022"],
     check: () => {
       const nat = lprYears.map((y) => ({ fy: y.fy, v: y.naturalizations! }));
       expect(nat.every((y) => y.v !== null)).toBe(true);
@@ -91,7 +92,7 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
     },
   },
   greenCardCountries: {
-    says: ["Mexico led every year from FY1999 through FY2025", "13% to 23% of each year’s green cards", "In FY2024 Cuba was second with 184,040", "more than twice its count in any earlier year"],
+    says: ["Mexico led every year from FY1999 through FY2025", "13% to 23% of each year’s green cards", "In FY2024 Cuba was second with 184k", "more than twice its count in any earlier year"],
     check: () => {
       const ys = lprTop("lpr");
       expect([ys[0].fy, ys.at(-1)!.fy]).toEqual([1999, 2025]);
@@ -105,7 +106,7 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
     },
   },
   naturalizationCountries: {
-    says: ["Mexico led every year from FY1999 through FY2025", "11% to 25% of each year’s new citizens", "231,815 in FY2008", "the most from any one country in any year"],
+    says: ["Mexico led every year from FY1999 through FY2025", "11% to 25% of each year’s new citizens", "231.8k in FY2008", "the most from any one country in any year"],
     check: () => {
       const ys = lprTop("naturalizations");
       expect([ys[0].fy, ys.at(-1)!.fy]).toEqual([1999, 2025]);
@@ -117,7 +118,7 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
     },
   },
   refugeeCeiling: {
-    says: ["peaked at 207,116 in FY1980", "low of 11,411 in FY2021", "FY2024’s 100,034 arrivals", "the most of any year after FY1994", "ceiling of 125,000"],
+    says: ["peaked at 207.1k in FY1980", "low of 11.4k in FY2021", "FY2024’s 100k arrivals", "the most of any year after FY1994", "ceiling of 125k"],
     check: () => {
       const ys = refugees.years;
       expect(ys[0].fy).toBe(PAGE_FIRST);
@@ -158,7 +159,7 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
     },
   },
   encounters: {
-    says: ["From FY1980 through FY2020", "0.5 million to 1.7 million border encounters a year", "topped 2.7 million in each of FY2022–FY2024", "peaking at 3.2 million in FY2023", "0.7 million in FY2025"],
+    says: ["From FY1980 through FY2020", "0.5M to 1.7M border encounters a year", "topped 2.7M in each of FY2022–FY2024", "peaking at 3.2M in FY2023", "0.7M in FY2025"],
     check: () => {
       expect(encounters.firstFy).toBe(PAGE_FIRST);
       const early = between(enc, 1980, 2020).map((y) => y.total);
@@ -171,7 +172,7 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
     },
   },
   removals: {
-    says: ["peaked at 409,849 in FY2012", "fell to 59,011 in FY2021", "the fewest of any ICE year (FY2003 on)", "FY2025’s preliminary 442,637", "the most of any year on the chart, which starts in FY1980"],
+    says: ["peaked at 409.8k in FY2012", "fell to 59k in FY2021", "the fewest of any ICE year (FY2003 on)", "FY2025’s preliminary 442.6k", "the most of any year on the chart, which starts in FY1980"],
     check: () => {
       expect([ice.historyFirstFy, ice.firstFy, ice.lastFy]).toEqual([1980, 2003, 2025]);
       const final = removals.filter((y) => y.status === "final");
@@ -212,6 +213,85 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
   },
 };
 
+/**
+ * The context lines (rule 7d, draft). Figures from pipeline/output are checked here; facts that come from a cited document
+ * outside the pipeline (the DHS IRCA fact sheet and 2008 naturalization report, the State Department's FY2015 report, the
+ * executive orders, ICE's counting notes) are pinned to the phrase the line uses, so an edit has to come back here, and each
+ * line's sources must exist.
+ */
+const refugeeMonthly = read("refugee_monthly.json") as { fy: number; month: string; admissions: number }[];
+const enforcementNotes = parse("enforcement_notes.json", enforcementNote);
+const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; check: () => void }> = {
+  greenCards: {
+    says: ["nearly 2.7M", "almost all in 1989–1992", "The FY1989–FY1991 peak"],
+    check: () => expect(argmax(lprYears, (y) => y.lpr).fy).toBe(1991),
+  },
+  naturalizations: {
+    says: ["mid-1990s", "the FY2008 record", "nearly 1.4M applications filed in 2007 ahead of a fee increase"],
+    check: () => expect(argmax(lprYears, (y) => y.naturalizations!).fy).toBe(2008),
+  },
+  refugeeCeiling: {
+    says: ["Executive Order 14163 suspended refugee entry from January 27, 2025", "37.6k of FY2025’s 38.1k refugees arrived before February"],
+    check: () => {
+      const fy25 = refugeeMonthly.filter((m) => m.fy === 2025);
+      expect(fy25.filter((m) => m.month <= "2025-01").reduce((a, m) => a + m.admissions, 0)).toBe(37_596);
+      expect(at(refugees.years, 2025).admissions).toBe(38_102);
+      expect(refugees.markers.some((m) => m.title.includes("Refugee entry suspended") && m.date === "2025-01-27")).toBe(true);
+    },
+  },
+  refugeeCountries: {
+    says: ["Executive Order 14204 (February 7, 2025)", "the FY2026 determination allocates admissions primarily to them"],
+    check: () => {
+      expect(refugees.markers.some((m) => m.title.includes("Afrikaners") && m.date === "2025-02-07")).toBe(true);
+      expect(rankCountries(refugees, 2026)[0].name).toBe("South Africa");
+    },
+  },
+  refugeeTop: {
+    says: ["FY2015 report to Congress", "at least 50k Congolese over four to five years", "Uganda, Tanzania, Rwanda and Burundi"],
+    check: () => expect(refugees.countries[at(topByYear(refugees, 2016, 2016), 2016).ranked[0].ci].name).toBe("Democratic Republic of the Congo"),
+  },
+  encounters: {
+    says: ["CBP said Title 42 expulsions added repeat crossings", "27% of July 2021’s southwest encounters", "against 14% in FY2014–FY2019", "fell by half or more within two months of each entry proclamation (June 2024, January 2025)"],
+    check: () => {
+      // The 27% and 14% are CBP's (July 2021 release), outside the pipeline. The monthly drops are checked here.
+      const monthly = read("encounters_monthly.json") as { month: string; scope: string; component: string; value: number }[];
+      const bp = (m: string) => monthly.filter((r) => r.scope === "nationwide" && r.component === "usbp" && r.month === m).reduce((a, r) => a + r.value, 0);
+      // Proclamation 10773 took effect June 5, 2024; Proclamation 10888 was signed January 20, 2025.
+      expect(bp("2024-07") / bp("2024-05")).toBeLessThanOrEqual(0.5);
+      expect(bp("2025-02") / bp("2024-12")).toBeLessThanOrEqual(0.5);
+    },
+  },
+  removals: {
+    says: ["From March 2020 to May 2023", "expelled under Title 42, which ICE does not count as removals", "1.1M in both FY2021 and FY2022, by CBP’s count", "rose to 271.5k in FY2024, 82% after Border Patrol arrests"],
+    check: () => {
+      expect(enforcementNotes.some((n) => n.id === "title42-expulsions-excluded")).toBe(true);
+      expect(encounters.markers.map((m) => m.date)).toEqual(expect.arrayContaining(["2020-03-21", "2023-05-11"]));
+      // "Many", not "most": expulsions were 55% of FY2021's encounters but 40% of FY2022's.
+      for (const fy of [2021, 2022]) {
+        const p = at(encounters.years, fy).nationwide;
+        expect(millions(p.title42!, 1), `FY${fy}`).toBe("1.1");
+        expect(p.title42! / p.total, `FY${fy}`).toBeGreaterThan(0.35);
+      }
+      const y = at(removals, 2024);
+      expect((y.value / 1000).toFixed(1)).toBe("271.5");
+      expect(pct(y.agency!.cbp, y.value)).toBe(82);
+      expect(argmax(between(removals, 2020, 2024), (r) => r.value).fy).toBe(2024);
+    },
+  },
+  criminalHistory: {
+    says: ["ICE records only what its systems hold when it acts", "80% of FY2024’s Border Patrol handoffs", "immigration crimes, such as illegal reentry, as convictions"],
+    check: () => {
+      const def = enforcementNotes.find((n) => n.id === "criminality-definition")!.text;
+      expect(def).toContain("at the time of the enforcement action");
+      expect(def).toContain("'illegal reentry,'");
+      const cbp = ice.criminality.views.cbp;
+      expect([at(cbp, 2021).total, at(cbp, 2024).total]).toEqual([27_454, 223_752]);
+      const b = at(cbp, 2024);
+      expect(pct(b.parts.find((p) => p.key === "other_immigration_violator")!.value, b.total)).toBe(80);
+    },
+  },
+};
+
 describe("Immigration card takeaways", () => {
   for (const [key, c] of Object.entries(cases) as [keyof typeof IMMIGRATION_TAKEAWAYS, (typeof cases)[keyof typeof IMMIGRATION_TAKEAWAYS]][]) {
     it(`${IMMIGRATION_TAKEAWAYS[key].title}: "${IMMIGRATION_TAKEAWAYS[key].takeaway.slice(0, 48)}…" holds`, () => {
@@ -226,10 +306,32 @@ describe("Immigration card takeaways", () => {
       const sentences = s.takeaway.replace(/U\.S\./g, "US").split(/(?<=\.)\s+(?=[A-Z])/);
       expect(sentences.length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
+      // Counts are abbreviated (207.1k, 1.8M), never printed in full.
+      expect(s.takeaway, s.title).not.toMatch(/\d,\d{3}/);
     }
   });
 
   it("avoids the words rule 7c rules out", () => {
     for (const s of Object.values(IMMIGRATION_TAKEAWAYS)) expect(s.takeaway, s.title).not.toMatch(/\b(soared|plunged|thanks to|since|still)\b/i);
+  });
+
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof IMMIGRATION_CONTEXT, (typeof contextCases)[keyof typeof IMMIGRATION_CONTEXT]][]) {
+    it(`context, ${IMMIGRATION_TAKEAWAYS[key].title}: holds and names real sources`, () => {
+      const line: ContextEntry = IMMIGRATION_CONTEXT[key];
+      for (const phrase of c.says) expect(line.text).toContain(phrase);
+      for (const src of line.sources) expect(SOURCE_LINKS[src.id], src.id).toMatch(/^https:\/\//);
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal claim of its own", () => {
+    expect(Object.keys(IMMIGRATION_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(IMMIGRATION_CONTEXT)) {
+      expect(line.text.replace(/U\.S\./g, "US").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\d,\d{3}/);
+      // A cause is only ever the agency's own ("DHS attributes"), never the page's.
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged)\b/i);
+    }
   });
 });

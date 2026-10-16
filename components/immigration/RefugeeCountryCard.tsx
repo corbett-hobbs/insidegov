@@ -14,7 +14,7 @@ import { RefugeeMap, undrawnRefugees, type MapMode } from "./RefugeeMap";
 import type { MapFeature } from "./RemovalsMap";
 import { capText, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
-import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
+import { useTakeaway } from "./ContextLine";
 
 type WorldMap = { width: number; height: number; features: MapFeature[] };
 
@@ -124,10 +124,11 @@ export function RefugeeCountryCard({
   const mapRows = ranked.map((r) => ({ key: r.key, name: r.name, value: r.value, group: r.group }));
   const off = undrawnRefugees(worldMap.features, mapRows);
 
+  const context = useTakeaway("refugeeCountries");
   return (
     <ChartCard
       title="Where refugees came from"
-      takeaway={IMMIGRATION_TAKEAWAYS.refugeeCountries.takeaway}
+      takeaway={context.takeaway}
       action={
         <div className="flex flex-wrap items-center gap-2">
           {chip && <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">{chip}</span>}
@@ -138,6 +139,7 @@ export function RefugeeCountryCard({
         </div>
       }
     >
+      {context.panel}
       <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-[1.5fr_1fr] md:items-stretch">
         <RefugeeMap
           features={worldMap.features}

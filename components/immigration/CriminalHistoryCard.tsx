@@ -12,7 +12,7 @@ import { CRIM_ORDER, convictedOrPendingShare, type AgencyView, type Measure } fr
 import type { ImmigrationPageData } from "@/lib/immigration-derive";
 import { CRIM_COLOR, CRIM_LABEL, CriminalHistoryChart } from "./CriminalHistoryChart";
 import { SourceLink } from "@/components/SourceLink";
-import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
+import { useTakeaway } from "./ContextLine";
 
 const n = (v: number) => v.toLocaleString("en-US");
 
@@ -64,10 +64,11 @@ export function CriminalHistoryCard({
   const present = CRIM_ORDER.filter((k) => shownBars.some((b) => b.parts.some((p) => p.key === k)));
   const share = measure === "share";
 
+  const context = useTakeaway("criminalHistory");
   return (
     <ChartCard
       title="Criminal history of those removed"
-      takeaway={IMMIGRATION_TAKEAWAYS.criminalHistory.takeaway}
+      takeaway={context.takeaway}
       action={
         // Phones: the "Arrested by" label sits on its own line and both toggles share the line under it; from `sm` the label sits beside them.
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
@@ -96,6 +97,7 @@ export function CriminalHistoryCard({
         </div>
       }
     >
+      {context.panel}
       <Reserved<AgencyView>
         active={view}
         className="mb-2"
