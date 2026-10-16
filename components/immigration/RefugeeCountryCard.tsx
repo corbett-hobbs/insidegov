@@ -14,6 +14,8 @@ import { RefugeeMap, undrawnRefugees, type MapMode } from "./RefugeeMap";
 import type { MapFeature } from "./RemovalsMap";
 import { capText, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 type WorldMap = { width: number; height: number; features: MapFeature[] };
 
@@ -71,7 +73,8 @@ export function RefugeeCountryCard({
   const topShare = total > 0 ? top3.reduce((a, r) => a + r.value, 0) / total : 0;
   const listNames = (names: string[]) => (names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : (names[0] ?? ""));
   const regionRows = (regionYear?.rows ?? []).filter((r) => r.admissions !== null);
-  const lede =
+  // The selected year in a sentence, at the head of the Data notes.
+  const yearLine =
     mode === "countries"
       ? `FY${fy}: ${n(total)} refugees from ${ranked.length} ${ranked.length === 1 ? "country" : "countries"}${top3.length ? `, led by ${listNames(top3.map((r) => r.name))}, which ${top3.length > 1 ? "together " : ""}made up ${(topShare * 100).toFixed(topShare > 0.995 ? 2 : 0)}%.` : "."}`
       : `FY${fy}: ${n(total)} refugees from ${regionRows.length} regions, led by ${listNames(regionRows.slice(0, 3).map((r) => GEO_NAME[r.group as GeoGroup].name))}.`;
@@ -122,10 +125,11 @@ export function RefugeeCountryCard({
   const mapRows = ranked.map((r) => ({ key: r.key, name: r.name, value: r.value, group: r.group }));
   const off = undrawnRefugees(worldMap.features, mapRows);
 
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.refugeeCountries.takeaway, contextFor("refugeeCountries"));
   return (
     <ChartCard
       title="Where refugees came from"
-      lede={lede}
+      takeaway={context.takeaway}
       action={
         <div className="flex flex-wrap items-center gap-2">
           {chip && <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">{chip}</span>}
@@ -136,6 +140,7 @@ export function RefugeeCountryCard({
         </div>
       }
     >
+      {context.panel}
       <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-[1.5fr_1fr] md:items-stretch">
         <RefugeeMap
           features={worldMap.features}
@@ -177,12 +182,12 @@ export function RefugeeCountryCard({
         <MethodologyNote>
           {mode === "countries" ? (
             <p>
-              Refugees admitted by country of chargeability, from FY2001 (<SourceLink id="wraps-admissions">State Department</SourceLink>; earlier years have regions only). This is normally the applicant&rsquo;s nationality, which can differ from the country they fled: Burmese refugees processed in Thailand count under Burma. Colour bins are fixed so years compare.
+              Refugees admitted by country of chargeability, from FY2001 (<SourceLink id="wraps-admissions">State Department</SourceLink>; earlier years have regions only). {yearLine} Chargeability is normally the applicant&rsquo;s nationality, which can differ from the country they fled: Burmese refugees processed in Thailand count under Burma. Colour bins are fixed so years compare.
               {off.names.length > 0 && <> Not on the map (former or unmapped territories): {listNames(off.names)}; they are in the list and table.</>} FY2026 is preliminary.
             </p>
           ) : (
             <p>
-              Refugees admitted by region, by the nationality of the principal applicant (<SourceLink id="wraps-admissions">State Department</SourceLink>). The cap is the State Department&rsquo;s year-end regional ceiling (FY2001 on), else the last <SourceLink id="refugee-determinations">determination</SourceLink>&rsquo;s allocation; those numbers are starting points that get reassigned during the year, and FY2024&ndash;25 caps are ranges, shaded to the maximum. Some years have no regional caps: FY2020&ndash;21 were divided by kind of refugee and FY2026 &ldquo;primarily&rdquo; by group. An unallocated reserve is a cap with no arrivals. FY2026 is preliminary.
+              Refugees admitted by region, by the nationality of the principal applicant (<SourceLink id="wraps-admissions">State Department</SourceLink>). {yearLine} The cap is the State Department&rsquo;s year-end regional ceiling (FY2001 on), else the last <SourceLink id="refugee-determinations">determination</SourceLink>&rsquo;s allocation; those numbers are starting points that get reassigned during the year, and FY2024&ndash;25 caps are ranges, shaded to the maximum. Some years have no regional caps: FY2020&ndash;21 were divided by kind of refugee and FY2026 &ldquo;primarily&rdquo; by group. An unallocated reserve is a cap with no arrivals. FY2026 is preliminary.
             </p>
           )}
         </MethodologyNote>

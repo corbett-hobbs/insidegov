@@ -16,6 +16,7 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { LATIN_AMERICA, RemovalsMap, undrawnRemovals, type Region } from "./RemovalsMap";
 import { SourceLink } from "@/components/SourceLink";
+import { IMMIGRATION_TAKEAWAYS } from "./takeaways";
 
 const n = (v: number) => v.toLocaleString("en-US");
 const dateLabel = (iso: string) =>
@@ -71,7 +72,7 @@ export function RemovalsCountryCard({
 
   if (!year) {
     return (
-      <ChartCard title={title} lede={`ICE removals by country of citizenship, ${coverage}.`} action={picker}>
+      <ChartCard title={title} takeaway={IMMIGRATION_TAKEAWAYS.removalsCountries.takeaway} action={picker}>
         <p className="m-0 rounded-md border border-dashed border-line-strong px-4 py-8 text-center text-[0.85rem] leading-[1.6] text-ink-muted">
           ICE publishes removals by country only for {coverage}.{" "}
           FY{fy} has no country table, so there is no country list to show. Pick a covered year from the year menu (or click a bar).
@@ -105,7 +106,7 @@ export function RemovalsCountryCard({
   return (
     <ChartCard
       title={title}
-      lede={`ICE removals · FY${fy} · by country of citizenship · bars show removals`}
+      takeaway={IMMIGRATION_TAKEAWAYS.removalsCountries.takeaway}
       action={
         <div className="flex flex-wrap items-center gap-2">
           {selectedName && (
@@ -149,7 +150,7 @@ export function RemovalsCountryCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            ICE removals, which since FY2007 include returns, by country of citizenship rather than where a person was sent. ICE prints country tables for {coverage} only (FY2013 lists just the top ten; FY2025 has none), and &ldquo;Unknown&rdquo; and &ldquo;Stateless&rdquo; are ICE categories, not countries.
+            ICE removals, which since FY2007 include returns, by country of citizenship rather than where a person was sent; the bars show removals. ICE prints country tables for {coverage} only (FY2013 lists just the top ten; FY2025 has none), and &ldquo;Unknown&rdquo; and &ldquo;Stateless&rdquo; are ICE categories, not countries.
             {off.count > 0 && <> {off.count} rows with no outline ({n(off.removals)} removals) are in the list and table but not on the map.</>}
             {" "}FY{fy}: {n(year.total)} removals across {ranked.length} countries and categories. Source:{" "}
             <SourceLink href={year.sourceUrl}>{year.source}</SourceLink>
