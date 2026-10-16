@@ -845,6 +845,7 @@ div[data-branch="supreme-court"] { --branch-img: url("/images/branches/supreme-c
 .home-strip-item[data-branch="presidency"] { --bar: #4d78c4; --sweep: #8fb0ea; }
 .home-strip-item[data-branch="congress"] { --bar: #4ea67f; --sweep: #7fcaa3; }
 .home-strip-item[data-branch="supreme-court"] { --bar: #b5586a; --sweep: #e29aa8; }
+.home-strip-item[data-branch="timeline"] { --bar: #c9c7c1; --sweep: #e8c877; }
 
 .home-card {
   --ink: #ffffff;
