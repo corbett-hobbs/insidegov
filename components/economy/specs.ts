@@ -4,7 +4,8 @@ import type { EconomyKey } from "@/lib/indicator-lookup";
 export interface ChartSpec {
   key: EconomyKey;
   title: string;
-  desc: string;
+  /** One or two sentences under the title on what the chart shows (see ARCHITECTURE_MAP rule 7c). Every figure is checked by lib/economy-takeaways.test.ts. */
+  takeaway: string;
   kind: "line" | "jobs" | "growth" | "income" | "fiscal" | "debt";
   domain: [number, number];
   ticks: number[];
@@ -32,7 +33,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   mis: {
     key: "mis",
     title: "Misery index",
-    desc: "Unemployment rate plus the inflation rate, monthly. A rough one-number gauge of everyday economic strain, devised in the 1970s.",
+    takeaway:
+      "The misery index peaked at 15.1 in April 2020, when unemployment spiked. It also topped 12 in 2009, 2011 and 2022, and bottomed at 5.0 in September 2015, when prices were barely rising.",
     kind: "line",
     domain: [0, 16],
     ticks: [0, 5, 10, 15],
@@ -44,7 +46,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   gas: {
     key: "gas",
     title: "Gas price",
-    desc: "National weekly average retail price, dollars per gallon.",
+    takeaway:
+      "Regular gas peaked at $5.01 a gallon in June 2022, above its 2008 high of $4.11. In 2026 it climbed from $2.78 in January to $4.50 in May, and diesel hit a record $6.53 in September.",
     label2: "Diesel",
     kind: "line",
     domain: [0.5, 6.7],
@@ -57,7 +60,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   infl: {
     key: "infl",
     title: "Inflation",
-    desc: "Year-over-year change in consumer prices (CPI, all items).",
+    takeaway:
+      "After nearly a decade at 3% or below, inflation peaked at 9.0% in June 2022, the highest since 1981. A year later it was back down to 3.1%.",
     kind: "line",
     domain: [-3, 10],
     ticks: [0, 5, 10],
@@ -69,7 +73,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   jobs: {
     key: "jobs",
     title: "Jobs added",
-    desc: "Change in total nonfarm payrolls from the previous month.",
+    takeaway:
+      "The economy lost 20.5 million jobs in April 2020, the largest one-month loss on record, yet regained its pre-pandemic total by June 2022. After the 2008 recession, getting back to the old peak took until May 2014.",
     kind: "jobs",
     domain: [-JOBS_CAP, JOBS_CAP],
     ticks: [-1000, -500, 0, 500, 1000],
@@ -81,7 +86,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   gdp: {
     key: "gdp",
     title: "GDP growth",
-    desc: "Change in real (inflation-adjusted) output from the same quarter a year earlier.",
+    takeaway:
+      "The economy shrank from a year earlier in only three stretches: 1991, late 2008–2009 and 2020. The 2020 drop (−7.4%) was the deepest, and the rebound a year later (+12.6%) the strongest.",
     label2: "Annualized quarterly rate",
     kind: "growth",
     domain: [-9, 14],
@@ -94,7 +100,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   wage: {
     key: "wage",
     title: "Real hourly earnings",
-    desc: "", // filled with the base month at render time
+    takeaway:
+      "After inflation, hourly pay was flat in the early 1990s and has risen about a quarter since its 1995 low. The 2020 spike came from lower-paid workers losing jobs; by mid-2022, inflation had pulled pay back to its early-2020 level.",
     kind: "line",
     domain: [24.5, 33.5],
     ticks: [26, 28, 30, 32],
@@ -106,7 +113,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   un: {
     key: "un",
     title: "Unemployment",
-    desc: "Share of the labor force without a job, seasonally adjusted.",
+    takeaway:
+      "Unemployment hit 14.8% in April 2020, the highest since records began in 1948, but was back under 4% by December 2021. After the 2009 peak of 10.0%, it took until 2016 to fall below 5%.",
     kind: "line",
     domain: [0, 15],
     ticks: [0, 5, 10, 15],
@@ -118,7 +126,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   mort: {
     key: "mort",
     title: "Mortgage rate",
-    desc: "Average 30-year fixed rate, weekly (Freddie Mac survey).",
+    takeaway:
+      "The 30-year rate fell to a record low of 2.65% in January 2021, then nearly tripled to 7.79% by October 2023, the highest since 2000.",
     kind: "line",
     domain: [2, 10],
     ticks: [2, 4, 6, 8, 10],
@@ -130,7 +139,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   inc: {
     key: "inc",
     title: "Household income",
-    desc: "", // filled from the series' units field at render time
+    takeaway:
+      "After inflation, median household income fell after 2007 and didn’t pass that level again until 2016. It set a record in 2019, slipped about 5% by 2022, then set a new record in 2025.",
     kind: "income",
     domain: [60000, 90000],
     ticks: [60000, 70000, 80000, 90000],
@@ -142,7 +152,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   def: {
     key: "def",
     title: "Federal deficit",
-    desc: "Federal surplus (+) or deficit (−) as a share of GDP, by fiscal year.",
+    takeaway:
+      "The budget ran a surplus only in 1998–2001. From 2020 through 2025 the deficit topped 5% of GDP every year; before 2020 it went that deep only in 2009–2012.",
     kind: "fiscal",
     domain: [-16, 4],
     ticks: [-15, -10, -5, 0],
@@ -155,7 +166,8 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
   debt: {
     key: "debt",
     title: "Federal debt",
-    desc: "Total federal debt as a share of GDP, quarterly.",
+    takeaway:
+      "Total debt fell to 54% of GDP in 2001, then more than doubled to a peak of 133% in mid-2020. It eased to 116% in early 2023 and was back at 123% by early 2026.",
     kind: "debt",
     label2: "Held by the public",
     domain: [20, 140],
@@ -180,7 +192,8 @@ export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
   def: {
     key: "def",
     title: "Federal deficit",
-    desc: "Federal surplus (+) or deficit (−) in dollars, by fiscal year.",
+    takeaway:
+      "The deficit hit a record $3.1 trillion in fiscal 2020 and, after easing to $1.4 trillion in 2022, has climbed back to $2.0 trillion in 2026. The budget ran a surplus only in 1998–2001.",
     kind: "fiscal",
     domain: [-3500, 500],
     ticks: [-3000, -2000, -1000, 0],
@@ -192,7 +205,8 @@ export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
   debt: {
     key: "debt",
     title: "Federal debt",
-    desc: "Total federal debt in dollars, quarterly.",
+    takeaway:
+      "Total federal debt has grown more than elevenfold since 1991, from $3.5 trillion to $40.2 trillion in 2026. It passed $10 trillion in 2008, $20 trillion in 2017 and $30 trillion in 2022.",
     kind: "debt",
     label2: "Held by the public",
     domain: [0, 42000],

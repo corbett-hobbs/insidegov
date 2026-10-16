@@ -90,18 +90,16 @@ function EconomyPage({
 
   const incomeDollars = data.incomeUnits.match(/\d{4}/)?.[0] ?? "";
   const wageMonth = data.wageBase ? `${MONTH_NAMES[Number(data.wageBase.slice(5, 7)) - 1]} ${data.wageBase.slice(0, 4)}` : "";
-  const descs: Partial<Record<keyof typeof SPECS, string>> = {
-    wage: `Average hourly pay of production and nonsupervisory workers, in ${wageMonth} dollars.`,
-    inc: `Median household income, in ${incomeDollars} dollars. One value per year.`,
-  };
-  const notes: Partial<Record<keyof typeof SPECS, React.ReactNode>> = {
-    un: <>People who are out of work and looking for it, from the <SourceLink id="fred-unrate">Bureau of Labor Statistics</SourceLink>’ monthly household survey, seasonally adjusted. People who have stopped looking are not counted, so the rate can fall even when few jobs are added. The survey was not collected in October 2025, so the line has a one-month gap.</>,
-    infl: <>The change in the Consumer Price Index for all urban consumers, all items, from the <SourceLink id="fred-cpi">Bureau of Labor Statistics</SourceLink>. It tracks a fixed basket of what households buy, with housing the largest part, so it can differ from any one household’s costs. Prices were not collected in October 2025, so that year-over-year figure does not exist.</>,
+  // Each note opens with what the chart measures (the line that used to sit under the title, now the takeaway's place).
+  const notes: Record<keyof typeof SPECS, React.ReactNode> = {
+    mis: <>The unemployment rate plus the year-over-year inflation rate, monthly: a rough one-number gauge of everyday economic strain, devised in the 1970s. Both parts come from the <SourceLink id="fred-unrate">Bureau of Labor Statistics</SourceLink>; the Unemployment and Inflation cards below explain how each is measured. A higher number means more strain.</>,
+    un: <>The share of the labor force that is out of work and looking for it, from the <SourceLink id="fred-unrate">Bureau of Labor Statistics</SourceLink>’ monthly household survey, seasonally adjusted. People who have stopped looking are not counted, so the rate can fall even when few jobs are added. The survey was not collected in October 2025, so the line has a one-month gap.</>,
+    infl: <>The year-over-year change in the Consumer Price Index for all urban consumers, all items, from the <SourceLink id="fred-cpi">Bureau of Labor Statistics</SourceLink>. It tracks a fixed basket of what households buy, with housing the largest part, so it can differ from any one household’s costs. Prices were not collected in October 2025, so that year-over-year figure does not exist.</>,
     jobs: <>Month-over-month change in total nonfarm payroll employment from the <SourceLink id="fred-payrolls">Bureau of Labor Statistics</SourceLink>’ employer survey, in thousands of jobs. Each estimate is revised in the next two months and again every year, so recent bars can change. The axis is capped at ±1M a month so ordinary months stay readable; larger months run to the edge with a triangle, and the largest gain and loss are labeled with their true values.</>,
     gdp: <>GDP is the value of everything the U.S. produces, here adjusted for inflation. Bars compare each quarter with the same quarter a year earlier; the tooltip adds the annualized quarter-over-quarter rate that headlines report, which exaggerates swings. As first reported, GDP fell in the first two quarters of 2022, a common rule of thumb for recession, but the <SourceLink id="nber">National Bureau of Economic Research</SourceLink> declared none, and later revisions show only one decline.</>,
-    wage: <>Covers production and nonsupervisory employees, about 80% of private-sector workers, from the <SourceLink id="fred-wage">Bureau of Labor Statistics</SourceLink>’ employer survey. Pay is divided by the Consumer Price Index so each point shows what that hourly wage buys in the latest month. Hourly pay misses cuts in hours. The April 2020 jump is a composition effect: lower-paid workers were laid off first, which raised the average.</>,
-    inc: <>Median household income from the <SourceLink id="fred-income">Census Bureau</SourceLink>, in constant dollars that the Census Bureau re-bases with each release. Published each September for the prior year, so {lastIncomeYear + 1} isn’t available yet. Because it comes once a year, it lags the monthly charts by most of a year.</>,
-    gas: <>Weekly national average retail price from the <SourceLink id="fred-gas">Energy Information Administration</SourceLink>, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.</>,
+    wage: <>Average hourly pay of production and nonsupervisory employees, about 80% of private-sector workers, from the <SourceLink id="fred-wage">Bureau of Labor Statistics</SourceLink>’ employer survey, in {wageMonth} dollars: pay is divided by the Consumer Price Index so each point shows what that hourly wage buys in the latest month. Hourly pay misses cuts in hours, and it rises when lower-paid workers lose jobs, as in April 2020.</>,
+    inc: <>Median household income from the <SourceLink id="fred-income">Census Bureau</SourceLink>, one value per year, in constant {incomeDollars} dollars that the Census Bureau re-bases with each release. Published each September for the prior year, so {lastIncomeYear + 1} isn’t available yet. Because it comes once a year, it lags the monthly charts by most of a year.</>,
+    gas: <>Weekly national average retail price per gallon from the <SourceLink id="fred-gas">Energy Information Administration</SourceLink>, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.</>,
     mort: <><SourceLink id="freddie-mac-pmms">Freddie Mac</SourceLink>’s weekly survey of the average 30-year fixed mortgage rate. It is an average, not the rate every borrower gets, and it is not adjusted for inflation. Freddie Mac changed how it collects the rate in November 2022, to rely on lender applications, so comparisons across that line aren’t exact. The dashed vertical line marks the change. Source: <SourceLink id="fred-mortgage">Freddie Mac</SourceLink>.</>,
     def: <>Budget receipts minus outlays, from the <SourceLink id="fred-deficit-usd">Office of Management and Budget</SourceLink>, in dollars or as a <SourceLink id="fred-deficit">share of GDP</SourceLink>. Dollars are not adjusted for inflation, so later years look larger partly because prices and the economy grew; the share of GDP corrects for that. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal {lastFy + 1} isn’t reported yet. Negative is a deficit; positive is a surplus. The newest year can come from <SourceLink id="treasury-fiscal-data">Treasury Fiscal Data</SourceLink> before the other sources publish it.</>,
     debt: <>Total public debt, the figure the news reports, counts what the government owes itself, such as to the Social Security trust funds. The dashed line is debt held by the public, owed to investors outside government. Dollars are not adjusted for inflation, so the line climbs with prices and the economy; as a <SourceLink id="fred-debt">share of GDP</SourceLink> the ratio can fall when the economy grows faster than debt does. Sources: <SourceLink id="fred-debt-usd">Office of Management and Budget</SourceLink> and the <SourceLink id="fred">St. Louis Fed</SourceLink>; the newest dollar figures come from <SourceLink id="treasury-fiscal-data">Treasury Fiscal Data</SourceLink>.</>,
@@ -189,7 +187,8 @@ function EconomyPage({
           hero
           spec={SPECS.mis}
           reading={latest.mis}
-          desc={SPECS.mis.desc}
+          takeaway={SPECS.mis.takeaway}
+          notes={<p>{notes.mis}</p>}
           legend={
             <div className={`${LEGEND_ROW} mt-2.5`}>
               <span className="inline-flex items-center gap-1.5"><Swatch color="color-mix(in srgb, var(--ink) 9%, transparent)" border />Recession (NBER)</span>
@@ -227,7 +226,7 @@ function EconomyPage({
                   {...(isFiscal(k) ? { data: fiscal, alt: { data: fiscalAlt, spec: altSpecs[k] }, altReading: latestAlt[k] } : {})}
                   spec={specs[k]}
                   reading={latest[k]}
-                  desc={descs[k] ?? specs[k].desc}
+                  takeaway={specs[k].takeaway}
                   notes={<p>{notes[k]}</p>}
                   legend={
                     k === "gas" || k === "debt"
