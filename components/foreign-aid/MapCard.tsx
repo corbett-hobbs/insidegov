@@ -15,7 +15,8 @@ import type { WorldMapFile } from "@/lib/foreign-aid-entities";
 import { DOLLAR_MIX, SHARE_BINS, SHARE_MIX, buildPathIndex, dollarBins, dollarClass, nodeValue, notOnMap, shareClass, undrawnCountries, type NodeValue } from "@/lib/foreign-aid-map";
 import { useAidState } from "./ForeignAidState";
 import { RankedList } from "./RankedList";
-import { TD, TH, TableView, slotColor } from "./shared";
+import { CardReadout, TD, TH, TableView, slotColor } from "./shared";
+import { AID_TAKEAWAYS } from "./takeaways";
 import { LEGEND_ROW } from "@/components/charts/legend";
 
 type Measure = "dollars" | "share";
@@ -152,19 +153,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
     <ChartCard
       ref={ref}
       title="Where it goes, and who receives the most"
-      lede={
-        share ? (
-          <>
-            FY{year}
-            {isPartial(year) ? " (partial)" : ""} · share of {sectorWord === "all" ? "all" : "Peace and security"} dollars that was military · bars show each country’s sector mix
-          </>
-        ) : (
-          <>
-            FY{year}
-            {isPartial(year) ? " (partial)" : ""} · <b className="font-semibold text-ink">{formatAidMoney(n.countries)}</b> to {n.countryCount} countries · bars show each country’s sector mix
-          </>
-        )
-      }
+      takeaway={AID_TAKEAWAYS.map}
       action={
         <div className="flex flex-wrap items-center justify-end gap-2">
           {country >= 0 && (
@@ -193,6 +182,17 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
         </div>
       }
     >
+      <CardReadout>
+        FY{year}
+        {isPartial(year) ? " (partial)" : ""} ·{" "}
+        {share ? (
+          <>military share of {sectorWord} dollars</>
+        ) : (
+          <>
+            <b className="font-semibold text-ink">{formatAidMoney(n.countries)}</b> to {n.countryCount} countries
+          </>
+        )}
+      </CardReadout>
       <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-[1.5fr_1fr] md:items-stretch">
       <div className="flex min-w-0 flex-col">
       <div className="relative">
@@ -290,9 +290,12 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
         <MethodologyNote>
           <p>
           {share ? (
-            <>Each country’s military assistance as a share of its {sole === 0 ? "Peace and security" : "total"} disbursements in FY{year}.</>
+            <>
+              Each country’s military assistance as a share of its {sole === 0 ? "Peace and security" : "total"} disbursements in FY{year}, and the list&rsquo;s bars show each country&rsquo;s sector mix.
+            </>
           ) : (
             <>
+              Each country is shaded by its FY{year} disbursements, and the list&rsquo;s bars show each country&rsquo;s sector mix.{" "}
               <b className="font-semibold text-ink">Not on the map:</b> {formatAidMoney(n.programs)}
               {n.total > 0 && ` (${pct(n.programs, n.total)}% of the year’s ${formatAidMoney(n.total)})`} went to global and regional programs rather than one country
               {n.undrawn > 5e6 ? `, plus ${formatAidMoney(n.undrawn)} to entities with no modern outline` : ""}.
