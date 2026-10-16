@@ -98,7 +98,7 @@ export function Readout({ line, toggle }: { line: PinLine | null; toggle?: React
 export function EnergyCardShell({
   id,
   title,
-  desc,
+  takeaway,
   readout,
   toggle,
   chart,
@@ -108,7 +108,8 @@ export function EnergyCardShell({
 }: {
   id: string;
   title: string;
-  desc: ReactNode;
+  /** One or two sentences on what the chart shows (rule 7c, `takeaways.ts`); definitions go in `notes`. */
+  takeaway: string;
   readout: PinLine | null;
   /** The card's measure toggle, if any: it takes the readout row, with the value to its right. */
   toggle?: ReactNode;
@@ -120,7 +121,7 @@ export function EnergyCardShell({
   return (
     <section id={id} aria-labelledby={`${id}-title`} className={`min-w-0 scroll-mt-24 rounded-[10px] border border-line bg-surface ${small ? "p-[1.1rem_1.1rem_0.9rem] sm:p-5" : "p-5 sm:p-6"}`}>
       <h2 id={`${id}-title`} className={`m-0 font-serif font-medium leading-tight ${small ? "text-[1.3rem]" : "text-[1.6rem]"}`}>{title}</h2>
-      <p className={`m-0 mt-2 leading-[1.5] text-ink-muted ${small ? "text-[0.8rem]" : "text-[0.875rem]"}`}>{desc}</p>
+      <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{takeaway}</p>
       <Readout line={readout} toggle={toggle} />
       <div className="mt-3">{chart}</div>
       <ChartNotesRow>
