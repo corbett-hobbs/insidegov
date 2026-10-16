@@ -13,6 +13,7 @@ import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DecadeHeatmap } from "./DecadeHeatmap";
 import { Swatch, TableView } from "./shared";
+import { DECISIONS_TAKEAWAYS } from "./takeaways";
 import { SourceLink } from "@/components/SourceLink";
 
 /** One toggle for the whole card: what the heatmap shades and how both charts order their rows. */
@@ -57,8 +58,8 @@ export function AreasCard() {
 
   return (
     <ChartCard
-      title="Which kinds of cases split the Court?"
-      lede="Left: how many cases, how many split 5–4 or how many were unanimous in each decade, by issue area. Right: how many justices dissented, in the years shown. The toggle picks the measure for both and orders the rows; click it again to reverse. Click an issue area in either to filter the charts and the case list."
+      title={DECISIONS_TAKEAWAYS.areas.title}
+      takeaway={DECISIONS_TAKEAWAYS.areas.takeaway}
       action={
         <ReversibleSortToggle
           ariaLabel="Sort issue areas"
@@ -90,7 +91,7 @@ export function AreasCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Issue areas are the <SourceLink id="scdb">Supreme Court Database</SourceLink>&rsquo;s 14 categories, a rough guide; the {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
+            Left: how many cases, how many split 5&ndash;4 or how many were unanimous in each decade, for each of the <SourceLink id="scdb">Supreme Court Database</SourceLink>&rsquo;s 14 issue areas (a rough guide). Right: how many justices dissented, in the years shown. The toggle picks the measure for both and orders the rows; click it again to reverse. Click an issue area in either to filter the charts and the case list. The {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
           </p>
         </MethodologyNote>
         <TableView
