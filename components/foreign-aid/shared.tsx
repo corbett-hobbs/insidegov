@@ -66,6 +66,11 @@ export function SectorLegend({ partial = false, only = null, onPick, children }:
   );
 }
 
+/** The card's muted readout for the selected year, under its takeaway (the takeaway stays fixed; this follows the filters). */
+export function CardReadout({ children }: { children: ReactNode }) {
+  return <p className="-mt-1 mb-2 text-[0.82rem] leading-[1.5] text-ink-muted">{children}</p>;
+}
+
 /** The table-view fallback every chart gets: native <details> around a scrollable table. */
 export function TableView({ caption, children }: { caption: string; children: ReactNode }) {
   return (

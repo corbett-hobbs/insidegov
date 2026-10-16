@@ -10,7 +10,10 @@ import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import { BRANCH_NAMES, formatCount, formatCountAxis, formatCountCompact, measureLabel, niceCountTicks, topHostRuns, topHostsByYear, yearLabelEvery, type TopHostYear } from "@/lib/troops-derive";
 import { useTroopsState } from "./TroopsState";
-import { BranchLegend, NO_SPLIT, TD, TH, TableView, Swatch, branchColor, showRest } from "./shared";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { MethodologyNote } from "@/components/MethodologyNote";
+import { BranchLegend, NO_SPLIT, Reading, TD, TH, TableView, Swatch, branchColor, showRest } from "./shared";
+import { TROOPS_TAKEAWAYS } from "./takeaways";
 
 const LABEL_H = 22;
 const TICK = 5;
@@ -95,21 +98,22 @@ export function TroopsFirstPlaceCard() {
   const cur = years[si];
   const peak = years.reduce<TopHostYear | null>((a, b) => (b.top[0] && (!a || !a.top[0] || topVal(b) > topVal(a)) ? b : a), null);
   const branch = measure > 0 ? ` (${measureLabel(measure)})` : "";
-  const lede = cur?.top[0] ? (
+  const reading = cur?.top[0] ? (
     <>
-      Largest host country each year{branch}, with bars split by branch. {allYears[yi].fy}: <b className="font-semibold text-ink">{places[cur.top[0].place].name}</b> · {formatCount(cur.top[0].value)} ·{" "}
+      {allYears[yi].fy}{branch}: <b className="font-semibold text-ink">{places[cur.top[0].place].name}</b> · {formatCount(cur.top[0].value)} ·{" "}
       {Math.round((cur.top[0].value / cur.hostTotal) * 100)}% of troops at foreign hosts
       {allYears[yi].partial ? " (partial year)" : estimate(si) ? " (estimate)" : ""}
     </>
   ) : (
-    "Largest host country each year"
+    `${allYears[yi].fy}${branch}: no host reported`
   );
   const anyPartial = years.some((_, i) => partial(i));
   const anyEstimate = years.some((_, i) => estimate(i));
   const anyNoSplit = measure === 0 && years.some((y) => y.top[0] && showRest(y.top[0].rest, y.top[0].value));
 
   return (
-    <ChartCard title="Who’s hosted the most" lede={lede}>
+    <ChartCard title={TROOPS_TAKEAWAYS.firstPlace.title} takeaway={TROOPS_TAKEAWAYS.firstPlace.takeaway}>
+      <Reading>{reading}</Reading>
       <div ref={wrapRef} className="touch-scroll relative -mx-3 sm:mx-0">
         <ChartFrame
           width={W}
@@ -260,34 +264,41 @@ export function TroopsFirstPlaceCard() {
           )}
         </div>
       )}
-      <TableView caption="Largest host country by year">
-        <thead>
-          <tr>
-            <th className={TH}>Year</th>
-            <th className={TH}>No. 1</th>
-            <th className={TH}>{measureLabel(measure)}</th>
-            <th className={TH}>Share of hosts</th>
-            {measure === 0 && BRANCH_NAMES.map((b) => <th key={b} className={TH}>{b}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {years.map((y, i) => {
-            const t = y.top[0];
-            return (
-              <tr key={y.yi}>
-                <td className={TD}>
-                  {allYears[y.yi].fy}
-                  {partial(i) ? " (partial)" : estimate(i) ? " (estimate)" : ""}
-                </td>
-                <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? places[t.place].name : "–"}</td>
-                <td className={TD}>{t ? formatCount(t.value) : "–"}</td>
-                <td className={TD}>{t ? `${Math.round((t.value / y.hostTotal) * 100)}%` : "–"}</td>
-                {measure === 0 && (t ? t.branches : BRANCH_NAMES.map(() => 0)).map((v, k) => <td key={k} className={TD}>{t && v > 0 ? formatCount(v) : "–"}</td>)}
-              </tr>
-            );
-          })}
-        </tbody>
-      </TableView>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            The largest host country each year, by active-duty personnel at foreign hosts (afloat and unassigned personnel and U.S. territories are not hosts); with all branches, its bar is split by branch, and the No. 1 under a Branch filter is the largest host for that branch alone. The labels above span each run of years one country led.
+          </p>
+        </MethodologyNote>
+        <TableView caption="Largest host country by year">
+          <thead>
+            <tr>
+              <th className={TH}>Year</th>
+              <th className={TH}>No. 1</th>
+              <th className={TH}>{measureLabel(measure)}</th>
+              <th className={TH}>Share of hosts</th>
+              {measure === 0 && BRANCH_NAMES.map((b) => <th key={b} className={TH}>{b}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {years.map((y, i) => {
+              const t = y.top[0];
+              return (
+                <tr key={y.yi}>
+                  <td className={TD}>
+                    {allYears[y.yi].fy}
+                    {partial(i) ? " (partial)" : estimate(i) ? " (estimate)" : ""}
+                  </td>
+                  <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? places[t.place].name : "–"}</td>
+                  <td className={TD}>{t ? formatCount(t.value) : "–"}</td>
+                  <td className={TD}>{t ? `${Math.round((t.value / y.hostTotal) * 100)}%` : "–"}</td>
+                  {measure === 0 && (t ? t.branches : BRANCH_NAMES.map(() => 0)).map((v, k) => <td key={k} className={TD}>{t && v > 0 ? formatCount(v) : "–"}</td>)}
+                </tr>
+              );
+            })}
+          </tbody>
+        </TableView>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

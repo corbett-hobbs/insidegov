@@ -14,6 +14,7 @@ import { SplitDecadeBars } from "./SplitDecadeBars";
 import { SplitChart } from "./SplitChart";
 import { useDecisionsValues } from "./DecisionsState";
 import { Swatch, TableView } from "./shared";
+import { DECISIONS_TAKEAWAYS } from "./takeaways";
 
 /**
  * Card 2: how divided the Court is. The stacked area of `SplitChart`, a Share of cases / Number of cases toggle, and a
@@ -40,8 +41,9 @@ export function SplitCard() {
   const lo = range[0];
   const hi = range[1];
   const who = areaFilterLabel(data, areas);
-  const lede = total
-    ? `${who}, ${lo === hi ? lo : `${lo}–${hi}`}: ${fmtPct(bandShare(w, 0))} of ${fmtInt(total)} cases were unanimous, ${fmtPct(bandShare(w, 4))} split 5–4.`
+  // The Data notes' opening: the shares for the selection shown (the takeaway describes the full default view).
+  const summary = total
+    ? `${who}, ${lo === hi ? lo : `${lo}–${hi}`}: ${fmtPct(bandShare(w, 0))} of ${fmtInt(total)} cases were unanimous and ${fmtPct(bandShare(w, 4))} split 5–4.`
     : "No cases in this selection.";
   const { terms, cells } = windowCells(data, areas, range);
   // Per term while a term has enough cases to read a share from; per decade once the selection is thin.
@@ -50,8 +52,8 @@ export function SplitCard() {
 
   return (
     <ChartCard
-      title="How divided is the Court?"
-      lede={lede}
+      title={DECISIONS_TAKEAWAYS.split.title}
+      takeaway={DECISIONS_TAKEAWAYS.split.takeaway}
       action={
         <PillGroup
           ariaLabel="Split measure"
@@ -83,7 +85,7 @@ export function SplitCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Each band counts dissenting justices, not the full tally, so a 5&ndash;3 decision (eight justices sitting) lands in the 6&ndash;3 band. A selection with a median under 15 cases a term is grouped by decade automatically; the first and last decades are partial (1946&ndash;49 and 2020&ndash;25).
+            {summary} Each band counts dissenting justices, not the full tally, so a 5&ndash;3 decision (eight justices sitting) lands in the 6&ndash;3 band. A selection with a median under 15 cases a term is grouped by decade automatically; the first and last decades are partial (1946&ndash;49 and 2020&ndash;25).
           </p>
         </MethodologyNote>
         <TableView

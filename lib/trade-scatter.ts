@@ -1,6 +1,7 @@
 import { windowRate } from "./trade-derive";
 import type { Monthly } from "./trade-types";
 import { periodOf, monthIndex } from "./trade-derive";
+import { MONTH_NAMES } from "./indicator-time";
 
 /**
  * Chart 5 model: for each country, how much its calculated duty rate and its
@@ -35,6 +36,11 @@ export function scatterWindows(dutiesLastPeriod: string, months = LATEST_MONTHS,
   const baseline = { from: `${baselineYear - yearGap}${latest.from.slice(4)}`, to: shift(latest.to) };
   return { baseline, latest, months };
 }
+
+const monthYear = (p: string) => `${MONTH_NAMES[Number(p.slice(5)) - 1].slice(0, 3)} ${p.slice(0, 4)}`;
+/** A window as the card prints it: "Mar–Aug 2026", or "Oct 2025–Mar 2026" across New Year. */
+export const windowText = (w: { from: string; to: string }) =>
+  w.from.slice(0, 4) === w.to.slice(0, 4) ? `${MONTH_NAMES[Number(w.from.slice(5)) - 1].slice(0, 3)}–${monthYear(w.to)}` : `${monthYear(w.from)}–${monthYear(w.to)}`;
 
 export interface ScatterInput {
   code: string;

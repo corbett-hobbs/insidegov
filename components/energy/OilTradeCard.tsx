@@ -11,6 +11,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
+import { ENERGY_TAKEAWAYS } from "./takeaways";
 
 type Mode = "balance" | "flows";
 const MODES = [
@@ -99,8 +100,8 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
   return (
     <EnergyCardShell
       id="oil"
-      title="Oil imports and exports"
-      desc="What the U.S. brings in and sends out, monthly, in total petroleum (crude oil plus the products made from it): the balance between them, or each flow on its own."
+      title={ENERGY_TAKEAWAYS.oil.title}
+      takeaway={ENERGY_TAKEAWAYS.oil.takeaway}
       readout={readout}
       toggle={<PillGroup options={MODES} value={mode} onChange={setMode} ariaLabel="Oil trade measure" />}
       chart={
@@ -148,7 +149,7 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
       }
       notes={
         <p>
-          <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>. Imports, exports and net exports are <em>total petroleum</em> (crude plus natural gas liquids and refined products). Net exports are exports minus imports, the sign EIA&rsquo;s net-imports series flipped, so a rise means the U.S. depends less on foreign oil. Above zero means the U.S. exported more than it imported, first true for a full year in 2020. The dashed line is the one crude-only series: crude exports rose from about 0.5 million barrels a day in 2015 to about 3 million in 2019, but the 2015 repeal flag marks an act that enabled the change, not one that caused it.
+          <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>: what the U.S. brings in and sends out, monthly, as the balance between them or each flow on its own. Imports, exports and net exports are <em>total petroleum</em> (crude oil plus natural gas liquids and the refined products made from it). Net exports are exports minus imports, the sign EIA&rsquo;s net-imports series flipped, so a rise means the U.S. depends less on foreign oil. Above zero means the U.S. exported more than it imported, first true for a full year in 2020. The dashed line is the one crude-only series: crude exports rose from about 0.5 million barrels a day in 2015 to about 3 million in 2019, but the 2015 repeal flag marks an act that enabled the change, not one that caused it.
         </p>
       }
       tables={

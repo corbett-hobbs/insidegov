@@ -9,6 +9,7 @@ import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
 import { AgeChart } from "./AgeChart";
 import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, TableView } from "./shared";
+import { DEMO_TAKEAWAYS } from "./takeaways";
 
 export function AgeCard({ rows, presidents, pin, onPin, view, roster, party, onParty }: { rows: readonly DemoCongress[]; presidents: readonly DemoPresident[]; pin: number | null; onPin: (c: number | null) => void; view: ChamberView; roster: RosterState; party: PartyPick; onParty: (p: PartyPick) => void }) {
   const by = presidentById(presidents);
@@ -20,8 +21,8 @@ export function AgeCard({ rows, presidents, pin, onPin, view, roster, party, onP
   };
   return (
     <ChartCard
-      title="Is Congress getting older?"
-      lede="Median age in years on the first day of each Congress, by caucus."
+      title={DEMO_TAKEAWAYS.age.title}
+      takeaway={DEMO_TAKEAWAYS.age.takeaway[view]}
     >
       <CongressReadout line={line} pinned={pin !== null && !!cur && cur.congress === pin} onClear={() => onPin(null)} />
       <AgeChart rows={rows} presidents={presidents} pin={pin} onPin={onPin} only={party} onOnly={(k) => onParty(k as PartyPick)} />
@@ -29,7 +30,7 @@ export function AgeCard({ rows, presidents, pin, onPin, view, roster, party, onP
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Age is exact on the day the Congress convened, and the line is the median. The average is within about a year of it in most Congresses (it is in the tooltip and in View as table, with the number of members behind each figure). Members with no recorded birthdate are left out, and independents who caucus with a party are grouped with it.
+            Each line is a caucus&rsquo;s median age on the day the Congress convened, exact to the day. The average is within about a year of it in most Congresses (it is in the tooltip and in View as table, with the number of members behind each figure). Members with no recorded birthdate are left out, and independents who caucus with a party are grouped with it.
           </p>
         </MethodologyNote>
         <TableView

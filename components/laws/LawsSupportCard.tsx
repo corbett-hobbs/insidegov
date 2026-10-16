@@ -18,6 +18,7 @@ import type { BandCounts } from "@/lib/laws-types";
 import { EmptyWindow, congressSub, congressTitle, controlRowsFor } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
 import { SourceLink } from "@/components/SourceLink";
+import { LAWS_TAKEAWAYS } from "./takeaways";
 
 const CAPTIONS: Record<SplitMode, readonly string[]> = {
   share: ["Share of laws by the closest recorded vote on final passage, percent", "Share of laws by vote, percent", "Share of laws, %"],
@@ -65,17 +66,18 @@ export function LawsSupportCard() {
   const lo = idx.length ? openYear(data.congresses[idx[0]!]!) : 0;
   const hi = idx.length ? openYear(data.congresses[idx[idx.length - 1]!]!) + 1 : 0;
   const who = `${major ? "Major laws, " : ""}${filterLabel(data, groups)}`;
-  const lede = total
-    ? `${who}, ${lo}–${hi}: ${fmtPct(share(sum, 0))} of ${fmtInt(total)} laws were passed by voice vote or consent in both chambers, ${fmtPct(share(sum, 4))} passed with at least 90% yes and ${fmtPct(share(sum, 1))} with under 60%.`
-    : "No laws in this selection.";
+  // What the selection holds, as the Data notes' opening words (the line under the title is the fixed takeaway, rule 7c).
+  const selection = total
+    ? `${who}, ${lo}–${hi}: ${fmtPct(share(sum, 0))} of ${fmtInt(total)} laws were passed by voice vote or consent in both chambers, ${fmtPct(share(sum, 4))} passed with at least 90% yes and ${fmtPct(share(sum, 1))} with under 60%. `
+    : "";
   const thin = idx.length > 0 && median(cells.map((c) => c[0] + c[1] + c[2] + c[3] + c[4])) < SMALL_LAWS_MEDIAN;
   const pre2000 = data.congresses.filter((c) => openYear(c) < 2000);
   const lastPre = pre2000[pre2000.length - 1]!;
 
   return (
     <ChartCard
-      title="How broadly are laws supported?"
-      lede={lede}
+      title={LAWS_TAKEAWAYS.support.title}
+      takeaway={LAWS_TAKEAWAYS.support.takeaway}
       action={
         <PillGroup
           ariaLabel="Support measure"
@@ -149,7 +151,7 @@ export function LawsSupportCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            A band is the yes share of votes cast, so a 50&ndash;49 vote lands in &ldquo;under 60%&rdquo;. &ldquo;Voice vote or consent&rdquo; means no roll call on final passage in either chamber (for most of the 1970s, no method stated); that is {fmtPct(noVoteShare(data, data.congresses[0]!, lastPre))} of laws before 2000, so the early years show what was recorded, not how divided Congress was. Tallies are checked against <SourceLink id="voteview">Voteview</SourceLink>; override votes do not set the band.
+            {selection}A band is the yes share of votes cast, so a 50&ndash;49 vote lands in &ldquo;under 60%&rdquo;. &ldquo;Voice vote or consent&rdquo; means no roll call on final passage in either chamber (for most of the 1970s, no method stated); that is {fmtPct(noVoteShare(data, data.congresses[0]!, lastPre))} of laws before 2000, so the early years show what was recorded, not how divided Congress was. Tallies are checked against <SourceLink id="voteview">Voteview</SourceLink>; override votes do not set the band.
           </p>
         </MethodologyNote>
         <TableView
