@@ -10,7 +10,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, scaleOver } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
-import { ENERGY_TAKEAWAYS } from "./takeaways";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
 const fmtShort = (v: number) => `${(v / 1000).toFixed(1)}M bbl`;
@@ -72,6 +72,7 @@ export function SprCard({ payload, view }: { payload: EnergyPayload; view: reado
       id="spr"
       title={ENERGY_TAKEAWAYS.spr.title}
       takeaway={ENERGY_TAKEAWAYS.spr.takeaway}
+      context={contextFor("spr")}
       readout={readout}
       chart={
         <EnergyChart

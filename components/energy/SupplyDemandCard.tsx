@@ -10,7 +10,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
-import { ENERGY_TAKEAWAYS } from "./takeaways";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** Colours reuse the validated sector tokens, as on the imports and exports card. */
 const LINES: { key: MonthlyKey; label: string; short: string; color: string }[] = [
@@ -70,6 +70,7 @@ export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; vi
       id="supply"
       title={ENERGY_TAKEAWAYS.supply.title}
       takeaway={ENERGY_TAKEAWAYS.supply.takeaway}
+      context={contextFor("supply")}
       readout={readout}
       chart={
         <EnergyChart

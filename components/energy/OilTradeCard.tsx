@@ -11,7 +11,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
-import { ENERGY_TAKEAWAYS } from "./takeaways";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 type Mode = "balance" | "flows";
 const MODES = [
@@ -102,6 +102,7 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
       id="oil"
       title={ENERGY_TAKEAWAYS.oil.title}
       takeaway={ENERGY_TAKEAWAYS.oil.takeaway}
+      context={contextFor("oil")}
       readout={readout}
       toggle={<PillGroup options={MODES} value={mode} onChange={setMode} ariaLabel="Oil trade measure" />}
       chart={

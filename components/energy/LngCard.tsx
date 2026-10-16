@@ -9,7 +9,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
-import { ENERGY_TAKEAWAYS } from "./takeaways";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 const LNG_START = 72; // January 1997, in months since January 1991
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
@@ -66,6 +66,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
       small
       title={ENERGY_TAKEAWAYS.lng.title}
       takeaway={ENERGY_TAKEAWAYS.lng.takeaway}
+      context={contextFor("lng")}
       readout={readout}
       chart={
         <EnergyChart

@@ -6,6 +6,8 @@ import { ToggleReadout } from "@/components/charts/ToggleReadout";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import type { ContextEntry } from "@/lib/chart-context";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { AUTHORITY_LABEL, dateText, KIND_LABEL, laggedNote, monthLabel } from "@/lib/energy-derive";
 import { monthStartDay, niceScale, type Scale } from "@/lib/trade-chart";
@@ -104,6 +106,7 @@ export function EnergyCardShell({
   chart,
   notes,
   tables,
+  context,
   small = false,
 }: {
   id: string;
@@ -116,12 +119,16 @@ export function EnergyCardShell({
   chart: ReactNode;
   notes: ReactNode;
   tables: ReactNode;
+  /** The takeaway's context line (rule 7d, `contextFor` in `takeaways.ts`), behind a closed Context toggle. */
+  context?: ContextEntry | null;
   small?: boolean;
 }) {
+  const ctx = useTakeawayContext(takeaway, context);
   return (
     <section id={id} aria-labelledby={`${id}-title`} className={`min-w-0 scroll-mt-24 rounded-[10px] border border-line bg-surface ${small ? "p-[1.1rem_1.1rem_0.9rem] sm:p-5" : "p-5 sm:p-6"}`}>
       <h2 id={`${id}-title`} className={`m-0 font-serif font-medium leading-tight ${small ? "text-[1.3rem]" : "text-[1.6rem]"}`}>{title}</h2>
-      <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{takeaway}</p>
+      <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{ctx.takeaway}</p>
+      {ctx.panel && <div className="mt-2 [&>div]:mb-0">{ctx.panel}</div>}
       <Readout line={readout} toggle={toggle} />
       <div className="mt-3">{chart}</div>
       <ChartNotesRow>

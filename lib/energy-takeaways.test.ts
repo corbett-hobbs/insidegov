@@ -2,7 +2,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { ENERGY_TAKEAWAYS } from "../components/energy/takeaways";
+import { ENERGY_CONTEXT, ENERGY_TAKEAWAYS } from "../components/energy/takeaways";
+import type { ContextEntry } from "./chart-context";
+import { SOURCE_LINKS } from "./source-links";
 import { energyObservation } from "./energy-entities";
 import { energyActionsFile } from "./energy-actions-entities";
 import { buildSeries, groupObservations, monthLabel } from "./energy-derive";
@@ -161,6 +163,56 @@ const cases: Record<keyof typeof ENERGY_TAKEAWAYS, { says: string[]; check: () =
   },
 };
 
+/**
+ * Every figure a context line cites (rule 7d). Dated actions are read from energy_actions.json; facts from a cited page
+ * outside the pipeline (EIA's tight-oil share, EIA's stated reasons for LNG growth, DOE's mandated-sale total) are pinned
+ * to the phrase the line uses, and the source must be the one cited.
+ */
+const action = (id: string) => {
+  const a = actions.find((x) => x.action_id === id);
+  expect(a, id).toBeDefined();
+  return a!;
+};
+const cites = (key: keyof typeof ENERGY_CONTEXT, id: string) => expect(ENERGY_CONTEXT[key].sources.map((s) => s.id)).toContain(id);
+const contextCases: Record<keyof typeof ENERGY_CONTEXT, { says: string[]; check: () => void }> = {
+  supply: {
+    // EIA FAQ 847: "about 8.32 million barrels per day" … "about 64% of total U.S. crude oil production in 2023".
+    says: ["about 64% of U.S. crude oil production in 2023", "about 8.32M barrels a day", "tight-oil (shale) resources"],
+    check: () => cites("supply", "eia-tight-oil-faq"),
+  },
+  oil: {
+    says: ["Public Law 114-113, signed December 18, 2015", "repealed the federal restriction on crude oil exports"],
+    check: () => {
+      const a = action("2015-12-18-crude-export-ban-repealed");
+      expect(a.description).toMatch(/Public Law 114-113/);
+      expect(a.sources[0].url).toBe(SOURCE_LINKS["plaw-114-113"]);
+    },
+  },
+  lng: {
+    says: ["final approval to export to countries without a free trade agreement on August 7, 2012", "abundant natural gas, flexible contract terms and relatively low feedgas costs"],
+    check: () => {
+      const a = action("2012-08-07-lng-sabine-pass-final");
+      expect(a.description).toMatch(/final long-term authorization to export LNG to countries without a free trade agreement/);
+      expect(a.sources[0].url).toBe(SOURCE_LINKS["doe-sabine-pass-docket"]);
+      expect(action("2016-02-24-lng-first-sabine-pass-cargo").sources[0].url).toBe(SOURCE_LINKS["eia-sabine-pass-ten-years"]);
+    },
+  },
+  spr: {
+    // DOE release history: "180.0" MMbbl 2022 IEA coordinated release; FY2022 mandated sales "38 million barrels … delivered in 2022".
+    says: ["180M-barrel emergency sale in 2022, coordinated through the IEA", "38M barrels of congressionally mandated sales", "March 11, 2026 exchange of 172M barrels", "U.S. share of a 400M-barrel IEA action, to be returned"],
+    check: () => {
+      const sale = action("2022-03-31-spr-180-million-sale");
+      expect(sale.description).toMatch(/180 million barrel emergency sale coordinated through the IEA in 2022/);
+      expect(sale.sources.map((x) => x.url)).toContain(SOURCE_LINKS["doe-spr-history"]);
+      const ex = action("2026-03-11-spr-172-million-exchange");
+      expect(ex.kind).toBe("release_exchange");
+      expect(ex.description).toMatch(/172 million barrels from the SPR, the U\.S\. share of a 400 million barrel coordinated IEA action/);
+      expect(ex.description).toMatch(/the barrels are to be returned/);
+      expect(ex.sources[0].url).toBe(SOURCE_LINKS["doe-spr-172m-exchange-2026"]);
+    },
+  },
+};
+
 describe("Energy card takeaways", () => {
   for (const [key, c] of Object.entries(cases) as [keyof typeof ENERGY_TAKEAWAYS, (typeof cases)[keyof typeof ENERGY_TAKEAWAYS]][]) {
     it(`${ENERGY_TAKEAWAYS[key].title}: "${ENERGY_TAKEAWAYS[key].takeaway.slice(0, 48)}…" holds`, () => {
@@ -175,6 +227,26 @@ describe("Energy card takeaways", () => {
       expect(sentences.length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
       expect(s.takeaway, s.title).not.toMatch(/\b(since|still|soared|plunged|thanks to)\b/i);
+    }
+  });
+
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof ENERGY_CONTEXT, (typeof contextCases)[keyof typeof ENERGY_CONTEXT]][]) {
+    it(`context, ${ENERGY_TAKEAWAYS[key].title}: holds and names real sources`, () => {
+      const line: ContextEntry = ENERGY_CONTEXT[key];
+      for (const phrase of c.says) expect(line.text).toContain(phrase);
+      for (const src of line.sources) expect(SOURCE_LINKS[src.id], src.id).toMatch(/^https:\/\//);
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal claim of its own", () => {
+    expect(Object.keys(ENERGY_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(ENERGY_CONTEXT)) {
+      expect(line.text.replace(/U\.S\./g, "US").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\d,\d{3}/);
+      // A cause is only ever EIA's or DOE's own ("EIA cites"), never the page's; no price move is pinned on a policy.
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged|prices?)\b/i);
     }
   });
 });

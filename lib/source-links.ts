@@ -77,6 +77,13 @@ export const SOURCE_LINKS = {
   "eia-spr": "https://www.eia.gov/dnav/pet/pet_stoc_wstk_dcu_nus_w.htm",
   "eia-mer": "https://www.eia.gov/totalenergy/data/monthly/",
   "eia-electricity": "https://www.eia.gov/electricity/monthly/",
+  // Energy context lines (rule 7d)
+  "eia-tight-oil-faq": "https://www.eia.gov/tools/faqs/faq.php?id=847&t=6",
+  "eia-sabine-pass-ten-years": "https://www.eia.gov/todayinenergy/detail.php?id=67224",
+  "doe-sabine-pass-docket": "https://hgeo.energy.gov/ng_regulation/sabine-pass-liquefaction-llc-fe-dkt-no-10-111-lng",
+  "plaw-114-113": "https://www.govinfo.gov/content/pkg/PLAW-114publ113/html/PLAW-114publ113.htm",
+  "doe-spr-history": "https://www.energy.gov/hgeo/opr/history-spr-releases",
+  "doe-spr-172m-exchange-2026": "https://www.energy.gov/articles/united-states-release-172-million-barrels-oil-strategic-petroleum-reserve",
   fred: "https://fred.stlouisfed.org/",
   // FRED series pages: the economy page reads each series through FRED
   // (series ids in docs/INDICATORS_METHODOLOGY.md).

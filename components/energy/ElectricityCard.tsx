@@ -13,7 +13,7 @@ import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText, Swatch } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
-import { ENERGY_TAKEAWAYS } from "./takeaways";
+import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
 const FUELS: Record<FuelKey, { label: string; short: string; color: string }> = {
   coal: { label: "Coal", short: "Coal", color: "var(--fuel-coal)" },
@@ -175,6 +175,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
       id="electricity"
       title={ENERGY_TAKEAWAYS.electricity.title}
       takeaway={ENERGY_TAKEAWAYS.electricity.takeaway}
+      context={contextFor("electricity")}
       readout={readout}
       toggle={<PillGroup options={MODES} value={mode} onChange={pickMode} ariaLabel="Electricity chart measure" />}
       chart={

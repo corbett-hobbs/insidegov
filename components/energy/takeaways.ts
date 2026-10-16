@@ -1,3 +1,5 @@
+import type { ContextEntry } from "@/lib/chart-context";
+
 /**
  * The takeaway under each Energy chart title (ARCHITECTURE_MAP rule 7c): what the chart shows over its full
  * default window (and, for the two cards with a toggle, its default view: shares, and the balance), in at most
@@ -31,3 +33,37 @@ export const ENERGY_TAKEAWAYS = {
       "The reserve peaked at 727 million barrels in January 2010 and fell to a low of 347 million in July 2023. It was refilled to 415 million by March 2026, when an emergency exchange was authorized, and fell below the 2023 low in June 2026.",
   },
 } as const;
+
+/**
+ * Context lines behind the takeaways (ARCHITECTURE_MAP rule 7d): only what a cited document or EIA/DOE itself says, never a
+ * cause in the page's voice and never a price move pinned on a policy. Electricity has none: the coal-to-gas and wind/solar
+ * shifts are multi-factor, and the two dated statutes (2022, 2025) come after most of the change the takeaway describes.
+ * Every figure is checked in lib/energy-takeaways.test.ts.
+ */
+export const ENERGY_CONTEXT = {
+  supply: {
+    text: "EIA estimates that about 64% of U.S. crude oil production in 2023, about 8.32M barrels a day, came directly from tight-oil (shale) resources.",
+    sources: [{ id: "eia-tight-oil-faq", label: "EIA FAQ" }],
+  },
+  oil: {
+    text: "Public Law 114-113, signed December 18, 2015, repealed the federal restriction on crude oil exports.",
+    sources: [{ id: "plaw-114-113", label: "Public Law 114-113" }],
+  },
+  lng: {
+    text: "DOE gave Sabine Pass final approval to export to countries without a free trade agreement on August 7, 2012. EIA cites abundant natural gas, flexible contract terms and relatively low feedgas costs among the reasons exports grew.",
+    sources: [
+      { id: "doe-sabine-pass-docket", label: "DOE docket" },
+      { id: "eia-sabine-pass-ten-years", label: "EIA" },
+    ],
+  },
+  spr: {
+    text: "DOE lists a 180M-barrel emergency sale in 2022, coordinated through the IEA, plus 38M barrels of congressionally mandated sales delivered that year. The March 11, 2026 exchange of 172M barrels is the U.S. share of a 400M-barrel IEA action, to be returned.",
+    sources: [
+      { id: "doe-spr-history", label: "DOE release history" },
+      { id: "doe-spr-172m-exchange-2026", label: "DOE, March 2026" },
+    ],
+  },
+} as const satisfies Partial<Record<keyof typeof ENERGY_TAKEAWAYS, ContextEntry>>;
+
+export const contextFor = (card: keyof typeof ENERGY_TAKEAWAYS): ContextEntry | null =>
+  (ENERGY_CONTEXT as Partial<Record<keyof typeof ENERGY_TAKEAWAYS, ContextEntry>>)[card] ?? null;
