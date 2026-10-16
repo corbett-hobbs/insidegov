@@ -15,6 +15,7 @@ import { ALL_ROW, GROUP_KEY_FOR_BAND, SUPPORT_COLORS, SUPPORT_LABELS, SUPPORT_OR
 import { LawsHeatmap, BAR_ROW_H } from "./LawsHeatmap";
 import { EmptyWindow } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
+import { LAWS_TAKEAWAYS } from "./takeaways";
 
 const SORTS: { key: GroupSortKey; label: string; hint: string }[] = [
   { key: "n", label: "Laws", hint: "Law counts in the heatmap; most laws first" },
@@ -72,8 +73,8 @@ export function LawsGroupsCard() {
 
   return (
     <ChartCard
-      title="Which kinds of laws pass, and how?"
-      lede={`Left: how many laws, how many passed with under 60% yes or by voice vote or consent, in each decade, by policy area. Right: how broadly each area's laws were supported, over the years shown. The toggle picks the measure for the heatmap and orders both; click it again to reverse.${locked ? " The vote filter in the bar above has set the measure to that band; tick more bands or choose Any vote there to pick another." : ""} Click a policy area in either to filter the charts and the list.`}
+      title={LAWS_TAKEAWAYS.groups.title}
+      takeaway={LAWS_TAKEAWAYS.groups.takeaway}
       action={
         <ReversibleSortToggle
           ariaLabel="Sort policy areas"
@@ -109,7 +110,7 @@ export function LawsGroupsCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Each bar splits a policy area&rsquo;s laws by support band; across all areas, {pct(noRecorded)} passed by voice vote or consent. Small areas swing by several points on a few laws. Heatmap cells share one colour scale, except &ldquo;All policy areas&rdquo;, which has its own{data.partial[data.partial.length - 1] ? `; the last decade is partial (the ${ordinal(data.congresses[data.congresses.length - 1]!)} Congress is in session)` : ""}.
+            The heatmap counts each policy area&rsquo;s laws by decade: all of them, those passed with under 60% yes, or those passed by voice vote or consent. Each bar beside it splits an area&rsquo;s laws over the years shown by support band; across all areas, {pct(noRecorded)} passed by voice vote or consent. The toggle picks the heatmap&rsquo;s measure and orders both sides; click it again to reverse.{locked ? " The vote filter in the bar above has set the measure to that band; tick more bands or choose Any vote there to pick another." : ""} Click a policy area in either to filter the charts and the list. Small areas swing by several points on a few laws. Heatmap cells share one colour scale, except &ldquo;All policy areas&rdquo;, which has its own{data.partial[data.partial.length - 1] ? `; the last decade is partial (the ${ordinal(data.congresses[data.congresses.length - 1]!)} Congress is in session)` : ""}.
           </p>
         </MethodologyNote>
         <TableView
