@@ -24,6 +24,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { LEGEND_ROW } from "@/components/charts/legend";
 import { SourceLink } from "@/components/SourceLink";
+import { TRADE_TAKEAWAYS } from "./takeaways";
 
 const MEASURES = [
   { value: "balance", label: "Balance" },
@@ -127,11 +128,8 @@ export function TradeBalanceCard({
   return (
     <section className="min-w-0 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">{title}</h2>
-      <p className="m-0 mt-2 text-[0.875rem] leading-[1.5] text-ink-muted">
-        {countryName
-          ? `Exports minus imports of goods with ${countryName}, month by month, under each president. Recessions are shaded.`
-          : "Exports minus imports of goods, month by month, under each president. Recessions are shaded."}
-      </p>
+      {/* The takeaway is about all countries, so a country view goes without one. */}
+      {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{TRADE_TAKEAWAYS.balance.takeaway}</p>}
       {/* The measure toggle with the headline number to its right; the small readout line is not repeated. */}
       <ToggleReadout
         toggle={<PillGroup options={MEASURES} value={measure} onChange={(m) => setMeasure(m as Measure)} ariaLabel="Measure" />}
@@ -163,7 +161,7 @@ export function TradeBalanceCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade, monthly. The national line is seasonally adjusted; the country view is not. Services are excluded, so the figure differs from the goods-and-services deficit usually quoted.
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade, monthly: exports minus imports{countryName ? ` with ${countryName}` : ""} under each president, with recessions shaded. The national line is seasonally adjusted; the country view is not. Services are excluded, so the figure differs from the goods-and-services deficit usually quoted.
           </p>
         </MethodologyNote>
         {series && <DataTable series={series} era={era} caption={`${title}, monthly, ${adjLabel.toLowerCase()}`} />}
