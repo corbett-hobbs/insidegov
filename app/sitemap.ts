@@ -10,7 +10,7 @@ import { getLawRefs } from "@/lib/law-details-data";
 import { lawPath } from "@/lib/law-url";
 import { liveSections } from "@/lib/verticals";
 import { absoluteUrl } from "@/lib/site";
-import { STATIC_PAGES } from "@/lib/site-info";
+import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "@/lib/site-info";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -58,6 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: absoluteUrl(s.href),
       lastModified: now,
       changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })),
+    ...CROSS_BRANCH_PAGES.map((p) => ({
+      url: absoluteUrl(p.href),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
     ...STATIC_PAGES.map((path) => ({

@@ -23,6 +23,8 @@ export const SOURCE_LINKS = {
   scdb: "http://scdb.wustl.edu/data.php",
   "martin-quinn": "https://mqscores.wustl.edu/measures.php",
   fjc: "https://www.fjc.gov/history/judges",
+  // The timeline's events each link their own article; the Source line names the site.
+  wikipedia: "https://en.wikipedia.org/",
   "wikipedia-landmark-decisions": "https://en.wikipedia.org/wiki/List_of_landmark_court_decisions_in_the_United_States",
   // The presidency
   "federal-register-eo": "https://www.federalregister.gov/presidential-documents/executive-orders",

@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { branches, sectionRow } from "@/lib/verticals";
+import { CROSS_BRANCH_PAGES } from "@/lib/site-info";
 
 /**
  * Persistent two-level nav (see lib/verticals.ts), rendered as groups of the
  * single SiteHeader row. `SiteNav` is the vertical tabs (Congress, Supreme
- * Court, Presidency) — text tabs with an accent underline flush with the
+ * Court, Presidency), then the neutral cross-branch tabs (Timeline) — text tabs with an accent underline flush with the
  * header's bottom border; `soon` verticals render as disabled text.
  * `SiteSectionNav` is the divider plus the section pills of the active
  * vertical, shown for any live vertical (even with one section) and on its
@@ -52,6 +53,22 @@ export function SiteNav() {
               {b.label}
             </Link>
           );
+      })}
+      {/* Pages across every branch (the Timeline): a neutral tab, its underline ink rather than a branch colour. */}
+      {CROSS_BRANCH_PAGES.map((p) => {
+        const active = pathname === p.href;
+        return (
+          <Link
+            key={p.href}
+            href={p.href}
+            aria-current={active ? "page" : undefined}
+            className={`flex items-center whitespace-nowrap border-b-[3px] px-1.5 pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[0.04em] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
+              active ? "border-ink text-ink" : "border-transparent text-ink-muted hover:text-ink"
+            }`}
+          >
+            {p.label}
+          </Link>
+        );
       })}
     </nav>
   );

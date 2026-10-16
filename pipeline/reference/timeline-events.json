@@ -1,0 +1,950 @@
+{
+ "_note": "Hand-picked landmark laws and Supreme Court cases for /timeline (\"Who Held Power When It Happened?\"), read and joined by lib/timeline-data.ts. Laws with a `law_id` take their signing date, veto override and party vote split from pipeline/output (laws.json, law_votes/); a `date` on one is a check that must agree. Laws without one (before 1973, or not in laws.json) carry their own `date`. Cases with a `case_id` take their vote and each justice's vote from decisions_cases.json and court/justice_votes.json; a `date` on one overrides SCDB's date. Cases decided before the SCDB data starts (1946) carry a hand-entered `hand_vote` (the vote and the dissenters' last names), and the 1964 and 1965 civil-rights laws carry a hand-typed `hand_split` (yes and no votes by party per chamber, from the record; to verify against Voteview): both are marked as typed in by hand on the page. `wiki` is the English Wikipedia article title, each checked to exist (redirects followed) through the MediaWiki API on 2026-10-16.",
+ "last_reviewed": "2026-10-16",
+ "extra_justices": [
+  {
+   "last": "Van Devanter",
+   "full": "Willis Van Devanter",
+   "appointing_president": "William Howard Taft",
+   "appointing_party": "Republican",
+   "service_start": "1911-01-03",
+   "service_end": "1937-06-02",
+   "why": "Left the Court before the Martin-Quinn data (and so court/justices.json) starts in October 1937; needed for the 1933-37 Court and the 1937 dissents."
+  }
+ ],
+ "events": [
+  {
+   "id": "emergency-banking-act",
+   "kind": "law",
+   "name": "Emergency Banking Act",
+   "what": "Reopened sound banks after the national bank holiday and let the Treasury back them.",
+   "date": "1933-03-09",
+   "wiki": "Emergency Banking Act of 1933"
+  },
+  {
+   "id": "emergency-conservation-work-act",
+   "kind": "law",
+   "name": "Emergency Conservation Work Act (CCC)",
+   "what": "Created the Civilian Conservation Corps, which put young men to work on forests, parks and flood control.",
+   "date": "1933-03-31",
+   "wiki": "Civilian Conservation Corps"
+  },
+  {
+   "id": "agricultural-adjustment-act",
+   "kind": "law",
+   "name": "Agricultural Adjustment Act",
+   "what": "Paid farmers to cut production to raise crop prices.",
+   "date": "1933-05-12",
+   "wiki": "Agricultural Adjustment Act"
+  },
+  {
+   "id": "federal-emergency-relief-act",
+   "kind": "law",
+   "name": "Federal Emergency Relief Act",
+   "what": "Gave states federal grants for direct relief to the unemployed.",
+   "date": "1933-05-12",
+   "wiki": "Federal Emergency Relief Administration"
+  },
+  {
+   "id": "tennessee-valley-authority-act",
+   "kind": "law",
+   "name": "Tennessee Valley Authority Act",
+   "what": "Created the TVA to build dams and bring power to the Tennessee Valley.",
+   "date": "1933-05-18",
+   "wiki": "Tennessee Valley Authority"
+  },
+  {
+   "id": "securities-act-of-1933",
+   "kind": "law",
+   "name": "Securities Act of 1933",
+   "what": "Required companies to register securities and disclose their finances before selling stock.",
+   "date": "1933-05-27",
+   "wiki": "Securities Act of 1933"
+  },
+  {
+   "id": "home-owners-loan-act",
+   "kind": "law",
+   "name": "Home Owners' Loan Act",
+   "what": "Created the Home Owners' Loan Corporation to refinance mortgages in default.",
+   "date": "1933-06-13",
+   "wiki": "Home Owners' Loan Corporation"
+  },
+  {
+   "id": "national-industrial-recovery-act",
+   "kind": "law",
+   "name": "National Industrial Recovery Act",
+   "what": "Set industry codes on wages, prices and hours and funded public works.",
+   "date": "1933-06-16",
+   "wiki": "National Industrial Recovery Act of 1933"
+  },
+  {
+   "id": "banking-act-of-1933",
+   "kind": "law",
+   "name": "Banking Act of 1933 (Glass–Steagall)",
+   "what": "Separated commercial and investment banking and created the FDIC.",
+   "date": "1933-06-16",
+   "wiki": "1933 Banking Act"
+  },
+  {
+   "id": "gold-reserve-act",
+   "kind": "law",
+   "name": "Gold Reserve Act",
+   "what": "Moved the nation's gold to the Treasury and revalued the dollar.",
+   "date": "1934-01-30",
+   "wiki": "Gold Reserve Act"
+  },
+  {
+   "id": "securities-exchange-act-of-1934",
+   "kind": "law",
+   "name": "Securities Exchange Act of 1934",
+   "what": "Created the SEC to regulate stock exchanges and trading.",
+   "date": "1934-06-06",
+   "wiki": "Securities Exchange Act of 1934"
+  },
+  {
+   "id": "reciprocal-trade-agreements-act",
+   "kind": "law",
+   "name": "Reciprocal Trade Agreements Act",
+   "what": "Let the president negotiate tariff cuts with other countries.",
+   "date": "1934-06-12",
+   "wiki": "Reciprocal Tariff Act"
+  },
+  {
+   "id": "indian-reorganization-act",
+   "kind": "law",
+   "name": "Indian Reorganization Act",
+   "what": "Ended the division of tribal land and restored a measure of tribal self-government.",
+   "date": "1934-06-18",
+   "wiki": "Indian Reorganization Act"
+  },
+  {
+   "id": "emergency-relief-appropriation-act",
+   "kind": "law",
+   "name": "Emergency Relief Appropriation Act",
+   "what": "Funded the Works Progress Administration and other work-relief programmes.",
+   "date": "1935-04-08",
+   "wiki": "Emergency Relief Appropriation Act of 1935"
+  },
+  {
+   "id": "schechter-poultry-v-united-states",
+   "kind": "case",
+   "name": "Schechter Poultry v. United States",
+   "what": "Struck down the National Industrial Recovery Act, the centre of the early New Deal.",
+   "date": "1935-05-27",
+   "hand_vote": {
+    "vote": "9–0",
+    "dissenters": []
+   },
+   "wiki": "A.L.A. Schechter Poultry Corp. v. United States"
+  },
+  {
+   "id": "national-labor-relations-act",
+   "kind": "law",
+   "name": "National Labor Relations Act",
+   "what": "Guaranteed workers the right to organise and bargain collectively.",
+   "date": "1935-07-05",
+   "wiki": "National Labor Relations Act of 1935"
+  },
+  {
+   "id": "social-security-act",
+   "kind": "law",
+   "name": "Social Security Act",
+   "what": "Created old-age pensions and unemployment insurance.",
+   "date": "1935-08-14",
+   "wiki": "Social Security Act"
+  },
+  {
+   "id": "united-states-v-butler",
+   "kind": "case",
+   "name": "United States v. Butler",
+   "what": "Struck down the Agricultural Adjustment Act's farm processing tax.",
+   "date": "1936-01-06",
+   "hand_vote": {
+    "vote": "6–3",
+    "dissenters": [
+     "Stone",
+     "Brandeis",
+     "Cardozo"
+    ]
+   },
+   "wiki": "United States v. Butler"
+  },
+  {
+   "id": "rural-electrification-act",
+   "kind": "law",
+   "name": "Rural Electrification Act",
+   "what": "Funded loans to bring electricity to farms and rural areas.",
+   "date": "1936-05-20",
+   "wiki": "Rural Electrification Act"
+  },
+  {
+   "id": "west-coast-hotel-v-parrish",
+   "kind": "case",
+   "name": "West Coast Hotel v. Parrish",
+   "what": "Upheld a state minimum wage, the turn after which the Court stopped striking down New Deal laws.",
+   "date": "1937-03-29",
+   "hand_vote": {
+    "vote": "5–4",
+    "dissenters": [
+     "Van Devanter",
+     "McReynolds",
+     "Sutherland",
+     "Butler"
+    ]
+   },
+   "wiki": "West Coast Hotel Co. v. Parrish"
+  },
+  {
+   "id": "nlrb-v-jones-laughlin-steel",
+   "kind": "case",
+   "name": "NLRB v. Jones & Laughlin Steel",
+   "what": "Upheld the Wagner Act and Congress's power to regulate labour relations.",
+   "date": "1937-04-12",
+   "hand_vote": {
+    "vote": "5–4",
+    "dissenters": [
+     "Van Devanter",
+     "McReynolds",
+     "Sutherland",
+     "Butler"
+    ]
+   },
+   "wiki": "NLRB v. Jones & Laughlin Steel Corp."
+  },
+  {
+   "id": "housing-act-of-1937",
+   "kind": "law",
+   "name": "Housing Act of 1937",
+   "what": "Created the U.S. Housing Authority to fund public housing.",
+   "date": "1937-09-01",
+   "wiki": "Housing Act of 1937"
+  },
+  {
+   "id": "fair-labor-standards-act",
+   "kind": "law",
+   "name": "Fair Labor Standards Act",
+   "what": "Set a federal minimum wage and the 40-hour week, and limited child labour.",
+   "date": "1938-06-25",
+   "wiki": "Fair Labor Standards Act of 1938"
+  },
+  {
+   "id": "selective-training-and-service-act",
+   "kind": "law",
+   "name": "Selective Training and Service Act",
+   "what": "Set up the first peacetime draft in U.S. history.",
+   "date": "1940-09-16",
+   "wiki": "Selective Training and Service Act of 1940"
+  },
+  {
+   "id": "lend-lease-act",
+   "kind": "law",
+   "name": "Lend-Lease Act",
+   "what": "Let the U.S. lend or lease war supplies to Britain and other Allies.",
+   "date": "1941-03-11",
+   "wiki": "Lend-Lease"
+  },
+  {
+   "id": "wickard-v-filburn",
+   "kind": "case",
+   "name": "Wickard v. Filburn",
+   "what": "Read the Commerce Clause to reach wheat a farmer grew for his own use.",
+   "date": "1942-11-09",
+   "hand_vote": {
+    "vote": "8–0",
+    "dissenters": []
+   },
+   "wiki": "Wickard v. Filburn"
+  },
+  {
+   "id": "servicemens-readjustment-act",
+   "kind": "law",
+   "name": "Servicemen's Readjustment Act (GI Bill)",
+   "what": "Paid for veterans' college, home loans and unemployment benefits.",
+   "date": "1944-06-22",
+   "wiki": "G.I. Bill"
+  },
+  {
+   "id": "korematsu-v-united-states",
+   "kind": "case",
+   "name": "Korematsu v. United States",
+   "what": "Upheld the wartime exclusion of Japanese Americans from the West Coast.",
+   "date": "1944-12-18",
+   "hand_vote": {
+    "vote": "6–3",
+    "dissenters": [
+     "Roberts",
+     "Murphy",
+     "Jackson"
+    ]
+   },
+   "wiki": "Korematsu v. United States"
+  },
+  {
+   "id": "labor-management-relations-act",
+   "kind": "law",
+   "name": "Labor Management Relations Act (Taft–Hartley)",
+   "what": "Restricted union practices; passed over President Truman's veto.",
+   "date": "1947-06-23",
+   "wiki": "Taft–Hartley Act"
+  },
+  {
+   "id": "housing-act-of-1949",
+   "kind": "law",
+   "name": "Housing Act of 1949",
+   "what": "Funded slum clearance and public housing.",
+   "date": "1949-07-15",
+   "wiki": "Housing Act of 1949"
+  },
+  {
+   "id": "youngstown-sheet-tube-v-sawyer",
+   "kind": "case",
+   "name": "Youngstown Sheet & Tube v. Sawyer",
+   "what": "Blocked President Truman's seizure of the steel mills.",
+   "case_id": "1951-088",
+   "wiki": "Youngstown Sheet & Tube Co. v. Sawyer"
+  },
+  {
+   "id": "brown-v-board-of-education",
+   "kind": "case",
+   "name": "Brown v. Board of Education",
+   "what": "Ruled racially segregated public schools unconstitutional.",
+   "case_id": "1953-069",
+   "wiki": "Brown v. Board of Education"
+  },
+  {
+   "id": "federal-aid-highway-act",
+   "kind": "law",
+   "name": "Federal-Aid Highway Act",
+   "what": "Funded the Interstate Highway System.",
+   "date": "1956-06-29",
+   "wiki": "Federal-Aid Highway Act"
+  },
+  {
+   "id": "civil-rights-act-of-1957",
+   "kind": "law",
+   "name": "Civil Rights Act of 1957",
+   "what": "The first civil rights law since Reconstruction; created the Civil Rights Commission.",
+   "date": "1957-09-09",
+   "wiki": "Civil Rights Act of 1957"
+  },
+  {
+   "id": "baker-v-carr",
+   "kind": "case",
+   "name": "Baker v. Carr",
+   "what": "Let federal courts hear challenges to how legislative districts are drawn.",
+   "case_id": "1961-051",
+   "wiki": "Baker v. Carr"
+  },
+  {
+   "id": "gideon-v-wainwright",
+   "kind": "case",
+   "name": "Gideon v. Wainwright",
+   "what": "Required states to provide a lawyer to defendants who cannot afford one.",
+   "case_id": "1962-058",
+   "wiki": "Gideon v. Wainwright"
+  },
+  {
+   "id": "new-york-times-v-sullivan",
+   "kind": "case",
+   "name": "New York Times v. Sullivan",
+   "what": "Set the actual-malice standard for libel suits by public officials.",
+   "case_id": "1963-067",
+   "wiki": "New York Times Co. v. Sullivan"
+  },
+  {
+   "id": "civil-rights-act-of-1964",
+   "kind": "law",
+   "name": "Civil Rights Act of 1964",
+   "what": "Banned discrimination in public accommodations and employment.",
+   "date": "1964-07-02",
+   "hand_split": {
+    "house": {
+     "D": [
+      152,
+      96
+     ],
+     "R": [
+      138,
+      34
+     ]
+    },
+    "senate": {
+     "D": [
+      46,
+      21
+     ],
+     "R": [
+      27,
+      6
+     ]
+    }
+   },
+   "wiki": "Civil Rights Act of 1964"
+  },
+  {
+   "id": "heart-of-atlanta-motel-v-united-states",
+   "kind": "case",
+   "name": "Heart of Atlanta Motel v. United States",
+   "what": "Upheld the Civil Rights Act's ban on discrimination in public accommodations.",
+   "case_id": "1964-017",
+   "wiki": "Heart of Atlanta Motel, Inc. v. United States"
+  },
+  {
+   "id": "social-security-amendments-of-1965",
+   "kind": "law",
+   "name": "Social Security Amendments of 1965",
+   "what": "Created Medicare and Medicaid.",
+   "date": "1965-07-30",
+   "wiki": "Social Security Amendments of 1965"
+  },
+  {
+   "id": "voting-rights-act",
+   "kind": "law",
+   "name": "Voting Rights Act",
+   "what": "Banned discriminatory voting practices and required federal preclearance in some states.",
+   "date": "1965-08-06",
+   "hand_split": {
+    "house": {
+     "D": [
+      217,
+      54
+     ],
+     "R": [
+      111,
+      20
+     ]
+    },
+    "senate": {
+     "D": [
+      49,
+      17
+     ],
+     "R": [
+      30,
+      1
+     ]
+    }
+   },
+   "wiki": "Voting Rights Act of 1965"
+  },
+  {
+   "id": "immigration-and-nationality-act-of-1965",
+   "kind": "law",
+   "name": "Immigration and Nationality Act of 1965",
+   "what": "Ended national-origin quotas in immigration.",
+   "date": "1965-10-03",
+   "wiki": "Hart-Celler Act"
+  },
+  {
+   "id": "miranda-v-arizona",
+   "kind": "case",
+   "name": "Miranda v. Arizona",
+   "what": "Required police to warn suspects of their rights before questioning.",
+   "case_id": "1965-122",
+   "wiki": "Miranda v. Arizona"
+  },
+  {
+   "id": "loving-v-virginia",
+   "kind": "case",
+   "name": "Loving v. Virginia",
+   "what": "Struck down state bans on interracial marriage.",
+   "case_id": "1966-119",
+   "wiki": "Loving v. Virginia"
+  },
+  {
+   "id": "fair-housing-act",
+   "kind": "law",
+   "name": "Fair Housing Act",
+   "what": "Banned discrimination in the sale and rental of housing.",
+   "date": "1968-04-11",
+   "wiki": "Civil Rights Act of 1968"
+  },
+  {
+   "id": "occupational-safety-and-health-act",
+   "kind": "law",
+   "name": "Occupational Safety and Health Act",
+   "what": "Created OSHA and federal workplace safety standards.",
+   "date": "1970-12-29",
+   "wiki": "Occupational Safety and Health Act (United States)"
+  },
+  {
+   "id": "clean-air-act-amendments-of-1970",
+   "kind": "law",
+   "name": "Clean Air Act Amendments of 1970",
+   "what": "Set national air-quality standards and limits on pollution.",
+   "date": "1970-12-31",
+   "wiki": "Clean Air Act (United States)"
+  },
+  {
+   "id": "education-amendments-of-1972",
+   "kind": "law",
+   "name": "Education Amendments of 1972 (Title IX)",
+   "what": "Banned sex discrimination in federally funded education.",
+   "date": "1972-06-23",
+   "wiki": "Education Amendments of 1972"
+  },
+  {
+   "id": "clean-water-act",
+   "kind": "law",
+   "name": "Clean Water Act",
+   "what": "Regulated pollution discharges into U.S. waters; passed over President Nixon's veto.",
+   "date": "1972-10-18",
+   "wiki": "Clean Water Act"
+  },
+  {
+   "id": "roe-v-wade",
+   "kind": "case",
+   "name": "Roe v. Wade",
+   "what": "Recognised a constitutional right to abortion.",
+   "case_id": "1972-048",
+   "wiki": "Roe v. Wade"
+  },
+  {
+   "id": "war-powers-resolution",
+   "kind": "law",
+   "name": "War Powers Resolution",
+   "what": "Limited the president's power to commit troops without Congress; passed over Nixon's veto.",
+   "law_id": "93-pub-148",
+   "wiki": "War Powers Resolution"
+  },
+  {
+   "id": "endangered-species-act",
+   "kind": "law",
+   "name": "Endangered Species Act",
+   "what": "Protected threatened and endangered species and their habitats.",
+   "law_id": "93-pub-205",
+   "wiki": "Endangered Species Act of 1973"
+  },
+  {
+   "id": "united-states-v-nixon",
+   "kind": "case",
+   "name": "United States v. Nixon",
+   "what": "Ordered President Nixon to hand over the White House tapes.",
+   "case_id": "1973-172",
+   "wiki": "United States v. Nixon"
+  },
+  {
+   "id": "gregg-v-georgia",
+   "kind": "case",
+   "name": "Gregg v. Georgia",
+   "what": "Allowed the death penalty to resume under revised state laws.",
+   "case_id": "1975-173",
+   "wiki": "Gregg v. Georgia"
+  },
+  {
+   "id": "regents-of-the-university-of-california-v-bakke",
+   "kind": "case",
+   "name": "Regents of the University of California v. Bakke",
+   "what": "Struck down racial quotas in admissions but allowed race as one factor.",
+   "case_id": "1977-147",
+   "date": "1978-06-28",
+   "wiki": "Regents of the University of California v. Bakke"
+  },
+  {
+   "id": "department-of-education-organization-act",
+   "kind": "law",
+   "name": "Department of Education Organization Act",
+   "what": "Created the Department of Education.",
+   "law_id": "96-pub-88",
+   "date": "1979-10-17",
+   "wiki": "Department of Education Organization Act"
+  },
+  {
+   "id": "economic-recovery-tax-act-of-1981",
+   "kind": "law",
+   "name": "Economic Recovery Tax Act of 1981",
+   "what": "Cut income tax rates across the board.",
+   "law_id": "97-pub-34",
+   "wiki": "Economic Recovery Tax Act of 1981"
+  },
+  {
+   "id": "social-security-amendments-of-1983",
+   "kind": "law",
+   "name": "Social Security Amendments of 1983",
+   "what": "Raised payroll taxes and the retirement age to keep Social Security solvent.",
+   "law_id": "98-pub-21",
+   "wiki": "Greenspan Commission"
+  },
+  {
+   "id": "tax-reform-act-of-1986",
+   "kind": "law",
+   "name": "Tax Reform Act of 1986",
+   "what": "Lowered rates and closed loopholes in a broad rewrite of the tax code.",
+   "law_id": "99-pub-514",
+   "wiki": "Tax Reform Act of 1986"
+  },
+  {
+   "id": "immigration-reform-and-control-act",
+   "kind": "law",
+   "name": "Immigration Reform and Control Act",
+   "what": "Gave legal status to about 3 million immigrants and penalised employers who hire unauthorised workers.",
+   "law_id": "99-pub-603",
+   "wiki": "Immigration Reform and Control Act of 1986"
+  },
+  {
+   "id": "americans-with-disabilities-act",
+   "kind": "law",
+   "name": "Americans with Disabilities Act",
+   "what": "Banned discrimination against people with disabilities.",
+   "law_id": "101-pub-336",
+   "wiki": "Americans with Disabilities Act of 1990"
+  },
+  {
+   "id": "clean-air-act-amendments-of-1990",
+   "kind": "law",
+   "name": "Clean Air Act Amendments of 1990",
+   "what": "Added a cap-and-trade programme for acid rain and tightened air standards.",
+   "law_id": "101-pub-549",
+   "wiki": "Clean Air Act (United States)"
+  },
+  {
+   "id": "planned-parenthood-v-casey",
+   "kind": "case",
+   "name": "Planned Parenthood v. Casey",
+   "what": "Kept Roe's core holding and replaced its framework with the undue-burden test.",
+   "case_id": "1991-117",
+   "wiki": "Planned Parenthood v. Casey"
+  },
+  {
+   "id": "family-and-medical-leave-act",
+   "kind": "law",
+   "name": "Family and Medical Leave Act",
+   "what": "Guaranteed unpaid, job-protected leave for family and medical reasons.",
+   "law_id": "103-pub-3",
+   "wiki": "Family and Medical Leave Act of 1993"
+  },
+  {
+   "id": "omnibus-budget-reconciliation-act-of-1993",
+   "kind": "law",
+   "name": "Omnibus Budget Reconciliation Act of 1993",
+   "what": "Raised top income tax rates and cut spending to reduce the deficit.",
+   "law_id": "103-pub-66",
+   "wiki": "Omnibus Budget Reconciliation Act of 1993"
+  },
+  {
+   "id": "nafta-implementation-act",
+   "kind": "law",
+   "name": "NAFTA Implementation Act",
+   "what": "Put the North American Free Trade Agreement into effect.",
+   "law_id": "103-pub-182",
+   "wiki": "North American Free Trade Agreement"
+  },
+  {
+   "id": "violent-crime-control-and-law-enforcement-act",
+   "kind": "law",
+   "name": "Violent Crime Control and Law Enforcement Act",
+   "what": "Funded police and prisons and banned some assault weapons for ten years.",
+   "law_id": "103-pub-322",
+   "wiki": "Violent Crime Control and Law Enforcement Act"
+  },
+  {
+   "id": "personal-responsibility-and-work-opportunity-act",
+   "kind": "law",
+   "name": "Personal Responsibility and Work Opportunity Act",
+   "what": "Replaced federal welfare entitlements with block grants and work requirements.",
+   "law_id": "104-pub-193",
+   "wiki": "Personal Responsibility and Work Opportunity Reconciliation Act of 1996"
+  },
+  {
+   "id": "defense-of-marriage-act",
+   "kind": "law",
+   "name": "Defense of Marriage Act",
+   "what": "Defined marriage as between a man and a woman for federal purposes.",
+   "law_id": "104-pub-199",
+   "wiki": "Defense of Marriage Act"
+  },
+  {
+   "id": "bush-v-gore",
+   "kind": "case",
+   "name": "Bush v. Gore",
+   "what": "Stopped the Florida recount in the 2000 presidential election.",
+   "case_id": "2000-009",
+   "wiki": "Bush v. Gore"
+  },
+  {
+   "id": "economic-growth-and-tax-relief-reconciliation-act",
+   "kind": "law",
+   "name": "Economic Growth and Tax Relief Reconciliation Act",
+   "what": "Cut income tax rates and phased out the estate tax.",
+   "law_id": "107-pub-16",
+   "wiki": "Economic Growth and Tax Relief Reconciliation Act of 2001"
+  },
+  {
+   "id": "usa-patriot-act",
+   "kind": "law",
+   "name": "USA PATRIOT Act",
+   "what": "Expanded government surveillance powers after the September 11 attacks.",
+   "law_id": "107-pub-56",
+   "wiki": "Patriot Act"
+  },
+  {
+   "id": "no-child-left-behind-act",
+   "kind": "law",
+   "name": "No Child Left Behind Act",
+   "what": "Required annual testing and tied school funding to results.",
+   "law_id": "107-pub-110",
+   "wiki": "No Child Left Behind Act"
+  },
+  {
+   "id": "lawrence-v-texas",
+   "kind": "case",
+   "name": "Lawrence v. Texas",
+   "what": "Struck down state laws criminalising same-sex intimacy.",
+   "case_id": "2002-083",
+   "wiki": "Lawrence v. Texas"
+  },
+  {
+   "id": "medicare-prescription-drug-act",
+   "kind": "law",
+   "name": "Medicare Prescription Drug Act",
+   "what": "Added a prescription drug benefit (Part D) to Medicare.",
+   "law_id": "108-pub-173",
+   "wiki": "Medicare Prescription Drug, Improvement, and Modernization Act"
+  },
+  {
+   "id": "district-of-columbia-v-heller",
+   "kind": "case",
+   "name": "District of Columbia v. Heller",
+   "what": "Recognised an individual right to keep a handgun at home.",
+   "case_id": "2007-071",
+   "wiki": "District of Columbia v. Heller"
+  },
+  {
+   "id": "emergency-economic-stabilization-act",
+   "kind": "law",
+   "name": "Emergency Economic Stabilization Act",
+   "what": "Created the $700 billion Troubled Asset Relief Program for banks.",
+   "law_id": "110-pub-343",
+   "wiki": "Emergency Economic Stabilization Act of 2008"
+  },
+  {
+   "id": "american-recovery-and-reinvestment-act",
+   "kind": "law",
+   "name": "American Recovery and Reinvestment Act",
+   "what": "An $800 billion stimulus of spending and tax cuts during the recession.",
+   "law_id": "111-pub-5",
+   "wiki": "American Recovery and Reinvestment Act of 2009"
+  },
+  {
+   "id": "citizens-united-v-fec",
+   "kind": "case",
+   "name": "Citizens United v. FEC",
+   "what": "Struck down limits on independent political spending by corporations and unions.",
+   "case_id": "2009-012",
+   "wiki": "Citizens United v. FEC"
+  },
+  {
+   "id": "affordable-care-act",
+   "kind": "law",
+   "name": "Affordable Care Act",
+   "what": "Expanded health coverage through marketplaces, subsidies and Medicaid.",
+   "law_id": "111-pub-148",
+   "wiki": "Affordable Care Act"
+  },
+  {
+   "id": "doddfrank-act",
+   "kind": "law",
+   "name": "Dodd–Frank Act",
+   "what": "Tightened financial regulation and created the Consumer Financial Protection Bureau.",
+   "law_id": "111-pub-203",
+   "wiki": "Dodd–Frank Act"
+  },
+  {
+   "id": "dont-ask-dont-tell-repeal-act",
+   "kind": "law",
+   "name": "Don't Ask, Don't Tell Repeal Act",
+   "what": "Let gay, lesbian and bisexual people serve openly in the military.",
+   "law_id": "111-pub-321",
+   "wiki": "Don't Ask, Don't Tell Repeal Act of 2010"
+  },
+  {
+   "id": "nfib-v-sebelius",
+   "kind": "case",
+   "name": "NFIB v. Sebelius",
+   "what": "Upheld the Affordable Care Act's individual mandate as a tax.",
+   "case_id": "2011-077",
+   "wiki": "National Federation of Independent Business v. Sebelius"
+  },
+  {
+   "id": "shelby-county-v-holder",
+   "kind": "case",
+   "name": "Shelby County v. Holder",
+   "what": "Struck down the Voting Rights Act's formula for which states needed preclearance.",
+   "case_id": "2012-073",
+   "wiki": "Shelby County v. Holder"
+  },
+  {
+   "id": "obergefell-v-hodges",
+   "kind": "case",
+   "name": "Obergefell v. Hodges",
+   "what": "Recognised a constitutional right to same-sex marriage.",
+   "case_id": "2014-070",
+   "wiki": "Obergefell v. Hodges"
+  },
+  {
+   "id": "tax-cuts-and-jobs-act",
+   "kind": "law",
+   "name": "Tax Cuts and Jobs Act",
+   "what": "Cut the corporate tax rate to 21% and lowered individual rates through 2025.",
+   "law_id": "115-pub-97",
+   "wiki": "Tax Cuts and Jobs Act"
+  },
+  {
+   "id": "cares-act",
+   "kind": "law",
+   "name": "CARES Act",
+   "what": "A $2.2 trillion pandemic relief package.",
+   "law_id": "116-pub-136",
+   "wiki": "CARES Act"
+  },
+  {
+   "id": "infrastructure-investment-and-jobs-act",
+   "kind": "law",
+   "name": "Infrastructure Investment and Jobs Act",
+   "what": "Funded roads, bridges, broadband and transit.",
+   "law_id": "117-pub-58",
+   "wiki": "Infrastructure Investment and Jobs Act"
+  },
+  {
+   "id": "dobbs-v-jackson-womens-health",
+   "kind": "case",
+   "name": "Dobbs v. Jackson Women's Health",
+   "what": "Overturned Roe and Casey, returning abortion law to the states.",
+   "case_id": "2021-019",
+   "wiki": "Dobbs v. Jackson Women's Health Organization"
+  },
+  {
+   "id": "chips-and-science-act",
+   "kind": "law",
+   "name": "CHIPS and Science Act",
+   "what": "Subsidised U.S. semiconductor manufacturing and research.",
+   "law_id": "117-pub-167",
+   "wiki": "CHIPS and Science Act"
+  },
+  {
+   "id": "inflation-reduction-act",
+   "kind": "law",
+   "name": "Inflation Reduction Act",
+   "what": "Funded clean energy and let Medicare negotiate some drug prices.",
+   "law_id": "117-pub-169",
+   "wiki": "Inflation Reduction Act"
+  },
+  {
+   "id": "respect-for-marriage-act",
+   "kind": "law",
+   "name": "Respect for Marriage Act",
+   "what": "Required federal and state recognition of same-sex and interracial marriages.",
+   "law_id": "117-pub-228",
+   "wiki": "Respect for Marriage Act"
+  },
+  {
+   "id": "students-for-fair-admissions-v-harvard",
+   "kind": "case",
+   "name": "Students for Fair Admissions v. Harvard",
+   "what": "Ended race-conscious admissions at colleges and universities.",
+   "case_id": "2022-009",
+   "wiki": "Students for Fair Admissions v. Harvard"
+  },
+  {
+   "id": "loper-bright-v-raimondo",
+   "kind": "case",
+   "name": "Loper Bright v. Raimondo",
+   "what": "Overruled Chevron deference to agencies' readings of statutes.",
+   "case_id": "2023-015",
+   "wiki": "Loper Bright Enterprises v. Raimondo"
+  },
+  {
+   "id": "trump-v-united-states",
+   "kind": "case",
+   "name": "Trump v. United States",
+   "what": "Gave former presidents immunity for official acts.",
+   "case_id": "2023-061",
+   "wiki": "Trump v. United States"
+  },
+  {
+   "id": "trump-v-casa",
+   "kind": "case",
+   "name": "Trump v. CASA",
+   "what": "Limited universal injunctions issued by lower courts.",
+   "case_id": "2024-065",
+   "wiki": "Trump v. CASA, Inc."
+  },
+  {
+   "id": "one-big-beautiful-bill-act",
+   "kind": "law",
+   "name": "One Big Beautiful Bill Act",
+   "what": "Extended the 2017 tax cuts and cut Medicaid and food-aid spending.",
+   "law_id": "119-pub-21",
+   "wiki": "One Big Beautiful Bill Act"
+  }
+ ],
+ "tested": [
+  {
+   "law": "agricultural-adjustment-act",
+   "case": "united-states-v-butler",
+   "outcome": "struck down its processing tax"
+  },
+  {
+   "law": "national-industrial-recovery-act",
+   "case": "schechter-poultry-v-united-states",
+   "outcome": "struck down its industry codes"
+  },
+  {
+   "law": "national-labor-relations-act",
+   "case": "nlrb-v-jones-laughlin-steel",
+   "outcome": "upheld it"
+  },
+  {
+   "law": "civil-rights-act-of-1964",
+   "case": "heart-of-atlanta-motel-v-united-states",
+   "outcome": "upheld its public-accommodations ban"
+  },
+  {
+   "law": "voting-rights-act",
+   "case": "shelby-county-v-holder",
+   "outcome": "struck down its coverage formula"
+  },
+  {
+   "law": "affordable-care-act",
+   "case": "nfib-v-sebelius",
+   "outcome": "upheld the individual mandate and limited the Medicaid expansion"
+  }
+ ],
+ "case_links": [
+  {
+   "later": "nlrb-v-jones-laughlin-steel",
+   "earlier": "schechter-poultry-v-united-states",
+   "did": "moved away from its narrow reading of the commerce power"
+  },
+  {
+   "later": "wickard-v-filburn",
+   "earlier": "nlrb-v-jones-laughlin-steel",
+   "did": "stretched the commerce power it upheld further"
+  },
+  {
+   "later": "planned-parenthood-v-casey",
+   "earlier": "roe-v-wade",
+   "did": "kept its core holding and replaced its trimester framework"
+  },
+  {
+   "later": "dobbs-v-jackson-womens-health",
+   "earlier": "roe-v-wade",
+   "did": "overruled it"
+  },
+  {
+   "later": "dobbs-v-jackson-womens-health",
+   "earlier": "planned-parenthood-v-casey",
+   "did": "overruled it"
+  },
+  {
+   "later": "obergefell-v-hodges",
+   "earlier": "lawrence-v-texas",
+   "did": "built on its reading of liberty under the Due Process Clause"
+  },
+  {
+   "later": "students-for-fair-admissions-v-harvard",
+   "earlier": "regents-of-the-university-of-california-v-bakke",
+   "did": "ended the race-conscious admissions it had allowed"
+  }
+ ]
+}

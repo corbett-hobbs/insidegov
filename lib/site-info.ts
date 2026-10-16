@@ -23,3 +23,7 @@ export function docUrl(docPath: string): string {
 /** Top-level pages that sit outside every vertical: no tab is active, no section nav,
  *  and the wordmark is a plain link to "/" (like the hub). */
 export const STATIC_PAGES = ["/about", "/methodology", "/contact", "/api"] as const;
+
+/** Top-level pages that span every branch: a neutral tab after the branch tabs (not a branch colour), no section row, and the
+ *  wordmark is a plain link to "/". */
+export const CROSS_BRANCH_PAGES = [{ href: "/timeline", label: "Timeline" }] as const;
