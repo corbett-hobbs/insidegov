@@ -215,25 +215,53 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
 };
 
 /**
- * The context lines (rule 7d, draft). Figures from pipeline/output are checked here; facts that come from a cited document
- * outside the pipeline (the DHS IRCA fact sheet and 2008 naturalization report, the State Department's FY2015 report, the
- * executive orders, ICE's counting notes) are pinned to the phrase the line uses, so an edit has to come back here, and each
- * line's sources must exist.
+ * The context lines (rule 7d). Figures from pipeline/output are checked here; facts that come from a cited document outside
+ * the pipeline (the proclamations, the DHS reports, the 2007 fee rule, CBP's July 2021 release, ICE's 2023 testimony) are
+ * pinned to the phrase the line uses, so an edit has to come back here, and each line's sources must exist.
  */
 const refugeeMonthly = read("refugee_monthly.json") as { fy: number; month: string; admissions: number }[];
-const enforcementNotes = parse("enforcement_notes.json", enforcementNote);
+const determinations = parse("refugee_determinations.json", refugeeDeterminationRow);
+const thousands = (v: number) => (v / 1000).toFixed(1);
 const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; check: () => void }> = {
   greenCards: {
-    says: ["nearly 2.7M", "almost all in 1989–1992", "The FY1989–FY1991 peak"],
-    check: () => expect(argmax(lprYears, (y) => y.lpr).fy).toBe(1991),
+    says: [
+      "Proclamation 10014 suspended entry from abroad for family-sponsored preference and diversity immigrants, among others",
+      "from April 2020 to February 2021",
+      "those classes fell from 247.6k in FY2019 to 80.8k in FY2021",
+      "DHS attributes FY2021’s low count largely to the pandemic and its embassy closures",
+    ],
+    check: () => {
+      // Proclamation 10014 took effect April 23, 2020 and covered aliens outside the U.S. without an immigrant visa; spouses
+      // and under-21 children of citizens were exempt, family-preference and diversity immigrants were not. Proclamation
+      // 10149 revoked it on February 24, 2021. DHS's FY2021 flow report: "Largely due to the COVID-19 pandemic, LPR flows in
+      // 2021 were not representative", with embassies' routine visa services suspended; it does not mention the proclamation.
+      const pair = (fy: number) => at(lprYears, fy).classes!.family_preference + at(lprYears, fy).classes!.diversity;
+      expect([thousands(pair(2019)), thousands(pair(2021))]).toEqual(["247.6", "80.8"]);
+      // The two classes' FY2021 total is the lowest of any year with class detail (FY1999 on).
+      expect(argmin(between(lprYears, 1999, 2025), (y) => y.classes!.family_preference + y.classes!.diversity).fy).toBe(2021);
+    },
   },
   naturalizations: {
-    says: ["mid-1990s", "the FY2008 record", "nearly 1.4M applications filed in 2007 ahead of a fee increase"],
-    check: () => expect(argmax(lprYears, (y) => y.naturalizations!).fy).toBe(2008),
+    says: [
+      "DHS attributes the mid-1990s rise partly to 2.7M people legalized under the 1986 Immigration Reform and Control Act becoming eligible",
+      "the FY2008 record mainly to nearly 1.4M applications filed in 2007 ahead of a fee increase",
+      "took effect July 30, 2007",
+    ],
+    check: () => {
+      // DHS (Naturalizations 2008) names IRCA first of three reasons for the mid-1990s rise, and calls FY2008's record "primarily
+      // attributable" to the 2007 applications. The fee rule (72 FR 29851) took effect July 30, 2007.
+      expect(argmax(between(lprYears, 1990, 1999), (y) => y.naturalizations!).fy).toBe(1996);
+      expect(argmax(lprYears, (y) => y.naturalizations!).fy).toBe(2008);
+    },
   },
   refugeeCeiling: {
-    says: ["Executive Order 14163 suspended refugee entry from January 27, 2025", "37.6k of FY2025’s 38.1k refugees arrived before February"],
+    says: ["The FY2021 low came under a ceiling first set at 15k (October 2020) and raised to 62.5k (May 2021)", "Executive Order 14163 suspended refugee entry from January 27, 2025", "37.6k of FY2025’s 38.1k refugees arrived before February"],
     check: () => {
+      expect(argmin(refugees.years, (y) => y.admissions).fy).toBe(2021);
+      expect(at(refugees.years, 2021)).toMatchObject({ ceilingInitial: 15_000, ceiling: 62_500, revised: true });
+      const fy21 = determinations.filter((d) => d.fy === 2021);
+      expect(fy21.find((d) => d.sequence === 1)).toMatchObject({ ceiling: 15_000, signed: "2020-10-27" });
+      expect(fy21.at(-1)).toMatchObject({ ceiling: 62_500, signed: "2021-05-03" });
       const fy25 = refugeeMonthly.filter((m) => m.fy === 2025);
       expect(fy25.filter((m) => m.month <= "2025-01").reduce((a, m) => a + m.admissions, 0)).toBe(37_596);
       expect(at(refugees.years, 2025).admissions).toBe(38_102);
@@ -241,57 +269,86 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
     },
   },
   refugeeCountries: {
-    says: ["Executive Order 14204 (February 7, 2025)", "the FY2026 determination allocates admissions primarily to them"],
+    says: ["Executive Order 14204 (February 7, 2025)", "The FY2026 determination allocates its 7.5k admissions primarily to them", "a May 2026 determination added 10k more for Afrikaners alone"],
     check: () => {
       expect(refugees.markers.some((m) => m.title.includes("Afrikaners") && m.date === "2025-02-07")).toBe(true);
+      const fy26 = determinations.filter((d) => d.fy === 2026);
+      expect(fy26[0]).toMatchObject({ kind: "annual", ceiling: 7_500 });
+      expect(fy26[0].allocation_text).toContain("primarily be allocated among Afrikaners");
+      expect(fy26[1]).toMatchObject({ kind: "emergency", signed: "2026-05-21", previous_ceiling: 7_500, ceiling: 17_500 });
+      expect(fy26[1].allocation_text).toContain("additional admissions shall be allocated among Afrikaners");
       expect(rankCountries(refugees, 2026)[0].name).toBe("South Africa");
     },
   },
   refugeeTop: {
-    says: ["FY2015 report to Congress", "at least 50k Congolese over four to five years", "Uganda, Tanzania, Rwanda and Burundi"],
-    check: () => expect(refugees.countries[at(topByYear(refugees, 2016, 2016), 2016).ranked[0].ci].name).toBe("Democratic Republic of the Congo"),
+    says: ["Every Presidential Determination that split admissions by region from FY2018 through FY2023 gave Africa the largest share", "19k of 45k in FY2018", "40k of 125k in FY2022", "Refugees from the DRC were 69% to 79% of Africa’s in those years"],
+    check: () => {
+      // Africa's allocation is the largest region's (the unallocated reserve is not a region) in every regional determination
+      // from FY2018 through FY2023, and in none just outside that span (FY2017's Near East/South Asia was larger; FY2024's
+      // Latin America/Caribbean range matched Africa's top and started higher).
+      const africaLargest = (d: (typeof determinations)[number]) => {
+        const regions = d.allocations.filter((a) => a.region_group !== "unallocated");
+        const africa = regions.find((a) => a.region_group === "africa")!;
+        return regions.every((a) => a === africa || (a.max < africa.max && a.min < africa.min));
+      };
+      const regional = determinations.filter((d) => d.allocation_basis === "region");
+      const span = regional.filter((d) => d.fy >= 2018 && d.fy <= 2023);
+      expect(span.map((d) => d.fy)).toEqual([2018, 2019, 2021, 2021, 2022, 2023]);
+      for (const d of span) expect(africaLargest(d), d.id).toBe(true);
+      for (const fy of [2017, 2024]) expect(africaLargest(regional.find((d) => d.fy === fy)!), `FY${fy}`).toBe(false);
+      const africa = (d: (typeof determinations)[number]) => d.allocations.find((a) => a.region_group === "africa")!.max;
+      expect([africa(span[0]), span[0].ceiling]).toEqual([19_000, 45_000]);
+      const fy22 = span.find((d) => d.fy === 2022)!;
+      expect([africa(fy22), fy22.ceiling]).toEqual([40_000, 125_000]);
+      const shares = [2018, 2019, 2020, 2021, 2022, 2023].map((fy) => pct(rankCountries(refugees, fy).find((c) => c.key === "COD")!.value, at(refugees.years, fy).regions.africa));
+      expect([Math.min(...shares), Math.max(...shares)]).toEqual([69, 79]);
+    },
   },
   encounters: {
-    says: ["CBP said Title 42 expulsions added repeat crossings", "27% of July 2021’s southwest encounters", "against 14% in FY2014–FY2019", "fell by half or more within two months of each entry proclamation (June 2024, January 2025)"],
+    says: [
+      "CBP said Title 42 expulsions (from March 2020) added repeat crossings",
+      "27% of July 2021’s southwest encounters, against 14% in FY2014–FY2019",
+      "In the drop to FY2025’s 0.7M",
+      "Border Patrol’s monthly count at least halved within two months of each entry proclamation (June 2024, January 2025)",
+    ],
     check: () => {
-      // The 27% and 14% are CBP's (July 2021 release), outside the pipeline. The monthly drops are checked here.
+      // The 27% and 14% are CBP's (July 2021 release, southwest border), outside the pipeline. The monthly drops are checked here.
+      expect(encounters.markers.map((m) => m.date)).toContain("2020-03-21");
       const monthly = read("encounters_monthly.json") as { month: string; scope: string; component: string; value: number }[];
       const bp = (m: string) => monthly.filter((r) => r.scope === "nationwide" && r.component === "usbp" && r.month === m).reduce((a, r) => a + r.value, 0);
       // Proclamation 10773 took effect June 5, 2024; Proclamation 10888 was signed January 20, 2025.
       expect(bp("2024-07") / bp("2024-05")).toBeLessThanOrEqual(0.5);
       expect(bp("2025-02") / bp("2024-12")).toBeLessThanOrEqual(0.5);
+      expect(millions(at(enc, 2025).total, 1)).toBe("0.7");
+      expect(at(enc, 2025).total).toBeLessThan(at(enc, 2024).total);
     },
   },
   removals: {
-    says: ["From March 2020 to May 2023", "expelled under Title 42, which ICE does not count as removals", "1.1M in both FY2021 and FY2022, by CBP’s count", "rose to 271.5k in FY2024, 82% after Border Patrol arrests"],
+    says: [
+      "ICE says its work shifted to expulsions under the CDC’s Title 42 order (March 2020–May 2023), cutting removals to the FY2021 low",
+      "CBP counted 1.1M expulsions in both FY2021 and FY2022",
+      "After it ended, removals rose to 271.5k in FY2024, 82% after Border Patrol arrests",
+    ],
     check: () => {
-      expect(enforcementNotes.some((n) => n.id === "title42-expulsions-excluded")).toBe(true);
+      // ICE's September 6, 2023 Senate testimony: "ICE resources and operations shifted to expulsions of noncitizens under
+      // Title 42, resulting in a marked decrease in traditional removals between Fiscal Year (FY) 2020 and FY 2021."
       expect(encounters.markers.map((m) => m.date)).toEqual(expect.arrayContaining(["2020-03-21", "2023-05-11"]));
-      // "Many", not "most": expulsions were 55% of FY2021's encounters but 40% of FY2022's.
-      for (const fy of [2021, 2022]) {
-        const p = at(encounters.years, fy).nationwide;
-        expect(millions(p.title42!, 1), `FY${fy}`).toBe("1.1");
-        expect(p.title42! / p.total, `FY${fy}`).toBeGreaterThan(0.35);
-      }
+      expect(argmin(ice.years, (y) => y.value).fy).toBe(2021);
+      for (const fy of [2021, 2022]) expect(millions(at(encounters.years, fy).nationwide.title42!, 1), `FY${fy}`).toBe("1.1");
       const y = at(removals, 2024);
       expect((y.value / 1000).toFixed(1)).toBe("271.5");
       expect(pct(y.agency!.cbp, y.value)).toBe(82);
       expect(argmax(between(removals, 2020, 2024), (r) => r.value).fy).toBe(2024);
     },
   },
-  criminalHistory: {
-    says: ["ICE records only what its systems hold when it acts", "80% of FY2024’s Border Patrol handoffs", "immigration crimes, such as illegal reentry, as convictions"],
-    check: () => {
-      const def = enforcementNotes.find((n) => n.id === "criminality-definition")!.text;
-      expect(def).toContain("at the time of the enforcement action");
-      expect(def).toContain("'illegal reentry,'");
-      const cbp = ice.criminality.views.cbp;
-      expect([at(cbp, 2021).total, at(cbp, 2024).total]).toEqual([27_454, 223_752]);
-      const b = at(cbp, 2024);
-      expect(pct(b.parts.find((p) => p.key === "other_immigration_violator")!.value, b.total)).toBe(80);
-    },
-  },
 };
+
+/**
+ * Figures a card's Data notes carry over from a removed context line: the criminal-history card's share of Border Patrol
+ * handoffs with no known record, and the removals card's Title 42 exclusion.
+ */
+const notesOf = (file: string) => readFileSync(`components/immigration/${file}`, "utf8");
+const enforcementNotes = parse("enforcement_notes.json", enforcementNote);
 
 describe("Immigration card takeaways", () => {
   for (const [key, c] of Object.entries(cases) as [keyof typeof IMMIGRATION_TAKEAWAYS, (typeof cases)[keyof typeof IMMIGRATION_TAKEAWAYS]][]) {
@@ -314,6 +371,21 @@ describe("Immigration card takeaways", () => {
 
   it("avoids the words rule 7c rules out", () => {
     for (const s of Object.values(IMMIGRATION_TAKEAWAYS)) expect(s.takeaway, s.title).not.toMatch(/\b(soared|plunged|thanks to|since|still)\b/i);
+  });
+
+  it("criminal-history Data notes: 80% of FY2024's Border Patrol handoffs had no known record", () => {
+    expect(notesOf("CriminalHistoryCard.tsx")).toContain("80% of FY2024&rsquo;s Border Patrol handoffs had none");
+    const def = enforcementNotes.find((n) => n.id === "criminality-definition")!.text;
+    expect(def).toContain("at the time of the enforcement action");
+    expect(def).toContain("'illegal reentry,'");
+    const b = at(ice.criminality.views.cbp, 2024);
+    expect(b.total).toBe(223_752);
+    expect(pct(b.parts.find((p) => p.key === "other_immigration_violator")!.value, b.total)).toBe(80);
+  });
+
+  it("removals Data notes: Title 42 expulsions are not counted", () => {
+    expect(notesOf("RemovalsCard.tsx")).toContain("Title 42 expulsions (March 2020 to May 2023) are not counted");
+    expect(enforcementNotes.some((n) => n.id === "title42-expulsions-excluded")).toBe(true);
   });
 
   for (const [key, c] of Object.entries(contextCases) as [keyof typeof IMMIGRATION_CONTEXT, (typeof contextCases)[keyof typeof IMMIGRATION_CONTEXT]][]) {

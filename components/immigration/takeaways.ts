@@ -65,63 +65,68 @@ export const IMMIGRATION_TAKEAWAYS = {
 } as const;
 
 /**
- * The context line under a takeaway (ARCHITECTURE_MAP rule 7d, draft): one or two muted sentences, only where the takeaway's
- * highlight would otherwise be misread, and only of two kinds: what a dated official document did, or a change in what the
- * source counts. A cause appears only when the agency's own report states it, and then as the agency's. Contested,
- * multi-factor causes never go here (they would be dated policy markers on the chart instead). Each line names its sources,
- * and every figure is checked in lib/immigration-takeaways.test.ts.
+ * The context line under a takeaway (ARCHITECTURE_MAP rule 7d): one or two muted sentences naming the dated political
+ * events behind what the chart shows (a statute, an executive order, a proclamation, a Presidential Determination, an agency
+ * rule or order), preferring the last ten years, and saying which feature of the chart each lines up with. How a number is
+ * counted belongs in the card's Data notes, never here. A cause appears only when the agency's own report states it, and
+ * then as the agency's; contested, multi-factor causes never go here. Each line names its sources, and every figure is
+ * checked in lib/immigration-takeaways.test.ts.
  */
 export const IMMIGRATION_CONTEXT = {
   greenCards: {
-    text: "The FY1989–FY1991 peak includes legalization under the Immigration Reform and Control Act of 1986: DHS reports that nearly 2.7M people got green cards through it, almost all in 1989–1992.",
-    sources: [{ id: "ohss-irca-fact-sheet-2009", label: "DHS fact sheet" }],
+    text: "Proclamation 10014 suspended entry from abroad for family-sponsored preference and diversity immigrants, among others, from April 2020 to February 2021; those classes fell from 247.6k in FY2019 to 80.8k in FY2021. DHS attributes FY2021’s low count largely to the pandemic and its embassy closures.",
+    sources: [
+      { id: "proclamation-10014", label: "Proclamation 10014" },
+      { id: "proclamation-10149", label: "its revocation" },
+      { id: "ohss-lpr-flow-2021", label: "DHS" },
+    ],
   },
   naturalizations: {
-    text: "DHS attributes the mid-1990s rise mainly to people legalized under the 1986 law becoming eligible, and the FY2008 record mainly to nearly 1.4M applications filed in 2007 ahead of a fee increase.",
-    sources: [{ id: "ohss-naturalizations-2008", label: "DHS, Naturalizations 2008" }],
+    text: "DHS attributes the mid-1990s rise partly to 2.7M people legalized under the 1986 Immigration Reform and Control Act becoming eligible, and the FY2008 record mainly to nearly 1.4M applications filed in 2007 ahead of a fee increase that took effect July 30, 2007.",
+    sources: [
+      { id: "ohss-naturalizations-2008", label: "DHS 2008 report" },
+      { id: "uscis-fee-rule-2007", label: "2007 fee rule" },
+    ],
   },
   refugeeCeiling: {
-    text: "COVID-19 largely halted refugee travel from spring 2020. Executive Order 14163 suspended refugee entry from January 27, 2025; 37.6k of FY2025’s 38.1k refugees arrived before February.",
+    text: "The FY2021 low came under a ceiling first set at 15k (October 2020) and raised to 62.5k (May 2021). Executive Order 14163 suspended refugee entry from January 27, 2025; 37.6k of FY2025’s 38.1k refugees arrived before February.",
     sources: [
-      { id: "refugee-pd-2021-02", label: "FY2021 determination" },
+      { id: "refugee-pd-2021-02", label: "2020" },
+      { id: "refugee-pd-2021-06", label: "2021 determinations" },
       { id: "eo-14163", label: "EO 14163" },
     ],
   },
   refugeeCountries: {
-    text: "Executive Order 14204 (February 7, 2025) directed that Afrikaners in South Africa be prioritized for resettlement, and the FY2026 determination allocates admissions primarily to them.",
+    text: "Executive Order 14204 (February 7, 2025) directed that Afrikaners in South Africa be prioritized for resettlement. The FY2026 determination allocates its 7.5k admissions primarily to them, and a May 2026 determination added 10k more for Afrikaners alone.",
     sources: [
       { id: "eo-14204", label: "EO 14204" },
-      { id: "refugee-pd-2025-13", label: "FY2026 determination" },
+      { id: "refugee-pd-2025-13", label: "2025" },
+      { id: "refugee-pd-2026-14", label: "2026 determinations" },
     ],
   },
   refugeeTop: {
-    text: "In its FY2015 report to Congress, the State Department said it would help the UN refugee agency resettle at least 50k Congolese over four to five years, most from camps in Uganda, Tanzania, Rwanda and Burundi.",
-    sources: [{ id: "state-refugee-report-fy2015", label: "State Department" }],
+    text: "Every Presidential Determination that split admissions by region from FY2018 through FY2023 gave Africa the largest share (19k of 45k in FY2018; 40k of 125k in FY2022). Refugees from the DRC were 69% to 79% of Africa’s in those years.",
+    sources: [
+      { id: "refugee-pd-2017-13", label: "FY2018" },
+      { id: "refugee-pd-2022-02", label: "FY2022 determinations" },
+    ],
   },
   encounters: {
-    text: "CBP said Title 42 expulsions added repeat crossings: 27% of July 2021’s southwest encounters had been caught in the prior year, against 14% in FY2014–FY2019. Border Patrol’s monthly count fell by half or more within two months of each entry proclamation (June 2024, January 2025).",
+    text: "CBP said Title 42 expulsions (from March 2020) added repeat crossings: 27% of July 2021’s southwest encounters, against 14% in FY2014–FY2019. In the drop to FY2025’s 0.7M, Border Patrol’s monthly count at least halved within two months of each entry proclamation (June 2024, January 2025).",
     sources: [
-      { id: "cbp-release-2021-07", label: "CBP, July 2021" },
-      { id: "crs-securing-the-border-2024", label: "CRS on the June 2024 proclamation" },
+      { id: "cbp-release-2021-07", label: "CBP" },
+      { id: "crs-securing-the-border-2024", label: "CRS" },
       { id: "proclamation-10888", label: "Proclamation 10888" },
     ],
   },
-
   removals: {
-    text: "From March 2020 to May 2023, many border crossers were expelled under Title 42, which ICE does not count as removals: 1.1M in both FY2021 and FY2022, by CBP’s count. After Title 42 ended, removals rose to 271.5k in FY2024, 82% after Border Patrol arrests.",
+    text: "ICE says its work shifted to expulsions under the CDC’s Title 42 order (March 2020–May 2023), cutting removals to the FY2021 low; CBP counted 1.1M expulsions in both FY2021 and FY2022. After it ended, removals rose to 271.5k in FY2024, 82% after Border Patrol arrests.",
     sources: [
-      { id: "ice-fy2023-annual-report-release", label: "ICE" },
+      { id: "ice-senate-testimony-2023", label: "ICE 2023 testimony" },
+      { id: "ice-fy2023-annual-report-release", label: "ICE FY2023" },
       { id: "cbp-encounters", label: "CBP" },
     ],
   },
-  criminalHistory: {
-    text: "ICE records only what its systems hold when it acts, and people caught at the border have usually just arrived, so most have no U.S. record: 80% of FY2024’s Border Patrol handoffs. ICE counts immigration crimes, such as illegal reentry, as convictions.",
-    sources: [
-      { id: "ice-ero-report-fy2019", label: "ICE FY2019" },
-      { id: "ice-ero-report-fy2018", label: "ICE FY2018" },
-    ],
-  },
-
 } satisfies Partial<Record<keyof typeof IMMIGRATION_TAKEAWAYS, ContextEntry>>;
 
 /** The context entry for a card, or null where it has none. */
