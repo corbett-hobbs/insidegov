@@ -103,7 +103,7 @@ export function usePinnedTooltip<T>() {
     if (!pinned) return;
     const away = (e: PointerEvent) => {
       const el = e.target as Element | null;
-      if (el?.closest("[data-pinned-tooltip]") || el?.closest(".dot")) return;
+      if (el?.closest("[data-pinned-tooltip]") || el?.closest(".dot") || el?.closest("[data-pin-target]")) return;
       hide();
     };
     const esc = (e: KeyboardEvent) => e.key === "Escape" && hide();

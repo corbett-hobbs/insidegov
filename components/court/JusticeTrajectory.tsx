@@ -10,8 +10,9 @@ import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TERM_BAND_H, TermSpanSvg } from "@/components/charts/TermBandSvg";
 import type { CourtBandTerm } from "@/lib/court-president-band";
-import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { Tooltip, usePinnedTooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { sameRange } from "@/lib/year-range";
 import {
   fmtScore,
@@ -65,6 +66,10 @@ export function JusticeTrajectory({
   const clipId = `court-clip-${useId().replace(/:/g, "")}`;
   const [hoverId, setHoverId] = useState<number | null>(null);
   const tip = useTooltip<CourtJustice>();
+  // Scatter rule (ARCHITECTURE_MAP 10e): a click or tap pins the justice's card, and the card is the link to their page, never the line.
+  const pin = usePinnedTooltip<CourtJustice>();
+  // Hover previews only where there is a hover; a phone taps straight to the pinned card.
+  const tapMode = !useMediaQuery("(hover: hover)");
   const { firstTerm, lastTerm } = data;
 
   // The zoom window, in terms. The band's tap and the slider under the chart both set it, so it is the single source of truth.
@@ -108,7 +113,7 @@ export function JusticeTrajectory({
     setWin(sameRange(next, win) ? [firstTerm, lastTerm] : next);
   };
 
-  const focusId = hoverId ?? selectedId;
+  const focusId = pin.state?.data.id ?? hoverId ?? selectedId;
   const byId = new Map(data.justices.map((j) => [j.id, j]));
   const focus = focusId != null ? (byId.get(focusId) ?? null) : null;
   const selected = selectedId != null ? (byId.get(selectedId) ?? null) : null;
@@ -157,8 +162,42 @@ export function JusticeTrajectory({
             (a, b) => Number(isDimmed(b, filter)) - Number(isDimmed(a, filter)),
           );
 
+          // Zoomed in there is room to name the lines: one label at the right end of each visible line, top to bottom, skipping any that
+          // would sit on a label already placed (the focused justice is placed first, so it is never the one dropped).
+          let zoomLabels: React.ReactNode = null;
+          if (!full) {
+            const LABEL_GAP = 12;
+            const cand = data.justices
+              .map((j) => {
+                const from = Math.max(j.t0, win[0]);
+                const to = Math.min(j.t1, win[1]);
+                if (to - from < 1 || isDimmed(j, filter)) return null;
+                return { j, ex: x(to), ey: y(scoreAt(j, to)) };
+              })
+              .filter((c): c is { j: CourtJustice; ex: number; ey: number } => c !== null)
+              .sort((a, b) => Number(b.j.id === focusId) - Number(a.j.id === focusId) || a.ey - b.ey);
+            const kept: typeof cand = [];
+            for (const c of cand) if (kept.every((k) => Math.abs(k.ey - c.ey) >= LABEL_GAP)) kept.push(c);
+            zoomLabels = kept.map(({ j, ex, ey }) => (
+              <text
+                key={j.id}
+                x={Math.min(ex, innerWidth) - 4}
+                y={ey - 5}
+                textAnchor="end"
+                fill={partyVar(j)}
+                fontSize={11.5}
+                fontWeight={j.id === focusId ? 700 : 500}
+                opacity={focusId != null && j.id !== focusId ? 0.75 : 1}
+                style={{ paintOrder: "stroke", stroke: "var(--surface)", strokeWidth: 3.5 }}
+                pointerEvents="none"
+              >
+                {j.short}
+              </text>
+            ));
+          }
+
           let endLabel: React.ReactNode = null;
-          if (focus && x(focus.t1) >= 0 && x(focus.t1) <= innerWidth + 1) {
+          if (full && focus && x(focus.t1) >= 0 && x(focus.t1) <= innerWidth + 1) {
             const ex = x(focus.t1);
             const ey = y(focus.s[focus.s.length - 1]);
             const fits = ex + 6 + focus.short.length * 7.2 <= innerWidth + MARGIN.right - 2;
@@ -284,19 +323,24 @@ export function JusticeTrajectory({
                       fill="none"
                       stroke="transparent"
                       strokeWidth={10}
+                      data-pin-target=""
                       style={{ cursor: "pointer" }}
                       onPointerEnter={(e) => {
+                        if (tapMode) return;
                         setHoverId(j.id);
                         tip.show(j, e);
                       }}
-                      onPointerMove={tip.move}
+                      onPointerMove={tapMode ? undefined : tip.move}
                       onPointerLeave={() => {
+                        if (tapMode) return;
                         setHoverId(null);
                         tip.hide();
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
-                        onSelect(j.id);
+                        tip.hide();
+                        if (pin.state?.data.id === j.id) pin.hide();
+                        else pin.show(j, e);
                       }}
                     />
                   </g>
@@ -338,6 +382,7 @@ export function JusticeTrajectory({
               )}
               </g>
               {endLabel}
+              {zoomLabels && <g clipPath={`url(#${clipId})`}>{zoomLabels}</g>}
               {/* The shared term is outside the zoom: a marker at the edge says which way it is. */}
               {(term < win[0] || term > win[1]) && (
                 <text
@@ -358,7 +403,6 @@ export function JusticeTrajectory({
 
       {/* Zoom: the same two-handle slider the other pages use, local to this card; the band's taps set it too. */}
       <div className="mx-0.5 mt-3 flex items-center gap-2">
-        <span className="flex-none font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint">Zoom</span>
         <RangeSelector
           min={firstTerm}
           max={lastTerm}
@@ -388,23 +432,33 @@ export function JusticeTrajectory({
         )}
       </div>
 
-      <Tooltip state={tip.state}>
-        {(j) => (
-          <>
-            <b>{j.name}</b>
-            <div>
-              Appointed by {j.pres} ({partyLabel(j.party)})
-            </div>
-            <div className="tt-mono">
-              Scored terms: {j.t0}–{j.t1}
-            </div>
-            <div className="tt-mono">Career average: {fmtScore(j.career)}</div>
-          </>
-        )}
+      <Tooltip state={pin.state ? null : tip.state}>{tipBody}</Tooltip>
+      <Tooltip
+        state={pin.state}
+        onActivate={(j) => {
+          pin.hide();
+          onSelect(j.id);
+        }}
+        activateHint="Open profile →"
+      >
+        {tipBody}
       </Tooltip>
     </div>
   );
 }
+
+const tipBody = (j: CourtJustice) => (
+  <>
+    <b>{j.name}</b>
+    <div>
+      Appointed by {j.pres} ({partyLabel(j.party)})
+    </div>
+    <div className="tt-mono">
+      Scored terms: {j.t0}–{j.t1}
+    </div>
+    <div className="tt-mono">Career average: {fmtScore(j.career)}</div>
+  </>
+);
 
 function Swatch({ color, label, thick }: { color: string; label: string; thick?: boolean }) {
   return (
