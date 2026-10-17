@@ -54,6 +54,8 @@ export function TermBand({
   };
   const innerW = Math.max(0, width - 22);
   const [drag, setDrag] = useState<{ a: number; b: number } | null>(null);
+  // The focus ring is for keyboard users only: some phone browsers match :focus-visible after a tap, which drew a heavy outline round the term just picked.
+  const [keyboard, setKeyboard] = useState(false);
   const dragRef = useRef<{ a: number; b: number } | null>(null);
 
   const full = value[0] === min && value[1] === max;
@@ -83,6 +85,7 @@ export function TermBand({
     return best;
   };
   const down = (e: PointerEvent<HTMLDivElement>) => {
+    setKeyboard(false);
     if (e.pointerType === "mouse" && e.button !== 0) return;
     const k = termAt(e.clientX);
     dragRef.current = { a: k, b: k };
@@ -120,6 +123,7 @@ export function TermBand({
       role="group"
       aria-label="Presidential terms: tap to add or remove, or drag across several"
       className="relative mt-0.5 h-[1.45rem] touch-none select-none"
+      onKeyDownCapture={() => setKeyboard(true)}
       onPointerDown={down}
       onPointerMove={move}
       onPointerUp={up}
@@ -146,7 +150,7 @@ export function TermBand({
               aria-pressed={selected.includes(k)}
               onKeyDown={(e) => key(e, k)}
               onClick={(e) => e.preventDefault()}
-              className="absolute inset-y-0 cursor-pointer overflow-hidden rounded-[2px] p-0 text-left focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus"
+              className={`absolute inset-y-0 cursor-pointer overflow-hidden rounded-[2px] p-0 text-left [-webkit-tap-highlight-color:transparent] ${keyboard ? "focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus" : "outline-none"}`}
               style={{
                 left: `${l}%`,
                 width: `calc(${r - l}% - 1px)`,
