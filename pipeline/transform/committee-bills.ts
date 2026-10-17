@@ -6,6 +6,7 @@ import {
   type RawBillAction,
 } from "../../lib/committee-bills-entities";
 import type { RawCommittee } from "../../lib/laws-entities";
+import { displayTitle } from "../../lib/law-popular-names";
 
 /**
  * Committee-legislation transform, pure part: one raw bill digest -> one row per committee it was referred to, rows grouped
@@ -245,6 +246,7 @@ export function buildShards(
       const law = facts.signed ? [...b.laws].sort()[0] : undefined;
       if (law) {
         row.l = law;
+        row.t = displayTitle(`${law.split("-")[0]}-pub-${law.split("-")[1]}`, row.t);
         row.w = facts.signed;
       }
       const via = law ? undefined : enactedElsewhere(b, vehicles);

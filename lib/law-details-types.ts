@@ -63,6 +63,8 @@ export interface LawPageData {
   congress: number;
   number: number;
   title: string;
+  /** The law's formal title, set only when `title` is its popular name instead. */
+  officialTitle: string | null;
   /** "Public Law 118-90". */
   publicLaw: string;
   /** Signing date, or the date a veto was overridden. */

@@ -16,6 +16,7 @@ import {
   type RawLaw,
   type RawSource,
 } from "../../lib/laws-entities";
+import { LAW_POPULAR_NAMES, displayTitle } from "../../lib/law-popular-names";
 import { COMMEMORATIVE_BASES, commemorativeBasis, type CommemorativeBasis } from "./laws-commemorative";
 import { firstSentence } from "./laws-summary";
 
@@ -185,7 +186,8 @@ export function buildLawRow(l: RawLaw, idx: AreaIndex, extra: Pick<LawRow, "hous
     congress: l.congress,
     number: l.number,
     date: signingDate(l),
-    title: l.title,
+    title: displayTitle(l.law_id, l.title),
+    ...(LAW_POPULAR_NAMES[l.law_id] ? { official_title: l.title } : {}),
     bill_type: l.bill_type,
     bill_number: l.bill_number,
     origin_chamber: l.origin_chamber,

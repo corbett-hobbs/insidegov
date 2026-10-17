@@ -114,7 +114,7 @@ export function getLawPage(lawId: string): LawPageData | null {
     const label = `${RELATED_LABEL[r[1]] ?? r[1]} ${r[2]}`;
     return {
       label: r[0] === law.congress ? label : `${label} (${ordinal(r[0])} Congress)`,
-      title: r[3],
+      title: target ? target.title : r[3],
       rel: r[4],
       lawPath: target && target.law_id !== lawId ? lawPath(target.law_id, target.title) : null,
       lawLabel: target && target.law_id !== lawId ? `Public Law ${target.congress}-${target.number}` : null,
@@ -141,6 +141,7 @@ export function getLawPage(lawId: string): LawPageData | null {
     congress: law.congress,
     number: law.number,
     title: law.title,
+    officialTitle: law.official_title ?? null,
     publicLaw: `Public Law ${law.congress}-${law.number}`,
     date: law.date,
     billLabel: billLabel(law),

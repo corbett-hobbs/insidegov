@@ -236,6 +236,7 @@ export function LawPageView({ law }: { law: LawPageData }) {
       <PageHeader eyebrow="Congress · Laws" title={law.title}>
         <div className="flex flex-col gap-5 lg:flex-row lg:gap-8">
           <div className="flex min-w-0 flex-col gap-3 lg:flex-1">
+            {law.officialTitle && <p className="m-0 text-[0.9rem] text-ink-muted">Official title: {law.officialTitle}</p>}
             <Facts law={law} />
             <CosponsorsHeader people={law.cosponsors} unresolved={law.cosponsorsUnresolved} withdrawn={law.withdrawn} />
           </div>
