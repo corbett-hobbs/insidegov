@@ -17,6 +17,8 @@ export const SOURCE_LINKS = {
   mayhew: "https://campuspress.yale.edu/davidmayhew/datasets-divided-we-govern/",
   "senate-party-division": "https://www.senate.gov/history/partydiv.htm",
   "house-party-division": "https://history.house.gov/Institution/Party-Divisions/Party-Divisions/",
+  // CRS report 98-662, "Commemorative Legislation: Evolution and Procedures": the House rule of January 4, 1995 (Laws context, rule 7d).
+  "crs-commemorative-legislation": "https://www.everycrsreport.com/reports/98-662.html",
   "house-clerk-disclosures": "https://disclosures-clerk.house.gov/FinancialDisclosure",
   "senate-efd": "https://efdsearch.senate.gov/search/home/",
   // The Court
