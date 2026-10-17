@@ -140,11 +140,14 @@ export function EventNotes({
   focus,
   byId,
   onJump,
+  onSee,
 }: {
   items: readonly TlEvent[];
   focus: number | null;
   byId: ReadonlyMap<string, TlEvent>;
   onJump: (no: number) => void;
+  /** Set by the Era by era card: adds "See on timeline" to the date line (desktop only: on a phone the jump leaves the note behind). */
+  onSee?: (no: number) => void;
 }) {
   return (
     <>
@@ -168,6 +171,14 @@ export function EventNotes({
           </div>
           <div className="font-mono text-[0.7rem] text-ink-faint">
             {e.kind === "law" ? "Signed" : "Decided"} {fmtDate(e.date)}
+            {onSee && (
+              <span className="max-sm:hidden">
+                {" · "}
+                <button type="button" data-tl-jump onClick={() => onSee(e.no)} className={`font-medium text-accent underline-offset-2 hover:underline ${FOCUS_RING}`}>
+                  See on timeline ↑
+                </button>
+              </span>
+            )}
           </div>
           <p className="m-0 mt-[3px] text-ink-muted">{e.what}</p>
           <Votes e={e} />
