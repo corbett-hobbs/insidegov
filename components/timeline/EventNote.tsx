@@ -160,7 +160,7 @@ export function EventNotes({
           <div className="pr-6">
             <span className={numberBadge(e.kind)}>{e.no}</span>
             {e.lawPath ? (
-              <Link href={e.lawPath} className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
+              <Link href={e.lawPath} target="_blank" rel="noreferrer" className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
                 {e.name} ↗
               </Link>
             ) : (
