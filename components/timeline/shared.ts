@@ -8,7 +8,7 @@ export const partyColor = (p: CourtSide | "O") => (p === "D" ? "var(--dem)" : p 
 export const partyTint = (p: Side, pct = 20) => `color-mix(in oklab, ${partyColor(p)} ${pct}%, var(--surface))`;
 
 /** The top edge of each status tile and badge. */
-export const STATUS_COLOR: Record<PowerStatus, string> = { all4: "var(--accent)", tri: "var(--ink-muted)", split: "var(--line-strong)" };
+export const STATUS_COLOR: Record<PowerStatus, string> = { all4: "var(--status-all4)", tri: "var(--ink-muted)", split: "var(--line-strong)" };
 
 export const PARTY_ADJ = { D: "Democratic", R: "Republican" } as const;
 export const PARTY_PLURAL = { D: "Democrats", R: "Republicans" } as const;

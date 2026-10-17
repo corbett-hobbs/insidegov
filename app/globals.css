@@ -22,6 +22,8 @@
   --line-strong: #b9c1cc;
   --accent: #5c4b7a;
   --accent-ink: #ffffff;
+  /* "One party held all four" on /timeline: fixed, so the page theme can recolour controls without recolouring data. */
+  --status-all4: #5c4b7a;
   --dem: #3a66c2;
   --rep: #c24a3a;
   --oth: #83817d;
@@ -156,6 +158,7 @@
     --line-strong: #3a4050;
     --accent: #9b84c7;
     --accent-ink: #14161c;
+    --status-all4: #9b84c7;
     --dem: #4c7fdb;
     --rep: #d96a56;
     --oth: #a5a39c;
@@ -255,6 +258,7 @@
   --line-strong: #3a4050;
   --accent: #9b84c7;
   --accent-ink: #14161c;
+  --status-all4: #9b84c7;
   --dem: #4c7fdb;
   --rep: #d96a56;
   --oth: #a5a39c;
@@ -756,14 +760,17 @@ header[data-branch] {
 div[data-branch="presidency"] { --accent: #2f4f87; --accent-ink: #ffffff; }
 div[data-branch="congress"] { --accent: #2f6b4f; --accent-ink: #ffffff; }
 div[data-branch="supreme-court"] { --accent: #7a2e3b; --accent-ink: #ffffff; }
+div[data-branch="timeline"] { --accent: #3a3f4b; --accent-ink: #ffffff; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) div[data-branch="presidency"] { --accent: #8fb0ea; --accent-ink: #14161c; }
   :root:not([data-theme="light"]) div[data-branch="congress"] { --accent: #7fcaa3; --accent-ink: #14161c; }
   :root:not([data-theme="light"]) div[data-branch="supreme-court"] { --accent: #e29aa8; --accent-ink: #14161c; }
+  :root:not([data-theme="light"]) div[data-branch="timeline"] { --accent: #c9c7c1; --accent-ink: #14161c; }
 }
 :root[data-theme="dark"] div[data-branch="presidency"] { --accent: #8fb0ea; --accent-ink: #14161c; }
 :root[data-theme="dark"] div[data-branch="congress"] { --accent: #7fcaa3; --accent-ink: #14161c; }
 :root[data-theme="dark"] div[data-branch="supreme-court"] { --accent: #e29aa8; --accent-ink: #14161c; }
+:root[data-theme="dark"] div[data-branch="timeline"] { --accent: #c9c7c1; --accent-ink: #14161c; }
 
 /* A faint branch landmark behind the top of the page. It scrolls
    with the page and fades to nothing by ~560px, so charts sit on a clean
@@ -788,6 +795,9 @@ div[data-branch="supreme-court"] { --accent: #7a2e3b; --accent-ink: #ffffff; }
 div[data-branch="presidency"] { --branch-img: url("/images/branches/white-house.jpg"); --branch-pos: center 62%; }
 div[data-branch="congress"] { --branch-img: url("/images/branches/capitol.jpg"); }
 div[data-branch="supreme-court"] { --branch-img: url("/images/branches/supreme-court.jpg"); }
+/* Timeline: the homepage card's slate, washed to gold like the homepage hero, over an aerial of Capitol Hill (add public/images/branches/timeline.jpg; see CREDITS.md). */
+div[data-branch="timeline"] { --branch-img: url("/images/branches/timeline.jpg"); }
+div[data-branch="timeline"] .branch-bg::after { background: linear-gradient(100deg, #23262d 0%, #3a3f4b 45%, #b8892b 130%); }
 
 /* ---------------------------------------------------------------------------
    Homepage (components/home/*). The hero and the branch cards are light-on-
