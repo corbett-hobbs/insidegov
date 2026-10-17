@@ -1,9 +1,10 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { DECISIONS_TAKEAWAYS } from "../components/decisions/takeaways";
+import { DECISIONS_CONTEXT, DECISIONS_TAKEAWAYS } from "../components/decisions/takeaways";
 import { buildDecisionsPayload, sumBucket } from "./decisions-derive";
 import type { DecisionCountRow, DecisionsMeta } from "./decisions-entities";
 import { administration } from "./executive-orders-entities";
+import { SOURCE_LINKS } from "./source-links";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 
 /**
@@ -121,6 +122,65 @@ describe("Supreme Court decisions card takeaways", () => {
     for (const s of Object.values(DECISIONS_TAKEAWAYS)) {
       expect(s.takeaway.split(/(?<=[.;])\s/).filter((x) => x.endsWith(".")).length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
+    }
+  });
+});
+
+/**
+ * The context lines (rule 7d). The Act's title and date are pinned to the enacted law (102 Stat. 662, outside the pipeline); the
+ * justices' dates come from pipeline/output/court/justices.json (Federal Judicial Center). The data checks are that each fact sits
+ * next to the highlight the takeaway names.
+ */
+type Justice = { name: { full: string; last: string }; confirmation_date: string; service_start: string; service_end: string | null };
+const justices = JSON.parse(readFileSync("pipeline/output/court/justices.json", "utf8")) as Justice[];
+const justice = (last: string) => justices.filter((j) => j.name.last === last).at(-1)!;
+const longDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const sitting = (iso: string) => justices.filter((j) => j.service_start <= iso && (j.service_end === null || j.service_end >= iso)).length;
+
+const contextCases: Record<keyof typeof DECISIONS_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
+  cases: {
+    says: ["Supreme Court Case Selections Act (P.L. 100-352)", "\u201cproviding greater discretion to the Supreme Court in selecting the cases it will review,\u201d", "became law June 27, 1988"],
+    links: { "plaw-100-352": "STATUTE-102-Pg662" },
+    check: () => {
+      // Signed in June 1988, before the 1988 term opened; the takeaway's 129-plus run ends with the 1989 term and the under-95 run starts in 1993.
+      expect(cases(1988)).toBeGreaterThanOrEqual(129);
+      expect(Math.max(...between(1993, 2025).map(cases))).toBeLessThan(Math.min(...between(1970, 1989).map(cases)));
+    },
+  },
+  split: {
+    says: ["Abe Fortas left the Court May 14, 1969", "the Senate confirmed Harry Blackmun May 12, 1970", "eight justices sat for most of the 1969 term"],
+    links: { fjc: "fjc.gov" },
+    check: () => {
+      expect(longDate(justice("Fortas").service_end!)).toBe("May 14, 1969");
+      expect(justice("Blackmun").name.full).toMatch(/^Harry /);
+      expect(longDate(justice("Blackmun").confirmation_date)).toBe("May 12, 1970");
+      // The 1969 term opened October 6, 1969: eight sat from then until Blackmun's service began, nine before Fortas left.
+      expect(sitting("1969-10-06")).toBe(8);
+      expect(sitting(justice("Blackmun").service_start)).toBe(9);
+      expect(sitting("1969-05-13")).toBe(9);
+      // The term the takeaway names as the 5–4 low.
+      const fiveFour = terms.map((t) => byTerm.get(t)![4] / cases(t));
+      expect(terms[fiveFour.indexOf(Math.min(...fiveFour))]).toBe(1969);
+    },
+  },
+};
+
+describe("Supreme Court decisions context lines", () => {
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof DECISIONS_CONTEXT, (typeof contextCases)[keyof typeof DECISIONS_CONTEXT]][]) {
+    it(`${key}: holds and names real sources`, () => {
+      for (const phrase of c.says) expect(DECISIONS_CONTEXT[key].text).toContain(phrase);
+      expect(DECISIONS_CONTEXT[key].sources.map((s) => s.id).sort()).toEqual(Object.keys(c.links).sort());
+      for (const [id, part] of Object.entries(c.links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal or ideological claim", () => {
+    expect(Object.keys(DECISIONS_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(DECISIONS_CONTEXT)) {
+      expect(line.text.replace(/P\.L\./g, "PL").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|liberal|conservative|ideolog\w*)\b/i);
     }
   });
 });

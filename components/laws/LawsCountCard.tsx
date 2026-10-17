@@ -16,7 +16,8 @@ import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { EmptyWindow, congressSub, congressTitle, congressYears, controlRowsFor, groupFills } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
 import { SourceLink } from "@/components/SourceLink";
-import { LAWS_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { LAWS_TAKEAWAYS, contextFor } from "./takeaways";
 
 interface Col extends StackColumn {
   ci: number;
@@ -91,10 +92,12 @@ export function LawsCountCard() {
   const notClassified = ncByCongress.reduce((a, b) => a + b, 0);
   const lastCongress = data.congresses[data.congresses.length - 1]!;
 
+  const { takeaway, panel } = useTakeawayContext(LAWS_TAKEAWAYS.count.takeaway, contextFor("count"));
+
   return (
     <ChartCard
       title={LAWS_TAKEAWAYS.count.title}
-      takeaway={LAWS_TAKEAWAYS.count.takeaway}
+      takeaway={takeaway}
       action={
         <PillGroup
           ariaLabel="Laws measure"
@@ -107,6 +110,7 @@ export function LawsCountCard() {
         />
       }
     >
+      {panel}
       {cols.length === 0 ? (
         <EmptyWindow majorThrough={data.majorThrough} />
       ) : series.length === 0 ? (
