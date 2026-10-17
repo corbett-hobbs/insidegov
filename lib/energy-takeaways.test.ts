@@ -164,9 +164,9 @@ const cases: Record<keyof typeof ENERGY_TAKEAWAYS, { says: string[]; check: () =
 };
 
 /**
- * Every figure a context line cites (rule 7d). Dated actions are read from energy_actions.json; facts from a cited page
- * outside the pipeline (EIA's tight-oil share, EIA's stated reasons for LNG growth, DOE's mandated-sale total) are pinned
- * to the phrase the line uses, and the source must be the one cited.
+ * Every figure a context line cites (rule 7d). Dated actions are read from energy_actions.json and chart figures from the
+ * same series the card draws; facts from a cited page outside the pipeline (DOE's mandated-sale total, DOE's statement that
+ * authorized LNG exports were unaffected) are pinned to the phrase the line uses, and the source must be the one cited.
  */
 const action = (id: string) => {
   const a = actions.find((x) => x.action_id === id);
@@ -174,41 +174,64 @@ const action = (id: string) => {
   return a!;
 };
 const cites = (key: keyof typeof ENERGY_CONTEXT, id: string) => expect(ENERGY_CONTEXT[key].sources.map((s) => s.id)).toContain(id);
+/** Long date ("March 31, 2022") of an action's ISO date. */
+const longDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+/** Last weekly SPR reading in a month ("2022-3"), in millions of barrels. */
+const sprAtEndOf = (ym: string) => Math.round((spr.filter(([d]) => monthYear(d) === ym).at(-1) as [number, number])[1] / 1000);
 const contextCases: Record<keyof typeof ENERGY_CONTEXT, { says: string[]; check: () => void }> = {
-  supply: {
-    // EIA FAQ 847: "about 8.32 million barrels per day" … "about 64% of total U.S. crude oil production in 2023".
-    says: ["about 64% of U.S. crude oil production in 2023", "about 8.32M barrels a day", "tight-oil (shale) resources"],
-    check: () => cites("supply", "eia-tight-oil-faq"),
-  },
   oil: {
-    says: ["Public Law 114-113, signed December 18, 2015", "repealed the federal restriction on crude oil exports"],
+    says: ["Public Law 114-113, signed December 18, 2015", "repealed the federal restriction on crude oil exports", "the dashed line under Exports & imports", "rose from 0.5M barrels a day in 2015 to 3.0M in 2019", "when total exports first topped imports"],
     check: () => {
       const a = action("2015-12-18-crude-export-ban-repealed");
+      expect(longDate(a.date)).toBe("December 18, 2015");
       expect(a.description).toMatch(/Public Law 114-113/);
+      expect(a.description).toMatch(/bars federal officials from imposing or enforcing a restriction on crude oil exports/);
       expect(a.sources[0].url).toBe(SOURCE_LINKS["plaw-114-113"]);
+      const crude = mean("cexp");
+      expect(millions(crude.get(2015) as number)).toBe("0.5");
+      expect(millions(crude.get(2019) as number)).toBe("3.0");
+      // Exports first topped imports in October 2019 (the takeaway's claim, checked above).
+      expect((raw.get(KEY_SERIES.net) ?? []).find((r) => r.value < 0)?.date.slice(0, 4)).toBe("2019");
     },
   },
   lng: {
-    says: ["final approval to export to countries without a free trade agreement on August 7, 2012", "abundant natural gas, flexible contract terms and relatively low feedgas costs"],
+    // DOE, January 26, 2024: "This temporary pause on pending applications will not affect already authorized exports".
+    says: ["DOE paused decisions on pending applications to export LNG to countries without a free trade agreement on January 26, 2024", "saying already-authorized exports were unaffected", "ended the pause January 20, 2025", "Yearly exports rose in both 2024 and 2025"],
     check: () => {
-      const a = action("2012-08-07-lng-sabine-pass-final");
-      expect(a.description).toMatch(/final long-term authorization to export LNG to countries without a free trade agreement/);
-      expect(a.sources[0].url).toBe(SOURCE_LINKS["doe-sabine-pass-docket"]);
-      expect(action("2016-02-24-lng-first-sabine-pass-cargo").sources[0].url).toBe(SOURCE_LINKS["eia-sabine-pass-ten-years"]);
+      const pause = action("2024-01-26-lng-export-pause");
+      expect(longDate(pause.date)).toBe("January 26, 2024");
+      expect(pause.description).toMatch(/pause determinations on pending applications to export LNG to countries without a free trade agreement/);
+      expect(pause.description).toMatch(/exports already authorized \(48 Bcf\/d\) were unaffected/);
+      expect(pause.sources[0].url).toBe(SOURCE_LINKS["doe-lng-pause-2024"]);
+      const ended = action("2025-01-20-lng-pause-ended");
+      expect(longDate(ended.date)).toBe("January 20, 2025");
+      expect(ended.description).toMatch(/ending the LNG pause/);
+      expect(ended.sources[0].url).toBe(SOURCE_LINKS["doe-lng-pause-ended-2025"]);
+      const tot = sum("lng");
+      expect(tot.get(2024)).toBeGreaterThan(tot.get(2023) as number);
+      expect(tot.get(2025)).toBeGreaterThan(tot.get(2024) as number);
     },
   },
   spr: {
-    // DOE release history: "180.0" MMbbl 2022 IEA coordinated release; FY2022 mandated sales "38 million barrels … delivered in 2022".
-    says: ["180M-barrel emergency sale in 2022, coordinated through the IEA", "38M barrels of congressionally mandated sales", "March 11, 2026 exchange of 172M barrels", "U.S. share of a 400M-barrel IEA action, to be returned"],
+    // DOE release history: 2022 IEA coordinated release "180.0" MMbbl; FY2022 mandated sales "38 million barrels … delivered in 2022".
+    says: ["Biden authorized selling up to 180M barrels on March 31, 2022", "38M of mandated sales", "fell from 568M barrels that month to 372M by December", "172M-barrel exchange authorized March 11, 2026", "drew it below the 2023 low by June"],
     check: () => {
       const sale = action("2022-03-31-spr-180-million-sale");
-      expect(sale.description).toMatch(/180 million barrel emergency sale coordinated through the IEA in 2022/);
+      expect(longDate(sale.date)).toBe("March 31, 2022");
+      expect(sale.description).toMatch(/President Biden's March 31, 2022 announcement authorized the sale of up to 180 million barrels/);
       expect(sale.sources.map((x) => x.url)).toContain(SOURCE_LINKS["doe-spr-history"]);
+      cites("spr", "doe-spr-history");
+      expect(sprAtEndOf("2022-3")).toBe(568);
+      expect(sprAtEndOf("2022-12")).toBe(372);
       const ex = action("2026-03-11-spr-172-million-exchange");
+      expect(longDate(ex.date)).toBe("March 11, 2026");
       expect(ex.kind).toBe("release_exchange");
-      expect(ex.description).toMatch(/172 million barrels from the SPR, the U\.S\. share of a 400 million barrel coordinated IEA action/);
-      expect(ex.description).toMatch(/the barrels are to be returned/);
+      expect(ex.description).toMatch(/172 million barrels from the SPR/);
       expect(ex.sources[0].url).toBe(SOURCE_LINKS["doe-spr-172m-exchange-2026"]);
+      // The 2023 low (347M, July 2023) is first undercut in June 2026, after the exchange.
+      const low = spr.filter(([d]) => dateOfDay(d).year < 2026 && dateOfDay(d).year >= 2023).reduce((a, b) => (b[1] < a[1] ? b : a));
+      const below = spr.find(([d, v]) => dateOfDay(d).year >= 2026 && v < low[1]);
+      expect(below && monthYear(below[0])).toBe("2026-6");
     },
   },
 };

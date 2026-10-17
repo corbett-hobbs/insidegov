@@ -93,9 +93,8 @@ export const SOURCE_LINKS = {
   "eia-mer": "https://www.eia.gov/totalenergy/data/monthly/",
   "eia-electricity": "https://www.eia.gov/electricity/monthly/",
   // Energy context lines (rule 7d)
-  "eia-tight-oil-faq": "https://www.eia.gov/tools/faqs/faq.php?id=847&t=6",
-  "eia-sabine-pass-ten-years": "https://www.eia.gov/todayinenergy/detail.php?id=67224",
-  "doe-sabine-pass-docket": "https://hgeo.energy.gov/ng_regulation/sabine-pass-liquefaction-llc-fe-dkt-no-10-111-lng",
+  "doe-lng-pause-2024": "https://www.energy.gov/articles/doe-update-public-interest-analysis-enhance-national-security-achieve-clean-energy-goals",
+  "doe-lng-pause-ended-2025": "https://www.energy.gov/articles/us-department-energy-reverses-biden-lng-pause-restores-trump-energy-dominance-agenda",
   "plaw-117-103": "https://www.govinfo.gov/content/pkg/PLAW-117publ103/html/PLAW-117publ103.htm",
   "plaw-117-128": "https://www.govinfo.gov/content/pkg/PLAW-117publ128/html/PLAW-117publ128.htm",
   "plaw-117-180": "https://www.govinfo.gov/content/pkg/PLAW-117publ180/html/PLAW-117publ180.htm",
