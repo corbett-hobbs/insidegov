@@ -161,7 +161,7 @@ export function PowerChart({
     if (!open?.pinned) return;
     const away = (e: PointerEvent) => {
       const t = e.target as Element | null;
-      if (t?.closest("[data-tl-note]") || t?.closest("[data-tl-marker]") || t?.closest("[data-tl-jump]")) return;
+      if (t?.closest("[data-tl-note]") || t?.closest("[data-tl-marker]")) return;
       setOpen(null);
     };
     const esc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(null);
@@ -199,14 +199,37 @@ export function PowerChart({
     return { iso, px, onPres: py >= R.P.y && py <= R.P.y + R.P.h };
   };
   const onMove = (e: ReactPointerEvent<SVGSVGElement>) => {
-    if (e.pointerType !== "mouse" || open?.pinned) return;
+    if (e.pointerType !== "mouse") return void onPan(e);
+    if (open?.pinned) return;
     const p = pointAt(e, e.currentTarget);
     if (!p) return tip.hide();
     if (open) setOpen(null);
     tip.show(p, e);
   };
+  // Zoomed to a window of years, a finger dragging sideways slides the window along (whole years, kept inside the data).
+  const drag = useRef<{ x: number; r: [number, number]; moved: boolean } | null>(null);
+  const zoomed = range[0] !== minYear || range[1] !== maxYear;
+  const onDown = (e: ReactPointerEvent<SVGSVGElement>) => {
+    drag.current = e.pointerType !== "mouse" && zoomed ? { x: e.clientX, r: [range[0], range[1]], moved: false } : null;
+  };
+  const onPan = (e: ReactPointerEvent<SVGSVGElement>) => {
+    const d = drag.current;
+    if (!d || pw <= 0) return false;
+    const dx = e.clientX - d.x;
+    if (!d.moved && Math.abs(dx) < 8) return true;
+    if (!d.moved) {
+      d.moved = true;
+      tip.hide();
+      setOpen(null);
+    }
+    const span = d.r[1] - d.r[0];
+    const from = Math.max(minYear, Math.min(maxYear - span, d.r[0] - Math.round((dx / pw) * (span + 1))));
+    if (from !== range[0]) onRange([from, from + span]);
+    return true;
+  };
   const onUp = (e: ReactPointerEvent<SVGSVGElement>) => {
     if (e.pointerType === "mouse") return;
+    if (drag.current?.moved) return;
     if ((e.target as Element).closest("[data-tl-marker],[data-tl-pres]")) return;
     const p = pointAt(e, e.currentTarget);
     if (!p) return;
@@ -239,7 +262,9 @@ export function PowerChart({
           height={rows.H}
           role="img"
           aria-label="Who held the presidency, Senate, House and Supreme Court over time, with numbered laws and court cases"
+          onPointerDown={onDown}
           onPointerMove={onMove}
+          onClickCapture={(e) => drag.current?.moved && (e.stopPropagation(), (drag.current = null))}
           onPointerLeave={(e) => tip.leave(e)}
           onPointerUp={onUp}
         >
