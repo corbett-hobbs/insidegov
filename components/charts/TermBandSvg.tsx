@@ -59,3 +59,37 @@ export function TermBandSvg({ segments, x0, step, y }: { segments: readonly Term
     </g>
   );
 }
+
+/** A term on a continuous axis: pixel edges instead of slot indexes (the Court line chart, where a term starts mid-year). */
+export interface TermSpan {
+  id: string;
+  last: string;
+  president: string;
+  party: "D" | "R";
+  x0: number;
+  x1: number;
+}
+
+/** `TermBandSvg` for a continuous axis: the same tint, party rule and shortened labels, each span between its own pixel edges. `y` is the band's top edge. */
+export function TermSpanSvg({ spans, y }: { spans: readonly TermSpan[]; y: number }) {
+  return (
+    <g transform={`translate(0,${y})`} aria-hidden>
+      {spans.map((g) => {
+        const w = g.x1 - g.x0;
+        const c = g.party === "R" ? "--rep" : "--dem";
+        const text = fitTermLabel(w, g.last, initialsOf(g.president)) ?? "";
+        return (
+          <g key={g.id}>
+            <rect x={g.x0 + 0.5} y={0} width={Math.max(0, w - 1)} height={TERM_BAND_H} rx={2} style={{ fill: `color-mix(in oklab, var(${c}) 20%, var(--surface))` }} />
+            <rect x={g.x0 + 0.5} y={0} width={Math.max(0, w - 1)} height={2.5} style={{ fill: `var(${c})` }} />
+            {text && (
+              <text x={g.x0 + w / 2} y={TERM_BAND_H - 5} textAnchor="middle" style={{ fontSize: 11, fill: "var(--ink)" }}>
+                {text}
+              </text>
+            )}
+          </g>
+        );
+      })}
+    </g>
+  );
+}

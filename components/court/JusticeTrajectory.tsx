@@ -6,6 +6,8 @@ import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
+import { TERM_BAND_H, TermSpanSvg } from "@/components/charts/TermBandSvg";
+import type { CourtBandTerm } from "@/lib/court-president-band";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import {
@@ -23,6 +25,7 @@ import { LEGEND_ROW } from "@/components/charts/legend";
 const FALLBACK_W = 1100;
 const H = 340;
 const MARGIN = { top: 14, right: 14, bottom: 30, left: Y_GUTTER };
+const BAND_GAP = 4;
 const partyVar = (j: CourtJustice) => (j.party === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
@@ -33,6 +36,7 @@ const partyVar = (j: CourtJustice) => (j.party === "D" ? "var(--dem)" : "var(--r
  */
 export function JusticeTrajectory({
   data,
+  presidents,
   term,
   filter,
   selectedId,
@@ -40,6 +44,8 @@ export function JusticeTrajectory({
   onScrub,
 }: {
   data: CourtPayload;
+  /** Presidents on the term axis, drawn as a band under the year axis; none, no band. */
+  presidents: readonly CourtBandTerm[];
   term: number;
   filter: CourtFilter;
   selectedId: number | null;
@@ -70,8 +76,8 @@ export function JusticeTrajectory({
     <div ref={wrapRef} className="-mx-3 sm:mx-0">
       <ChartFrame
         width={W}
-        height={H}
-        margin={MARGIN}
+        height={presidents.length > 0 ? H + BAND_GAP + TERM_BAND_H : H}
+        margin={presidents.length > 0 ? { ...MARGIN, bottom: MARGIN.bottom + BAND_GAP + TERM_BAND_H } : MARGIN}
         ariaLabel="Line chart of each justice's ideology score by term, with the Court median"
       >
         {({ innerWidth, innerHeight }) => {
@@ -155,6 +161,12 @@ export function JusticeTrajectory({
                 zeroAt={0}
                 format={(v) => (v === 0 ? "0" : v > 0 ? `+${v}` : `−${Math.abs(v)}`)}
               />
+              {presidents.length > 0 && (
+                <TermSpanSvg
+                  y={innerHeight + MARGIN.bottom + BAND_GAP}
+                  spans={presidents.map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(p.from), x1: x(p.to) }))}
+                />
+              )}
               <text x={4} y={12} fill="var(--ink-muted)" fontSize={12}>
                 More conservative
               </text>
