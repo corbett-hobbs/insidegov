@@ -8,8 +8,6 @@ import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
-import { TermBand, type BandTerm } from "@/components/charts/TermBand";
-import { initialsOf } from "@/lib/term-label";
 import { TERM_BAND_H, TermSpanSvg } from "@/components/charts/TermBandSvg";
 import type { CourtBandTerm } from "@/lib/court-president-band";
 import { Tooltip, usePinnedTooltip, useTooltip } from "@/components/charts/Tooltip";
@@ -107,21 +105,6 @@ export function JusticeTrajectory({
     presidents
       .filter((p) => p.to > win[0] && p.from < win[1])
       .map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(Math.max(p.from, win[0])), x1: x(Math.min(p.to, win[1])) }));
-
-  /** The presidents as the slider's term band: whole-term positions on the same axis as the zoom handles. */
-  const bandTerms = useMemo<BandTerm[]>(
-    () =>
-      presidents.map((p) => ({
-        id: p.id,
-        label: p.president,
-        last: p.last,
-        initials: initialsOf(p.president),
-        party: p.party,
-        from: Math.max(firstTerm, Math.round(p.from)),
-        to: Math.min(lastTerm, Math.round(p.to)),
-      })),
-    [presidents, firstTerm, lastTerm],
-  );
 
   const focusId = pin.state?.data.id ?? hoverId ?? selectedId;
   const byId = new Map(data.justices.map((j) => [j.id, j]));
@@ -392,7 +375,7 @@ export function JusticeTrajectory({
         }}
       </ChartFrame>
 
-      {/* Zoom: the same two-handle slider and presidential band the pinned filter bars use (tap to add or drop a term, drag across several), local to this card. */}
+      {/* Zoom: the same two-handle slider the pinned filter bars use, local to this card; the presidents are the band under the chart's axis. */}
       <div className="mx-0.5 mt-3 flex items-center gap-2">
         <RangeSelector
           min={firstTerm}
@@ -402,7 +385,6 @@ export function JusticeTrajectory({
           onChange={(r) => setWin(r)}
           format={String}
           ariaLabel="Terms shown on the chart"
-          below={presidents.length > 0 ? <TermBand terms={bandTerms} min={firstTerm} max={lastTerm} value={win} onChange={(r) => setWin(r)} /> : undefined}
           action={<RangeReset show={!full} onReset={() => setWin([firstTerm, lastTerm])} ariaLabel="Reset the chart zoom to every term" className="mt-0.5 font-sans leading-none" />}
           className="min-w-0 flex-1"
         />
