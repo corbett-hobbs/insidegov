@@ -16,6 +16,7 @@ import type { LawsSearchIndex } from "./laws-search";
 import type { LawSponsor, LawsList, LawsPayload } from "./laws-types";
 import { memberPath } from "./member-url";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
+import { withPopularNames } from "./law-popular-names";
 
 /**
  * Build-time reader for the Congress Laws page: parses `laws_counts.json`, `laws.json` and `laws_meta.json` at the boundary
@@ -31,7 +32,7 @@ let listCache: LawsList | null = null;
 export function getLawsPageData(): LawsPayload {
   if (cache) return cache;
   const counts = z.array(lawCountRow).parse(read("laws_counts.json"));
-  const laws = z.array(lawRow).parse(read("laws.json"));
+  const laws = withPopularNames(z.array(lawRow).parse(read("laws.json")));
   const meta = lawsMeta.parse(read("laws_meta.json"));
   const admins = [...HISTORICAL_ADMINISTRATIONS, ...z.array(administration).parse(read("administrations.json"))];
   const control = congressControlFile.parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "congress-control.json"), "utf8")));
@@ -47,7 +48,7 @@ export function getLawsPageData(): LawsPayload {
  */
 export function getLawsList(): LawsList {
   if (listCache) return listCache;
-  const laws = z.array(lawRow).parse(read("laws.json"));
+  const laws = withPopularNames(z.array(lawRow).parse(read("laws.json")));
   const meta = lawsMeta.parse(read("laws_meta.json"));
   const admins = [...HISTORICAL_ADMINISTRATIONS, ...z.array(administration).parse(read("administrations.json"))];
   listCache = buildLawsList(laws, meta, admins, getLawSponsorResolver());

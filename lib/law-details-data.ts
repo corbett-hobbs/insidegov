@@ -12,6 +12,7 @@ import { congressGovAmendmentUrl, congressGovBillUrl, lawPath, parseLawId } from
 import { getLawVotes } from "./law-votes-data";
 import { getLawSponsorResolver } from "./laws-data";
 import { administrationOn, billLabel } from "./laws-derive";
+import { LAW_POPULAR_NAMES, withPopularNames } from "./law-popular-names";
 import { lawCommitteesFile, lawCosponsorsFile, lawRow, lawsMeta, ordinal } from "./laws-entities";
 import type { LawRow } from "./laws-entities";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
@@ -27,19 +28,19 @@ const read = (file: string): unknown => JSON.parse(readFileSync(join(OUT, file),
 let rows: Map<string, LawRow> | null = null;
 let byBill: Map<string, LawRow> | null = null;
 let all: LawRow[] | null = null;
+let official: Map<string, string> | null = null;
 const shards = new Map<number, z.infer<typeof lawDetailsShard>>();
 
 function loadRows() {
   if (!rows) {
     all = z.array(lawRow).parse(read("laws.json"));
+    official = new Map(all.map((l) => [l.law_id, l.title]));
+    all = withPopularNames(all);
     rows = new Map(all.map((l) => [l.law_id, l]));
     byBill = new Map(all.map((l) => [`${l.congress}|${l.bill_type}|${l.bill_number}`, l]));
   }
-  return { rows: rows!, all: all!, byBill: byBill! };
+  return { rows: rows!, all: all!, byBill: byBill!, official: official! };
 }
-
-/** Laws known by a popular name; the page leads with it. URLs keep the formal title's slug. */
-const LAW_POPULAR_NAMES: Record<string, string> = { "119-pub-21": "One Big Beautiful Bill Act" };
 
 /** Every law as the page and the sitemap need it: id, title, Congress and date. Newest first. */
 export function getLawRefs(): { lawId: string; title: string; congress: number; date: string; major: boolean | null }[] {
@@ -143,8 +144,8 @@ export function getLawPage(lawId: string): LawPageData | null {
     lawId,
     congress: law.congress,
     number: law.number,
-    title: LAW_POPULAR_NAMES[lawId] ?? law.title,
-    officialTitle: LAW_POPULAR_NAMES[lawId] ? law.title : null,
+    title: law.title,
+    officialTitle: LAW_POPULAR_NAMES[lawId] ? loadRows().official.get(lawId) ?? null : null,
     publicLaw: `Public Law ${law.congress}-${law.number}`,
     date: law.date,
     billLabel: billLabel(law),

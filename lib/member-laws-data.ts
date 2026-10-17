@@ -6,6 +6,7 @@ import { getLawsList, searchVersion } from "./laws-data";
 import { lawCosponsorsFile, lawRow, lawsMeta } from "./laws-entities";
 import type { MemberLaws } from "./laws-types";
 import { buildMemberLaws, indexMemberRoles } from "./member-laws";
+import { withPopularNames } from "./law-popular-names";
 
 /**
  * Build-time reader for the laws on a member's page: the Laws list cut down to the laws a member sponsored (`laws.json`) or
@@ -19,7 +20,7 @@ let areas: z.infer<typeof lawsMeta>["areas"] | null = null;
 
 function load() {
   if (!roles || !areas) {
-    roles = indexMemberRoles(z.array(lawRow).parse(read("laws.json")), lawCosponsorsFile.parse(read("laws_cosponsors.json")));
+    roles = indexMemberRoles(withPopularNames(z.array(lawRow).parse(read("laws.json"))), lawCosponsorsFile.parse(read("laws_cosponsors.json")));
     areas = lawsMeta.parse(read("laws_meta.json")).areas;
   }
   return { roles, areas };
