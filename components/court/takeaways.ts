@@ -1,3 +1,5 @@
+import type { ContextEntry } from "@/lib/chart-context";
+
 /**
  * The takeaway under each Supreme Court ideology chart title (ARCHITECTURE_MAP
  * rule 7c): what the chart shows over the full term range with both appointing
@@ -23,3 +25,23 @@ export const COURT_TAKEAWAYS = {
       "The Court median was lowest in the 1963 term (−1.13) and highest in 1988 (1.10); from 1969 through 2024 it fell below zero only in 2014, 2015 and 2016. Blackmun went from 1.63 in the 1971 term to −1.93 in 1993.",
   },
 } as const;
+
+/**
+ * The context lines (ARCHITECTURE_MAP rule 7d). The strip's line dates the one membership change at the 1990 switch in the
+ * likeliest median's appointing party, from the FJC service dates in pipeline/output/court; timing only, it never says why a
+ * justice votes as they do. The trajectory's line says what Martin and Quinn say their scores are. The presidents card has
+ * none: no cited source says what lies behind its highlight. Pinned in lib/court-ideology-takeaways.test.ts.
+ */
+export const COURT_CONTEXT = {
+  strip: {
+    text: "Brennan left the Court on July 20, 1990, and Souter joined on October 3, 1990. In the 1990 term the likeliest median moved from White, a Kennedy appointee, to Souter, a Bush appointee.",
+    sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
+  },
+  trajectory: {
+    text: "Martin and Quinn estimate each justice’s score for each term from votes in non-unanimous cases, with a model that lets scores drift from term to term. Each score is an estimate with uncertainty, not a measured position.",
+    sources: [{ id: "martin-quinn", label: "Martin–Quinn, Measures" }],
+  },
+} as const satisfies Partial<Record<keyof typeof COURT_TAKEAWAYS, ContextEntry>>;
+
+export const contextFor = (card: keyof typeof COURT_TAKEAWAYS): ContextEntry | null =>
+  (COURT_CONTEXT as Partial<Record<keyof typeof COURT_TAKEAWAYS, ContextEntry>>)[card] ?? null;
