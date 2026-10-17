@@ -94,6 +94,7 @@ export function MemberNeighborList({
               {/* Phones: party and seat, right-aligned, in place of the score (the name would otherwise cut the seat off). */}
               <span className="flex-none whitespace-nowrap text-right text-[0.72rem] text-ink-faint sm:hidden">
                 {partyAbbr(member.party)}-{seatLabel(member)}
+                {member.isFormer && " (fmr)"}
               </span>
               <span className="hidden w-10 flex-none text-right font-mono text-[0.7rem] tabular-nums text-ink-muted sm:block">
                 {fmt2(member.dim1)}
