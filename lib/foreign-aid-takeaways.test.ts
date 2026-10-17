@@ -160,9 +160,11 @@ const contextCases: Record<keyof typeof AID_CONTEXT, { says: string[]; links: Re
     },
   },
   firstPlace: {
-    says: ["four laws adding emergency Ukraine aid from March to December 2022, three of them in FY2022", "from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal)"],
+    says: ["Ukraine went from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal)", "the fiscal year Congress passed three of the four 2022 laws adding emergency Ukraine aid"],
     links: UKRAINE_LAW_LINKS,
     check: () => {
+      // Opens on this card's own feature, not the spending card's sentence about the same laws.
+      expect(AID_CONTEXT.firstPlace.text.slice(0, 40)).not.toBe(AID_CONTEXT.spending.text.slice(0, 40));
       const fys = checkLawDates().map(fyOf);
       expect(fys.filter((fy) => fy === 2022)).toHaveLength(3);
       expect(rankCountries(d, 2021, null).findIndex((r) => r.ci === ukr) + 1).toBe(17);

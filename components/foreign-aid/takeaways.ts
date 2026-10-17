@@ -39,7 +39,7 @@ export const AID_CONTEXT = {
     sources: [{ id: "fr-eo-14169", label: "EO 14169" }],
   },
   firstPlace: {
-    text: "Congress passed four laws adding emergency Ukraine aid from March to December 2022, three of them in FY2022. Ukraine went from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal).",
+    text: "Ukraine went from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal), the fiscal year Congress passed three of the four 2022 laws adding emergency Ukraine aid.",
     sources: UKRAINE_LAWS,
   },
 } as const satisfies Partial<Record<keyof typeof AID_TAKEAWAYS, ContextEntry>>;
