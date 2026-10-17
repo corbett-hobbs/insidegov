@@ -9,6 +9,10 @@ import type {
   MqScore,
 } from "./court-entities";
 import { buildCourtPayload } from "./court-derive";
+import { courtPresidentBand, type CourtBandTerm } from "./court-president-band";
+import { administration } from "./executive-orders-entities";
+import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
+import { z } from "zod";
 import { buildJusticeProfiles } from "./justice-derive";
 import type { CourtHubSummary, CourtPayload } from "./court-types";
 import type { JusticeProfile, JusticeRef } from "./justice-types";
@@ -43,6 +47,14 @@ let cached: CourtPayload | null = null;
 export function getCourtPayload(): CourtPayload {
   cached ??= buildCourtPayload(readInputs());
   return cached;
+}
+
+/** The presidents under the Court charts' term axis: the same tenures every other term band uses, placed on the term axis. */
+export function getCourtPresidentBand(): CourtBandTerm[] {
+  const path = join(process.cwd(), "pipeline", "output", "administrations.json");
+  const admins = [...HISTORICAL_ADMINISTRATIONS, ...z.array(administration).parse(JSON.parse(readFileSync(path, "utf8")))];
+  const { firstTerm, lastTerm } = getCourtPayload();
+  return courtPresidentBand(admins, firstTerm, lastTerm);
 }
 
 let profiles: Map<number, JusticeProfile> | null = null;

@@ -21,6 +21,7 @@ import { CourtToolbar } from "./CourtToolbar";
 import { JusticeSearch } from "./JusticeSearch";
 import { JusticeStrip } from "./JusticeStrip";
 import { PresidentRows, type PresidentSort } from "./PresidentRows";
+import type { CourtBandTerm } from "@/lib/court-president-band";
 import { JusticeTrajectory } from "./JusticeTrajectory";
 import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
@@ -40,7 +41,7 @@ const SORTS = [
 const introFor = (first: number) =>
   `Where each justice sits on a liberal–conservative scale, every term since ${first}. One seat can tip the Court’s majority, so who holds it, who appointed them and how far they drift shapes how the country’s biggest cases come out.`;
 
-export function CourtExplorer({ data }: { data: CourtPayload }) {
+export function CourtExplorer({ data, presidents = [] }: { data: CourtPayload; presidents?: CourtBandTerm[] }) {
   const { firstTerm, lastTerm } = data;
   const [term, setTerm] = useState(lastTerm);
   const [playing, setPlaying] = useState(false);
@@ -259,6 +260,7 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
           {trajectoryCtx.panel}
           <JusticeTrajectory
             data={data}
+            presidents={presidents}
             term={term}
             filter={filter}
             selectedId={selectedId}

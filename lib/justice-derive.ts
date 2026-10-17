@@ -123,6 +123,13 @@ export function buildJusticeProfiles(input: ProfileInput): {
       ).map((n) => n.member.id),
     );
 
+    // Everyone else the same president appointed, whether or not they overlapped with the subject.
+    const appointerIds = new Set(
+      justices
+        .filter((j) => j.id !== subject.id && (rawById.get(j.id) as Justice).appointing_president === raw.appointing_president)
+        .map((j) => j.id),
+    );
+
     const peers: PeerTrace[] = [];
     const alongsideIds = new Set<number>();
     for (const p of justices) {
@@ -144,6 +151,7 @@ export function buildJusticeProfiles(input: ProfileInput): {
         sharedTerms: r[1] - r[0] + 1,
         endsAtEdge: r[1] === subject.t1,
         isNeighbor: neighborIds.has(p.id),
+        sameAppointer: appointerIds.has(p.id),
       });
     }
 
@@ -155,6 +163,7 @@ export function buildJusticeProfiles(input: ProfileInput): {
       career: j.career,
       alongside: alongsideIds.has(j.id),
       neighbor: neighborIds.has(j.id),
+      sameAppointer: appointerIds.has(j.id),
     }));
 
     const byCareerGap = <T extends { career: number; id: number }>(a: T, b: T) =>
@@ -179,6 +188,12 @@ export function buildJusticeProfiles(input: ProfileInput): {
       .filter((p) => p.neighbor)
       .sort(byCareerGap)
       .map((p) => row(byId.get(p.id) as CourtJustice, null));
+
+    const sharedWith = new Map(peers.map((p) => [p.id, yearSpan(p.t0, p.t1)]));
+    const appointer = points
+      .filter((p) => p.sameAppointer)
+      .sort(byCareerGap)
+      .map((p) => row(byId.get(p.id) as CourtJustice, sharedWith.get(p.id) ?? null));
 
     const min = Math.min(...subject.s);
     const max = Math.max(...subject.s);
@@ -219,7 +234,7 @@ export function buildJusticeProfiles(input: ProfileInput): {
           maxTerm: subject.t0 + subject.s.indexOf(max),
         },
       },
-      roster: { alongside, neighbors },
+      roster: { alongside, neighbors, appointer },
     };
   });
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCourtPayload } from "@/lib/justice-data";
+import { getCourtPayload, getCourtPresidentBand } from "@/lib/justice-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { CourtExplorer } from "@/components/court/CourtExplorer";
 
@@ -20,5 +20,5 @@ export const metadata: Metadata = {
 };
 
 export default function SupremeCourtPage() {
-  return <CourtExplorer data={getCourtPayload()} />;
+  return <CourtExplorer data={getCourtPayload()} presidents={getCourtPresidentBand()} />;
 }

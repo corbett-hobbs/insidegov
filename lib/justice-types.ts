@@ -25,6 +25,8 @@ export interface PeerTrace {
   endsAtEdge: boolean;
   /** One of the four nearest to the subject's career average, league-wide. */
   isNeighbor: boolean;
+  /** Appointed by the same president as the subject. */
+  sameAppointer: boolean;
 }
 
 /** One dot in the swarm: every justice in the data set at career average. */
@@ -38,6 +40,8 @@ export interface SwarmPoint {
   alongside: boolean;
   /** One of the four nearest career averages ("Nearest neighbors"). */
   neighbor: boolean;
+  /** Appointed by the same president as the subject ("Same president"). */
+  sameAppointer: boolean;
 }
 
 export interface RosterRow {
@@ -84,7 +88,7 @@ export interface JusticeProfile {
     points: SwarmPoint[];
     range: { min: number; max: number; minTerm: number; maxTerm: number };
   };
-  roster: { alongside: RosterRow[]; neighbors: RosterRow[] };
+  roster: { alongside: RosterRow[]; neighbors: RosterRow[]; appointer: RosterRow[] };
 }
 
 export interface JusticeRef {

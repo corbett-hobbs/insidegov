@@ -121,6 +121,21 @@ describe("every justice", () => {
     }
   });
 
+  it("lists the other justices the same president appointed, never the subject, by career-average gap", () => {
+    for (const x of profiles) {
+      const rows = x.roster.appointer;
+      expect(rows.some((r) => r.id === x.justice.id)).toBe(false);
+      const gaps = rows.map((r) => Math.abs(r.career - x.justice.career));
+      expect(gaps).toEqual([...gaps].sort((a, b) => a - b));
+      // The swarm flags exactly the same justices.
+      expect(new Set(x.swarm.points.filter((p) => p.sameAppointer).map((p) => p.id))).toEqual(new Set(rows.map((r) => r.id)));
+      // Everyone listed by the same president shares the subject's party (a president's appointees carry the president's party).
+      for (const r of rows) expect(r.party).toBe(x.justice.party);
+    }
+    // At least one president appointed several justices, and at least one appointed only one.
+    expect(profiles.some((x) => x.roster.appointer.length > 0)).toBe(true);
+  });
+
   it("computes the career average as the unweighted term mean", () => {
     for (const j of payload.justices) {
       const mean = j.s.reduce((a, b) => a + b, 0) / j.s.length;
