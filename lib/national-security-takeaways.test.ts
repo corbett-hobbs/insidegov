@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { TROOPS_CONTEXT, TROOPS_TAKEAWAYS } from "../components/troops/takeaways";
+import { TROOPS_BREAK_NOTE, TROOPS_CONTEXT, TROOPS_TAKEAWAYS } from "../components/troops/takeaways";
 import type { ContextEntry } from "./chart-context";
 import { SOURCE_LINKS } from "./source-links";
 import { administration } from "./executive-orders-entities";
@@ -90,37 +90,62 @@ const cases: Record<keyof typeof TROOPS_TAKEAWAYS, { says: string[]; check: () =
 };
 
 /**
- * Every figure a context line cites (rule 7d). The 2017 counting change is read from troops_location_meta.json's `break`;
- * the statutes and the 2009 address sit outside the pipeline, so their dates and the 30,000 are pinned to the phrase the
- * line uses and must cite that document.
+ * Every figure a context line cites (rule 7d), read through the same derive functions as the takeaways. The dated events
+ * sit outside the pipeline, so each date and number is pinned to the phrase the line uses and must cite that document.
  */
-const meta = troopsMeta.parse(read("troops_location_meta.json"));
+const tenth = (v: number) => Math.round(v / 100) / 10;
 const cites = (key: keyof typeof TROOPS_CONTEXT, id: string) => expect(TROOPS_CONTEXT[key].sources.map((s) => s.id)).toContain(id);
 const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check: () => void }> = {
   abroad: {
-    says: ["From December 2017", "count only permanently assigned personnel", "leaving out temporary duty and contingency deployments", "from 215.2k in September to 161.9k in December", "Afghanistan, Iraq and Syria went unreported from December 2017 through September 2021"],
+    // archives.gov: "This armistice signed on July 27, 1953, formally ended the war in Korea." The Midway remarks, dated
+    // June 8, 1969: "the immediate redeployment from Vietnam of a division equivalent of approximately 25,000 men".
+    says: ["Korean War armistice was signed July 27, 1953, after the June 1953 high", "troops abroad fell to 740.4k by 1955", "President Nixon ordered about 25,000 troops out of Vietnam on June 8, 1969", "the total fell from 1.04M that year to 522.0k by 1972"],
     check: () => {
-      const b = meta.break;
-      expect(b.first_period_after).toBe("2017-12");
-      expect(b.after).toMatch(/permanently assigned personnel only; temporary duty and contingency deployments are not included/);
-      const [from, to] = b.after.match(/fell ([\d,]+) → ([\d,]+) between Sep and Dec 2017/)!.slice(1).map((x) => Number(x.replace(/,/g, "")));
-      expect(Math.round(from / 100) / 10).toBe(215.2);
-      expect(Math.round(to / 100) / 10).toBe(161.9);
-      expect([...b.contingency_hosts_not_reported].sort()).toEqual(["Afghanistan", "Iraq", "Syria"]);
-      expect(b.not_reported_periods[0]).toBe("2017-12");
-      expect(b.not_reported_periods.at(-1)).toBe("2021-09");
-      cites("abroad", "dmdc");
+      const y53 = payload.years[yidx(1953)];
+      expect(payload.periods[y53.period].snapshot).toBe("june");
+      expect(Math.max(...stacks.map((s) => s.total))).toBe(stackOf(1953).total);
+      expect(stackOf(1954).total).toBeLessThan(stackOf(1953).total);
+      expect(stackOf(1955).total).toBeLessThan(stackOf(1954).total);
+      expect(tenth(stackOf(1955).total)).toBe(740.4);
+      expect(Math.round(stackOf(1969).total / 10_000) / 100).toBe(1.04);
+      for (let fy = 1970; fy <= 1972; fy++) expect(stackOf(fy).total, `${fy}`).toBeLessThan(stackOf(fy - 1).total);
+      expect(tenth(stackOf(1972).total)).toBe(522);
+      cites("abroad", "korea-armistice-1953");
+      cites("abroad", "nixon-midway-1969");
+    },
+  },
+  map: {
+    // DoD statement, July 29, 2020: "approximately 11,900 military personnel will be repositioned from Germany". Remarks,
+    // February 4, 2021: "while this review is taking place, we'll be stopping any planned troop withdrawals from Germany."
+    says: ["On July 29, 2020, the Defense Department said about 11,900 troops would be moved out of Germany", "on February 4, 2021, President Biden said planned withdrawals would stop", "Germany stayed the second-largest host", "with 34.0k to 36.3k troops every year from 2018 through 2025"],
+    check: () => {
+      const vs = views(2018, 2025);
+      expect(vs).toHaveLength(8);
+      for (const v of vs) expect(placeName(v.ranked[1].place)).toBe("Germany");
+      const de = vs.map((v) => v.ranked[1].value);
+      expect(tenth(Math.min(...de)).toFixed(1)).toBe("34.0");
+      expect(tenth(Math.max(...de))).toBe(36.3);
+      cites("map", "dod-eucom-posture-2020");
+      cites("map", "biden-state-dept-2021");
     },
   },
   firstPlace: {
-    // 78 Stat. 384 is dated August 10, 1964, "To promote ... peace and security in southeast Asia"; PLAW-107publ243 is
-    // dated Oct. 16, 2002, "To authorize the use of United States Armed Forces against Iraq"; the Dec 1, 2009 address:
-    // "an additional 30,000 U.S. troops" that "will deploy in the first part of 2010".
-    says: ["Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia", "Public Law 107-243 (October 16, 2002) against Iraq", "On December 1, 2009, the President announced 30,000 more troops for Afghanistan", "to deploy in the first part of 2010"],
+    // State of the Union, February 12, 2013: "over the next year, another 34,000 American troops will come home from
+    // Afghanistan."
+    says: ["In his February 12, 2013 State of the Union, President Obama said another 34,000 troops would come home from Afghanistan over the next year", "Afghanistan fell from 63.2k in 2012 to 48.8k in 2013, below Japan’s 53.0k", "and Japan has led since"],
     check: () => {
-      cites("firstPlace", "plaw-88-408");
-      cites("firstPlace", "plaw-107-243");
-      cites("firstPlace", "obama-west-point-2009");
+      const v12 = views(2012, 2012)[0];
+      const v13 = views(2013, 2013)[0];
+      const of = (v: typeof v12, name: string) => v.ranked.find((r) => placeName(r.place) === name)!.value;
+      expect(placeName(v12.ranked[0].place)).toBe("Afghanistan");
+      expect(tenth(of(v12, "Afghanistan"))).toBe(63.2);
+      expect(tenth(of(v13, "Afghanistan"))).toBe(48.8);
+      expect(tenth(of(v13, "Japan"))).toBe(53);
+      expect(placeName(v13.ranked[0].place)).toBe("Japan");
+      expect(placeName(v13.ranked[1].place)).toBe("Afghanistan");
+      // "has led since": Japan's run from 2013 reaches the latest year shown.
+      expect(run("Japan", 2013)?.to).toBe(payload.years[last].fy);
+      cites("firstPlace", "obama-sotu-2013");
     },
   },
 };
@@ -144,6 +169,19 @@ describe("National security card takeaways", () => {
       c.check();
     });
   }
+
+  it("Data note on the Dec 2017 counting change holds against troops_location_meta.json", () => {
+    const b = troopsMeta.parse(read("troops_location_meta.json")).break;
+    expect(b.first_period_after).toBe("2017-12");
+    expect(TROOPS_BREAK_NOTE).toContain("from the Dec 2017 table, only personnel permanently assigned to a location, leaving out temporary duty and contingency deployments");
+    expect(b.after).toMatch(/permanently assigned personnel only; temporary duty and contingency deployments are not included/);
+    const [from, to] = b.after.match(/fell ([\d,]+) → ([\d,]+) between Sep and Dec 2017 while the U.S. total rose, a reallocation, not a withdrawal/)!.slice(1);
+    expect(TROOPS_BREAK_NOTE).toContain(`went from ${from} in Sep to ${to} in Dec 2017 while the U.S. total rose, a reallocation, not a withdrawal`);
+    expect([...b.contingency_hosts_not_reported].sort()).toEqual(["Afghanistan", "Iraq", "Syria"]);
+    expect(b.not_reported_periods[0]).toBe("2017-12");
+    expect(b.not_reported_periods.at(-1)).toBe("2021-09");
+    expect(TROOPS_BREAK_NOTE).toContain("Afghanistan, Iraq and Syria print blank, not zero, from Dec 2017 through Sep 2021");
+  });
 
   it("stays short: two sentences, at most 45 words", () => {
     for (const s of Object.values(TROOPS_TAKEAWAYS)) {
