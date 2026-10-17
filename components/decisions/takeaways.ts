@@ -25,19 +25,25 @@ export const DECISIONS_TAKEAWAYS = {
 } as const;
 
 /**
- * Context lines (ARCHITECTURE_MAP rule 7d): a dated statute or a dated change in who sat on the Court, next to the highlight the
- * takeaway names. Timing only: never why the docket shrank or why a term split as it did. Pinned in lib/decisions-takeaways.test.ts
- * (the statute to its own text, the justices' dates to pipeline/output/court/justices.json, which the Federal Judicial Center
+ * Context lines (ARCHITECTURE_MAP rule 7d): a dated statute or a dated change in who sat on the Court, the chart feature it lines
+ * up with, and the mechanism where the law or the record states it. Never that the Act caused the docket to shrink, nor that a
+ * new majority caused a vote split. The cases line is the older exception rule 7d allows: the 1988 Act sits behind the chart's
+ * main drop and nothing recent explains it. The split line is Barrett's 2020 confirmation next to the 6–3 band's three highest
+ * shares. Pinned in lib/decisions-takeaways.test.ts (the statute to its own text, the seat to the Senate's nominations table, the
+ * justices' dates, votes and appointing parties to pipeline/output/court/justices.json, which the Federal Judicial Center
  * supplies). "Which kinds of cases split the Court?" has none: no cited document says what lies behind an issue area's split rate.
  */
 export const DECISIONS_CONTEXT = {
   cases: {
-    text: "The Supreme Court Case Selections Act (P.L. 100-352), \u201cproviding greater discretion to the Supreme Court in selecting the cases it will review,\u201d became law June 27, 1988.",
+    text: "The Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988) ended most appeals the Court had to hear, so nearly all its cases became ones it chose. It decided at least 129 cases every term from 1970 through 1989; none topped 94 from 1993.",
     sources: [{ id: "plaw-100-352", label: "P.L. 100-352" }],
   },
   split: {
-    text: "Abe Fortas left the Court May 14, 1969, and the Senate confirmed Harry Blackmun May 12, 1970, so eight justices sat for most of the 1969 term.",
-    sources: [{ id: "fjc", label: "Federal Judicial Center" }],
+    text: "The Senate confirmed Amy Coney Barrett, a Donald J. Trump nominee, 52\u201348 on October 26, 2020, to Ginsburg\u2019s seat, giving Republican appointees six of nine. The three highest 6\u20133 shares since 1946 followed: 32% in the 2021 term, 36% in 2023 and 30% in 2025.",
+    sources: [
+      { id: "senate-scotus-nominations", label: "U.S. Senate" },
+      { id: "fjc", label: "Federal Judicial Center" },
+    ],
   },
 } as const satisfies Partial<Record<keyof typeof DECISIONS_TAKEAWAYS, ContextEntry>>;
 

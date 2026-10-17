@@ -99,34 +99,50 @@ describe("Supreme Court ideology card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). The strip's dates, appointing presidents and medians come from pipeline/output/court
- * (FJC service dates in justices.json, the median in court_terms.json); the trajectory's line restates the MQ measures
- * page (non-unanimous cases, a dynamic model), outside the pipeline, so it is pinned to its phrase and link.
+ * The context lines (rule 7d). Dates, appointing presidents, Senate votes and medians come from pipeline/output/court (FJC
+ * service dates and votes in justices.json, the median in court_terms.json). Outside the pipeline, pinned to the phrase the line
+ * uses: the seats each nominee filled ("Barrett … Ginsburg", "Gorsuch … Scalia") from the Senate's nominations table, and the
+ * April 6, 2017 change from Senate roll calls 115-1-105 (cloture on Gorsuch rejected 55–45, "Required for Majority: 3/5") and
+ * 115-1-110 (agreed 55–45, "Required for Majority: 1/2").
  */
 const raw = new Map(justices.map((j) => [j.name.last, j]));
 const termRow = (term: number) => read<CourtTermRow>("court_terms.json").filter((t) => t.term === term);
+const seatedOn = (iso: string) => justices.filter((j) => j.service_start <= iso && (j.service_end === null || j.service_end >= iso));
 const contextCases: Record<keyof typeof COURT_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   strip: {
-    says: ["Brennan left the Court on July 20, 1990", "Souter joined on October 3, 1990", "In the 1990 term", "from White, a Kennedy appointee", "to Souter, a Bush appointee"],
+    says: ["Ginsburg died on September 18, 2020", "the Senate confirmed Barrett, a Donald J. Trump nominee, 52–48 on October 26", "giving Republican appointees six of the nine seats", "In the 2020 term the likeliest median moved from Chief Justice Roberts to Kavanaugh"],
     links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
     check: () => {
-      expect(raw.get("Brennan")!.service_end).toBe("1990-07-20");
-      expect(raw.get("Souter")!.service_start).toBe("1990-10-03");
-      expect(raw.get("White")!.appointing_president).toBe("John F. Kennedy");
-      expect(raw.get("Souter")!.appointing_president).toBe("George H.W. Bush");
-      // The only membership change between the 1989 and 1990 terms, and the term the takeaway's switch begins.
-      const between = justices.filter((j) => (j.service_end ?? "9999") >= "1990-06-01" && (j.service_end ?? "9999") < "1990-10-31" || (j.service_start >= "1990-06-01" && j.service_start < "1990-10-31"));
-      expect(between.map((j) => j.name.last).sort()).toEqual(["Brennan", "Souter"]);
-      expect(termRow(1989).map((t) => t.median_justice_id)).toEqual([raw.get("White")!.justice_id]);
-      expect(termRow(1990).map((t) => t.median_justice_id)).toEqual([raw.get("Souter")!.justice_id]);
+      const g = raw.get("Ginsburg")!;
+      expect([g.service_end, g.death_year]).toEqual(["2020-09-18", 2020]);
+      const b = raw.get("Barrett")!;
+      expect([b.appointing_president, b.confirmation_date, b.service_start]).toEqual(["Donald J. Trump", "2020-10-26", "2020-10-26"]);
+      expect(b.senate_vote).toEqual({ ayes: 52, nays: 48 });
+      // Before Ginsburg's death five of nine were Republican appointees; once Barrett sat, six.
+      const rCount = (iso: string) => seatedOn(iso).filter((j) => j.appointing_party === "Republican").length;
+      expect([seatedOn("2020-09-17").length, rCount("2020-09-17")]).toEqual([9, 5]);
+      expect([seatedOn("2020-10-27").length, rCount("2020-10-27")]).toEqual([9, 6]);
+      const roberts = justices.find((j) => j.name.full.startsWith("John Glover Roberts"))!;
+      expect(roberts.chief_justice_appointment).not.toBeNull();
+      expect(termRow(2019).map((t) => t.median_justice_id)).toEqual([roberts.justice_id]);
+      expect(termRow(2020).map((t) => t.median_justice_id)).toEqual([raw.get("Kavanaugh")!.justice_id]);
     },
   },
   trajectory: {
-    says: ["from votes in non-unanimous cases", "lets scores drift from term to term", "an estimate with uncertainty"],
-    links: { "martin-quinn": "mqscores\\.wustl\\.edu" },
+    says: ["On April 7, 2017", "a day after letting a simple majority end debate on Supreme Court nominees", "the Senate confirmed Gorsuch, a Donald J. Trump nominee, 54–45 to Scalia’s seat", "In 2017, his first full term, the median went from −0.06 to 0.29"],
+    links: { "senate-vote-gorsuch-cloture": "senate\\.gov/legislative/LIS/roll_call_votes/vote1151/vote_115_1_00110", "senate-scotus-nominations": "senate\\.gov/legislative/nominations", "martin-quinn": "mqscores" },
     check: () => {
-      // Every score in the output carries its uncertainty.
-      expect(read<MqScore>("mq_scores.json").every((s) => s.mq_sd > 0 && s.mq_lo95 < s.mq_hi95)).toBe(true);
+      const g = raw.get("Gorsuch")!;
+      expect([g.appointing_president, g.confirmation_date]).toEqual(["Donald J. Trump", "2017-04-07"]);
+      expect(g.senate_vote).toEqual({ ayes: 54, nays: 45 });
+      // Scalia's seat sat empty from his death until Gorsuch, who joined late in the 2016 term, so 2017 is his first full one.
+      expect(raw.get("Scalia")!.service_end).toBe("2016-02-13");
+      expect(seatedOn("2016-10-03").length).toBe(8);
+      expect(named("Gorsuch").t0).toBe(2016);
+      expect(fmtScore(termRow(2016)[0].median_score)).toBe("−0.06");
+      expect(fmtScore(termRow(2017)[0].median_score)).toBe("0.29");
+      // The last of the takeaway's three terms below zero, and the first term after it.
+      expect(termsIn(2017, 2024).every((t) => t.median > 0)).toBe(true);
     },
   },
 };
@@ -144,7 +160,7 @@ describe("Supreme Court ideology context lines", () => {
   it("every context line belongs to a card, stays short and makes no causal or loaded claim", () => {
     expect(Object.keys(COURT_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
     for (const [key, line] of Object.entries(COURT_CONTEXT)) {
-      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/(?<=[a-z0-9]\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|motive)/i);
     }

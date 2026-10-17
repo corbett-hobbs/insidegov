@@ -197,10 +197,10 @@ const usdCases: Record<keyof typeof USD_SPECS, { says: string[]; check: () => vo
 };
 
 /**
- * The context lines (rule 7d). NBER's dates are checked against USREC, which flags the months after each peak through the
- * trough (FRED's convention), so a "March to November 2001" recession is flagged April–November. Facts from cited documents
- * outside the pipeline (FOMC rate decisions, enactment dates, CBO's April 16, 2020 CARES Act estimate) are pinned to the phrase
- * the line uses, so an edit has to come back here; where the chart's own data touches them, it is checked against them.
+ * The context lines (rule 7d). Facts from cited documents outside the pipeline (the shutdown's dates and BLS's statements,
+ * Proclamation 9994, DOE's reserve actions, FOMC rate decisions, enactment dates, CBO's April 16, 2020 CARES Act estimate)
+ * are pinned to the phrase the line uses, so an edit has to come back here; where the chart's own data touches them, it is
+ * checked against them.
  */
 const recessionMonths = (from: string, to: string) => usrec.filter((p) => p.value === 1 && p.date >= from && p.date < to).map((p) => p.date.slice(0, 7));
 const monthsBetween = (a: string, b: string) => {
@@ -208,40 +208,66 @@ const monthsBetween = (a: string, b: string) => {
   for (let d = new Date(`${a}-01T00:00Z`); d.toISOString().slice(0, 7) <= b; d.setUTCMonth(d.getUTCMonth() + 1)) out.push(d.toISOString().slice(0, 7));
   return out;
 };
+const missingMonths = (ps: { date: string }[]) => {
+  const have = new Set(ps.map((p) => p.date.slice(0, 7)));
+  return monthsBetween(ps[0].date.slice(0, 7), ps.at(-1)!.date.slice(0, 7)).filter((m) => !have.has(m));
+};
+const lastOnOrBefore = (ps: P[], date: string) => ps.filter((p) => p.date <= date).at(-1)!;
 const contextCases: Record<keyof typeof ECONOMY_CONTEXT, { says: string[]; check: () => void }> = {
-  jobs: {
-    says: ["a February 2020 peak to an April 2020 trough, two months long", "from December 2007 to June 2009"],
+  un: {
+    says: ["shut down for 43 days, October 1 through November 12, 2025, when funding lapsed", "October’s household survey and prices", "this line, inflation and the misery index skip that month"],
     check: () => {
-      expect(recessionMonths("2019", "2023")).toEqual(["2020-03", "2020-04"]);
-      expect(recessionMonths("2007", "2011")).toEqual(monthsBetween("2008-01", "2009-06"));
-      // The record loss fell in the recession's trough month.
+      expect((Date.parse("2025-11-12") - Date.parse("2025-10-01")) / 864e5 + 1).toBe(43);
+      // October 2025 is the one month missing from each of the three lines since 1991.
+      for (const ps of [un, infl, misery]) expect(missingMonths(ps)).toEqual(["2025-10"]);
+    },
+  },
+  jobs: {
+    says: ["Proclamation 9994", "on March 13, 2020, the month before the record loss", "April’s losses to the pandemic and efforts to contain it"],
+    check: () => {
       expect(min(jobs).date).toBe("2020-04-01");
     },
   },
-  gdp: {
-    says: ["from March to November 2001", "output never fell from a year earlier", "jobs, income and spending, not output alone"],
+  gas: {
+    says: ["in March 2022, after Russia invaded Ukraine, 180M barrels in all", "gas peaked in June", "On March 11, 2026, the week gas hit $3.50", "172M-barrel release to lower prices", "gas reached $4.50 in May"],
     check: () => {
-      expect(recessionMonths("2000", "2003")).toEqual(monthsBetween("2001-04", "2001-11"));
-      expect(within(gdp, "2000", "2003").every((p) => p.value >= 0)).toBe(true);
+      expect(max(gas).date.slice(0, 7)).toBe("2022-06");
+      const week = lastOnOrBefore(gas, "2026-03-11");
+      expect(week.date > "2026-03-04").toBe(true);
+      expect(week.value.toFixed(2)).toBe("3.50");
+      const high = max(within(gas, "2026-03-11", "2026-07"));
+      expect(high.date.slice(0, 7)).toBe("2026-05");
+      expect(high.value.toFixed(2)).toBe("4.50");
     },
   },
   mort: {
-    says: ["0–0.25% from March 2020 to March 2022", "raised it 11 times, to 5.25–5.50% in July 2023"],
+    says: ["0–0.25% from March 2020 to March 2022, the stretch with the record low", "raised it 11 times, to 5.25–5.50% in July 2023", "The 7.79% high came three months later"],
     check: () => {
-      // The takeaway's record low sits inside the near-zero stretch, and its 2023 high after the last increase.
+      // The takeaway's record low sits inside the near-zero stretch (March 15, 2020 to March 16, 2022), and its 2023 high
+      // three months after the last increase (July 26, 2023).
       expect(min(mort).date >= "2020-03-15" && min(mort).date < "2022-03-16").toBe(true);
-      expect(max(within(mort, "2021", "2025")).date > "2023-07-26").toBe(true);
+      const high = max(within(mort, "2021", "2025"));
+      expect(high).toMatchObject({ date: "2023-10-26", value: 7.79 });
     },
   },
   def: {
-    says: ["CARES Act was enacted March 27, 2020", "American Rescue Plan Act March 11, 2021", "about $1.8T to deficits over 2020–2030"],
+    says: ["CARES Act, enacted March 27, 2020", "American Rescue Plan Act, March 11, 2021", "fiscal 2020 and 2021, the two deepest deficits on the chart", "about $1.8T to deficits over 2020–2030"],
     check: () => {
-      // Both laws fall in fiscal years 2020 and 2021 (October–September), the two deepest deficits on the chart.
-      const deepest = [...def].sort((a, b) => a.value - b.value).slice(0, 2).map((p) => p.date.slice(0, 4));
-      expect(deepest).toEqual(["2020", "2021"]);
+      // Both laws fall in fiscal years 2020 and 2021 (October–September), the two deepest deficits in either unit.
+      for (const ps of [def, defUsd]) {
+        const deepest = [...ps].sort((a, b) => a.value - b.value).slice(0, 2).map((p) => p.date.slice(0, 4));
+        expect(deepest).toEqual(["2020", "2021"]);
+      }
     },
   },
 };
+
+/**
+ * Recession dates the Jobs and GDP Data notes give (components/economy/EconomyPageClient.tsx), checked against USREC, which
+ * flags the months after each peak through the trough (FRED's convention), so a "March–November 2001" recession is flagged
+ * April–November.
+ */
+const pageSource = readFileSync("components/economy/EconomyPageClient.tsx", "utf8");
 
 describe("Economy card takeaways", () => {
   for (const [key, c] of Object.entries(cases) as [keyof typeof SPECS, (typeof cases)[keyof typeof SPECS]][]) {
@@ -273,6 +299,14 @@ describe("Economy card takeaways", () => {
       c.check();
     });
   }
+
+  it("Data notes: the recession dates the Jobs and GDP notes give hold", () => {
+    expect(pageSource).toContain("the 2020 one ran two months, from a February peak to an April trough");
+    expect(recessionMonths("2019", "2023")).toEqual(["2020-03", "2020-04"]);
+    expect(pageSource).toContain("a March–November 2001 recession, though output never fell from a year earlier");
+    expect(recessionMonths("2000", "2003")).toEqual(monthsBetween("2001-04", "2001-11"));
+    expect(within(gdp, "2000", "2003").every((p) => p.value >= 0)).toBe(true);
+  });
 
   it("every context line belongs to a card, stays short and makes no causal claim of its own", () => {
     expect(Object.keys(ECONOMY_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());

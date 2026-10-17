@@ -253,12 +253,10 @@ export function SenateExplorer({
         ? "representatives sit"
         : "delegation sits";
 
-  // Context lines (rule 7d): the members card's follows the Members/Committees switch (committees have none); each is true for every chamber view.
-  const placeCtx = useTakeawayContext(
-    IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"].byView[view],
-    committeesActive ? null : contextFor("members"),
-  );
-  const trendCtx = useTakeawayContext(IDEOLOGY_TAKEAWAYS.trend.byView[view], contextFor("trend"));
+  // Context lines (rule 7d), following the chamber view: the trend card has one per view, the committees card one in the House view.
+  const trendCtx = useTakeawayContext(IDEOLOGY_TAKEAWAYS.trend.byView[view], contextFor("trend", view));
+  const compassKey = committeesActive ? "committees" : "members";
+  const compassCtx = useTakeawayContext(IDEOLOGY_TAKEAWAYS[compassKey].byView[view], contextFor(compassKey, view));
 
   return (
     <>
@@ -306,7 +304,7 @@ export function SenateExplorer({
               IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
                 .title
             }
-            takeaway={placeCtx.takeaway}
+            takeaway={compassCtx.takeaway}
             action={
               <div className="w-full sm:w-auto">
                 {committeesActive ? (
@@ -320,7 +318,7 @@ export function SenateExplorer({
               </div>
             }
           >
-            {placeCtx.panel}
+            {compassCtx.panel}
             {committeesActive ? (
               <>
                 <CompassPanel congress={congress}>
@@ -523,7 +521,7 @@ export function SenateExplorer({
             />
             <MethodologyNote>
               <p>
-                Each party&rsquo;s average position on the economic left&ndash;right axis, every Congress since 1789; the gap is the distance between the two lines. Click the chart to jump to any Congress: it moves the same slider as everything above. The Republican line starts in the 1850s; members labelled Republican before then were Jeffersonian Democratic-Republicans, a different party, and sit in neither line.
+                Each party&rsquo;s average position on the economic left&ndash;right axis, every Congress since 1789; the gap is the distance between the two lines. Each point uses Voteview&rsquo;s scores estimated for that Congress alone, so it rests only on that Congress&rsquo;s roll-call votes. Click the chart to jump to any Congress: it moves the same slider as everything above. The Republican line starts in the 1850s; members labelled Republican before then were Jeffersonian Democratic-Republicans, a different party, and sit in neither line.
               </p>
             </MethodologyNote>
           </Card>
