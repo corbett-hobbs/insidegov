@@ -13,7 +13,7 @@ export function PillGroup<T extends string>({
   ariaLabel,
   labelledBy,
 }: {
-  options: readonly { value: T; label: string; /** Greyed and inert; `title` says why. */ disabled?: boolean; title?: string }[];
+  options: readonly { value: T; label: string; /** A shorter label for phones (below `sm`), so a long group still fits one line. */ short?: string; /** Greyed and inert; `title` says why. */ disabled?: boolean; title?: string }[];
   value: T;
   onChange: (v: T) => void;
   ariaLabel?: string;
@@ -40,7 +40,14 @@ export function PillGroup<T extends string>({
               : "bg-surface-raised text-ink-muted hover:text-ink"
           } ${o.disabled ? "cursor-not-allowed opacity-40 hover:text-ink-muted" : ""}`}
         >
-          {o.label}
+          {o.short ? (
+            <>
+              <span className="sm:hidden">{o.short}</span>
+              <span className="max-sm:hidden">{o.label}</span>
+            </>
+          ) : (
+            o.label
+          )}
         </button>
       ))}
     </div>

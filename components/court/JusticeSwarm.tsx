@@ -69,7 +69,7 @@ export function JusticeSwarm({
   const midY = labelsH + geo.halfHeight;
 
   const tier = (p: SwarmPoint): 0 | 1 | 2 =>
-    p.id === justice.id ? 2 : (mode === "alongside" ? p.alongside : p.neighbor) ? 1 : 0;
+    p.id === justice.id ? 2 : (mode === "alongside" ? p.alongside : mode === "neighbors" ? p.neighbor : p.sameAppointer) ? 1 : 0;
   const ordered = [...points].sort((a, b) => tier(a) - tier(b));
 
   const ticks: number[] = [];

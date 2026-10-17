@@ -88,7 +88,7 @@ export function JusticeOverTimeChart({
     const show = (p: PeerTrace) =>
       narrow
         ? p.endsAtEdge
-        : p.sharedTerms >= 10 || p.endsAtEdge || (mode === "neighbors" && p.isNeighbor);
+        : p.sharedTerms >= 10 || p.endsAtEdge || (mode === "neighbors" && p.isNeighbor) || (mode === "appointer" && p.sameAppointer);
     return peers.filter(show);
   }, [peers, narrow, mode]);
 
@@ -103,8 +103,9 @@ export function JusticeOverTimeChart({
     left: Y_GUTTER,
   };
 
-  const hi = (p: PeerTrace) => mode === "neighbors" && p.isNeighbor;
-  const faded = (p: PeerTrace) => mode === "neighbors" && !p.isNeighbor;
+  const picked = (p: PeerTrace) => (mode === "neighbors" ? p.isNeighbor : p.sameAppointer);
+  const hi = (p: PeerTrace) => mode !== "alongside" && picked(p);
+  const faded = (p: PeerTrace) => mode !== "alongside" && !picked(p);
   const ordered = [...peers].sort((a, b) => Number(hi(a)) - Number(hi(b)));
 
   return (

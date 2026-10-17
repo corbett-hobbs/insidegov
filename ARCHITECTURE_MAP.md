@@ -351,6 +351,8 @@ trajectory chart). `SubcommitteeSection` rows sit in a capped scroll box (`max-h
 
 ### Justice profile pages (`components/court/`, `lib/justice-*.ts`)
 
+**Highlight toggle** (`components/court/justice-mode.ts`): Served alongside / Nearest neighbors / **Same president** (the other justices the same president appointed, `roster.appointer`, `sameAppointer` on swarm points and chart peers; greyed when the subject was that president's only appointee). On phones the three labels use their `short` forms (`PillGroup`'s optional `short`) so the toggle stays on one line. The over-time chart only draws justices who overlapped with the subject, so a same-president justice who never served alongside them shows in the swarm and the roster but not on the chart.
+
 Data: `lib/justice-derive.ts` (pure, unit-tested over the real data: career average, peers clipped to shared terms, four nearest by career average via `lib/neighbors.ts` with a constant `dim2`, one interval-aware score domain shared by every page, served/confirmed/elevated lines) → `lib/justice-data.ts` (`getJusticeProfile`, `getJusticeRefs`; server-only) → the flat `JusticeProfile` in `lib/justice-types.ts`. `lib/justice-url.ts` builds paths.
 
 | Component | Notes / why not an existing one |

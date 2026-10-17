@@ -7,7 +7,7 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { fmtScore } from "@/lib/court-types";
 import type { JusticeProfile, RosterRow } from "@/lib/justice-types";
 import { JusticeSwarm } from "./JusticeSwarm";
-import { MODE_OPTIONS, partyVar, type JusticeMode } from "./justice-mode";
+import { modeOptions, partyVar, type JusticeMode } from "./justice-mode";
 
 /** Rows visible before the mobile "Show all" expander (and at md+, the scroll viewport). */
 const VISIBLE_ROWS = 4;
@@ -51,7 +51,7 @@ export function JusticeRosterCard({
 
       <div className="mt-3 flex">
         <PillGroup
-          options={MODE_OPTIONS}
+          options={modeOptions(profile)}
           value={mode}
           onChange={onMode}
           ariaLabel={`Which justices to highlight for ${last}`}
@@ -64,7 +64,7 @@ export function JusticeRosterCard({
 
       <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-line pt-3">
         <h3 className="font-serif text-[0.95rem] font-medium">
-          {mode === "alongside" ? `Served alongside ${last}` : "Nearest neighbors"}
+          {modeHeading(mode, last, profile.identity.appointedBy.president)}
         </h3>
         <span className="font-mono text-[0.72rem] text-ink-faint">
           {rows.length} {rows.length === 1 ? "justice" : "justices"}
@@ -79,7 +79,7 @@ export function JusticeRosterCard({
       <div
         role="region"
         tabIndex={0}
-        aria-label={`${mode === "alongside" ? "Justices who served alongside" : "Nearest neighbors of"} ${last}`}
+        aria-label={modeHeading(mode, last, profile.identity.appointedBy.president)}
         className={`overflow-x-hidden rounded-md border border-line md:absolute md:inset-0 md:overflow-y-auto ${
           expanded ? "" : "max-md:overflow-y-hidden"
         }`}
@@ -133,6 +133,9 @@ export function JusticeRosterCard({
     </section>
   );
 }
+
+const modeHeading = (mode: JusticeMode, last: string, president: string): string =>
+  mode === "alongside" ? `Served alongside ${last}` : mode === "neighbors" ? "Nearest neighbors" : `Also appointed by ${president}`;
 
 function RosterLine({
   row,
