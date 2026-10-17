@@ -213,7 +213,10 @@ export const lawRow = z.object({
   number: int,
   /** Signing date: the earliest `BecameLaw` action. */
   date: isoDate,
+  /** What the site shows: the popular name when `lib/law-popular-names.ts` has one, else the formal title. */
   title: z.string(),
+  /** The formal title, only for a law whose `title` is its popular name. */
+  official_title: z.string().optional(),
   bill_type: billType,
   bill_number: z.string(),
   origin_chamber: chamber.nullable(),

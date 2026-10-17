@@ -12,7 +12,6 @@ import { timelineEventsFile, type TimelineEventsFile } from "./timeline-entities
 import { applyVacancyRule, TIMELINE_START } from "./timeline-derive";
 import type { Side, TimelinePayload, TlCongress, TlEvent, TlJustice, TlLean, TlPresident, TlTally } from "./timeline-types";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
-import { withPopularNames } from "./law-popular-names";
 
 /**
  * Joins the hand-picked events in `pipeline/reference/timeline-events.json` to the pipeline at build time for /timeline:
@@ -51,7 +50,7 @@ export function loadTimelineInputs(root = process.cwd()): TimelineInputs {
   const out = join(root, "pipeline", "output");
   const read = (...p: string[]): unknown => JSON.parse(readFileSync(join(out, ...p), "utf8"));
   const ref = timelineEventsFile.parse(JSON.parse(readFileSync(join(root, "pipeline", "reference", "timeline-events.json"), "utf8")));
-  const laws = new Map(withPopularNames(z.array(lawRow).parse(read("laws.json"))).map((l) => [l.law_id, l]));
+  const laws = new Map(z.array(lawRow).parse(read("laws.json")).map((l) => [l.law_id, l]));
   const congresses = new Set<number>();
   for (const e of ref.events) if (e.kind === "law" && e.law_id && laws.has(e.law_id)) congresses.add(laws.get(e.law_id)!.congress);
   const lawVotes = new Map<number, LawVotesShard>();

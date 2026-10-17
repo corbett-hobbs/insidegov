@@ -1,7 +1,8 @@
 /**
- * Laws known by a popular or short title, keyed by law id. Wherever a law's title is shown, listed, searched or slugged, this
- * replaces the formal title ("An act to provide for reconciliation pursuant to …"). The law page keeps the formal one as
- * "Official title". Add a law here when its formal title does not say what it is.
+ * Laws known by a popular or short title, keyed by law id. The pipeline applies this once, when it writes `laws.json` (the
+ * law's `title`, with the formal one kept as `official_title`) and the committee bill shards, so every page reads the popular
+ * name from its data and nothing downstream looks it up. Add a law here when its formal title does not say what it is, then
+ * re-run `pnpm transform`.
  */
 export const LAW_POPULAR_NAMES: Record<string, string> = {
   "119-pub-21": "One Big Beautiful Bill Act",
@@ -18,7 +19,5 @@ export const LAW_POPULAR_NAMES: Record<string, string> = {
   "106-pub-286": "U.S.-China Relations Act of 2000",
 };
 
-/** The rows with each popular-named law's title swapped in; other rows pass through untouched. */
-export function withPopularNames<T extends { law_id: string; title: string }>(rows: T[]): T[] {
-  return rows.map((r) => (LAW_POPULAR_NAMES[r.law_id] ? { ...r, title: LAW_POPULAR_NAMES[r.law_id] } : r));
-}
+/** The title to show for a law: its popular name, else the formal title. `lawId` is "119-pub-21". */
+export const displayTitle = (lawId: string, formal: string): string => LAW_POPULAR_NAMES[lawId] ?? formal;

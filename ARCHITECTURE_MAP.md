@@ -569,6 +569,8 @@ Phases 1 and 2a of `docs/LAW_PAGES_PLAN.md`: a page for every public law; the fu
 
 **Drift noticed while building the demographics page.** The session prompt cited `docs/ARCHITECTURE_MAP.md` and `docs/DATA_CONVENTIONS.md`; this file lives at the repo root (`DATA_CONVENTIONS.md` is in `docs/`). `lib/year-range.ts` had no ordinal-aware helper (the page's window is by convening year, in `lib/demographics-chart.ts`). `charts/PinReadout` hard-coded "pin a month"; it now takes a `hint`. Vitest has no `@/` alias, so a `lib/` module under test imports relatives only (`lib/demographics-chart.ts` re-implements the small term-run builder instead of importing it from a component).
 
+**Popular law names.** A law known by a popular name (One Big Beautiful Bill Act, USA PATRIOT Act) is listed once in `lib/law-popular-names.ts`, keyed by law id. The transform applies it when it writes `laws.json` (`title` is the popular name, `official_title` the formal one) and the committee bill shards, so every page reads the popular name from its data; nothing in `lib/` or `components/` looks names up. To add one: edit the table, run `pnpm transform`, commit the regenerated `pipeline/output`.
+
 ## Session 0.2 — the `AGENTS.md` "nextjs-agent-rules" block
 
 `CLAUDE.md` is a single line, `@AGENTS.md`. `AGENTS.md` opens with a
