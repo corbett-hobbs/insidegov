@@ -248,3 +248,84 @@ export const landmarksManifest = z.strictObject({
   license: z.string(),
 });
 export type LandmarksManifest = z.infer<typeof landmarksManifest>;
+
+/** `pipeline/reference/scdb-codebook.json` (`pnpm fetch:scdb-codebook`): the codebook's value labels, `{ var: { code: label } }`. */
+export const scdbCodebook = z.object({
+  source: z.string().url(),
+  fetched: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  vars: z.object({
+    issue: z.record(z.string(), z.string()),
+    petitioner: z.record(z.string(), z.string()),
+    petitionerState: z.record(z.string(), z.string()),
+    caseSource: z.record(z.string(), z.string()),
+    jurisdiction: z.record(z.string(), z.string()),
+    certReason: z.record(z.string(), z.string()),
+    lcDisposition: z.record(z.string(), z.string()),
+    caseDisposition: z.record(z.string(), z.string()),
+    partyWinning: z.record(z.string(), z.string()),
+    declarationUncon: z.record(z.string(), z.string()),
+    lawType: z.record(z.string(), z.string()),
+    lawSupp: z.record(z.string(), z.string()),
+    authorityDecision1: z.record(z.string(), z.string()),
+  }),
+});
+export type ScdbCodebook = z.infer<typeof scdbCodebook>;
+
+const label = z.string().min(1).nullable();
+
+/**
+ * `decisions_details.json`: one row per case in `decisions_cases.json`, the SCDB fields the decision page shows, labelled in the
+ * codebook's own wording (`pipeline/transform/decision-details.ts`). Null = SCDB left it blank (or used a code the codebook lacks).
+ */
+export const decisionDetailRow = z.strictObject({
+  case_id: z.string().min(1),
+  docket: z.string().nullable(),
+  argued: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
+  reargued: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
+  petitioner: label,
+  petitioner_state: label,
+  respondent: label,
+  respondent_state: label,
+  /** How the case reached the Court: cert, appeal, ... */
+  jurisdiction: label,
+  /** The court the case started in, and the court whose decision the Supreme Court reviewed. */
+  origin: label,
+  origin_state: label,
+  source: label,
+  source_state: label,
+  /** What the reviewed court did, and whether a judge there dissented. */
+  lc_disposition: label,
+  lc_dissent: z.boolean(),
+  /** Why the Court says it took the case. */
+  cert_reason: label,
+  /** What the Court did with the decision below. */
+  disposition: label,
+  disposition_unusual: z.boolean(),
+  /** Whether the party that brought the case to the Court won; null = unclear. */
+  petitioner_won: z.boolean().nullable(),
+  /** The majority opinion says it overruled one of the Court's own precedents. */
+  precedent_altered: z.boolean(),
+  /** What kind of law the Court struck down, if any. */
+  unconstitutional: label,
+  issue: label,
+  law_type: label,
+  law: label,
+  /** SCDB's free-text name of a statute it does not code ("Armed Career Criminal Act"). */
+  law_minor: z.string().min(1).nullable(),
+  /** The bases of the decision (judicial review, statutory construction, ...). */
+  authority: z.array(z.string().min(1)),
+  maj_writer: z.number().int().nullable(),
+  maj_assigner: z.number().int().nullable(),
+});
+export type DecisionDetailRow = z.infer<typeof decisionDetailRow>;
+
+/**
+ * `decisions_leads.json`: the opening paragraphs of a case's Wikipedia article (CC BY-SA 4.0), for the cases that have a summary
+ * sentence (so the article is known to be about the case), cut at the last full sentence. The decision page's Summary card.
+ */
+export const caseLeadRow = z.strictObject({
+  case_id: z.string().min(1),
+  title: z.string().min(1),
+  paragraphs: z.array(z.string().min(1)).min(1),
+});
+export type CaseLeadRow = z.infer<typeof caseLeadRow>;

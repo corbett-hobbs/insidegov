@@ -53,6 +53,10 @@ const nextConfig: NextConfig = {
     // lib/justice-data.ts.
     "/supreme-court/ideology": ["./pipeline/output/court/*.json"],
     "/supreme-court/justices/[justice_id]/[name_slug]": ["./pipeline/output/court/*.json"],
+    // Decision pages join the case list, its details and leads (pipeline/output/decisions_*.json), the justices' votes and
+    // scores (court/) and the Wikipedia fetch manifests the Decisions payload dates its sources by.
+    "/supreme-court/decisions/[case_id]/[name_slug]": ["./pipeline/output/*.json", "./pipeline/output/court/*.json", "./pipeline/raw/wikipedia-cases/*manifest.json"],
+    "/supreme-court/decisions/[case_id]/[name_slug]/opengraph-image": ["./pipeline/output/*.json", "./pipeline/output/court/*.json", "./pipeline/raw/wikipedia-cases/*manifest.json"],
     "/": ["./pipeline/output/court/*.json"],
     // The public API and the MCP server load whole tables by name (lib/api-datasets.ts), including the
     // per-year trade and duties shards and the Court files.

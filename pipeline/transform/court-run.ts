@@ -9,6 +9,7 @@ import {
   justice as justiceSchema,
   justiceCrosswalkEntry,
   mqScore,
+  mqProvisional,
 } from "../../lib/court-entities";
 import { latestReleaseYear } from "../fetch/mq-check";
 import { RAW_DIR } from "../fetch/lib";
@@ -35,6 +36,7 @@ import {
  * files no longer match the hashes in its SOURCE.json.
  */
 const MQ_DIR = `${RAW_DIR}/mq`;
+const PROVISIONAL = "pipeline/reference/mq-provisional.json";
 const FJC_DIR = `${RAW_DIR}/fjc`;
 const CROSSWALK = "pipeline/transform/court-crosswalk.json";
 const OUT = "pipeline/output/court";
@@ -108,6 +110,12 @@ async function main() {
     courtTerms: checked("court_terms", courtTermRow, courtTerms),
     probabilities: checked("court_median_probabilities", courtMedianProbability, probabilities),
   });
+
+  // Hand-copied provisional scores (decision pages only) must go once the official release covers their term.
+  const provisional = await readFile(PROVISIONAL, "utf8").then((t) => mqProvisional.parse(JSON.parse(t)), () => null);
+  if (provisional && provisional.term <= summary.lastTerm) {
+    throw new CourtDataError(`${PROVISIONAL} holds provisional scores for the ${provisional.term} term, which the official release now covers: delete the file (the decision pages switch to the official scores).`);
+  }
 
   await mkdir(OUT, { recursive: true });
   await writeRows("justices", justices);
