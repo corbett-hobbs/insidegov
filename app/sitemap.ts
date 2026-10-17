@@ -8,6 +8,8 @@ import { getJusticeRefs } from "@/lib/justice-data";
 import { justicePath } from "@/lib/justice-url";
 import { getLawRefs } from "@/lib/law-details-data";
 import { lawPath } from "@/lib/law-url";
+import { getDecisionRefs } from "@/lib/decision-page-data";
+import { decisionPath } from "@/lib/decision-url";
 import { liveSections } from "@/lib/verticals";
 import { absoluteUrl } from "@/lib/site";
 import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "@/lib/site-info";
@@ -47,6 +49,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.4,
   }));
 
+  const decisions = getDecisionRefs().map((r) => ({
+    url: absoluteUrl(decisionPath(r.caseId, r.name)),
+    lastModified: now,
+    changeFrequency: "yearly" as const,
+    priority: 0.4,
+  }));
+
   return [
     {
       url: absoluteUrl("/"),
@@ -76,5 +85,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...committees,
     ...justices,
     ...laws,
+    ...decisions,
   ];
 }

@@ -99,6 +99,9 @@ jobs:
               `EXPLAINED_TERM_COUNTS` in `pipeline/transform/court.ts` if the
               Court had mid-term turnover.
             - Update the release label in `docs/CREDITS.md`.
+            - If `pipeline/reference/mq-provisional.json` exists and the new
+              release covers its term, delete it: the decision pages then use
+              the official scores (the court transform fails until you do).
 
             Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch
             (.github/actions/gate-and-merge). If you are reading this on an open PR, that gate failed: see the run log.
