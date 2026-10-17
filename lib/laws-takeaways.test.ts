@@ -139,14 +139,39 @@ describe("Laws card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). The rule's date is CRS's (report 98-662: "At the opening of the 104th Congress on January 4,
- * 1995"), outside the pipeline, so it is pinned to its phrase and link; the counts are checked here, commemorations by Congress.
+ * The context lines (rule 7d). Facts from documents outside the pipeline are pinned to the phrases the lines use and to their
+ * links: the 2023 Speaker elections are House History's multiple-ballot table (McCarthy "15" ballots, "January 3–7, 2023";
+ * Johnson elected "October 17–25, 2023"), the vote vacating the chair is Clerk roll call 519 (H.Res. 757, October 3, 2023,
+ * 216–210), the swearing-in rule is 2 U.S.C. 25 (the Speaker swears members in "previous to entering on any other business"),
+ * and the 1995 rule's date is CRS's (report 98-662: "At the opening of the 104th Congress on January 4, 1995"). The counts are
+ * checked here.
  */
 const contextCases: Record<keyof typeof LAWS_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   count: {
-    says: ["On January 4, 1995, the House adopted a rule", "from 135 in 1993–94", "to 42 in 1995–96"],
+    says: ["The 2023–24 low", "took 15 ballots to elect a Speaker in January 2023", "by law no member could be sworn in before then", "In October it voted 216–210 to remove Speaker McCarthy", "went 22 days without one"],
+    links: {
+      "house-speaker-ballots": "history\\.house\\.gov/People/Office/Speakers-Multiple-Ballots/$",
+      "house-roll-call-2023-519": "clerk\\.house\\.gov/Votes/2023519$",
+      "usc-2-25": "uscode/text/2/25$",
+    },
+    check: () => {
+      // The 118th Congress opened in January 2023 and is the takeaway's record low (2023–24), with commemorations in or out.
+      expect(years(118)).toBe("2023–24");
+      const n = (c: number) => sum(all.get(c)!);
+      expect(argmin(complete, n)).toBe(118);
+      expect(argmin(complete, (c) => sum(noCommem.get(c)!))).toBe(118);
+      // October 3, 2023 (the vacating vote) to October 25, 2023 (Johnson's election).
+      expect((Date.UTC(2023, 9, 25) - Date.UTC(2023, 9, 3)) / 86_400_000).toBe(22);
+    },
+  },
+  groups: {
+    says: ["On January 4, 1995, the House adopted a rule", "from 1,066 laws in the 1980s to 551 in the 1990s", "from 135 in 1993–94 to 42 in 1995–96"],
     links: { "crs-commemorative-legislation": "everycrsreport\\.com/reports/98-662" },
     check: () => {
+      // The heatmap's commemorations row, by the decade a Congress opened in: the takeaway's 1980s peak, then the 1990s.
+      const decade = (d: number) => counts.filter((r) => groupOf.get(r.area_id) === COMMEM && Math.floor(openYear(r.congress) / 10) * 10 === d).reduce((t, r) => t + r.n, 0);
+      expect(decade(1980)).toBe(1066);
+      expect(decade(1990)).toBe(551);
       // January 1995 opened the 104th Congress, the Congress that fell to 42.
       expect(years(104)).toBe("1995–96");
       expect(years(103)).toBe("1993–94");

@@ -288,51 +288,87 @@ describe("Congress ideology card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). Both quote Voteview, outside the pipeline, so each is pinned to its phrase and link: its About page
- * ("the closeness of two legislators on the map shows how similar their voting records are"; the primary dimension "through most of
- * American history has been 'liberal' vs. 'conservative'") and its member-data help ("Nokken-Poole estimates assume that each
- * congress is completely separate"). The check confirms the cards plot those per-Congress scores: one member's score moves between
- * Congresses, which a single career score would not.
+ * The context lines (rule 7d). Trend, one per chamber view: the statutes' years are pinned to their phrases and Statutes at Large
+ * links (78 Stat. 241, 79 Stat. 437); "Republicans won both chambers in 1994" is the House History and Senate party-division tables,
+ * checked here against the terms too. The shares count every member a former Confederate state sent in that Congress (caucus, else
+ * party), from terms.json joined to legislators.json as above; "its widest since" is the gaps chart. Committees, House view only:
+ * "220–215" is House History's party divisions for the 119th Congress (initial election results), and "the only standing committee
+ * split evenly" is the Ethics Committee's own history page; the seat counts are checked against the committee rosters.
  */
-const perCongress = () => {
-  const byMember = new Map<string, Set<number>>();
-  for (const s of scoreByKey.values()) {
-    if (s.nokken_poole_dim1 == null) continue;
-    const k = `${s.chamber}:${s.bioguide_id}`;
-    byMember.set(k, (byMember.get(k) ?? new Set()).add(s.nokken_poole_dim1));
-  }
-  expect([...byMember.values()].filter((v) => v.size > 1).length).toBeGreaterThan(1000);
+const SOUTH = new Set(["AL", "AR", "FL", "GA", "LA", "MS", "NC", "SC", "TN", "TX", "VA"]);
+const rawTerms = read<Term>("terms.json").filter((t) => legislators.has(t.bioguide_id));
+const label = (t: Term) => t.caucus ?? t.party;
+const southDemShare = (v: View, congress: number) => {
+  const ts = rawTerms.filter((t) => t.congress_number === congress && SOUTH.has(t.state) && chambersOf(v).includes(t.chamber));
+  return Math.round((100 * ts.filter((t) => label(t) === "Democrat").length) / ts.length);
 };
-const contextCases: Record<keyof typeof IDEOLOGY_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
-  members: {
-    says: ["by their roll-call votes", "the more similar their voting records", "Each Congress is estimated separately"],
-    links: { "voteview-about": "voteview\\.com/about$", "voteview-member-data": "voteview\\.com/articles/data_help_members$" },
-    check: perCongress,
-  },
-  trend: {
-    says: ["as if every Congress were completely separate", "liberal versus conservative through most of American history"],
-    links: { "voteview-about": "voteview\\.com/about$", "voteview-member-data": "voteview\\.com/articles/data_help_members$" },
-    check: perCongress,
-  },
+const majority = (chamber: Chamber, congress: number) => {
+  const ts = rawTerms.filter((t) => t.chamber === chamber && t.congress_number === congress);
+  const r = ts.filter((t) => label(t) === "Republican").length;
+  const d = ts.filter((t) => label(t) === "Democrat").length;
+  return r > d ? "R" : "D";
 };
+/** The last Congress before `year` whose gap was at least `year`'s, so `year`'s is the widest since then. */
+const widestSince = (g: ReturnType<typeof gaps>, year: number) => g.filter((x) => x.year < year && x.gap >= gapIn(g, year)).at(-1)!.year;
+const sourceLinks = (sources: readonly { id: string }[], links: Record<string, string>) => {
+  expect(sources.map((s) => s.id).sort()).toEqual(Object.keys(links).sort());
+  for (const [id, part] of Object.entries(links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
+};
+const PARTY_DIVISION = "history\\.house\\.gov/.*Party-Divisions";
+const TREND_LINKS = {
+  "civil-rights-act-1964": "STATUTE-78-Pg241\\.pdf$",
+  "voting-rights-act-1965": "STATUTE-79-Pg437\\.pdf$",
+  "house-party-division": PARTY_DIVISION,
+  "senate-party-division": "senate\\.gov/history/partydiv\\.htm$",
+};
+const trendCases: Record<View, [number, number, number]> = { both: [90, 48, 1923], senate: [96, 41, 1929], house: [89, 49, 1911] };
 
 describe("Congress ideology context lines", () => {
-  for (const key of Object.keys(contextCases) as (keyof typeof IDEOLOGY_CONTEXT)[]) {
-    const c = contextCases[key];
-    it(`${key}: holds and names real sources`, () => {
-      for (const phrase of c.says) expect(IDEOLOGY_CONTEXT[key].text).toContain(phrase);
-      expect(IDEOLOGY_CONTEXT[key].sources.map((s) => s.id).sort()).toEqual(Object.keys(c.links).sort());
-      for (const [id, part] of Object.entries(c.links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
-      c.check();
+  it("only the committees (House view) and trend cards have them", () => {
+    expect(Object.keys(IDEOLOGY_CONTEXT).sort()).toEqual(["committees", "trend"]);
+    expect(Object.keys(IDEOLOGY_CONTEXT.committees)).toEqual(["house"]);
+  });
+
+  it("committees (house): holds and names real sources", () => {
+    const line = IDEOLOGY_CONTEXT.committees.house;
+    for (const phrase of ["Republicans kept the House 220–215 in the November 2024 election", "outnumber Democrats on every House committee here except Ethics", "the only standing committee split evenly", "puts its average right of the center line"])
+      expect(line.text).toContain(phrase);
+    // The 119th Congress, elected in November 2024, kept the 118th's Republican majority.
+    expect(congressStartYear(119)).toBe(2025);
+    expect(majority("house", 118)).toBe("R");
+    expect(majority("house", 119)).toBe("R");
+    const house = committeesIn("house");
+    expect(house.filter((c) => c.reps <= c.dems).map((c) => [c.name, c.reps, c.dems])).toEqual([["Ethics", 5, 5]]);
+    // Every committee with a Republican majority averages right of the center line.
+    for (const c of house.filter((c) => c.reps > c.dems)) expect(c.blend, c.name).toBeGreaterThan(0);
+    sourceLinks(line.sources, { "house-party-division": PARTY_DIVISION, "house-ethics-history": "ethics\\.house\\.gov/committee-history$" });
+  });
+
+  for (const [view, [from, to, since]] of Object.entries(trendCases) as [View, [number, number, number]][]) {
+    it(`trend (${view}): holds and names real sources`, () => {
+      const line = IDEOLOGY_CONTEXT.trend[view];
+      for (const phrase of ["the Civil Rights Act in 1964", "the Voting Rights Act in 1965", "Republicans won both chambers in 1994", "former Confederate states'", `were ${from}%`, `in 1963 and ${to}% in 1995`, `when the gap was its widest since ${since}`])
+        expect(line.text).toContain(phrase);
+      expect(congressStartYear(88)).toBe(1963);
+      expect(congressStartYear(104)).toBe(1995);
+      expect(southDemShare(view, 88)).toBe(from);
+      expect(southDemShare(view, 104)).toBe(to);
+      // The 1994 election gave Republicans both chambers of the 104th Congress; Democrats held both in the 103rd.
+      for (const c of ["house", "senate"] as const) {
+        expect(majority(c, 103), c).toBe("D");
+        expect(majority(c, 104), c).toBe("R");
+      }
+      expect(widestSince(gaps(view), 1995)).toBe(since);
+      sourceLinks(line.sources, TREND_LINKS);
     });
   }
 
-  it("every context line belongs to a card, stays short and makes no causal or labelling claim", () => {
-    expect(Object.keys(IDEOLOGY_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
-    for (const [key, line] of Object.entries(IDEOLOGY_CONTEXT)) {
-      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
-      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
-      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|radical|polariz\w*)\b/i);
+  it("stays short and makes no causal or labelling claim", () => {
+    const lines = [...Object.entries(IDEOLOGY_CONTEXT.trend), ["committees", IDEOLOGY_CONTEXT.committees.house] as const];
+    for (const [view, line] of lines) {
+      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, view).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, view).toBeLessThanOrEqual(45);
+      expect(line.text, view).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|radical|polariz\w*)\b/i);
     }
   });
 });

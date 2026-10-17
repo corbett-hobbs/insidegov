@@ -99,34 +99,60 @@ describe("Supreme Court ideology card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). The strip's dates, appointing presidents and medians come from pipeline/output/court
- * (FJC service dates in justices.json, the median in court_terms.json); the trajectory's line restates the MQ measures
- * page (non-unanimous cases, a dynamic model), outside the pipeline, so it is pinned to its phrase and link.
+ * The context lines (rule 7d). Dates, appointing presidents, Senate votes, the seats each appointee took (who left as they
+ * joined) and medians come from pipeline/output/court (FJC service dates and votes in justices.json, the median in
+ * court_terms.json). Outside the pipeline, pinned to the phrase the line uses: the seat Barrett filled ("Barrett … Ginsburg")
+ * from the Senate's nominations table.
  */
 const raw = new Map(justices.map((j) => [j.name.last, j]));
 const termRow = (term: number) => read<CourtTermRow>("court_terms.json").filter((t) => t.term === term);
+const seatedOn = (iso: string) => justices.filter((j) => j.service_start <= iso && (j.service_end === null || j.service_end >= iso));
 const contextCases: Record<keyof typeof COURT_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   strip: {
-    says: ["Brennan left the Court on July 20, 1990", "Souter joined on October 3, 1990", "In the 1990 term", "from White, a Kennedy appointee", "to Souter, a Bush appointee"],
+    says: ["Ginsburg died on September 18, 2020", "the Senate confirmed Barrett, a Donald J. Trump nominee, 52–48 on October 26", "giving Republican appointees six of the nine seats", "In the 2020 term the likeliest median moved from Chief Justice Roberts to Kavanaugh"],
     links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
     check: () => {
-      expect(raw.get("Brennan")!.service_end).toBe("1990-07-20");
-      expect(raw.get("Souter")!.service_start).toBe("1990-10-03");
-      expect(raw.get("White")!.appointing_president).toBe("John F. Kennedy");
-      expect(raw.get("Souter")!.appointing_president).toBe("George H.W. Bush");
-      // The only membership change between the 1989 and 1990 terms, and the term the takeaway's switch begins.
-      const between = justices.filter((j) => (j.service_end ?? "9999") >= "1990-06-01" && (j.service_end ?? "9999") < "1990-10-31" || (j.service_start >= "1990-06-01" && j.service_start < "1990-10-31"));
-      expect(between.map((j) => j.name.last).sort()).toEqual(["Brennan", "Souter"]);
-      expect(termRow(1989).map((t) => t.median_justice_id)).toEqual([raw.get("White")!.justice_id]);
-      expect(termRow(1990).map((t) => t.median_justice_id)).toEqual([raw.get("Souter")!.justice_id]);
+      const g = raw.get("Ginsburg")!;
+      expect([g.service_end, g.death_year]).toEqual(["2020-09-18", 2020]);
+      const b = raw.get("Barrett")!;
+      expect([b.appointing_president, b.confirmation_date, b.service_start]).toEqual(["Donald J. Trump", "2020-10-26", "2020-10-26"]);
+      expect(b.senate_vote).toEqual({ ayes: 52, nays: 48 });
+      // Before Ginsburg's death five of nine were Republican appointees; once Barrett sat, six.
+      const rCount = (iso: string) => seatedOn(iso).filter((j) => j.appointing_party === "Republican").length;
+      expect([seatedOn("2020-09-17").length, rCount("2020-09-17")]).toEqual([9, 5]);
+      expect([seatedOn("2020-10-27").length, rCount("2020-10-27")]).toEqual([9, 6]);
+      const roberts = justices.find((j) => j.name.full.startsWith("John Glover Roberts"))!;
+      expect(roberts.chief_justice_appointment).not.toBeNull();
+      expect(termRow(2019).map((t) => t.median_justice_id)).toEqual([roberts.justice_id]);
+      expect(termRow(2020).map((t) => t.median_justice_id)).toEqual([raw.get("Kavanaugh")!.justice_id]);
     },
   },
   trajectory: {
-    says: ["from votes in non-unanimous cases", "lets scores drift from term to term", "an estimate with uncertainty"],
-    links: { "martin-quinn": "mqscores\\.wustl\\.edu" },
+    says: ["John F. Kennedy’s 1962 appointee Goldberg replaced Frankfurter", "the median fell from −0.04 to −1.07 that term", "Richard M. Nixon’s four appointees joined from 1969 to 1971", "replacing Warren, Fortas, Black and Harlan", "the median rose from −0.89 in 1968 to 0.94 in 1972"],
+    links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
     check: () => {
-      // Every score in the output carries its uncertainty.
-      expect(read<MqScore>("mq_scores.json").every((s) => s.mq_sd > 0 && s.mq_lo95 < s.mq_hi95)).toBe(true);
+      // Seats change hands as a set: who left and who joined over a span, from the FJC service dates.
+      const left = (from: string, to: string) => justices.filter((j) => j.service_end !== null && j.service_end >= from && j.service_end <= to).map((j) => j.name.last).sort();
+      const joined = (from: string, to: string) => justices.filter((j) => j.service_start >= from && j.service_start <= to);
+      // Between White joining (Whittaker's seat) and Goldberg, only Frankfurter left and only Goldberg joined.
+      const goldberg = raw.get("Goldberg")!;
+      expect([goldberg.appointing_president, goldberg.service_start.slice(0, 4)]).toEqual(["John F. Kennedy", "1962"]);
+      const white = raw.get("White")!;
+      expect(left(white.service_start, goldberg.service_start)).toEqual(["Frankfurter"]);
+      expect(joined(white.service_start, goldberg.service_start).filter((j) => j !== white).map((j) => j.name.last)).toEqual(["Goldberg"]);
+      expect(fmtScore(termRow(1961)[0].median_score)).toBe("−0.04");
+      expect(fmtScore(termRow(1962)[0].median_score)).toBe("−1.07");
+      // From 1969 through 1971 the four who left are Warren, Fortas, Black and Harlan, and the four who joined are Nixon's.
+      const nixon = joined("1969-01-01", "1971-12-31");
+      expect(nixon.map((j) => j.name.last).sort()).toEqual(["Blackmun", "Burger", "Powell", "Rehnquist"]);
+      expect(nixon.every((j) => j.appointing_president === "Richard M. Nixon")).toBe(true);
+      expect(justices.filter((j) => j.appointing_president === "Richard M. Nixon").length).toBe(4);
+      expect(left("1969-01-01", "1971-12-31")).toEqual(["Black", "Fortas", "Harlan", "Warren"]);
+      expect(fmtScore(termRow(1968)[0].median_score)).toBe("−0.89");
+      expect(fmtScore(termRow(1972)[0].median_score)).toBe("0.94");
+      // The swing the takeaway names: below zero in every term from 1962 through 1968, above it every term from 1969 to 2013.
+      expect(termsIn(1962, 1968).every((t) => t.median < 0)).toBe(true);
+      expect(termsIn(1969, 2013).every((t) => t.median > 0)).toBe(true);
     },
   },
 };
@@ -144,7 +170,7 @@ describe("Supreme Court ideology context lines", () => {
   it("every context line belongs to a card, stays short and makes no causal or loaded claim", () => {
     expect(Object.keys(COURT_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
     for (const [key, line] of Object.entries(COURT_CONTEXT)) {
-      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/(?<=[a-z0-9]\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|motive)/i);
     }

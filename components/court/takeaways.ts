@@ -27,19 +27,22 @@ export const COURT_TAKEAWAYS = {
 } as const;
 
 /**
- * The context lines (ARCHITECTURE_MAP rule 7d). The strip's line dates the one membership change at the 1990 switch in the
- * likeliest median's appointing party, from the FJC service dates in pipeline/output/court; timing only, it never says why a
- * justice votes as they do. The trajectory's line says what Martin and Quinn say their scores are. The presidents card has
- * none: no cited source says what lies behind its highlight. Pinned in lib/court-ideology-takeaways.test.ts.
+ * The context lines (ARCHITECTURE_MAP rule 7d). The strip's line dates Barrett's confirmation to Ginsburg's seat at the 2020
+ * move in the likeliest median, from the FJC service dates and votes in pipeline/output/court. The trajectory's line is the
+ * older exception rule 7d allows, because it sits behind the chart's main shape: John F. Kennedy's Goldberg taking
+ * Frankfurter's seat the term the median first fell below −1, and Richard M. Nixon's four appointees taking the seats of
+ * Warren, Fortas, Black and Harlan from 1969 to 1971, the swing from the Warren Court's lows to the run above zero the takeaway
+ * names. Timing only: neither says why a justice votes as they do. The presidents card has none: no cited source says what
+ * lies behind its highlight. Pinned in lib/court-ideology-takeaways.test.ts.
  */
 export const COURT_CONTEXT = {
   strip: {
-    text: "Brennan left the Court on July 20, 1990, and Souter joined on October 3, 1990. In the 1990 term the likeliest median moved from White, a Kennedy appointee, to Souter, a Bush appointee.",
+    text: "Ginsburg died on September 18, 2020, and the Senate confirmed Barrett, a Donald J. Trump nominee, 52–48 on October 26, giving Republican appointees six of the nine seats. In the 2020 term the likeliest median moved from Chief Justice Roberts to Kavanaugh.",
     sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
   trajectory: {
-    text: "Martin and Quinn estimate each justice’s score for each term from votes in non-unanimous cases, with a model that lets scores drift from term to term. Each score is an estimate with uncertainty, not a measured position.",
-    sources: [{ id: "martin-quinn", label: "Martin–Quinn, Measures" }],
+    text: "John F. Kennedy’s 1962 appointee Goldberg replaced Frankfurter, and the median fell from −0.04 to −1.07 that term. Richard M. Nixon’s four appointees joined from 1969 to 1971, replacing Warren, Fortas, Black and Harlan; the median rose from −0.89 in 1968 to 0.94 in 1972.",
+    sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
 } as const satisfies Partial<Record<keyof typeof COURT_TAKEAWAYS, ContextEntry>>;
 

@@ -127,11 +127,20 @@ describe("Supreme Court decisions card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). The Act's title and date are pinned to the enacted law (102 Stat. 662, outside the pipeline); the
- * justices' dates come from pipeline/output/court/justices.json (Federal Judicial Center). The data checks are that each fact sits
- * next to the highlight the takeaway names.
+ * The context lines (rule 7d). The Act's title and date are pinned to the enacted law (102 Stat. 662, outside the pipeline), and
+ * the seat Barrett filled to the Senate's nominations table ("Barrett, Amy Coney | Ginsburg | … | 52-48 | C, Oct 26, 2020"); the
+ * justices' dates, votes and appointing parties come from pipeline/output/court/justices.json (Federal Judicial Center). The data
+ * checks are that each fact sits next to the chart feature the line names.
  */
-type Justice = { name: { full: string; last: string }; confirmation_date: string; service_start: string; service_end: string | null };
+type Justice = {
+  name: { full: string; last: string };
+  appointing_president: string;
+  appointing_party: string;
+  confirmation_date: string;
+  senate_vote: { ayes: number; nays: number } | null;
+  service_start: string;
+  service_end: string | null;
+};
 const justices = JSON.parse(readFileSync("pipeline/output/court/justices.json", "utf8")) as Justice[];
 const justice = (last: string) => justices.filter((j) => j.name.last === last).at(-1)!;
 const longDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -139,28 +148,35 @@ const sitting = (iso: string) => justices.filter((j) => j.service_start <= iso &
 
 const contextCases: Record<keyof typeof DECISIONS_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   cases: {
-    says: ["Supreme Court Case Selections Act (P.L. 100-352)", "\u201cproviding greater discretion to the Supreme Court in selecting the cases it will review,\u201d", "became law June 27, 1988"],
+    says: ["Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988)", "at least 129 cases every term from 1970 through 1989", "none topped 94 from 1993"],
     links: { "plaw-100-352": "STATUTE-102-Pg662" },
     check: () => {
-      // Signed in June 1988, before the 1988 term opened; the takeaway's 129-plus run ends with the 1989 term and the under-95 run starts in 1993.
+      // The same run and ceiling the takeaway states; the Act was signed before the 1988 term opened.
+      expect(Math.min(...between(1970, 1989).map(cases))).toBe(129);
+      expect(Math.max(...between(1993, 2025).map(cases))).toBe(94);
       expect(cases(1988)).toBeGreaterThanOrEqual(129);
-      expect(Math.max(...between(1993, 2025).map(cases))).toBeLessThan(Math.min(...between(1970, 1989).map(cases)));
     },
   },
   split: {
-    says: ["Abe Fortas left the Court May 14, 1969", "the Senate confirmed Harry Blackmun May 12, 1970", "eight justices sat for most of the 1969 term"],
-    links: { fjc: "fjc.gov" },
+    says: ["The Senate confirmed Amy Coney Barrett, a Donald J. Trump nominee, 52\u201348 on October 26, 2020", "to Ginsburg\u2019s seat", "giving Republican appointees six of nine", "The three highest 6\u20133 shares since 1946 followed: 32% in the 2021 term, 36% in 2023 and 30% in 2025"],
+    links: { "senate-scotus-nominations": "senate.gov/legislative/nominations", fjc: "fjc.gov" },
     check: () => {
-      expect(longDate(justice("Fortas").service_end!)).toBe("May 14, 1969");
-      expect(justice("Blackmun").name.full).toMatch(/^Harry /);
-      expect(longDate(justice("Blackmun").confirmation_date)).toBe("May 12, 1970");
-      // The 1969 term opened October 6, 1969: eight sat from then until Blackmun's service began, nine before Fortas left.
-      expect(sitting("1969-10-06")).toBe(8);
-      expect(sitting(justice("Blackmun").service_start)).toBe(9);
-      expect(sitting("1969-05-13")).toBe(9);
-      // The term the takeaway names as the 5–4 low.
-      const fiveFour = terms.map((t) => byTerm.get(t)![4] / cases(t));
-      expect(terms[fiveFour.indexOf(Math.min(...fiveFour))]).toBe(1969);
+      const b = justice("Barrett");
+      expect(b.name.full).toBe("Amy Coney Barrett");
+      expect([b.appointing_president, longDate(b.confirmation_date)]).toEqual(["Donald J. Trump", "October 26, 2020"]);
+      expect(b.senate_vote).toEqual({ ayes: 52, nays: 48 });
+      expect(justice("Ginsburg").service_end).toBe("2020-09-18");
+      const seated = (iso: string) => justices.filter((j) => j.service_start <= iso && (j.service_end === null || j.service_end >= iso));
+      const rSeats = (iso: string) => seated(iso).filter((j) => j.appointing_party === "Republican").length;
+      expect([sitting("2020-09-17"), rSeats("2020-09-17")]).toEqual([9, 5]);
+      expect([sitting(b.service_start), rSeats(b.service_start)]).toEqual([9, 6]);
+      // The chart's 6–3 band (three dissents) at its three highest term shares, all after the 2020 term Barrett joined, and the
+      // chart starts in 1946.
+      expect(terms[0]).toBe(1946);
+      const top = [...terms].sort((x, y) => byTerm.get(y)![3] / cases(y) - byTerm.get(x)![3] / cases(x)).slice(0, 4);
+      expect(top.slice(0, 3).sort()).toEqual([2021, 2023, 2025]);
+      expect([2021, 2023, 2025].map((t) => pct(byTerm.get(t)!, 3))).toEqual([32, 36, 30]);
+      expect(pct(byTerm.get(top[3])!, 3)).toBeLessThan(30);
     },
   },
 };
@@ -178,7 +194,7 @@ describe("Supreme Court decisions context lines", () => {
   it("every context line belongs to a card, stays short and makes no causal or ideological claim", () => {
     expect(Object.keys(DECISIONS_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
     for (const [key, line] of Object.entries(DECISIONS_CONTEXT)) {
-      expect(line.text.replace(/P\.L\./g, "PL").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.replace(/P\.L\./g, "PL").replace(/\b([A-Z])\.\s/g, "$1 ").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|liberal|conservative|ideolog\w*)\b/i);
     }
