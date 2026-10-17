@@ -52,17 +52,16 @@ export const SOURCE_LINKS = {
   "ice-statistics": "https://www.ice.gov/statistics",
   "dhs-ice-budget-fy2027": "https://www.dhs.gov/sites/default/files/2026-04/26_0403_ocfo_fy27-budget-immigration-and-customs-enforcement.pdf",
   // Immigration context lines (rule 7d). The ICE, CBP, executive-order and determination URLs are the ones
-  // pipeline/reference/*-catalog.json and pipeline/output/refugee_*.json already record; the DHS reports, the 2007 fee rule,
-  // Proclamations 10014 and 10149 and the ICE testimony are new here.
+  // pipeline/reference/*-catalog.json and pipeline/output/refugee_*.json already record; the DHS reports, the State
+  // Department report, the 2007 fee rule, Proclamation 10014 and the ICE testimony are new here.
+  "ohss-irca-fact-sheet-2009": "https://ohss.dhs.gov/sites/default/files/2023-12/Naturalization%2520Rates%2520IRCA%2520Immigrants%25202009.pdf",
   "ohss-naturalizations-2008": "https://ohss.dhs.gov/sites/default/files/2023-12/Naturalizations_2008.pdf",
   "ohss-lpr-flow-2021": "https://ohss.dhs.gov/sites/default/files/2023-12/2022_0405_plcy_lawful_permanent_residents_fy2021v2.pdf",
   "uscis-fee-rule-2007": "https://www.govinfo.gov/content/pkg/FR-2007-05-30/html/E7-10371.htm",
   "proclamation-10014": "https://www.govinfo.gov/content/pkg/FR-2020-04-27/html/2020-09068.htm",
-  "proclamation-10149": "https://www.govinfo.gov/content/pkg/FR-2021-03-01/html/2021-04279.htm",
-  "refugee-pd-2017-13": "https://www.govinfo.gov/content/pkg/FR-2017-10-23/html/2017-23140.htm",
+  "state-refugee-report-fy2015": "https://www.rpc.state.gov/documents/Report+to+Congress+for+FY+2015+USRAP.pdf",
   "refugee-pd-2021-02": "https://www.federalregister.gov/d/2020-24912",
   "refugee-pd-2021-06": "https://www.govinfo.gov/content/pkg/FR-2021-05-07/html/2021-09861.htm",
-  "refugee-pd-2022-02": "https://www.govinfo.gov/content/pkg/FR-2021-10-18/html/2021-22760.htm",
   "eo-14163": "https://www.govinfo.gov/content/pkg/FR-2025-01-30/html/2025-02011.htm",
   "eo-14204": "https://www.govinfo.gov/content/pkg/FR-2025-02-12/html/2025-02630.htm",
   "refugee-pd-2025-13": "https://www.govinfo.gov/content/pkg/FR-2025-10-31/html/2025-19752.htm",

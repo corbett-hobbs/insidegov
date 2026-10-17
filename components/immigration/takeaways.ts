@@ -74,10 +74,10 @@ export const IMMIGRATION_TAKEAWAYS = {
  */
 export const IMMIGRATION_CONTEXT = {
   greenCards: {
-    text: "Proclamation 10014 suspended entry from abroad for family-sponsored preference and diversity immigrants, among others, from April 2020 to February 2021; those classes fell from 247.6k in FY2019 to 80.8k in FY2021. DHS attributes FY2021’s low count largely to the pandemic and its embassy closures.",
+    text: "The FY1989–FY1991 peak includes legalizations under the 1986 Immigration Reform and Control Act: nearly 2.7M green cards, almost all in 1989–1992. Proclamation 10014 suspended entry for many immigrants from abroad (April 2020–February 2021) during the FY2020–FY2021 dip, which DHS ties to the pandemic.",
     sources: [
+      { id: "ohss-irca-fact-sheet-2009", label: "DHS on IRCA" },
       { id: "proclamation-10014", label: "Proclamation 10014" },
-      { id: "proclamation-10149", label: "its revocation" },
       { id: "ohss-lpr-flow-2021", label: "DHS" },
     ],
   },
@@ -105,10 +105,10 @@ export const IMMIGRATION_CONTEXT = {
     ],
   },
   refugeeTop: {
-    text: "Every Presidential Determination that split admissions by region from FY2018 through FY2023 gave Africa the largest share (19k of 45k in FY2018; 40k of 125k in FY2022). Refugees from the DRC were 69% to 79% of Africa’s in those years.",
+    text: "The State Department’s FY2015 report to Congress said Congolese admissions would rise steadily as it helped UNHCR resettle at least 50k worldwide over four to five years; the DRC led from FY2016. Regional determinations for FY2018–FY2023 all gave Africa the largest share.",
     sources: [
-      { id: "refugee-pd-2017-13", label: "FY2018" },
-      { id: "refugee-pd-2022-02", label: "FY2022 determinations" },
+      { id: "state-refugee-report-fy2015", label: "State Department" },
+      { id: "refugee-determinations", label: "determinations" },
     ],
   },
   encounters: {

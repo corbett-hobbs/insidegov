@@ -216,29 +216,35 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
 
 /**
  * The context lines (rule 7d). Figures from pipeline/output are checked here; facts that come from a cited document outside
- * the pipeline (the proclamations, the DHS reports, the 2007 fee rule, CBP's July 2021 release, ICE's 2023 testimony) are
- * pinned to the phrase the line uses, so an edit has to come back here, and each line's sources must exist.
+ * the pipeline (the proclamations, the DHS reports, the State Department's FY2015 report, the 2007 fee rule, CBP's July 2021
+ * release, ICE's 2023 testimony) are pinned to the phrase the line uses, so an edit has to come back here, and each line's
+ * sources must exist.
  */
 const refugeeMonthly = read("refugee_monthly.json") as { fy: number; month: string; admissions: number }[];
 const determinations = parse("refugee_determinations.json", refugeeDeterminationRow);
-const thousands = (v: number) => (v / 1000).toFixed(1);
 const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; check: () => void }> = {
   greenCards: {
     says: [
-      "Proclamation 10014 suspended entry from abroad for family-sponsored preference and diversity immigrants, among others",
-      "from April 2020 to February 2021",
-      "those classes fell from 247.6k in FY2019 to 80.8k in FY2021",
-      "DHS attributes FY2021’s low count largely to the pandemic and its embassy closures",
+      "The FY1989–FY1991 peak includes legalizations under the 1986 Immigration Reform and Control Act",
+      "nearly 2.7M green cards, almost all in 1989–1992",
+      "Proclamation 10014 suspended entry for many immigrants from abroad (April 2020–February 2021)",
+      "during the FY2020–FY2021 dip, which DHS ties to the pandemic",
     ],
     check: () => {
-      // Proclamation 10014 took effect April 23, 2020 and covered aliens outside the U.S. without an immigrant visa; spouses
-      // and under-21 children of citizens were exempt, family-preference and diversity immigrants were not. Proclamation
-      // 10149 revoked it on February 24, 2021. DHS's FY2021 flow report: "Largely due to the COVID-19 pandemic, LPR flows in
-      // 2021 were not representative", with embassies' routine visa services suspended; it does not mention the proclamation.
-      const pair = (fy: number) => at(lprYears, fy).classes!.family_preference + at(lprYears, fy).classes!.diversity;
-      expect([thousands(pair(2019)), thousands(pair(2021))]).toEqual(["247.6", "80.8"]);
-      // The two classes' FY2021 total is the lowest of any year with class detail (FY1999 on).
-      expect(argmin(between(lprYears, 1999, 2025), (y) => y.classes!.family_preference + y.classes!.diversity).fy).toBe(2021);
+      // DHS's IRCA fact sheet (2009): "Nearly 2.7 million persons became LPRs under IRCA"; 95% of pre-1982 entrants got status
+      // in 1989–1991 and 99% of special agricultural workers in 1990–1992.
+      const lpr = (fy: number) => at(lprYears, fy).lpr;
+      expect(argmax(lprYears, (y) => y.lpr).fy).toBe(1991);
+      expect(lpr(1990)).toBeGreaterThan(Math.max(...between(lprYears, 1992, 2025).map((y) => y.lpr)));
+      expect(lpr(1989)).toBeGreaterThan(lpr(1988));
+      // Proclamation 10014 took effect April 23, 2020 for aliens outside the U.S. without an immigrant visa (spouses and
+      // under-21 children of citizens exempt); Proclamation 10149 revoked it on February 24, 2021. DHS's FY2021 flow report
+      // calls the pandemic "the most evident reason" 2021 was so low and says it "contributed" to 2020's 17-year low; it does
+      // not mention the proclamation.
+      for (const fy of [2020, 2021]) {
+        expect(lpr(fy), `FY${fy}`).toBeLessThan(0.75 * lpr(2019));
+        expect(lpr(fy), `FY${fy}`).toBeLessThan(0.75 * lpr(2022));
+      }
     },
   },
   naturalizations: {
@@ -281,8 +287,22 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
     },
   },
   refugeeTop: {
-    says: ["Every Presidential Determination that split admissions by region from FY2018 through FY2023 gave Africa the largest share", "19k of 45k in FY2018", "40k of 125k in FY2022", "Refugees from the DRC were 69% to 79% of Africa’s in those years"],
+    says: [
+      "The State Department’s FY2015 report to Congress said Congolese admissions would rise steadily",
+      "as it helped UNHCR resettle at least 50k worldwide over four to five years",
+      "the DRC led from FY2016",
+      "Regional determinations for FY2018–FY2023 all gave Africa the largest share",
+    ],
     check: () => {
+      // The report (September 2014): "In the coming years that number will rise steadily. We continue to work closely with UNHCR
+      // to help it resettle at least 50,000 Congolese worldwide over the next 4-5 years."
+      const leader = (fy: number) => refugees.countries[at(topByYear(refugees, fy, fy), fy).ranked[0].ci].name;
+      expect(leader(2015)).not.toBe("Democratic Republic of the Congo");
+      expect(leader(2016)).toBe("Democratic Republic of the Congo");
+      // Congolese arrivals did rise each year from FY2014 to the FY2016 lead.
+      const drc = (fy: number) => rankCountries(refugees, fy).find((c) => c.key === "COD")!.value;
+      expect(drc(2014)).toBeLessThan(drc(2015));
+      expect(drc(2015)).toBeLessThan(drc(2016));
       // Africa's allocation is the largest region's (the unallocated reserve is not a region) in every regional determination
       // from FY2018 through FY2023, and in none just outside that span (FY2017's Near East/South Asia was larger; FY2024's
       // Latin America/Caribbean range matched Africa's top and started higher).
@@ -296,12 +316,6 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
       expect(span.map((d) => d.fy)).toEqual([2018, 2019, 2021, 2021, 2022, 2023]);
       for (const d of span) expect(africaLargest(d), d.id).toBe(true);
       for (const fy of [2017, 2024]) expect(africaLargest(regional.find((d) => d.fy === fy)!), `FY${fy}`).toBe(false);
-      const africa = (d: (typeof determinations)[number]) => d.allocations.find((a) => a.region_group === "africa")!.max;
-      expect([africa(span[0]), span[0].ceiling]).toEqual([19_000, 45_000]);
-      const fy22 = span.find((d) => d.fy === 2022)!;
-      expect([africa(fy22), fy22.ceiling]).toEqual([40_000, 125_000]);
-      const shares = [2018, 2019, 2020, 2021, 2022, 2023].map((fy) => pct(rankCountries(refugees, fy).find((c) => c.key === "COD")!.value, at(refugees.years, fy).regions.africa));
-      expect([Math.min(...shares), Math.max(...shares)]).toEqual([69, 79]);
     },
   },
   encounters: {
