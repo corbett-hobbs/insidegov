@@ -133,7 +133,7 @@ export function HeldNow({ items, stateOf, mode }: { items: readonly TlEvent[]; s
 /**
  * The note card's content for one marker: every event it holds, each with its date, one line, the vote
  * (party yes-vote bars for a law, appointing-party bars for a case) and its links to other events on the list. The title is the
- * link: the law's page here, else its Wikipedia article (cases always go to Wikipedia). Who held power is on the chart and era rows, not repeated here.
+ * link: the law's page here, a case's decision page here (cases before the 1946 term have none), else its Wikipedia article. Who held power is on the chart and era rows, not repeated here.
  */
 export function EventNotes({
   items,
@@ -159,8 +159,8 @@ export function EventNotes({
         >
           <div className="pr-6">
             <span className={numberBadge(e.kind)}>{e.no}</span>
-            {e.lawPath ? (
-              <Link href={e.lawPath} target="_blank" rel="noreferrer" className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
+            {e.lawPath ?? e.casePath ? (
+              <Link href={(e.lawPath ?? e.casePath)!} target="_blank" rel="noreferrer" className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
                 {e.name} ↗
               </Link>
             ) : (

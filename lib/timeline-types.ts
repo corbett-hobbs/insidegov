@@ -67,6 +67,8 @@ export interface TlEvent {
   /** English Wikipedia article title. */
   wiki: string;
   // Cases
+  /** The case's decision page on this site (1946 term on; earlier cases link to Wikipedia). */
+  casePath?: string;
   /** "6–3". */
   vote?: string;
   /** Last name of the justice who wrote the majority opinion. */
