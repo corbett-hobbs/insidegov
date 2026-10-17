@@ -5,6 +5,8 @@ import { join } from "node:path";
 import { committeeBillsMeta, committeeBillsShard, type CommitteeBillsMeta } from "./committee-bills-entities";
 import type { BillSponsorCell, CommitteeBillsPayload, CommitteeBillsSummary } from "./committee-bills-types";
 import { getCurrentMemberIndex } from "./congress-data";
+import { LAW_POPULAR_NAMES } from "./law-popular-names";
+import { lawId } from "./law-url";
 import { memberPath } from "./member-url";
 
 /**
@@ -53,7 +55,12 @@ export function getCommitteeBillsPayload(committeeId: string): CommitteeBillsPay
     const cur = current.get(id);
     return [cur?.name ?? firstLast(name), party ? `${party}${place ? `-${place}` : ""}` : place, party, cur ? memberPath({ bioguideId: id, chamber: cur.chamber, name: cur.name }) : null];
   });
-  const payload: CommitteeBillsPayload = { committeeId, congress: shard.congress, chamber: shard.chamber, dataThrough: m.data_through, areas: shard.areas, subs: shard.subs, sponsors, rows: shard.rows };
+  // A bill that became a law with a popular name shows that name, as everywhere else on the site.
+  const rows = shard.rows.map((r) => {
+    const popular = r.l ? LAW_POPULAR_NAMES[lawId(shard.congress, Number(r.l.split("-")[1]))] : undefined;
+    return popular ? { ...r, t: popular } : r;
+  });
+  const payload: CommitteeBillsPayload = { committeeId, congress: shard.congress, chamber: shard.chamber, dataThrough: m.data_through, areas: shard.areas, subs: shard.subs, sponsors, rows };
   payloads.set(committeeId, payload);
   return payload;
 }
