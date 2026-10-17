@@ -67,8 +67,14 @@ export function MemberNeighborList({
               <span className="min-w-0 flex-1 truncate" title={member.name}>
                 <span className="text-ink">
                   {memberTitleAbbr(member.chamber)} {member.name}
-                </span>{" "}
-                <span className="text-ink-faint">
+                </span>
+                {/* Phones: the party and seat sit on their own line so a long name never cuts them off. */}
+                <span className="block truncate text-[0.72rem] text-ink-faint sm:hidden">
+                  {partyAbbr(member.party)}-{seatLabel(member)}
+                  {member.isFormer && " · former"}
+                </span>
+                <span className="hidden text-ink-faint sm:inline">
+                  {" "}
                   {partyAbbr(member.party)}-{seatLabel(member)}
                   {member.isFormer && " · former"}
                 </span>
@@ -90,7 +96,7 @@ export function MemberNeighborList({
                   />
                 )}
               </span>
-              <span className="w-10 flex-none text-right font-mono text-[0.7rem] tabular-nums text-ink-muted">
+              <span className="hidden w-10 flex-none text-right font-mono sm:block text-[0.7rem] tabular-nums text-ink-muted">
                 {fmt2(member.dim1)}
               </span>
             </Link>

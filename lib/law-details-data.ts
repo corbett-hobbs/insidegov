@@ -38,6 +38,9 @@ function loadRows() {
   return { rows: rows!, all: all!, byBill: byBill! };
 }
 
+/** Laws known by a popular name; the page leads with it. URLs keep the formal title's slug. */
+const LAW_POPULAR_NAMES: Record<string, string> = { "119-pub-21": "One Big Beautiful Bill Act" };
+
 /** Every law as the page and the sitemap need it: id, title, Congress and date. Newest first. */
 export function getLawRefs(): { lawId: string; title: string; congress: number; date: string; major: boolean | null }[] {
   return [...loadRows().all]
@@ -140,7 +143,8 @@ export function getLawPage(lawId: string): LawPageData | null {
     lawId,
     congress: law.congress,
     number: law.number,
-    title: law.title,
+    title: LAW_POPULAR_NAMES[lawId] ?? law.title,
+    officialTitle: LAW_POPULAR_NAMES[lawId] ? law.title : null,
     publicLaw: `Public Law ${law.congress}-${law.number}`,
     date: law.date,
     billLabel: billLabel(law),
