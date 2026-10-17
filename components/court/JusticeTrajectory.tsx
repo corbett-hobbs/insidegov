@@ -8,6 +8,8 @@ import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
 import { RangeReset } from "@/components/charts/RangeReset";
 import { RangeSelector } from "@/components/charts/RangeSelector";
+import { TermBand, type BandTerm } from "@/components/charts/TermBand";
+import { initialsOf } from "@/lib/term-label";
 import { TERM_BAND_H, TermSpanSvg } from "@/components/charts/TermBandSvg";
 import type { CourtBandTerm } from "@/lib/court-president-band";
 import { Tooltip, usePinnedTooltip, useTooltip } from "@/components/charts/Tooltip";
@@ -106,12 +108,20 @@ export function JusticeTrajectory({
       .filter((p) => p.to > win[0] && p.from < win[1])
       .map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(Math.max(p.from, win[0])), x1: x(Math.min(p.to, win[1])) }));
 
-  /** Tapping a president zooms to their years; tapping the one already zoomed to resets. */
-  const pickPresident = (p: CourtBandTerm) => {
-    const next: [number, number] = [Math.max(firstTerm, Math.floor(p.from)), Math.min(lastTerm, Math.ceil(p.to))];
-    if (next[1] - next[0] < MIN_SPAN) next[1] = Math.min(lastTerm, next[0] + MIN_SPAN);
-    setWin(sameRange(next, win) ? [firstTerm, lastTerm] : next);
-  };
+  /** The presidents as the slider's term band: whole-term positions on the same axis as the zoom handles. */
+  const bandTerms = useMemo<BandTerm[]>(
+    () =>
+      presidents.map((p) => ({
+        id: p.id,
+        label: p.president,
+        last: p.last,
+        initials: initialsOf(p.president),
+        party: p.party,
+        from: Math.max(firstTerm, Math.round(p.from)),
+        to: Math.min(lastTerm, Math.round(p.to)),
+      })),
+    [presidents, firstTerm, lastTerm],
+  );
 
   const focusId = pin.state?.data.id ?? hoverId ?? selectedId;
   const byId = new Map(data.justices.map((j) => [j.id, j]));
@@ -177,7 +187,10 @@ export function JusticeTrajectory({
               .filter((c): c is { j: CourtJustice; ex: number; ey: number } => c !== null)
               .sort((a, b) => Number(b.j.id === focusId) - Number(a.j.id === focusId) || a.ey - b.ey);
             const kept: typeof cand = [];
-            for (const c of cand) if (kept.every((k) => Math.abs(k.ey - c.ey) >= LABEL_GAP)) kept.push(c);
+            // The "selected term" note sits bottom-right when the shared term is past the window; keep labels off it.
+            const noteY = term > win[1] ? innerHeight - 22 : null;
+            for (const c of cand)
+              if (kept.every((k) => Math.abs(k.ey - c.ey) >= LABEL_GAP) && (noteY === null || Math.abs(c.ey - 5 - noteY) >= LABEL_GAP)) kept.push(c);
             zoomLabels = kept.map(({ j, ex, ey }) => (
               <text
                 key={j.id}
@@ -247,28 +260,6 @@ export function JusticeTrajectory({
                     y={innerHeight + MARGIN.bottom + BAND_GAP}
                     spans={bandSpans(x)}
                   />
-                  {/* Each term is a button: tap to zoom to that president's years, tap again to reset. */}
-                  {bandSpans(x).map((g) => (
-                    <rect
-                      key={g.id}
-                      x={g.x0}
-                      y={innerHeight + MARGIN.bottom + BAND_GAP}
-                      width={Math.max(0, g.x1 - g.x0)}
-                      height={TERM_BAND_H}
-                      fill="transparent"
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Zoom to ${g.president}'s years`}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => pickPresident(presidents.find((p) => p.id === g.id)!)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          pickPresident(presidents.find((p) => p.id === g.id)!);
-                        }
-                      }}
-                    />
-                  ))}
                 </>
               )}
               <text x={4} y={12} fill="var(--ink-muted)" fontSize={12}>
@@ -401,7 +392,7 @@ export function JusticeTrajectory({
         }}
       </ChartFrame>
 
-      {/* Zoom: the same two-handle slider the other pages use, local to this card; the band's taps set it too. */}
+      {/* Zoom: the same two-handle slider and presidential band the pinned filter bars use (tap to add or drop a term, drag across several), local to this card. */}
       <div className="mx-0.5 mt-3 flex items-center gap-2">
         <RangeSelector
           min={firstTerm}
@@ -411,6 +402,7 @@ export function JusticeTrajectory({
           onChange={(r) => setWin(r)}
           format={String}
           ariaLabel="Terms shown on the chart"
+          below={presidents.length > 0 ? <TermBand terms={bandTerms} min={firstTerm} max={lastTerm} value={win} onChange={(r) => setWin(r)} /> : undefined}
           action={<RangeReset show={!full} onReset={() => setWin([firstTerm, lastTerm])} ariaLabel="Reset the chart zoom to every term" className="mt-0.5 font-sans leading-none" />}
           className="min-w-0 flex-1"
         />
