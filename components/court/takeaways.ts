@@ -27,19 +27,25 @@ export const COURT_TAKEAWAYS = {
 } as const;
 
 /**
- * The context lines (ARCHITECTURE_MAP rule 7d). The strip's line dates the one membership change at the 1990 switch in the
- * likeliest median's appointing party, from the FJC service dates in pipeline/output/court; timing only, it never says why a
- * justice votes as they do. The trajectory's line dates the 1969 departures and Burger's confirmation at the term after which, the takeaway says, the median fell below zero only three times. The presidents card has
- * none: no cited source says what lies behind its highlight. Pinned in lib/court-ideology-takeaways.test.ts.
+ * The context lines (ARCHITECTURE_MAP rule 7d), both from the last ten years. The strip's line dates Barrett's confirmation to
+ * Ginsburg's seat at the 2020 move in the likeliest median, from the FJC service dates and votes in pipeline/output/court. The
+ * trajectory's line dates Gorsuch's confirmation, a day after the Senate let a simple majority end debate on Supreme Court
+ * nominees, at the end of the only run since 1969 in which, the takeaway says, the median sat below zero. Timing only: neither
+ * says why a justice votes as they do. The presidents card has none: no cited source says what lies behind its highlight.
+ * Pinned in lib/court-ideology-takeaways.test.ts.
  */
 export const COURT_CONTEXT = {
   strip: {
-    text: "Brennan left the Court on July 20, 1990, and Souter joined on October 3, 1990. In the 1990 term the likeliest median moved from White, a John F. Kennedy appointee, to Souter, a George H. W. Bush appointee.",
+    text: "Ginsburg died on September 18, 2020, and the Senate confirmed Barrett, a Donald J. Trump nominee, 52–48 on October 26, giving Republican appointees six of the nine seats. In the 2020 term the likeliest median moved from Chief Justice Roberts to Kavanaugh.",
     sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
   trajectory: {
-    text: "Fortas left the Court on May 14, 1969, and Warren on June 23, 1969, when Burger, a Richard Nixon nominee confirmed 74–3 on June 9, took his seat. The median went from −0.89 in the 1968 term to 0.19 in 1969.",
-    sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
+    text: "On April 7, 2017, a day after letting a simple majority end debate on Supreme Court nominees, the Senate confirmed Gorsuch, a Donald J. Trump nominee, 54–45 to Scalia’s seat. In 2017, his first full term, the median went from −0.06 to 0.29.",
+    sources: [
+      { id: "senate-vote-gorsuch-cloture", label: "U.S. Senate roll call" },
+      { id: "senate-scotus-nominations", label: "U.S. Senate" },
+      { id: "martin-quinn", label: "Martin–Quinn" },
+    ],
   },
 } as const satisfies Partial<Record<keyof typeof COURT_TAKEAWAYS, ContextEntry>>;
 
