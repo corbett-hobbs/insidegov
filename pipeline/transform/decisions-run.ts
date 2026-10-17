@@ -7,6 +7,9 @@ import {
   DecisionsDataError,
   chiefReference,
   caseArticleRow,
+  caseLeadRow,
+  decisionDetailRow,
+  scdbCodebook,
   caseLeadsManifest,
   caseSummaryRow,
   decisionCaseRow,
@@ -28,6 +31,7 @@ import type { WikiCaseEntry } from "../fetch/wikipedia-cases-lib";
 import { checkWikipediaCases, matchWikipediaCases, type WikiVia } from "./wikipedia-cases";
 import { CASE_SUMMARIES_AI, aiSummaryCache, buildCaseSummaries, checkCaseSummaries } from "./wikipedia-case-summaries";
 import { checkLandmarks, leadLandmarks, matchLandmarks, parseLandmarkList } from "./landmarks";
+import { buildCaseDetails, buildCaseLeads } from "./decision-details";
 import { buildCaseRows, buildChiefSpans, buildCounts, buildMeta, checkChiefReference, parseScdb, recountFromCsv, runGates, selectCases } from "./decisions";
 
 /**
@@ -118,6 +122,16 @@ async function main() {
   checkCaseSummaries(cs.rows, linked.length, new Set(selection.cases.map((c) => c.caseId)));
   const summaries = z.array(caseSummaryRow).parse(cs.rows.sort((a, b) => a.case_id.localeCompare(b.case_id)));
 
+  // The decision pages: the article's opening paragraphs, and each case's SCDB details in the codebook's wording.
+  const leadsFile = JSON.parse(leadsText) as { leads: Record<string, string> };
+  const summarized = new Set(summaries.map((r) => r.case_id));
+  const leads = z.array(caseLeadRow).parse(buildCaseLeads(linked.map((l) => ({ ...l, summary: summarized.has(l.case_id) })), leadsFile.leads));
+  const codebook = scdbCodebook.parse(await readJson(`${REF}/scdb-codebook.json`).catch(() => {
+    throw new DecisionsDataError(`${REF}/scdb-codebook.json is missing; run pnpm fetch:scdb-codebook`);
+  }));
+  const det = buildCaseDetails(text, selection.cases.map((c) => c.caseId), codebook);
+  const details = z.array(decisionDetailRow).parse(det.rows.sort((a, b) => a.case_id.localeCompare(b.case_id)));
+
   const meta = decisionsMeta.parse({
     ...buildMeta({ version: manifest.version, sourceFile: manifest.csv_file, cases: selection.cases, selection, catalog, spans }),
     landmarks: { count: landmarks.length, page: lmManifest.page, url: lmManifest.url, revision_id: lmManifest.revid, revision_date: lmManifest.revision_timestamp.slice(0, 10), license: lmManifest.license },
@@ -176,6 +190,7 @@ async function main() {
       name_matches: wc.report.name_matches,
     },
     case_summaries: { fetched: leadsManifest.fetched, linked_cases: linked.length, cases_with_summary: summaries.length, ...cs.report },
+    case_details: { ...det.report, codebook_fetched: codebook.fetched, wikipedia_leads: leads.length },
     justice_votes: { ...jv.report, justices_not_in_martin_quinn: unknownIds },
     gates,
     count_rows: counts.length,
@@ -187,6 +202,8 @@ async function main() {
   await writeFile(`${OUT}/decisions_landmarks.json`, oneRowPerLine(landmarks));
   await writeFile(`${OUT}/decisions_articles.json`, oneRowPerLine(articles));
   await writeFile(`${OUT}/decisions_summaries.json`, oneRowPerLine(summaries));
+  await writeFile(`${OUT}/decisions_details.json`, oneRowPerLine(details));
+  await writeFile(`${OUT}/decisions_leads.json`, oneRowPerLine(leads));
   await mkdir(`${OUT}/court`, { recursive: true });
   const ids = Object.keys(jvFile);
   await writeFile(`${OUT}/court/justice_votes.json`, `{\n${ids.map((id) => `${JSON.stringify(id)}: ${JSON.stringify(jvFile[id])}`).join(",\n")}\n}\n`);

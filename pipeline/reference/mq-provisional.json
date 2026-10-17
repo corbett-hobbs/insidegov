@@ -1,0 +1,18 @@
+{
+  "_comment": "Provisional Martin-Quinn scores for a term the official release (pipeline/raw/mq/) does not cover yet, used ONLY by the decision pages' \"How the justices voted\" strip, labelled provisional there. Copied by hand from Table 3.1 of the report below. Delete this file when `pnpm fetch:mq -- --adopt <year>` brings in an official release covering the term: the court transform fails until you do.",
+  "source": "Lee Epstein, Andrew D. Martin & Michael J. Nelson, Provisional Data Report on the U.S. Supreme Court's 2025 Term, Table 3.1 (scores by Kevin Quinn)",
+  "url": "https://epstein.wustl.edu/s/2025termdatareport.pdf",
+  "published": "2026-06-30",
+  "term": 2025,
+  "scores": [
+    { "justice_id": 113, "name": "Sotomayor", "mq_score": -3.818 },
+    { "justice_id": 118, "name": "Jackson", "mq_score": -3.38 },
+    { "justice_id": 114, "name": "Kagan", "mq_score": -2.059 },
+    { "justice_id": 111, "name": "Roberts", "mq_score": 0.61 },
+    { "justice_id": 116, "name": "Kavanaugh", "mq_score": 0.755 },
+    { "justice_id": 117, "name": "Barrett", "mq_score": 0.905 },
+    { "justice_id": 115, "name": "Gorsuch", "mq_score": 1.212 },
+    { "justice_id": 112, "name": "Alito", "mq_score": 2.893 },
+    { "justice_id": 108, "name": "Thomas", "mq_score": 3.337 }
+  ]
+}

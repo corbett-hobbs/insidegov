@@ -26,6 +26,8 @@ export const SOURCE_LINKS = {
   "senate-efd": "https://efdsearch.senate.gov/search/home/",
   // The Court
   scdb: "http://scdb.wustl.edu/data.php",
+  // The codebook the decision pages' labels come from (pipeline/reference/scdb-codebook.json records it).
+  "scdb-codebook": "http://scdb.wustl.edu/documentation.php",
   "martin-quinn": "https://mqscores.wustl.edu/measures.php",
   fjc: "https://www.fjc.gov/history/judges",
   // The decisions page's context line (rule 7d): the Supreme Court Case Selections Act as enacted, 102 Stat. 662 (new here).

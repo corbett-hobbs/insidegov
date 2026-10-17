@@ -159,3 +159,17 @@ export const justiceBio = z.strictObject({
     .nullable(),
 });
 export type JusticeBio = z.infer<typeof justiceBio>;
+
+/**
+ * `pipeline/reference/mq-provisional.json`: Martin-Quinn scores for one term past the official release, hand-copied from a
+ * provisional report. Scores only (no interval, no median estimate). Read by the decision pages; the court transform fails once
+ * the official data covers the term, so the file gets deleted.
+ */
+export const mqProvisional = z.object({
+  source: z.string().min(1),
+  url: z.string().url(),
+  published: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  term: z.number().int(),
+  scores: z.array(z.object({ justice_id: z.number().int(), name: z.string(), mq_score: z.number() })).min(1),
+});
+export type MqProvisional = z.infer<typeof mqProvisional>;

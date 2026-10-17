@@ -1389,6 +1389,23 @@
     },
     "without": 490
   },
+  "case_details": {
+    "cases": 8251,
+    "unknown_codes": {
+      "caseOrigin": {
+        "154": 1,
+        "156": 3,
+        "157": 1,
+        "161": 1
+      }
+    },
+    "argued": 8249,
+    "reargued": 173,
+    "precedent_altered": 191,
+    "declared_unconstitutional": 647,
+    "codebook_fetched": "2026-10-17",
+    "wikipedia_leads": 3400
+  },
   "justice_votes": {
     "justices": 40,
     "rows": 73912,

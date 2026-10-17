@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, type ReactNode, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { ALL_AREAS_LABEL, areaFilterLabel, filterCases, fmtInt, wikiArticleUrl, wikiCaseUrl } from "@/lib/decisions-derive";
+import { ALL_AREAS_LABEL, areaFilterLabel, filterCases, fmtInt, wikiArticleUrl } from "@/lib/decisions-derive";
+import { decisionPath } from "@/lib/decision-url";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
@@ -170,19 +172,13 @@ const BADGE =
  * right on wide screens.
  */
 export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area: string; areaId: string | null; qualifier?: ReactNode }) {
-  const href = wikiCaseUrl(c);
-  const name = href ? (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      title={c[8] || c[10] ? "Wikipedia article" : "Search Wikipedia for this case"}
+  const name = (
+    <Link
+      href={decisionPath(c[14], c[2])}
       className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
     >
       {c[2]}
-    </a>
-  ) : (
-    c[2]
+    </Link>
   );
   const badge = c[8] ? (
     <a
