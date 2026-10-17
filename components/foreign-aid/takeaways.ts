@@ -16,27 +16,31 @@ export const AID_TAKEAWAYS = {
 } as const;
 
 /**
- * Context lines (ARCHITECTURE_MAP rule 7d): which enacted law or executive order fell next to the chart's highlight, by public
- * law number or EO number and date. Timing only, never why a country got more or whether aid worked; no dollar amounts, because
- * the laws' totals span defense and other accounts the disbursement data does not count. Pinned in
- * lib/foreign-aid-takeaways.test.ts. "Who's been No. 1" has none: which country leads is not something any cited document states.
+ * Context lines (ARCHITECTURE_MAP rule 7d): the enacted laws or executive order that sit next to what each chart shows, and the
+ * feature they line up with. Timing only, never why a country got more or whether aid worked; no law's own dollar totals, because
+ * they span defense and other accounts the disbursement data does not count. Figures are nominal, like the takeaways. Pinned in
+ * lib/foreign-aid-takeaways.test.ts.
  */
+// Labels after the first drop "P.L." so the bracketed list fits one line at phone width.
+const UKRAINE_LAWS = [
+  { id: "plaw-117-103", label: "P.L. 117-103" },
+  { id: "plaw-117-128", label: "117-128" },
+  { id: "plaw-117-180", label: "117-180" },
+  { id: "plaw-117-328", label: "117-328" },
+] as const;
+
 export const AID_CONTEXT = {
   spending: {
-    text: "Congress enacted emergency Ukraine appropriations in four laws: P.L. 117-103 (March 15, 2022), P.L. 117-128 (May 21, 2022), P.L. 117-180 (September 30, 2022) and P.L. 117-328 (December 29, 2022).",
-    sources: [
-      { id: "plaw-117-103", label: "P.L. 117-103" },
-      { id: "plaw-117-128", label: "P.L. 117-128" },
-      { id: "plaw-117-180", label: "P.L. 117-180" },
-      { id: "plaw-117-328", label: "P.L. 117-328" },
-    ],
+    text: "Congress passed four laws adding emergency Ukraine aid from March to December 2022. Disbursements jumped from $49.4 billion in FY2021 to $74.3 billion in FY2022 (nominal); Ukraine’s share of the $24.9 billion rise was $15.9 billion.",
+    sources: UKRAINE_LAWS,
   },
   map: {
-    text: "The Ukraine and Israel security supplemental appropriations became law April 24, 2024 (P.L. 118-50). Executive Order 14169 paused new foreign development aid for a 90-day review on January 20, 2025.",
-    sources: [
-      { id: "plaw-118-50", label: "P.L. 118-50" },
-      { id: "fr-eo-14169", label: "EO 14169" },
-    ],
+    text: "Executive Order 14169 told agencies on January 20, 2025, the fourth month of FY2025, to pause new obligations and disbursements of development aid for a 90-day review. Disbursements to single countries that year were $31.5 billion (nominal), down from $46.6 billion in FY2024.",
+    sources: [{ id: "fr-eo-14169", label: "EO 14169" }],
+  },
+  firstPlace: {
+    text: "Congress passed four laws adding emergency Ukraine aid from March to December 2022, three of them in FY2022. Ukraine went from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal).",
+    sources: UKRAINE_LAWS,
   },
 } as const satisfies Partial<Record<keyof typeof AID_TAKEAWAYS, ContextEntry>>;
 
