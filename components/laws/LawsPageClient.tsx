@@ -49,7 +49,6 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
           </HowToRead>
           <PageShortcuts>
             <JumpToLaws />
-            <ControlToggle />
             <p>
               <Link href="/timeline" className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
                 See who held power, 1933&ndash;now →
@@ -58,6 +57,8 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
           </PageShortcuts>
         </PageHeader>
 
+        {/* Sits with the charts it changes, not among the intro links. */}
+        <div className="-mb-3"><ControlToggle /></div>
         <LawsCountCard />
         <LawsSupportCard />
         <LawsGroupsCard />
