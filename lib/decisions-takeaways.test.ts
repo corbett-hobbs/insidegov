@@ -139,28 +139,38 @@ const sitting = (iso: string) => justices.filter((j) => j.service_start <= iso &
 
 const contextCases: Record<keyof typeof DECISIONS_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   cases: {
-    says: ["Supreme Court Case Selections Act (P.L. 100-352)", "\u201cproviding greater discretion to the Supreme Court in selecting the cases it will review,\u201d", "became law June 27, 1988"],
+    says: ["Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988)", "at least 129 cases every term from 1970 through 1989", "none topped 94 from 1993"],
     links: { "plaw-100-352": "STATUTE-102-Pg662" },
     check: () => {
-      // Signed in June 1988, before the 1988 term opened; the takeaway's 129-plus run ends with the 1989 term and the under-95 run starts in 1993.
+      // The same run and ceiling the takeaway states; the Act was signed before the 1988 term opened.
+      expect(Math.min(...between(1970, 1989).map(cases))).toBe(129);
+      expect(Math.max(...between(1993, 2025).map(cases))).toBe(94);
       expect(cases(1988)).toBeGreaterThanOrEqual(129);
-      expect(Math.max(...between(1993, 2025).map(cases))).toBeLessThan(Math.min(...between(1970, 1989).map(cases)));
     },
   },
   split: {
-    says: ["Abe Fortas left the Court May 14, 1969", "the Senate confirmed Harry Blackmun May 12, 1970", "eight justices sat for most of the 1969 term"],
-    links: { fjc: "fjc.gov" },
+    // Haynsworth (rejected November 21, 1969, 45–55) and Carswell (rejected April 8, 1970, 45–51) are pinned to the Senate's record;
+    // Fortas's and Blackmun's dates to the FJC data the pipeline carries.
+    says: ["After Abe Fortas resigned May 14, 1969", "the Senate rejected Clement Haynsworth and G. Harrold Carswell", "then confirmed Harry Blackmun May 12, 1970", "Eight justices can\u2019t split 5\u20134", "the 1969 term\u2019s two cases in that band, the chart\u2019s low, were 4\u20134 ties"],
+    links: { "senate-scotus-nominations": "senate.gov/legislative/nominations", fjc: "fjc.gov" },
     check: () => {
       expect(longDate(justice("Fortas").service_end!)).toBe("May 14, 1969");
       expect(justice("Blackmun").name.full).toMatch(/^Harry /);
       expect(longDate(justice("Blackmun").confirmation_date)).toBe("May 12, 1970");
-      // The 1969 term opened October 6, 1969: eight sat from then until Blackmun's service began, nine before Fortas left.
+      expect(justice("Blackmun").confirmation_date > "1970-04-08").toBe(true);
+      // Eight sat from the term's opening (October 6, 1969) until Blackmun's service began.
       expect(sitting("1969-10-06")).toBe(8);
-      expect(sitting(justice("Blackmun").service_start)).toBe(9);
       expect(sitting("1969-05-13")).toBe(9);
-      // The term the takeaway names as the 5–4 low.
+      expect(sitting(justice("Blackmun").service_start)).toBe(9);
+      // The term is the chart's 5–4 low, and its two cases in the band are 4–4 ties decided before Blackmun sat.
       const fiveFour = terms.map((t) => byTerm.get(t)![4] / cases(t));
       expect(terms[fiveFour.indexOf(Math.min(...fiveFour))]).toBe(1969);
+      const band = (JSON.parse(readFileSync("pipeline/output/decisions_cases.json", "utf8")) as { term: number; band: number; maj: number; min: number; date: string }[]).filter((c) => c.term === 1969 && c.band === 4);
+      expect(band).toHaveLength(2);
+      for (const c of band) {
+        expect([c.maj, c.min]).toEqual([4, 4]);
+        expect(c.date < justice("Blackmun").service_start).toBe(true);
+      }
     },
   },
 };
@@ -178,7 +188,7 @@ describe("Supreme Court decisions context lines", () => {
   it("every context line belongs to a card, stays short and makes no causal or ideological claim", () => {
     expect(Object.keys(DECISIONS_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
     for (const [key, line] of Object.entries(DECISIONS_CONTEXT)) {
-      expect(line.text.replace(/P\.L\./g, "PL").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.replace(/P\.L\./g, "PL").replace(/\b([A-Z])\.\s/g, "$1 ").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|liberal|conservative|ideolog\w*)\b/i);
     }
