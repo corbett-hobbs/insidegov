@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { IDEOLOGY_TAKEAWAYS } from "../components/senate/takeaways";
+import { IDEOLOGY_CONTEXT, IDEOLOGY_TAKEAWAYS } from "../components/senate/takeaways";
+import { SOURCE_LINKS } from "./source-links";
 import { congressStartYear, partyGroup, type PartyGroup } from "./congress-types";
 
 /**
@@ -282,6 +283,56 @@ describe("Congress ideology card takeaways", () => {
         expect(text.split(/(?<=\.)\s/).length, `${title} (${view})`).toBeLessThanOrEqual(2);
         expect(text.split(/\s+/).length, `${title} (${view})`).toBeLessThanOrEqual(45);
       }
+    }
+  });
+});
+
+/**
+ * The context lines (rule 7d). Both quote Voteview, outside the pipeline, so each is pinned to its phrase and link: its About page
+ * ("the closeness of two legislators on the map shows how similar their voting records are"; the primary dimension "through most of
+ * American history has been 'liberal' vs. 'conservative'") and its member-data help ("Nokken-Poole estimates assume that each
+ * congress is completely separate"). The check confirms the cards plot those per-Congress scores: one member's score moves between
+ * Congresses, which a single career score would not.
+ */
+const perCongress = () => {
+  const byMember = new Map<string, Set<number>>();
+  for (const s of scoreByKey.values()) {
+    if (s.nokken_poole_dim1 == null) continue;
+    const k = `${s.chamber}:${s.bioguide_id}`;
+    byMember.set(k, (byMember.get(k) ?? new Set()).add(s.nokken_poole_dim1));
+  }
+  expect([...byMember.values()].filter((v) => v.size > 1).length).toBeGreaterThan(1000);
+};
+const contextCases: Record<keyof typeof IDEOLOGY_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
+  members: {
+    says: ["by their roll-call votes", "the more similar their voting records", "Each Congress is estimated separately"],
+    links: { "voteview-about": "voteview\\.com/about$", "voteview-member-data": "voteview\\.com/articles/data_help_members$" },
+    check: perCongress,
+  },
+  trend: {
+    says: ["as if every Congress were completely separate", "liberal versus conservative through most of American history"],
+    links: { "voteview-about": "voteview\\.com/about$", "voteview-member-data": "voteview\\.com/articles/data_help_members$" },
+    check: perCongress,
+  },
+};
+
+describe("Congress ideology context lines", () => {
+  for (const key of Object.keys(contextCases) as (keyof typeof IDEOLOGY_CONTEXT)[]) {
+    const c = contextCases[key];
+    it(`${key}: holds and names real sources`, () => {
+      for (const phrase of c.says) expect(IDEOLOGY_CONTEXT[key].text).toContain(phrase);
+      expect(IDEOLOGY_CONTEXT[key].sources.map((s) => s.id).sort()).toEqual(Object.keys(c.links).sort());
+      for (const [id, part] of Object.entries(c.links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal or labelling claim", () => {
+    expect(Object.keys(IDEOLOGY_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(IDEOLOGY_CONTEXT)) {
+      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|radical|polariz\w*)\b/i);
     }
   });
 });

@@ -1,4 +1,5 @@
 import type { ChamberView } from "@/lib/chamber";
+import type { ContextEntry } from "@/lib/chart-context";
 
 /**
  * The takeaway under each Congress ideology card title (ARCHITECTURE_MAP rule 7c):
@@ -53,3 +54,30 @@ export const IDEOLOGY_TAKEAWAYS: Record<
     },
   },
 };
+
+/**
+ * Context lines (rule 7d), behind a "Context" toggle after the takeaway. Both are about the measure, in Voteview's own words, and
+ * true in every chamber view: what the map's distances mean, and that the per-Congress (Nokken–Poole) scores the cards plot treat
+ * each Congress separately. Nothing here explains polarization or calls anyone extreme. The states, committees and committee-spread
+ * cards have none: no cited source states what lies behind their highlights (committee averages would need a chamber-control line,
+ * which reads as a cause). Pinned in lib/congress-ideology-takeaways.test.ts.
+ */
+export const IDEOLOGY_CONTEXT = {
+  members: {
+    text: "Voteview places members by their roll-call votes: the closer two dots, the more similar their voting records. Each Congress is estimated separately, so a score compares a member only with others voting on that Congress's roll calls.",
+    sources: [
+      { id: "voteview-about", label: "Voteview, About" },
+      { id: "voteview-member-data", label: "Voteview, member data" },
+    ],
+  },
+  trend: {
+    text: "Each point uses scores Voteview estimates as if every Congress were completely separate, so it rests only on that Congress's roll-call votes. Voteview's first dimension has been liberal versus conservative through most of American history.",
+    sources: [
+      { id: "voteview-member-data", label: "Voteview, member data" },
+      { id: "voteview-about", label: "Voteview, About" },
+    ],
+  },
+} as const satisfies Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, ContextEntry>>;
+
+export const contextFor = (card: keyof typeof IDEOLOGY_TAKEAWAYS): ContextEntry | null =>
+  (IDEOLOGY_CONTEXT as Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, ContextEntry>>)[card] ?? null;

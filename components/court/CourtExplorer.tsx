@@ -26,7 +26,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
-import { COURT_TAKEAWAYS } from "./takeaways";
+import { COURT_TAKEAWAYS, contextFor } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
 
 const PLAY_INTERVAL_MS = 220;
 
@@ -49,6 +50,8 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
   // Nothing is "selected" any more: a click navigates. The chart props still take it.
   const selectedId: number | null = null;
   const [sort, setSort] = useState<PresidentSort>("chronological");
+  const stripCtx = useTakeawayContext(COURT_TAKEAWAYS.strip.takeaway, contextFor("strip"));
+  const trajectoryCtx = useTakeawayContext(COURT_TAKEAWAYS.trajectory.takeaway, contextFor("trajectory"));
 
   const filter = useMemo<CourtFilter>(
     () => ({ appointed, president }),
@@ -160,9 +163,10 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:items-stretch">
           <ChartCard
             title={COURT_TAKEAWAYS.strip.title}
-            takeaway={COURT_TAKEAWAYS.strip.takeaway}
+            takeaway={stripCtx.takeaway}
             action={<JusticeSearch justices={data.justices} />}
           >
+            {stripCtx.panel}
             <JusticeStrip
               data={data}
               term={term}
@@ -250,8 +254,9 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
 
         <ChartCard
           title={COURT_TAKEAWAYS.trajectory.title}
-          takeaway={COURT_TAKEAWAYS.trajectory.takeaway}
+          takeaway={trajectoryCtx.takeaway}
         >
+          {trajectoryCtx.panel}
           <JusticeTrajectory
             data={data}
             term={term}

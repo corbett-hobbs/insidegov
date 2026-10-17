@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { LAWS_TAKEAWAYS } from "../components/laws/takeaways";
+import { LAWS_CONTEXT, LAWS_TAKEAWAYS } from "../components/laws/takeaways";
+import { SOURCE_LINKS } from "./source-links";
 
 /**
  * Every figure a Laws card's takeaway cites, checked against the committed pipeline output in the page's default view (every
@@ -133,6 +134,44 @@ describe("Laws card takeaways", () => {
     for (const s of Object.values(LAWS_TAKEAWAYS)) {
       expect(s.takeaway.split(/(?<=[.;])\s/).filter((x) => x.endsWith(".")).length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
+    }
+  });
+});
+
+/**
+ * The context lines (rule 7d). The rule's date is CRS's (report 98-662: "At the opening of the 104th Congress on January 4,
+ * 1995"), outside the pipeline, so it is pinned to its phrase and link; the counts are checked here, commemorations by Congress.
+ */
+const contextCases: Record<keyof typeof LAWS_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
+  count: {
+    says: ["On January 4, 1995, the House adopted a rule", "from 135 in 1993–94", "to 42 in 1995–96"],
+    links: { "crs-commemorative-legislation": "everycrsreport\\.com/reports/98-662" },
+    check: () => {
+      // January 1995 opened the 104th Congress, the Congress that fell to 42.
+      expect(years(104)).toBe("1995–96");
+      expect(years(103)).toBe("1993–94");
+      expect(sum(commem.get(103)!)).toBe(135);
+      expect(sum(commem.get(104)!)).toBe(42);
+    },
+  },
+};
+
+describe("Laws context lines", () => {
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof LAWS_CONTEXT, (typeof contextCases)[keyof typeof LAWS_CONTEXT]][]) {
+    it(`${key}: holds and names real sources`, () => {
+      for (const phrase of c.says) expect(LAWS_CONTEXT[key].text).toContain(phrase);
+      expect(LAWS_CONTEXT[key].sources.map((s) => s.id).sort()).toEqual(Object.keys(c.links).sort());
+      for (const [id, part] of Object.entries(c.links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal claim", () => {
+    expect(Object.keys(LAWS_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(LAWS_CONTEXT)) {
+      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged|fewer laws|more laws)\b/i);
     }
   });
 });

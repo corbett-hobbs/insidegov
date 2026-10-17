@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { TROOPS_TAKEAWAYS } from "../components/troops/takeaways";
+import { TROOPS_CONTEXT, TROOPS_TAKEAWAYS } from "../components/troops/takeaways";
+import type { ContextEntry } from "./chart-context";
+import { SOURCE_LINKS } from "./source-links";
 import { administration } from "./executive-orders-entities";
 import { buildTroopsPayload, decodeTroops, periodView, stackByRegion, topHostRuns, topHostsByYear } from "./troops-derive";
 import { historyMeta, historyRow, troopsMeta, troopsRow } from "./troops-entities";
@@ -87,7 +89,55 @@ const cases: Record<keyof typeof TROOPS_TAKEAWAYS, { says: string[]; check: () =
   },
 };
 
+/**
+ * Every figure a context line cites (rule 7d). The 2017 counting change is read from troops_location_meta.json's `break`;
+ * the statutes and the 2009 address sit outside the pipeline, so their dates and the 30,000 are pinned to the phrase the
+ * line uses and must cite that document.
+ */
+const meta = troopsMeta.parse(read("troops_location_meta.json"));
+const cites = (key: keyof typeof TROOPS_CONTEXT, id: string) => expect(TROOPS_CONTEXT[key].sources.map((s) => s.id)).toContain(id);
+const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check: () => void }> = {
+  abroad: {
+    says: ["From December 2017", "count only permanently assigned personnel", "leaving out temporary duty and contingency deployments", "from 215.2k in September to 161.9k in December", "Afghanistan, Iraq and Syria went unreported from December 2017 through September 2021"],
+    check: () => {
+      const b = meta.break;
+      expect(b.first_period_after).toBe("2017-12");
+      expect(b.after).toMatch(/permanently assigned personnel only; temporary duty and contingency deployments are not included/);
+      const [from, to] = b.after.match(/fell ([\d,]+) → ([\d,]+) between Sep and Dec 2017/)!.slice(1).map((x) => Number(x.replace(/,/g, "")));
+      expect(Math.round(from / 100) / 10).toBe(215.2);
+      expect(Math.round(to / 100) / 10).toBe(161.9);
+      expect([...b.contingency_hosts_not_reported].sort()).toEqual(["Afghanistan", "Iraq", "Syria"]);
+      expect(b.not_reported_periods[0]).toBe("2017-12");
+      expect(b.not_reported_periods.at(-1)).toBe("2021-09");
+      cites("abroad", "dmdc");
+    },
+  },
+  firstPlace: {
+    // 78 Stat. 384 is dated August 10, 1964, "To promote ... peace and security in southeast Asia"; PLAW-107publ243 is
+    // dated Oct. 16, 2002, "To authorize the use of United States Armed Forces against Iraq"; the Dec 1, 2009 address:
+    // "an additional 30,000 U.S. troops" that "will deploy in the first part of 2010".
+    says: ["Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia", "Public Law 107-243 (October 16, 2002) against Iraq", "On December 1, 2009, the President announced 30,000 more troops for Afghanistan", "to deploy in the first part of 2010"],
+    check: () => {
+      cites("firstPlace", "plaw-88-408");
+      cites("firstPlace", "plaw-107-243");
+      cites("firstPlace", "obama-west-point-2009");
+    },
+  },
+};
+
 describe("National security card takeaways", () => {
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof TROOPS_CONTEXT, (typeof contextCases)[keyof typeof TROOPS_CONTEXT]][]) {
+    it(`context, ${TROOPS_TAKEAWAYS[key].title}: holds and names real sources`, () => {
+      const line: ContextEntry = TROOPS_CONTEXT[key];
+      for (const phrase of c.says) expect(line.text).toContain(phrase);
+      for (const src of line.sources) expect(SOURCE_LINKS[src.id], src.id).toMatch(/^https:\/\//);
+      expect(line.text.split(/(?<=\.)\s/).length).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length).toBeLessThanOrEqual(45);
+      expect(line.text).not.toMatch(/\b(because|due to|led to|drove)\b/i);
+      c.check();
+    });
+  }
+
   for (const [key, c] of Object.entries(cases) as [keyof typeof TROOPS_TAKEAWAYS, (typeof cases)[keyof typeof TROOPS_TAKEAWAYS]][]) {
     it(`${TROOPS_TAKEAWAYS[key].title}: "${TROOPS_TAKEAWAYS[key].takeaway.slice(0, 48)}…" holds`, () => {
       for (const phrase of c.says) expect(TROOPS_TAKEAWAYS[key].takeaway).toContain(phrase);

@@ -16,7 +16,8 @@ import { DOLLAR_MIX, SHARE_BINS, SHARE_MIX, buildPathIndex, dollarBins, dollarCl
 import { useAidState } from "./ForeignAidState";
 import { RankedList } from "./RankedList";
 import { CardReadout, TD, TH, TableView, slotColor } from "./shared";
-import { AID_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { AID_TAKEAWAYS, contextFor } from "./takeaways";
 import { LEGEND_ROW } from "@/components/charts/legend";
 
 type Measure = "dollars" | "share";
@@ -149,11 +150,12 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
   const legend = share ? SHARE_BINS.labels : bins.labels;
   const legendMix = share ? SHARE_MIX : DOLLAR_MIX;
 
+  const { takeaway, panel } = useTakeawayContext(AID_TAKEAWAYS.map, contextFor("map"));
   return (
     <ChartCard
       ref={ref}
       title="Where it goes, and who receives the most"
-      takeaway={AID_TAKEAWAYS.map}
+      takeaway={takeaway}
       action={
         <div className="flex flex-wrap items-center justify-end gap-2">
           {country >= 0 && (
@@ -182,6 +184,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
         </div>
       }
     >
+      {panel}
       <CardReadout>
         FY{year}
         {isPartial(year) ? " (partial)" : ""} ·{" "}

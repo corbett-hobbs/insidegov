@@ -14,7 +14,8 @@ import { SplitDecadeBars } from "./SplitDecadeBars";
 import { SplitChart } from "./SplitChart";
 import { useDecisionsValues } from "./DecisionsState";
 import { Swatch, TableView } from "./shared";
-import { DECISIONS_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { DECISIONS_TAKEAWAYS, contextFor } from "./takeaways";
 
 /**
  * Card 2: how divided the Court is. The stacked area of `SplitChart`, a Share of cases / Number of cases toggle, and a
@@ -50,10 +51,12 @@ export function SplitCard() {
   const grain = splitGrain(data, areas, range);
   const small = isSmallSample(data, areas, range);
 
+  const { takeaway, panel } = useTakeawayContext(DECISIONS_TAKEAWAYS.split.takeaway, contextFor("split"));
+
   return (
     <ChartCard
       title={DECISIONS_TAKEAWAYS.split.title}
-      takeaway={DECISIONS_TAKEAWAYS.split.takeaway}
+      takeaway={takeaway}
       action={
         <PillGroup
           ariaLabel="Split measure"
@@ -66,6 +69,7 @@ export function SplitCard() {
         />
             }
     >
+      {panel}
       {grain === "decade" ? <SplitDecadeBars mode={mode} /> : <SplitChart mode={mode} onIso={pick} />}
       <div className={`mt-2 ${LEGEND_ROW}`}>
         {[0, 1, 2, 3, 4].map((k) => (

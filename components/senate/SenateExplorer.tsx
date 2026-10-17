@@ -41,7 +41,8 @@ import { ChartCard as Card } from "@/components/charts/ChartCard";
 import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { IDEOLOGY_TAKEAWAYS } from "./takeaways";
+import { IDEOLOGY_TAKEAWAYS, contextFor } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
 
 const PLAY_INTERVAL_MS = 450;
 const PRELOAD_DELAY_MS = 1500;
@@ -252,6 +253,13 @@ export function SenateExplorer({
         ? "representatives sit"
         : "delegation sits";
 
+  // Context lines (rule 7d): the members card's follows the Members/Committees switch (committees have none); each is true for every chamber view.
+  const placeCtx = useTakeawayContext(
+    IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"].byView[view],
+    committeesActive ? null : contextFor("members"),
+  );
+  const trendCtx = useTakeawayContext(IDEOLOGY_TAKEAWAYS.trend.byView[view], contextFor("trend"));
+
   return (
     <>
       <ExplorerToolbar
@@ -298,10 +306,7 @@ export function SenateExplorer({
               IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
                 .title
             }
-            takeaway={
-              IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
-                .byView[view]
-            }
+            takeaway={placeCtx.takeaway}
             action={
               <div className="w-full sm:w-auto">
                 {committeesActive ? (
@@ -315,6 +320,7 @@ export function SenateExplorer({
               </div>
             }
           >
+            {placeCtx.panel}
             {committeesActive ? (
               <>
                 <CompassPanel congress={congress}>
@@ -489,8 +495,9 @@ export function SenateExplorer({
         {!committeesActive && (
           <Card
             title={IDEOLOGY_TAKEAWAYS.trend.title}
-            takeaway={IDEOLOGY_TAKEAWAYS.trend.byView[view]}
+            takeaway={trendCtx.takeaway}
           >
+            {trendCtx.panel}
             {overlayVisible && (
               <p className="mb-2 text-[0.76rem] text-ink-faint">
                 Solid lines are {stateName(stateFilter as string)}&rsquo;s{" "}

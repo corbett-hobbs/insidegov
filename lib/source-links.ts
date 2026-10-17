@@ -12,17 +12,24 @@ export const SOURCE_LINKS = {
   "govinfo-billstatus": "https://www.govinfo.gov/bulkdata/BILLSTATUS",
   "congress-gov": "https://www.congress.gov/",
   voteview: "https://voteview.com/data",
+  // The Congress ideology context lines (rule 7d): Voteview's About page (what the map's distances mean) and its member-data help (Nokken–Poole estimates treat each Congress separately). New here.
+  "voteview-about": "https://voteview.com/about",
+  "voteview-member-data": "https://voteview.com/articles/data_help_members",
   "congress-legislators": "https://github.com/unitedstates/congress-legislators",
   "unitedstates-images": "https://github.com/unitedstates/images",
   mayhew: "https://campuspress.yale.edu/davidmayhew/datasets-divided-we-govern/",
   "senate-party-division": "https://www.senate.gov/history/partydiv.htm",
   "house-party-division": "https://history.house.gov/Institution/Party-Divisions/Party-Divisions/",
+  // CRS report 98-662, "Commemorative Legislation: Evolution and Procedures": the House rule of January 4, 1995 (Laws context, rule 7d).
+  "crs-commemorative-legislation": "https://www.everycrsreport.com/reports/98-662.html",
   "house-clerk-disclosures": "https://disclosures-clerk.house.gov/FinancialDisclosure",
   "senate-efd": "https://efdsearch.senate.gov/search/home/",
   // The Court
   scdb: "http://scdb.wustl.edu/data.php",
   "martin-quinn": "https://mqscores.wustl.edu/measures.php",
   fjc: "https://www.fjc.gov/history/judges",
+  // The decisions page's context line (rule 7d): the Supreme Court Case Selections Act as enacted, 102 Stat. 662 (new here).
+  "plaw-100-352": "https://www.govinfo.gov/content/pkg/STATUTE-102/pdf/STATUTE-102-Pg662.pdf",
   // The timeline's events each link their own article; the Source line names the site.
   wikipedia: "https://en.wikipedia.org/",
   "wikipedia-landmark-decisions": "https://en.wikipedia.org/wiki/List_of_landmark_court_decisions_in_the_United_States",
@@ -81,6 +88,12 @@ export const SOURCE_LINKS = {
   "eia-tight-oil-faq": "https://www.eia.gov/tools/faqs/faq.php?id=847&t=6",
   "eia-sabine-pass-ten-years": "https://www.eia.gov/todayinenergy/detail.php?id=67224",
   "doe-sabine-pass-docket": "https://hgeo.energy.gov/ng_regulation/sabine-pass-liquefaction-llc-fe-dkt-no-10-111-lng",
+  "plaw-117-103": "https://www.govinfo.gov/content/pkg/PLAW-117publ103/html/PLAW-117publ103.htm",
+  "plaw-117-128": "https://www.govinfo.gov/content/pkg/PLAW-117publ128/html/PLAW-117publ128.htm",
+  "plaw-117-180": "https://www.govinfo.gov/content/pkg/PLAW-117publ180/html/PLAW-117publ180.htm",
+  "plaw-117-328": "https://www.govinfo.gov/content/pkg/PLAW-117publ328/html/PLAW-117publ328.htm",
+  "plaw-118-50": "https://www.govinfo.gov/content/pkg/PLAW-118publ50/html/PLAW-118publ50.htm",
+  "fr-eo-14169": "https://www.federalregister.gov/d/2025-02091",
   "plaw-114-113": "https://www.govinfo.gov/content/pkg/PLAW-114publ113/html/PLAW-114publ113.htm",
   "doe-spr-history": "https://www.energy.gov/hgeo/opr/history-spr-releases",
   "doe-spr-172m-exchange-2026": "https://www.energy.gov/articles/united-states-release-172-million-barrels-oil-strategic-petroleum-reserve",
@@ -110,6 +123,10 @@ export const SOURCE_LINKS = {
   "foreign-assistance": "https://foreignassistance.gov/",
   dmdc: "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
   troopdata: "https://github.com/meflynn/troopdata",
+  // National security context lines (rule 7d): the Southeast Asia and Iraq force authorizations, and the Dec 1, 2009 address.
+  "plaw-88-408": "https://www.govinfo.gov/content/pkg/STATUTE-78/pdf/STATUTE-78-Pg384.pdf",
+  "plaw-107-243": "https://www.govinfo.gov/content/pkg/PLAW-107publ243/html/PLAW-107publ243.htm",
+  "obama-west-point-2009": "https://obamawhitehouse.archives.gov/the-press-office/remarks-president-address-nation-way-forward-afghanistan-and-pakistan",
 } as const;
 
 export type SourceId = keyof typeof SOURCE_LINKS;

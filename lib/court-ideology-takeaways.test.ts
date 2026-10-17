@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { COURT_TAKEAWAYS } from "../components/court/takeaways";
+import { COURT_CONTEXT, COURT_TAKEAWAYS } from "../components/court/takeaways";
+import { SOURCE_LINKS } from "./source-links";
 import { buildCourtPayload } from "./court-derive";
 import type { CourtMedianProbability, CourtTermRow, Justice, MqScore } from "./court-entities";
 import { fmtScore } from "./court-types";
@@ -93,6 +94,59 @@ describe("Supreme Court ideology card takeaways", () => {
     for (const s of Object.values(COURT_TAKEAWAYS)) {
       expect(s.takeaway.split(/(?<=[.;])\s/).filter((x) => x.endsWith(".")).length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
+    }
+  });
+});
+
+/**
+ * The context lines (rule 7d). The strip's dates, appointing presidents and medians come from pipeline/output/court
+ * (FJC service dates in justices.json, the median in court_terms.json); the trajectory's line restates the MQ measures
+ * page (non-unanimous cases, a dynamic model), outside the pipeline, so it is pinned to its phrase and link.
+ */
+const raw = new Map(justices.map((j) => [j.name.last, j]));
+const termRow = (term: number) => read<CourtTermRow>("court_terms.json").filter((t) => t.term === term);
+const contextCases: Record<keyof typeof COURT_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
+  strip: {
+    says: ["Brennan left the Court on July 20, 1990", "Souter joined on October 3, 1990", "In the 1990 term", "from White, a Kennedy appointee", "to Souter, a Bush appointee"],
+    links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
+    check: () => {
+      expect(raw.get("Brennan")!.service_end).toBe("1990-07-20");
+      expect(raw.get("Souter")!.service_start).toBe("1990-10-03");
+      expect(raw.get("White")!.appointing_president).toBe("John F. Kennedy");
+      expect(raw.get("Souter")!.appointing_president).toBe("George H.W. Bush");
+      // The only membership change between the 1989 and 1990 terms, and the term the takeaway's switch begins.
+      const between = justices.filter((j) => (j.service_end ?? "9999") >= "1990-06-01" && (j.service_end ?? "9999") < "1990-10-31" || (j.service_start >= "1990-06-01" && j.service_start < "1990-10-31"));
+      expect(between.map((j) => j.name.last).sort()).toEqual(["Brennan", "Souter"]);
+      expect(termRow(1989).map((t) => t.median_justice_id)).toEqual([raw.get("White")!.justice_id]);
+      expect(termRow(1990).map((t) => t.median_justice_id)).toEqual([raw.get("Souter")!.justice_id]);
+    },
+  },
+  trajectory: {
+    says: ["from votes in non-unanimous cases", "lets scores drift from term to term", "an estimate with uncertainty"],
+    links: { "martin-quinn": "mqscores\\.wustl\\.edu" },
+    check: () => {
+      // Every score in the output carries its uncertainty.
+      expect(read<MqScore>("mq_scores.json").every((s) => s.mq_sd > 0 && s.mq_lo95 < s.mq_hi95)).toBe(true);
+    },
+  },
+};
+
+describe("Supreme Court ideology context lines", () => {
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof COURT_CONTEXT, (typeof contextCases)[keyof typeof COURT_CONTEXT]][]) {
+    it(`${key}: holds and names real sources`, () => {
+      for (const phrase of c.says) expect(COURT_CONTEXT[key].text).toContain(phrase);
+      expect(COURT_CONTEXT[key].sources.map((s) => s.id).sort()).toEqual(Object.keys(c.links).sort());
+      for (const [id, part] of Object.entries(c.links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal or loaded claim", () => {
+    expect(Object.keys(COURT_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(COURT_CONTEXT)) {
+      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|motive)/i);
     }
   });
 });

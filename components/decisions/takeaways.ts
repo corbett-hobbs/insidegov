@@ -1,3 +1,5 @@
+import type { ContextEntry } from "@/lib/chart-context";
+
 /**
  * The takeaway under each Supreme Court decisions chart title (ARCHITECTURE_MAP rule 7c): what the chart shows over its
  * full default window (every issue area, landmark filter off, the 1946 through 2025 terms), in at most two sentences.
@@ -21,3 +23,23 @@ export const DECISIONS_TAKEAWAYS = {
       "Over the 1946 through 2025 terms, First Amendment cases split 5–4 most often, 25% of the time, followed by criminal procedure at 23%. Judicial power cases were the most often unanimous, at 51%.",
   },
 } as const;
+
+/**
+ * Context lines (ARCHITECTURE_MAP rule 7d): a dated statute or a dated change in who sat on the Court, next to the highlight the
+ * takeaway names. Timing only: never why the docket shrank or why a term split as it did. Pinned in lib/decisions-takeaways.test.ts
+ * (the statute to its own text, the justices' dates to pipeline/output/court/justices.json, which the Federal Judicial Center
+ * supplies). "Which kinds of cases split the Court?" has none: no cited document says what lies behind an issue area's split rate.
+ */
+export const DECISIONS_CONTEXT = {
+  cases: {
+    text: "The Supreme Court Case Selections Act (P.L. 100-352), \u201cproviding greater discretion to the Supreme Court in selecting the cases it will review,\u201d became law June 27, 1988.",
+    sources: [{ id: "plaw-100-352", label: "P.L. 100-352" }],
+  },
+  split: {
+    text: "Abe Fortas left the Court May 14, 1969, and the Senate confirmed Harry Blackmun May 12, 1970, so eight justices sat for most of the 1969 term.",
+    sources: [{ id: "fjc", label: "Federal Judicial Center" }],
+  },
+} as const satisfies Partial<Record<keyof typeof DECISIONS_TAKEAWAYS, ContextEntry>>;
+
+export const contextFor = (card: keyof typeof DECISIONS_TAKEAWAYS): ContextEntry | null =>
+  (DECISIONS_CONTEXT as Partial<Record<keyof typeof DECISIONS_TAKEAWAYS, ContextEntry>>)[card] ?? null;

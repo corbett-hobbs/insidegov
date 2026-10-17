@@ -13,7 +13,8 @@ import { BAND_LONG, type Bucket } from "@/lib/decisions-types";
 import { isPicked, samePick } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { AREA_FILLS, Swatch, TableView, TooltipCard, chiefLine } from "./shared";
-import { DECISIONS_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { DECISIONS_TAKEAWAYS, contextFor } from "./takeaways";
 
 interface Col extends StackColumn {
   term: number;
@@ -77,10 +78,12 @@ export function CasesCard() {
   const filters = [areas !== null ? `Issue area: ${areaFilterLabel(data, areas)}.` : "", band !== null ? `Only cases with ${BAND_LONG[band].toLowerCase()}.` : ""].filter(Boolean).join(" ");
   const filtered = areas !== null;
 
+  const { takeaway, panel } = useTakeawayContext(DECISIONS_TAKEAWAYS.cases.takeaway, contextFor("cases"));
+
   return (
     <ChartCard
       title={DECISIONS_TAKEAWAYS.cases.title}
-      takeaway={DECISIONS_TAKEAWAYS.cases.takeaway}
+      takeaway={takeaway}
       action={
         <PillGroup
           ariaLabel="Cases measure"
@@ -93,6 +96,7 @@ export function CasesCard() {
         />
       }
     >
+      {panel}
       {series.length === 0 ? (
         <p className="m-0 rounded-md border border-dashed border-line-strong p-4 text-[0.82rem] text-ink-muted">No issue area is ticked. Tick one in the filter bar, or choose All.</p>
       ) : (

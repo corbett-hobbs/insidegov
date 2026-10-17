@@ -11,7 +11,8 @@ import { useTroopsState } from "./TroopsState";
 import { TroopsChart } from "./TroopsChart";
 import { Reading, RegionLegend, TD, TH, TableView } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
-import { TROOPS_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** "How many troops are stationed abroad": the stacked-bar time series and everything that explains it. */
 export function TroopsChartCard() {
@@ -49,12 +50,15 @@ export function TroopsChartCard() {
     </>
   );
 
+  const { takeaway, panel } = useTakeawayContext(TROOPS_TAKEAWAYS.abroad.takeaway, contextFor("abroad"));
+
   return (
     <ChartCard
       title={TROOPS_TAKEAWAYS.abroad.title}
-      takeaway={TROOPS_TAKEAWAYS.abroad.takeaway}
+      takeaway={takeaway}
       action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")} only</span> : undefined}
     >
+      {panel}
       <Reading>{reading}</Reading>
       <TroopsChart stacks={shown} />
       <RegionLegend only={only} picked={pick} onPick={(id) => setPick((c) => (c === id ? null : id))}>
