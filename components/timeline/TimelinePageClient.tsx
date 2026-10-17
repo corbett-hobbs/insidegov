@@ -67,6 +67,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
   const tiles = useMemo(() => tileCounts(data.events, (e) => stateOf(e).status, kindOn, range[0], range[1]), [data.events, stateOf, kindOn, range]);
   // The takeaway describes the whole timeline (rule 7c), in the Court measure picked.
   const years = useMemo(() => yearsByStatus(spans, MIN_YEAR, maxYear), [spans, maxYear]);
+  const tileYears = useMemo(() => yearsByStatus(spans, range[0], range[1]), [spans, range]);
 
   const setRange = useCallback((r: [number, number]) => {
     setRangeState(r);
@@ -132,11 +133,11 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
               The top four rows are the four institutions. The White House shows who was president; the Senate and House show the share of seats
               each party held at the start of each Congress (Democrats from the bottom, Republicans from the top, the dashed line is half); the
               Court shows which way its median justice leaned each term (bar down for liberal, up for conservative, grey near the centre). Set{" "}
-              <i>Court</i> to <i>Appointees</i> to see how many sitting justices each party&rsquo;s presidents appointed instead.
+              <i>Court</i> to <i>By appointing president</i> to see how many sitting justices each party&rsquo;s presidents appointed instead.
             </p>
             <p>
               The thin strip above them is filled when one party held the White House and both chambers and the Court leaned its way (liberal for
-              Democrats, conservative for Republicans), and lightly tinted when the Court didn&rsquo;t. With <i>Appointees</i>, the Court counts
+              Democrats, conservative for Republicans), and lightly tinted when the Court didn&rsquo;t. With <i>By appointing president</i>, the Court counts
               with the party that appointed most of it.
             </p>
             <p>
@@ -173,7 +174,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
             </span>
           }
         >
-          <StatusTiles tiles={tiles} mode={mode} kinds={{ law: kindOn.has("law"), case: kindOn.has("case") }} pick={status} onPick={(s) => (setStatus(s), setOpen(null))} />
+          <StatusTiles tiles={tiles} years={tileYears} mode={mode} kinds={{ law: kindOn.has("law"), case: kindOn.has("case") }} pick={status} onPick={(s) => (setStatus(s), setOpen(null))} />
           <PowerChart
             data={data}
             idx={idx}

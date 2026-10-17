@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { FILTER_SELECT, FilterCaption } from "../charts/FilterBarParts";
+import { FILTER_SELECT, FilterCaption, HelpTip } from "../charts/FilterBarParts";
 import { PillGroup } from "../charts/PillGroup";
 import { RangeReset } from "../charts/RangeReset";
 import { RangeSelector } from "../charts/RangeSelector";
@@ -12,8 +12,8 @@ import { lastName, termYears, type CourtMode, type Kind } from "@/lib/timeline-d
 import type { TimelinePayload } from "@/lib/timeline-types";
 
 const MODES: { value: CourtMode; label: string }[] = [
-  { value: "lean", label: "Lean" },
-  { value: "appt", label: "Appointees" },
+  { value: "lean", label: "By lean" },
+  { value: "appt", label: "By appointing president" },
 ];
 
 type KindPick = "all" | Kind;
@@ -22,10 +22,10 @@ type KindPick = "all" | Kind;
 const kindPick = (k: Picked<Kind>): KindPick => soleOf(k) ?? "all";
 
 /**
- * The pinned bar for /timeline: Events (an All / Laws / Cases toggle), Court (a dropdown: Lean or Appointees), and the
+ * The pinned bar for /timeline: Events (an All / Laws / Cases toggle), Court (a dropdown: By lean or By appointing president, with a "?" note), and the
  * Years-shown slider with the presidential-term band under it (rule 5b). Desktop: one row, every control captioned
  * (rule 5d). Phones: the toggle and the Court dropdown share a row; Court keeps its caption there (a standing exception to
- * rule 5d: "Lean" and "Appointees" mean nothing without the word Court), the toggle names itself, the slider has its own row.
+ * rule 5d: "By lean" and "By appointing president" mean nothing without the word Court), the toggle names itself, the slider has its own row.
  */
 export function TimelineFilterBar({
   data,
@@ -71,13 +71,14 @@ export function TimelineFilterBar({
           </div>
           <div className="flex min-w-0 flex-1 items-center gap-2 sm:flex-none">
             <FilterCaption phone id="tl-court">Court</FilterCaption>
-            <select aria-labelledby="tl-court" value={mode} onChange={(e) => onMode(e.target.value as CourtMode)} className={`${FILTER_SELECT} min-w-0 flex-1 sm:w-[8.5rem] sm:flex-none`}>
+            <select aria-labelledby="tl-court" value={mode} onChange={(e) => onMode(e.target.value as CourtMode)} className={`${FILTER_SELECT} min-w-0 flex-1 sm:w-[14rem] sm:flex-none`}>
               {MODES.map((m) => (
                 <option key={m.value} value={m.value}>
                   {m.label}
                 </option>
               ))}
             </select>
+            <HelpTip label="What does the Court setting change?" text="How the Court row is read: by lean (which way its median justice leaned each term) or by appointing president (which party's presidents appointed the sitting justices)." />
           </div>
           <RangeSelector
             min={minYear}
