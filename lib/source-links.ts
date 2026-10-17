@@ -25,6 +25,8 @@ export const SOURCE_LINKS = {
   scdb: "http://scdb.wustl.edu/data.php",
   "martin-quinn": "https://mqscores.wustl.edu/measures.php",
   fjc: "https://www.fjc.gov/history/judges",
+  // The decisions page's context line (rule 7d): the Supreme Court Case Selections Act as enacted, 102 Stat. 662 (new here).
+  "plaw-100-352": "https://www.govinfo.gov/content/pkg/STATUTE-102/pdf/STATUTE-102-Pg662.pdf",
   // The timeline's events each link their own article; the Source line names the site.
   wikipedia: "https://en.wikipedia.org/",
   "wikipedia-landmark-decisions": "https://en.wikipedia.org/wiki/List_of_landmark_court_decisions_in_the_United_States",
