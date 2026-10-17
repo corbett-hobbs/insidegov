@@ -61,7 +61,7 @@ export function CommitteeNeighborList({
             <span className="min-w-0 flex-1 truncate text-ink" title={member.shortName}>
               {member.shortName}
             </span>
-            <span className="w-[8.5rem] flex-none text-right text-[0.68rem] leading-[1.3] text-ink-muted">
+            <span className="max-w-[9rem] flex-none whitespace-nowrap text-right text-[0.68rem] leading-[1.3] text-ink-muted">
               <span className="block truncate">
                 <span className="text-ink-faint">Chair </span>
                 {lead(member, "chair")}
