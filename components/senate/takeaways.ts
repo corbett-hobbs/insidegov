@@ -56,28 +56,26 @@ export const IDEOLOGY_TAKEAWAYS: Record<
 };
 
 /**
- * Context lines (rule 7d), behind a "Context" toggle after the takeaway. Both are about the measure, in Voteview's own words, and
- * true in every chamber view: what the map's distances mean, and that the per-Congress (Nokken–Poole) scores the cards plot treat
- * each Congress separately. Nothing here explains polarization or calls anyone extreme. The states, committees and committee-spread
- * cards have none: no cited source states what lies behind their highlights (committee averages would need a chamber-control line,
- * which reads as a cause). Pinned in lib/congress-ideology-takeaways.test.ts.
+ * Context lines (rule 7d), behind a "Context" toggle after the takeaway: only the trend card has one, per chamber view. It sets two
+ * dated events, the 1964–65 civil rights statutes and the 1994 election, next to how far the Democratic share of the former
+ * Confederate states' members fell over the same years. Timing only: it never says either event moved the gap, since what drove
+ * polarization is disputed. The members, states and committee cards have none: no dated political event sits behind a 119th
+ * Congress snapshot that the reader doesn't already see. Pinned in lib/congress-ideology-takeaways.test.ts.
  */
+const CIVIL_RIGHTS = [
+  { id: "civil-rights-act-1964", label: "Civil Rights Act" },
+  { id: "voting-rights-act-1965", label: "Voting Rights Act" },
+  { id: "house-party-division", label: "House party divisions" },
+] as const;
+const southShare = (from: number, to: number, where: string) =>
+  `Congress passed the Civil Rights Act in 1964 and the Voting Rights Act in 1965. Democrats were ${from}% of the 11 former Confederate states' ${where} in 1963 and ${to}% in 1995, after Republicans won the House in 1994 for the first time since 1952.`;
 export const IDEOLOGY_CONTEXT = {
-  members: {
-    text: "Voteview places members by their roll-call votes: the closer two dots, the more similar their voting records. Each Congress is estimated separately, so a score compares a member only with others voting on that Congress's roll calls.",
-    sources: [
-      { id: "voteview-about", label: "Voteview, About" },
-      { id: "voteview-member-data", label: "Voteview, member data" },
-    ],
-  },
   trend: {
-    text: "Each point uses scores Voteview estimates as if every Congress were completely separate, so it rests only on that Congress's roll-call votes. Voteview's first dimension has been liberal versus conservative through most of American history.",
-    sources: [
-      { id: "voteview-member-data", label: "Voteview, member data" },
-      { id: "voteview-about", label: "Voteview, About" },
-    ],
+    both: { text: southShare(90, 48, "lawmakers"), sources: CIVIL_RIGHTS },
+    senate: { text: southShare(96, 41, "senators"), sources: CIVIL_RIGHTS },
+    house: { text: southShare(89, 49, "House members"), sources: CIVIL_RIGHTS },
   },
-} as const satisfies Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, ContextEntry>>;
+} as const satisfies Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, Record<ChamberView, ContextEntry>>>;
 
-export const contextFor = (card: keyof typeof IDEOLOGY_TAKEAWAYS): ContextEntry | null =>
-  (IDEOLOGY_CONTEXT as Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, ContextEntry>>)[card] ?? null;
+export const contextFor = (card: keyof typeof IDEOLOGY_TAKEAWAYS, view: ChamberView): ContextEntry | null =>
+  (IDEOLOGY_CONTEXT as Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, Record<ChamberView, ContextEntry>>>)[card]?.[view] ?? null;

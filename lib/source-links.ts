@@ -12,9 +12,9 @@ export const SOURCE_LINKS = {
   "govinfo-billstatus": "https://www.govinfo.gov/bulkdata/BILLSTATUS",
   "congress-gov": "https://www.congress.gov/",
   voteview: "https://voteview.com/data",
-  // The Congress ideology context lines (rule 7d): Voteview's About page (what the map's distances mean) and its member-data help (Nokken–Poole estimates treat each Congress separately). New here.
-  "voteview-about": "https://voteview.com/about",
-  "voteview-member-data": "https://voteview.com/articles/data_help_members",
+  // The Congress ideology trend card's context line (rule 7d): the two statutes as enacted, 78 Stat. 241 and 79 Stat. 437 (new here).
+  "civil-rights-act-1964": "https://www.govinfo.gov/content/pkg/STATUTE-78/pdf/STATUTE-78-Pg241.pdf",
+  "voting-rights-act-1965": "https://www.govinfo.gov/content/pkg/STATUTE-79/pdf/STATUTE-79-Pg437.pdf",
   "congress-legislators": "https://github.com/unitedstates/congress-legislators",
   "unitedstates-images": "https://github.com/unitedstates/images",
   mayhew: "https://campuspress.yale.edu/davidmayhew/datasets-divided-we-govern/",
