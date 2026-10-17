@@ -29,6 +29,8 @@ export const SOURCE_LINKS = {
   "martin-quinn": "https://mqscores.wustl.edu/measures.php",
   fjc: "https://www.fjc.gov/history/judges",
   // The decisions page's context line (rule 7d): the Supreme Court Case Selections Act as enacted, 102 Stat. 662 (new here).
+  // The Senate's record of Supreme Court nominations and their votes (new here).
+  "senate-scotus-nominations": "https://www.senate.gov/legislative/nominations/SupremeCourtNominations1789present.htm",
   "plaw-100-352": "https://www.govinfo.gov/content/pkg/STATUTE-102/pdf/STATUTE-102-Pg662.pdf",
   // The timeline's events each link their own article; the Source line names the site.
   wikipedia: "https://en.wikipedia.org/",
