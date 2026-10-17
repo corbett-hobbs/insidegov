@@ -95,7 +95,7 @@ export function ErasCard({
         <span>{mode === "lean" ? "President · Senate · House · Court lean" : "President · Senate · House · Court"}</span>
         <span>Who held power, and what happened</span>
       </div>
-      <div tabIndex={0} aria-label="Eras, scrollable" className="touch-scroll relative max-h-[26rem] overflow-y-auto overscroll-contain border-t border-line sm:max-h-[34rem]">
+      <div tabIndex={0} aria-label="Eras, scrollable" className="touch-scroll relative max-h-[34rem] overflow-y-auto overscroll-contain border-t border-line sm:max-h-[44rem]">
         {rows.length === 0 && (
           <div className="px-0.5 py-2.5 text-[0.72rem] text-ink-faint">{q ? `Nothing matches “${q}” in the years and events shown.` : "No eras match."}</div>
         )}
