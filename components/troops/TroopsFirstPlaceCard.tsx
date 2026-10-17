@@ -13,7 +13,8 @@ import { useTroopsState } from "./TroopsState";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { BranchLegend, NO_SPLIT, Reading, TD, TH, TableView, Swatch, branchColor, showRest } from "./shared";
-import { TROOPS_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
 
 const LABEL_H = 22;
 const TICK = 5;
@@ -111,8 +112,10 @@ export function TroopsFirstPlaceCard() {
   const anyEstimate = years.some((_, i) => estimate(i));
   const anyNoSplit = measure === 0 && years.some((y) => y.top[0] && showRest(y.top[0].rest, y.top[0].value));
 
+  const { takeaway, panel } = useTakeawayContext(TROOPS_TAKEAWAYS.firstPlace.takeaway, contextFor("firstPlace"));
   return (
-    <ChartCard title={TROOPS_TAKEAWAYS.firstPlace.title} takeaway={TROOPS_TAKEAWAYS.firstPlace.takeaway}>
+    <ChartCard title={TROOPS_TAKEAWAYS.firstPlace.title} takeaway={takeaway}>
+      {panel}
       <Reading>{reading}</Reading>
       <div ref={wrapRef} className="touch-scroll relative -mx-3 sm:mx-0">
         <ChartFrame

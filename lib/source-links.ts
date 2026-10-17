@@ -110,6 +110,10 @@ export const SOURCE_LINKS = {
   "foreign-assistance": "https://foreignassistance.gov/",
   dmdc: "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
   troopdata: "https://github.com/meflynn/troopdata",
+  // National security context lines (rule 7d): the Southeast Asia and Iraq force authorizations, and the Dec 1, 2009 address.
+  "plaw-88-408": "https://www.govinfo.gov/content/pkg/STATUTE-78/pdf/STATUTE-78-Pg384.pdf",
+  "plaw-107-243": "https://www.govinfo.gov/content/pkg/PLAW-107publ243/html/PLAW-107publ243.htm",
+  "obama-west-point-2009": "https://obamawhitehouse.archives.gov/the-press-office/remarks-president-address-nation-way-forward-afghanistan-and-pakistan",
 } as const;
 
 export type SourceId = keyof typeof SOURCE_LINKS;
