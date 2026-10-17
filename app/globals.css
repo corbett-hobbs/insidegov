@@ -795,8 +795,8 @@ div[data-branch="timeline"] { --accent: #3a3f4b; --accent-ink: #ffffff; }
 div[data-branch="presidency"] { --branch-img: url("/images/branches/white-house.jpg"); --branch-pos: center 62%; }
 div[data-branch="congress"] { --branch-img: url("/images/branches/capitol.jpg"); }
 div[data-branch="supreme-court"] { --branch-img: url("/images/branches/supreme-court.jpg"); }
-/* Timeline: the homepage card's slate, washed to gold like the homepage hero, over an aerial of Capitol Hill (add public/images/branches/timeline.jpg; see CREDITS.md). */
-div[data-branch="timeline"] { --branch-img: url("/images/branches/timeline.jpg"); }
+/* Timeline: the homepage card's slate, washed to gold like the homepage hero, over an aerial of Capitol Hill (public/images/branches/timeline.jpg; see CREDITS.md). */
+div[data-branch="timeline"] { --branch-img: url("/images/branches/timeline.jpg"); --branch-pos: center 48%; }
 div[data-branch="timeline"] .branch-bg::after { background: linear-gradient(100deg, #23262d 0%, #3a3f4b 45%, #b8892b 130%); }
 
 /* ---------------------------------------------------------------------------
