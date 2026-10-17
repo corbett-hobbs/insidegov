@@ -6,10 +6,13 @@ import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
+import { RangeReset } from "@/components/charts/RangeReset";
+import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TERM_BAND_H, TermSpanSvg } from "@/components/charts/TermBandSvg";
 import type { CourtBandTerm } from "@/lib/court-president-band";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
+import { sameRange } from "@/lib/year-range";
 import {
   fmtScore,
   isDimmed,
@@ -26,6 +29,11 @@ const FALLBACK_W = 1100;
 const H = 340;
 const MARGIN = { top: 14, right: 14, bottom: 30, left: Y_GUTTER };
 const BAND_GAP = 4;
+/** Fewest terms the zoom can show. */
+const MIN_SPAN = 3;
+
+/** A tick step (in years) that gives about `want` ticks over `span` years. */
+const niceStep = (span: number, want: number): number => [1, 2, 5, 10, 20].find((s) => span / s <= want) ?? 20;
 const partyVar = (j: CourtJustice) => (j.party === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
@@ -59,13 +67,46 @@ export function JusticeTrajectory({
   const tip = useTooltip<CourtJustice>();
   const { firstTerm, lastTerm } = data;
 
-  const yearStep = W < 600 ? 20 : 10;
+  // The zoom window, in terms. The band's tap and the slider under the chart both set it, so it is the single source of truth.
+  const [win, setWin] = useState<[number, number]>([firstTerm, lastTerm]);
+  const full = sameRange(win, [firstTerm, lastTerm]);
+  const yearStep = niceStep(win[1] - win[0], W < 600 ? 4 : 7);
   const yearTicks = useMemo(() => {
     const out: number[] = [];
-    for (let t = Math.ceil(firstTerm / yearStep) * yearStep; t <= lastTerm; t += yearStep)
-      out.push(t);
+    for (let t = Math.ceil(win[0] / yearStep) * yearStep; t <= win[1]; t += yearStep) out.push(t);
     return out;
-  }, [firstTerm, lastTerm, yearStep]);
+  }, [win, yearStep]);
+
+  // Zoomed in, the score axis refits to the lines on screen, so the detail is not flattened by one far-out justice.
+  const yDomain = useMemo((): [number, number] => {
+    if (full) return data.domain;
+    const vals: number[] = [];
+    for (const j of data.justices)
+      j.s.forEach((v, i) => {
+        const t = j.t0 + i;
+        if (t >= win[0] && t <= win[1]) vals.push(v);
+      });
+    for (const m of data.terms) if (m.term >= win[0] && m.term <= win[1]) vals.push(m.median);
+    if (vals.length === 0) return data.domain;
+    const lo = Math.min(...vals);
+    const hi = Math.max(...vals);
+    const pad = Math.max(0.4, (hi - lo) * 0.06);
+    return [Math.max(data.domain[0], Math.floor(lo - pad)), Math.min(data.domain[1], Math.ceil(hi + pad))];
+  }, [data, win, full]);
+  const yTickStep = yDomain[1] - yDomain[0] <= 6 ? 1 : 2;
+
+  /** The band's spans inside the zoom window, as pixel edges on the chart's x scale. */
+  const bandSpans = (x: (v: number) => number) =>
+    presidents
+      .filter((p) => p.to > win[0] && p.from < win[1])
+      .map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(Math.max(p.from, win[0])), x1: x(Math.min(p.to, win[1])) }));
+
+  /** Tapping a president zooms to their years; tapping the one already zoomed to resets. */
+  const pickPresident = (p: CourtBandTerm) => {
+    const next: [number, number] = [Math.max(firstTerm, Math.floor(p.from)), Math.min(lastTerm, Math.ceil(p.to))];
+    if (next[1] - next[0] < MIN_SPAN) next[1] = Math.min(lastTerm, next[0] + MIN_SPAN);
+    setWin(sameRange(next, win) ? [firstTerm, lastTerm] : next);
+  };
 
   const focusId = hoverId ?? selectedId;
   const byId = new Map(data.justices.map((j) => [j.id, j]));
@@ -81,11 +122,11 @@ export function JusticeTrajectory({
         ariaLabel="Line chart of each justice's ideology score by term, with the Court median"
       >
         {({ innerWidth, innerHeight }) => {
-          const x = scaleLinear().domain([firstTerm, lastTerm]).range([0, innerWidth]);
-          const y = scaleLinear().domain(data.domain).range([innerHeight, 0]);
+          const x = scaleLinear().domain(win).range([0, innerWidth]);
+          const y = scaleLinear().domain(yDomain).range([innerHeight, 0]);
 
           const yTicks: number[] = [];
-          for (let v = Math.ceil(data.domain[0] / 2) * 2; v <= data.domain[1]; v += 2) yTicks.push(v);
+          for (let v = Math.ceil(yDomain[0] / yTickStep) * yTickStep; v <= yDomain[1]; v += yTickStep) yTicks.push(v);
 
           const path = (j: CourtJustice) =>
             line<number>()
@@ -117,7 +158,7 @@ export function JusticeTrajectory({
           );
 
           let endLabel: React.ReactNode = null;
-          if (focus) {
+          if (focus && x(focus.t1) >= 0 && x(focus.t1) <= innerWidth + 1) {
             const ex = x(focus.t1);
             const ey = y(focus.s[focus.s.length - 1]);
             const fits = ex + 6 + focus.short.length * 7.2 <= innerWidth + MARGIN.right - 2;
@@ -162,10 +203,34 @@ export function JusticeTrajectory({
                 format={(v) => (v === 0 ? "0" : v > 0 ? `+${v}` : `−${Math.abs(v)}`)}
               />
               {presidents.length > 0 && (
-                <TermSpanSvg
-                  y={innerHeight + MARGIN.bottom + BAND_GAP}
-                  spans={presidents.map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(p.from), x1: x(p.to) }))}
-                />
+                <>
+                  <TermSpanSvg
+                    y={innerHeight + MARGIN.bottom + BAND_GAP}
+                    spans={bandSpans(x)}
+                  />
+                  {/* Each term is a button: tap to zoom to that president's years, tap again to reset. */}
+                  {bandSpans(x).map((g) => (
+                    <rect
+                      key={g.id}
+                      x={g.x0}
+                      y={innerHeight + MARGIN.bottom + BAND_GAP}
+                      width={Math.max(0, g.x1 - g.x0)}
+                      height={TERM_BAND_H}
+                      fill="transparent"
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Zoom to ${g.president}'s years`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => pickPresident(presidents.find((p) => p.id === g.id)!)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          pickPresident(presidents.find((p) => p.id === g.id)!);
+                        }
+                      }}
+                    />
+                  ))}
+                </>
               )}
               <text x={4} y={12} fill="var(--ink-muted)" fontSize={12}>
                 More conservative
@@ -190,12 +255,12 @@ export function JusticeTrajectory({
                 }}
               />
 
+              <g clipPath={`url(#${clipId})`}>
               {selected && (
                 <path
                   d={band(selected)}
                   fill={partyVar(selected)}
                   opacity={0.16}
-                  clipPath={`url(#${clipId})`}
                   pointerEvents="none"
                 />
               )}
@@ -237,8 +302,6 @@ export function JusticeTrajectory({
                   </g>
                 );
               })}
-              {endLabel}
-
               <path
                 d={medianPath}
                 fill="none"
@@ -248,31 +311,66 @@ export function JusticeTrajectory({
                 pointerEvents="none"
               />
 
-              <line
-                className="trend-playhead"
-                x1={x(term)}
-                x2={x(term)}
-                y1={0}
-                y2={innerHeight}
-                pointerEvents="none"
-              />
-              {data.justices
-                .filter((j) => isSeated(j, term))
-                .map((j) => (
-                  <circle
-                    key={j.id}
-                    cx={x(term)}
-                    cy={y(scoreAt(j, term))}
-                    r={3.2}
-                    fill={partyVar(j)}
-                    opacity={isDimmed(j, filter) ? 0.2 : 1}
+              {term >= win[0] && term <= win[1] && (
+                <>
+                  <line
+                    className="trend-playhead"
+                    x1={x(term)}
+                    x2={x(term)}
+                    y1={0}
+                    y2={innerHeight}
                     pointerEvents="none"
                   />
-                ))}
+                  {data.justices
+                    .filter((j) => isSeated(j, term))
+                    .map((j) => (
+                      <circle
+                        key={j.id}
+                        cx={x(term)}
+                        cy={y(scoreAt(j, term))}
+                        r={3.2}
+                        fill={partyVar(j)}
+                        opacity={isDimmed(j, filter) ? 0.2 : 1}
+                        pointerEvents="none"
+                      />
+                    ))}
+                </>
+              )}
+              </g>
+              {endLabel}
+              {/* The shared term is outside the zoom: a marker at the edge says which way it is. */}
+              {(term < win[0] || term > win[1]) && (
+                <text
+                  x={term < win[0] ? 4 : innerWidth - 4}
+                  y={innerHeight - 22}
+                  textAnchor={term < win[0] ? "start" : "end"}
+                  fill="var(--ink-muted)"
+                  fontSize={11.5}
+                  pointerEvents="none"
+                >
+                  {term < win[0] ? `‹ selected term ${term}` : `selected term ${term} ›`}
+                </text>
+              )}
             </>
           );
         }}
       </ChartFrame>
+
+      {/* Zoom: the same two-handle slider the other pages use, local to this card; the band's taps set it too. */}
+      <div className="mx-0.5 mt-3 flex items-center gap-2">
+        <span className="flex-none font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint">Zoom</span>
+        <RangeSelector
+          min={firstTerm}
+          max={lastTerm}
+          value={win}
+          minSpan={MIN_SPAN}
+          onChange={(r) => setWin(r)}
+          format={String}
+          ariaLabel="Terms shown on the chart"
+          action={<RangeReset show={!full} onReset={() => setWin([firstTerm, lastTerm])} ariaLabel="Reset the chart zoom to every term" className="mt-0.5 font-sans leading-none" />}
+          className="min-w-0 flex-1"
+        />
+      </div>
 
       <div className={`${LEGEND_ROW} mt-2`}>
         <Swatch color="var(--dem)" label="Democratic appointee" />
