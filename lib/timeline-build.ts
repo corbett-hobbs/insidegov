@@ -7,6 +7,7 @@ import { decisionCaseRow, justiceVotesFile, ROLE_MAJORITY, VOTE_DISSENT, VOTE_MA
 import { administration, type Administration } from "./executive-orders-entities";
 import { lawVotesShard, type LawVotesShard } from "./law-votes-entities";
 import { lawRow, type LawRow } from "./laws-entities";
+import { decisionPath } from "./decision-url";
 import { lawPath } from "./law-url";
 import { timelineEventsFile, type TimelineEventsFile } from "./timeline-entities";
 import { applyVacancyRule, TIMELINE_START } from "./timeline-derive";
@@ -186,7 +187,7 @@ export function buildTimelinePayload(inputs: TimelineInputs, today: string): Tim
         const rows = votes.get(e.case_id) ?? [];
         const pick = (v: number) => rows.filter(([j, vote]) => vote === v && byId.has(j)).map(([j]) => byId.get(j)!);
         const author = rows.find(([j, , role]) => role === ROLE_MAJORITY && byId.has(j));
-        return { ...base, date: e.date ?? c.date, vote: `${c.maj}–${c.min}`, ...(author ? { author: byId.get(author[0])!.name } : {}), majority: count(pick(VOTE_MAJORITY)), dissent: count(pick(VOTE_DISSENT)) };
+        return { ...base, casePath: decisionPath(c.case_id, c.name), date: e.date ?? c.date, vote: `${c.maj}–${c.min}`, ...(author ? { author: byId.get(author[0])!.name } : {}), majority: count(pick(VOTE_MAJORITY)), dissent: count(pick(VOTE_DISSENT)) };
       }
       // Before 1946: the bench that day (the recorded service dates, no vacancy rule) split by the hand-entered dissenters.
       const date = e.date!;
