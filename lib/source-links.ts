@@ -12,6 +12,9 @@ export const SOURCE_LINKS = {
   "govinfo-billstatus": "https://www.govinfo.gov/bulkdata/BILLSTATUS",
   "congress-gov": "https://www.congress.gov/",
   voteview: "https://voteview.com/data",
+  // The Congress ideology context lines (rule 7d): Voteview's About page (what the map's distances mean) and its member-data help (Nokken–Poole estimates treat each Congress separately). New here.
+  "voteview-about": "https://voteview.com/about",
+  "voteview-member-data": "https://voteview.com/articles/data_help_members",
   "congress-legislators": "https://github.com/unitedstates/congress-legislators",
   "unitedstates-images": "https://github.com/unitedstates/images",
   mayhew: "https://campuspress.yale.edu/davidmayhew/datasets-divided-we-govern/",
