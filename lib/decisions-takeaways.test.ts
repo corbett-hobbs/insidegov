@@ -151,7 +151,7 @@ const contextCases: Record<keyof typeof DECISIONS_CONTEXT, { says: string[]; lin
   split: {
     // Haynsworth (rejected November 21, 1969, 45–55) and Carswell (rejected April 8, 1970, 45–51) are pinned to the Senate's record;
     // Fortas's and Blackmun's dates to the FJC data the pipeline carries.
-    says: ["After Abe Fortas resigned May 14, 1969", "the Senate rejected Clement Haynsworth and G. Harrold Carswell", "then confirmed Harry Blackmun May 12, 1970", "Eight justices can\u2019t split 5\u20134", "the 1969 term\u2019s two cases in that band, the chart\u2019s low, were 4\u20134 ties"],
+    says: ["After Abe Fortas resigned May 14, 1969", "the Senate rejected Clement Haynsworth and G. Harrold Carswell", "then confirmed Harry Blackmun May 12, 1970", "Eight justices can\u2019t split 5\u20134", "the 1969 term\u2019s two cases in the 5–4 band, the chart\u2019s low, were 4\u20134 ties"],
     links: { "senate-scotus-nominations": "senate.gov/legislative/nominations", fjc: "fjc.gov" },
     check: () => {
       expect(longDate(justice("Fortas").service_end!)).toBe("May 14, 1969");

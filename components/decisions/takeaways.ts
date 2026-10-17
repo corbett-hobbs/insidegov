@@ -36,7 +36,7 @@ export const DECISIONS_CONTEXT = {
     sources: [{ id: "plaw-100-352", label: "P.L. 100-352" }],
   },
   split: {
-    text: "After Abe Fortas resigned May 14, 1969, the Senate rejected Clement Haynsworth and G. Harrold Carswell, then confirmed Harry Blackmun May 12, 1970. Eight justices can\u2019t split 5\u20134; the 1969 term\u2019s two cases in that band, the chart\u2019s low, were 4\u20134 ties.",
+    text: "After Abe Fortas resigned May 14, 1969, the Senate rejected Clement Haynsworth and G. Harrold Carswell, then confirmed Harry Blackmun May 12, 1970. Eight justices can\u2019t split 5\u20134; the 1969 term\u2019s two cases in the 5\u20134 band, the chart\u2019s low, were 4\u20134 ties.",
     sources: [
       { id: "senate-scotus-nominations", label: "U.S. Senate" },
       { id: "fjc", label: "Federal Judicial Center" },
