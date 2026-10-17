@@ -127,6 +127,11 @@ export const SOURCE_LINKS = {
   "fomc-statements": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
   "cbo-cares-act": "https://www.cbo.gov/publication/56334",
   "congress-arpa": "https://www.congress.gov/bill/117th-congress/house-bill/1319",
+  // The October 2025 shutdown's gap (BLS household survey and CPI pages), the March 2020 emergency and BLS's April 2020 jobs report.
+  "bls-cps-shutdown-2025": "https://www.bls.gov/cps/methods/2025-federal-government-shutdown-impact-cps.htm",
+  "bls-cpi-shutdown-2025": "https://www.bls.gov/cpi/additional-resources/2025-federal-government-shutdown-impact-cpi-faq.htm",
+  "fr-proclamation-9994": "https://www.federalregister.gov/documents/2020/03/18/2020-05794/declaring-a-national-emergency-concerning-the-novel-coronavirus-disease-covid-19-outbreak",
+  "bls-empsit-april-2020": "https://www.bls.gov/news.release/archives/empsit_05082020.htm",
   // Foreign aid and troops
   "foreign-assistance": "https://foreignassistance.gov/",
   dmdc: "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
