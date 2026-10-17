@@ -5,7 +5,8 @@ import { AID_CONTEXT, AID_TAKEAWAYS } from "../components/foreign-aid/takeaways"
 import { SOURCE_LINKS } from "./source-links";
 import { administration } from "./executive-orders-entities";
 import { aidMeta, aidRow } from "./foreign-aid-entities";
-import { SECTOR_PEACE, buildAidPayload, countryMilitary, decodeAid, nonCountryValue, rankCountries, spendingByYear, topRecipientsByYear, topRuns, yearTotal } from "./foreign-aid-derive";
+import { notOnMap } from "./foreign-aid-map";
+import { SECTOR_PEACE, buildAidPayload, countryMilitary, countryValue, decodeAid, nonCountryValue, rankCountries, spendingByYear, topRecipientsByYear, topRuns, yearTotal } from "./foreign-aid-derive";
 
 /**
  * Every figure a Foreign aid card's takeaway cites, checked against the committed pipeline
@@ -106,33 +107,73 @@ describe("Foreign aid card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). Law numbers and dates come from the enacted laws (govinfo.gov) and the Federal Register, outside
- * the pipeline, so each is pinned to its phrase and its link; the data checks are that each action sits next to the highlight
- * the takeaway names.
+ * The context lines (rule 7d). Law numbers and dates come from the enacted laws (govinfo.gov) and the order's text from the
+ * Federal Register, outside the pipeline, so each is pinned to its phrase and its link; every dollar figure and rank is checked
+ * here against the same derive functions the cards draw with, in nominal dollars.
  */
 const fyOf = (iso: string) => (Number(iso.slice(5, 7)) >= 10 ? Number(iso.slice(0, 4)) + 1 : Number(iso.slice(0, 4)));
+// Month 1 of a fiscal year is October.
+const fiscalMonth = (iso: string) => ((Number(iso.slice(5, 7)) + 2) % 12) + 1;
+// The four laws with emergency Ukraine supplemental appropriations: Consolidated Appropriations Act, 2022 (Division N); Additional
+// Ukraine Supplemental Appropriations Act, 2022; Continuing Appropriations and Ukraine Supplemental Appropriations Act, 2023
+// (Division B); Consolidated Appropriations Act, 2023 (Division M).
+const UKRAINE_LAW_DATES = { "plaw-117-103": "2022-03-15", "plaw-117-128": "2022-05-21", "plaw-117-180": "2022-09-30", "plaw-117-328": "2022-12-29" };
+const UKRAINE_LAW_LINKS = { "plaw-117-103": "PLAW-117publ103", "plaw-117-128": "PLAW-117publ128", "plaw-117-180": "PLAW-117publ180", "plaw-117-328": "PLAW-117publ328" };
+const ukr = ci("Ukraine");
+const ukraineIn = (fy: number) => countryValue(d, ukr, fy - first, null);
+const checkLawDates = () => {
+  const dates = Object.values(UKRAINE_LAW_DATES).sort();
+  // "from March to December 2022"
+  expect([dates[0].slice(0, 7), dates[dates.length - 1].slice(0, 7)]).toEqual(["2022-03", "2022-12"]);
+  return dates;
+};
+// The map card's readout: every country row's dollars, net, drawn or not.
+const countryTotal = (fy: number) => notOnMap(d, [], fy, null).countries;
 const contextCases: Record<keyof typeof AID_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   spending: {
-    says: ["P.L. 117-103 (March 15, 2022)", "P.L. 117-128 (May 21, 2022)", "P.L. 117-180 (September 30, 2022)", "P.L. 117-328 (December 29, 2022)"],
-    links: { "plaw-117-103": "PLAW-117publ103", "plaw-117-128": "PLAW-117publ128", "plaw-117-180": "PLAW-117publ180", "plaw-117-328": "PLAW-117publ328" },
+    says: ["four laws adding emergency Ukraine aid from March to December 2022", "from $49.4 billion in FY2021 to $74.3 billion in FY2022 (nominal)", "Ukraine’s share of the $24.9 billion rise was $15.9 billion"],
+    links: UKRAINE_LAW_LINKS,
     check: () => {
-      // All four fall in FY2022 or FY2023, the run-up to and year of the peak the takeaway names.
-      for (const d of ["2022-03-15", "2022-05-21", "2022-09-30", "2022-12-29"]) expect([2022, 2023]).toContain(fyOf(d));
-      expect(spending.reduce((a, b) => (b.total > a.total ? b : a)).fy).toBe(2023);
-      // Ukraine is No. 1 in both years.
-      for (const fy of [2022, 2023]) expect(name(tops.find((y) => y.fy === fy)!.ranked[0].ci)).toBe("Ukraine");
+      expect(meta.dollars).toBe("nominal");
+      expect(checkLawDates()).toHaveLength(4);
+      expect(billions(total(2021))).toBe("49.4");
+      expect(billions(total(2022))).toBe("74.3");
+      // FY2022 is the largest one-year rise in the window.
+      const rises = complete.slice(1).map((r, k) => ({ fy: r.fy, rise: r.total - complete[k].total }));
+      expect(rises.reduce((a, b) => (b.rise > a.rise ? b : a)).fy).toBe(2022);
+      expect(billions(total(2022) - total(2021))).toBe("24.9");
+      expect(billions(ukraineIn(2022) - ukraineIn(2021))).toBe("15.9");
     },
   },
   map: {
-    says: ["became law April 24, 2024 (P.L. 118-50)", "Executive Order 14169 paused new foreign development aid for a 90-day review on January 20, 2025"],
-    links: { "plaw-118-50": "PLAW-118publ50", "fr-eo-14169": "2025-02091" },
+    says: ["Executive Order 14169 told agencies on January 20, 2025, the fourth month of FY2025", "pause new obligations and disbursements of development aid for a 90-day review", "Disbursements to single countries that year were $31.5 billion (nominal), down from $46.6 billion in FY2024"],
+    links: { "fr-eo-14169": "2025-02091" },
     check: () => {
-      // The map's default year is FY2025 (October 2024 to September 2025); the law came just before it, the order inside it.
+      // FY2025 runs October 2024 to September 2025, so January 2025 is its fourth month; it is the map's default year.
       expect(payload.defaultYear).toBe(2025);
-      expect(fyOf("2024-04-24")).toBe(2024);
       expect(fyOf("2025-01-20")).toBe(2025);
-      const ranked = rankCountries(d, 2025, null);
-      expect([name(ranked[0].ci), name(ranked[1].ci)]).toEqual(["Ukraine", "Israel"]);
+      expect(fiscalMonth("2025-01-20")).toBe(4);
+      expect(payload.partialYears).not.toContain(2025);
+      expect(billions(countryTotal(2025))).toBe("31.5");
+      expect(billions(countryTotal(2024))).toBe("46.6");
+      expect(countryTotal(2025) + nonCountryValue(d, 2025 - first, null)).toBeCloseTo(total(2025), 0);
+    },
+  },
+  firstPlace: {
+    says: ["Ukraine went from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal)", "the fiscal year Congress passed three of the four 2022 laws adding emergency Ukraine aid"],
+    links: UKRAINE_LAW_LINKS,
+    check: () => {
+      // Opens on this card's own feature, not the spending card's sentence about the same laws.
+      expect(AID_CONTEXT.firstPlace.text.slice(0, 40)).not.toBe(AID_CONTEXT.spending.text.slice(0, 40));
+      const fys = checkLawDates().map(fyOf);
+      expect(fys.filter((fy) => fy === 2022)).toHaveLength(3);
+      expect(rankCountries(d, 2021, null).findIndex((r) => r.ci === ukr) + 1).toBe(17);
+      expect(billions(ukraineIn(2021))).toBe("0.6");
+      expect(name(tops.find((y) => y.fy === 2022)!.ranked[0].ci)).toBe("Ukraine");
+      expect(billions(ukraineIn(2022))).toBe("16.5");
+      // FY2022 is where the No. 1 changes hands, the start of Ukraine's run.
+      expect(name(tops.find((y) => y.fy === 2021)!.ranked[0].ci)).not.toBe("Ukraine");
+      expect(runs).toContainEqual({ name: "Ukraine", from: 2022, to: 2025 });
     },
   },
 };

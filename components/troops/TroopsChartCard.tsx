@@ -12,7 +12,7 @@ import { TroopsChart } from "./TroopsChart";
 import { Reading, RegionLegend, TD, TH, TableView } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
-import { TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
+import { TROOPS_BREAK_NOTE, TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** "How many troops are stationed abroad": the stacked-bar time series and everything that explains it. */
 export function TroopsChartCard() {
@@ -80,6 +80,7 @@ export function TroopsChartCard() {
           <p>
             Bars count active-duty personnel by place of duty, stacked by region; the band under the axis is the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, <SourceLink id="dmdc">DMDC</SourceLink>&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
           </p>
+          <p>{TROOPS_BREAK_NOTE}</p>
         </MethodologyNote>
         <TableView caption="Active-duty personnel abroad by region and year">
           <thead>

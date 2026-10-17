@@ -35,29 +35,26 @@ export const ENERGY_TAKEAWAYS = {
 } as const;
 
 /**
- * Context lines behind the takeaways (ARCHITECTURE_MAP rule 7d): only what a cited document or EIA/DOE itself says, never a
- * cause in the page's voice and never a price move pinned on a policy. Electricity has none: the coal-to-gas and wind/solar
- * shifts are multi-factor, and the two dated statutes (2022, 2025) come after most of the change the takeaway describes.
- * Every figure is checked in lib/energy-takeaways.test.ts.
+ * Context lines behind the takeaways (ARCHITECTURE_MAP rule 7d): a dated political action from energy_actions.json, the chart
+ * feature it lines up with, and only what the cited document says about it; never a cause in the page's voice and never a
+ * price move pinned on a policy. Electricity has none: the coal-to-gas and wind/solar shifts are multi-factor, and the two
+ * dated statutes (2022, 2025) come after most of the change the takeaway describes. Supply has none: no dated action sits
+ * behind its production low, its 2025 record or its demand extremes. Every figure is checked in lib/energy-takeaways.test.ts.
  */
 export const ENERGY_CONTEXT = {
-  supply: {
-    text: "EIA estimates that about 64% of U.S. crude oil production in 2023, about 8.32M barrels a day, came directly from tight-oil (shale) resources.",
-    sources: [{ id: "eia-tight-oil-faq", label: "EIA FAQ" }],
-  },
   oil: {
-    text: "Public Law 114-113, signed December 18, 2015, repealed the federal restriction on crude oil exports.",
+    text: "Public Law 114-113, signed December 18, 2015, repealed the federal restriction on crude oil exports. Crude exports, the dashed line under Exports & imports, rose from 0.5M barrels a day in 2015 to 3.0M in 2019, when total exports first topped imports.",
     sources: [{ id: "plaw-114-113", label: "Public Law 114-113" }],
   },
   lng: {
-    text: "DOE gave Sabine Pass final approval to export to countries without a free trade agreement on August 7, 2012. EIA cites abundant natural gas, flexible contract terms and relatively low feedgas costs among the reasons exports grew.",
+    text: "On August 7, 2012, DOE made final Sabine Pass’s approval to export LNG to countries without a free trade agreement, the first for lower-48 gas. Yearly exports rose from 28B cubic feet in 2015, before Sabine Pass’s first cargo, to 5.5 trillion in 2025.",
     sources: [
       { id: "doe-sabine-pass-docket", label: "DOE docket" },
-      { id: "eia-sabine-pass-ten-years", label: "EIA" },
+      { id: "doe-lng-order-3357", label: "DOE Order 3357" },
     ],
   },
   spr: {
-    text: "DOE lists a 180M-barrel emergency sale in 2022, coordinated through the IEA, plus 38M barrels of congressionally mandated sales delivered that year. The March 11, 2026 exchange of 172M barrels is the U.S. share of a 400M-barrel IEA action, to be returned.",
+    text: "Biden authorized selling up to 180M barrels on March 31, 2022; with 38M of mandated sales, the reserve fell from 568M barrels that month to 372M by December. The 172M-barrel exchange authorized March 11, 2026 drew it below the 2023 low by June.",
     sources: [
       { id: "doe-spr-history", label: "DOE release history" },
       { id: "doe-spr-172m-exchange-2026", label: "DOE, March 2026" },

@@ -229,26 +229,39 @@ export const CARD_ROWS: { label: string; cards: [EconomyKey, EconomyKey] }[] = [
 ];
 
 /**
- * Context lines (ARCHITECTURE_MAP rule 7d): what a cited source says happened behind a card's highlight, never why a number
- * moved. Cards not listed have none: the misery index, inflation and gas prices have no single source-stated cause, wages and
- * income are already explained in their takeaways, and the October 2025 gap is in the Data notes. Checked by
- * lib/economy-takeaways.test.ts.
+ * Context lines (ARCHITECTURE_MAP rule 7d): a dated political event behind something a card shows, placed next to it, with a
+ * cause only where an agency states one (BLS, DOE, CBO). The October 2025 shutdown sits on the Unemployment card only, the one
+ * whose survey can never be filled in; the misery index, inflation and wages show the same gap, and their Data notes say so.
+ * Recession dates and method stay in the Data notes. Cards not listed have none. Checked by lib/economy-takeaways.test.ts.
  */
 export const ECONOMY_CONTEXT = {
-  jobs: {
-    text: "NBER dates the 2020 recession from a February 2020 peak to an April 2020 trough, two months long. It dates the earlier one from December 2007 to June 2009.",
-    sources: [{ id: "nber", label: "NBER business cycle dates" }],
+  un: {
+    text: "The government shut down for 43 days, October 1 through November 12, 2025, when funding lapsed. BLS says the lapse kept it from collecting October’s household survey and prices, so this line, inflation and the misery index skip that month.",
+    sources: [
+      { id: "bls-cps-shutdown-2025", label: "BLS household survey" },
+      { id: "bls-cpi-shutdown-2025", label: "BLS CPI" },
+    ],
   },
-  gdp: {
-    text: "NBER also dates a recession from March to November 2001, when output never fell from a year earlier. NBER says it weighs jobs, income and spending, not output alone.",
-    sources: [{ id: "nber", label: "NBER business cycle dates" }],
+  jobs: {
+    text: "Proclamation 9994 declared a national emergency over COVID-19 on March 13, 2020, the month before the record loss. BLS attributed April’s losses to the pandemic and efforts to contain it.",
+    sources: [
+      { id: "fr-proclamation-9994", label: "Proclamation 9994" },
+      { id: "bls-empsit-april-2020", label: "BLS, April 2020" },
+    ],
+  },
+  gas: {
+    text: "DOE began emergency sales from the oil reserve in March 2022, after Russia invaded Ukraine, 180M barrels in all; gas peaked in June. On March 11, 2026, the week gas hit $3.50, DOE announced a 172M-barrel release to lower prices; gas reached $4.50 in May.",
+    sources: [
+      { id: "doe-spr-history", label: "DOE release history" },
+      { id: "doe-spr-172m-exchange-2026", label: "DOE, March 2026" },
+    ],
   },
   mort: {
-    text: "The Federal Reserve held its target rate at 0–0.25% from March 2020 to March 2022, then raised it 11 times, to 5.25–5.50% in July 2023.",
+    text: "The Federal Reserve held its target rate at 0–0.25% from March 2020 to March 2022, the stretch with the record low, then raised it 11 times, to 5.25–5.50% in July 2023. The 7.79% high came three months later.",
     sources: [{ id: "fomc-statements", label: "FOMC statements" }],
   },
   def: {
-    text: "The CARES Act was enacted March 27, 2020, and the American Rescue Plan Act March 11, 2021. CBO estimated the CARES Act alone would add about $1.8T to deficits over 2020–2030.",
+    text: "The CARES Act, enacted March 27, 2020, and the American Rescue Plan Act, March 11, 2021, fall in fiscal 2020 and 2021, the two deepest deficits on the chart. CBO estimated the CARES Act alone would add about $1.8T to deficits over 2020–2030.",
     sources: [
       { id: "cbo-cares-act", label: "CBO" },
       { id: "congress-arpa", label: "Congress.gov" },

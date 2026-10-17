@@ -56,26 +56,44 @@ export const IDEOLOGY_TAKEAWAYS: Record<
 };
 
 /**
- * Context lines (rule 7d), behind a "Context" toggle after the takeaway: only the trend card has one, per chamber view. It sets two
- * dated events, the 1964–65 civil rights statutes and the 1994 election, next to how far the Democratic share of the former
- * Confederate states' members fell over the same years. Timing only: it never says either event moved the gap, since what drove
- * polarization is disputed. The members, states and committee cards have none: no dated political event sits behind a 119th
- * Congress snapshot that the reader doesn't already see. Pinned in lib/congress-ideology-takeaways.test.ts.
+ * Context lines (rule 7d), behind a "Context" toggle after the takeaway, one per chamber view where a view has one. Timing only:
+ * none says an event moved the gap, since what drove polarization is disputed.
+ * - committees (House view only): the November 2024 election that kept Republicans in the House majority (House History's
+ *   party divisions, 220–215), next to the chart's every-committee-right-of-center pattern: Republicans outnumber Democrats on
+ *   every House committee here but Ethics, the only standing committee split evenly (the Ethics Committee's own history page).
+ *   The Senate and both-chambers views have none: committee_memberships.json has no seats for two Republican senators, so three
+ *   Senate committees count evenly on this chart and a "majority on every committee" line would not match it.
+ * - trend: the 1964–65 civil rights statutes and the 1994 election that gave Republicans both chambers, next to how far the
+ *   Democratic share of the former Confederate states' members fell and how wide the gap had grown by 1995. An older exception on
+ *   purpose (rule 7d): the narrow mid-century gap and its widening are what the takeaway names, and nothing recent explains them.
+ * The members, states and committee-spread cards have none: no dated political event sits behind a 119th Congress snapshot that
+ * the reader doesn't already see. Pinned in lib/congress-ideology-takeaways.test.ts.
  */
+// Short labels: the panel keeps its source list on one unbroken line, and the full names overflow a phone-width card.
 const CIVIL_RIGHTS = [
-  { id: "civil-rights-act-1964", label: "Civil Rights Act" },
-  { id: "voting-rights-act-1965", label: "Voting Rights Act" },
-  { id: "house-party-division", label: "House party divisions" },
+  { id: "civil-rights-act-1964", label: "1964 Act" },
+  { id: "voting-rights-act-1965", label: "1965 Act" },
+  { id: "house-party-division", label: "House seats" },
+  { id: "senate-party-division", label: "Senate seats" },
 ] as const;
-const southShare = (from: number, to: number, where: string) =>
-  `Congress passed the Civil Rights Act in 1964 and the Voting Rights Act in 1965. Democrats were ${from}% of the 11 former Confederate states' ${where} in 1963 and ${to}% in 1995, after Republicans won the House in 1994 for the first time since 1952.`;
+const southShare = (from: number, to: number, where: string, since: number) =>
+  `Congress passed the Civil Rights Act in 1964 and the Voting Rights Act in 1965; Republicans won both chambers in 1994. Democrats were ${from}% of the former Confederate states' ${where} in 1963 and ${to}% in 1995, when the gap was its widest since ${since}.`;
 export const IDEOLOGY_CONTEXT = {
-  trend: {
-    both: { text: southShare(90, 48, "lawmakers"), sources: CIVIL_RIGHTS },
-    senate: { text: southShare(96, 41, "senators"), sources: CIVIL_RIGHTS },
-    house: { text: southShare(89, 49, "House members"), sources: CIVIL_RIGHTS },
+  committees: {
+    house: {
+      text: "Republicans kept the House 220–215 in the November 2024 election, and they outnumber Democrats on every House committee here except Ethics, the only standing committee split evenly. A Republican majority on a committee puts its average right of the center line.",
+      sources: [
+        { id: "house-party-division", label: "House party divisions" },
+        { id: "house-ethics-history", label: "House Ethics Committee" },
+      ],
+    },
   },
-} as const satisfies Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, Record<ChamberView, ContextEntry>>>;
+  trend: {
+    both: { text: southShare(90, 48, "lawmakers", 1923), sources: CIVIL_RIGHTS },
+    senate: { text: southShare(96, 41, "senators", 1929), sources: CIVIL_RIGHTS },
+    house: { text: southShare(89, 49, "House members", 1911), sources: CIVIL_RIGHTS },
+  },
+} as const satisfies Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, Partial<Record<ChamberView, ContextEntry>>>>;
 
 export const contextFor = (card: keyof typeof IDEOLOGY_TAKEAWAYS, view: ChamberView): ContextEntry | null =>
-  (IDEOLOGY_CONTEXT as Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, Record<ChamberView, ContextEntry>>>)[card]?.[view] ?? null;
+  (IDEOLOGY_CONTEXT as Partial<Record<keyof typeof IDEOLOGY_TAKEAWAYS, Partial<Record<ChamberView, ContextEntry>>>>)[card]?.[view] ?? null;

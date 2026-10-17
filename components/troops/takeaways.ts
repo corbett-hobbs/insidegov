@@ -25,21 +25,41 @@ export const TROOPS_TAKEAWAYS = {
 } as const;
 
 /**
- * Context lines behind the takeaways (ARCHITECTURE_MAP rule 7d): only what DMDC's tables or a dated official document say,
- * never why troop levels moved. The map has none: its 2018-2025 ranking is steady, with no dated change behind it.
+ * The abroad card's Data note on the December 2017 counting change (rule 7: method goes in Data notes, never in Context).
+ * Its figures are read from troops_location_meta.json's `break` in lib/national-security-takeaways.test.ts.
+ */
+export const TROOPS_BREAK_NOTE =
+  "The dashed line before 2018 marks a change in what DMDC counts: from the Dec 2017 table, only personnel permanently assigned to a location, leaving out temporary duty and contingency deployments. Overseas active duty went from 215,249 in Sep to 161,927 in Dec 2017 while the U.S. total rose, a reallocation, not a withdrawal; Afghanistan, Iraq and Syria print blank, not zero, from Dec 2017 through Sep 2021.";
+
+/**
+ * Context lines behind the takeaways (ARCHITECTURE_MAP rule 7d): the dated political event behind what each chart shows,
+ * placed next to what the chart did, never why troop levels moved. The abroad and first-place lines name the events behind
+ * the peaks and hand-offs their takeaways cite; the map's is the 2020 Germany plan, which its steady 2018-2025 ranking
+ * outlasted. The Doha agreement, the 2021 withdrawal and the 2022 Europe deployments show nowhere: DMDC left Afghanistan,
+ * Iraq and Syria unreported from December 2017 through September 2021, and its permanent-assignment counts leave out
+ * rotational forces.
  * Every figure is checked in lib/national-security-takeaways.test.ts.
  */
 export const TROOPS_CONTEXT = {
   abroad: {
-    text: "From December 2017, DMDC’s tables count only permanently assigned personnel, leaving out temporary duty and contingency deployments; overseas active duty went from 215.2k in September to 161.9k in December. Afghanistan, Iraq and Syria went unreported from December 2017 through September 2021.",
-    sources: [{ id: "dmdc", label: "DMDC" }],
+    text: "The Korean War armistice was signed July 27, 1953, after the June 1953 high; troops abroad fell to 740.4k by 1955. Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia; troops abroad rose from 594.6k that year to the 1.04M peak in 1968.",
+    sources: [
+      { id: "korea-armistice-1953", label: "National Archives" },
+      { id: "plaw-88-408", label: "Public Law 88-408" },
+    ],
+  },
+  map: {
+    text: "On July 29, 2020, the Defense Department said about 11,900 troops would be moved out of Germany; on February 4, 2021, President Biden said planned withdrawals would stop. Germany stayed the second-largest host, with 34.0k to 36.3k troops every year from 2018 through 2025.",
+    sources: [
+      { id: "dod-eucom-posture-2020", label: "Defense Department" },
+      { id: "biden-state-dept-2021", label: "White House" },
+    ],
   },
   firstPlace: {
-    text: "Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia, and Public Law 107-243 (October 16, 2002) against Iraq. On December 1, 2009, the President announced 30,000 more troops for Afghanistan, to deploy in the first part of 2010.",
+    text: "Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003. President Obama’s February 12, 2013 State of the Union said 34,000 more troops would leave Afghanistan within a year; Afghanistan fell to 48.8k in 2013, below Japan’s 53.0k.",
     sources: [
-      { id: "plaw-88-408", label: "Public Law 88-408" },
       { id: "plaw-107-243", label: "Public Law 107-243" },
-      { id: "obama-west-point-2009", label: "White House, 2009" },
+      { id: "obama-sotu-2013", label: "White House" },
     ],
   },
 } as const satisfies Partial<Record<keyof typeof TROOPS_TAKEAWAYS, ContextEntry>>;

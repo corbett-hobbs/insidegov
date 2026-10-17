@@ -1,6 +1,7 @@
 "use client";
 
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { useId, useMemo, useRef, useState, type PointerEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartFrame } from "@/components/charts/ChartFrame";
@@ -12,7 +13,7 @@ import { useElementWidth } from "@/lib/use-element-width";
 import { SLOT_NAME, formatAidAxis, formatAidMoney, niceDollarTicks, topRecipientsByYear, topRuns, type TopYear } from "@/lib/foreign-aid-derive";
 import { useAidState } from "./ForeignAidState";
 import { CardReadout, HatchDefs, SectorLegend, TD, TH, TableView, slotColor, useSectorLabel } from "./shared";
-import { AID_TAKEAWAYS } from "./takeaways";
+import { AID_TAKEAWAYS, contextFor } from "./takeaways";
 import { administrationForTermLabel } from "./term-labels";
 
 const LABEL_H = 22;
@@ -84,9 +85,11 @@ export function FirstPlaceCard() {
   };
 
   const cur = years[si];
+  const { takeaway, panel } = useTakeawayContext(AID_TAKEAWAYS.firstPlace, contextFor("firstPlace"));
   const peak = years.reduce<TopYear | null>((a, b) => (b.ranked[0] && (!a || !a.ranked[0] || topVal(b) > topVal(a)) ? b : a), null);
   return (
-    <ChartCard title="Who’s been No. 1" takeaway={AID_TAKEAWAYS.firstPlace}>
+    <ChartCard title="Who’s been No. 1" takeaway={takeaway}>
+      {panel}
       {cur?.ranked[0] && (
         <CardReadout>
           FY{year}: <b className="font-semibold text-ink">{names[cur.ranked[0].ci].name}</b> · {formatAidMoney(cur.ranked[0].value)} · {Math.round((cur.ranked[0].value / cur.countryTotal) * 100)}% of country-attributed dollars

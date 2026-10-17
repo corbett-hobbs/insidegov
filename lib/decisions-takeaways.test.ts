@@ -127,11 +127,20 @@ describe("Supreme Court decisions card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). The Act's title and date are pinned to the enacted law (102 Stat. 662, outside the pipeline); the
- * justices' dates come from pipeline/output/court/justices.json (Federal Judicial Center). The data checks are that each fact sits
- * next to the highlight the takeaway names.
+ * The context lines (rule 7d). The Act's title and date are pinned to the enacted law (102 Stat. 662, outside the pipeline), and
+ * the seat Barrett filled to the Senate's nominations table ("Barrett, Amy Coney | Ginsburg | … | 52-48 | C, Oct 26, 2020"); the
+ * justices' dates, votes and appointing parties come from pipeline/output/court/justices.json (Federal Judicial Center). The data
+ * checks are that each fact sits next to the chart feature the line names.
  */
-type Justice = { name: { full: string; last: string }; confirmation_date: string; service_start: string; service_end: string | null };
+type Justice = {
+  name: { full: string; last: string };
+  appointing_president: string;
+  appointing_party: string;
+  confirmation_date: string;
+  senate_vote: { ayes: number; nays: number } | null;
+  service_start: string;
+  service_end: string | null;
+};
 const justices = JSON.parse(readFileSync("pipeline/output/court/justices.json", "utf8")) as Justice[];
 const justice = (last: string) => justices.filter((j) => j.name.last === last).at(-1)!;
 const longDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -149,28 +158,25 @@ const contextCases: Record<keyof typeof DECISIONS_CONTEXT, { says: string[]; lin
     },
   },
   split: {
-    // Haynsworth (rejected November 21, 1969, 45–55) and Carswell (rejected April 8, 1970, 45–51) are pinned to the Senate's record;
-    // Fortas's and Blackmun's dates to the FJC data the pipeline carries.
-    says: ["After Abe Fortas resigned May 14, 1969", "the Senate rejected Clement Haynsworth and G. Harrold Carswell", "then confirmed Harry Blackmun May 12, 1970", "Eight justices can\u2019t split 5\u20134", "the 1969 term\u2019s two cases in the 5–4 band, the chart\u2019s low, were 4\u20134 ties"],
+    says: ["The Senate confirmed Amy Coney Barrett, a Donald J. Trump nominee, 52\u201348 on October 26, 2020", "to Ginsburg\u2019s seat", "giving Republican appointees six of nine", "The three highest 6\u20133 shares since 1946 followed: 32% in the 2021 term, 36% in 2023 and 30% in 2025"],
     links: { "senate-scotus-nominations": "senate.gov/legislative/nominations", fjc: "fjc.gov" },
     check: () => {
-      expect(longDate(justice("Fortas").service_end!)).toBe("May 14, 1969");
-      expect(justice("Blackmun").name.full).toMatch(/^Harry /);
-      expect(longDate(justice("Blackmun").confirmation_date)).toBe("May 12, 1970");
-      expect(justice("Blackmun").confirmation_date > "1970-04-08").toBe(true);
-      // Eight sat from the term's opening (October 6, 1969) until Blackmun's service began.
-      expect(sitting("1969-10-06")).toBe(8);
-      expect(sitting("1969-05-13")).toBe(9);
-      expect(sitting(justice("Blackmun").service_start)).toBe(9);
-      // The term is the chart's 5–4 low, and its two cases in the band are 4–4 ties decided before Blackmun sat.
-      const fiveFour = terms.map((t) => byTerm.get(t)![4] / cases(t));
-      expect(terms[fiveFour.indexOf(Math.min(...fiveFour))]).toBe(1969);
-      const band = (JSON.parse(readFileSync("pipeline/output/decisions_cases.json", "utf8")) as { term: number; band: number; maj: number; min: number; date: string }[]).filter((c) => c.term === 1969 && c.band === 4);
-      expect(band).toHaveLength(2);
-      for (const c of band) {
-        expect([c.maj, c.min]).toEqual([4, 4]);
-        expect(c.date < justice("Blackmun").service_start).toBe(true);
-      }
+      const b = justice("Barrett");
+      expect(b.name.full).toBe("Amy Coney Barrett");
+      expect([b.appointing_president, longDate(b.confirmation_date)]).toEqual(["Donald J. Trump", "October 26, 2020"]);
+      expect(b.senate_vote).toEqual({ ayes: 52, nays: 48 });
+      expect(justice("Ginsburg").service_end).toBe("2020-09-18");
+      const seated = (iso: string) => justices.filter((j) => j.service_start <= iso && (j.service_end === null || j.service_end >= iso));
+      const rSeats = (iso: string) => seated(iso).filter((j) => j.appointing_party === "Republican").length;
+      expect([sitting("2020-09-17"), rSeats("2020-09-17")]).toEqual([9, 5]);
+      expect([sitting(b.service_start), rSeats(b.service_start)]).toEqual([9, 6]);
+      // The chart's 6–3 band (three dissents) at its three highest term shares, all after the 2020 term Barrett joined, and the
+      // chart starts in 1946.
+      expect(terms[0]).toBe(1946);
+      const top = [...terms].sort((x, y) => byTerm.get(y)![3] / cases(y) - byTerm.get(x)![3] / cases(x)).slice(0, 4);
+      expect(top.slice(0, 3).sort()).toEqual([2021, 2023, 2025]);
+      expect([2021, 2023, 2025].map((t) => pct(byTerm.get(t)!, 3))).toEqual([32, 36, 30]);
+      expect(pct(byTerm.get(top[3])!, 3)).toBeLessThan(30);
     },
   },
 };

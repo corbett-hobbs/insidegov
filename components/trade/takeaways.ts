@@ -37,24 +37,23 @@ export const TRADE_TAKEAWAYS = {
 } as const;
 
 /**
- * Context lines (ARCHITECTURE_MAP rule 7d): what a dated tariff action did, from its Federal Register document or ruling, next to
- * the chart's highlight. Timing only, never a cause. Every date and rate is checked against pipeline/output/tariff_actions.json in
+ * Context lines (ARCHITECTURE_MAP rule 7d): dated tariff actions, from their Federal Register documents or ruling, next to what
+ * the chart does at those dates. Timing only, never a cause. Every date and rate is checked against pipeline/output/tariff_actions.json in
  * lib/trade-takeaways.test.ts. The balance and partners cards have none: what moves the deficit and which country leads it are
  * multi-factor questions economists dispute, and no cited document states them.
  */
 export const TRADE_CONTEXT = {
   tariff: {
-    text: "Section 301 tariffs on goods from China began July 6, 2018, and reached a fourth list September 1, 2019. A 10% IEEPA tariff on all partners began April 5, 2025; IEEPA tariffs ended February 24, 2026, after the Supreme Court ruled.",
+    text: "Section 301 tariffs on China began July 2018; the rate doubled to 3.2% by September 2019. It jumped to 7.2% when 10% IEEPA tariffs on all partners began in April 2025 and fell to 6.8% after the Supreme Court ruled against them in February 2026.",
     sources: [
       { id: "fr-301-china-2018", label: "USTR, 2018" },
-      { id: "fr-301-china-list-4a", label: "USTR, 2019" },
       { id: "fr-eo-14257", label: "EO 14257" },
       { id: "scotus-learning-resources", label: "Supreme Court" },
       { id: "fr-eo-14389", label: "EO 14389" },
     ],
   },
   scatter: {
-    text: "USTR raised Section 301 duties on selected goods from China on September 27, 2024. A 10% Section 122 surcharge began February 24, 2026, and Section 301 tariffs of 10% or 12.5% began July 24 on 60 economies, China among them.",
+    text: "Between the two windows, USTR raised Section 301 duties on some Chinese goods (September 2024), a 10% Section 122 surcharge began (February 2026), and Section 301 tariffs began on 60 economies, China among them (July 2026). China's duty rate went from 11.3% to 22.2%.",
     sources: [
       { id: "fr-301-china-2024", label: "USTR, 2024" },
       { id: "fr-section-122-2026", label: "Proclamation 11012" },

@@ -18,7 +18,8 @@ import { useTroopsState } from "./TroopsState";
 import { BASE_R, BaseGlyph, BasesLayer } from "./BasesLayer";
 import { RankedList } from "./RankedList";
 import { Reading, TD, TH, TableView, branchColor } from "./shared";
-import { TROOPS_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
 import { SourceLink } from "@/components/SourceLink";
 
 const TH_PLAIN = TH.replace("sticky top-0 ", "");
@@ -159,11 +160,12 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
   const noOutline = view.ranked.filter((r) => !places[r.place].iso3 || !featureKeys.has(places[r.place].iso3!));
   const selRank = country >= 0 ? view.ranked.find((r) => r.place === country) : undefined;
   const nHosts = view.ranked.length;
+  const { takeaway, panel } = useTakeawayContext(TROOPS_TAKEAWAYS.map.takeaway, contextFor("map"));
 
   return (
     <ChartCard
       title={TROOPS_TAKEAWAYS.map.title}
-      takeaway={TROOPS_TAKEAWAYS.map.takeaway}
+      takeaway={takeaway}
       action={
         <div className="flex w-full flex-wrap items-center justify-between gap-x-2 gap-y-2 sm:w-auto sm:gap-x-3 sm:justify-end">
           {country >= 0 && (
@@ -188,6 +190,7 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
         </div>
       }
     >
+      {panel}
       <Reading>
         {view.unavailable ? (
           <>{when} · the Army did not report, so the map and list need a single branch from the Branch filter</>

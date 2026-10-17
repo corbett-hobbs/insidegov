@@ -151,26 +151,30 @@ const action = (id: string) => {
 const cites = (id: string, src: keyof typeof SOURCE_LINKS) => expect(action(id).sources.map((s) => s.url)).toContain(SOURCE_LINKS[src]);
 const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: () => void }> = {
   tariff: {
-    says: ["began July 6, 2018", "a fourth list September 1, 2019", "A 10% IEEPA tariff on all partners began April 5, 2025", "ended February 24, 2026, after the Supreme Court ruled"],
+    says: ["Section 301 tariffs on China began July 2018", "the rate doubled to 3.2% by September 2019", "jumped to 7.2% when 10% IEEPA tariffs on all partners began in April 2025", "fell to 6.8% after the Supreme Court ruled against them in February 2026"],
     check: () => {
       expect(action("2018-07-06-section-301-china-list-1").date).toBe("2018-07-06");
-      expect(action("2019-09-01-section-301-china-list-4a").date).toBe("2019-09-01");
       const base = action("2025-04-05-reciprocal-baseline");
       expect([base.date, base.rate_note, base.description]).toEqual(["2025-04-05", "10 percent", expect.stringContaining("all trading partners")]);
       expect(action("2026-02-20-supreme-court-ieepa-ruling").date).toBe("2026-02-20");
       expect(action("2026-02-24-ieepa-ends-section-122-begins").date).toBe("2026-02-24");
-      // The line sits next to the 2019 and 2025 highs the takeaway names.
-      expect(peak("2008-03", "2024-12").at).toBe(monthIndex("2019-09"));
-      expect(peak("1993-01", national.lastPeriod).at).toBe(monthIndex("2025-10"));
+      // What the chart does at those dates: June 2018 (the month before) to September 2019 doubles; March to April 2025 jumps;
+      // February to March 2026 falls.
+      const r = (m: string) => rate[monthIndex(m)]!;
+      expect([r("2018-06").toFixed(1), r("2019-09").toFixed(1)]).toEqual(["1.6", "3.2"]);
+      expect(r("2019-09") / r("2018-06")).toBeGreaterThan(1.9);
+      expect(r("2019-09") / r("2018-06")).toBeLessThan(2.1);
+      expect([r("2025-03").toFixed(1), r("2025-04").toFixed(1)]).toEqual(["3.7", "7.2"]);
+      expect(r("2026-03").toFixed(1)).toBe("6.8");
+      expect(r("2026-03")).toBeLessThan(r("2026-02"));
       cites("2018-07-06-section-301-china-list-1", "fr-301-china-2018");
-      cites("2019-09-01-section-301-china-list-4a", "fr-301-china-list-4a");
       cites("2025-04-05-reciprocal-baseline", "fr-eo-14257");
       cites("2026-02-20-supreme-court-ieepa-ruling", "scotus-learning-resources");
       cites("2026-02-24-ieepa-ends-section-122-begins", "fr-eo-14389");
     },
   },
   scatter: {
-    says: ["Section 301 duties on selected goods from China on September 27, 2024", "A 10% Section 122 surcharge began February 24, 2026", "10% or 12.5% began July 24 on 60 economies, China among them"],
+    says: ["Between the two windows", "Section 301 duties on some Chinese goods (September 2024)", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's duty rate went from 11.3% to 22.2%"],
     check: () => {
       const review = action("2024-09-27-section-301-china-four-year-review");
       expect([review.date, review.description]).toEqual(["2024-09-27", expect.stringContaining("increases Section 301 duties on selected products of China")]);
@@ -180,6 +184,9 @@ const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: 
       expect([fl.date, fl.rate_note?.startsWith("10 percent or 12.5 percent"), fl.scope_note?.startsWith("60 economies"), fl.countries.includes("CHN")]).toEqual(["2026-07-24", true, true, true]);
       // Every action named falls between the scatter's baseline and the end of its latest window.
       for (const d of ["2024-09", "2026-02", "2026-07"]) expect(d > windows.baseline.to && d <= windows.latest.to, d).toBe(true);
+      // What the scatter shows for China across those windows.
+      const china = scatter.find((r) => r.code === "CHN")!;
+      expect([(china.baseRate! * 100).toFixed(1), (china.latestRate! * 100).toFixed(1)]).toEqual(["11.3", "22.2"]);
       cites("2024-09-27-section-301-china-four-year-review", "fr-301-china-2024");
       cites("2026-02-24-ieepa-ends-section-122-begins", "fr-section-122-2026");
       cites("2026-07-24-section-301-forced-labor", "fr-301-forced-labor-2026");

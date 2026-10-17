@@ -26,8 +26,11 @@ export const DECISIONS_TAKEAWAYS = {
 
 /**
  * Context lines (ARCHITECTURE_MAP rule 7d): a dated statute or a dated change in who sat on the Court, the chart feature it lines
- * up with, and the mechanism where the law or the record states it. Never that the Act caused the docket to shrink. Pinned in lib/decisions-takeaways.test.ts
- * (the statute to its own text, the justices' dates to pipeline/output/court/justices.json, which the Federal Judicial Center
+ * up with, and the mechanism where the law or the record states it. Never that the Act caused the docket to shrink, nor that a
+ * new majority caused a vote split. The cases line is the older exception rule 7d allows: the 1988 Act sits behind the chart's
+ * main drop and nothing recent explains it. The split line is Barrett's 2020 confirmation next to the 6–3 band's three highest
+ * shares. Pinned in lib/decisions-takeaways.test.ts (the statute to its own text, the seat to the Senate's nominations table, the
+ * justices' dates, votes and appointing parties to pipeline/output/court/justices.json, which the Federal Judicial Center
  * supplies). "Which kinds of cases split the Court?" has none: no cited document says what lies behind an issue area's split rate.
  */
 export const DECISIONS_CONTEXT = {
@@ -36,7 +39,7 @@ export const DECISIONS_CONTEXT = {
     sources: [{ id: "plaw-100-352", label: "P.L. 100-352" }],
   },
   split: {
-    text: "After Abe Fortas resigned May 14, 1969, the Senate rejected Clement Haynsworth and G. Harrold Carswell, then confirmed Harry Blackmun May 12, 1970. Eight justices can\u2019t split 5\u20134; the 1969 term\u2019s two cases in the 5\u20134 band, the chart\u2019s low, were 4\u20134 ties.",
+    text: "The Senate confirmed Amy Coney Barrett, a Donald J. Trump nominee, 52\u201348 on October 26, 2020, to Ginsburg\u2019s seat, giving Republican appointees six of nine. The three highest 6\u20133 shares since 1946 followed: 32% in the 2021 term, 36% in 2023 and 30% in 2025.",
     sources: [
       { id: "senate-scotus-nominations", label: "U.S. Senate" },
       { id: "fjc", label: "Federal Judicial Center" },
