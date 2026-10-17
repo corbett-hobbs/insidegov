@@ -35,14 +35,14 @@ export function BranchStrip({ items }: { items: readonly Branch[] }) {
               <Link
                 href={e.href}
                 data-branch={e.id}
-                className="home-strip-item group relative flex items-center gap-4 border-b border-white/15 py-5 transition-colors hover:bg-white/[0.07] md:border-b-0 md:px-5 lg:px-7 md:py-6 md:group-first/li:pl-0 md:group-last/li:pr-0"
+                className="home-strip-item group relative flex items-center gap-4 border-b border-white/15 py-5 transition-colors hover:bg-white/[0.07] md:gap-3 md:border-b-0 md:px-3 md:py-6 lg:gap-4 lg:px-5 xl:px-7 md:group-first/li:pl-0 md:group-last/li:pr-0"
               >
                 <span aria-hidden="true" className="home-strip-bar" />
-                <span aria-hidden="true" className="w-5 font-mono text-[0.75rem] tracking-[0.12em] text-[#e8c877]">
+                <span aria-hidden="true" className="w-4 font-mono lg:w-5 text-[0.75rem] tracking-[0.12em] text-[#e8c877]">
                   {ROMAN[i]}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-serif text-[1.55rem] font-medium leading-tight tracking-tight text-white">
+                  <span className="block whitespace-nowrap font-serif text-[1.35rem] font-medium lg:text-[1.55rem] leading-tight tracking-tight text-white">
                     <span className="home-sweep">{e.label}</span>
                   </span>
                   <span className="mt-1.5 block truncate font-mono text-[0.68rem] uppercase tracking-[0.1em] text-[#b9c6e2]">
@@ -51,7 +51,7 @@ export function BranchStrip({ items }: { items: readonly Branch[] }) {
                 </span>
                 <span
                   aria-hidden="true"
-                  className="text-xl text-[#e8c877] transition-transform group-hover:translate-x-1"
+                  className="hidden text-xl text-[#e8c877] transition-transform lg:block group-hover:translate-x-1"
                 >
                   →
                 </span>
