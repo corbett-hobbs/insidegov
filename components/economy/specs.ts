@@ -236,7 +236,7 @@ export const CARD_ROWS: { label: string; cards: [EconomyKey, EconomyKey] }[] = [
  */
 export const ECONOMY_CONTEXT = {
   un: {
-    text: "The government shut down for 43 days, October 1 through November 12, 2025, when funding lapsed. BLS says the lapse kept it from collecting October’s household survey and prices, which it never collected, so this line, inflation and the misery index skip that month.",
+    text: "The government shut down for 43 days, October 1 through November 12, 2025, when funding lapsed. BLS says the lapse kept it from collecting October’s household survey and prices, so this line, inflation and the misery index skip that month.",
     sources: [
       { id: "bls-cps-shutdown-2025", label: "BLS household survey" },
       { id: "bls-cpi-shutdown-2025", label: "BLS CPI" },
