@@ -47,10 +47,10 @@ export const ENERGY_CONTEXT = {
     sources: [{ id: "plaw-114-113", label: "Public Law 114-113" }],
   },
   lng: {
-    text: "DOE paused decisions on pending applications to export LNG to countries without a free trade agreement on January 26, 2024, saying already-authorized exports were unaffected, and ended the pause January 20, 2025. Yearly exports rose in both 2024 and 2025.",
+    text: "On August 7, 2012, DOE made final Sabine Pass’s approval to export LNG to countries without a free trade agreement, the first for lower-48 gas. Yearly exports rose from 28B cubic feet in 2015, before Sabine Pass’s first cargo, to 5.5 trillion in 2025.",
     sources: [
-      { id: "doe-lng-pause-2024", label: "DOE, January 2024" },
-      { id: "doe-lng-pause-ended-2025", label: "DOE, January 2025" },
+      { id: "doe-sabine-pass-docket", label: "DOE docket" },
+      { id: "doe-lng-order-3357", label: "DOE Order 3357" },
     ],
   },
   spr: {

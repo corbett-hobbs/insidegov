@@ -165,8 +165,8 @@ const cases: Record<keyof typeof ENERGY_TAKEAWAYS, { says: string[]; check: () =
 
 /**
  * Every figure a context line cites (rule 7d). Dated actions are read from energy_actions.json and chart figures from the
- * same series the card draws; facts from a cited page outside the pipeline (DOE's mandated-sale total, DOE's statement that
- * authorized LNG exports were unaffected) are pinned to the phrase the line uses, and the source must be the one cited.
+ * same series the card draws; facts from a cited page outside the pipeline (DOE's mandated-sale total, DOE's description of the
+ * Sabine Pass order as its first for lower-48 LNG) are pinned to the phrase the line uses, and the source must be the one cited.
  */
 const action = (id: string) => {
   const a = actions.find((x) => x.action_id === id);
@@ -195,21 +195,20 @@ const contextCases: Record<keyof typeof ENERGY_CONTEXT, { says: string[]; check:
     },
   },
   lng: {
-    // DOE, January 26, 2024: "This temporary pause on pending applications will not affect already authorized exports".
-    says: ["DOE paused decisions on pending applications to export LNG to countries without a free trade agreement on January 26, 2024", "saying already-authorized exports were unaffected", "ended the pause January 20, 2025", "Yearly exports rose in both 2024 and 2025"],
+    // DOE Order 3357 (November 2013), at 3: Sabine Pass Order 2961 (May 2011, conditional) was "the Department's first order granting a
+    // long-term authorization to export LNG produced in the lower-48 states to non-FTA countries"; Order 2961-A made it final.
+    says: ["On August 7, 2012, DOE made final Sabine Pass’s approval to export LNG to countries without a free trade agreement", "the first for lower-48 gas", "Yearly exports rose from 28B cubic feet in 2015", "before Sabine Pass’s first cargo", "to 5.5 trillion in 2025"],
     check: () => {
-      const pause = action("2024-01-26-lng-export-pause");
-      expect(longDate(pause.date)).toBe("January 26, 2024");
-      expect(pause.description).toMatch(/pause determinations on pending applications to export LNG to countries without a free trade agreement/);
-      expect(pause.description).toMatch(/exports already authorized \(48 Bcf\/d\) were unaffected/);
-      expect(pause.sources[0].url).toBe(SOURCE_LINKS["doe-lng-pause-2024"]);
-      const ended = action("2025-01-20-lng-pause-ended");
-      expect(longDate(ended.date)).toBe("January 20, 2025");
-      expect(ended.description).toMatch(/ending the LNG pause/);
-      expect(ended.sources[0].url).toBe(SOURCE_LINKS["doe-lng-pause-ended-2025"]);
+      const a = action("2012-08-07-lng-sabine-pass-final");
+      expect(longDate(a.date)).toBe("August 7, 2012");
+      expect(a.description).toMatch(/final long-term authorization to export LNG to countries without a free trade agreement/);
+      expect(a.sources[0].url).toBe(SOURCE_LINKS["doe-sabine-pass-docket"]);
+      cites("lng", "doe-lng-order-3357");
+      const cargo = action("2016-02-24-lng-first-sabine-pass-cargo");
+      expect(Number(cargo.date.slice(0, 4))).toBeGreaterThan(2015);
       const tot = sum("lng");
-      expect(tot.get(2024)).toBeGreaterThan(tot.get(2023) as number);
-      expect(tot.get(2025)).toBeGreaterThan(tot.get(2024) as number);
+      expect(Math.round((tot.get(2015) as number) / 1000)).toBe(28);
+      expect(((tot.get(2025) as number) / 1e6).toFixed(1)).toBe("5.5");
     },
   },
   spr: {
