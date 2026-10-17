@@ -8,7 +8,8 @@ import { SLOT_NAME, changeVsPrior, formatAidMoney, spendingByYear } from "@/lib/
 import { useAidState } from "./ForeignAidState";
 import { SpendingChart } from "./SpendingChart";
 import { CardReadout, SectorLegend, TD, TH, TableView, useSectorLabel } from "./shared";
-import { AID_TAKEAWAYS } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { AID_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** "How much the U.S. spends": the stacked-bar time series and everything that explains it. */
 export function SpendingCard() {
@@ -30,12 +31,14 @@ export function SpendingCard() {
     </>
   );
 
+  const { takeaway, panel } = useTakeawayContext(AID_TAKEAWAYS.spending, contextFor("spending"));
   return (
     <ChartCard
       title="How much the U.S. spends"
-      takeaway={AID_TAKEAWAYS.spending}
+      takeaway={takeaway}
       action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")}</span> : undefined}
     >
+      {panel}
       <CardReadout>{readout}</CardReadout>
       <SpendingChart rows={shown} />
       <SectorLegend partial={anyPartial} only={sole === null ? only : null} onPick={(k) => setOnly((c) => (c === k ? null : k))} />

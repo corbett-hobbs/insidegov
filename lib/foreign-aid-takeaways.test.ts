@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { AID_TAKEAWAYS } from "../components/foreign-aid/takeaways";
+import { AID_CONTEXT, AID_TAKEAWAYS } from "../components/foreign-aid/takeaways";
+import { SOURCE_LINKS } from "./source-links";
 import { administration } from "./executive-orders-entities";
 import { aidMeta, aidRow } from "./foreign-aid-entities";
 import { SECTOR_PEACE, buildAidPayload, countryMilitary, decodeAid, nonCountryValue, rankCountries, spendingByYear, topRecipientsByYear, topRuns, yearTotal } from "./foreign-aid-derive";
@@ -100,6 +101,58 @@ describe("Foreign aid card takeaways", () => {
       // A sentence ends at a period before a capital; "No. 1" is not a break.
       expect(s.split(/(?<=[.;])\s(?=[A-Z])/).filter((x) => x.endsWith(".")).length, key).toBeLessThanOrEqual(2);
       expect(s.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+    }
+  });
+});
+
+/**
+ * The context lines (rule 7d). Law numbers and dates come from the enacted laws (govinfo.gov) and the Federal Register, outside
+ * the pipeline, so each is pinned to its phrase and its link; the data checks are that each action sits next to the highlight
+ * the takeaway names.
+ */
+const fyOf = (iso: string) => (Number(iso.slice(5, 7)) >= 10 ? Number(iso.slice(0, 4)) + 1 : Number(iso.slice(0, 4)));
+const contextCases: Record<keyof typeof AID_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
+  spending: {
+    says: ["P.L. 117-103 (March 15, 2022)", "P.L. 117-128 (May 21, 2022)", "P.L. 117-180 (September 30, 2022)", "P.L. 117-328 (December 29, 2022)"],
+    links: { "plaw-117-103": "PLAW-117publ103", "plaw-117-128": "PLAW-117publ128", "plaw-117-180": "PLAW-117publ180", "plaw-117-328": "PLAW-117publ328" },
+    check: () => {
+      // All four fall in FY2022 or FY2023, the run-up to and year of the peak the takeaway names.
+      for (const d of ["2022-03-15", "2022-05-21", "2022-09-30", "2022-12-29"]) expect([2022, 2023]).toContain(fyOf(d));
+      expect(spending.reduce((a, b) => (b.total > a.total ? b : a)).fy).toBe(2023);
+      // Ukraine is No. 1 in both years.
+      for (const fy of [2022, 2023]) expect(name(tops.find((y) => y.fy === fy)!.ranked[0].ci)).toBe("Ukraine");
+    },
+  },
+  map: {
+    says: ["became law April 24, 2024 (P.L. 118-50)", "Executive Order 14169 paused new foreign development aid for a 90-day review on January 20, 2025"],
+    links: { "plaw-118-50": "PLAW-118publ50", "fr-eo-14169": "2025-02091" },
+    check: () => {
+      // The map's default year is FY2025 (October 2024 to September 2025); the law came just before it, the order inside it.
+      expect(payload.defaultYear).toBe(2025);
+      expect(fyOf("2024-04-24")).toBe(2024);
+      expect(fyOf("2025-01-20")).toBe(2025);
+      const ranked = rankCountries(d, 2025, null);
+      expect([name(ranked[0].ci), name(ranked[1].ci)]).toEqual(["Ukraine", "Israel"]);
+    },
+  },
+};
+
+describe("Foreign aid context lines", () => {
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof AID_CONTEXT, (typeof contextCases)[keyof typeof AID_CONTEXT]][]) {
+    it(`${key}: holds and names real sources`, () => {
+      for (const phrase of c.says) expect(AID_CONTEXT[key].text).toContain(phrase);
+      expect(AID_CONTEXT[key].sources.map((s) => s.id).sort()).toEqual(Object.keys(c.links).sort());
+      for (const [id, part] of Object.entries(c.links)) expect(SOURCE_LINKS[id as keyof typeof SOURCE_LINKS], id).toMatch(new RegExp(`^https://.*${part}`));
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal claim", () => {
+    expect(Object.keys(AID_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(AID_CONTEXT)) {
+      expect(line.text.replace(/P\.L\./g, "PL").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged)\b/i);
     }
   });
 });
