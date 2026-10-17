@@ -2,12 +2,13 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { useIsolate } from "@/components/charts/LegendToggle";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { memo, type ReactNode } from "react";
 import { fiscalBars, quarterlyPoints, yearRows } from "@/lib/economy-series";
 import type { EconomyData } from "@/lib/indicator-payload";
 import type { Reading } from "@/lib/indicator-lookup";
 import { EconomyChart, altText, chartPoints, type AltView, type LineId } from "./EconomyChart";
-import { type ChartSpec } from "./specs";
+import { contextFor, type ChartSpec } from "./specs";
 
 /** The other unit's value under the headline ("5.8% of GDP"), with its own period when that data ends earlier or later. */
 function altLine(alt: AltView | undefined, altReading: Reading | undefined, reading: Reading): string | null {
@@ -81,7 +82,8 @@ const DataTable = memo(function DataTable({ data, spec }: { data: EconomyData; s
  * row) that the pair shares, so two cards side by side get identical track heights:
  * plots, axes and term bands start and end at the same pixel whatever the
  * takeaway or legend lengths. The takeaway is ink, not muted: it is the card's
- * one-line reading; what the chart measures lives in Data notes. The notes row sits at the bottom of its track.
+ * one-line reading; what the chart measures lives in Data notes. A context line (rule 7d)
+ * opens inside the takeaway's track, so an open panel grows that row for both cards of a pair. The notes row sits at the bottom of its track.
  */
 export function EconomyCard({
   data,
@@ -114,6 +116,7 @@ export function EconomyCard({
 }) {
   const [only, isolate] = useIsolate<LineId>();
   const Heading = hero ? "h2" : "h3";
+  const ctx = useTakeawayContext(takeaway, contextFor(spec.key));
   return (
     <section
       className={`min-w-0 rounded-[10px] border border-line bg-surface ${
@@ -126,7 +129,10 @@ export function EconomyCard({
         </div>
         <Readout spec={spec} reading={reading} hero={hero} alt={alt} altReading={altReading} />
       </div>
-      <p className={`m-0 text-ink ${hero ? "mt-2 text-[0.95rem] leading-[1.55]" : "mt-1.5 text-[0.875rem] leading-[1.5]"}`}>{takeaway}</p>
+      <div>
+        <p className={`m-0 text-ink ${hero ? "mt-2 text-[0.95rem] leading-[1.55]" : "mt-1.5 text-[0.875rem] leading-[1.5]"}`}>{ctx.takeaway}</p>
+        {ctx.panel && <div className="mt-2 [&>div]:mb-0">{ctx.panel}</div>}
+      </div>
       <div className={hero ? "mt-3.5" : "mt-3"}>
         <EconomyChart data={data} spec={spec} hero={hero} showCong={showCong} view={view} reading={reading} only={only} alt={alt} />
       </div>

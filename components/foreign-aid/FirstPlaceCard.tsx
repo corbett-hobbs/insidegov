@@ -4,12 +4,15 @@ import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { useId, useMemo, useRef, useState, type PointerEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartFrame } from "@/components/charts/ChartFrame";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { MethodologyNote } from "@/components/MethodologyNote";
 import { TERM_BAND_H, TermBandSvg, termSegments } from "@/components/charts/TermBandSvg";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import { SLOT_NAME, formatAidAxis, formatAidMoney, niceDollarTicks, topRecipientsByYear, topRuns, type TopYear } from "@/lib/foreign-aid-derive";
 import { useAidState } from "./ForeignAidState";
-import { HatchDefs, SectorLegend, TD, TH, TableView, slotColor, useSectorLabel } from "./shared";
+import { CardReadout, HatchDefs, SectorLegend, TD, TH, TableView, slotColor, useSectorLabel } from "./shared";
+import { AID_TAKEAWAYS } from "./takeaways";
 import { administrationForTermLabel } from "./term-labels";
 
 const LABEL_H = 22;
@@ -82,18 +85,14 @@ export function FirstPlaceCard() {
 
   const cur = years[si];
   const peak = years.reduce<TopYear | null>((a, b) => (b.ranked[0] && (!a || !a.ranked[0] || topVal(b) > topVal(a)) ? b : a), null);
-  const lede = cur?.ranked[0] ? (
-    <>
-      Largest recipient country each fiscal year{sectorLabel ? ` in ${sectorLabel}` : ""}, with bars colored by its sector mix. FY{year}:{" "}
-      <b className="font-semibold text-ink">{names[cur.ranked[0].ci].name}</b> · {formatAidMoney(cur.ranked[0].value)} · {Math.round((cur.ranked[0].value / cur.countryTotal) * 100)}% of country-attributed dollars
-      {isPartial(year) ? " (partial year)" : ""}
-    </>
-  ) : (
-    "Largest recipient country each fiscal year"
-  );
-
   return (
-    <ChartCard title="Who’s been No. 1" lede={lede}>
+    <ChartCard title="Who’s been No. 1" takeaway={AID_TAKEAWAYS.firstPlace}>
+      {cur?.ranked[0] && (
+        <CardReadout>
+          FY{year}: <b className="font-semibold text-ink">{names[cur.ranked[0].ci].name}</b> · {formatAidMoney(cur.ranked[0].value)} · {Math.round((cur.ranked[0].value / cur.countryTotal) * 100)}% of country-attributed dollars
+          {isPartial(year) ? " (partial year)" : ""}
+        </CardReadout>
+      )}
       <div ref={wrapRef} className="touch-scroll relative -mx-3 sm:mx-0">
         <ChartFrame
           width={W}
@@ -215,34 +214,42 @@ export function FirstPlaceCard() {
         <Tooltip state={tip.state}>{(y) => <FirstTip y={y} />}</Tooltip>
       </div>
       <SectorLegend partial={years.some((y) => isPartial(y.fy))} only={only} onPick={(k) => setPick(pick === k ? null : k)} />
-      <TableView caption="Largest recipient country by fiscal year">
-        <thead>
-          <tr>
-            <th className={TH}>Fiscal year</th>
-            <th className={TH}>No. 1</th>
-            <th className={TH}>Disbursements</th>
-            <th className={TH}>Share</th>
-            {sole === null && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {years.map((y) => {
-            const t = y.ranked[0];
-            return (
-              <tr key={y.fy}>
-                <td className={TD}>
-                  FY{y.fy}
-                  {isPartial(y.fy) ? " (partial)" : ""}
-                </td>
-                <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? names[t.ci].name : "–"}</td>
-                <td className={TD}>{t ? formatAidMoney(t.value) : "–"}</td>
-                <td className={TD}>{t ? `${Math.round((t.value / y.countryTotal) * 100)}%` : "–"}</td>
-                {sole === null && y.topSlots.map((v, k) => <td key={k} className={TD}>{v > 0 ? formatAidMoney(v) : "–"}</td>)}
-              </tr>
-            );
-          })}
-        </tbody>
-      </TableView>
+      <ChartNotesRow>
+        <MethodologyNote>
+          <p>
+            The largest recipient country each fiscal year{sectorLabel ? ` in ${sectorLabel}` : ""}, with each year&rsquo;s bar showing that country&rsquo;s dollars colored by its sector mix.
+            Global and regional programs never rank, so a year&rsquo;s share is of the dollars tied to a single country.
+          </p>
+        </MethodologyNote>
+        <TableView caption="Largest recipient country by fiscal year">
+          <thead>
+            <tr>
+              <th className={TH}>Fiscal year</th>
+              <th className={TH}>No. 1</th>
+              <th className={TH}>Disbursements</th>
+              <th className={TH}>Share</th>
+              {sole === null && SLOT_NAME.map((s) => <th key={s} className={TH}>{s}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {years.map((y) => {
+              const t = y.ranked[0];
+              return (
+                <tr key={y.fy}>
+                  <td className={TD}>
+                    FY{y.fy}
+                    {isPartial(y.fy) ? " (partial)" : ""}
+                  </td>
+                  <td className={`${TD} !font-sans`} style={{ textAlign: "left" }}>{t ? names[t.ci].name : "–"}</td>
+                  <td className={TD}>{t ? formatAidMoney(t.value) : "–"}</td>
+                  <td className={TD}>{t ? `${Math.round((t.value / y.countryTotal) * 100)}%` : "–"}</td>
+                  {sole === null && y.topSlots.map((v, k) => <td key={k} className={TD}>{v > 0 ? formatAidMoney(v) : "–"}</td>)}
+                </tr>
+              );
+            })}
+          </tbody>
+        </TableView>
+      </ChartNotesRow>
     </ChartCard>
   );
 }

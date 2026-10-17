@@ -9,6 +9,9 @@ import { formatCompactUSD, formatOpenEndedUSD } from "@/lib/format-money";
 import { stateName } from "@/lib/states";
 import { Sparkline } from "./Sparkline";
 import type { ChamberView } from "@/lib/chamber";
+import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
+import { MethodologyNote } from "@/components/MethodologyNote";
+import { SourceLink } from "@/components/SourceLink";
 
 function lastNameOf(name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -17,6 +20,8 @@ function lastNameOf(name: string): string {
 
 interface WealthListProps {
   title: string;
+  /** One or two sentences on what the list shows (rule 7c), from `WEALTH_TAKEAWAYS`. */
+  takeaway: string;
   direction: "highest" | "lowest";
   members: readonly WealthMember[];
   view: ChamberView;
@@ -24,8 +29,13 @@ interface WealthListProps {
   party: WealthParty | null;
 }
 
-/** One of the two side-by-side ranked lists on /congress/wealth. */
-export function WealthList({ title, direction, members, view, stateFilter, party }: WealthListProps) {
+/**
+ * One of the two side-by-side ranked lists on /congress/wealth. From `md` the
+ * card is a subgrid over four row tracks (title, takeaway, table, notes row)
+ * that the pair shares, so both tables start at the same pixel whatever the
+ * takeaway lengths (rule 10r).
+ */
+export function WealthList({ title, takeaway, direction, members, view, stateFilter, party }: WealthListProps) {
   const eligible = members.filter(isListEligible);
   const ranked = [...eligible].sort((a, b) => {
     const av = a.points[a.points.length - 1].midpoint;
@@ -35,51 +45,73 @@ export function WealthList({ title, direction, members, view, stateFilter, party
   });
 
   const noun = wealthPartyNoun(view, party);
+  const noUsable = members.filter((m) => m.points.length === 0).length;
+  const beforeCutoff = members.length - noUsable - eligible.length;
+  const excluded = noUsable + beforeCutoff;
 
   return (
-    <section className="@container flex min-w-0 flex-col rounded-xl border border-line-strong bg-surface p-3 sm:p-6">
+    <section className="@container flex min-w-0 flex-col rounded-xl border border-line-strong bg-surface p-3 sm:p-6 md:row-span-4 md:grid md:grid-rows-subgrid md:gap-y-0">
       <h2 className="font-serif text-lg font-medium text-ink sm:text-xl">{title}</h2>
-      <p className="mt-1 text-[0.8rem] text-ink-muted">
-        Ranked from the {direction === "highest" ? "top" : "bottom"} · {ranked.length} {noun} with
-        net worth data from 2023 or later
-        {stateFilter && ` in ${stateName(stateFilter)}`}
-      </p>
+      <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{takeaway}</p>
 
-      <div
-        role="region"
-        tabIndex={0}
-        aria-label={`${title} table, ${ranked.length} rows`}
-        className="mt-3 max-h-[26rem] overflow-y-auto overflow-x-hidden rounded-md border border-line"
-      >
-        <table className="w-full border-collapse text-[0.82rem]">
-          <thead className="sticky top-0 z-10 bg-surface-raised">
-            <tr>
-              <th className="w-8 border-b border-line px-2 py-2 text-left font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
-                #
-              </th>
-              <th className="w-full border-b border-line px-2 py-2 text-left font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
-                Member
-              </th>
-              <th className="whitespace-nowrap border-b border-line px-2 py-2 text-right font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
-                Est. net worth
-              </th>
-              <th className="border-b border-line pl-1 pr-2 py-2 text-left font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
-                Trend
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {ranked.map((m, i) => (
-              <WealthListRow key={m.bioguideId} rank={i + 1} member={m} />
-            ))}
-          </tbody>
-        </table>
-        {ranked.length === 0 && (
-          <p className="p-4 text-center text-[0.82rem] text-ink-faint">
-            No members match these filters.
-          </p>
-        )}
+      {/* A plain wrapper is the grid item: a scroll box as the item itself gets a
+          zero automatic minimum height and collapses its subgrid track. */}
+      <div className="mt-3 min-w-0">
+        <div
+          role="region"
+          tabIndex={0}
+          aria-label={`${title} table, ${ranked.length} rows`}
+          className="max-h-[26rem] overflow-y-auto overflow-x-hidden rounded-md border border-line"
+        >
+          <table className="w-full border-collapse text-[0.82rem]">
+            <thead className="sticky top-0 z-10 bg-surface-raised">
+              <tr>
+                <th className="w-8 border-b border-line px-2 py-2 text-left font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
+                  #
+                </th>
+                <th className="w-full border-b border-line px-2 py-2 text-left font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
+                  Member
+                </th>
+                <th className="whitespace-nowrap border-b border-line px-2 py-2 text-right font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
+                  Est. net worth
+                </th>
+                <th className="border-b border-line pl-1 pr-2 py-2 text-left font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint">
+                  Trend
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {ranked.map((m, i) => (
+                <WealthListRow key={m.bioguideId} rank={i + 1} member={m} />
+              ))}
+            </tbody>
+          </table>
+          {ranked.length === 0 && (
+            <p className="p-4 text-center text-[0.82rem] text-ink-faint">
+              No members match these filters.
+            </p>
+          )}
+        </div>
       </div>
+      <ChartNotesRow className="mt-auto pt-1 md:self-end">
+        <MethodologyNote>
+          <p>
+            Ranked from the {direction === "highest" ? "top" : "bottom"}: the {ranked.length} {noun}
+            {stateFilter && ` in ${stateName(stateFilter)}`} with net worth data from 2023 or later, by estimated
+            net worth (the midpoint of the reported value bands, with the range beneath it). High-confidence parses
+            only
+            {excluded > 0
+              ? `: ${excluded} current ${excluded === 1 ? "member is" : "members are"} left out, ${noUsable} with no usable filing${
+                  beforeCutoff > 0 ? ` and ${beforeCutoff} whose latest usable filing is before 2023` : ""
+                }.`
+              : "."}{" "}
+            Years are the year each report covers. Sparklines share one 2013–2025 axis, each scaled to that
+            member&rsquo;s own range, so compare members by the midpoint; dashed segments bridge years with no usable
+            filing. Sources: <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink>,{" "}
+            <SourceLink id="senate-efd">Senate eFD</SourceLink>.
+          </p>
+        </MethodologyNote>
+      </ChartNotesRow>
     </section>
   );
 }

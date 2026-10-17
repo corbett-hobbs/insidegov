@@ -26,6 +26,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
+import { COURT_TAKEAWAYS } from "./takeaways";
 
 const PLAY_INTERVAL_MS = 220;
 
@@ -158,8 +159,8 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
             its length never drives the row height. */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:items-stretch">
           <ChartCard
-            title="Where the justices stand"
-            lede="The Court in the selected term, left to right. Dot color is the party of the president who appointed each justice. Click a justice for their profile."
+            title={COURT_TAKEAWAYS.strip.title}
+            takeaway={COURT_TAKEAWAYS.strip.takeaway}
             action={<JusticeSearch justices={data.justices} />}
           >
             <JusticeStrip
@@ -202,7 +203,7 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
             <ChartNotesRow>
               <MethodologyNote className="mt-2">
                 <p>
-                  <SourceLink id="martin-quinn">Martin&ndash;Quinn scores</SourceLink> sit on one liberal&ndash;conservative scale and are not comparable in number to the <SourceLink id="voteview">DW-NOMINATE scores</SourceLink> on the Congress pages. Hollow dots mark justices who left or joined mid-term; in 1937, 1938, 1956 and 2005, where MQ scores two records, the median is the Court after the change.
+                  The Court in the selected term, liberal to conservative, left to right; dot color is the party of the president who appointed each justice, and clicking a justice opens their profile. The median is the justice most likely to cast the middle vote, an estimate with a probability, not a certainty. <SourceLink id="martin-quinn">Martin&ndash;Quinn scores</SourceLink> sit on one liberal&ndash;conservative scale and are not comparable in number to the <SourceLink id="voteview">DW-NOMINATE scores</SourceLink> on the Congress pages. Hollow dots mark justices who left or joined mid-term; in 1937, 1938, 1956 and 2005, where MQ scores two records, the median is the Court after the change.
                 </p>
               </MethodologyNote>
               <SeatedTable term={term} seated={ordered} />
@@ -210,8 +211,8 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
           </ChartCard>
 
           <ChartCard
-            title="Who each president appointed"
-            lede="Career average for every justice a president put on the Court. A ring marks justices sitting in the selected term."
+            title={COURT_TAKEAWAYS.presidents.title}
+            takeaway={COURT_TAKEAWAYS.presidents.takeaway}
             action={
               <PillGroup
                 options={SORTS}
@@ -239,7 +240,7 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
             <ChartNotesRow>
               <MethodologyNote className="mt-2">
                 <p>
-                  Career average is the mean of a justice&rsquo;s per-term scores, so it can hide justices who moved a long way. Justices still serving are not final.
+                  Career average for every justice a president put on the Court, the mean of the justice&rsquo;s per-term scores, so it can hide justices who moved a long way; a ring marks justices sitting in the selected term. Justices still serving are not final.
                 </p>
               </MethodologyNote>
               <CareerTable data={data} />
@@ -248,8 +249,8 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
         </div>
 
         <ChartCard
-          title="How each justice moved"
-          lede={`Every justice’s score, term by term, since ${firstTerm}. Click or drag to change the term; click a line to follow one justice.`}
+          title={COURT_TAKEAWAYS.trajectory.title}
+          takeaway={COURT_TAKEAWAYS.trajectory.takeaway}
         >
           <JusticeTrajectory
             data={data}
@@ -262,7 +263,7 @@ export function CourtExplorer({ data }: { data: CourtPayload }) {
           <ChartNotesRow>
             <MethodologyNote className="mt-2">
               <p>
-                The model smooths scores over time, so a justice&rsquo;s stability is partly an assumption. The shaded band is the 95% estimation interval.
+                Every justice&rsquo;s score, term by term, from {firstTerm} through {lastTerm}, with the Court median in bold; click or drag to change the term, and click a line to open that justice&rsquo;s profile. Each score is an estimate with a 95% interval, and the model smooths scores over time, so a justice&rsquo;s stability is partly an assumption.
               </p>
             </MethodologyNote>
             <MedianTable data={data} selected={selected} />

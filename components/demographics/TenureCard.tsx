@@ -12,6 +12,7 @@ import { PARTY_NAME, congressSpan, presidentById, readoutRow, sliceOf, termSegme
 import { TENURE_LABELS, type DemoCongress, type DemoPresident } from "@/lib/demographics-types";
 import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
+import { DEMO_TAKEAWAYS } from "./takeaways";
 
 interface Col extends StackColumn {
   row: DemoCongress;
@@ -32,7 +33,7 @@ export function TenureCard({ rows, presidents, pin, onPin, view, roster, party }
     term: by.get(cur.termId)?.president,
   };
   return (
-    <ChartCard title="How long have members been in Congress?" lede="Share of members in each Congress, grouped by how many years they have served, counting the current Congress.">
+    <ChartCard title={DEMO_TAKEAWAYS.tenure.title} takeaway={DEMO_TAKEAWAYS.tenure.takeaway[view]}>
       <CongressReadout line={line} pinned={pin !== null && !!cur && cur.congress === pin} onClear={() => onPin(null)} />
       <StackedBars
         columns={cols}
@@ -69,7 +70,7 @@ export function TenureCard({ rows, presidents, pin, onPin, view, roster, party }
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Time in office counts the Congresses a member served in either chamber, gaps and service before 1933 included, at two years each (up to 2 years is a first Congress, 3&ndash;10 years is two to five). Every bar is 100%, of everyone or of the party picked above.
+            Each bar groups a Congress&rsquo;s members by years served, counting that Congress: every Congress served in either chamber, gaps and service before 1933 included, at two years each (up to 2 years is a first Congress, 3&ndash;10 years is two to five). Every bar is 100%, of everyone or of the party picked above.
           </p>
         </MethodologyNote>
         <TableView

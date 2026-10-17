@@ -10,6 +10,8 @@ import { GEO_NAME, type GeoGroup, type RefugeePayload, type RefugeeYear } from "
 import { RefugeeChart } from "./RefugeeChart";
 import { CEILING_TINT, GEO_STACK, REGION_COLOR, n } from "./refugee-style";
 import { SourceLink } from "@/components/SourceLink";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { IMMIGRATION_TAKEAWAYS, contextFor } from "./takeaways";
 
 /**
  * "Refugee ceiling and admissions by fiscal year": the ceiling chart (`RefugeeChart`) with its key, Data notes and table. The key
@@ -22,11 +24,13 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
   const termsById = new Map(payload.terms.map((t) => [t.termId, t]));
   const prelim = years.some((y) => y.preliminary);
   const hasPrivate = years.some((y) => y.privateSector > 0);
+  const context = useTakeawayContext(IMMIGRATION_TAKEAWAYS.refugeeCeiling.takeaway, contextFor("refugeeCeiling"));
   return (
     <ChartCard
       title="Refugee ceiling and admissions by fiscal year"
-      lede="Each year the President sets a ceiling on how many refugees can be resettled in the U.S. The bars show how many actually arrived, and where they came from."
+      takeaway={context.takeaway}
     >
+      {context.panel}
       <div className={`${LEGEND_ROW_CAPPED} mb-2`}>
         {present.map((g) => (
           <LegendToggle key={g} active={only === g} dimmed={only !== null && only !== g} onClick={() => toggleOnly(g)}>
@@ -63,7 +67,7 @@ export function RefugeeCeilingCard({ payload, years, fy, onFy }: { payload: Refu
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Ceiling: the most refugees <SourceLink id="refugee-determinations">the President authorizes</SourceLink> for the year, a maximum rather than a quota, so arrivals under it are not a shortfall. It is the figure in force at year end, so a mid-year revision (FY2021, FY2026) shows the revised number; the year&rsquo;s card gives the first. Admitted: refugees resettled from abroad, by fiscal year of arrival (<SourceLink id="wraps-admissions">State Department</SourceLink>); asylum seekers, parolees and people with Temporary Protected Status are not included. Regions follow the applicant&rsquo;s nationality. FY2026 is the first year-end report and may be revised. A year belongs to the president in office on Sept 30, so FY2025&rsquo;s ceiling was set by the previous administration.
+            Ceiling: the most refugees <SourceLink id="refugee-determinations">the President authorizes</SourceLink> to be resettled in the U.S. each year, a maximum rather than a quota, so arrivals under it are not a shortfall. It is the figure in force at year end, so a mid-year revision (FY2021, FY2026) shows the revised number; the year&rsquo;s card gives the first. Admitted (the bars): refugees who actually arrived, resettled from abroad, by fiscal year of arrival and colored by where they came from (<SourceLink id="wraps-admissions">State Department</SourceLink>); asylum seekers, parolees and people with Temporary Protected Status are not included. Regions follow the applicant&rsquo;s nationality. FY2026 is the first year-end report and may be revised. A year belongs to the president in office on Sept 30, so FY2025&rsquo;s ceiling was set by the previous administration.
           </p>
         </MethodologyNote>
         <details className="mt-3 text-[0.8rem] text-ink-muted">

@@ -140,11 +140,14 @@ export function EventNotes({
   focus,
   byId,
   onJump,
+  onSee,
 }: {
   items: readonly TlEvent[];
   focus: number | null;
   byId: ReadonlyMap<string, TlEvent>;
   onJump: (no: number) => void;
+  /** Set by the Era by era card: adds "See on timeline" to the date line. */
+  onSee?: (no: number) => void;
 }) {
   return (
     <>

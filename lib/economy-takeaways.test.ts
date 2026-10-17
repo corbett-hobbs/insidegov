@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { SPECS, USD_SPECS } from "../components/economy/specs";
+import { ECONOMY_CONTEXT, SPECS, USD_SPECS } from "../components/economy/specs";
+import { SOURCE_LINKS } from "./source-links";
 import { monthlyChange, realHourlyEarnings, yearOverYearPercent, type Point } from "./indicator-derive";
 
 /**
@@ -38,6 +39,7 @@ const fredDebt = raw("GFDEBTN");
 const debtUsd = shown([...fredDebt, ...treasury.debt.filter((d) => d.date > fredDebt.at(-1)!.date).map((d) => ({ date: d.date, value: d.total }))]);
 const fredDef = raw("FYFSD");
 const defUsd = shown([...fredDef, ...treasury.deficit.map((d) => ({ date: `${d.fiscal_year}-09-30`, value: d.value })).filter((d) => d.date > fredDef.at(-1)!.date)]);
+const usrec = raw("USREC");
 const inflBy = new Map(infl.map((p) => [p.date, p.value]));
 const misery = un.filter((p) => inflBy.has(p.date)).map((p) => ({ date: p.date, value: p.value + inflBy.get(p.date)! }));
 
@@ -194,6 +196,53 @@ const usdCases: Record<keyof typeof USD_SPECS, { says: string[]; check: () => vo
   },
 };
 
+/**
+ * The context lines (rule 7d). NBER's dates are checked against USREC, which flags the months after each peak through the
+ * trough (FRED's convention), so a "March to November 2001" recession is flagged April–November. Facts from cited documents
+ * outside the pipeline (FOMC rate decisions, enactment dates, CBO's April 16, 2020 CARES Act estimate) are pinned to the phrase
+ * the line uses, so an edit has to come back here; where the chart's own data touches them, it is checked against them.
+ */
+const recessionMonths = (from: string, to: string) => usrec.filter((p) => p.value === 1 && p.date >= from && p.date < to).map((p) => p.date.slice(0, 7));
+const monthsBetween = (a: string, b: string) => {
+  const out: string[] = [];
+  for (let d = new Date(`${a}-01T00:00Z`); d.toISOString().slice(0, 7) <= b; d.setUTCMonth(d.getUTCMonth() + 1)) out.push(d.toISOString().slice(0, 7));
+  return out;
+};
+const contextCases: Record<keyof typeof ECONOMY_CONTEXT, { says: string[]; check: () => void }> = {
+  jobs: {
+    says: ["a February 2020 peak to an April 2020 trough, two months long", "from December 2007 to June 2009"],
+    check: () => {
+      expect(recessionMonths("2019", "2023")).toEqual(["2020-03", "2020-04"]);
+      expect(recessionMonths("2007", "2011")).toEqual(monthsBetween("2008-01", "2009-06"));
+      // The record loss fell in the recession's trough month.
+      expect(min(jobs).date).toBe("2020-04-01");
+    },
+  },
+  gdp: {
+    says: ["from March to November 2001", "output never fell from a year earlier", "jobs, income and spending, not output alone"],
+    check: () => {
+      expect(recessionMonths("2000", "2003")).toEqual(monthsBetween("2001-04", "2001-11"));
+      expect(within(gdp, "2000", "2003").every((p) => p.value >= 0)).toBe(true);
+    },
+  },
+  mort: {
+    says: ["0–0.25% from March 2020 to March 2022", "raised it 11 times, to 5.25–5.50% in July 2023"],
+    check: () => {
+      // The takeaway's record low sits inside the near-zero stretch, and its 2023 high after the last increase.
+      expect(min(mort).date >= "2020-03-15" && min(mort).date < "2022-03-16").toBe(true);
+      expect(max(within(mort, "2021", "2025")).date > "2023-07-26").toBe(true);
+    },
+  },
+  def: {
+    says: ["CARES Act was enacted March 27, 2020", "American Rescue Plan Act March 11, 2021", "about $1.8T to deficits over 2020–2030"],
+    check: () => {
+      // Both laws fall in fiscal years 2020 and 2021 (October–September), the two deepest deficits on the chart.
+      const deepest = [...def].sort((a, b) => a.value - b.value).slice(0, 2).map((p) => p.date.slice(0, 4));
+      expect(deepest).toEqual(["2020", "2021"]);
+    },
+  },
+};
+
 describe("Economy card takeaways", () => {
   for (const [key, c] of Object.entries(cases) as [keyof typeof SPECS, (typeof cases)[keyof typeof SPECS]][]) {
     it(`${SPECS[key].title}: "${SPECS[key].takeaway.slice(0, 48)}…" holds`, () => {
@@ -213,6 +262,25 @@ describe("Economy card takeaways", () => {
     for (const s of [...Object.values(SPECS), ...Object.values(USD_SPECS)]) {
       expect(s.takeaway.split(/(?<=[.;])\s/).filter((x) => x.endsWith(".")).length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
+    }
+  });
+
+  for (const [key, c] of Object.entries(contextCases) as [keyof typeof ECONOMY_CONTEXT, (typeof contextCases)[keyof typeof ECONOMY_CONTEXT]][]) {
+    it(`context, ${SPECS[key].title}: holds and names real sources`, () => {
+      const line = ECONOMY_CONTEXT[key];
+      for (const phrase of c.says) expect(line.text).toContain(phrase);
+      for (const src of line.sources) expect(SOURCE_LINKS[src.id], src.id).toMatch(/^https:\/\//);
+      c.check();
+    });
+  }
+
+  it("every context line belongs to a card, stays short and makes no causal claim of its own", () => {
+    expect(Object.keys(ECONOMY_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
+    for (const [key, line] of Object.entries(ECONOMY_CONTEXT)) {
+      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
+      expect(line.text, key).not.toMatch(/\d,\d{3}/);
+      expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged|president|administration|Democrat|Republican)\b/i);
     }
   });
 });
