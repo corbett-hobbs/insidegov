@@ -276,7 +276,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
           </ChartNotesRow>
         </ChartCard>
 
-        <ErasCard eras={eras} mode={mode} range={range} status={status} events={shown} query={query} onQuery={(q) => (setQuery(q), setOpen(null))} onJump={jumpTo} today={data.today} byId={byId} />
+        <ErasCard eras={eras} mode={mode} range={range} status={status} events={shown} query={query} onQuery={(q) => (setQuery(q), setOpen(null))} today={data.today} byId={byId} />
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: {nLaws} laws and {nCases} Supreme Court cases picked by hand (list last reviewed {fmtDate(data.reviewed)}), each linked to its{" "}
