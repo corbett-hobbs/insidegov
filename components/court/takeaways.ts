@@ -29,17 +29,17 @@ export const COURT_TAKEAWAYS = {
 /**
  * The context lines (ARCHITECTURE_MAP rule 7d). The strip's line dates the one membership change at the 1990 switch in the
  * likeliest median's appointing party, from the FJC service dates in pipeline/output/court; timing only, it never says why a
- * justice votes as they do. The trajectory's line says what Martin and Quinn say their scores are. The presidents card has
+ * justice votes as they do. The trajectory's line dates the 1969 departures and Burger's confirmation at the term after which, the takeaway says, the median fell below zero only three times. The presidents card has
  * none: no cited source says what lies behind its highlight. Pinned in lib/court-ideology-takeaways.test.ts.
  */
 export const COURT_CONTEXT = {
   strip: {
-    text: "Brennan left the Court on July 20, 1990, and Souter joined on October 3, 1990. In the 1990 term the likeliest median moved from White, a Kennedy appointee, to Souter, a Bush appointee.",
+    text: "Brennan left the Court on July 20, 1990, and Souter joined on October 3, 1990. In the 1990 term the likeliest median moved from White, a John F. Kennedy appointee, to Souter, a George H. W. Bush appointee.",
     sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
   trajectory: {
-    text: "Martin and Quinn estimate each justice’s score for each term from votes in non-unanimous cases, with a model that lets scores drift from term to term. Each score is an estimate with uncertainty, not a measured position.",
-    sources: [{ id: "martin-quinn", label: "Martin–Quinn, Measures" }],
+    text: "Fortas left the Court on May 14, 1969, and Warren on June 23, 1969, when Burger, a Richard Nixon nominee confirmed 74–3 on June 9, took his seat. The median went from −0.89 in the 1968 term to 0.19 in 1969.",
+    sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
 } as const satisfies Partial<Record<keyof typeof COURT_TAKEAWAYS, ContextEntry>>;
 

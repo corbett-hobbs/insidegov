@@ -100,14 +100,14 @@ describe("Supreme Court ideology card takeaways", () => {
 
 /**
  * The context lines (rule 7d). The strip's dates, appointing presidents and medians come from pipeline/output/court
- * (FJC service dates in justices.json, the median in court_terms.json); the trajectory's line restates the MQ measures
- * page (non-unanimous cases, a dynamic model), outside the pipeline, so it is pinned to its phrase and link.
+ * (FJC service dates in justices.json, the median in court_terms.json); the trajectory's 1969 dates, Senate vote and medians
+ * likewise.
  */
 const raw = new Map(justices.map((j) => [j.name.last, j]));
 const termRow = (term: number) => read<CourtTermRow>("court_terms.json").filter((t) => t.term === term);
 const contextCases: Record<keyof typeof COURT_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   strip: {
-    says: ["Brennan left the Court on July 20, 1990", "Souter joined on October 3, 1990", "In the 1990 term", "from White, a Kennedy appointee", "to Souter, a Bush appointee"],
+    says: ["Brennan left the Court on July 20, 1990", "Souter joined on October 3, 1990", "In the 1990 term", "from White, a John F. Kennedy appointee", "to Souter, a George H. W. Bush appointee"],
     links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
     check: () => {
       expect(raw.get("Brennan")!.service_end).toBe("1990-07-20");
@@ -122,11 +122,16 @@ const contextCases: Record<keyof typeof COURT_CONTEXT, { says: string[]; links: 
     },
   },
   trajectory: {
-    says: ["from votes in non-unanimous cases", "lets scores drift from term to term", "an estimate with uncertainty"],
-    links: { "martin-quinn": "mqscores\\.wustl\\.edu" },
+    says: ["Fortas left the Court on May 14, 1969", "Warren on June 23, 1969", "Burger, a Richard Nixon nominee confirmed 74–3 on June 9", "from −0.89 in the 1968 term to 0.19 in 1969"],
+    links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
     check: () => {
-      // Every score in the output carries its uncertainty.
-      expect(read<MqScore>("mq_scores.json").every((s) => s.mq_sd > 0 && s.mq_lo95 < s.mq_hi95)).toBe(true);
+      expect(raw.get("Fortas")!.service_end).toBe("1969-05-14");
+      expect(raw.get("Warren")!.service_end).toBe("1969-06-23");
+      const b = raw.get("Burger")!;
+      expect([b.appointing_president, b.confirmation_date, b.service_start]).toEqual(["Richard M. Nixon", "1969-06-09", "1969-06-23"]);
+      expect(b.senate_vote).toEqual({ ayes: 74, nays: 3 });
+      expect(fmtScore(termRow(1968)[0].median_score)).toBe("−0.89");
+      expect(fmtScore(termRow(1969)[0].median_score)).toBe("0.19");
     },
   },
 };
@@ -144,7 +149,7 @@ describe("Supreme Court ideology context lines", () => {
   it("every context line belongs to a card, stays short and makes no causal or loaded claim", () => {
     expect(Object.keys(COURT_CONTEXT).sort()).toEqual(Object.keys(contextCases).sort());
     for (const [key, line] of Object.entries(COURT_CONTEXT)) {
-      expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
+      expect(line.text.split(/(?<=[a-z0-9]\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|extreme|motive)/i);
     }
