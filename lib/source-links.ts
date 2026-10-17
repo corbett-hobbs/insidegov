@@ -135,10 +135,11 @@ export const SOURCE_LINKS = {
   "foreign-assistance": "https://foreignassistance.gov/",
   dmdc: "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
   troopdata: "https://github.com/meflynn/troopdata",
-  // National security context lines (rule 7d): the 1953 Korean armistice, the June 8, 1969 Vietnam redeployment order, the
-  // July 29, 2020 Germany posture plan, the Feb 4, 2021 remarks that stopped it, and the Feb 12, 2013 State of the Union.
+  // National security context lines (rule 7d): the 1953 Korean armistice, the Southeast Asia and Iraq force authorizations,
+  // the Feb 12, 2013 State of the Union, the July 29, 2020 Germany posture plan and the Feb 4, 2021 remarks that stopped it.
   "korea-armistice-1953": "https://www.archives.gov/milestone-documents/armistice-agreement-restoration-south-korean-state",
-  "nixon-midway-1969": "https://www.presidency.ucsb.edu/documents/remarks-following-initial-meeting-with-president-thieu-midway-island",
+  "plaw-88-408": "https://www.govinfo.gov/content/pkg/STATUTE-78/pdf/STATUTE-78-Pg384.pdf",
+  "plaw-107-243": "https://www.govinfo.gov/content/pkg/PLAW-107publ243/html/PLAW-107publ243.htm",
   "dod-eucom-posture-2020": "https://www.war.gov/News/Releases/Release/Article/2292244/department-of-defense-statement-us-european-command-force-posture-review/",
   "biden-state-dept-2021": "https://bidenwhitehouse.archives.gov/briefing-room/speeches-remarks/2021/02/04/remarks-by-president-biden-on-americas-place-in-the-world/",
   "obama-sotu-2013": "https://obamawhitehouse.archives.gov/the-press-office/2013/02/12/remarks-president-state-union-address",

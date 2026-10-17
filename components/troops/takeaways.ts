@@ -33,18 +33,19 @@ export const TROOPS_BREAK_NOTE =
 
 /**
  * Context lines behind the takeaways (ARCHITECTURE_MAP rule 7d): the dated political event behind what each chart shows,
- * placed next to what the chart did, never why troop levels moved. The map's line is the 2020 Germany plan, which its
- * steady 2018-2025 ranking outlasted. The abroad and first-place lines reach back further because their takeaways' features
- * are older and nothing recent shows: DMDC left Afghanistan, Iraq and Syria unreported from December 2017 through September
- * 2021, and the 2022 deployments to Europe were rotational, which the permanent-assignment counts leave out.
+ * placed next to what the chart did, never why troop levels moved. The abroad and first-place lines name the events behind
+ * the peaks and hand-offs their takeaways cite; the map's is the 2020 Germany plan, which its steady 2018-2025 ranking
+ * outlasted. The Doha agreement, the 2021 withdrawal and the 2022 Europe deployments show nowhere: DMDC left Afghanistan,
+ * Iraq and Syria unreported from December 2017 through September 2021, and its permanent-assignment counts leave out
+ * rotational forces.
  * Every figure is checked in lib/national-security-takeaways.test.ts.
  */
 export const TROOPS_CONTEXT = {
   abroad: {
-    text: "The Korean War armistice was signed July 27, 1953, after the June 1953 high; troops abroad fell to 740.4k by 1955. President Nixon ordered about 25,000 troops out of Vietnam on June 8, 1969; the total fell from 1.04M that year to 522.0k by 1972.",
+    text: "The Korean War armistice was signed July 27, 1953, after the June 1953 high; troops abroad fell to 740.4k by 1955. Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia; troops abroad rose from 594.6k that year to the 1.04M peak in 1968.",
     sources: [
       { id: "korea-armistice-1953", label: "National Archives" },
-      { id: "nixon-midway-1969", label: "American Presidency Project" },
+      { id: "plaw-88-408", label: "Public Law 88-408" },
     ],
   },
   map: {
@@ -55,8 +56,11 @@ export const TROOPS_CONTEXT = {
     ],
   },
   firstPlace: {
-    text: "In his February 12, 2013 State of the Union, President Obama said another 34,000 troops would come home from Afghanistan over the next year. Afghanistan fell from 63.2k in 2012 to 48.8k in 2013, below Japan’s 53.0k, and Japan has led since.",
-    sources: [{ id: "obama-sotu-2013", label: "White House" }],
+    text: "Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003. President Obama’s February 12, 2013 State of the Union said 34,000 more troops would leave Afghanistan within a year; Afghanistan fell to 48.8k in 2013, below Japan’s 53.0k.",
+    sources: [
+      { id: "plaw-107-243", label: "Public Law 107-243" },
+      { id: "obama-sotu-2013", label: "White House" },
+    ],
   },
 } as const satisfies Partial<Record<keyof typeof TROOPS_TAKEAWAYS, ContextEntry>>;
 

@@ -97,9 +97,9 @@ const tenth = (v: number) => Math.round(v / 100) / 10;
 const cites = (key: keyof typeof TROOPS_CONTEXT, id: string) => expect(TROOPS_CONTEXT[key].sources.map((s) => s.id)).toContain(id);
 const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check: () => void }> = {
   abroad: {
-    // archives.gov: "This armistice signed on July 27, 1953, formally ended the war in Korea." The Midway remarks, dated
-    // June 8, 1969: "the immediate redeployment from Vietnam of a division equivalent of approximately 25,000 men".
-    says: ["Korean War armistice was signed July 27, 1953, after the June 1953 high", "troops abroad fell to 740.4k by 1955", "President Nixon ordered about 25,000 troops out of Vietnam on June 8, 1969", "the total fell from 1.04M that year to 522.0k by 1972"],
+    // archives.gov: "This armistice signed on July 27, 1953, formally ended the war in Korea." 78 Stat. 384 (Public Law 88-408) is
+    // dated August 10, 1964, "To promote the maintenance of international peace and security in southeast Asia".
+    says: ["Korean War armistice was signed July 27, 1953, after the June 1953 high", "troops abroad fell to 740.4k by 1955", "Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia", "troops abroad rose from 594.6k that year to the 1.04M peak in 1968"],
     check: () => {
       const y53 = payload.years[yidx(1953)];
       expect(payload.periods[y53.period].snapshot).toBe("june");
@@ -107,11 +107,13 @@ const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check:
       expect(stackOf(1954).total).toBeLessThan(stackOf(1953).total);
       expect(stackOf(1955).total).toBeLessThan(stackOf(1954).total);
       expect(tenth(stackOf(1955).total)).toBe(740.4);
-      expect(Math.round(stackOf(1969).total / 10_000) / 100).toBe(1.04);
-      for (let fy = 1970; fy <= 1972; fy++) expect(stackOf(fy).total, `${fy}`).toBeLessThan(stackOf(fy - 1).total);
-      expect(tenth(stackOf(1972).total)).toBe(522);
+      expect(tenth(stackOf(1964).total)).toBe(594.6);
+      for (let fy = 1965; fy <= 1968; fy++) expect(stackOf(fy).total, `${fy}`).toBeGreaterThan(stackOf(fy - 1).total);
+      // "the 1.04M peak in 1968": the highest year after 1953, as the takeaway says.
+      expect(Math.max(...stacks.slice(1).map((s) => s.total))).toBe(stackOf(1968).total);
+      expect(Math.round(stackOf(1968).total / 10_000) / 100).toBe(1.04);
       cites("abroad", "korea-armistice-1953");
-      cites("abroad", "nixon-midway-1969");
+      cites("abroad", "plaw-88-408");
     },
   },
   map: {
@@ -130,21 +132,22 @@ const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check:
     },
   },
   firstPlace: {
-    // State of the Union, February 12, 2013: "over the next year, another 34,000 American troops will come home from
-    // Afghanistan."
-    says: ["In his February 12, 2013 State of the Union, President Obama said another 34,000 troops would come home from Afghanistan over the next year", "Afghanistan fell from 63.2k in 2012 to 48.8k in 2013, below Japan’s 53.0k", "and Japan has led since"],
+    // PLAW-107publ243 is dated Oct. 16, 2002, "To authorize the use of United States Armed Forces against Iraq". State of the
+    // Union, February 12, 2013: "over the next year, another 34,000 American troops will come home from Afghanistan."
+    says: ["Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003", "President Obama’s February 12, 2013 State of the Union said 34,000 more troops would leave Afghanistan within a year", "Afghanistan fell to 48.8k in 2013, below Japan’s 53.0k"],
     check: () => {
+      expect(run("Germany", 1972)?.to).toBe(2002);
+      expect(run("Iraq", 2003)).toBeDefined();
       const v12 = views(2012, 2012)[0];
       const v13 = views(2013, 2013)[0];
       const of = (v: typeof v12, name: string) => v.ranked.find((r) => placeName(r.place) === name)!.value;
       expect(placeName(v12.ranked[0].place)).toBe("Afghanistan");
-      expect(tenth(of(v12, "Afghanistan"))).toBe(63.2);
+      expect(of(v13, "Afghanistan")).toBeLessThan(of(v12, "Afghanistan"));
       expect(tenth(of(v13, "Afghanistan"))).toBe(48.8);
       expect(tenth(of(v13, "Japan"))).toBe(53);
       expect(placeName(v13.ranked[0].place)).toBe("Japan");
       expect(placeName(v13.ranked[1].place)).toBe("Afghanistan");
-      // "has led since": Japan's run from 2013 reaches the latest year shown.
-      expect(run("Japan", 2013)?.to).toBe(payload.years[last].fy);
+      cites("firstPlace", "plaw-107-243");
       cites("firstPlace", "obama-sotu-2013");
     },
   },
