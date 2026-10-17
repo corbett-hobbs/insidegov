@@ -253,8 +253,10 @@ export function SenateExplorer({
         ? "representatives sit"
         : "delegation sits";
 
-  // Context line (rule 7d): only the trend card has one, following the chamber view.
+  // Context lines (rule 7d), following the chamber view: the trend card has one per view, the committees card one in the House view.
   const trendCtx = useTakeawayContext(IDEOLOGY_TAKEAWAYS.trend.byView[view], contextFor("trend", view));
+  const compassKey = committeesActive ? "committees" : "members";
+  const compassCtx = useTakeawayContext(IDEOLOGY_TAKEAWAYS[compassKey].byView[view], contextFor(compassKey, view));
 
   return (
     <>
@@ -302,10 +304,7 @@ export function SenateExplorer({
               IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
                 .title
             }
-            takeaway={
-              IDEOLOGY_TAKEAWAYS[committeesActive ? "committees" : "members"]
-                .byView[view]
-            }
+            takeaway={compassCtx.takeaway}
             action={
               <div className="w-full sm:w-auto">
                 {committeesActive ? (
@@ -319,6 +318,7 @@ export function SenateExplorer({
               </div>
             }
           >
+            {compassCtx.panel}
             {committeesActive ? (
               <>
                 <CompassPanel congress={congress}>

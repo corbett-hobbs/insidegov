@@ -20,7 +20,15 @@ export const SOURCE_LINKS = {
   mayhew: "https://campuspress.yale.edu/davidmayhew/datasets-divided-we-govern/",
   "senate-party-division": "https://www.senate.gov/history/partydiv.htm",
   "house-party-division": "https://history.house.gov/Institution/Party-Divisions/Party-Divisions/",
-  // CRS report 98-662, "Commemorative Legislation: Evolution and Procedures": the House rule of January 4, 1995 (Laws context, rule 7d).
+  // The Laws count card's context line (rule 7d): the 2023 Speaker elections (House History's multiple-ballot table), the
+  // vote vacating the chair (Clerk roll call 519, October 3, 2023) and the swearing-in statute (new here).
+  "house-speaker-ballots": "https://history.house.gov/People/Office/Speakers-Multiple-Ballots/",
+  "house-roll-call-2023-519": "https://clerk.house.gov/Votes/2023519",
+  "usc-2-25": "https://www.law.cornell.edu/uscode/text/2/25",
+  // The Congress ideology committees card's context line (rule 7d): the House Ethics Committee's history, "the only standing
+  // committee of the House whose membership is evenly divided between each political party" (new here).
+  "house-ethics-history": "https://ethics.house.gov/committee-history",
+  // CRS report 98-662, "Commemorative Legislation: Evolution and Procedures": the House rule of January 4, 1995 (Laws groups card's context, rule 7d).
   "crs-commemorative-legislation": "https://www.everycrsreport.com/reports/98-662.html",
   "house-clerk-disclosures": "https://disclosures-clerk.house.gov/FinancialDisclosure",
   "senate-efd": "https://efdsearch.senate.gov/search/home/",

@@ -15,7 +15,8 @@ import { ALL_ROW, GROUP_KEY_FOR_BAND, SUPPORT_COLORS, SUPPORT_LABELS, SUPPORT_OR
 import { LawsHeatmap, BAR_ROW_H } from "./LawsHeatmap";
 import { EmptyWindow } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
-import { LAWS_TAKEAWAYS } from "./takeaways";
+import { LAWS_TAKEAWAYS, contextFor } from "./takeaways";
+import { useTakeawayContext } from "@/components/charts/ContextLine";
 
 const SORTS: { key: GroupSortKey; label: string; hint: string }[] = [
   { key: "n", label: "Laws", hint: "Law counts in the heatmap; most laws first" },
@@ -70,11 +71,12 @@ export function LawsGroupsCard() {
   const span = empty ? "" : `${openYear(from)}\u2013${openYear(to) + 1}`;
   const all = rows[0]!;
   const noRecorded = all.total ? all.bands[0]! / all.total : 0;
+  const { takeaway, panel } = useTakeawayContext(LAWS_TAKEAWAYS.groups.takeaway, contextFor("groups"));
 
   return (
     <ChartCard
       title={LAWS_TAKEAWAYS.groups.title}
-      takeaway={LAWS_TAKEAWAYS.groups.takeaway}
+      takeaway={takeaway}
       action={
         <ReversibleSortToggle
           ariaLabel="Sort policy areas"
@@ -85,6 +87,7 @@ export function LawsGroupsCard() {
         />
       }
     >
+      {panel}
       {empty ? (
         <EmptyWindow majorThrough={data.majorThrough} />
       ) : (
