@@ -27,12 +27,13 @@ export const COURT_TAKEAWAYS = {
 } as const;
 
 /**
- * The context lines (ARCHITECTURE_MAP rule 7d), both from the last ten years. The strip's line dates Barrett's confirmation to
- * Ginsburg's seat at the 2020 move in the likeliest median, from the FJC service dates and votes in pipeline/output/court. The
- * trajectory's line dates Gorsuch's confirmation, a day after the Senate let a simple majority end debate on Supreme Court
- * nominees, at the end of the only run since 1969 in which, the takeaway says, the median sat below zero. Timing only: neither
- * says why a justice votes as they do. The presidents card has none: no cited source says what lies behind its highlight.
- * Pinned in lib/court-ideology-takeaways.test.ts.
+ * The context lines (ARCHITECTURE_MAP rule 7d). The strip's line dates Barrett's confirmation to Ginsburg's seat at the 2020
+ * move in the likeliest median, from the FJC service dates and votes in pipeline/output/court. The trajectory's line is the
+ * older exception rule 7d allows, because it sits behind the chart's main shape: John F. Kennedy's Goldberg taking
+ * Frankfurter's seat the term the median first fell below −1, and Richard M. Nixon's four appointees taking the seats of
+ * Warren, Fortas, Black and Harlan from 1969 to 1971, the swing from the Warren Court's lows to the run above zero the takeaway
+ * names. Timing only: neither says why a justice votes as they do. The presidents card has none: no cited source says what
+ * lies behind its highlight. Pinned in lib/court-ideology-takeaways.test.ts.
  */
 export const COURT_CONTEXT = {
   strip: {
@@ -40,12 +41,8 @@ export const COURT_CONTEXT = {
     sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
   trajectory: {
-    text: "On April 7, 2017, a day after letting a simple majority end debate on Supreme Court nominees, the Senate confirmed Gorsuch, a Donald J. Trump nominee, 54–45 to Scalia’s seat. In 2017, his first full term, the median went from −0.06 to 0.29.",
-    sources: [
-      { id: "senate-vote-gorsuch-cloture", label: "U.S. Senate roll call" },
-      { id: "senate-scotus-nominations", label: "U.S. Senate" },
-      { id: "martin-quinn", label: "Martin–Quinn" },
-    ],
+    text: "John F. Kennedy’s 1962 appointee Goldberg replaced Frankfurter, and the median fell from −0.04 to −1.07 that term. Richard M. Nixon’s four appointees joined from 1969 to 1971, replacing Warren, Fortas, Black and Harlan; the median rose from −0.89 in 1968 to 0.94 in 1972.",
+    sources: [{ id: "fjc", label: "Federal Judicial Center" }, { id: "martin-quinn", label: "Martin–Quinn" }],
   },
 } as const satisfies Partial<Record<keyof typeof COURT_TAKEAWAYS, ContextEntry>>;
 

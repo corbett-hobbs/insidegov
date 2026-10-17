@@ -270,7 +270,7 @@ export function CourtExplorer({ data, presidents = [] }: { data: CourtPayload; p
           <ChartNotesRow>
             <MethodologyNote className="mt-2">
               <p>
-                Every justice&rsquo;s score, term by term, from {firstTerm} through {lastTerm}, with the Court median in bold; click or drag to change the term, and click a line to open that justice&rsquo;s profile. Each score is an estimate with a 95% interval, and the model smooths scores over time, so a justice&rsquo;s stability is partly an assumption.
+                Every justice&rsquo;s score, term by term, from {firstTerm} through {lastTerm}, with the Court median in bold; click or drag to change the term, and click a line to open that justice&rsquo;s profile. Martin and Quinn estimate each score from the justice&rsquo;s votes in non-unanimous cases; it is an estimate with a 95% interval, not a measured position, and the model lets scores drift from term to term, so a justice&rsquo;s stability is partly an assumption.
               </p>
             </MethodologyNote>
             <MedianTable data={data} selected={selected} />

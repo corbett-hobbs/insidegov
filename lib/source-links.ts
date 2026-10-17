@@ -40,9 +40,6 @@ export const SOURCE_LINKS = {
   // The Senate's record of Supreme Court nominations and their votes (new here).
   "senate-scotus-nominations": "https://www.senate.gov/legislative/nominations/SupremeCourtNominations1789present.htm",
   "plaw-100-352": "https://www.govinfo.gov/content/pkg/STATUTE-102/pdf/STATUTE-102-Pg662.pdf",
-  // The Court ideology trajectory card's context line (rule 7d): Senate roll call 115-1-110, April 6, 2017, cloture on the
-  // Gorsuch nomination agreed 55–45 with "Required for Majority: 1/2" (roll call 105 that morning failed 55–45 at 3/5) (new here).
-  "senate-vote-gorsuch-cloture": "https://www.senate.gov/legislative/LIS/roll_call_votes/vote1151/vote_115_1_00110.htm",
   // The timeline's events each link their own article; the Source line names the site.
   wikipedia: "https://en.wikipedia.org/",
   "wikipedia-landmark-decisions": "https://en.wikipedia.org/wiki/List_of_landmark_court_decisions_in_the_United_States",

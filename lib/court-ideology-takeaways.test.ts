@@ -99,11 +99,10 @@ describe("Supreme Court ideology card takeaways", () => {
 });
 
 /**
- * The context lines (rule 7d). Dates, appointing presidents, Senate votes and medians come from pipeline/output/court (FJC
- * service dates and votes in justices.json, the median in court_terms.json). Outside the pipeline, pinned to the phrase the line
- * uses: the seats each nominee filled ("Barrett … Ginsburg", "Gorsuch … Scalia") from the Senate's nominations table, and the
- * April 6, 2017 change from Senate roll calls 115-1-105 (cloture on Gorsuch rejected 55–45, "Required for Majority: 3/5") and
- * 115-1-110 (agreed 55–45, "Required for Majority: 1/2").
+ * The context lines (rule 7d). Dates, appointing presidents, Senate votes, the seats each appointee took (who left as they
+ * joined) and medians come from pipeline/output/court (FJC service dates and votes in justices.json, the median in
+ * court_terms.json). Outside the pipeline, pinned to the phrase the line uses: the seat Barrett filled ("Barrett … Ginsburg")
+ * from the Senate's nominations table.
  */
 const raw = new Map(justices.map((j) => [j.name.last, j]));
 const termRow = (term: number) => read<CourtTermRow>("court_terms.json").filter((t) => t.term === term);
@@ -129,20 +128,31 @@ const contextCases: Record<keyof typeof COURT_CONTEXT, { says: string[]; links: 
     },
   },
   trajectory: {
-    says: ["On April 7, 2017", "a day after letting a simple majority end debate on Supreme Court nominees", "the Senate confirmed Gorsuch, a Donald J. Trump nominee, 54–45 to Scalia’s seat", "In 2017, his first full term, the median went from −0.06 to 0.29"],
-    links: { "senate-vote-gorsuch-cloture": "senate\\.gov/legislative/LIS/roll_call_votes/vote1151/vote_115_1_00110", "senate-scotus-nominations": "senate\\.gov/legislative/nominations", "martin-quinn": "mqscores" },
+    says: ["John F. Kennedy’s 1962 appointee Goldberg replaced Frankfurter", "the median fell from −0.04 to −1.07 that term", "Richard M. Nixon’s four appointees joined from 1969 to 1971", "replacing Warren, Fortas, Black and Harlan", "the median rose from −0.89 in 1968 to 0.94 in 1972"],
+    links: { fjc: "fjc\\.gov", "martin-quinn": "mqscores" },
     check: () => {
-      const g = raw.get("Gorsuch")!;
-      expect([g.appointing_president, g.confirmation_date]).toEqual(["Donald J. Trump", "2017-04-07"]);
-      expect(g.senate_vote).toEqual({ ayes: 54, nays: 45 });
-      // Scalia's seat sat empty from his death until Gorsuch, who joined late in the 2016 term, so 2017 is his first full one.
-      expect(raw.get("Scalia")!.service_end).toBe("2016-02-13");
-      expect(seatedOn("2016-10-03").length).toBe(8);
-      expect(named("Gorsuch").t0).toBe(2016);
-      expect(fmtScore(termRow(2016)[0].median_score)).toBe("−0.06");
-      expect(fmtScore(termRow(2017)[0].median_score)).toBe("0.29");
-      // The last of the takeaway's three terms below zero, and the first term after it.
-      expect(termsIn(2017, 2024).every((t) => t.median > 0)).toBe(true);
+      // Seats change hands as a set: who left and who joined over a span, from the FJC service dates.
+      const left = (from: string, to: string) => justices.filter((j) => j.service_end !== null && j.service_end >= from && j.service_end <= to).map((j) => j.name.last).sort();
+      const joined = (from: string, to: string) => justices.filter((j) => j.service_start >= from && j.service_start <= to);
+      // Between White joining (Whittaker's seat) and Goldberg, only Frankfurter left and only Goldberg joined.
+      const goldberg = raw.get("Goldberg")!;
+      expect([goldberg.appointing_president, goldberg.service_start.slice(0, 4)]).toEqual(["John F. Kennedy", "1962"]);
+      const white = raw.get("White")!;
+      expect(left(white.service_start, goldberg.service_start)).toEqual(["Frankfurter"]);
+      expect(joined(white.service_start, goldberg.service_start).filter((j) => j !== white).map((j) => j.name.last)).toEqual(["Goldberg"]);
+      expect(fmtScore(termRow(1961)[0].median_score)).toBe("−0.04");
+      expect(fmtScore(termRow(1962)[0].median_score)).toBe("−1.07");
+      // From 1969 through 1971 the four who left are Warren, Fortas, Black and Harlan, and the four who joined are Nixon's.
+      const nixon = joined("1969-01-01", "1971-12-31");
+      expect(nixon.map((j) => j.name.last).sort()).toEqual(["Blackmun", "Burger", "Powell", "Rehnquist"]);
+      expect(nixon.every((j) => j.appointing_president === "Richard M. Nixon")).toBe(true);
+      expect(justices.filter((j) => j.appointing_president === "Richard M. Nixon").length).toBe(4);
+      expect(left("1969-01-01", "1971-12-31")).toEqual(["Black", "Fortas", "Harlan", "Warren"]);
+      expect(fmtScore(termRow(1968)[0].median_score)).toBe("−0.89");
+      expect(fmtScore(termRow(1972)[0].median_score)).toBe("0.94");
+      // The swing the takeaway names: below zero in every term from 1962 through 1968, above it every term from 1969 to 2013.
+      expect(termsIn(1962, 1968).every((t) => t.median < 0)).toBe(true);
+      expect(termsIn(1969, 2013).every((t) => t.median > 0)).toBe(true);
     },
   },
 };
