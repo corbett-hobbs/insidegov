@@ -67,6 +67,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
   const tiles = useMemo(() => tileCounts(data.events, (e) => stateOf(e).status, kindOn, range[0], range[1]), [data.events, stateOf, kindOn, range]);
   // The takeaway describes the whole timeline (rule 7c), in the Court measure picked.
   const years = useMemo(() => yearsByStatus(spans, MIN_YEAR, maxYear), [spans, maxYear]);
+  const tileYears = useMemo(() => yearsByStatus(spans, range[0], range[1]), [spans, range]);
 
   const setRange = useCallback((r: [number, number]) => {
     setRangeState(r);
@@ -173,7 +174,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
             </span>
           }
         >
-          <StatusTiles tiles={tiles} mode={mode} kinds={{ law: kindOn.has("law"), case: kindOn.has("case") }} pick={status} onPick={(s) => (setStatus(s), setOpen(null))} />
+          <StatusTiles tiles={tiles} years={tileYears} mode={mode} kinds={{ law: kindOn.has("law"), case: kindOn.has("case") }} pick={status} onPick={(s) => (setStatus(s), setOpen(null))} />
           <PowerChart
             data={data}
             idx={idx}
