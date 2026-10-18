@@ -10,7 +10,9 @@ export const PILL = `${BASE} whitespace-nowrap rounded-full`;
 export const PILL_NEUTRAL = `${PILL} border-line-strong bg-surface-raised text-ink-muted`;
 
 /**
- * A neutral pill whose words can be long (a landmark's topic, "Discrimination based on sexual orientation or gender identity").
- * Same size and colour; it wraps onto a second line inside the pill, never past the card's edge, and never cuts the words off.
+ * The Landmark pill: "Landmark" in the accent colour, then what the case concerned, in one pill so the topic never floats free of
+ * the word that explains it. Same size as every pill; its words wrap inside it (never past the card's edge, never cut off).
  */
-export const PILL_TOPIC = `${BASE} rounded-2xl border-line-strong bg-surface-raised text-left text-ink-muted`;
+export const PILL_LANDMARK = "inline-block max-w-full rounded-2xl border border-[color-mix(in_oklab,var(--accent)_40%,var(--line-strong))] bg-surface-raised px-2 py-px align-baseline text-[0.7rem] font-medium leading-[1.35] text-ink-muted no-underline";
+/** The word "Landmark" inside that pill. */
+export const LANDMARK_WORD = "font-semibold text-[var(--accent)]";

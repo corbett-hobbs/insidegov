@@ -9,7 +9,7 @@ import { decisionPath } from "@/lib/decision-url";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
-import { PILL_NEUTRAL, PILL_TOPIC } from "./pill";
+import { LANDMARK_WORD, PILL_LANDMARK } from "./pill";
 import { Swatch } from "./shared";
 import { useDecisionCases } from "./useDecisionCases";
 import { SourceLink } from "@/components/SourceLink";
@@ -162,7 +162,7 @@ export function CaseListCard() {
 /** Wide-screen columns of a row with a qualifier: date, name, issue area, vote, how the justice voted. */
 export const JUSTICE_COLUMNS = "sm:grid-cols-[6rem_minmax(0,1fr)_8.5rem_4.5rem_13rem]";
 
-const BADGE = `${PILL_NEUTRAL} no-underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`;
+const BADGE = `${PILL_LANDMARK} hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`;
 
 /**
  * One case. Phones: the name on its own line; under it the date and citation on the left with the vote on the right (the
@@ -180,21 +180,18 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
       {c[2]}
     </Link>
   );
-  // "Landmark" is the pill (it links to the Wikipedia article); what the case was about is a second pill beside it, which wraps
-  // rather than running off the card.
+  // One pill: "Landmark" then the topic it concerned; it links to the Wikipedia article and wraps rather than running off the card.
   const badge = c[8] ? (
-    <>
-      <a
-        href={wikiArticleUrl(c[8])}
-        target="_blank"
-        rel="noreferrer"
-        title={`Landmark decision on Wikipedia${c[9] ? `: ${c[9]}` : ""}`}
-        className={BADGE}
-      >
-        Landmark
-      </a>
-      {c[9] && <span className={PILL_TOPIC}>{c[9]}</span>}
-    </>
+    <a
+      href={wikiArticleUrl(c[8])}
+      target="_blank"
+      rel="noreferrer"
+      title={`Landmark decision on Wikipedia${c[9] ? `: ${c[9]}` : ""}`}
+      className={BADGE}
+    >
+      <span className={LANDMARK_WORD}>Landmark</span>
+      {c[9] ? ` \u00b7 ${c[9]}` : ""}
+    </a>
   ) : null;
   const direction = c[13] !== 0 ? c[13] : null;
   const hasPills = direction !== null || badge !== null || !!qualifier;
@@ -208,7 +205,7 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
             <DirectionTag direction={direction} areaId={areaId} />
           </span>
         )}
-        {badge && <span className="ml-2 inline-flex flex-wrap items-baseline gap-1.5 max-sm:hidden">{badge}</span>}
+        {badge && <span className="ml-2 max-sm:hidden">{badge}</span>}
         {c[3] && <span className="ml-2 whitespace-nowrap text-[0.75rem] tabular-nums text-ink-faint max-sm:hidden">{c[3]}</span>}
       </span>
       {/* date (and, on phones, the citation) */}
@@ -216,21 +213,20 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
         {fmtDate(c[1])}
         {c[3] && <span className="text-ink-faint sm:hidden">{` \u00b7 ${c[3]}`}</span>}
       </span>
-      {/* issue area */}
-      <span className="col-start-1 row-start-3 min-w-0 text-[0.75rem] text-ink-muted sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={area}>
+      {/* issue area; on phones the pills (outcome, Landmark, the justice's vote) follow it on the same line while they fit */}
+      <span className="col-span-2 col-start-1 row-start-3 min-w-0 text-[0.75rem] text-ink-muted max-sm:flex max-sm:flex-wrap max-sm:items-center max-sm:gap-x-2 max-sm:gap-y-1 sm:col-span-1 sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={area}>
         {area}
+        {hasPills && (
+          <span className="hidden max-sm:contents">
+            {direction !== null && <DirectionTag direction={direction} areaId={areaId} />}
+            {badge}
+            {qualifier}
+          </span>
+        )}
       </span>
-      {/* phones: every pill in one row under the issue area */}
-      {hasPills && (
-        <span className="col-span-2 col-start-1 row-start-4 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 sm:hidden">
-          {direction !== null && <DirectionTag direction={direction} areaId={areaId} />}
-          {badge}
-          {qualifier}
-        </span>
-      )}
       {/* vote: right-aligned under the name on phones */}
       <span
-        className="col-start-2 row-span-2 row-start-2 inline-flex items-center justify-end gap-1.5 self-center whitespace-nowrap text-[0.95rem] tabular-nums sm:col-start-4 sm:row-span-1 sm:row-start-1 sm:self-baseline sm:text-[0.82rem]"
+        className="col-start-2 row-start-2 inline-flex items-center justify-end gap-1.5 self-center whitespace-nowrap text-[0.95rem] tabular-nums sm:col-start-4 sm:row-start-1 sm:self-baseline sm:text-[0.82rem]"
         title={BAND_LONG[c[5]]}
       >
         <Swatch color={BAND_COLORS[c[5]]} />
@@ -238,7 +234,7 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
         <span className="sr-only">{BAND_SHORT[c[5]]} band</span>
       </span>
       {qualifier && <span className="max-sm:hidden sm:col-start-5 sm:row-start-1">{qualifier}</span>}
-      {c[11] && <Summary text={c[11]} claude={c[12] === 1} wide={!!qualifier} phoneRow={hasPills ? 5 : 4} />}
+      {c[11] && <Summary text={c[11]} claude={c[12] === 1} wide={!!qualifier} />}
     </li>
   );
 }
@@ -249,10 +245,10 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
  * under the row (from `sm` it lines up with the name column). On phones it holds to three lines and a tap opens the rest; a
  * wide row shows the whole sentence, which is at most 300 characters.
  */
-function Summary({ text, claude, wide, phoneRow }: { text: string; claude: boolean; wide: boolean; phoneRow: 4 | 5 }) {
+function Summary({ text, claude, wide }: { text: string; claude: boolean; wide: boolean }) {
   const [open, setOpen] = useState(false);
   return (
-    <p className={`col-span-2 m-0 text-[0.76rem] leading-[1.45] text-ink-muted sm:col-start-2 sm:row-start-2 ${phoneRow === 5 ? "max-sm:row-start-5" : "max-sm:row-start-4"} ${wide ? "sm:col-span-4" : "sm:col-span-3"}`}>
+    <p className={`col-span-2 m-0 text-[0.76rem] leading-[1.45] text-ink-muted sm:col-start-2 sm:row-start-2 max-sm:row-start-4 ${wide ? "sm:col-span-4" : "sm:col-span-3"}`}>
       <button
         type="button"
         onClick={() => setOpen(!open)}

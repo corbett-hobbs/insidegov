@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { SourceLink } from "@/components/SourceLink";
 import { DirectionTag } from "@/components/decisions/DirectionTag";
-import { PILL_NEUTRAL, PILL_TOPIC } from "@/components/decisions/pill";
+import { LANDMARK_WORD, PILL_LANDMARK, PILL_NEUTRAL } from "@/components/decisions/pill";
 import { Swatch } from "@/components/decisions/shared";
 import { longDate } from "@/lib/law-details-derive";
 import { BAND_COLORS, BAND_LONG } from "@/lib/decisions-types";
@@ -41,13 +41,9 @@ function Facts({ d }: { d: DecisionPageData }) {
   const badges = [
     d.direction && <DirectionTag key="dir" direction={d.direction} areaId={d.area?.id ?? null} />,
     d.landmark && (
-      <span key="lm" className={BADGE} title="On Wikipedia’s list of landmark decisions">
-        Landmark
-      </span>
-    ),
-    d.landmark?.topics && (
-      <span key="lt" className={PILL_TOPIC}>
-        {d.landmark.topics}
+      <span key="lm" className={PILL_LANDMARK} title="On Wikipedia’s list of landmark decisions">
+        <span className={LANDMARK_WORD}>Landmark</span>
+        {d.landmark.topics ? ` · ${d.landmark.topics}` : ""}
       </span>
     ),
     d.precedentAltered && (
