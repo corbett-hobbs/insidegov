@@ -115,13 +115,13 @@ export function TradeScatterCard({
 }) {
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const [query, setQuery] = useState("");
-  const [tapped, setTapped] = useState<string | null>(null);
   /** Legend filter: one continent, or null for all. */
   const [continent, setContinent] = useState<string | null>(null);
   const tip = useTooltip<Dot>();
   const context = useTakeawayContext(TRADE_TAKEAWAYS.scatter.takeaway(windowText(windows.baseline), windowText(windows.latest)), contextFor("scatter"));
   // Scatter rule: a click on a dot pins its card, and the card is the action (here: pick the country above).
   const pin = usePinnedTooltip<Dot>();
+  const pinnedCode = pin.state?.data.row.code ?? null;
   const W = measured || FALLBACK_W;
   const compact = W < COMPACT_W;
   // Tap behaviour follows the device, not the width: a narrow card on a laptop still hovers.
@@ -206,7 +206,6 @@ export function TradeScatterCard({
     return q ? rows.filter((r) => r.name.toLowerCase().includes(q)).slice(0, 8) : [];
   }, [query, rows]);
 
-  const tappedRow = tapped ? rows.find((r) => r.code === tapped) ?? null : null;
   const selectedRow = country ? rows.find((r) => r.code === country) ?? null : null;
   const drawOrder = useMemo(() => [...dots].sort((a, b) => Number(a.row.code === country) - Number(b.row.code === country)), [dots, country]);
   const xTick = (v: number) => (v === 0 ? "0 pp" : `${v > 0 ? "+" : "−"}${Math.abs(v)} pp`);
@@ -300,12 +299,11 @@ export function TradeScatterCard({
                 const className = `dot${sel ? " is-highlighted" : ""}`;
                 const fill = contFill(c.row.code);
                 const common = {
-                  // Phones: a tap fills the card below the chart (no hover); the card holds the action.
+                  // Hover previews only where there is a hover; a tap or click pins the card (phones tap straight to it).
                   onPointerEnter: tapMode ? undefined : (e: React.PointerEvent) => tip.show(c, e),
                   onPointerMove: tapMode ? undefined : tip.move,
                   onPointerLeave: tapMode ? undefined : tip.hide,
                   onClick: (e: React.MouseEvent) => {
-                    if (tapMode) return setTapped(c.row.code);
                     tip.hide();
                     if (pin.state?.data.row.code === c.row.code) pin.hide();
                     else pin.show(c, e);
@@ -320,8 +318,8 @@ export function TradeScatterCard({
                   return (
                     <g key={c.row.code} {...common}>
                       <circle cx={cx} cy={cy} r={22} fill="transparent" />
-                      <circle cx={cx} cy={cy} r={Math.max(radiusOf(c.row.code), sel || c.row.code === tapped ? 7 : 0)} opacity={country && !sel ? 0.55 : 0.85} className={className} fill={fill} />
-                      {c.row.code === tapped && <circle cx={cx} cy={cy} r={11} fill="none" stroke="var(--ink)" strokeWidth={1.5} />}
+                      <circle cx={cx} cy={cy} r={Math.max(radiusOf(c.row.code), sel || c.row.code === pinnedCode ? 7 : 0)} opacity={country && !sel ? 0.55 : 0.85} className={className} fill={fill} />
+                      {c.row.code === pinnedCode && <circle cx={cx} cy={cy} r={11} fill="none" stroke="var(--ink)" strokeWidth={1.5} />}
                     </g>
                   );
                 }
@@ -385,7 +383,7 @@ export function TradeScatterCard({
                 title={on ? "Show every continent" : `Show only ${c.label}`}
                 onClick={() => {
                   setContinent(on ? null : c.id);
-                  setTapped(null);
+                  pin.hide();
                 }}
                 className={`inline-flex min-h-8 items-center gap-1.5 rounded-md border px-2 py-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${on ? "border-line-strong bg-surface-raised font-medium text-ink" : "border-transparent hover:text-ink"} ${continent && !on ? "opacity-50" : ""}`}
               >
@@ -401,27 +399,6 @@ export function TradeScatterCard({
           </li>
         )}
       </ul>
-
-      {tapMode && (
-        <div className="mt-2 rounded-md border border-line bg-surface-raised p-3 text-[0.8rem]" aria-live="polite">
-          {tappedRow && tappedRow.plotted ? (
-            <>
-              <div className="font-medium text-ink">{tappedRow.name}</div>
-              <div className="mt-0.5 text-ink-muted">Duty rate <span className="font-mono text-ink">{pctRate(tappedRow.baseRate)} → {pctRate(tappedRow.latestRate)}</span> ({fmtPp(tappedRow.rateChangePp as number)})</div>
-              <div className="text-ink-muted">Imports <span className="font-mono text-ink">{fmtPct((tappedRow.importsChange as number) * 100)}</span></div>
-              <button
-                type="button"
-                onClick={() => onPickCountry(tappedRow.code)}
-                className="mt-2 min-h-11 w-full rounded-md border border-line-strong bg-surface px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
-              >
-                Show {tappedRow.name} in the charts above
-              </button>
-            </>
-          ) : (
-            <span className="text-ink-muted">Tap a dot to see that country here.</span>
-          )}
-        </div>
-      )}
 
       <ChartNotesRow>
         <MethodologyNote>
