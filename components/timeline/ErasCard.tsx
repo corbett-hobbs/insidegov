@@ -47,6 +47,7 @@ export function ErasCard({
   byId: ReadonlyMap<string, TlEvent>;
 }) {
   const [picked, setPicked] = useState<number | null>(null);
+  const [hideEmpty, setHideEmpty] = useState(false);
   const byNo = new Map(events.map((e) => [e.no, e]));
   const noteRef = useRef<HTMLDivElement>(null);
   // A link inside the note opens the linked event under its own era row: bring that row into view in the box.
@@ -62,7 +63,7 @@ export function ErasCard({
   const rows = eras
     .filter((er) => er.to > `${range[0]}-01-01` && er.from < `${range[1] + 1}-01-01` && (!status || er.st.status === status))
     .map((er) => ({ er, evs: events.filter((e) => e.date >= er.from && e.date < er.to && matchesQuery(e, q)).reverse() }))
-    .filter((r) => !q || r.evs.length > 0)
+    .filter((r) => (!q && !hideEmpty) || r.evs.length > 0)
     .reverse();
   const chip = (k: "President" | "Senate" | "House" | "Court", p: CourtSide) => (
     <span title={k} className="min-w-8 rounded-[3px] px-1 py-0.5 text-center font-mono text-[0.62rem] font-semibold text-white" style={{ background: partyColor(p) }}>
@@ -72,7 +73,16 @@ export function ErasCard({
   return (
     <ChartCard
       title={<span id={ERAS_ID} className="scroll-mt-32">Era by era</span>}
-      action={<ListSearch value={query} onChange={onQuery} label="Search laws and cases" />}
+      action={
+        <div className="flex items-center gap-3">
+          <label className="flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[0.72rem] text-ink">
+            <input type="checkbox" checked={hideEmpty} onChange={(e) => (setHideEmpty(e.target.checked), setPicked(null))} className="m-0 h-4 w-4 cursor-pointer accent-[var(--accent)]" />
+            <span className="max-sm:hidden">Hide eras with no events</span>
+            <span className="sm:hidden">Hide empty</span>
+          </label>
+          <ListSearch value={query} onChange={onQuery} label="Search laws and cases" />
+        </div>
+      }
       lede={
         <>
           Each row is a stretch when no institution changed hands, newest first. Tap an event to read about it.
@@ -97,7 +107,7 @@ export function ErasCard({
       </div>
       <div tabIndex={0} aria-label="Eras, scrollable" className="touch-scroll relative max-h-[34rem] overflow-y-auto overscroll-contain border-t border-line sm:max-h-[44rem]">
         {rows.length === 0 && (
-          <div className="px-0.5 py-2.5 text-[0.72rem] text-ink-faint">{q ? `Nothing matches “${q}” in the years and events shown.` : "No eras match."}</div>
+          <div className="px-0.5 py-2.5 text-[0.72rem] text-ink-faint">{q ? `Nothing matches “${q}” in the years and events shown.` : hideEmpty ? "No eras with events in the years shown." : "No eras match."}</div>
         )}
         {rows.map(({ er, evs }) => (
           <div key={er.from} className={`${GRID} items-start border-b border-line px-0.5 py-2.5`}>
