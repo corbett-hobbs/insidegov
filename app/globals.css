@@ -855,7 +855,7 @@ div[data-branch="timeline"] .branch-bg::after { background: linear-gradient(100d
 .home-strip-item[data-branch="presidency"] { --bar: #4d78c4; --sweep: #8fb0ea; }
 .home-strip-item[data-branch="congress"] { --bar: #4ea67f; --sweep: #7fcaa3; }
 .home-strip-item[data-branch="supreme-court"] { --bar: #b5586a; --sweep: #e29aa8; }
-.home-strip-item[data-branch="timeline"] { --bar: #e8c877; --sweep: #e8c877; }
+.home-strip-item[data-branch="timeline"] { --bar: #7f8aa3; --sweep: #b4bdd0; }
 
 .home-card {
   --ink: #ffffff;
