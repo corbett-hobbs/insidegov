@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartFrame } from "@/components/charts/ChartFrame";
-import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { DotCardTooltips, useDotCard } from "@/components/charts/Tooltip";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
 import { fmtScore, partyLabel } from "@/lib/court-types";
@@ -96,7 +97,9 @@ export function BenchCard({
   const scoreWord = provisional ? `provisional Martin–Quinn ideology score for the ${term} term` : `Martin–Quinn ideology score for the ${term} term`;
   const [wrapRef, measuredW] = useElementWidth<HTMLDivElement>();
   const W = measuredW || FALLBACK_W;
-  const tip = useTooltip<BenchJustice>();
+  const router = useRouter();
+  // A click or tap on a seat pins the justice's card; the card links to their profile (ARCHITECTURE_MAP 10m).
+  const card = useDotCard<BenchJustice>((a, b) => a.id === b.id);
   const [hoverId, setHoverId] = useState<number | null>(null);
   const divided = bench.some((j) => j.vote === 3);
   // Lists rank by what each justice wrote (opinion author, then separate writers, then those who joined); ties keep the
@@ -187,19 +190,21 @@ export function BenchCard({
                           key={j.id}
                           className="court-dot"
                           style={{ cursor: "pointer" }}
-                          role="img"
+                          tabIndex={0}
+                          role="button"
                           aria-label={`${j.name}, ${VOTE_WORD[j.vote]}, score ${fmtScore(j.score as number)}`}
+                          {...card.bind(j)}
                           onPointerEnter={(e) => {
+                            card.bind(j).onPointerEnter(e);
                             setHoverId(j.id);
-                            tip.show(j, e);
                           }}
-                          onPointerMove={tip.move}
                           onPointerLeave={() => {
+                            card.leave();
                             setHoverId(null);
-                            tip.hide();
                           }}
+                          onKeyDown={card.onKey(j)}
                         >
-                          {hoverId === j.id && <circle cx={d.cx} cy={d.cy} r={dotR + 5} fill="none" stroke="var(--accent)" strokeWidth={2.5} />}
+                          {(hoverId === j.id || card.pinned?.data.id === j.id) && <circle cx={d.cx} cy={d.cy} r={dotR + 5} fill="none" stroke="var(--accent)" strokeWidth={2.5} />}
                           <circle cx={d.cx} cy={d.cy} r={dotR} fill={on ? partyVar(j.party) : "var(--surface)"} stroke={on ? "var(--surface)" : partyVar(j.party)} strokeWidth={on ? 1.5 : 2.5} />
                         </g>
                       );
@@ -211,7 +216,7 @@ export function BenchCard({
           ) : (
             <p className="m-0 py-6 text-[0.85rem] text-ink-muted">No Martin–Quinn scores for this term.</p>
           )}
-          <Tooltip state={tip.state}>
+          <DotCardTooltips card={card} onActivate={(j) => router.push(j.path)}>
             {(j) => (
               <>
                 <b>{j.name}</b>
@@ -222,7 +227,7 @@ export function BenchCard({
                 {j.score !== null && <div className="tt-mono">{`Score ${term}${provisional ? " (provisional)" : ""}: ${fmtScore(j.score)}`}</div>}
               </>
             )}
-          </Tooltip>
+          </DotCardTooltips>
         </div>
         {divided ? (
           <SideList title="Took part" justices={tookPart} filled onHover={setHoverId} />

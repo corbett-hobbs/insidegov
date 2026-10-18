@@ -6,7 +6,9 @@ import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
-import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { useRouter } from "next/navigation";
+import { DotCardTooltips, Tooltip, useDotCard, useTooltip } from "@/components/charts/Tooltip";
+import { justicePath } from "@/lib/justice-url";
 import { useElementSize } from "@/lib/use-element-size";
 import { fmtScore, partyLabel, termLabel } from "@/lib/court-types";
 import type { JusticeProfile, PeerTrace } from "@/lib/justice-types";
@@ -20,9 +22,7 @@ const LABEL_H = 13;
 /** Conservative per-character width at the 11.5px label size. */
 const charW = 6.4;
 
-type Tip =
-  | { kind: "peer"; peer: PeerTrace }
-  | { kind: "term"; term: number; score: number; lo: number; hi: number; name: string };
+type TermTip = { term: number; score: number; lo: number; hi: number; name: string };
 
 /** Nudge labels apart vertically (input sorted by y), keeping them inside [0, max]. */
 export function deCollide(ys: number[], gap: number, max: number): number[] {
@@ -65,7 +65,11 @@ export function JusticeOverTimeChart({
   const [ref, measured] = useElementSize<HTMLDivElement>();
   const size = measured.width > 0 && measured.height > 0 ? measured : FALLBACK;
   const { justice, chart } = profile;
-  const tip = useTooltip<Tip>();
+  const router = useRouter();
+  // The subject's own line follows the pointer by term; a peer's line is an individual, so a click or tap pins its card
+  // and the card links to their page (ARCHITECTURE_MAP 10m).
+  const tip = useTooltip<TermTip>();
+  const peerCard = useDotCard<PeerTrace>();
   const narrow = size.width < 520;
   const { peers, median } = chart;
 
@@ -180,8 +184,7 @@ export function JusticeOverTimeChart({
             const t = nearestTerm(e);
             if (t == null) return;
             const i = t - t0;
-            const data: Tip = {
-              kind: "term",
+            const data: TermTip = {
               term: t,
               score: justice.s[i],
               lo: justice.lo[i],
@@ -289,9 +292,8 @@ export function JusticeOverTimeChart({
                         cy={y(p.s[0])}
                         r={8}
                         fill="transparent"
-                        onPointerEnter={(e) => tip.show({ kind: "peer", peer: p }, e)}
-                        onPointerMove={tip.move}
-                        onPointerLeave={tip.hide}
+                        style={{ cursor: "pointer" }}
+                        {...peerCard.bind(p)}
                       />
                     ) : (
                       <path
@@ -299,9 +301,8 @@ export function JusticeOverTimeChart({
                         fill="none"
                         stroke="transparent"
                         strokeWidth={10}
-                        onPointerEnter={(e) => tip.show({ kind: "peer", peer: p }, e)}
-                        onPointerMove={tip.move}
-                        onPointerLeave={tip.hide}
+                        style={{ cursor: "pointer" }}
+                        {...peerCard.bind(p)}
                       />
                     )}
                   </g>
@@ -351,30 +352,31 @@ export function JusticeOverTimeChart({
         }}
       </ChartFrame>
 
-      <Tooltip state={tip.state}>
-        {(t) =>
-          t.kind === "peer" ? (
-            <>
-              <b>{t.peer.name}</b>
-              <div>{partyLabel(t.peer.party)} appointee</div>
-              <div className="tt-mono">
-                Shared terms: {t.peer.t0}–{t.peer.t1}
-              </div>
-              <div className="tt-mono">Career average: {fmtScore(t.peer.career)}</div>
-            </>
-          ) : (
-            <>
-              <b>{t.name}</b>
-              <div className="tt-mono">
-                {termLabel(t.term)}: {fmtScore(t.score)}
-              </div>
-              <div className="tt-mono">
-                95% interval {fmtScore(t.lo)} to {fmtScore(t.hi)}
-              </div>
-            </>
-          )
-        }
+      <Tooltip state={peerCard.pinned ? null : tip.state}>
+        {(t) => (
+          <>
+            <b>{t.name}</b>
+            <div className="tt-mono">
+              {termLabel(t.term)}: {fmtScore(t.score)}
+            </div>
+            <div className="tt-mono">
+              95% interval {fmtScore(t.lo)} to {fmtScore(t.hi)}
+            </div>
+          </>
+        )}
       </Tooltip>
+      <DotCardTooltips card={peerCard} onActivate={(p) => router.push(justicePath(p))}>
+        {(p) => (
+          <>
+            <b>{p.name}</b>
+            <div>{partyLabel(p.party)} appointee</div>
+            <div className="tt-mono">
+              Shared terms: {p.t0}–{p.t1}
+            </div>
+            <div className="tt-mono">Career average: {fmtScore(p.career)}</div>
+          </>
+        )}
+      </DotCardTooltips>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import { scaleLinear, type ScaleContinuousNumeric } from "d3-scale";
 import { ChartFrame, type Margin } from "./ChartFrame";
 import { Axis } from "./Axis";
-import { Tooltip, useTooltip } from "./Tooltip";
+import { DotCardTooltips, Tooltip, useDotCard, useTooltip } from "./Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 
 /**
@@ -42,8 +42,9 @@ export interface SwarmPoint<TP> {
   hollow?: boolean;
   /** Vertical nudge in px, to stagger dots that would otherwise sit on top of each other. */
   dy?: number;
-  /** Show a pointer cursor (a profile page exists to navigate to). */
+  /** Show a pointer cursor (a profile page exists to open from the card). */
   navigable?: boolean;
+  /** The pinned card's action (open the profile). A tap on the dot only pins the card (ARCHITECTURE_MAP 10m). */
   onClick?: () => void;
   tooltip: TP;
 }
@@ -83,7 +84,16 @@ interface SwarmRowsProps<TP> {
   formatTick?: (v: number) => string;
   /** Build the x scale for the measured inner width (default: linear over `domain`). Lets a page use a log-like scale. */
   makeScale?: (innerWidth: number) => ScaleContinuousNumeric<number, number>;
+  /** Action line on a pinned dot card whose point has an `onClick`. Default "Open profile →". */
+  activateHint?: string;
 }
+
+/** A dot's card: the row it is in and its slot, so a re-render with rebuilt rows still finds the pinned one. */
+interface DotRef<TP> {
+  key: string;
+  point: SwarmPoint<TP>;
+}
+const sameDot = (a: DotRef<unknown>, b: DotRef<unknown>) => a.key === b.key;
 
 export function SwarmRows<TP>({
   rows,
@@ -96,8 +106,9 @@ export function SwarmRows<TP>({
   ticks: ticksProp,
   formatTick = (v) => v.toFixed(1),
   makeScale,
+  activateHint,
 }: SwarmRowsProps<TP>) {
-  const tip = useTooltip<TP>();
+  const card = useDotCard<DotRef<TP>>(sameDot);
   const labelTip = useTooltip<string>();
   const [wrapRef, measuredW] = useElementWidth<HTMLDivElement>();
   const W = measuredW || FALLBACK_W;
@@ -219,17 +230,9 @@ export function SwarmRows<TP>({
                           r={p.radius ?? (p.highlighted ? 7 : p.emphasized ? 5 : 3)}
                           opacity={p.opacity ?? (p.emphasized ? 1 : 0.5)}
                           style={p.navigable ? { cursor: "pointer" } : undefined}
-                          onPointerEnter={(e) => tip.show(p.tooltip, e)}
-                          onPointerMove={tip.move}
-                          onPointerLeave={tip.hide}
-                          onClick={(e) => {
-                            // Always swallow the click so a dot without its own
-                            // action (a former member on a scrubbed-back
-                            // Congress) doesn't fall through to the row's
-                            // select-this-row handler.
-                            e.stopPropagation();
-                            p.onClick?.();
-                          }}
+                          // A click pins the dot's card and swallows the click, so it never falls through to the row's
+                          // select-this-row handler; the card carries the action.
+                          {...card.bind({ key: `${row.id}:${p.id}:${si}`, point: p })}
                         />
                       </g>
                     ))}
@@ -261,7 +264,14 @@ export function SwarmRows<TP>({
           );
         }}
       </ChartFrame>
-      <Tooltip state={tip.state}>{(d) => renderTooltip(d)}</Tooltip>
+      <DotCardTooltips
+        card={card}
+        onActivate={(d) => d.point.onClick?.()}
+        canActivate={(d) => d.point.onClick != null}
+        activateHint={activateHint}
+      >
+        {(d) => renderTooltip(d.point.tooltip)}
+      </DotCardTooltips>
       <Tooltip state={labelTip.state}>{(label) => label}</Tooltip>
     </div>
   );
