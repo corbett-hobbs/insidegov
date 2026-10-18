@@ -120,12 +120,13 @@ export function SiteSectionNav() {
     <>
       <span
         aria-hidden
-        className="mx-6 hidden h-7 w-px self-center bg-line md:block"
+        className="mx-3.5 hidden h-7 w-px self-center bg-line md:block min-[1100px]:mx-[18px]"
       />
       <ScrollRow label={`${row.branch.label} views`}>
         {row.branch.sections.map((s) => {
           const base =
-            "flex h-11 flex-none items-center gap-1.5 whitespace-nowrap px-2 md:px-2.5 font-mono text-[0.66rem] uppercase tracking-[0.08em] transition-colors md:tracking-[0.09em] md:h-9 md:text-[0.8rem]";
+                      // Phones: mono caps pills. md+: sentence-case sans, a level below the switcher; spacing tightens under 1100px so all seven Presidency pages fit at 1024.
+          "flex h-11 flex-none items-center gap-1.5 whitespace-nowrap px-2 font-mono text-[0.66rem] uppercase tracking-[0.08em] transition-colors md:h-14 md:px-2 md:pt-[3px] md:font-sans md:text-[0.9rem] md:font-medium md:normal-case md:tracking-normal min-[1100px]:px-[11px]";
           if (s.status !== "live") {
             return (
               <span
@@ -146,8 +147,8 @@ export function SiteSectionNav() {
               aria-current={active ? "page" : undefined}
               className={`${base} ${
                 active
-                  ? "border-b-2 border-accent text-ink"
-                  : "border-b-2 border-transparent text-ink-muted hover:text-ink"
+                  ? "border-b-2 border-accent text-ink md:border-b-[3px] md:border-[var(--nav-branch)] md:font-semibold"
+                  : "border-b-2 border-transparent text-ink-muted hover:text-ink md:border-b-[3px]"
               }`}
             >
               {s.label}
@@ -198,12 +199,12 @@ function useScrollHints(deps: unknown) {
 function ScrollRow({ label, children }: { label: string; children: ReactNode }) {
   const { ref, hiddenRight, canBack, measure, scrollBy } = useScrollHints(children);
   return (
-    <div className="relative order-3 min-w-0 basis-full md:order-none md:basis-auto md:self-center">
+    <div className="relative order-3 min-w-0 basis-full md:order-none md:basis-auto md:self-stretch">
       <nav
         ref={ref}
         aria-label={label}
         onScroll={measure}
-        className="flex h-12 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-t border-line bg-surface-raised px-4 py-0.5 md:h-auto md:gap-1.5 md:border-t-0 md:bg-transparent md:p-1"
+        className="flex h-12 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-t border-line bg-surface-raised px-4 py-0.5 md:h-14 md:items-stretch md:gap-0.5 md:border-t-0 md:bg-transparent md:p-0"
       >
         {children}
       </nav>
