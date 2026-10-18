@@ -553,6 +553,11 @@ dates (§7/§8), never stored pre-joined.
 different by design and are never reconciled. Duties are *calculated* duties, 1993-01 onward: 1993–2009 a frozen one-time USITC DataWeb pull,
 2010 on the Census API; every duties row carries `source`.
 
+**Goods by product** (`trade_products/<country_code>.json`, `trade_products_national.json`, 2010-): HS chapters
+and each partner's top headings, whole dollars, keyed by `country_code`+`year`+`flow`. Chapters 98-99 (returned
+goods, low-value estimates) are kept in the sums but never ranked as products. Chapters reconcile to
+`trade_by_country` and `duties_by_country`.
+
 **Validation** fails `pnpm transform`: row schemas, balance identity, no negatives, no duplicate
 keys, no gaps in the claimed ranges, country rows vs World, duties country rows vs the total.
 

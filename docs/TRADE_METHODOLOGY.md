@@ -20,6 +20,7 @@ All trade values are $ millions unless a field says whole dollars (duties).
 | `trade_national.json` `basis=census`, `scope=goods` | World goods total, monthly, seasonally adjusted (`sa`) and not (`nsa`), plus annual `nsa` | Census | 1991-01 – latest |
 | `trade_by_country/<year>.json` | Goods exports and imports per partner: 12 monthly values, annual totals, annual balance | Census | 1991 – latest (source starts 1985) |
 | `duties_by_country/<year>.json`, `duties_national.json` | Calculated duties, imports for consumption, derived rate. Each row carries `source`: `census_api` (2010-01 onward, refreshed weekly) or `usitc_dataweb` (**1993-01 – 2009-12**, a frozen one-time pull) | Census (entries) | **1993-01** – latest |
+| `trade_products/<country_code>.json`, `trade_products_national.json` | Goods by product: every HS chapter per partner and year, the top 10 headings, special headings apart (see "Goods by product") | Census (goods file basis; duties basis for imports for consumption and duty) | **2010** – latest, year to date for the current year |
 | `countries.json` | One row per Census partner code; the `country_code` join key | — | — |
 
 **BOP basis vs Census basis differ by design** (BOP adjusts Census goods for coverage and
@@ -106,6 +107,126 @@ Built in `lib/trade-scatter.ts`; constants `LATEST_MONTHS = 6`, `BASELINE_YEAR =
   and shipment timing as well as tariffs, and say nothing about cause. Bilateral figures can be distorted when
   goods pass through a third country.
 - Both windows are 2010 or later, so they use the Census API source only; the DataWeb bridge is not involved.
+
+## Goods by product (HS chapters and headings)
+
+What the U.S. trades with each partner, by product, in dollars, 2010 on. Built for the "What the U.S.
+trades" card (not built yet). Fetch `pipeline/fetch/census-products.ts`; transform
+`pipeline/transform/trade-products.ts` (run from `trade-run.ts`); schemas `lib/trade-products-entities.ts`;
+chapter names and special-heading labels `lib/trade-hs-chapters.ts`.
+
+**Source.** The Census international trade API, `timeseries/intltrade/exports/hs` and `imports/hs`
+(`CENSUS_API_KEY`), annual values per partner per Harmonized System chapter (`COMM_LVL=HS2`) and heading
+(`HS4`). Exports: `ALL_VAL` (total exports, domestic and foreign, the goods file's basis). Imports:
+`GEN_VAL` (general imports, the goods file's basis), plus `CON_VAL` and `CAL_DUT` (imports for consumption
+and calculated duty, the duties file's basis), so a chapter's collected rate is `duties / con_value`. The
+API has nothing before 2010; a USITC DataWeb bridge back to 1991 (chapter level) is a possible later step.
+
+**Dollars only.** Quantities exist only at the 10-digit level, in different units per product, and
+shipping weight covers vessel and air only, so it misses most Canada and Mexico trade.
+
+**Annual values in one call.** The `_YR` variables are year to date at the month queried, so
+`time=from 2010-01 to <latest>` with `MONTH=12&MONTH=<latest month>` returns every calendar year (December)
+and the year in progress (latest month) in one response. The year in progress is stored as year to date,
+with `months` saying how many months it covers (8 for 2026 at the time of writing).
+
+**Query shape (measured 2026-10-18).** All chapters for all partners in one call fails at the API (a server
+error after about 2.5 min), and so does a wildcard such as `I_COMMODITY=85*` at HS4. An explicit list of
+codes works, but only **sorted**: the same list unsorted returns 204 ("no data"), so a 204 for a batch is
+treated as an error, never as an empty result. Codes are batched, 8 chapters or 24 headings per call, three
+calls at a time, about 50 s per batch at that concurrency (12 s alone). A batch that fails is split in half
+and retried. Two all-countries calls per flow first list every chapter and heading with trade in the window.
+About 130 calls in all: the full 2010-2026 fetch took 50 min (2026-10-18), against about 3,100 calls and 4-5 h for one call per chapter per year. Every response is cached under `products/_cache/` (git-ignored), keyed by its query, so an
+interrupted run resumes where it stopped. The fetch checks, before writing anything, that each partner's
+headings sum to its chapter (worst gap measured: $0 for every partner, chapter and year, both flows) and that the batched all-countries rows equal the
+all-countries call.
+
+**What is committed.** `pipeline/raw/census-trade/products/<flow>/<year>.json`: every chapter row for every
+partner, and, at the heading level, every heading for the all-countries row but only each partner's **top 25
+goods headings** plus every special heading. Full HS4 detail (about 1,240 headings x 230 partners x 17 years
+x 2 flows) would be over 100 MB; the output keeps fewer headings, and 25 leaves room to raise that without a
+refetch. `descriptions.json` keeps Census's short descriptions. The API's aggregate codes (a different
+numbering from `country.xlsx`) are dropped; partners map to `country_code` through `countries.json`, and recoded
+partners (Sudan 7320/7321) are summed, as in the goods file.
+
+**Outputs.**
+
+| File | Grain |
+| --- | --- |
+| `trade_products/<country_code>.json` | one row per (year, flow) for that partner: `value` (and `con_value`, `duties` for imports), every chapter with trade, the top 10 goods headings, and every special heading in `special` |
+| `trade_products_national.json` | the same per (year, flow) for all countries together (the API's all-countries row), top 25 goods headings |
+| `trade_products_headings.json` | every heading in either file: chapter, Census's description, special-heading labels by flow |
+
+Sharded by partner because the page loads one country at a time. Lists are tuples (`[code, value]`, or
+`[code, value, con_value, duties]` for imports), largest first, to keep the files small.
+
+**How many headings (N).** Measured over the test years and scaled to 17 years:
+
+| N | All partner files | Largest (China) | gzipped | Headings' share of a partner-year's goods value (median / 10th percentile) |
+| --- | --- | --- | --- | --- |
+| 5 | 11.1 MB | 102 KB | 44 KB | 57% / 32% |
+| **10** | **12.0 MB** | **107 KB** | **47 KB** | **70% / 44%** |
+| 15 | 12.8 MB | 113 KB | 49 KB | 76% / 51% |
+| 20 | 13.6 MB | 118 KB | 51 KB | 81% / 56% |
+| 25 | 14.3 MB | 123 KB | 54 KB | 84% / 61% |
+
+(17 years, both flows, 236 partners; coverage over partner-years with at least $10M of goods. The median
+partner file is 46 KB.)
+
+N = 10. The chapters, not the headings, set the file size (N = 5 is already 11.1 MB), so each five more
+headings cost only about 0.8 MB in all and 5 KB on the largest file, but they buy only 5-7 points of
+coverage, and a card ranks about ten products. The raw files keep 25, so raising N is a one-line change
+(`HEADINGS_PER_ROW`) without a refetch. Note for the UI: China's file (107 KB, 47 KB gzipped) is about seven
+times the current per-country trade file, so it is better served on its own route than folded into
+`/data/trade/countries/[country_code]`.
+
+**Chapter names.** Census's chapter descriptions are truncated capitals ("ELECTRIC MACHINERY ETC; SOUND
+EQUIP; TV EQUIP; PTS"); `HS_CHAPTERS` holds a hand-written short name for each of the 96 HS chapters in use
+(01-97; 77 is reserved) and the two U.S. special chapters, e.g. "Electronics & electrical equipment",
+"Machinery & computers", "Oil, gas, coal & fuels". The build fails on a chapter missing from the table.
+
+**Chapters 98 and 99 and heading 9999.** These are U.S.-only special classification provisions, not kinds of
+product. Measured 2025, all countries:
+
+- Imports, chapter 98 ($117B): mostly 9801 returned American goods ($104B) and 9802 American parts returned in
+  goods assembled abroad ($8.3B). Chapter 99 is one heading, **9999, Census's estimate of low-value import
+  shipments** not filed one by one ($30.1B; China $8.7B).
+- Exports, chapter 98 ($66B): mostly **9880, the estimate of low-value export shipments** and late Canadian
+  filings ($55.0B), and 9801 repaired imports sent back ($8.9B). There is no export chapter 99.
+
+Decision: both chapters stay in the data, because the published partner totals include them and the chapters
+must sum to those totals. They are `kind: "special"` in `HS_CHAPTERS`, named "Special entries (returns,
+repairs, low-value estimates)" (98) and "Low-value shipments (estimated)" (99). Their headings are **never
+ranked** among a partner's top headings: they sit in each row's `special` list, with plain labels by flow in
+`SPECIAL_HEADINGS` (the same code means different things for exports and imports; 9801 is "Repaired imports
+sent back" or "Returned American goods"). A card can show them as a footnote ("plus $8.7B in estimated
+low-value shipments") rather than as a product. The build fails on a special heading with no label for its flow.
+
+**Validation (fails `pnpm transform`).** Zod on every row, and in `validateProducts` (tolerances `PRODUCTS_TOL`):
+
+- Each partner-year's chapters sum to its `trade_by_country` total (exports and general imports; months 1 to
+  `months` for the year in progress) within the larger of $1M and 0.1%. The goods file is in $M rounded per
+  month, so a gap of a few hundred thousand dollars is rounding. Measured worst: every full year 2010-2025 agrees to
+  within $0.05M for every partner; in the year in progress the worst is $0.25M (Palau imports, the goods file's
+  rounding of $0.1M months). **One exception, with its own tolerance (1.5%):** exports to Canada in the year in
+  progress. The goods file carries revisions to the year's earlier months that the HS-level API does not have
+  yet (Jan-Jul 2026 differ by -$49M to +$608M a month; August, the latest month, is identical; the API's year to
+  date equals the sum of its own months). U.S. exports to Canada are compiled from Canadian import records,
+  with late receipts added. 2026 through August: chapters $234,176M vs goods file $235,972M (0.76%). Every
+  full year matches, so the two agree once the year is revised. Reported in `trade_report.json`.
+- Imports: the chapters' calculated duty and imports for consumption sum to `duties_by_country` within 0.05%
+  plus $1 per chapter (the same API, so this is close to exact). Measured worst: $0, duties and imports for consumption, every partner-year.
+- Partners sum to the all-countries row per chapter-year within 0.2% (or $1M). Measured worst: $0.
+- All-countries chapters sum to the World goods total (Census basis, full years) within 0.1%. Measured worst:
+  $0.05M (2015 exports).
+- Headings never sum past their chapter; no duty without imports for consumption; no duplicate keys; every
+  partner is a non-aggregate `countries.json` code; every year from 2010 has both flows; a partner with $1M or
+  more of goods trade in a year has product rows; exports and imports cover the same months; the product data
+  never covers a month the goods or duties file has not published.
+
+**Refresh.** The weekly `trade-freshness.yml` runs `pnpm fetch:census-products --recent`: the year in progress
+and the three before it, so June's annual revisions reach the product files as they reach the goods file.
+The 2023-2026 window took 23 min (about 130 calls; a call costs about the same whatever its year range). Older years change only when someone re-runs the full fetch.
 
 ## Country codes
 
