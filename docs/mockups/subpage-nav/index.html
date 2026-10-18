@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sub-page nav options (mock)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--raised:#f7f8fa;--ink:#1a2233;--muted:#5b6472;--faint:#8890a0;--line:#d7dce3;--navy:#2f4f87;--tint:#e8eef8;--tint-line:#cdd8ea;--green:#2f6b4f;--burg:#7a2e3b;--shadow:0 10px 30px rgba(20,30,50,.16)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161c;--surface:#1b1e26;--raised:#20242e;--ink:#e9eaee;--muted:#9aa2af;--faint:#6b7280;--line:#2a2e38;--navy:#8fb0ea;--tint:#1f2738;--tint-line:#2d3a52;--green:#7fcaa3;--burg:#e29aa8;--shadow:0 10px 30px rgba(0,0,0,.5)}}
+*{box-sizing:border-box}
+body{margin:0;padding:28px 16px 64px;background:var(--bg);color:var(--ink);font:15px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:1220px;margin:0 auto}
+h1.doc{font:600 1.5rem "Newsreader",Georgia,serif;margin:0 0 6px}
+p.lede{margin:0 0 22px;color:var(--muted);max-width:60rem}
+.rec{border:1px solid var(--line);border-left:4px solid var(--navy);background:var(--surface);border-radius:6px;padding:12px 16px;margin:0 0 34px;max-width:60rem}
+.rec b{color:var(--ink)}
+section.opt{margin:0 0 46px}
+.opt h2{font:600 1.15rem "Newsreader",Georgia,serif;margin:0 0 2px;display:flex;gap:10px;align-items:baseline}
+.opt h2 .k{font:600 .78rem "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--surface);background:var(--ink);border-radius:4px;padding:2px 7px}
+.opt h2 .tag{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);border:1px solid var(--navy);border-radius:4px;padding:1px 6px}
+.opt > p{margin:0 0 12px;color:var(--muted);max-width:60rem}
+.pc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 28px;margin:12px 0 0;max-width:60rem;font-size:.88rem}
+.pc ul{margin:0;padding-left:18px;color:var(--muted)}
+.pc h3{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 4px}
+@media (max-width:700px){.pc{grid-template-columns:minmax(0,1fr)}}
+
+/* ---- the fake site ---- */
+.frame{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.frame.ov{overflow:visible}
+.bar{display:flex;align-items:stretch;height:56px;padding:0 24px;border-bottom:1px solid var(--line);background:var(--surface);position:relative}
+.bar.slim{height:50px}
+.mark{display:flex;align-items:center;padding-top:5px;margin-right:32px;font:600 1.35rem "Newsreader",Georgia,serif;letter-spacing:-.01em;white-space:nowrap}
+.tabs{display:flex;align-items:stretch;gap:8px}
+.tabs a{display:flex;align-items:center;gap:6px;padding:3px 14px 0;border-bottom:3px solid transparent;font:400 .8rem "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);text-decoration:none;white-space:nowrap}
+.tabs a.on{border-color:var(--ink);color:var(--ink)}
+.divider{width:1px;height:28px;align-self:center;background:var(--line);margin:0 24px}
+.pills{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;position:relative}
+.pills a{display:flex;align-items:center;height:36px;padding:0 10px;border-bottom:2px solid transparent;font:400 .8rem "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);white-space:nowrap;text-decoration:none}
+.pills a.on{color:var(--ink);border-color:var(--ink)}
+.more{position:absolute;right:0;top:0;bottom:0;width:120px;display:flex;align-items:center;justify-content:flex-end;padding-right:24px;background:linear-gradient(to left,var(--surface) 55%,transparent)}
+.more span{display:flex;align-items:center;height:32px;padding:0 12px;border-radius:999px;background:var(--ink);color:var(--surface);font:600 .78rem "IBM Plex Mono",monospace}
+
+/* page stub under the header */
+.page{position:relative;padding:22px 24px 26px;background:linear-gradient(180deg,var(--tint) 0%,var(--surface) 100%)}
+.eyebrow{font:500 .74rem "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);display:flex;gap:10px;align-items:center}
+.page h4{font:500 2rem/1.15 "Newsreader",Georgia,serif;margin:8px 0 6px;letter-spacing:-.01em}
+.page p{margin:0;color:var(--muted);font-size:.92rem;max-width:56rem}
+
+/* A: branch row, then a tinted row of this branch's pages hanging under its tab */
+.A .bar{height:50px;border-bottom:1px solid var(--tint-line)}
+.A .tabs a.on{border-bottom-color:transparent;background:var(--tint);color:var(--ink);margin-bottom:-1px;border-radius:6px 6px 0 0;box-shadow:inset 0 3px 0 var(--navy)}
+.sub{display:flex;align-items:stretch;height:46px;background:var(--tint);border-bottom:1px solid var(--tint-line);padding-right:24px}
+.sub a{display:flex;align-items:center;padding:0 13px;border-bottom:2px solid transparent;font:500 .9rem "IBM Plex Sans",sans-serif;color:var(--muted);text-decoration:none;white-space:nowrap}
+.sub a:first-child{padding-left:14px}
+.sub a.on{color:var(--ink);border-color:var(--navy);font-weight:600}
+.sub a:hover{color:var(--ink)}
+.search{margin-left:auto;align-self:center;display:flex;align-items:center;gap:8px;height:34px;width:240px;padding:0 12px;border:1px solid var(--line);border-radius:6px;color:var(--faint);font-size:.84rem;background:var(--raised)}
+.search.ghost{border-style:dashed}
+
+/* B: branch switcher by the wordmark */
+.slash{align-self:center;color:var(--faint);font:300 1.5rem "IBM Plex Sans",sans-serif;margin:0 12px 0 -16px;padding-top:2px}
+.switch{align-self:center;display:flex;align-items:center;gap:8px;height:36px;padding:0 10px 0 10px;border:1px solid var(--line);border-radius:6px;font:500 .8rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--raised);white-space:nowrap}
+.switch .sq{width:10px;height:10px;border-radius:2px;background:var(--navy)}
+.switch .car{color:var(--muted);font-size:.7rem;margin-left:2px}
+.B .bar{overflow:hidden;border-radius:8px 8px 0 0}
+.B .divider{margin:0 18px}
+.B .sub2{display:flex;align-items:stretch;gap:2px}
+.B .sub2 a{display:flex;align-items:center;padding:3px 11px 0;border-bottom:3px solid transparent;font:500 .9rem "IBM Plex Sans",sans-serif;color:var(--muted);white-space:nowrap;text-decoration:none}
+.B .sub2 a.on{color:var(--ink);border-color:var(--navy);font-weight:600}
+.menu{position:absolute;z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}
+.bmenu{top:50px;left:174px;width:300px;padding:6px}
+.bmenu a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:6px;text-decoration:none;color:var(--ink)}
+.bmenu a.on{background:var(--tint)}
+.bmenu .sq{width:10px;height:10px;border-radius:2px;flex:none}
+.bmenu .nm{font:500 .8rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+.bmenu .ct{margin-left:auto;font-size:.8rem;color:var(--faint)}
+.bmenu hr{border:0;border-top:1px solid var(--line);margin:4px 6px}
+
+/* C: hover/focus panel per branch tab */
+.C .tabs a .car{font-size:.62rem;color:var(--faint);letter-spacing:0}
+.C .tabs a.hov{color:var(--ink);background:var(--raised);border-radius:6px 6px 0 0}
+.cmenu{top:49px;width:640px;padding:16px 18px 14px;border-top:3px solid var(--green);border-radius:0 8px 8px 8px}
+.cmenu .hd{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 10px}
+.cmenu .hd b{font:600 1.05rem "Newsreader",Georgia,serif}
+.cmenu .hd span{font:.74rem "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.cmenu .grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+.cmenu .grid a{display:block;padding:8px 10px;border-radius:6px;text-decoration:none}
+.cmenu .grid a:first-child{background:var(--raised)}
+.cmenu .grid b{display:block;font:600 .92rem "IBM Plex Sans",sans-serif;color:var(--ink)}
+.cmenu .grid span{display:block;font-size:.8rem;line-height:1.4;color:var(--muted)}
+.cmenu .ft{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:.82rem;color:var(--green);font-weight:500}
+
+/* D: count in the eyebrow + next/prev at the end of the page */
+.count{display:flex;align-items:center;gap:6px;margin-left:6px;color:var(--faint)}
+.dots{display:flex;gap:4px}
+.dots i{width:16px;height:4px;border-radius:2px;background:var(--tint-line)}
+.dots i.on{background:var(--navy)}
+.foot{padding:20px 24px 24px;background:var(--surface)}
+.notes{font-size:.8rem;color:var(--faint);border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:16px}
+.pager{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:14px}
+.pager a{display:block;border:1px solid var(--line);border-radius:8px;padding:14px 16px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.pager a.next{border-color:var(--navy);box-shadow:inset 4px 0 0 var(--navy)}
+.pager .lb{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.pager .tt{display:block;font:600 1.2rem "Newsreader",Georgia,serif;margin:4px 0 2px}
+.pager .bl{font-size:.84rem;color:var(--muted)}
+.pager .off{color:var(--faint);background:var(--raised)}
+.strip{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:.84rem}
+.strip span{color:var(--faint);font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;align-self:center}
+.strip a{color:var(--muted);text-decoration:none}
+.strip a.on{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--navy);text-underline-offset:4px;text-decoration-thickness:2px}
+</style></head><body><div class="wrap">
+
+<h1 class="doc">Making the Presidency's seven pages easier to find</h1>
+<p class="lede">Today the pages share one row with the branch tabs, in the same mono caps, and on a typical laptop only four of the seven fit before the "+4" button. Below are four ways to fix that. Frames are drawn at desktop width with the real fonts; the page under each header is a stub.</p>
+
+<div class="rec"><b>Recommendation: A, plus D.</b> A gives the pages their own full-width row under the branch tabs, so all seven show and the parent/child relationship reads at a glance (it's also what phones already do). D adds a "Next in Presidency" card at the bottom of every page, which is the natural way to flip through. C can be layered onto A later if you want readers to see Congress's pages while they're on a Presidency page.</div>
+
+<section class="opt">
+  <h2><span class="k">NOW</span> Today: one row, pages share it with the branches</h2>
+  <p>Branches and pages look the same (mono caps), sit side by side, and the last pages hide behind "+4".</p>
+  <div class="frame">
+    <div class="bar">
+      <span class="mark">InsideGov</span>
+      <nav class="tabs"><a class="on">Presidency</a><a>Congress</a><a>Supreme Court</a><a>Timeline</a></nav>
+      <span class="divider"></span>
+      <nav class="pills"><a class="on">Executive orders</a><a>Economy</a><a>Energy</a><a>Immigration</a><a>Trade</a><a>Foreign aid</a><a>National security</a></nav>
+      <span class="more"><span>+4 ›</span></span>
+    </div>
+    <div class="page"><div class="eyebrow">Presidency · Executive orders</div><h4>How Many Executive Orders Does Each President Sign?</h4></div>
+  </div>
+</section>
+
+<section class="opt">
+  <h2><span class="k">A</span> Two rows: branches on top, this branch's pages underneath <span class="tag">Recommended</span></h2>
+  <p>The active branch tab opens into a tinted band that holds all of its pages, like a folder tab. Pages switch to sentence-case sans so they read as a different, lower level from the mono branch tabs. The band starts under its parent tab, so Congress's four pages hang under "Congress", the Court's two under "Supreme Court". The freed space on the right could hold the site search on every page (dashed, optional).</p>
+  <div class="frame A">
+    <div class="bar">
+      <span class="mark">InsideGov</span>
+      <nav class="tabs" id="a-tabs"><a class="on">Presidency</a><a>Congress</a><a>Supreme Court</a><a>Timeline</a></nav>
+      <span class="search ghost">⌕ Search members, laws, cases</span>
+    </div>
+    <nav class="sub" id="a-sub"><a class="on">Executive orders</a><a>Economy</a><a>Energy</a><a>Immigration</a><a>Trade</a><a>Foreign aid</a><a>National security</a></nav>
+    <div class="page"><div class="eyebrow">Presidency · Executive orders</div><h4>How Many Executive Orders Does Each President Sign?</h4></div>
+  </div>
+  <div class="frame A" style="margin-top:12px">
+    <div class="bar">
+      <span class="mark">InsideGov</span>
+      <nav class="tabs" id="a2-tabs"><a>Presidency</a><a class="on" style="box-shadow:inset 0 3px 0 var(--green)">Congress</a><a>Supreme Court</a><a>Timeline</a></nav>
+      <span class="search ghost">⌕ Search members, laws, cases</span>
+    </div>
+    <nav class="sub" id="a2-sub" style="--navy:var(--green)"><a class="on">Ideology</a><a>Laws</a><a>Demographics</a><a>Wealth</a></nav>
+  </div>
+  <div class="pc"><div><h3>Good</h3><ul><li>All seven pages visible at every desktop width (about 730px of labels; the "+N" button stays only as a safety net near 768px).</li><li>Hierarchy is carried by position, type and the folder-tab shape, not just a divider.</li><li>Desktop matches the two-row phone header.</li></ul></div><div><h3>Cost</h3><ul><li>Header grows by ~46px before the pinned filter bar.</li><li>Puts a branch tint in the header, which today is kept neutral on purpose (globals.css comment); this would be a deliberate exception, for the band only.</li></ul></div></div>
+</section>
+
+<section class="opt">
+  <h2><span class="k">B</span> Condense the branches into a switcher by the wordmark</h2>
+  <p>"InsideGov / Presidency ▾" works as a breadcrumb and a menu; the rest of the single row goes to the pages. Shown with the switcher open.</p>
+  <div class="frame B ov">
+    <div class="bar">
+      <span class="mark">InsideGov</span>
+      <span class="slash">/</span>
+      <span class="switch"><span class="sq"></span>Presidency<span class="car">▾</span></span>
+      <span class="divider"></span>
+      <nav class="sub2"><a class="on">Executive orders</a><a>Economy</a><a>Energy</a><a>Immigration</a><a>Trade</a><a>Foreign aid</a><a>National security</a></nav>
+    </div>
+    <div class="menu bmenu">
+      <a class="on"><span class="sq" style="background:var(--navy)"></span><span class="nm">Presidency</span><span class="ct">7 pages ✓</span></a>
+      <a><span class="sq" style="background:var(--green)"></span><span class="nm">Congress</span><span class="ct">4 pages</span></a>
+      <a><span class="sq" style="background:var(--burg)"></span><span class="nm">Supreme Court</span><span class="ct">2 pages</span></a>
+      <hr><a><span class="sq" style="background:var(--muted)"></span><span class="nm">Timeline</span><span class="ct">all branches</span></a>
+    </div>
+    <div class="page" style="border-radius:0 0 8px 8px"><div class="eyebrow">Presidency · Executive orders</div><h4>How Many Executive Orders Does Each President Sign?</h4><p style="opacity:.0">.</p></div>
+  </div>
+  <div class="pc"><div><h3>Good</h3><ul><li>Stays one row; no extra height.</li><li>Pages get the whole row and the prominent position.</li></ul></div><div><h3>Cost</h3><ul><li>Congress and the Court disappear behind a menu, which makes the other branches harder to find, the opposite of what you want.</li><li>Seven pages plus the switcher only just fit at 1180px; narrower laptops overflow again.</li></ul></div></div>
+</section>
+
+<section class="opt">
+  <h2><span class="k">C</span> Each branch tab opens a menu of its pages, with blurbs</h2>
+  <p>Hover, focus or click a branch tab (here, Congress while reading a Presidency page) to see every page in it, with the one-line blurb already written in <code>lib/verticals.ts</code>. Drawn on top of A; on its own it doesn't fix the hidden Presidency pages.</p>
+  <div class="frame A C ov">
+    <div class="bar">
+      <span class="mark">InsideGov</span>
+      <nav class="tabs" id="c-tabs"><a class="on">Presidency <span class="car">▾</span></a><a class="hov" id="c-cong">Congress <span class="car">▾</span></a><a>Supreme Court <span class="car">▾</span></a><a>Timeline</a></nav>
+    </div>
+    <nav class="sub" id="c-sub"><a class="on">Executive orders</a><a>Economy</a><a>Energy</a><a>Immigration</a><a>Trade</a><a>Foreign aid</a><a>National security</a></nav>
+    <div class="menu cmenu" id="c-menu">
+      <div class="hd"><b>Congress</b><span>4 pages</span></div>
+      <div class="grid">
+        <a><b>Ideology</b><span>Every member of the House and Senate placed on a two-dimensional map from their roll-call votes.</span></a>
+        <a><b>Laws</b><span>How many public laws Congress enacts each Congress, by policy area, and how broadly they are supported.</span></a>
+        <a><b>Demographics</b><span>How old members of Congress are, how many are women, and how long they have served.</span></a>
+        <a><b>Wealth</b><span>Estimated net worth for members of Congress, from their annual financial disclosures.</span></a>
+      </div>
+      <div class="ft">Go to Congress →</div>
+    </div>
+    <div class="page" style="height:250px;border-radius:0 0 8px 8px"><div class="eyebrow">Presidency · Executive orders</div><h4>How Many Executive Orders Does Each President Sign?</h4></div>
+  </div>
+  <div class="pc"><div><h3>Good</h3><ul><li>Every page of every branch is one hover away from anywhere, with a sentence on what it holds.</li><li>Reuses the hub's blurbs; no new copy.</li></ul></div><div><h3>Cost</h3><ul><li>Still hidden until someone hovers; a reader has to guess the tab opens.</li><li>Needs a tap-to-open pattern and focus handling for keyboards; desktop-only (phones keep their rows).</li></ul></div></div>
+</section>
+
+<section class="opt">
+  <h2><span class="k">D</span> Make "flipping through" part of the page itself</h2>
+  <p>The eyebrow says where you are in the branch ("1 of 7"), and the end of every page offers the next one with its blurb, plus the full list. Works with any header option.</p>
+  <div class="frame">
+    <div class="page" style="padding-bottom:18px"><div class="eyebrow">Presidency · Executive orders <span class="count">· 1 of 7 <span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span></div><h4>How Many Executive Orders Does Each President Sign?</h4></div>
+    <div class="foot">
+      <div class="notes">… end of the page: Source notes, then this.</div>
+      <div class="pager">
+        <a class="off"><span class="lb">Previous</span><span class="tt" style="color:var(--faint)">Start of Presidency</span></a>
+        <a class="next"><span class="lb">Next in Presidency · 2 of 7</span><span class="tt">Economy →</span><span class="bl">Jobs, inflation, gas prices and more, lined up with who was in the White House.</span></a>
+      </div>
+      <div class="strip"><span>All Presidency pages</span><a class="on">Executive orders</a><a>Economy</a><a>Energy</a><a>Immigration</a><a>Trade</a><a>Foreign aid</a><a>National security</a></div>
+    </div>
+  </div>
+  <div class="pc"><div><h3>Good</h3><ul><li>Catches readers at the moment they finish a page, which is when they're ready for another.</li><li>Order and blurbs come straight from <code>lib/verticals.ts</code>, so it maintains itself.</li></ul></div><div><h3>Cost</h3><ul><li>Doesn't help someone scanning the header on arrival, so it's a complement, not a fix on its own.</li></ul></div></div>
+</section>
+
+</div>
+<script>
+// Hang each pages band under its parent tab (A and C).
+function hang(tabsId, subId){
+  const tabs=document.getElementById(tabsId), sub=document.getElementById(subId);
+  if(!tabs||!sub) return;
+  const on=tabs.querySelector('a.on');
+  sub.style.paddingLeft=(on.getBoundingClientRect().left-sub.getBoundingClientRect().left)+'px';
+}
+function place(){
+  hang('a-tabs','a-sub'); hang('a2-tabs','a2-sub'); hang('c-tabs','c-sub');
+  const c=document.getElementById('c-cong'), m=document.getElementById('c-menu');
+  m.style.left=(c.getBoundingClientRect().left-c.closest('.frame').getBoundingClientRect().left)+'px';
+}
+document.fonts.ready.then(place); addEventListener('resize',place); place();
+</script>
+</body></html>

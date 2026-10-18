@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Branch switcher nav (mock)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--raised:#f7f8fa;--ink:#1a2233;--muted:#5b6472;--faint:#8890a0;--line:#d7dce3;--line-strong:#b9c1cc;--presidency:#2f4f87;--congress:#2f6b4f;--court:#7a2e3b;--timeline:#3a3f4b;--wash-presidency:#e8eef8;--wash-congress:#e7f1ec;--wash-court:#f5e9ec;--wash-timeline:#eceef1;--shadow:0 14px 40px rgba(20,30,50,.18)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161c;--surface:#1b1e26;--raised:#20242e;--ink:#e9eaee;--muted:#9aa2af;--faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--presidency:#8fb0ea;--congress:#7fcaa3;--court:#e29aa8;--timeline:#c9c7c1;--wash-presidency:#1f2738;--wash-congress:#1d2a25;--wash-court:#2b1f24;--wash-timeline:#22252c;--shadow:0 14px 40px rgba(0,0,0,.55)}}
+*{box-sizing:border-box}
+body{margin:0;padding:28px 16px 80px;background:var(--bg);color:var(--ink);font:15px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:1220px;margin:0 auto}
+h1.doc{font:600 1.5rem "Newsreader",Georgia,serif;margin:0 0 6px}
+p.lede{margin:0 0 14px;color:var(--muted);max-width:62rem}
+ol.rules{margin:0 0 30px;padding-left:22px;max-width:62rem;color:var(--muted)}
+ol.rules li{margin:0 0 4px}ol.rules b{color:var(--ink)}
+h2{font:600 1.15rem "Newsreader",Georgia,serif;margin:0 0 2px}
+h2 + p{margin:0 0 12px;color:var(--muted);max-width:62rem}
+section{margin:0 0 44px}
+.scroller{overflow-x:auto;padding-bottom:6px}
+.label{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
+.label:first-child{margin-top:0}
+code{font:.85em "IBM Plex Mono",monospace}
+
+/* ---- the fake site ---- */
+.frame{container-type:inline-size;position:relative;background:var(--surface);border:1px solid var(--line);border-radius:8px;max-width:1180px}
+.bar{position:relative;display:flex;align-items:stretch;height:56px;padding:0 24px;border-bottom:1px solid var(--line)}
+.mark{display:flex;align-items:center;gap:6px;padding-top:5px;flex:none;font:600 1.35rem "Newsreader",Georgia,serif;letter-spacing:-.01em;white-space:nowrap;color:var(--ink);text-decoration:none;cursor:pointer}
+.mark .back{font:500 .85em "IBM Plex Sans",sans-serif;color:var(--muted)}
+.slash{align-self:center;flex:none;color:var(--line-strong);font:300 1.6rem "IBM Plex Sans",sans-serif;margin:2px 12px 0 14px}
+.switch{align-self:center;flex:none;display:flex;align-items:center;gap:9px;height:36px;padding:0 10px 0 11px;border:1px solid var(--line);border-radius:6px;background:var(--raised);font:500 .8rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);cursor:pointer;white-space:nowrap}
+.switch:hover,.switch[aria-expanded="true"]{border-color:var(--ink)}
+.chip{width:10px;height:10px;border-radius:2px;flex:none;background:var(--c)}
+.switch .car{display:inline-block;color:var(--muted);font-size:.65rem;letter-spacing:0;transition:transform .15s}
+.switch[aria-expanded="true"] .car{transform:rotate(180deg)}
+.divider{width:1px;height:28px;align-self:center;flex:none;background:var(--line);margin:0 18px}
+.rowwrap{position:relative;flex:1;min-width:0;display:flex}
+.pages{display:flex;align-items:stretch;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.pages::-webkit-scrollbar{display:none}
+.pg{display:flex;align-items:center;padding:3px 11px 0;border-bottom:3px solid transparent;font:500 .9rem "IBM Plex Sans",sans-serif;color:var(--muted);white-space:nowrap;text-decoration:none;cursor:pointer;flex:none}
+.pg:hover{color:var(--ink)}
+.pg.on{color:var(--ink);font-weight:600;border-color:var(--c)}
+@container (max-width:1100px){.pg{padding:3px 8px 0}.divider{margin:0 14px}.slash{margin:2px 10px 0 12px}}
+.more{position:absolute;right:-24px;top:0;bottom:0;width:120px;display:none;align-items:center;justify-content:flex-end;padding-right:16px;background:linear-gradient(to left,var(--surface) 55%,transparent);pointer-events:none}
+.more.show{display:flex}
+.more button{pointer-events:auto;display:flex;align-items:center;gap:4px;height:32px;padding:0 12px;border:0;border-radius:999px;background:var(--ink);color:var(--surface);font:600 .78rem "IBM Plex Mono",monospace;cursor:pointer}
+
+/* non-branch header: today's tabs */
+.tabs{display:flex;align-items:stretch;gap:8px;margin-left:8px}
+.tab{display:flex;align-items:center;padding:3px 14px 0;border-bottom:3px solid transparent;font:400 .8rem "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);text-decoration:none;white-space:nowrap;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab.on{border-color:var(--ink);color:var(--ink)}
+.search{margin-left:auto;align-self:center;display:flex;align-items:center;height:34px;width:250px;padding:0 12px;border:1px solid var(--line);border-radius:6px;color:var(--faint);font-size:.84rem;background:var(--raised)}
+
+/* the site map menu */
+.map{position:absolute;z-index:10;top:52px;width:min(760px,calc(100cqw - 40px));background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:16px 8px 8px}
+.map[hidden]{display:none}
+.cols{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:0 4px}
+.col{padding:2px 10px 10px;border-radius:8px}
+.col.cur{background:var(--w)}
+.colhd{display:flex;align-items:center;gap:8px;padding:8px 6px 8px;margin:0 0 4px;border-bottom:2px solid var(--c);font:600 .76rem "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;cursor:pointer}
+.colhd .n{margin-left:auto;font-weight:400;letter-spacing:.06em;color:var(--faint)}
+.col a.it{display:flex;align-items:center;padding:6px 8px;border-radius:5px;font:500 .9rem "IBM Plex Sans",sans-serif;color:var(--muted);text-decoration:none;cursor:pointer}
+.col a.it:hover{background:var(--raised);color:var(--ink)}
+.col.cur a.it:hover{background:var(--surface)}
+.col a.it.on{color:var(--ink);font-weight:600;box-shadow:inset 3px 0 0 var(--c)}
+.mapfoot{display:flex;align-items:center;gap:12px;margin:6px 4px 0;padding:10px 12px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.mapfoot a{color:var(--ink);font-weight:600;text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:8px}
+.mapfoot a:hover{text-decoration:underline}
+.mapfoot .home{margin-left:auto;font-weight:500;color:var(--muted)}
+
+/* page stub */
+.page{padding:22px 24px 28px;border-radius:0 0 8px 8px;background:linear-gradient(180deg,var(--w) 0%,var(--surface) 100%)}
+.eyebrow{font:500 .74rem "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.page h4{font:500 2rem/1.15 "Newsreader",Georgia,serif;margin:8px 0 8px;letter-spacing:-.01em}
+.page p{margin:0;color:var(--muted);font-size:.95rem;max-width:58rem}
+.tall .page{min-height:330px}
+</style></head><body><div class="wrap">
+
+<h1 class="doc">Option B, refined: a branch switcher that opens a site map</h1>
+<p class="lede">The branch tabs fold into "InsideGov / Presidency ▾" by the wordmark, and the rest of the row goes to that branch's pages, all seven at once. Three rules make up for the tabs going behind a menu:</p>
+<ol class="rules">
+  <li><b>The switcher opens a map of the whole site</b>: every branch with all its pages, so one click shows everything and goes straight to any page (Congress › Wealth from a Presidency page).</li>
+  <li><b>The switcher only appears inside a branch</b> (its pages and its profile pages). The homepage, Timeline, About and Methodology keep today's branch tabs, so there's never a switcher with an empty row beside it.</li>
+  <li><b>Spacing tightens below ~1100px</b> so all seven still fit at 1024px; narrower than that, the existing "+N ›" button takes over.</li>
+</ol>
+
+<section>
+  <h2>Try it</h2>
+  <p>Click the switcher, pick any page, or click the wordmark (home) or Timeline in the map to see the header go back to the branch tabs. Esc or a click outside closes the map.</p>
+  <div class="frame tall" id="live"></div>
+</section>
+
+<section>
+  <h2>At different widths</h2>
+  <p>Presidency, Economy page. Frames are drawn at their real width, so scroll sideways if your window is narrower.</p>
+  <div class="scroller">
+    <div class="label">1180px · the site's full width</div><div class="frame" style="width:1180px" data-state="presidency/economy"></div>
+    <div class="label">1024px · small laptop, iPad sideways: spacing tightens, all seven still fit</div><div class="frame" style="width:1024px" data-state="presidency/economy"></div>
+    <div class="label">900px · too narrow: the "+N ›" button shows what's cut off</div><div class="frame" style="width:900px" data-state="presidency/economy"></div>
+  </div>
+</section>
+
+<section>
+  <h2>The other branches and page types</h2>
+  <div class="scroller">
+    <div class="label">Congress · Wealth</div><div class="frame" style="width:1180px" data-state="congress/wealth"></div>
+    <div class="label">Supreme Court · Decisions</div><div class="frame" style="width:1180px" data-state="court/decisions"></div>
+    <div class="label">A member's profile page: back arrow on the wordmark as today, no page underlined</div><div class="frame" style="width:1180px" data-state="congress/profile"></div>
+    <div class="label">Timeline (also the homepage, About, Methodology): today's tabs, unchanged</div><div class="frame" style="width:1180px" data-state="timeline"></div>
+  </div>
+</section>
+
+</div>
+<script>
+const SITE=[
+ {id:'presidency',label:'Presidency',pages:[
+  ['executive-orders','Executive orders','How Many Executive Orders Does Each President Sign?','Every executive order since 1994, by year and topic, set against each presidential term.'],
+  ['economy','Economy','What Was the Economy Like?','Jobs, inflation, gas prices and more, lined up with who was in the White House.'],
+  ['energy','Energy','How Has U.S. Energy Changed?','Oil, electricity, LNG exports and the Strategic Petroleum Reserve, with the policy actions marked.'],
+  ['immigration','Immigration','How Many People Come In and Out of the U.S.?','Green cards, refugee admissions, border encounters and ICE removals by fiscal year and administration.'],
+  ['trade','Trade','How Does the U.S. Trade With the World?','Goods trade and the duties charged on imports, by country, through each tariff change.'],
+  ['foreign-aid','Foreign aid','Where Does U.S. Foreign Aid Go?','Where U.S. foreign assistance went, by country and sector, year by year.'],
+  ['national-security','National security','Where Are U.S. Troops Stationed Abroad?','Where active-duty U.S. troops are stationed, by country, region and branch.']]},
+ {id:'congress',label:'Congress',pages:[
+  ['ideology','Ideology','How Does Congress Vote?','Every member of the House and Senate placed on a two-dimensional map from their roll-call votes.'],
+  ['laws','Laws','What Laws Does Congress Pass?','How many public laws Congress enacts each Congress, by policy area, and how broadly they are supported, since 1973.'],
+  ['demographics','Demographics','Who Serves in Congress?','How old members of Congress are, how many are women, and how long they have served, since 1933.'],
+  ['wealth','Wealth','How Much Is Congress Worth?','Estimated net worth for members of Congress, from their annual financial disclosures.']]},
+ {id:'court',label:'Supreme Court',pages:[
+  ['ideology','Ideology','How Does the Supreme Court Lean?','Where each justice has sat since 1937 and how the Court’s median has moved, term by term.'],
+  ['decisions','Decisions','How Does the Supreme Court Decide?','How many argued cases the Court decides each term, and how often it splits, by issue area since 1946.']]},
+];
+const OTHER={
+ home:{eyebrow:'',title:'InsideGov',blurb:'The homepage keeps today’s header: branch tabs and the site search.'},
+ timeline:{eyebrow:'',title:'Who Held Power When It Happened?',blurb:'The one page across all three branches, so it keeps today’s tabs.'},
+};
+const byId=id=>SITE.find(b=>b.id===id);
+const cssBranch=b=>({presidency:'presidency',congress:'congress',court:'court'})[b];
+
+function parse(s){const [b,p]=s.split('/');return byId(b)?{branch:b,page:p}:{other:b}}
+
+function header(st){
+  if(st.other){
+    const tabs=SITE.map(b=>`<a class="tab" data-go="${b.id}/${b.pages[0][0]}">${b.label}</a>`).join('')+`<a class="tab ${st.other==='timeline'?'on':''}" data-go="timeline">Timeline</a>`;
+    return `<div class="bar"><a class="mark" data-go="home">InsideGov</a><nav class="tabs">${tabs}</nav>${st.other==='home'?'<span class="search">⌕ Search members, laws, cases</span>':''}</div>`;
+  }
+  const b=byId(st.branch), profile=st.page==='profile';
+  const pages=b.pages.map(([id,l])=>`<a class="pg ${id===st.page?'on':''}" data-go="${b.id}/${id}">${l}</a>`).join('');
+  return `<div class="bar">
+    <a class="mark" data-go="home">${profile?'<span class="back">←</span>':''}InsideGov</a>
+    <span class="slash" aria-hidden="true">/</span>
+    <button class="switch" type="button" aria-expanded="false" aria-haspopup="true"><span class="chip"></span>${b.label}<span class="car">▾</span></button>
+    <span class="divider"></span>
+    <div class="rowwrap"><nav class="pages" aria-label="${b.label} pages">${pages}</nav><span class="more"><button type="button">+0 ›</button></span></div>
+  </div>${map(st)}`;
+}
+
+function map(st){
+  const cols=SITE.map(b=>`<div class="col ${b.id===st.branch?'cur':''}" style="--c:var(--${cssBranch(b.id)});--w:var(--wash-${cssBranch(b.id)})">
+    <a class="colhd" data-go="${b.id}/${b.pages[0][0]}"><span class="chip"></span>${b.label}<span class="n">${b.pages.length}</span></a>
+    ${b.pages.map(([id,l])=>`<a class="it ${b.id===st.branch&&id===st.page?'on':''}" data-go="${b.id}/${id}">${l}</a>`).join('')}
+  </div>`).join('');
+  return `<div class="map" hidden><div class="cols">${cols}</div>
+    <div class="mapfoot">Across all three branches: <a data-go="timeline"><span class="chip" style="--c:var(--timeline)"></span>Timeline: who held power when it happened →</a><a class="home" data-go="home">Home</a></div></div>`;
+}
+
+function stub(st){
+  if(st.other){const o=OTHER[st.other];return `<div class="page">${o.eyebrow?`<div class="eyebrow">${o.eyebrow}</div>`:''}<h4>${o.title}</h4><p>${o.blurb}</p></div>`}
+  const b=byId(st.branch);
+  if(st.page==='profile') return `<div class="page"><div class="eyebrow">Senator · State · Party</div><h4>A member’s name</h4><p>Profile pages belong to their branch, so they get the switcher and the page row, with nothing underlined.</p></div>`;
+  const p=b.pages.find(x=>x[0]===st.page);
+  return `<div class="page"><div class="eyebrow">${b.label} · ${p[1]}</div><h4>${p[2]}</h4><p>${p[3]}</p></div>`;
+}
+
+function render(frame,state){
+  const st=parse(state);
+  frame.dataset.state=state;
+  const tone=st.other?'timeline':cssBranch(st.branch);
+  frame.style.setProperty('--c',`var(--${tone})`);frame.style.setProperty('--w',`var(--wash-${tone})`);
+  frame.innerHTML=header(st)+stub(st);
+  wire(frame);
+}
+
+function wire(frame){
+  const sw=frame.querySelector('.switch'), m=frame.querySelector('.map');
+  if(sw&&m){
+    const place=()=>{const fr=frame.getBoundingClientRect();m.style.left=Math.max(12,Math.min(sw.getBoundingClientRect().left-fr.left-11,fr.width-m.offsetWidth-12))+'px'};
+    sw.addEventListener('click',e=>{e.stopPropagation();const open=m.hidden;closeAll();if(open){place();m.hidden=false;sw.setAttribute('aria-expanded','true')}});
+  }
+  frame.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if(frame.id==='live')render(frame,a.dataset.go)}));
+  const nav=frame.querySelector('.pages'), more=frame.querySelector('.more');
+  if(nav){
+    const measure=()=>{const edge=nav.scrollLeft+nav.clientWidth;let n=0;for(const c of nav.children)if(c.offsetLeft+c.offsetWidth>edge+4)n++;more.classList.toggle('show',n>0);more.querySelector('button').textContent=`+${n} ›`};
+    nav.addEventListener('scroll',measure);more.querySelector('button').addEventListener('click',()=>nav.scrollBy({left:nav.clientWidth*.6,behavior:'smooth'}));
+    new ResizeObserver(measure).observe(nav);measure();
+  }
+}
+function closeAll(){document.querySelectorAll('.map').forEach(m=>m.hidden=true);document.querySelectorAll('.switch').forEach(s=>s.setAttribute('aria-expanded','false'))}
+document.addEventListener('click',e=>{if(!e.target.closest('.map'))closeAll()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+
+document.fonts.ready.then(()=>{
+  render(document.getElementById('live'),'presidency/executive-orders');
+  document.querySelectorAll('.frame[data-state]').forEach(f=>render(f,f.dataset.state));
+});
+</script>
+</body></html>

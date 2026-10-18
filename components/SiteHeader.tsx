@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { SiteNav, SiteSectionNav } from "./SiteNav";
 import { SiteSearch } from "./SiteSearch";
 import { useBackLinkHref } from "./BackLinkContext";
-import { branches, liveSections } from "@/lib/verticals";
+import { BranchSwitcher } from "./BranchSwitcher";
+import { branches, liveSections, sectionRow } from "@/lib/verticals";
 import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "@/lib/site-info";
 
 /** Pages where the primary nav is itself the way around: the wordmark is a
@@ -19,7 +20,8 @@ const SECTION_PAGES = new Set<string>([
 
 /**
  * One header row at `md`+ (two slim rows below): wordmark, branch tabs
- * (SiteNav), then — on any live vertical's pages, even with one section — a
+ * (SiteNav; on a branch's pages at md+ the BranchSwitcher "/ Presidency ▾"
+ * takes their place), then — on any live vertical's pages, even with one section — a
  * divider and the section pills (SiteSectionNav), all left-aligned; the right
  * is empty except on the homepage, which carries the site search (SiteSearch;
  * below md it replaces the branch tabs). Inner pages have no room for it: the
@@ -38,6 +40,8 @@ export function SiteHeader() {
   const isHome = pathname === "/";
   const isDetail = !SECTION_PAGES.has(pathname);
   const branch = branches.find((b) => b.owns(pathname))?.id;
+  // Inside a live branch, md+ swaps the branch tabs for the switcher (phones keep the tabs).
+  const row = sectionRow(pathname);
 
   return (
     <header data-branch={branch} className="border-b border-line bg-surface">
@@ -45,7 +49,7 @@ export function SiteHeader() {
         <Link
           href={isDetail ? backHref : "/"}
           title={isDetail ? "Back to InsideGov" : undefined}
-          className={`group flex h-12 flex-none items-center gap-1.5 whitespace-nowrap pl-4 pr-1 font-serif font-semibold tracking-tight text-ink md:mr-8 md:h-auto md:flex-none md:pl-0 md:pt-[5px] md:text-[1.35rem] ${isHome ? "pt-[5px] text-[1.3rem]" : isDetail ? "pt-[3px] text-[min(1.05rem,calc(5.14vw_-_3.08px))]" : "pt-[5px] text-[min(1.3rem,calc(6.4vw_-_3.84px))]"}`}
+          className={`group flex h-12 flex-none items-center gap-1.5 whitespace-nowrap pl-4 pr-1 font-serif font-semibold tracking-tight text-ink ${row ? "md:mr-0" : "md:mr-8"} md:h-auto md:flex-none md:pl-0 md:pt-[5px] md:text-[1.35rem] ${isHome ? "pt-[5px] text-[1.3rem]" : isDetail ? "pt-[3px] text-[min(1.05rem,calc(5.14vw_-_3.08px))]" : "pt-[5px] text-[min(1.3rem,calc(6.4vw_-_3.84px))]"}`}
         >
           {isDetail && (
             <span
@@ -63,6 +67,13 @@ export function SiteHeader() {
           <div className="hidden md:contents">
             <SiteNav />
           </div>
+        ) : row ? (
+          <>
+            <div className="contents md:hidden">
+              <SiteNav />
+            </div>
+            <BranchSwitcher branch={row.branch} />
+          </>
         ) : (
           <SiteNav />
         )}
