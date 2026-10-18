@@ -30,6 +30,8 @@ export interface Section {
 export interface Branch {
   id: string;
   label: string;
+  /** What the phone nav prints when the full label doesn't fit beside the others ("Court"); the full label stays for screen readers. */
+  shortLabel?: string;
   /** `/<vertical>` — redirects to the default section when the vertical is live. */
   href: string;
   /** Live iff the default section is live. */
@@ -50,6 +52,7 @@ interface SectionDef {
 interface BranchDef {
   id: string;
   label: string;
+  shortLabel?: string;
   defaultSection: string;
   sections: readonly SectionDef[];
 }
@@ -149,6 +152,7 @@ const DEFS: readonly BranchDef[] = [
   {
     id: "supreme-court",
     label: "Supreme Court",
+    shortLabel: "Court",
     defaultSection: "ideology",
     sections: [
       {
@@ -176,6 +180,7 @@ function build(def: BranchDef): Branch {
   return {
     id: def.id,
     label: def.label,
+    shortLabel: def.shortLabel,
     href,
     status: dflt?.status === "live" ? "live" : "soon",
     defaultSection: def.defaultSection,
