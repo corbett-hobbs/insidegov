@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { SourceLink } from "@/components/SourceLink";
 import { DirectionTag } from "@/components/decisions/DirectionTag";
+import { LANDMARK_WORD, PILL_LANDMARK, PILL_NEUTRAL } from "@/components/decisions/pill";
 import { Swatch } from "@/components/decisions/shared";
 import { longDate } from "@/lib/law-details-derive";
 import { BAND_COLORS, BAND_LONG } from "@/lib/decisions-types";
@@ -13,7 +14,7 @@ import { BenchCard } from "./BenchCard";
 import { CaseRow } from "@/components/decisions/CaseListCard";
 import { LeadBody } from "./LeadBody";
 
-const BADGE = "inline-flex items-center rounded-full border border-line-strong px-2 py-px text-[0.68rem] font-medium text-ink-muted";
+const BADGE = PILL_NEUTRAL;
 const LINK = "text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
 /** Majority and dissent are not party colours: the bar is a count, so ink and a pale line, as the law page's yea and nay. */
@@ -38,9 +39,11 @@ function Gist({ d }: { d: DecisionPageData }) {
 /** Facts under the title: cite, docket, term and Court; dates; issue; badges; who wrote the opinion. */
 function Facts({ d }: { d: DecisionPageData }) {
   const badges = [
+    d.direction && <DirectionTag key="dir" direction={d.direction} areaId={d.area?.id ?? null} />,
     d.landmark && (
-      <span key="lm" className={BADGE} title="On Wikipedia’s list of landmark decisions">
-        {`Landmark${d.landmark.topics ? ` · ${d.landmark.topics}` : ""}`}
+      <span key="lm" className={PILL_LANDMARK} title="On Wikipedia’s list of landmark decisions">
+        <span className={LANDMARK_WORD}>Landmark</span>
+        {d.landmark.topics ? ` · ${d.landmark.topics}` : ""}
       </span>
     ),
     d.precedentAltered && (
@@ -69,7 +72,6 @@ function Facts({ d }: { d: DecisionPageData }) {
           {d.area?.label}
           {d.area && d.issue ? " · " : ""}
           {d.issue}
-          {d.direction && <DirectionTag direction={d.direction} areaId={d.area?.id ?? null} />}
         </p>
       )}
       {badges.length > 0 && <p className="m-0 flex flex-wrap gap-1.5">{badges}</p>}
@@ -281,7 +283,7 @@ function Related({ d }: { d: DecisionPageData }) {
   const n = cases.length;
   return (
     <ChartCard title="Other decisions on the same issue" lede={`${n} other argued case${n === 1 ? "" : "s"} since 1946 on ${issue.charAt(0).toLowerCase()}${issue.slice(1).replace(/:\s+including\b/, ", including")}, newest first.`}>
-      <div tabIndex={0} aria-label="Other decisions on the same issue, scrollable" className="touch-scroll max-h-[32rem] overflow-y-auto overscroll-contain rounded-md border border-line">
+      <div tabIndex={0} aria-label="Other decisions on the same issue, scrollable" className="touch-scroll max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
         <ol className="m-0 list-none p-0">
           {cases.map((r) => (
             <CaseRow key={r.c[14]} c={r.c} area={r.area} areaId={r.areaId} />

@@ -2,13 +2,14 @@
 
 import { useEffect, useMemo, useState, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
-import { CaseRow, JUSTICE_COLUMNS } from "@/components/decisions/CaseListCard";
+import { CaseRow, JUSTICE_COLUMNS, type CaseQualifier } from "@/components/decisions/CaseListCard";
 import { useDecisionCases } from "@/components/decisions/useDecisionCases";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { VOTE_DISSENT, VOTE_DIVIDED, VOTE_MAJORITY, VOTE_NONE, type JusticeVote } from "@/lib/decisions-entities";
 import { fmtInt } from "@/lib/decisions-derive";
 import { ROLE_LABEL, VOTE_FILTERS, VOTE_LABEL, joinVotes, matchesVote, pct, voteStats, type VoteFilter, type VotedCase } from "@/lib/justice-votes-derive";
 import { SourceLink } from "@/components/SourceLink";
+import { PILL as PILL_BASE } from "@/components/decisions/pill";
 
 const PAGE = 120;
 
@@ -43,14 +44,12 @@ function useJusticeVotes(justiceId: number): { votes: JusticeVote[] | null; fail
   return state.id === justiceId ? state : { votes: null, failed: false };
 }
 
-function Qualifier({ v }: { v: VotedCase }) {
+function qualifierFor(v: VotedCase): CaseQualifier {
   const role = ROLE_LABEL[v.role];
-  return (
-    <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 sm:flex-nowrap">
-      <span className={`inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-px text-[0.74rem] font-medium ${PILL[v.vote as keyof typeof PILL]}`}>{VOTE_LABEL[v.vote]}</span>
-      {role && <span className="text-[0.7rem] text-ink-muted">{role}</span>}
-    </span>
-  );
+  return {
+    pill: <span className={`${PILL_BASE} ${PILL[v.vote as keyof typeof PILL]}`}>{VOTE_LABEL[v.vote]}</span>,
+    note: role ? <span className="text-[0.7rem] text-ink-muted">{role}</span> : undefined,
+  };
 }
 
 function Stat({ value, label }: { value: string; label: string }) {
@@ -150,7 +149,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
           Landmark cases
         </button>
       </div>
-      <div key={sig} tabIndex={0} aria-label={`${last}'s cases, scrollable`} onScroll={grow} className="touch-scroll relative mt-2 max-h-[32rem] overflow-y-auto overscroll-contain rounded-md border border-line">
+      <div key={sig} tabIndex={0} aria-label={`${last}'s cases, scrollable`} onScroll={grow} className="touch-scroll relative mt-2 max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
         <div
           className={`sticky top-0 z-10 hidden gap-x-3 border-b border-line-strong bg-surface-raised px-3 py-1.5 font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint sm:grid ${JUSTICE_COLUMNS}`}
           aria-hidden
@@ -168,7 +167,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
         ) : (
           <ol className="m-0 list-none p-0">
             {rows.slice(0, n).map((v) => (
-              <CaseRow key={v.c[14]} c={v.c} area={v.c[4] >= 0 ? (source.areas[v.c[4]]?.label ?? "No issue area") : "No issue area"} areaId={v.c[4] >= 0 ? (source.areas[v.c[4]]?.id ?? null) : null} qualifier={<Qualifier v={v} />} />
+              <CaseRow key={v.c[14]} c={v.c} area={v.c[4] >= 0 ? (source.areas[v.c[4]]?.label ?? "No issue area") : "No issue area"} areaId={v.c[4] >= 0 ? (source.areas[v.c[4]]?.id ?? null) : null} qualifier={qualifierFor(v)} />
             ))}
           </ol>
         )}

@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { scaleLinear } from "d3-scale";
 import { ChartFrame } from "@/components/charts/ChartFrame";
-import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { DotCardTooltips, useDotCard } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import {
   fmtScore,
@@ -35,6 +35,8 @@ interface Tip {
   median: number | null;
 }
 
+const sameJustice = (a: Tip, b: Tip) => a.j.id === b.j.id;
+
 const partyVar = (j: CourtJustice) => (j.party === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
@@ -59,7 +61,8 @@ export function JusticeStrip({
 }) {
   const [wrapRef, measuredW] = useElementWidth<HTMLDivElement>();
   const W = measuredW || FALLBACK_W;
-  const tip = useTooltip<Tip>();
+  // A click or tap on a justice pins their card; the card links to their profile (ARCHITECTURE_MAP 10t).
+  const card = useDotCard<Tip>(sameJustice);
   const rec = data.terms[term - data.firstTerm];
 
   const { layout, medianX } = useMemo(() => {
@@ -95,17 +98,14 @@ export function JusticeStrip({
   const mid = (id: number): Mid =>
     rec.left.includes(id) ? "left" : rec.joined.includes(id) ? "joined" : null;
 
-  const showTip = (id: number, e: React.PointerEvent) => {
+  const tipFor = (id: number): Tip => {
     const j = byId.get(id) as CourtJustice;
-    tip.show(
-      {
-        j,
-        score: scoreAt(j, term),
-        mid: mid(id),
-        median: id === rec.medianJusticeId ? rec.medianProb : null,
-      },
-      e,
-    );
+    return {
+      j,
+      score: scoreAt(j, term),
+      mid: mid(id),
+      median: id === rec.medianJusticeId ? rec.medianProb : null,
+    };
   };
 
   const mClamped = Math.max(26, Math.min(W - 26, medianX));
@@ -194,10 +194,7 @@ export function JusticeStrip({
                     key={j.id}
                     opacity={dim ? 0.22 : 1}
                     style={{ cursor: "pointer" }}
-                    onPointerEnter={(e) => showTip(j.id, e)}
-                    onPointerMove={tip.move}
-                    onPointerLeave={tip.hide}
-                    onClick={() => onSelect(j.id)}
+                    {...card.bind(tipFor(j.id))}
                   >
                     {leader}
                     <text
@@ -230,16 +227,8 @@ export function JusticeStrip({
                     role="button"
                     aria-label={`${j.name}, score ${fmtScore(scoreAt(j, term))}${m ? (m === "left" ? ", left the Court mid-term" : ", joined the Court mid-term") : ""}`}
                     aria-pressed={sel}
-                    onPointerEnter={(e) => showTip(j.id, e)}
-                    onPointerMove={tip.move}
-                    onPointerLeave={tip.hide}
-                    onClick={() => onSelect(j.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        onSelect(j.id);
-                      }
-                    }}
+                    {...card.bind(tipFor(j.id))}
+                    onKeyDown={card.onKey(tipFor(j.id))}
                     className="court-dot"
                   >
                     {sel && (
@@ -267,7 +256,7 @@ export function JusticeStrip({
           </>
         )}
       </ChartFrame>
-      <Tooltip state={tip.state}>
+      <DotCardTooltips card={card} onActivate={(t) => onSelect(t.j.id)}>
         {(t) => (
           <>
             <b>{t.j.name}</b>
@@ -291,7 +280,7 @@ export function JusticeStrip({
             )}
           </>
         )}
-      </Tooltip>
+      </DotCardTooltips>
     </div>
   );
 }

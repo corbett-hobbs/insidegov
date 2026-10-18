@@ -6,7 +6,7 @@ import { scaleLinear } from "d3-scale";
 import { forceCollide, forceSimulation, forceX, forceY } from "d3-force";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
-import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { DotCardTooltips, useDotCard } from "@/components/charts/Tooltip";
 import type { ChamberMember } from "@/lib/congress-types";
 import { hasProfilePage, memberPath } from "@/lib/member-url";
 import { partyFillClass } from "@/lib/party-palette";
@@ -56,7 +56,7 @@ export function BeeswarmChart({
     return () => ro.disconnect();
   }, [fill]);
   const router = useRouter();
-  const tip = useTooltip<ChamberMember>();
+  const card = useDotCard<ChamberMember>();
 
   const { nodes, swarmHeight } = useMemo(() => {
     const x = scaleLinear().domain([-1, 1]).range([0, INNER_W]);
@@ -120,12 +120,7 @@ export function BeeswarmChart({
                     r={isHi ? 8 : R}
                     className={`dot ${partyFillClass(n.m)}${isHi ? " is-highlighted" : ""}`}
                     style={navigable ? { cursor: "pointer" } : undefined}
-                    onPointerEnter={(e) => tip.show(n.m, e)}
-                    onPointerMove={tip.move}
-                    onPointerLeave={tip.hide}
-                    onClick={
-                      navigable ? () => router.push(memberPath(n.m)) : undefined
-                    }
+                    {...card.bind(n.m)}
                   />
                 );
               })}
@@ -133,7 +128,13 @@ export function BeeswarmChart({
           );
         }}
       </ChartFrame>
-      <Tooltip state={tip.state}>{(m) => <MemberTooltip member={m} />}</Tooltip>
+      <DotCardTooltips
+        card={card}
+        onActivate={(m) => router.push(memberPath(m))}
+        canActivate={hasProfilePage}
+      >
+        {(m) => <MemberTooltip member={m} />}
+      </DotCardTooltips>
     </>
   );
   if (!fill) return frame;

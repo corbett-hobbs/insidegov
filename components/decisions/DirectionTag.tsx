@@ -3,6 +3,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { DIRECTION_LABEL, directionNote } from "@/lib/decisions-direction";
 import type { DecisionDirection } from "@/lib/decisions-types";
+import { PILL } from "./pill";
 
 const TONE: Record<DecisionDirection, string> = {
   1: "bg-[var(--outcome-con-bg)] text-[var(--outcome-con-ink)]",
@@ -15,12 +16,12 @@ export const DIRECTION_DOT: Record<DecisionDirection, string> = { 1: "var(--outc
 const MARGIN = 8;
 
 /**
- * "Liberal" / "Conservative" beside a case's name: the Supreme Court Database's coding of who prevailed. It is small on purpose
- * (the size of the Landmark badge); what it means for the case's issue area is in a note that opens on hover, on keyboard focus,
+ * The "Liberal" / "Conservative" pill: the Supreme Court Database's coding of who prevailed. It is the same size as every other
+ * pill on a case (`pill.ts`) and sits in the case's pill row, never in the title; what it means for the case's issue area is in a note that opens on hover, on keyboard focus,
  * or on a tap (a second tap, a tap elsewhere, Escape or scrolling closes it). The note is `position: fixed`, so the list's scroll
  * box never clips it.
  */
-export function DirectionTag({ direction, areaId }: { direction: DecisionDirection; areaId: string | null }) {
+export function DirectionTag({ direction, areaId, className = "" }: { direction: DecisionDirection; areaId: string | null; className?: string }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ left: number; top: number } | null>(null);
   const btn = useRef<HTMLButtonElement>(null);
@@ -85,7 +86,7 @@ export function DirectionTag({ direction, areaId }: { direction: DecisionDirecti
           else if (open) hide();
           else show();
         }}
-        className={`ml-2 inline-block cursor-help whitespace-nowrap rounded-full border-0 px-1.5 py-px align-baseline font-[inherit] text-[0.66rem] font-medium leading-[1.35] ${TONE[direction]} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
+        className={`${PILL} cursor-help border-transparent font-[inherit] ${TONE[direction]} ${className} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
       >
         {label}
         <span className="sr-only"> outcome</span>

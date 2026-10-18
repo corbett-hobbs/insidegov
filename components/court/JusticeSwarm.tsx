@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { scaleLinear } from "d3-scale";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Axis } from "@/components/charts/Axis";
-import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { DotCardTooltips, useDotCard } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import { fmtScore, partyLabel } from "@/lib/court-types";
 import { justicePath } from "@/lib/justice-url";
@@ -38,7 +38,7 @@ export function JusticeSwarm({
   const router = useRouter();
   const [ref, measured] = useElementWidth<HTMLDivElement>();
   const W = measured || FALLBACK_W;
-  const tip = useTooltip<SwarmPoint>();
+  const card = useDotCard<SwarmPoint>();
   const { justice, swarm } = profile;
   const { points, range } = swarm;
 
@@ -102,7 +102,6 @@ export function JusticeSwarm({
               const d = geo.dotById.get(p.id)!;
               const t = tier(p);
               const isSubject = t === 2;
-              const href = justicePath(p);
               return (
                 <g key={p.id}>
                   {isSubject && (
@@ -123,11 +122,8 @@ export function JusticeSwarm({
                     stroke="var(--surface)"
                     strokeWidth={1.25}
                     opacity={t === 0 ? 0.22 : 1}
-                    style={isSubject ? undefined : { cursor: "pointer" }}
-                    onPointerEnter={(e) => tip.show(p, e)}
-                    onPointerMove={tip.move}
-                    onPointerLeave={tip.hide}
-                    onClick={isSubject ? undefined : () => router.push(href)}
+                    style={{ cursor: "pointer" }}
+                    {...card.bind(p)}
                   />
                 </g>
               );
@@ -171,7 +167,11 @@ export function JusticeSwarm({
         {profile.last}&rsquo;s range across terms
       </p>
 
-      <Tooltip state={tip.state}>
+      <DotCardTooltips
+        card={card}
+        onActivate={(p) => router.push(justicePath(p))}
+        canActivate={(p) => p.id !== justice.id}
+      >
         {(p) => (
           <>
             <b>{p.name}</b>
@@ -179,7 +179,7 @@ export function JusticeSwarm({
             <div className="tt-mono">Career average: {fmtScore(p.career)}</div>
           </>
         )}
-      </Tooltip>
+      </DotCardTooltips>
     </div>
   );
 }

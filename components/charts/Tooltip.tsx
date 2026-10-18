@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { useMediaQuery } from "@/lib/use-media-query";
 
 interface TooltipState<T> {
   data: T;
@@ -115,6 +116,98 @@ export function usePinnedTooltip<T>() {
     };
   }, [pinned, hide]);
   return pin;
+}
+
+/**
+ * The standard behaviour for any mark that is one named individual (a justice, a member, a bench seat): ARCHITECTURE_MAP
+ * rule 10t. A mouse previews the follow-the-pointer tooltip on hover; a click or tap **pins** the card open until the
+ * reader clicks elsewhere, presses Esc, or taps the mark again; the card (never the mark) carries the profile link.
+ * Phones skip the hover preview (a tap goes straight to the pinned card). Spread `bind(d)` on the hit target and render
+ * `<DotCardTooltips card={card}>` once. Pass `same` when the datum object is rebuilt between renders.
+ */
+export function useDotCard<T>(same: (a: T, b: T) => boolean = Object.is) {
+  const tip = useTooltip<T>();
+  const pin = usePinnedTooltip<T>();
+  const hover = useMediaQuery("(hover: hover)");
+  const { show: tipShow, move: tipMove, hide: tipHide } = tip;
+  const { show: pinShow, hide: pinHide } = pin;
+  const pinned = pin.state;
+
+  const enter = useCallback((d: T, e: PointerLike) => hover && tipShow(d, e), [hover, tipShow]);
+  const leave = useCallback(() => tipHide(), [tipHide]);
+  const move = useCallback((e: PointerLike) => hover && tipMove(e), [hover, tipMove]);
+  /** Click, tap or Enter on a mark: pin its card, or close it if it is already the pinned one. */
+  const toggle = useCallback(
+    (d: T, e: PointerLike) => {
+      tipHide();
+      if (pinned && same(pinned.data, d)) pinHide();
+      else pinShow(d, e);
+    },
+    [pinned, same, tipHide, pinHide, pinShow],
+  );
+  const bind = useCallback(
+    (d: T) => ({
+      "data-pin-target": "",
+      onPointerEnter: (e: React.PointerEvent) => enter(d, e),
+      onPointerMove: move,
+      onPointerLeave: leave,
+      onClick: (e: React.MouseEvent) => {
+        e.stopPropagation();
+        toggle(d, e);
+      },
+    }),
+    [enter, move, leave, toggle],
+  );
+  /** Keyboard: Enter or Space on a focused mark pins its card beside the mark. */
+  const onKey = useCallback(
+    (d: T) => (e: React.KeyboardEvent<Element>) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      const r = e.currentTarget.getBoundingClientRect();
+      toggle(d, { clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 });
+    },
+    [toggle],
+  );
+
+  return { tip, pin, pinned, bind, onKey, enter, move, leave, toggle, hide: pinHide };
+}
+
+/** The two cards of `useDotCard`: the hover preview and the pinned one, whose click or Enter calls `onActivate`. */
+export function DotCardTooltips<T>({
+  card,
+  children,
+  onActivate,
+  canActivate,
+  activateHint = "Open profile →",
+}: {
+  card: Pick<ReturnType<typeof useDotCard<T>>, "tip" | "pin" | "hide">;
+  children: (data: T) => ReactNode;
+  onActivate?: (data: T) => void;
+  /** Gate the link per datum (a former member has no profile page). Default: every datum. */
+  canActivate?: (data: T) => boolean;
+  activateHint?: string;
+}) {
+  const open = card.pin.state;
+  const linked = onActivate != null && open != null && (canActivate ? canActivate(open.data) : true);
+  return (
+    <>
+      <Tooltip state={open ? null : card.tip.state}>{children}</Tooltip>
+      <Tooltip
+        state={open}
+        onActivate={
+          linked
+            ? (d) => {
+                card.hide();
+                onActivate(d);
+              }
+            : undefined
+        }
+        activateHint={linked ? activateHint : undefined}
+      >
+        {children}
+      </Tooltip>
+    </>
+  );
 }
 
 interface TooltipProps<T> {
