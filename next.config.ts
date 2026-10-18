@@ -64,6 +64,14 @@ const nextConfig: NextConfig = {
     "/api/v1/datasets/[id]/rows": API_TABLES,
     "/mcp": API_TABLES,
   },
+
+  // Loaders that read pipeline/output/ by a computed file name pull the whole directory into every server
+  // function. The goods-by-product shards (12 MB, 236 files) are read by no route yet, and carrying them in
+  // every function split the bundles past the Hobby plan's 12-function limit. Drop this when the products
+  // card adds a route that reads them (and list that route in outputFileTracingIncludes instead).
+  outputFileTracingExcludes: {
+    "/**": ["./pipeline/output/trade_products/**"],
+  },
 };
 
 export default nextConfig;
