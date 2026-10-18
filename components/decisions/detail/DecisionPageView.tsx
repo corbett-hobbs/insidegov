@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { SourceLink } from "@/components/SourceLink";
 import { DirectionTag } from "@/components/decisions/DirectionTag";
+import { PILL_NEUTRAL } from "@/components/decisions/pill";
 import { Swatch } from "@/components/decisions/shared";
 import { longDate } from "@/lib/law-details-derive";
 import { BAND_COLORS, BAND_LONG } from "@/lib/decisions-types";
@@ -13,7 +14,7 @@ import { BenchCard } from "./BenchCard";
 import { CaseRow } from "@/components/decisions/CaseListCard";
 import { LeadBody } from "./LeadBody";
 
-const BADGE = "inline-flex items-center rounded-full border border-line-strong px-2 py-px text-[0.68rem] font-medium text-ink-muted";
+const BADGE = `${PILL_NEUTRAL} truncate`;
 const LINK = "text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
 /** Majority and dissent are not party colours: the bar is a count, so ink and a pale line, as the law page's yea and nay. */
@@ -38,6 +39,7 @@ function Gist({ d }: { d: DecisionPageData }) {
 /** Facts under the title: cite, docket, term and Court; dates; issue; badges; who wrote the opinion. */
 function Facts({ d }: { d: DecisionPageData }) {
   const badges = [
+    d.direction && <DirectionTag key="dir" direction={d.direction} areaId={d.area?.id ?? null} />,
     d.landmark && (
       <span key="lm" className={BADGE} title="On Wikipedia’s list of landmark decisions">
         {`Landmark${d.landmark.topics ? ` · ${d.landmark.topics}` : ""}`}
@@ -69,7 +71,6 @@ function Facts({ d }: { d: DecisionPageData }) {
           {d.area?.label}
           {d.area && d.issue ? " · " : ""}
           {d.issue}
-          {d.direction && <DirectionTag direction={d.direction} areaId={d.area?.id ?? null} />}
         </p>
       )}
       {badges.length > 0 && <p className="m-0 flex flex-wrap gap-1.5">{badges}</p>}

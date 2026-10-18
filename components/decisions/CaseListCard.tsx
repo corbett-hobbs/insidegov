@@ -9,6 +9,7 @@ import { decisionPath } from "@/lib/decision-url";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
+import { PILL_NEUTRAL } from "./pill";
 import { Swatch } from "./shared";
 import { useDecisionCases } from "./useDecisionCases";
 import { SourceLink } from "@/components/SourceLink";
@@ -161,15 +162,14 @@ export function CaseListCard() {
 /** Wide-screen columns of a row with a qualifier: date, name, issue area, vote, how the justice voted. */
 export const JUSTICE_COLUMNS = "sm:grid-cols-[6rem_minmax(0,1fr)_8.5rem_4.5rem_13rem]";
 
-const BADGE =
-  "inline-block whitespace-nowrap rounded-full border border-line-strong bg-surface-raised px-1.5 py-px align-baseline text-[0.66rem] font-medium text-ink-muted no-underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
+const BADGE = `${PILL_NEUTRAL} truncate no-underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`;
 
 /**
  * One case. Phones: the name on its own line; under it the date and citation on the left with the vote on the right (the
- * count a reader scans for); the issue area and the landmark badge below. From `sm`: date, name (badge and citation inline),
- * issue area and vote in four columns. The phone and wide copies of the citation and badge are one or the other (display:none),
- * never both exposed. `qualifier` adds a fifth column (the justice page's "how they voted"): after the issue area on phones, at the
- * right on wide screens.
+ * count a reader scans for); the issue area; then one row of pills (outcome, Landmark, and the justice page's "how they voted"),
+ * all the same size (`pill.ts`). From `sm`: date, name (outcome pill, landmark pill and citation inline), issue area and vote in four
+ * columns, with `qualifier` as a fifth column at the right. The phone and wide copies of a pill are one or the other (display:none),
+ * never both exposed.
  */
 export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area: string; areaId: string | null; qualifier?: ReactNode }) {
   const name = (
@@ -191,12 +191,18 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
       Landmark{c[9] ? ` \u00b7 ${c[9]}` : ""}
     </a>
   ) : null;
+  const direction = c[13] !== 0 ? c[13] : null;
+  const hasPills = direction !== null || badge !== null || !!qualifier;
   return (
     <li className={`grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 border-b border-line px-3 py-2.5 text-[0.82rem] last:border-b-0 ${qualifier ? JUSTICE_COLUMNS : "sm:grid-cols-[6.5rem_minmax(0,1fr)_9.5rem_4.5rem]"} sm:items-baseline sm:gap-y-0.5 sm:py-2`}>
       {/* name (+ badge and citation inline from sm) */}
       <span className="col-span-2 min-w-0 break-words sm:col-span-1 sm:col-start-2 sm:row-start-1">
         {name}
-        {c[13] !== 0 && <DirectionTag direction={c[13]} areaId={areaId} />}
+        {direction !== null && (
+          <span className="ml-2 max-sm:hidden">
+            <DirectionTag direction={direction} areaId={areaId} />
+          </span>
+        )}
         {badge && <span className="ml-2 max-sm:hidden">{badge}</span>}
         {c[3] && <span className="ml-2 whitespace-nowrap text-[0.75rem] tabular-nums text-ink-faint max-sm:hidden">{c[3]}</span>}
       </span>
@@ -205,11 +211,18 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
         {fmtDate(c[1])}
         {c[3] && <span className="text-ink-faint sm:hidden">{` \u00b7 ${c[3]}`}</span>}
       </span>
-      {/* issue area (and, on phones, the landmark badge) */}
-      <span className="col-start-1 row-start-3 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[0.75rem] text-ink-muted sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={area}>
+      {/* issue area */}
+      <span className="col-start-1 row-start-3 min-w-0 text-[0.75rem] text-ink-muted sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={area}>
         {area}
-        {badge && <span className="sm:hidden">{badge}</span>}
       </span>
+      {/* phones: every pill in one row under the issue area */}
+      {hasPills && (
+        <span className="col-span-2 col-start-1 row-start-4 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 sm:hidden">
+          {direction !== null && <DirectionTag direction={direction} areaId={areaId} />}
+          {badge}
+          {qualifier}
+        </span>
+      )}
       {/* vote: right-aligned under the name on phones */}
       <span
         className="col-start-2 row-span-2 row-start-2 inline-flex items-center justify-end gap-1.5 self-center whitespace-nowrap text-[0.95rem] tabular-nums sm:col-start-4 sm:row-span-1 sm:row-start-1 sm:self-baseline sm:text-[0.82rem]"
@@ -219,8 +232,8 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
         <span className="font-medium">{`${c[6]}\u2013${c[7]}`}</span>
         <span className="sr-only">{BAND_SHORT[c[5]]} band</span>
       </span>
-      {qualifier && <span className="col-span-2 col-start-1 row-start-4 sm:col-span-1 sm:col-start-5 sm:row-start-1">{qualifier}</span>}
-      {c[11] && <Summary text={c[11]} claude={c[12] === 1} wide={!!qualifier} />}
+      {qualifier && <span className="max-sm:hidden sm:col-start-5 sm:row-start-1">{qualifier}</span>}
+      {c[11] && <Summary text={c[11]} claude={c[12] === 1} wide={!!qualifier} phoneRow={hasPills ? 5 : 4} />}
     </li>
   );
 }
@@ -231,10 +244,10 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
  * under the row (from `sm` it lines up with the name column). On phones it holds to three lines and a tap opens the rest; a
  * wide row shows the whole sentence, which is at most 300 characters.
  */
-function Summary({ text, claude, wide }: { text: string; claude: boolean; wide: boolean }) {
+function Summary({ text, claude, wide, phoneRow }: { text: string; claude: boolean; wide: boolean; phoneRow: 4 | 5 }) {
   const [open, setOpen] = useState(false);
   return (
-    <p className={`col-span-2 m-0 text-[0.76rem] leading-[1.45] text-ink-muted sm:col-start-2 sm:row-start-2 ${wide ? "max-sm:row-start-5 sm:col-span-4" : "sm:col-span-3"}`}>
+    <p className={`col-span-2 m-0 text-[0.76rem] leading-[1.45] text-ink-muted sm:col-start-2 sm:row-start-2 ${phoneRow === 5 ? "max-sm:row-start-5" : "max-sm:row-start-4"} ${wide ? "sm:col-span-4" : "sm:col-span-3"}`}>
       <button
         type="button"
         onClick={() => setOpen(!open)}

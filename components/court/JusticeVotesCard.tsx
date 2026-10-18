@@ -9,6 +9,7 @@ import { VOTE_DISSENT, VOTE_DIVIDED, VOTE_MAJORITY, VOTE_NONE, type JusticeVote 
 import { fmtInt } from "@/lib/decisions-derive";
 import { ROLE_LABEL, VOTE_FILTERS, VOTE_LABEL, joinVotes, matchesVote, pct, voteStats, type VoteFilter, type VotedCase } from "@/lib/justice-votes-derive";
 import { SourceLink } from "@/components/SourceLink";
+import { PILL as PILL_BASE } from "@/components/decisions/pill";
 
 const PAGE = 120;
 
@@ -47,7 +48,7 @@ function Qualifier({ v }: { v: VotedCase }) {
   const role = ROLE_LABEL[v.role];
   return (
     <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 sm:flex-nowrap">
-      <span className={`inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-px text-[0.74rem] font-medium ${PILL[v.vote as keyof typeof PILL]}`}>{VOTE_LABEL[v.vote]}</span>
+      <span className={`${PILL_BASE} ${PILL[v.vote as keyof typeof PILL]}`}>{VOTE_LABEL[v.vote]}</span>
       {role && <span className="text-[0.7rem] text-ink-muted">{role}</span>}
     </span>
   );
