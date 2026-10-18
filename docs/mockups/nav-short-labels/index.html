@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phone nav: short labels (mock)</title>
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--raised:#f7f8fa;--ink:#1a2233;--muted:#5b6472;--faint:#8890a0;--line:#d7dce3;--accent:#1f3a68}
+@media (prefers-color-scheme:dark){:root{--bg:#10141c;--surface:#171c26;--raised:#1e2430;--ink:#e8ebf0;--muted:#a3abb8;--faint:#7c8594;--line:#2c3442;--accent:#8fb0e8}}
+*{box-sizing:border-box}
+body{margin:0;padding:20px 16px 40px;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif}
+h1{font:600 1rem system-ui;margin:0 0 4px}p.s{margin:0 0 18px;color:var(--muted);font-size:.82rem;max-width:44rem}
+.grid{display:flex;flex-wrap:wrap;gap:22px 26px;align-items:flex-start}
+figure{margin:0}figcaption{font-size:.74rem;color:var(--muted);margin:0 0 6px;max-width:24rem}
+figcaption b{color:var(--ink)}
+.frame{container-type:inline-size;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.hdr{display:flex;align-items:stretch;height:48px;border-bottom:1px solid var(--line);padding-left:min(16px,3.5cqw)}
+.mark{font:600 min(1.45rem,5.6cqw) Georgia,serif;display:flex;align-items:center;margin-right:min(10px,2cqw);letter-spacing:-.01em}
+.wrap{position:relative;flex:1;min-width:0;display:flex}
+.nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding-right:4px}
+.nav::-webkit-scrollbar{display:none}
+.nav a{display:flex;align-items:center;white-space:nowrap;border-bottom:3px solid transparent;padding:2px min(6px,1.1cqw) 0;font:400 min(.72rem,calc(3.52cqw - 2.11px))/1 ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:min(.04em,.012em + .6cqw / 10);color:var(--muted);text-decoration:none}
+.nav a.on{border-color:var(--ink);color:var(--ink)}
+.short{display:none}
+.after .full{display:none}.after .short{display:inline}
+.more{position:absolute;right:0;top:0;bottom:0;display:none;align-items:center;padding-left:26px;background:linear-gradient(90deg,transparent,var(--surface) 55%);pointer-events:none}
+.more.show{display:flex}
+.more button{pointer-events:auto;border:0;border-radius:4px;background:var(--accent);color:#fff;font:600 .68rem ui-monospace,monospace;height:26px;padding:0 8px;margin-right:6px}
+@media (prefers-color-scheme:dark){.more button{color:#10141c}}
+</style></head><body>
+<h1>Phone nav: short labels, plus an overflow button as a safety net</h1>
+<p class="s">Below <code>md</code>, "Supreme Court" reads "Court" so all four tabs fit at the same type size. If a row ever still overflows (here, 320px with an extra tab added), the "+N ›" button from the section pills appears over a fade. Frames are real widths; resize-proof (sizes follow each frame, not the window).</p>
+<div class="grid">
+  <figure><figcaption><b>Before</b> · 412px. Timeline is cut off with no hint.</figcaption>
+    <div class="frame" style="width:412px"><div class="hdr"><div class="mark">InsideGov</div><div class="wrap"><nav class="nav" data-ov>
+      <a href="#"><span class="full">Presidency</span></a><a href="#"><span class="full">Congress</span></a><a href="#"><span class="full">Supreme Court</span></a><a href="#" class="on"><span class="full">Timeline</span></a></nav></div></div></div></figure>
+
+  <figure><figcaption><b>After</b> · 412px. All four fit; no button needed.</figcaption>
+    <div class="frame after" style="width:412px"><div class="hdr"><div class="mark">InsideGov</div><div class="wrap"><nav class="nav" data-ov>
+      <a href="#">Presidency</a><a href="#">Congress</a><a href="#"><span class="short">Court</span></a><a href="#" class="on">Timeline</a></nav><div class="more"><button type="button">+1 ›</button></div></div></div></div></figure>
+
+  <figure><figcaption><b>After</b> · 360px.</figcaption>
+    <div class="frame after" style="width:360px"><div class="hdr"><div class="mark">InsideGov</div><div class="wrap"><nav class="nav" data-ov>
+      <a href="#">Presidency</a><a href="#">Congress</a><a href="#"><span class="short">Court</span></a><a href="#" class="on">Timeline</a></nav><div class="more"><button type="button">+1 ›</button></div></div></div></div></figure>
+
+  <figure><figcaption><b>After</b> · 320px, smallest phones. Fits.</figcaption>
+    <div class="frame after" style="width:320px"><div class="hdr"><div class="mark">InsideGov</div><div class="wrap"><nav class="nav" data-ov>
+      <a href="#">Presidency</a><a href="#">Congress</a><a href="#"><span class="short">Court</span></a><a href="#" class="on">Timeline</a></nav><div class="more"><button type="button">+1 ›</button></div></div></div></div></figure>
+
+  <figure><figcaption><b>Safety net</b> · 320px with a long fifth tab ("Elections") added, to show what happens if the row ever overflows again: "+N ›" over a fade, tap to scroll.</figcaption>
+    <div class="frame after" style="width:320px"><div class="hdr"><div class="mark">InsideGov</div><div class="wrap"><nav class="nav" data-ov>
+      <a href="#">Presidency</a><a href="#">Congress</a><a href="#"><span class="short">Court</span></a><a href="#">Timeline</a><a href="#">Elections</a></nav><div class="more"><button type="button">+1 ›</button></div></div></div></div></figure>
+</div>
+<script>
+document.querySelectorAll('[data-ov]').forEach(nav=>{
+  const more=nav.parentElement.querySelector('.more'); if(!more)return;
+  const btn=more.querySelector('button');
+  const measure=()=>{
+    const edge=nav.scrollLeft+nav.clientWidth, links=[...nav.children];
+    const hidden=links.filter(l=>l.offsetLeft+l.offsetWidth>edge+1).length;
+    more.classList.toggle('show',hidden>0); btn.textContent='+'+hidden+' ›';
+  };
+  nav.addEventListener('scroll',measure); addEventListener('resize',measure);
+  btn.addEventListener('click',()=>nav.scrollBy({left:nav.clientWidth*.6,behavior:'smooth'}));
+  document.fonts&&document.fonts.ready.then(measure); measure();
+});
+</script></body></html>
