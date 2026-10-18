@@ -44,7 +44,7 @@ export interface SwarmPoint<TP> {
   dy?: number;
   /** Show a pointer cursor (a profile page exists to open from the card). */
   navigable?: boolean;
-  /** The pinned card's action (open the profile). A tap on the dot only pins the card (ARCHITECTURE_MAP 10m). */
+  /** The pinned card's action (open the profile). A tap on the dot only pins the card (ARCHITECTURE_MAP 10t). */
   onClick?: () => void;
   tooltip: TP;
 }

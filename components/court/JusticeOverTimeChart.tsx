@@ -67,7 +67,7 @@ export function JusticeOverTimeChart({
   const { justice, chart } = profile;
   const router = useRouter();
   // The subject's own line follows the pointer by term; a peer's line is an individual, so a click or tap pins its card
-  // and the card links to their page (ARCHITECTURE_MAP 10m).
+  // and the card links to their page (ARCHITECTURE_MAP 10t).
   const tip = useTooltip<TermTip>();
   const peerCard = useDotCard<PeerTrace>();
   const narrow = size.width < 520;

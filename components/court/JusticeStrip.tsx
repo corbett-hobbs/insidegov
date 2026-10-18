@@ -61,7 +61,7 @@ export function JusticeStrip({
 }) {
   const [wrapRef, measuredW] = useElementWidth<HTMLDivElement>();
   const W = measuredW || FALLBACK_W;
-  // A click or tap on a justice pins their card; the card links to their profile (ARCHITECTURE_MAP 10m).
+  // A click or tap on a justice pins their card; the card links to their profile (ARCHITECTURE_MAP 10t).
   const card = useDotCard<Tip>(sameJustice);
   const rec = data.terms[term - data.firstTerm];
 

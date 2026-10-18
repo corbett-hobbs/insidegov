@@ -98,7 +98,7 @@ export function BenchCard({
   const [wrapRef, measuredW] = useElementWidth<HTMLDivElement>();
   const W = measuredW || FALLBACK_W;
   const router = useRouter();
-  // A click or tap on a seat pins the justice's card; the card links to their profile (ARCHITECTURE_MAP 10m).
+  // A click or tap on a seat pins the justice's card; the card links to their profile (ARCHITECTURE_MAP 10t).
   const card = useDotCard<BenchJustice>((a, b) => a.id === b.id);
   const [hoverId, setHoverId] = useState<number | null>(null);
   const divided = bench.some((j) => j.vote === 3);

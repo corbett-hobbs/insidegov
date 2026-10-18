@@ -120,7 +120,7 @@ export function usePinnedTooltip<T>() {
 
 /**
  * The standard behaviour for any mark that is one named individual (a justice, a member, a bench seat): ARCHITECTURE_MAP
- * rule 10m. A mouse previews the follow-the-pointer tooltip on hover; a click or tap **pins** the card open until the
+ * rule 10t. A mouse previews the follow-the-pointer tooltip on hover; a click or tap **pins** the card open until the
  * reader clicks elsewhere, presses Esc, or taps the mark again; the card (never the mark) carries the profile link.
  * Phones skip the hover preview (a tap goes straight to the pinned card). Spread `bind(d)` on the hit target and render
  * `<DotCardTooltips card={card}>` once. Pass `same` when the datum object is rebuilt between renders.
