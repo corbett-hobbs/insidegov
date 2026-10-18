@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { SourceLink } from "@/components/SourceLink";
 import { DirectionTag } from "@/components/decisions/DirectionTag";
-import { PILL_NEUTRAL } from "@/components/decisions/pill";
+import { PILL_NEUTRAL, PILL_TOPIC } from "@/components/decisions/pill";
 import { Swatch } from "@/components/decisions/shared";
 import { longDate } from "@/lib/law-details-derive";
 import { BAND_COLORS, BAND_LONG } from "@/lib/decisions-types";
@@ -14,7 +14,7 @@ import { BenchCard } from "./BenchCard";
 import { CaseRow } from "@/components/decisions/CaseListCard";
 import { LeadBody } from "./LeadBody";
 
-const BADGE = `${PILL_NEUTRAL} truncate`;
+const BADGE = PILL_NEUTRAL;
 const LINK = "text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
 /** Majority and dissent are not party colours: the bar is a count, so ink and a pale line, as the law page's yea and nay. */
@@ -42,7 +42,12 @@ function Facts({ d }: { d: DecisionPageData }) {
     d.direction && <DirectionTag key="dir" direction={d.direction} areaId={d.area?.id ?? null} />,
     d.landmark && (
       <span key="lm" className={BADGE} title="On Wikipedia’s list of landmark decisions">
-        {`Landmark${d.landmark.topics ? ` · ${d.landmark.topics}` : ""}`}
+        Landmark
+      </span>
+    ),
+    d.landmark?.topics && (
+      <span key="lt" className={PILL_TOPIC}>
+        {d.landmark.topics}
       </span>
     ),
     d.precedentAltered && (
@@ -282,7 +287,7 @@ function Related({ d }: { d: DecisionPageData }) {
   const n = cases.length;
   return (
     <ChartCard title="Other decisions on the same issue" lede={`${n} other argued case${n === 1 ? "" : "s"} since 1946 on ${issue.charAt(0).toLowerCase()}${issue.slice(1).replace(/:\s+including\b/, ", including")}, newest first.`}>
-      <div tabIndex={0} aria-label="Other decisions on the same issue, scrollable" className="touch-scroll max-h-[32rem] overflow-y-auto overscroll-contain rounded-md border border-line">
+      <div tabIndex={0} aria-label="Other decisions on the same issue, scrollable" className="touch-scroll max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
         <ol className="m-0 list-none p-0">
           {cases.map((r) => (
             <CaseRow key={r.c[14]} c={r.c} area={r.area} areaId={r.areaId} />

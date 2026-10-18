@@ -151,7 +151,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
           Landmark cases
         </button>
       </div>
-      <div key={sig} tabIndex={0} aria-label={`${last}'s cases, scrollable`} onScroll={grow} className="touch-scroll relative mt-2 max-h-[32rem] overflow-y-auto overscroll-contain rounded-md border border-line">
+      <div key={sig} tabIndex={0} aria-label={`${last}'s cases, scrollable`} onScroll={grow} className="touch-scroll relative mt-2 max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
         <div
           className={`sticky top-0 z-10 hidden gap-x-3 border-b border-line-strong bg-surface-raised px-3 py-1.5 font-mono text-[0.62rem] uppercase tracking-[0.05em] text-ink-faint sm:grid ${JUSTICE_COLUMNS}`}
           aria-hidden

@@ -9,7 +9,7 @@ import { decisionPath } from "@/lib/decision-url";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
-import { PILL_NEUTRAL } from "./pill";
+import { PILL_NEUTRAL, PILL_TOPIC } from "./pill";
 import { Swatch } from "./shared";
 import { useDecisionCases } from "./useDecisionCases";
 import { SourceLink } from "@/components/SourceLink";
@@ -136,7 +136,7 @@ export function CaseListCard() {
         tabIndex={0}
         aria-label="Cases, scrollable"
         onScroll={grow}
-        className="touch-scroll relative mt-2 max-h-[32rem] overflow-y-auto overscroll-contain rounded-md border border-line"
+        className="touch-scroll relative mt-2 max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line"
       >
         {failed ? (
           <p className="m-0 px-4 py-8 text-center text-[0.82rem] text-ink-muted">The case list could not be loaded. Reload the page to try again.</p>
@@ -162,7 +162,7 @@ export function CaseListCard() {
 /** Wide-screen columns of a row with a qualifier: date, name, issue area, vote, how the justice voted. */
 export const JUSTICE_COLUMNS = "sm:grid-cols-[6rem_minmax(0,1fr)_8.5rem_4.5rem_13rem]";
 
-const BADGE = `${PILL_NEUTRAL} truncate no-underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`;
+const BADGE = `${PILL_NEUTRAL} no-underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`;
 
 /**
  * One case. Phones: the name on its own line; under it the date and citation on the left with the vote on the right (the
@@ -180,16 +180,21 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
       {c[2]}
     </Link>
   );
+  // "Landmark" is the pill (it links to the Wikipedia article); what the case was about is a second pill beside it, which wraps
+  // rather than running off the card.
   const badge = c[8] ? (
-    <a
-      href={wikiArticleUrl(c[8])}
-      target="_blank"
-      rel="noreferrer"
-      title={`Landmark decision on Wikipedia${c[9] ? `: ${c[9]}` : ""}`}
-      className={BADGE}
-    >
-      Landmark{c[9] ? ` \u00b7 ${c[9]}` : ""}
-    </a>
+    <>
+      <a
+        href={wikiArticleUrl(c[8])}
+        target="_blank"
+        rel="noreferrer"
+        title={`Landmark decision on Wikipedia${c[9] ? `: ${c[9]}` : ""}`}
+        className={BADGE}
+      >
+        Landmark
+      </a>
+      {c[9] && <span className={PILL_TOPIC}>{c[9]}</span>}
+    </>
   ) : null;
   const direction = c[13] !== 0 ? c[13] : null;
   const hasPills = direction !== null || badge !== null || !!qualifier;
@@ -203,7 +208,7 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
             <DirectionTag direction={direction} areaId={areaId} />
           </span>
         )}
-        {badge && <span className="ml-2 max-sm:hidden">{badge}</span>}
+        {badge && <span className="ml-2 inline-flex flex-wrap items-baseline gap-1.5 max-sm:hidden">{badge}</span>}
         {c[3] && <span className="ml-2 whitespace-nowrap text-[0.75rem] tabular-nums text-ink-faint max-sm:hidden">{c[3]}</span>}
       </span>
       {/* date (and, on phones, the citation) */}
