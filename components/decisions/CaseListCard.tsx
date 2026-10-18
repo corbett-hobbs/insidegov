@@ -168,10 +168,16 @@ const BADGE = `${PILL_LANDMARK} hover:text-ink focus-visible:outline-2 focus-vis
  * One case. Phones: the name on its own line; under it the date and citation on the left with the vote on the right (the
  * count a reader scans for); the issue area; then one row of pills (outcome, Landmark, and the justice page's "how they voted"),
  * all the same size (`pill.ts`). From `sm`: date, name (outcome pill, landmark pill and citation inline), issue area and vote in four
- * columns, with `qualifier` as a fifth column at the right. The phone and wide copies of a pill are one or the other (display:none),
+ * columns, with `qualifier` as a fifth column at the right. On phones the justice's vote pill sits beside the 5–4 count and its note joins the pill line. The phone and wide copies of a pill are one or the other (display:none),
  * never both exposed.
  */
-export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area: string; areaId: string | null; qualifier?: ReactNode }) {
+/** The justice page's extra column: the vote pill (Majority / Dissent) and an optional note beside it ("Wrote a concurrence"). */
+export interface CaseQualifier {
+  pill: ReactNode;
+  note?: ReactNode;
+}
+
+export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area: string; areaId: string | null; qualifier?: CaseQualifier }) {
   const name = (
     <Link
       href={decisionPath(c[14], c[2])}
@@ -194,7 +200,7 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
     </a>
   ) : null;
   const direction = c[13] !== 0 ? c[13] : null;
-  const hasPills = direction !== null || badge !== null || !!qualifier;
+  const hasPills = direction !== null || badge !== null || !!qualifier?.note;
   return (
     <li className={`grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 border-b border-line px-3 py-2.5 text-[0.82rem] last:border-b-0 ${qualifier ? JUSTICE_COLUMNS : "sm:grid-cols-[6.5rem_minmax(0,1fr)_9.5rem_4.5rem]"} sm:items-baseline sm:gap-y-0.5 sm:py-2`}>
       {/* name (+ badge and citation inline from sm) */}
@@ -220,20 +226,25 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
           <span className="hidden max-sm:contents">
             {direction !== null && <DirectionTag direction={direction} areaId={areaId} />}
             {badge}
-            {qualifier}
+            {qualifier?.note}
           </span>
         )}
       </span>
-      {/* vote: right-aligned under the name on phones */}
-      <span
-        className="col-start-2 row-start-2 inline-flex items-center justify-end gap-1.5 self-center whitespace-nowrap text-[0.95rem] tabular-nums sm:col-start-4 sm:row-start-1 sm:self-baseline sm:text-[0.82rem]"
-        title={BAND_LONG[c[5]]}
-      >
-        <Swatch color={BAND_COLORS[c[5]]} />
-        <span className="font-medium">{`${c[6]}\u2013${c[7]}`}</span>
-        <span className="sr-only">{BAND_SHORT[c[5]]} band</span>
+      {/* vote: right-aligned under the name on phones, with the justice's own vote pill beside the count */}
+      <span className="col-start-2 row-start-2 inline-flex items-center justify-end gap-2.5 self-center whitespace-nowrap sm:col-start-4 sm:row-start-1 sm:self-baseline">
+        {qualifier && <span className="sm:hidden">{qualifier.pill}</span>}
+        <span className="inline-flex items-center gap-1.5 text-[0.95rem] tabular-nums sm:text-[0.82rem]" title={BAND_LONG[c[5]]}>
+          <Swatch color={BAND_COLORS[c[5]]} />
+          <span className="font-medium">{`${c[6]}\u2013${c[7]}`}</span>
+          <span className="sr-only">{BAND_SHORT[c[5]]} band</span>
+        </span>
       </span>
-      {qualifier && <span className="max-sm:hidden sm:col-start-5 sm:row-start-1">{qualifier}</span>}
+      {qualifier && (
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 max-sm:hidden sm:col-start-5 sm:row-start-1 sm:flex-nowrap">
+          {qualifier.pill}
+          {qualifier.note}
+        </span>
+      )}
       {c[11] && <Summary text={c[11]} claude={c[12] === 1} wide={!!qualifier} />}
     </li>
   );

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
-import { CaseRow, JUSTICE_COLUMNS } from "@/components/decisions/CaseListCard";
+import { CaseRow, JUSTICE_COLUMNS, type CaseQualifier } from "@/components/decisions/CaseListCard";
 import { useDecisionCases } from "@/components/decisions/useDecisionCases";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { VOTE_DISSENT, VOTE_DIVIDED, VOTE_MAJORITY, VOTE_NONE, type JusticeVote } from "@/lib/decisions-entities";
@@ -44,14 +44,12 @@ function useJusticeVotes(justiceId: number): { votes: JusticeVote[] | null; fail
   return state.id === justiceId ? state : { votes: null, failed: false };
 }
 
-function Qualifier({ v }: { v: VotedCase }) {
+function qualifierFor(v: VotedCase): CaseQualifier {
   const role = ROLE_LABEL[v.role];
-  return (
-    <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 sm:flex-nowrap">
-      <span className={`${PILL_BASE} ${PILL[v.vote as keyof typeof PILL]}`}>{VOTE_LABEL[v.vote]}</span>
-      {role && <span className="text-[0.7rem] text-ink-muted">{role}</span>}
-    </span>
-  );
+  return {
+    pill: <span className={`${PILL_BASE} ${PILL[v.vote as keyof typeof PILL]}`}>{VOTE_LABEL[v.vote]}</span>,
+    note: role ? <span className="text-[0.7rem] text-ink-muted">{role}</span> : undefined,
+  };
 }
 
 function Stat({ value, label }: { value: string; label: string }) {
@@ -169,7 +167,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
         ) : (
           <ol className="m-0 list-none p-0">
             {rows.slice(0, n).map((v) => (
-              <CaseRow key={v.c[14]} c={v.c} area={v.c[4] >= 0 ? (source.areas[v.c[4]]?.label ?? "No issue area") : "No issue area"} areaId={v.c[4] >= 0 ? (source.areas[v.c[4]]?.id ?? null) : null} qualifier={<Qualifier v={v} />} />
+              <CaseRow key={v.c[14]} c={v.c} area={v.c[4] >= 0 ? (source.areas[v.c[4]]?.label ?? "No issue area") : "No issue area"} areaId={v.c[4] >= 0 ? (source.areas[v.c[4]]?.id ?? null) : null} qualifier={qualifierFor(v)} />
             ))}
           </ol>
         )}
