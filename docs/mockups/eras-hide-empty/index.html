@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Era by era: hide empty eras (mock)</title>
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--raised:#f7f8fa;--ink:#1a2233;--muted:#5b6472;--faint:#8890a0;--line:#d7dce3;--strong:#b9c1cc;--accent:#5c4b7a}
+@media (prefers-color-scheme:dark){:root{--bg:#10141c;--surface:#171c26;--raised:#1e2430;--ink:#e8ebf0;--muted:#a3abb8;--faint:#7c8594;--line:#2c3442;--strong:#3d4757;--accent:#a998cc}}
+*{box-sizing:border-box}body{margin:0;padding:24px 16px;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif}
+h3{font:600 .8rem system-ui;margin:22px auto 6px;max-width:760px;color:var(--muted)}
+.card{max-width:760px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.35rem 1.35rem 1.1rem}
+.head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem .75rem}
+.head h2{font:500 1.05rem Georgia,serif;margin:0;margin-right:auto}
+.tools{display:flex;align-items:center;gap:.75rem}
+label.chk{display:flex;align-items:center;gap:.375rem;white-space:nowrap;font-size:.72rem;cursor:pointer}
+label.chk input{width:1rem;height:1rem;margin:0;accent-color:var(--accent);cursor:pointer}
+input[type=search]{height:1.5rem;width:7rem;border:1px solid var(--strong);border-radius:4px;background:var(--raised);color:var(--ink);padding:0 .5rem;font-size:.72rem}
+p.lede{margin:.25rem 0 .5rem;font-size:.82rem;color:var(--muted)}
+.row{display:grid;grid-template-columns:5rem 1fr;gap:.75rem;border-top:1px solid var(--line);padding:.6rem 0;font-size:.8rem}
+.row small{display:block;color:var(--muted)}.row .none{color:var(--faint);font-size:.72rem}
+.row.empty{display:var(--empty,grid)}
+.phone{max-width:360px;margin:0 auto}
+.phone .card{max-width:360px}
+.hide-on:has(#a:checked) .row.empty,.hide-on:has(#b:checked) .row.empty{display:none}
+</style></head><body>
+<h3>Desktop: checkbox sits between the title and the search box, one line</h3>
+<div class="card hide-on">
+  <div class="head"><h2>Era by era</h2>
+    <div class="tools"><label class="chk"><input type="checkbox" id="a">Hide eras with no events</label><input type="search" placeholder="Search" aria-label="Search"></div></div>
+  <p class="lede">Each row is a stretch when no institution changed hands, newest first. Tap an event to read about it.</p>
+  <div class="row"><b>2025–now<small>Trump</small></b><div>Unified Republican<br>2 events</div></div>
+  <div class="row empty"><b>2023–2024<small>Biden</small></b><div>Divided<br><span class="none">No hand-picked events in this stretch</span></div></div>
+  <div class="row"><b>2021–2022<small>Biden</small></b><div>Unified Democratic<br>5 events</div></div>
+  <div class="row empty"><b>2019–2020<small>Trump</small></b><div>Divided<br><span class="none">No hand-picked events in this stretch</span></div></div>
+</div>
+<h3>Phone (360px): label shortens to "Hide empty eras" so title, checkbox and search still share the row</h3>
+<div class="phone"><div class="card hide-on">
+  <div class="head"><h2>Era by era</h2>
+    <div class="tools"><label class="chk"><input type="checkbox" id="b">Hide empty</label><input type="search" placeholder="Search" aria-label="Search" style="width:5.5rem"></div></div>
+  <p class="lede">Each row is a stretch when no institution changed hands, newest first.</p>
+  <div class="row"><b>2025–now<small>Trump</small></b><div>Unified Republican<br>2 events</div></div>
+  <div class="row empty"><b>2023–2024<small>Biden</small></b><div>Divided<br><span class="none">No events</span></div></div>
+</div></div>
+</body></html>

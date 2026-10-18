@@ -1,7 +1,7 @@
 "use client";
 
 import { Y_GUTTER } from "@/lib/chart-bars";
-import { useId, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { area, line } from "d3-shape";
 import { ChartFrame } from "@/components/charts/ChartFrame";
@@ -32,6 +32,8 @@ const MARGIN = { top: 14, right: 14, bottom: 30, left: Y_GUTTER };
 const BAND_GAP = 4;
 /** Fewest terms the zoom can show. */
 const MIN_SPAN = 3;
+/** Pointer travel (px) before a press on the plot counts as a pan rather than a tap. */
+const DRAG_PX = 4;
 
 /** A tick step (in years) that gives about `want` ticks over `span` years. */
 const niceStep = (span: number, want: number): number => [1, 2, 5, 10, 20].find((s) => span / s <= want) ?? 20;
@@ -75,6 +77,61 @@ export function JusticeTrajectory({
   // The zoom window, in terms. The band's tap and the slider under the chart both set it, so it is the single source of truth.
   const [win, setWin] = useState<[number, number]>([firstTerm, lastTerm]);
   const full = sameRange(win, [firstTerm, lastTerm]);
+  const plotW = W - MARGIN.left - MARGIN.right;
+
+  // Pan and zoom drive the same `win` as the slider. The unrounded window lives in a ref so slow wheel steps and drags
+  // accumulate instead of rounding back to where they started; `win` itself stays on whole terms for the slider.
+  const winRef = useRef<[number, number]>(win);
+  const fullSpan = lastTerm - firstTerm;
+  const current = (): [number, number] => {
+    const f = winRef.current;
+    return Math.round(f[0]) === win[0] && Math.round(f[1]) === win[1] ? f : win;
+  };
+  const winNow = useRef(current);
+  useEffect(() => {
+    winNow.current = current;
+  });
+  const setWindow = useCallback(
+    (lo: number, span: number) => {
+      const s = Math.min(fullSpan, Math.max(MIN_SPAN, span));
+      const a = Math.min(lastTerm - s, Math.max(firstTerm, lo));
+      winRef.current = [a, a + s];
+      setWin([Math.round(a), Math.round(a + s)]);
+    },
+    [firstTerm, lastTerm, fullSpan],
+  );
+  /** Scale the span by `factor` (<1 zooms in), keeping the term at plot fraction `f` fixed. */
+  const zoomFrom = useCallback(
+    (base: [number, number], factor: number, f: number, fNew = f) => {
+      const span = base[1] - base[0];
+      const next = Math.min(fullSpan, Math.max(MIN_SPAN, span * factor));
+      setWindow(base[0] + f * span - fNew * next, next);
+    },
+    [fullSpan, setWindow],
+  );
+  const pointers = useRef(new Map<number, number>());
+  const gesture = useRef<{ x0: number; base: [number, number]; moved: boolean; zoomed: boolean; pinch?: { dist: number; f: number } } | null>(null);
+
+  // Ctrl/⌘ + wheel (a trackpad pinch) zooms at the cursor and a sideways swipe pans; a plain wheel still scrolls the page (rule 9).
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      const base = winNow.current();
+      const box = el.getBoundingClientRect();
+      const f = Math.min(1, Math.max(0, (e.clientX - box.left - MARGIN.left) / plotW));
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        zoomFrom(base, Math.exp(e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.01)), f);
+      } else if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && base[1] - base[0] < fullSpan) {
+        e.preventDefault();
+        setWindow(base[0] + (e.deltaX / plotW) * (base[1] - base[0]), base[1] - base[0]);
+      }
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [wrapRef, plotW, fullSpan, zoomFrom, setWindow]);
+
   const yearStep = niceStep(win[1] - win[0], W < 600 ? 4 : 7);
   const yearTicks = useMemo(() => {
     const out: number[] = [];
@@ -118,6 +175,7 @@ export function JusticeTrajectory({
         height={presidents.length > 0 ? H + BAND_GAP + TERM_BAND_H : H}
         margin={presidents.length > 0 ? { ...MARGIN, bottom: MARGIN.bottom + BAND_GAP + TERM_BAND_H } : MARGIN}
         ariaLabel="Line chart of each justice's ideology score by term, with the Court median"
+        svgProps={{ style: { touchAction: full ? "pan-y" : "none" } }}
       >
         {({ innerWidth, innerHeight }) => {
           const x = scaleLinear().domain(win).range([0, innerWidth]);
@@ -258,13 +316,53 @@ export function JusticeTrajectory({
                 width={innerWidth}
                 height={innerHeight}
                 fill="transparent"
-                style={{ cursor: "crosshair" }}
+                style={{ cursor: full ? "crosshair" : "grab" }}
                 onPointerDown={(e) => {
                   e.currentTarget.setPointerCapture(e.pointerId);
-                  scrub(e);
+                  pointers.current.set(e.pointerId, e.clientX);
+                  const base = winNow.current();
+                  if (pointers.current.size === 2) {
+                    // Second finger: pinch. The scrub or pan the first finger started is dropped.
+                    const [a, b] = [...pointers.current.values()];
+                    const box = e.currentTarget.getBoundingClientRect();
+                    gesture.current = { x0: 0, base, moved: true, zoomed: true, pinch: { dist: Math.abs(a - b) || 1, f: ((a + b) / 2 - box.left) / box.width } };
+                    return;
+                  }
+                  // Whole range: a press scrubs the shared term as before. Zoomed: a drag pans and a tap scrubs.
+                  gesture.current = { x0: e.clientX, base, moved: false, zoomed: !full };
+                  if (full) scrub(e);
                 }}
                 onPointerMove={(e) => {
-                  if (e.buttons) scrub(e);
+                  const g = gesture.current;
+                  if (!g || !pointers.current.has(e.pointerId)) return;
+                  pointers.current.set(e.pointerId, e.clientX);
+                  if (g.pinch) {
+                    if (pointers.current.size < 2) return;
+                    const [a, b] = [...pointers.current.values()];
+                    const box = e.currentTarget.getBoundingClientRect();
+                    const fNew = Math.min(1, Math.max(0, ((a + b) / 2 - box.left) / box.width));
+                    zoomFrom(g.base, g.pinch.dist / (Math.abs(a - b) || 1), Math.min(1, Math.max(0, g.pinch.f)), fNew);
+                    return;
+                  }
+                  if (!g.zoomed) {
+                    if (e.buttons) scrub(e);
+                    return;
+                  }
+                  const dx = e.clientX - g.x0;
+                  if (!g.moved && Math.abs(dx) < DRAG_PX) return;
+                  g.moved = true;
+                  tip.hide();
+                  setWindow(g.base[0] - (dx / plotW) * (g.base[1] - g.base[0]), g.base[1] - g.base[0]);
+                }}
+                onPointerUp={(e) => {
+                  const g = gesture.current;
+                  pointers.current.delete(e.pointerId);
+                  if (pointers.current.size === 0) gesture.current = null;
+                  if (g && g.zoomed && !g.moved) scrub(e);
+                }}
+                onPointerCancel={(e) => {
+                  pointers.current.delete(e.pointerId);
+                  gesture.current = null;
                 }}
               />
 
