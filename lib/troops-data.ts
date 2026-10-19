@@ -8,7 +8,7 @@ import { historyMeta, historyRow, troopsMeta, troopsRow } from "./troops-entitie
 import type { TroopsPayload } from "./troops-types";
 
 /**
- * Build-time reader for /presidency/national-security: parses the pipeline output at the boundary (a bad file fails
+ * Build-time reader for /presidency/troops-abroad: parses the pipeline output at the boundary (a bad file fails
  * the build with a specific error), then hands the page a dense payload. Shaping is the pure, unit-tested
  * `lib/troops-derive.ts`.
  */

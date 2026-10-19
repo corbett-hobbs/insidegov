@@ -5,7 +5,7 @@ import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
 import { MEASURES, type TroopsContingency, type TroopsPayload, type TroopsPeriod, type TroopsPlace, type TroopsRowTuple, type TroopsTerm, type TroopsYear } from "./troops-types";
 
 /**
- * Pure shaping for /presidency/national-security: the pipeline's rows + meta + the administrations table become one
+ * Pure shaping for /presidency/troops-abroad: the pipeline's rows + meta + the administrations table become one
  * dense payload (`buildTroopsPayload`), and the helpers below answer every question the page asks of it. Unit-tested
  * over the real committed files (lib/troops-derive.test.ts). Fails loudly on a host with no region.
  */

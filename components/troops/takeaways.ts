@@ -1,10 +1,10 @@
 import type { ContextEntry } from "@/lib/chart-context";
 
 /**
- * The takeaway under each National security chart title (ARCHITECTURE_MAP rule 7c): what the chart shows over its
+ * The takeaway under each Troops abroad chart title (ARCHITECTURE_MAP rule 7c): what the chart shows over its
  * full default window (every year, all countries, all branches), in at most two sentences. The year's own figures stay
  * in the muted readout line beneath. Every figure here is checked against pipeline/output in
- * lib/national-security-takeaways.test.ts; a refresh that makes one untrue fails CI.
+ * lib/troops-takeaways.test.ts; a refresh that makes one untrue fails CI.
  */
 export const TROOPS_TAKEAWAYS = {
   abroad: {
@@ -26,7 +26,7 @@ export const TROOPS_TAKEAWAYS = {
 
 /**
  * The abroad card's Data note on the December 2017 counting change (rule 7: method goes in Data notes, never in Context).
- * Its figures are read from troops_location_meta.json's `break` in lib/national-security-takeaways.test.ts.
+ * Its figures are read from troops_location_meta.json's `break` in lib/troops-takeaways.test.ts.
  */
 export const TROOPS_BREAK_NOTE =
   "The dashed line before 2018 marks a change in what DMDC counts: from the Dec 2017 table, only personnel permanently assigned to a location, leaving out temporary duty and contingency deployments. Overseas active duty went from 215,249 in Sep to 161,927 in Dec 2017 while the U.S. total rose, a reallocation, not a withdrawal; Afghanistan, Iraq and Syria print blank, not zero, from Dec 2017 through Sep 2021.";
@@ -38,7 +38,7 @@ export const TROOPS_BREAK_NOTE =
  * outlasted. The Doha agreement, the 2021 withdrawal and the 2022 Europe deployments show nowhere: DMDC left Afghanistan,
  * Iraq and Syria unreported from December 2017 through September 2021, and its permanent-assignment counts leave out
  * rotational forces.
- * Every figure is checked in lib/national-security-takeaways.test.ts.
+ * Every figure is checked in lib/troops-takeaways.test.ts.
  */
 export const TROOPS_CONTEXT = {
   abroad: {

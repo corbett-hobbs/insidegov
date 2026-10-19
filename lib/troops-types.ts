@@ -1,7 +1,7 @@
 import type { RegionId } from "./troops-regions";
 
 /**
- * Client-safe shapes for /presidency/national-security. The pipeline file is ~9.7k rows, so the page ships a dense
+ * Client-safe shapes for /presidency/troops-abroad. The pipeline file is ~9.7k rows, so the page ships a dense
  * payload: places and periods are small tables and every count is a row of integers pointing into them.
  */
 

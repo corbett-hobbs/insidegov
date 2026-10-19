@@ -14,7 +14,7 @@ const SELECT =
   "min-w-0 rounded-md border border-line-strong bg-surface-raised px-[0.55rem] py-[0.42rem] text-[0.8rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:flex-none";
 
 /**
- * The pinned filter bar for /presidency/national-security, directly under the site navigation: Country (the trade page's
+ * The pinned filter bar for /presidency/troops-abroad, directly under the site navigation: Country (the trade page's
  * combobox, hosts only), Branch, and the two-handle years-shown slider with the presidential-term band under its track
  * (tap a term to select it, drag across several; there is no President dropdown). Phones: Country and Branch share a
  * row, the slider its own.

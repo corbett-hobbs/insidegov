@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/wealth", destination: "/congress/wealth", permanent: true },
       { source: "/executive-orders", destination: "/presidency/executive-orders", permanent: true },
+      { source: "/presidency/national-security", destination: "/presidency/troops-abroad", permanent: true },
       ...verticalRedirects().map((r) => ({ ...r, permanent: true })),
       ...["chamber", "state", "show"].map((key) => ({
         source: "/",
