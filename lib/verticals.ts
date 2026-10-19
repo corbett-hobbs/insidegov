@@ -64,6 +64,13 @@ const DEFS: readonly BranchDef[] = [
     defaultSection: "executive-orders",
     sections: [
       {
+        id: "presidents",
+        label: "Presidents",
+        status: "live",
+        blurb:
+          "Every president since Truman, each with a page that clips the site\u2019s data to their time in office.",
+      },
+      {
         id: "executive-orders",
         label: "Executive orders",
         status: "live",

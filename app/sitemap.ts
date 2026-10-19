@@ -10,6 +10,8 @@ import { getLawRefs } from "@/lib/law-details-data";
 import { lawPath } from "@/lib/law-url";
 import { getDecisionRefs } from "@/lib/decision-page-data";
 import { decisionPath } from "@/lib/decision-url";
+import { getPresidentSlugs } from "@/lib/president-data";
+import { presidentPath } from "@/lib/president-url";
 import { liveSections } from "@/lib/verticals";
 import { absoluteUrl } from "@/lib/site";
 import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "@/lib/site-info";
@@ -40,6 +42,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.6,
+  }));
+
+  const presidents = getPresidentSlugs().map((slug) => ({
+    url: absoluteUrl(presidentPath(slug)),
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
   }));
 
   const laws = getLawRefs().map((l) => ({
@@ -84,6 +93,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...profiles,
     ...committees,
     ...justices,
+    ...presidents,
     ...laws,
     ...decisions,
   ];

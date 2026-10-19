@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { fitTermLabel, initialsOf } from "@/lib/term-label";
 import { selectedTerms, toggleTermWindow, type TermWindow } from "@/lib/term-window";
+import { presidentOfBandLabel, useBandLink } from "./BandLink";
 
 export interface TermSegment {
   id: string;
@@ -28,7 +29,7 @@ export interface TermBandSelect extends TermWindow {
 }
 
 /** One band segment: the tint (deeper when selected), the 2.5px party rule and the label; a button when the band is tappable. */
-function BandSegment({ x, w, party, text, label, picked, faded, onPress }: { x: number; w: number; party: "D" | "R"; text: string; label: string; picked: boolean; faded: boolean; onPress?: () => void }) {
+function BandSegment({ x, w, party, text, label, president, picked, faded, onPress }: { x: number; w: number; party: "D" | "R"; text: string; label: string; president: string; picked: boolean; faded: boolean; onPress?: () => void }) {
   const c = party === "R" ? "--rep" : "--dem";
   const body = (
     <>
@@ -43,35 +44,45 @@ function BandSegment({ x, w, party, text, label, picked, faded, onPress }: { x: 
   );
   if (!onPress) return <g>{body}</g>;
   return (
-    <PressableBand label={label} picked={picked} faded={faded} onPress={onPress}>
+    <PressableBand label={label} president={president} picked={picked} faded={faded} onPress={onPress}>
       {body}
     </PressableBand>
   );
 }
 
-/** An SVG group that works as a toggle button: tap, Enter or Space presses it; the focus ring shows for keyboard use only (see `.term-band` in globals.css). */
-export function PressableBand({ label, picked, faded, onPress, children }: { label: string; picked: boolean; faded: boolean; onPress: () => void; children: ReactNode }) {
+/**
+ * An SVG group that works as a toggle button: tap, Enter or Space presses it; the focus ring shows for keyboard use only (see `.term-band` in
+ * globals.css). A press also pins a card linking to the president's page (`useBandLink`); `president` names them, else the label's
+ * "Name: tap to …" prefix does.
+ */
+export function PressableBand({ label, picked, faded, onPress, president, children }: { label: string; picked: boolean; faded: boolean; onPress: () => void; president?: string; children: ReactNode }) {
+  const link = useBandLink(president ?? presidentOfBandLabel(label));
   return (
     <g
       className="term-band cursor-pointer"
       role="button"
       tabIndex={0}
-      aria-label={label}
+      aria-label={link.linked ? `${label}; also links to the president's page` : label}
       aria-pressed={picked}
       opacity={faded ? 0.4 : 1}
+      data-pin-target=""
       onClick={(e) => {
         e.stopPropagation();
         onPress();
+        link.toggle(e.clientX, e.clientY);
       }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onPress();
+          const r = e.currentTarget.getBoundingClientRect();
+          link.toggle(r.left + r.width / 2, r.bottom);
         }
       }}
     >
       <title>{label}</title>
       {children}
+      {link.card}
     </g>
   );
 }
@@ -126,6 +137,7 @@ export function TermBandSvg({ segments, x0, step, y, select }: { segments: reado
             party={g.party}
             text={text}
             label={`${g.president}: tap to ${acts[k].picked ? "drop" : "show"} these years`}
+            president={g.president}
             picked={acts[k].picked}
             faded={anySel && !acts[k].picked}
             onPress={acts[k].onPress}
@@ -164,6 +176,7 @@ export function TermSpanSvg({ spans, y, select }: { spans: readonly (TermSpan & 
             party={g.party}
             text={text}
             label={`${g.president}: tap to ${acts[k].picked ? "drop" : "show"} these years`}
+            president={g.president}
             picked={acts[k].picked}
             faded={anySel && !acts[k].picked}
             onPress={acts[k].onPress}
