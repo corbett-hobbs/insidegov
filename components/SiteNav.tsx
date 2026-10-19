@@ -49,7 +49,7 @@ export function SiteNav() {
             <Link
               href={b.href}
               aria-current={active ? "page" : undefined}
-              className={`flex items-center whitespace-nowrap border-b-[3px] px-[min(2px,0.55vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
+              className={`focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus flex items-center whitespace-nowrap border-b-[3px] px-[min(2px,0.55vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
                 active
                   ? "border-accent text-ink"
                   : "border-transparent text-ink-muted hover:text-ink"
@@ -69,7 +69,7 @@ export function SiteNav() {
           <Link
             href={p.href}
             aria-current={active ? "page" : undefined}
-            className={`flex items-center whitespace-nowrap border-b-[3px] px-[min(2px,0.55vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
+            className={`focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus flex items-center whitespace-nowrap border-b-[3px] px-[min(2px,0.55vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
               active ? "border-ink text-ink" : "border-transparent text-ink-muted hover:text-ink"
             }`}
           >
@@ -154,7 +154,7 @@ export function SiteSectionNav() {
               key={s.id}
               href={s.href}
               aria-current={active ? "page" : undefined}
-              className={`${base} ${
+              className={`focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus ${base} ${
                 active
                   ? "border-b-2 border-accent text-ink md:border-b-[3px] md:border-[var(--nav-branch)] md:font-semibold"
                   : "border-b-2 border-transparent text-ink-muted hover:text-ink md:border-b-[3px]"
