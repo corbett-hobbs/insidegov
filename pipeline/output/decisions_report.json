@@ -339,13 +339,13 @@
   },
   "case_articles": {
     "cases": 8251,
-    "linked": 3452,
+    "linked": 3453,
     "by_via": {
-      "us_cite": 2970,
+      "us_cite": 2971,
       "docket": 267,
       "name_year": 203
     },
-    "no_article": 4791,
+    "no_article": 4790,
     "unlisted": 20,
     "conflicts": [
       {
@@ -1375,17 +1375,17 @@
     ]
   },
   "case_summaries": {
-    "fetched": "2026-10-12",
-    "linked_cases": 3452,
-    "cases_with_summary": 2962,
-    "articles": 3374,
-    "with_lead": 3350,
-    "summarized": 2907,
+    "fetched": "2026-10-19",
+    "linked_cases": 3453,
+    "cases_with_summary": 2963,
+    "articles": 3375,
+    "with_lead": 3351,
+    "summarized": 2908,
     "claude": 866,
     "from_sentence": {
       "1": 1691,
       "2": 271,
-      "3": 79
+      "3": 80
     },
     "without": 490
   },
@@ -1404,7 +1404,7 @@
     "precedent_altered": 191,
     "declared_unconstitutional": 647,
     "codebook_fetched": "2026-10-17",
-    "wikipedia_leads": 3400
+    "wikipedia_leads": 3401
   },
   "justice_votes": {
     "justices": 40,
