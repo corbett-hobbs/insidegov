@@ -38,6 +38,7 @@ import {
   daysInOffice,
   fiscalYearBounds,
   fiscalYearsInTerm,
+  fracYear,
   inTerms,
   justicesAppointed,
   longestLeader,
@@ -209,7 +210,7 @@ function loadSeries() {
     if (v.unavailable) return [];
     const period = troopsPayload.periods[y.period];
     const top = v.ranked[0] ? troopsPayload.places[v.ranked[0].place].name : null;
-    return [{ date: `${period.period}-01`, label: period.label, value: v.abroad, partial: y.partial, termId: troopsPayload.terms[y.term].termId, top }];
+    return [{ date: `${period.period}-01`, fy: y.fy, label: period.label, value: v.abroad, partial: y.partial, termId: troopsPayload.terms[y.term].termId, top }];
   });
 
   const energy = groupObservations(z.array(energyObservation).parse(read("energy_observations.json")));
@@ -261,7 +262,12 @@ function seriesCards(p: PresidentRef, now: string): Pick<PresidentPageData, "car
     const seg = pointsInTerm([], t, "month", now);
     seg.points = s.troopYears
       .filter((y) => y.termId === t.termId)
-      .map((y) => ({ x: Math.min(seg.x1, Math.max(seg.x0, Number(y.date.slice(0, 4)) + (Number(y.date.slice(5, 7)) - 0.5) / 12)), value: y.value, label: y.label, ...(y.partial ? { preliminary: true } : {}) }));
+      // One bar per year, centred in its fiscal year like every other bar panel, whatever month its snapshot was taken
+      // (the year in progress shows its latest quarter, but it still sits in its own year's slot).
+      .map((y) => {
+        const [a, b] = fiscalYearBounds(y.fy);
+        return { x: Math.min(seg.x1, Math.max(seg.x0, (fracYear(a) + fracYear(addDays(b, 1))) / 2)), value: y.value, label: y.label, ...(y.partial ? { preliminary: true } : {}) };
+      });
     return seg;
   };
   const troopsPanel = panel(p, now, { id: "troops", title: "Active-duty troops abroad", kind: "bars", format: "count", color: "var(--ink-muted)" }, troopRows, s.troopYears[0]?.date ?? null);
