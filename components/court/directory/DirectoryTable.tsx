@@ -28,7 +28,7 @@ import { justicePath } from "@/lib/justice-url";
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /** Justice, Served, Appointed by, Years, Confirmed, Dissent rate, Voting lean: one grid for the header and every row from `lg`. */
-const COLS = "xl:grid-cols-[minmax(12rem,1.2fr)_6.25rem_minmax(7.5rem,1fr)_3.25rem_5.25rem_5.75rem_minmax(19.5rem,1.4fr)]";
+const COLS = "xl:grid-cols-[minmax(12rem,1.2fr)_6.25rem_10.5rem_4rem_5.25rem_5.5rem_minmax(19.5rem,1.4fr)]";
 
 const COLUMNS: { key: SortKey; label: string; short: string; title?: string; right?: boolean }[] = [
   { key: "name", label: "Justice", short: "Name" },
@@ -82,7 +82,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
         </button>
       </div>
 
-      <div role="row" className={`hidden items-end gap-x-3 border-b border-line-strong pb-1.5 font-mono text-[0.68rem] uppercase tracking-[0.06em] text-ink-faint xl:grid ${COLS}`}>
+      <div role="row" className={`hidden items-end gap-x-3 border-b border-line-strong pb-1.5 font-mono text-[0.68rem] uppercase tracking-[0.06em] text-ink-faint xl:grid xl:[&>:last-child]:pl-6 ${COLS}`}>
         {[COLUMNS[0], COLUMNS[1]].map((c) => (
           <HeadButton key={c.key} c={c} sort={sort} onPick={pick} />
         ))}
@@ -119,7 +119,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                   <Stat label="Years" value={fmtYears(r.yearsServed)} />
                   <Stat label="Confirmed" title="Senate vote confirming the appointment, ayes–nays; Voice = no recorded roll call" value={confirmedCell(r)} />
                   <Stat label="Dissent" title="Share of the cases voted in where the justice dissented" value={r.dissentRate === null ? "—" : `${fmtRate(r.dissentRate)}${r.partialRecord ? "†" : ""}`} />
-                  <div title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} className="min-w-0">
+                  <div title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} className="min-w-0 xl:pl-6">
                     <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">Voting lean</dt>
                     <dd className="m-0 mt-1 flex flex-col gap-1 xl:mt-0 xl:flex-row xl:items-center xl:gap-2.5">
                       <span className="block w-[5.25rem] xl:w-[4.5rem] xl:flex-none">
@@ -183,7 +183,7 @@ function Stat({ label, value, title }: { label: string; value: string; title?: s
   return (
     <div title={title} className="flex min-w-0 flex-col text-center xl:block xl:text-right">
       <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">{label}</dt>
-      <dd className="m-0 flex flex-1 items-center justify-center text-[1.2rem] tabular-nums text-ink xl:block xl:text-[inherit]">{value}</dd>
+      <dd className="m-0 flex flex-1 items-center justify-center text-[1.2rem] tabular-nums text-ink xl:block xl:text-[0.8rem]">{value}</dd>
     </div>
   );
 }
