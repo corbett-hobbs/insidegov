@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { bandShare, binByDecade, fmtInt, fmtPct, windowCells } from "@/lib/decisions-derive";
+import { soleOf } from "@/lib/multi-select";
 import { BAND_COLORS, BAND_SHORT, type Bucket, type SplitMode } from "@/lib/decisions-types";
 import { useDecisionsValues } from "./DecisionsState";
 import { Swatch, TooltipCard } from "./shared";
@@ -41,7 +42,7 @@ export function SplitDecadeBars({ mode }: { mode: SplitMode }) {
       columns={cols}
       series={SERIES}
       mode={mode}
-      highlight={band === null ? null : String(band)}
+      highlight={soleOf(band) === null ? null : String(soleOf(band))}
       selectedKey={null}
       onSelect={() => {}}
       unit="cases"

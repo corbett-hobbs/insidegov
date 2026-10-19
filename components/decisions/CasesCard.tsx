@@ -8,8 +8,8 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedBars, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
-import { areaFilterLabel, areaSeries, presidentSegments, fmtInt, sumBucket, windowIndexes } from "@/lib/decisions-derive";
-import { BAND_LONG, type Bucket } from "@/lib/decisions-types";
+import { areaFilterLabel, areaSeries, presidentSegments, fmtInt, sumPicked, bandsPhrase, windowIndexes } from "@/lib/decisions-derive";
+import { type Bucket } from "@/lib/decisions-types";
 import { isPicked, samePick } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsTermSelect, useDecisionsValues } from "./DecisionsState";
 import { AREA_FILLS, Swatch, TableView, TooltipCard, chiefLine } from "./shared";
@@ -53,7 +53,7 @@ export function CasesCard() {
 
   const { terms, cols } = useMemo(() => {
     const [a, b] = windowIndexes(data, range);
-    const val = (bk: Bucket) => (band === null ? sumBucket(bk) : bk[band]);
+    const val = (bk: Bucket) => sumPicked(bk, band);
     const rows: Col[] = [];
     for (let ti = a; ti <= b; ti++) {
       const values: Record<string, number> = {};
@@ -76,7 +76,7 @@ export function CasesCard() {
       : cols.length === 1
         ? `: ${fmtInt(first.total)} in the ${first.term} term`
         : `: ${fmtInt(first.total)} in ${first.term} and ${fmtInt(last.total)} in ${last.term} for the selection shown`;
-  const filters = [areas !== null ? `Issue area: ${areaFilterLabel(data, areas)}.` : "", band !== null ? `Only cases with ${BAND_LONG[band].toLowerCase()}.` : ""].filter(Boolean).join(" ");
+  const filters = [areas !== null ? `Issue area: ${areaFilterLabel(data, areas)}.` : "", band !== null ? `Only cases decided ${bandsPhrase(band)}.` : ""].filter(Boolean).join(" ");
   const filtered = areas !== null;
 
   const { takeaway, panel } = useTakeawayContext(DECISIONS_TAKEAWAYS.cases.takeaway, contextFor("cases"));
@@ -122,7 +122,7 @@ export function CasesCard() {
         renderTooltip={(c) => (
           <TooltipCard title={`${c.term} term`} sub={chiefLine(data, c.term)}>
             <div>
-              {fmtInt(c.total)} cases{band !== null ? ` with ${BAND_LONG[band].toLowerCase()}` : " decided"}
+              {fmtInt(c.total)} cases{band !== null ? ` decided ${bandsPhrase(band)}` : " decided"}
               {filtered && c.all ? ` (${Math.round((c.total / c.all) * 100)}% of the term)` : ""}
             </div>
             {[...series].reverse().map((s) =>

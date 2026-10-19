@@ -14,7 +14,7 @@ export const FILTER_LABEL = "font-mono text-[0.62rem] uppercase tracking-[0.08em
  */
 export function FilterCaption({ children, phone = false, from = "sm", id }: { children: ReactNode; phone?: boolean; from?: "sm" | "lg"; id?: string }) {
   return (
-    <span id={id} className={`${FILTER_LABEL} ${phone ? "" : from === "lg" ? "max-lg:sr-only" : "max-sm:sr-only"}`}>
+    <span id={id} className={`${FILTER_LABEL} flex-none whitespace-nowrap ${phone ? "" : from === "lg" ? "max-lg:sr-only" : "max-sm:sr-only"}`}>
       {children}
     </span>
   );

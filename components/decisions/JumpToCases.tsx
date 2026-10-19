@@ -15,9 +15,9 @@ export const CASE_LIST_ID = "case-list";
  * would otherwise cover its title.
  */
 export function JumpToCases() {
-  const { data, range, areas, band, pin, landmark } = useDecisionsValues();
+  const { data, range, areas, band, pin, landmark, direction } = useDecisionsValues();
   const { cases } = useDecisionCases(data.casesVersion);
-  const n = useMemo(() => (cases ? filterCases(data, cases, { range, area: areas, band, term: pin, landmark, direction: null }).length : null), [cases, data, range, areas, band, pin, landmark]);
+  const n = useMemo(() => (cases ? filterCases(data, cases, { range, area: areas, band, term: pin, landmark, direction }).length : null), [cases, data, range, areas, band, pin, landmark, direction]);
   const filtered = cases !== null && n !== cases.length;
 
   const jump = (e: MouseEvent<HTMLAnchorElement>) => {
