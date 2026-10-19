@@ -153,7 +153,7 @@ const DEFS: readonly BranchDef[] = [
     id: "supreme-court",
     label: "Supreme Court",
     shortLabel: "Court",
-    defaultSection: "ideology",
+    defaultSection: "justices",
     sections: [
       {
         id: "ideology",
