@@ -155,7 +155,15 @@ export function TermSeriesChart({ panel, height, president }: { panel: SeriesPan
                     const on = open !== null && open.seg === k && open.i === i;
                     return (
                       <g key={p.label} opacity={open && !on ? 0.55 : 1}>
-                        <rect x={x} y={top} width={barW(k)} height={h} rx={1} style={{ fill: panel.color }} />
+                        {panel.stack && p.stack ? (
+                          // Stacked by group, biggest group at the bottom; counts only, so every layer is positive.
+                          p.stack.map((n, j) => {
+                            const below = p.stack!.slice(0, j).reduce((a, b) => a + b, 0);
+                            return n > 0 ? <rect key={panel.stack![j].id} x={x} y={Y(below + n)} width={barW(k)} height={Math.max(0.5, Y(below) - Y(below + n))} style={{ fill: panel.stack![j].color }} stroke="var(--surface)" strokeWidth={0.5} /> : null;
+                          })
+                        ) : (
+                          <rect x={x} y={top} width={barW(k)} height={h} rx={1} style={{ fill: panel.color }} />
+                        )}
                         {p.preliminary && <rect x={x} y={top} width={barW(k)} height={h} fill={`url(#${hatchId})`} />}
                       </g>
                     );
@@ -235,6 +243,12 @@ export function TermSeriesChart({ panel, height, president }: { panel: SeriesPan
             const q = partAt(pid, h.seg, p.x);
             return q ? [{ key: part.id, label: part.title, value: fmtExact(q.value, panel.format), color: part.color }] : [];
           });
+          if (panel.stack && p.stack) {
+            // Largest layer first, empty layers left out.
+            const layers = panel.stack.flatMap((g, j) => (p.stack![j] > 0 ? [{ key: g.id, label: g.label, value: fmtExact(p.stack![j], panel.format), color: g.color, n: p.stack![j] }] : []))
+              .sort((a, b) => b.n - a.n);
+            return <TipCard title={p.label} value={fmtExact(p.value, panel.format)} sub={p.preliminary ? "Preliminary" : undefined} rows={layers.map((l) => ({ key: l.key, label: l.label, value: l.value, color: l.color }))} />;
+          }
           return <TipCard title={p.label} value={fmtExact(p.value, panel.format)} sub={p.preliminary ? "Preliminary" : undefined} rows={rows.length ? [{ key: "main", label: panel.lineTitle ?? panel.title, value: fmtExact(p.value, panel.format), color: panel.color }, ...rows] : undefined} />;
         }}
       </Tooltip>
