@@ -42,6 +42,9 @@ export function SiteHeader() {
   const branch = branches.find((b) => b.owns(pathname))?.id;
   // Inside a live branch, md+ swaps the branch tabs for the switcher (phones keep the tabs).
   const row = sectionRow(pathname);
+  // The Timeline spans every branch: it gets the switcher too, with a neutral chip and no page row.
+  const cross = CROSS_BRANCH_PAGES.find((p) => p.href === pathname);
+  const switcher = row || cross;
 
   return (
     <header data-branch={branch} className="border-b border-line bg-surface">
@@ -49,7 +52,7 @@ export function SiteHeader() {
         <Link
           href={isDetail ? backHref : "/"}
           title={isDetail ? "Back to InsideGov" : undefined}
-          className={`group flex h-12 flex-none items-center gap-1.5 whitespace-nowrap pl-4 pr-1 font-serif font-semibold tracking-tight text-ink ${row ? "md:mr-0" : "md:mr-8"} md:h-auto md:flex-none md:pl-0 md:pt-[5px] md:text-[1.35rem] ${isHome ? "pt-[5px] text-[1.3rem]" : isDetail ? "pt-[3px] text-[min(1.05rem,calc(5.14vw_-_3.08px))]" : "pt-[5px] text-[min(1.3rem,calc(6.4vw_-_3.84px))]"}`}
+          className={`group flex h-12 flex-none items-center gap-1.5 whitespace-nowrap pl-4 pr-1 font-serif font-semibold tracking-tight text-ink ${switcher ? "md:mr-0" : "md:mr-8"} md:h-auto md:flex-none md:pl-0 md:pt-[5px] md:text-[1.35rem] ${isHome ? "pt-[5px] text-[1.3rem]" : isDetail ? "pt-[3px] text-[min(1.05rem,calc(5.14vw_-_3.08px))]" : "pt-[5px] text-[min(1.3rem,calc(6.4vw_-_3.84px))]"}`}
         >
           {isDetail && (
             <span
@@ -67,12 +70,14 @@ export function SiteHeader() {
           <div className="hidden md:contents">
             <SiteNav />
           </div>
-        ) : row ? (
+        ) : switcher ? (
+          // md+: the switcher stands in for the tabs (a branch's colour inside a branch, a neutral chip on
+          // the Timeline); phones keep the tabs.
           <>
             <div className="contents md:hidden">
               <SiteNav />
             </div>
-            <BranchSwitcher branch={row.branch} />
+            <BranchSwitcher branch={row?.branch} label={cross?.label} />
           </>
         ) : (
           <SiteNav />

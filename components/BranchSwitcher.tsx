@@ -7,13 +7,15 @@ import { activeSection, branches, type Branch } from "@/lib/verticals";
 import { CROSS_BRANCH_PAGES } from "@/lib/site-info";
 
 /**
- * Desktop (`md`+) header switcher on a branch's pages: "Presidency ▾" beside
- * the wordmark. It opens a map of the whole site — one column per branch with
- * every page, the current branch tinted and the current page marked — plus the
- * cross-branch pages and Home. Closes on Esc, a click outside, or navigation.
+ * Desktop (`md`+) header switcher: "Presidency ▾" beside the wordmark. It opens
+ * a map of the whole site — one column per branch with every page, the current
+ * branch tinted and the current page marked — plus the cross-branch pages and
+ * Home. Closes on Esc, a click outside, or navigation. On the cross-branch
+ * Timeline pass `label` instead of `branch`: the same button with a
+ * neutral grey chip naming the page, and no column tinted.
  * Mock: docs/mockups/subpage-nav/option-b.html.
  */
-export function BranchSwitcher({ branch }: { branch: Branch }) {
+export function BranchSwitcher({ branch, label }: { branch?: Branch; label?: string }) {
   const pathname = usePathname();
   // Remember which page the menu was opened on, so navigating closes it.
   const [openOn, setOpenOn] = useState<string | null>(null);
@@ -55,8 +57,8 @@ export function BranchSwitcher({ branch }: { branch: Branch }) {
         onClick={() => setOpen(!open)}
         className="flex h-9 items-center gap-2.5 whitespace-nowrap rounded-md border border-line bg-surface-raised px-2.5 font-mono text-[0.8rem] font-medium uppercase tracking-[0.12em] text-ink transition-colors hover:border-ink aria-expanded:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        <span aria-hidden className="size-2.5 rounded-[2px] bg-[var(--nav-branch)]" />
-        {branch.label}
+        <span aria-hidden className={`size-2.5 rounded-[2px] ${branch ? "bg-[var(--nav-branch)]" : "bg-ink-muted"}`} />
+        {branch?.label ?? label}
         <span className="sr-only">: show all pages</span>
         <span aria-hidden className={`text-[0.65rem] tracking-normal text-ink-muted transition-transform ${open ? "rotate-180" : ""}`}>
           ▾
@@ -69,7 +71,7 @@ export function BranchSwitcher({ branch }: { branch: Branch }) {
         >
           <nav aria-label="All pages" className="grid grid-cols-[1.15fr_1fr_1fr] gap-1">
             {branches.map((b) => (
-              <MapColumn key={b.id} branch={b} current={b.id === branch.id} pathname={pathname} />
+              <MapColumn key={b.id} branch={b} current={b.id === branch?.id} pathname={pathname} />
             ))}
           </nav>
           <div className="mx-1 mt-1.5 flex items-center gap-3 border-t border-line px-3 py-2.5 text-[0.86rem] text-ink-muted">
