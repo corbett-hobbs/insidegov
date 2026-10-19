@@ -29,17 +29,20 @@ export function PinReadout({ line, pinned, onClear, hint = "Tap or drag the char
           </p>
         </div>
       )}
-      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">
-        {hint}
-        {pinned && (
-          <>
-            {" "}
-            <button type="button" onClick={onClear} className="min-h-6 text-ink underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
-              Clear
-            </button>
-          </>
-        )}
-      </p>
+      {/* An empty hint (a card with nothing to pin) drops the line. */}
+      {(hint || pinned) && (
+        <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">
+          {hint}
+          {pinned && (
+            <>
+              {" "}
+              <button type="button" onClick={onClear} className="min-h-6 text-ink underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+                Clear
+              </button>
+            </>
+          )}
+        </p>
+      )}
     </div>
   );
 }

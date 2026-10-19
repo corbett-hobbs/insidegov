@@ -110,8 +110,8 @@ Built in `lib/trade-scatter.ts`; constants `LATEST_MONTHS = 6`, `BASELINE_YEAR =
 
 ## Goods by product (HS chapters and headings)
 
-What the U.S. trades with each partner, by product, in dollars, 2010 on. Built for the "What the U.S.
-trades" card (not built yet). Fetch `pipeline/fetch/census-products.ts`; transform
+What the U.S. trades with each partner, by product, in dollars, 2010 on. Drawn by the "What the U.S.
+trades" card on the trade page (see "The products card" below). Fetch `pipeline/fetch/census-products.ts`; transform
 `pipeline/transform/trade-products.ts` (run from `trade-run.ts`); schemas `lib/trade-products-entities.ts`;
 chapter names and special-heading labels `lib/trade-hs-chapters.ts`.
 
@@ -227,6 +227,29 @@ low-value shipments") rather than as a product. The build fails on a special hea
 **Refresh.** The weekly `trade-freshness.yml` runs `pnpm fetch:census-products --recent`: the year in progress
 and the three before it, so June's annual revisions reach the product files as they reach the goods file.
 The 2023-2026 window took 23 min (about 130 calls; a call costs about the same whatever its year range). Older years change only when someone re-runs the full fetch.
+
+**The products card.** Served per partner (and `all`) by the static route `/data/trade/products/[code]`
+(`lib/trade-products-data.ts`); the page fetches the file the Country filter needs, all years at once. What it
+shows, and why:
+
+- *Ranked by dollars:* ordinary chapters (01-97) with trade, and the row's top headings, on one dollar scale.
+  Exports are total exports and imports general imports, the goods file's basis, so a chapter list sums (with the
+  special entries) to the partner's total in the cards above.
+- *Collected rate per chapter (imports):* calculated duty / imports for consumption (tuple index 3 / index 2). Never
+  over general imports, which include goods entering bonded warehouses and trade zones that owe no duty yet.
+- *Special entries are a footnote:* chapters 98-99 are summed into one line under the lists, naming the two
+  largest special headings by their `SPECIAL_HEADINGS` label ("Plus $109B in special entries, not ranked as
+  products: returned American goods $73.6B, low-value shipments (estimated) $25.0B, other $10.7B", all countries,
+  imports, 2026 through August).
+- *Heading names:* `lib/trade-hs-headings.ts` holds a hand-written short name for every ordinary heading that
+  appeared in a top list when it was written (1,007; "Computers" for 8471, "Phones & network equipment" for 8517).
+  A heading a refresh adds falls back to Census's description in sentence case with NESOI and abbreviations
+  cleaned up; `lib/trade-hs-headings.test.ts` fails only if one reaches the all-countries list unnamed.
+- *Year in progress:* labelled "so far" with its months. Where a partner's year-to-date product total trails the
+  goods file by 0.5% or more (on $1B or more), the card's Data notes say so; at the time of writing that is exports
+  to Canada, 0.76% below (Census revision timing, above), computed at build so the note follows the data.
+- *Before 2010* there is no product data: the card says so and offers 2010, which also moves the partners card
+  (they share one year).
 
 ## Country codes
 

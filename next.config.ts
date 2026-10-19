@@ -66,9 +66,10 @@ const nextConfig: NextConfig = {
   },
 
   // Loaders that read pipeline/output/ by a computed file name pull the whole directory into every server
-  // function. The goods-by-product shards (12 MB, 236 files) are read by no route yet, and carrying them in
-  // every function split the bundles past the Hobby plan's 12-function limit. Drop this when the products
-  // card adds a route that reads them (and list that route in outputFileTracingIncludes instead).
+  // function. The goods-by-product shards (12 MB, 236 files) are read only at build (the static
+  // /data/trade/products/[code] route and the trade page), and carrying them in every function split the bundles
+  // past the Hobby plan's 12-function limit. Keep this while no server function reads them; a non-static route
+  // that does must drop it and list itself in outputFileTracingIncludes instead.
   outputFileTracingExcludes: {
     "/**": ["./pipeline/output/trade_products/**"],
   },

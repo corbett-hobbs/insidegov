@@ -20,6 +20,9 @@ import { spanEnd } from "./trade-chart";
 import type { EconomyPayload } from "./indicator-payload";
 import { tariffActionsFile } from "./tariff-actions-entities";
 import { buildScatterRows, scatterWindows, type ScatterRow, type ScatterWindows } from "./trade-scatter";
+import { getProductsCodes, getProductsPayload } from "./trade-products-data";
+import { lagOf, type ProductsLag } from "./trade-products";
+import { PRODUCTS_START_YEAR } from "./trade-products-entities";
 import type { TariffFlag, TradeCountryPayload, TradeCountryRef, TradeNationalPayload, TradeYearPayload } from "./trade-types";
 
 /**
@@ -116,6 +119,8 @@ export interface TradePageData {
   initialYear: TradeYearPayload;
   /** Outlines for the trade map, keyed by trade `country_code` (the same world map the foreign-aid page draws). */
   worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] };
+  /** The goods-by-product card: partners with a product file (fetched from `/data/trade/products/[code]`) and the first year. */
+  products: { codes: string[]; firstYear: number; lag: (ProductsLag & { name: string })[] };
 }
 
 /** Everything the trade page ships inline: the national series, the country list and the era layers. */
@@ -136,7 +141,23 @@ export function getTradePageData(): TradePageData {
     lastYear,
     initialYear,
     worldMap: (({ width, height, features }) => ({ width, height, features }))(getWorldMap()),
+    products: { codes: getProductsCodes(), firstYear: PRODUCTS_START_YEAR, lag: getProductsLag(lastYear) },
   };
+}
+
+/** Partners whose product data for the year in progress trails the goods file by more than rounding (Data notes name them). */
+function getProductsLag(year: number): (ProductsLag & { name: string })[] {
+  const names = new Map(getTradeCountryRefs().map((c) => [c.code, c.name]));
+  const goods = new Map((load().trade.get(year) ?? []).map((r) => [r.country_code, r]));
+  const sum = (xs: (number | null)[]) => xs.reduce<number>((a, x) => a + (x ?? 0), 0);
+  return getProductsCodes().flatMap((code) => {
+    const g = goods.get(code);
+    const rows = g ? getProductsPayload(code)?.rows.filter((r) => r.year === year) ?? [] : [];
+    return rows.flatMap((r) => {
+      const l = lagOf(code, r, sum(g![r.flow]));
+      return l ? [{ ...l, name: names.get(code) ?? code }] : [];
+    });
+  });
 }
 
 /** Every country with a duties series, as monthly arrays on the shared axis (the scatter). */

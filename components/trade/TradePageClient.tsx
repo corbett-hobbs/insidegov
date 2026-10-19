@@ -6,10 +6,12 @@ import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
+import { ALL_PRODUCTS, type TradeProductsPayload } from "@/lib/trade-products";
 import { topByTotal } from "@/lib/trade-map";
 import { TradeBalanceCard } from "./TradeBalanceCard";
 import { TradeFilterBar } from "./TradeFilterBar";
 import { TradePartnersCard } from "./TradePartnersCard";
+import { TradeProductsCard } from "./TradeProductsCard";
 import { TradeScatterCard } from "./TradeScatterCard";
 import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
@@ -26,7 +28,7 @@ export function TradePageClient({ data }: { data: TradePageData }) {
 function TradePage({ data }: { data: TradePageData }) {
   const v = useTradeValues();
   const { setRange, clearPin, setCountry, setShowCong, setYear } = useTradeActions();
-  const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap } = data;
+  const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products } = data;
   const [loaded, setLoaded] = useState<Record<string, TradeCountryPayload>>({});
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
@@ -74,6 +76,31 @@ function TradePage({ data }: { data: TradePageData }) {
       });
     return () => ctl.abort();
   }, [v.year, years]);
+  // Goods by product: one file per partner (all years), plus one for all countries, fetched when first needed.
+  const productCodes = useMemo(() => new Set(products.codes), [products.codes]);
+  const productsKey = v.country ? (productCodes.has(v.country) ? v.country : null) : ALL_PRODUCTS;
+  const [productFiles, setProductFiles] = useState<Record<string, TradeProductsPayload>>({});
+  const [productsFailed, setProductsFailed] = useState<string | null>(null);
+  useEffect(() => {
+    const key = productsKey;
+    if (!key || productFiles[key]) return;
+    const ctl = new AbortController();
+    fetch(`/data/trade/products/${encodeURIComponent(key)}`, { signal: ctl.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json() as Promise<TradeProductsPayload>;
+      })
+      .then((p) => {
+        setProductsFailed(null);
+        setProductFiles((m) => ({ ...m, [p.code ?? ALL_PRODUCTS]: p }));
+      })
+      .catch((e) => {
+        if (e?.name !== "AbortError") setProductsFailed(key);
+      });
+    return () => ctl.abort();
+  }, [productsKey, productFiles]);
+  const productsPayload = productsKey ? productFiles[productsKey] ?? null : null;
+
   // While the next year loads, the previous one stays on screen (dimmed) instead of blanking the chart.
   const [lastShown, setLastShown] = useState<TradeYearPayload>(initialYear);
   const yearPayload = years[v.year] ?? null;
@@ -176,6 +203,22 @@ function TradePage({ data }: { data: TradePageData }) {
             loading={!yearPayload && yearFailed !== v.year}
             error={!yearPayload && yearFailed === v.year}
           />
+
+        {/* Full width, under the partners card whose year it shares: which goods, for the Country filter's partner (or all countries). */}
+        <TradeProductsCard
+          payload={productsPayload}
+          year={v.year}
+          onYear={setYear}
+          firstYear={products.firstYear}
+          lastYear={lastYear}
+          through={MONTH_NAMES[Number(national.lastPeriod.slice(5)) - 1]}
+          country={v.country}
+          countryName={countryRef?.name ?? null}
+          hasData={productsKey !== null}
+          lag={products.lag}
+          loading={!!productsKey && !productsPayload && productsFailed !== productsKey}
+          error={!!productsKey && !productsPayload && productsFailed === productsKey}
+        />
 
         {/* Full width: the scatter needs the room for its labels. */}
         <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} />
