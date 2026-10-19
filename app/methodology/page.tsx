@@ -57,11 +57,7 @@ function Entry({ entry }: { entry: MethodEntry }) {
       className="grid scroll-mt-4 gap-1 border-b border-line py-4 first:border-t md:grid-cols-[13rem_minmax(0,1fr)] md:gap-x-7"
     >
       <h3 className="m-0 text-[0.95rem] font-semibold leading-snug">
-        {entry.docPath ? (
-          <a href={docUrl(entry.docPath)} className={`hover:underline ${FOCUS}`}>{entry.title}</a>
-        ) : (
-          entry.title
-        )}
+        {entry.title}
       </h3>
       <div className="flex min-w-0 flex-col gap-2 text-[0.95rem] leading-[1.65] [&_p]:m-0">
         <p>{entry.description}</p>
@@ -76,6 +72,11 @@ function Entry({ entry }: { entry: MethodEntry }) {
         <p className="text-[0.88rem] text-ink-muted">
           <span className="font-medium text-ink">Updates:</span> {entry.updates}
         </p>
+        {entry.docPath && (
+          <p className="text-[0.88rem]">
+            <a href={docUrl(entry.docPath)} className={LINK}>Full methodology write-up</a>
+          </p>
+        )}
       </div>
     </div>
   );
@@ -86,8 +87,7 @@ export default function MethodologyPage() {
     <main className="mx-auto flex w-full max-w-[1180px] flex-1 flex-col gap-8 px-4 pb-16 pt-10 sm:px-6 sm:pt-14">
       <PageHeader title="Methodology and sources">
         <p>
-          What each chart measures, where its numbers come from, and what to keep in mind when reading it. A title links
-          to the full write-up where one exists.
+          What each chart measures, where its numbers come from, and what to keep in mind when reading it.
         </p>
       </PageHeader>
 

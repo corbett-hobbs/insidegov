@@ -39,10 +39,6 @@ export const HOW_TO_READ: { lead: string; text: string }[] = [
     text: "A chart placed under a president shows conditions during that term. It does not claim the president caused them.",
   },
   {
-    lead: "One definition per chart.",
-    text: "We don’t add figures across agencies or definitions. When a source changes its counting rules, the chart marks the change.",
-  },
-  {
     lead: "Estimates are labeled.",
     text: "Preliminary, partial and estimated values are hatched or flagged.",
   },
