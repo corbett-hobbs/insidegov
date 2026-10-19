@@ -12,6 +12,7 @@ import { ProfileHeader } from "./ProfileHeader";
 import { MemberIdeologySection } from "./MemberIdeologySection";
 import { CommitteeMembershipsCard } from "./CommitteeMembershipsCard";
 import { MemberWealthSection } from "./MemberWealthSection";
+import { getMemberViews } from "@/lib/members-directory-data";
 import { MemberLawsCard } from "./MemberLawsCard";
 
 interface MemberProfileViewProps {
@@ -60,6 +61,7 @@ export function MemberProfileView({
         compassMembers={compassMembers}
         delegationMembers={delegationMembers}
         trend={trend}
+        views={getMemberViews()}
       />
 
       <CommitteeMembershipsCard
