@@ -3,6 +3,7 @@
 import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { useElementWidth } from "@/lib/use-element-width";
 import { fitTermLabel } from "@/lib/term-label";
+import { addTermRun, selectedTerms, toggleTermWindow } from "@/lib/term-window";
 
 export interface BandTerm {
   id: string;
@@ -59,19 +60,9 @@ export function TermBand({
   const dragRef = useRef<{ a: number; b: number } | null>(null);
 
   const full = value[0] === min && value[1] === max;
-  // Terms the window covers whole; none while it is the full range (nothing is "selected" then).
-  const selected = full ? [] : terms.map((t, k) => (t.from >= value[0] && t.to <= value[1] ? k : -1)).filter((k) => k >= 0);
-  const addRun = (a: number, b: number) => {
-    const lo = Math.min(terms[a].from, terms[b].from);
-    const hi = Math.max(terms[a].to, terms[b].to);
-    onChange(full ? [lo, hi] : [Math.min(lo, value[0]), Math.max(hi, value[1])]);
-  };
-  const toggle = (k: number) => {
-    if (!selected.includes(k)) return addRun(k, k);
-    if (selected.length === 1) return onChange([min, max]);
-    if (k === selected[0]) onChange([terms[selected[1]].from, value[1]]);
-    else if (k === selected[selected.length - 1]) onChange([value[0], terms[selected[selected.length - 2]].to]);
-  };
+  const selected = selectedTerms(terms, min, max, value);
+  const addRun = (a: number, b: number) => onChange(addTermRun(terms, a, b, min, max, value));
+  const toggle = (k: number) => onChange(toggleTermWindow(terms, k, min, max, value));
   const termAt = (clientX: number) => {
     const box = wrapRef.current?.getBoundingClientRect();
     if (!box || terms.length === 0) return 0;

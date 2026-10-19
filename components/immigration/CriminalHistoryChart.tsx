@@ -5,6 +5,7 @@ import { scaleLinear } from "d3-scale";
 import { useId, useMemo } from "react";
 import { Axis } from "@/components/charts/Axis";
 import { ChartFrame } from "@/components/charts/ChartFrame";
+import { useFyTermSelect } from "./TermWindowContext";
 import { TERM_BAND_H, TermBandSvg, termSegments } from "@/components/charts/TermBandSvg";
 import { Tooltip, useStickyTooltip } from "@/components/charts/Tooltip";
 import type { Criminality } from "@/lib/enforcement-entities";
@@ -100,6 +101,7 @@ export function CriminalHistoryChart({
     return new Set([peak.fy, shown[shown.length - 1].fy]);
   }, [shown]);
 
+  const termSelect = useFyTermSelect((i) => years[Math.min(i, years.length - 1)].fy);
   const segs = termSegments(slots, (i) => {
     const yr = years[Math.min(i, years.length - 1)];
     const t = termById.get(yr.termId);
@@ -246,7 +248,7 @@ export function CriminalHistoryChart({
                 );
               })}
 
-              <TermBandSvg segments={segs} x0={0} step={slotW} y={BAND_Y} />
+              <TermBandSvg segments={segs} x0={0} step={slotW} y={BAND_Y} select={termSelect} />
             </>
           )}
         </ChartFrame>

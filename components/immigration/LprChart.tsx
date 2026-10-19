@@ -8,7 +8,8 @@ import { yGutter } from "@/lib/chart-bars";
 import { slotLayout, termSegments, yearLabel, yearLabelMode } from "@/lib/immigration-chart";
 import { LPR_GROUPS, LPR_REGION_STACK, axisText, compactCount, gridTicks, groupValues, niceMax, type LprGroupKey, type LprMarker, type LprMetric } from "@/lib/lpr-chart";
 import type { LprRegionKey, LprTerm, LprYear } from "@/lib/lpr-types";
-import { fitTermLabel, initialsOf } from "@/lib/term-label";
+import { TermBandSvg } from "@/components/charts/TermBandSvg";
+import { useFyTermSelect } from "./TermWindowContext";
 import { useElementWidth } from "@/lib/use-element-width";
 import { Tooltip, useTooltip } from "../charts/Tooltip";
 import { LprMarkerCard, LprYearCard, LprYearTip } from "./LprCards";
@@ -22,7 +23,6 @@ const BAND_H = 22;
 const PILL_Y = 16;
 
 type Open = { key: string; pinned: boolean } | null;
-const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
  * Green cards (or, on the toggle, naturalizations) by fiscal year: one bar per year, green cards stacked by class group, the term
@@ -141,6 +141,7 @@ export function LprChart({
     if (m) card = <LprMarkerCard marker={m} width={noteCardW} left={cardLeft(left + markerX(m), noteCardW)} />;
   }
 
+  const termSelect = useFyTermSelect((i) => years[Math.min(i, years.length - 1)].fy);
   const segs = termSegments(years, false);
   const aria = (yr: LprYear) => {
     const v = valueOf(yr);
@@ -278,22 +279,13 @@ export function LprChart({
                 );
               })}
 
-              {segs.map((s) => {
-                const t = termById.get(s.termId)!;
-                const w = (s.to - s.from) * slotW;
-                const text = fitTermLabel(w, t.last, initialsOf(t.president));
-                return (
-                  <g key={`${s.termId}-${s.from}`} aria-hidden>
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={BAND_H} rx={2} style={{ fill: `color-mix(in oklab, ${partyVar(s.party)} 20%, var(--surface))` }} />
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={2.5} fill={partyVar(s.party)} />
-                    {text && (
-                      <text x={xSlot(s.from) + w / 2} y={BAND_Y + 16} textAnchor="middle" className="text-[11px]" style={{ fill: "var(--ink)" }}>
-                        {text}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
+              <TermBandSvg
+                segments={segs.map((s) => ({ id: s.termId, last: termById.get(s.termId)!.last, president: termById.get(s.termId)!.president, party: s.party, s: s.from, e: s.to - 1 }))}
+                x0={0}
+                step={slotW}
+                y={BAND_Y}
+                select={termSelect}
+              />
             </>
           )}
         </ChartFrame>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ImmigrationWindowProvider } from "./TermWindowContext";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionPills, SectionStrip, SectionToc, useSectionScroll, type SectionNavItem } from "@/components/SectionNav";
@@ -75,7 +76,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
   const fyIce = iceRange ? Math.min(iceRange[1], Math.max(iceRange[0], fy)) : fy;
   const lprFy = lpr.years.filter((y) => !y.preliminary).at(-1)?.fy;
   return (
-    <>
+    <ImmigrationWindowProvider value={{ min: bounds[0], max: bounds[1], value: range, onChange: setRange }}>
       <ImmigrationFilterBar terms={lpr.terms} years={lpr.years} bounds={bounds} range={range} onRange={setRange}>
         {stuck && <SectionStrip items={SECTIONS} active={active} />}
       </ImmigrationFilterBar>
@@ -137,6 +138,6 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
           <p>Counts are never combined across cards or sections. Where a card’s source or definition changes, the chart marks it.</p>
         </div>
       </main>
-    </>
+    </ImmigrationWindowProvider>
   );
 }

@@ -7,6 +7,7 @@ import { LEGEND_ITEM, LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
+import { useFyTermSelect } from "./TermWindowContext";
 import { TERM_BAND_H, TermBandSvg, termSegments } from "@/components/charts/TermBandSvg";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -81,6 +82,7 @@ export function RefugeeTopCard({
   const { ticks, top: maxTop } = niceCountTicks(Math.max(1, ...years.map(topVal)));
   const yOf = (v: number) => baseY - (v / maxTop) * maxH;
   const si = years.findIndex((y) => y.fy === fy);
+  const termSelect = useFyTermSelect((i) => years[i].fy);
   const segments = termSegments(count, (i) => {
     const t = termOf.get(yearRow.get(years[i].fy)?.termId ?? "");
     return t ? { id: t.termId, last: t.last, president: t.president, party: t.party } : null;
@@ -214,7 +216,7 @@ export function RefugeeTopCard({
                   </text>
                 ) : null,
               )}
-              <TermBandSvg segments={segments} x0={MX} step={step} y={baseY + 24} />
+              <TermBandSvg segments={segments} x0={MX} step={step} y={baseY + 24} select={termSelect} />
               {peak?.ranked[0] &&
                 (() => {
                   const i = years.indexOf(peak);

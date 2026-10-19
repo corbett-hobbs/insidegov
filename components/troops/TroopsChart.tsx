@@ -3,6 +3,8 @@
 import { initialsOf, termLabelCandidates } from "@/lib/term-label";
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { scaleLinear } from "d3-scale";
+import { PressableBand } from "@/components/charts/TermBandSvg";
+import { termPress } from "@/lib/term-window";
 import { Axis } from "@/components/charts/Axis";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { Tooltip, useStickyTooltip } from "@/components/charts/Tooltip";
@@ -52,7 +54,7 @@ type MarkerId = keyof typeof MARKER_NOTES;
  * DMDC deployment totals are drawn as dashed boxes above those bars), the 2006-07 estimates, and the 2018 definition change.
  */
 export function TroopsChart({ stacks, series, by }: { stacks: RegionStack[]; series: readonly StackSeries[]; by: "region" | "branch" }) {
-  const { data, yi, range, setYear, country, measure } = useTroopsState();
+  const { data, yi, range, setRange, setYear, country, measure } = useTroopsState();
   const { periods, years, terms, places, breakYear } = data.payload;
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const width = measured || 960;
@@ -277,16 +279,17 @@ export function TroopsChart({ stacks, series, by }: { stacks: RegionStack[]; ser
             )}
             {/* Presidential terms: the president in office on the snapshot date. Labels placed right to left so they never collide. */}
             <g transform={`translate(0,${innerH + AXIS_H + 2})`}>
-              {runs.map(({ term, s: a, e }) => {
+              {runs.map(({ term, s: a, e }, k) => {
                 const t = terms[term];
                 const c = t.party === "R" ? "--rep" : "--dem";
                 const x = a * step;
                 const w = (e - a + 1) * step;
+                const press = termPress(runs.map((r) => ({ from: terms[r.term].from, to: terms[r.term].to })), k, { min: 0, max: data.payload.years.length - 1, value: range, onChange: setRange });
                 return (
-                  <g key={`${term}-${a}`}>
-                    <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={BAND_H} rx={2} style={{ fill: `color-mix(in oklab, var(${c}) 20%, var(--surface))` }} />
+                  <PressableBand key={`${term}-${a}`} label={`${t.president}: tap to ${press.picked ? "drop" : "show"} these years`} {...press}>
+                    <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={BAND_H} rx={2} style={{ fill: `color-mix(in oklab, var(${c}) ${press.picked ? 34 : 20}%, var(--surface))` }} />
                     <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={2.5} style={{ fill: `var(${c})` }} />
-                  </g>
+                  </PressableBand>
                 );
               })}
               {(() => {
@@ -305,7 +308,7 @@ export function TroopsChart({ stacks, series, by }: { stacks: RegionStack[]; ser
                     if ((tx + tw > nextStart - 2 && k < runs.length - 1) || tw > w + 4) continue;
                     nextStart = tx;
                     out.push(
-                      <text key={`${term}-${a}`} x={tx} y={BAND_H - 5} style={{ fontSize: 11, fill: "var(--ink)" }}>
+                      <text key={`${term}-${a}`} x={tx} y={BAND_H - 5} pointerEvents="none" style={{ fontSize: 11, fill: "var(--ink)" }}>
                         {text}
                       </text>,
                     );

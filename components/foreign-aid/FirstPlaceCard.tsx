@@ -25,7 +25,7 @@ const TICK = 5;
  * those sectors; Country highlights the years that country led and dims the rest. Click or drag sets the year.
  */
 export function FirstPlaceCard() {
-  const { data, year, range, setYear, country, secs, sole, isPartial } = useAidState();
+  const { data, year, range, setRange, country, secs, sole, isPartial, setYear } = useAidState();
   const sectorLabel = useSectorLabel();
   const names = data.payload.countries;
   const years = useMemo(() => topRecipientsByYear(data, range[0], range[1], secs), [data, range, secs]);
@@ -197,7 +197,13 @@ export function FirstPlaceCard() {
                   </text>
                 ) : null,
               )}
-              <TermBandSvg segments={segments} x0={MX} step={step} y={baseY + 24} />
+              <TermBandSvg
+                segments={segments}
+                x0={MX}
+                step={step}
+                y={baseY + 24}
+                select={{ min: data.payload.years[0], max: data.payload.years[data.payload.years.length - 1], value: range, onChange: setRange, axis: (i) => years[i].fy }}
+              />
               {peak?.ranked[0] &&
                 (() => {
                   const i = peak.fy - range[0];
