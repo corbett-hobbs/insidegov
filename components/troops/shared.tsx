@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { LegendToggle } from "@/components/charts/LegendToggle";
-import { REGIONS, regionLegendLabel } from "@/lib/troops-regions";
+import { REGIONS, regionLegendLabel, type StackSeries } from "@/lib/troops-regions";
 import { BRANCH_NAMES, BRANCH_VARS } from "@/lib/troops-derive";
 
 export const branchColor = (k: number) => `var(${BRANCH_VARS[k]})`;
@@ -41,8 +41,8 @@ export function Swatch({ color }: { color: string }) {
 }
 
 /** Legend for the region stack: all six regions, or just the one a Country filter leaves. */
-export function RegionLegend({ only, picked = null, onPick, children }: { only?: string | null; picked?: string | null; onPick?: (id: string) => void; children?: ReactNode }) {
-  const shown = only ? REGIONS.filter((r) => r.id === only) : REGIONS;
+export function RegionLegend({ series = REGIONS, only, picked = null, onPick, children }: { series?: readonly StackSeries[]; only?: string | null; picked?: string | null; onPick?: (id: string) => void; children?: ReactNode }) {
+  const shown = only ? series.filter((r) => r.id === only) : series;
   return (
     <div className={`mt-2.5 ${LEGEND_ROW}`}>
       {shown.map((r) =>
