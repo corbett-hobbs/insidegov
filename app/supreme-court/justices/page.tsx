@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
@@ -45,11 +44,6 @@ export default function JusticesPage() {
             <a href="#all-justices" className={linkClass}>
               Browse all {rows.length} justices ↓
             </a>
-          </p>
-          <p>
-            <Link href="/supreme-court/ideology" className={linkClass}>
-              See where each justice sits, 1937&ndash;now →
-            </Link>
           </p>
         </PageShortcuts>
       </PageHeader>

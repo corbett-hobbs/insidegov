@@ -14,6 +14,7 @@ import {
   fmtRate,
   fmtYears,
   isFullWindow,
+  leanBand,
   panWindow,
   rowsInWindow,
   sortRows,
@@ -25,6 +26,7 @@ import {
   MIN_VOTES_FOR_RATE,
   timelineDomain,
   voteTotals,
+  votingLean,
   yearTicks,
   zoomWindow,
   type DirectoryRow,
@@ -278,5 +280,45 @@ describe("takeaways", () => {
     const short = { ...row("Thomas"), name: "Test Short", votesTaken: MIN_VOTES_FOR_RATE - 1, dissentRate: 99 };
     expect(tableTakeaway([...rows, short])).toBe(tableTakeaway(rows));
     expect(tableTakeaway([...rows, { ...short, votesTaken: MIN_VOTES_FOR_RATE }])).toMatch(/Short dissented most often, in 99\.0%/);
+  });
+});
+
+describe("votingLean", () => {
+  const lean = (firstScore: number, latestScore: number, scoredTerms = 10, sitting = false) => votingLean({ firstScore, latestScore, scoredTerms, sitting });
+
+  it("puts a score in a fixed band, the same in every era", () => {
+    expect([-4.2, -1.8, 0, 1.1, 3.1].map(leanBand)).toEqual(["liberal", "left of center", "center", "right of center", "conservative"]);
+    expect(leanBand(-2)).toBe("liberal");
+    expect(leanBand(0.5)).toBe("center");
+    expect(leanBand(2)).toBe("conservative");
+  });
+
+  it("says where a justice started and ended when they moved", () => {
+    expect(lean(-1.6, -4.2)).toBe("From left of center to liberal");
+    expect(lean(1.4, 0.3)).toBe("From right of center to center");
+  });
+
+  it("reads a small change, or one inside a band, as throughout", () => {
+    expect(lean(1.0, 1.4)).toBe("Right of center throughout");
+    expect(lean(0.7, 1.9)).toBe("Right of center throughout");
+    expect(lean(-1.4, -1.8)).toBe("Left of center throughout");
+  });
+
+  it("gives only a position with fewer than four scored terms, 'so far' while sitting", () => {
+    expect(lean(-2.4, -2.8, 3, true)).toBe("Liberal so far");
+    expect(lean(1.6, 1.6, 1, false)).toBe("Right of center");
+  });
+
+  it("describes every real justice", () => {
+    for (const r of rows) expect(votingLean(r), r.name).toMatch(/^(From .+ to .+|\w[\w ]+( throughout| so far)?)$/);
+    expect(votingLean(row("Thomas"))).toBe("Conservative throughout");
+    expect(votingLean(row("Sotomayor"))).toBe("From left of center to liberal");
+    expect(votingLean(row("Ketanji Jackson"))).toBe("Liberal so far");
+  });
+
+  it("sorts by the latest score", () => {
+    const desc = sortRows(rows, "lean", "desc");
+    expect(desc[0].latestScore).toBe(Math.max(...rows.map((r) => r.latestScore)));
+    expect(sortRows(rows, "lean", "asc")[0].latestScore).toBe(Math.min(...rows.map((r) => r.latestScore)));
   });
 });

@@ -7,7 +7,6 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { ListSearch } from "@/components/ListSearch";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
-import { fmtScore } from "@/lib/court-types";
 import {
   FIRST_DIR,
   MIN_VOTES_FOR_RATE,
@@ -17,6 +16,7 @@ import {
   sortRows,
   tableTakeaway,
   tenureYears,
+  votingLean,
   type DirectoryRow,
   type SortDir,
   type SortKey,
@@ -25,8 +25,8 @@ import { justicePath } from "@/lib/justice-url";
 
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
-/** Justice, Served, Appointed by, Years, Opinions, Dissent rate, Latest, Career: one grid for the header and every row from `lg`. */
-const COLS = "lg:grid-cols-[minmax(9rem,1.3fr)_6.5rem_minmax(8rem,1fr)_4rem_5.25rem_5.25rem_4.75rem_4.75rem]";
+/** Justice, Served, Appointed by, Years, Opinions, Dissent rate, Voting lean: one grid for the header and every row from `lg`. */
+const COLS = "lg:grid-cols-[minmax(13rem,1.3fr)_6.5rem_minmax(8rem,1fr)_3.5rem_5.25rem_5.25rem_minmax(11rem,1.1fr)]";
 
 const COLUMNS: { key: SortKey; label: string; short: string; title?: string; right?: boolean }[] = [
   { key: "name", label: "Justice", short: "Name" },
@@ -34,8 +34,7 @@ const COLUMNS: { key: SortKey; label: string; short: string; title?: string; rig
   { key: "years", label: "Years", short: "Years served", right: true },
   { key: "opinions", label: "Opinions", short: "Majority opinions", title: "Majority opinions written, argued cases since the 1946 term", right: true },
   { key: "dissent", label: "Dissent %", short: "Dissent rate", title: "Share of the cases the justice voted in where they dissented", right: true },
-  { key: "latest", label: "Latest", short: "Latest score", title: "Martin–Quinn score in the justice's latest term (negative is more liberal)", right: true },
-  { key: "career", label: "Career", short: "Career score", title: "Average of the justice's Martin–Quinn scores across their terms", right: true },
+  { key: "lean", label: "Voting lean", short: "Voting lean", title: "Where the justice's votes fall on a left–right scale, and whether that moved from their first terms to their latest (sorts by the latest term, most conservative first)" },
 ];
 
 const num = (n: number | null, partial: boolean) => (n === null ? "—" : `${n}${partial ? "†" : ""}`);
@@ -100,25 +99,27 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
           <ol className="m-0 list-none p-0">
             {shown.map((r) => (
               <li key={r.id} className={`border-b border-line py-2.5 last:border-b-0 lg:grid lg:items-center lg:gap-x-3 lg:py-1.5 ${COLS}`}>
-                <div className="min-w-0">
-                  <Link href={justicePath(r)} className="font-serif text-[1rem] font-medium text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
-                    {r.name}
-                  </Link>
-                  {r.chiefNow ? <span className="ml-1.5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint">Chief Justice</span> : r.chief ? <span className="ml-1.5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint">Former Chief</span> : null}
-                  <p className="m-0 text-[0.78rem] text-ink-muted lg:hidden">
-                    {tenureYears(r)} · <Party r={r} />
-                  </p>
+                <div className="flex min-w-0 items-center gap-3">
+                  <Portrait r={r} />
+                  <div className="min-w-0">
+                    <Link href={justicePath(r)} className="font-serif text-[1rem] font-medium text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+                      {r.name}
+                    </Link>
+                    {r.chiefNow ? <span className="ml-1.5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint">Chief Justice</span> : r.chief ? <span className="ml-1.5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint">Former Chief</span> : null}
+                    <p className="m-0 text-[0.78rem] text-ink-muted lg:hidden">
+                      {tenureYears(r)} · <Party r={r} />
+                    </p>
+                  </div>
                 </div>
                 <span className="hidden text-[0.82rem] tabular-nums text-ink-muted lg:block">{tenureYears(r)}</span>
                 <span className="hidden text-[0.82rem] text-ink-muted lg:block">
                   <Party r={r} />
                 </span>
-                <dl className="m-0 mt-1.5 grid grid-cols-5 gap-x-2 gap-y-1 text-[0.82rem] lg:contents">
+                <dl className="m-0 mt-2 grid grid-cols-[auto_auto_auto_minmax(0,1fr)] gap-x-4 gap-y-1 text-[0.82rem] lg:contents">
                   <Stat label="Years" value={fmtYears(r.yearsServed)} />
                   <Stat label="Opinions" title="Majority opinions written, argued cases since the 1946 term" value={num(r.majorityOpinions, r.partialRecord)} />
                   <Stat label="Dissent" title="Share of the cases voted in where the justice dissented" value={r.dissentRate === null ? "—" : `${fmtRate(r.dissentRate)}${r.partialRecord ? "†" : ""}`} />
-                  <Stat label="Latest" title={`Martin–Quinn score, ${r.latestTerm} term`} value={fmtScore(r.latestScore)} />
-                  <Stat label="Career" title="Average Martin–Quinn score across terms" value={fmtScore(r.careerScore)} />
+                  <Stat label="Voting lean" left title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} value={votingLean(r)} />
                 </dl>
               </li>
             ))}
@@ -129,7 +130,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Opinions and dissents come from the justice-centered <SourceLink id="scdb">Supreme Court Database</SourceLink>: argued cases from the 1946 term on, so justices who sat earlier have no counts (—), and those who sat before and after show a partial record (†). Opinions are majority opinions the justice wrote. The dissent rate is dissenting votes divided by cases where the justice took a side; an equally divided Court or a recusal counts as neither. The takeaway compares only justices with {MIN_VOTES_FOR_RATE}+ such votes. Scores are <SourceLink id="martin-quinn">Martin–Quinn</SourceLink>, negative more liberal, the latest term and the average of all of a justice&rsquo;s terms. Years served are completed years.
+            Opinions and dissents come from the justice-centered <SourceLink id="scdb">Supreme Court Database</SourceLink>: argued cases from the 1946 term on, so justices who sat earlier have no counts (—), and those who sat before and after show a partial record (†). Opinions are majority opinions the justice wrote. The dissent rate is dissenting votes divided by cases where the justice took a side; an equally divided Court or a recusal counts as neither. The takeaway compares only justices with {MIN_VOTES_FOR_RATE}+ such votes. Voting lean is measured from how justices vote, not from stated views, using <SourceLink id="martin-quinn">Martin–Quinn</SourceLink> scores: the average of the first three scored terms against the latest term, put into fixed bands from liberal to conservative. A change under 0.6 points, or one that stays in the same band, reads &ldquo;throughout&rdquo;; fewer than four scored terms gives only a position. Years served are completed years.
           </p>
         </MethodologyNote>
       </ChartNotesRow>
@@ -147,9 +148,27 @@ function Party({ r }: { r: DirectoryRow }) {
   );
 }
 
-function Stat({ label, value, title }: { label: string; value: string; title?: string }) {
+/** A justice's portrait with a bottom stripe in the appointing president's party colour, the same stripe the Court-today cards carry; initials when there is no portrait. */
+function Portrait({ r }: { r: DirectoryRow }) {
   return (
-    <div title={title} className="min-w-0 lg:text-right">
+    <span className="relative block h-[4.25rem] w-[3.25rem] shrink-0 overflow-hidden rounded border border-line-strong bg-surface-raised lg:h-[3.6rem] lg:w-11">
+      {r.photoSrc ? (
+        // Pre-sized static assets from public/; see JusticeHeader for why this is not next/image.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={r.photoSrc} alt="" width={330} height={440} loading="lazy" className="size-full object-cover object-top" />
+      ) : (
+        <span aria-hidden className="flex size-full items-center justify-center font-serif text-lg text-ink-faint">
+          {r.short[0]}
+        </span>
+      )}
+      <span aria-hidden className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: partyVar(r.party) }} />
+    </span>
+  );
+}
+
+function Stat({ label, value, title, left }: { label: string; value: string; title?: string; left?: boolean }) {
+  return (
+    <div title={title} className={`min-w-0 ${left ? "" : "lg:text-right"}`}>
       <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint lg:sr-only">{label}</dt>
       <dd className="m-0 tabular-nums text-ink">{value}</dd>
     </div>
