@@ -41,7 +41,7 @@ function CongressBar({ r }: { r: PresidentSummary }) {
   return (
     <span className="flex min-w-0 flex-col gap-1">
       <span className={LABEL}>Congress on their side</span>
-      <span role="img" aria-label={`${controlLabel(r.control)}; ${yearsOfDays(one)} yrs one chamber; ${yearsOfDays(neither)} yrs neither`} className="flex h-2 w-full overflow-hidden rounded-full" style={{ background: NEITHER }}>
+      <span role="img" aria-label={`Both chambers ${yearsOfDays(both)} years; one chamber ${yearsOfDays(one)} years; neither chamber ${yearsOfDays(neither)} years`} className="flex h-2 w-full overflow-hidden rounded-full" style={{ background: NEITHER }}>
         <span style={{ width: pct(both), background: partyVar(r.party) }} />
         <span style={{ width: pct(one), background: `color-mix(in oklab, ${partyVar(r.party)} 40%, var(--surface))` }} />
       </span>

@@ -272,9 +272,9 @@ describe("directory helpers", () => {
   });
   it("words the congress-control label", async () => {
     const { controlLabel } = await import("./president-derive");
-    expect(controlLabel({ both: 730.5, one: 1461, neither: 730.5 })).toBe("2 of 8 yrs both");
-    expect(controlLabel({ both: 0, one: 365.25, neither: 365.25 })).toBe("1 of 2 yrs one chamber");
-    expect(controlLabel({ both: 0, one: 0, neither: 730.5 })).toBe("Neither chamber, 2 yrs");
+    expect(controlLabel({ both: 730.5, one: 1461, neither: 730.5 })).toBe("Both chambers, 2 of 8 years");
+    expect(controlLabel({ both: 0, one: 365.25, neither: 365.25 })).toBe("One chamber, 1 of 2 years");
+    expect(controlLabel({ both: 0, one: 0, neither: 730.5 })).toBe("Neither chamber, 2 years");
     expect(controlLabel({ both: 0, one: 0, neither: 0 })).toBe("");
   });
   it("scales sparkline points into the box", async () => {
