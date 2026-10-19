@@ -1,0 +1,94 @@
+name: Wikipedia pageviews freshness
+
+# Automate the check and the acceptance; the gate is the full CI run (.github/actions/gate-and-merge).
+#
+# Weekly: re-count how often each current member's Wikipedia article is read
+# (median daily views over the trailing 90 days, redirects included) for the
+# Members directory's "Most looked up" sort, and open a pull request with the
+# new pipeline/output/wikipedia_pageviews_members.json. The window moves every
+# week, so this opens a PR nearly every run. Auto-merged only after the full
+# CI gate passes (.github/actions/gate-and-merge); if it fails the PR stays
+# open for review.
+#
+# Runs half an hour after the bios refresh (wikipedia-freshness.yml), whose
+# article titles it reads.
+#
+# Requires repo setting:
+#   Settings > Actions > General > "Allow GitHub Actions to create and
+#   approve pull requests"  (off by default)
+
+on:
+  schedule:
+    - cron: "13 10 * * 1" # Mondays 10:13 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: wikipedia-pageviews-freshness
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Re-count Wikipedia pageviews
+        run: pnpm fetch:wikipedia-pageviews
+
+      - name: Validate
+        run: pnpm validate
+
+      - name: Detect changes
+        id: detect
+        run: |
+          if git diff --quiet -- pipeline/output/wikipedia_pageviews_members.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Wikipedia pageviews are unchanged."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- pipeline/output/wikipedia_pageviews_members.json
+          fi
+
+      - name: Open pull request
+        id: cpr
+        if: steps.detect.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: |
+            pipeline/output/wikipedia_pageviews_members.json
+          branch: data/wikipedia-pageviews-refresh
+          base: main
+          delete-branch: true
+          commit-message: "chore(pipeline): refresh Wikipedia pageviews"
+          title: "Wikipedia pageviews refresh"
+          labels: data-refresh
+          body: |
+            The weekly refresh of member Wikipedia pageviews (median daily views, trailing 90 days, redirects included),
+            used by the "Most looked up" sort on /congress/members.
+
+            Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch
+            (.github/actions/gate-and-merge). If you are reading this on an open PR, that gate failed: see the run log.
+
+      # Auto-merge only if the full CI gate passes (.github/actions/gate-and-merge); otherwise
+      # this step fails and the PR stays open for a human.
+      - name: Gate and merge
+        if: contains(fromJSON('["created","updated"]'), steps.cpr.outputs.pull-request-operation)
+        uses: ./.github/actions/gate-and-merge
+        with:
+          pr-number: ${{ steps.cpr.outputs.pull-request-number }}
+          branch: ${{ steps.cpr.outputs.pull-request-branch }}
+          head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          token: ${{ github.token }}

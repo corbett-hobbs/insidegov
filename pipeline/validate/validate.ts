@@ -5,6 +5,7 @@ import { justice as justiceSchema, justiceBio } from "../../lib/court-entities";
 import {
   legislator,
   wikipediaSummary,
+  wikipediaPageviews,
   committeeSummary,
   rawCommittee,
   rawCommitteeMember,
@@ -186,6 +187,18 @@ await step("output/wikipedia_summaries.json", async () => {
     );
   }
   return `${rows.length} records ok, bioguide_id unique and resolves`;
+});
+
+// Written weekly by fetch:wikipedia-pageviews (committed), so CI re-checks it on every push.
+await step("output/wikipedia_pageviews_members.json", async () => {
+  const file = "pipeline/output/wikipedia_pageviews_members.json";
+  const out = wikipediaPageviews.parse(JSON.parse(await readFile(file, "utf8")));
+  assertUnique(file, out.rows, (r) => r.id, (r) => `${r.title} [${r.id}]`);
+  const unknown = out.rows.filter((r) => !knownBioguides.has(r.id));
+  if (unknown.length > 0) {
+    throw new ValidationError(file, "bioguide resolution", `${unknown.length} row(s) have a bioguide not present in congress-legislators: ${unknown.map((r) => r.id).join(", ")}`);
+  }
+  return `${out.rows.length} members ok, window ${out.start} to ${out.end}`;
 });
 
 // Written by fetch:wikipedia-committees (committed), so CI re-checks it on every push.
