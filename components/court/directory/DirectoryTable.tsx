@@ -11,6 +11,7 @@ import { LeanGlyph } from "./LeanGlyph";
 import {
   FIRST_DIR,
   MIN_VOTES_FOR_RATE,
+  confirmedCell,
   filterRows,
   fmtRate,
   fmtYears,
@@ -26,19 +27,17 @@ import { justicePath } from "@/lib/justice-url";
 
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
-/** Justice, Served, Appointed by, Years, Opinions, Dissent rate, Voting lean: one grid for the header and every row from `lg`. */
-const COLS = "xl:grid-cols-[minmax(12rem,1.2fr)_6.25rem_minmax(7.5rem,1fr)_3.25rem_4.75rem_5.75rem_minmax(19.5rem,1.4fr)]";
+/** Justice, Served, Appointed by, Years, Confirmed, Dissent rate, Voting lean: one grid for the header and every row from `lg`. */
+const COLS = "xl:grid-cols-[minmax(12rem,1.2fr)_6.25rem_minmax(7.5rem,1fr)_3.25rem_5.25rem_5.75rem_minmax(19.5rem,1.4fr)]";
 
 const COLUMNS: { key: SortKey; label: string; short: string; title?: string; right?: boolean }[] = [
   { key: "name", label: "Justice", short: "Name" },
   { key: "start", label: "Served", short: "First day on the Court" },
   { key: "years", label: "Years", short: "Years served", right: true },
-  { key: "opinions", label: "Opinions", short: "Majority opinions", title: "Majority opinions written, argued cases since the 1946 term", right: true },
+  { key: "confirmed", label: "Confirmed", short: "Senate confirmation vote", title: "Senate vote confirming the appointment, ayes–nays. Voice = confirmed without a recorded roll call. Sorts by the share of votes cast in favour", right: true },
   { key: "dissent", label: "Dissent %", short: "Dissent rate", title: "Share of the cases the justice voted in where they dissented", right: true },
   { key: "lean", label: "Voting lean", short: "Voting lean", title: "Where the justice's votes fall on a left–right scale, and whether that moved from their first terms to their latest (sorts by the latest term, most conservative first)" },
 ];
-
-const num = (n: number | null, partial: boolean) => (n === null ? "—" : `${n}${partial ? "†" : ""}`);
 
 /**
  * "Every justice": all 49 as a sortable list. From `lg` it is a table (click a heading to sort, again to reverse); on a phone each
@@ -116,9 +115,9 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                 <span className="hidden text-[0.82rem] text-ink-muted xl:block">
                   <Party r={r} />
                 </span>
-                <dl className="m-0 mt-2.5 grid grid-cols-[2.75rem_3.5rem_4rem_minmax(0,1fr)] items-stretch gap-x-3 text-[0.82rem] xl:contents">
+                <dl className="m-0 mt-2.5 grid grid-cols-[2.5rem_3.75rem_3.75rem_minmax(0,1fr)] items-stretch gap-x-3 text-[0.82rem] xl:contents">
                   <Stat label="Years" value={fmtYears(r.yearsServed)} />
-                  <Stat label="Opinions" title="Majority opinions written, argued cases since the 1946 term" value={num(r.majorityOpinions, r.partialRecord)} />
+                  <Stat label="Confirmed" title="Senate vote confirming the appointment, ayes–nays; Voice = no recorded roll call" value={confirmedCell(r)} />
                   <Stat label="Dissent" title="Share of the cases voted in where the justice dissented" value={r.dissentRate === null ? "—" : `${fmtRate(r.dissentRate)}${r.partialRecord ? "†" : ""}`} />
                   <div title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} className="min-w-0">
                     <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">Voting lean</dt>
@@ -143,7 +142,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Opinions and dissents come from the justice-centered <SourceLink id="scdb">Supreme Court Database</SourceLink>: argued cases from the 1946 term on, so justices who sat earlier have no counts (—), and those who sat before and after show a partial record (†). Opinions are majority opinions the justice wrote. The dissent rate is dissenting votes divided by cases where the justice took a side; an equally divided Court or a recusal counts as neither. The takeaway compares only justices with {MIN_VOTES_FOR_RATE}+ such votes. Voting lean is measured from how justices vote, not from stated views, using <SourceLink id="martin-quinn">Martin–Quinn</SourceLink> scores: the average of the first three scored terms against the latest term, put into fixed bands from liberal to conservative. A change under 0.6 points, or one that stays in the same band, reads &ldquo;throughout&rdquo;; fewer than four scored terms gives only a position. Years served are completed years.
+            Confirmed is the Senate roll-call vote on the appointment that seated the justice (ayes–nays), from the <SourceLink id="fjc">Federal Judicial Center</SourceLink>; &ldquo;Voice&rdquo; means it passed without a recorded vote (the last was in 1965). A justice later elevated to Chief Justice shows the vote on the first appointment. The column sorts by the share of votes cast in favour, voice votes first. Dissents come from the justice-centered <SourceLink id="scdb">Supreme Court Database</SourceLink>: argued cases from the 1946 term on, so justices who sat earlier have no rate (—), and those who sat before and after show a partial record (†). The dissent rate is dissenting votes divided by cases where the justice took a side; an equally divided Court or a recusal counts as neither. The takeaway compares only justices with {MIN_VOTES_FOR_RATE}+ such votes. Voting lean is measured from how justices vote, not from stated views, using <SourceLink id="martin-quinn">Martin–Quinn</SourceLink> scores: the average of the first three scored terms against the latest term, put into fixed bands from liberal to conservative. A change under 0.6 points, or one that stays in the same band, reads &ldquo;throughout&rdquo;; fewer than four scored terms gives only a position. Years served are completed years.
           </p>
         </MethodologyNote>
       </ChartNotesRow>

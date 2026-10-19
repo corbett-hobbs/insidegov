@@ -51,7 +51,7 @@ export function DecisionsFilterBar() {
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
         <div className="flex flex-col gap-1.5 lg:flex-row lg:items-start lg:gap-x-4">
           <div className="flex flex-none flex-wrap items-center gap-x-1.5 gap-y-1.5 sm:gap-x-2.5 lg:flex-[1.3_1_0%] lg:flex-nowrap xl:flex-[1_1_0%] lg:pt-px">
-            <div className="flex min-w-0 flex-[1.6] basis-0 items-center gap-2 sm:max-w-[16rem] sm:flex-[1.5]">
+            <div className="flex min-w-0 flex-[1.5] basis-0 items-center gap-2 sm:max-w-[16rem] sm:flex-[1.5]">
               <FilterCaption>Issue area</FilterCaption>
               <MultiSelectFilter
                 label="Issue area"
@@ -73,7 +73,7 @@ export function DecisionsFilterBar() {
                 className="flex-1 sm:min-w-[8.5rem]"
               />
             </div>
-            <div className="flex min-w-0 flex-1 basis-0 items-center gap-2 sm:max-w-[11rem] sm:flex-[0.9]">
+            <div className="flex min-w-0 flex-[1.1] basis-0 items-center gap-2 sm:max-w-[11rem] sm:flex-[0.9]">
               <FilterCaption>Vote</FilterCaption>
               <MultiSelectFilter label="Vote: how many justices dissented" noun="votes" allLabel="Any vote" options={voteOptions} value={band} onChange={setBand} className="flex-1 sm:min-w-[6.25rem]" />
             </div>
@@ -88,7 +88,7 @@ export function DecisionsFilterBar() {
                 { id: "1", label: "Conservative" },
               ]}
               className="flex-[1.25] basis-0 sm:max-w-[13.5rem] sm:flex-[1.2]"
-              selectClassName="min-w-[8.25rem] flex-1"
+              selectClassName="min-w-0 flex-1 sm:min-w-[8.25rem]"
             />
           </div>
           <RangeSelector

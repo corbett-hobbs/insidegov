@@ -88,6 +88,8 @@ export interface DirectoryRow {
   /** Dissenting votes ÷ votes with a side taken, as a percentage; null with no record. */
   dissentRate: number | null;
   votesTaken: number;
+  /** Roll-call Senate vote on the appointment that seated them; null = confirmed by voice vote. */
+  senateVote: { ayes: number; nays: number } | null;
   /** The justice sat before the record begins, so the counts above cover only part of the career. */
   partialRecord: boolean;
   /** Martin–Quinn score in the justice's latest term in the data, and that term. */
@@ -141,6 +143,7 @@ export function buildDirectory({ justices, court, votes, photos, asOf }: Directo
       majorityOpinions: totals ? totals.majorityOpinions : null,
       dissentRate: totals && totals.took > 0 ? (totals.dissents / totals.took) * 100 : null,
       votesTaken: totals?.took ?? 0,
+      senateVote: j.senate_vote ? { ayes: j.senate_vote.ayes, nays: j.senate_vote.nays } : null,
       partialRecord: totals !== null && j.service_start < VOTES_FROM,
       latestScore: c.s[c.s.length - 1],
       latestTerm: c.t1,
@@ -224,14 +227,24 @@ export function yearTicks(win: Win, plotW: number, minGap = 46): number[] {
 // ---------------------------------------------------------------------------------------------------------------------
 // Table
 
-export type SortKey = "name" | "start" | "years" | "opinions" | "dissent" | "lean";
+export type SortKey = "name" | "start" | "years" | "confirmed" | "dissent" | "lean";
 export type SortDir = "asc" | "desc";
+
+/** Ayes as a share of the votes cast, so a 98–0 confirmation outranks a 52–48 one whatever the size of the Senate. A voice vote, with nobody recorded against, sorts as the most consensual. */
+function confirmedShare(r: DirectoryRow): number {
+  return r.senateVote ? r.senateVote.ayes / (r.senateVote.ayes + r.senateVote.nays) : 1.001;
+}
+
+/** The Confirmed column: "98–0", or "Voice" for a confirmation with no recorded roll call. */
+export function confirmedCell(r: Pick<DirectoryRow, "senateVote">): string {
+  return r.senateVote ? `${r.senateVote.ayes}–${r.senateVote.nays}` : "Voice";
+}
 
 const VALUE: Record<SortKey, (r: DirectoryRow) => number | string | null> = {
   name: (r) => r.short.replace(/^[A-Z]\. /, ""),
   start: (r) => r.start,
   years: (r) => r.yearsServed,
-  opinions: (r) => r.majorityOpinions,
+  confirmed: (r) => confirmedShare(r),
   dissent: (r) => r.dissentRate,
   lean: (r) => r.latestScore,
 };
@@ -241,7 +254,7 @@ export const FIRST_DIR: Record<SortKey, SortDir> = {
   name: "asc",
   start: "desc",
   years: "desc",
-  opinions: "desc",
+  confirmed: "desc",
   dissent: "desc",
   lean: "desc",
 };
@@ -363,11 +376,12 @@ export function timelineTakeaway(rows: readonly DirectoryRow[]): string {
 /** A dissent rate is only compared across justices with at least this many votes on a side, so a short career does not top the list. */
 export const MIN_VOTES_FOR_RATE = 500;
 
-/** The table card: who wrote the most majority opinions and who dissented most often, from the 1946 term on. */
+/** The table card: who was confirmed by the narrowest Senate margin and who dissented most often (from the 1946 term on). */
 export function tableTakeaway(rows: readonly DirectoryRow[]): string {
-  const withOpinions = rows.filter((r) => r.majorityOpinions !== null);
-  const most = [...withOpinions].sort((a, b) => b.majorityOpinions! - a.majorityOpinions!)[0];
+  const voted = rows.filter((r) => r.senateVote !== null);
+  const margin = (r: DirectoryRow) => r.senateVote!.ayes - r.senateVote!.nays;
+  const narrow = [...voted].sort((a, b) => margin(a) - margin(b) || b.start.localeCompare(a.start))[0];
   const rated = rows.filter((r) => r.dissentRate !== null && r.votesTaken >= MIN_VOTES_FOR_RATE);
   const dissenter = [...rated].sort((a, b) => b.dissentRate! - a.dissentRate!)[0];
-  return `In argued cases since the 1946 term, ${surname(most)} wrote the most majority opinions (${most.majorityOpinions}${most.partialRecord ? " in the record" : ""}) and ${surname(dissenter)} dissented most often, in ${fmtRate(dissenter.dissentRate!)} of the cases they voted in.`;
+  return `${surname(narrow)} was confirmed by the narrowest Senate vote, ${confirmedCell(narrow)}; in argued cases since the 1946 term, ${surname(dissenter)} dissented most often, in ${fmtRate(dissenter.dissentRate!)} of the cases they voted in.`;
 }
