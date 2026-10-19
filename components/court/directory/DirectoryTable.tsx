@@ -126,7 +126,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                   >
                     <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">Voting lean</dt>
                     <dd className="m-0 mt-1.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-left xl:mt-0 xl:flex-nowrap xl:justify-start xl:gap-2.5">
-                      <span className="min-w-10 max-w-[7.5rem] flex-1 basis-10 xl:w-[4.5rem] xl:max-w-none xl:flex-none xl:basis-auto">
+                      <span className="min-w-10 max-w-[7.5rem] flex-initial basis-16 xl:w-[4.5rem] xl:max-w-none xl:flex-none xl:basis-auto">
                         <LeanGlyph row={r} />
                       </span>
                       {/* The slot is as wide as the longest phrase, so the text starts at the same x on every row and never wraps. */}
