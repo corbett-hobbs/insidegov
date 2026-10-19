@@ -1,10 +1,10 @@
 {
-  "laws": 12620,
+  "laws": 12624,
   "congresses": "93-119",
   "partial_congresses": [
     119
   ],
-  "data_through": "2026-10-07",
+  "data_through": "2026-10-15",
   "sources": [
     {
       "source": "congress-gov",
@@ -378,13 +378,13 @@
     {
       "congress": 119,
       "source": "govinfo-billstatus",
-      "laws": 120,
-      "highest_number": 120,
+      "laws": 124,
+      "highest_number": 124,
       "list_rows": null,
       "list_rows_beyond_laws": null,
       "independent_count": null,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-13",
+      "fetched": "2026-10-19",
       "source_corrections": [
         "119-pub-120: Bill Status also lists it on HR 766, which has no signing action; kept S 766"
       ],
@@ -415,14 +415,14 @@
   "policy_areas": {
     "by_name": {
       "Government Operations and Politics": 1825,
-      "Public Lands and Natural Resources": 1345,
+      "Public Lands and Natural Resources": 1346,
       "Commemorations": 1146,
       "Armed Forces and National Security": 905,
       "Economics and Public Finance": 679,
       "Health": 582,
       "International Affairs": 492,
       "Transportation and Public Works": 482,
-      "Native Americans": 407,
+      "Native Americans": 408,
       "Crime and Law Enforcement": 403,
       "Agriculture and Food": 288,
       "Finance and Financial Sector": 274,
@@ -435,8 +435,8 @@
       "Law": 200,
       "Foreign Trade and International Finance": 197,
       "Congress": 180,
-      "Arts, Culture, Religion": 175,
-      "Labor and Employment": 159,
+      "Arts, Culture, Religion": 176,
+      "Labor and Employment": 160,
       "Taxation": 158,
       "Emergency Management": 149,
       "Social Welfare": 133,
@@ -1045,14 +1045,14 @@
         "check_minor": 3
       },
       "2020s": {
-        "laws": 756,
-        "chamber_votes": 1512,
-        "roll": 418,
-        "tally_from_text": 418,
-        "check_exact": 416,
-        "join_clerk": 418,
-        "consent": 586,
-        "voice": 471,
+        "laws": 760,
+        "chamber_votes": 1520,
+        "roll": 419,
+        "tally_from_text": 419,
+        "check_exact": 417,
+        "join_clerk": 419,
+        "consent": 590,
+        "voice": 474,
         "unstated": 37,
         "check_minor": 2,
         "nonroll_with_a_voteview_vote_on_the_bill_that_day": 1
@@ -1095,11 +1095,11 @@
         388
       ],
       "2020s": [
-        426,
+        429,
         51,
         20,
         48,
-        211
+        212
       ]
     },
     "band_counts_by_congress": {
@@ -1286,11 +1286,11 @@
         62
       ],
       "119": [
-        59,
+        62,
         29,
         6,
         5,
-        21
+        22
       ]
     },
     "unverified_disagreements": [
@@ -1417,9 +1417,9 @@
         "fill": "67%"
       },
       "2020s": {
-        "laws": 756,
-        "with_sentence": 699,
-        "too-long": 56,
+        "laws": 760,
+        "with_sentence": 701,
+        "too-long": 58,
         "empty": 1,
         "fill": "92%"
       }
@@ -1497,7 +1497,7 @@
       "117": 13,
       "118": 8
     },
-    "laws_not_yet_assessed": 120
+    "laws_not_yet_assessed": 124
   },
   "veto_overrides": [
     "93-pub-148 1973-11-07",
@@ -1553,13 +1553,13 @@
       "111-pub-139"
     ],
     "not_in_legislators": [],
-    "resolved": 12605
+    "resolved": 12609
   },
   "cosponsors": {
-    "laws_with_cosponsors": 9410
+    "laws_with_cosponsors": 9414
   },
   "committees": {
-    "laws_with_a_committee": 12151,
+    "laws_with_a_committee": 12155,
     "distinct_ids": 386,
     "ids_with_a_page": 156,
     "share_of_committee_links_with_a_page_by_decade": {
@@ -1568,7 +1568,7 @@
       "1990s": "92% of 3815",
       "2000s": "100% of 3760",
       "2010s": "100% of 2983",
-      "2020s": "100% of 1144"
+      "2020s": "100% of 1148"
     },
     "ids_with_more_than_one_name": [
       "HSED: Education and Workforce Committee / Education and the Workforce Committee",
