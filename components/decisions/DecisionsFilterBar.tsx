@@ -87,8 +87,8 @@ export function DecisionsFilterBar() {
                 { id: "2", label: "Liberal" },
                 { id: "1", label: "Conservative" },
               ]}
-              className="flex-[1.25] basis-0 sm:max-w-[10rem] sm:flex-[1.2]"
-              selectClassName="min-w-[6.25rem] flex-1"
+              className="flex-[1.25] basis-0 sm:max-w-[13.5rem] sm:flex-[1.2]"
+              selectClassName="min-w-[8.25rem] flex-1"
             />
           </div>
           <RangeSelector

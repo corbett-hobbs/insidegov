@@ -25,6 +25,7 @@ export function UpNext() {
   let title: string;
   let blurb: string | undefined;
   let href: string;
+  let theme = branch.id;
   if (next) {
     kicker = `Up next · ${i + 2} of ${live.length}`;
     ({ label: title, blurb, href } = next);
@@ -32,12 +33,14 @@ export function UpNext() {
     const nb = branches[branches.indexOf(branch) + 1]?.status === "live" ? branches[branches.indexOf(branch) + 1] : undefined;
     if (nb) {
       const first = nb.sections.find((s) => s.id === nb.defaultSection);
+      theme = nb.id;
       kicker = `Next branch · ${nb.label}`;
       title = first?.label ?? nb.label;
       blurb = first?.blurb;
       href = `${nb.href}/${nb.defaultSection}`;
     } else {
-      kicker = "Up next";
+      theme = "timeline";
+      kicker = "Next branch · Timeline";
       title = "Timeline";
       blurb = "Who held power, 1933 to now.";
       href = "/timeline";
@@ -46,6 +49,7 @@ export function UpNext() {
 
   return (
     <nav aria-label="Up next" className="w-full">
+      <div data-branch={theme}>
       <Link
         href={href}
         className="group flex items-center gap-4 rounded-b-lg border-t-[3px] border-accent bg-accent px-5 py-5 text-accent-ink no-underline transition-opacity hover:opacity-90 sm:px-6"
@@ -57,6 +61,7 @@ export function UpNext() {
         </span>
         <span aria-hidden="true" className="ml-auto flex-none text-3xl transition-transform group-hover:translate-x-1">→</span>
       </Link>
+      </div>
       <div className="flex justify-between px-1 pt-2 text-[0.8rem] text-ink-muted">
         {prev ? <Link href={prev.href} className="hover:underline">← {prev.label}</Link> : <span />}
         <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:underline">Back to top ↑</a>
