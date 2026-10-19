@@ -30,6 +30,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { SourceLink } from "@/components/SourceLink";
 import { EO_TAKEAWAYS } from "./takeaways";
+import { UpNext } from "@/components/UpNext";
 
 type Mode = "count" | "share";
 
@@ -199,6 +200,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
         </ChartCard>
 
 
+        <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
             Source:{" "}
             <SourceLink id="federal-register-eo">Federal Register</SourceLink>{" "}

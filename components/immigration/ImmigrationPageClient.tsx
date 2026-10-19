@@ -19,6 +19,7 @@ import { RemovalsCard } from "./RemovalsCard";
 import { RemovalsCountryCard } from "./RemovalsCountryCard";
 import { SectionHeading } from "./SectionHeading";
 import { SourceLink } from "@/components/SourceLink";
+import { UpNext } from "@/components/UpNext";
 
 const asOfLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -122,6 +123,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
           </p>
         )}
 
+        <UpNext />
         <div className="flex flex-col gap-1.5 text-[0.8rem] leading-[1.6] text-ink-muted [&>p]:m-0">
           <p>
             <span className="mr-1.5 font-mono font-medium text-accent">1</span>

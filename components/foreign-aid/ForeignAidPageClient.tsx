@@ -9,6 +9,7 @@ import { FirstPlaceCard } from "./FirstPlaceCard";
 import { MapAndRanked } from "./MapAndRanked";
 import { SpendingCard } from "./SpendingCard";
 import { SourceLink } from "@/components/SourceLink";
+import { UpNext } from "@/components/UpNext";
 
 const dateLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -35,6 +36,7 @@ export function ForeignAidPageClient({ payload, map }: { payload: AidPayload; ma
 
         <FirstPlaceCard />
 
+        <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: <SourceLink id="foreign-assistance">ForeignAssistance.gov</SourceLink>, disbursements in nominal dollars, data through {dateLabel(payload.dataThrough)}. A fiscal year runs October 1 to
           September 30, and each year is colored by the administration in office for most of it.

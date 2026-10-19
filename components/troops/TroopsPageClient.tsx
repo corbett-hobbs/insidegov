@@ -11,6 +11,7 @@ import { TroopsChartCard } from "./TroopsChartCard";
 import { TroopsFilterBar } from "./TroopsFilterBar";
 import { TroopsStateProvider } from "./TroopsState";
 import { SourceLink } from "@/components/SourceLink";
+import { UpNext } from "@/components/UpNext";
 
 const dateLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -47,6 +48,7 @@ export function TroopsPageClient({ payload, map, bases }: { payload: TroopsPaylo
 
         <TroopsFirstPlaceCard />
 
+        <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: <SourceLink id="dmdc">U.S. Department of Defense, Defense Manpower Data Center (DMDC)</SourceLink>: location tables (September 30 tables from 2008, data through {dateLabel(payload.dataThrough)}) and 309A country tables (1996 and 1998–2005), public domain. 1953–2007
           otherwise from the <SourceLink id="troopdata">troopdata</SourceLink> compilation (Allen, Flynn and Martinez Machain 2022, <i>Conflict Management and Peace Science</i> 39(3); Kane 2005, Heritage Foundation), GPL-3.0. Space Force is counted with the Air Force (“Air &amp; Space Force”)
