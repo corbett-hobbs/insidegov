@@ -29,7 +29,7 @@ silently. See `.github/workflows/voteview-freshness.yml` for the automated
 | fetch     | `pnpm fetch:all` | download Voteview + congress-legislators (legislators, committees, committee rosters) into `raw/` |
 | validate  | `pnpm validate`  | schema-check `raw/`: missing fields, bad numbers, duplicate keys, every committee roster bioguide resolvable |
 | transform | `pnpm transform` | `raw/` → `id_crosswalk`, `legislators`, `terms`, `ideology_scores`, `committees`, `committee_memberships` in `output/` + `_report.json` |
-| photos    | `pnpm fetch:photos` | current members' portraits (two sizes) plus a downscaled 90x110 thumbnail for former members (Congress 100+) from `@unitedstates/images` → `public/images/members/` + `output/member-photos.json` (`former` list). Runs after `transform` (reads the current roster from `terms.json`). |
+| photos    | `pnpm fetch:photos` | current members' portraits (two sizes) plus a downscaled 90x110 thumbnail for former members (Congress 100+) from the member's Wikipedia lead image when public domain, else `@unitedstates/images` (former members: `@unitedstates/images` only) → `public/images/members/` + `output/member-photos.json` (`former` list). Runs after `transform` (reads the current roster from `terms.json`). |
 
 `pnpm fetch:committees` fetches `committees-current.yaml` +
 `committee-membership-current.yaml` on its own. These cover the **current

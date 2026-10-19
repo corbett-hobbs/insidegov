@@ -20,7 +20,9 @@ export function SiteFooter({ children }: SiteFooterProps) {
         <SourceLink href="https://github.com/unitedstates/congress-legislators">@unitedstates/congress-legislators</SourceLink>
         . Member photos:{" "}
         <SourceLink href="https://github.com/unitedstates/images">@unitedstates/images</SourceLink>{" "}
-        (public-domain GPO portraits). Member bios:{" "}
+        (public-domain GPO portraits) and{" "}
+        <SourceLink href="https://commons.wikimedia.org/">Wikimedia Commons</SourceLink>{" "}
+        (public-domain portraits, preferred where they exist). Member bios:{" "}
         <SourceLink href="https://en.wikipedia.org/">Wikipedia</SourceLink>
         , text abridged, under{" "}
         <SourceLink href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</SourceLink>
