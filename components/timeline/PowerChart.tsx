@@ -80,7 +80,7 @@ const pres41 = (p: TlPresident) => (p.name === "George H. W. Bush" ? ["Bush 41"]
  * all, and two rows of numbered event markers under them. Hover (or tap) the rows for who held power that month; tap a
  * president to zoom to their years; tap a marker to pin its note (rule 6). Every label shortens rather than vanishes.
  *
- * `compact` is the cut-down copy on the Presidents directory: the strip and the four rows only (no marker rows), over a fixed
+ * `compact` is the cut-down copy on the Presidents directory: the strip and the President, Senate and House rows only (no Court, no marker rows; the strip fills while one party held the White House and both chambers), over a fixed
  * window that starts at `startIso`, with no zoom or pan. A tap on a president opens `presCard` (pinned, rule 10t) instead of zooming.
  */
 export function PowerChart({
@@ -147,13 +147,13 @@ export function PowerChart({
     const r = {} as Record<RowKey, { y: number; h: number }>;
     let y = 0;
     for (const [k, h, gap] of ROWS) {
-      if (compact && (k === "law" || k === "case")) continue;
+      if (compact && (k === "law" || k === "case" || k === "C")) continue;
       r[k] = { y, h };
       y += h + gap;
     }
     // Without the marker rows the axis sits straight under the Court row.
-    if (compact) y = r.C.y + r.C.h + 6;
-    return { r, axis: y, H: y + 18 };
+    if (compact) y = r.H.y + r.H.h + 6;
+    return { r, axis: y, H: y + 18, last: compact ? r.H : r.C };
   }, [compact]);
   const R = rows.r;
 
@@ -231,7 +231,7 @@ export function PowerChart({
     const box = svg.getBoundingClientRect();
     const px = e.clientX - box.left;
     const py = e.clientY - box.top;
-    if (px < LG || px > LG + pw || py > R.C.y + R.C.h + 2) return null;
+    if (px < LG || px > LG + pw || py > rows.last.y + rows.last.h + 2) return null;
     const day = v0 + ((px - LG) / pw) * (v1 - v0);
     const d = dateOfDay(Math.floor(day));
     let iso = `${d.year}-${String(d.month + 1).padStart(2, "0")}-${String(d.day).padStart(2, "0")}`;
@@ -304,7 +304,7 @@ export function PowerChart({
           viewBox={`0 0 ${W} ${rows.H}`}
           height={rows.H}
           role="img"
-          aria-label={compact ? "Who held the presidency, Senate, House and Supreme Court over time" : "Who held the presidency, Senate, House and Supreme Court over time, with numbered laws and court cases"}
+          aria-label={compact ? "Who held the presidency, Senate and House over time" : "Who held the presidency, Senate, House and Supreme Court over time, with numbered laws and court cases"}
           onPointerDown={onDown}
           onPointerMove={onMove}
           onClickCapture={(e) => drag.current?.moved && (e.stopPropagation(), (drag.current = null))}
@@ -325,7 +325,7 @@ export function PowerChart({
           <g clipPath={`url(#tl-plot-${uid})`}>
             {ticks.map((t) => (
               <g key={t.day}>
-                <line x1={X(t.day)} x2={X(t.day)} y1={compact ? R.C.y + R.C.h + 2 : R.law.y - 4} y2={rows.axis} stroke="var(--line)" />
+                <line x1={X(t.day)} x2={X(t.day)} y1={compact ? R.H.y + R.H.h + 2 : R.law.y - 4} y2={rows.axis} stroke="var(--line)" />
                 <text x={X(t.day)} y={rows.axis + 13} textAnchor="middle" className={`font-mono text-[10.5px] ${t.major ? "fill-ink-muted" : "fill-ink-faint"}`}>
                   {t.label}
                 </text>
@@ -334,8 +334,8 @@ export function PowerChart({
 
             {/* One-party strip: solid while one party held all four, a tint while it held the White House and Congress only. */}
             {spans.map((sp) =>
-              inWin(sp.from, sp.to) && sp.st.status !== "split" ? (
-                <rect key={sp.from} x={clipX(sp.from)} y={R.one.y} width={Math.max(0, clipX(sp.to) - clipX(sp.from))} height={R.one.h} fill={sp.st.status === "all4" ? partyColor(sp.st.P) : partyTint(sp.st.P, 30)} />
+              inWin(sp.from, sp.to) && (compact ? sp.st.P === sp.st.S && sp.st.S === sp.st.H : sp.st.status !== "split") ? (
+                <rect key={sp.from} x={clipX(sp.from)} y={R.one.y} width={Math.max(0, clipX(sp.to) - clipX(sp.from))} height={R.one.h} fill={compact || sp.st.status === "all4" ? partyColor(sp.st.P) : partyTint(sp.st.P, 30)} />
               ) : null,
             )}
 
@@ -384,7 +384,7 @@ export function PowerChart({
             />
             <ShareRow r={R.H} cells={data.congresses.map((c) => ({ key: String(c.n), from: c.start, to: end(c.end), seats: c.house }))} clipX={clipX} inWin={inWin} />
 
-            {mode === "appt" ? (
+            {compact ? null : mode === "appt" ? (
               <ApptRow r={R.C} spans={spans} clipX={clipX} inWin={inWin} />
             ) : (
               <LeanRow r={R.C} data={data} X={X} LG={LG} pw={pw} v0={v0} v1={v1} />
@@ -392,10 +392,10 @@ export function PowerChart({
           </g>
           {/* Half-way lines and frames sit over the clipped rows. */}
           <rect x={LG} y={R.one.y} width={pw} height={R.one.h} fill="none" stroke="var(--line)" />
-          {(["S", "H", ...(mode === "appt" ? (["C"] as const) : [])] as const).map((k) => (
+          {(["S", "H", ...(mode === "appt" && !compact ? (["C"] as const) : [])] as const).map((k) => (
             <line key={k} x1={LG} x2={LG + pw} y1={R[k].y + R[k].h / 2} y2={R[k].y + R[k].h / 2} stroke="var(--surface)" strokeDasharray="3 3" opacity={0.8} />
           ))}
-          {mode === "lean" && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
+          {mode === "lean" && !compact && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
 
           {/* Event markers, merged where they would touch: "22+4" is event 22 and four more. */}
           <g clipPath={`url(#tl-plot-${uid})`}>
@@ -444,7 +444,7 @@ export function PowerChart({
               ),
             )}
           </g>
-          {tip.state && !open && <line x1={tip.state.data.px} x2={tip.state.data.px} y1={0} y2={R.C.y + R.C.h} stroke="var(--ink)" strokeDasharray="2 2" className="pointer-events-none" />}
+          {tip.state && !open && <line x1={tip.state.data.px} x2={tip.state.data.px} y1={0} y2={rows.last.y + rows.last.h} stroke="var(--ink)" strokeDasharray="2 2" className="pointer-events-none" />}
         </svg>
       )}
       {openMarker && (
@@ -470,7 +470,7 @@ export function PowerChart({
         </PresCard>
       )}
       {/* A tooltip and a note card are never on screen together (rule 6c). */}
-      <Tooltip state={open || presOpen ? null : tip.state}>{(d) => <StateTip st={idx.stateAt(d.iso, mode)} mode={mode} onPres={d.onPres && !compact} status={names} events={events} zoomed={(p) => {
+      <Tooltip state={open || presOpen ? null : tip.state}>{(d) => <StateTip st={idx.stateAt(d.iso, mode)} mode={mode} onPres={d.onPres && !compact} compact={compact} status={names} events={events} zoomed={(p) => {
         const r = termYears(p, minYear, maxYear);
         return range[0] === r[0] && range[1] === r[1];
       }} />}</Tooltip>
@@ -628,7 +628,9 @@ function StateTip({
   status,
   events,
   zoomed,
+  compact,
 }: {
+  compact: boolean;
   st: PowerState;
   mode: CourtMode;
   onPres: boolean;
@@ -647,13 +649,13 @@ function StateTip({
   return (
     <TipCard
       title={fmtMonth(st.iso)}
-      sub={`${ordinal(cong.n)} Congress · ${status[st.status].name}`}
+      sub={compact ? `${ordinal(cong.n)} Congress` : `${ordinal(cong.n)} Congress · ${status[st.status].name}`}
       rows={[
         { key: "P", label: "President", value: p.name, color: partyColor(st.P) },
         { key: "S", label: "Senate", value: `${st.S} ${seatsLabel(cong.senate)}${tied ? " (tied)" : ""}`, color: partyColor(st.S) },
         { key: "H", label: "House", value: `${st.H} ${seatsLabel(cong.house)}`, color: partyColor(st.H) },
         { key: "C", label: "Court", value: crt, color: partyColor(st.C) },
-      ]}
+      ].filter((r) => !compact || r.key !== "C")}
       extra={
         onPres
           ? [{ key: "t", label: `${lastName(p.name)}, ${p.start.slice(0, 4)}–${p.end ? p.end.slice(0, 4) : "now"}`, value: `${nl} law${nl === 1 ? "" : "s"}, ${nc} case${nc === 1 ? "" : "s"} · ${zoomed(p) ? "tap to show all years" : "tap to zoom in"}` }]
