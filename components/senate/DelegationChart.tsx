@@ -179,6 +179,7 @@ export function DelegationChart({
 }: DelegationChartProps) {
   const router = useRouter();
   const boxRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [boxH, setBoxH] = useState(0);
   useEffect(() => {
     const el = boxRef.current;
@@ -260,6 +261,36 @@ export function DelegationChart({
     };
   });
 
+  // Centre the selected state's row in whichever ancestor scrolls the list.
+  // Scrolls that container directly (not scrollIntoView) so the page itself
+  // never jumps.
+  const selectedIdx = selectedState
+    ? sourceRows.findIndex((d) => d.state === selectedState)
+    : -1;
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap || selectedIdx < 0) return;
+    let sc: HTMLElement | null = wrap.parentElement;
+    while (sc && !/(auto|scroll)/.test(getComputedStyle(sc).overflowY)) {
+      sc = sc.parentElement;
+    }
+    if (!sc) return;
+    const rowCentre =
+      wrap.getBoundingClientRect().top -
+      sc.getBoundingClientRect().top +
+      sc.scrollTop +
+      margin.top +
+      selectedIdx * rowHeight +
+      rowHeight / 2;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    sc.scrollTo({
+      top: Math.max(0, rowCentre - sc.clientHeight / 2),
+      behavior: reduce ? "auto" : "smooth",
+    });
+    // Only when the selection (or its position) changes, not on every resize.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIdx, selectedState]);
+
   const chart = (
     <SwarmRows<ChamberMember>
       rows={rows}
@@ -273,7 +304,7 @@ export function DelegationChart({
       renderTooltip={(m) => <MemberTooltip member={m} />}
     />
   );
-  if (!fill) return chart;
+  if (!fill) return <div ref={wrapRef}>{chart}</div>;
   return (
     <div
       ref={boxRef}
