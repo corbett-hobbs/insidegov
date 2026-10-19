@@ -1,5 +1,6 @@
 "use client";
 
+import { DemographicsWindowProvider } from "./TermWindowContext";
 import { useMemo, useState } from "react";
 import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
@@ -41,6 +42,7 @@ export function DemographicsPageClient({ data, rosterVersion }: { data: Demograp
 
   return (
     <>
+      <DemographicsWindowProvider value={{ min: SLIDER_BOUNDS[0], max: SLIDER_BOUNDS[1], value: range, onChange: setRange }}>
       <DemographicsFilterBar view={view} onView={setView} party={party} onParty={setParty} otherNow={otherNow} rows={data.views.both} presidents={data.presidents} range={range} onRange={setRange} />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Demographics" title="Who Serves in Congress?">
@@ -64,6 +66,7 @@ export function DemographicsPageClient({ data, rosterVersion }: { data: Demograp
           Source: member biographies and terms from the <SourceLink id="congress-legislators">@unitedstates/congress-legislators</SourceLink> project; Congress membership lists from <SourceLink id="voteview">Voteview</SourceLink> (Lewis, Poole, Rosenthal, Boche, Rudkin &amp; Sonnet). Voting members only: delegates and resident commissioners are not counted.
         </p>
       </main>
+      </DemographicsWindowProvider>
     </>
   );
 }

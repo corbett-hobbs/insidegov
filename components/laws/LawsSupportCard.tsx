@@ -16,7 +16,7 @@ import type { SplitMode } from "@/lib/decisions-types";
 import { SMALL_LAWS_MEDIAN, SUPPORT_COLORS, SUPPORT_ORDER, SUPPORT_LABELS, SUPPORT_SHORT, cellFor, filterLabel, noVoteShare, openYear, signedMostSegments } from "@/lib/laws-derive";
 import type { BandCounts } from "@/lib/laws-types";
 import { EmptyWindow, congressSub, congressTitle, controlRowsFor } from "./shared";
-import { useLawsActions, useLawsValues } from "./LawsState";
+import { useLawsActions, useLawsTermSelect, useLawsValues } from "./LawsState";
 import { SourceLink } from "@/components/SourceLink";
 import { LAWS_TAKEAWAYS } from "./takeaways";
 
@@ -56,6 +56,7 @@ export function LawsSupportCard() {
   const congresses = useMemo(() => idx.map((ci) => data.congresses[ci]!), [idx, data]);
   const cells = useMemo<BandCounts[]>(() => idx.map((ci) => cellFor(data, ci, groups, major).bands), [idx, data, groups, major]);
   const segs = useMemo(() => signedMostSegments(data, idx), [data, idx]);
+  const termSelect = useLawsTermSelect((slot) => congresses[slot]!);
   const vis = useMemo(() => BANDS.filter((k) => isPicked(bands, k)), [bands]);
   const stacks = useMemo(() => buildStacks(cells, eff, vis), [cells, eff, vis]);
   const ctl = controlRowsFor(data, control, win[0], win[1]);
@@ -105,6 +106,7 @@ export function LawsSupportCard() {
           longLabels={SUPPORT_LABELS}
           captions={CAPTIONS[eff]}
           segments={segs}
+          termSelect={termSelect}
           slotYears={2}
           tickLabel={(c) => String(openYear(c))}
           controlRows={ctl}

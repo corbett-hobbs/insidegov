@@ -9,7 +9,8 @@ import { ENCOUNTER_SERIES, USBP_ONLY_COLOR, barValue, markerGroups, segments, ty
 import type { EncounterScopeKey, EncountersMarker, EncountersNoteText, EncountersTerm, EncountersYear } from "@/lib/encounters-types";
 import { slotLayout, termSegments, yearLabel, yearLabelMode } from "@/lib/immigration-chart";
 import { axisText, compactCount, gridTicks, niceMax } from "@/lib/lpr-chart";
-import { fitTermLabel, initialsOf } from "@/lib/term-label";
+import { TermBandSvg } from "@/components/charts/TermBandSvg";
+import { useFyTermSelect } from "./TermWindowContext";
 import { useElementWidth } from "@/lib/use-element-width";
 import { Tooltip, useTooltip } from "../charts/Tooltip";
 import { EncountersMarkerCard, EncountersYearCard, EncountersYearTip } from "./EncountersCards";
@@ -20,13 +21,11 @@ const PLOT_TOP = 34;
 const PLOT_H = 250;
 const BASE = PLOT_TOP + PLOT_H;
 const BAND_Y = BASE + 30;
-const BAND_H = 22;
 const SVG_H = BASE + 60 + 18 + 4;
 const MARKER_Y = 16;
 const PILL_GAP = 24;
 
 type Open = { key: string; pinned: boolean } | null;
-const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 const n = (v: number) => v.toLocaleString("en-US");
 const colorOf = (k: EncounterSeriesKey | "usbp_only") => (k === "usbp_only" ? USBP_ONLY_COLOR : ENCOUNTER_SERIES.find((s) => s.key === k)!.color);
 
@@ -151,6 +150,7 @@ export function EncountersChart({
     if (g) card = <EncountersMarkerCard markers={g.markers} width={noteCardW} left={cardLeft(left + g.at * slotW, noteCardW)} />;
   }
 
+  const termSelect = useFyTermSelect((i) => years[Math.min(i, years.length - 1)].fy);
   const segs = termSegments(years, false);
   const aria = (yr: EncountersYear) => {
     const v = valueOf(yr);
@@ -263,22 +263,13 @@ export function EncountersChart({
                 );
               })}
 
-              {segs.map((s) => {
-                const t = termById.get(s.termId)!;
-                const w = (s.to - s.from) * slotW;
-                const text = fitTermLabel(w, t.last, initialsOf(t.president));
-                return (
-                  <g key={`${s.termId}-${s.from}`} aria-hidden>
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={BAND_H} rx={2} style={{ fill: `color-mix(in oklab, ${partyVar(s.party)} 20%, var(--surface))` }} />
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={2.5} fill={partyVar(s.party)} />
-                    {text && (
-                      <text x={xSlot(s.from) + w / 2} y={BAND_Y + 16} textAnchor="middle" className="text-[11px]" style={{ fill: "var(--ink)" }}>
-                        {text}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
+              <TermBandSvg
+                segments={segs.map((s) => ({ id: s.termId, last: termById.get(s.termId)!.last, president: termById.get(s.termId)!.president, party: s.party, s: s.from, e: s.to - 1 }))}
+                x0={0}
+                step={slotW}
+                y={BAND_Y}
+                select={termSelect}
+              />
             </>
           )}
         </ChartFrame>

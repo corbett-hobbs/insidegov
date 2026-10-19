@@ -13,6 +13,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { PARTY_NAME, congressSpan, presidentById, readoutRow, termSegmentsFor, type PartyPick, type WomenMeasure } from "@/lib/demographics-chart";
 import type { DemoCongress, DemoPresident } from "@/lib/demographics-types";
+import { useCongressTermSelect } from "./TermWindowContext";
 import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
 import { DEMO_TAKEAWAYS } from "./takeaways";
@@ -96,6 +97,7 @@ export function WomenCard({ rows, presidents, pin, onPin, view, roster, party, o
       }),
     [rows, mode, party],
   );
+  const termSelect = useCongressTermSelect(rows);
   const segs = useMemo(() => termSegmentsFor(rows, presidents), [rows, presidents]);
   const cur = readoutRow(rows, pin);
   const overall = cur ? fmtShare(womenTotal(cur) / (cur.seats || 1)) : "";
@@ -162,6 +164,7 @@ export function WomenCard({ rows, presidents, pin, onPin, view, roster, party, o
             selectedStyle="line"
             unit={mode === "share" ? "members" : "women"}
             terms={segs}
+            termSelect={termSelect}
             ariaLabel="Stacked bar chart of women in Congress by caucus, one bar per Congress"
             renderTooltip={(c) => (
               <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president}>

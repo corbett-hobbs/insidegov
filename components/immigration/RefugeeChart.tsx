@@ -8,7 +8,8 @@ import { yGutter } from "@/lib/chart-bars";
 import { slotLayout, termSegments, yearLabel, yearLabelMode } from "@/lib/immigration-chart";
 import { axisText, gridTicks, groupLabel, groupRules, niceMax, rulePlacements } from "@/lib/refugee-chart";
 import type { GeoGroup, RefugeeMarker, RefugeeTerm, RefugeeYear } from "@/lib/refugee-types";
-import { fitTermLabel, initialsOf } from "@/lib/term-label";
+import { TermBandSvg } from "@/components/charts/TermBandSvg";
+import { useFyTermSelect } from "./TermWindowContext";
 import { useElementWidth } from "@/lib/use-element-width";
 import { Tooltip, useTooltip } from "../charts/Tooltip";
 import { RuleCard, YearCard, YearTip } from "./RefugeeCards";
@@ -21,7 +22,6 @@ const BAND_H = 22;
 const PILL_Y = 16;
 
 type Open = { key: string; pinned: boolean } | null;
-const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
  * Refugees admitted by fiscal year, one bar per year split by the region they came from, with the ceiling in force at the end of
@@ -134,6 +134,7 @@ export function RefugeeChart({
     if (g) card = <RuleCard rules={g.markers} width={ruleCardW} left={cardLeft(left + g.at * slotW, ruleCardW)} interactive={open.pinned} />;
   }
 
+  const termSelect = useFyTermSelect((i) => years[Math.min(i, years.length - 1)].fy);
   const segs = termSegments(years, false);
   const aria = (yr: RefugeeYear) =>
     `FY${yr.fy}: ${n(yr.admissions)} refugees admitted${yr.ceiling !== null ? ` against a ceiling of ${n(yr.ceiling)}` : ""}${yr.preliminary ? ", preliminary" : ""}`;
@@ -264,22 +265,13 @@ export function RefugeeChart({
                 );
               })}
 
-              {segs.map((s) => {
-                const t = termById.get(s.termId)!;
-                const w = (s.to - s.from) * slotW;
-                const text = fitTermLabel(w, t.last, initialsOf(t.president));
-                return (
-                  <g key={`${s.termId}-${s.from}`} aria-hidden>
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={BAND_H} rx={2} style={{ fill: `color-mix(in oklab, ${partyVar(s.party)} 20%, var(--surface))` }} />
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={2.5} fill={partyVar(s.party)} />
-                    {text && (
-                      <text x={xSlot(s.from) + w / 2} y={BAND_Y + 16} textAnchor="middle" className="text-[11px]" style={{ fill: "var(--ink)" }}>
-                        {text}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
+              <TermBandSvg
+                segments={segs.map((s) => ({ id: s.termId, last: termById.get(s.termId)!.last, president: termById.get(s.termId)!.president, party: s.party, s: s.from, e: s.to - 1 }))}
+                x0={0}
+                step={slotW}
+                y={BAND_Y}
+                select={termSelect}
+              />
             </>
           )}
         </ChartFrame>

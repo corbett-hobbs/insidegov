@@ -9,7 +9,8 @@ import { useElementWidth } from "@/lib/use-element-width";
 import { findExtremes } from "@/lib/chart-extremes";
 import { Y_GUTTER, fmtShare, yearLabelEvery } from "@/lib/chart-bars";
 import { SegmentLabel } from "./SegmentLabel";
-import { TERM_BAND_H, TermBandSvg, type TermSegment } from "./TermBandSvg";
+import { selectedTerms, toggleTermWindow, type TermWindow } from "@/lib/term-window";
+import { PressableBand, TERM_BAND_H, TermBandSvg, type TermBandSelect, type TermSegment } from "./TermBandSvg";
 import { ControlRowsSvg, controlRowsHeight, type ControlRow } from "./ControlRowsSvg";
 
 export interface StackSeries {
@@ -45,6 +46,12 @@ export interface StackBand {
   fill?: string;
 }
 
+const noop = () => {};
+/** The non-tappable twin of `PressableBand`, so a band is one element either way. */
+function PlainBand({ children }: { label: string; picked: boolean; faded: boolean; onPress: () => void; children: ReactNode }) {
+  return <g>{children}</g>;
+}
+
 interface Props<C extends StackColumn> {
   columns: readonly C[];
   /** Bottom-to-top draw order. Colour/fill follows the series, never its rank. */
@@ -55,6 +62,8 @@ interface Props<C extends StackColumn> {
   selectedKey: string | null;
   onSelect: (key: string | null) => void;
   bands?: readonly StackBand[];
+  /** Makes the `bands` tappable: the page's year window, and each band's extent on it by id (ARCHITECTURE_MAP rule 10k). */
+  bandSelect?: TermWindow & { extent: (id: string) => readonly [number, number] | undefined };
   ariaLabel: string;
   yAxisLabel?: string;
   /** What `total` counts, for the column's accessible name (default "executive orders"). */
@@ -67,6 +76,8 @@ interface Props<C extends StackColumn> {
   selectedStyle?: "tint" | "line";
   /** Presidential terms under the axis as `TermBandSvg` segments (one slot per column); used instead of `bands`. */
   terms?: readonly TermSegment[];
+  /** Makes the term band tappable: it edits the page's year window (ARCHITECTURE_MAP rule 10k). */
+  termSelect?: TermBandSelect;
   /** A column hovered elsewhere (a linked chart): drawn as a faint dashed line, never selected. */
   activeKey?: string | null;
   /** Called with the hovered column's key (mouse only) and null on leave, so a sibling chart can follow. */
@@ -109,6 +120,7 @@ export function StackedBars<C extends StackColumn>({
   selectedKey,
   onSelect,
   bands = [],
+  bandSelect,
   ariaLabel,
   yAxisLabel,
   unit = "executive orders",
@@ -116,6 +128,7 @@ export function StackedBars<C extends StackColumn>({
   markShare = false,
   selectedStyle = "tint",
   terms,
+  termSelect,
   activeKey = null,
   onActive,
   yearTicks = false,
@@ -157,6 +170,15 @@ export function StackedBars<C extends StackColumn>({
     );
   }, [columns, eff, highlight, markShare, partialKeys]);
   const bandH = terms ? TERM_BAND_H : BAND_H;
+  // Tappable `bands`: only those with an extent on the window's axis, toggled the way the filter bar's band is.
+  const pressable = bandSelect ? bands.flatMap((b, i) => { const e = bandSelect.extent(b.id); return e ? [{ i, from: e[0], to: e[1] }] : []; }) : [];
+  const pickedSet = bandSelect ? new Set(selectedTerms(pressable, bandSelect.min, bandSelect.max, bandSelect.value)) : new Set<number>();
+  const bandPress = (i: number) => {
+    const k = pressable.findIndex((p) => p.i === i);
+    if (!bandSelect || k < 0) return null;
+    const picked = pickedSet.has(k);
+    return { picked, faded: pickedSet.size > 0 && !picked, onPress: () => bandSelect.onChange(toggleTermWindow(pressable, k, bandSelect.min, bandSelect.max, bandSelect.value)) };
+  };
   const margin = { ...MARGIN, ...(marginTop === undefined ? {} : { top: marginTop }), bottom: AXIS_H + (bands.length > 0 || terms ? bandH + 6 : 0) + ctlH };
 
   return (
@@ -355,7 +377,7 @@ export function StackedBars<C extends StackColumn>({
                 );
               })}
 
-              {terms && <TermBandSvg segments={terms} x0={0} step={step} y={innerHeight + AXIS_H + 6} />}
+              {terms && <TermBandSvg segments={terms} x0={0} step={step} y={innerHeight + AXIS_H + 6} select={termSelect} />}
               {controlRows && controlRows.length > 0 && <ControlRowsSvg rows={controlRows} x0={0} step={step} y={innerHeight + AXIS_H + 6 + bandH + 6} />}
 
               {/* spans under the axis */}
@@ -364,8 +386,10 @@ export function StackedBars<C extends StackColumn>({
                   {bands.map((b, i) => {
                     const x0 = xOf(b.from);
                     const w = xOf(b.to) - x0;
+                    const press = bandPress(i);
+                    const Wrap = press ? PressableBand : PlainBand;
                     return (
-                      <g key={b.id}>
+                      <Wrap key={b.id} label={`${b.label}: tap to ${press?.picked ? "drop" : "show"} these years`} picked={press?.picked ?? false} faded={press?.faded ?? false} onPress={press?.onPress ?? noop}>
                         <title>{b.label}</title>
                         {b.fill ? (
                           <>
@@ -396,7 +420,7 @@ export function StackedBars<C extends StackColumn>({
                             {b.label}
                           </text>
                         )}
-                      </g>
+                      </Wrap>
                     );
                   })}
                 </g>

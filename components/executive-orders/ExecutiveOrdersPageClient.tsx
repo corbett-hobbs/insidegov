@@ -102,6 +102,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data.administrations, first, lastYear],
   );
+  const extentById = useMemo(() => new Map(bandTerms.map((t) => [t.id, [t.from, t.to] as const])), [bandTerms]);
   const series = useMemo(() => SERIES.filter((s) => isPicked(topics, s.id as EoTopic)), [topics]);
   const visible = useMemo(
     () =>
@@ -176,6 +177,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
             selectedKey={selected}
             onSelect={setSelected}
             bands={bands}
+            bandSelect={{ min: first, max: lastYear, value: [from, to], onChange: setWindow, extent: (id) => extentById.get(id) }}
             yAxisLabel={mode === "share" ? "SHARE OF YEAR’S ORDERS" : "EXECUTIVE ORDERS"}
             ariaLabel={`Stacked columns of executive orders signed per year, ${from} to ${to}, by topic. Select a column to list that year's orders.`}
             renderTooltip={(c) => <YearTooltip col={c} admins={adminById} mode={mode} topics={topics} throughDate={data.throughDate} />}
