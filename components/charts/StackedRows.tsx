@@ -9,6 +9,9 @@
  * Layout adapts to the list's own width (container query): five columns when wide, and under 400px
  * the bar drops to a second line and labels may wrap instead of truncating.
  */
+import { useRef } from "react";
+import { selectedRowsKey, useScrollSelectedRow } from "./use-scroll-selected";
+
 export interface StackedRowData {
   id: string;
   rank?: number;
@@ -48,6 +51,8 @@ export function StackedRows({
   /** Long labels (product names): a label column up to 260px instead of 118px, so names truncate far less often. Ranked rows with a delta only. */
   wideLabels?: boolean;
 }) {
+  const listRef = useRef<HTMLUListElement>(null);
+  useScrollSelectedRow(listRef, selectedRowsKey(rows));
   // No row has a second value (a delta, a military dollar figure): drop its column so the bar runs the full width.
   const hasDelta = rows.some((r) => !!r.delta);
   // No row has a rank (policy areas, issue areas): drop its column so labels start at the left edge and get the space back.
@@ -67,13 +72,14 @@ export function StackedRows({
   const barSpan = hasCap ? "@max-[560px]:col-[2/-1]" : hasRank ? "@max-[400px]:col-[2/-1]" : "@max-[400px]:col-[1/-1]";
   if (rows.length === 0) return <div className="px-2 py-10 text-center text-[0.82rem] text-ink-muted">{emptyText}</div>;
   return (
-    <ul aria-label={ariaLabel} className="@container m-0 list-none p-0">
+    <ul ref={listRef} aria-label={ariaLabel} className="@container m-0 list-none p-0">
       {rows.map((r) => (
         <li key={r.id}>
           <button
             type="button"
             onClick={() => onRowClick(r.id)}
             aria-pressed={!!r.selected}
+            data-selected-row={r.selected ? "" : undefined}
             className={`grid w-full cursor-pointer ${cols} items-center gap-x-2 rounded-md border-0 px-2 py-1.5 text-left text-ink hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${narrow} ${hasCap ? "" : "@max-[400px]:gap-y-1"} ${
               r.selected ? "bg-[color-mix(in_oklab,var(--accent)_13%,var(--surface))]" : "bg-transparent"
             } ${r.dimmed ? "opacity-50" : ""} ${rowClass}`}
