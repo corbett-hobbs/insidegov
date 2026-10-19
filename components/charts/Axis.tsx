@@ -46,7 +46,8 @@ export function Axis({
   return (
     <g className="axis">
       {ticks.map((v) => {
-        const p = scale(v);
+        // Rounded to 0.01px so a log-like scale renders the same digits on the server and in the browser (no hydration mismatch).
+        const p = Math.round(scale(v) * 100) / 100;
         const isZero = zeroAt != null && Math.abs(v - zeroAt) < 1e-9;
         const lineClass = isZero ? "zero-line" : "grid-line";
 

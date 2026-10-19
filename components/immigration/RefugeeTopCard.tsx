@@ -30,7 +30,7 @@ const TD = "border-b border-line px-2.5 py-1 font-mono text-ink first:text-left"
 
 /**
  * "Who's sent the most refugees": the largest source country per fiscal year as run-length spans, with a bar per year below (that
- * country's refugees, coloured by its region). The same layout as foreign aid's "Who's been No. 1" and national security's "Who's
+ * country's refugees, coloured by its region). The same layout as foreign aid's "Who's been No. 1" and troops abroad's "Who's
  * hosted the most". A country picked on the map highlights the years it led and dims the rest; the region key does the same for a
  * region. Click or drag sets the section's selected year. The newest (preliminary) year is hatched.
  */

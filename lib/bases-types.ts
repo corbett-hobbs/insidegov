@@ -1,7 +1,7 @@
 import type { SiteType } from "./bases-entities";
 
 /**
- * Client-safe shapes for the "known installations" layer on /presidency/national-security. One undated snapshot
+ * Client-safe shapes for the "known installations" layer on /presidency/troops-abroad. One undated snapshot
  * (BASES_DATA_THROUGH), no headcounts: a dot says a site existed, nothing about how many people were there.
  */
 
