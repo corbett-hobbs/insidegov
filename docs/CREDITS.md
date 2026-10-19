@@ -59,6 +59,13 @@ re-published and resized).
 - License: **CC0 / public domain.** GPO photographs are U.S. Government works.
   No attribution legally required; credited here and in the site footer as good
   practice.
+- **Wikipedia first.** For current members, the lead image of the member's
+  English Wikipedia article (`id.wikipedia` in congress-legislators) is used
+  when its Commons file page says public domain or CC0 (official portraits are
+  U.S. Government works); it is cut to the same two sizes. Members without a
+  usable Wikipedia photo, or whose photo is not public domain, fall back to
+  `@unitedstates/images`. `member-photos.json` lists who got a Wikipedia photo
+  (`wikipedia`) and the file page for each (`wikipediaSources`).
 - Scope: current members only. Members without a source photo fall back to
   `public/images/member-placeholder.svg`.
 
