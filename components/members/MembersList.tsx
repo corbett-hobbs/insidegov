@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { MemberPhoto } from "@/components/MemberPhoto";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
@@ -85,6 +85,11 @@ export function MembersList({
   pageviews: PageviewsWindow | null;
 }) {
   const ranking = isRanking(sort);
+  // A new sort or filter starts the box back at the top, like the Laws and Cases lists.
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (box.current) box.current.scrollTop = 0;
+  }, [members, sort]);
   const ideologySort = sort === "ideology-left" || sort === "ideology-right";
   const header = (label: ReactNode, target: DirectorySort, active: boolean, className: string, title?: string) => (
     <th scope="col" aria-sort={active ? (DESCENDING.has(sort) ? "descending" : "ascending") : undefined} className={`${TH} ${className}`}>
@@ -117,52 +122,59 @@ export function MembersList({
         </label>
       </div>
 
-      <table className="mt-3 w-full border-collapse text-[0.84rem]">
-        <thead>
-          <tr>
-            <th scope="col" className={`${TH} w-6 pl-1 pr-0 text-left text-ink-faint sm:w-7`}>
-              <span className="sr-only">Rank</span>
-            </th>
-            {header("Member", "name", sort === "name", "w-full text-left")}
-            {header("Since", "seniority", sort === "seniority", "w-16 text-right max-sm:hidden", "Year first sworn into this chamber")}
-            {header(
-              <span className="flex items-center gap-1">
-                <span aria-hidden>L</span>Ideology<span aria-hidden>R</span>
-              </span>,
-              sort === "ideology-left" ? "ideology-right" : "ideology-left",
-              ideologySort,
-              "w-[5.5rem] text-center max-sm:hidden",
-              "Left-right score in the current Congress; click again to reverse",
-            )}
-            {header("Wikipedia", "interest", sort === "interest", "w-24 text-right max-sm:hidden", "Median daily views of the member's Wikipedia article")}
-            {header("Net worth", "net-worth", sort === "net-worth", "w-24 text-right max-sm:hidden", "Estimated from the latest financial disclosure")}
-            <th scope="col" className={`${TH} w-[3.75rem] px-0.5 text-center text-ink-faint sm:hidden`}>
-              <span className="flex items-center justify-center gap-1">
-                <span aria-hidden>L</span>Ideol.<span aria-hidden>R</span>
-              </span>
-            </th>
-            <th scope="col" className={`${TH} whitespace-nowrap text-right text-ink sm:hidden`}>
-              {phoneMetricLabel(sort)}
-            </th>
-          </tr>
-        </thead>
+      <div
+        ref={box}
+        tabIndex={0}
+        aria-label="Members, scrollable"
+        className="touch-scroll relative mt-3 max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line"
+      >
+        <table className="w-full border-collapse text-[0.84rem]">
+          <thead className="sticky top-0 z-10 bg-surface shadow-[inset_0_-1px_0_var(--line)]">
+            <tr>
+              <th scope="col" className={`${TH} w-6 pl-1 pr-0 text-left text-ink-faint sm:w-7`}>
+                <span className="sr-only">Rank</span>
+              </th>
+              {header("Member", "name", sort === "name", "w-full text-left")}
+              {header("Since", "seniority", sort === "seniority", "w-16 text-right max-sm:hidden", "Year first sworn into this chamber")}
+              {header(
+                <span className="flex items-center gap-1">
+                  <span aria-hidden>L</span>Ideology<span aria-hidden>R</span>
+                </span>,
+                sort === "ideology-left" ? "ideology-right" : "ideology-left",
+                ideologySort,
+                "w-[5.5rem] text-center max-sm:hidden",
+                "Left-right score in the current Congress; click again to reverse",
+              )}
+              {header("Wikipedia", "interest", sort === "interest", "w-24 text-right max-sm:hidden", "Median daily views of the member's Wikipedia article")}
+              {header("Net worth", "net-worth", sort === "net-worth", "w-24 text-right max-sm:hidden", "Estimated from the latest financial disclosure")}
+              <th scope="col" className={`${TH} w-[3.75rem] px-0.5 text-center text-ink-faint sm:hidden`}>
+                <span className="flex items-center justify-center gap-1">
+                  <span aria-hidden>L</span>Ideol.<span aria-hidden>R</span>
+                </span>
+              </th>
+              <th scope="col" className={`${TH} whitespace-nowrap text-right text-ink sm:hidden`}>
+                {phoneMetricLabel(sort)}
+              </th>
+            </tr>
+          </thead>
 
-        {leaders.length > 0 && (
+          {leaders.length > 0 && (
+            <tbody>
+              <GroupRow>Leadership</GroupRow>
+              {leaders.map((m) => (
+                <Row key={m.bioguideId} member={m} rank={null} sort={sort} role={leaderTitle(m.chamber, m.leaderRole!)} />
+              ))}
+              <GroupRow>All members</GroupRow>
+            </tbody>
+          )}
           <tbody>
-            <GroupRow>Leadership</GroupRow>
-            {leaders.map((m) => (
-              <Row key={m.bioguideId} member={m} rank={null} sort={sort} role={leaderTitle(m.chamber, m.leaderRole!)} />
+            {members.map((m, i) => (
+              <Row key={m.bioguideId} member={m} rank={ranking && sortValue(m, sort) !== null ? i + 1 : null} sort={sort} />
             ))}
-            <GroupRow>All members</GroupRow>
           </tbody>
-        )}
-        <tbody>
-          {members.map((m, i) => (
-            <Row key={m.bioguideId} member={m} rank={ranking && sortValue(m, sort) !== null ? i + 1 : null} sort={sort} />
-          ))}
-        </tbody>
-      </table>
-      {members.length === 0 && <p className="p-4 text-center text-[0.84rem] text-ink-faint">No members match these filters.</p>}
+        </table>
+        {members.length === 0 && <p className="p-4 text-center text-[0.84rem] text-ink-faint">No members match these filters.</p>}
+      </div>
 
       <MethodologyNote className="mt-3">
         <p>
