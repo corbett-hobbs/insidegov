@@ -22,7 +22,7 @@ export function TroopsPageClient({ payload, map, bases }: { payload: TroopsPaylo
     <TroopsStateProvider payload={payload}>
       <TroopsFilterBar />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader eyebrow="Presidency · National security" title="Where Are U.S. Troops Stationed Abroad?">
+        <PageHeader eyebrow="Presidency · Troops abroad" title="Where Are U.S. Troops Stationed Abroad?">
           <p>
             Where U.S. active-duty troops are stationed abroad, country by country, from {first.fy} through {last.fy}. That
             footprint shows where America has committed itself, and how it has grown, shrunk and shifted from one

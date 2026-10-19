@@ -9,7 +9,7 @@ import { historyMeta, historyRow, troopsMeta, troopsRow } from "./troops-entitie
 import { REGION_IDS } from "./troops-regions";
 
 /**
- * Every figure a National security card's takeaway cites, checked against the committed pipeline output through the
+ * Every figure a Troops abroad card's takeaway cites, checked against the committed pipeline output through the
  * same derive functions the page draws with, in its default view (every year, all countries, all branches). A data
  * refresh that makes a sentence untrue fails here: rewrite the takeaway in components/troops/takeaways.ts, then this
  * check. The 2018 claims stay on the permanent-assignment side of the Dec 2017 break, and stop at 2025, the last full
@@ -153,7 +153,7 @@ const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check:
   },
 };
 
-describe("National security card takeaways", () => {
+describe("Troops abroad card takeaways", () => {
   for (const [key, c] of Object.entries(contextCases) as [keyof typeof TROOPS_CONTEXT, (typeof contextCases)[keyof typeof TROOPS_CONTEXT]][]) {
     it(`context, ${TROOPS_TAKEAWAYS[key].title}: holds and names real sources`, () => {
       const line: ContextEntry = TROOPS_CONTEXT[key];
