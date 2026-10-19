@@ -20,6 +20,7 @@ import {
   sortRows,
   tenureSegments,
   tenureYears,
+  confirmedCell,
   courtTakeaway,
   timelineTakeaway,
   tableTakeaway,
@@ -221,14 +222,27 @@ describe("timeline window", () => {
 
 describe("table", () => {
   it("sorts a column both ways with justices that have no value last, whichever the direction", () => {
-    const desc = sortRows(rows, "opinions", "desc");
-    const asc = sortRows(rows, "opinions", "asc");
+    const desc = sortRows(rows, "dissent", "desc");
+    const asc = sortRows(rows, "dissent", "asc");
     for (const list of [desc, asc]) {
-      expect(list.slice(-9).every((r) => r.majorityOpinions === null)).toBe(true);
+      expect(list.slice(-9).every((r) => r.dissentRate === null)).toBe(true);
     }
-    const counts = (l: DirectoryRow[]) => l.filter((r) => r.majorityOpinions !== null).map((r) => r.majorityOpinions!);
-    expect(counts(desc)).toEqual([...counts(desc)].sort((a, b) => b - a));
-    expect(counts(asc)).toEqual([...counts(asc)].sort((a, b) => a - b));
+    const rates = (l: DirectoryRow[]) => l.filter((r) => r.dissentRate !== null).map((r) => r.dissentRate!);
+    expect(rates(desc)).toEqual([...rates(desc)].sort((a, b) => b - a));
+    expect(rates(asc)).toEqual([...rates(asc)].sort((a, b) => a - b));
+  });
+
+  it("shows the Senate vote, or Voice, and sorts by the share in favour with voice votes as the most consensual", () => {
+    const voice = rows.filter((r) => r.senateVote === null);
+    expect(voice).toHaveLength(17);
+    expect(voice.every((r) => confirmedCell(r) === "Voice")).toBe(true);
+    expect(confirmedCell(row("Thomas"))).toBe("52–48");
+    const desc = sortRows(rows, "confirmed", "desc");
+    expect(desc.slice(0, 17).every((r) => r.senateVote === null)).toBe(true);
+    const share = (r: DirectoryRow) => r.senateVote!.ayes / (r.senateVote!.ayes + r.senateVote!.nays);
+    const voted = desc.slice(17);
+    expect(voted.map(share)).toEqual([...voted.map(share)].sort((a, b) => b - a));
+    expect(sortRows(rows, "confirmed", "asc")[0].name).toBe("Brett Kavanaugh");
   });
 
   it("sorts by surname, ignoring the initial that tells two justices with one name apart", () => {
@@ -272,7 +286,7 @@ describe("takeaways", () => {
     );
     expect(timelineTakeaway(rows)).toMatch(/^Of the 40 justices who have left the Court, Douglas, 36 years \(1939–1975\), served longest and Byrnes, 1\.3 years \(1941–1942\), shortest\.$/);
     expect(tableTakeaway(rows)).toBe(
-      "In argued cases since the 1946 term, White wrote the most majority opinions (465) and Douglas dissented most often, in 30.8% of the cases they voted in.",
+      "Kavanaugh was confirmed by the narrowest Senate vote, 50–48; in argued cases since the 1946 term, Douglas dissented most often, in 30.8% of the cases they voted in.",
     );
   });
 

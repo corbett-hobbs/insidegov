@@ -12,7 +12,7 @@ import { UpNext } from "@/components/UpNext";
 /** /supreme-court/justices — the Supreme Court vertical's Justices section: the way into every justice profile. */
 export const metadata: Metadata = {
   title: "Who has sat on the Supreme Court?",
-  description: "The nine justices on the Supreme Court today and every justice since the 1937 term: how long each served, who appointed them, the opinions they wrote and how often they dissented.",
+  description: "The nine justices on the Supreme Court today and every justice since the 1937 term: how long each served, who appointed them, how the Senate voted to confirm them and how often they dissented.",
   alternates: { canonical: "/supreme-court/justices" },
   openGraph: {
     ...ogDefaults,
@@ -50,7 +50,7 @@ export default function JusticesPage() {
 
       <UpNext />
       <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-        Source: <SourceLink id="fjc">Federal Judicial Center</SourceLink>, Biographical Directory of Article III Federal Judges (service dates and appointments); <SourceLink id="scdb">Supreme Court Database</SourceLink>, justice-centered, argued cases from the 1946 term (opinions and dissents; licensed CC BY-NC 3.0 US); <SourceLink id="martin-quinn">Martin&ndash;Quinn scores</SourceLink>. Portraits: public-domain images via <SourceLink id="wikipedia">Wikipedia</SourceLink>.
+        Source: <SourceLink id="fjc">Federal Judicial Center</SourceLink>, Biographical Directory of Article III Federal Judges (service dates, appointments and Senate confirmation votes); <SourceLink id="scdb">Supreme Court Database</SourceLink>, justice-centered, argued cases from the 1946 term (dissents; licensed CC BY-NC 3.0 US); <SourceLink id="martin-quinn">Martin&ndash;Quinn scores</SourceLink>. Portraits: public-domain images via <SourceLink id="wikipedia">Wikipedia</SourceLink>.
       </p>
     </main>
   );
