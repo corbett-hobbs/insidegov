@@ -35,6 +35,7 @@ export function StackedRows({
   ariaLabel,
   emptyText,
   rowClass = "",
+  wideLabels = false,
 }: {
   rows: readonly StackedRowData[];
   /** The value a full-width bar stands for. */
@@ -44,6 +45,8 @@ export function StackedRows({
   emptyText: string;
   /** Extra classes for each row's button (a fixed height, so the rows can line up with a companion chart). */
   rowClass?: string;
+  /** Long labels (product names): a label column up to 260px instead of 118px, so names truncate far less often. Ranked rows with a delta only. */
+  wideLabels?: boolean;
 }) {
   // No row has a second value (a delta, a military dollar figure): drop its column so the bar runs the full width.
   const hasDelta = rows.some((r) => !!r.delta);
@@ -54,7 +57,7 @@ export function StackedRows({
   const cols = hasCap
     ? "grid-cols-[24px_minmax(86px,190px)_minmax(60px,1fr)_56px_118px]"
     : hasRank
-    ? hasDelta ? "grid-cols-[24px_minmax(86px,118px)_minmax(60px,1fr)_50px_58px]" : "grid-cols-[24px_minmax(86px,118px)_minmax(60px,1fr)_56px]"
+    ? hasDelta ? (wideLabels ? "grid-cols-[24px_minmax(110px,260px)_minmax(60px,1fr)_50px_44px]" : "grid-cols-[24px_minmax(86px,118px)_minmax(60px,1fr)_50px_58px]") : "grid-cols-[24px_minmax(86px,118px)_minmax(60px,1fr)_56px]"
     : hasDelta ? "grid-cols-[minmax(86px,170px)_minmax(60px,1fr)_50px_58px]" : "grid-cols-[minmax(86px,170px)_minmax(60px,1fr)_56px]";
   const narrow = hasCap
     ? "@max-[560px]:grid-cols-[24px_1fr_auto_auto] @max-[560px]:gap-y-1"

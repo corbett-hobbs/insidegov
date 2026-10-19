@@ -8,7 +8,8 @@ import type { ContextEntry } from "@/lib/chart-context";
  *
  * The balance and tariff cards draw theirs only in the all-countries view: picking a
  * country redraws them for that country, and these sentences are not about it. The
- * partners and scatter cards keep theirs, since the Country filter only highlights.
+ * partners and scatter cards keep theirs, since the Country filter only highlights. The products
+ * card, like the balance card, draws its takeaway only for all countries.
  * Two take their dates from the data: the partners card shows the latest year so far
  * (`through` is its last month's name), and the scatter compares two moving
  * windows (`windowText` of each).
@@ -28,6 +29,11 @@ export const TRADE_TAKEAWAYS = {
     title: "Who the U.S. trades with",
     takeaway: (through: string) =>
       `Mexico was the largest U.S. goods trading partner each year from 2023 through 2025 and again in 2026 through ${through}, ahead of Canada. China had the largest deficit every year from 2000 through 2025; in 2026 through ${through}, Vietnam did.`,
+  },
+  products: {
+    title: "What the U.S. trades",
+    takeaway: (through: string) =>
+      `Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021 and led each year through ${through} 2026. Machinery and computers grew from 13% of goods imports in 2010 to a record 25% in 2026 through ${through}.`,
   },
   scatter: {
     title: "Did tariffs shift trade?",
