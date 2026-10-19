@@ -373,16 +373,16 @@ export const yearsOfDays = (days: number) => String(Math.round((days / 365.25) *
 
 /**
  * The short label under the "Congress on their side" bar: the president's party held both chambers for X of N years. With no
- * time at all in both, says the most that was held ("3 of 4 yrs one chamber"), or that neither chamber was held.
+ * time at all in both, says the most that was held ("One chamber, 3 of 4 years"), or that neither chamber was held.
  */
 export function controlLabel(d: { both: number; one: number; neither: number }): string {
   const total = d.both + d.one + d.neither;
   if (total === 0) return "";
   const of = yearsOfDays(total);
   const n = (x: number) => yearsOfDays(x);
-  if (d.both > 0) return `${n(d.both)} of ${of} yrs both`;
-  if (d.one > 0) return `${n(d.one)} of ${of} yrs one chamber`;
-  return `Neither chamber, ${of} yrs`;
+  if (d.both > 0) return `Both chambers, ${n(d.both)} of ${of} years`;
+  if (d.one > 0) return `One chamber, ${n(d.one)} of ${of} years`;
+  return `Neither chamber, ${of} years`;
 }
 
 /** Polyline points ("x,y x,y") for a sparkline of `segments` in a `w` × `h` box with `pad` on every side; one string per segment. */
