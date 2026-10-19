@@ -8,7 +8,7 @@ import { MethodologyNote } from "../MethodologyNote";
 import { SourceLink } from "../SourceLink";
 import { PowerChart } from "../timeline/PowerChart";
 import { FOCUS_RING, PARTY_ADJ, partyColor } from "../timeline/shared";
-import { buildSpans, chamberYears, changePoints, fmtDate, lastName, powerIndex } from "@/lib/timeline-derive";
+import { buildSpans, chamberYears, changePoints, fmtDate, powerIndex } from "@/lib/timeline-derive";
 import { presidentPathByName } from "@/lib/president-url";
 import type { TimelinePayload, TlPresident } from "@/lib/timeline-types";
 
@@ -40,10 +40,14 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
           <span aria-hidden className="inline-block size-2 rounded-full" style={{ background: partyColor(p.party) }} />
           {PARTY_ADJ[p.party]} · {fmtDate(p.start)} – {p.end && p.end < data.today ? fmtDate(p.end) : "today"}
         </p>
-        <p className="m-0 mt-1.5 text-ink">
-          {lastName(p.name)}&rsquo;s party held both chambers for <b className="font-semibold">{yrs(y.both)}</b> years, one for <b className="font-semibold">{yrs(y.one)}</b>, neither for{" "}
-          <b className="font-semibold">{yrs(y.neither)}</b>.
-        </p>
+        <p className="m-0 mt-1.5 text-ink-muted">Congress on their side</p>
+        <ul className="m-0 list-none p-0 text-ink">
+          {([["Both chambers", y.both], ["One chamber", y.one], ["Neither chamber", y.neither]] as const).map(([label, n]) => (
+            <li key={label}>
+              {label}, <b className="font-semibold">{yrs(n)}</b> of {yrs(y.total)} years
+            </li>
+          ))}
+        </ul>
         <p className="m-0 mt-1 text-ink">
           Justices appointed: <b className="font-semibold">{justices}</b>
         </p>
