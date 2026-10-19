@@ -30,7 +30,6 @@ import {
   type SortState,
 } from "@/components/charts/SortToggle";
 import { SenatorSearch } from "./SenatorSearch";
-import { SenateTableModal } from "./SenateTableModal";
 import { SiteFooter } from "./SiteFooter";
 import { CommitteeCompass } from "@/components/committee/CommitteeCompass";
 import { CommitteeSwarm } from "@/components/committee/CommitteeSwarm";
@@ -43,6 +42,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { IDEOLOGY_TAKEAWAYS, contextFor } from "./takeaways";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { UpNext } from "@/components/UpNext";
 
 const PLAY_INTERVAL_MS = 450;
 const PRELOAD_DELAY_MS = 1500;
@@ -102,7 +102,6 @@ export function SenateExplorer({
   const [hoveredCommittee, setHoveredCommittee] =
     useState<CommitteeSummary | null>(null);
   const [delegSort, setDelegSort] = useState<SortState>(DEFAULT_SORT);
-  const [tableOpen, setTableOpen] = useState(false);
 
   // Committees only exist for the 119th; scrubbing away silently reverts to
   // Members (same rule as the state filter clearing on a Congress change).
@@ -527,34 +526,9 @@ export function SenateExplorer({
           </Card>
         )}
 
-        <SiteFooter>
-          <button
-            type="button"
-            onClick={() => setTableOpen(true)}
-            className="rounded-md border border-line-strong px-[0.85rem] py-[0.5rem] text-[0.8rem] font-medium text-accent hover:border-accent"
-          >
-            View this Congress as a table
-          </button>
-        </SiteFooter>
+        <UpNext />
+        <SiteFooter />
       </main>
-
-      <SenateTableModal
-        open={tableOpen}
-        congress={congress}
-        senateMembers={
-          atLatest
-            ? senate.all
-            : histMembers.filter((m) => m.chamber === "senate")
-        }
-        houseMembers={
-          atLatest
-            ? house.all
-            : histMembers.filter((m) => m.chamber === "house")
-        }
-        activeView={view}
-        stateFilter={stateFilter}
-        onClose={() => setTableOpen(false)}
-      />
     </>
   );
 }

@@ -34,6 +34,11 @@ function readPageviews(): PageviewsFile | null {
   }
 }
 
+/** Median daily Wikipedia views by bioguide id; empty before the fetch has run. */
+export function getMemberViews(): Record<string, number> {
+  return Object.fromEntries(readPageviews()?.rows.map((r) => [r.id, r.median]) ?? []);
+}
+
 export interface MembersDirectoryData {
   members: DirectoryMember[];
   /** The pageviews window, for the Data notes; `null` when the file is absent. */

@@ -11,6 +11,7 @@ import { WealthFilterBar } from "./WealthFilterBar";
 import { NetWorthScatterCard } from "./NetWorthScatterCard";
 import { WealthListsSection } from "./WealthListsSection";
 import { PageHeader } from "@/components/PageHeader";
+import { UpNext } from "@/components/UpNext";
 
 /**
  * Owns the one shared chamber/state/party filter for the whole page (plan §2,
@@ -103,6 +104,7 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
           stateFilter={effectiveStateFilter}
           party={party}
         />
+        <UpNext />
       </main>
     </>
   );

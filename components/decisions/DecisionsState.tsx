@@ -3,7 +3,7 @@
 import { sameRange, type YearRange } from "@/lib/year-range";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { viewOf } from "@/lib/decisions-derive";
-import type { DecisionsPayload } from "@/lib/decisions-types";
+import type { DecisionDirection, DecisionsPayload } from "@/lib/decisions-types";
 import type { TermBandSelect } from "@/components/charts/TermBandSvg";
 import type { Picked } from "@/lib/multi-select";
 
@@ -20,8 +20,10 @@ export interface DecisionsValues {
   areas: Picked<number>;
   /** Only Wikipedia's landmark cases (the pinned bar's checkbox): every chart, the heatmap and the list narrow to them. */
   landmark: boolean;
-  /** Dissent band 0-4 picked on card 2 (legend or band name), or null. Narrows card 1 and the case list. */
-  band: number | null;
+  /** Ticked dissent bands 0-4 (the bar's Vote dropdown, card 2's legend, the list's pills); null = any vote. Narrows card 1, card 2 and the case list. */
+  band: Picked<number>;
+  /** SCDB's coding of who prevailed (the bar's Outcome dropdown): 2 liberal, 1 conservative, null = any. Narrows the case list only. */
+  direction: DecisionDirection | null;
   hover: number | null;
   pin: number | null;
 }
@@ -29,7 +31,8 @@ export interface DecisionsValues {
 export interface DecisionsActions {
   setRange: (r: YearRange) => void;
   setAreas: (a: Picked<number>) => void;
-  setBand: (b: number | null) => void;
+  setBand: (b: Picked<number>) => void;
+  setDirection: (d: DecisionDirection | null) => void;
   setLandmark: (on: boolean) => void;
   moveHover: (term: number) => void;
   leaveHover: () => void;
@@ -48,7 +51,8 @@ export function DecisionsStateProvider({ data, children }: { data: DecisionsPayl
   const [range, setRangeState] = useState<YearRange>(full);
   const [areas, setAreasState] = useState<Picked<number>>(null);
   const [landmark, setLandmarkState] = useState(false);
-  const [band, setBandState] = useState<number | null>(null);
+  const [band, setBandState] = useState<Picked<number>>(null);
+  const [direction, setDirectionState] = useState<DecisionDirection | null>(null);
   const [hover, setHover] = useState<number | null>(null);
   const [pin, setPin] = useState<number | null>(null);
   const pending = useRef<number | null>(null);
@@ -61,6 +65,7 @@ export function DecisionsStateProvider({ data, children }: { data: DecisionsPayl
       setRange: (r) => setRangeState((cur) => (sameRange(cur, r) ? cur : r)),
       setAreas: (a) => setAreasState(a),
       setBand: (b) => setBandState(b),
+      setDirection: (d) => setDirectionState(d),
       setLandmark: (on) => setLandmarkState(on),
       moveHover: (term) => {
         pending.current = term;
@@ -84,8 +89,8 @@ export function DecisionsStateProvider({ data, children }: { data: DecisionsPayl
   // A pin or hover that has left the window is simply not shown (and comes back if the window widens).
   const values = useMemo<DecisionsValues>(() => {
     const inWin = (t: number | null) => (t !== null && t >= range[0] && t <= range[1] ? t : null);
-    return { data: viewOf(data, landmark), range, areas, landmark, band, hover: inWin(hover), pin: inWin(pin) };
-  }, [data, range, areas, landmark, band, hover, pin]);
+    return { data: viewOf(data, landmark), range, areas, landmark, band, direction, hover: inWin(hover), pin: inWin(pin) };
+  }, [data, range, areas, landmark, band, direction, hover, pin]);
 
   return (
     <ActionsCtx.Provider value={actions}>

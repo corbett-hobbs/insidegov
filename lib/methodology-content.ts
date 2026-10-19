@@ -340,7 +340,7 @@ export const METHODOLOGY: MethodGroup[] = [
           "Short biographies on member, justice and president pages, and portraits of current members and of justices and presidents whose picture is public domain.",
         sources: [
           { name: "Wikipedia", url: "https://www.wikipedia.org/" },
-          { name: "@unitedstates/images", url: "https://github.com/unitedstates/images", note: "member portraits from the Government Publishing Office" },
+          { name: "@unitedstates/images", url: "https://github.com/unitedstates/images", note: "fallback member portraits from the Government Publishing Office" },
         ],
         credit: "Wikipedia text is available under the Creative Commons Attribution-ShareAlike 4.0 license.",
         updates: "Checked weekly.",

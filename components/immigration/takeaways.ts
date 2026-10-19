@@ -105,7 +105,7 @@ export const IMMIGRATION_CONTEXT = {
     ],
   },
   refugeeTop: {
-    text: "The State Department’s FY2015 report to Congress said Congolese admissions would rise steadily as it helped UNHCR resettle at least 50k worldwide over four to five years; the DRC led from FY2016. Regional determinations for FY2018–FY2023 all gave Africa the largest share.",
+    text: "The State Department’s FY2015 report said fighting between Congo’s government and M23 rebels since mid-2012 left the east too insecure for refugees to return, and that Congolese admissions would rise steadily. The DRC led from FY2016; FY2018–FY2023 determinations all gave Africa the largest share.",
     sources: [
       { id: "state-refugee-report-fy2015", label: "State Department" },
       { id: "refugee-determinations", label: "determinations" },

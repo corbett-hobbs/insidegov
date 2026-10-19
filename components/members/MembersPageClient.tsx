@@ -16,6 +16,7 @@ import {
 import type { PageviewsWindow } from "@/lib/members-directory-data";
 import { MembersFilterBar } from "./MembersFilterBar";
 import { MembersList } from "./MembersList";
+import { UpNext } from "@/components/UpNext";
 
 /**
  * /congress/members: one page-level filter (name, chamber, state, party) and
@@ -75,6 +76,7 @@ export function MembersPageClient({ members, pageviews }: { members: DirectoryMe
 
         <MembersList members={sorted} leaders={leaders} sort={sort} onSortChange={setSort} pageviews={pageviews} />
 
+        <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: <SourceLink id="congress-legislators">congress-legislators</SourceLink> (members and terms),{" "}
           <SourceLink id="voteview">Voteview</SourceLink> (ideology),{" "}

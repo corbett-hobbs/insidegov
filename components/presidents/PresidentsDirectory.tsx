@@ -7,6 +7,7 @@ import { fmtInt, tenureText } from "@/lib/president-format";
 import { presidentPath } from "@/lib/president-url";
 import type { PresidentSummary } from "@/lib/president-types";
 import { PresidentPortrait } from "./PresidentPortrait";
+import { UpNext } from "@/components/UpNext";
 
 const HEAD = "font-mono text-[0.65rem] uppercase tracking-[0.06em] text-ink-muted";
 const COLS = "md:grid-cols-[3rem_minmax(0,1.6fr)_minmax(0,1.1fr)_repeat(3,minmax(0,0.8fr))]";
@@ -82,6 +83,7 @@ export function PresidentsDirectory({ rows }: { rows: PresidentSummary[] }) {
         </ol>
       </section>
 
+      <UpNext />
       <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
         Source: laws from <SourceLink id="congress-gov">Congress.gov</SourceLink>; executive orders from the <SourceLink id="federal-register-eo">Federal Register</SourceLink>; appointments from the <SourceLink id="fjc">Federal Judicial Center</SourceLink>. Portraits: public domain, via <SourceLink href="https://commons.wikimedia.org/">Wikimedia Commons</SourceLink>.
       </p>

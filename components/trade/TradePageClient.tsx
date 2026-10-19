@@ -16,6 +16,7 @@ import { TradeScatterCard } from "./TradeScatterCard";
 import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
 import { SourceLink } from "@/components/SourceLink";
+import { UpNext } from "@/components/UpNext";
 
 export function TradePageClient({ data }: { data: TradePageData }) {
   return (
@@ -223,6 +224,7 @@ function TradePage({ data }: { data: TradePageData }) {
         {/* Full width: the scatter needs the room for its labels. */}
         <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} />
 
+        <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: <SourceLink id="census-trade">U.S. Census Bureau</SourceLink> (trade values and calculated duties, 2010 on); <SourceLink id="usitc-dataweb">U.S. International Trade Commission
           DataWeb</SourceLink> (calculated duties, 1993 to 2009). Goods only, Census basis; services are not included. Calculated

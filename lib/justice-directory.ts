@@ -95,6 +95,9 @@ export interface DirectoryRow {
   latestTerm: number;
   /** Mean of the justice's term scores. */
   careerScore: number;
+  /** Mean of the justice's first three scored terms (fewer if they have fewer), and how many terms are scored. */
+  firstScore: number;
+  scoredTerms: number;
   /** Public-domain portrait path under `public/`, or null. */
   photoSrc: string | null;
 }
@@ -107,6 +110,8 @@ export interface DirectoryInputs {
   photos: ReadonlyMap<number, string>;
   asOf: Date;
 }
+
+const mean = (v: readonly number[]): number => v.reduce((a, b) => a + b, 0) / v.length;
 
 /** One row per justice, oldest first by first day on the Court. */
 export function buildDirectory({ justices, court, votes, photos, asOf }: DirectoryInputs): DirectoryRow[] {
@@ -140,6 +145,8 @@ export function buildDirectory({ justices, court, votes, photos, asOf }: Directo
       latestScore: c.s[c.s.length - 1],
       latestTerm: c.t1,
       careerScore: c.career,
+      firstScore: mean(c.s.slice(0, LEAN_FIRST_TERMS)),
+      scoredTerms: c.s.length,
       photoSrc: photos.get(j.justice_id) ?? null,
     });
   }
@@ -217,7 +224,7 @@ export function yearTicks(win: Win, plotW: number, minGap = 46): number[] {
 // ---------------------------------------------------------------------------------------------------------------------
 // Table
 
-export type SortKey = "name" | "start" | "years" | "opinions" | "dissent" | "latest" | "career";
+export type SortKey = "name" | "start" | "years" | "opinions" | "dissent" | "lean";
 export type SortDir = "asc" | "desc";
 
 const VALUE: Record<SortKey, (r: DirectoryRow) => number | string | null> = {
@@ -226,8 +233,7 @@ const VALUE: Record<SortKey, (r: DirectoryRow) => number | string | null> = {
   years: (r) => r.yearsServed,
   opinions: (r) => r.majorityOpinions,
   dissent: (r) => r.dissentRate,
-  latest: (r) => r.latestScore,
-  career: (r) => r.careerScore,
+  lean: (r) => r.latestScore,
 };
 
 /** The direction a column opens in: names read A→Z, everything else biggest or newest first. */
@@ -237,8 +243,7 @@ export const FIRST_DIR: Record<SortKey, SortDir> = {
   years: "desc",
   opinions: "desc",
   dissent: "desc",
-  latest: "desc",
-  career: "desc",
+  lean: "desc",
 };
 
 /** A new sorted copy. A justice with no value for the column (no argued-case record) goes last either way; ties fall back to the first day on the Court, newest first. */
@@ -264,6 +269,39 @@ export function filterRows(rows: readonly DirectoryRow[], query: string): Direct
     const hay = `${r.name} ${r.president} ${r.party === "D" ? "democratic democrat" : "republican"}`.toLowerCase().split(/[\s.]+/);
     return words.every((w) => hay.some((h) => h.startsWith(w)));
   });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Voting lean
+
+/** Terms averaged for where a justice started. */
+export const LEAN_FIRST_TERMS = 3;
+/** A change in score smaller than this reads as "throughout". */
+export const LEAN_STEADY_BELOW = 0.6;
+/** Fewest scored terms before a justice's movement is described; early scores are the least certain. */
+export const LEAN_MIN_TERMS = 4;
+
+/** A Martin–Quinn score as a place on the left–right scale (negative is more liberal): fixed bands, the same in every era. */
+export function leanBand(score: number): string {
+  if (score <= -2) return "liberal";
+  if (score < -0.5) return "left of center";
+  if (score <= 0.5) return "center";
+  if (score < 2) return "right of center";
+  return "conservative";
+}
+
+/**
+ * The "Voting lean" cell in words: where the justice sat at the start of their record and now (their last term). "Left of center
+ * throughout" when the two are within `LEAN_STEADY_BELOW`, "From left of center to liberal" when they moved. A justice with fewer
+ * than `LEAN_MIN_TERMS` scored terms gets only their position ("so far" while still sitting), since too little record to call a move.
+ */
+export function votingLean(r: Pick<DirectoryRow, "firstScore" | "latestScore" | "scoredTerms" | "sitting">): string {
+  const now = leanBand(r.latestScore);
+  if (r.scoredTerms < LEAN_MIN_TERMS) return `${now[0].toUpperCase()}${now.slice(1)}${r.sitting ? " so far" : ""}`;
+  const then = leanBand(r.firstScore);
+  // Same band at both ends reads as steady even when the score drifted, so the cell never says "From center to center".
+  if (then === now || Math.abs(r.latestScore - r.firstScore) < LEAN_STEADY_BELOW) return `${now[0].toUpperCase()}${now.slice(1)} throughout`;
+  return `From ${then} to ${now}`;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

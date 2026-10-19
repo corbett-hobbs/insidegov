@@ -15,6 +15,7 @@ import type { EconomyData } from "@/lib/indicator-payload";
 import { EconomyFilterBar } from "./EconomyFilterBar";
 import { CARD_ROWS, SPECS, USD_SPECS, type ChartSpec } from "./specs";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { UpNext } from "@/components/UpNext";
 
 const longDate = (iso: string) =>
   new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -250,6 +251,7 @@ function EconomyPage({
           </section>
         ))}
 
+        <UpNext />
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">
           <p className="m-0">
             Source: U.S. Bureau of Labor Statistics, U.S. Bureau of Economic Analysis, U.S. Energy Information Administration, U.S. Census Bureau, U.S.

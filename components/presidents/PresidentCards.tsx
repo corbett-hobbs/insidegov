@@ -58,17 +58,21 @@ export function CardShell({ title, takeaway, wide, children, notes, table, more 
 /** "Jan 2009 7.8% → Jan 2017 4.7%" for each term of a panel. */
 function StartEnd({ panel }: { panel: SeriesPanel }) {
   return (
-    <div className="flex flex-col items-end text-right font-mono text-[0.72rem] leading-[1.35] text-ink-muted">
+    <div className="flex max-w-full flex-col items-start text-left font-mono sm:items-end sm:text-right text-[0.72rem] leading-[1.35] text-ink-muted">
       {panel.segments.map((s) => {
         const a = s.points[0];
         const b = s.points[s.points.length - 1];
         return (
-          <span key={s.termId} className="whitespace-nowrap">
-            {a.label} <span className="font-medium text-ink">{fmtValue(a.value, panel.format)}</span>
+          <span key={s.termId} className="sm:whitespace-nowrap">
+            <span className="whitespace-nowrap">
+              {a.label} <span className="font-medium text-ink">{fmtValue(a.value, panel.format)}</span>
+            </span>
             {s.points.length > 1 && (
               <>
                 {" → "}
-                {b.label} <span className="font-medium text-ink">{fmtValue(b.value, panel.format)}</span>
+                <span className="whitespace-nowrap">
+                  {b.label} <span className="font-medium text-ink">{fmtValue(b.value, panel.format)}</span>
+                </span>
               </>
             )}
           </span>
@@ -81,8 +85,9 @@ function StartEnd({ panel }: { panel: SeriesPanel }) {
 function Panel({ panel, plotH, president }: { panel: SeriesPanel; plotH: number; president: PresidentLite }) {
   return (
     <div className="min-w-0">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
+      {/* Wraps (StartEnd drops under the title) instead of squeezing the title when the card is narrow. */}
+      <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
+        <div>
           <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">{panel.title}</p>
           {panel.coverage && <p className="m-0 mt-0.5 text-[0.72rem] text-ink-muted">{panel.coverage}</p>}
         </div>

@@ -22,10 +22,12 @@ import {
 export function MemberNeighborList({
   rows,
   ranked,
+  hasViews,
 }: {
   rows: Neighbor[];
-  /** Rows are ordered by distance, so number them; otherwise A–Z by last name. */
+  /** Rows are ordered by distance, so number them; otherwise most looked up (or A–Z by last name with no view data). */
   ranked: boolean;
+  hasViews: boolean;
 }) {
   const [q, setQ] = useState("");
   const needle = q.trim().toLowerCase();
@@ -36,7 +38,7 @@ export function MemberNeighborList({
     <div className="mt-3 flex min-h-0 flex-1 flex-col border-t border-line">
       <div className="flex items-center justify-between gap-2 py-1.5">
         <p className="text-[0.68rem] text-ink-faint">
-          {ranked ? "Closest first" : "A–Z by last name"} · {shown.length}{" "}
+          {ranked ? "Closest first" : hasViews ? "Most looked up" : "A–Z by last name"} · {shown.length}{" "}
           {shown.length === 1 ? "member" : "members"}
         </p>
         <ListSearch value={q} onChange={setQ} label="Search members by name" />
