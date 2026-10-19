@@ -1,12 +1,12 @@
 {
   "display_start": "1991-01-21",
   "counts": {
-    "GASREGW": 1880,
-    "GASDESW": 1699,
-    "MORTGAGE30US": 2898,
+    "GASREGW": 1881,
+    "GASDESW": 1700,
+    "MORTGAGE30US": 2899,
     "PAYEMS": 1053,
     "UNRATE": 944,
-    "CPIAUCSL": 955,
+    "CPIAUCSL": 956,
     "A191RO1Q156NBEA": 314,
     "A191RL1Q225SBEA": 317,
     "AHETPI": 753,
@@ -20,12 +20,12 @@
     "USREC": 2062
   },
   "last_observation": {
-    "GASREGW": "2026-10-05",
-    "GASDESW": "2026-10-05",
-    "MORTGAGE30US": "2026-10-08",
+    "GASREGW": "2026-10-12",
+    "GASDESW": "2026-10-12",
+    "MORTGAGE30US": "2026-10-15",
     "PAYEMS": "2026-09-01",
     "UNRATE": "2026-09-01",
-    "CPIAUCSL": "2026-08-01",
+    "CPIAUCSL": "2026-09-01",
     "A191RO1Q156NBEA": "2026-04-01",
     "A191RL1Q225SBEA": "2026-04-01",
     "AHETPI": "2026-09-01",
