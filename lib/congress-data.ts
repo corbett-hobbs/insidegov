@@ -372,6 +372,11 @@ export function getCurrentMemberIndex(): Map<string, ChamberMember> {
   return index;
 }
 
+/** ISO date each member was first sworn into `chamber` (earliest recorded term start). */
+export function getFirstTermStarts(chamber: Chamber): ReadonlyMap<string, string> {
+  return buildFullChamber(chamber).firstTermStart;
+}
+
 /** bioguide_id + display name for every current member of a chamber. */
 export function getCurrentMembers(
   chamber: Chamber,

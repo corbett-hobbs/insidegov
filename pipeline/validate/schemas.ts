@@ -187,6 +187,32 @@ export const wikipediaSummary = z.strictObject({
 export type WikipediaSummary = z.infer<typeof wikipediaSummary>;
 
 /**
+ * A `pipeline/output/wikipedia_pageviews_*.json` file — median daily views of
+ * each entity's English Wikipedia article over a trailing window
+ * (`pipeline/wikipedia/pageviews.ts`). `id` is the entity key (bioguide_id for
+ * members). Strict: our own output.
+ */
+export const wikipediaPageviews = z.strictObject({
+  source: z.literal("https://wikimedia.org/api/rest_v1/metrics/pageviews"),
+  agent: z.literal("user"),
+  start: z.string().regex(ISO_DATE),
+  end: z.string().regex(ISO_DATE),
+  days: z.number().int().positive(),
+  fetched_at: z.string().regex(ISO_DATE),
+  rows: z.array(
+    z.strictObject({
+      id: z.string().min(1),
+      title: z.string().min(1),
+      median: z.number().int().nonnegative(),
+      total: z.number().int().nonnegative(),
+      /** Redirect titles whose views were added in. */
+      redirects: z.number().int().nonnegative(),
+    }),
+  ),
+});
+export type WikipediaPageviews = z.infer<typeof wikipediaPageviews>;
+
+/**
  * One record of `pipeline/output/committee_summaries.json` — a trimmed
  * Wikipedia lead per committee, keyed by `committee_id` (THOMAS id). Strict:
  * our own output.

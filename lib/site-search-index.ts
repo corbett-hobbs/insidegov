@@ -23,6 +23,7 @@ const PAGE_ALIASES: Record<string, string> = {
   "/congress/laws": "bills legislation enacted",
   "/congress/demographics": "age gender tenure",
   "/congress/wealth": "net worth financial disclosures",
+  "/congress/members": "directory senators representatives roster list find",
   "/supreme-court/ideology": "scotus martin quinn justices",
   "/supreme-court/decisions": "scotus cases rulings opinions",
 };

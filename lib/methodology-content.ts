@@ -345,6 +345,15 @@ export const METHODOLOGY: MethodGroup[] = [
         credit: "Wikipedia text is available under the Creative Commons Attribution-ShareAlike 4.0 license.",
         updates: "Checked weekly.",
       },
+      {
+        id: "wikipedia-interest",
+        vertical: "shared",
+        title: "Wikipedia interest",
+        description:
+          "The Members list's \u201cMost looked up\u201d order: the median number of times a day each member's English Wikipedia article was read over the last 90 days, counting readers only (no crawlers) and visits through redirects. It measures how often people look someone up, for any reason, not approval or popularity.",
+        sources: [{ name: "Wikimedia Pageviews API", url: "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/reference/page-views.html" }],
+        updates: "Refreshed weekly.",
+      },
     ],
   },
 ];
