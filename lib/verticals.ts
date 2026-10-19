@@ -153,8 +153,15 @@ const DEFS: readonly BranchDef[] = [
     id: "supreme-court",
     label: "Supreme Court",
     shortLabel: "Court",
-    defaultSection: "ideology",
+    defaultSection: "justices",
     sections: [
+      {
+        id: "justices",
+        label: "Justices",
+        status: "live",
+        blurb:
+          "The nine justices on the Court today and every justice since 1937: how long each served, who appointed them, and how often they dissented.",
+      },
       {
         id: "ideology",
         label: "Ideology",

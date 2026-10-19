@@ -25,6 +25,7 @@ const PAGE_ALIASES: Record<string, string> = {
   "/congress/wealth": "net worth financial disclosures",
   "/supreme-court/ideology": "scotus martin quinn justices",
   "/supreme-court/decisions": "scotus cases rulings opinions",
+  "/supreme-court/justices": "scotus bench court directory tenure appointed",
 };
 
 const BRANCH_ALIASES: Record<string, string> = {
