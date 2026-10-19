@@ -12,16 +12,20 @@ import type { RemovalsCountryPayload } from "./removals-country-types";
  * Shaping is in the pure, unit-tested `lib/removals-country-derive.ts`.
  */
 
-const read = (...parts: string[]): unknown => JSON.parse(readFileSync(join(process.cwd(), ...parts), "utf8"));
+// Fixed directory prefixes, not a spread path: a fully computed path makes the build tracer copy the whole
+// project (raw snapshots included) into every server function that imports this file.
+const OUTPUT = join(process.cwd(), "pipeline", "output");
+const REFERENCE = join(process.cwd(), "pipeline", "reference");
+const read = (path: string): unknown => JSON.parse(readFileSync(path, "utf8"));
 
 let cache: RemovalsCountryPayload | null = null;
 
 export function getRemovalsCountryPayload(): RemovalsCountryPayload {
   if (cache) return cache;
   cache = buildRemovalsCountryPayload(
-    (read("pipeline", "output", "removals_by_country.json") as unknown[]).map((r) => removalsCountryRow.parse(r)),
-    removalsCountryReport.parse(read("pipeline", "output", "removals_by_country_report.json")),
-    iceCatalog.parse(read("pipeline", "reference", "ice-removals-catalog.json")).sources,
+    (read(join(OUTPUT, "removals_by_country.json")) as unknown[]).map((r) => removalsCountryRow.parse(r)),
+    removalsCountryReport.parse(read(join(OUTPUT, "removals_by_country_report.json"))),
+    iceCatalog.parse(read(join(REFERENCE, "ice-removals-catalog.json"))).sources,
   );
   return cache;
 }

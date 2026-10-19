@@ -56,3 +56,5 @@ pipeline/raw/_scratch/
 
 # Regenerable output of pipeline/financial_disclosures/scan_checkbox_form_v2.py
 pipeline/financial_disclosures/checkbox_scan_v2_results.json
+# per-call Census API cache that makes the goods-by-product fetch resumable
+pipeline/raw/census-trade/products/_cache/

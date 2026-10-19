@@ -3,7 +3,9 @@ name: Trade freshness
 # Automate the check and the acceptance; the gate is the full CI run (.github/actions/gate-and-merge).
 #
 # Weekly: re-fetch the Census trade sources (country.xlsx, gands.xlsx, Schedule C,
-# and the calculated-duties API), rebuild pipeline/output/, and open a PR only when the
+# the calculated-duties API, and goods by product for the year in progress and the
+# three before it, so June's annual revisions are picked up), rebuild pipeline/output/,
+# and open a PR only when the
 # rebuilt output differs from what is committed. Census re-issues its spreadsheets with
 # new bytes even when no number changed, so the comparison is on the OUTPUT, not the
 # raw files. A validation failure (pipeline/transform/trade.ts) fails the job loudly
@@ -49,6 +51,13 @@ jobs:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: pnpm fetch:census-trade
 
+      # About 130 batched API calls, ~25 min (measured 23 min for 2023-2026). Older years stay
+      # as committed until someone re-runs the full `pnpm fetch:census-products` (50 min).
+      - name: Re-fetch goods by product (recent years)
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: pnpm fetch:census-products --recent
+
       - name: Rebuild and validate
         run: pnpm exec tsx pipeline/transform/trade-run.ts
 
@@ -79,6 +88,9 @@ jobs:
             pipeline/output/duties_national.json
             pipeline/output/duties_by_country
             pipeline/output/trade_report.json
+            pipeline/output/trade_products
+            pipeline/output/trade_products_national.json
+            pipeline/output/trade_products_headings.json
           branch: data/trade-refresh
           base: main
           delete-branch: true
