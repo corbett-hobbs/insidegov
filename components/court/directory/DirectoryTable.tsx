@@ -129,9 +129,9 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                       <span className="min-w-10 max-w-[7.5rem] flex-initial basis-16 xl:w-[4.5rem] xl:max-w-none xl:flex-none xl:basis-auto">
                         <LeanGlyph row={r} />
                       </span>
-                      {/* The slot is as wide as the longest phrase, so the text starts at the same x on every row and never wraps. */}
+                      {/* From xl the slot is as wide as the longest phrase, so the text starts at the same x on every row; on phones each pair centres on its own width. Never wraps. */}
                       <span className="grid flex-none whitespace-nowrap leading-snug text-ink">
-                        <span aria-hidden className="invisible col-start-1 row-start-1">From right of center to conservative</span>
+                        <span aria-hidden className="invisible col-start-1 row-start-1 max-xl:hidden">From right of center to conservative</span>
                         <span className="col-start-1 row-start-1">{votingLean(r)}</span>
                       </span>
                     </dd>
