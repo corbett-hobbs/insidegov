@@ -7,7 +7,7 @@ import { LEGEND_ITEM, LEGEND_ROW } from "../charts/legend";
 import { MethodologyNote } from "../MethodologyNote";
 import { SourceLink } from "../SourceLink";
 import { PowerChart } from "../timeline/PowerChart";
-import { FOCUS_RING, PARTY_ADJ, partyColor } from "../timeline/shared";
+import { FOCUS_RING, PARTY_ADJ, partyColor, partyTint } from "../timeline/shared";
 import { buildSpans, chamberYears, changePoints, fmtDate, powerIndex } from "@/lib/timeline-derive";
 import { presidentPathByName } from "@/lib/president-url";
 import type { TimelinePayload, TlPresident } from "@/lib/timeline-types";
@@ -18,9 +18,9 @@ const START = "1945-04-12";
 const yrs = (n: number) => `${Math.round(n * 10) / 10}`;
 
 /**
- * "Who held power" above the Presidents table: the one-party strip and the president, Senate, House and Court rows of
- * /timeline (the same `PowerChart`, in its compact mode), the Court read by appointing president, over Truman to today.
- * No filters, zoom or pan; a tap on a president opens a card that links to their page.
+ * "Was Congress on their side?" above the Presidents table, collapsed by default: the one-party strip and the president,
+ * Senate and House rows of /timeline (the same `PowerChart`, in its compact mode), over Truman to today. The Court is left
+ * out because the table below has no Court measure. No filters, zoom or pan; a tap on a president opens a card that links to their page.
  */
 export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
   const idx = useMemo(() => powerIndex(data), [data]);
@@ -32,7 +32,6 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
     const to = p.end && p.end < data.today ? p.end : data.today;
     const y = chamberYears(spans, p.start, to);
     const path = presidentPathByName(p.name);
-    const justices = data.justices.filter((j) => j.start >= p.start && (p.end === null || j.start < p.end) && presidentPathByName(j.by) === path).length;
     return (
       <>
         <p className="m-0 pr-6 font-serif text-[0.95rem] font-medium leading-tight text-ink">{p.name}</p>
@@ -48,9 +47,6 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
             </li>
           ))}
         </ul>
-        <p className="m-0 mt-1 text-ink">
-          Justices appointed: <b className="font-semibold">{justices}</b>
-        </p>
         {path && (
           <Link href={path} className={`mt-1.5 inline-block font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent ${FOCUS_RING}`}>
             Open president page →
@@ -61,8 +57,11 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
   };
 
   return (
-    <ChartCard
-      title="Who held power"
+    <details className="group text-[0.92rem]">
+      <summary className="cursor-pointer font-medium text-ink">Was Congress on their side?</summary>
+      <ChartCard
+      className="mt-2"
+      title="Congress and the White House, 1945 to today"
       takeaway={
         <>
           Since 1945, one party held the White House and both chambers of Congress for <b className="font-semibold">{Math.round(whole.both)}</b> of {Math.round(whole.total)} years.
@@ -80,23 +79,17 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
           Republican
         </span>
         <span className={LEGEND_ITEM}>
-          <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("T") }} />
-          Court split evenly
+          <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyTint("D", 40) }} />
+          One chamber
         </span>
       </div>
-      <p className="m-0 mt-2 text-[0.8rem]">
-        <Link href="/timeline" className={`font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent ${FOCUS_RING}`}>
-          See the laws and cases on the full timeline →
-        </Link>
-      </p>
       <MethodologyNote>
         <p>
-          The strip fills while one party held the White House, both chambers and the Court, and is lightly tinted while it held the White House and Congress but not the Court. Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
-          <SourceLink id="house-party-division">House historian</SourceLink> and the <SourceLink id="senate-party-division">Senate Historical Office</SourceLink>. The Court row shows the party of the presidents who appointed its sitting majority (a justice counts with the party of the president who first appointed them, from the{" "}
-          <SourceLink id="fjc">Federal Judicial Center</SourceLink>), labelled 7&ndash;2, 5&ndash;4 and so on. Who held power describes the setting of a presidency, not its cause. Full method on the{" "}
-          <Link href="/timeline" className="underline underline-offset-2 hover:text-ink">timeline</Link>.
+          The strip fills while one party held the White House and both chambers of Congress, is lightly tinted while it held one chamber, and is empty when it held neither, the same measure as the &ldquo;Congress on their side&rdquo; column below. Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
+          <SourceLink id="house-party-division">House historian</SourceLink> and the <SourceLink id="senate-party-division">Senate Historical Office</SourceLink>; senators who caucused with a party count with it. Who held Congress describes the setting of a presidency, not its cause.
         </p>
       </MethodologyNote>
     </ChartCard>
+    </details>
   );
 }
