@@ -44,11 +44,13 @@ export interface StackBand {
   to: number;
   /** Any SVG fill; with it the label is drawn in white. Without, the neutral alternating grays. */
   fill?: string;
+  /** Full name of a president band ("Barack Obama"), so a tap can offer their page; `label` is often the last name alone. */
+  president?: string;
 }
 
 const noop = () => {};
 /** The non-tappable twin of `PressableBand`, so a band is one element either way. */
-function PlainBand({ children }: { label: string; picked: boolean; faded: boolean; onPress: () => void; children: ReactNode }) {
+function PlainBand({ children }: { label: string; picked: boolean; faded: boolean; onPress: () => void; president?: string; children: ReactNode }) {
   return <g>{children}</g>;
 }
 
@@ -389,7 +391,7 @@ export function StackedBars<C extends StackColumn>({
                     const press = bandPress(i);
                     const Wrap = press ? PressableBand : PlainBand;
                     return (
-                      <Wrap key={b.id} label={`${b.label}: tap to ${press?.picked ? "drop" : "show"} these years`} picked={press?.picked ?? false} faded={press?.faded ?? false} onPress={press?.onPress ?? noop}>
+                      <Wrap key={b.id} label={`${b.label}: tap to ${press?.picked ? "drop" : "show"} these years`} president={b.president} picked={press?.picked ?? false} faded={press?.faded ?? false} onPress={press?.onPress ?? noop}>
                         <title>{b.label}</title>
                         {b.fill ? (
                           <>

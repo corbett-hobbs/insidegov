@@ -337,7 +337,7 @@ export const METHODOLOGY: MethodGroup[] = [
         vertical: "shared",
         title: "Biographies and photos",
         description:
-          "Short biographies on member and justice pages, and portraits of current members and of justices whose picture is public domain.",
+          "Short biographies on member, justice and president pages, and portraits of current members and of justices and presidents whose picture is public domain.",
         sources: [
           { name: "Wikipedia", url: "https://www.wikipedia.org/" },
           { name: "@unitedstates/images", url: "https://github.com/unitedstates/images", note: "member portraits from the Government Publishing Office" },

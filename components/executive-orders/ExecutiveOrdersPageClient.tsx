@@ -61,7 +61,7 @@ function termBands(admins: readonly EoAdmin[], firstYear: number, columns: numbe
     const to = a.end
       ? Math.min(columns, dateIndex(new Date(Date.parse(`${a.end}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10), firstYear))
       : columns;
-    return to > from ? [{ id: a.termId, label: lastName(a.president), from, to, fill: a.party === "Democratic" ? "var(--dem)" : "var(--rep)" }] : [];
+    return to > from ? [{ id: a.termId, label: lastName(a.president), president: a.president, from, to, fill: a.party === "Democratic" ? "var(--dem)" : "var(--rep)" }] : [];
   });
 }
 

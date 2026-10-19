@@ -7,11 +7,15 @@ import { committeePath } from "./committee-url";
 import { justicePath } from "./justice-url";
 import { stateName } from "./states";
 import { branches } from "./verticals";
+import { getPresidents } from "./president-data";
+import { ordinalWord, termYears } from "./president-derive";
+import { presidentPath } from "./president-url";
 import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "./site-info";
 import type { SearchEntry } from "./site-search";
 
 /** Extra words people type for a page, keyed by `/<vertical>/<section>`. */
 const PAGE_ALIASES: Record<string, string> = {
+  "/presidency/presidents": "president list directory white house administrations",
   "/presidency/executive-orders": "eo orders president",
   "/presidency/economy": "jobs unemployment inflation gdp gas prices",
   "/presidency/energy": "oil electricity lng spr petroleum reserve",
@@ -42,7 +46,7 @@ const STATIC_LABELS: Record<(typeof STATIC_PAGES)[number], string> = {
 
 const PARTY = { dem: "D", rep: "R", other: "I" } as const;
 
-/** Every entity the homepage search can jump to: live section pages, current members, justices, committees. */
+/** Every entity the homepage search can jump to: live section pages, presidents, current members, justices, committees. */
 export function getSiteSearchIndex(): SearchEntry[] {
   const pages: SearchEntry[] = [
     ...branches
@@ -56,6 +60,11 @@ export function getSiteSearchIndex(): SearchEntry[] {
     ...CROSS_BRANCH_PAGES.map((p): SearchEntry => ({ n: "Who held power when it happened", s: "All three branches", u: p.href, k: "page", a: "timeline landmark laws cases president senate house court party control history" })),
     ...STATIC_PAGES.map((u): SearchEntry => ({ n: STATIC_LABELS[u], s: "InsideGov", u, k: "page" })),
   ];
+
+  // Presidents are pages, listed with the other pages; their aliases catch the ordinal ("44th").
+  const presidents = getPresidents().map(
+    (p): SearchEntry => ({ n: p.name, s: `President · ${p.terms.map(termYears).join(", ")}`, u: presidentPath(p.slug), k: "page", a: p.terms.map((t) => ordinalWord(t.ordinal)).join(" ") }),
+  );
 
   const members = getMemberSearchIndex().map((m): SearchEntry => {
     const seat = m.chamber === "senate" ? m.state : m.district ? `${m.state}-${m.district}` : `${m.state}-AL`;
@@ -82,5 +91,5 @@ export function getSiteSearchIndex(): SearchEntry[] {
     }),
   );
 
-  return [...pages, ...members, ...justices, ...committees];
+  return [...pages, ...presidents, ...members, ...justices, ...committees];
 }

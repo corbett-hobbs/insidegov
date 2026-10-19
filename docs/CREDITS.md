@@ -166,6 +166,18 @@ Martin-Quinn and FJC attribution for the justice pages is as above.
 
 ---
 
+## Wikipedia and Wikimedia Commons — president bios and portraits
+
+President bios (`pipeline/output/president_bios.json`) are the first two sentences
+of each president's English Wikipedia article, CC BY-SA 4.0, credited with a link
+under the text on each president page. Portraits are the article's lead image,
+kept only when the Commons file's license metadata says public domain (official
+White House and Library of Congress portraits, works of the U.S. government);
+committed to `public/images/presidents/` with the source file recorded per row.
+Refresh with `pnpm fetch:president-bios`.
+
+---
+
 ## Federal Register — executive orders
 
 Executive-order text, numbers, dates, issuing agencies and amend/revoke notes
