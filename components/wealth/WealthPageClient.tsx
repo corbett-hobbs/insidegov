@@ -1,6 +1,7 @@
 "use client";
 
 import { HowToRead } from "@/components/HowToRead";
+import { SourceLink } from "@/components/SourceLink";
 import { useMemo, useState } from "react";
 import { stateName } from "@/lib/states";
 import type { ChamberView } from "@/lib/chamber";
@@ -105,6 +106,10 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
           party={party}
         />
         <UpNext />
+
+        <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
+          Source: annual financial disclosure reports filed with the <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink> and the <SourceLink id="senate-efd">Senate Electronic Financial Disclosure system</SourceLink>. Disclosures report each asset and debt as a value band, not an exact figure, so net worth here is an estimate from the band midpoints. Only filings parsed with high confidence are used. Current members and their party, chamber and state come from <SourceLink id="congress-legislators">congress-legislators</SourceLink>.
+        </p>
       </main>
     </>
   );
