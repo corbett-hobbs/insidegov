@@ -26,10 +26,12 @@ import { getAidPayload } from "./foreign-aid-data";
 import { decodeAid, spendingByYear, topRecipientsByYear } from "./foreign-aid-derive";
 import { getTroopsPayload } from "./troops-data";
 import { decodeTroops, periodView } from "./troops-derive";
+import { lawMajorFile } from "./laws-entities";
 import { energyObservation } from "./energy-entities";
 import { groupObservations } from "./energy-derive";
 import {
   addDays,
+  biggestMajorLaw,
   buildPresidents,
   congressSummary,
   countByTermYear,
@@ -309,7 +311,7 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
     now,
   ).map((a) => {
     const profile = getJusticeProfile(a.id);
-    return { ...a, name: profile?.justice.name ?? a.name, path: profile ? justicePath(profile.justice) : null, photo: profile?.photoSrc ?? null };
+    return { ...a, name: profile?.justice.name ?? a.name, path: profile ? justicePath(profile.justice) : null, photo: profile?.photoSrc ?? null, serving: justicesCache!.find((j) => j.justice_id === a.id)?.service_end === null };
   });
 
   return {
@@ -327,19 +329,55 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
   };
 }
 
+let majorRankCache: Map<string, number> | null = null;
+
+/** Law id -> rank for `biggestMajorLaw`: 2 when Mayhew prints its entry in capitals and the entry names only that law, 1 when the capitals entry is shared. */
+function majorRanks(): Map<string, number> {
+  if (majorRankCache) return majorRankCache;
+  const { laws } = lawMajorFile.parse(read("laws_major.json"));
+  const sharedBy = new Map<string, number>();
+  for (const entries of Object.values(laws)) for (const e of entries) if (e[2] === 1) sharedBy.set(e[0], (sharedBy.get(e[0]) ?? 0) + 1);
+  majorRankCache = new Map(
+    Object.entries(laws).map(([id, entries]) => {
+      const caps = entries.filter((e) => e[2] === 1);
+      return [id, caps.length === 0 ? 0 : caps.some((e) => sharedBy.get(e[0]) === 1) ? 2 : 1] as const;
+    }),
+  );
+  return majorRankCache;
+}
+
 /** The directory rows, newest first (lists with dates run newest first). */
 export function getPresidentDirectory(): PresidentSummary[] {
+  const ranks = majorRanks();
   return getPresidents()
     .map((p) => {
       const page = getPresidentPage(p.slug)!;
+      const laws = page.laws;
+      const top = laws ? biggestMajorLaw(laws.majorList, (l) => ranks.get(l.path.split("/")[3]) ?? 0) : null;
+      const misery = page.cards.misery?.[0];
+      const pts = misery?.segments.flatMap((s) => s.points) ?? [];
       return {
         ...p,
         days: page.days,
-        laws: page.laws?.signed ?? null,
-        lawsPartial: page.laws?.coverage !== undefined,
-        eos: page.eos?.total ?? null,
-        eosPartial: page.eos?.coverage !== undefined,
-        justices: page.justices.filter((j) => !j.elevated).length,
+        major: laws?.major ?? null,
+        majorTop: top ? { title: top.title, path: top.path } : null,
+        majorFromStart: laws?.coverage === undefined,
+        majorPartial: laws?.majorPartial ?? false,
+        majorThrough: laws?.majorThrough ?? 0,
+        noLawsData: laws === null,
+        control: page.congress.days,
+        justices: page.justices
+          .filter((j) => !j.elevated)
+          .map((j) => ({ id: j.id, name: j.name, photo: j.photo, path: j.path, nominated: j.nominated, serving: j.serving })),
+        misery: misery && pts.length
+          ? {
+              segments: misery.segments.map((s) => ({ x0: s.x0, x1: s.x1, points: s.points.map((q): [number, number] => [q.x, q.value]) })),
+              first: pts[0].value,
+              last: pts[pts.length - 1].value,
+              firstLabel: pts[0].label,
+              lastLabel: pts[pts.length - 1].label,
+            }
+          : null,
       };
     })
     .reverse();
