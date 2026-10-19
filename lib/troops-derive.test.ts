@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { administration } from "./executive-orders-entities";
 import { REGION_IDS, regionOf } from "./troops-regions";
 import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
-import { buildTroopsPayload, changeVsPrior, contingencyAt, topHostRuns, topHostsByYear, decodeTroops, formatCountAxis, yearLabelEvery, niceCountTicks, periodView, priorPeriodView, formatCountChange, quarterEnd, quarterOf, stackByRegion, termOnDate, unavailable } from "./troops-derive";
+import { buildTroopsPayload, changeVsPrior, contingencyAt, topHostRuns, topHostsByYear, decodeTroops, formatCountAxis, yearLabelEvery, niceCountTicks, periodView, priorPeriodView, formatCountChange, quarterEnd, quarterOf, stackByBranch, stackByRegion, termOnDate, unavailable } from "./troops-derive";
 import { historyMeta, historyRow, troopsMeta, troopsRow } from "./troops-entities";
 
 const read = (f: string) => JSON.parse(readFileSync(`pipeline/output/${f}`, "utf8")) as unknown;
@@ -299,5 +299,19 @@ describe("per-host change column", () => {
     const yi = yidx(2019);
     const prior = priorPeriodView(data, 0, yi)!;
     expect(prior.ranked).toEqual(periodView(data, 0, payload.years[yi - 1].period).ranked);
+  });
+});
+
+describe("stackByBranch", () => {
+  it("adds up to the region stack's total in every year", () => {
+    const a = stackByRegion(data, 0, 0, payload.years.length - 1);
+    const b = stackByBranch(data, 0, 0, payload.years.length - 1);
+    a.forEach((s, i) => expect(b[i].total).toBe(s.total));
+  });
+  it("a branch pick keeps only that branch", () => {
+    const y = yidx(2015);
+    const s = stackByBranch(data, 2, y, y)[0];
+    expect(s.regions.filter((v, k) => v > 0 && k !== 1)).toEqual([]);
+    expect(s.total).toBe(s.regions[1]);
   });
 });

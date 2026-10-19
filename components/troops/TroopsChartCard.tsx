@@ -5,8 +5,9 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM } from "@/components/charts/legend";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
-import { REGIONS } from "@/lib/troops-regions";
-import { changeVsPrior, formatCount, measureLabel, stackByRegion } from "@/lib/troops-derive";
+import { BRANCH_SERIES, REGIONS } from "@/lib/troops-regions";
+import { PillGroup } from "@/components/charts/PillGroup";
+import { changeVsPrior, formatCount, measureLabel, stackByBranch, stackByRegion } from "@/lib/troops-derive";
 import { useTroopsState } from "./TroopsState";
 import { TroopsChart } from "./TroopsChart";
 import { Reading, RegionLegend, TD, TH, TableView } from "./shared";
@@ -18,21 +19,26 @@ import { TROOPS_BREAK_NOTE, TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
 export function TroopsChartCard() {
   const { data, yi, range, country, measure } = useTroopsState();
   const { periods, years, places } = data.payload;
-  const stacks = useMemo(() => stackByRegion(data, measure, range[0], range[1], country), [data, measure, range, country]);
+  const [by, setBy] = useState<"region" | "branch">("region");
+  const series = by === "region" ? REGIONS : BRANCH_SERIES;
+  const stacks = useMemo(
+    () => (by === "region" ? stackByRegion(data, measure, range[0], range[1], country) : stackByBranch(data, measure, range[0], range[1], country)),
+    [data, measure, range, country, by],
+  );
   const [pick, setPick] = useState<string | null>(null);
   const shown = useMemo(() => {
-    const k = pick === null ? -1 : REGIONS.findIndex((r) => r.id === pick);
-    if (k < 0 || country >= 0) return stacks;
+    const k = pick === null ? -1 : series.findIndex((r) => r.id === pick);
+    if (k < 0 || (by === "region" && country >= 0)) return stacks;
     return stacks.map((s) => {
       const regions = s.regions.map((v, j) => (j === k ? v : 0));
       return { ...s, regions, total: regions[k] };
     });
-  }, [stacks, pick, country]);
+  }, [stacks, pick, country, series, by]);
   const cur = stacks.find((s) => s.yi === yi);
   const change = changeVsPrior(data, measure, yi, country);
   const showing = [country >= 0 ? places[country].name : null, measure > 0 ? measureLabel(measure) : null].filter(Boolean);
   const anyUnavailable = stacks.some((s) => s.unavailable);
-  const only = country >= 0 ? places[country].region : null;
+  const only = by === "region" && country >= 0 ? places[country].region : null;
   const anyEstimate = stacks.some((x) => periods[x.pi].estimate && !x.unavailable);
   const year = years[yi];
   const p = periods[year.period];
@@ -56,12 +62,28 @@ export function TroopsChartCard() {
     <ChartCard
       title={TROOPS_TAKEAWAYS.abroad.title}
       takeaway={takeaway}
-      action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")} only</span> : undefined}
+      action={
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          {showing.length > 0 && <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")} only</span>}
+          <PillGroup
+            ariaLabel="Stack bars by"
+            value={by}
+            onChange={(v) => {
+              setBy(v);
+              setPick(null);
+            }}
+            options={[
+              { value: "region", label: "Region" },
+              { value: "branch", label: "Branch" },
+            ]}
+          />
+        </div>
+      }
     >
       {panel}
       <Reading>{reading}</Reading>
-      <TroopsChart stacks={shown} />
-      <RegionLegend only={only} picked={pick} onPick={(id) => setPick((c) => (c === id ? null : id))}>
+      <TroopsChart stacks={shown} series={series} by={by} />
+      <RegionLegend series={series} only={only} picked={pick} onPick={(id) => setPick((c) => (c === id ? null : id))}>
         {anyUnavailable && (
           <span className={LEGEND_ITEM}>
             <i className="inline-block h-[10px] w-[10px] rounded-[2px] border border-dashed border-ink-faint" />
@@ -78,16 +100,16 @@ export function TroopsChartCard() {
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Bars count active-duty personnel by place of duty, stacked by region; the band under the axis is the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, <SourceLink id="dmdc">DMDC</SourceLink>&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
+            Bars count active-duty personnel by place of duty, stacked by {by}; the band under the axis is the president in office on the snapshot date (<span style={{ color: "var(--rep)" }}>■</span> Republican <span style={{ color: "var(--dem)" }}>■</span> Democratic). Sep 2006 and 2007 are estimates (lighter bars) and the latest year is partial (hatched). For Iraq and Afghanistan in 2003&ndash;2005, <SourceLink id="dmdc">DMDC</SourceLink>&rsquo;s country tables print zero, so bars use its separate theatre totals, a different basis from the country counts (dashed boxes mark them).
           </p>
           <p>{TROOPS_BREAK_NOTE}</p>
         </MethodologyNote>
-        <TableView caption="Active-duty personnel abroad by region and year">
+        <TableView caption={`Active-duty personnel abroad by ${by} and year`}>
           <thead>
             <tr>
               <th className={TH}>Year</th>
               <th className={TH}>Total</th>
-              {REGIONS.map((r) => (
+              {series.map((r) => (
                 <th key={r.id} className={TH}>
                   {r.label}
                 </th>

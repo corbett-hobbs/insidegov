@@ -10,7 +10,7 @@ import { findExtremes } from "@/lib/chart-extremes";
 import { yGutter } from "@/lib/chart-bars";
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { useElementWidth } from "@/lib/use-element-width";
-import { REGIONS } from "@/lib/troops-regions";
+import type { StackSeries } from "@/lib/troops-regions";
 import { contingencyAt, formatCount, formatCountAxis, formatCountCompact, measureLabel, niceCountTicks, termOnDate, yearLabelEvery, type RegionStack } from "@/lib/troops-derive";
 import { MEASURES } from "@/lib/troops-types";
 import { useTroopsState } from "./TroopsState";
@@ -51,7 +51,7 @@ type MarkerId = keyof typeof MARKER_NOTES;
  * (tap to pin) explain what changes: the source and afloat coverage before 2008, the 2003-05 Iraq/Afghanistan gap (whose
  * DMDC deployment totals are drawn as dashed boxes above those bars), the 2006-07 estimates, and the 2018 definition change.
  */
-export function TroopsChart({ stacks }: { stacks: RegionStack[] }) {
+export function TroopsChart({ stacks, series, by }: { stacks: RegionStack[]; series: readonly StackSeries[]; by: "region" | "branch" }) {
   const { data, yi, range, setYear, country, measure } = useTroopsState();
   const { periods, years, terms, places, breakYear } = data.payload;
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
@@ -196,7 +196,7 @@ export function TroopsChart({ stacks }: { stacks: RegionStack[] }) {
         width={width}
         height={height}
         margin={{ top: mt, right: mr, bottom: mb, left: ml }}
-        ariaLabel={`Stacked bars of active-duty personnel stationed abroad by region, ${years[range[0]].fy} to ${years[range[1]].fy}, ${MEASURES[measure].label}${countryName ? `, ${countryName} only` : ""}`}
+        ariaLabel={`Stacked bars of active-duty personnel stationed abroad by ${by}, ${years[range[0]].fy} to ${years[range[1]].fy}, ${MEASURES[measure].label}${countryName ? `, ${countryName} only` : ""}`}
         svgRef={svgRef}
         onPointerLeave={onLeave}
         svgProps={{ onPointerDown: onDown, onPointerMove: onMove, onPointerUp: onUp, onPointerCancel: onUp, style: { cursor: "crosshair", touchAction: "pan-y" } }}
@@ -231,7 +231,7 @@ export function TroopsChart({ stacks }: { stacks: RegionStack[] }) {
                       const y1 = y(acc + v);
                       const h = y(acc) - y1;
                       acc += v;
-                      return <rect key={k} x={x} y={y1} width={bw} height={Math.max(h, 0)} style={{ fill: REGIONS[k].color }} />;
+                      return <rect key={k} x={x} y={y1} width={bw} height={Math.max(h, 0)} style={{ fill: series[k].color }} />;
                     })}
                   </g>
                   {(years[s.yi].partial || estimate) && acc > 0 && (
@@ -357,14 +357,14 @@ export function TroopsChart({ stacks }: { stacks: RegionStack[] }) {
         </div>
       )}
 
-      <Tooltip state={tip.state}>{(i) => <ChartTip yi={i} stack={byYi.get(i)} measure={measure} />}</Tooltip>
+      <Tooltip state={tip.state}>{(i) => <ChartTip yi={i} stack={byYi.get(i)} measure={measure} series={series} />}</Tooltip>
     </div>
   );
 }
 
 const SOURCE_TEXT = { dmdc_location: "DMDC location table", dmdc_309a: "DMDC 309A table", troopdata: "troopdata compilation of DMDC reports" } as const;
 
-function ChartTip({ yi, stack, measure }: { yi: number; stack: RegionStack | undefined; measure: number }) {
+function ChartTip({ yi, stack, measure, series }: { yi: number; stack: RegionStack | undefined; measure: number; series: readonly StackSeries[] }) {
   const { data, country } = useTroopsState();
   const { periods, years, terms, places } = data.payload;
   const year = years[yi];
@@ -392,8 +392,8 @@ function ChartTip({ yi, stack, measure }: { yi: number; stack: RegionStack | und
           {rowsOut.map(([v, k]) => (
             <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 14 }}>
               <span>
-                <i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 2, marginRight: 6, background: REGIONS[k].color, outline: "1px solid color-mix(in oklab, var(--bg) 40%, transparent)" }} />
-                {REGIONS[k].label}
+                <i style={{ display: "inline-block", width: 9, height: 9, borderRadius: 2, marginRight: 6, background: series[k].color, outline: "1px solid color-mix(in oklab, var(--bg) 40%, transparent)" }} />
+                {series[k].label}
               </span>
               <span className="tt-mono">{formatCount(v)}</span>
             </div>

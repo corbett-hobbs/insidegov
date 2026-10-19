@@ -269,6 +269,38 @@ export function stackByRegion(data: TroopsData, m: number, ya: number, yb: numbe
   return out;
 }
 
+/**
+ * Same stacks as `stackByRegion`, split by branch instead: army, navy, marine corps, air & space force, then the part no
+ * branch column accounts for (the 2006-07 estimates have no split). A branch pick `m > 0` keeps only that branch.
+ */
+export function stackByBranch(data: TroopsData, m: number, ya: number, yb: number, country = -1): RegionStack[] {
+  const out: RegionStack[] = [];
+  for (let yi = ya; yi <= yb; yi++) {
+    const pi = data.payload.years[yi].period;
+    const vals = [0, 0, 0, 0, 0];
+    const un = unavailable(data, m, pi);
+    if (!un) {
+      let all = 0;
+      for (const r of data.byPeriod[pi]) {
+        const pl = data.payload.places[r.place];
+        if (pl.region === null || (country >= 0 && r.place !== country)) continue;
+        if (r.state === 1 || r.v[0] === null) continue;
+        all += r.v[0];
+        let split = 0;
+        for (let k = 1; k <= 4; k++) {
+          const b = r.v[k] ?? 0;
+          split += b;
+          if (m === 0 || m === k) vals[k - 1] += b;
+        }
+        if (m === 0) vals[4] += Math.max(0, r.v[0] - split);
+      }
+      if (m > 0 && all === 0) vals.fill(0);
+    }
+    out.push({ yi, pi, regions: vals, total: vals.reduce((a, b) => a + b, 0), unavailable: un });
+  }
+  return out;
+}
+
 export interface RankedPlace {
   place: number;
   value: number;

@@ -74,3 +74,20 @@ export function regionOf(row: { class: "host" | "territory" | "afloat_unassigned
 }
 
 export const regionLabel = (id: RegionId) => REGIONS.find((r) => r.id === id)!.label;
+
+/** One stacked-bar series: a region or a branch. */
+export interface StackSeries {
+  id: string;
+  label: string;
+  short?: string;
+  color: string;
+}
+
+/** The branch split of the same stacks (the last entry is the part with no branch split, 2006-07 estimates). */
+export const BRANCH_SERIES: StackSeries[] = [
+  { id: "army", label: "Army", color: "var(--branch-army)" },
+  { id: "navy", label: "Navy", color: "var(--branch-navy)" },
+  { id: "marine_corps", label: "Marine Corps", color: "var(--branch-marine)" },
+  { id: "air_space_force", label: "Air & Space Force", color: "var(--branch-air-space)" },
+  { id: "no_split", label: "No branch split (estimate)", short: "No branch split", color: "color-mix(in oklab, var(--ink) 25%, transparent)" },
+];
