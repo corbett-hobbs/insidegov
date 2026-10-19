@@ -6,6 +6,8 @@ import { ordinalWord, termYears } from "@/lib/president-derive";
 import { fmtInt, tenureText } from "@/lib/president-format";
 import { presidentPath } from "@/lib/president-url";
 import type { PresidentSummary } from "@/lib/president-types";
+import type { TimelinePayload } from "@/lib/timeline-types";
+import { PresidentsPowerChart } from "./PresidentsPowerChart";
 import { PresidentPortrait } from "./PresidentPortrait";
 import { UpNext } from "@/components/UpNext";
 
@@ -26,7 +28,7 @@ function Num({ value, note, label }: { value: number | null; note?: string; labe
  * The Presidents directory: one row per president, newest first (lists with dates run newest first, rule 15a), with party,
  * dates, time in office and three counts. The whole row opens the president's page.
  */
-export function PresidentsDirectory({ rows }: { rows: PresidentSummary[] }) {
+export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary[]; timeline: TimelinePayload }) {
   const oldest = rows[rows.length - 1];
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
@@ -35,6 +37,8 @@ export function PresidentsDirectory({ rows }: { rows: PresidentSummary[] }) {
           Every president since {oldest.name}, newest first. Each page takes the site&rsquo;s data on the economy, immigration, trade, foreign aid, troops abroad, energy, laws, executive orders, the Supreme Court and Congress, and shows only that president&rsquo;s time in office.
         </p>
       </PageHeader>
+
+      <PresidentsPowerChart data={timeline} />
 
       <section aria-label="Presidents" className="rounded-[10px] border border-line bg-surface">
         <div className={`hidden gap-3 border-b border-line px-4 py-2 md:grid ${COLS}`}>

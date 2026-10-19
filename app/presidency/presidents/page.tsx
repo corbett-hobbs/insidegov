@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPresidentDirectory } from "@/lib/president-data";
+import { getTimelinePayload } from "@/lib/timeline-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { PresidentsDirectory } from "@/components/presidents/PresidentsDirectory";
 
@@ -19,5 +20,5 @@ export const metadata: Metadata = {
 };
 
 export default function PresidentsPage() {
-  return <PresidentsDirectory rows={getPresidentDirectory()} />;
+  return <PresidentsDirectory rows={getPresidentDirectory()} timeline={{ ...getTimelinePayload(), events: [] }} />;
 }

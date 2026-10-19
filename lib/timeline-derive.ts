@@ -223,6 +223,25 @@ export function yearsByStatus(spans: readonly Span[], lo: number, hi: number): R
   return out;
 }
 
+/**
+ * Years between two ISO dates (`to` exclusive) in which the president's party held both chambers, one, or neither.
+ * The same spans the chart draws, so a takeaway or card built from it matches the rows.
+ */
+export function chamberYears(spans: readonly Span[], from: string, to: string): { both: number; one: number; neither: number; total: number } {
+  const out = { both: 0, one: 0, neither: 0, total: 0 };
+  const lo = fracYear(from);
+  const hi = fracYear(to);
+  for (const sp of spans) {
+    const a = Math.max(fracYear(sp.from), lo);
+    const b = Math.min(fracYear(sp.to), hi);
+    if (b <= a) continue;
+    const n = (sp.st.S === sp.st.P ? 1 : 0) + (sp.st.H === sp.st.P ? 1 : 0);
+    out[n === 2 ? "both" : n === 1 ? "one" : "neither"] += b - a;
+    out.total += b - a;
+  }
+  return out;
+}
+
 const PL = { D: "Democrats", R: "Republicans" } as const;
 const ADJ = { D: "Democratic", R: "Republican" } as const;
 
