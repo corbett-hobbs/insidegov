@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { PageHeader } from "@/components/PageHeader";
 import { SourceLink } from "@/components/SourceLink";
@@ -78,6 +79,20 @@ function Economy({ r }: { r: PresidentSummary }) {
   );
 }
 
+/** A column header whose key opens on hover or keyboard focus (and on a tap, which focuses it); the key is for desktop, where the headers show. */
+function HeadTip({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <span className="group relative inline-block">
+      <span tabIndex={0} className={`${HEAD} cursor-help underline decoration-dotted decoration-line-strong underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}>
+        {label}
+      </span>
+      <span className="pointer-events-none invisible absolute left-0 top-full z-30 mt-1.5 flex w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+        {children}
+      </span>
+    </span>
+  );
+}
+
 function Key({ swatch, label }: { swatch: string; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5">
@@ -109,11 +124,20 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
           <span className={HEAD}>President</span>
           <span className={HEAD}>In office</span>
           <span className={HEAD}>Major laws</span>
-          <span className={HEAD}>Congress on their side</span>
-          <span className={HEAD}>Justices appointed</span>
+          <HeadTip label="Congress on their side">
+            <Key swatch="linear-gradient(90deg, var(--dem) 50%, var(--rep) 50%)" label="their party held both chambers" />
+            <Key swatch="linear-gradient(90deg, color-mix(in oklab, var(--dem) 40%, var(--surface)) 50%, color-mix(in oklab, var(--rep) 40%, var(--surface)) 50%)" label="one chamber" />
+            <Key swatch={NEITHER} label="neither chamber" />
+          </HeadTip>
+          <HeadTip label="Justices appointed">
+            <span className="inline-flex items-center gap-1.5">
+              <i aria-hidden className="inline-block size-[7px] rounded-full bg-ink" />
+              justice still serving
+            </span>
+          </HeadTip>
           <span className={HEAD}>Misery, in → out</span>
         </div>
-        <p className="m-0 flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-line px-4 py-2 text-[0.72rem] text-ink-muted">
+        <p className="m-0 flex md:hidden flex-wrap items-center gap-x-4 gap-y-1 border-b border-line px-4 py-2 text-[0.72rem] text-ink-muted">
           <span>Congress bar:</span>
           <Key swatch="linear-gradient(90deg, var(--dem) 50%, var(--rep) 50%)" label="their party held both chambers" />
           <Key swatch="linear-gradient(90deg, color-mix(in oklab, var(--dem) 40%, var(--surface)) 50%, color-mix(in oklab, var(--rep) 40%, var(--surface)) 50%)" label="one chamber" />
