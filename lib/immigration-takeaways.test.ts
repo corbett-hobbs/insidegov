@@ -288,14 +288,17 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
   },
   refugeeTop: {
     says: [
-      "The State Department’s FY2015 report to Congress said Congolese admissions would rise steadily",
-      "as it helped UNHCR resettle at least 50k worldwide over four to five years",
-      "the DRC led from FY2016",
-      "Regional determinations for FY2018–FY2023 all gave Africa the largest share",
+      "The State Department’s FY2015 report said fighting between Congo’s government and M23 rebels since mid-2012",
+      "left the east too insecure for refugees to return",
+      "Congolese admissions would rise steadily",
+      "The DRC led from FY2016",
+      "FY2018–FY2023 determinations all gave Africa the largest share",
     ],
     check: () => {
-      // The report (September 2014): "In the coming years that number will rise steadily. We continue to work closely with UNHCR
-      // to help it resettle at least 50,000 Congolese worldwide over the next 4-5 years."
+      // The report (September 2014), Africa section: "Intensified conflict in eastern DRC since mid-2012 has led an additional
+      // 170,000 Congolese to seek asylum" and "renewed hostilities between the GDRC and the M23 rebel group ... erased most of
+      // these gains and North and South Kivu provinces and Katanga remain mostly too insecure for large-scale refugee return."
+      // Its overview: "In the coming years that number will rise steadily."
       const leader = (fy: number) => refugees.countries[at(topByYear(refugees, fy, fy), fy).ranked[0].ci].name;
       expect(leader(2015)).not.toBe("Democratic Republic of the Congo");
       expect(leader(2016)).toBe("Democratic Republic of the Congo");
