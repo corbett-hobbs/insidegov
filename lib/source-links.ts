@@ -45,6 +45,8 @@ export const SOURCE_LINKS = {
   // The timeline's events each link their own article; the Source line names the site.
   wikipedia: "https://en.wikipedia.org/",
   "wikipedia-landmark-decisions": "https://en.wikipedia.org/wiki/List_of_landmark_court_decisions_in_the_United_States",
+  // The Members directory's "Most looked up" order (pipeline/wikipedia/pageviews.ts).
+  "wikimedia-pageviews": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/reference/page-views.html",
   // The presidency
   "federal-register-eo": "https://www.federalregister.gov/presidential-documents/executive-orders",
   // Federal Register search for the Presidential Determinations on refugee

@@ -470,10 +470,10 @@
   {
     "bioguide_id": "B001322",
     "title": "Michael Baumgartner",
-    "extract": "Michael James Baumgartner is an American politician and former diplomat serving as the U.S. representative from Washington's 5th congressional district since 2025.",
+    "extract": "Michael James Baumgartner is an American politician. He is the U.S. representative from Washington's 5th congressional district since 2025.",
     "url": "https://en.wikipedia.org/wiki/Michael_Baumgartner",
-    "revision": "1376025504",
-    "fetched_at": "2026-09-29",
+    "revision": "1380982380",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {
@@ -767,10 +767,10 @@
   {
     "bioguide_id": "C001098",
     "title": "Ted Cruz",
-    "extract": "Rafael Edward Cruz is a Canadian-born American politician and attorney serving since 2013 as the junior United States Senator from Texas. A member of the Republican Party, he served from 2003 to 2008 as the third Solicitor General of Texas.",
+    "extract": "Rafael Edward Cruz is a Canadian-born American politician and attorney serving as the junior United States senator from Texas since 2013. A member of the Republican Party, he served from 2003 to 2008 as the third solicitor general of Texas.",
     "url": "https://en.wikipedia.org/wiki/Ted_Cruz",
-    "revision": "1378598725",
-    "fetched_at": "2026-10-05",
+    "revision": "1380968313",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {
@@ -1451,10 +1451,10 @@
   {
     "bioguide_id": "F000478",
     "title": "Russell Fry",
-    "extract": "Russell William Fry is an American politician and lawyer serving as the U.S. representative for South Carolina's 7th congressional district since 2023. Previously, he represented the 106th District in the South Carolina House of Representatives from 2015 to 2023.",
+    "extract": "Russell William Fry is an American politician and lawyer serving as the U.S. representative for South Carolina's 7th congressional district since 2023. Previously, he represented the 106th District in the South Carolina House of Representatives from 2015 to 2022.",
     "url": "https://en.wikipedia.org/wiki/Russell_Fry",
-    "revision": "1374360695",
-    "fetched_at": "2026-09-29",
+    "revision": "1380954834",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {
@@ -2261,10 +2261,10 @@
   {
     "bioguide_id": "K000009",
     "title": "Marcy Kaptur",
-    "extract": "Marcia Carolyn Kaptur is an American politician serving as the U.S. representative for Ohio's 9th congressional district since 1983. Her district stretches across northwestern Ohio along the southern shore of Lake Erie and includes parts of Toledo and surrounding communities.",
+    "extract": "Marcia Carolyn Kaptur is an American politician serving in her 22nd term as the U.S. representative for Ohio's 9th congressional district, having first been elected in 1983. Her district stretches across northwestern Ohio along the southern shore of Lake Erie and includes parts of Toledo and surrounding communities.",
     "url": "https://en.wikipedia.org/wiki/Marcy_Kaptur",
-    "revision": "1377488422",
-    "fetched_at": "2026-09-29",
+    "revision": "1380828250",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {
@@ -2918,10 +2918,10 @@
   {
     "bioguide_id": "M001198",
     "title": "Roger Marshall",
-    "extract": "Roger Wayne Marshall is an American politician, physician, and former military officer serving as the junior United States senator from Kansas since 2021. From 2017 to 2021, he was the U.S. representative for Kansas's 1st congressional district, a mostly rural district covering much of western and northern Kansas.",
+    "extract": "Roger Wayne Marshall is an American politician, physician, and former military officer serving as the junior United States senator from Kansas since 2021. A member of the Republican Party, he was the U.S. representative for Kansas's 1st congressional district from 2017 until 2021.",
     "url": "https://en.wikipedia.org/wiki/Roger_Marshall",
-    "revision": "1377166369",
-    "fetched_at": "2026-09-29",
+    "revision": "1380948336",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {
@@ -3116,10 +3116,10 @@
   {
     "bioguide_id": "M001227",
     "title": "Jennifer McClellan",
-    "extract": "Jennifer Leigh McClellan is an American politician and attorney serving as the U.S. representative for Virginia's 4th congressional district since 2023.",
+    "extract": "Jennifer Leigh McClellan is an American politician and attorney who has served as the U.S. representative for Virginia's 4th congressional district since 2023.",
     "url": "https://en.wikipedia.org/wiki/Jennifer_McClellan",
-    "revision": "1374425313",
-    "fetched_at": "2026-09-29",
+    "revision": "1380086438",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {
@@ -4691,10 +4691,10 @@
   {
     "bioguide_id": "W000805",
     "title": "Mark Warner",
-    "extract": "Mark Robert Warner is an American businessman and politician serving as the senior United States senator from Virginia, a seat he has held since 2009. A member of the Democratic Party, Warner served as the 69th governor of Virginia from 2002 to 2006.",
+    "extract": "Mark Robert Warner is an American politician and businessman serving as the senior United States senator from Virginia, a seat he has held since 2009. A member of the Democratic Party, Warner served from 2002 to 2006 as the 69th governor of Virginia.",
     "url": "https://en.wikipedia.org/wiki/Mark_Warner",
-    "revision": "1371700151",
-    "fetched_at": "2026-09-29",
+    "revision": "1380902585",
+    "fetched_at": "2026-10-19",
     "needs_review": false
   },
   {

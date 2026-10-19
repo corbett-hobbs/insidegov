@@ -1,5 +1,5 @@
 /**
- * Shared Wikipedia REST `page/summary` client for the build-time bio fetchers
+ * Shared Wikipedia HTTP client (retries, UA, pool) for the build-time bio fetchers
  * (`fetch/wikipedia.ts` members, `fetch/wikipedia-committees.ts` committees).
  */
 /** Wikimedia asks for a descriptive UA with a way to reach the operator. */
