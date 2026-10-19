@@ -13,7 +13,7 @@ import { presidentPath, PRESIDENTS_PATH } from "@/lib/president-url";
 import type { PresidentPageData, SeriesCardId, SeriesPanel } from "@/lib/president-types";
 import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
 import { PresidentPortrait } from "./PresidentPortrait";
-import { NOTES } from "./notes";
+import { MORE, NOTES } from "./notes";
 
 const LINK = "font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
@@ -105,7 +105,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
   const ordinals = p.terms.map((t) => ordinalWord(t.ordinal)).join(" and ");
 
   const lawsTakeaway = data.laws
-    ? `Signed ${fmtInt(data.laws.signed)} laws${data.laws.major !== null ? `, ${fmtInt(data.laws.major)} of them on David Mayhew's list of major laws` : ""}${data.laws.overridden ? `. Congress enacted ${fmtInt(data.laws.overridden)} more over a veto` : ""}.`
+    ? `Signed ${fmtInt(data.laws.signed)} laws${data.laws.major !== null ? `, ${fmtInt(data.laws.major)} of them major laws` : ""}${data.laws.overridden ? `. Congress enacted ${fmtInt(data.laws.overridden)} more over a veto` : ""}.`
     : "";
   const eosTakeaway = data.eos
     ? `Signed ${fmtInt(data.eos.total)} executive orders${data.eos.topics[0] ? `; the most common topic was ${data.eos.topics[0].label.toLowerCase()} (${fmtInt(data.eos.topics[0].n)})` : ""}.`
@@ -187,8 +187,8 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
       </div>
 
       <Row label="Who held power" id="power">
-        <CongressCard congress={data.congress} takeaway={congressTakeaway(data.congress, p.party)} notes={NOTES.congress} />
-        <JusticesCard justices={data.justices} takeaway={justicesTakeaway(data)} notes={NOTES.justices} />
+        <CongressCard congress={data.congress} takeaway={congressTakeaway(data.congress, p.party)} notes={NOTES.congress} more={MORE.congress} />
+        <JusticesCard justices={data.justices} takeaway={justicesTakeaway(data)} notes={NOTES.justices} more={MORE.justices} />
       </Row>
 
       {counts.length > 0 && (
@@ -204,6 +204,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
               breakdownLabel="By policy area"
               president={lite}
               notes={NOTES.laws(data.laws.dataThrough)}
+              more={MORE.laws}
               wide={counts.length === 1}
             />
           )}
@@ -218,14 +219,16 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
               breakdownLabel="By topic"
               president={lite}
               notes={NOTES.eos}
+              more={MORE.eos}
               wide={counts.length === 1}
             />
           )}
           {data.laws && data.laws.majorList.length > 0 && (
             <MajorLawsCard
               laws={data.laws.majorList}
-              takeaway={`${fmtInt(data.laws.majorList.length)} of the laws ${p.last} signed are on David Mayhew's list of important enactments, newest first.${data.laws.majorPartial ? ` The list runs through the ${ordinalWord(data.laws.majorThrough)} Congress, so later laws are not yet assessed.` : ""}`}
+              takeaway={`${fmtInt(data.laws.majorList.length)} of the laws ${p.last} signed are counted as important enactments, newest first, with how each passed the House and Senate.${data.laws.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
               notes={NOTES.major}
+              more={MORE.major}
             />
           )}
         </Row>
@@ -247,6 +250,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
                 wide={present.length === 1}
                 president={lite}
                 notes={NOTES[id]}
+                more={MORE[id]}
               />
             ))}
           </Row>

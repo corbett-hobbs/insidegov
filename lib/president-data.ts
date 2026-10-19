@@ -10,7 +10,7 @@ import { getJusticeProfile } from "./justice-data";
 import { justicePath } from "./justice-url";
 import { getTimelinePayload } from "./timeline-data";
 import { getLawsList, getLawsPageData } from "./laws-data";
-import { seriesOf } from "./laws-derive";
+import { seriesOf, tallyText } from "./laws-derive";
 import { lawId, lawPath } from "./law-url";
 import { getExecutiveOrdersData } from "./executive-orders-data";
 import { EO_TOPICS, EO_TOPIC_LABELS, topicFill } from "./executive-orders-types";
@@ -119,7 +119,13 @@ function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
     major: assessed.length > 0 ? majorRows.length : null,
     majorThrough: page.majorThrough,
     majorPartial: signed.some((r) => r[0] > page.majorThrough),
-    majorList: majorRows.map((r) => ({ title: r[3], date: r[2], path: lawPath(lawId(r[0], r[1]), r[3]) })),
+    majorList: majorRows.map((r) => ({
+      title: r[3],
+      date: r[2],
+      path: lawPath(lawId(r[0], r[1]), r[3]),
+      summary: r[11],
+      votes: r[5] === 0 && r[6][0] === 3 && r[7][0] === 3 ? "No vote method recorded" : `${tallyText("House", r[6])} · ${tallyText("Senate", r[7])}`,
+    })),
     byYear,
     panel: { id: "laws", title: "Laws signed per year in office", kind: "bars", format: "count", color: "var(--ink-muted)", segments: termYearSegments(byYear, p.terms, now) },
     groups,

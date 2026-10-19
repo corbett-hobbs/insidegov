@@ -28,7 +28,13 @@ export interface PresidentLite {
  * notes) that the pair shares, so two cards side by side keep their titles, plots and notes rows level (rule 10r); `wide`
  * spans both columns when a card has no partner. Below `md` it is a plain column.
  */
-export function CardShell({ title, takeaway, wide, children, notes, table }: { title: string; takeaway: ReactNode; wide?: boolean; children: ReactNode; notes: ReactNode; table?: ReactNode }) {
+/** Where a card's data comes from on the site, linked quietly at the end of its notes row. */
+export interface MoreLink {
+  href: string;
+  label: string;
+}
+
+export function CardShell({ title, takeaway, wide, children, notes, table, more }: { title: string; takeaway: ReactNode; wide?: boolean; children: ReactNode; notes: ReactNode; table?: ReactNode; more?: MoreLink }) {
   return (
     <section className={`flex min-w-0 flex-col rounded-[10px] border border-line bg-surface p-[1.1rem_1.1rem_0.9rem] md:row-span-4 md:grid md:grid-rows-subgrid md:gap-y-0 ${wide ? "md:col-span-2" : ""}`}>
       <h3 className="m-0 font-serif text-[1.3rem] font-medium leading-tight">{title}</h3>
@@ -37,6 +43,11 @@ export function CardShell({ title, takeaway, wide, children, notes, table }: { t
       <ChartNotesRow className="mt-auto pt-3 md:w-full md:self-end">
         <MethodologyNote>{notes}</MethodologyNote>
         {table}
+        {more && (
+          <Link href={more.href} className="ml-auto text-[0.75rem] text-ink-muted underline decoration-line-strong underline-offset-2 hover:text-ink hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+            {more.label} →
+          </Link>
+        )}
       </ChartNotesRow>
     </section>
   );
@@ -134,12 +145,12 @@ function PanelTables({ panels }: { panels: readonly SeriesPanel[] }) {
 }
 
 /** A card of one or two series panels; `slots` is the most panels either card in the row has. */
-export function SeriesCard({ title, takeaway, panels, slots, wide, president, notes, footer }: { title: string; takeaway: ReactNode; panels: SeriesPanel[]; slots: number; wide?: boolean; president: PresidentLite; notes: ReactNode; footer?: ReactNode }) {
+export function SeriesCard({ title, takeaway, panels, slots, wide, president, notes, footer, more }: { title: string; takeaway: ReactNode; panels: SeriesPanel[]; slots: number; wide?: boolean; president: PresidentLite; notes: ReactNode; footer?: ReactNode; more?: MoreLink }) {
   const md = useMediaQuery("(min-width: 768px)");
   const extra = md ? slots - panels.length : 0;
   const plotH = PLOT_H + (extra > 0 ? (extra * (PLOT_H + PANEL_CHROME)) / panels.length : 0);
   return (
-    <CardShell title={title} takeaway={takeaway} wide={wide} notes={notes} table={<PanelTables panels={panels} />}>
+    <CardShell title={title} takeaway={takeaway} wide={wide} notes={notes} table={<PanelTables panels={panels} />} more={more}>
       {panels.map((p) => (
         <Panel key={p.id} panel={p} plotH={plotH} president={president} />
       ))}
@@ -175,7 +186,7 @@ function Breakdown({ items, label }: { items: readonly CountBreakdown[]; label: 
 }
 
 /** Laws or executive orders: bars per year in office, then the split by topic. */
-export function CountCard({ title, takeaway, panel, slots, breakdown, breakdownLabel, president, notes, coverage, wide }: { title: string; takeaway: ReactNode; panel: SeriesPanel; slots: number; breakdown: CountBreakdown[]; breakdownLabel: string; president: PresidentLite; notes: ReactNode; coverage?: string; wide?: boolean }) {
+export function CountCard({ title, takeaway, panel, slots, breakdown, breakdownLabel, president, notes, coverage, wide, more }: { title: string; takeaway: ReactNode; panel: SeriesPanel; slots: number; breakdown: CountBreakdown[]; breakdownLabel: string; president: PresidentLite; notes: ReactNode; coverage?: string; wide?: boolean; more?: MoreLink }) {
   return (
     <SeriesCard
       title={title}
@@ -185,6 +196,7 @@ export function CountCard({ title, takeaway, panel, slots, breakdown, breakdownL
       wide={wide}
       president={president}
       notes={notes}
+      more={more}
       footer={<Breakdown items={breakdown} label={breakdownLabel} />}
     />
   );
@@ -207,9 +219,9 @@ function Chip({ chamber, party, seats }: { chamber: string; party: Party; seats:
 }
 
 /** Who held the House and Senate in each Congress that sat during the time in office. */
-export function CongressCard({ congress, takeaway, notes, wide }: { congress: CongressSummary; takeaway: ReactNode; notes: ReactNode; wide?: boolean }) {
+export function CongressCard({ congress, takeaway, notes, wide, more }: { congress: CongressSummary; takeaway: ReactNode; notes: ReactNode; wide?: boolean; more?: MoreLink }) {
   return (
-    <CardShell title="Party control of Congress" takeaway={takeaway} wide={wide} notes={notes}>
+    <CardShell title="Party control of Congress" takeaway={takeaway} wide={wide} notes={notes} more={more}>
       <ul className="m-0 flex list-none flex-col gap-2 p-0">
         {[...congress.rows].reverse().map((r) => (
           <li key={r.n} className="grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2">
@@ -233,9 +245,9 @@ export function CongressCard({ congress, takeaway, notes, wide }: { congress: Co
 }
 
 /** The justices the president put on the Court, newest first, each linking to the justice's page. */
-export function JusticesCard({ justices, takeaway, notes, wide }: { justices: AppointedJustice[]; takeaway: ReactNode; notes: ReactNode; wide?: boolean }) {
+export function JusticesCard({ justices, takeaway, notes, wide, more }: { justices: AppointedJustice[]; takeaway: ReactNode; notes: ReactNode; wide?: boolean; more?: MoreLink }) {
   return (
-    <CardShell title="Supreme Court appointments" takeaway={takeaway} wide={wide} notes={notes}>
+    <CardShell title="Supreme Court appointments" takeaway={takeaway} wide={wide} notes={notes} more={more}>
       {justices.length === 0 ? (
         <p className="m-0 text-[0.85rem] text-ink-muted">No Supreme Court seat came open during this time in office.</p>
       ) : (
@@ -271,21 +283,24 @@ export function JusticesCard({ justices, takeaway, notes, wide }: { justices: Ap
   );
 }
 
-/** The signed laws on David Mayhew's list of important enactments, newest first, in a scroll box. */
-export function MajorLawsCard({ laws, notes, takeaway }: { laws: { title: string; date: string; path: string }[]; notes: ReactNode; takeaway: ReactNode }) {
+/** The signed laws marked as important enactments, newest first, in a scroll box: summary sentence and passage votes under each title, as on the Laws page. */
+export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: string; date: string; path: string; summary: string; votes: string }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
   return (
-    <CardShell title="Major laws signed" takeaway={takeaway} wide notes={notes}>
-      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[22rem] list-none flex-col overflow-y-auto overscroll-contain p-0 touch-scroll">
+    <CardShell title="Major laws signed" takeaway={takeaway} wide notes={notes} more={more}>
+      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-y-auto overscroll-contain p-0 touch-scroll">
         {laws.map((l) => (
-          <li key={l.path} className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-3 border-t border-line py-1.5 text-[0.8rem] first:border-t-0">
-            <span className="font-mono text-[0.7rem] leading-[1.6] text-ink-muted">{dateLabel(l.date)}</span>
-            <Link href={l.path} className="line-clamp-2 text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-              {l.title}
-            </Link>
+          <li key={l.path} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
+            <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{dateLabel(l.date)}</span>
+            <span className="min-w-0">
+              <Link href={l.path} className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                {l.title}
+              </Link>
+              {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
+              <span className="mt-0.5 block font-mono text-[0.7rem] tabular-nums text-ink-muted">{l.votes}</span>
+            </span>
           </li>
         ))}
       </ul>
     </CardShell>
   );
 }
-

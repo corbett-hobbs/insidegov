@@ -149,7 +149,8 @@ export interface LawsSummary {
   /** Last Congress Mayhew has assessed, and whether the time in office runs past it. */
   majorThrough: number;
   majorPartial: boolean;
-  majorList: { title: string; date: string; path: string }[];
+  /** Newest first, with the first sentence of the CRS summary ("" when none) and the passage votes as the Laws page prints them. */
+  majorList: { title: string; date: string; path: string; summary: string; votes: string }[];
   byYear: TermYearCount[];
   /** `byYear` as the card's bar panel. */
   panel: SeriesPanel;

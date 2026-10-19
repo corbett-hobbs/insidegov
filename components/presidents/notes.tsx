@@ -1,15 +1,13 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { SourceLink } from "@/components/SourceLink";
 import type { SeriesCardId } from "@/lib/president-types";
 
-const PAGE = "underline underline-offset-2 hover:text-ink";
 
 /** One "Data notes" paragraph per president-page card (rule 7: what it counts, the caveat a reader could misread, the source). */
 export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "eos", ReactNode> & { laws: (through: string) => ReactNode } = {
   congress: (
     <p>
-      Each Congress is clipped to the days this president was in office. A chamber&rsquo;s majority is the party that held it for most of those days; seat counts are at the start of the Congress, with independents counted with the party they caucused with. From the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians&rsquo; party divisions, as on the <Link href="/timeline" className={PAGE}>Timeline</Link>.
+      Each Congress is clipped to the days this president was in office. A chamber&rsquo;s majority is the party that held it for most of those days; seat counts are at the start of the Congress, with independents counted with the party they caucused with. From the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians&rsquo; party divisions.
     </p>
   ),
   justices: (
@@ -19,17 +17,17 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
   ),
   laws: (through: string) => (
     <p>
-      Public laws whose enactment date falls in the term, from <SourceLink id="congress-gov">Congress.gov</SourceLink> (93rd Congress, 1973, on; private laws left out), counted through {through}. A law enacted over a veto is not counted as signed; a bill that became law without a signature is. A bar is one year in office, from the inauguration to the day before its anniversary. Policy areas are the Congressional Research Service&rsquo;s, grouped as on the <Link href="/congress/laws" className={PAGE}>Laws page</Link>.
+      Public laws whose enactment date falls in the term, from <SourceLink id="congress-gov">Congress.gov</SourceLink> (93rd Congress, 1973, on; private laws left out), counted through {through}. A law enacted over a veto is not counted as signed; a bill that became law without a signature is. A bar is one year in office, from the inauguration to the day before its anniversary. Policy areas are the Congressional Research Service&rsquo;s, grouped as on the Laws page.
     </p>
   ),
   eos: (
     <p>
-      Executive orders signed in the term, from the <SourceLink id="federal-register-eo">Federal Register</SourceLink>, whose electronic record begins in 1994. Each order has one primary topic, assigned as on the <Link href="/presidency/executive-orders" className={PAGE}>Executive orders page</Link>. Counts say how many orders were signed, not how much they did: one order can set up a program or rename an office. A bar is one year in office.
+      Executive orders signed in the term, from the <SourceLink id="federal-register-eo">Federal Register</SourceLink>, whose electronic record begins in 1994. Each order has one primary topic, assigned as on the Executive orders page. Counts say how many orders were signed, not how much they did: one order can set up a program or rename an office. A bar is one year in office.
     </p>
   ),
   major: (
     <p>
-      Laws on <SourceLink id="mayhew">David Mayhew&rsquo;s lists</SourceLink> of important enactments, a political scientist&rsquo;s judgment from contemporary press coverage and later assessments. The lists run through the most recent Congress he has assessed, so a Congress still in session has none yet.
+      Laws counted as important enactments, the same list the Laws page uses for its &ldquo;Major law&rdquo; badge, which explains where it comes from. The list does not yet cover a Congress still in session. Each summary is the first sentence of the <SourceLink id="congress-gov">Congressional Research Service</SourceLink> summary, where one stands alone; votes are each chamber&rsquo;s final-passage tally, or how it passed without a recorded vote.
     </p>
   ),
   misery: (
@@ -44,7 +42,7 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
   ),
   arrivals: (
     <p>
-      Green cards are people who became lawful permanent residents in the fiscal year, from the <SourceLink id="ohss-yearbook">DHS Yearbook of Immigration Statistics</SourceLink> (from FY1977). Refugee admissions are from the State Department&rsquo;s <SourceLink id="wraps-admissions">Refugee Processing Center</SourceLink> (from FY1980). A fiscal year counts for the administration in office for most of its days; a hatched bar is preliminary. More on the <Link href="/presidency/immigration" className={PAGE}>Immigration page</Link>.
+      Green cards are people who became lawful permanent residents in the fiscal year, from the <SourceLink id="ohss-yearbook">DHS Yearbook of Immigration Statistics</SourceLink> (from FY1977). Refugee admissions are from the State Department&rsquo;s <SourceLink id="wraps-admissions">Refugee Processing Center</SourceLink> (from FY1980). A fiscal year counts for the administration in office for most of its days; a hatched bar is preliminary.
     </p>
   ),
   removals: (
@@ -54,22 +52,39 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
   ),
   trade: (
     <p>
-      The goods trade balance is exports minus imports of goods, in billions of dollars a month, seasonally adjusted, on the Census basis, from 1991 (<SourceLink id="census-trade">Census Bureau</SourceLink>). Below zero the U.S. imported more goods than it exported. Services are not included. Dollars are not adjusted for inflation, so later years run larger. More on the <Link href="/presidency/trade" className={PAGE}>Trade page</Link>.
+      The goods trade balance is exports minus imports of goods, in billions of dollars a month, seasonally adjusted, on the Census basis, from 1991 (<SourceLink id="census-trade">Census Bureau</SourceLink>). Below zero the U.S. imported more goods than it exported. Services are not included. Dollars are not adjusted for inflation, so later years run larger.
     </p>
   ),
   aid: (
     <p>
-      U.S. foreign assistance disbursed in each fiscal year, every country plus regional and global programs, in billions of dollars not adjusted for inflation, from <SourceLink id="foreign-assistance">ForeignAssistance.gov</SourceLink> (from FY2001). The newest year is incomplete until agencies finish reporting and is hatched. The top recipient counts countries only. More on the <Link href="/presidency/foreign-aid" className={PAGE}>Foreign aid page</Link>.
+      U.S. foreign assistance disbursed in each fiscal year, every country plus regional and global programs, in billions of dollars not adjusted for inflation, from <SourceLink id="foreign-assistance">ForeignAssistance.gov</SourceLink> (from FY2001). The newest year is incomplete until agencies finish reporting and is hatched. The top recipient counts countries only.
     </p>
   ),
   troops: (
     <p>
-      Active-duty U.S. military personnel stationed outside the United States and its territories (afloat and unassigned included where the source reports them), one snapshot a year (September; June for 1953&ndash;56), from the <SourceLink id="dmdc">Defense Manpower Data Center</SourceLink>&rsquo;s tables and, for years it did not publish, <SourceLink id="troopdata">troopdata</SourceLink>. The year in progress shows its latest quarter, hatched. From December 2017 DMDC counts permanent assignments only, so later figures leave out most deployed forces. More on the <Link href="/presidency/troops-abroad" className={PAGE}>Troops abroad page</Link>.
+      Active-duty U.S. military personnel stationed outside the United States and its territories (afloat and unassigned included where the source reports them), one snapshot a year (September; June for 1953&ndash;56), from the <SourceLink id="dmdc">Defense Manpower Data Center</SourceLink>&rsquo;s tables and, for years it did not publish, <SourceLink id="troopdata">troopdata</SourceLink>. The year in progress shows its latest quarter, hatched. From December 2017 DMDC counts permanent assignments only, so later figures leave out most deployed forces.
     </p>
   ),
   spr: (
     <p>
-      Crude oil held in the <SourceLink id="eia-spr">Strategic Petroleum Reserve</SourceLink> at the end of each week, in millions of barrels, from the Energy Information Administration (from August 1982). Sales, exchanges and refills are authorized by Congress and the executive branch at different times, and many take months to carry out. The <Link href="/presidency/energy" className={PAGE}>Energy page</Link> marks each action.
+      Crude oil held in the <SourceLink id="eia-spr">Strategic Petroleum Reserve</SourceLink> at the end of each week, in millions of barrels, from the Energy Information Administration (from August 1982). Sales, exchanges and refills are authorized by Congress and the executive branch at different times, and many take months to carry out. The Energy page marks each action.
     </p>
   ),
+};
+
+/** The site page each card's data comes from, linked at the end of the card's notes row. */
+export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos" | "major", { href: string; label: string }> = {
+  congress: { href: "/timeline", label: "Timeline" },
+  justices: { href: "/supreme-court/ideology", label: "Supreme Court" },
+  laws: { href: "/congress/laws", label: "All laws" },
+  eos: { href: "/presidency/executive-orders", label: "All executive orders" },
+  major: { href: "/congress/laws", label: "Laws page" },
+  misery: { href: "/presidency/economy", label: "Economy" },
+  fiscal: { href: "/presidency/economy", label: "Economy" },
+  arrivals: { href: "/presidency/immigration", label: "Immigration" },
+  removals: { href: "/presidency/immigration", label: "Immigration" },
+  trade: { href: "/presidency/trade", label: "Trade" },
+  aid: { href: "/presidency/foreign-aid", label: "Foreign aid" },
+  troops: { href: "/presidency/troops-abroad", label: "Troops abroad" },
+  spr: { href: "/presidency/energy", label: "Energy" },
 };
