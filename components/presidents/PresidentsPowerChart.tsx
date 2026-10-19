@@ -7,7 +7,7 @@ import { LEGEND_ITEM, LEGEND_ROW } from "../charts/legend";
 import { MethodologyNote } from "../MethodologyNote";
 import { SourceLink } from "../SourceLink";
 import { PowerChart } from "../timeline/PowerChart";
-import { FOCUS_RING, PARTY_ADJ, partyColor } from "../timeline/shared";
+import { FOCUS_RING, PARTY_ADJ, partyColor, partyTint } from "../timeline/shared";
 import { buildSpans, chamberYears, changePoints, fmtDate, powerIndex } from "@/lib/timeline-derive";
 import { presidentPathByName } from "@/lib/president-url";
 import type { TimelinePayload, TlPresident } from "@/lib/timeline-types";
@@ -78,10 +78,14 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
           <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("R") }} />
           Republican
         </span>
+        <span className={LEGEND_ITEM}>
+          <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyTint("D", 40) }} />
+          One chamber
+        </span>
       </div>
       <MethodologyNote>
         <p>
-          The strip fills while one party held the White House and both chambers of Congress, the same measure as the &ldquo;Congress on their side&rdquo; column below. Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
+          The strip fills while one party held the White House and both chambers of Congress, is lightly tinted while it held one chamber, and is empty when it held neither, the same measure as the &ldquo;Congress on their side&rdquo; column below. Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
           <SourceLink id="house-party-division">House historian</SourceLink> and the <SourceLink id="senate-party-division">Senate Historical Office</SourceLink>; senators who caucused with a party count with it. Who held Congress describes the setting of a presidency, not its cause.
         </p>
       </MethodologyNote>

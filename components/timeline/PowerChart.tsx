@@ -80,7 +80,7 @@ const pres41 = (p: TlPresident) => (p.name === "George H. W. Bush" ? ["Bush 41"]
  * all, and two rows of numbered event markers under them. Hover (or tap) the rows for who held power that month; tap a
  * president to zoom to their years; tap a marker to pin its note (rule 6). Every label shortens rather than vanishes.
  *
- * `compact` is the cut-down copy on the Presidents directory: the strip and the President, Senate and House rows only (no Court, no marker rows; the strip fills while one party held the White House and both chambers), over a fixed
+ * `compact` is the cut-down copy on the Presidents directory: the strip and the President, Senate and House rows only (no Court, no marker rows; the strip fills while one party held the White House and both chambers, and is tinted while it held one chamber), over a fixed
  * window that starts at `startIso`, with no zoom or pan. A tap on a president opens `presCard` (pinned, rule 10t) instead of zooming.
  */
 export function PowerChart({
@@ -334,8 +334,8 @@ export function PowerChart({
 
             {/* One-party strip: solid while one party held all four, a tint while it held the White House and Congress only. */}
             {spans.map((sp) =>
-              inWin(sp.from, sp.to) && (compact ? sp.st.P === sp.st.S && sp.st.S === sp.st.H : sp.st.status !== "split") ? (
-                <rect key={sp.from} x={clipX(sp.from)} y={R.one.y} width={Math.max(0, clipX(sp.to) - clipX(sp.from))} height={R.one.h} fill={compact || sp.st.status === "all4" ? partyColor(sp.st.P) : partyTint(sp.st.P, 30)} />
+              inWin(sp.from, sp.to) && (compact ? sp.st.P === sp.st.S || sp.st.P === sp.st.H : sp.st.status !== "split") ? (
+                <rect key={sp.from} x={clipX(sp.from)} y={R.one.y} width={Math.max(0, clipX(sp.to) - clipX(sp.from))} height={R.one.h} fill={(compact ? sp.st.S === sp.st.P && sp.st.H === sp.st.P : sp.st.status === "all4") ? partyColor(sp.st.P) : partyTint(sp.st.P, compact ? 40 : 30)} />
               ) : null,
             )}
 
