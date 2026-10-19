@@ -12,7 +12,7 @@ import { CROSS_BRANCH_PAGES } from "@/lib/site-info";
  * branch tinted and the current page marked — plus the cross-branch pages and
  * Home. Closes on Esc, a click outside, or navigation. On the cross-branch
  * Timeline pass `label` instead of `branch`: the same button with a
- * neutral grey chip naming the page, and no column tinted.
+ * slate chip (the Timeline theme) naming the page, and no column tinted.
  * Mock: docs/mockups/subpage-nav/option-b.html.
  */
 export function BranchSwitcher({ branch, label }: { branch?: Branch; label?: string }) {
@@ -45,7 +45,7 @@ export function BranchSwitcher({ branch, label }: { branch?: Branch; label?: str
   }, [open]);
 
   return (
-    <div ref={root} className="relative hidden flex-none items-center md:flex">
+    <div ref={root} data-nav-branch={branch ? undefined : "timeline"} className="relative hidden flex-none items-center md:flex">
       <span aria-hidden className="mr-2.5 ml-3 font-sans text-[1.6rem] font-light text-line-strong min-[1100px]:mr-3 min-[1100px]:ml-3.5">
         /
       </span>
@@ -57,7 +57,7 @@ export function BranchSwitcher({ branch, label }: { branch?: Branch; label?: str
         onClick={() => setOpen(!open)}
         className="flex h-9 items-center gap-2.5 whitespace-nowrap rounded-md border border-line bg-surface-raised px-2.5 font-mono text-[0.8rem] font-medium uppercase tracking-[0.12em] text-ink transition-colors hover:border-ink aria-expanded:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        <span aria-hidden className={`size-2.5 rounded-[2px] ${branch ? "bg-[var(--nav-branch)]" : "bg-ink-muted"}`} />
+        <span aria-hidden className={`size-2.5 rounded-[2px] bg-[var(--nav-branch)]`} />
         {branch?.label ?? label}
         <span className="sr-only">: show all pages</span>
         <span aria-hidden className={`text-[0.65rem] tracking-normal text-ink-muted transition-transform ${open ? "rotate-180" : ""}`}>
