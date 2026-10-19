@@ -7,6 +7,7 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { ListSearch } from "@/components/ListSearch";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
+import { LeanGlyph } from "./LeanGlyph";
 import {
   FIRST_DIR,
   MIN_VOTES_FOR_RATE,
@@ -26,7 +27,7 @@ import { justicePath } from "@/lib/justice-url";
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /** Justice, Served, Appointed by, Years, Opinions, Dissent rate, Voting lean: one grid for the header and every row from `lg`. */
-const COLS = "lg:grid-cols-[minmax(13rem,1.3fr)_6.5rem_minmax(8rem,1fr)_3.5rem_5.25rem_5.25rem_minmax(11rem,1.1fr)]";
+const COLS = "xl:grid-cols-[minmax(12rem,1.2fr)_6.25rem_minmax(7.5rem,1fr)_3.25rem_4.75rem_5.75rem_minmax(19.5rem,1.4fr)]";
 
 const COLUMNS: { key: SortKey; label: string; short: string; title?: string; right?: boolean }[] = [
   { key: "name", label: "Justice", short: "Name" },
@@ -56,7 +57,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
       action={<ListSearch value={query} onChange={setQuery} label="Search justices by name or appointing president" />}
     >
       {/* Phones: the headings are not on screen, so the sort is a menu. */}
-      <div className="mb-1 flex items-center gap-2 lg:hidden">
+      <div className="mb-1 flex items-center gap-2 xl:hidden">
         <label htmlFor="justice-sort" className="font-mono text-[0.68rem] uppercase tracking-[0.08em] text-ink-faint">
           Sort by
         </label>
@@ -82,7 +83,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
         </button>
       </div>
 
-      <div role="row" className={`hidden items-end gap-x-3 border-b border-line-strong pb-1.5 font-mono text-[0.68rem] uppercase tracking-[0.06em] text-ink-faint lg:grid ${COLS}`}>
+      <div role="row" className={`hidden items-end gap-x-3 border-b border-line-strong pb-1.5 font-mono text-[0.68rem] uppercase tracking-[0.06em] text-ink-faint xl:grid ${COLS}`}>
         {[COLUMNS[0], COLUMNS[1]].map((c) => (
           <HeadButton key={c.key} c={c} sort={sort} onPick={pick} />
         ))}
@@ -92,13 +93,13 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
         ))}
       </div>
 
-      <div tabIndex={0} aria-label="Every justice; scroll to see them all" className="touch-scroll relative max-h-[28rem] overflow-y-auto overscroll-contain lg:max-h-[34rem]">
+      <div tabIndex={0} aria-label="Every justice; scroll to see them all" className="touch-scroll relative max-h-[28rem] overflow-y-auto overscroll-contain xl:max-h-[34rem]">
         {shown.length === 0 ? (
           <p className="m-0 py-4 text-sm text-ink-muted">No justice matches &ldquo;{query}&rdquo;.</p>
         ) : (
           <ol className="m-0 list-none p-0">
             {shown.map((r) => (
-              <li key={r.id} className={`border-b border-line py-2.5 last:border-b-0 lg:grid lg:items-center lg:gap-x-3 lg:py-1.5 ${COLS}`}>
+              <li key={r.id} className={`border-b border-line py-2.5 last:border-b-0 xl:grid xl:items-center xl:gap-x-3 xl:py-1.5 ${COLS}`}>
                 <div className="flex min-w-0 items-center gap-3">
                   <Portrait r={r} />
                   <div className="min-w-0">
@@ -106,20 +107,32 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                       {r.name}
                     </Link>
                     {r.chiefNow ? <span className="ml-1.5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint">Chief Justice</span> : r.chief ? <span className="ml-1.5 font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint">Former Chief</span> : null}
-                    <p className="m-0 text-[0.78rem] text-ink-muted lg:hidden">
+                    <p className="m-0 text-[0.78rem] text-ink-muted xl:hidden">
                       {tenureYears(r)} · <Party r={r} />
                     </p>
                   </div>
                 </div>
-                <span className="hidden text-[0.82rem] tabular-nums text-ink-muted lg:block">{tenureYears(r)}</span>
-                <span className="hidden text-[0.82rem] text-ink-muted lg:block">
+                <span className="hidden text-[0.82rem] tabular-nums text-ink-muted xl:block">{tenureYears(r)}</span>
+                <span className="hidden text-[0.82rem] text-ink-muted xl:block">
                   <Party r={r} />
                 </span>
-                <dl className="m-0 mt-2 grid grid-cols-[auto_auto_auto_minmax(0,1fr)] gap-x-4 gap-y-1 text-[0.82rem] lg:contents">
+                <dl className="m-0 mt-2.5 grid grid-cols-[2.75rem_3.5rem_4rem_minmax(0,1fr)] items-stretch gap-x-3 text-[0.82rem] xl:contents">
                   <Stat label="Years" value={fmtYears(r.yearsServed)} />
                   <Stat label="Opinions" title="Majority opinions written, argued cases since the 1946 term" value={num(r.majorityOpinions, r.partialRecord)} />
                   <Stat label="Dissent" title="Share of the cases voted in where the justice dissented" value={r.dissentRate === null ? "—" : `${fmtRate(r.dissentRate)}${r.partialRecord ? "†" : ""}`} />
-                  <Stat label="Voting lean" left title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} value={votingLean(r)} />
+                  <div title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} className="min-w-0">
+                    <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">Voting lean</dt>
+                    <dd className="m-0 mt-1 flex flex-col gap-1 xl:mt-0 xl:flex-row xl:items-center xl:gap-2.5">
+                      <span className="block w-[5.25rem] xl:w-[4.5rem] xl:flex-none">
+                        <LeanGlyph row={r} />
+                      </span>
+                      {/* From xl the slot is as wide as the longest phrase, so glyph and text start at the same x on every row and never wrap; on phones the text wraps in the column. */}
+                      <span className="grid leading-snug text-ink xl:flex-none xl:whitespace-nowrap">
+                        <span aria-hidden className="invisible col-start-1 row-start-1 max-xl:hidden">From right of center to conservative</span>
+                        <span className="col-start-1 row-start-1">{votingLean(r)}</span>
+                      </span>
+                    </dd>
+                  </div>
                 </dl>
               </li>
             ))}
@@ -151,7 +164,7 @@ function Party({ r }: { r: DirectoryRow }) {
 /** A justice's portrait with a bottom stripe in the appointing president's party colour, the same stripe the Court-today cards carry; initials when there is no portrait. */
 function Portrait({ r }: { r: DirectoryRow }) {
   return (
-    <span className="relative block h-[4.25rem] w-[3.25rem] shrink-0 overflow-hidden rounded border border-line-strong bg-surface-raised lg:h-[3.6rem] lg:w-11">
+    <span className="relative block h-[4.25rem] w-[3.25rem] shrink-0 overflow-hidden rounded border border-line-strong bg-surface-raised xl:h-[3.6rem] xl:w-11">
       {r.photoSrc ? (
         // Pre-sized static assets from public/; see JusticeHeader for why this is not next/image.
         // eslint-disable-next-line @next/next/no-img-element
@@ -166,11 +179,12 @@ function Portrait({ r }: { r: DirectoryRow }) {
   );
 }
 
-function Stat({ label, value, title, left }: { label: string; value: string; title?: string; left?: boolean }) {
+function Stat({ label, value, title }: { label: string; value: string; title?: string }) {
+  // Phones: the label tops the column like "Voting lean" does, and the value is centred under it at a larger size, filling the height the lean column sets.
   return (
-    <div title={title} className={`min-w-0 ${left ? "" : "lg:text-right"}`}>
-      <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint lg:sr-only">{label}</dt>
-      <dd className="m-0 tabular-nums text-ink">{value}</dd>
+    <div title={title} className="flex min-w-0 flex-col text-center xl:block xl:text-right">
+      <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">{label}</dt>
+      <dd className="m-0 flex flex-1 items-center justify-center text-[1.2rem] tabular-nums text-ink xl:block xl:text-[inherit]">{value}</dd>
     </div>
   );
 }
@@ -184,7 +198,7 @@ function HeadButton({ c, sort, onPick }: { c: (typeof COLUMNS)[number]; sort: { 
       aria-sort={active ? (sort.dir === "asc" ? "ascending" : "descending") : "none"}
       title={c.title ?? `Sort by ${c.short.toLowerCase()}`}
       onClick={() => onPick(c.key)}
-      className={`flex items-center gap-1 uppercase tracking-[0.06em] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${c.right ? "justify-end" : ""} ${active ? "text-ink" : ""}`}
+      className={`flex items-center gap-1 whitespace-nowrap uppercase tracking-[0.06em] hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${c.right ? "justify-end" : ""} ${active ? "text-ink" : ""}`}
     >
       {c.label}
       <span aria-hidden className="w-2 text-[0.6rem]">

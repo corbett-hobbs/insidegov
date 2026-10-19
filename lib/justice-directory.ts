@@ -281,6 +281,9 @@ export const LEAN_STEADY_BELOW = 0.6;
 /** Fewest scored terms before a justice's movement is described; early scores are the least certain. */
 export const LEAN_MIN_TERMS = 4;
 
+/** The five lean bands, liberal to conservative: the glyph's notches. */
+export const LEAN_BANDS = ["liberal", "left of center", "center", "right of center", "conservative"] as const;
+
 /** A Martin–Quinn score as a place on the left–right scale (negative is more liberal): fixed bands, the same in every era. */
 export function leanBand(score: number): string {
   if (score <= -2) return "liberal";
@@ -288,6 +291,19 @@ export function leanBand(score: number): string {
   if (score <= 0.5) return "center";
   if (score < 2) return "right of center";
   return "conservative";
+}
+
+/**
+ * The same call `votingLean` makes, as notch indexes (0 liberal .. 4 conservative) for the glyph: `still` is one filled dot
+ * ("throughout"), `sofar` the same with a dashed ring (too little record to call a move), `moved` runs from `from` to `to`.
+ */
+export function leanSteps(r: Pick<DirectoryRow, "firstScore" | "latestScore" | "scoredTerms" | "sitting">): { kind: "still" | "sofar" | "moved"; from: number; to: number } {
+  const idx = (score: number) => LEAN_BANDS.indexOf(leanBand(score) as (typeof LEAN_BANDS)[number]);
+  const to = idx(r.latestScore);
+  if (r.scoredTerms < LEAN_MIN_TERMS) return { kind: r.sitting ? "sofar" : "still", from: to, to };
+  const from = idx(r.firstScore);
+  if (from === to || Math.abs(r.latestScore - r.firstScore) < LEAN_STEADY_BELOW) return { kind: "still", from: to, to };
+  return { kind: "moved", from, to };
 }
 
 /**
