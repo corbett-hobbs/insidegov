@@ -7,6 +7,7 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { ListSearch } from "@/components/ListSearch";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
+import { LeanGlyph } from "./LeanGlyph";
 import {
   FIRST_DIR,
   MIN_VOTES_FOR_RATE,
@@ -26,7 +27,7 @@ import { justicePath } from "@/lib/justice-url";
 const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /** Justice, Served, Appointed by, Years, Opinions, Dissent rate, Voting lean: one grid for the header and every row from `lg`. */
-const COLS = "lg:grid-cols-[minmax(13rem,1.3fr)_6.5rem_minmax(8rem,1fr)_3.5rem_5.25rem_5.25rem_minmax(11rem,1.1fr)]";
+const COLS = "lg:grid-cols-[minmax(12.5rem,1.2fr)_6.25rem_minmax(7.5rem,1fr)_3.25rem_4.75rem_5.25rem_minmax(13rem,1.5fr)]";
 
 const COLUMNS: { key: SortKey; label: string; short: string; title?: string; right?: boolean }[] = [
   { key: "name", label: "Justice", short: "Name" },
@@ -115,11 +116,22 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                 <span className="hidden text-[0.82rem] text-ink-muted lg:block">
                   <Party r={r} />
                 </span>
-                <dl className="m-0 mt-2 grid grid-cols-[auto_auto_auto_minmax(0,1fr)] gap-x-4 gap-y-1 text-[0.82rem] lg:contents">
+                <dl className="m-0 mt-2.5 grid grid-cols-3 text-center text-[0.82rem] lg:contents lg:text-left">
                   <Stat label="Years" value={fmtYears(r.yearsServed)} />
                   <Stat label="Opinions" title="Majority opinions written, argued cases since the 1946 term" value={num(r.majorityOpinions, r.partialRecord)} />
                   <Stat label="Dissent" title="Share of the cases voted in where the justice dissented" value={r.dissentRate === null ? "—" : `${fmtRate(r.dissentRate)}${r.partialRecord ? "†" : ""}`} />
-                  <Stat label="Voting lean" left title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} value={votingLean(r)} />
+                  <div
+                    title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`}
+                    className="col-span-3 mt-2.5 min-w-0 border-t border-dashed border-line pt-2 lg:col-span-1 lg:mt-0 lg:border-t-0 lg:pt-0"
+                  >
+                    <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint lg:sr-only">Voting lean</dt>
+                    <dd className="m-0 mt-1.5 grid grid-cols-2 items-center gap-3 text-left lg:mt-0 lg:flex lg:gap-2.5">
+                      <span className="flex justify-center lg:block lg:w-[4.5rem] lg:flex-none">
+                        <LeanGlyph row={r} className="max-w-[7.5rem] lg:max-w-none" />
+                      </span>
+                      <span className="min-w-0 leading-snug text-ink">{votingLean(r)}</span>
+                    </dd>
+                  </div>
                 </dl>
               </li>
             ))}
