@@ -56,6 +56,9 @@ export function CurrentCourt({ rows }: { rows: readonly DirectoryRow[] }) {
           </li>
         ))}
       </ol>
+      <p className="m-0 mt-3 text-[0.8rem] leading-[1.5] text-ink-muted">
+        Shown in the order they sit on the bench, as the audience sees it: the Chief Justice in the middle, then the associate justices alternating outward by seniority, the most senior at the Chief&rsquo;s right.
+      </p>
     </ChartCard>
   );
 }

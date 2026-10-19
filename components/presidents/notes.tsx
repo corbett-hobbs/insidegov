@@ -75,7 +75,7 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
 /** The site page each card's data comes from, linked at the end of the card's notes row. */
 export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos" | "major", { href: string; label: string }> = {
   congress: { href: "/timeline", label: "Timeline" },
-  justices: { href: "/supreme-court/ideology", label: "Supreme Court" },
+  justices: { href: "/supreme-court/justices", label: "Supreme Court" },
   laws: { href: "/congress/laws", label: "All laws" },
   eos: { href: "/presidency/executive-orders", label: "All executive orders" },
   major: { href: "/congress/laws", label: "Laws page" },

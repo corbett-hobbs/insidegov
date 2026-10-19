@@ -21,7 +21,7 @@ export default function JusticeNotFound() {
         lands here.
       </p>
       <Link
-        href="/supreme-court/ideology"
+        href="/supreme-court/justices"
         className="font-mono text-[0.8rem] uppercase tracking-[0.1em] text-accent hover:underline"
       >
         ← Browse the Court

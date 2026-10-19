@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
 import { SourceLink } from "@/components/SourceLink";
@@ -34,11 +33,6 @@ export default function JusticesPage() {
         <p>
           Every justice who has sat on the Court from the 1937 term on, {rows.length} in all: the nine on the bench today, how long each served, who appointed them, and how often they wrote the Court&rsquo;s opinion or dissented. A name opens that justice&rsquo;s profile.
         </p>
-        <HowToRead>
-          <p>
-            The nine are shown in the order they sit on the bench, as the audience sees it: the Chief Justice in the middle, then the associate justices alternating outward by seniority, the most senior at the Chief&rsquo;s right. A bar&rsquo;s colour is the party of the president who appointed the justice. Opinion counts and dissent rates cover argued cases from the 1946 term on.
-          </p>
-        </HowToRead>
         <PageShortcuts>
           <p>
             <a href="#all-justices" className={linkClass}>

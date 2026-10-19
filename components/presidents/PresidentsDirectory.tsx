@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HowToRead } from "@/components/HowToRead";
+import { MethodologyNote } from "@/components/MethodologyNote";
 import { PageHeader } from "@/components/PageHeader";
 import { SourceLink } from "@/components/SourceLink";
 import { ordinalWord, termYears } from "@/lib/president-derive";
@@ -34,14 +34,6 @@ export function PresidentsDirectory({ rows }: { rows: PresidentSummary[] }) {
         <p>
           Every president since {oldest.name}, newest first. Each page takes the site&rsquo;s data on the economy, immigration, trade, foreign aid, troops abroad, energy, laws, executive orders, the Supreme Court and Congress, and shows only that president&rsquo;s time in office.
         </p>
-        <HowToRead>
-          <p>
-            Laws signed are public laws enacted during the term and not over a veto, from 1973 on; executive orders are counted from the Federal Register&rsquo;s electronic record, which begins in 1994. Where a count starts partway through a presidency it says so; before that it shows a dash. Justices appointed counts the president&rsquo;s nominees who joined the Court.
-          </p>
-          <p>
-            Counts are not grades. How many laws a president signs depends on Congress, and one executive order can do far more than another.
-          </p>
-        </HowToRead>
       </PageHeader>
 
       <section aria-label="Presidents" className="rounded-[10px] border border-line bg-surface">
@@ -82,6 +74,15 @@ export function PresidentsDirectory({ rows }: { rows: PresidentSummary[] }) {
           ))}
         </ol>
       </section>
+
+      <MethodologyNote className="-mt-3">
+        <p>
+          Laws signed are public laws enacted during the term and not over a veto, from 1973 on; executive orders are counted from the Federal Register&rsquo;s electronic record, which begins in 1994. Where a count starts partway through a presidency it says so; before that it shows a dash. Justices appointed counts the president&rsquo;s nominees who joined the Court.
+        </p>
+        <p>
+          Counts are not grades. How many laws a president signs depends on Congress, and one executive order can do far more than another.
+        </p>
+      </MethodologyNote>
 
       <UpNext />
       <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

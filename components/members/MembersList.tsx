@@ -145,7 +145,7 @@ export function MembersList({
                 "w-[5.5rem] text-center max-sm:hidden",
                 "Left-right score in the current Congress; click again to reverse",
               )}
-              {header("Wikipedia", "interest", sort === "interest", "w-24 text-right max-sm:hidden", "Median daily views of the member's Wikipedia article")}
+              {header("Views/day", "interest", sort === "interest", "w-24 text-right max-sm:hidden", "Median daily views of the member's Wikipedia article")}
               {header("Net worth", "net-worth", sort === "net-worth", "w-24 text-right max-sm:hidden", "Estimated from the latest financial disclosure")}
               <th scope="col" className={`${TH} w-[3.75rem] px-0.5 text-center text-ink-faint sm:hidden`}>
                 <span className="flex items-center justify-center gap-1">
@@ -179,7 +179,7 @@ export function MembersList({
       <MethodologyNote className="mt-3">
         <p>
           Members in office today, from{" "}
-          <SourceLink id="congress-legislators">congress-legislators</SourceLink>. <strong>Wikipedia</strong> is the median
+          <SourceLink id="congress-legislators">congress-legislators</SourceLink>. <strong>Views/day</strong> is the median
           number of daily views of the member&rsquo;s English Wikipedia article
           {pageviews ? ` over the ${pageviews.days} days from ${fmtDate(pageviews.start)} to ${fmtDate(pageviews.end)}` : ""}, counting
           readers only (not crawlers) and visits through redirects, from the{" "}

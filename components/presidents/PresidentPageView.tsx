@@ -3,9 +3,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { SetBackLink } from "@/components/BackLinkContext";
-import { HowToRead } from "@/components/HowToRead";
+import { MethodologyNote } from "@/components/MethodologyNote";
 import { PageHeader } from "@/components/PageHeader";
-import { PageShortcuts } from "@/components/PageShortcuts";
 import { SourceLink } from "@/components/SourceLink";
 import { dateLabel, ordinalWord, termYears } from "@/lib/president-derive";
 import { congressTakeaway, fmtInt, panelTakeaway, tenureText } from "@/lib/president-format";
@@ -14,6 +13,32 @@ import type { PresidentPageData, SeriesCardId, SeriesPanel } from "@/lib/preside
 import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
 import { PresidentPortrait } from "./PresidentPortrait";
 import { MORE, NOTES } from "./notes";
+
+/** Previous / next president: a small round portrait (initials when there is none) beside the name, which shortens to the surname on a phone so the row stays on one line. */
+function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPageData["prev"]>; dir: "prev" | "next" }) {
+  const thumb = president.photo ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={president.photo} alt="" width={28} height={28} className="size-7 flex-none rounded-full border border-line-strong object-cover object-top" />
+  ) : (
+    <span aria-hidden className="flex size-7 flex-none items-center justify-center rounded-full border border-line-strong font-serif text-[0.7rem] text-ink" style={{ background: `color-mix(in oklab, var(${president.party === "D" ? "--dem" : "--rep"}) 18%, var(--surface))` }}>
+      {president.name.split(" ").filter((w) => /^[A-Z]/.test(w)).map((w) => w[0]).join("").slice(0, 2)}
+    </span>
+  );
+  const label = (
+    <span className="truncate underline decoration-line-strong underline-offset-2 group-hover:decoration-accent">
+      <span className="sm:hidden">{president.last}</span>
+      <span className="hidden sm:inline">{president.name}</span>
+    </span>
+  );
+  return (
+    <Link href={presidentPath(president.slug)} aria-label={`${dir === "prev" ? "Previous" : "Next"} president: ${president.name}`} className="group inline-flex min-w-0 items-center gap-1.5 font-medium text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+      {dir === "prev" && <span aria-hidden>←</span>}
+      {thumb}
+      {label}
+      {dir === "next" && <span aria-hidden>→</span>}
+    </Link>
+  );
+}
 
 const LINK = "font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
@@ -146,35 +171,13 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
                 </span>
               </p>
             )}
-            <HowToRead>
-              <p>
-                Each card takes a series from one of the site&rsquo;s Presidency, Congress or Supreme Court pages and shows only the time {p.last} was in office{p.terms.length > 1 ? ", each term on its own" : ""}. Monthly figures run from the month of the inauguration to the month the term ended{serving ? " (or the latest month published)" : ""}; a fiscal or calendar year counts for the president who held office for most of its days. Cards whose data begins after {termYears(first).slice(0, 4)} say where it starts, and a card with no data for the term is left out.
-              </p>
-              <p>
-                These are conditions during a presidency, not a scorecard. Congress, the courts, the Federal Reserve, the business cycle and events abroad move every one of these numbers, and many policies take effect years after they are signed, so a change during a term is not a measure of what the president caused.
-              </p>
-            </HowToRead>
-            <PageShortcuts>
-              <p>
-                <Link href={PRESIDENTS_PATH} className={LINK}>
-                  All presidents
-                </Link>
-              </p>
-              {data.prev && (
-                <p>
-                  <Link href={presidentPath(data.prev.slug)} className={LINK}>
-                    ← {data.prev.name}
-                  </Link>
-                </p>
-              )}
-              {data.next && (
-                <p>
-                  <Link href={presidentPath(data.next.slug)} className={LINK}>
-                    {data.next.name} →
-                  </Link>
-                </p>
-              )}
-            </PageShortcuts>
+            <nav aria-label="Other presidents" className="flex items-center gap-4 sm:gap-8">
+              {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
+              {data.next && <NeighbourLink president={data.next} dir="next" />}
+              <Link href={PRESIDENTS_PATH} className={`${LINK} ml-auto whitespace-nowrap sm:ml-0`}>
+                All presidents
+              </Link>
+            </nav>
           </PageHeader>
         </div>
       </header>
@@ -256,6 +259,17 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
           </Row>
         );
       })}
+
+      <MethodologyNote className="-mb-3">
+      
+        <p>
+          Each card takes a series from one of the site&rsquo;s Presidency, Congress or Supreme Court pages and shows only the time {p.last} was in office{p.terms.length > 1 ? ", each term on its own" : ""}. Monthly figures run from the month of the inauguration to the month the term ended{serving ? " (or the latest month published)" : ""}; a fiscal or calendar year counts for the president who held office for most of its days. Cards whose data begins after {termYears(first).slice(0, 4)} say where it starts, and a card with no data for the term is left out.
+        </p>
+        <p>
+          These are conditions during a presidency, not a scorecard. Congress, the courts, the Federal Reserve, the business cycle and events abroad move every one of these numbers, and many policies take effect years after they are signed, so a change during a term is not a measure of what the president caused.
+        </p>
+      
+      </MethodologyNote>
 
       <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
         Source: the site&rsquo;s Presidency, Congress and Supreme Court data, each named in its card&rsquo;s Data notes; party control of Congress from the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians; appointments from the <SourceLink id="fjc">Federal Judicial Center</SourceLink>. Portrait: public domain, via <SourceLink href={data.bio?.photoSource ?? "https://commons.wikimedia.org/"}>Wikimedia Commons</SourceLink>. Built {longDate(data.asOf)}.
