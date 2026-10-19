@@ -2,8 +2,8 @@ import type { BandTerm } from "../components/charts/TermBand";
 import type { TermSegment } from "../components/charts/TermBandSvg";
 import type { DecisionCaseRow, DecisionCountRow, DecisionsMeta } from "./decisions-entities";
 import { initialsOf } from "./term-label";
-import { ALL_AREAS, OTHER_AREAS, type AreaSort, type AreaSortKey, type Bucket, type DecisionCase, type DecisionDirection, type DecisionsChief, type DecisionsPayload, type DecisionsPresident, type LandmarkCells, type SplitMode } from "./decisions-types";
-import { pickLabel } from "./multi-select";
+import { ALL_AREAS, OTHER_AREAS, type AreaSort, type AreaSortKey, type Bucket, type DecisionCase, type DecisionDirection, type DecisionsChief, type DecisionsPayload, type DecisionsPresident, type LandmarkCells, type SplitMode, BAND_SHORT } from "./decisions-types";
+import { isPicked, pickLabel, type Picked } from "./multi-select";
 import type { Administration } from "./executive-orders-entities";
 import type { YearRange } from "./year-range";
 
@@ -399,8 +399,8 @@ export interface CaseFilter {
   range: YearRange;
   /** The ticked issue areas (null = all); a single legacy value (an index, `ALL_AREAS`, `OTHER_AREAS`) also works. */
   area: AreaSel;
-  /** Dissent band 0-4, or null for any. */
-  band: number | null;
+  /** Ticked dissent bands 0-4, or null for any vote. */
+  band: Picked<number>;
   /** A single pinned term, or null for the whole window. */
   term: number | null;
   /** Only the cases on Wikipedia's list of landmark decisions. */
@@ -409,10 +409,19 @@ export interface CaseFilter {
   direction?: DecisionDirection | null;
 }
 
+/** A bucket's cases in the ticked dissent bands (every band when none is filtered). */
+export const sumPicked = (b: Bucket, bands: Picked<number>): number => (bands === null ? sumBucket(b) : b.reduce((n, v, k) => n + (bands.has(k) ? v : 0), 0));
+
+/** The ticked bands as prose for a chart note: "unanimous or 8–1" / "7–2, 6–3 or 5–4" (lower-case words, in band order). */
+export const bandsPhrase = (bands: Picked<number>): string => {
+  const names = BAND_SHORT.filter((_, k) => bands === null || bands.has(k)).map((s) => s.toLowerCase());
+  return names.length < 2 ? (names[0] ?? "no") : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`;
+};
+
 /** Cases (newest first) inside the window, the area filter, the band and the pinned term. */
 export function filterCases(d: DecisionsPayload, cases: readonly DecisionCase[], f: CaseFilter): DecisionCase[] {
   const [lo, hi] = f.term === null ? f.range : [f.term, f.term];
-  return cases.filter((c) => c[0] >= lo && c[0] <= hi && (f.band === null || c[5] === f.band) && (!f.landmark || !!c[8]) && (!f.direction || c[13] === f.direction) && inAreaFilter(d, f.area, c[4]));
+  return cases.filter((c) => c[0] >= lo && c[0] <= hi && isPicked(f.band, c[5]) && (!f.landmark || !!c[8]) && (!f.direction || c[13] === f.direction) && inAreaFilter(d, f.area, c[4]));
 }
 
 const WIKI = "https://en.wikipedia.org/wiki/";

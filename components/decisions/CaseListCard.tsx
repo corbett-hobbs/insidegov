@@ -5,23 +5,17 @@ import { useMemo, useState, type ReactNode, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ALL_AREAS_LABEL, areaFilterLabel, filterCases, fmtInt, wikiArticleUrl } from "@/lib/decisions-derive";
+import { isPicked, normalizePick } from "@/lib/multi-select";
 import { decisionPath } from "@/lib/decision-url";
-import { BAND_COLORS, BAND_LONG, BAND_SHORT, type DecisionCase, type DecisionDirection } from "@/lib/decisions-types";
+import { BAND_COLORS, BAND_KEYS, BAND_LONG, BAND_SHORT, type DecisionCase } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
-import { DIRECTION_DOT, DirectionTag } from "./DirectionTag";
+import { DirectionTag } from "./DirectionTag";
 import { LANDMARK_WORD, PILL_LANDMARK } from "./pill";
 import { Swatch } from "./shared";
 import { useDecisionCases } from "./useDecisionCases";
 import { SourceLink } from "@/components/SourceLink";
 
 const PAGE = 120;
-
-/** The outcome pills above the list: SCDB's coding of who prevailed (see `lib/decisions-direction.ts`). */
-const OUTCOMES: { value: DecisionDirection | null; label: string }[] = [
-  { value: null, label: "All outcomes" },
-  { value: 2, label: "Liberal outcome" },
-  { value: 1, label: "Conservative outcome" },
-];
 
 export const fmtDate = (iso: string) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 
@@ -48,10 +42,9 @@ function Chip({ children, onClear, label }: { children: string; onClear: () => v
  * scrolled, so 8,000 cases never sit in the page at once.
  */
 export function CaseListCard() {
-  const { data, range, areas, band, pin, landmark } = useDecisionsValues();
-  const { setAreas, setBand, clearPin, setLandmark } = useDecisionsActions();
+  const { data, range, areas, band, pin, landmark, direction } = useDecisionsValues();
+  const { setAreas, setBand, setDirection, clearPin, setLandmark } = useDecisionsActions();
   const { cases, failed } = useDecisionCases(data.casesVersion);
-  const [direction, setDirection] = useState<DecisionDirection | null>(null);
   const rows = useMemo(() => (cases ? filterCases(data, cases, { range, area: areas, band, term: pin, landmark, direction }) : []), [data, cases, range, areas, band, pin, landmark, direction]);
   const [query, setQuery] = useState("");
   const terms = useMemo(() => query.toLowerCase().split(/\s+/).filter(Boolean), [query]);
@@ -62,12 +55,20 @@ export function CaseListCard() {
       return terms.every((t) => hay.includes(t));
     });
   }, [rows, terms, data]);
-  const sig = `${range[0]}-${range[1]}|${areas === null ? "*" : [...areas].sort().join(",")}|${band}|${pin}|${landmark}|${direction}|${terms.join(" ")}`;
+  const sig = `${range[0]}-${range[1]}|${areas === null ? "*" : [...areas].sort().join(",")}|${band === null ? "*" : [...band].sort().join(",")}|${pin}|${landmark}|${direction}|${terms.join(" ")}`;
   const [shown, setShown] = useState<{ sig: string; n: number }>({ sig, n: PAGE });
   const n = shown.sig === sig ? shown.n : PAGE;
   const grow = (e: UIEvent<HTMLElement>) => {
     const el = e.currentTarget;
     if (n < matched.length && el.scrollTop + el.clientHeight > el.scrollHeight - 240) setShown({ sig, n: n + PAGE });
+  };
+  // A vote pill adds or drops its band; the last one dropped, or all five ticked, is "Any vote" again.
+  const toggleBand = (b: number) => {
+    if (band === null) return setBand(new Set([b]));
+    const next = new Set(band);
+    if (next.has(b)) next.delete(b);
+    else next.add(b);
+    setBand(next.size === 0 ? null : normalizePick(next, BAND_KEYS));
   };
   const years = range[0] === range[1] ? `the ${range[0]} term` : `${range[0]}–${range[1]}`;
 
@@ -84,22 +85,23 @@ export function CaseListCard() {
           className="w-full rounded-md border border-line-strong bg-surface-raised px-2.5 py-1 text-[0.82rem] text-ink placeholder:text-ink-faint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:w-60"
         />
       }
-      lede={`Argued cases decided in ${pin !== null ? `the ${pin} term` : years}, newest first. The list follows the filters above and the charts: pick an issue area, a vote or a term to narrow it. A Liberal or Conservative tag is the Supreme Court Database’s coding of who prevailed in the case, not a rating of the justices or the reasoning; select a tag to see what it means in that case’s issue area.`}>
+      lede={`Argued cases decided in ${pin !== null ? `the ${pin} term` : years}, newest first. The list follows the filters above and the charts: pick an issue area, a vote, an outcome or a term to narrow it. A Liberal or Conservative tag is the Supreme Court Database’s coding of who prevailed in the case, not a rating of the justices or the reasoning; select a tag to see what it means in that case’s issue area.`}>
       <div className="flex flex-wrap items-center gap-1.5 text-[0.78rem] text-ink-muted" aria-live="polite">
         <span className="tabular-nums text-ink">{cases ? `${fmtInt(matched.length)} case${matched.length === 1 ? "" : "s"}` : failed ? "Cases unavailable" : "Loading cases…"}</span>
-        <div role="group" aria-label="Outcome" className="flex flex-wrap items-center gap-1.5">
-          {OUTCOMES.map((o) => {
-            const on = direction === o.value;
+        <div role="group" aria-label="Vote" className="flex flex-wrap items-center gap-1.5">
+          {[null, 0, 1, 2, 3, 4].map((b) => {
+            const on = b === null ? band === null : band !== null && isPicked(band, b);
             return (
               <button
-                key={o.label}
+                key={b ?? "all"}
                 type="button"
                 aria-pressed={on}
-                onClick={() => setDirection(o.value)}
+                onClick={() => (b === null ? setBand(null) : toggleBand(b))}
+                title={b === null ? undefined : BAND_LONG[b]}
                 className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[0.75rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${on ? "border-ink bg-surface text-ink" : "border-line-strong bg-surface-raised text-ink-muted hover:text-ink"}`}
               >
-                {o.value !== null && <i aria-hidden className="inline-block h-2 w-2 flex-none rounded-full" style={{ background: DIRECTION_DOT[o.value] }} />}
-                {o.label}
+                {b !== null && <Swatch color={BAND_COLORS[b]} />}
+                {b === null ? "Any vote" : BAND_SHORT[b]}
               </button>
             );
           })}
@@ -114,9 +116,9 @@ export function CaseListCard() {
             {areaFilterLabel(data, areas)}
           </Chip>
         )}
-        {band !== null && (
-          <Chip onClear={() => setBand(null)} label="Clear the vote filter">
-            {BAND_LONG[band]}
+        {direction !== null && (
+          <Chip onClear={() => setDirection(null)} label="Clear the outcome filter">
+            {direction === 2 ? "Liberal outcome" : "Conservative outcome"}
           </Chip>
         )}
         {pin !== null && (

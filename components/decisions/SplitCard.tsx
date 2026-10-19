@@ -10,6 +10,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { areaFilterLabel, bandShare, binByDecade, fmtInt, fmtPct, isSmallSample, splitGrain, sumBucket, windowCells, windowSum } from "@/lib/decisions-derive";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type SplitMode } from "@/lib/decisions-types";
+import { isPicked, soleOf, toggleOnly } from "@/lib/multi-select";
 import { SplitDecadeBars } from "./SplitDecadeBars";
 import { SplitChart } from "./SplitChart";
 import { useDecisionsValues } from "./DecisionsState";
@@ -25,7 +26,8 @@ import { DECISIONS_TAKEAWAYS, contextFor } from "./takeaways";
 export function SplitCard() {
   const { data, range, areas } = useDecisionsValues();
   const [mode, setModeRaw] = useState<SplitMode>("share");
-  const { band: iso } = useDecisionsValues();
+  const { band } = useDecisionsValues();
+  const iso = soleOf(band);
   const { setBand } = useDecisionsActions();
   // The picked band is the page's dissent filter: it also narrows card 1 and the case list (see DecisionsState).
   const setMode = (m: SplitMode) => {
@@ -33,7 +35,7 @@ export function SplitCard() {
     if (m === "share") setBand(null);
   };
   const pick = (k: number) => {
-    setBand(iso === k ? null : k);
+    setBand(toggleOnly(band, k));
     setModeRaw("count");
   };
 
@@ -73,7 +75,7 @@ export function SplitCard() {
       {grain === "decade" ? <SplitDecadeBars mode={mode} /> : <SplitChart mode={mode} onIso={pick} />}
       <div className={`mt-2 ${LEGEND_ROW}`}>
         {[0, 1, 2, 3, 4].map((k) => (
-          <LegendToggle key={k} active={iso === k} dimmed={iso !== null && iso !== k} onClick={() => pick(k)}>
+          <LegendToggle key={k} active={iso === k} dimmed={!isPicked(band, k)} onClick={() => pick(k)}>
             <span className={LEGEND_ITEM}>
               <Swatch color={BAND_COLORS[k]} />
               {BAND_LONG[k]}

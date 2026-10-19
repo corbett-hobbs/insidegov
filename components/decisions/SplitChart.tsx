@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { StackedArea } from "@/components/charts/StackedArea";
 import { buildStacks, presidentSegments, sumBucket, windowCells, fmtPct, bandShare } from "@/lib/decisions-derive";
+import { isPicked, soleOf } from "@/lib/multi-select";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type SplitMode } from "@/lib/decisions-types";
 import { useDecisionsActions, useDecisionsTermSelect, useDecisionsValues } from "./DecisionsState";
 import { Swatch, TooltipCard, chiefLine } from "./shared";
@@ -18,14 +19,16 @@ const CAPTIONS: Record<SplitMode, readonly string[]> = {
  * the Decisions state. `iso` draws one band alone from zero on its own axis.
  */
 export function SplitChart({ mode, onIso }: { mode: SplitMode; onIso: (k: number) => void }) {
-  const { data, range, areas, band: iso, hover, pin } = useDecisionsValues();
+  const { data, range, areas, band, hover, pin } = useDecisionsValues();
   const { moveHover, leaveHover, togglePin, pinTerm, clearPin } = useDecisionsActions();
-  const eff: SplitMode = iso !== null ? "count" : mode;
+  // One ticked band is drawn alone from zero (`iso`); several stack, in the count view.
+  const iso = soleOf(band);
+  const eff: SplitMode = band !== null ? "count" : mode;
 
   const { terms, cells } = useMemo(() => windowCells(data, areas, range), [data, areas, range]);
   const segs = useMemo(() => presidentSegments(data, terms), [data, terms]);
   const termSelect = useDecisionsTermSelect(terms);
-  const vis = useMemo(() => (iso === null ? [0, 1, 2, 3, 4] : [iso]), [iso]);
+  const vis = useMemo(() => [0, 1, 2, 3, 4].filter((k) => isPicked(band, k)), [band]);
   const stacks = useMemo(() => buildStacks(cells, eff, vis), [cells, eff, vis]);
 
   return (

@@ -228,7 +228,7 @@ describe("Other areas and card 1's series", () => {
     for (const area of sets) {
       for (const band of [null, 4]) {
         const want = windowCells(d, area, FULL).cells.reduce((t, b) => t + (band === null ? sumBucket(b) : b[band]), 0);
-        expect(filterCases(d, cases, { range: FULL, area, band, term: null }).length, `${[...area]}/${band}`).toBe(want);
+        expect(filterCases(d, cases, { range: FULL, area, band: band === null ? null : new Set([band]), term: null }).length, `${[...area]}/${band}`).toBe(want);
       }
     }
   });
@@ -236,7 +236,7 @@ describe("Other areas and card 1's series", () => {
 
 describe("case list", () => {
   const full: [number, number] = FULL;
-  const f = (o: Partial<{ range: [number, number]; area: number; band: number | null; term: number | null }> = {}) => filterCases(d, cases, { range: full, area: ALL_AREAS, band: null, term: null, ...o });
+  const f = (o: Partial<{ range: [number, number]; area: number; band: number | null; term: number | null }> = {}) => filterCases(d, cases, { range: full, area: ALL_AREAS, term: null, ...o, band: o.band == null ? null : new Set([o.band]) });
   it("is every case, newest first, and reconciles to the counts for any filter", () => {
     expect(cases).toHaveLength(d.caseCount);
     expect(f()).toHaveLength(d.caseCount);
@@ -339,7 +339,7 @@ describe("landmark view", () => {
     for (const area of [ALL_AREAS, OTHER_AREAS, 3]) {
       for (const band of [null, 4]) {
         const want = windowCells(v, area, FULL).cells.reduce((t, b) => t + (band === null ? sumBucket(b) : b[band]), 0);
-        expect(filterCases(d, cases, { range: FULL, area, band, term: null, landmark: true }).length, `${area}/${band}`).toBe(want);
+        expect(filterCases(d, cases, { range: FULL, area, band: band === null ? null : new Set([band]), term: null, landmark: true }).length, `${area}/${band}`).toBe(want);
       }
     }
     expect(filterCases(d, cases, { range: FULL, area: ALL_AREAS, band: null, term: null, landmark: true })).toHaveLength(landmarkRows.length);
