@@ -18,6 +18,8 @@ interface MemberIdeologySectionProps {
   /** Every member of the latest Congress in this chamber (delegation). */
   delegationMembers: ChamberMember[];
   trend: PartyMeanPoint[];
+  /** Median daily Wikipedia views by bioguide id (orders the compass list). */
+  views: Record<string, number>;
 }
 
 /**
@@ -32,6 +34,7 @@ export function MemberIdeologySection({
   compassMembers,
   delegationMembers,
   trend,
+  views,
 }: MemberIdeologySectionProps) {
   const {
     bioguideId,
@@ -80,7 +83,7 @@ export function MemberIdeologySection({
       aria-label="Ideology"
       className="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-2"
     >
-      <MemberCompassCard profile={profile} compassMembers={compassMembers} />
+      <MemberCompassCard profile={profile} compassMembers={compassMembers} views={views} />
 
       <div className="flex flex-col gap-5">
         <ProfilePanel label="Ideological trajectory · dimension 1 by Congress">

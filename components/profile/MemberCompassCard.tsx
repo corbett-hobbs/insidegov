@@ -17,9 +17,12 @@ type Mode = "all" | "neighbors";
 export function MemberCompassCard({
   profile,
   compassMembers,
+  views,
 }: {
   profile: MemberProfile;
   compassMembers: ChamberMember[];
+  /** Median daily Wikipedia views by bioguide id. */
+  views: Record<string, number>;
 }) {
   const [mode, setMode] = useState<Mode>("all");
   const { bioguideId, chamber, name, latestCongress } = profile;
@@ -39,7 +42,9 @@ export function MemberCompassCard({
     .filter((m) => m.bioguideId !== bioguideId)
     .sort(
       (a, b) =>
-        a.lastName.localeCompare(b.lastName) || a.name.localeCompare(b.name),
+        (views[b.bioguideId] ?? -1) - (views[a.bioguideId] ?? -1) ||
+        a.lastName.localeCompare(b.lastName) ||
+        a.name.localeCompare(b.name),
     )
     .map((member) => ({ member, distance: 0 }));
   const formerCount = compassMembers.filter((m) => m.isFormer).length;
@@ -103,6 +108,7 @@ export function MemberCompassCard({
       <MemberNeighborList
         rows={neighborMode ? neighbors : everyone}
         ranked={neighborMode}
+        hasViews={Object.keys(views).length > 0}
       />
     </ProfilePanel>
   );
