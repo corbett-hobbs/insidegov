@@ -126,7 +126,7 @@ export function MembersList({
         ref={box}
         tabIndex={0}
         aria-label="Members, scrollable"
-        className="touch-scroll relative mt-3 max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line"
+        className="touch-scroll relative mt-3 max-h-[calc(100svh-9rem)] overflow-y-auto sm:max-h-[calc(100svh-6rem)] overflow-x-hidden overscroll-contain rounded-md border border-line"
       >
         <table className="w-full border-collapse text-[0.84rem]">
           <thead className="sticky top-0 z-10 bg-surface shadow-[inset_0_-1px_0_var(--line)]">
