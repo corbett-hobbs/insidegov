@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import { fitTermLabel, initialsOf } from "@/lib/term-label";
+import { selectedTerms, toggleTermWindow, type TermWindow } from "@/lib/term-window";
 
 export interface TermSegment {
   id: string;
@@ -13,6 +15,74 @@ export interface TermSegment {
 }
 
 export const TERM_BAND_H = 20;
+
+/**
+ * Makes a band under a chart tappable, the same as the term band under the filter bar's slider (ARCHITECTURE_MAP rule 10k): tap a term to
+ * add it to the window, tap a selected one at either end of the run to drop it, tap the only selected one to clear. `axis` maps a slot to
+ * the window's units (`edge` says whether the segment's first or last slot is wanted); `min`/`max` are the full range.
+ */
+export interface TermBandSelect extends TermWindow {
+  axis: (slot: number, edge: "from" | "to") => number;
+  /** A term's extent on the window's axis by id, when the filter bar's band has its own (it then wins over `axis`, so the two bands always agree). */
+  extent?: (id: string) => readonly [number, number] | undefined;
+}
+
+/** One band segment: the tint (deeper when selected), the 2.5px party rule and the label; a button when the band is tappable. */
+function BandSegment({ x, w, party, text, label, picked, faded, onPress }: { x: number; w: number; party: "D" | "R"; text: string; label: string; picked: boolean; faded: boolean; onPress?: () => void }) {
+  const c = party === "R" ? "--rep" : "--dem";
+  const body = (
+    <>
+      <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={TERM_BAND_H} rx={2} style={{ fill: `color-mix(in oklab, var(${c}) ${picked ? 34 : 20}%, var(--surface))` }} />
+      <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={2.5} style={{ fill: `var(${c})` }} />
+      {text && (
+        <text x={x + w / 2} y={TERM_BAND_H - 5} textAnchor="middle" style={{ fontSize: 11, fill: "var(--ink)" }}>
+          {text}
+        </text>
+      )}
+    </>
+  );
+  if (!onPress) return <g>{body}</g>;
+  return (
+    <PressableBand label={label} picked={picked} faded={faded} onPress={onPress}>
+      {body}
+    </PressableBand>
+  );
+}
+
+/** An SVG group that works as a toggle button: tap, Enter or Space presses it; the focus ring shows for keyboard use only (see `.term-band` in globals.css). */
+export function PressableBand({ label, picked, faded, onPress, children }: { label: string; picked: boolean; faded: boolean; onPress: () => void; children: ReactNode }) {
+  return (
+    <g
+      className="term-band cursor-pointer"
+      role="button"
+      tabIndex={0}
+      aria-label={label}
+      aria-pressed={picked}
+      opacity={faded ? 0.4 : 1}
+      onClick={(e) => {
+        e.stopPropagation();
+        onPress();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onPress();
+        }
+      }}
+    >
+      <title>{label}</title>
+      {children}
+    </g>
+  );
+}
+
+/** Per-segment press handlers and selected flags for a tappable band. */
+function segmentActions(segments: readonly { id: string; label: string; from: number; to: number }[], sel: TermWindow | undefined) {
+  if (!sel) return segments.map(() => ({ picked: false, onPress: undefined as undefined | (() => void) }));
+  const picked = new Set(selectedTerms(segments, sel.min, sel.max, sel.value));
+  return segments.map((_, k) => ({ picked: picked.has(k), onPress: () => sel.onChange(toggleTermWindow(segments, k, sel.min, sel.max, sel.value)) }));
+}
+
 
 /** Runs of consecutive slots that share a term id, as segments. `termAt` returns the slot's term (or null for none). */
 export function termSegments<T extends { id: string; last: string; president: string; party: "D" | "R" }>(
@@ -36,24 +106,30 @@ export function termSegments<T extends { id: string; last: string; president: st
  * 10b), each label centred in its segment and shortened (last name, four letters, initials, last initial) rather than
  * dropped (rule 10). Render inside the chart's `<svg>`; `y` is the band's top edge.
  */
-export function TermBandSvg({ segments, x0, step, y }: { segments: readonly TermSegment[]; x0: number; step: number; y: number }) {
+export function TermBandSvg({ segments, x0, step, y, select }: { segments: readonly TermSegment[]; x0: number; step: number; y: number; select?: TermBandSelect }) {
+  const ext = segments.map((g) => {
+    const own = select?.extent?.(g.id);
+    return { id: g.id, label: g.president, from: own ? own[0] : select ? select.axis(g.s, "from") : 0, to: own ? own[1] : select ? select.axis(g.e, "to") : 0 };
+  });
+  const acts = segmentActions(ext, select);
   return (
-    <g transform={`translate(0,${y})`} aria-hidden>
-      {segments.map((g) => {
-        const x = x0 + g.s * step;
+    <g transform={`translate(0,${y})`} aria-hidden={select ? undefined : true}>
+      {segments.map((g, k) => {
         const w = (g.e - g.s + 1) * step;
-        const c = g.party === "R" ? "--rep" : "--dem";
         const text = fitTermLabel(w, g.last, initialsOf(g.president)) ?? "";
+        const anySel = select ? selectedTerms(ext, select.min, select.max, select.value).length > 0 : false;
         return (
-          <g key={`${g.id}-${g.s}`}>
-            <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={TERM_BAND_H} rx={2} style={{ fill: `color-mix(in oklab, var(${c}) 20%, var(--surface))` }} />
-            <rect x={x + 0.5} y={0} width={Math.max(0, w - 1)} height={2.5} style={{ fill: `var(${c})` }} />
-            {text && (
-              <text x={x + w / 2} y={TERM_BAND_H - 5} textAnchor="middle" style={{ fontSize: 11, fill: "var(--ink)" }}>
-                {text}
-              </text>
-            )}
-          </g>
+          <BandSegment
+            key={`${g.id}-${g.s}`}
+            x={x0 + g.s * step}
+            w={w}
+            party={g.party}
+            text={text}
+            label={`${g.president}: tap to ${acts[k].picked ? "drop" : "show"} these years`}
+            picked={acts[k].picked}
+            faded={anySel && !acts[k].picked}
+            onPress={acts[k].onPress}
+          />
         );
       })}
     </g>
@@ -70,24 +146,28 @@ export interface TermSpan {
   x1: number;
 }
 
-/** `TermBandSvg` for a continuous axis: the same tint, party rule and shortened labels, each span between its own pixel edges. `y` is the band's top edge. */
-export function TermSpanSvg({ spans, y }: { spans: readonly TermSpan[]; y: number }) {
+/** `TermBandSvg` for a continuous axis: the same tint, party rule and shortened labels, each span between its own pixel edges. `y` is the band's top edge. With `select`, `from`/`to` are the span's extent on the window's axis. */
+export function TermSpanSvg({ spans, y, select }: { spans: readonly (TermSpan & { from?: number; to?: number })[]; y: number; select?: Omit<TermBandSelect, "axis"> }) {
+  const ext = spans.map((g) => ({ id: g.id, label: g.president, from: g.from ?? 0, to: g.to ?? 0 }));
+  const acts = segmentActions(ext, select);
+  const anySel = select ? selectedTerms(ext, select.min, select.max, select.value).length > 0 : false;
   return (
-    <g transform={`translate(0,${y})`} aria-hidden>
-      {spans.map((g) => {
+    <g transform={`translate(0,${y})`} aria-hidden={select ? undefined : true}>
+      {spans.map((g, k) => {
         const w = g.x1 - g.x0;
-        const c = g.party === "R" ? "--rep" : "--dem";
         const text = fitTermLabel(w, g.last, initialsOf(g.president)) ?? "";
         return (
-          <g key={g.id}>
-            <rect x={g.x0 + 0.5} y={0} width={Math.max(0, w - 1)} height={TERM_BAND_H} rx={2} style={{ fill: `color-mix(in oklab, var(${c}) 20%, var(--surface))` }} />
-            <rect x={g.x0 + 0.5} y={0} width={Math.max(0, w - 1)} height={2.5} style={{ fill: `var(${c})` }} />
-            {text && (
-              <text x={g.x0 + w / 2} y={TERM_BAND_H - 5} textAnchor="middle" style={{ fontSize: 11, fill: "var(--ink)" }}>
-                {text}
-              </text>
-            )}
-          </g>
+          <BandSegment
+            key={g.id}
+            x={g.x0}
+            w={w}
+            party={g.party}
+            text={text}
+            label={`${g.president}: tap to ${acts[k].picked ? "drop" : "show"} these years`}
+            picked={acts[k].picked}
+            faded={anySel && !acts[k].picked}
+            onPress={acts[k].onPress}
+          />
         );
       })}
     </g>

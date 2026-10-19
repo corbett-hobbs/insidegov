@@ -6,7 +6,7 @@ import { Axis } from "./Axis";
 import { ChartFrame } from "./ChartFrame";
 import { ControlRowsSvg, controlRowsHeight, type ControlRow } from "./ControlRowsSvg";
 import { Tooltip, useStickyTooltip } from "./Tooltip";
-import { TERM_BAND_H, TermBandSvg, type TermSegment } from "./TermBandSvg";
+import { TERM_BAND_H, TermBandSvg, type TermBandSelect, type TermSegment } from "./TermBandSvg";
 import { SEGMENT_LABEL_STYLE, Y_GUTTER, yearLabelEvery } from "@/lib/chart-bars";
 import { niceStep, type Stack } from "@/lib/decisions-derive";
 import { placeBandLabels } from "@/lib/energy-chart";
@@ -33,6 +33,8 @@ export interface StackedAreaProps {
   /** Axis captions for this mode, longest first; the first that fits is drawn. */
   captions: readonly string[];
   segments: readonly TermSegment[];
+  /** Makes the term band tappable: it edits the page's year window (ARCHITECTURE_MAP rule 10k). */
+  termSelect?: TermBandSelect;
   /** Years a slot spans (a Congress = 2): year labels then fall every few slots from the first. */
   slotYears?: number;
   /** Label under a slot's tick; defaults to the key. */
@@ -69,6 +71,7 @@ export function StackedArea({
   longLabels,
   captions,
   segments: segs,
+  termSelect,
   slotYears = 1,
   tickLabel = String,
   controlRows,
@@ -212,7 +215,7 @@ export function StackedArea({
                 </g>
               ) : null,
             )}
-            <TermBandSvg segments={segs} x0={0} step={step} y={ph + AXIS_H + 6} />
+            <TermBandSvg segments={segs} x0={0} step={step} y={ph + AXIS_H + 6} select={termSelect} />
             {controlRows && controlRows.length > 0 && <ControlRowsSvg rows={controlRows} x0={0} step={step} y={ph + AXIS_H + 6 + TERM_BAND_H + 6} />}
 
             <rect

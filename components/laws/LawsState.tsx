@@ -2,7 +2,8 @@
 
 import { sameRange, type YearRange } from "@/lib/year-range";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { lawsForParty, windowIndexes, yearSpan } from "@/lib/laws-derive";
+import { lawsForParty, openYear, presidentBand, windowIndexes, yearSpan } from "@/lib/laws-derive";
+import type { TermBandSelect } from "@/components/charts/TermBandSvg";
 import type { Picked } from "@/lib/multi-select";
 import type { LawsPayload, SponsorParty } from "@/lib/laws-types";
 
@@ -120,4 +121,23 @@ export function useLawsActions(): LawsActions {
   const a = useContext(ActionsCtx);
   if (!a) throw new Error("useLawsActions outside LawsStateProvider");
   return a;
+}
+
+/**
+ * `select` for the president band under a laws chart (one slot per Congress; `congressAt` says which): it edits the year window the filter
+ * bar's band does, using that band's own extents so the two agree on what a president's years are.
+ */
+export function useLawsTermSelect(congressAt: (slot: number) => number): TermBandSelect {
+  const { data, range } = useLawsValues();
+  const { setRange } = useLawsActions();
+  const [min, max] = useMemo(() => yearSpan(data), [data]);
+  const extents = useMemo(() => new Map(presidentBand(data).map((t) => [t.id, [t.from, t.to] as const])), [data]);
+  return {
+    min,
+    max,
+    value: range,
+    onChange: setRange,
+    axis: (slot, edge) => openYear(congressAt(slot)) + (edge === "to" ? 1 : 0),
+    extent: (id) => extents.get(id),
+  };
 }

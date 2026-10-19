@@ -161,7 +161,7 @@ export function JusticeTrajectory({
   const bandSpans = (x: (v: number) => number) =>
     presidents
       .filter((p) => p.to > win[0] && p.from < win[1])
-      .map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(Math.max(p.from, win[0])), x1: x(Math.min(p.to, win[1])) }));
+      .map((p) => ({ id: p.id, last: p.last, president: p.president, party: p.party, x0: x(Math.max(p.from, win[0])), x1: x(Math.min(p.to, win[1])), from: Math.max(firstTerm, Math.floor(p.from)), to: Math.min(lastTerm, Math.ceil(p.to)) }));
 
   const focusId = pin.state?.data.id ?? hoverId ?? selectedId;
   const byId = new Map(data.justices.map((j) => [j.id, j]));
@@ -300,6 +300,7 @@ export function JusticeTrajectory({
                   <TermSpanSvg
                     y={innerHeight + MARGIN.bottom + BAND_GAP}
                     spans={bandSpans(x)}
+                    select={{ min: firstTerm, max: lastTerm, value: win, onChange: setWin }}
                   />
                 </>
               )}

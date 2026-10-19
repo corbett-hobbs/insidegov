@@ -11,7 +11,7 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { areaFilterLabel, areaSeries, presidentSegments, fmtInt, sumBucket, windowIndexes } from "@/lib/decisions-derive";
 import { BAND_LONG, type Bucket } from "@/lib/decisions-types";
 import { isPicked, samePick } from "@/lib/multi-select";
-import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
+import { useDecisionsActions, useDecisionsTermSelect, useDecisionsValues } from "./DecisionsState";
 import { AREA_FILLS, Swatch, TableView, TooltipCard, chiefLine } from "./shared";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { DECISIONS_TAKEAWAYS, contextFor } from "./takeaways";
@@ -66,6 +66,7 @@ export function CasesCard() {
   }, [data, range, band, series, ticked, areas]);
 
   const segs = useMemo(() => presidentSegments(data, terms), [data, terms]);
+  const termSelect = useDecisionsTermSelect(terms);
   const first = cols[0];
   const last = cols[cols.length - 1];
   // The Data notes' opening: the selection's first and last term, which the takeaway (about the full default view) leaves out.
@@ -111,6 +112,7 @@ export function CasesCard() {
         fitShare
         markShare={filtered}
         terms={segs}
+        termSelect={termSelect}
         activeKey={hover === null ? null : String(hover)}
         onActive={(k) => (k === null ? leaveHover() : moveHover(Number(k)))}
         yearTicks

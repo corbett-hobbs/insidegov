@@ -10,6 +10,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { PARTY_NAME, congressSpan, presidentById, readoutRow, sliceOf, termSegmentsFor, type PartyPick } from "@/lib/demographics-chart";
 import { TENURE_LABELS, type DemoCongress, type DemoPresident } from "@/lib/demographics-types";
+import { useCongressTermSelect } from "./TermWindowContext";
 import { MemberList, type RosterState } from "./MemberList";
 import { CongressReadout, Swatch, TableView, TooltipCard } from "./shared";
 import { DEMO_TAKEAWAYS } from "./takeaways";
@@ -23,6 +24,7 @@ const valuesOf = (r: DemoCongress, party: PartyPick) => Object.fromEntries(slice
 export function TenureCard({ rows, presidents, pin, onPin, view, roster, party }: { rows: readonly DemoCongress[]; presidents: readonly DemoPresident[]; pin: number | null; onPin: (c: number | null) => void; view: ChamberView; roster: RosterState; party: PartyPick }) {
   const by = presidentById(presidents);
   const cols = useMemo<Col[]>(() => rows.map((r) => ({ key: String(r.congress), label: String(r.year), total: sliceOf(r, party).seats, values: valuesOf(r, party), row: r })), [rows, party]);
+  const termSelect = useCongressTermSelect(rows);
   const segs = useMemo(() => termSegmentsFor(rows, presidents), [rows, presidents]);
   const cur = readoutRow(rows, pin);
   const now = cur && sliceOf(cur, party);
@@ -46,6 +48,7 @@ export function TenureCard({ rows, presidents, pin, onPin, view, roster, party }
         fitShare
         unit="members"
         terms={segs}
+        termSelect={termSelect}
         ariaLabel="Stacked bar chart of members by Congresses served, one bar per Congress"
         renderTooltip={(c) => (
           <TooltipCard title={congressSpan(c.row)} sub={by.get(c.row.termId)?.president}>

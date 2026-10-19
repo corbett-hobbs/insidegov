@@ -4,6 +4,7 @@ import { sameRange, type YearRange } from "@/lib/year-range";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { viewOf } from "@/lib/decisions-derive";
 import type { DecisionsPayload } from "@/lib/decisions-types";
+import type { TermBandSelect } from "@/components/charts/TermBandSvg";
 import type { Picked } from "@/lib/multi-select";
 
 /**
@@ -103,4 +104,14 @@ export function useDecisionsActions(): DecisionsActions {
   const a = useContext(ActionsCtx);
   if (!a) throw new Error("useDecisionsActions outside DecisionsStateProvider");
   return a;
+}
+
+/** `select` for the president band under a decisions chart (one slot per term in `terms`): it edits the year window the filter bar's band does. */
+export function useDecisionsTermSelect(terms: readonly number[]): TermBandSelect {
+  const { data, range } = useDecisionsValues();
+  const { setRange } = useDecisionsActions();
+  return useMemo(
+    () => ({ min: data.terms[0], max: data.terms[data.terms.length - 1], value: range, onChange: setRange, axis: (slot: number) => terms[slot] }),
+    [data.terms, range, setRange, terms],
+  );
 }

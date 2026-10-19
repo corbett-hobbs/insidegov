@@ -722,10 +722,17 @@ body {
   outline-offset: 2px;
 }
 
-/* Keyboard focus for clickable SVG groups (president bands on the trade charts). */
-.term-band:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 1px;
+/* Keyboard focus for clickable SVG groups (president bands under the charts). Only where there is a real pointer to tell
+   keyboard from touch: phone browsers match :focus-visible after a tap and drew a thick ring round the band just picked. */
+.term-band {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) and (pointer: fine) {
+  .term-band:focus-visible {
+    outline: 1.5px solid var(--focus);
+    outline-offset: 0;
+  }
 }
 
 /* Dropdowns: draw our own caret so it sits a comfortable distance from the right edge (the native one is

@@ -1,6 +1,7 @@
 "use client";
 
-import { fitTermLabel, initialsOf } from "@/lib/term-label";
+import { TermBandSvg } from "@/components/charts/TermBandSvg";
+import { useFyTermSelect } from "./TermWindowContext";
 import { Y_GUTTER } from "@/lib/chart-bars";
 import { scaleLinear } from "d3-scale";
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
@@ -29,7 +30,6 @@ const PLOT_TOP = 34;
 const PLOT_H = 250;
 const BASE = PLOT_TOP + PLOT_H;
 const BAND_Y = BASE + 30;
-const BAND_H = 22;
 const STRIP_Y = BASE + 60;
 const STRIP_H = 18;
 const SVG_H = STRIP_Y + STRIP_H + 4;
@@ -66,7 +66,6 @@ function detentionPoints(years: readonly IceYear[]): DetentionPoint[] {
   return pts.map((p) => ({ ...p, label: p === peak || p === last }));
 }
 
-const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 
 /**
  * Removals by fiscal year (the INS's, as DHS republishes them, FY1980 to FY2002; ICE's own from FY2003): one bar per year stacked by who first apprehended the person (ICE's own officers, teal;
@@ -146,6 +145,7 @@ export function RemovalsChart({
   const shadeW = shade?.span ? (shade.span[1] - shade.span[0]) * slotW : 0;
   const shadeLabelled = shadeW >= 124;
 
+  const termSelect = useFyTermSelect((i) => years[Math.min(i, years.length - 1)].fy);
   const segs = termSegments(years, pending);
   const termById = new Map(terms.map((t) => [t.termId, t]));
   const hasIns = years.some((yr) => yr.era === "ins");
@@ -410,22 +410,13 @@ export function RemovalsChart({
                 );
               })}
 
-              {segs.map((s) => {
-                const t = termById.get(s.termId)!;
-                const w = (s.to - s.from) * slotW;
-                const text = fitTermLabel(w, t.last, initialsOf(t.president));
-                return (
-                  <g key={`${s.termId}-${s.from}`} aria-hidden>
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={BAND_H} rx={2} style={{ fill: `color-mix(in oklab, ${partyVar(s.party)} 20%, var(--surface))` }} />
-                    <rect x={xSlot(s.from) + 0.5} y={BAND_Y} width={Math.max(0, w - 1)} height={2.5} fill={partyVar(s.party)} />
-                    {text && (
-                      <text x={xSlot(s.from) + w / 2} y={BAND_Y + 16} textAnchor="middle" className="text-[11px]" style={{ fill: "var(--ink)" }}>
-                        {text}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
+              <TermBandSvg
+                segments={segs.map((s) => ({ id: s.termId, last: termById.get(s.termId)!.last, president: termById.get(s.termId)!.president, party: s.party, s: s.from, e: s.to - 1 }))}
+                x0={0}
+                step={slotW}
+                y={BAND_Y}
+                select={termSelect}
+              />
 
               <g aria-hidden>
                 {returnsFrom > 0 && (

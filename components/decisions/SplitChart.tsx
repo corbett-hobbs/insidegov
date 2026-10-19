@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { StackedArea } from "@/components/charts/StackedArea";
 import { buildStacks, presidentSegments, sumBucket, windowCells, fmtPct, bandShare } from "@/lib/decisions-derive";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type SplitMode } from "@/lib/decisions-types";
-import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
+import { useDecisionsActions, useDecisionsTermSelect, useDecisionsValues } from "./DecisionsState";
 import { Swatch, TooltipCard, chiefLine } from "./shared";
 
 const CAPTIONS: Record<SplitMode, readonly string[]> = {
@@ -24,6 +24,7 @@ export function SplitChart({ mode, onIso }: { mode: SplitMode; onIso: (k: number
 
   const { terms, cells } = useMemo(() => windowCells(data, areas, range), [data, areas, range]);
   const segs = useMemo(() => presidentSegments(data, terms), [data, terms]);
+  const termSelect = useDecisionsTermSelect(terms);
   const vis = useMemo(() => (iso === null ? [0, 1, 2, 3, 4] : [iso]), [iso]);
   const stacks = useMemo(() => buildStacks(cells, eff, vis), [cells, eff, vis]);
 
@@ -38,6 +39,7 @@ export function SplitChart({ mode, onIso }: { mode: SplitMode; onIso: (k: number
       longLabels={BAND_LONG}
       captions={CAPTIONS[eff]}
       segments={segs}
+      termSelect={termSelect}
       hover={hover}
       pin={pin}
       moveHover={moveHover}

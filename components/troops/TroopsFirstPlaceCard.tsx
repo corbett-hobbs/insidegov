@@ -26,7 +26,7 @@ const TICK = 5;
  * "Who's been No. 1".
  */
 export function TroopsFirstPlaceCard() {
-  const { data, yi, range, setYear, country, measure } = useTroopsState();
+  const { data, yi, range, setRange, setYear, country, measure } = useTroopsState();
   const { places, years: allYears, periods } = data.payload;
   const years = useMemo(() => topHostsByYear(data, measure, range[0], range[1]), [data, measure, range]);
   const runs = useMemo(() => topHostRuns(years), [years]);
@@ -225,7 +225,13 @@ export function TroopsFirstPlaceCard() {
                   </text>
                 ) : null;
               })}
-              <TermBandSvg segments={segments} x0={MX} step={step} y={baseY + 24} />
+              <TermBandSvg
+                segments={segments}
+                x0={MX}
+                step={step}
+                y={baseY + 24}
+                select={{ min: 0, max: allYears.length - 1, value: range, onChange: setRange, axis: (i) => years[i].yi }}
+              />
               {peak?.top[0] &&
                 (() => {
                   const i = peak.yi - range[0];

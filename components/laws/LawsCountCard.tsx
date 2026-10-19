@@ -14,7 +14,7 @@ import { fmtInt } from "@/lib/decisions-derive";
 import { bandsPhrase, cellFor, filterLabel, openYear, seriesOf, signedMostSegments, unattributedLaws } from "@/lib/laws-derive";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { EmptyWindow, congressSub, congressTitle, congressYears, controlRowsFor, groupFills } from "./shared";
-import { useLawsActions, useLawsValues } from "./LawsState";
+import { useLawsActions, useLawsTermSelect, useLawsValues } from "./LawsState";
 import { SourceLink } from "@/components/SourceLink";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { LAWS_TAKEAWAYS, contextFor } from "./takeaways";
@@ -71,6 +71,7 @@ export function LawsCountCard() {
   }, [data, win, bands, major, series]);
 
   const segs = useMemo(() => signedMostSegments(data, cols.map((c) => c.ci)), [data, cols]);
+  const termSelect = useLawsTermSelect((slot) => cols[slot]!.congress);
   const partialKeys = useMemo(() => new Set(cols.filter((c) => data.partial[c.ci]).map((c) => c.key)), [cols, data]);
   const ctl = controlRowsFor(data, control, win[0], win[1]);
 
@@ -127,6 +128,7 @@ export function LawsCountCard() {
           fitShare
           markShare={filtered}
           terms={segs}
+          termSelect={termSelect}
           controlRows={ctl}
           partialKeys={partialKeys}
           slotYears={2}

@@ -8,6 +8,7 @@ import { ChartFrame } from "@/components/charts/ChartFrame";
 import { ExampleMarks, aboveFlags, pickExample } from "@/components/charts/ExampleMarks";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { useCongressTermSelect } from "./TermWindowContext";
 import { TERM_BAND_H, TermBandSvg } from "@/components/charts/TermBandSvg";
 import { Tooltip, useStickyTooltip } from "@/components/charts/Tooltip";
 import { Y_GUTTER } from "@/lib/chart-bars";
@@ -69,6 +70,7 @@ export function CaucusLines({
   const narrow = width < NARROW_W;
   const height = (narrow ? 250 : 290) + TERM_BAND_H + 6;
   const tip = useStickyTooltip<DemoCongress>();
+  const termSelect = useCongressTermSelect(rows);
   const segs = useMemo(() => termSegmentsFor(rows, presidents), [rows, presidents]);
   const by = useMemo(() => presidentById(presidents), [presidents]);
   const val = value;
@@ -130,7 +132,7 @@ export function CaucusLines({
                     </g>
                   );
                 })}
-                <TermBandSvg segments={segs} x0={0} step={step} y={innerHeight + AXIS_H + 6} />
+                <TermBandSvg segments={segs} x0={0} step={step} y={innerHeight + AXIS_H + 6} select={termSelect} />
                 <rect
                   x={0}
                   y={0}
