@@ -22,7 +22,7 @@ const PAGE_ALIASES: Record<string, string> = {
   "/presidency/immigration": "ice deportation removals green card refugees",
   "/presidency/trade": "tariffs duties imports exports",
   "/presidency/foreign-aid": "assistance usaid",
-  "/presidency/national-security": "troops bases military",
+  "/presidency/troops-abroad": "troops bases military",
   "/congress/ideology": "senate house dw-nominate",
   "/congress/laws": "bills legislation enacted",
   "/congress/demographics": "age gender tenure",

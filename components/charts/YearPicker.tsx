@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
  * A year dropdown with play, for a card whose year is chosen *inside* the card (a map or ranked list) while the pinned
  * bar's two-handle slider only sets the window. It lists the years in `range` (newest first) and sets the page's one
  * selected year, so the chart above highlights the same bar. Play steps one year at a time to the end of the window.
- * Shared by the national security map card and the immigration country card.
+ * Shared by the troops abroad map card and the immigration country card.
  */
 export function YearPicker({
   value,

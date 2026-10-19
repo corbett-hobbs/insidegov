@@ -64,7 +64,7 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
   ),
   troops: (
     <p>
-      Active-duty U.S. military personnel stationed outside the United States and its territories (afloat and unassigned included where the source reports them), one snapshot a year (September; June for 1953&ndash;56), from the <SourceLink id="dmdc">Defense Manpower Data Center</SourceLink>&rsquo;s tables and, for years it did not publish, <SourceLink id="troopdata">troopdata</SourceLink>. The year in progress shows its latest quarter, hatched. From December 2017 DMDC counts permanent assignments only, so later figures leave out most deployed forces. More on the <Link href="/presidency/national-security" className={PAGE}>National security page</Link>.
+      Active-duty U.S. military personnel stationed outside the United States and its territories (afloat and unassigned included where the source reports them), one snapshot a year (September; June for 1953&ndash;56), from the <SourceLink id="dmdc">Defense Manpower Data Center</SourceLink>&rsquo;s tables and, for years it did not publish, <SourceLink id="troopdata">troopdata</SourceLink>. The year in progress shows its latest quarter, hatched. From December 2017 DMDC counts permanent assignments only, so later figures leave out most deployed forces. More on the <Link href="/presidency/troops-abroad" className={PAGE}>Troops abroad page</Link>.
     </p>
   ),
   spr: (

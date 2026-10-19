@@ -146,7 +146,7 @@ export const SOURCE_LINKS = {
   "foreign-assistance": "https://foreignassistance.gov/",
   dmdc: "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
   troopdata: "https://github.com/meflynn/troopdata",
-  // National security context lines (rule 7d): the 1953 Korean armistice, the Southeast Asia and Iraq force authorizations,
+  // Troops abroad context lines (rule 7d): the 1953 Korean armistice, the Southeast Asia and Iraq force authorizations,
   // the Feb 12, 2013 State of the Union, the July 29, 2020 Germany posture plan and the Feb 4, 2021 remarks that stopped it.
   "korea-armistice-1953": "https://www.archives.gov/milestone-documents/armistice-agreement-restoration-south-korean-state",
   "plaw-88-408": "https://www.govinfo.gov/content/pkg/STATUTE-78/pdf/STATUTE-78-Pg384.pdf",

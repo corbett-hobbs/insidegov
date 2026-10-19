@@ -22,7 +22,7 @@ around one question.
 - **Immigration** — green cards and naturalizations (FY1977 on), refugee
   admissions against each year's ceiling (FY1980 on) and ICE removals (FY2003
   on), by fiscal year and country.
-- **National security** — where U.S. troops are stationed abroad, and the
+- **Troops abroad** — where U.S. troops are stationed abroad, and the
   bases, over time.
 - **Foreign aid** — where U.S. foreign assistance goes, on a world map.
 

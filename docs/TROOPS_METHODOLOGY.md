@@ -66,7 +66,7 @@ as is Djibouti; Egypt is Middle East & South/Central Asia (the Sinai force, CENT
 are Middle East & South/Central Asia. Territories have no region. A host with no region fails the payload build; a test pins
 every call above.
 
-The page is `/presidency/national-security` (registered as a Presidency section). `lib/troops-data.ts` (server-only, Zod at
+The page is `/presidency/troops-abroad` (registered as a Presidency section). `lib/troops-data.ts` (server-only, Zod at
 the boundary) -> `lib/troops-derive.ts` (pure, tested over the real files) -> `components/troops/`. Choices recorded so they
 are not re-litigated: the chart stacks by region and the Branch filter swaps the measure (All branches, Army, Navy, Marine
 Corps, Air & Space Force; Coast Guard is not a filter, its small count stays inside DMDC's printed totals); Air & Space Force is Air Force + Space Force so it is comparable across Sep 2023; bars

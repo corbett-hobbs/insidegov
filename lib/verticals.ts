@@ -113,8 +113,8 @@ const DEFS: readonly BranchDef[] = [
           "Where U.S. foreign assistance went, by country and sector, year by year.",
       },
       {
-        id: "national-security",
-        label: "National security",
+        id: "troops-abroad",
+        label: "Troops abroad",
         status: "live",
         blurb:
           "Where active-duty U.S. troops are stationed, by country, region and branch.",

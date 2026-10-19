@@ -12538,6 +12538,10 @@
 "119-pub-117": [["SSEG",["SSEG03"],["discharged from","markup by","referred to"]]],
 "119-pub-118": [["SSHR",[],["markup by","referred to","reported by"]]],
 "119-pub-119": [["HSWM",[],["markup by","referred to","reported by"]],["SSFI",[],["discharged from","referred to"]]],
-"119-pub-120": [["SSGA",[],["markup by","referred to","reported by"]],["SSSB",[],["hearings by (full committee)"]]]
+"119-pub-120": [["SSGA",[],["markup by","referred to","reported by"]],["SSSB",[],["hearings by (full committee)"]]],
+"119-pub-121": [["SSCM",[],["markup by","referred to","reported by"]]],
+"119-pub-122": [["SLIA",[],["markup by","referred to","reported by"]]],
+"119-pub-123": [["SSCM",[],["markup by","referred to","reported by"]]],
+"119-pub-124": [["SSHR",[],["markup by","referred to","reported by"]]]
 }
 }

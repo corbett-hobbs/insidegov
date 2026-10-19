@@ -150,7 +150,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
             without a new law, so how many each one signs, and on what, shows
             where they chose to act alone. Presidents act first through orders,
             and the economy, energy, immigration, trade, foreign aid and
-            national security pages track what changed afterward.
+            troops abroad pages track what changed afterward.
           </p>
         </PageHeader>
 
