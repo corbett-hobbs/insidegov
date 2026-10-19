@@ -1,5 +1,6 @@
 "use client";
 
+import { selectedRowsKey, useScrollSelectedRow } from "./use-scroll-selected";
 import { type ReactNode } from "react";
 import { scaleLinear, type ScaleContinuousNumeric } from "d3-scale";
 import { ChartFrame, type Margin } from "./ChartFrame";
@@ -111,6 +112,7 @@ export function SwarmRows<TP>({
   const card = useDotCard<DotRef<TP>>(sameDot);
   const labelTip = useTooltip<string>();
   const [wrapRef, measuredW] = useElementWidth<HTMLDivElement>();
+  useScrollSelectedRow(wrapRef, selectedRowsKey(rows));
   const W = measuredW || FALLBACK_W;
   const ticks = ticksProp ?? (W < 420 ? NARROW_TICKS : TICKS);
   const plotH = rows.length * rowHeight;
@@ -164,6 +166,7 @@ export function SwarmRows<TP>({
                 return (
                   <g
                     key={row.id}
+                    data-selected-row={row.selected ? "" : undefined}
                     style={rowClickable ? { cursor: "pointer" } : undefined}
                     onClick={rowClickable ? () => row.onRowClick!() : undefined}
                   >
