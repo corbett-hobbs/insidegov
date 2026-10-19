@@ -35,6 +35,10 @@ import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { TRADE_TAKEAWAYS, contextFor } from "./takeaways";
 
 const FALLBACK_W = 1080;
+/** Pixel positions rounded to 0.01px: the symlog y scale can differ in the last float digit between Node and the
+ *  browser, which shows up as a hydration mismatch on the dots' cy and the label y (sub-pixel, invisible either way). */
+const round2 = (v: number) => Math.round(v * 100) / 100;
+
 /** Below this chart width the layout drops long titles and labels (a half-width card on a laptop stays above it). */
 const COMPACT_W = 440;
 const LABEL_COUNT = 5;
@@ -191,9 +195,10 @@ export function TradeScatterCard({
     const biggest = topCodes.flatMap((c) => (byCode.has(c) ? [byCode.get(c)!] : [])).slice(0, compact ? COMPACT_LABEL_COUNT : LABEL_COUNT);
     const placed = biggest.map((c) => {
       const width = c.row.name.length * (compact ? 6.4 : 7.4) + 6;
-      const flip = x(c.d.x) + 8 + width > pw;
-      const left = flip ? x(c.d.x) - 8 - width : x(c.d.x) + 8;
-      return { c, flip, box: { id: c.row.code, x: left, y: y(c.d.yPct) - 7, width, height: 15 } };
+      const dx = round2(x(c.d.x));
+      const flip = dx + 8 + width > pw;
+      const left = flip ? dx - 8 - width : dx + 8;
+      return { c, flip, box: { id: c.row.code, x: left, y: round2(y(c.d.yPct)) - 7, width, height: 15 } };
     });
     const kept = new Set(placeLabels(placed.map((p) => p.box), pw, ph).map((b) => b.id));
     return placed
@@ -293,8 +298,8 @@ export function TradeScatterCard({
               <clipPath id={clipId}><rect x={-6} y={-8} width={pw + 12} height={ph + 16} /></clipPath>
               <g clipPath={`url(#${clipId})`}>
               {drawOrder.map((c) => {
-                const cx = x(c.d.x);
-                const cy = y(c.d.yPct);
+                const cx = round2(x(c.d.x));
+                const cy = round2(y(c.d.yPct));
                 const sel = c.row.code === country;
                 const className = `dot${sel ? " is-highlighted" : ""}`;
                 const fill = contFill(c.row.code);

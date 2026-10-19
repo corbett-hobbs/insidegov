@@ -137,13 +137,16 @@ export function SwarmRows<TP>({
         ariaLabel={ariaLabel}
       >
         {({ innerWidth }) => {
-          const x = makeScale ? makeScale(innerWidth) : scaleLinear().domain(domain).range([0, innerWidth]);
+          const scale = makeScale ? makeScale(innerWidth) : scaleLinear().domain(domain).range([0, innerWidth]);
+          // Rounded to 0.01px: a log-like scale (Math.log/pow) can differ in the last float digit between Node and
+          // the browser, and that mismatch on cx/x1/x2 is a hydration warning (sub-pixel, invisible either way).
+          const x = (v: number) => Math.round(scale(v) * 100) / 100;
 
           return (
             <>
               {showAxis && (
                 <Axis
-                  scale={x}
+                  scale={scale}
                   orientation="bottom"
                   ticks={ticks}
                   offset={-20}

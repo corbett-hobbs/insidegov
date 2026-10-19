@@ -157,9 +157,9 @@ export const METHODOLOGY: MethodGroup[] = [
         docPath: "docs/FOREIGN_AID_METHODOLOGY.md",
       },
       {
-        id: "national-security",
+        id: "troops-abroad",
         vertical: "presidency",
-        title: "National security",
+        title: "Troops abroad",
         description:
           "Active-duty personnel by country, from the Defense Manpower Data Center for 2008 onward and from historical tables before that. An optional layer marks known overseas installations, from a single snapshot with no headcounts.",
         sources: [
@@ -327,7 +327,7 @@ export const METHODOLOGY: MethodGroup[] = [
         vertical: "shared",
         title: "Maps",
         description:
-          "World outlines on the trade, foreign aid, immigration and national security maps.",
+          "World outlines on the trade, foreign aid, immigration and troops abroad maps.",
         sources: [{ name: "Natural Earth", url: "https://www.naturalearthdata.com/" }],
         credit: "Made with Natural Earth.",
         updates: "Fixed snapshot.",
