@@ -11,6 +11,8 @@ import { dateLabel, ordinalWord } from "@/lib/president-derive";
 import { fmtExact, fmtInt, fmtValue } from "@/lib/president-format";
 import type { AppointedJustice, CongressSummary, CountBreakdown, Party, SeriesPanel } from "@/lib/president-types";
 import { TermSeriesChart } from "./TermSeriesChart";
+import { methodText, yeaShare } from "@/lib/law-details-derive";
+import type { ChamberTally } from "@/lib/laws-types";
 
 /** Plot height of one panel; a card with fewer panels than its neighbour stretches its plots to match. */
 const PLOT_H = 120;
@@ -284,19 +286,64 @@ export function JusticesCard({ justices, takeaway, notes, wide, more }: { justic
 }
 
 /** The signed laws marked as important enactments, newest first, in a scroll box: summary sentence and passage votes under each title, as on the Laws page. */
-export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: string; date: string; path: string; summary: string; votes: string }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
+/** Yea and nay are not party colours (the tallies are totals only); muted greys so the votes stay secondary to the titles. */
+const YEA = "var(--ink-muted)";
+const NAY = "var(--line)";
+
+/** One chamber's passage vote: a small yea/nay bar and the tally, or how it passed when there was no recorded vote. */
+function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally }) {
+  const share = yeaShare(t[1], t[2]);
+  return (
+    <span className="inline-flex w-[9.25rem] flex-none items-center gap-1.5 text-[0.68rem] text-ink-muted">
+      <span className="w-[2.6rem] flex-none">{chamber}</span>
+      {t[0] === 0 && share !== null ? (
+        <>
+          <span aria-hidden className="flex h-1.5 w-10 flex-none overflow-hidden rounded-full" style={{ background: NAY }}>
+            <span style={{ width: `${share * 100}%`, background: YEA }} />
+          </span>
+          <span className="whitespace-nowrap font-mono tabular-nums">{`${t[1]}–${t[2]}`}</span>
+          <span className="sr-only">{` (${t[1]} yea, ${t[2]} nay)`}</span>
+        </>
+      ) : (
+        <span className="truncate">{methodText(t)}</span>
+      )}
+    </span>
+  );
+}
+
+export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
   return (
     <CardShell title="Major laws signed" takeaway={takeaway} wide notes={notes} more={more}>
-      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-y-auto overscroll-contain p-0 touch-scroll">
+      <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
+        <span>Passage votes</span>
+        <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+          <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: YEA }} />
+          Yea
+        </span>
+        <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+          <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: NAY }} />
+          Nay
+        </span>
+      </div>
+      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-0 touch-scroll">
         {laws.map((l) => (
           <li key={l.path} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
             <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{dateLabel(l.date)}</span>
             <span className="min-w-0">
-              <Link href={l.path} className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-                {l.title}
-              </Link>
+              <span className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
+                <Link href={l.path} className="min-w-0 text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                  {l.title}
+                </Link>
+                <span className="ml-auto inline-flex flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted">
+                  <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: l.area.color }} />
+                  {l.area.label}
+                </span>
+              </span>
               {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-              <span className="mt-0.5 block font-mono text-[0.7rem] tabular-nums text-ink-muted">{l.votes}</span>
+              <span className="mt-1 flex gap-3">
+                <MiniVote chamber="House" t={l.house} />
+                <MiniVote chamber="Senate" t={l.senate} />
+              </span>
             </span>
           </li>
         ))}

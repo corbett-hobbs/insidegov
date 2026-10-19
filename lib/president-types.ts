@@ -1,3 +1,5 @@
+import type { ChamberTally } from "./laws-types";
+
 /**
  * Client-safe shapes for the Presidents directory (`/presidency/presidents`) and the president pages
  * (`/presidency/presidents/[slug]`). Built at build time by `lib/president-data.ts` from the existing page loaders and
@@ -150,7 +152,7 @@ export interface LawsSummary {
   majorThrough: number;
   majorPartial: boolean;
   /** Newest first, with the first sentence of the CRS summary ("" when none) and the passage votes as the Laws page prints them. */
-  majorList: { title: string; date: string; path: string; summary: string; votes: string }[];
+  majorList: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[];
   byYear: TermYearCount[];
   /** `byYear` as the card's bar panel. */
   panel: SeriesPanel;
