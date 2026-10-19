@@ -353,3 +353,48 @@ export function coverageNote(firstDate: string, terms: readonly PresidentTerm[])
   return firstDate > terms[0].start ? `Data starts ${monthLabel(firstDate).replace(/^(\w+)/, (m) => FULL_MONTH[m] ?? m)}` : undefined;
 }
 const FULL_MONTH: Record<string, string> = { Jan: "January", Feb: "February", Mar: "March", Apr: "April", May: "May", Jun: "June", Jul: "July", Aug: "August", Sep: "September", Oct: "October", Nov: "November", Dec: "December" };
+
+/**
+ * The "biggest" major law in a president's list. Mayhew prints his most important enactments in capitals, so a law whose
+ * capitals entry names only that law ranks first (rank 2); one in a capitals entry shared with other laws (the sixteen
+ * Congressional Review Act repeals, the five COVID packages) ranks next (1); the rest rank 0. The highest rank wins and,
+ * within a rank, the earliest signed (stable as new laws are added). Null for an empty list.
+ */
+export function biggestMajorLaw<T extends { date: string }>(laws: readonly T[], rank: (law: T) => number): T | null {
+  return laws.reduce<T | null>((best, x) => {
+    if (best === null) return x;
+    const [rx, rb] = [rank(x), rank(best)];
+    return rx > rb || (rx === rb && x.date < best.date) ? x : best;
+  }, null);
+}
+
+/** Years from a day count, to one decimal and without a trailing ".0". */
+export const yearsOfDays = (days: number) => String(Math.round((days / 365.25) * 10) / 10);
+
+/**
+ * The short label under the "Congress on their side" bar: the president's party held both chambers for X of N years. With no
+ * time at all in both, says the most that was held ("3 of 4 yrs one chamber"), or that neither chamber was held.
+ */
+export function controlLabel(d: { both: number; one: number; neither: number }): string {
+  const total = d.both + d.one + d.neither;
+  if (total === 0) return "";
+  const of = yearsOfDays(total);
+  const n = (x: number) => yearsOfDays(x);
+  if (d.both > 0) return `${n(d.both)} of ${of} yrs both`;
+  if (d.one > 0) return `${n(d.one)} of ${of} yrs one chamber`;
+  return `Neither chamber, ${of} yrs`;
+}
+
+/** Polyline points ("x,y x,y") for a sparkline of `segments` in a `w` × `h` box with `pad` on every side; one string per segment. */
+export function sparkPaths(segments: readonly { x0: number; x1: number; points: readonly [number, number][] }[], w: number, h: number, pad: number): string[] {
+  const xs = segments.flatMap((s) => [s.x0, s.x1]);
+  const vs = segments.flatMap((s) => s.points.map((p) => p[1]));
+  if (xs.length === 0 || vs.length === 0) return [];
+  const xMin = Math.min(...xs);
+  const xMax = Math.max(...xs);
+  const vMin = Math.min(...vs);
+  const vMax = Math.max(...vs);
+  const X = (x: number) => (xMax === xMin ? w / 2 : pad + ((x - xMin) / (xMax - xMin)) * (w - 2 * pad));
+  const Y = (v: number) => (vMax === vMin ? h / 2 : h - pad - ((v - vMin) / (vMax - vMin)) * (h - 2 * pad));
+  return segments.filter((s) => s.points.length > 0).map((s) => s.points.map(([x, v]) => `${X(x).toFixed(1)},${Y(v).toFixed(1)}`).join(" "));
+}

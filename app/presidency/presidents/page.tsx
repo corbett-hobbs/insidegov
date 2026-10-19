@@ -7,12 +7,12 @@ import { PresidentsDirectory } from "@/components/presidents/PresidentsDirectory
 export const metadata: Metadata = {
   title: "Who has held the presidency?",
   description:
-    "Every president since Harry S. Truman: party, dates in office, laws signed, executive orders and Supreme Court appointments, each linking to a page that clips the site's data to that time in office.",
+    "Every president since Harry S. Truman: party, dates in office, major laws signed, how long Congress was on their side, the justices they appointed and the economy through their term, each linking to a page that clips the site's data to that time in office.",
   alternates: { canonical: "/presidency/presidents" },
   openGraph: {
     ...ogDefaults,
     title: `Who has held the presidency? · ${site.name}`,
-    description: "Every president since Truman, with laws signed, executive orders and Supreme Court appointments.",
+    description: "Every president since Truman, with major laws, party control of Congress, Supreme Court appointments and the economy in office.",
     url: "/presidency/presidents",
   },
   twitter: twitterDefaults,
