@@ -61,7 +61,7 @@ const DEFS: readonly BranchDef[] = [
   {
     id: "presidency",
     label: "Presidency",
-    defaultSection: "executive-orders",
+    defaultSection: "presidents",
     sections: [
       {
         id: "presidents",

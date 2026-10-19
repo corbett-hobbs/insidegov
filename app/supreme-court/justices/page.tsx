@@ -9,6 +9,7 @@ import { DirectoryTable } from "@/components/court/directory/DirectoryTable";
 import { TenureTimeline } from "@/components/court/directory/TenureTimeline";
 import { getJusticeDirectory } from "@/lib/justice-directory-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { UpNext } from "@/components/UpNext";
 
 /** /supreme-court/justices — the Supreme Court vertical's Justices section: the way into every justice profile. */
 export const metadata: Metadata = {
@@ -59,6 +60,7 @@ export default function JusticesPage() {
         <DirectoryTable rows={rows} />
       </div>
 
+      <UpNext />
       <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
         Source: <SourceLink id="fjc">Federal Judicial Center</SourceLink>, Biographical Directory of Article III Federal Judges (service dates and appointments); <SourceLink id="scdb">Supreme Court Database</SourceLink>, justice-centered, argued cases from the 1946 term (opinions and dissents; licensed CC BY-NC 3.0 US); <SourceLink id="martin-quinn">Martin&ndash;Quinn scores</SourceLink>. Portraits: public-domain images via <SourceLink id="wikipedia">Wikipedia</SourceLink>.
       </p>

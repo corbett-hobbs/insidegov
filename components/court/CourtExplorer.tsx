@@ -29,6 +29,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
 import { COURT_TAKEAWAYS, contextFor } from "./takeaways";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
+import { UpNext } from "@/components/UpNext";
 
 const PLAY_INTERVAL_MS = 220;
 
@@ -277,6 +278,7 @@ export function CourtExplorer({ data, presidents = [] }: { data: CourtPayload; p
           </ChartNotesRow>
         </ChartCard>
 
+        <UpNext />
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">
           <p className="m-0">
             Source: Martin, Andrew D. and Kevin M. Quinn. 2002. &ldquo;Dynamic

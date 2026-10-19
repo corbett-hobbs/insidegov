@@ -14,6 +14,7 @@ import { DecisionsStateProvider } from "./DecisionsState";
 import { CASE_LIST_ID, JumpToCases } from "./JumpToCases";
 import { SplitCard } from "./SplitCard";
 import { SourceLink } from "@/components/SourceLink";
+import { UpNext } from "@/components/UpNext";
 
 /**
  * /supreme-court/decisions. One shared state (`DecisionsState`): the years window, the issue area and the hovered / pinned
@@ -52,6 +53,7 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
           <CaseListCard />
         </div>
 
+        <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: <SourceLink id="scdb">{data.citation}</SourceLink>, case-centered by citation, argued cases only, terms {first}–{last}. A term runs October to June. {fmtInt(data.unclearVotes)} cases whose vote is marked unclear are left out. Licensed CC BY-NC 3.0 US. Landmark cases: Wikipedia, “<SourceLink id="wikipedia-landmark-decisions">{data.landmarkSource.page}</SourceLink>”, revision of {data.landmarkSource.revisionDate} (CC BY-SA 4.0), joined to the database by U.S. Reports citation, docket or case name and year; {fmtInt(data.landmarkSource.count)} of its cases are argued cases in these terms.
         </p>
