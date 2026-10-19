@@ -116,22 +116,19 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
                 <span className="hidden text-[0.82rem] text-ink-muted xl:block">
                   <Party r={r} />
                 </span>
-                <dl className="m-0 mt-2.5 grid grid-cols-3 text-center text-[0.82rem] xl:contents xl:text-left">
+                <dl className="m-0 mt-2.5 grid grid-cols-[2.75rem_3.5rem_4rem_minmax(0,1fr)] items-stretch gap-x-3 text-[0.82rem] xl:contents">
                   <Stat label="Years" value={fmtYears(r.yearsServed)} />
                   <Stat label="Opinions" title="Majority opinions written, argued cases since the 1946 term" value={num(r.majorityOpinions, r.partialRecord)} />
                   <Stat label="Dissent" title="Share of the cases voted in where the justice dissented" value={r.dissentRate === null ? "—" : `${fmtRate(r.dissentRate)}${r.partialRecord ? "†" : ""}`} />
-                  <div
-                    title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`}
-                    className="col-span-3 mt-2.5 min-w-0 border-t border-dashed border-line pt-2 xl:col-span-1 xl:mt-0 xl:border-t-0 xl:pt-0"
-                  >
+                  <div title={`Martin–Quinn scores: first terms ${r.firstScore.toFixed(2)}, ${r.latestTerm} term ${r.latestScore.toFixed(2)} (negative is more liberal)`} className="min-w-0">
                     <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">Voting lean</dt>
-                    <dd className="m-0 mt-1.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-left xl:mt-0 xl:flex-nowrap xl:justify-start xl:gap-2.5">
-                      <span className="min-w-10 max-w-[7.5rem] flex-initial basis-16 xl:w-[4.5rem] xl:max-w-none xl:flex-none xl:basis-auto">
+                    <dd className="m-0 mt-1 flex flex-col gap-1 xl:mt-0 xl:flex-row xl:items-center xl:gap-2.5">
+                      <span className="block w-[5.25rem] xl:w-[4.5rem] xl:flex-none">
                         <LeanGlyph row={r} />
                       </span>
-                      {/* The slot is as wide as the longest phrase, so the glyph and text start at the same x on every row (the glyph is what you compare down the list) and never wrap. */}
-                      <span className="grid flex-none whitespace-nowrap leading-snug text-ink">
-                        <span aria-hidden className="invisible col-start-1 row-start-1">From right of center to conservative</span>
+                      {/* From xl the slot is as wide as the longest phrase, so glyph and text start at the same x on every row and never wrap; on phones the text wraps in the column. */}
+                      <span className="grid leading-snug text-ink xl:flex-none xl:whitespace-nowrap">
+                        <span aria-hidden className="invisible col-start-1 row-start-1 max-xl:hidden">From right of center to conservative</span>
                         <span className="col-start-1 row-start-1">{votingLean(r)}</span>
                       </span>
                     </dd>
@@ -182,11 +179,12 @@ function Portrait({ r }: { r: DirectoryRow }) {
   );
 }
 
-function Stat({ label, value, title, left }: { label: string; value: string; title?: string; left?: boolean }) {
+function Stat({ label, value, title }: { label: string; value: string; title?: string }) {
+  // Phones: the label tops the column like "Voting lean" does, and the value is centred under it at a larger size, filling the height the lean column sets.
   return (
-    <div title={title} className={`min-w-0 ${left ? "" : "xl:text-right"}`}>
+    <div title={title} className="flex min-w-0 flex-col text-center xl:block xl:text-right">
       <dt className="font-mono text-[0.62rem] uppercase tracking-[0.06em] text-ink-faint xl:sr-only">{label}</dt>
-      <dd className="m-0 tabular-nums text-ink">{value}</dd>
+      <dd className="m-0 flex flex-1 items-center justify-center text-[1.2rem] tabular-nums text-ink xl:block xl:text-[inherit]">{value}</dd>
     </div>
   );
 }
