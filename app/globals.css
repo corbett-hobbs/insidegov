@@ -1023,11 +1023,15 @@ html[data-home-motion] .home-card[data-seen] .home-rows > li:not(:last-child)::a
 [data-nav-branch="presidency"], header[data-branch="presidency"] { --nav-branch: #2f4f87; --nav-branch-wash: #e8eef8; }
 [data-nav-branch="congress"], header[data-branch="congress"] { --nav-branch: #2f6b4f; --nav-branch-wash: #e7f1ec; }
 [data-nav-branch="supreme-court"], header[data-branch="supreme-court"] { --nav-branch: #7a2e3b; --nav-branch-wash: #f5e9ec; }
+/* Timeline: the switcher chip takes the Timeline theme's slate (its --accent); the header itself stays untinted. */
+[data-nav-branch="timeline"] { --nav-branch: #3a3f4b; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) :is([data-nav-branch="presidency"], header[data-branch="presidency"]) { --nav-branch: #8fb0ea; --nav-branch-wash: #1f2738; }
   :root:not([data-theme="light"]) :is([data-nav-branch="congress"], header[data-branch="congress"]) { --nav-branch: #7fcaa3; --nav-branch-wash: #1d2a25; }
   :root:not([data-theme="light"]) :is([data-nav-branch="supreme-court"], header[data-branch="supreme-court"]) { --nav-branch: #e29aa8; --nav-branch-wash: #2b1f24; }
+  :root:not([data-theme="light"]) [data-nav-branch="timeline"] { --nav-branch: #c9c7c1; }
 }
 :root[data-theme="dark"] :is([data-nav-branch="presidency"], header[data-branch="presidency"]) { --nav-branch: #8fb0ea; --nav-branch-wash: #1f2738; }
 :root[data-theme="dark"] :is([data-nav-branch="congress"], header[data-branch="congress"]) { --nav-branch: #7fcaa3; --nav-branch-wash: #1d2a25; }
 :root[data-theme="dark"] :is([data-nav-branch="supreme-court"], header[data-branch="supreme-court"]) { --nav-branch: #e29aa8; --nav-branch-wash: #2b1f24; }
+:root[data-theme="dark"] [data-nav-branch="timeline"] { --nav-branch: #c9c7c1; }
