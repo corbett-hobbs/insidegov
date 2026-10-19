@@ -315,8 +315,8 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
   return {
     president: p,
     bio: bio ? { extract: bio.extract, url: bio.url, photoSource: bio.photo?.source_url ?? null, photoLicense: bio.photo?.license ?? null } : null,
-    prev: i > 0 ? { slug: list[i - 1].slug, name: list[i - 1].name } : null,
-    next: i < list.length - 1 ? { slug: list[i + 1].slug, name: list[i + 1].name } : null,
+    prev: i > 0 ? { slug: list[i - 1].slug, name: list[i - 1].name, last: list[i - 1].last, party: list[i - 1].party, photo: list[i - 1].photo } : null,
+    next: i < list.length - 1 ? { slug: list[i + 1].slug, name: list[i + 1].name, last: list[i + 1].last, party: list[i + 1].party, photo: list[i + 1].photo } : null,
     days: daysInOffice(p.terms, now),
     asOf: now,
     congress: congressSummary(timeline.congresses, p.terms, p.party, now),

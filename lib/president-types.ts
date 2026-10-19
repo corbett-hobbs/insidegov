@@ -180,8 +180,8 @@ export interface NamedLeader {
 export interface PresidentPageData {
   president: PresidentRef;
   bio: { extract: string; url: string; photoSource: string | null; photoLicense: string | null } | null;
-  prev: { slug: string; name: string } | null;
-  next: { slug: string; name: string } | null;
+  prev: Pick<PresidentRef, "slug" | "name" | "last" | "party" | "photo"> | null;
+  next: Pick<PresidentRef, "slug" | "name" | "last" | "party" | "photo"> | null;
   days: number;
   /** ISO date of the newest data the page was built from (for a serving president's "through" line). */
   asOf: string;

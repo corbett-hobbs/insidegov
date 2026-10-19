@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { branches, sectionRow } from "@/lib/verticals";
 import { CROSS_BRANCH_PAGES } from "@/lib/site-info";
 
@@ -29,7 +29,7 @@ export function SiteNav() {
       aria-label="Sections"
       className="[scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex h-12 min-w-0 flex-1 items-stretch gap-0 overflow-x-auto [&>:first-child]:ml-auto md:[&>:first-child]:ml-0 pr-1 md:flex-none md:justify-start md:overflow-visible md:h-auto md:gap-2 md:pr-0"
     >
-      {branches.map((b) => {
+      {branches.map((b, i) => {
           if (b.status !== "live") {
             return (
               <span
@@ -44,11 +44,12 @@ export function SiteNav() {
           }
           const active = b.owns(pathname);
           return (
+            <Fragment key={b.id}>
+            {i > 0 && <TabDot />}
             <Link
-              key={b.id}
               href={b.href}
               aria-current={active ? "page" : undefined}
-              className={`flex items-center whitespace-nowrap border-b-[3px] px-[min(6px,1.1vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
+              className={`flex items-center whitespace-nowrap border-b-[3px] px-[min(2px,0.55vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
                 active
                   ? "border-accent text-ink"
                   : "border-transparent text-ink-muted hover:text-ink"
@@ -56,22 +57,25 @@ export function SiteNav() {
             >
               <TabLabel label={b.label} short={b.shortLabel} />
             </Link>
+            </Fragment>
           );
       })}
       {/* Pages across every branch (the Timeline): a neutral tab, its underline ink rather than a branch colour. */}
       {CROSS_BRANCH_PAGES.map((p) => {
         const active = pathname === p.href;
         return (
+          <Fragment key={p.href}>
+          <TabDot />
           <Link
-            key={p.href}
             href={p.href}
             aria-current={active ? "page" : undefined}
-            className={`flex items-center whitespace-nowrap border-b-[3px] px-[min(6px,1.1vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
+            className={`flex items-center whitespace-nowrap border-b-[3px] px-[min(2px,0.55vw)] pt-[2px] font-mono text-[min(0.72rem,calc(3.52vw_-_2.11px))] uppercase tracking-[min(0.04em,calc(0.012em+0.06vw))] transition-colors md:px-3.5 md:pt-[3px] md:text-[0.8rem] md:tracking-[0.14em] ${
               active ? "border-ink text-ink" : "border-transparent text-ink-muted hover:text-ink"
             }`}
           >
             {p.label}
           </Link>
+          </Fragment>
         );
       })}
     </nav>
@@ -86,6 +90,11 @@ export function SiteNav() {
     />
     </div>
   );
+}
+
+/** A small diamond between phone tabs, so neighbours ("Congress" "Court") don't run together; desktop spaces its tabs with padding instead. */
+function TabDot() {
+  return <span aria-hidden className="mx-[2px] size-[2px] flex-none rotate-45 self-center bg-line-strong md:hidden" />;
 }
 
 /** A tab's text. Below `md` a long label can print its short form ("Court") so every tab fits; screen readers and desktop get the full one. */

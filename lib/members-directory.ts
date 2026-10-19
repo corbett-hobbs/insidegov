@@ -57,7 +57,7 @@ export type DirectorySort =
   | "net-worth";
 
 export const SORTS: readonly { id: DirectorySort; label: string }[] = [
-  { id: "interest", label: "Most looked up" },
+  { id: "interest", label: "Most looked up (Wikipedia)" },
   { id: "name", label: "Name (A–Z)" },
   { id: "state", label: "State" },
   { id: "ideology-left", label: "Ideology: left to right" },

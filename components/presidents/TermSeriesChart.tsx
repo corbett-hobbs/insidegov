@@ -15,6 +15,8 @@ import { TipCard } from "@/components/charts/TipCard";
 const MT = 16;
 const AXIS_H = 18;
 const GAP = 14;
+/** Half the widest bar (40px) plus a little, so the first bar never covers the y-axis labels. */
+const BAR_OVERHANG = 22;
 const BAND_GAP = 6;
 
 interface Hit {
@@ -51,7 +53,8 @@ export function TermSeriesChart({ panel, height, president }: { panel: SeriesPan
     }
     const y = scaleLinear().domain([lo, hi]).range([height, 0]).nice(4);
     const ticks = y.ticks(4);
-    const ml = yGutter(ticks.map((t) => fmtAxis(t, panel.format)));
+    // Bars are centred on their x, so the first one overhangs the plot edge by up to half its width; keep the tick labels clear of it.
+    const ml = yGutter(ticks.map((t) => fmtAxis(t, panel.format))) + (bars ? BAR_OVERHANG : 0);
     const pw = Math.max(40, width - ml - 12);
     const spans = panel.segments.map((s) => s.x1 - s.x0);
     const total = spans.reduce((a, b) => a + b, 0);
@@ -137,7 +140,7 @@ export function TermSeriesChart({ panel, height, president }: { panel: SeriesPan
           {ticks.map((t) => (
             <g key={t}>
               <line x1={ml} x2={ml + pw} y1={Y(t)} y2={Y(t)} stroke={t === 0 && bars ? "var(--line-strong)" : "var(--line)"} />
-              <text x={ml - 6} y={Y(t) + 3.5} textAnchor="end" className="fill-ink-muted font-mono text-[11px]">
+              <text x={ml - (bars ? BAR_OVERHANG : 0) - 6} y={Y(t) + 3.5} textAnchor="end" className="fill-ink-muted font-mono text-[11px]">
                 {fmtAxis(t, panel.format)}
               </text>
             </g>
