@@ -156,6 +156,13 @@ const DEFS: readonly BranchDef[] = [
     defaultSection: "justices",
     sections: [
       {
+        id: "justices",
+        label: "Justices",
+        status: "live",
+        blurb:
+          "The nine justices on the Court today and every justice since 1937: how long each served, who appointed them, and how often they dissented.",
+      },
+      {
         id: "ideology",
         label: "Ideology",
         status: "live",
@@ -168,13 +175,6 @@ const DEFS: readonly BranchDef[] = [
         status: "live",
         blurb:
           "How many argued cases the Court decides each term, and how often it splits, by issue area since 1946.",
-      },
-      {
-        id: "justices",
-        label: "Justices",
-        status: "live",
-        blurb:
-          "The nine justices on the Court today and every justice since 1937: how long each served, who appointed them, and how often they dissented.",
       },
     ],
   },
