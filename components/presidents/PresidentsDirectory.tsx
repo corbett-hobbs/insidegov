@@ -13,7 +13,7 @@ import { PresidentsPowerChart } from "./PresidentsPowerChart";
 import { PresidentPortrait } from "./PresidentPortrait";
 import { UpNext } from "@/components/UpNext";
 
-const HEAD = "font-mono text-[0.65rem] uppercase tracking-[0.06em] text-ink-muted";
+const HEAD = "font-mono text-[0.65rem] uppercase leading-4 tracking-[0.06em] text-ink-muted";
 const COLS = "md:grid-cols-[3rem_minmax(0,1.5fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,1.1fr)_minmax(0,1.15fr)_minmax(0,1fr)]";
 const LABEL = "text-[0.68rem] leading-tight text-ink-muted md:sr-only";
 
@@ -82,11 +82,11 @@ function Economy({ r }: { r: PresidentSummary }) {
 /** A column header whose key opens on hover or keyboard focus (and on a tap, which focuses it); the key is for desktop, where the headers show. */
 function HeadTip({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <span className="group relative inline-block">
+    <span className="group relative flex">
       <span tabIndex={0} className={`${HEAD} cursor-help underline decoration-dotted decoration-line-strong underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}>
         {label}
       </span>
-      <span className="pointer-events-none invisible absolute left-0 top-full z-30 mt-1.5 flex w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+      <span className="pointer-events-none invisible absolute left-0 top-full z-30 mt-1.5 flex w-max max-w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
         {children}
       </span>
     </span>
@@ -119,7 +119,7 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
       <PresidentsPowerChart data={timeline} />
 
       <section aria-label="Presidents" className="rounded-[10px] border border-line bg-surface">
-        <div className={`hidden gap-3 border-b border-line px-4 py-2 md:grid ${COLS}`}>
+        <div className={`hidden items-center gap-3 border-b border-line px-4 py-2 md:grid ${COLS}`}>
           <span />
           <span className={HEAD}>President</span>
           <span className={HEAD}>In office</span>
