@@ -123,7 +123,9 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
           <span />
           <span className={HEAD}>President</span>
           <span className={HEAD}>In office</span>
-          <span className={HEAD}>Major laws</span>
+          <HeadTip label="Major laws">
+            <span>A major law is one that political scientist David Mayhew&rsquo;s lists of important enactments name, judged from the press at the time and later policy studies. His lists run through the 118th Congress.</span>
+          </HeadTip>
           <HeadTip label="Congress on their side">
             <Key swatch="linear-gradient(90deg, var(--dem) 50%, var(--rep) 50%)" label="their party held both chambers" />
             <Key swatch="linear-gradient(90deg, color-mix(in oklab, var(--dem) 40%, var(--surface)) 50%, color-mix(in oklab, var(--rep) 40%, var(--surface)) 50%)" label="one chamber" />
