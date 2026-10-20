@@ -522,6 +522,61 @@ await step("reference/early-law-votes.json + voteview/early_law_votes.json", asy
   return `${ref.laws.length} laws ok (reviewed ${ref.last_reviewed}); every pre-1973 Timeline law and Mayhew signed law covered; every pick fetched`;
 });
 
+await step("reference/mayhew-early-wiki.json", async () => {
+  const { mayhewEarlyWikiFile } = await import("../../lib/mayhew-early-wiki");
+  const { mayhewEarlyFile } = await import("../../lib/mayhew-early");
+  const file = "pipeline/reference/mayhew-early-wiki.json";
+  const ref = mayhewEarlyWikiFile.parse(JSON.parse(await readFile(file, "utf8")));
+  const mayhew = mayhewEarlyFile.parse(JSON.parse(await readFile("pipeline/reference/mayhew-1947-1972.json", "utf8"))).entries.filter((e) => e.kind === "law");
+  const votes = JSON.parse(await readFile("pipeline/reference/early-law-votes.json", "utf8")).laws as { timeline?: string; mayhew?: string }[];
+  // A law that is also a Timeline landmark links from timeline-events.json; every other signed law is reviewed here, one way or the other.
+  const landmark = new Set(votes.filter((v) => v.timeline && v.mayhew).map((v) => v.mayhew));
+  const ids = new Set(mayhew.map((e) => e.entry_id));
+  const want = mayhew.filter((e) => !landmark.has(e.entry_id)).map((e) => e.entry_id);
+  const have = new Set([...Object.keys(ref.linked), ...Object.keys(ref.unlinked)]);
+  const missing = want.filter((id) => !have.has(id));
+  if (missing.length) throw new ValidationError(file, "coverage", `no linked / unlinked entry for ${missing.slice(0, 8).join(", ")}`);
+  for (const id of have) {
+    if (!ids.has(id)) throw new ValidationError(file, id, "is not a Mayhew 1947-72 signed law");
+    if (landmark.has(id)) throw new ValidationError(file, id, "is a Timeline landmark; its link comes from timeline-events.json");
+  }
+  // Every title must still be a real article, not a redirect, a section target or a disambiguation page. A network failure only skips the check.
+  const titles = Object.entries(ref.linked).map(([id, e]) => [id, e.wiki] as const);
+  let checked = 0;
+  try {
+    for (let i = 0; i < titles.length; i += 40) {
+      const batch = titles.slice(i, i + 40);
+      const q = new URLSearchParams({ action: "query", format: "json", redirects: "1", prop: "pageprops", ppprop: "disambiguation", titles: batch.map(([, t]) => t).join("|") });
+      let res: Response | null = null;
+      for (let attempt = 1; attempt <= 4; attempt++) {
+        res = await fetch(`https://en.wikipedia.org/w/api.php?${q}`, { headers: { "user-agent": "insidegov-validate/1.0 (https://github.com/corbetthobbs/insidegov; reference check)" } });
+        if (res.status !== 429) break;
+        await new Promise((r) => setTimeout(r, 3000 * attempt));
+      }
+      if (!res?.ok) throw new Error(`MediaWiki API ${res?.status}`);
+      const body = (await res.json()) as { query: { normalized?: { from: string; to: string }[]; redirects?: { from: string; to: string; tofragment?: string }[]; pages: Record<string, { title: string; missing?: string; pageprops?: object }> } };
+      const redirects = new Map((body.query.redirects ?? []).map((r) => [r.from, r]));
+      const normalized = new Map((body.query.normalized ?? []).map((n) => [n.from, n.to]));
+      const pages = new Map(Object.values(body.query.pages).map((p) => [p.title, p]));
+      for (const [id, title] of batch) {
+        const t1 = normalized.get(title) ?? title;
+        const redirect = redirects.get(t1);
+        const resolved = redirect?.to ?? t1;
+        const page = pages.get(resolved);
+        if (!page || page.missing !== undefined) throw new ValidationError(file, id, `Wikipedia has no article "${title}"`);
+        if (page.pageprops) throw new ValidationError(file, id, `"${title}" is a disambiguation page`);
+        if (redirect?.tofragment) throw new ValidationError(file, id, `"${title}" redirects to a section of "${resolved}"`);
+        if (resolved !== title) throw new ValidationError(file, id, `"${title}" resolves to "${resolved}"; record the resolved title`);
+        checked++;
+      }
+    }
+  } catch (e) {
+    if (e instanceof ValidationError) throw e;
+    console.warn(`  (could not reach Wikipedia, article titles not re-checked: ${(e as Error).message})`);
+  }
+  return `${Object.keys(ref.linked).length} linked, ${Object.keys(ref.unlinked).length} unlinked, ${landmark.size} more from the Timeline (reviewed ${ref.last_reviewed}); all signed laws covered; ${checked ? `${checked} titles confirmed on Wikipedia` : "titles not re-checked offline"}`;
+});
+
 await step("reference/mayhew-major-laws.json", async () => {
   const { mayhewFile } = await import("../../lib/laws-entities");
   const file = "pipeline/reference/mayhew-major-laws.json";

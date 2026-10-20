@@ -30,6 +30,7 @@ import { getTroopsPayload } from "./troops-data";
 import { decodeTroops, periodView } from "./troops-derive";
 import { lawMajorFile } from "./laws-entities";
 import { displayTitle, earlyMajorFor, mayhewEarlyFile, type MayhewEarlyEntry } from "./mayhew-early";
+import { mayhewEarlyWikiFile, mayhewWikiFor, type MayhewEarlyWikiFile } from "./mayhew-early-wiki";
 import { earlyLawVotesFile, type EarlyChamberVote, type EarlyLawVotes } from "./early-law-votes-entities";
 import { energyObservation } from "./energy-entities";
 import { groupObservations } from "./energy-derive";
@@ -378,8 +379,15 @@ function earlyTallies(key: string): Pick<EarlyMajorLaw, "house" | "senate" | "hr
   if (!v) throw new Error(`president pages: ${key} has no entry in early_law_votes.json (add it to reference/early-law-votes.json)`);
   const tally = (c: EarlyChamberVote | null): ChamberTally | null => (c ? [0, c.yea, c.nay] : null);
   // A law that is also a Timeline landmark links to its Wikipedia article.
-  const wiki = v.timeline ? getTimelinePayload().events.find((e) => e.id === v.timeline)?.wiki : undefined;
+  // Otherwise a reviewed Wikipedia pick in `mayhew-early-wiki.json`, where one exists.
+  const wiki = (v.timeline ? getTimelinePayload().events.find((e) => e.id === v.timeline)?.wiki : undefined) ?? (v.mayhew ? mayhewWikiFor(earlyWiki(), v.mayhew) : undefined);
   return { house: tally(v.house), senate: tally(v.senate), ...(wiki ? { href: wikiUrl(wiki) } : {}) };
+}
+
+let earlyWikiCache: MayhewEarlyWikiFile | null = null;
+function earlyWiki(): MayhewEarlyWikiFile {
+  earlyWikiCache ??= mayhewEarlyWikiFile.parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "mayhew-early-wiki.json"), "utf8")));
+  return earlyWikiCache;
 }
 
 let earlyCache: MayhewEarlyEntry[] | null = null;
