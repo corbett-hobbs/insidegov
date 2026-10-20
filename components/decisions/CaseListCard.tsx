@@ -106,11 +106,15 @@ export function CaseListCard() {
             );
           })}
         </div>
-        {landmark && (
-          <Chip onClear={() => setLandmark(false)} label="Clear the landmark filter">
-            Landmark cases
-          </Chip>
-        )}
+        <button
+          type="button"
+          aria-pressed={landmark}
+          onClick={() => setLandmark(!landmark)}
+          title="Only the cases on Wikipedia’s list of landmark decisions"
+          className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.75rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${landmark ? "border-ink bg-surface text-ink" : "border-line-strong bg-surface-raised text-ink-muted hover:text-ink"}`}
+        >
+          Landmark cases
+        </button>
         {areas !== null && (
           <Chip onClear={() => setAreas(null)} label="Clear the issue area filter">
             {areaFilterLabel(data, areas)}

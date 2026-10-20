@@ -50,7 +50,11 @@ const caseRows = read<{ case_id: string; term: number; date: string; name: strin
 const landmarkRows = read<{ case_id: string; title: string; topics: string[] }[]>("decisions_landmarks.json");
 const landmarkIds = new Set(landmarkRows.map((r) => r.case_id));
 const admins = [...HISTORICAL_ADMINISTRATIONS, ...read<unknown[]>("administrations.json").map((r) => administration.parse(r))];
-const d = buildDecisionsPayload(counts, meta, countCaseRows(caseRows.filter((r) => landmarkIds.has(r.case_id))), admins);
+const byOutcome = (dir: "liberal" | "conservative") => {
+  const rows = caseRows.filter((r) => r.direction === dir);
+  return { all: countCaseRows(rows), landmark: countCaseRows(rows.filter((r) => landmarkIds.has(r.case_id))) };
+};
+const d = buildDecisionsPayload(counts, meta, countCaseRows(caseRows.filter((r) => landmarkIds.has(r.case_id))), admins, { 1: byOutcome("conservative"), 2: byOutcome("liberal") });
 const cases: DecisionCase[] = caseRows
   .map((r): DecisionCase => [r.term, r.date, r.name, r.cite, r.issue_area_id === null ? -1 : d.areas.findIndex((a) => a.id === r.issue_area_id), r.band, r.maj, r.min, landmarkIds.has(r.case_id) ? "Landmark" : "", "", "", "", 0, r.direction === "conservative" ? 1 : r.direction === "liberal" ? 2 : 0, r.case_id])
   .reverse();
@@ -333,6 +337,18 @@ describe("landmark view", () => {
     expect(v.caseCount).toBe(landmarkRows.length);
     expect(v.topAreas).toEqual(d.topAreas);
     expect(viewOf(d, false)).toBe(d);
+  });
+  it("the outcome filter gives the charts the same cases the list shows, with or without landmarks", () => {
+    for (const direction of [1, 2] as const) {
+      for (const landmark of [false, true]) {
+        const v = viewOf(d, landmark, direction);
+        expect(v.topAreas).toEqual(d.topAreas);
+        for (const area of [ALL_AREAS, OTHER_AREAS, 3]) {
+          const want = windowCells(v, area, FULL).cells.reduce((t, b) => t + sumBucket(b), 0);
+          expect(filterCases(d, cases, { range: FULL, area, band: null, term: null, landmark, direction }).length, `${direction}/${landmark}/${area}`).toBe(want);
+        }
+      }
+    }
   });
   it("the list filters to the same landmark cases the charts count, for any window, area and band", () => {
     const v = viewOf(d, true);

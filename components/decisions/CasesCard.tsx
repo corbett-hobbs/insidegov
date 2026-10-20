@@ -32,7 +32,7 @@ type Mode = "count" | "share";
  * is drawn (rule 12), the presidential-term band runs under the axis (rule 10j), and the crosshair and pin are shared with card 2.
  */
 export function CasesCard() {
-  const { data, range, areas, band, hover, pin } = useDecisionsValues();
+  const { data, range, areas, band, direction, hover, pin } = useDecisionsValues();
   const { moveHover, leaveHover, togglePin, clearPin, setAreas } = useDecisionsActions();
   const [mode, setMode] = useState<Mode>("count");
   const every = useMemo(() => areaSeries(data), [data]);
@@ -76,7 +76,7 @@ export function CasesCard() {
       : cols.length === 1
         ? `: ${fmtInt(first.total)} in the ${first.term} term`
         : `: ${fmtInt(first.total)} in ${first.term} and ${fmtInt(last.total)} in ${last.term} for the selection shown`;
-  const filters = [areas !== null ? `Issue area: ${areaFilterLabel(data, areas)}.` : "", band !== null ? `Only cases decided ${bandsPhrase(band)}.` : ""].filter(Boolean).join(" ");
+  const filters = [areas !== null ? `Issue area: ${areaFilterLabel(data, areas)}.` : "", band !== null ? `Only cases decided ${bandsPhrase(band)}.` : "", direction !== null ? `Only ${direction === 2 ? "liberal" : "conservative"} outcomes.` : ""].filter(Boolean).join(" ");
   const filtered = areas !== null;
 
   const { takeaway, panel } = useTakeawayContext(DECISIONS_TAKEAWAYS.cases.takeaway, contextFor("cases"));

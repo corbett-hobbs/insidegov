@@ -60,6 +60,8 @@ export interface DecisionsPayload {
   by: Bucket[][];
   /** The same arrays for the landmark cases only (Wikipedia's list of landmark decisions), for the "Landmark cases" filter. */
   landmark: LandmarkCells;
+  /** The same arrays for the cases SCDB codes liberal (2) or conservative (1), whole docket and landmarks only, for the Outcome filter. */
+  outcome: Record<DecisionDirection, { all: LandmarkCells; landmark: LandmarkCells }>;
   /** Where the landmark flag comes from. */
   landmarkSource: { url: string; page: string; revisionDate: string; license: string; count: number };
   /** Where the case-name links come from (Wikipedia's volume and term lists): how many cases link to an article, and when the lists were read. */

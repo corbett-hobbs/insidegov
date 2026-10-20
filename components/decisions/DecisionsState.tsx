@@ -22,7 +22,7 @@ export interface DecisionsValues {
   landmark: boolean;
   /** Ticked dissent bands 0-4 (the bar's Vote dropdown, card 2's legend, the list's pills); null = any vote. Narrows card 1, card 2 and the case list. */
   band: Picked<number>;
-  /** SCDB's coding of who prevailed (the bar's Outcome dropdown): 2 liberal, 1 conservative, null = any. Narrows the case list only. */
+  /** SCDB's coding of who prevailed (the bar's Outcome dropdown): 2 liberal, 1 conservative, null = any. Narrows every chart, the heatmap and the case list. */
   direction: DecisionDirection | null;
   hover: number | null;
   pin: number | null;
@@ -89,7 +89,7 @@ export function DecisionsStateProvider({ data, children }: { data: DecisionsPayl
   // A pin or hover that has left the window is simply not shown (and comes back if the window widens).
   const values = useMemo<DecisionsValues>(() => {
     const inWin = (t: number | null) => (t !== null && t >= range[0] && t <= range[1] ? t : null);
-    return { data: viewOf(data, landmark), range, areas, landmark, band, direction, hover: inWin(hover), pin: inWin(pin) };
+    return { data: viewOf(data, landmark, direction), range, areas, landmark, band, direction, hover: inWin(hover), pin: inWin(pin) };
   }, [data, range, areas, landmark, band, direction, hover, pin]);
 
   return (

@@ -62,7 +62,11 @@ function shapeCounts(counts: readonly DecisionCountRow[], terms: readonly number
   return { all, by, other, caseCount, unclassified: caseCount - classified };
 }
 
-export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta: DecisionsMeta, landmarkCounts: readonly DecisionCountRow[] = [], admins: readonly Administration[] = []): DecisionsPayload {
+/** Count rows for the cases coded conservative (1) or liberal (2): the whole docket and the landmarks only. */
+export type OutcomeCounts = Record<DecisionDirection, { all: readonly DecisionCountRow[]; landmark: readonly DecisionCountRow[] }>;
+const EMPTY_OUTCOME: OutcomeCounts = { 1: { all: [], landmark: [] }, 2: { all: [], landmark: [] } };
+
+export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta: DecisionsMeta, landmarkCounts: readonly DecisionCountRow[] = [], admins: readonly Administration[] = [], outcomeCounts: OutcomeCounts = EMPTY_OUTCOME): DecisionsPayload {
   const terms: number[] = [];
   for (let t = meta.first_term; t <= meta.data_through_term; t++) terms.push(t);
   const areaIds = meta.issue_areas.map((a) => a.id);
@@ -72,6 +76,10 @@ export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta:
   const topAreas = totals.map((n, i) => ({ n, i })).sort((a, b) => b.n - a.n || a.i - b.i).slice(0, TOP_AREAS).map((x) => x.i);
   const { all, by, other } = shapeCounts(counts, terms, areaIds, topAreas);
   const landmark = shapeCounts(landmarkCounts, terms, areaIds, topAreas);
+  const outcome = {
+    1: { all: shapeCounts(outcomeCounts[1].all, terms, areaIds, topAreas), landmark: shapeCounts(outcomeCounts[1].landmark, terms, areaIds, topAreas) },
+    2: { all: shapeCounts(outcomeCounts[2].all, terms, areaIds, topAreas), landmark: shapeCounts(outcomeCounts[2].landmark, terms, areaIds, topAreas) },
+  };
   const chiefs: DecisionsChief[] = meta.chief_spans.map((s) => ({
     id: s.scdb_chief,
     name: s.name,
@@ -88,6 +96,7 @@ export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta:
     by,
     other,
     landmark,
+    outcome,
     landmarkSource: { url: meta.landmarks.url, page: meta.landmarks.page, revisionDate: meta.landmarks.revision_date, license: meta.landmarks.license, count: meta.landmarks.count },
     articleSource: { count: 0, fetched: "" },
     summarySource: { count: 0, claude: 0, fetched: "" },
@@ -121,9 +130,15 @@ export function areaCells(d: DecisionsPayload, sel: AreaSel): Bucket[] {
   for (const i of sel) d.by[i]?.forEach((b, ti) => addInto(out[ti], b));
   return out;
 }
-/** The payload as the page shows it: the whole docket, or only the landmark cases (the pinned bar's checkbox). Series and colours stay fixed. */
-export const viewOf = (d: DecisionsPayload, landmarkOnly: boolean): DecisionsPayload =>
-  landmarkOnly ? { ...d, all: d.landmark.all, by: d.landmark.by, other: d.landmark.other, caseCount: d.landmark.caseCount, unclassified: d.landmark.unclassified } : d;
+/**
+ * The payload as the page shows it: the whole docket or only the landmark cases (the pinned bar's checkbox), and all
+ * outcomes or only the liberal or conservative ones (the Outcome dropdown). Series and colours stay fixed.
+ */
+export const viewOf = (d: DecisionsPayload, landmarkOnly: boolean, direction: DecisionDirection | null = null): DecisionsPayload => {
+  if (!landmarkOnly && direction === null) return d;
+  const c = direction !== null ? d.outcome[direction][landmarkOnly ? "landmark" : "all"] : d.landmark;
+  return { ...d, all: c.all, by: c.by, other: c.other, caseCount: c.caseCount, unclassified: c.unclassified };
+};
 
 export const cellAt = (d: DecisionsPayload, area: AreaSel, ti: number): Bucket => areaCells(d, area)[ti];
 
