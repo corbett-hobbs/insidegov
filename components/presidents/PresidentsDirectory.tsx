@@ -11,6 +11,7 @@ import type { TimelinePayload } from "@/lib/timeline-types";
 import { JusticeFaces } from "./JusticeFaces";
 import { PresidentsPowerChart } from "./PresidentsPowerChart";
 import { PresidentPortrait } from "./PresidentPortrait";
+import { MAJOR_LAW_DEFINITION } from "./notes";
 import { UpNext } from "@/components/UpNext";
 
 const HEAD = "font-mono text-[0.65rem] uppercase leading-4 tracking-[0.06em] text-ink-muted";
@@ -124,7 +125,7 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
           <span className={HEAD}>President</span>
           <span className={HEAD}>In office</span>
           <HeadTip label="Major laws">
-            <span>A major law is one that political scientist David Mayhew&rsquo;s lists of important enactments name, judged from the press at the time and later policy studies. His lists run through the 118th Congress.</span>
+            <span>{MAJOR_LAW_DEFINITION}</span>
           </HeadTip>
           <HeadTip label="Congress on their side">
             <Key swatch="linear-gradient(90deg, var(--dem) 50%, var(--rep) 50%)" label="their party held both chambers" />
