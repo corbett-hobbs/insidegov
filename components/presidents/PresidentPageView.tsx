@@ -13,7 +13,7 @@ import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type 
 import { PresidentPortrait } from "./PresidentPortrait";
 import { MORE, NOTES } from "./notes";
 
-/** Previous / next president: a small round portrait (initials when there is none) beside the name, which shortens to the surname on a phone so the row stays on one line. */
+/** Previous / next president: a small round portrait (initials when there is none) beside the name, shown as the surname so the row fits the header's 380px identity column on one line. */
 function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPageData["prev"]>; dir: "prev" | "next" }) {
   const thumb = president.photo ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -25,8 +25,7 @@ function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPag
   );
   const label = (
     <span className="truncate underline decoration-line-strong underline-offset-2 group-hover:decoration-accent">
-      <span className="sm:hidden">{president.last}</span>
-      <span className="hidden sm:inline">{president.name}</span>
+      {president.last}
     </span>
   );
   return (
@@ -144,9 +143,10 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
       <header className="flex flex-col gap-4">
         {/* Same layout as the member and justice headers: portrait and identity on the left (380px from lg), the Wikipedia lead on the right. */}
         <div className={data.bio ? "flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-0" : "flex flex-row items-start gap-4 sm:gap-6"}>
-          <div className={`flex flex-row items-start gap-4 sm:gap-6 ${data.bio ? "lg:flex-none" : ""}`}>
-            <PresidentPortrait president={p} size="lg" />
-            <div className={data.bio ? "min-w-0 lg:w-[380px] lg:flex-none" : "min-w-0"}>
+          <div className={`flex min-w-0 flex-col gap-4 ${data.bio ? "lg:w-[380px] lg:flex-none" : ""}`}>
+            <div className="flex flex-row items-start gap-4 sm:gap-6">
+              <PresidentPortrait president={p} size="lg" />
+              <div className="min-w-0">
               <p className="mb-1.5 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">President</p>
               <h1 className="mb-1.5 font-serif text-[clamp(2rem,4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em]">{p.name}</h1>
               <p className="text-[1rem] text-ink-muted">
@@ -154,7 +154,15 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
                 {ordinals.replace(/^./, (c) => c.toUpperCase())} president · {partyWord(p.party)}
               </p>
               <p className="mt-1.5 text-[0.9rem] text-ink-muted">{p.terms.map((t) => `${longDate(t.start)} – ${t.end ? longDate(t.end) : "present"}`).join("; ")}</p>
+              </div>
             </div>
+            <nav aria-label="Other presidents" className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6">
+            {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
+            {data.next && <NeighbourLink president={data.next} dir="next" />}
+            <Link href={PRESIDENTS_PATH} className={`${LINK} whitespace-nowrap`}>
+              All presidents
+            </Link>
+            </nav>
           </div>
           {data.bio && (
             <section aria-label="About" className="border-t border-line pt-4 lg:relative lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
@@ -176,13 +184,6 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
             </section>
           )}
         </div>
-        <nav aria-label="Other presidents" className="flex items-center gap-4 sm:gap-8">
-          {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
-          {data.next && <NeighbourLink president={data.next} dir="next" />}
-          <Link href={PRESIDENTS_PATH} className={`${LINK} ml-auto whitespace-nowrap sm:ml-0`}>
-            All presidents
-          </Link>
-        </nav>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
