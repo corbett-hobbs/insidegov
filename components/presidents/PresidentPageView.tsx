@@ -148,7 +148,6 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         </span>
         <div className="min-w-0 flex-1">
           <PageHeader
-            eyebrow="Presidency · Presidents"
             title={
               <span className="flex items-center gap-3">
                 <span className="sm:hidden">
