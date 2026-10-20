@@ -21,6 +21,7 @@ import type { EconomyPayload } from "./indicator-payload";
 import { tariffActionsFile } from "./tariff-actions-entities";
 import { buildScatterRows, scatterWindows, type ScatterRow, type ScatterWindows } from "./trade-scatter";
 import { getProductsCodes, getProductsPayload } from "./trade-products-data";
+import { getEnduseCodes } from "./trade-enduse-data";
 import { lagOf, type ProductsLag } from "./trade-products";
 import { PRODUCTS_START_YEAR } from "./trade-products-entities";
 import type { TariffFlag, TradeCountryPayload, TradeCountryRef, TradeNationalPayload, TradeYearPayload } from "./trade-types";
@@ -121,6 +122,8 @@ export interface TradePageData {
   worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] };
   /** The goods-by-product card: partners with a product file (fetched from `/data/trade/products/[code]`) and the first year. */
   products: { codes: string[]; firstYear: number; lag: (ProductsLag & { name: string })[] };
+  /** The card's "By use" view: partners with an end-use file (fetched from `/data/trade/enduse/[code]`). Starts the same year as products. */
+  enduse: { codes: string[] };
 }
 
 /** Everything the trade page ships inline: the national series, the country list and the era layers. */
@@ -142,6 +145,7 @@ export function getTradePageData(): TradePageData {
     initialYear,
     worldMap: (({ width, height, features }) => ({ width, height, features }))(getWorldMap()),
     products: { codes: getProductsCodes(), firstYear: PRODUCTS_START_YEAR, lag: getProductsLag(lastYear) },
+    enduse: { codes: getEnduseCodes() },
   };
 }
 

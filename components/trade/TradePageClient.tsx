@@ -7,6 +7,7 @@ import { termAtDay, termLabel } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
 import { ALL_PRODUCTS, type ProductPartnersPayload, type TradeProductsPayload } from "@/lib/trade-products";
+import type { EndusePartnersPayload, TradeEndusePayload } from "@/lib/trade-enduse";
 import { topByTotal } from "@/lib/trade-map";
 import { TradeBalanceCard } from "./TradeBalanceCard";
 import { TradeFilterBar } from "./TradeFilterBar";
@@ -29,7 +30,7 @@ export function TradePageClient({ data }: { data: TradePageData }) {
 function TradePage({ data }: { data: TradePageData }) {
   const v = useTradeValues();
   const { setRange, clearPin, setCountry, setShowCong, setYear } = useTradeActions();
-  const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products } = data;
+  const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products, enduse } = data;
   const [loaded, setLoaded] = useState<Record<string, TradeCountryPayload>>({});
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
@@ -80,48 +81,19 @@ function TradePage({ data }: { data: TradePageData }) {
   // Goods by product: one file per partner (all years), plus one for all countries, fetched when first needed.
   const productCodes = useMemo(() => new Set(products.codes), [products.codes]);
   const productsKey = v.country ? (productCodes.has(v.country) ? v.country : null) : ALL_PRODUCTS;
-  const [productFiles, setProductFiles] = useState<Record<string, TradeProductsPayload>>({});
-  const [productsFailed, setProductsFailed] = useState<string | null>(null);
-  useEffect(() => {
-    const key = productsKey;
-    if (!key || productFiles[key]) return;
-    const ctl = new AbortController();
-    fetch(`/data/trade/products/${encodeURIComponent(key)}`, { signal: ctl.signal })
-      .then((r) => {
-        if (!r.ok) throw new Error(String(r.status));
-        return r.json() as Promise<TradeProductsPayload>;
-      })
-      .then((p) => {
-        setProductsFailed(null);
-        setProductFiles((m) => ({ ...m, [p.code ?? ALL_PRODUCTS]: p }));
-      })
-      .catch((e) => {
-        if (e?.name !== "AbortError") setProductsFailed(key);
-      });
-    return () => ctl.abort();
-  }, [productsKey, productFiles]);
-  const productsPayload = productsKey ? productFiles[productsKey] ?? null : null;
+  const productFile = useStaticFile<TradeProductsPayload>("/data/trade/products", productsKey);
 
   // The top countries behind each product: one small file per year, fetched for the year on screen once a line has been opened.
   const [partnersWanted, setPartnersWanted] = useState(false);
-  const [partnerFiles, setPartnerFiles] = useState<Record<number, ProductPartnersPayload>>({});
-  const [partnersFailed, setPartnersFailed] = useState<number | null>(null);
-  useEffect(() => {
-    const y = v.year;
-    if (!partnersWanted || partnerFiles[y] || partnersFailed === y) return;
-    const ctl = new AbortController();
-    fetch(`/data/trade/product-partners/${y}`, { signal: ctl.signal })
-      .then((r) => {
-        if (!r.ok) throw new Error(String(r.status));
-        return r.json() as Promise<ProductPartnersPayload>;
-      })
-      .then((p) => setPartnerFiles((m) => ({ ...m, [y]: p })))
-      .catch((e) => {
-        if (e?.name !== "AbortError") setPartnersFailed(y);
-      });
-    return () => ctl.abort();
-  }, [partnersWanted, v.year, partnerFiles, partnersFailed]);
-  const partnersPayload = partnerFiles[v.year] ?? null;
+  const partnersFile = useStaticFile<ProductPartnersPayload>("/data/trade/product-partners", partnersWanted ? String(v.year) : null);
+
+  // The card's "By use" view: the same two kinds of file by end-use category, fetched only once someone switches to it.
+  const [enduseWanted, setEnduseWanted] = useState(false);
+  const enduseCodes = useMemo(() => new Set(enduse.codes), [enduse.codes]);
+  const enduseKey = v.country ? (enduseCodes.has(v.country) ? v.country : null) : ALL_PRODUCTS;
+  const enduseFile = useStaticFile<TradeEndusePayload>("/data/trade/enduse", enduseWanted ? enduseKey : null);
+  const [endusePartnersWanted, setEndusePartnersWanted] = useState(false);
+  const endusePartnersFile = useStaticFile<EndusePartnersPayload>("/data/trade/enduse-partners", endusePartnersWanted ? String(v.year) : null);
 
   // While the next year loads, the previous one stays on screen (dimmed) instead of blanking the chart.
   const [lastShown, setLastShown] = useState<TradeYearPayload>(initialYear);
@@ -228,7 +200,7 @@ function TradePage({ data }: { data: TradePageData }) {
 
         {/* Full width, under the partners card whose year it shares: which goods, for the Country filter's partner (or all countries). */}
         <TradeProductsCard
-          payload={productsPayload}
+          payload={productFile.data}
           year={v.year}
           onYear={setYear}
           firstYear={products.firstYear}
@@ -238,13 +210,29 @@ function TradePage({ data }: { data: TradePageData }) {
           countryName={countryRef?.name ?? null}
           hasData={productsKey !== null}
           lag={products.lag}
-          loading={!!productsKey && !productsPayload && productsFailed !== productsKey}
-          error={!!productsKey && !productsPayload && productsFailed === productsKey}
-          partners={partnersPayload}
-          partnersState={partnersPayload ? "ok" : partnersFailed === v.year ? "error" : partnersWanted ? "loading" : "idle"}
+          loading={productFile.state === "loading"}
+          error={productFile.state === "error"}
+          partners={partnersFile.data}
+          partnersState={partnersFile.state}
           onWantPartners={() => {
             setPartnersWanted(true);
-            setPartnersFailed(null); // a tap after a failure retries
+            partnersFile.retry(); // a tap after a failure retries
+          }}
+          byUse={{
+            payload: enduseFile.data,
+            hasData: enduseKey !== null,
+            loading: enduseFile.state === "loading" || (enduseKey !== null && enduseFile.state === "idle"),
+            error: enduseFile.state === "error",
+            onWant: () => {
+              setEnduseWanted(true);
+              enduseFile.retry();
+            },
+            partners: endusePartnersFile.data,
+            partnersState: endusePartnersFile.state,
+            onWantPartners: () => {
+              setEndusePartnersWanted(true);
+              endusePartnersFile.retry();
+            },
           }}
         />
 
@@ -261,4 +249,33 @@ function TradePage({ data }: { data: TradePageData }) {
       </main>
     </>
   );
+}
+
+/**
+ * One prerendered JSON file under `base`, fetched the first time `key` asks for it and kept for the visit (the
+ * products and end-use files by partner, their top-countries files by year). `key` null means not wanted yet. A
+ * failed key is not refetched until `retry` (a tap after the failure) or another key succeeds.
+ */
+function useStaticFile<T>(base: string, key: string | null): { data: T | null; state: "idle" | "loading" | "error" | "ok"; retry: () => void } {
+  const [files, setFiles] = useState<Record<string, T>>({});
+  const [failed, setFailed] = useState<string | null>(null);
+  useEffect(() => {
+    if (key === null || files[key] || failed === key) return;
+    const ctl = new AbortController();
+    fetch(`${base}/${encodeURIComponent(key)}`, { signal: ctl.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json() as Promise<T>;
+      })
+      .then((p) => {
+        setFailed(null);
+        setFiles((m) => ({ ...m, [key]: p }));
+      })
+      .catch((e) => {
+        if (e?.name !== "AbortError") setFailed(key);
+      });
+    return () => ctl.abort();
+  }, [base, key, files, failed]);
+  const data = key === null ? null : files[key] ?? null;
+  return { data, state: key === null ? "idle" : data ? "ok" : failed === key ? "error" : "loading", retry: () => setFailed(null) };
 }
