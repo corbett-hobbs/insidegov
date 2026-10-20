@@ -1,6 +1,6 @@
 /**
  * Two-level site structure: verticals (Congress, Supreme Court, Presidency),
- * each with ordered sections (Congress: Members, Ideology, Laws, Demographics, Wealth). Every section lands
+ * each with ordered sections (Congress: Members, Ideology, Laws, Wealth, Demographics). Every section lands
  * at `/<vertical>/<section>`; a bare `/<vertical>` redirects to the vertical's
  * default section.
  *
@@ -148,18 +148,18 @@ const DEFS: readonly BranchDef[] = [
           "How many public laws Congress enacts each Congress, by policy area, and how broadly they are supported, since 1973.",
       },
       {
-        id: "demographics",
-        label: "Demographics",
-        status: "live",
-        blurb:
-          "How old members of Congress are, how many are women, and how long they have served, since 1933.",
-      },
-      {
         id: "wealth",
         label: "Wealth",
         status: "live",
         blurb:
           "Estimated net worth for members of Congress, from their annual financial disclosures.",
+      },
+      {
+        id: "demographics",
+        label: "Demographics",
+        status: "live",
+        blurb:
+          "How old members of Congress are, how many are women, and how long they have served, since 1933.",
       },
     ],
   },
