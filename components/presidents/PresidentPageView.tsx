@@ -181,10 +181,13 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         </div>
       </header>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-3 gap-3">
         <Stat value={tenureText(data.days)} label={serving ? "In office so far" : "In office"} note={`${fmtInt(data.days)} days`} />
-        <Stat value={data.laws ? fmtInt(data.laws.signed) : "—"} label="Laws signed" note={data.laws ? data.laws.coverage : "Data starts 1973"} />
-        <Stat value={data.eos ? fmtInt(data.eos.total) : "—"} label="Executive orders" note={data.eos ? data.eos.coverage : "Data starts 1994"} />
+        <Stat
+          value={data.laws && data.laws.major !== null ? fmtInt(data.laws.major) : "—"}
+          label="Major laws signed"
+          note={!data.laws ? "Data starts 1973" : data.laws.major === null ? "Not yet assessed" : data.laws.majorPartial ? "Later term not yet assessed" : data.laws.coverage}
+        />
         <Stat value={String(data.justices.filter((j) => !j.elevated).length)} label="Justices appointed" note={data.justices.some((j) => j.elevated) ? "plus one elevated to chief" : undefined} />
       </div>
 
