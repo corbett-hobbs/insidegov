@@ -71,8 +71,8 @@ Examples (imports unless stated):
 - **Chapter 85** imports $504.8B -> 48 headings -> 29 uses. Exports $226.5B -> 25 uses.
 - **Cell phones & household goods (41050)** imports $108.8B <- 61 headings in 21 chapters (85 $59.5B, 90 $25.0B
   mostly 9021 hearing aids and implants, 94 lamps, 42 handbags, ...).
-- **Export civilian aircraft (22090)** $153.5B is **one heading, 8800, in one chapter** (88), in 2025 and back to
-  2010 (8800 is Schedule B's aggregate code for civil aircraft, engines and parts). The brief's guess that it draws
+- **Export civilian aircraft (22090)** $153.5B is **one heading, 8800, in one chapter** (88) in 2025 (8800 is Schedule B's aggregate code for civil aircraft, engines and parts;
+  it also carries $71.9B in 2010 and $130.8B in 2018, but those years were not joined). The brief's guess that it draws
   on chapters 84/88 is wrong: the reversed view of that use is a single band.
 - Many 1:1 pairs: 8542 -> Semiconductors, 3004 -> Pharmaceuticals, 8703 -> Passenger cars (99%), 21300 Computers <- 8471 only.
 
