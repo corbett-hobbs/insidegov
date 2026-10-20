@@ -220,8 +220,8 @@ const chipStyle = (p: Party) => ({ background: `color-mix(in oklab, var(${p === 
 
 function Chip({ chamber, party, seats }: { chamber: string; party: Party; seats: [number, number, number] }) {
   return (
-    <span className="flex min-w-0 flex-col rounded-[3px] px-2 py-1 text-[0.75rem] leading-tight" style={chipStyle(party)}>
-      <span className="font-medium text-ink">
+    <span className="flex h-full min-w-0 flex-col rounded-[3px] px-2 py-1 text-[0.75rem] leading-tight" style={chipStyle(party)}>
+      <span className="whitespace-nowrap font-medium text-ink">
         {chamber}: {party === "D" ? "Dem." : "Rep."}
       </span>
       <span className="font-mono text-[0.68rem] text-ink-muted">
@@ -237,10 +237,11 @@ export function CongressCard({ congress, takeaway, notes, wide, more }: { congre
     <CardShell title="Party control of Congress" takeaway={takeaway} wide={wide} notes={notes} more={more}>
       <ul className="m-0 flex list-none flex-col gap-2 p-0">
         {[...congress.rows].reverse().map((r) => (
-          <li key={r.n} className="grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2">
-            <span className="text-[0.8rem] leading-tight">
+          <li key={r.n} className="grid grid-cols-2 items-stretch gap-x-2 gap-y-1 sm:grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_minmax(0,1fr)] sm:items-center">
+            {/* On a phone the label sits on its own line above the two chips, so both chips are the same width and height in every row. */}
+            <span className="col-span-2 flex items-baseline gap-2 text-[0.8rem] leading-tight sm:col-span-1 sm:block">
               <span className="font-medium text-ink">{ordinalWord(r.n)} Congress</span>
-              <span className="block font-mono text-[0.68rem] text-ink-muted">
+              <span className="font-mono text-[0.68rem] text-ink-muted sm:block">
                 {r.start.slice(0, 4) === r.end.slice(0, 4) ? r.start.slice(0, 4) : `${r.start.slice(0, 4)}–${r.end.slice(0, 4)}`}
               </span>
             </span>
