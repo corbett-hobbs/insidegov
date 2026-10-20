@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { SetBackLink } from "@/components/BackLinkContext";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
@@ -11,7 +11,7 @@ import { presidentPath, PRESIDENTS_PATH } from "@/lib/president-url";
 import type { PresidentPageData, SeriesCardId, SeriesPanel } from "@/lib/president-types";
 import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
 import { PresidentPortrait } from "./PresidentPortrait";
-import { MORE, NOTES } from "./notes";
+import { MAJOR_LAW_DEFINITION, MORE, NOTES } from "./notes";
 
 /** Previous / next president: a small round portrait (initials when there is none) beside the name, shown as the surname so the row fits the header's 500px identity column on one line. */
 function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPageData["prev"]>; dir: "prev" | "next" }) {
@@ -52,12 +52,54 @@ function Row({ label, id, children }: { label: string; id: string; children: Rea
   );
 }
 
-function Stat({ value, label, note }: { value: string; label: string; note?: string }) {
+/**
+ * A count tile. With `tip`, the label explains itself: a hover or focus popover on desktop (the label is dotted-underlined), and a
+ * small "?" button on a phone that opens the same text on tap and closes on a tap elsewhere.
+ */
+function Stat({ value, label, note, tip }: { value: string; label: string; note?: string; tip?: string }) {
+  const [open, setOpen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: Event) => {
+      if (!box.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("pointerdown", away);
+    document.addEventListener("keydown", esc);
+    return () => {
+      document.removeEventListener("pointerdown", away);
+      document.removeEventListener("keydown", esc);
+    };
+  }, [open]);
   return (
-    <div className="flex min-w-0 flex-col gap-0.5 rounded-[8px] border border-line bg-surface px-3 py-2.5">
+    <div ref={box} className="group relative flex min-w-0 flex-col gap-0.5 rounded-[8px] border border-line bg-surface px-3 py-2.5">
       <span className="font-serif text-[1.2rem] font-medium leading-none tabular-nums text-ink sm:text-[1.55rem]">{value}</span>
-      <span className="text-[0.78rem] leading-tight text-ink-muted">{label}</span>
+      <span className="flex items-start gap-1 text-[0.78rem] leading-tight text-ink-muted">
+        <span tabIndex={tip ? 0 : undefined} className={tip ? "md:cursor-help md:underline md:decoration-dotted md:decoration-line-strong md:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" : undefined}>
+          {label}
+        </span>
+        {tip && (
+          <button
+            type="button"
+            aria-label={`What is this? ${label}`}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+            className="flex size-4 flex-none items-center justify-center rounded-full border border-line-strong font-mono text-[0.62rem] leading-none text-ink-muted md:hidden"
+          >
+            ?
+          </button>
+        )}
+      </span>
       {note && <span className="text-[0.68rem] leading-tight text-ink-faint">{note}</span>}
+      {tip && (
+        <span
+          role="tooltip"
+          className={`pointer-events-none absolute left-1/2 top-full z-30 mt-1.5 w-max max-w-[15rem] -translate-x-1/2 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] leading-snug text-ink-muted shadow-[0_8px_24px_rgba(26,34,51,0.22)] md:group-focus-within:visible md:group-focus-within:opacity-100 md:group-hover:visible md:group-hover:opacity-100 ${open ? "visible opacity-100" : "invisible opacity-0"}`}
+        >
+          {tip}
+        </span>
+      )}
     </div>
   );
 }
@@ -191,6 +233,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         <Stat
           value={data.laws && data.laws.major !== null ? fmtInt(data.laws.major) : "—"}
           label="Major laws signed"
+          tip={MAJOR_LAW_DEFINITION}
           note={!data.laws ? "Data starts 1973" : data.laws.major === null ? "Not yet assessed" : data.laws.majorPartial ? "Later term not yet assessed" : data.laws.coverage}
         />
         <Stat value={String(data.justices.filter((j) => !j.elevated).length)} label="Justices appointed" note={data.justices.some((j) => j.elevated) ? "plus one elevated to chief" : undefined} />
