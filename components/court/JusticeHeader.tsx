@@ -11,9 +11,10 @@ const partyVar = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
  * portrait). A sibling rather than a generalisation: the lines are justice
  * facts (appointing president, Senate vote), not seat/party/Congress counts.
  *
- * The bio never makes the row taller than the portrait/details: at lg it is an
- * absolutely positioned, clamped column inside a stretched cell; below lg it
- * stacks under the row, unclamped.
+ * Laid out like the president header (`presidents/PresidentPageView`): a 500px
+ * identity column from lg, then the About column, unclamped, in larger type
+ * and centred in the row so no white space is left under it; below lg it
+ * stacks under the row.
  */
 export function JusticeHeader({ profile }: { profile: JusticeProfile }) {
   const { justice, identity, bio, photoSrc } = profile;
@@ -21,7 +22,7 @@ export function JusticeHeader({ profile }: { profile: JusticeProfile }) {
 
   return (
     <header className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-0">
-      <div className="flex flex-row items-start gap-4 sm:gap-6 lg:flex-none">
+      <div className="flex flex-row items-start gap-4 sm:gap-6 lg:w-[500px] lg:flex-none">
         {photoSrc && (
           // A pre-sized static asset from public/ — next/image would add an
           // optimizer this fully-static site deliberately doesn't run.
@@ -36,7 +37,7 @@ export function JusticeHeader({ profile }: { profile: JusticeProfile }) {
         )}
         <div className="min-w-0 lg:pr-8">
           <p className="mb-1.5 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">
-            Supreme Court · {identity.role}
+            {identity.role}
           </p>
           <h1 className="mb-2 font-serif text-[30px] font-semibold leading-[1.05] tracking-[-0.01em] sm:text-[40px]">
             {justice.name}
@@ -60,17 +61,17 @@ export function JusticeHeader({ profile }: { profile: JusticeProfile }) {
 
       {bio && (
         <section
-          aria-label="Biography"
-          className="border-t border-line pt-4 lg:relative lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
+          aria-label="About"
+          className="border-t border-line pt-4 lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
         >
-          <div className="flex flex-col gap-1.5 lg:absolute lg:inset-0 lg:overflow-hidden">
+          <div className="flex flex-col gap-1.5 lg:h-full lg:justify-center">
             <p className="flex-none font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">
-              Biography
+              About
             </p>
-            <p className="font-serif text-[1.0625rem] leading-[1.35] text-ink lg:line-clamp-4 lg:min-h-0 lg:text-base">
+            <p className="font-serif text-[1.0625rem] leading-[1.35] text-ink lg:text-[1.3rem] lg:leading-[1.4]">
               {bio.extract}
             </p>
-            <p className="flex-none text-xs leading-[1.4] text-ink-muted lg:whitespace-nowrap">
+            <p className="flex-none text-xs leading-[1.4] text-ink-muted">
               Source:{" "}
               <a
                 href={bio.url}
