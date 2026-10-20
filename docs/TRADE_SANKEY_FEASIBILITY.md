@@ -86,8 +86,12 @@ Examples (imports unless stated):
 - Per country, if wanted later: ~7,400 calls (a few hours first time, under 1 GB of cache), output far smaller per
   partner than nationally. It would be exact, not an estimate.
 
-## Mockup decisions after the owner's first look (2026-10-20)
+## Mockup decisions (owner, 2026-10-20)
 
 - A **use** pick shows only that use: products are sized by what they send to it, with no "other uses" band.
-- With a **country** picked, the card is removed (it already only appears once a line is tapped).
-- Still open: grey "from outside the selection" inflows on chapter and product picks; colours; per-country later or never.
+- **Chapter and product** picks keep grey inflows into each use from outside the selection (what else feeds it).
+- A use under 1% of the selection is drawn and labelled with no grey inflow.
+- With a **country** picked, the card is removed (it already only appears once a line is tapped). Per-country data
+  is exact and is a separate, later session.
+- Phone labels slant up and to the right (about 55 degrees), steepening only where one would leave the chart.
+- Still open: colours.

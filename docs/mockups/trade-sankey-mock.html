@@ -85,18 +85,19 @@ h2.row{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.08em;text-transf
 <h2 class="row">Phone, 375px: flows top to bottom</h2>
 <div class="phone-wrap">
   <div class="phone"><div class="card" id="phone-card"></div></div>
-  <div class="phone-note">On a phone the three columns become three rows. Every node keeps its name and value: names that fit across a node sit level, the rest turn upright beside it (rule 10: labels never vanish), so the chart is taller than wide. A tap on a band pins its tooltip; a tap elsewhere, Esc or a scroll closes it. The same state follows the picker at the top.</div>
+  <div class="phone-note">On a phone the three columns become three rows. Every node keeps its name and value: names that fit across a node sit level, the rest slant up and to the right at about 55° (rule 10: labels never vanish), steepening only where a label would otherwise run off the edge. The middle row’s labels sit on whichever side of it slants more. A tap on a band pins its tooltip; a tap elsewhere, Esc or a scroll closes it. The same state follows the picker at the top.</div>
 </div>
 
 <div class="note">
-<b>Open questions for the owner</b>
+<b>Decided (owner, 2026-10-20)</b>
 <ol>
-<li><b>Per-country.</b> With a country picked, the card is removed (tick the box above). The brief assumed a per-country split would be an estimate. It would not: Census publishes HS10 by partner, and every HS10 line has exactly one end use, so a per-country Sankey is exact. Cost: no all-partner query at HS10 (the wildcard fails), so one call per partner per year per flow, about 7,400 calls (a few hours for the first fetch; China, the largest, is 0.7 MB and 6 s per year-flow; raw cache under 1 GB, not committed); the output would be small (2,100 chapter-product-use triples per year-flow nationally, far fewer per partner). Build all-countries first and add countries later (the card would then come back for a country), or never?</li>
-<li><b>Colours.</b> The card above uses neutral grey bars. Here bands take the colour of the end they are “many” of: the use they reach (chapter and product picks) or the chapter they start from (use picks), six solid colours plus a neutral “Other”. Keep, or one accent colour for the whole selection?</li>
-<li><b>Exports vs imports.</b> The mock shows imports (bigger and more split). The card follows the Exports / Imports toggle above. Note export “Civilian aircraft, engines &amp; parts” is one heading (8800) in one chapter, so that use reversed is a single band; the exports chapter-85 state is in the picker for comparison.</li>
-<li><b>Grey on chapter and product picks.</b> A use picked now shows only that use: each product is sized to what it sends there, with no “other uses” band. Chapter and product picks still show grey inflows into each use from outside the selection (Phones &amp; network equipment is 79% of telecom equipment; the other 21% is grey), which is how the many-to-one shows there. Keep that, or drop grey everywhere for the same reason?</li><li><b>Grey inflows only above 1%.</b> A use that takes under 1% of the selection (8517 sends $17M to “Other vehicle parts”) is still drawn and labelled, but without its grey inflow, which would otherwise be $138B of unrelated auto parts. OK?</li>
-<li><b>Data size and refresh.</b> All countries: 2 calls per year (450 KB + 1.1 MB, 5–17 s), 34 calls for 2010–2026, plus one concordance file per year and flow (2010–2019 are old .xls, 2020 on .xlsx). Output roughly 50 KB per year-flow, about 1.7 MB for 2010–2026 (≈ 400 KB gzipped), one file per year so the page loads one year at a time. Weekly refresh: the year in progress plus the prior year, 4 calls.</li>
+<li>A use pick shows only that use; products are sized by what they send to it.</li>
+<li>Chapter and product picks keep the grey inflows from outside the selection: they show what else feeds each use.</li>
+<li>A use under 1% of the selection is drawn and labelled without a grey inflow.</li>
+<li>With a country picked the card is removed. Per-country data (exact, about 7,400 API calls) is a later, separate session.</li>
+<li>Phone labels slant rather than standing upright.</li>
 </ol>
+<b>Still open:</b> colours (bands coloured by the use they reach, or by chapter on a use pick, against the card above’s plain grey bars).
 </div>
 </main>
 <div class="tip" id="tip" role="tooltip"></div>
@@ -202,14 +203,38 @@ function draw(container,width){
     const tot=Math.max(...cols.map(c=>c.reduce((a,n)=>a+n.h,0)));
     const maxN=Math.max(...cols.map(c=>c.length));
     let k=(inner-GAP*(maxN-1))/tot;
-    for(let it=0;it<6;it++){const need=Math.max(...cols.map(c=>c.reduce((a,n)=>a+Math.max(n.h*k,14),0)+GAP*(c.length-1)));if(need<=inner)break;k*=inner/need*0.995;}
-    cols.forEach(cn=>{let x=0;cn.forEach(n=>{n.len=Math.max(n.h*k,1.5);const slot=Math.max(n.len,14);n.x=pad+x+(slot-n.len)/2;n.slot=[pad+x,slot];x+=slot+GAP});const off=(inner-(x-GAP))/2;cn.forEach(n=>{n.x+=off;n.slot[0]+=off})});
+    for(let it=0;it<6;it++){const need=Math.max(...cols.map(c=>c.reduce((a,n)=>a+Math.max(n.h*k,17),0)+GAP*(c.length-1)));if(need<=inner)break;k*=inner/need*0.995;}
+    cols.forEach(cn=>{let x=0;cn.forEach(n=>{n.len=Math.max(n.h*k,1.5);const slot=Math.max(n.len,17);n.x=pad+x+(slot-n.len)/2;n.slot=[pad+x,slot];x+=slot+GAP});const off=(inner-(x-GAP))/2;cn.forEach(n=>{n.x+=off;n.slot[0]+=off})});
     // label orientation per node
     const txt=n=>lab1(n)+'  '+val1(n);
     cols.flat().forEach(n=>{const w=measure(txt(n),fs)+6;n.flat=w<=n.slot[1]+ (n.col===0&&cols[0].length===1?999:0);n.lw=w});
-    const area=c=>Math.max(16,...cols[c].map(n=>n.flat?16:n.lw));
-    const A0=area(0), G1=Math.max(70,cols[1].every(n=>n.flat)?70:70), A1=area(1), A2=area(2);
-    const y0=A0+4, y1=y0+NW+G1, y2=y1+NW+A1+40;
+    // Slanted labels read up and to the right (rule 10). A label above its row rises from the node's left corner
+    // to the right; a label below its row ends at the node's right corner, reaching down and to the left. Each
+    // starts at 55 degrees and steepens only if it would leave the chart; walking in from that edge, a neighbour
+    // takes the same angle if at its own it would run into the steeper label (two lines from anchors on one row
+    // close in by depth x (cot a_far - cot a_near); the gap left at the shorter one's end must stay 14px or more). Row 0 sits above, row 2 below; row 1 takes whichever side
+    // slants more.
+    const SLANT=55*Math.PI/180;
+    const slant=(cn,up)=>{
+      const seq=cn.filter(n=>!n.flat).map(n=>({n,ax:up?n.slot[0]+Math.min(6,n.slot[1]/2):n.slot[0]+n.slot[1]-Math.min(6,n.slot[1]/2)}));
+      if(up) seq.reverse();
+      let prev=null;const out=[];
+      seq.forEach(o=>{const room=(up?W-o.ax:o.ax)-8;let a=SLANT;
+        if(o.n.lw>room)a=Math.max(a,Math.acos(Math.max(0,room/o.n.lw)));
+        if(prev&&a<prev.a){const dx=Math.abs(o.ax-prev.ax),depth=Math.min(o.n.lw*Math.sin(a),prev.n.lw*Math.sin(prev.a));
+          const gap=(dx-depth*(1/Math.tan(a)-1/Math.tan(prev.a)))*Math.sin(a);
+          if(gap<14)a=prev.a;}
+        o.a=a;out.push(o);prev=o;});
+      return out;
+    };
+    const apply=(r,up)=>r.forEach(o=>{o.n.angle=o.a;o.n.ax=o.ax;o.n.up=up});
+    apply(slant(cols[0],true),true); apply(slant(cols[2],false),false);
+    const r1u=slant(cols[1],true), r1d=slant(cols[1],false), sum=r=>r.reduce((q,o)=>q+o.a,0);
+    const up1=sum(r1u)<sum(r1d); apply(up1?r1u:r1d,up1); cols[1].forEach(n=>{if(n.flat)n.up=up1});
+    cols[0].forEach(n=>n.up=true);cols[2].forEach(n=>n.up=false);
+    const area=c=>Math.max(16,...cols[c].map(n=>n.flat?16:n.lw*Math.sin(n.angle)+8));
+    const A0=area(0), A1=area(1), A2=area(2);
+    const y0=A0+4, y1=y0+NW+(up1?A1+30:70), y2=y1+NW+(up1?70:A1+40);
     cols[0].forEach(n=>n.y=y0);cols[1].forEach(n=>n.y=y1);cols[2].forEach(n=>n.y=y2);
     H=y2+NW+A2+4;
   }
@@ -260,11 +285,11 @@ function draw(container,width){
       else lb+=`<text class="${cls}${halo}" x="${x}" y="${cy+4}" text-anchor="${anchor}">${esc(lab1(n))}<tspan class="num" dx="6">${val1(n)}</tspan></text>`;
     } else {
       const cx=n.slot[0]+n.slot[1]/2;
-      const above=n.col===0, halo=n.col===1?' halo':'';
+      const above=n.up, halo=n.col===1?' halo':'';
       if(n.flat){const y=above?n.y-5:n.y+NW+13;lb+=`<text class="${cls} v${halo}" x="${cx}" y="${y}" text-anchor="middle">${esc(lab1(n))}<tspan class="num" dx="5">${val1(n)}</tspan></text>`;}
-      else {const y=above?n.y-4:n.y+NW+4; const rot=-90;
-        const ty=above?y:y+n.lw;
-        lb+=`<text class="${cls} v${halo}" transform="translate(${cx+3.6},${ty}) rotate(-90)" text-anchor="start">${esc(lab1(n))}<tspan class="num" dx="5">${val1(n)}</tspan></text>`;}
+      else {const y=above?n.y-4:n.y+NW+11;
+        const deg=-n.angle*180/Math.PI;
+        lb+=`<text class="${cls} v${halo}" transform="translate(${n.ax},${y}) rotate(${deg.toFixed(1)})" text-anchor="${above?'start':'end'}">${esc(lab1(n))}<tspan class="num" dx="5">${val1(n)}</tspan></text>`;}
     }
   });
   container.innerHTML=`<svg class="sk" viewBox="${horiz?0:0} ${horiz?-2:0} ${W} ${H+4}" width="${W}" height="${H+4}" role="img" aria-label="Sankey of ${esc(S.nodes.find(n=>n.code===S.sel)?.label||'')}">${rib}${nd}${lb}</svg>`;
