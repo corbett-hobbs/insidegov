@@ -86,7 +86,11 @@ function HeadTip({ label, children, end }: { label: string; children: ReactNode;
       <span tabIndex={0} className={`${HEAD} cursor-help underline decoration-dotted decoration-line-strong underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}>
         {label}
       </span>
+<<<<<<< HEAD
       <span className={`pointer-events-none invisible absolute ${end ? "right-0" : "left-0"} top-full z-30 mt-1.5 flex w-max max-w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100`}>
+=======
+      <span className="pointer-events-none invisible absolute left-0 top-full z-30 mt-1.5 flex w-max max-w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+>>>>>>> 1446353b7a3c51609f2696bfbb82e672b6b0c010
         {children}
       </span>
     </span>
