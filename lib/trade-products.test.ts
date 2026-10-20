@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { HS_CHAPTERS } from "./trade-hs-chapters";
-import { fmtDollars, fmtPct, lagOf, periodText, productsView, specialNote, type ProductsRow, type ProductsView, type TradeProductsPayload } from "./trade-products";
+import { fmtDollars, fmtPct, lagOf, partnersOf, periodText, productsView, specialNote, type ProductPartnersPayload, type ProductsRow, type ProductsView, type TradeProductsPayload } from "./trade-products";
 import { MONTH_NAMES } from "./indicator-time";
 import type { TradeByCountryRow } from "./trade-entities";
 
@@ -24,6 +24,30 @@ describe("goods-by-product payloads", () => {
       expect(p.rows[0]).not.toHaveProperty("country_code");
     }
     expect(getProductsPayload("XXX")).toBeNull();
+  });
+});
+
+describe("partnersOf", () => {
+  const payload: ProductPartnersPayload = {
+    names: { CHN: "China", MEX: "Mexico" },
+    rows: [
+      { year: 2025, months: 12, flow: "imports", chapters: { "85": [["CHN", 60, 50, 5], ["MEX", 30, 0, 0]] }, headings: { "8517": [["CHN", 40, 40, 4]] } },
+      { year: 2025, months: 12, flow: "exports", chapters: { "85": [["MEX", 20]] }, headings: {} },
+    ],
+  };
+
+  it("names each country, shares its value of the line, and takes a duty rate from imports only", () => {
+    expect(partnersOf(payload, 2025, "imports", "chapter", "85", 100)).toEqual([
+      { code: "CHN", name: "China", value: 60, share: 0.6, rate: 0.1 },
+      { code: "MEX", name: "Mexico", value: 30, share: 0.3, rate: null },
+    ]);
+    expect(partnersOf(payload, 2025, "exports", "chapter", "85", 40)![0]).toEqual({ code: "MEX", name: "Mexico", value: 20, share: 0.5, rate: null });
+    expect(partnersOf(payload, 2025, "imports", "heading", "8517", 80)![0].share).toBe(0.5);
+  });
+
+  it("is null for a year, heading or flow the payload does not carry", () => {
+    expect(partnersOf(payload, 2024, "imports", "chapter", "85", 100)).toBeNull();
+    expect(partnersOf(payload, 2025, "exports", "heading", "8517", 100)).toBeNull();
   });
 });
 

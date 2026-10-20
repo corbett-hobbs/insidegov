@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
   // past the Hobby plan's 12-function limit. Keep this while no server function reads them; a non-static route
   // that does must drop it and list itself in outputFileTracingIncludes instead.
   outputFileTracingExcludes: {
-    "/**": ["./pipeline/output/trade_products/**"],
+    "/**": ["./pipeline/output/trade_products/**", "./pipeline/output/trade_products_partners.json"],
   },
 };
 

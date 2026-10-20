@@ -1,5 +1,5 @@
 import { HS_CHAPTERS, SPECIAL_HEADINGS } from "./trade-hs-chapters";
-import type { TradeProductsNationalRow } from "./trade-products-entities";
+import type { TradeProductsNationalRow, TradeProductsPartnersRow } from "./trade-products-entities";
 
 /**
  * Pure model for the "What the U.S. trades" card: one partner's (or all
@@ -26,6 +26,25 @@ export interface TradeProductsPayload {
   rows: ProductsRow[];
   /** Plain-English name for every heading the rows rank (`lib/trade-hs-headings.ts`). */
   names: Record<string, string>;
+}
+
+/** What `/data/trade/product-partners/[year]` serves: the top countries behind each chapter and top heading in one year (both flows). */
+export interface ProductPartnersPayload {
+  rows: TradeProductsPartnersRow[];
+  /** Display name for every partner code the rows list. */
+  names: Record<string, string>;
+}
+
+/** One country in a product's top list. */
+export interface PartnerLine {
+  code: string;
+  name: string;
+  /** Exports, or general imports, whole $: the same basis as the product line it sits under. */
+  value: number;
+  /** Share of the product line's value (the line's all-countries total). */
+  share: number;
+  /** Imports only: calculated duty / imports for consumption from this country in this product. Null for exports or none for consumption. */
+  rate: number | null;
 }
 
 export interface ProductLine {
@@ -96,6 +115,23 @@ export function productsView(payload: TradeProductsPayload, year: number, flow: 
     special,
     specialTotal,
   };
+}
+
+/**
+ * The countries behind one chapter or heading in one year and flow, largest first (at most 5), or null when the
+ * payload has no such list (a year or heading it does not carry). `lineValue` is the product's all-countries value.
+ */
+export function partnersOf(payload: ProductPartnersPayload, year: number, flow: ProductsFlow, level: "chapter" | "heading", code: string, lineValue: number): PartnerLine[] | null {
+  const r = payload.rows.find((x) => x.year === year && x.flow === flow);
+  const list = (level === "chapter" ? r?.chapters : r?.headings)?.[code] as readonly (readonly (string | number)[])[] | undefined;
+  if (!list) return null;
+  return list.map((t) => ({
+    code: t[0] as string,
+    name: payload.names[t[0] as string] ?? (t[0] as string),
+    value: t[1] as number,
+    share: lineValue > 0 ? (t[1] as number) / lineValue : 0,
+    rate: flow === "imports" ? rateOf(t[2] as number, t[3] as number) : null,
+  }));
 }
 
 /** Whole dollars, compact: "$2.42T", "$412B", "$12.3B", "$450M", "$4.5M", "$12K", "$850". */

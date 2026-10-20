@@ -11,8 +11,8 @@ import {
 import { CENSUS_RAW_DIR, parseRawDuties } from "../fetch/census-trade-lib";
 import { DATAWEB_RAW_DIR, parseDataWebRaw } from "../fetch/dataweb-duties-lib";
 import { FLOWS, PRODUCTS_RAW_DIR, parseRawDescriptions, parseRawProducts, productsDescPath, type RawProducts } from "../fetch/census-products-lib";
-import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsRow, type TradeProductsRow } from "../../lib/trade-products-entities";
-import { HEADINGS_NATIONAL, HEADINGS_PER_ROW, PRODUCTS_TOL, buildProducts, validateProducts } from "./trade-products";
+import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsPartnersRow, tradeProductsRow, type TradeProductsRow } from "../../lib/trade-products-entities";
+import { HEADINGS_NATIONAL, HEADINGS_PER_ROW, PARTNERS_PER_PRODUCT, PRODUCTS_TOL, buildProducts, validateProducts } from "./trade-products";
 import {
   buildCountries,
   buildDuties,
@@ -30,7 +30,7 @@ import { readXlsx } from "./xlsx";
  * Trade track transform: raw/census-trade/* -> pipeline/output/
  *   countries.json, trade_national.json, trade_by_country/<year>.json,
  *   duties_national.json, duties_by_country/<year>.json, trade_report.json,
- *   trade_products/<country_code>.json, trade_products_national.json, trade_products_headings.json
+ *   trade_products/<country_code>.json, trade_products_national.json, trade_products_headings.json, trade_products_partners.json
  * Deterministic (no run timestamp). Fails the build on any validation error.
  */
 const OUT = "pipeline/output";
@@ -157,6 +157,7 @@ async function main() {
     rows: productsBuild.rows.map((r) => tradeProductsRow.parse(r)),
     national: productsBuild.national.map((r) => tradeProductsNationalRow.parse(r)),
     headings: productsBuild.headings.map((r) => tradeProductsHeading.parse(r)),
+    partners: productsBuild.partners.map((r) => tradeProductsPartnersRow.parse(r)),
   };
   const pv = validateProducts({ build: products, countries, byCountry, dutiesCountry, national });
 
@@ -171,6 +172,7 @@ async function main() {
 
   await writeFile(`${OUT}/trade_products_national.json`, oneRowPerLine(products.national));
   await writeFile(`${OUT}/trade_products_headings.json`, oneRowPerLine(products.headings));
+  await writeFile(`${OUT}/trade_products_partners.json`, oneRowPerLine(products.partners));
   const productShards = await writeCountryShards("trade_products", products.rows);
 
   const shardTotal = (dir: string) => Object.entries(shardSizes).filter(([k]) => k.startsWith(`${dir}/`)).reduce((s, [, n]) => s + n, 0);
@@ -220,6 +222,8 @@ async function main() {
       headings_per_row: HEADINGS_PER_ROW,
       headings_national: HEADINGS_NATIONAL,
       headings_in_lookup: products.headings.length,
+      partners_per_product: PARTNERS_PER_PRODUCT,
+      partner_lists: { chapters: products.partners.reduce((s, r) => s + Object.keys(r.chapters).length, 0), headings: products.partners.reduce((s, r) => s + Object.keys(r.headings).length, 0) },
       heading_coverage_of_goods_value: pv.headingCoverage,
       reconciliation: {
         tolerances: PRODUCTS_TOL,
@@ -245,6 +249,7 @@ async function main() {
       "trade_products/* (largest partner)": productShards.largest,
       "trade_products_national.json": await size("trade_products_national.json"),
       "trade_products_headings.json": await size("trade_products_headings.json"),
+      "trade_products_partners.json": await size("trade_products_partners.json"),
     },
   };
   await writeFile(`${OUT}/trade_report.json`, JSON.stringify(report, null, 2) + "\n");
