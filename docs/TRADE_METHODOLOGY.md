@@ -268,6 +268,116 @@ shows, and why:
   year, `/data/trade/product-partners/[year]` (from `trade_products_partners.json`), fetched the first time a line opens, for the year on screen. With
   one country picked there is nothing to break down, so a click only highlights.
 
+## Goods by use (end-use categories)
+
+What the U.S. trades with each partner, in categories a reader recognizes (aircraft, computers, semiconductors, cell
+phones, pharmaceuticals, crude oil), in dollars, 2010 on. A second view of the same shipments as "Goods by product",
+by what the goods are *used for* instead of by tariff chapter. **Data layer only so far**; the card (a "By use"
+toggle on "What the U.S. trades", sharing its year and Country filter) is a separate change. Fetch
+`pipeline/fetch/census-enduse.ts` (library `census-enduse-lib.ts`); transform `pipeline/transform/trade-enduse.ts`
+(run from `trade-run.ts`); schemas `lib/trade-enduse-entities.ts`; plain names `lib/trade-enduse-labels.ts`.
+
+**Why this classification.** Company-level trade data is not public (13 U.S.C. § 9), and HS6 subheadings are too
+technical to read. Census's end-use classification is the one Census itself publishes in recognizable terms: about
+140 categories per flow, from "Soybeans" and "Crude oil" through "Semiconductors" and "Cell phones & household
+goods" to "Passenger cars" and "Pharmaceuticals".
+
+**Source.** The Census international trade API, `timeseries/intltrade/exports/enduse` (`E_ENDUSE`) and
+`imports/enduse` (`I_ENDUSE`), `COMM_LVL=EU5` (5-digit categories; `EU1` is the five broad groups). The value
+variables are the same bases as the HS files: exports `ALL_VAL_YR` (total exports, domestic and foreign); imports
+`GEN_VAL_YR` (general imports), `CON_VAL_YR` (imports for consumption) and `CAL_DUT_YR` (calculated duty), so a
+category's collected rate is `duties / con_value`. Data starts in January 2010 (2009 returns 204). 138 export and
+142 import categories have trade in 2010-2026; 135 and 139 are ranked kinds of goods, the other six are special
+entries (below). Dollars only, as for HS.
+
+**Query shape (measured 2026-10-20).** One call per **category** returns every partner and every year:
+`COMM_LVL=EU5&<E|I>_ENDUSE=<code>&time=from 2010-01 to <latest>&MONTH=12&MONTH=<latest month>` (about 1.5 s;
+280 calls for a full fetch, 75 s at concurrency 3). A call per partner also works, but needs the partner list in
+hand; the per-category call discovers new partner codes by itself. The all-countries call (`CTY_CODE=-`, no
+category) names every category with trade and carries its description; the category calls' own all-countries rows
+are checked against it to the dollar. **The category column must be in `get`**: without it the API answers 204 for
+any month, which looks exactly like "not published". The latest published month is probed with a one-category query
+for that reason. Responses carry Census's country groupings (codes starting `00`, e.g. `0003` EU, `0014` Pacific
+Rim) and a `1XXX` row; none is kept (the groupings are not countries, `1XXX` is not a country: for the one category checked its values equal the `0020` grouping's, and without it the partner rows reproduce the all-countries row exactly).
+Only `-` (all countries) and the numeric partner codes are kept. Zero rows are dropped. Each response is cached
+under `pipeline/raw/census-trade/enduse/_cache/` (git-ignored) so an interrupted run resumes.
+
+**Raw files** (`pipeline/raw/census-trade/enduse/{exports,imports}/<year>.json` plus `descriptions.json`,
+committed): `[CTY_CODE, code, ...values]` one per line, whole dollars as numbers. 17.7 MB for both flows, 2010-2026.
+A rerun with an empty cache reproduces them byte for byte (`fetched_at` is carried over while nothing changed).
+
+**Codes differ by flow.** The export and import code lists share only 62 codes with identical descriptions; the rest
+differ, and some codes mean different things (`00000` is wheat on exports and green coffee on imports; `50020` is
+military aircraft engines on exports and U.S. goods returned on imports). Codes and names are therefore only ever
+used together with their flow: `ENDUSE_LABELS[flow][code]`, `trade_enduse_labels.json` keyed `flow`+`code`.
+
+**Civilian aircraft on exports.** Exports publish civilian aircraft, engines, equipment and parts as one category,
+`22090` ($153.5B in 2025, the largest export category; the split is withheld, most likely for confidentiality).
+`22000` (complete civilian aircraft, $0.6B) is a separate small line on exports from 2022. Imports split the same
+goods into `22000` aircraft ($15.5B), `22010` parts ($17.1B) and `22020` engines ($28.2B). A card that compares
+the two flows must not read the export line as "aircraft" and the import line as "aircraft" alone.
+
+**Special entries.** Some lines are how a shipment crossed the border, not a kind of good. They are in every sum
+(the categories sum to a partner's total only with them) but are listed in `special`, not `categories`, never ranked
+and named in a footnote, like the HS files' chapters 98-99 (`ENDUSE_SPECIAL`):
+
+| Flow | Code | Plain name | 2025 |
+| --- | --- | --- | --- |
+| Exports | `60000` | Minimum-value shipments | $54.7B |
+| Exports | `60010` | Miscellaneous domestic exports & special transactions | $10.2B |
+| Exports | `60040` | Undocumented exports to Canada (2024 on) | $0.3B |
+| Imports | `50020` | U.S. goods returned & reimports | $103.6B |
+| Imports | `50030` | Minimum-value shipments | $30.1B |
+| Imports | `50040` | Movies, miscellaneous imports & special transactions | $11.5B |
+
+Catch-all "n.e.c." and "other" categories that are still goods (Other industrial machines, Other chemicals, Other
+vehicle parts, Other foods) are ranked. Military categories (`50xxx` on exports, `50000`/`50010` on imports) are
+real kinds of goods and are ranked.
+
+**Output** (whole dollars, keyed by `country_code`; same tuples as the HS files, `lib/trade-enduse-entities.ts`):
+
+- `trade_enduse/<country_code>.json`: one row per (year, flow) for the partner: `value`, (imports: `con_value`,
+  `duties`), `categories` (ranked, largest first; exports `[code, value]`, imports `[code, value, con_value,
+  duties]`), `special`. **Every** category with trade is kept, not a top N: 236 files, 14.4 MB (about 5.1 MB gzipped
+  as a tarball); the largest partner is Canada at 139 KB.
+- `trade_enduse_national.json`: the same per (year, flow) for all countries, from the API's all-countries row. 153 KB.
+- `trade_enduse_labels.json`: one row per (flow, code): plain `label`, Census's `census_desc`, `special`. 34 KB.
+- `trade_enduse_partners.json`: per (year, flow), the top five partners of every ranked category, same tuples,
+  largest first. **Exact**, derived from the per-partner rows (every partner row carries every category it trades),
+  so unlike the HS headings no category is ranked from a truncated list. 670 KB.
+
+**Validation (fails `pnpm transform`).** Zod on every row; every category in the data has a label and every label
+is used (`lib/trade-enduse-labels.ts`; also `pipeline/transform/trade-enduse.test.ts`); in `validateEnduse` (tolerances
+`ENDUSE_TOL`, measured values in `trade_report.json` under `enduse`):
+
+- Each partner-year's categories (with special entries) sum to its `trade_by_country` total (exports, general imports;
+  months 1 to `months` for the year in progress) within the larger of $1M and 0.1%. Measured worst among partners of
+  $100M or more: 0.16% (Grenada exports, 2026: $0.2M on $132M, inside the $1M floor); exports to Canada in the
+  year in progress are the one exception, with a 1.5% tolerance: 0.76% ($1.8B on $236.0B), the same Census revision
+  timing as the HS files (the latest month and every full year agree).
+- Imports for consumption and calculated duty sum to `duties_by_country` within 0.05% plus $1 per category. Measured
+  worst: **$0 gap** (every partner-year).
+- Against the HS-chapter files (`trade_products`, the same API and bases, a different classification of the same
+  shipments), every partner-year's `value`, `con_value` and `duties` agree within 0.05% plus $1 per category.
+  Measured worst: **$0 gap** (all 7,904 partner-year-flows).
+- Per category-year, the partners' rows sum to the API's all-countries row within 0.2% (and $1M). Measured worst:
+  **$0 gap** (per category and per year-flow total): the partner codes 1xxx-9xxx account for the all-countries row
+  exactly, with the groupings and `1XXX` excluded.
+- All-countries categories sum to the World goods total (Census basis, full years) within 0.1%. Measured worst:
+  3e-8 ($0.05M on $1.5T, 2015 exports; the World table is whole $M).
+- Partner lists: known non-aggregate countries, largest first, never more than the all-countries row, the leader is
+  the largest partner row. Same months for both flows; no year without an all-countries row.
+
+**Refresh.** The weekly `trade-freshness.yml` runs `pnpm fetch:census-enduse --recent` (the year in progress and the
+three before it, about 280 calls, 35 s), then the usual transform. A new category code with no label fails the
+transform with its Census description, to be named deliberately. A new Census country code fails the transform until
+it is added to `countries.json`, like the other trade files. The full fetch (`pnpm fetch:census-enduse`) is only
+needed to start over.
+
+**Not built.** The card, and a loader for these files: `next.config.ts` keeps `trade_enduse/**` and
+`trade_enduse_partners.json` out of every server function's trace (as for `trade_products`) until a static route
+reads them.
+
 ## Country codes
 
 `country_code` is the join key. Rows in `countries.json` are one per **Census code**

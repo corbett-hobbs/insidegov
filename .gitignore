@@ -58,3 +58,5 @@ pipeline/raw/_scratch/
 pipeline/financial_disclosures/checkbox_scan_v2_results.json
 # per-call Census API cache that makes the goods-by-product fetch resumable
 pipeline/raw/census-trade/products/_cache/
+# per-call Census API cache that makes the end-use fetch resumable
+pipeline/raw/census-trade/enduse/_cache/

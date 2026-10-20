@@ -1,0 +1,17 @@
+[
+{"country_code":"PRK","year":2010,"months":12,"flow":"exports","value":2867073,"categories":[["00000",1482210],["40100",1094302],["42000",273763],["00360",9798],["10140",7000]],"special":[]},
+{"country_code":"PRK","year":2010,"months":12,"flow":"imports","value":8363,"con_value":8363,"duties":0,"categories":[["41320",8363,8363,0]],"special":[]},
+{"country_code":"PRK","year":2011,"months":12,"flow":"exports","value":9405834,"categories":[["40100",3372804],["00360",199130],["00300",160195],["40000",68285],["21610",25262],["40140",17380],["12430",11510],["41000",7350]],"special":[["60010",5543918]]},
+{"country_code":"PRK","year":2012,"months":12,"flow":"exports","value":11952220,"categories":[["40100",10969861],["00300",415663],["00360",105161],["41030",24056],["30000",20000],["40120",16500],["40000",13524],["21030",10299],["12770",9394],["40030",8250]],"special":[["60010",359512]]},
+{"country_code":"PRK","year":2013,"months":12,"flow":"exports","value":6582817,"categories":[["40100",5140364],["00300",285666],["40000",101965],["40120",47152],["21600",12567],["40140",6600]],"special":[["60010",988503]]},
+{"country_code":"PRK","year":2014,"months":12,"flow":"exports","value":24028661,"categories":[["40100",16618188],["00360",2008196],["21610",165927],["41050",117090],["00300",50763],["21160",34962],["21400",17822],["40140",10040],["40030",7500],["40000",3900]],"special":[["60010",4994273]]},
+{"country_code":"PRK","year":2015,"months":12,"flow":"exports","value":4751721,"categories":[["40100",957421],["00360",456729],["21610",108284],["00300",55810],["00350",16360],["41050",13736]],"special":[["60010",3143381]]},
+{"country_code":"PRK","year":2016,"months":12,"flow":"exports","value":118494,"categories":[["00300",70963],["01010",44881],["40110",2650]],"special":[]},
+{"country_code":"PRK","year":2022,"months":12,"flow":"imports","value":29088,"con_value":0,"duties":0,"categories":[["16120",29088,0,0]],"special":[]},
+{"country_code":"PRK","year":2023,"months":12,"flow":"exports","value":131930,"categories":[["12550",67327],["12500",54040],["40100",6633],["22090",3930]],"special":[]},
+{"country_code":"PRK","year":2024,"months":12,"flow":"exports","value":1528597,"categories":[["12540",744603],["40100",714226],["12770",31326],["12550",14670],["20005",10956],["12700",7174],["12500",5642]],"special":[]},
+{"country_code":"PRK","year":2024,"months":12,"flow":"imports","value":57465,"con_value":0,"duties":0,"categories":[["16120",57465,0,0]],"special":[]},
+{"country_code":"PRK","year":2025,"months":12,"flow":"exports","value":543162,"categories":[["12530",523000],["21160",13526],["12550",3987],["40120",2649]],"special":[]},
+{"country_code":"PRK","year":2025,"months":12,"flow":"imports","value":138902,"con_value":0,"duties":0,"categories":[["40120",138902,0,0]],"special":[]},
+{"country_code":"PRK","year":2026,"months":8,"flow":"exports","value":8773,"categories":[["40030",8773]],"special":[]}
+]

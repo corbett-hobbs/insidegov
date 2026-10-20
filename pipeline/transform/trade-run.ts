@@ -11,7 +11,10 @@ import {
 import { CENSUS_RAW_DIR, parseRawDuties } from "../fetch/census-trade-lib";
 import { DATAWEB_RAW_DIR, parseDataWebRaw } from "../fetch/dataweb-duties-lib";
 import { FLOWS, PRODUCTS_RAW_DIR, parseRawDescriptions, parseRawProducts, productsDescPath, type RawProducts } from "../fetch/census-products-lib";
-import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsPartnersRow, tradeProductsRow, type TradeProductsRow } from "../../lib/trade-products-entities";
+import { ENDUSE_RAW_DIR, parseRawEnduse, parseRawEnduseDescriptions, enduseDescPath, type RawEnduse } from "../fetch/census-enduse-lib";
+import { tradeEnduseLabel, tradeEnduseNationalRow, tradeEndusePartnersRow, tradeEnduseRow } from "../../lib/trade-enduse-entities";
+import { ENDUSE_PARTNERS_PER_CATEGORY, ENDUSE_TOL, buildEnduse, validateEnduse } from "./trade-enduse";
+import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsPartnersRow, tradeProductsRow } from "../../lib/trade-products-entities";
 import { HEADINGS_NATIONAL, HEADINGS_PER_ROW, PARTNERS_PER_PRODUCT, PRODUCTS_TOL, buildProducts, validateProducts } from "./trade-products";
 import {
   buildCountries,
@@ -30,7 +33,8 @@ import { readXlsx } from "./xlsx";
  * Trade track transform: raw/census-trade/* -> pipeline/output/
  *   countries.json, trade_national.json, trade_by_country/<year>.json,
  *   duties_national.json, duties_by_country/<year>.json, trade_report.json,
- *   trade_products/<country_code>.json, trade_products_national.json, trade_products_headings.json, trade_products_partners.json
+ *   trade_products/<country_code>.json, trade_products_national.json, trade_products_headings.json, trade_products_partners.json,
+ *   trade_enduse/<country_code>.json, trade_enduse_national.json, trade_enduse_labels.json, trade_enduse_partners.json
  * Deterministic (no run timestamp). Fails the build on any validation error.
  */
 const OUT = "pipeline/output";
@@ -52,10 +56,10 @@ async function writeShards<T extends { year: number }>(dir: string, rows: T[]): 
 }
 
 /** One file per partner (the page loads one country at a time). */
-async function writeCountryShards(dir: string, rows: TradeProductsRow[]): Promise<{ total: number; largest: { file: string; bytes: number } }> {
+async function writeCountryShards<T extends { country_code: string }>(dir: string, rows: T[]): Promise<{ total: number; largest: { file: string; bytes: number } }> {
   await rm(`${OUT}/${dir}`, { recursive: true, force: true });
   await mkdir(`${OUT}/${dir}`, { recursive: true });
-  const byCode = new Map<string, TradeProductsRow[]>();
+  const byCode = new Map<string, T[]>();
   for (const r of rows) byCode.set(r.country_code, [...(byCode.get(r.country_code) ?? []), r]);
   let total = 0;
   let largest = { file: "", bytes: 0 };
@@ -79,6 +83,21 @@ async function readRawProducts(): Promise<RawProducts[]> {
       const raw = parseRawProducts(JSON.parse(await readFile(`${dir}/${f}`, "utf8")));
       if (`${raw.year}.json` !== f || raw.flow !== flow) throw new TradeDataError(`${dir}/${f}: flow/year fields (${raw.flow} ${raw.year}) do not match the path`);
       if (raw.heading_k < HEADINGS_PER_ROW) throw new TradeDataError(`${dir}/${f}: keeps ${raw.heading_k} headings per partner, fewer than HEADINGS_PER_ROW (${HEADINGS_PER_ROW})`);
+      out.push(raw);
+    }
+  }
+  return out;
+}
+
+async function readRawEnduse(): Promise<RawEnduse[]> {
+  const out: RawEnduse[] = [];
+  for (const flow of FLOWS) {
+    const dir = `${ENDUSE_RAW_DIR}/${flow}`;
+    const files = (await readdir(dir).catch(() => [] as string[])).filter((f) => /^\d{4}\.json$/.test(f)).sort();
+    if (!files.length) throw new TradeDataError(`${dir} is empty — run pnpm fetch:census-enduse`);
+    for (const f of files) {
+      const raw = parseRawEnduse(JSON.parse(await readFile(`${dir}/${f}`, "utf8")));
+      if (`${raw.year}.json` !== f || raw.flow !== flow) throw new TradeDataError(`${dir}/${f}: flow/year fields (${raw.flow} ${raw.year}) do not match the path`);
       out.push(raw);
     }
   }
@@ -161,6 +180,17 @@ async function main() {
   };
   const pv = validateProducts({ build: products, countries, byCountry, dutiesCountry, national });
 
+  // Goods by Census end-use category: built and validated against the goods, duties and HS-chapter files above.
+  const enduseBuild = buildEnduse(await readRawEnduse(), countries, parseRawEnduseDescriptions(JSON.parse(await readFile(enduseDescPath, "utf8"))));
+  const enduse = {
+    ...enduseBuild,
+    rows: enduseBuild.rows.map((r) => tradeEnduseRow.parse(r)),
+    national: enduseBuild.national.map((r) => tradeEnduseNationalRow.parse(r)),
+    labels: enduseBuild.labels.map((r) => tradeEnduseLabel.parse(r)),
+    partners: enduseBuild.partners.map((r) => tradeEndusePartnersRow.parse(r)),
+  };
+  const ev = validateEnduse({ build: enduse, countries, byCountry, dutiesCountry, national, products: products.rows });
+
   await mkdir(OUT, { recursive: true });
   await writeFile(`${OUT}/countries.json`, oneRowPerLine(countries));
   await writeFile(`${OUT}/trade_national.json`, oneRowPerLine(national));
@@ -174,6 +204,11 @@ async function main() {
   await writeFile(`${OUT}/trade_products_headings.json`, oneRowPerLine(products.headings));
   await writeFile(`${OUT}/trade_products_partners.json`, oneRowPerLine(products.partners));
   const productShards = await writeCountryShards("trade_products", products.rows);
+
+  await writeFile(`${OUT}/trade_enduse_national.json`, oneRowPerLine(enduse.national));
+  await writeFile(`${OUT}/trade_enduse_labels.json`, oneRowPerLine(enduse.labels));
+  await writeFile(`${OUT}/trade_enduse_partners.json`, oneRowPerLine(enduse.partners));
+  const enduseShards = await writeCountryShards("trade_enduse", enduse.rows);
 
   const shardTotal = (dir: string) => Object.entries(shardSizes).filter(([k]) => k.startsWith(`${dir}/`)).reduce((s, [, n]) => s + n, 0);
   const shardMax = (dir: string) => Math.max(...Object.entries(shardSizes).filter(([k]) => k.startsWith(`${dir}/`)).map(([, n]) => n));
@@ -236,6 +271,29 @@ async function main() {
         worst_all_countries_vs_world_usd_millions: pv.worstNational,
       },
     },
+    enduse: {
+      coverage: { first_year: enduse.firstYear, last_year: enduse.lastYear, last_year_months: enduse.lastMonth },
+      rows: enduse.rows.length,
+      partners: new Set(enduse.rows.map((r) => r.country_code)).size,
+      categories: { exports: enduse.labels.filter((l) => l.flow === "exports" && !l.special).length, imports: enduse.labels.filter((l) => l.flow === "imports" && !l.special).length, special: enduse.labels.filter((l) => l.special).length },
+      partners_per_category: ENDUSE_PARTNERS_PER_CATEGORY,
+      partner_lists: enduse.partners.reduce((s, r) => s + Object.keys(r.categories).length, 0),
+      reconciliation: {
+        tolerances: ENDUSE_TOL,
+        worst_vs_goods_file_share_partners_over_100m_usd_millions: ev.worstGoods,
+        worst_vs_goods_file_abs_usd_millions: ev.worstGoodsAbs,
+        canada_exports_year_in_progress_usd_millions: ev.canadaExportsInProgress,
+        worst_duties_vs_duties_file: ev.worstDuties,
+        worst_con_value_vs_duties_file: ev.worstConValue,
+        worst_value_vs_hs_chapter_file: ev.worstProductsValue,
+        worst_con_value_vs_hs_chapter_file: ev.worstProductsCon,
+        worst_duties_vs_hs_chapter_file: ev.worstProductsDuties,
+        worst_partner_sum_vs_all_countries_per_category: ev.worstCountrySum,
+        worst_partner_sum_vs_all_countries_per_category_abs: ev.worstCountrySumAbs,
+        worst_partner_sum_vs_all_countries_total: ev.worstCountrySumTotal,
+        worst_all_countries_vs_world_usd_millions: ev.worstNational,
+      },
+    },
     duties_codes_not_carried: duties.droppedAggregates,
     file_sizes_bytes: {
       "countries.json": await size("countries.json"),
@@ -250,6 +308,11 @@ async function main() {
       "trade_products_national.json": await size("trade_products_national.json"),
       "trade_products_headings.json": await size("trade_products_headings.json"),
       "trade_products_partners.json": await size("trade_products_partners.json"),
+      "trade_enduse/* (total)": enduseShards.total,
+      "trade_enduse/* (largest partner)": enduseShards.largest,
+      "trade_enduse_national.json": await size("trade_enduse_national.json"),
+      "trade_enduse_labels.json": await size("trade_enduse_labels.json"),
+      "trade_enduse_partners.json": await size("trade_enduse_partners.json"),
     },
   };
   await writeFile(`${OUT}/trade_report.json`, JSON.stringify(report, null, 2) + "\n");
@@ -260,6 +323,8 @@ async function main() {
   console.log(`  worst country-sum vs World (1992+): ${JSON.stringify(v.worstCountrySumGap)}; 1991: ${JSON.stringify(v.worstCountrySumGapPre1992)}`);
   console.log(`  worst duties country-sum vs total: ${JSON.stringify(v.worstDutiesSumGap)}`);
   console.log(`  products      ${products.firstYear}..${products.lastYear} (${products.lastMonth} months); ${products.rows.length} partner-year-flows; largest file ${productShards.largest.file} ${productShards.largest.bytes} B`);
+  console.log(`  enduse        ${enduse.firstYear}..${enduse.lastYear} (${enduse.lastMonth} months); ${enduse.rows.length} partner-year-flows; largest file ${enduseShards.largest.file} ${enduseShards.largest.bytes} B`);
+  console.log(`  worst enduse vs goods file: ${JSON.stringify(ev.worstGoods)}; vs HS chapters: ${JSON.stringify(ev.worstProductsValue)}; partner sum vs all countries: ${JSON.stringify(ev.worstCountrySum)}`);
   console.log(`  worst products vs goods file: ${JSON.stringify(pv.worstGoods)}; vs duties: ${JSON.stringify(pv.worstDuties)}`);
 }
 
