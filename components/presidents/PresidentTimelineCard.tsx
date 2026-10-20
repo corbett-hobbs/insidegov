@@ -95,8 +95,16 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
 
       {list.length > 0 && (
         <>
-          <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
             <span>Passage votes and Court votes</span>
+            <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+              <i aria-hidden className="inline-block size-2.5 rounded-[3px] bg-ink" />
+              Law
+            </span>
+            <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+              <i aria-hidden className="inline-block size-2.5 rounded-full bg-ink" />
+              Court case
+            </span>
           </div>
           <ul tabIndex={0} aria-label="Landmark laws and cases, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-0 touch-scroll">
             {list.map((e) => (
@@ -131,8 +139,9 @@ function EventRow({ e, onOpen }: { e: TlEvent; onOpen: (no: number) => void }) {
           </button>
           {title}
           {e.override && <span className="text-[0.68rem] text-ink-muted">· passed over a veto</span>}
+          {/* Beside the title from sm up (saves a line); under it on a phone, or when it will not fit. */}
+          <span className="mt-0.5 basis-full text-[0.75rem] leading-[1.45] text-ink-muted sm:mt-0 sm:min-w-[14rem] sm:flex-1 sm:basis-0">{e.what}</span>
         </span>
-        <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{e.what}</span>
         {e.kind === "law" ? (
           <span className="mt-1 flex gap-3">
             <MiniVote chamber="House" t={e.tally?.house ? [0, e.tally.house[0], e.tally.house[1]] : null} />
