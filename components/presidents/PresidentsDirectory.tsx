@@ -22,7 +22,7 @@ function partyVar(p: Party) {
   return `var(${p === "D" ? "--dem" : "--rep"})`;
 }
 
-/** Major laws: the count, and the biggest one under it. */
+/** Major laws: the count, and the one the president is best known for under it. */
 function MajorLaws({ r }: { r: PresidentSummary }) {
   const note = r.majorNote;
   return (
@@ -190,7 +190,7 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
 
       <MethodologyNote className="-mt-3">
         <p>
-          <strong>Major laws</strong> counts the laws the president signed that David Mayhew lists as important enactments (his lists cover the 80th to the 118th Congress, 1947&ndash;2024, so Franklin Roosevelt shows a dash (his page lists the Timeline page&rsquo;s landmark laws instead) and Truman counts from 1947). A law enacted over a veto, a treaty and a constitutional amendment on his lists are not counted as signed. Mayhew has not assessed Congresses after the 118th, so Trump&rsquo;s current term is not yet in the count. The law named under the count is the one Mayhew prints in capitals, his mark for the most important; a law that stands alone in its capitals entry beats one in a shared entry (the sixteen Congressional Review Act repeals, the five COVID packages), and among equals the earliest signed is named. Before 1973 the first law in capitals is named.
+          <strong>Major laws</strong> counts the laws the president signed that David Mayhew lists as important enactments (his lists cover the 80th to the 118th Congress, 1947&ndash;2024, so Franklin Roosevelt shows a dash (his page lists the Timeline page&rsquo;s landmark laws instead) and Truman counts from 1947). A law enacted over a veto, a treaty and a constitutional amendment on his lists are not counted as signed. Mayhew has not assessed Congresses after the 118th, so Trump&rsquo;s current term is not yet in the count. The law named under the count is the one on his list the president is best known for: our editorial pick (the Americans with Disabilities Act for George H. W. Bush, NAFTA for Clinton), not a ranking in Mayhew&rsquo;s data, whose mark for the most important laws favours budget bills few people link to a president.
         </p>
         <p>
           <strong>Congress on their side</strong> shows the share of days in office on which the president&rsquo;s party held the House and the Senate, only one of them, or neither, using the party that held each chamber&rsquo;s majority on the day. <strong>Justices appointed</strong> are the president&rsquo;s nominees who joined the Court, leaving out a justice raised to chief justice; tap a face for the name, and a dot marks a justice still serving. <strong>Misery index</strong> is the unemployment rate plus the year-over-year inflation rate, from the first month in office to the last (or the latest month published), so Trump&rsquo;s line has a gap between terms; it runs from 1948 and shows conditions during a presidency, not an effect of the president.
