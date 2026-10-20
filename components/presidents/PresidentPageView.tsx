@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { SetBackLink } from "@/components/BackLinkContext";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { PageHeader } from "@/components/PageHeader";
 import { SourceLink } from "@/components/SourceLink";
 import { dateLabel, ordinalWord, termYears } from "@/lib/president-derive";
 import { congressTakeaway, fmtInt, panelTakeaway, tenureText } from "@/lib/president-format";
@@ -142,43 +141,48 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <SetBackLink href={PRESIDENTS_PATH} />
 
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
-        <span className="hidden sm:block">
-          <PresidentPortrait president={p} size="lg" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <PageHeader
-            title={
-              <span className="flex items-center gap-3">
-                <span className="sm:hidden">
-                  <PresidentPortrait president={p} size="sm" />
-                </span>
-                {p.name}
-              </span>
-            }
-          >
-            <p className="text-ink">
-              <span aria-hidden className="mr-1.5 inline-block size-[0.55rem] rounded-full align-middle" style={{ background: `var(${p.party === "D" ? "--dem" : "--rep"})` }} />
-              {ordinals.replace(/^./, (c) => c.toUpperCase())} president · {partyWord(p.party)} ·{" "}
-              {p.terms.map((t) => `${longDate(t.start)} – ${t.end ? longDate(t.end) : "present"}`).join("; ")}
-            </p>
-            {data.bio && (
-              <p>
-                {data.bio.extract}{" "}
-                <span className="text-[0.8rem]">
-                  (<SourceLink href={data.bio.url}>Wikipedia</SourceLink>, <SourceLink href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</SourceLink>)
-                </span>
+      <header className="flex flex-col gap-4">
+        {/* Same layout as the member and justice headers: portrait and identity on the left (380px from lg), the Wikipedia lead on the right. */}
+        <div className={data.bio ? "flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-0" : "flex flex-row items-start gap-4 sm:gap-6"}>
+          <div className={`flex flex-row items-start gap-4 sm:gap-6 ${data.bio ? "lg:flex-none" : ""}`}>
+            <PresidentPortrait president={p} size="lg" />
+            <div className={data.bio ? "min-w-0 lg:w-[380px] lg:flex-none" : "min-w-0"}>
+              <p className="mb-1.5 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">President</p>
+              <h1 className="mb-1.5 font-serif text-[clamp(2rem,4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em]">{p.name}</h1>
+              <p className="text-[1rem] text-ink-muted">
+                <span aria-hidden className="mr-1.5 inline-block size-[0.55rem] rounded-full align-middle" style={{ background: `var(${p.party === "D" ? "--dem" : "--rep"})` }} />
+                {ordinals.replace(/^./, (c) => c.toUpperCase())} president · {partyWord(p.party)}
               </p>
-            )}
-            <nav aria-label="Other presidents" className="flex items-center gap-4 sm:gap-8">
-              {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
-              {data.next && <NeighbourLink president={data.next} dir="next" />}
-              <Link href={PRESIDENTS_PATH} className={`${LINK} ml-auto whitespace-nowrap sm:ml-0`}>
-                All presidents
-              </Link>
-            </nav>
-          </PageHeader>
+              <p className="mt-1.5 text-[0.9rem] text-ink-muted">{p.terms.map((t) => `${longDate(t.start)} – ${t.end ? longDate(t.end) : "present"}`).join("; ")}</p>
+            </div>
+          </div>
+          {data.bio && (
+            <section aria-label="About" className="border-t border-line pt-4 lg:relative lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <div className="flex flex-col gap-1.5 lg:absolute lg:inset-0 lg:overflow-hidden">
+                <p className="flex-none font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">About</p>
+                <p className="font-serif text-[1.0625rem] leading-[1.35] text-ink lg:line-clamp-4 lg:min-h-0 lg:text-base">{data.bio.extract}</p>
+                <p className="flex-none text-xs leading-[1.4] text-ink-muted lg:whitespace-nowrap">
+                  From{" "}
+                  <a href={data.bio.url} rel="noopener" className="text-accent underline underline-offset-2">
+                    Wikipedia
+                  </a>{" "}
+                  (text may be abridged), licensed under{" "}
+                  <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" className="text-accent underline underline-offset-2">
+                    CC BY-SA 4.0
+                  </a>
+                  .
+                </p>
+              </div>
+            </section>
+          )}
         </div>
+        <nav aria-label="Other presidents" className="flex items-center gap-4 sm:gap-8">
+          {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
+          {data.next && <NeighbourLink president={data.next} dir="next" />}
+          <Link href={PRESIDENTS_PATH} className={`${LINK} ml-auto whitespace-nowrap sm:ml-0`}>
+            All presidents
+          </Link>
+        </nav>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
