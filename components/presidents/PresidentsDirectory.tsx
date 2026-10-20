@@ -80,13 +80,13 @@ function Economy({ r }: { r: PresidentSummary }) {
 }
 
 /** A column header whose key opens on hover or keyboard focus (and on a tap, which focuses it); the key is for desktop, where the headers show. */
-function HeadTip({ label, children }: { label: string; children: ReactNode }) {
+function HeadTip({ label, children, end }: { label: string; children: ReactNode; end?: boolean }) {
   return (
     <span className="group relative flex">
       <span tabIndex={0} className={`${HEAD} cursor-help underline decoration-dotted decoration-line-strong underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}>
         {label}
       </span>
-      <span className="pointer-events-none invisible absolute left-0 top-full z-30 mt-1.5 flex w-max max-w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+      <span className={`pointer-events-none invisible absolute ${end ? "right-0" : "left-0"} top-full z-30 mt-1.5 flex w-max max-w-[15rem] flex-col gap-1.5 rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.72rem] normal-case leading-snug tracking-normal text-ink-muted opacity-0 shadow-[0_8px_24px_rgba(26,34,51,0.22)] group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100`}>
         {children}
       </span>
     </span>
@@ -135,7 +135,9 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
               justice still serving
             </span>
           </HeadTip>
-          <span className={HEAD}>Misery, in → out</span>
+          <HeadTip label="Misery, in → out" end>
+            <span>The misery index: the unemployment rate plus the year-over-year inflation rate. The line runs from the president&rsquo;s first month in office to the last; the numbers are the start and the end.</span>
+          </HeadTip>
         </div>
         <p className="m-0 flex md:hidden flex-wrap items-center gap-x-4 gap-y-1 border-b border-line px-4 py-2 text-[0.72rem] text-ink-muted">
           <span>Congress bar:</span>
@@ -191,7 +193,7 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
           <strong>Congress on their side</strong> shows the share of days in office on which the president&rsquo;s party held the House and the Senate, only one of them, or neither, using the party that held each chamber&rsquo;s majority on the day. <strong>Justices appointed</strong> are the president&rsquo;s nominees who joined the Court, leaving out a justice raised to chief justice; tap a face for the name, and a dot marks a justice still serving. <strong>Misery index</strong> is the unemployment rate plus the year-over-year inflation rate, from the first month in office to the last (or the latest month published), so Trump&rsquo;s line has a gap between terms; it runs from 1948 and shows conditions during a presidency, not an effect of the president.
         </p>
         <p>
-          None of these is a grade. Divided government is common, many major laws pass with votes from both parties, and the economy responds to far more than one office. Executive orders are on each president&rsquo;s own page.
+          Executive orders are on each president&rsquo;s own page.
         </p>
       </MethodologyNote>
 

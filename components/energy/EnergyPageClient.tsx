@@ -60,7 +60,7 @@ function EnergyPage({ payload }: { payload: EnergyPayload }) {
           </p>
           <HowToRead>
             <p>
-              The colored bar under each chart shows who was president, the gray columns mark recessions, and the marked dates are executive, congressional and agency actions. These are conditions during each term, not a score of what any one official caused.
+              The colored bar under each chart shows who was president, the gray columns mark recessions, and the marked dates are executive, congressional and agency actions.
             </p>
             <p>
               The cards are not equally tied to Washington. The reserve&rsquo;s level is closest to a presidential decision, and even it is shared: presidents authorize releases and exchanges, Congress mandates sales and funds refills. Oil production, imports, exports and LNG exports are shaped by policy but mostly move with markets and technology, and enabling rules often came years before the trade did, so a mark there reads &ldquo;enabled, not caused.&rdquo; Products supplied and the electricity mix are context.
