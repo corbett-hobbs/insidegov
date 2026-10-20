@@ -323,34 +323,26 @@ export function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally | nu
   );
 }
 
-/** One major law, laid out like the landmark list: date to the left; title and summary run together and wrap; the votes (and policy area) under. */
+/** One major law: the date and policy area on the top line (area at the right), then the title with its summary running on and wrapping, then the votes. */
 function LawRow({ date, title, summary, area, house, senate }: { date: string; title: ReactNode; summary: string; area?: { label: string; color: string }; house: ChamberTally | null; senate: ChamberTally | null }) {
   return (
-    <li className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-b border-line py-2 text-[0.82rem] last:border-b-0 sm:grid-cols-[5.5rem_minmax(0,1fr)]">
-      <span className="flex items-baseline justify-between gap-2 font-mono text-[0.7rem] leading-[1.7] text-ink-muted">
-        {date}
-        {area && <span className="sm:hidden"><span className="inline-flex flex-none items-center gap-1 whitespace-nowrap font-sans text-[0.68rem] text-ink-muted">
-          <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: area.color }} />
-          {area.label}
-        </span></span>}
-      </span>
-      <span className="min-w-0">
-        <span className="block text-[0.75rem] leading-[1.55] text-ink-muted">
-          <span className="text-[0.82rem]">{title}</span>
-          {summary && <span className="ml-2">{summary}</span>}
-        </span>
-        <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="flex flex-wrap gap-x-3 gap-y-1">
-            <MiniVote chamber="House" t={house} />
-            <MiniVote chamber="Senate" t={senate} />
+    <li className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
+      <span className="flex items-baseline justify-between gap-3">
+        <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{date}</span>
+        {area && (
+          <span className="inline-flex flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted">
+            <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: area.color }} />
+            {area.label}
           </span>
-          {area && (
-            <span className="ml-auto hidden flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted sm:inline-flex">
-              <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: area.color }} />
-              {area.label}
-            </span>
-          )}
-        </span>
+        )}
+      </span>
+      <span className="mt-0.5 block text-[0.75rem] leading-[1.55] text-ink-muted">
+        <span className="text-[0.82rem]">{title}</span>
+        {summary && <span className="ml-2">{summary}</span>}
+      </span>
+      <span className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+        <MiniVote chamber="House" t={house} />
+        <MiniVote chamber="Senate" t={senate} />
       </span>
     </li>
   );
@@ -389,24 +381,26 @@ export function LawsCard({
   const beside = count !== null;
   const list = n > 0 && (
     <div className={`flex min-w-0 flex-col gap-2 ${beside ? "md:absolute md:inset-0" : ""}`}>
-      <div className="relative flex items-center gap-2">
-        <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
-          Major laws <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(n)}</span>
-        </p>
-        <HelpTip label="What is a major law?" text={listNote} />
-      </div>
-      <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
-        <span>Passage votes</span>
-        <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
-          <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: YEA }} />
-          Yea
+      <div className="relative flex flex-wrap items-center gap-x-4 gap-y-1">
+        <span className="flex items-center gap-2">
+          <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
+            Major laws <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(n)}</span>
+          </p>
+          <HelpTip label="What is a major law?" text={listNote} />
         </span>
-        <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
-          <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: NAY }} />
-          Nay
+        <span className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint sm:ml-auto">
+          <span>Passage votes</span>
+          <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+            <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: YEA }} />
+            Yea
+          </span>
+          <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+            <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: NAY }} />
+            Nay
+          </span>
         </span>
       </div>
-      <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
+      <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
         {major.map((l) => (
           <LawRow
             key={l.path}
