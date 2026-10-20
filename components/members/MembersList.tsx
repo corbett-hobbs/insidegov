@@ -140,18 +140,18 @@ export function MembersList({
                 <span className="sr-only">Rank</span>
               </th>
               {header("Member", "name", sort === "name", "w-full text-left lg:w-auto")}
-              {header("Age", "age", sort === "age", "w-14 text-right max-sm:hidden", "Age today; click to list the oldest first")}
-              {header("Since", "seniority", sort === "seniority", "w-16 text-right max-sm:hidden lg:w-24", "Year first sworn into this chamber")}
+              {header("Age", "age", sort === "age", "w-14 text-left max-sm:hidden", "Age today; click to list the oldest first")}
+              {header("Since", "seniority", sort === "seniority", "w-16 text-left max-sm:hidden lg:w-24", "Year first sworn into this chamber")}
               {header(
                 <span className="flex items-center gap-1">
                   <span aria-hidden>L</span>Ideology<span aria-hidden>R</span>
                 </span>,
                 sort === "ideology-left" ? "ideology-right" : "ideology-left",
                 ideologySort,
-                "w-[5.5rem] text-center max-sm:hidden lg:w-48",
+                "w-[5.5rem] text-left max-sm:hidden lg:w-48",
                 "Left-right score in the current Congress; click again to reverse",
               )}
-              {header("Views/day", "interest", sort === "interest", "w-24 text-right max-sm:hidden lg:w-52", "Median daily views of the member's Wikipedia article")}
+              {header("Views/day", "interest", sort === "interest", "w-24 text-left max-sm:hidden lg:w-52", "Median daily views of the member's Wikipedia article")}
               {header("Net worth", "net-worth", sort === "net-worth", "w-24 text-right max-sm:hidden", "Estimated from the latest financial disclosure")}
               <th scope="col" className={`${TH} w-[3.75rem] px-0.5 text-center text-ink-faint sm:hidden`}>
                 <span className="flex items-center justify-center gap-1">
@@ -211,7 +211,7 @@ function GroupRow({ children }: { children: ReactNode }) {
 }
 
 function Row({ member: m, rank, sort, role, maxViews }: { member: DirectoryMember; rank: number | null; sort: DirectorySort; role?: string; maxViews: number }) {
-  const cell = (active: boolean) => `px-1.5 py-1.5 text-right font-mono text-[0.78rem] tabular-nums ${active ? "font-semibold text-ink" : "text-ink-muted"}`;
+  const cell = (active: boolean, align = "text-right") => `px-1.5 py-1.5 ${align} font-mono text-[0.78rem] tabular-nums ${active ? "font-semibold text-ink" : "text-ink-muted"}`;
   const nw = fmtNetWorth(m);
   return (
     <tr className="border-b border-line last:border-0 hover:bg-surface-raised">
@@ -233,10 +233,10 @@ function Row({ member: m, rank, sort, role, maxViews }: { member: DirectoryMembe
           </span>
         </a>
       </td>
-      <td className={`${cell(sort === "age")} max-sm:hidden`}>{m.age ?? "–"}</td>
-      <td className={`${cell(sort === "seniority")} max-sm:hidden`}>{m.since ? m.since.slice(0, 4) : "–"}</td>
+      <td className={`${cell(sort === "age", "text-left")} max-sm:hidden`}>{m.age ?? "–"}</td>
+      <td className={`${cell(sort === "seniority", "text-left")} max-sm:hidden`}>{m.since ? m.since.slice(0, 4) : "–"}</td>
       <td className="px-0.5 py-1.5 sm:px-1.5">
-        <div className="flex justify-center">
+        <div className="flex justify-center sm:justify-start">
           <span className="lg:hidden">
             <IdeologyDot score={m.ideology} group={m.group} />
           </span>
@@ -253,8 +253,8 @@ function Row({ member: m, rank, sort, role, maxViews }: { member: DirectoryMembe
           </span>
         </div>
       </td>
-      <td className={`${cell(sort === "interest")} max-sm:hidden`}>
-        <div className="flex items-center justify-end gap-3">
+      <td className={`${cell(sort === "interest", "text-left")} max-sm:hidden`}>
+        <div className="flex items-center justify-start gap-3">
           <span className="lg:w-24">{m.views === null ? "–" : `${fmtViews(m.views, false)}/day`}</span>
           {/* Wide screens: bar length shows how a member's Wikipedia interest compares with the most looked-up member. */}
           {m.views !== null && (
