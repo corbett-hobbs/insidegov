@@ -51,6 +51,7 @@ const PALETTE_KEYS = [
   "tenure-1", "tenure-2", "tenure-3", "tenure-4",
   "stage-1", "stage-2", "stage-3", "stage-4", "stage-5", "stage-6",
   "split-0", "split-1", "split-2", "split-3", "split-4",
+  "prez-econ", "prez-immig", "prez-world", "prez-security",
 ];
 const BG_KEYS = ["bg", "surface", "surface-raised"];
 
@@ -102,7 +103,10 @@ FORCED_PAIRS.push(...SPLIT_KEYS.flatMap((a) => [[a, "dem"], [a, "rep"]]));
 // inadmissibles and Title 42 expulsions are stacked on one bar. The neutral --oth bar (Border Patrol only, FY1980–FY2003) is never stacked with them.
 const ENCOUNTER_KEYS = ["agency-cbp", "sector-econ", "sector-ps"];
 FORCED_PAIRS.push(...ENCOUNTER_KEYS.flatMap((a, i) => ENCOUNTER_KEYS.slice(i + 1).map((b) => [a, b])));
-const NEW_KEYS = ["committee-house", "committee-senate", "committee-joint", ...SECTOR_KEYS, ...FUEL_KEYS, ...TENURE_KEYS, ...STAGE_KEYS, ...SPLIT_KEYS];
+// President-page row hues (lib/president-data.ts): bar and line colour of the Economy, Immigration, world and security rows. One hue per
+// row, never stacked together or on a party chart, so only the absolute contrast check applies.
+const PREZ_KEYS = ["prez-econ", "prez-immig", "prez-world", "prez-security"];
+const NEW_KEYS = ["committee-house", "committee-senate", "committee-joint", ...SECTOR_KEYS, ...FUEL_KEYS, ...TENURE_KEYS, ...STAGE_KEYS, ...SPLIT_KEYS, ...PREZ_KEYS];
 
 // ---- CLI overrides -------------------------------------------------------
 const override = { light: {}, dark: {} };

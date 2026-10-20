@@ -7,7 +7,7 @@ import type { SeriesCardId } from "@/lib/president-types";
 export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "eos", ReactNode> & { laws: (through: string) => ReactNode } = {
   congress: (
     <p>
-      Each Congress is clipped to the days this president was in office. A chamber&rsquo;s majority is the party that held it for most of those days; seat counts are at the start of the Congress, with independents counted with the party they caucused with. From the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians&rsquo; party divisions.
+      Each Congress is clipped to the days this president was in office; one that convened less than a month before the president left is left out. A chamber&rsquo;s majority is the party that held it for most of those days; seat counts are at the start of the Congress, with independents counted with the party they caucused with. From the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians&rsquo; party divisions.
     </p>
   ),
   justices: (
@@ -88,3 +88,6 @@ export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos
   troops: { href: "/presidency/troops-abroad", label: "Troops abroad" },
   spr: { href: "/presidency/energy", label: "Energy" },
 };
+
+/** What "major law" means, for the directory's column key and the president page's tile. */
+export const MAJOR_LAW_DEFINITION = "A major law is one that political scientist David Mayhew\u2019s lists of important enactments name, judged from the press at the time and later policy studies. His lists run through the 118th Congress.";

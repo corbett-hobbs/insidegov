@@ -143,6 +143,10 @@
   --branch-navy: #27408b;
   --branch-marine: #9a5b2e;
   --branch-air-space: #2f9ab8;
+  --prez-econ: #17808f;
+  --prez-immig: #b35f10;
+  --prez-world: #3b8a3e;
+  --prez-security: #c2492e;
   color-scheme: light;
 }
 
@@ -243,6 +247,10 @@
   --branch-navy: #6f8fe0;
   --branch-marine: #cf8a52;
   --branch-air-space: #5fc2dc;
+  --prez-econ: #4cb6c8;
+  --prez-immig: #e08a3a;
+  --prez-world: #6cc070;
+  --prez-security: #ee7a5e;
     color-scheme: dark;
   }
 }
@@ -343,6 +351,10 @@
   --branch-navy: #6f8fe0;
   --branch-marine: #cf8a52;
   --branch-air-space: #5fc2dc;
+  --prez-econ: #4cb6c8;
+  --prez-immig: #e08a3a;
+  --prez-world: #6cc070;
+  --prez-security: #ee7a5e;
   color-scheme: dark;
 }
 

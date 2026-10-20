@@ -285,8 +285,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
           <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians;
           justices&rsquo; service and appointing presidents from the <SourceLink id="fjc">Federal Judicial Center</SourceLink>; Court lean from{" "}
           <SourceLink id="martin-quinn">Martin-Quinn scores</SourceLink>; case votes from the <SourceLink id="scdb">Supreme Court Database</SourceLink>;
-          law dates from <SourceLink id="congress-gov">Congress.gov</SourceLink> and votes from <SourceLink id="voteview">Voteview</SourceLink>. Who
-          held power on a date describes the setting of an event, not its cause.
+          law dates from <SourceLink id="congress-gov">Congress.gov</SourceLink> and votes from <SourceLink id="voteview">Voteview</SourceLink>.
         </p>
       </main>
     </>

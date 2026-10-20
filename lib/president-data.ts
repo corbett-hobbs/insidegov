@@ -61,6 +61,7 @@ import type {
   SeriesCardId,
   SeriesFormat,
   SeriesPanel,
+  TermYearCount,
   SeriesSegment,
 } from "./president-types";
 
@@ -97,6 +98,16 @@ const allTerms = (): PresidentTerm[] => getPresidents().flatMap((p) => p.terms);
 
 // ------------------------------------------------------------------------------------------------ laws and orders
 
+/** `termYearSegments` with every bar split by group: `groups` is bottom to top, `keyOf` maps a dated item to its group id. */
+function stackedYears<T>(items: readonly T[], dateOf: (x: T) => string, keyOf: (x: T) => string, groups: readonly CountBreakdown[], terms: PresidentTerm[], now: string, byYear: TermYearCount[]): { segments: SeriesSegment[]; stack: NonNullable<SeriesPanel["stack"]> } {
+  const per = groups.map((g) => countByTermYear(items.filter((x) => keyOf(x) === g.id).map(dateOf), terms, now));
+  const segments = termYearSegments(byYear, terms, now).map((seg) => ({
+    ...seg,
+    points: seg.points.map((pt) => ({ ...pt, stack: per.map((rows) => rows.find((c) => c.termId === seg.termId && c.label === pt.label)?.n ?? 0) })),
+  }));
+  return { segments, stack: groups.map((g) => ({ id: g.id, label: g.label, color: g.color })) };
+}
+
 function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
   const list = getLawsList();
   const page = getLawsPageData();
@@ -116,6 +127,7 @@ function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
   const byYear = countByTermYear(signed.map((r) => r[2]), p.terms, now);
   const assessed = signed.filter((r) => r[0] <= page.majorThrough);
   const majorRows = signed.filter((r) => r[9] === 1);
+  const stacked = stackedYears(signed, (r) => r[2], (r) => groupOfArea[r[4]], groups, p.terms, now, byYear);
   return {
     signed: signed.length,
     overridden: mine.length - signed.length,
@@ -133,7 +145,7 @@ function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
       votes: r[5] === 0 && r[6][0] === 3 && r[7][0] === 3 ? "No vote method recorded" : `${tallyText("House", r[6])} · ${tallyText("Senate", r[7])}`,
     })),
     byYear,
-    panel: { id: "laws", title: "Laws signed per year in office", kind: "bars", format: "count", color: "var(--ink-muted)", segments: termYearSegments(byYear, p.terms, now) },
+    panel: { id: "laws", title: "Laws signed per year in office", kind: "bars", format: "count", color: "var(--ink-muted)", ...stacked },
     groups,
     coverage: coverageNote(first, p.terms),
     dataThrough: page.dataThrough,
@@ -149,13 +161,15 @@ function eosFor(p: PresidentRef, now: string): EosSummary | null {
   const n = new Map<string, number>();
   for (const o of items) n.set(o.topic, (n.get(o.topic) ?? 0) + 1);
   const byYear = countByTermYear(items.map((o) => o.signed), p.terms, now);
+  const topics = EO_TOPICS.filter((t) => n.has(t))
+    .map((t) => ({ id: t, label: EO_TOPIC_LABELS[t], n: n.get(t)!, color: topicFill(t) }))
+    .sort((a, b) => b.n - a.n);
+  const stacked = stackedYears(items, (o) => o.signed, (o) => o.topic, topics, p.terms, now, byYear);
   return {
     total: items.length,
     byYear,
-    panel: { id: "eos", title: "Executive orders per year in office", kind: "bars", format: "count", color: "var(--ink-muted)", segments: termYearSegments(byYear, p.terms, now) },
-    topics: EO_TOPICS.filter((t) => n.has(t))
-      .map((t) => ({ id: t, label: EO_TOPIC_LABELS[t], n: n.get(t)!, color: topicFill(t) }))
-      .sort((a, b) => b.n - a.n),
+    panel: { id: "eos", title: "Executive orders per year in office", kind: "bars", format: "count", color: "var(--ink-muted)", ...stacked },
+    topics,
     coverage: coverageNote(first, p.terms),
     throughDate: data.throughDate,
   };
@@ -251,21 +265,21 @@ function seriesCards(p: PresidentRef, now: string): Pick<PresidentPageData, "car
   put("misery", [misery, parts && { ...parts, title: "Unemployment and inflation", lineTitle: parts.title }]);
 
   put("fiscal", [
-    panel(p, now, { id: "deficit", title: "Budget balance, % of GDP", kind: "bars", format: "pctSigned", color: "var(--ink-muted)" }, fy(s.deficit), firstFy(s.deficit)),
-    panel(p, now, { id: "debt", title: "Public debt, % of GDP", kind: "line", format: "pct", color: "var(--ink)" }, dated(p, now, s.debt, "quarter"), firstOf(s.debt)),
+    panel(p, now, { id: "deficit", title: "Budget balance, % of GDP", kind: "bars", format: "pctSigned", color: "var(--prez-econ)" }, fy(s.deficit), firstFy(s.deficit)),
+    panel(p, now, { id: "debt", title: "Public debt, % of GDP", kind: "line", format: "pct", color: "var(--prez-econ)" }, dated(p, now, s.debt, "quarter"), firstOf(s.debt)),
   ]);
 
   put("arrivals", [
-    panel(p, now, { id: "lpr", title: "Green cards", kind: "bars", format: "count", color: "var(--ink-muted)" }, fy(s.lpr), firstFy(s.lpr)),
-    panel(p, now, { id: "refugees", title: "Refugee admissions", kind: "bars", format: "count", color: "var(--ink-muted)" }, fy(s.refugees), firstFy(s.refugees)),
+    panel(p, now, { id: "lpr", title: "Green cards", kind: "bars", format: "count", color: "var(--prez-immig)" }, fy(s.lpr), firstFy(s.lpr)),
+    panel(p, now, { id: "refugees", title: "Refugee admissions", kind: "bars", format: "count", color: "var(--prez-immig)" }, fy(s.refugees), firstFy(s.refugees)),
   ]);
   put("removals", [
-    panel(p, now, { id: "removals", title: "Removals", kind: "bars", format: "count", color: "var(--ink-muted)" }, fy(s.removals), firstFy(s.removals)),
-    panel(p, now, { id: "encounters", title: "Border encounters", kind: "bars", format: "count", color: "var(--ink-muted)" }, fy(s.encounters), firstFy(s.encounters)),
+    panel(p, now, { id: "removals", title: "Removals", kind: "bars", format: "count", color: "var(--prez-immig)" }, fy(s.removals), firstFy(s.removals)),
+    panel(p, now, { id: "encounters", title: "Border encounters", kind: "bars", format: "count", color: "var(--prez-immig)" }, fy(s.encounters), firstFy(s.encounters)),
   ]);
 
-  put("trade", [panel(p, now, { id: "trade", title: "Goods balance, $B a month", kind: "line", format: "usdB", color: "var(--ink)" }, dated(p, now, s.tradeBalance, "month"), firstOf(s.tradeBalance))]);
-  const aidPanel = panel(p, now, { id: "aid", title: "Disbursed, $ billions", kind: "bars", format: "usdB", color: "var(--ink-muted)" }, fy(s.aidYears), firstFy(s.aidYears));
+  put("trade", [panel(p, now, { id: "trade", title: "Goods balance, $B a month", kind: "line", format: "usdB", color: "var(--prez-world)" }, dated(p, now, s.tradeBalance, "month"), firstOf(s.tradeBalance))]);
+  const aidPanel = panel(p, now, { id: "aid", title: "Disbursed, $ billions", kind: "bars", format: "usdB", color: "var(--prez-world)" }, fy(s.aidYears), firstFy(s.aidYears));
   put("aid", [aidPanel]);
   const aidFys = new Set(aidPanel?.segments.flatMap((g) => g.points.map((x) => Number(x.label.slice(2)))) ?? []);
   const aidTop = longestLeader(s.aidTop.filter((y) => aidFys.has(y.fy) && y.name).map((y) => ({ name: y.name! })));
@@ -282,12 +296,12 @@ function seriesCards(p: PresidentRef, now: string): Pick<PresidentPageData, "car
       });
     return seg;
   };
-  const troopsPanel = panel(p, now, { id: "troops", title: "Active-duty troops abroad", kind: "bars", format: "count", color: "var(--ink-muted)" }, troopRows, s.troopYears[0]?.date ?? null);
+  const troopsPanel = panel(p, now, { id: "troops", title: "Active-duty troops abroad", kind: "bars", format: "count", color: "var(--prez-security)" }, troopRows, s.troopYears[0]?.date ?? null);
   put("troops", [troopsPanel]);
   const troopTermIds = new Set(p.terms.map((t) => t.termId));
   const troopsTop = longestLeader(s.troopYears.filter((y) => troopTermIds.has(y.termId) && y.top).map((y) => ({ name: y.top! })));
 
-  put("spr", [panel(p, now, { id: "spr", title: "Reserve level, million barrels", kind: "line", format: "mbbl", color: "var(--ink)" }, dated(p, now, s.spr, "week"), firstOf(s.spr))]);
+  put("spr", [panel(p, now, { id: "spr", title: "Reserve level, million barrels", kind: "line", format: "mbbl", color: "var(--prez-security)" }, dated(p, now, s.spr, "week"), firstOf(s.spr))]);
 
   return { cards, aidTop: aidPanel ? aidTop : null, troopsTop: troopsPanel ? troopsTop : null };
 }

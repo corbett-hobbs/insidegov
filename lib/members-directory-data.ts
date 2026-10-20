@@ -5,6 +5,8 @@ import { CHAMBERS } from "./chamber";
 import { getCurrentMemberIndex, getFirstTermStarts } from "./congress-data";
 import { isPlottable } from "./congress-types";
 import { getWealthData, isListEligible } from "./wealth-data";
+import { ageOn } from "./demographics-derive";
+import { legislator } from "./entities";
 import type { DirectoryMember } from "./members-directory";
 
 /**
@@ -49,6 +51,13 @@ export function getMembersDirectory(): MembersDirectoryData {
   const pv = readPageviews();
   const views = new Map(pv?.rows.map((r) => [r.id, r.median]) ?? []);
   const since = new Map(CHAMBERS.map((c) => [c, getFirstTermStarts(c)]));
+  const today = new Date().toISOString().slice(0, 10);
+  const age = new Map(
+    (JSON.parse(readFileSync(join(process.cwd(), "pipeline", "output", "legislators.json"), "utf8")) as unknown[])
+      .map((r) => legislator.parse(r))
+      .filter((l) => l.birthday)
+      .map((l) => [l.bioguide_id, ageOn(l.birthday!, today)] as const),
+  );
   const wealth = new Map(getWealthData().filter(isListEligible).map((w) => [w.bioguideId, w.points.at(-1)!]));
 
   const members: DirectoryMember[] = [];
@@ -66,6 +75,7 @@ export function getMembersDirectory(): MembersDirectoryData {
       group: m.group,
       hasPhoto: m.hasPhoto ?? false,
       since: since.get(m.chamber)!.get(m.bioguideId) ?? null,
+      age: age.get(m.bioguideId) ?? null,
       ideology: isPlottable(m) ? m.dim1 : null,
       netWorth: nw ? nw.midpoint : null,
       netWorthOpenEnded: nw ? nw.range.openEnded : false,

@@ -22,6 +22,7 @@ function member(p: Partial<DirectoryMember> & { bioguideId: string; name: string
     group: "dem",
     hasPhoto: true,
     since: null,
+    age: null,
     ideology: null,
     netWorth: null,
     netWorthOpenEnded: false,

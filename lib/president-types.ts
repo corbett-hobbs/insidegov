@@ -63,6 +63,8 @@ export interface SeriesPoint {
   /** "Jan 2009", "FY2010", "Q2 2009", "Mar 6, 2009". */
   label: string;
   preliminary?: boolean;
+  /** A stacked bar's split, bottom to top, aligned with the panel's `stack`; sums to `value`. */
+  stack?: number[];
 }
 
 /** A card panel's values for one term (Trump has two). */
@@ -85,6 +87,8 @@ export interface SeriesPanel {
   /** A CSS colour for the line or bars. */
   color: string;
   segments: SeriesSegment[];
+  /** Bars stacked by group, bottom to top (the card's breakdown colours); each point's `stack` follows this order. */
+  stack?: { id: string; label: string; color: string }[];
   /** The main line's own name when the panel also draws `parts` ("Unemployment rate"). */
   lineTitle?: string;
   /** Extra lines drawn thinner under the main one (the misery index's two parts). */

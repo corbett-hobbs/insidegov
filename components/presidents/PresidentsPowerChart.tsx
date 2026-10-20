@@ -86,7 +86,7 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
       <MethodologyNote>
         <p>
           The strip fills while one party held the White House and both chambers of Congress, is lightly tinted while it held one chamber, and is empty when it held neither, the same measure as the &ldquo;Congress on their side&rdquo; column below. Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
-          <SourceLink id="house-party-division">House historian</SourceLink> and the <SourceLink id="senate-party-division">Senate Historical Office</SourceLink>; senators who caucused with a party count with it. Who held Congress describes the setting of a presidency, not its cause.
+          <SourceLink id="house-party-division">House historian</SourceLink> and the <SourceLink id="senate-party-division">Senate Historical Office</SourceLink>; senators who caucused with a party count with it.
         </p>
       </MethodologyNote>
     </ChartCard>

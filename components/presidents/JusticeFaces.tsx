@@ -53,7 +53,7 @@ export function JusticeFaces({ justices }: { justices: DirectoryJustice[] }) {
         ))}
       </span>
       {j && (
-        <span className="rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.78rem] leading-snug shadow-[0_8px_24px_rgba(26,34,51,0.22)] md:absolute md:left-0 md:top-full md:z-20 md:mt-1 md:w-[17rem]">
+        <span className="rounded-md border border-line-strong bg-surface px-3 py-2 text-[0.78rem] leading-snug shadow-[0_8px_24px_rgba(26,34,51,0.22)] md:absolute md:left-0 md:top-full md:z-20 md:mt-1 md:w-max md:max-w-[17rem]">
           <span className="block font-medium text-ink">{j.name}</span>
           <span className="block text-ink-muted">
             Nominated {dateLabel(j.nominated)}
