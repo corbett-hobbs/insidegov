@@ -4,6 +4,7 @@ import {
   applyVacancyRule,
   buildEras,
   buildSpans,
+  chamberYears,
   changePoints,
   eraLabel,
   leanSide,
@@ -160,6 +161,22 @@ describe("tiles, eras and lede", () => {
   it("words an era by the Court measure", () => {
     expect(eraLabel({ P: "D", S: "D", H: "D", C: "R", status: "tri" }, "lean")).toBe("Democrats held the White House and Congress; a Court leaning conservative");
     expect(eraLabel({ P: "R", S: "D", H: "D", C: "T", status: "split" }, "appt")).toBe("Republican president, Democratic Congress; a Court split evenly between the parties' appointees");
+  });
+});
+
+describe("chamberYears", () => {
+  const spans = buildSpans(idx, changePoints(data), "appt");
+  it("splits a window into years with both chambers, one, or neither, and sums to the window", () => {
+    const y = chamberYears(spans, "1945-04-12", "2026-10-16");
+    expect(y.both + y.one + y.neither).toBeCloseTo(y.total, 6);
+    expect(y.total).toBeCloseTo(81.5, 0);
+    // Carter, 1977-81: Democrats held both chambers throughout.
+    const carter = chamberYears(spans, "1977-01-20", "1981-01-20");
+    expect(carter.both).toBeCloseTo(4, 1);
+    // Reagan's second term: Republicans held the Senate only until 1987, then neither chamber.
+    const reagan2 = chamberYears(spans, "1985-01-20", "1989-01-20");
+    expect(reagan2.one).toBeCloseTo(2, 0);
+    expect(reagan2.neither).toBeCloseTo(2, 0);
   });
 });
 

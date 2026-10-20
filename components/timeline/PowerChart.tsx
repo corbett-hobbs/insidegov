@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { dateOfDay, dayOf, dayOfIso } from "@/lib/indicator-time";
 import { isPicked, type Picked } from "@/lib/multi-select";
 import { fitTermLabel, initialsOf } from "@/lib/term-label";
@@ -44,6 +44,11 @@ interface TipData {
   onPres: boolean;
 }
 
+const NO_EVENTS: readonly TlEvent[] = [];
+const NO_KINDS: Picked<Kind> = null;
+const NO_NOTES: ReadonlyMap<string, TlEvent> = new Map();
+const noop = () => {};
+
 const ROWS = [
   ["one", 9, 6],
   ["P", 24, 4],
@@ -74,6 +79,9 @@ const pres41 = (p: TlPresident) => (p.name === "George H. W. Bush" ? ["Bush 41"]
  * seats by Congress; the Court's median lean or its appointees), a strip above them that fills while one party held them
  * all, and two rows of numbered event markers under them. Hover (or tap) the rows for who held power that month; tap a
  * president to zoom to their years; tap a marker to pin its note (rule 6). Every label shortens rather than vanishes.
+ *
+ * `compact` is the cut-down copy on the Presidents directory: the strip and the President, Senate and House rows only (no Court, no marker rows; the strip fills while one party held the White House and both chambers, and is tinted while it held one chamber), over a fixed
+ * window that starts at `startIso`, with no zoom or pan. A tap on a president opens `presCard` (pinned, rule 10t) instead of zooming.
  */
 export function PowerChart({
   data,
@@ -84,14 +92,17 @@ export function PowerChart({
   minYear,
   maxYear,
   onRange,
-  events,
-  kinds,
-  query,
-  open,
-  setOpen,
+  events = NO_EVENTS,
+  kinds = NO_KINDS,
+  query = "",
+  open = null,
+  setOpen = noop,
   stateOf,
-  byId,
-  onJump,
+  byId = NO_NOTES,
+  onJump = noop,
+  compact = false,
+  startIso = TIMELINE_START,
+  presCard,
 }: {
   data: TimelinePayload;
   idx: PowerIndex;
@@ -102,14 +113,20 @@ export function PowerChart({
   maxYear: number;
   onRange: (r: [number, number]) => void;
   /** The events the Events filter and the status tiles let through (the year window is applied here). */
-  events: readonly TlEvent[];
-  kinds: Picked<Kind>;
-  query: string;
-  open: OpenNote | null;
-  setOpen: (o: OpenNote | null) => void;
-  stateOf: (e: TlEvent) => PowerState;
-  byId: ReadonlyMap<string, TlEvent>;
-  onJump: (no: number) => void;
+  events?: readonly TlEvent[];
+  kinds?: Picked<Kind>;
+  query?: string;
+  open?: OpenNote | null;
+  setOpen?: (o: OpenNote | null) => void;
+  stateOf?: (e: TlEvent) => PowerState;
+  byId?: ReadonlyMap<string, TlEvent>;
+  onJump?: (no: number) => void;
+  /** The directory's version: no marker rows, no zoom or pan, a tap on a president opens `presCard`. */
+  compact?: boolean;
+  /** The first day of the window (default: the timeline's start). */
+  startIso?: string;
+  /** The card a tapped president opens (compact mode); it is the only thing that links on. */
+  presCard?: (p: TlPresident) => ReactNode;
 }) {
   const [wrapRef, W] = useElementWidth<HTMLDivElement>();
   const uid = useId().replace(/:/g, "");
@@ -118,7 +135,7 @@ export function PowerChart({
   const LG = phone ? 52 : 82;
   const pw = Math.max(0, W - LG - 8);
   const today = data.today;
-  const v0 = range[0] === minYear ? dayOfIso(TIMELINE_START) : dayOf(range[0], 0, 1);
+  const v0 = range[0] === minYear ? dayOfIso(startIso) : dayOf(range[0], 0, 1);
   const v1 = Math.min(dayOf(range[1] + 1, 0, 1), dayOfIso(today) + 1);
   const X = (day: number) => LG + ((day - v0) / (v1 - v0)) * pw;
   const XI = (iso: string) => X(dayOfIso(iso));
@@ -130,16 +147,19 @@ export function PowerChart({
     const r = {} as Record<RowKey, { y: number; h: number }>;
     let y = 0;
     for (const [k, h, gap] of ROWS) {
+      if (compact && (k === "law" || k === "case" || k === "C")) continue;
       r[k] = { y, h };
       y += h + gap;
     }
-    return { r, axis: y, H: y + 18 };
-  }, []);
+    // Without the marker rows the axis sits straight under the Court row.
+    if (compact) y = r.H.y + r.H.h + 6;
+    return { r, axis: y, H: y + 18, last: compact ? r.H : r.C };
+  }, [compact]);
   const R = rows.r;
 
   // Markers, per row, laid out for this width and window.
   const markers = useMemo(() => {
-    if (pw <= 0) return { law: [], case: [] };
+    if (pw <= 0 || compact) return { law: [], case: [] };
     const q = query.trim();
     const lay = (kind: Kind) =>
       placeMarkers(
@@ -148,7 +168,7 @@ export function PowerChart({
         pw,
       ).map((m) => ({ ...m, hit: q ? m.items.some((e) => matchesQuery(e, q)) : null }));
     return { law: lay("law"), case: lay("case") };
-  }, [events, v0, v1, LG, pw, query]);
+  }, [events, v0, v1, LG, pw, query, compact]);
   const openMarker = open ? [...markers.law, ...markers.case].find((m) => m.items.some((e) => e.no === open.no)) : undefined;
   const openKind = openMarker?.items[0]?.kind;
 
@@ -176,6 +196,27 @@ export function PowerChart({
     };
   }, [open?.pinned, setOpen]);
 
+  // Compact mode: a tapped president pins a card that stays until a tap elsewhere, Esc or a scroll (rule 10t).
+  const [presOpen, setPresOpen] = useState<TlPresident | null>(null);
+  useEffect(() => {
+    if (!presOpen) return;
+    const away = (e: PointerEvent) => {
+      const t = e.target as Element | null;
+      if (t?.closest("[data-tl-prescard]") || t?.closest("[data-tl-pres]")) return;
+      setPresOpen(null);
+    };
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setPresOpen(null);
+    const scroll = () => setPresOpen(null);
+    document.addEventListener("pointerdown", away);
+    document.addEventListener("keydown", esc);
+    window.addEventListener("scroll", scroll, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", away);
+      document.removeEventListener("keydown", esc);
+      window.removeEventListener("scroll", scroll);
+    };
+  }, [presOpen]);
+
   // A note in a multi-event marker scrolls to the event it was opened for.
   const noteRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -190,12 +231,12 @@ export function PowerChart({
     const box = svg.getBoundingClientRect();
     const px = e.clientX - box.left;
     const py = e.clientY - box.top;
-    if (px < LG || px > LG + pw || py > R.C.y + R.C.h + 2) return null;
+    if (px < LG || px > LG + pw || py > rows.last.y + rows.last.h + 2) return null;
     const day = v0 + ((px - LG) / pw) * (v1 - v0);
     const d = dateOfDay(Math.floor(day));
     let iso = `${d.year}-${String(d.month + 1).padStart(2, "0")}-${String(d.day).padStart(2, "0")}`;
     if (iso > today) iso = today;
-    if (iso < TIMELINE_START) iso = TIMELINE_START;
+    if (iso < startIso) iso = startIso;
     return { iso, px, onPres: py >= R.P.y && py <= R.P.y + R.P.h };
   };
   const onMove = (e: ReactPointerEvent<SVGSVGElement>) => {
@@ -235,11 +276,13 @@ export function PowerChart({
     if (!p) return;
     if (tip.state && tip.state.data.iso.slice(0, 7) === p.iso.slice(0, 7)) return tip.hide();
     setOpen(null);
+    setPresOpen(null);
     tip.show(p, e);
   };
 
   const zoomTo = (p: TlPresident) => {
     const r = termYears(p, minYear, maxYear);
+    if (compact) return void (tip.hide(), setPresOpen(presOpen === p ? null : p));
     tip.hide();
     setOpen(null);
     onRange(range[0] === r[0] && range[1] === r[1] ? [minYear, maxYear] : r);
@@ -261,7 +304,7 @@ export function PowerChart({
           viewBox={`0 0 ${W} ${rows.H}`}
           height={rows.H}
           role="img"
-          aria-label="Who held the presidency, Senate, House and Supreme Court over time, with numbered laws and court cases"
+          aria-label={compact ? "Who held the presidency, Senate and House over time" : "Who held the presidency, Senate, House and Supreme Court over time, with numbered laws and court cases"}
           onPointerDown={onDown}
           onPointerMove={onMove}
           onClickCapture={(e) => drag.current?.moved && (e.stopPropagation(), (drag.current = null))}
@@ -274,7 +317,7 @@ export function PowerChart({
             </clipPath>
           </defs>
           {/* Row labels sit in the gutter (rule 10a). */}
-          {ROWS.map(([k]) => (
+          {ROWS.filter(([k]) => R[k]).map(([k]) => (
             <text key={k} x={LG - 6} y={R[k].y + R[k].h / 2 + 3.5} textAnchor="end" className="fill-ink-muted font-mono text-[10.5px]">
               {LABELS[k][phone ? 1 : 0]}
             </text>
@@ -282,7 +325,7 @@ export function PowerChart({
           <g clipPath={`url(#tl-plot-${uid})`}>
             {ticks.map((t) => (
               <g key={t.day}>
-                <line x1={X(t.day)} x2={X(t.day)} y1={R.law.y - 4} y2={rows.axis} stroke="var(--line)" />
+                <line x1={X(t.day)} x2={X(t.day)} y1={compact ? R.H.y + R.H.h + 2 : R.law.y - 4} y2={rows.axis} stroke="var(--line)" />
                 <text x={X(t.day)} y={rows.axis + 13} textAnchor="middle" className={`font-mono text-[10.5px] ${t.major ? "fill-ink-muted" : "fill-ink-faint"}`}>
                   {t.label}
                 </text>
@@ -291,8 +334,8 @@ export function PowerChart({
 
             {/* One-party strip: solid while one party held all four, a tint while it held the White House and Congress only. */}
             {spans.map((sp) =>
-              inWin(sp.from, sp.to) && sp.st.status !== "split" ? (
-                <rect key={sp.from} x={clipX(sp.from)} y={R.one.y} width={Math.max(0, clipX(sp.to) - clipX(sp.from))} height={R.one.h} fill={sp.st.status === "all4" ? partyColor(sp.st.P) : partyTint(sp.st.P, 30)} />
+              inWin(sp.from, sp.to) && (compact ? sp.st.P === sp.st.S || sp.st.P === sp.st.H : sp.st.status !== "split") ? (
+                <rect key={sp.from} x={clipX(sp.from)} y={R.one.y} width={Math.max(0, clipX(sp.to) - clipX(sp.from))} height={R.one.h} fill={(compact ? sp.st.S === sp.st.P && sp.st.H === sp.st.P : sp.st.status === "all4") ? partyColor(sp.st.P) : partyTint(sp.st.P, compact ? 40 : 30)} />
               ) : null,
             )}
 
@@ -304,9 +347,24 @@ export function PowerChart({
               const w = clipX(e) - a;
               const label = fitTermLabel(w, lastName(p.name), initialsOf(p.name), pres41(p), CHAR_W);
               return (
-                <g key={p.start} data-tl-pres className="cursor-zoom-in" onClick={() => zoomTo(p)}>
+                <g
+                  key={p.start}
+                  data-tl-pres
+                  className={compact ? "cursor-pointer focus-visible:outline-none" : "cursor-zoom-in"}
+                  onClick={() => zoomTo(p)}
+                  {...(compact
+                    ? {
+                        role: "button",
+                        tabIndex: 0,
+                        "aria-label": `${p.name}, ${p.start.slice(0, 4)}–${p.end ? p.end.slice(0, 4) : "now"}`,
+                        "aria-expanded": presOpen === p,
+                        onKeyDown: (ev: ReactKeyboardEvent) => (ev.key === "Enter" || ev.key === " ") && (ev.preventDefault(), zoomTo(p)),
+                      }
+                    : {})}
+                >
                   <rect x={a + 0.5} y={R.P.y} width={Math.max(0, w - 1)} height={R.P.h} rx={2} fill={partyTint(p.party)} />
                   <rect x={a + 0.5} y={R.P.y} width={Math.max(0, w - 1)} height={2.5} fill={partyColor(p.party)} />
+                  {presOpen === p && <rect x={a + 0.5} y={R.P.y} width={Math.max(0, w - 1)} height={R.P.h} rx={2} fill="none" stroke="var(--ink)" strokeWidth={1.5} />}
                   {label && (
                     <text x={a + w / 2} y={R.P.y + 16} textAnchor="middle" className="fill-ink font-sans text-[10.5px]">
                       {label}
@@ -326,7 +384,7 @@ export function PowerChart({
             />
             <ShareRow r={R.H} cells={data.congresses.map((c) => ({ key: String(c.n), from: c.start, to: end(c.end), seats: c.house }))} clipX={clipX} inWin={inWin} />
 
-            {mode === "appt" ? (
+            {compact ? null : mode === "appt" ? (
               <ApptRow r={R.C} spans={spans} clipX={clipX} inWin={inWin} />
             ) : (
               <LeanRow r={R.C} data={data} X={X} LG={LG} pw={pw} v0={v0} v1={v1} />
@@ -334,14 +392,14 @@ export function PowerChart({
           </g>
           {/* Half-way lines and frames sit over the clipped rows. */}
           <rect x={LG} y={R.one.y} width={pw} height={R.one.h} fill="none" stroke="var(--line)" />
-          {(["S", "H", ...(mode === "appt" ? (["C"] as const) : [])] as const).map((k) => (
+          {(["S", "H", ...(mode === "appt" && !compact ? (["C"] as const) : [])] as const).map((k) => (
             <line key={k} x1={LG} x2={LG + pw} y1={R[k].y + R[k].h / 2} y2={R[k].y + R[k].h / 2} stroke="var(--surface)" strokeDasharray="3 3" opacity={0.8} />
           ))}
-          {mode === "lean" && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
+          {mode === "lean" && !compact && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
 
           {/* Event markers, merged where they would touch: "22+4" is event 22 and four more. */}
           <g clipPath={`url(#tl-plot-${uid})`}>
-            {(["law", "case"] as const).map((kind) =>
+            {(compact ? [] : (["law", "case"] as const)).map((kind) =>
               !isPicked(kinds, kind) ? (
                 <text key={kind} x={LG + 4} y={R[kind].y + R[kind].h / 2 + 3.5} className="fill-ink-faint text-[10px]">
                   hidden by the Events filter
@@ -386,7 +444,7 @@ export function PowerChart({
               ),
             )}
           </g>
-          {tip.state && !open && <line x1={tip.state.data.px} x2={tip.state.data.px} y1={0} y2={R.C.y + R.C.h} stroke="var(--ink)" strokeDasharray="2 2" className="pointer-events-none" />}
+          {tip.state && !open && <line x1={tip.state.data.px} x2={tip.state.data.px} y1={0} y2={rows.last.y + rows.last.h} stroke="var(--ink)" strokeDasharray="2 2" className="pointer-events-none" />}
         </svg>
       )}
       {openMarker && (
@@ -399,18 +457,60 @@ export function PowerChart({
           style={{ left: noteLeft, top: noteTop, width: noteW }}
           onPointerLeave={(ev) => ev.pointerType === "mouse" && open && !open.pinned && setOpen(null)}
         >
-          <HeldNow items={notesFor} stateOf={stateOf} mode={mode} />
+          {stateOf && <HeldNow items={notesFor} stateOf={stateOf} mode={mode} />}
           <EventNotes items={notesFor} focus={open?.focus ?? null} byId={byId} onJump={onJump} />
           <button type="button" aria-label="Close" onClick={() => setOpen(null)} className={`absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded text-[1rem] leading-none text-ink-muted hover:text-ink ${FOCUS_RING}`}>
   ×
 </button>
         </div>
       )}
+      {compact && presOpen && presCard && (
+        <PresCard p={presOpen} W={W} clipX={clipX} end={end} top={R.P.y + R.P.h + 6} onClose={() => setPresOpen(null)}>
+          {presCard(presOpen)}
+        </PresCard>
+      )}
       {/* A tooltip and a note card are never on screen together (rule 6c). */}
-      <Tooltip state={open ? null : tip.state}>{(d) => <StateTip st={idx.stateAt(d.iso, mode)} mode={mode} onPres={d.onPres} status={names} events={events} zoomed={(p) => {
+      <Tooltip state={open || presOpen ? null : tip.state}>{(d) => <StateTip st={idx.stateAt(d.iso, mode)} mode={mode} onPres={d.onPres && !compact} compact={compact} status={names} events={events} zoomed={(p) => {
         const r = termYears(p, minYear, maxYear);
         return range[0] === r[0] && range[1] === r[1];
       }} />}</Tooltip>
+    </div>
+  );
+}
+
+/** The card a tapped president opens in compact mode: under their segment, kept inside the chart's width, closed by × (rule 10t). */
+function PresCard({
+  p,
+  W,
+  clipX,
+  end,
+  top,
+  onClose,
+  children,
+}: {
+  p: TlPresident;
+  W: number;
+  clipX: (iso: string) => number;
+  end: (iso: string | null) => string;
+  top: number;
+  onClose: () => void;
+  children: ReactNode;
+}) {
+  const width = Math.min(300, W - 12);
+  const mid = (clipX(p.start) + clipX(end(p.end))) / 2;
+  const left = Math.max(6, Math.min(W - width - 6, mid - width / 2));
+  return (
+    <div
+      data-tl-prescard
+      role="dialog"
+      aria-label={p.name}
+      className="absolute z-30 rounded-lg border border-line-strong bg-surface px-3 py-2.5 text-[0.8rem] leading-[1.45] shadow-[0_8px_24px_rgba(26,34,51,0.22)]"
+      style={{ left, top, width }}
+    >
+      {children}
+      <button type="button" aria-label="Close" onClick={onClose} className={`absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded text-[1rem] leading-none text-ink-muted hover:text-ink ${FOCUS_RING}`}>
+        ×
+      </button>
     </div>
   );
 }
@@ -528,7 +628,9 @@ function StateTip({
   status,
   events,
   zoomed,
+  compact,
 }: {
+  compact: boolean;
   st: PowerState;
   mode: CourtMode;
   onPres: boolean;
@@ -547,13 +649,13 @@ function StateTip({
   return (
     <TipCard
       title={fmtMonth(st.iso)}
-      sub={`${ordinal(cong.n)} Congress · ${status[st.status].name}`}
+      sub={compact ? `${ordinal(cong.n)} Congress` : `${ordinal(cong.n)} Congress · ${status[st.status].name}`}
       rows={[
         { key: "P", label: "President", value: p.name, color: partyColor(st.P) },
         { key: "S", label: "Senate", value: `${st.S} ${seatsLabel(cong.senate)}${tied ? " (tied)" : ""}`, color: partyColor(st.S) },
         { key: "H", label: "House", value: `${st.H} ${seatsLabel(cong.house)}`, color: partyColor(st.H) },
         { key: "C", label: "Court", value: crt, color: partyColor(st.C) },
-      ]}
+      ].filter((r) => !compact || r.key !== "C")}
       extra={
         onPres
           ? [{ key: "t", label: `${lastName(p.name)}, ${p.start.slice(0, 4)}–${p.end ? p.end.slice(0, 4) : "now"}`, value: `${nl} law${nl === 1 ? "" : "s"}, ${nc} case${nc === 1 ? "" : "s"} · ${zoomed(p) ? "tap to show all years" : "tap to zoom in"}` }]

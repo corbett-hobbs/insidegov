@@ -27,17 +27,36 @@ export interface PresidentRef {
   photo: string | null;
 }
 
+/** A justice shown as a face in the directory row. */
+export interface DirectoryJustice {
+  id: number;
+  name: string;
+  photo: string | null;
+  path: string | null;
+  nominated: string;
+  /** Still on the Court (no end of service). */
+  serving: boolean;
+}
+
 /** One row of the directory. */
 export interface PresidentSummary extends PresidentRef {
   days: number;
-  /** Laws signed; null before the laws data starts (1973). */
-  laws: number | null;
-  /** Executive orders signed; null before the Federal Register data starts (1994). */
-  eos: number | null;
-  /** True when `laws` / `eos` cover only part of the time in office. */
-  lawsPartial: boolean;
-  eosPartial: boolean;
-  justices: number;
+  /** Major laws signed (David Mayhew's list); null before 1973 or when no Congress in the term is assessed yet. */
+  major: number | null;
+  /** The biggest of them (see `biggestMajorLaw`), with the link to its page. */
+  majorTop: { title: string; path: string } | null;
+  /** The laws data starts after the president took office, or the term runs past Mayhew's last assessed Congress. */
+  majorFromStart: boolean;
+  majorPartial: boolean;
+  majorThrough: number;
+  /** Laws data begins in 1973; true when the term is wholly before it. */
+  noLawsData: boolean;
+  /** Days in office with the president's party holding both chambers, one, or neither. */
+  control: { both: number; one: number; neither: number };
+  /** Justices appointed (elevations left out), newest first. */
+  justices: DirectoryJustice[];
+  /** Misery index across the time in office; null where the series has no value in the term. */
+  misery: { segments: { x0: number; x1: number; points: [number, number][] }[]; first: number; last: number; firstLabel: string; lastLabel: string } | null;
 }
 
 /** One value on a series card: a month, quarter, week or fiscal year. */
@@ -123,6 +142,8 @@ export interface AppointedJustice {
   nominated: string;
   confirmed: string | null;
   vote: { ayes: number; nays: number } | null;
+  /** Still on the Court. */
+  serving: boolean;
 }
 
 export interface CountBreakdown {

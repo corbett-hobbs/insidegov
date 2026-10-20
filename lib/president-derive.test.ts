@@ -256,3 +256,31 @@ describe("longestLeader", () => {
     expect(longestLeader([])).toBeNull();
   });
 });
+
+describe("directory helpers", () => {
+  const laws = [
+    { date: "2010-03-23", t: "ACA" },
+    { date: "2009-02-17", t: "Recovery Act" },
+    { date: "2010-07-21", t: "DODD" },
+  ];
+  it("ranks single-law capitals entries first, then shared ones, then the earliest signed", async () => {
+    const { biggestMajorLaw } = await import("./president-derive");
+    expect(biggestMajorLaw(laws, (l) => (l.t === "ACA" || l.t === "DODD" ? 2 : 0))?.t).toBe("ACA");
+    expect(biggestMajorLaw(laws, (l) => (l.t === "Recovery Act" ? 1 : l.t === "DODD" ? 2 : 0))?.t).toBe("DODD");
+    expect(biggestMajorLaw(laws, () => 0)?.t).toBe("Recovery Act");
+    expect(biggestMajorLaw([], () => 2)).toBeNull();
+  });
+  it("words the congress-control label", async () => {
+    const { controlLabel } = await import("./president-derive");
+    expect(controlLabel({ both: 730.5, one: 1461, neither: 730.5 })).toBe("Both chambers, 2 of 8 years");
+    expect(controlLabel({ both: 0, one: 365.25, neither: 365.25 })).toBe("One chamber, 1 of 2 years");
+    expect(controlLabel({ both: 0, one: 0, neither: 730.5 })).toBe("Neither chamber, 2 years");
+    expect(controlLabel({ both: 0, one: 0, neither: 0 })).toBe("");
+  });
+  it("scales sparkline points into the box", async () => {
+    const { sparkPaths } = await import("./president-derive");
+    const [path] = sparkPaths([{ x0: 2000, x1: 2002, points: [[2000, 1], [2002, 3]] }], 100, 20, 2);
+    expect(path).toBe("2.0,18.0 98.0,2.0");
+    expect(sparkPaths([], 10, 10, 1)).toEqual([]);
+  });
+});
