@@ -71,13 +71,6 @@ const DEFS: readonly BranchDef[] = [
           "Every president since Truman, each with a page that clips the site\u2019s data to their time in office.",
       },
       {
-        id: "executive-orders",
-        label: "Executive orders",
-        status: "live",
-        blurb:
-          "Every executive order since 1994, by year and topic, set against each presidential term.",
-      },
-      {
         id: "economy",
         label: "Economy",
         status: "live",
@@ -85,11 +78,11 @@ const DEFS: readonly BranchDef[] = [
           "Jobs, inflation, gas prices and more, lined up with who was in the White House.",
       },
       {
-        id: "energy",
-        label: "Energy",
+        id: "trade",
+        label: "Trade",
         status: "live",
         blurb:
-          "Oil, electricity, LNG exports and the Strategic Petroleum Reserve, with the policy actions marked.",
+          "Goods trade and the duties charged on imports, by country, through each tariff change.",
       },
       {
         id: "immigration",
@@ -99,11 +92,11 @@ const DEFS: readonly BranchDef[] = [
           "Green cards, refugee admissions, border encounters and ICE removals by fiscal year and administration, with changes in what is counted marked.",
       },
       {
-        id: "trade",
-        label: "Trade",
+        id: "energy",
+        label: "Energy",
         status: "live",
         blurb:
-          "Goods trade and the duties charged on imports, by country, through each tariff change.",
+          "Oil, electricity, LNG exports and the Strategic Petroleum Reserve, with the policy actions marked.",
       },
       {
         id: "foreign-aid",
@@ -118,6 +111,13 @@ const DEFS: readonly BranchDef[] = [
         status: "live",
         blurb:
           "Where active-duty U.S. troops are stationed, by country, region and branch.",
+      },
+      {
+        id: "executive-orders",
+        label: "Executive orders",
+        status: "live",
+        blurb:
+          "Every executive order since 1994, by year and topic, set against each presidential term.",
       },
     ],
   },
