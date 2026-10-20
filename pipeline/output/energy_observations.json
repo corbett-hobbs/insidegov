@@ -7419,6 +7419,7 @@
 {"series_id":"WCSSTUS1","date":"2026-09-18","value":284552,"status":"final"},
 {"series_id":"WCSSTUS1","date":"2026-09-25","value":283767,"status":"final"},
 {"series_id":"WCSSTUS1","date":"2026-10-02","value":282983,"status":"final"},
+{"series_id":"WCSSTUS1","date":"2026-10-09","value":282983,"status":"final"},
 {"series_id":"NGPRPUS","date":"1973-01-01","value":1869,"status":"final"},
 {"series_id":"NGPRPUS","date":"1973-02-01","value":1883,"status":"final"},
 {"series_id":"NGPRPUS","date":"1973-03-01","value":1830,"status":"final"},
