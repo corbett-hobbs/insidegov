@@ -176,6 +176,8 @@ export interface EarlyMajorLaw {
   /** Each chamber's last recorded passage vote, from Voteview (`[0, yea, nay]`); null where it passed without a roll call. */
   house: ChamberTally | null;
   senate: ChamberTally | null;
+  /** Wikipedia article, where the law is also a Timeline landmark. */
+  href?: string;
 }
 
 export interface PresidentTimeline {

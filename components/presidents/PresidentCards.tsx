@@ -323,6 +323,39 @@ export function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally | nu
   );
 }
 
+/** One major law, laid out like the landmark list: date to the left; title and summary run together and wrap; the votes (and policy area) under. */
+function LawRow({ date, title, summary, area, house, senate }: { date: string; title: ReactNode; summary: string; area?: { label: string; color: string }; house: ChamberTally | null; senate: ChamberTally | null }) {
+  return (
+    <li className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-b border-line py-2 text-[0.82rem] last:border-b-0 sm:grid-cols-[5.5rem_minmax(0,1fr)]">
+      <span className="flex items-baseline justify-between gap-2 font-mono text-[0.7rem] leading-[1.7] text-ink-muted">
+        {date}
+        {area && <span className="sm:hidden"><span className="inline-flex flex-none items-center gap-1 whitespace-nowrap font-sans text-[0.68rem] text-ink-muted">
+          <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: area.color }} />
+          {area.label}
+        </span></span>}
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[0.75rem] leading-[1.55] text-ink-muted">
+          <span className="text-[0.82rem]">{title}</span>
+          {summary && <span className="ml-2">{summary}</span>}
+        </span>
+        <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="flex gap-3">
+            <MiniVote chamber="House" t={house} />
+            <MiniVote chamber="Senate" t={senate} />
+          </span>
+          {area && (
+            <span className="ml-auto hidden flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted sm:inline-flex">
+              <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: area.color }} />
+              {area.label}
+            </span>
+          )}
+        </span>
+      </span>
+    </li>
+  );
+}
+
 type MajorLawRow = { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } };
 
 /**
@@ -375,34 +408,38 @@ export function LawsCard({
       </div>
       <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
         {major.map((l) => (
-          <li key={l.path} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
-            <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
-              <span className="font-mono text-[0.7rem] text-ink-muted">{dateLabel(l.date)}</span>
-              <span className="inline-flex flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted">
-                <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: l.area.color }} />
-                {l.area.label}
-              </span>
-            </span>
-            <Link href={l.path} className="mt-0.5 block text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-              {l.title}
-            </Link>
-            {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-            <span className="mt-1 flex gap-3">
-              <MiniVote chamber="House" t={l.house} />
-              <MiniVote chamber="Senate" t={l.senate} />
-            </span>
-          </li>
+          <LawRow
+            key={l.path}
+            date={dateLabel(l.date)}
+            title={
+              <Link href={l.path} className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                {l.title}
+              </Link>
+            }
+            summary={l.summary}
+            area={l.area}
+            house={l.house}
+            senate={l.senate}
+          />
         ))}
         {early.map((l) => (
-          <li key={l.title} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
-            <span className="font-mono text-[0.7rem] text-ink-muted">{l.year ?? (l.congress ? `${ordinalWord(l.congress)} Congress` : "")}</span>
-            <span className="mt-0.5 block text-ink">{l.title}</span>
-            {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-            <span className="mt-1 flex gap-3">
-              <MiniVote chamber="House" t={l.house} />
-              <MiniVote chamber="Senate" t={l.senate} />
-            </span>
-          </li>
+          <LawRow
+            key={l.title}
+            date={l.year !== null ? String(l.year) : l.congress ? `${ordinalWord(l.congress)} Congress` : ""}
+            title={
+              l.href ? (
+                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                  {l.title}
+                  <span className="sr-only"> (Wikipedia, opens in a new tab)</span>
+                </a>
+              ) : (
+                <span className="text-ink">{l.title}</span>
+              )
+            }
+            summary={l.summary}
+            house={l.house}
+            senate={l.senate}
+          />
         ))}
       </ul>
     </div>

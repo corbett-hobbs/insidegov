@@ -9,7 +9,7 @@ import { justice as justiceSchema } from "./court-entities";
 import { getJusticeProfile } from "./justice-data";
 import { justicePath } from "./justice-url";
 import { getTimelinePayload } from "./timeline-data";
-import { TIMELINE_START } from "./timeline-derive";
+import { TIMELINE_START, wikiUrl } from "./timeline-derive";
 import type { TimelinePayload } from "./timeline-types";
 import { getLawsList, getLawsPageData } from "./laws-data";
 import { seriesOf, tallyText } from "./laws-derive";
@@ -367,7 +367,7 @@ function timelineFor(p: PresidentRef, payload: TimelinePayload, now: string): Pr
 let earlyVotesCache: Map<string, EarlyLawVotes> | null = null;
 
 /** Each chamber's passage vote for a law before 1973 (`early_law_votes.json`, keyed `timeline:<id>` / `mayhew:<entry id>`): a roll call, or null where the chamber passed it without one. */
-function earlyTallies(key: string): Pick<EarlyMajorLaw, "house" | "senate"> {
+function earlyTallies(key: string): Pick<EarlyMajorLaw, "house" | "senate" | "href"> {
   earlyVotesCache ??= new Map(
     earlyLawVotesFile.parse(read("early_law_votes.json")).laws.flatMap((l) => [
       ...(l.timeline ? [[`timeline:${l.timeline}`, l] as const] : []),
@@ -377,7 +377,9 @@ function earlyTallies(key: string): Pick<EarlyMajorLaw, "house" | "senate"> {
   const v = earlyVotesCache.get(key);
   if (!v) throw new Error(`president pages: ${key} has no entry in early_law_votes.json (add it to reference/early-law-votes.json)`);
   const tally = (c: EarlyChamberVote | null): ChamberTally | null => (c ? [0, c.yea, c.nay] : null);
-  return { house: tally(v.house), senate: tally(v.senate) };
+  // A law that is also a Timeline landmark links to its Wikipedia article.
+  const wiki = v.timeline ? getTimelinePayload().events.find((e) => e.id === v.timeline)?.wiki : undefined;
+  return { house: tally(v.house), senate: tally(v.senate), ...(wiki ? { href: wikiUrl(wiki) } : {}) };
 }
 
 let earlyCache: MayhewEarlyEntry[] | null = null;
