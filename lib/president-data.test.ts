@@ -12,5 +12,6 @@ describe("signature laws", () => {
       expect(row, president).toBeDefined();
       expect(row!.majorTop?.title, president).toBe(label ?? law);
     }
-  });
+    // Builds every president's page, which reads most of the site's data: slow on CI.
+  }, 60_000);
 });
