@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { SetBackLink } from "@/components/BackLinkContext";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { PageHeader } from "@/components/PageHeader";
 import { SourceLink } from "@/components/SourceLink";
 import { dateLabel, ordinalWord, termYears } from "@/lib/president-derive";
 import { congressTakeaway, fmtInt, panelTakeaway, tenureText } from "@/lib/president-format";
@@ -14,7 +13,7 @@ import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type 
 import { PresidentPortrait } from "./PresidentPortrait";
 import { MORE, NOTES } from "./notes";
 
-/** Previous / next president: a small round portrait (initials when there is none) beside the name, which shortens to the surname on a phone so the row stays on one line. */
+/** Previous / next president: a small round portrait (initials when there is none) beside the name, shown as the surname so the row fits the header's 500px identity column on one line. */
 function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPageData["prev"]>; dir: "prev" | "next" }) {
   const thumb = president.photo ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -26,8 +25,7 @@ function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPag
   );
   const label = (
     <span className="truncate underline decoration-line-strong underline-offset-2 group-hover:decoration-accent">
-      <span className="sm:hidden">{president.last}</span>
-      <span className="hidden sm:inline">{president.name}</span>
+      {president.last}
     </span>
   );
   return (
@@ -142,49 +140,59 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <SetBackLink href={PRESIDENTS_PATH} />
 
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
-        <span className="hidden sm:block">
-          <PresidentPortrait president={p} size="lg" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <PageHeader
-            title={
-              <span className="flex items-center gap-3">
-                <span className="sm:hidden">
-                  <PresidentPortrait president={p} size="sm" />
-                </span>
-                {p.name}
-              </span>
-            }
-          >
-            <p className="text-ink">
-              <span aria-hidden className="mr-1.5 inline-block size-[0.55rem] rounded-full align-middle" style={{ background: `var(${p.party === "D" ? "--dem" : "--rep"})` }} />
-              {ordinals.replace(/^./, (c) => c.toUpperCase())} president · {partyWord(p.party)} ·{" "}
-              {p.terms.map((t) => `${longDate(t.start)} – ${t.end ? longDate(t.end) : "present"}`).join("; ")}
-            </p>
-            {data.bio && (
-              <p>
-                {data.bio.extract}{" "}
-                <span className="text-[0.8rem]">
-                  (<SourceLink href={data.bio.url}>Wikipedia</SourceLink>, <SourceLink href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</SourceLink>)
-                </span>
+      <header className="flex flex-col gap-4">
+        {/* Same layout as the member and justice headers: portrait and identity on the left (500px from lg), the Wikipedia lead on the right. */}
+        <div className={data.bio ? "flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-0" : "flex flex-row items-start gap-4 sm:gap-6"}>
+          <div className={`flex min-w-0 flex-col gap-4 ${data.bio ? "lg:w-[500px] lg:flex-none" : ""}`}>
+            <div className="flex flex-row items-start gap-4 sm:gap-6">
+              <PresidentPortrait president={p} size="lg" />
+              <div className="min-w-0">
+              <p className="mb-1.5 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">President</p>
+              <h1 className="mb-1.5 font-serif text-[clamp(2rem,4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.01em]">{p.name}</h1>
+              <p className="text-[1rem] text-ink-muted">
+                <span aria-hidden className="mr-1.5 inline-block size-[0.55rem] rounded-full align-middle" style={{ background: `var(${p.party === "D" ? "--dem" : "--rep"})` }} />
+                {ordinals.replace(/^./, (c) => c.toUpperCase())} president · {partyWord(p.party)}
               </p>
-            )}
-            <nav aria-label="Other presidents" className="flex items-center gap-4 sm:gap-8">
-              {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
-              {data.next && <NeighbourLink president={data.next} dir="next" />}
-              <Link href={PRESIDENTS_PATH} className={`${LINK} ml-auto whitespace-nowrap sm:ml-0`}>
-                All presidents
-              </Link>
+              <p className="mt-1.5 text-[0.9rem] text-ink-muted">{p.terms.map((t) => `${longDate(t.start)} – ${t.end ? longDate(t.end) : "present"}`).join("; ")}</p>
+              </div>
+            </div>
+            <nav aria-label="Other presidents" className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6">
+            {data.prev && <NeighbourLink president={data.prev} dir="prev" />}
+            {data.next && <NeighbourLink president={data.next} dir="next" />}
+            <Link href={PRESIDENTS_PATH} className={`${LINK} whitespace-nowrap`}>
+              All presidents
+            </Link>
             </nav>
-          </PageHeader>
+          </div>
+          {data.bio && (
+            <section aria-label="About" className="border-t border-line pt-4 lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <div className="flex flex-col gap-1.5 lg:h-full lg:justify-center">
+                <p className="flex-none font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">About</p>
+                <p className="font-serif text-[1.0625rem] leading-[1.35] text-ink lg:text-[1.3rem] lg:leading-[1.4]">{data.bio.extract}</p>
+                <p className="flex-none text-xs leading-[1.4] text-ink-muted ">
+                  From{" "}
+                  <a href={data.bio.url} rel="noopener" className="text-accent underline underline-offset-2">
+                    Wikipedia
+                  </a>{" "}
+                  (text may be abridged), licensed under{" "}
+                  <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" className="text-accent underline underline-offset-2">
+                    CC BY-SA 4.0
+                  </a>
+                  .
+                </p>
+              </div>
+            </section>
+          )}
         </div>
       </header>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-3 gap-3">
         <Stat value={tenureText(data.days)} label={serving ? "In office so far" : "In office"} note={`${fmtInt(data.days)} days`} />
-        <Stat value={data.laws ? fmtInt(data.laws.signed) : "—"} label="Laws signed" note={data.laws ? data.laws.coverage : "Data starts 1973"} />
-        <Stat value={data.eos ? fmtInt(data.eos.total) : "—"} label="Executive orders" note={data.eos ? data.eos.coverage : "Data starts 1994"} />
+        <Stat
+          value={data.laws && data.laws.major !== null ? fmtInt(data.laws.major) : "—"}
+          label="Major laws signed"
+          note={!data.laws ? "Data starts 1973" : data.laws.major === null ? "Not yet assessed" : data.laws.majorPartial ? "Later term not yet assessed" : data.laws.coverage}
+        />
         <Stat value={String(data.justices.filter((j) => !j.elevated).length)} label="Justices appointed" note={data.justices.some((j) => j.elevated) ? "plus one elevated to chief" : undefined} />
       </div>
 

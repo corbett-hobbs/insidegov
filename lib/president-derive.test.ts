@@ -204,6 +204,13 @@ describe("congressSummary", () => {
     expect(s.rows[1]).toMatchObject({ n: 108, senate: "R", senateChanged: false });
   });
 
+  it("leaves out a Congress that convened under a month before the term ended", () => {
+    const withTail = [...congresses, C(111, "2009-01-03", "2011-01-03", "D", [["2009-01-03", "D"]])];
+    const s = congressSummary(withTail, bush, "R", "2010-01-01");
+    expect(s.rows.map((r) => r.n)).toEqual([107, 108]);
+    expect(s.days.neither).toBe(0);
+  });
+
   it("splits the days in office by how many chambers the president's party held", () => {
     const s = congressSummary(congresses, bush, "R", "2004-12-31");
     // Jan 20 – Jun 5, 2001 both; Jun 6, 2001 – Jan 2, 2003 one; the whole 108th (Jan 3, 2003 – Jan 2, 2005) both.

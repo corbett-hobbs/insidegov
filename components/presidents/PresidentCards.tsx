@@ -36,9 +36,9 @@ export interface MoreLink {
   label: string;
 }
 
-export function CardShell({ title, takeaway, wide, children, notes, table, more }: { title: string; takeaway: ReactNode; wide?: boolean; children: ReactNode; notes: ReactNode; table?: ReactNode; more?: MoreLink }) {
+export function CardShell({ title, takeaway, wide, children, notes, table, more, className = "" }: { title: string; takeaway: ReactNode; wide?: boolean; className?: string; children: ReactNode; notes: ReactNode; table?: ReactNode; more?: MoreLink }) {
   return (
-    <section className={`flex min-w-0 flex-col rounded-[10px] border border-line bg-surface p-[1.1rem_1.1rem_0.9rem] md:row-span-4 md:grid md:grid-rows-subgrid md:gap-y-0 ${wide ? "md:col-span-2" : ""}`}>
+    <section className={`flex min-w-0 flex-col rounded-[10px] border border-line bg-surface p-[1.1rem_1.1rem_0.9rem] md:row-span-4 md:grid md:grid-rows-subgrid md:gap-y-0 ${wide ? "md:col-span-2" : ""} ${className}`}>
       <h3 className="m-0 font-serif text-[1.3rem] font-medium leading-tight">{title}</h3>
       <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{takeaway}</p>
       <div className="mt-3 flex min-w-0 flex-col gap-4">{children}</div>
@@ -215,13 +215,12 @@ export function CountCard({ title, takeaway, panel, slots, breakdown, breakdownL
   );
 }
 
-const partyName = (p: Party) => (p === "D" ? "Democrats" : "Republicans");
 const chipStyle = (p: Party) => ({ background: `color-mix(in oklab, var(${p === "D" ? "--dem" : "--rep"}) 16%, var(--surface))`, borderLeft: `3px solid var(${p === "D" ? "--dem" : "--rep"})` });
 
 function Chip({ chamber, party, seats }: { chamber: string; party: Party; seats: [number, number, number] }) {
   return (
-    <span className="flex min-w-0 flex-col rounded-[3px] px-2 py-1 text-[0.75rem] leading-tight" style={chipStyle(party)}>
-      <span className="font-medium text-ink">
+    <span className="flex h-full min-w-0 flex-col rounded-[3px] px-2 py-1 text-[0.75rem] leading-tight" style={chipStyle(party)}>
+      <span className="whitespace-nowrap font-medium text-ink">
         {chamber}: {party === "D" ? "Dem." : "Rep."}
       </span>
       <span className="font-mono text-[0.68rem] text-ink-muted">
@@ -237,10 +236,11 @@ export function CongressCard({ congress, takeaway, notes, wide, more }: { congre
     <CardShell title="Party control of Congress" takeaway={takeaway} wide={wide} notes={notes} more={more}>
       <ul className="m-0 flex list-none flex-col gap-2 p-0">
         {[...congress.rows].reverse().map((r) => (
-          <li key={r.n} className="grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2">
-            <span className="text-[0.8rem] leading-tight">
+          <li key={r.n} className="grid grid-cols-2 items-stretch gap-x-2 gap-y-1 sm:grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)_minmax(0,1fr)] sm:items-center">
+            {/* On a phone the label sits on its own line above the two chips, so both chips are the same width and height in every row. */}
+            <span className="col-span-2 flex items-baseline gap-2 text-[0.8rem] leading-tight sm:col-span-1 sm:block">
               <span className="font-medium text-ink">{ordinalWord(r.n)} Congress</span>
-              <span className="block font-mono text-[0.68rem] text-ink-muted">
+              <span className="font-mono text-[0.68rem] text-ink-muted sm:block">
                 {r.start.slice(0, 4) === r.end.slice(0, 4) ? r.start.slice(0, 4) : `${r.start.slice(0, 4)}–${r.end.slice(0, 4)}`}
               </span>
             </span>
@@ -252,7 +252,6 @@ export function CongressCard({ congress, takeaway, notes, wide, more }: { congre
       {congress.rows.some((r) => r.senateChanged) && (
         <p className="m-0 text-[0.72rem] text-ink-muted">* The Senate majority changed hands during this Congress; the chip shows the party that held it longer while this president was in office.</p>
       )}
-      <p className="m-0 text-[0.72rem] text-ink-muted">Seats are at the start of each Congress. {partyName("D")} and {partyName("R")} include the independents who caucused with them.</p>
     </CardShell>
   );
 }
@@ -324,7 +323,7 @@ function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally }) {
 
 export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
   return (
-    <CardShell title="Major laws signed" takeaway={takeaway} wide notes={notes} more={more}>
+    <CardShell title="Major laws signed" takeaway={takeaway} wide notes={notes} more={more} className="md:mt-6">
       <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
         <span>Passage votes</span>
         <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">

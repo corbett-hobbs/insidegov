@@ -249,6 +249,9 @@ export interface CongressInput {
  * most days, since it changed hands mid-Congress in 2001 and 2021), plus how many days in office the president's party held
  * both chambers, one, or neither.
  */
+/** A Congress that overlapped a finished term by fewer days than this (the January weeks after it convened) is not shown. */
+export const MIN_CONGRESS_DAYS = 30;
+
 export function congressSummary(congresses: readonly CongressInput[], terms: readonly PresidentTerm[], party: Party, today: string): CongressSummary {
   const rows: CongressRow[] = [];
   const days = { both: 0, one: 0, neither: 0 };
@@ -259,6 +262,8 @@ export function congressSummary(congresses: readonly CongressInput[], terms: rea
       const from = c.start > t.start ? c.start : t.start;
       const to = cLast < tLast ? cLast : tLast;
       if (to < from) continue;
+      // The new Congress seated two weeks before a president left office is the lame-duck tail, not part of the story: leave it out.
+      if (t.end !== null && daysBetween(from, to) < MIN_CONGRESS_DAYS) continue;
       // Senate control in pieces: each majority holds from its date to the next one's.
       const senateDays: Record<Party, number> = { D: 0, R: 0 };
       c.senateMaj.forEach(([since, side], i) => {
