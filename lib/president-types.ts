@@ -167,10 +167,13 @@ export interface TermYearCount {
 export interface EarlyMajorLaw {
   title: string;
   year: number | null;
-  congress: number;
+  /** Null for a landmark law, which has no Mayhew entry. */
+  congress: number | null;
   summary: string;
   /** Mayhew printed the entry in capitals, his mark for the most important. */
   capitals: boolean;
+  /** Wikipedia article for a landmark law (Mayhew's early entries have none). */
+  href?: string;
 }
 
 export interface LawsSummary {
@@ -221,6 +224,8 @@ export interface PresidentPageData {
   laws: LawsSummary | null;
   /** Mayhew's important enactments signed before the laws data begins (1973), newest first. */
   earlyMajor: EarlyMajorLaw[];
+  /** The Timeline page's hand-picked landmark laws signed before Mayhew's lists begin (1947), newest first; same shape, `capitals` false. */
+  landmarks: EarlyMajorLaw[];
   eos: EosSummary | null;
   /** Panels by card id; a card is absent when none of its panels has data for the term. */
   cards: Partial<Record<SeriesCardId, SeriesPanel[]>>;

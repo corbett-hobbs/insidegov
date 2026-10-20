@@ -7,10 +7,10 @@ import { isPublicDomainLicense } from "./justice-bios";
 import { run } from "./lib";
 
 /**
- * A short Wikipedia bio and the official portrait for each president with a page on the site (Truman on), written to
+ * A short Wikipedia bio and the official portrait for each president with a page on the site (Roosevelt on), written to
  * `pipeline/output/president_bios.json` keyed by `president_slug` (the key `administrations.json` and
  * `lib/troops-presidents.ts` already use). Build-time only. Unlike the justices, the article titles are a fixed,
- * reviewed list (fourteen people, every one unambiguous), so nothing is searched for.
+ * reviewed list (fifteen people, every one unambiguous), so nothing is searched for.
  *
  * Portrait: the article's lead image, kept only when its Commons/Wikipedia file-page license metadata says public
  * domain or CC0 (official White House and Library of Congress portraits are works of the U.S. government); anything
@@ -23,6 +23,7 @@ const API = "https://en.wikipedia.org/api/rest_v1/page/summary";
 
 /** `president_slug` -> English Wikipedia article title. Order does not matter. */
 export const PRESIDENT_ARTICLES: Readonly<Record<string, string>> = {
+  "franklin-d-roosevelt": "Franklin D. Roosevelt",
   "harry-s-truman": "Harry S. Truman",
   "dwight-d-eisenhower": "Dwight D. Eisenhower",
   "john-f-kennedy": "John F. Kennedy",
@@ -37,6 +38,11 @@ export const PRESIDENT_ARTICLES: Readonly<Record<string, string>> = {
   "barack-obama": "Barack Obama",
   "donald-trump": "Donald Trump",
   "joe-biden": "Joe Biden",
+};
+
+/** Portraits chosen by hand where the article's lead image is not public domain (FDR's is CC BY; this Library of Congress photo is). Same license check as any other. */
+const PHOTO_OVERRIDES: Readonly<Record<string, string>> = {
+  "franklin-d-roosevelt": "https://upload.wikimedia.org/wikipedia/commons/b/b8/FDR_in_1933.jpg",
 };
 
 const headers = { "User-Agent": USER_AGENT, Accept: "application/json" };
@@ -104,7 +110,7 @@ if (process.argv[1]?.endsWith("president-bios.ts")) {
         throw new Error(`${title}: not the expected article (type ${api.type})`);
       }
       const img = apiImage.parse(body);
-      const { photo, note } = await findPhoto(slug, img.originalimage?.source ?? img.thumbnail?.source);
+      const { photo, note } = await findPhoto(slug, PHOTO_OVERRIDES[slug] ?? img.originalimage?.source ?? img.thumbnail?.source);
       console.log(`  ${slug}: ${note}`);
       records.push(
         presidentBio.parse({

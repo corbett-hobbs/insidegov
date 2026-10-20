@@ -17,8 +17,8 @@ import type {
  * reads (those are `lib/president-data.ts`), so all of it is unit-tested (`lib/president-derive.test.ts`).
  */
 
-/** The first president with a page: Truman. The economy series start in 1947-48, so earlier terms would be mostly empty cards. */
-export const FIRST_PAGE_START = "1945-04-12";
+/** The first president with a page: Roosevelt. The economy series start in 1947-48, so his page leaves those cards out and shows who held power, the justices he appointed and the landmark laws of his time. */
+export const FIRST_PAGE_START = "1933-03-04";
 
 /** Franklin D. Roosevelt, the first entry in the combined administrations table, was the 32nd president. */
 const FIRST_ORDINAL = 32;

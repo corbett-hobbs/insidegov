@@ -4,7 +4,7 @@ import type { SeriesCardId } from "@/lib/president-types";
 
 
 /** One "Data notes" paragraph per president-page card (rule 7: what it counts, the caveat a reader could misread, the source). */
-export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "eos", ReactNode> & { laws: (through: string) => ReactNode } = {
+export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "landmarks" | "eos", ReactNode> & { laws: (through: string) => ReactNode } = {
   congress: (
     <p>
       Each Congress is clipped to the days this president was in office; one that convened less than a month before the president left is left out. A chamber&rsquo;s majority is the party that held it for most of those days; seat counts are at the start of the Congress, with independents counted with the party they caucused with. From the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians&rsquo; party divisions.
@@ -23,6 +23,11 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
   eos: (
     <p>
       Executive orders signed in the term, from the <SourceLink id="federal-register-eo">Federal Register</SourceLink>, whose electronic record begins in 1994. Each order has one primary topic, assigned as on the Executive orders page. Counts say how many orders were signed, not how much they did: one order can set up a program or rename an office. A bar is one year in office.
+    </p>
+  ),
+  landmarks: (
+    <p>
+      The laws picked as landmarks for the Timeline page, each with the year it was signed and a link to its Wikipedia article. It is an editorial list, not a count: David Mayhew&rsquo;s lists of important enactments, which the other presidents&rsquo; pages use, start with the 80th Congress in 1947, so the 1933&ndash;46 laws have no list to count from and no law pages or vote tallies on this site.
     </p>
   ),
   major: (
