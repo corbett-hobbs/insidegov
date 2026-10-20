@@ -25,6 +25,8 @@ export interface DirectoryMember {
   hasPhoto: boolean;
   /** ISO date the member was first sworn into their current chamber; `null` if unrecorded. */
   since: string | null;
+  /** Age in whole years today; `null` without a birth date. */
+  age: number | null;
   /** Left-right score in the current Congress (DW-NOMINATE first dimension, −1 to 1); `null` with too few votes. */
   ideology: number | null;
   /** Latest estimated net worth (midpoint) from a 2023-or-later filing; `null` without one. */
@@ -54,6 +56,7 @@ export type DirectorySort =
   | "ideology-left"
   | "ideology-right"
   | "seniority"
+  | "age"
   | "net-worth";
 
 export const SORTS: readonly { id: DirectorySort; label: string }[] = [
@@ -63,6 +66,7 @@ export const SORTS: readonly { id: DirectorySort; label: string }[] = [
   { id: "ideology-left", label: "Ideology: left to right" },
   { id: "ideology-right", label: "Ideology: right to left" },
   { id: "seniority", label: "Longest serving" },
+  { id: "age", label: "Oldest first" },
   { id: "net-worth", label: "Highest net worth" },
 ];
 
@@ -121,6 +125,7 @@ const COMPARATORS: Record<DirectorySort, (a: DirectoryMember, b: DirectoryMember
   "ideology-left": nullsLast((m) => m.ideology, (a, b) => a - b),
   "ideology-right": nullsLast((m) => m.ideology, (a, b) => b - a),
   seniority: nullsLast((m) => m.since, (a, b) => a.localeCompare(b)),
+  age: nullsLast((m) => m.age, (a, b) => b - a),
   "net-worth": nullsLast((m) => m.netWorth, (a, b) => b - a),
 };
 
@@ -138,6 +143,8 @@ export function sortValue(m: DirectoryMember, sort: DirectorySort): number | str
       return m.ideology;
     case "seniority":
       return m.since;
+    case "age":
+      return m.age;
     case "net-worth":
       return m.netWorth;
     default:

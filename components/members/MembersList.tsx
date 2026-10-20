@@ -21,7 +21,7 @@ import {
 import type { PageviewsWindow } from "@/lib/members-directory-data";
 import { IdeologyDot, formatScore } from "./IdeologyDot";
 
-const DESCENDING: ReadonlySet<DirectorySort> = new Set(["interest", "net-worth", "ideology-right"]);
+const DESCENDING: ReadonlySet<DirectorySort> = new Set(["interest", "net-worth", "ideology-right", "age"]);
 
 const TH = "border-b border-line px-1.5 py-2 font-mono text-[0.62rem] font-normal uppercase tracking-[0.05em]";
 
@@ -48,6 +48,8 @@ function phoneMetric(m: DirectoryMember, sort: DirectorySort): string {
       return m.ideology === null ? "–" : formatScore(m.ideology);
     case "seniority":
       return m.since ? `since ${m.since.slice(0, 4)}` : "–";
+    case "age":
+      return m.age === null ? "–" : `${m.age}`;
     case "net-worth":
       return fmtNetWorth(m) ?? "–";
     default:
@@ -57,6 +59,7 @@ function phoneMetric(m: DirectoryMember, sort: DirectorySort): string {
 
 function phoneMetricLabel(sort: DirectorySort): string {
   if (sort === "seniority") return "Since";
+  if (sort === "age") return "Age";
   if (sort === "net-worth") return "Net worth";
   if (sort === "ideology-left" || sort === "ideology-right") return "Score";
   return "Views/day";
@@ -90,6 +93,8 @@ export function MembersList({
   useEffect(() => {
     if (box.current) box.current.scrollTop = 0;
   }, [members, sort]);
+  // Longest bar in the Views column: sqrt-scaled so a few viral pages don't flatten everyone else.
+  const maxViews = Math.max(1, ...members.map((m) => m.views ?? 0), ...leaders.map((m) => m.views ?? 0));
   const ideologySort = sort === "ideology-left" || sort === "ideology-right";
   const header = (label: ReactNode, target: DirectorySort, active: boolean, className: string, title?: string) => (
     <th scope="col" aria-sort={active ? (DESCENDING.has(sort) ? "descending" : "ascending") : undefined} className={`${TH} ${className}`}>
@@ -134,18 +139,19 @@ export function MembersList({
               <th scope="col" className={`${TH} w-6 pl-1 pr-0 text-left text-ink-faint sm:w-7`}>
                 <span className="sr-only">Rank</span>
               </th>
-              {header("Member", "name", sort === "name", "w-full text-left")}
-              {header("Since", "seniority", sort === "seniority", "w-16 text-right max-sm:hidden", "Year first sworn into this chamber")}
+              {header("Member", "name", sort === "name", "w-full text-left lg:w-auto")}
+              {header("Age", "age", sort === "age", "w-14 text-right max-sm:hidden", "Age today; click to list the oldest first")}
+              {header("Since", "seniority", sort === "seniority", "w-16 text-right max-sm:hidden lg:w-24", "Year first sworn into this chamber")}
               {header(
                 <span className="flex items-center gap-1">
                   <span aria-hidden>L</span>Ideology<span aria-hidden>R</span>
                 </span>,
                 sort === "ideology-left" ? "ideology-right" : "ideology-left",
                 ideologySort,
-                "w-[5.5rem] text-center max-sm:hidden",
+                "w-[5.5rem] text-center max-sm:hidden lg:w-48",
                 "Left-right score in the current Congress; click again to reverse",
               )}
-              {header("Views/day", "interest", sort === "interest", "w-24 text-right max-sm:hidden", "Median daily views of the member's Wikipedia article")}
+              {header("Views/day", "interest", sort === "interest", "w-24 text-right max-sm:hidden lg:w-52", "Median daily views of the member's Wikipedia article")}
               {header("Net worth", "net-worth", sort === "net-worth", "w-24 text-right max-sm:hidden", "Estimated from the latest financial disclosure")}
               <th scope="col" className={`${TH} w-[3.75rem] px-0.5 text-center text-ink-faint sm:hidden`}>
                 <span className="flex items-center justify-center gap-1">
@@ -162,14 +168,14 @@ export function MembersList({
             <tbody>
               <GroupRow>Leadership</GroupRow>
               {leaders.map((m) => (
-                <Row key={m.bioguideId} member={m} rank={null} sort={sort} role={leaderTitle(m.chamber, m.leaderRole!)} />
+                <Row key={m.bioguideId} member={m} rank={null} sort={sort} maxViews={maxViews} role={leaderTitle(m.chamber, m.leaderRole!)} />
               ))}
               <GroupRow>All members</GroupRow>
             </tbody>
           )}
           <tbody>
             {members.map((m, i) => (
-              <Row key={m.bioguideId} member={m} rank={ranking && sortValue(m, sort) !== null ? i + 1 : null} sort={sort} />
+              <Row key={m.bioguideId} member={m} rank={ranking && sortValue(m, sort) !== null ? i + 1 : null} sort={sort} maxViews={maxViews} />
             ))}
           </tbody>
         </table>
@@ -204,7 +210,7 @@ function GroupRow({ children }: { children: ReactNode }) {
   );
 }
 
-function Row({ member: m, rank, sort, role }: { member: DirectoryMember; rank: number | null; sort: DirectorySort; role?: string }) {
+function Row({ member: m, rank, sort, role, maxViews }: { member: DirectoryMember; rank: number | null; sort: DirectorySort; role?: string; maxViews: number }) {
   const cell = (active: boolean) => `px-1.5 py-1.5 text-right font-mono text-[0.78rem] tabular-nums ${active ? "font-semibold text-ink" : "text-ink-muted"}`;
   const nw = fmtNetWorth(m);
   return (
@@ -227,13 +233,38 @@ function Row({ member: m, rank, sort, role }: { member: DirectoryMember; rank: n
           </span>
         </a>
       </td>
+      <td className={`${cell(sort === "age")} max-sm:hidden`}>{m.age ?? "–"}</td>
       <td className={`${cell(sort === "seniority")} max-sm:hidden`}>{m.since ? m.since.slice(0, 4) : "–"}</td>
       <td className="px-0.5 py-1.5 sm:px-1.5">
         <div className="flex justify-center">
-          <IdeologyDot score={m.ideology} group={m.group} />
+          <span className="lg:hidden">
+            <IdeologyDot score={m.ideology} group={m.group} />
+          </span>
+          {/* Wide screens: a longer track, so the column fills the space beside the name. */}
+          <span aria-hidden className="relative hidden h-3 w-36 lg:block">
+            <span className="absolute inset-x-0 top-1/2 h-px bg-line-strong" />
+            <span className="absolute inset-y-0.5 left-1/2 w-px bg-line-strong" />
+            {m.ideology !== null && (
+              <span
+                className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{ left: `${(Math.max(-1, Math.min(1, m.ideology)) + 1) * 50}%`, background: `var(--${m.group === "dem" ? "dem" : m.group === "rep" ? "rep" : "oth"})` }}
+              />
+            )}
+          </span>
         </div>
       </td>
-      <td className={`${cell(sort === "interest")} max-sm:hidden`}>{m.views === null ? "–" : `${fmtViews(m.views, false)}/day`}</td>
+      <td className={`${cell(sort === "interest")} max-sm:hidden`}>
+        <div className="flex items-center justify-end gap-3">
+          <span className="lg:w-24">{m.views === null ? "–" : `${fmtViews(m.views, false)}/day`}</span>
+          {/* Wide screens: bar length shows how a member's Wikipedia interest compares with the most looked-up member. */}
+          {m.views !== null && (
+            <span aria-hidden className="hidden h-1.5 w-24 lg:block">
+              <span className="block h-full rounded-sm bg-line-strong" style={{ width: `${Math.max(2, Math.sqrt(m.views / maxViews) * 100)}%` }} />
+            </span>
+          )}
+          {m.views === null && <span className="hidden w-24 lg:block" />}
+        </div>
+      </td>
       <td className={`${cell(sort === "net-worth")} max-sm:hidden`}>{nw ?? "–"}</td>
       <td className={`${cell(true)} whitespace-nowrap pl-0 text-[0.74rem] sm:hidden`}>{phoneMetric(m, sort)}</td>
     </tr>
