@@ -27,6 +27,7 @@ import { decodeAid, spendingByYear, topRecipientsByYear } from "./foreign-aid-de
 import { getTroopsPayload } from "./troops-data";
 import { decodeTroops, periodView } from "./troops-derive";
 import { lawMajorFile } from "./laws-entities";
+import { displayTitle, earlyMajorFor, mayhewEarlyFile, type MayhewEarlyEntry } from "./mayhew-early";
 import { energyObservation } from "./energy-entities";
 import { groupObservations } from "./energy-derive";
 import {
@@ -324,9 +325,26 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
     congress: congressSummary(timeline.congresses, p.terms, p.party, now),
     justices,
     laws: lawsFor(p, now),
+    earlyMajor: earlyMajorFor(earlyEntries(), p.name).map((e) => ({ title: displayTitle(e.title), year: e.year, congress: e.congress, summary: e.summary, capitals: e.capitals })),
     eos: eosFor(p, now),
     ...seriesCards(p, now),
   };
+}
+
+let earlyCache: MayhewEarlyEntry[] | null = null;
+function earlyEntries(): MayhewEarlyEntry[] {
+  earlyCache ??= mayhewEarlyFile.parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "mayhew-1947-1972.json"), "utf8"))).entries;
+  return earlyCache;
+}
+
+/** Mayhew's first list opens with the 80th Congress in January 1947. */
+const MAYHEW_START = "1947-01-03";
+
+function majorNote(p: PresidentRef, laws: LawsSummary | null, early: number, now: string): string | null {
+  if (laws === null && early === 0) return p.terms.every((t) => termLast(t, now) < MAYHEW_START) ? "before Mayhew's lists (1947)" : "not yet assessed";
+  if (early === 0 && laws?.major === null) return "not yet assessed";
+  if (p.terms[0].start < MAYHEW_START) return "from 1947";
+  return laws?.majorPartial ? "later term not yet assessed" : null;
 }
 
 let majorRankCache: Map<string, number> | null = null;
@@ -353,18 +371,17 @@ export function getPresidentDirectory(): PresidentSummary[] {
     .map((p) => {
       const page = getPresidentPage(p.slug)!;
       const laws = page.laws;
+      const early = page.earlyMajor;
+      const earlyTop = early.length ? ([...early].reverse().find((e) => e.capitals) ?? null) : null;
       const top = laws ? biggestMajorLaw(laws.majorList, (l) => ranks.get(l.path.split("/")[3]) ?? 0) : null;
       const misery = page.cards.misery?.[0];
       const pts = misery?.segments.flatMap((s) => s.points) ?? [];
       return {
         ...p,
         days: page.days,
-        major: laws?.major ?? null,
-        majorTop: top ? { title: top.title, path: top.path } : null,
-        majorFromStart: laws?.coverage === undefined,
-        majorPartial: laws?.majorPartial ?? false,
-        majorThrough: laws?.majorThrough ?? 0,
-        noLawsData: laws === null,
+        major: laws?.major == null && early.length === 0 ? null : (laws?.major ?? 0) + early.length,
+        majorTop: earlyTop ? { title: earlyTop.title, path: null } : top ? { title: top.title, path: top.path } : null,
+        majorNote: majorNote(p, laws, early.length, today()),
         control: page.congress.days,
         justices: page.justices
           .filter((j) => !j.elevated)

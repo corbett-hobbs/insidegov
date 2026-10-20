@@ -194,7 +194,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         <JusticesCard justices={data.justices} takeaway={justicesTakeaway(data)} notes={NOTES.justices} more={MORE.justices} />
       </Row>
 
-      {counts.length > 0 && (
+      {(counts.length > 0 || data.earlyMajor.length > 0) && (
         <Row label="Laws and orders" id="laws">
           {data.laws && (
             <CountCard
@@ -226,10 +226,11 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
               wide={counts.length === 1}
             />
           )}
-          {data.laws && data.laws.majorList.length > 0 && (
+          {(data.laws?.majorList.length || data.earlyMajor.length) > 0 && (
             <MajorLawsCard
-              laws={data.laws.majorList}
-              takeaway={`${fmtInt(data.laws.majorList.length)} of the laws ${p.last} signed are counted as important enactments, newest first, with how each passed the House and Senate.${data.laws.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
+              laws={data.laws?.majorList ?? []}
+              early={data.earlyMajor}
+              takeaway={`${fmtInt((data.laws?.majorList.length ?? 0) + data.earlyMajor.length)} of the laws ${p.last} signed are counted as important enactments, newest first${data.laws && data.laws.majorList.length > 0 ? ", with how each passed the House and Senate" : ""}.${data.earlyMajor.length > 0 && data.laws && data.laws.majorList.length > 0 ? " Laws before 1973 have no vote tallies here." : ""}${data.laws?.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
               notes={NOTES.major}
               more={MORE.major}
             />

@@ -27,7 +27,7 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "e
   ),
   major: (
     <p>
-      Laws counted as important enactments, the same list the Laws page uses for its &ldquo;Major law&rdquo; badge, which explains where it comes from. The list does not yet cover a Congress still in session. Each summary is the first sentence of the <SourceLink id="congress-gov">Congressional Research Service</SourceLink> summary, where one stands alone; votes are each chamber&rsquo;s final-passage tally, or how it passed without a recorded vote.
+      Laws counted as important enactments, the same list the Laws page uses for its &ldquo;Major law&rdquo; badge, which explains where it comes from. The list does not yet cover a Congress still in session. Each summary is the first sentence of the <SourceLink id="congress-gov">Congressional Research Service</SourceLink> summary, where one stands alone; votes are each chamber&rsquo;s final-passage tally, or how it passed without a recorded vote. Laws before 1973 come from the same David Mayhew lists (1947 on) but are not on the site&rsquo;s law pages, so they show his one-line description and no votes; a law enacted over a veto, a treaty and a constitutional amendment on his lists are left out.
     </p>
   ),
   misery: (
