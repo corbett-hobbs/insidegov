@@ -41,16 +41,12 @@ export interface DirectoryJustice {
 /** One row of the directory. */
 export interface PresidentSummary extends PresidentRef {
   days: number;
-  /** Major laws signed (David Mayhew's list); null before 1973 or when no Congress in the term is assessed yet. */
+  /** Major laws signed (David Mayhew's lists, from 1947); null before them or when no Congress in the term is assessed yet. */
   major: number | null;
-  /** The biggest of them (see `biggestMajorLaw`), with the link to its page. */
-  majorTop: { title: string; path: string } | null;
-  /** The laws data starts after the president took office, or the term runs past Mayhew's last assessed Congress. */
-  majorFromStart: boolean;
-  majorPartial: boolean;
-  majorThrough: number;
-  /** Laws data begins in 1973; true when the term is wholly before it. */
-  noLawsData: boolean;
+  /** The biggest of them (see `biggestMajorLaw`), with the link to its page (null before 1973, when the site has no law pages). */
+  majorTop: { title: string; path: string | null } | null;
+  /** Why the count is partial or missing ("from 1947", "later term not yet assessed"), or null when it covers the whole time in office. */
+  majorNote: string | null;
   /** Days in office with the president's party holding both chambers, one, or neither. */
   control: { both: number; one: number; neither: number };
   /** Justices appointed (elevations left out), newest first. */
@@ -167,6 +163,16 @@ export interface TermYearCount {
   partial: boolean;
 }
 
+/** A major law from Mayhew's 1947-72 lists: no law page and no vote tallies, only his title, year and description. */
+export interface EarlyMajorLaw {
+  title: string;
+  year: number | null;
+  congress: number;
+  summary: string;
+  /** Mayhew printed the entry in capitals, his mark for the most important. */
+  capitals: boolean;
+}
+
 export interface LawsSummary {
   signed: number;
   /** Laws enacted over the president's veto. */
@@ -213,6 +219,8 @@ export interface PresidentPageData {
   congress: CongressSummary;
   justices: AppointedJustice[];
   laws: LawsSummary | null;
+  /** Mayhew's important enactments signed before the laws data begins (1973), newest first. */
+  earlyMajor: EarlyMajorLaw[];
   eos: EosSummary | null;
   /** Panels by card id; a card is absent when none of its panels has data for the term. */
   cards: Partial<Record<SeriesCardId, SeriesPanel[]>>;

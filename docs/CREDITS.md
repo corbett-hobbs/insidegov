@@ -344,7 +344,7 @@ The "Major laws" filter is David R. Mayhew's judgment of which laws were importa
 
 > David R. Mayhew, *Divided We Govern: Party Control, Lawmaking, and Investigations, 1946–2002*, 2nd ed. (New Haven: Yale University Press, 2005), and "Important Laws Enacted" lists for the 102nd–118th Congresses, https://campuspress.yale.edu/davidmayhew/datasets-divided-we-govern/.
 
-The lists run through the 118th Congress (2023–24); laws of later Congresses read "not yet assessed". The page states no licence and the lists were hand-extracted (his entries give a title and a year, never a law number) and matched to laws by this site, so any error in the matching is ours; each matched entry keeps a verbatim quotation of his wording in `pipeline/reference/mayhew-major-laws.json`. Files read 2026-10-08.
+The lists run through the 118th Congress (2023–24); laws of later Congresses read "not yet assessed". The page states no licence and the lists were hand-extracted (his entries give a title and a year, never a law number) and matched to laws by this site, so any error in the matching is ours; each matched entry keeps a verbatim quotation of his wording in `pipeline/reference/mayhew-major-laws.json`. Files read 2026-10-08. The Presidents pages also use the 1947–72 part of Table 4.1 (`Enactments_1947_1990.docx`, files read 2026-10-19), kept in `pipeline/reference/mayhew-1947-1972.json` without law matching.
 
 ## U.S. Senate Historical Office and the Clerk of the House — party control
 

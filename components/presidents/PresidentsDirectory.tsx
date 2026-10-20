@@ -24,7 +24,7 @@ function partyVar(p: Party) {
 
 /** Major laws: the count, and the biggest one under it. */
 function MajorLaws({ r }: { r: PresidentSummary }) {
-  const note = r.noLawsData ? "data from 1973" : r.major === null ? "not yet assessed" : !r.majorFromStart ? "from 1973" : r.majorPartial ? "later term not yet assessed" : null;
+  const note = r.majorNote;
   return (
     <span className="flex min-w-0 flex-col">
       <span className={LABEL}>Major laws</span>
@@ -190,7 +190,7 @@ export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary
 
       <MethodologyNote className="-mt-3">
         <p>
-          <strong>Major laws</strong> counts the laws the president signed that David Mayhew lists as important enactments (his lists for 1947&ndash;2022 cover the 80th to the 118th Congress, and the site holds public laws from 1973, so earlier presidents show a dash and Nixon counts from 1973). Mayhew has not assessed Congresses after the 118th, so Trump&rsquo;s current term is not yet in the count. The law named under the count is the one Mayhew prints in capitals, his mark for the most important; a law that stands alone in its capitals entry beats one in a shared entry (the sixteen Congressional Review Act repeals, the five COVID packages), and among equals the earliest signed is named.
+          <strong>Major laws</strong> counts the laws the president signed that David Mayhew lists as important enactments (his lists cover the 80th to the 118th Congress, 1947&ndash;2024, so Franklin Roosevelt shows a dash and Truman counts from 1947). A law enacted over a veto, a treaty and a constitutional amendment on his lists are not counted as signed. Mayhew has not assessed Congresses after the 118th, so Trump&rsquo;s current term is not yet in the count. The law named under the count is the one Mayhew prints in capitals, his mark for the most important; a law that stands alone in its capitals entry beats one in a shared entry (the sixteen Congressional Review Act repeals, the five COVID packages), and among equals the earliest signed is named. Before 1973 the first law in capitals is named.
         </p>
         <p>
           <strong>Congress on their side</strong> shows the share of days in office on which the president&rsquo;s party held the House and the Senate, only one of them, or neither, using the party that held each chamber&rsquo;s majority on the day. <strong>Justices appointed</strong> are the president&rsquo;s nominees who joined the Court, leaving out a justice raised to chief justice; tap a face for the name, and a dot marks a justice still serving. <strong>Misery index</strong> is the unemployment rate plus the year-over-year inflation rate, from the first month in office to the last (or the latest month published), so Trump&rsquo;s line has a gap between terms; it runs from 1948 and shows conditions during a presidency, not an effect of the president.

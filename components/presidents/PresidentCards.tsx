@@ -13,6 +13,7 @@ import type { AppointedJustice, CongressSummary, CountBreakdown, Party, SeriesPa
 import { TermSeriesChart } from "./TermSeriesChart";
 import { methodText, yeaShare } from "@/lib/law-details-derive";
 import type { ChamberTally } from "@/lib/laws-types";
+import type { EarlyMajorLaw } from "@/lib/president-types";
 
 /** Plot height of one panel; a card with fewer panels than its neighbour stretches its plots to match. */
 const PLOT_H = 120;
@@ -321,9 +322,10 @@ function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally }) {
   );
 }
 
-export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
+export function MajorLawsCard({ laws, early = [], notes, takeaway, more }: { early?: EarlyMajorLaw[]; laws: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
   return (
     <CardShell title="Major laws signed" takeaway={takeaway} wide notes={notes} more={more} className="md:mt-6">
+      {laws.length > 0 && (
       <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
         <span>Passage votes</span>
         <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
@@ -335,6 +337,7 @@ export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: 
           Nay
         </span>
       </div>
+      )}
       <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-0 touch-scroll">
         {laws.map((l) => (
           <li key={l.path} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
@@ -354,6 +357,15 @@ export function MajorLawsCard({ laws, notes, takeaway, more }: { laws: { title: 
                 <MiniVote chamber="House" t={l.house} />
                 <MiniVote chamber="Senate" t={l.senate} />
               </span>
+            </span>
+          </li>
+        ))}
+        {early.map((l) => (
+          <li key={l.title} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
+            <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{l.year ?? `${l.congress}th Congress`}</span>
+            <span className="min-w-0">
+              <span className="text-ink">{l.title}</span>
+              {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
             </span>
           </li>
         ))}
