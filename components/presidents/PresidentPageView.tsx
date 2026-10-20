@@ -9,7 +9,7 @@ import { dateLabel, ordinalWord, termYears } from "@/lib/president-derive";
 import { congressTakeaway, fmtInt, panelTakeaway, tenureText } from "@/lib/president-format";
 import { presidentPath, PRESIDENTS_PATH } from "@/lib/president-url";
 import type { PresidentPageData, SeriesCardId, SeriesPanel } from "@/lib/president-types";
-import { CongressCard, CountCard, JusticesCard, LawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
+import { CongressCard, EosCard, JusticesCard, LawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
 import { PresidentTimelineCard } from "./PresidentTimelineCard";
 import { PresidentPortrait } from "./PresidentPortrait";
 import { MAJOR_LAW_DEFINITION, MAJOR_LIST_NOTE, MORE, NOTES } from "./notes";
@@ -309,18 +309,16 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
 
       {data.eos && (
         <Row label="Executive orders" id="orders">
-          <CountCard
+          <EosCard
             title="Executive orders signed"
             takeaway={eosTakeaway}
             panel={data.eos.panel}
             coverage={data.eos.coverage}
-            slots={1}
             breakdown={data.eos.topics}
-            breakdownLabel="By topic"
+            orders={data.eos.orders}
             president={lite}
             notes={NOTES.eos}
             more={MORE.eos}
-            wide
           />
         </Row>
       )}

@@ -1,3 +1,4 @@
+import type { EoListItem } from "./executive-orders-types";
 import type { ChamberTally } from "./laws-types";
 import type { TimelinePayload } from "./timeline-types";
 
@@ -199,7 +200,7 @@ export interface LawsSummary {
   majorThrough: number;
   majorPartial: boolean;
   /** Newest first, with the first sentence of the CRS summary ("" when none) and the passage votes as the Laws page prints them. */
-  majorList: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[];
+  majorList: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string }; /** Policy-area group id, as in `groups`. */ group: string }[];
   byYear: TermYearCount[];
   /** `byYear` as the card's bar panel. */
   panel: SeriesPanel;
@@ -214,6 +215,8 @@ export interface EosSummary {
   byYear: TermYearCount[];
   panel: SeriesPanel;
   topics: CountBreakdown[];
+  /** The term's orders, newest first. */
+  orders: EoListItem[];
   coverage?: string;
   throughDate: string;
 }

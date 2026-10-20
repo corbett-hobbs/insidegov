@@ -145,6 +145,7 @@ function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
       date: r[2],
       path: lawPath(lawId(r[0], r[1]), r[3]),
       summary: r[11],
+      group: groupOfArea[r[4]],
       area: { label: groupLabel.get(groupOfArea[r[4]]) ?? "Not classified", color: fill.get(groupOfArea[r[4]]) ?? "var(--ink-faint)" },
       house: r[6],
       senate: r[7],
@@ -176,6 +177,7 @@ function eosFor(p: PresidentRef, now: string): EosSummary | null {
     byYear,
     panel: { id: "eos", title: "Executive orders per year in office", kind: "bars", format: "count", color: "var(--ink-muted)", ...stacked },
     topics,
+    orders: [...items].sort((a, b) => b.n - a.n),
     coverage: coverageNote(first, p.terms),
     throughDate: data.throughDate,
   };

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
@@ -15,6 +15,8 @@ import { TermSeriesChart } from "./TermSeriesChart";
 import { methodText, yeaShare } from "@/lib/law-details-derive";
 import type { ChamberTally } from "@/lib/laws-types";
 import type { EarlyMajorLaw } from "@/lib/president-types";
+import { EO_TOPIC_LABELS, type EoListItem } from "@/lib/executive-orders-types";
+import { TopicSwatch } from "@/components/executive-orders/TopicSwatch";
 
 /** Plot height of one panel; a card with fewer panels than its neighbour stretches its plots to match. */
 const PLOT_H = 120;
@@ -174,50 +176,82 @@ export function SeriesCard({ title, takeaway, panels, slots, wide, president, no
   );
 }
 
-/** A ranked list of counts with a bar each, coloured like the matching page's charts. */
-function Breakdown({ items, label }: { items: readonly CountBreakdown[]; label: string }) {
+/** A ranked list of counts with a bar each, coloured like the matching page's charts. With `onSelect`, a row is a button that filters the card to that group (tap again to clear). */
+function Breakdown({ items, label, selected, onSelect }: { items: readonly CountBreakdown[]; label: string; selected?: string | null; onSelect?: (id: string | null) => void }) {
   const max = Math.max(1, ...items.map((i) => i.n));
   const total = items.reduce((a, b) => a + b.n, 0);
   return (
     <div>
-      <p className="m-0 mb-1.5 text-[0.8rem] font-medium leading-tight text-ink">{label}</p>
+      <p className="m-0 mb-1.5 text-[0.8rem] font-medium leading-tight text-ink">
+        {label}
+        {onSelect && (
+          <span className="ml-2 text-[0.72rem] font-normal text-ink-muted">
+            {selected ? (
+              <button type="button" onClick={() => onSelect(null)} className="cursor-pointer border-0 bg-transparent p-0 font-[inherit] text-accent underline underline-offset-2">
+                Show all
+              </button>
+            ) : (
+              "select one to filter"
+            )}
+          </span>
+        )}
+      </p>
       <ul className="m-0 flex list-none flex-col gap-1 p-0">
-        {items.map((i) => (
-          <li key={i.id} className="grid grid-cols-[minmax(0,11rem)_minmax(0,1fr)_3.5rem] items-center gap-2 text-[0.78rem]">
-            <span className="flex min-w-0 items-center gap-1.5">
-              <i aria-hidden className="inline-block size-2.5 flex-none rounded-[2px]" style={{ background: i.color }} />
-              <span className="truncate">{i.label}</span>
-            </span>
-            <span className="h-2.5 rounded-[2px]" style={{ width: `${(i.n / max) * 100}%`, background: i.color }} />
-            <span className="text-right font-mono tabular-nums text-ink-muted">
-              {fmtInt(i.n)}
-              <span className="sr-only"> ({Math.round((i.n / total) * 100)}%)</span>
-            </span>
-          </li>
-        ))}
+        {items.map((i) => {
+          const dim = selected != null && selected !== i.id;
+          const row = (
+            <>
+              <span className="flex min-w-0 items-center gap-1.5">
+                <i aria-hidden className="inline-block size-2.5 flex-none rounded-[2px]" style={{ background: i.color }} />
+                <span className="truncate">{i.label}</span>
+              </span>
+              <span className="h-2.5 rounded-[2px]" style={{ width: `${(i.n / max) * 100}%`, background: i.color }} />
+              <span className="text-right font-mono tabular-nums text-ink-muted">
+                {fmtInt(i.n)}
+                <span className="sr-only"> ({Math.round((i.n / total) * 100)}%)</span>
+              </span>
+            </>
+          );
+          const grid = "grid w-full grid-cols-[minmax(0,11rem)_minmax(0,1fr)_3.5rem] items-center gap-2 text-[0.78rem]";
+          return (
+            <li key={i.id} className={dim ? "opacity-40" : ""}>
+              {onSelect ? (
+                <button type="button" aria-pressed={selected === i.id} onClick={() => onSelect(selected === i.id ? null : i.id)} className={`${grid} cursor-pointer rounded-[3px] border-0 bg-transparent p-0 text-left font-[inherit] text-inherit hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${selected === i.id ? "font-medium" : ""}`}>
+                  {row}
+                </button>
+              ) : (
+                <div className={grid}>{row}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
 }
 
-/** Laws or executive orders: bars per year in office, then the split by topic. */
-export function CountCard({ title, takeaway, panel, slots, breakdown, breakdownLabel, president, notes, coverage, wide, more }: { title: string; takeaway: ReactNode; panel: SeriesPanel; slots: number; breakdown: CountBreakdown[]; breakdownLabel: string; president: PresidentLite; notes: ReactNode; coverage?: string; wide?: boolean; more?: MoreLink }) {
-  return (
-    <SeriesCard
-      title={title}
-      takeaway={takeaway}
-      panels={[{ ...panel, coverage }]}
-      slots={slots}
-      wide={wide}
-      president={president}
-      notes={notes}
-      more={more}
-      footer={<Breakdown items={breakdown} label={breakdownLabel} />}
-    />
-  );
+/** The panel narrowed to one stacked group: its layer becomes the whole bar, so the axis rescales to it. */
+function filterPanel(panel: SeriesPanel, group: string | null): SeriesPanel {
+  const j = group ? (panel.stack?.findIndex((g) => g.id === group) ?? -1) : -1;
+  if (j < 0 || !panel.stack) return panel;
+  return {
+    ...panel,
+    stack: [panel.stack[j]],
+    segments: panel.segments.map((seg) => ({
+      ...seg,
+      points: seg.points.map((pt) => ({
+        ...pt,
+        value: pt.stack?.[j] ?? 0,
+        stack: [pt.stack?.[j] ?? 0],
+      })),
+    })),
+  };
 }
 
-const chipStyle = (p: Party) => ({ background: `color-mix(in oklab, var(${p === "D" ? "--dem" : "--rep"}) 16%, var(--surface))`, borderLeft: `3px solid var(${p === "D" ? "--dem" : "--rep"})` });
+const chipStyle = (p: Party) => ({
+  background: `color-mix(in oklab, var(${p === "D" ? "--dem" : "--rep"}) 16%, var(--surface))`,
+  borderLeft: `3px solid var(${p === "D" ? "--dem" : "--rep"})`,
+});
 
 function Chip({ chamber, party, seats }: { chamber: string; party: Party; seats: [number, number, number] }) {
   return (
@@ -242,18 +276,14 @@ export function CongressCard({ congress, takeaway, notes, wide, more }: { congre
             {/* On a phone the label sits on its own line above the two chips, so both chips are the same width and height in every row. */}
             <span className="col-span-2 flex items-baseline gap-2 text-[0.8rem] leading-tight sm:col-span-1 sm:block">
               <span className="font-medium text-ink">{ordinalWord(r.n)} Congress</span>
-              <span className="font-mono text-[0.68rem] text-ink-muted sm:block">
-                {r.start.slice(0, 4) === r.end.slice(0, 4) ? r.start.slice(0, 4) : `${r.start.slice(0, 4)}–${r.end.slice(0, 4)}`}
-              </span>
+              <span className="font-mono text-[0.68rem] text-ink-muted sm:block">{r.start.slice(0, 4) === r.end.slice(0, 4) ? r.start.slice(0, 4) : `${r.start.slice(0, 4)}–${r.end.slice(0, 4)}`}</span>
             </span>
             <Chip chamber="House" party={r.house} seats={r.houseSeats} />
             <Chip chamber={r.senateChanged ? "Senate*" : "Senate"} party={r.senate} seats={r.senateSeats} />
           </li>
         ))}
       </ul>
-      {congress.rows.some((r) => r.senateChanged) && (
-        <p className="m-0 text-[0.72rem] text-ink-muted">* The Senate majority changed hands during this Congress; the chip shows the party that held it longer while this president was in office.</p>
-      )}
+      {congress.rows.some((r) => r.senateChanged) && <p className="m-0 text-[0.72rem] text-ink-muted">* The Senate majority changed hands during this Congress; the chip shows the party that held it longer while this president was in office.</p>}
     </CardShell>
   );
 }
@@ -348,7 +378,64 @@ function LawRow({ date, title, summary, area, house, senate }: { date: string; t
   );
 }
 
-type MajorLawRow = { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } };
+/**
+ * The combined count card: bars per year in office with the split by group underneath, stacked on the left; a list of the items
+ * behind the count on the right (same height as the left column, scrolls inside). Picking a group in the breakdown filters the
+ * bars (axis rescales) and the list together; pick it again or "Show all" to clear. Laws signed and Executive orders signed use it.
+ * `renderList(group, beside)` returns the list for the picked group id (null = all); `beside` says it sits in the right column.
+ */
+function CountListCard({
+  title,
+  takeaway,
+  panel,
+  coverage,
+  breakdown,
+  breakdownLabel,
+  president,
+  notes,
+  more,
+  wide,
+  className,
+  renderList,
+}: {
+  title: string;
+  takeaway: ReactNode;
+  panel: SeriesPanel;
+  coverage?: string;
+  breakdown: CountBreakdown[];
+  breakdownLabel: string;
+  president: PresidentLite;
+  notes: ReactNode;
+  more?: MoreLink;
+  wide?: boolean;
+  className?: string;
+  renderList: (group: string | null) => ReactNode;
+}) {
+  const [group, setGroup] = useState<string | null>(null);
+  return (
+    <CardShell title={title} takeaway={takeaway} wide={wide} className={className} notes={notes} table={<PanelTables panels={[{ ...panel, coverage }]} />} more={more}>
+      <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
+        <div className="flex min-w-0 flex-col gap-4">
+          <Panel panel={{ ...filterPanel(panel, group), coverage }} plotH={PLOT_H} president={president} />
+          <Breakdown items={breakdown} label={breakdownLabel} selected={group} onSelect={setGroup} />
+        </div>
+        <div className="relative min-w-0 md:min-h-[26rem]">{renderList(group)}</div>
+      </div>
+    </CardShell>
+  );
+}
+
+type MajorLawRow = {
+  title: string;
+  date: string;
+  path: string;
+  summary: string;
+  votes: string;
+  house: ChamberTally;
+  senate: ChamberTally;
+  area: { label: string; color: string };
+  group: string;
+};
 
 /**
  * Laws signed, one card: the bars per year in office and the split by policy area (from 1973), beside the major laws, newest first, each
@@ -368,7 +455,11 @@ export function LawsCard({
 }: {
   title: string;
   takeaway: ReactNode;
-  count: { panel: SeriesPanel; coverage?: string; breakdown: CountBreakdown[] } | null;
+  count: {
+    panel: SeriesPanel;
+    coverage?: string;
+    breakdown: CountBreakdown[];
+  } | null;
   president: PresidentLite;
   major: MajorLawRow[];
   early: EarlyMajorLaw[];
@@ -376,81 +467,133 @@ export function LawsCard({
   notes: ReactNode;
   more?: MoreLink;
 }) {
-  const n = major.length + early.length;
-  // With the count beside it, the list is as tall as that column (the right side fills it, no white space under either side) and scrolls inside; alone it is capped.
-  const beside = count !== null;
-  const list = n > 0 && (
-    <div className={`flex min-w-0 flex-col gap-2 ${beside ? "md:absolute md:inset-0" : ""}`}>
-      <div className="relative flex flex-wrap items-center gap-x-4 gap-y-1">
-        <span className="flex items-center gap-2">
-          <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
-            Major laws <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(n)}</span>
-          </p>
-          <HelpTip label="What is a major law?" text={listNote} />
-        </span>
-        <span className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint sm:ml-auto">
-          <span>Passage votes</span>
-          <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
-            <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: YEA }} />
-            Yea
-          </span>
-          <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
-            <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: NAY }} />
-            Nay
-          </span>
-        </span>
-      </div>
-      <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
-        {major.map((l) => (
-          <LawRow
-            key={l.path}
-            date={dateLabel(l.date)}
-            title={
-              <Link href={l.path} className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-                {l.title}
-              </Link>
-            }
-            summary={l.summary}
-            area={l.area}
-            house={l.house}
-            senate={l.senate}
-          />
-        ))}
-        {early.map((l) => (
-          <LawRow
-            key={l.title}
-            date={l.year !== null ? String(l.year) : l.congress ? `${ordinalWord(l.congress)} Congress` : ""}
-            title={
-              l.href ? (
-                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-                  {l.title}
-                  <span className="sr-only"> (Wikipedia, opens in a new tab)</span>
-                </a>
-              ) : (
-                <span className="text-ink">{l.title}</span>
-              )
-            }
-            summary={l.summary}
-            house={l.house}
-            senate={l.senate}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-  return (
-    <CardShell title={title} takeaway={takeaway} wide className="md:mt-6" notes={notes} table={count ? <PanelTables panels={[{ ...count.panel, coverage: count.coverage }]} /> : undefined} more={more}>
-      {count ? (
-        <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
-          <div className="flex min-w-0 flex-col gap-4">
-            <Panel panel={{ ...count.panel, coverage: count.coverage }} plotH={PLOT_H} president={president} />
-            <Breakdown items={count.breakdown} label="By policy area" />
+  // A policy area narrows the list; pre-1973 laws have no area, so they drop out while one is picked.
+  const buildList = (group: string | null) => {
+    const shownMajor = group ? major.filter((l) => l.group === group) : major;
+    const shownEarly = group ? [] : early;
+    const n = shownMajor.length + shownEarly.length;
+    // With the count beside it, the list is as tall as that column (the right side fills it, no white space under either side) and scrolls inside; alone it is capped.
+    const beside = count !== null;
+    return (
+      (n > 0 || group !== null) && (
+        <div className={`flex min-w-0 flex-col gap-2 ${beside ? "md:absolute md:inset-0" : ""}`}>
+          <div className="relative flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span className="flex items-center gap-2">
+              <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
+                Major laws <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(n)}</span>
+              </p>
+              <HelpTip label="What is a major law?" text={listNote} />
+            </span>
+            <span className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint sm:ml-auto">
+              <span>Passage votes</span>
+              <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+                <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: YEA }} />
+                Yea
+              </span>
+              <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
+                <i aria-hidden className="inline-block size-2 rounded-sm" style={{ background: NAY }} />
+                Nay
+              </span>
+            </span>
           </div>
-          {list ? <div className="relative min-w-0 md:min-h-[26rem]">{list}</div> : <p className="m-0 text-[0.8rem] text-ink-muted">No major laws assessed for this term yet.</p>}
+          <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
+            {n === 0 && <li className="py-3 text-[0.8rem] text-ink-muted">No major laws in this policy area.</li>}
+            {shownMajor.map((l) => (
+              <LawRow
+                key={l.path}
+                date={dateLabel(l.date)}
+                title={
+                  <Link href={l.path} className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                    {l.title}
+                  </Link>
+                }
+                summary={l.summary}
+                area={l.area}
+                house={l.house}
+                senate={l.senate}
+              />
+            ))}
+            {shownEarly.map((l) => (
+              <LawRow
+                key={l.title}
+                date={l.year !== null ? String(l.year) : l.congress ? `${ordinalWord(l.congress)} Congress` : ""}
+                title={
+                  l.href ? (
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                      {l.title}
+                      <span className="sr-only"> (Wikipedia, opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <span className="text-ink">{l.title}</span>
+                  )
+                }
+                summary={l.summary}
+                house={l.house}
+                senate={l.senate}
+              />
+            ))}
+          </ul>
         </div>
-      ) : (
-        list
-      )}
+      )
+    );
+  };
+  if (count) {
+    return <CountListCard title={title} takeaway={takeaway} wide className="md:mt-6" panel={count.panel} coverage={count.coverage} breakdown={count.breakdown} breakdownLabel="By policy area" president={president} notes={notes} more={more} renderList={(g) => buildList(g) || <p className="m-0 text-[0.8rem] text-ink-muted">No major laws assessed for this term yet.</p>} />;
+  }
+  return (
+    <CardShell title={title} takeaway={takeaway} wide className="md:mt-6" notes={notes} more={more}>
+      {buildList(null)}
     </CardShell>
+  );
+}
+
+/**
+ * Executive orders signed, one card laid out like the laws card: the bars per year in office and the split by topic stacked on the
+ * left, the term's orders newest first on the right in a box that scrolls inside the column.
+ */
+export function EosCard({ title, takeaway, panel, coverage, breakdown, orders: allOrders, president, notes, more }: { title: string; takeaway: ReactNode; panel: SeriesPanel; coverage?: string; breakdown: CountBreakdown[]; orders: EoListItem[]; president: PresidentLite; notes: ReactNode; more?: MoreLink }) {
+  return (
+    <CountListCard
+      title={title}
+      takeaway={takeaway}
+      wide
+      panel={panel}
+      coverage={coverage}
+      breakdown={breakdown}
+      breakdownLabel="By topic"
+      president={president}
+      notes={notes}
+      more={more}
+      renderList={(topic) => {
+        const orders = topic ? allOrders.filter((o) => o.topic === topic) : allOrders;
+        return (
+          <div className="flex min-w-0 flex-col gap-2 md:absolute md:inset-0">
+            <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
+              Orders <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(orders.length)}</span>
+            </p>
+            <ul tabIndex={0} aria-label="Executive orders, scrollable" className="m-0 flex max-h-[30rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll md:max-h-none md:min-h-0 md:flex-1">
+              {orders.map((o) => (
+                <li key={o.n} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
+                  <span className="flex items-baseline justify-between gap-3">
+                    <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{dateLabel(o.signed)}</span>
+                    <span className="inline-flex flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted">
+                      <TopicSwatch topic={o.topic} size={8} />
+                      {EO_TOPIC_LABELS[o.topic]}
+                    </span>
+                  </span>
+                  <span className="mt-0.5 block text-[0.75rem] leading-[1.55] text-ink-muted">
+                    <a href={`https://www.federalregister.gov/d/${o.doc}`} target="_blank" rel="noopener noreferrer" className="text-[0.82rem] text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                      <span className="font-mono text-[0.75rem] text-ink-muted">EO {o.n}:</span> {o.title}
+                      <span className="sr-only"> (Federal Register, opens in a new tab)</span>
+                    </a>
+                    {o.summary && <span className="ml-2">{o.summary}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }}
+    />
   );
 }
