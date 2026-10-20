@@ -102,6 +102,7 @@ export function PowerChart({
   onJump = noop,
   compact = false,
   startIso = TIMELINE_START,
+  endIso,
   presCard,
 }: {
   data: TimelinePayload;
@@ -125,6 +126,8 @@ export function PowerChart({
   compact?: boolean;
   /** The first day of the window (default: the timeline's start). */
   startIso?: string;
+  /** The last day of the window (default: the end of the last year in `range`, or today). A president's snapshot ends on their last day in office. */
+  endIso?: string;
   /** The card a tapped president opens (compact mode); it is the only thing that links on. */
   presCard?: (p: TlPresident) => ReactNode;
 }) {
@@ -136,7 +139,7 @@ export function PowerChart({
   const pw = Math.max(0, W - LG - 8);
   const today = data.today;
   const v0 = range[0] === minYear ? dayOfIso(startIso) : dayOf(range[0], 0, 1);
-  const v1 = Math.min(dayOf(range[1] + 1, 0, 1), dayOfIso(today) + 1);
+  const v1 = Math.min(endIso ? dayOfIso(endIso) + 1 : dayOf(range[1] + 1, 0, 1), dayOfIso(today) + 1);
   const X = (day: number) => LG + ((day - v0) / (v1 - v0)) * pw;
   const XI = (iso: string) => X(dayOfIso(iso));
   const clipX = (iso: string) => Math.max(LG, Math.min(LG + pw, XI(iso)));

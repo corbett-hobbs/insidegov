@@ -4,6 +4,7 @@ import { z } from "zod";
 import { congressControlFile, type CongressControlRow } from "./congress-control";
 import { courtTermRow, justice, type CourtTermRow, type Justice } from "./court-entities";
 import { decisionCaseRow, justiceVotesFile, ROLE_MAJORITY, VOTE_DISSENT, VOTE_MAJORITY, type DecisionCaseRow, type JusticeVotesFile } from "./decisions-entities";
+import { earlyLawVotesFile, type EarlyLawVotes } from "./early-law-votes-entities";
 import { administration, type Administration } from "./executive-orders-entities";
 import { lawVotesShard, type LawVotesShard } from "./law-votes-entities";
 import { lawRow, type LawRow } from "./laws-entities";
@@ -19,7 +20,7 @@ import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
  * presidents (`HISTORICAL_ADMINISTRATIONS` + `administrations.json`), Congress majorities and seats
  * (`reference/congress-control.json`), the Court (`court/justices.json`, `court/court_terms.json`), case votes
  * (`decisions_cases.json`, `court/justice_votes.json`) and law votes (`laws.json`, `law_votes/`, members' caucus from
- * `terms.json` on the day of the roll call, dated by Voteview's `raw/voteview/rollcalls_93on.json`). Nothing pre-joined is stored. Pure apart from `loadTimelineInputs`; the server-only reader is
+ * `terms.json` on the day of the roll call, dated by Voteview's `raw/voteview/rollcalls_93on.json`; before 1973, `early_law_votes.json`). Nothing pre-joined is stored. Pure apart from `loadTimelineInputs`; the server-only reader is
  * `lib/timeline-data.ts`.
  */
 export interface TimelineInputs {
@@ -36,6 +37,8 @@ export interface TimelineInputs {
   caucus: Map<string, { caucus: string | null; changes?: { start: string; caucus: string }[] }>;
   /** `congress|H|roll` → the roll call's date (Voteview), to place a member who switched parties mid-Congress. */
   rollDates: Map<string, string>;
+  /** Timeline event id → passage votes for a law before 1973 (Voteview, hand-matched in `reference/early-law-votes.json`). */
+  earlyVotes: Map<string, EarlyLawVotes>;
 }
 
 const termCaucus = z.object({
@@ -76,6 +79,7 @@ export function loadTimelineInputs(root = process.cwd()): TimelineInputs {
     laws,
     lawVotes,
     caucus,
+    earlyVotes: new Map(earlyLawVotesFile.parse(read("early_law_votes.json")).laws.flatMap((l) => (l.timeline ? [[l.timeline, l] as const] : []))),
   };
 }
 
@@ -166,6 +170,25 @@ function lawSplit(law: LawRow, inputs: TimelineInputs): TlEvent["split"] | undef
   return out;
 }
 
+/** Final-passage yea and nay in each chamber with a recorded member vote, all members counted (the party split leaves out independents and members the crosswalk misses). */
+function lawTally(law: LawRow, inputs: TimelineInputs): TlEvent["tally"] | undefined {
+  const rec = inputs.lawVotes.get(law.congress)?.laws[law.law_id];
+  if (!rec) return undefined;
+  const out: NonNullable<TlEvent["tally"]> = {};
+  for (const [key, chamber] of [["H", "house"], ["S", "senate"]] as const) {
+    const votes = rec[key];
+    if (!votes) continue;
+    let yea = 0;
+    let nay = 0;
+    for (const c of votes[1]) {
+      if (c === "1") yea++;
+      else if (c === "2") nay++;
+    }
+    out[chamber] = [yea, nay];
+  }
+  return out.house || out.senate ? out : undefined;
+}
+
 /** The whole page payload. `today` is the build date (the timeline's right edge). */
 export function buildTimelinePayload(inputs: TimelineInputs, today: string): TimelinePayload {
   const { ref } = inputs;
@@ -201,10 +224,19 @@ export function buildTimelinePayload(inputs: TimelineInputs, today: string): Tim
       const law = inputs.laws.get(e.law_id)!;
       if (e.date && e.date !== law.date) throw new Error(`timeline: ${e.id}: date ${e.date} disagrees with laws.json's ${law.date}`);
       const split = lawSplit(law, inputs);
-      return { ...base, date: law.date, lawPath: lawPath(law.law_id, law.title), ...(split ? { split } : {}), ...(law.veto_override ? { override: true } : {}) };
+      const tally = lawTally(law, inputs);
+      return { ...base, date: law.date, lawPath: lawPath(law.law_id, law.title), ...(split ? { split } : {}), ...(tally ? { tally } : {}), ...(law.veto_override ? { override: true } : {}) };
     }
     if (!e.date) throw new Error(`timeline: ${e.id}: no date, and ${e.law_id} is not in laws.json`);
-    return { ...base, date: e.date, ...(e.hand_split ? { split: e.hand_split, splitHand: true } : {}) };
+    const early = inputs.earlyVotes.get(e.id);
+    if (!early) throw new Error(`timeline: ${e.id}: no entry in early_law_votes.json (add it to reference/early-law-votes.json)`);
+    const split: NonNullable<TlEvent["split"]> = {};
+    if (early.house) split.house = { D: early.house.D, R: early.house.R };
+    if (early.senate) split.senate = { D: early.senate.D, R: early.senate.R };
+    const tally: NonNullable<TlEvent["tally"]> = {};
+    if (early.house) tally.house = [early.house.yea, early.house.nay];
+    if (early.senate) tally.senate = [early.senate.yea, early.senate.nay];
+    return { ...base, date: e.date, ...(split.house || split.senate ? { split } : {}), ...(tally.house || tally.senate ? { tally } : {}), ...(early.house_override || early.senate_override ? { override: true } : {}) };
   });
 
   // Numbered in date order; the file's order breaks ties.

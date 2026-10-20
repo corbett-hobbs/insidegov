@@ -8,9 +8,6 @@ import { z } from "zod";
  */
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "ISO date");
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "kebab-case id");
-const yesNo = z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative()]);
-/** Yes and no votes by party in one chamber. */
-const partyTally = z.strictObject({ D: yesNo, R: yesNo });
 
 const common = {
   id: slug,
@@ -28,8 +25,6 @@ export const timelineLawEvent = z.strictObject({
   law_id: z.string().regex(/^\d+-pub-\d+$/).optional(),
   /** Signing date: required without a `law_id`; with one it is a check that must equal laws.json's. */
   date: isoDate.optional(),
-  /** Hand-typed final-passage split for a law before 1973 (no member votes in the repo), shown as typed in by hand. */
-  hand_split: z.strictObject({ house: partyTally, senate: partyTally }).optional(),
 });
 
 export const timelineCaseEvent = z.strictObject({

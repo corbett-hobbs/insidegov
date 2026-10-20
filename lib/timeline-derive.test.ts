@@ -39,8 +39,11 @@ describe("timeline data join", () => {
     // Bakke: SCDB dates it June 26; it was decided June 28.
     expect(ev("regents-of-the-university-of-california-v-bakke").date).toBe("1978-06-28");
   });
-  it("splits recorded law votes by caucus and marks the two hand-typed splits", () => {
-    expect(data.events.filter((e) => e.splitHand).map((e) => e.id)).toEqual(["civil-rights-act-of-1964", "voting-rights-act"]);
+  it("splits recorded law votes by caucus, and laws before 1973 by Voteview party", () => {
+    // Before 1973: Voteview roll calls matched by hand. The 1964 House vote is its final one, accepting the Senate's bill on July 2.
+    expect(ev("civil-rights-act-of-1964").split).toEqual({ house: { D: [153, 91], R: [136, 35] }, senate: { D: [46, 21], R: [27, 6] } });
+    expect(ev("securities-act-of-1933").split).toBeUndefined();
+    expect([ev("labor-management-relations-act").override, ev("clean-water-act").override]).toEqual([true, true]);
     const aca = ev("affordable-care-act").split!;
     expect(aca.house!.R[0]).toBe(0);
     // Specter switched to the Democrats in April 2009, so he counts with them on the December vote.
@@ -131,11 +134,11 @@ describe("vacancy rule", () => {
 
 describe("tiles, eras and lede", () => {
   const statusIn = (mode: CourtMode) => (e: { date: string }) => idx.stateAt(e.date, mode).status;
-  it("counts the events by status in both Court modes (the mock's numbers)", () => {
+  it("counts the events by status in both Court modes (counts by status)", () => {
     const lean = tileCounts(data.events, statusIn("lean"), ALL, 1933, 2026);
     const appt = tileCounts(data.events, statusIn("appt"), ALL, 1933, 2026);
-    expect(lean.map((t) => t.n)).toEqual([19, 44, 34]);
-    expect(appt.map((t) => t.n)).toEqual([22, 41, 34]);
+    expect(lean.map((t) => t.n)).toEqual([23, 49, 45]);
+    expect(appt.map((t) => t.n)).toEqual([26, 46, 45]);
     for (const tiles of [lean, appt]) {
       expect(tiles.reduce((s, t) => s + t.n, 0)).toBe(data.events.length);
       expect(tiles.reduce((s, t) => s + t.share, 0)).toBeCloseTo(1);

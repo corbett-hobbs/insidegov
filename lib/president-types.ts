@@ -1,4 +1,5 @@
 import type { ChamberTally } from "./laws-types";
+import type { TimelinePayload } from "./timeline-types";
 
 /**
  * Client-safe shapes for the Presidents directory (`/presidency/presidents`) and the president pages
@@ -163,17 +164,27 @@ export interface TermYearCount {
   partial: boolean;
 }
 
-/** A major law from Mayhew's 1947-72 lists: no law page and no vote tallies, only his title, year and description. */
+/** A major law from Mayhew's 1947-72 lists: no law page; his title, year and one-line description, and each chamber's passage vote from Voteview. */
 export interface EarlyMajorLaw {
   title: string;
   year: number | null;
-  /** Null for a landmark law, which has no Mayhew entry. */
+  /** The Congress the law was enacted in. */
   congress: number | null;
   summary: string;
   /** Mayhew printed the entry in capitals, his mark for the most important. */
   capitals: boolean;
-  /** Wikipedia article for a landmark law (Mayhew's early entries have none). */
-  href?: string;
+  /** Each chamber's last recorded passage vote, from Voteview (`[0, yea, nay]`); null where it passed without a roll call. */
+  house: ChamberTally | null;
+  senate: ChamberTally | null;
+}
+
+export interface PresidentTimeline {
+  payload: TimelinePayload;
+  /** The chart's window: the first day in office (or the Timeline's start) to the last day. */
+  from: string;
+  to: string;
+  /** `TlEvent.no` of every landmark law and case inside a term, in date order. */
+  eventNos: number[];
 }
 
 export interface LawsSummary {
@@ -224,8 +235,8 @@ export interface PresidentPageData {
   laws: LawsSummary | null;
   /** Mayhew's important enactments signed before the laws data begins (1973), newest first. */
   earlyMajor: EarlyMajorLaw[];
-  /** The Timeline page's hand-picked landmark laws signed before Mayhew's lists begin (1947), newest first; same shape, `capitals` false. */
-  landmarks: EarlyMajorLaw[];
+  /** The Timeline page's chart and hand-picked landmark laws and cases for this president's years in office; null before the Timeline begins (4 March 1933). */
+  timeline: PresidentTimeline | null;
   eos: EosSummary | null;
   /** Panels by card id; a card is absent when none of its panels has data for the term. */
   cards: Partial<Record<SeriesCardId, SeriesPanel[]>>;

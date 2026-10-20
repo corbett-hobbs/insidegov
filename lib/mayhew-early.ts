@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * `pipeline/reference/mayhew-1947-1972.json`: Mayhew's lists of important enactments for the 80th-92nd Congress, before the
  * site's public-law data begins (1973). Entries are not matched to law pages, so they carry a title, a year and his one-line
- * description, with no passage votes.
+ * description; their passage votes are matched by hand in `reference/early-law-votes.json` (`lib/early-law-votes-entities.ts`).
  */
 export const mayhewEarlyEntry = z.object({
   entry_id: z.string().regex(/^\d+-\d{2}$/),

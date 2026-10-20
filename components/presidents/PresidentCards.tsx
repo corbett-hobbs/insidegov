@@ -301,13 +301,13 @@ export function JusticesCard({ justices, takeaway, notes, wide, more }: { justic
 const YEA = "var(--ink-muted)";
 const NAY = "var(--line)";
 
-/** One chamber's passage vote: a small yea/nay bar and the tally, or how it passed when there was no recorded vote. */
-function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally }) {
-  const share = yeaShare(t[1], t[2]);
+/** One chamber's passage vote: a small yea/nay bar and the tally, or how it passed when there was no recorded vote (null: a law before 1973 that passed without a roll call). */
+export function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally | null }) {
+  const share = t && yeaShare(t[1], t[2]);
   return (
     <span className="inline-flex w-[9.25rem] flex-none items-center gap-1.5 text-[0.68rem] text-ink-muted">
       <span className="w-[2.6rem] flex-none">{chamber}</span>
-      {t[0] === 0 && share !== null ? (
+      {t && t[0] === 0 && share !== null ? (
         <>
           <span aria-hidden className="flex h-1.5 w-10 flex-none overflow-hidden rounded-full" style={{ background: NAY }}>
             <span style={{ width: `${share * 100}%`, background: YEA }} />
@@ -316,7 +316,7 @@ function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally }) {
           <span className="sr-only">{` (${t[1]} yea, ${t[2]} nay)`}</span>
         </>
       ) : (
-        <span className="truncate">{methodText(t)}</span>
+        <span className="truncate">{t ? methodText(t) : "No roll call"}</span>
       )}
     </span>
   );
@@ -325,7 +325,7 @@ function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally }) {
 export function MajorLawsCard({ title = "Major laws signed", laws, early = [], notes, takeaway, more }: { title?: string; early?: EarlyMajorLaw[]; laws: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
   return (
     <CardShell title={title} takeaway={takeaway} wide notes={notes} more={more} className="md:mt-6">
-      {laws.length > 0 && (
+      {(laws.length > 0 || early.length > 0) && (
       <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
         <span>Passage votes</span>
         <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
@@ -364,15 +364,12 @@ export function MajorLawsCard({ title = "Major laws signed", laws, early = [], n
           <li key={l.title} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
             <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{l.year ?? (l.congress ? `${l.congress}th Congress` : "")}</span>
             <span className="min-w-0">
-              {l.href ? (
-                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-                  {l.title}
-                  <span className="sr-only"> (Wikipedia, opens in a new tab)</span>
-                </a>
-              ) : (
-                <span className="text-ink">{l.title}</span>
-              )}
+              <span className="text-ink">{l.title}</span>
               {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
+              <span className="mt-1 flex gap-3">
+                <MiniVote chamber="House" t={l.house} />
+                <MiniVote chamber="Senate" t={l.senate} />
+              </span>
             </span>
           </li>
         ))}

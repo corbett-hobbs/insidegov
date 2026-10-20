@@ -10,8 +10,6 @@ Senate, the House and the Court that day. Who held power describes the setting o
   `case_id` or `laws.json` `law_id` where one exists, the laws a listed case ruled on (`tested`) and the listed cases that
   overruled, narrowed or built on each other (`case_links`). It also holds the data the pipeline lacks, each marked:
   - the six cases before the SCDB data starts (1946): their vote and dissenters' last names (`hand_vote`);
-  - the 1964 Civil Rights Act and 1965 Voting Rights Act final-passage splits by party (`hand_split`, typed in from the
-    record, to verify against Voteview); the page labels them "typed in from the record";
   - Willis Van Devanter (`extra_justices`), who left in June 1937, before `court/justices.json` (Martin-Quinn) starts;
   - Bakke's decision date (June 28, 1978; SCDB records June 26).
 - **Joined at build time** (`lib/timeline-build.ts`, read through the server-only `lib/timeline-data.ts`): presidents
@@ -47,8 +45,19 @@ Senate, the House and the Court that day. Who held power describes the setting o
 - **Law votes:** final-passage roll calls from Voteview as checked by the Laws pipeline (`law_votes/`, 1973 on), each
   member counted with their caucus in `terms.json`. A member who changed party mid-Congress counts with the caucus they sat
   with on the day of the roll call (dated from `pipeline/raw/voteview/rollcalls_93on.json`): Specter is a Democrat on the
-  December 2009 health-care vote, Jeffords still a Republican on the May 2001 tax-cut vote. Laws before 1973 other than the
-  two typed-in splits show no party vote.
+  December 2009 health-care vote, Jeffords still a Republican on the May 2001 tax-cut vote.
+- **Law votes before 1973:** `early_law_votes.json`, from Voteview roll calls matched to each law by hand in
+  `pipeline/reference/early-law-votes.json` (Voteview has no link from a roll call to a public law before then). The rule is
+  each chamber's last recorded roll call that approved the bill: its passage, a conference report, or agreeing to the other
+  chamber's version, including by a special rule (the House's July 2, 1964 vote on H.Res. 789 for the Civil Rights Act, which
+  replaced the February passage vote the page used to show). A chamber that passed the law by voice vote has no roll call and
+  shows no split; 15 of the 173 laws matched have none in either chamber (the Securities Act of 1933, for one). Members count
+  with their Voteview party code (100 Democrat, 200 Republican); Farmer-Labor, Progressive and American Labor members of the
+  1930s count in the totals only. Only votes cast are split (Voteview's paired and announced positions are left out, as in its
+  own totals), and the member list must add up to Voteview's yea and nay counts. For a law passed over a veto the split is the
+  passage vote, as from 1973; the override votes are kept in the file. Candidates came from Voteview's bill number and
+  description and were checked against the law's Wikipedia infobox where it has one; every pick was read
+  (`last_reviewed` in the file); `pnpm validate` fails if a pre-1973 Timeline law or a signed Mayhew 1947-72 entry has no entry.
 
 ## Markers
 

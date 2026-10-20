@@ -10,6 +10,7 @@ import { congressTakeaway, fmtInt, panelTakeaway, tenureText } from "@/lib/presi
 import { presidentPath, PRESIDENTS_PATH } from "@/lib/president-url";
 import type { PresidentPageData, SeriesCardId, SeriesPanel } from "@/lib/president-types";
 import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
+import { PresidentTimelineCard } from "./PresidentTimelineCard";
 import { PresidentPortrait } from "./PresidentPortrait";
 import { MAJOR_LAW_DEFINITION, MORE, NOTES } from "./notes";
 
@@ -180,7 +181,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
   const majorTotal = data.laws?.major == null && early === 0 ? null : (data.laws?.major ?? 0) + early;
   const majorNote =
     majorTotal === null
-      ? data.landmarks.length > 0
+      ? data.timeline
         ? "Landmark laws below"
         : data.laws
           ? "Not yet assessed"
@@ -258,8 +259,9 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         <JusticesCard justices={data.justices} takeaway={justicesTakeaway(data)} notes={NOTES.justices} more={MORE.justices} />
       </Row>
 
-      {(counts.length > 0 || data.earlyMajor.length > 0 || data.landmarks.length > 0) && (
+      {(counts.length > 0 || data.earlyMajor.length > 0 || data.timeline !== null) && (
         <Row label="Laws and orders" id="laws">
+          {data.timeline && <PresidentTimelineCard p={p} timeline={data.timeline} />}
           {data.laws && (
             <CountCard
               title="Laws signed"
@@ -294,19 +296,9 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
             <MajorLawsCard
               laws={data.laws?.majorList ?? []}
               early={data.earlyMajor}
-              takeaway={`${fmtInt((data.laws?.majorList.length ?? 0) + data.earlyMajor.length)} of the laws ${p.last} signed are counted as important enactments, newest first${data.laws && data.laws.majorList.length > 0 ? ", with how each passed the House and Senate" : ""}.${data.earlyMajor.length > 0 && data.laws && data.laws.majorList.length > 0 ? " Laws before 1973 have no vote tallies here." : ""}${data.laws?.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
+              takeaway={`${fmtInt((data.laws?.majorList.length ?? 0) + data.earlyMajor.length)} of the laws ${p.last} signed are counted as important enactments, newest first, with how each passed the House and Senate.${data.laws?.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
               notes={NOTES.major}
               more={MORE.major}
-            />
-          )}
-          {data.landmarks.length > 0 && data.earlyMajor.length === 0 && !data.laws?.majorList.length && (
-            <MajorLawsCard
-              title="Landmark laws signed"
-              laws={[]}
-              early={data.landmarks}
-              takeaway={`${fmtInt(data.landmarks.length)} landmark laws signed in ${p.last}'s time in office, newest first. Mayhew's lists of important enactments start in 1947, so this is the Timeline page's hand-picked list, not a count.`}
-              notes={NOTES.landmarks}
-              more={{ href: "/timeline", label: "Timeline page" }}
             />
           )}
         </Row>

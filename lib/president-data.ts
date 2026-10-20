@@ -9,6 +9,8 @@ import { justice as justiceSchema } from "./court-entities";
 import { getJusticeProfile } from "./justice-data";
 import { justicePath } from "./justice-url";
 import { getTimelinePayload } from "./timeline-data";
+import { TIMELINE_START } from "./timeline-derive";
+import type { TimelinePayload } from "./timeline-types";
 import { getLawsList, getLawsPageData } from "./laws-data";
 import { seriesOf, tallyText } from "./laws-derive";
 import { lawId, lawPath } from "./law-url";
@@ -28,6 +30,7 @@ import { getTroopsPayload } from "./troops-data";
 import { decodeTroops, periodView } from "./troops-derive";
 import { lawMajorFile } from "./laws-entities";
 import { displayTitle, earlyMajorFor, mayhewEarlyFile, type MayhewEarlyEntry } from "./mayhew-early";
+import { earlyLawVotesFile, type EarlyChamberVote, type EarlyLawVotes } from "./early-law-votes-entities";
 import { energyObservation } from "./energy-entities";
 import { groupObservations } from "./energy-derive";
 import {
@@ -59,12 +62,14 @@ import type {
   PresidentSummary,
   PresidentTerm,
   EarlyMajorLaw,
+  PresidentTimeline,
   SeriesCardId,
   SeriesFormat,
   SeriesPanel,
   TermYearCount,
   SeriesSegment,
 } from "./president-types";
+import type { ChamberTally } from "./laws-types";
 
 /**
  * Build-time reader for the Presidents directory and the president pages. It reads nothing new from the pipeline except
@@ -340,22 +345,39 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
     congress: congressSummary(timeline.congresses, p.terms, p.party, now),
     justices,
     laws: lawsFor(p, now),
-    earlyMajor: earlyMajorFor(earlyEntries(), p.name).map((e) => ({ title: displayTitle(e.title), year: e.year, congress: e.congress, summary: e.summary, capitals: e.capitals })),
-    landmarks: landmarksFor(p, now),
+    earlyMajor: earlyMajorFor(earlyEntries(), p.name).map((e) => ({ title: displayTitle(e.title), year: e.year, congress: e.congress, summary: e.summary, capitals: e.capitals, ...earlyTallies(`mayhew:${e.entry_id}`) })),
+    timeline: timelineFor(p, timeline, now),
     eos: eosFor(p, now),
     ...seriesCards(p, now),
   };
 }
 
-/** Timeline landmark laws signed in the president's time in office before Mayhew's first list (1947). */
-function landmarksFor(p: PresidentRef, now: string): EarlyMajorLaw[] {
-  const events = z.array(z.looseObject({ kind: z.string(), name: z.string(), what: z.string(), date: z.string().optional(), wiki: z.string().optional() })).parse(
-    JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "timeline-events.json"), "utf8")).events,
+/**
+ * The Timeline snapshot for a president: the chart's window (their first day in office, or the Timeline's start on 4 March 1933, to
+ * their last) and the numbers of the landmark laws and Supreme Court cases that fall inside their terms. Null for a president whose
+ * time in office ended before the Timeline begins. The whole payload goes along because a note links to events outside the window.
+ */
+function timelineFor(p: PresidentRef, payload: TimelinePayload, now: string): PresidentTimeline | null {
+  const last = termLast(p.terms[p.terms.length - 1]!, now);
+  if (last <= TIMELINE_START) return null;
+  const from = p.terms[0]!.start < TIMELINE_START ? TIMELINE_START : p.terms[0]!.start;
+  return { payload, from, to: last, eventNos: payload.events.filter((e) => inTerms(e.date, p.terms, now)).map((e) => e.no) };
+}
+
+let earlyVotesCache: Map<string, EarlyLawVotes> | null = null;
+
+/** Each chamber's passage vote for a law before 1973 (`early_law_votes.json`, keyed `timeline:<id>` / `mayhew:<entry id>`): a roll call, or null where the chamber passed it without one. */
+function earlyTallies(key: string): Pick<EarlyMajorLaw, "house" | "senate"> {
+  earlyVotesCache ??= new Map(
+    earlyLawVotesFile.parse(read("early_law_votes.json")).laws.flatMap((l) => [
+      ...(l.timeline ? [[`timeline:${l.timeline}`, l] as const] : []),
+      ...(l.mayhew ? [[`mayhew:${l.mayhew}`, l] as const] : []),
+    ]),
   );
-  return events
-    .filter((e) => e.kind === "law" && e.date !== undefined && e.date < MAYHEW_START && inTerms(e.date, p.terms, now))
-    .sort((a, b) => (a.date! < b.date! ? 1 : -1))
-    .map((e) => ({ title: e.name, year: Number(e.date!.slice(0, 4)), congress: null, summary: e.what, capitals: false, href: e.wiki ? `https://en.wikipedia.org/wiki/${encodeURIComponent(e.wiki.replace(/ /g, "_"))}` : undefined }));
+  const v = earlyVotesCache.get(key);
+  if (!v) throw new Error(`president pages: ${key} has no entry in early_law_votes.json (add it to reference/early-law-votes.json)`);
+  const tally = (c: EarlyChamberVote | null): ChamberTally | null => (c ? [0, c.yea, c.nay] : null);
+  return { house: tally(v.house), senate: tally(v.senate) };
 }
 
 let earlyCache: MayhewEarlyEntry[] | null = null;
