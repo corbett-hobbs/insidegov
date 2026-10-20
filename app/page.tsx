@@ -4,9 +4,9 @@ import { getBothTrend, getViewCurrent } from "@/lib/congress-data";
 import { getBranch } from "@/lib/verticals";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { getCourtPayload } from "@/lib/justice-data";
-import { getExecutiveOrdersData } from "@/lib/executive-orders-data";
-import { EO_TOPICS, EO_TOPIC_LABELS, topicFill } from "@/lib/executive-orders-types";
-import { HubEoChart } from "@/components/executive-orders/HubEoChart";
+import { getHubTariff } from "@/lib/trade-data";
+import { fmtRate } from "@/lib/trade-hub";
+import { HubTariffChart } from "@/components/trade/HubTariffChart";
 import { HubCompass } from "@/components/HubCompass";
 import { CourtHubStrip } from "@/components/court/CourtHubStrip";
 import { HomeHero } from "@/components/home/HomeHero";
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
 
 const BLURBS: Record<string, string> = {
   congress:
-    "Every member\u2019s votes as a two-dimensional ideology score, the laws Congress enacts and how broadly they are supported, who serves by age, gender and tenure, and estimated net worth from financial disclosures.",
+    "Every member\u2019s votes as a two-dimensional ideology score, the laws Congress enacts and how broadly they are supported, estimated net worth from financial disclosures, and who serves by age, gender and tenure.",
   "supreme-court":
     "Where the justices sit over time, from Martin\u2013Quinn ideology scores, and how many cases the Court decides and how often it splits.",
   presidency:
-    "Executive orders, the economy, energy, trade, immigration, foreign aid and troops abroad, laid out against each presidential term, from gas prices and tariffs to deportations.",
+    "The economy, trade, immigration, energy, foreign aid, troops abroad and executive orders, laid out against each presidential term, from gas prices and tariffs to deportations.",
 };
 
 const KICKERS: Record<string, string> = {
@@ -45,6 +45,8 @@ const KICKERS: Record<string, string> = {
   "supreme-court": "The judiciary",
 };
 const NUMERALS = ["I", "II", "III"];
+/** Terms shorter than this (in months) are too narrow to name under the tariff chart; a short sitting term gets its own line. */
+const TERM_LABEL_MONTHS = 36;
 
 /** Big serif headline figure with a one-line caption, used under each card's chart. */
 function Stat({ figure, children }: { figure: string; children: React.ReactNode }) {
@@ -56,16 +58,6 @@ function Stat({ figure, children }: { figure: string; children: React.ReactNode 
   );
 }
 
-/** One topic colour swatch and name, for the executive-orders chart key. */
-function TopicKey({ topic }: { topic: (typeof EO_TOPICS)[number] }) {
-  return (
-    <li className="flex items-center gap-2">
-      <span aria-hidden="true" className="inline-block size-2.5 rounded-[2px]" style={{ background: topicFill(topic) }} />
-      {EO_TOPIC_LABELS[topic]}
-    </li>
-  );
-}
-
 export default function Hub() {
   const presidency = getBranch("presidency");
   const congressBranch = getBranch("congress");
@@ -73,7 +65,7 @@ export default function Hub() {
   const trend = getBothTrend();
   const congress = getViewCurrent("both");
   const court = getCourtPayload();
-  const orders = getExecutiveOrdersData();
+  const tariff = getHubTariff();
 
   // Party gap per Congress, to say how today's divide ranks historically.
   const gaps = trend
@@ -130,40 +122,47 @@ export default function Hub() {
           blurb={BLURBS.presidency}
           viz={
             <>
-              <ul
-                aria-label="Topic colours"
-                className="pointer-events-none absolute left-4 top-3.5 z-10 hidden gap-1 font-mono text-[0.68rem] text-white/85 sm:grid"
+              <span
+                aria-hidden="true"
+                className="hub-trend-lab pointer-events-none absolute left-4 top-3.5 z-10 font-mono text-[0.68rem] text-[#e8c877]"
               >
-                {EO_TOPICS.map((t) => (
-                  <TopicKey key={t} topic={t} />
-                ))}
-              </ul>
+                Average tariff on imports · {tariff.first.slice(0, 4)}&ndash;{tariff.latest.label.slice(-4)}
+              </span>
               <Link
                 href={href(presidency)}
                 aria-label={`${presidency.label}: open the first page`}
                 className="flex flex-1"
               >
-                <HubEoChart data={orders} stretch runningTotal />
+                <HubTariffChart data={tariff} stretch />
               </Link>
-              <span
-                aria-hidden="true"
-                className="hub-trend-lab pointer-events-none absolute left-[46%] top-3.5 z-10 hidden font-mono text-[0.68rem] text-[#e8c877] sm:block"
-              >
-                Running total · {orders.years.reduce((n, y) => n + y.total, 0).toLocaleString("en-US")}
-              </span>
-              <ul
-                aria-hidden="true"
-                className="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[0.66rem] text-white/85 sm:hidden"
-              >
-                {EO_TOPICS.map((t) => (
-                  <TopicKey key={t} topic={t} />
-                ))}
-              </ul>
+              <div aria-hidden="true" className="mt-1.5 font-mono text-[0.56rem] tracking-tight text-white/75 sm:text-[0.62rem] sm:tracking-normal">
+                <div className="relative h-4">
+                  {tariff.terms
+                    .filter((t) => t.e - t.s >= TERM_LABEL_MONTHS)
+                    .map((t) => (
+                      <span
+                        key={`${t.label}-${t.s}`}
+                        className="absolute -translate-x-1/2 whitespace-nowrap"
+                        style={{ left: `${(((t.s + t.e) / 2) / tariff.rates.length) * 100}%` }}
+                      >
+                        {t.label}
+                      </span>
+                    ))}
+                </div>
+                {tariff.terms
+                  .filter((t) => t.current && t.e - t.s < TERM_LABEL_MONTHS)
+                  .map((t) => (
+                    <div key={t.label} className="text-right">
+                      {t.label}, {t.startYear}&ndash;
+                    </div>
+                  ))}
+              </div>
             </>
           }
           stat={
-            <Stat figure={(orders.years.find((y) => y.year === 2025)?.total ?? 0).toLocaleString("en-US")}>
-              executive orders signed in 2025
+            <Stat figure={fmtRate(tariff.latest.rate)}>
+              average tariff on U.S. imports in {tariff.latest.label}
+              {tariff.baseline && <>, up from {fmtRate(tariff.baseline.rate)} in {tariff.baseline.year}</>}
             </Stat>
           }
         />
