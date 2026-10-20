@@ -121,7 +121,7 @@ function PanelTables({ panels }: { panels: readonly SeriesPanel[] }) {
   return (
     <details>
       <summary className={TABLE_TOGGLE}>View as table</summary>
-      <div className="mt-2 flex max-h-72 flex-col gap-3 overflow-auto">
+      <div className="relative mt-2 flex max-h-72 flex-col gap-3 overflow-auto">
         {panels.map((p) => (
           <table key={p.id} className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
             <caption className="pb-1 text-left text-[0.72rem] font-medium text-ink">{p.title}</caption>
@@ -496,7 +496,7 @@ export function LawsCard({
               </span>
             </span>
           </div>
-          <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
+          <ul tabIndex={0} aria-label="Major laws, scrollable" className={`relative m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
             {n === 0 && <li className="py-3 text-[0.8rem] text-ink-muted">No major laws in this policy area.</li>}
             {shownMajor.map((l) => (
               <LawRow
@@ -571,7 +571,7 @@ export function EosCard({ title, takeaway, panel, coverage, breakdown, orders: a
             <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
               Orders <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(orders.length)}</span>
             </p>
-            <ul tabIndex={0} aria-label="Executive orders, scrollable" className="m-0 flex max-h-[30rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll md:max-h-none md:min-h-0 md:flex-1">
+            <ul tabIndex={0} aria-label="Executive orders, scrollable" className="relative m-0 flex max-h-[30rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 pr-3 touch-scroll md:max-h-none md:min-h-0 md:flex-1">
               {orders.map((o) => (
                 <li key={o.n} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
                   <span className="flex items-baseline justify-between gap-3">
