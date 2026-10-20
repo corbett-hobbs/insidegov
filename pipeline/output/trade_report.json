@@ -155,6 +155,117 @@
       }
     }
   },
+  "enduse": {
+    "coverage": {
+      "first_year": 2010,
+      "last_year": 2026,
+      "last_year_months": 8
+    },
+    "rows": 7904,
+    "partners": 236,
+    "categories": {
+      "exports": 135,
+      "imports": 139,
+      "special": 6
+    },
+    "partners_per_category": 5,
+    "partner_lists": 4644,
+    "reconciliation": {
+      "tolerances": {
+        "goodsAbs": 1000000,
+        "goodsShare": 0.001,
+        "canadaExportsInProgressShare": 0.015,
+        "dutiesShare": 0.0005,
+        "productsShare": 0.0005,
+        "countrySumShare": 0.002,
+        "nationalShare": 0.001
+      },
+      "worst_vs_goods_file_share_partners_over_100m_usd_millions": {
+        "key": "GRD|2026 exports",
+        "got": 132.085022,
+        "want": 132.29999999999998,
+        "gap": 0.2149779999999737,
+        "share": 0.0016249281934994234
+      },
+      "worst_vs_goods_file_abs_usd_millions": {
+        "key": "PLW|2026 imports",
+        "got": 0.352378,
+        "want": 0.1,
+        "gap": 0.252378,
+        "share": 2.52378
+      },
+      "canada_exports_year_in_progress_usd_millions": {
+        "key": "CAN|2026 exports",
+        "got": 234176.187252,
+        "want": 235972.4,
+        "gap": 1796.2127479999908,
+        "share": 0.0076119611785106685
+      },
+      "worst_duties_vs_duties_file": {
+        "key": "ABW|2010 duties",
+        "got": 18523,
+        "want": 18523,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_con_value_vs_duties_file": {
+        "key": "ABW|2010 imports for consumption",
+        "got": 18488859,
+        "want": 18488859,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_value_vs_hs_chapter_file": {
+        "key": "ABW|2010 exports value",
+        "got": 540475447,
+        "want": 540475447,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_con_value_vs_hs_chapter_file": {
+        "key": "ABW|2010 imports for consumption",
+        "got": 18488859,
+        "want": 18488859,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_duties_vs_hs_chapter_file": {
+        "key": "ABW|2010 duties",
+        "got": 18523,
+        "want": 18523,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_partner_sum_vs_all_countries_per_category": {
+        "key": "2010|exports|22090",
+        "got": 71921297041,
+        "want": 71921297041,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_partner_sum_vs_all_countries_per_category_abs": {
+        "key": "2010|exports|22090",
+        "got": 71921297041,
+        "want": 71921297041,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_partner_sum_vs_all_countries_total": {
+        "key": "2010 exports",
+        "got": 1278494525839,
+        "want": 1278494525839,
+        "gap": 0,
+        "share": 0
+      },
+      "worst_all_countries_vs_world_usd_millions": {
+        "key": "2015 exports",
+        "got": 1503328.349746,
+        "want": 1503328.3,
+        "gap": 0.04974599997512996,
+        "share": 3.3090576406450916e-8
+      }
+    }
+  },
   "duties_codes_not_carried": [
     "0001 OPEC",
     "0003 EUROPEAN UNION",
@@ -192,6 +303,14 @@
     },
     "trade_products_national.json": 131056,
     "trade_products_headings.json": 114947,
-    "trade_products_partners.json": 587860
+    "trade_products_partners.json": 587860,
+    "trade_enduse/* (total)": 14456060,
+    "trade_enduse/* (largest partner)": {
+      "file": "trade_enduse/CAN.json",
+      "bytes": 138750
+    },
+    "trade_enduse_national.json": 152628,
+    "trade_enduse_labels.json": 33943,
+    "trade_enduse_partners.json": 670051
   }
 }

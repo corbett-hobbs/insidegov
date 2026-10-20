@@ -1,0 +1,8 @@
+[
+{"country_code":"UNALLOC_8220","year":2010,"months":12,"flow":"exports","value":375897966,"categories":[["00100",205203835],["00000",170694131]],"special":[]},
+{"country_code":"UNALLOC_8220","year":2011,"months":12,"flow":"exports","value":225387686,"categories":[["00100",121877904],["00000",103509782]],"special":[]},
+{"country_code":"UNALLOC_8220","year":2012,"months":12,"flow":"exports","value":175000278,"categories":[["00100",175000278]],"special":[]},
+{"country_code":"UNALLOC_8220","year":2013,"months":12,"flow":"exports","value":179871109,"categories":[["00100",172394983],["00000",7476126]],"special":[]},
+{"country_code":"UNALLOC_8220","year":2014,"months":12,"flow":"exports","value":101833,"categories":[["10130",101833]],"special":[]},
+{"country_code":"UNALLOC_8220","year":2016,"months":12,"flow":"exports","value":1771484,"categories":[["10130",1771484]],"special":[]}
+]

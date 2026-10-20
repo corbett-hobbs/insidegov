@@ -559,6 +559,11 @@ and each partner's top headings, whole dollars, keyed by `country_code`+`year`+`
 goods, low-value estimates) are kept in the sums but never ranked as products. Chapters reconcile to
 `trade_by_country` and `duties_by_country`.
 
+**Goods by use** (`trade_enduse/<country_code>.json`, `trade_enduse_national.json`, 2010-): the same shipments by
+Census end-use category (aircraft, computers, semiconductors, cell phones...), whole dollars, same keys and tuples.
+Codes are read only together with their flow. Minimum-value shipments and returned goods are kept in the sums
+but never ranked. Categories reconcile to `trade_by_country`, `duties_by_country` and the HS files.
+
 **Validation** fails `pnpm transform`: row schemas, balance identity, no negatives, no duplicate
 keys, no gaps in the claimed ranges, country rows vs World, duties country rows vs the total.
 
