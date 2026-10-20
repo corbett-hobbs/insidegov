@@ -29,7 +29,9 @@ import { decodeAid, spendingByYear, topRecipientsByYear } from "./foreign-aid-de
 import { getTroopsPayload } from "./troops-data";
 import { decodeTroops, periodView } from "./troops-derive";
 import { lawMajorFile } from "./laws-entities";
+import { mayhewNote } from "./mayhew-note";
 import { displayTitle, earlyMajorFor, mayhewEarlyFile, type MayhewEarlyEntry } from "./mayhew-early";
+import { mayhewEarlyWikiFile, mayhewWikiFor, type MayhewEarlyWikiFile } from "./mayhew-early-wiki";
 import { earlyLawVotesFile, type EarlyChamberVote, type EarlyLawVotes } from "./early-law-votes-entities";
 import { energyObservation } from "./energy-entities";
 import { groupObservations } from "./energy-derive";
@@ -144,7 +146,7 @@ function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
       title: r[3],
       date: r[2],
       path: lawPath(lawId(r[0], r[1]), r[3]),
-      summary: r[11],
+      summary: r[11] || mayhewDescription(lawId(r[0], r[1]), r[3]),
       group: groupOfArea[r[4]],
       area: { label: groupLabel.get(groupOfArea[r[4]]) ?? "Not classified", color: fill.get(groupOfArea[r[4]]) ?? "var(--ink-faint)" },
       house: r[6],
@@ -366,6 +368,25 @@ function timelineFor(p: PresidentRef, payload: TimelinePayload, now: string): Pr
   return { payload, from, to: last, eventNos: payload.events.filter((e) => inTerms(e.date, p.terms, now)).map((e) => e.no) };
 }
 
+let mayhewQuoteCache: Map<string, { quote: string; scope: "whole" | "part" }> | null = null;
+
+/**
+ * A major law with no usable CRS first sentence (an omnibus act) shows Mayhew's own description of it instead, trimmed (`lib/mayhew-note.ts`);
+ * "" when his entry has none. A law named by several entries uses its first whole one.
+ */
+function mayhewDescription(id: string, title: string): string {
+  if (!mayhewQuoteCache) {
+    mayhewQuoteCache = new Map();
+    const entries = z
+      .array(z.looseObject({ quote: z.string(), law_ids: z.array(z.string()), scope: z.enum(["whole", "part", "none"]) }))
+      .parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "mayhew-major-laws.json"), "utf8")).entries);
+    for (const e of [...entries].sort((a, b) => (a.scope === "whole" ? 0 : 1) - (b.scope === "whole" ? 0 : 1)))
+      if (e.scope !== "none") for (const l of e.law_ids) if (!mayhewQuoteCache.has(l)) mayhewQuoteCache.set(l, { quote: e.quote, scope: e.scope });
+  }
+  const e = mayhewQuoteCache.get(id);
+  return (e && mayhewNote(e.quote, title, e.scope)) ?? "";
+}
+
 let earlyVotesCache: Map<string, EarlyLawVotes> | null = null;
 
 /** Each chamber's passage vote for a law before 1973 (`early_law_votes.json`, keyed `timeline:<id>` / `mayhew:<entry id>`): a roll call, or null where the chamber passed it without one. */
@@ -380,8 +401,15 @@ function earlyTallies(key: string): Pick<EarlyMajorLaw, "house" | "senate" | "hr
   if (!v) throw new Error(`president pages: ${key} has no entry in early_law_votes.json (add it to reference/early-law-votes.json)`);
   const tally = (c: EarlyChamberVote | null): ChamberTally | null => (c ? [0, c.yea, c.nay] : null);
   // A law that is also a Timeline landmark links to its Wikipedia article.
-  const wiki = v.timeline ? getTimelinePayload().events.find((e) => e.id === v.timeline)?.wiki : undefined;
+  // Otherwise a reviewed Wikipedia pick in `mayhew-early-wiki.json`, where one exists.
+  const wiki = (v.timeline ? getTimelinePayload().events.find((e) => e.id === v.timeline)?.wiki : undefined) ?? (v.mayhew ? mayhewWikiFor(earlyWiki(), v.mayhew) : undefined);
   return { house: tally(v.house), senate: tally(v.senate), ...(wiki ? { href: wikiUrl(wiki) } : {}) };
+}
+
+let earlyWikiCache: MayhewEarlyWikiFile | null = null;
+function earlyWiki(): MayhewEarlyWikiFile {
+  earlyWikiCache ??= mayhewEarlyWikiFile.parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "mayhew-early-wiki.json"), "utf8")));
+  return earlyWikiCache;
 }
 
 let earlyCache: MayhewEarlyEntry[] | null = null;

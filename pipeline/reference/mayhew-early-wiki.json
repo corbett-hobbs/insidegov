@@ -1,0 +1,306 @@
+{
+ "_note": "Wikipedia article for each pre-1973 Mayhew law (mayhew-1947-1972.json, kind law) that has one, so the Laws signed card on president pages can link it. Entries that are also Timeline landmarks take their link from timeline-events.json 'wiki' and are not listed. 'wiki' is the article title after redirects (checked against the MediaWiki API in pnpm validate); a redirect to a section, a disambiguation page or a different bill is not accepted, so those entries sit in 'unlinked' with the reason. Picks were reviewed by hand against Mayhew's title, year and summary.",
+ "last_reviewed": "2026-10-20",
+ "linked": {
+  "80-03": {
+   "wiki": "Portal to Portal Act of 1947"
+  },
+  "80-06": {
+   "wiki": "Federal Insecticide, Fungicide, and Rodenticide Act"
+  },
+  "80-10": {
+   "wiki": "Agricultural Act of 1948"
+  },
+  "81-04": {
+   "wiki": "Mutual Defense Assistance Act"
+  },
+  "81-05": {
+   "wiki": "Agricultural Act of 1949"
+  },
+  "81-06": {
+   "wiki": "Point Four Program",
+   "note": "Mayhew's 'Point Four foreign aid program'; the article is the program."
+  },
+  "81-10": {
+   "wiki": "Defense Production Act of 1950"
+  },
+  "81-11": {
+   "wiki": "Revenue Act of 1950",
+   "note": "Mayhew's 'Tax increase' to finance the Korean War."
+  },
+  "82-01": {
+   "wiki": "Mutual Security Act"
+  },
+  "82-03": {
+   "wiki": "Revenue Act of 1951",
+   "note": "Mayhew's 'Tax increase' for the wartime defence buildup."
+  },
+  "83-01": {
+   "wiki": "Submerged Lands Act"
+  },
+  "83-04": {
+   "wiki": "St. Lawrence Seaway",
+   "note": "Mayhew's title is cut off at 'St' in the source file; the entry is the St. Lawrence Seaway approval (Wiley-Dondero Act), which the article covers."
+  },
+  "83-05": {
+   "wiki": "Communist Control Act of 1954"
+  },
+  "83-06": {
+   "wiki": "Atomic Energy Act of 1954"
+  },
+  "83-07": {
+   "wiki": "Agricultural Act of 1954"
+  },
+  "83-08": {
+   "wiki": "Housing Act of 1954"
+  },
+  "83-09": {
+   "wiki": "Food for Peace",
+   "note": "Mayhew's 'Food for Peace program' (Public Law 480); the article is the program."
+  },
+  "84-03": {
+   "wiki": "Agricultural Act of 1956"
+  },
+  "84-06": {
+   "wiki": "Colorado River Storage Project",
+   "note": "Mayhew's 'Upper Colorado River Project'; the article is the project the act authorised."
+  },
+  "85-02": {
+   "wiki": "Price–Anderson Nuclear Industries Indemnity Act"
+  },
+  "85-03": {
+   "wiki": "Alaska Statehood Act"
+  },
+  "85-10": {
+   "wiki": "Transportation Act of 1958"
+  },
+  "85-11": {
+   "wiki": "Food Additives Amendment of 1958"
+  },
+  "86-03": {
+   "wiki": "Hawaii Admission Act"
+  },
+  "86-04": {
+   "wiki": "Civil Rights Act of 1960"
+  },
+  "87-01": {
+   "wiki": "Housing Act of 1961"
+  },
+  "87-02": {
+   "wiki": "Fair Labor Standards Amendments of 1961",
+   "note": "Mayhew's 'Minimum wage increase, to $1.25'; the 1961 amendments are that increase."
+  },
+  "87-07": {
+   "wiki": "Arms Control and Disarmament Agency",
+   "note": "Title names the agency; the article is the agency the act created."
+  },
+  "87-08": {
+   "wiki": "Alliance for Progress",
+   "note": "Mayhew's 'Alliance for Progress'; the article is the programme."
+  },
+  "87-09": {
+   "wiki": "Foreign Assistance Act"
+  },
+  "87-12": {
+   "wiki": "Communications Satellite Act of 1962"
+  },
+  "87-13": {
+   "wiki": "Kefauver–Harris Amendment"
+  },
+  "87-14": {
+   "wiki": "Revenue Act of 1962"
+  },
+  "88-03": {
+   "wiki": "Community Mental Health Act",
+   "note": "Mayhew's 'Aid for mentally ill and retarded' is the 1963 community mental health centers act; the article covers it."
+  },
+  "88-09": {
+   "wiki": "Revenue Act of 1964",
+   "note": "Mayhew's 'TAX CUT' (Kennedy's, enacted 1964)."
+  },
+  "88-10": {
+   "wiki": "Urban Mass Transportation Act of 1964"
+  },
+  "88-11": {
+   "wiki": "Wilderness Act"
+  },
+  "88-12": {
+   "wiki": "Food and Nutrition Act of 2008",
+   "note": "The article is the current name of the Food Stamp Act of 1964 (Wikipedia redirects the old title here)."
+  },
+  "89-04": {
+   "wiki": "United States Department of Housing and Urban Development",
+   "note": "Title names the department; the article is the department the act created."
+  },
+  "89-05": {
+   "wiki": "Appalachian Regional Development Act"
+  },
+  "89-07": {
+   "wiki": "Highway Beautification Act"
+  },
+  "89-09": {
+   "wiki": "National Foundation on the Arts and the Humanities",
+   "note": "Title names the foundation; the article is the foundation the act created (NEA and NEH)."
+  },
+  "89-10": {
+   "wiki": "Higher Education Act of 1965"
+  },
+  "89-11": {
+   "wiki": "Housing and Urban Development Act of 1965"
+  },
+  "89-15": {
+   "wiki": "Food and Agriculture Act of 1965"
+  },
+  "89-16": {
+   "wiki": "United States Department of Transportation",
+   "note": "Title names the department; the article is the department the act created."
+  },
+  "89-19": {
+   "wiki": "National Traffic and Motor Vehicle Safety Act"
+  },
+  "89-20": {
+   "wiki": "Fair Packaging and Labeling Act"
+  },
+  "89-22": {
+   "wiki": "Model Cities Program",
+   "note": "Mayhew's 'Demonstration cities program'; the article is the Model Cities Program."
+  },
+  "90-02": {
+   "wiki": "Public Broadcasting Act of 1967"
+  },
+  "90-04": {
+   "wiki": "Wholesome Meat Act"
+  },
+  "90-06": {
+   "wiki": "Age Discrimination in Employment Act of 1967"
+  },
+  "90-08": {
+   "wiki": "Housing and Urban Development Act of 1968"
+  },
+  "90-09": {
+   "wiki": "Gun Control Act of 1968"
+  },
+  "90-10": {
+   "wiki": "Omnibus Crime Control and Safe Streets Act of 1968"
+  },
+  "90-11": {
+   "wiki": "Revenue and Expenditure Control Act of 1968",
+   "note": "Mayhew's 'Income tax surcharge'."
+  },
+  "90-12": {
+   "wiki": "Central Arizona Project",
+   "note": "Mayhew's 'Central Arizona Project authorized'; the article is the project."
+  },
+  "90-13": {
+   "wiki": "National Trails System",
+   "note": "Mayhew's 'National scenic trails system'; the article covers the system the National Trails System Act created."
+  },
+  "90-16": {
+   "wiki": "Truth in Lending Act"
+  },
+  "91-01": {
+   "wiki": "Federal Coal Mine Health and Safety Act of 1969"
+  },
+  "91-04": {
+   "wiki": "Tax Reform Act of 1969"
+  },
+  "91-07": {
+   "wiki": "Organized Crime Control Act of 1970"
+  },
+  "91-08": {
+   "wiki": "Postal Reorganization Act"
+  },
+  "91-12": {
+   "wiki": "Public Health Cigarette Smoking Act"
+  },
+  "91-16": {
+   "wiki": "Comprehensive Drug Abuse Prevention and Control Act of 1970"
+  },
+  "91-17": {
+   "wiki": "Agricultural Act of 1970"
+  },
+  "91-18": {
+   "wiki": "Airport and Airway Development Act of 1970"
+  },
+  "91-19": {
+   "wiki": "Urban Mass Transportation Act of 1970"
+  },
+  "91-20": {
+   "wiki": "Economic Stabilization Act of 1970"
+  },
+  "92-02": {
+   "wiki": "Revenue Act of 1971",
+   "note": "Mayhew's 'Tax reduction' (1971)."
+  },
+  "92-06": {
+   "wiki": "Federal Election Campaign Act"
+  },
+  "92-11": {
+   "wiki": "Federal Insecticide, Fungicide, and Rodenticide Act",
+   "note": "The 1972 act rewrote FIFRA wholesale; Wikipedia covers it in the FIFRA article (also linked from the 1947 entry)."
+  },
+  "92-13": {
+   "wiki": "Consumer Product Safety Act"
+  },
+  "92-14": {
+   "wiki": "Equal Employment Opportunity Act of 1972"
+  },
+  "92-15": {
+   "wiki": "Supplemental Security Income",
+   "note": "Mayhew's 'SSI program approved'; the article is the program."
+  }
+ },
+ "unlinked": {
+  "80-09": "Wikipedia covers it only as a section of a broader article",
+  "81-03": "Mayhew's entry is a generic description, not one identifiable act",
+  "81-07": "Mayhew's entry is a generic description, not one identifiable act",
+  "81-08": "Wikipedia has no separate article for this act",
+  "81-12": "Wikipedia has no separate article for this act",
+  "82-02": "Mayhew's entry is a generic description, not one identifiable act",
+  "82-04": "Mayhew's entry is a generic description, not one identifiable act",
+  "83-02": "Wikipedia covers it only as a section of a broader article",
+  "83-03": "Mayhew's entry is a generic description, not one identifiable act",
+  "84-01": "Mayhew's entry is a generic description, not one identifiable act",
+  "84-02": "Mayhew's entry is a generic description, not one identifiable act",
+  "84-04": "Mayhew's entry is a generic description, not one identifiable act",
+  "85-06": "Mayhew's entry is a generic description, not one identifiable act",
+  "85-07": "Wikipedia has no article on the 1958 reorganisation act (the Department of Defense article is the wrong target)",
+  "85-08": "Wikipedia has no separate article for this act",
+  "85-09": "Mayhew's entry is a generic description, not one identifiable act",
+  "86-02": "Wikipedia has no separate article for this act",
+  "86-05": "Wikipedia has no separate article for this act",
+  "87-03": "Mayhew's entry is a generic description, not one identifiable act",
+  "87-04": "Wikipedia has only an article on the Area Redevelopment Administration, not the act",
+  "87-06": "Wikipedia has no separate article for this act",
+  "87-11": "Wikipedia has no separate article for this act",
+  "87-15": "Wikipedia has no separate article for this act",
+  "88-02": "Wikipedia has no separate article for this act",
+  "88-04": "Wikipedia has no separate article for this act",
+  "88-05": "Wikipedia covers it only as a section of a broader article",
+  "88-13": "Mayhew's entry is a generic description, not one identifiable act",
+  "89-06": "Wikipedia has no separate article for this act",
+  "89-12": "Wikipedia has no separate article for this act",
+  "89-13": "Wikipedia covers it only as a section of a broader article",
+  "89-14": "Wikipedia has no separate article for this act",
+  "89-17": "Wikipedia has no separate article for this act",
+  "89-18": "Mayhew's entry is a generic description, not one identifiable act",
+  "89-21": "Mayhew's entry is a generic description, not one identifiable act",
+  "90-01": "Mayhew's entry is a generic description, not one identifiable act",
+  "90-03": "Wikipedia covers it only as a section of a broader article",
+  "90-14": "Wikipedia has no separate article for this act",
+  "90-15": "Wikipedia has no separate article for this act",
+  "91-02": "Mayhew's entry is a generic description, not one identifiable act",
+  "91-03": "Wikipedia has no article on the 1969 draft lottery law; 'Vietnam War draft' is broader",
+  "91-09": "Wikipedia covers it only as a section of a broader article",
+  "91-11": "Wikipedia has no separate article for this act",
+  "91-14": "Wikipedia has no article on the act; the Amtrak article is the agency it created",
+  "91-15": "Wikipedia has no separate article for this act",
+  "91-21": "Mayhew's entry is a generic description, not one identifiable act",
+  "91-22": "Mayhew's entry is a generic description, not one identifiable act",
+  "92-01": "Mayhew's entry is a generic description, not one identifiable act",
+  "92-03": "Wikipedia covers it only as a section of a broader article",
+  "92-04": "Wikipedia has no separate article for this act",
+  "92-08": "Wikipedia has no separate article for this act",
+  "92-09": "Mayhew's entry is a generic description, not one identifiable act"
+ }
+}
