@@ -124,7 +124,10 @@ function PanelTables({ panels }: { panels: readonly SeriesPanel[] }) {
             <thead className="sticky top-0 bg-surface-raised">
               <tr className="font-mono text-[0.65rem] uppercase tracking-[0.05em] text-ink-muted">
                 <th scope="col" className="px-2 py-1.5">Period</th>
-                <th scope="col" className="px-2 py-1.5">{p.lineTitle ?? "Value"}</th>
+                <th scope="col" className="px-2 py-1.5">{p.lineTitle ?? (p.stack ? "Total" : "Value")}</th>
+                {p.stack?.map((g) => (
+                  <th key={g.id} scope="col" className="px-2 py-1.5">{g.label}</th>
+                ))}
                 {p.parts?.map((x) => (
                   <th key={x.id} scope="col" className="px-2 py-1.5">{x.title}</th>
                 ))}
@@ -136,6 +139,9 @@ function PanelTables({ panels }: { panels: readonly SeriesPanel[] }) {
                   <tr key={`${s.termId}-${pt.label}`} className="border-t border-line">
                     <th scope="row" className="px-2 py-1 font-normal">{pt.label}{pt.preliminary ? " (preliminary)" : ""}</th>
                     <td className="px-2 py-1">{fmtExact(pt.value, p.format)}</td>
+                    {p.stack?.map((g, j) => (
+                      <td key={g.id} className="px-2 py-1">{fmtExact(pt.stack?.[j] ?? 0, p.format)}</td>
+                    ))}
                     {p.parts?.map((x) => {
                       const q = x.segments.find((g) => g.termId === s.termId)?.points.find((y) => y.x === pt.x);
                       return <td key={x.id} className="px-2 py-1">{q ? fmtExact(q.value, p.format) : "—"}</td>;
