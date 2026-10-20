@@ -94,4 +94,7 @@ Examples (imports unless stated):
 - With a **country** picked, the card is removed (it already only appears once a line is tapped). Per-country data
   is exact and is a separate, later session.
 - Phone labels slant up and to the right (about 55 degrees), steepening only where one would leave the chart.
-- Still open: colours.
+- Colours: bands take the colour of the use they reach (chapter and product picks) or the chapter they start from
+  (use picks), six solid colours plus a neutral Other; grey for outside the selection.
+- The card above is unchanged: tapping a chapter, product or use still opens its top five partners in place, and the
+  same tap selects what the Sankey shows.
