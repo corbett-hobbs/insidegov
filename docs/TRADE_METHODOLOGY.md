@@ -272,8 +272,8 @@ shows, and why:
 
 What the U.S. trades with each partner, in categories a reader recognizes (aircraft, computers, semiconductors, cell
 phones, pharmaceuticals, crude oil), in dollars, 2010 on. A second view of the same shipments as "Goods by product",
-by what the goods are *used for* instead of by tariff chapter. **Data layer only so far**; the card (a "By use"
-toggle on "What the U.S. trades", sharing its year and Country filter) is a separate change. Fetch
+by what the goods are *used for* instead of by tariff chapter, shown as the "By use" view of the "What the U.S.
+trades" card (below, "The By use view"). Fetch
 `pipeline/fetch/census-enduse.ts` (library `census-enduse-lib.ts`); transform `pipeline/transform/trade-enduse.ts`
 (run from `trade-run.ts`); schemas `lib/trade-enduse-entities.ts`; plain names `lib/trade-enduse-labels.ts`.
 
@@ -374,9 +374,19 @@ transform with its Census description, to be named deliberately. A new Census co
 it is added to `countries.json`, like the other trade files. The full fetch (`pnpm fetch:census-enduse`) is only
 needed to start over.
 
-**Not built.** The card, and a loader for these files: `next.config.ts` keeps `trade_enduse/**` and
-`trade_enduse_partners.json` out of every server function's trace (as for `trade_products`) until a static route
-reads them.
+**The By use view.** A By product / By use toggle on the "What the U.S. trades" card, sharing its year, Country
+filter and Exports / Imports toggle; dollars, with each category's collected rate on imports, as for chapters.
+Served per partner (and `all`, from `trade_enduse_national.json`) by the static route `/data/trade/enduse/[code]`
+(`lib/trade-enduse-data.ts`, category codes only: the names are `lib/trade-enduse-labels.ts`, small enough for the
+client), fetched only once someone switches to the view. One ranked list of every category with trade (special
+entries never ranked: "Plus $107B in special entries, not ranked as kinds of goods: U.S. goods returned & reimports
+$73.6B, minimum-value shipments $25.0B, other $8.8B", all countries, imports, 2026 through August). With all
+countries showing a line opens to its top five countries (`/data/trade/enduse-partners/[year]`, from
+`trade_enduse_partners.json`), exactly as a product line does; with one country picked there is nothing to break down
+and, with no chapter to highlight, a click does nothing. The Data notes name the 2010 start, the source and the
+civilian-aircraft asymmetry (exports one line, imports three). The partner lag note is the products card's own: the
+end-use and HS files agree to the dollar. `next.config.ts` keeps `trade_enduse/**` and `trade_enduse_partners.json`
+out of every server function's trace (as for `trade_products`), since only those static routes read them.
 
 ## Country codes
 

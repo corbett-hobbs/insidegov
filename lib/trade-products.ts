@@ -78,7 +78,7 @@ export interface ProductsView {
   specialTotal: number;
 }
 
-const rateOf = (con: number, duties: number) => (con > 0 ? duties / con : null);
+export const rateOf = (con: number, duties: number) => (con > 0 ? duties / con : null);
 
 /** The view for one year and flow, or null when the payload has no such row. */
 export function productsView(payload: TradeProductsPayload, year: number, flow: ProductsFlow): ProductsView | null {
@@ -124,10 +124,17 @@ export function productsView(payload: TradeProductsPayload, year: number, flow: 
 export function partnersOf(payload: ProductPartnersPayload, year: number, flow: ProductsFlow, level: "chapter" | "heading", code: string, lineValue: number): PartnerLine[] | null {
   const r = payload.rows.find((x) => x.year === year && x.flow === flow);
   const list = (level === "chapter" ? r?.chapters : r?.headings)?.[code] as readonly (readonly (string | number)[])[] | undefined;
-  if (!list) return null;
+  return list ? partnerLines(list, payload.names, flow, lineValue) : null;
+}
+
+/**
+ * One line's top-countries tuples (`[country_code, value]` exports, `[country_code, value, con_value, duties]` imports) as
+ * `PartnerLine`s. Shared with the "By use" view (`lib/trade-enduse.ts`), whose partner file uses the same tuples.
+ */
+export function partnerLines(list: readonly (readonly (string | number)[])[], names: Record<string, string>, flow: ProductsFlow, lineValue: number): PartnerLine[] {
   return list.map((t) => ({
     code: t[0] as string,
-    name: payload.names[t[0] as string] ?? (t[0] as string),
+    name: names[t[0] as string] ?? (t[0] as string),
     value: t[1] as number,
     share: lineValue > 0 ? (t[1] as number) / lineValue : 0,
     rate: flow === "imports" ? rateOf(t[2] as number, t[3] as number) : null,
@@ -150,21 +157,21 @@ export function fmtPct(r: number): string {
   if (r === 0) return "0%";
   if (r < 0.0005) return "<0.1%";
   const p = r * 100;
-  return `${p.toFixed(p < 10 ? 1 : 0)}%`;
+  return `${p.toFixed(p < 9.95 ? 1 : 0)}%`; // 9.98% is "10%", not "10.0%"
 }
 
 /**
- * The footnote for what the ranking leaves out: "Plus $30.4B in special entries, not products: returned American
- * goods $24.1B, estimated low-value shipments $7.9B, other $0.5B." Names the two largest special headings; null
- * when there are none.
+ * The footnote for what the ranking leaves out: "Plus $30.4B in special entries, not ranked as products: returned
+ * American goods $24.1B, estimated low-value shipments $7.9B, other $0.5B." Names the two largest special entries;
+ * null when there are none. `ranked` names what the list ranks ("products", or "kinds of goods" in the "By use" view).
  */
-export function specialNote(view: ProductsView): string | null {
+export function specialNote(view: Pick<ProductsView, "special" | "specialTotal">, ranked = "products"): string | null {
   if (view.specialTotal <= 0 || view.special.length === 0) return null;
   const named = view.special.slice(0, 2);
   const rest = view.specialTotal - named.reduce((a, s) => a + s.value, 0);
   const parts = named.map((s) => `${lowerFirst(s.label)} ${fmtDollars(s.value)}`);
   if (rest >= 0.005 * view.specialTotal) parts.push(`other ${fmtDollars(rest)}`);
-  return `Plus ${fmtDollars(view.specialTotal)} in special entries, not ranked as products: ${parts.join(", ")}.`;
+  return `Plus ${fmtDollars(view.specialTotal)} in special entries, not ranked as ${ranked}: ${parts.join(", ")}.`;
 }
 
 // "U.S. government imports" keeps its capitals; ordinary labels read mid-sentence in lower case.

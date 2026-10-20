@@ -113,7 +113,7 @@ describe("formatting", () => {
     ]);
   });
   it("prints shares and rates", () => {
-    expect([fmtPct(0), fmtPct(0.0001), fmtPct(0.021), fmtPct(0.25), fmtPct(0.1296)]).toEqual(["0%", "<0.1%", "2.1%", "25%", "13%"]);
+    expect([fmtPct(0), fmtPct(0.0001), fmtPct(0.021), fmtPct(0.25), fmtPct(0.1296), fmtPct(0.0998), fmtPct(0.0994)]).toEqual(["0%", "<0.1%", "2.1%", "25%", "13%", "10%", "9.9%"]);
   });
 });
 
