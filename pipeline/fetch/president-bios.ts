@@ -40,6 +40,11 @@ export const PRESIDENT_ARTICLES: Readonly<Record<string, string>> = {
   "joe-biden": "Joe Biden",
 };
 
+/** Portraits chosen by hand where the article's lead image is not public domain (FDR's is CC BY; this Library of Congress photo is). Same license check as any other. */
+const PHOTO_OVERRIDES: Readonly<Record<string, string>> = {
+  "franklin-d-roosevelt": "https://upload.wikimedia.org/wikipedia/commons/b/b8/FDR_in_1933.jpg",
+};
+
 const headers = { "User-Agent": USER_AGENT, Accept: "application/json" };
 
 async function getJson(url: string): Promise<unknown> {
@@ -105,7 +110,7 @@ if (process.argv[1]?.endsWith("president-bios.ts")) {
         throw new Error(`${title}: not the expected article (type ${api.type})`);
       }
       const img = apiImage.parse(body);
-      const { photo, note } = await findPhoto(slug, img.originalimage?.source ?? img.thumbnail?.source);
+      const { photo, note } = await findPhoto(slug, PHOTO_OVERRIDES[slug] ?? img.originalimage?.source ?? img.thumbnail?.source);
       console.log(`  ${slug}: ${note}`);
       records.push(
         presidentBio.parse({

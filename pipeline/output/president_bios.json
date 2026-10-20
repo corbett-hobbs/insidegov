@@ -45,7 +45,11 @@
     "url": "https://en.wikipedia.org/wiki/Franklin_D._Roosevelt",
     "revision": "1381094953",
     "fetched_at": "2026-10-20",
-    "photo": null
+    "photo": {
+      "path": "/images/presidents/franklin-d-roosevelt.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:FDR_in_1933.jpg",
+      "license": "Public domain"
+    }
   },
   {
     "slug": "george-h-w-bush",
