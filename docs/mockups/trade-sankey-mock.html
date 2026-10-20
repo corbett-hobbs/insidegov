@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trade product-to-use mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--surface-raised:#f7f8fa;--ink:#1a2233;--ink-muted:#5b6472;--ink-faint:#8890a0;--line:#d7dce3;--line-strong:#b9c1cc;--accent:#5c4b7a;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#4a3aa7;--s-other:#8890a0;--outside:#d3d8e0;--node:#5b6472;--tip-bg:#1a2233;--tip-ink:#fff;--tip-muted:#aab2bf}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161c;--surface:#1b1e26;--surface-raised:#20242e;--ink:#e9eaee;--ink-muted:#9aa2af;--ink-faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--accent:#9b84c7;
+--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#9085e9;--s-other:#6b7280;--outside:#3a4050;--node:#9aa2af;--tip-bg:#e9eaee;--tip-ink:#14161c;--tip-muted:#4b5363}}
+:root[data-theme="dark"]{--bg:#14161c;--surface:#1b1e26;--surface-raised:#20242e;--ink:#e9eaee;--ink-muted:#9aa2af;--ink-faint:#6b7280;--line:#2a2e38;--line-strong:#3a4050;--accent:#9b84c7;
+--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#9085e9;--s-other:#6b7280;--outside:#3a4050;--node:#9aa2af;--tip-bg:#e9eaee;--tip-ink:#14161c;--tip-muted:#4b5363}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:28px 16px 60px}
+.eyebrow,.cap{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+h1{font:500 2rem/1.15 Newsreader,serif;margin:.3rem 0 .5rem}
+.intro{color:var(--ink-muted);font-size:.95rem;line-height:1.6;margin:0 0 1rem}
+.controls{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin:0 0 1.2rem;position:sticky;top:0;z-index:5;background:var(--bg);padding:.5rem 0}
+.switch{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.switch button{font:500 .8rem "IBM Plex Sans";padding:.4rem .75rem;border:0;background:none;color:var(--ink-muted);cursor:pointer}
+.switch button[aria-pressed=true]{background:var(--ink);color:var(--surface)}
+label.chk{font-size:.82rem;color:var(--ink-muted);display:inline-flex;gap:.35rem;align-items:center}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.1rem .9rem;margin-bottom:16px;min-width:0}
+h3{font:500 1.3rem/1.2 Newsreader,serif;margin:0}
+.take{margin:.35rem 0 0;font-size:.875rem;line-height:1.5;color:var(--ink)}
+.allc{margin:.35rem 0 0;font-size:.78rem;color:var(--ink-muted)}
+.stub{border-style:dashed}
+.stub .tag{float:right;font:500 .65rem "IBM Plex Mono";color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em}
+.pills{display:flex;gap:.5rem;margin:.6rem 0 .4rem;flex-wrap:wrap}
+.pill{font:500 .75rem "IBM Plex Sans";border:1px solid var(--line);border-radius:6px;padding:.2rem .55rem;color:var(--ink-muted)}
+.pill.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+@media(max-width:700px){.lists{grid-template-columns:1fr}}
+.lists ol{list-style:none;margin:.25rem 0 0;padding:0}
+.lists li{display:grid;grid-template-columns:1fr 6.5rem 4rem;gap:.5rem;align-items:center;font-size:.82rem;padding:.2rem .4rem;border-radius:5px}
+.lists li .bar{height:9px;background:var(--ink-muted);border-radius:2px}
+.lists li .v{font:.75rem "IBM Plex Mono";text-align:right}
+.lists li.sel{outline:2px solid var(--accent);background:color-mix(in oklab,var(--accent) 8%,var(--surface))}
+.colheads{display:flex;justify-content:space-between;margin-top:.7rem}
+.sel-line{display:flex;flex-wrap:wrap;gap:.3rem .6rem;align-items:baseline;margin-top:.55rem;font-size:.78rem;color:var(--ink-muted)}
+.sel-line b{font-weight:500;color:var(--ink)}
+.plot{margin-top:.4rem;position:relative}
+@media(max-width:640px){.plot{margin-left:-12px;margin-right:-12px}}
+svg.sk{display:block;width:100%;height:auto;overflow:visible}
+.rib{cursor:pointer;transition:fill-opacity .12s}
+.lbl{font:12px "IBM Plex Sans";fill:var(--ink)}
+.lbl .num{font:11px "IBM Plex Mono";fill:var(--ink-muted)}
+.lbl.halo{paint-order:stroke;stroke:var(--surface);stroke-width:3.5px;stroke-linejoin:round}
+.lbl.v{font-size:10.5px}.lbl.v .num{font-size:10px}
+.lbl.out{fill:var(--ink-muted);font-style:italic}
+.legend{display:flex;flex-wrap:wrap;gap:.25rem .65rem;margin-top:.45rem;font-size:.7rem;line-height:1.25;color:var(--ink-muted)}
+.legend span{display:inline-flex;gap:.25rem;align-items:center;white-space:nowrap}.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.notes{display:flex;flex-wrap:wrap;column-gap:1rem;margin-top:.5rem}
+details{font-size:.8rem;color:var(--ink-muted);margin-top:.5rem}
+details[open]{flex-basis:100%;order:2}
+summary{cursor:pointer;font-weight:500;color:var(--ink)}
+details p{margin:.25rem 0 0;line-height:1.6}
+table{border-collapse:collapse;width:100%;font-size:.75rem;margin-top:.4rem}
+th,td{text-align:left;padding:.25rem .5rem;border-top:1px solid var(--line)}td.n{text-align:right;font-family:"IBM Plex Mono"}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--tip-bg);color:var(--tip-ink);border-radius:6px;padding:.45rem .6rem;font-size:.78rem;max-width:300px;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none}
+.tip.pinned{pointer-events:auto;outline:2px solid var(--accent)}
+.tip .r{display:flex;justify-content:space-between;gap:1rem;font-weight:500}.tip .r span:last-child{font-family:"IBM Plex Mono"}
+.tip .m{color:var(--tip-muted);font:.7rem/1.45 "IBM Plex Mono";margin-top:.2rem}
+.phone-wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.phone{width:375px;max-width:100%;border:8px solid var(--ink);border-radius:28px;background:var(--bg);padding:12px 0 }
+.phone .card{border-radius:0;border-left:0;border-right:0;padding:12px 16px}
+.phone-note{flex:1;min-width:260px;font-size:.85rem;line-height:1.6;color:var(--ink-muted)}
+h2.row{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);border-top:1px solid var(--line);padding-top:.7rem;margin:1.8rem 0 .8rem}
+.note{background:var(--surface);border:1px dashed var(--line-strong);border-radius:10px;padding:.9rem 1.1rem;font-size:.85rem;line-height:1.6;color:var(--ink-muted);margin-top:1rem}
+.note b{color:var(--ink)}.note ol{padding-left:1.2rem;margin:.4rem 0}
+</style></head>
+<body>
+<main>
+<div class="eyebrow">Mock · Presidency · Trade</div>
+<h1>Following a product to its use</h1>
+<p class="intro">A new card directly under “What the U.S. trades”: a Sankey from HS chapter to product (4-digit heading) to Census end use, for the line tapped in the card above. Real 2025 numbers, all countries, from Census HS10 trade joined to Census’s own HS10-to-end-use concordance (the join matches both published totals; see <code>docs/TRADE_SANKEY_FEASIBILITY.md</code>). Pick a state; tap or hover a band.</p>
+<div class="controls">
+  <div class="switch" role="group" aria-label="Mock state" id="states"></div>
+  <label class="chk"><input type="checkbox" id="cty"> A country is picked (China)</label>
+</div>
+
+<section class="card stub" id="above"></section>
+<section class="card" id="sankey-card"></section>
+
+<h2 class="row">Phone, 375px: flows top to bottom</h2>
+<div class="phone-wrap">
+  <div class="phone"><div class="card" id="phone-card"></div></div>
+  <div class="phone-note">On a phone the three columns become three rows. Every node keeps its name and value: names that fit across a node sit level, the rest turn upright beside it (rule 10: labels never vanish), so the chart is taller than wide. A tap on a band pins its tooltip; a tap elsewhere, Esc or a scroll closes it. The same state follows the picker at the top.</div>
+</div>
+
+<div class="note">
+<b>Open questions for the owner</b>
+<ol>
+<li><b>Per-country.</b> With a country picked, the card is removed (tick the box above). The brief assumed a per-country split would be an estimate. It would not: Census publishes HS10 by partner, and every HS10 line has exactly one end use, so a per-country Sankey is exact. Cost: no all-partner query at HS10 (the wildcard fails), so one call per partner per year per flow, about 7,400 calls (a few hours for the first fetch; China, the largest, is 0.7 MB and 6 s per year-flow; raw cache under 1 GB, not committed); the output would be small (2,100 chapter-product-use triples per year-flow nationally, far fewer per partner). Build all-countries first and add countries later (the card would then come back for a country), or never?</li>
+<li><b>Colours.</b> The card above uses neutral grey bars. Here bands take the colour of the end they are “many” of: the use they reach (chapter and product picks) or the chapter they start from (use picks), six solid colours plus a neutral “Other”. Keep, or one accent colour for the whole selection?</li>
+<li><b>Exports vs imports.</b> The mock shows imports (bigger and more split). The card follows the Exports / Imports toggle above. Note export “Civilian aircraft, engines &amp; parts” is one heading (8800) in one chapter, so that use reversed is a single band; the exports chapter-85 state is in the picker for comparison.</li>
+<li><b>Grey on chapter and product picks.</b> A use picked now shows only that use: each product is sized to what it sends there, with no “other uses” band. Chapter and product picks still show grey inflows into each use from outside the selection (Phones &amp; network equipment is 79% of telecom equipment; the other 21% is grey), which is how the many-to-one shows there. Keep that, or drop grey everywhere for the same reason?</li><li><b>Grey inflows only above 1%.</b> A use that takes under 1% of the selection (8517 sends $17M to “Other vehicle parts”) is still drawn and labelled, but without its grey inflow, which would otherwise be $138B of unrelated auto parts. OK?</li>
+<li><b>Data size and refresh.</b> All countries: 2 calls per year (450 KB + 1.1 MB, 5–17 s), 34 calls for 2010–2026, plus one concordance file per year and flow (2010–2019 are old .xls, 2020 on .xlsx). Output roughly 50 KB per year-flow, about 1.7 MB for 2010–2026 (≈ 400 KB gzipped), one file per year so the page loads one year at a time. Weekly refresh: the year in progress plus the prior year, 4 calls.</li>
+</ol>
+</div>
+</main>
+<div class="tip" id="tip" role="tooltip"></div>
+<script>
+const ABOVE={"imports": {"total": 3414510592814, "chapters": [["84", "Machinery & computers", 653466352894], ["85", "Electronics & electrical equipment", 504808405482], ["87", "Vehicles & parts", 331853013205], ["30", "Pharmaceuticals", 213062198738], ["27", "Oil, gas, coal & fuels", 205741541292], ["71", "Gold, gems & jewelry", 153855259421], ["90", "Medical, optical & scientific instruments", 123921865319], ["98", "Special entries (returns, repairs, low-value estimates)", 117015481240]], "headings": [["8471", "Computers", 251071840235], ["8703", "Cars & SUVs", 181174288483], ["8517", "Phones & network equipment", 142200937716], ["2709", "Crude oil", 140276577580], ["3002", "Vaccines, blood & antibody drugs", 110090376076], ["3004", "Packaged medicines", 93082647867], ["8473", "Computer & office machine parts", 88931077987], ["8708", "Auto parts", 81968941248]], "uses": [["40100", "Pharmaceuticals", 287515296211], ["21300", "Computers", 218216864616], ["30000", "Passenger cars", 179513333152], ["21301", "Computer accessories", 143348243286], ["10000", "Crude oil", 139989673819], ["30230", "Other vehicle parts", 137993191422], ["21400", "Telecom equipment", 114662646434], ["41050", "Cell phones & household goods", 108830048517]]}, "exports": {"total": 2179891445119, "chapters": [["27", "Oil, gas, coal & fuels", 305629216758], ["84", "Machinery & computers", 284692066845], ["85", "Electronics & electrical equipment", 226484589604], ["88", "Aircraft & spacecraft", 165042847184], ["71", "Gold, gems & jewelry", 152043600922], ["87", "Vehicles & parts", 135949494445], ["90", "Medical, optical & scientific instruments", 106507645951], ["30", "Pharmaceuticals", 97777135352]], "headings": [["8800", "Aircraft, engines & parts", 153483292105], ["2710", "Gasoline, diesel & other refined fuels", 108103857646], ["2709", "Crude oil", 99368201742], ["7108", "Gold", 83481600527], ["2711", "Natural gas & propane", 80943017135], ["8471", "Computers", 61294335245], ["3002", "Vaccines, blood & antibody drugs", 57267297535], ["8703", "Cars & SUVs", 54573803990]], "uses": [["22090", "Civilian aircraft, engines & parts", 153483292105], ["40100", "Pharmaceuticals", 119202387280], ["11100", "Crude oil", 98709956182], ["12260", "Gold (not coins or bars)", 86871040720], ["11120", "Other petroleum products", 73085060638], ["21180", "Other industrial machines", 70224314283], ["21320", "Semiconductors", 67843691068], ["30230", "Other vehicle parts", 57799485737]]}};
+const STATES={"chapter85": {"flow": "imports", "kind": "chapter", "sel": "85", "total": 504808405482, "nodes": [{"id": "c85", "col": 0, "label": "Electronics & electrical equipment", "value": 504808405482, "code": "85", "full": 504808405482}, {"id": "p8517", "col": 1, "label": "Phones & network equipment", "value": 142200937716, "code": "8517", "full": 142200937716}, {"id": "p8542", "col": 1, "label": "Computer chips", "value": 42199654370, "code": "8542", "full": 42199654370}, {"id": "p8544", "col": 1, "label": "Insulated wire & cable", "value": 36009288426, "code": "8544", "full": 36009288426}, {"id": "p8504", "col": 1, "label": "Transformers & power supplies", "value": 34615052934, "code": "8504", "full": 34615052934}, {"id": "p8507", "col": 1, "label": "Rechargeable batteries", "value": 26645992764, "code": "8507", "full": 26645992764}, {"id": "p8537", "col": 1, "label": "Control panels", "value": 21348531662, "code": "8537", "full": 21348531662}, {"id": "p8523", "col": 1, "label": "Memory cards, discs & storage media", "value": 19970116614, "code": "8523", "full": 19970116614}, {"id": "p8528", "col": 1, "label": "TVs & monitors", "value": 19051914209, "code": "8528", "full": 19051914209}, {"id": "pP_OTHER", "col": 1, "label": "40 other products", "value": 162766916787, "other": true}, {"id": "u21400", "col": 2, "label": "Telecom equipment", "value": 112908178863, "code": "21400", "full": 114662646434}, {"id": "u20005", "col": 2, "label": "Electrical equipment", "value": 103549958777, "code": "20005", "full": 106838196583}, {"id": "u21320", "col": 2, "label": "Semiconductors", "value": 76045636881, "code": "21320", "full": 76045636881}, {"id": "u41050", "col": 2, "label": "Cell phones & household goods", "value": 59513019110, "code": "41050", "full": 108830048517}, {"id": "u20000", "col": 2, "label": "Generators & parts", "value": 49013988298, "code": "20000", "full": 49357872753}, {"id": "u30230", "col": 2, "label": "Other vehicle parts", "value": 31944046236, "code": "30230", "full": 137993191422}, {"id": "uU_OTHER", "col": 2, "label": "23 other uses", "value": 71833577317, "other": true}], "paths": [["c85", "pP_OTHER", "u20000", 20276863663], ["c85", "pP_OTHER", "uU_OTHER", 46165888993], ["c85", "p8504", "u20000", 28737124635], ["c85", "p8504", "uU_OTHER", 4000080911], ["c85", "p8504", "u21400", 1877847388], ["c85", "pP_OTHER", "u20005", 51206361721], ["c85", "p8507", "u30230", 6415963498], ["c85", "p8507", "u20005", 20230029266], ["c85", "pP_OTHER", "u41050", 7397214010], ["c85", "pP_OTHER", "u30230", 9299376310], ["c85", "p8517", "u41050", 52115805100], ["c85", "p8517", "u30230", 17184040], ["c85", "p8517", "u21400", 90067948576], ["c85", "pP_OTHER", "u21400", 13719635281], ["c85", "p8523", "uU_OTHER", 825710912], ["c85", "p8523", "u21320", 19144405702], ["c85", "p8528", "uU_OTHER", 19037413618], ["c85", "p8528", "u21400", 14500591], ["c85", "p8537", "u20005", 19544048779], ["c85", "p8537", "uU_OTHER", 1804482883], ["c85", "pP_OTHER", "u21320", 14701576809], ["c85", "p8542", "u21320", 42199654370], ["c85", "p8544", "u20005", 12569519011], ["c85", "p8544", "u30230", 16211522388], ["c85", "p8544", "u21400", 7228247027]], "grey": [{"target": "u21400", "value": 1754467571, "top": [["Medical, optical & scientific instruments", 1215591857], ["Aircraft & spacecraft", 449892212], ["Machinery & computers", 88983502]], "n": 3}, {"target": "u20005", "value": 3288237806, "top": [["Furniture, bedding & lighting", 3047416818], ["Medical, optical & scientific instruments", 134431808], ["Aluminum", 104111602]], "n": 4}, {"target": "u41050", "value": 49317029407, "top": [["Medical, optical & scientific instruments", 25010526388], ["Furniture, bedding & lighting", 5416480970], ["Machinery & computers", 3698269468]], "n": 20}, {"target": "u20000", "value": 343884455, "top": [["Machinery & computers", 257163102], ["Iron & steel products", 48095604], ["Medical, optical & scientific instruments", 38625749]], "n": 3}, {"target": "u30230", "value": 106049145186, "top": [["Vehicles & parts", 81632067012], ["Furniture, bedding & lighting", 8312529538], ["Machinery & computers", 7264610958]], "n": 11}], "nChapters": 1, "nProducts": 48, "nUses": 29}, "p8517": {"flow": "imports", "kind": "product", "sel": "8517", "total": 142200937716, "nodes": [{"id": "c85", "col": 0, "label": "Electronics & electrical equipment", "value": 142200937716, "code": "85", "full": 504808405482}, {"id": "p8517", "col": 1, "label": "Phones & network equipment", "value": 142200937716, "code": "8517", "full": 142200937716}, {"id": "u21400", "col": 2, "label": "Telecom equipment", "value": 90067948576, "code": "21400", "full": 114662646434}, {"id": "u41050", "col": 2, "label": "Cell phones & household goods", "value": 52115805100, "code": "41050", "full": 108830048517}, {"id": "u30230", "col": 2, "label": "Other vehicle parts", "value": 17184040, "code": "30230", "full": 137993191422}], "paths": [["c85", "p8517", "u41050", 52115805100], ["c85", "p8517", "u30230", 17184040], ["c85", "p8517", "u21400", 90067948576]], "grey": [{"target": "u21400", "value": 24594697858, "top": [["Insulated wire & cable", 7228247027], ["Radar & navigation equipment", 3689788496], ["Cameras & broadcast transmitters", 2808998079]], "n": 16}, {"target": "u41050", "value": 56714243417, "top": [["Implants, braces & hearing aids", 18901936757], ["Lamps & lighting", 5415741432], ["Handbags, luggage & wallets", 3552951631]], "n": 60}], "nChapters": 1, "nProducts": 1, "nUses": 3}, "u41050": {"flow": "imports", "kind": "use", "sel": "41050", "total": 108830048517, "nodes": [{"id": "c85", "col": 0, "label": "Electronics & electrical equipment", "value": 59513019110, "code": "85", "full": 504808405482}, {"id": "c90", "col": 0, "label": "Medical, optical & scientific instruments", "value": 25010526388, "code": "90", "full": 123921865319}, {"id": "c94", "col": 0, "label": "Furniture, bedding & lighting", "value": 5416480970, "code": "94", "full": 61170187035}, {"id": "c84", "col": 0, "label": "Machinery & computers", "value": 3698269468, "code": "84", "full": 653466352894}, {"id": "c42", "col": 0, "label": "Leather goods & handbags", "value": 3552951631, "code": "42", "full": 13052773464}, {"id": "c83", "col": 0, "label": "Other metal products", "value": 3310734246, "code": "83", "full": 14322693376}, {"id": "cC_OTHER", "col": 0, "label": "15 other chapters", "value": 8328066704, "other": true}, {"id": "p8517", "col": 1, "label": "Phones & network equipment", "value": 52115805100, "code": "8517", "full": 142200937716}, {"id": "p9021", "col": 1, "label": "Implants, braces & hearing aids", "value": 18901936757, "code": "9021", "full": 19213917374}, {"id": "p9405", "col": 1, "label": "Lamps & lighting", "value": 5415741432, "code": "9405", "full": 8463158250}, {"id": "p4202", "col": 1, "label": "Handbags, luggage & wallets", "value": 3552951631, "code": "4202", "full": 11003830933}, {"id": "p9505", "col": 1, "label": "Holiday & party decorations", "value": 2451035187, "code": "9505", "full": 3917354409}, {"id": "p3924", "col": 1, "label": "Plastic tableware & housewares", "value": 2394490704, "code": "3924", "full": 6604375929}, {"id": "p8516", "col": 1, "label": "Heaters, hair dryers & microwaves", "value": 2376080744, "code": "8516", "full": 11076493581}, {"id": "p9004", "col": 1, "label": "Eyeglasses & sunglasses", "value": 2217582977, "code": "9004", "full": 2217582977}, {"id": "pP_OTHER", "col": 1, "label": "53 other products", "value": 19404423985, "other": true}, {"id": "u41050", "col": 2, "label": "Cell phones & household goods", "value": 108830048517, "code": "41050", "full": 108830048517}], "paths": [["cC_OTHER", "pP_OTHER", "u41050", 3482540813], ["c83", "pP_OTHER", "u41050", 3310734246], ["c84", "pP_OTHER", "u41050", 3698269468], ["cC_OTHER", "p3924", "u41050", 2394490704], ["c42", "p4202", "u41050", 3552951631], ["c90", "pP_OTHER", "u41050", 3891006654], ["c90", "p9021", "u41050", 18901936757], ["c94", "p9405", "u41050", 5415741432], ["c94", "pP_OTHER", "u41050", 739538], ["cC_OTHER", "p9505", "u41050", 2451035187], ["c85", "pP_OTHER", "u41050", 5021133266], ["c85", "p8516", "u41050", 2376080744], ["c85", "p8517", "u41050", 52115805100], ["c90", "p9004", "u41050", 2217582977]], "grey": [{"source": "p8517", "value": 90085132616, "top": [["Telecom equipment", 90067948576], ["Other vehicle parts", 17184040]], "n": 2}, {"source": "p9021", "value": 311980617, "top": [["Medical equipment", 311980617]], "n": 1}, {"source": "p9405", "value": 3047416818, "top": [["Electrical equipment", 3047416818]], "n": 1}, {"source": "p4202", "value": 7450879302, "top": [["Manmade-fiber apparel & household goods", 3256427858], ["Apparel & household goods (non-textile)", 2333295984], ["Toys, games & sporting goods", 1212306410]], "n": 5}, {"source": "p9505", "value": 1466319222, "top": [["Toys, games & sporting goods", 1337087927], ["Glassware & china", 129231295]], "n": 2}, {"source": "p3924", "value": 4209885225, "top": [["Cookware, cutlery & hand tools", 3555367683], ["Apparel & household goods (non-textile)", 623861474], ["Other consumer goods", 19792100]], "n": 4}, {"source": "p8516", "value": 8700412837, "top": [["Household appliances", 8700412837]], "n": 1}], "nChapters": 21, "nProducts": 61, "nUses": 1}, "p8471": {"flow": "imports", "kind": "product", "sel": "8471", "total": 251071840235, "nodes": [{"id": "c84", "col": 0, "label": "Machinery & computers", "value": 251071840235, "code": "84", "full": 653466352894}, {"id": "p8471", "col": 1, "label": "Computers", "value": 251071840235, "code": "8471", "full": 251071840235}, {"id": "u21300", "col": 2, "label": "Computers", "value": 218216864616, "code": "21300", "full": 218216864616}, {"id": "u21301", "col": 2, "label": "Computer accessories", "value": 32854975619, "code": "21301", "full": 143348243286}], "paths": [["c84", "p8471", "u21300", 218216864616], ["c84", "p8471", "u21301", 32854975619]], "grey": [{"target": "u21301", "value": 110493267667, "top": [["Computer & office machine parts", 88542034275], ["Printers & printing machinery", 10962232109], ["TVs & monitors", 6350748711]], "n": 8}], "nChapters": 1, "nProducts": 1, "nUses": 2}, "x85": {"flow": "exports", "kind": "chapter", "sel": "85", "total": 226484589604, "nodes": [{"id": "c85", "col": 0, "label": "Electronics & electrical equipment", "value": 226484589604, "code": "85", "full": 226484589604}, {"id": "p8542", "col": 1, "label": "Computer chips", "value": 51434453878, "code": "8542", "full": 51434453878}, {"id": "p8517", "col": 1, "label": "Phones & network equipment", "value": 47148088173, "code": "8517", "full": 47148088173}, {"id": "p8544", "col": 1, "label": "Insulated wire & cable", "value": 13944264848, "code": "8544", "full": 13944264848}, {"id": "p8536", "col": 1, "label": "Switches, fuses & connectors", "value": 12918756076, "code": "8536", "full": 12918756076}, {"id": "p8523", "col": 1, "label": "Memory cards, discs & storage media", "value": 10715671692, "code": "8523", "full": 10715671692}, {"id": "p8504", "col": 1, "label": "Transformers & power supplies", "value": 8774178904, "code": "8504", "full": 8774178904}, {"id": "p8537", "col": 1, "label": "Control panels", "value": 8703033915, "code": "8537", "full": 8703033915}, {"id": "p8507", "col": 1, "label": "Rechargeable batteries", "value": 7153418537, "code": "8507", "full": 7153418537}, {"id": "pP_OTHER", "col": 1, "label": "40 other products", "value": 65692723581, "other": true}, {"id": "u21320", "col": 2, "label": "Semiconductors", "value": 67843691068, "code": "21320", "full": 67843691068}, {"id": "u20005", "col": 2, "label": "Electrical equipment", "value": 56558788526, "code": "20005", "full": 57066659092}, {"id": "u21400", "col": 2, "label": "Telecom equipment", "value": 44627412893, "code": "21400", "full": 46634699277}, {"id": "u20000", "col": 2, "label": "Generators & parts", "value": 15249163804, "code": "20000", "full": 15962103681}, {"id": "u41050", "col": 2, "label": "Cell phones & household goods", "value": 15195521490, "code": "41050", "full": 37405285341}, {"id": "u30230", "col": 2, "label": "Other vehicle parts", "value": 7740672661, "code": "30230", "full": 57799485737}, {"id": "uU_OTHER", "col": 2, "label": "19 other uses", "value": 19269339162, "other": true}], "paths": [["c85", "pP_OTHER", "u20005", 21518959270], ["c85", "pP_OTHER", "u20000", 7915568492], ["c85", "pP_OTHER", "uU_OTHER", 16348135284], ["c85", "p8504", "u20000", 7333595312], ["c85", "p8504", "uU_OTHER", 1088033797], ["c85", "p8504", "u21400", 352549795], ["c85", "p8507", "u30230", 1057726058], ["c85", "p8507", "u20005", 6095692479], ["c85", "pP_OTHER", "u41050", 541033925], ["c85", "pP_OTHER", "u30230", 2763848209], ["c85", "p8517", "u41050", 14654487565], ["c85", "p8517", "u30230", 865614346], ["c85", "p8517", "u21400", 31627986262], ["c85", "pP_OTHER", "u21400", 9670562594], ["c85", "p8523", "uU_OTHER", 1241050309], ["c85", "p8523", "u21320", 9474621383], ["c85", "p8536", "u20005", 12139156988], ["c85", "p8536", "u30230", 33020826], ["c85", "p8536", "u21400", 746578262], ["c85", "p8537", "u20005", 8110914143], ["c85", "p8537", "uU_OTHER", 592119772], ["c85", "pP_OTHER", "u21320", 6934615807], ["c85", "p8542", "u21320", 51434453878], ["c85", "p8544", "u20005", 8694065646], ["c85", "p8544", "u30230", 3020463222], ["c85", "p8544", "u21400", 2229735980]], "grey": [{"target": "u20005", "value": 507870566, "top": [["Furniture, bedding & lighting", 507870566]], "n": 1}, {"target": "u21400", "value": 2007286384, "top": [["Medical, optical & scientific instruments", 1466272353], ["Aircraft & spacecraft", 419260014], ["Machinery & computers", 121754017]], "n": 3}, {"target": "u20000", "value": 712939877, "top": [["Machinery & computers", 551903916], ["Medical, optical & scientific instruments", 161035961]], "n": 2}, {"target": "u41050", "value": 22209763851, "top": [["Medical, optical & scientific instruments", 17648296866], ["Machinery & computers", 1291163924], ["Plastics", 924489980]], "n": 19}, {"target": "u30230", "value": 50058813076, "top": [["Vehicles & parts", 43053952624], ["Machinery & computers", 1756854144], ["Glass", 1725715326]], "n": 9}], "nChapters": 1, "nProducts": 48, "nUses": 25}};
+
+const STATE_DEFS=[
+ {id:'chapter85',btn:'Chapter 85',year:2025,
+  take:'Electronics & electrical equipment imports ($504.8B in 2025) feed 29 end uses; telecom equipment, electrical equipment and semiconductors take 58%. It supplies only 23% of other vehicle parts imports; vehicles & parts supply most of the rest.'},
+ {id:'p8517',btn:'Product 8517',
+  take:'Phones & network equipment ($142.2B of imports in 2025) splits between telecom equipment ($90.1B) and cell phones & household goods ($52.1B). It is 79% of all telecom equipment imports and 48% of cell phones & household goods.'},
+ {id:'p8471',btn:'Product 8471',
+  take:'Computers ($251.1B of imports in 2025) are all of the computers use, and $32.9B more goes to computer accessories, 23% of that use; computer & office machine parts supply most of the rest.'},
+ {id:'u41050',btn:'Use: cell phones & household',
+  take:'Cell phones & household goods ($108.8B of imports in 2025) gathers 61 products from 21 chapters. Phones & network equipment supplies 48%; the next largest, implants, braces & hearing aids, 17%.'},
+ {id:'x85',btn:'Chapter 85 · exports',
+  take:'Electronics & electrical equipment exports ($226.5B in 2025) feed 25 end uses; semiconductors, electrical equipment and telecom equipment take 75%. It supplies 13% of other vehicle parts exports; vehicles & parts supply most of the rest.'},
+];
+const PAL=['--s1','--s2','--s3','--s4','--s5','--s6'];
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=v=>{const b=v/1e9;return b>=100?'$'+b.toFixed(1)+'B':b>=1?'$'+b.toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(0)+'M':'$'+(v/1e3).toFixed(0)+'K'};
+const pct=x=>(x>=.995?'100':x<.01?'<1':Math.round(x*100))+'%';
+let cur='chapter85', country=false;
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* ---------- card above (simplified stand-in) ---------- */
+function renderAbove(){
+  const S=STATES[cur], flow=S.flow, A=ABOVE[flow];
+  const byUse=S.kind==='use';
+  const lis=(rows,selCode)=>{const mx=rows[0][2];return rows.map(r=>`<li class="${r[0]===selCode?'sel':''}"><span>${esc(r[1])}</span><span class="bar" style="width:${Math.max(3,r[2]/mx*100)}%"></span><span class="v">${fmt(r[2])}</span></li>`).join('')};
+  const selCh=S.kind==='chapter'?S.sel:S.kind==='product'?S.sel.slice(0,2):null;
+  document.getElementById('above').innerHTML=`<span class="tag">simplified stand-in for the existing card</span>
+   <h3>What the U.S. trades${country?' with China':''}, 2025</h3>
+   <div class="pills"><span class="pill ${byUse?'':'on'}">By product</span><span class="pill ${byUse?'on':''}">By use</span><span style="width:.5rem"></span><span class="pill ${flow==='exports'?'on':''}">Exports</span><span class="pill ${flow==='imports'?'on':''}">Imports</span></div>
+   ${byUse?`<div class="lists"><div><div class="cap">Uses</div><ol>${lis(A.uses,S.sel)}</ol></div></div>`
+   :`<div class="lists"><div><div class="cap">Chapters</div><ol>${lis(A.chapters,selCh)}</ol></div><div><div class="cap">Top products</div><ol>${lis(A.headings,S.kind==='product'?S.sel:null)}</ol></div></div>`}`;
+}
+
+/* ---------- Sankey model ---------- */
+function model(S){
+  if(S.kind==='use') S={...S,grey:[]};
+  const nodes=S.nodes.map(n=>({...n,inflow:0,outflow:0,greyIn:0,greyOut:0}));
+  const byId=Object.fromEntries(nodes.map(n=>[n.id,n]));
+  const isUse=S.kind==='use';
+  // colour key: use node (chapter/product picks) or chapter node (use picks)
+  const keyCol=isUse?0:2;
+  let ci=0;const colour={};
+  nodes.filter(n=>n.col===keyCol).forEach(n=>{colour[n.id]=n.other?'var(--s-other)':`var(${PAL[ci++%6]})`});
+  let greyNode=null;
+  if(S.grey.length){
+    const gv=S.grey.reduce((a,g)=>a+g.value,0);
+    const nOut=isUse?(new Set(S.grey.flatMap(g=>g.top.map(t=>t[0])))).size:null;
+    greyNode={id:'GREY',col:isUse?2:1,value:gv,grey:true,
+      label:isUse?'Other uses of these products':(S.kind==='chapter'?'From other chapters':'From other products')};
+    nodes.push(greyNode);byId.GREY=greyNode;
+    S.grey.forEach(g=>{ if(isUse) byId[g.source].greyOut=g.value; else byId[g.target].greyIn=g.value; });
+  }
+  nodes.forEach(n=>{n.h=n.value+(n.greyIn||0)+(n.greyOut||0)});
+  // segments: from paths [c,p,u,v]
+  const segs=[];
+  S.paths.forEach(([c,p,u,v])=>{
+    const col=colour[isUse?c:u];
+    if(byId[c]&&byId[p]) segs.push({s:c,t:p,v,col,key:c+'>'+p,path:[c,p,u]});
+    segs.push({s:p,t:u,v,col,key:p+'>'+u,path:[c,p,u]});
+  });
+  S.grey.forEach(g=>{ if(isUse) segs.push({s:g.source,t:'GREY',v:g.value,col:'var(--outside)',key:g.source+'>GREY',grey:g});
+                      else segs.push({s:'GREY',t:g.target,v:g.value,col:'var(--outside)',key:'GREY>'+g.target,grey:g}); });
+  return {nodes,byId,segs,colour,isUse,S};
+}
+const measure=(()=>{const c=document.createElement('canvas').getContext('2d');return (t,px,mono)=>{c.font=`${px}px ${mono?'"IBM Plex Mono"':'"IBM Plex Sans"'}`;return c.measureText(t).width}})();
+function labelOf(n){return n.label}
+function valueTxt(n){return fmt(n.grey?n.value:n.h)}
+
+/* ---------- layout + draw ---------- */
+function draw(container,width){
+  const S=STATES[cur], M=model(S);
+  const cols=[0,1,2].map(c=>M.nodes.filter(n=>n.col===c));
+  cols.forEach(cn=>cn.sort((a,b)=>(!!a.grey-!!b.grey)||(!!a.other-!!b.other)||(b.value-a.value)));
+  const horiz=width>=720;
+  const NW=horiz?10:12, GAP=horiz?7:3;
+  let svg='',W,H;
+  const lab1=n=>labelOf(n), val1=n=>valueTxt(n);
+  if(horiz){
+    const fs=12, lineW=n=>Math.max(measure(lab1(n),fs),measure(val1(n),11,true));
+    const L=Math.max(...cols[0].map(lineW))+12, R=Math.max(...cols[2].map(lineW))+12, mid=Math.max(...cols[1].map(lineW))+12;
+    W=width;
+    const x0=L, x2=W-R-NW;
+    let x1=x0+(x2-x0)*0.4; if(x2-x1-NW<mid+60) x1=x2-NW-mid-60;
+    const xs=[x0,x1,x2];
+    const H0=Math.max(380,Math.min(560,width*0.42));
+    const tot=Math.max(...cols.map(c=>c.reduce((a,n)=>a+n.h,0)));
+    const maxN=Math.max(...cols.map(c=>c.length));
+    let k=(H0-GAP*(maxN-1))/tot;
+    cols.forEach((cn,ci)=>{let y=0;cn.forEach(n=>{n.x=xs[ci];n.len=Math.max(n.h*k,1.5);const slot=Math.max(n.len,(n.len>=28?28:15));n.y=y+(slot-n.len)/2;n.slot=[y,slot];y+=slot+GAP});cn.ext=y-GAP});
+    H=Math.max(...cols.map(c=>c.ext));
+    // centre shorter columns
+    cols.forEach(cn=>{const off=(H-cn.ext)/2;cn.forEach(n=>{n.y+=off;n.slot[0]+=off})});
+    M.pos=n=>({a:n.x,b:n.y});
+  } else {
+    // vertical: rows
+    W=width;const pad=4, inner=W-pad*2, fs=10.5;
+    const tot=Math.max(...cols.map(c=>c.reduce((a,n)=>a+n.h,0)));
+    const maxN=Math.max(...cols.map(c=>c.length));
+    let k=(inner-GAP*(maxN-1))/tot;
+    for(let it=0;it<6;it++){const need=Math.max(...cols.map(c=>c.reduce((a,n)=>a+Math.max(n.h*k,14),0)+GAP*(c.length-1)));if(need<=inner)break;k*=inner/need*0.995;}
+    cols.forEach(cn=>{let x=0;cn.forEach(n=>{n.len=Math.max(n.h*k,1.5);const slot=Math.max(n.len,14);n.x=pad+x+(slot-n.len)/2;n.slot=[pad+x,slot];x+=slot+GAP});const off=(inner-(x-GAP))/2;cn.forEach(n=>{n.x+=off;n.slot[0]+=off})});
+    // label orientation per node
+    const txt=n=>lab1(n)+'  '+val1(n);
+    cols.flat().forEach(n=>{const w=measure(txt(n),fs)+6;n.flat=w<=n.slot[1]+ (n.col===0&&cols[0].length===1?999:0);n.lw=w});
+    const area=c=>Math.max(16,...cols[c].map(n=>n.flat?16:n.lw));
+    const A0=area(0), G1=Math.max(70,cols[1].every(n=>n.flat)?70:70), A1=area(1), A2=area(2);
+    const y0=A0+4, y1=y0+NW+G1, y2=y1+NW+A1+40;
+    cols[0].forEach(n=>n.y=y0);cols[1].forEach(n=>n.y=y1);cols[2].forEach(n=>n.y=y2);
+    H=y2+NW+A2+4;
+  }
+  // slots for ribbons
+  const nodeById=M.byId;
+  M.nodes.forEach(n=>{n.outs=[];n.ins=[]});
+  // aggregate segments by link+colour for drawing
+  const agg={};M.segs.forEach(s=>{const k=s.key+'|'+s.col;(agg[k]??={...s,v:0}).v+=s.v});
+  const links=Object.values(agg);
+  links.forEach(l=>{nodeById[l.s].outs.push(l);nodeById[l.t].ins.push(l)});
+  const pos=n=>horiz?n.y:n.x;
+  const colorRank=c=>c==='var(--outside)'?99:c==='var(--s-other)'?98:PAL.findIndex(p=>c.includes(p));
+  M.nodes.forEach(n=>{
+    n.outs.sort((a,b)=>pos(nodeById[a.t])-pos(nodeById[b.t])||colorRank(a.col)-colorRank(b.col));
+    n.ins.sort((a,b)=>(a.col==='var(--outside)')-(b.col==='var(--outside)')||pos(nodeById[a.s])-pos(nodeById[b.s])||colorRank(a.col)-colorRank(b.col));
+    const kk=n.len/n.h; let o=0; n.outs.forEach(l=>{l.o0=o;l.w=l.v*kk;o+=l.w}); let i=0; n.ins.forEach(l=>{l.i0=i;i+=l.v*nodeById[l.t].len/nodeById[l.t].h});
+  });
+  links.forEach(l=>{const t=nodeById[l.t];l.wt=l.v*t.len/t.h});
+  // ribbons
+  let rib='';
+  links.forEach((l,idx)=>{
+    const s=nodeById[l.s],t=nodeById[l.t];
+    let d;
+    if(horiz){const xa=s.x+NW,xb=t.x,ya=s.y+l.o0,yb=t.y+l.i0,xm=(xa+xb)/2;
+      d=`M${xa},${ya}C${xm},${ya} ${xm},${yb} ${xb},${yb}L${xb},${yb+l.wt}C${xm},${yb+l.wt} ${xm},${ya+l.w} ${xa},${ya+l.w}Z`;}
+    else {const ya=s.y+NW,yb=t.y,xa=s.x+l.o0,xb=t.x+l.i0,ym=(ya+yb)/2;
+      d=`M${xa},${ya}C${xa},${ym} ${xb},${ym} ${xb},${yb}L${xb+l.wt},${yb}C${xb+l.wt},${ym} ${xa+l.w},${ym} ${xa+l.w},${ya}Z`;}
+    rib+=`<path class="rib" d="${d}" fill="${l.col}" fill-opacity="${l.col==='var(--outside)'?0.75:0.55}" data-link="${l.s}>${l.t}" data-i="${idx}"/>`;
+  });
+  // nodes: split bar into selection part + outside part
+  let nd='';
+  M.nodes.forEach(n=>{
+    const fill=n.grey?'var(--outside)':(M.colour[n.id]||'var(--node)');
+    const selLen=n.len*(n.value/n.h);
+    if(horiz){nd+=`<rect x="${n.x}" y="${n.y}" width="${NW}" height="${selLen}" fill="${fill}" data-node="${n.id}" class="rib"/>`;
+      if(n.h>n.value) nd+=`<rect x="${n.x}" y="${n.y+selLen}" width="${NW}" height="${n.len-selLen}" fill="var(--outside)" data-node="${n.id}" class="rib"/>`;}
+    else {nd+=`<rect x="${n.x}" y="${n.y}" width="${selLen}" height="${NW}" fill="${fill}" data-node="${n.id}" class="rib"/>`;
+      if(n.h>n.value) nd+=`<rect x="${n.x+selLen}" y="${n.y}" width="${n.len-selLen}" height="${NW}" fill="var(--outside)" data-node="${n.id}" class="rib"/>`;}
+  });
+  // labels
+  let lb='';
+  M.nodes.forEach(n=>{
+    const cls=`lbl${n.grey?' out':''}`;
+    if(horiz){
+      const two=n.slot[1]>=28, cy=n.slot[0]+n.slot[1]/2;
+      const anchor=n.col===0?'end':'start', x=n.col===0?n.x-6:n.x+NW+6, halo=n.col===1?' halo':'';
+      if(two) lb+=`<text class="${cls}${halo}" x="${x}" y="${cy-2}" text-anchor="${anchor}">${esc(lab1(n))}<tspan class="num" x="${x}" dy="13">${val1(n)}</tspan></text>`;
+      else lb+=`<text class="${cls}${halo}" x="${x}" y="${cy+4}" text-anchor="${anchor}">${esc(lab1(n))}<tspan class="num" dx="6">${val1(n)}</tspan></text>`;
+    } else {
+      const cx=n.slot[0]+n.slot[1]/2;
+      const above=n.col===0, halo=n.col===1?' halo':'';
+      if(n.flat){const y=above?n.y-5:n.y+NW+13;lb+=`<text class="${cls} v${halo}" x="${cx}" y="${y}" text-anchor="middle">${esc(lab1(n))}<tspan class="num" dx="5">${val1(n)}</tspan></text>`;}
+      else {const y=above?n.y-4:n.y+NW+4; const rot=-90;
+        const ty=above?y:y+n.lw;
+        lb+=`<text class="${cls} v${halo}" transform="translate(${cx+3.6},${ty}) rotate(-90)" text-anchor="start">${esc(lab1(n))}<tspan class="num" dx="5">${val1(n)}</tspan></text>`;}
+    }
+  });
+  container.innerHTML=`<svg class="sk" viewBox="${horiz?0:0} ${horiz?-2:0} ${W} ${H+4}" width="${W}" height="${H+4}" role="img" aria-label="Sankey of ${esc(S.nodes.find(n=>n.code===S.sel)?.label||'')}">${rib}${nd}${lb}</svg>`;
+  wire(container,M,links);
+}
+
+/* ---------- tooltip: hover previews, tap pins ---------- */
+const tip=document.getElementById('tip');let pinned=null;
+function tipHtml(M,el){
+  const S=M.S, by=M.byId, flowW=S.flow==='imports'?'imports':'exports';
+  if(el.dataset.node){const n=by[el.dataset.node];
+    if(n.grey){return `<div class="r"><span>${esc(n.label)}</span><span>${fmt(n.value)}</span></div><div class="m">${M.isUse?'What these products also go to, outside this use':'Trade in these uses that comes from outside the selection'}</div>`}
+    let m='';
+    if(n.other) m=`${S.kind==='use'&&n.col===0?'Chapters':n.col===1?'Products':'Uses'} each under 1% of the selection or past the top ${n.col===1?8:6}`;
+    else if(n.greyIn) m=`${fmt(n.value)} from this selection, ${pct(n.value/n.h)} of all ${n.label.toLowerCase()} ${flowW}`;
+    else if(n.greyOut) m=`${fmt(n.value)} to this use, ${pct(n.value/n.h)} of all ${n.label.toLowerCase()} ${flowW}`;
+    else if(n.full&&n.full>n.value*1.001) m=`${pct(n.value/n.full)} of ${fmt(n.full)} in all`;
+    else m=`${n.code?(n.col===0?'HS chapter '+n.code:n.col===1?'HS heading '+n.code:'End-use '+n.code):''}`;
+    return `<div class="r"><span>${esc(n.label)}</span><span>${fmt(n.h)}</span></div><div class="m">${m}</div>`;}
+  const [s,t]=el.dataset.link.split('>');const a=by[s],b=by[t];
+  const v=M.segs.filter(x=>x.s===s&&x.t===t).reduce((q,x)=>q+x.v,0);
+  if(s==='GREY'||t==='GREY'){const g=M.S.grey.find(g=>g.target===t||g.source===s);
+    const list=g.top.map(([k,v])=>`${esc(k)} ${fmt(v)}`).join('<br>');
+    return `<div class="r"><span>${esc(a.label)} → ${esc(b.label)}</span><span>${fmt(v)}</span></div><div class="m">${M.isUse?'Also goes to':'From '+g.n+' '+(S.kind==='chapter'?'other chapters':'other products')+', largest:'}<br>${list}${g.n>3?'<br>+ '+(g.n-3)+' more':''}</div>`;}
+  return `<div class="r"><span>${esc(a.label)} → ${esc(b.label)}</span><span>${fmt(v)}</span></div><div class="m">${pct(v/a.h)} of ${esc(a.label.toLowerCase())}<br>${pct(v/b.h)} of ${esc(b.label.toLowerCase())}</div>`;
+}
+function place(x,y){tip.style.display='block';const r=tip.getBoundingClientRect();let L=x+14,T=y+14;if(L+r.width>innerWidth-8)L=x-r.width-14;if(L<8)L=8;if(T+r.height>innerHeight-8)T=y-r.height-14;if(T<8)T=8;tip.style.left=L+'px';tip.style.top=T+'px'}
+function hl(svg,el){svg.querySelectorAll('path.rib').forEach(p=>{const on=!el||(el.dataset.link?p.dataset.link===el.dataset.link:p.dataset.link.split('>').includes(el.dataset.node));p.setAttribute('fill-opacity',on?(p.getAttribute('fill')==='var(--outside)'?0.95:0.85):0.18)})}
+function reset(svg){svg.querySelectorAll('path.rib').forEach(p=>p.setAttribute('fill-opacity',p.getAttribute('fill')==='var(--outside)'?0.75:0.55))}
+function wire(c,M){
+  const svg=c.querySelector('svg');
+  svg.addEventListener('pointermove',e=>{if(pinned||e.pointerType!=='mouse')return;const el=e.target.closest('.rib');if(!el){tip.style.display='none';reset(svg);return}tip.innerHTML=tipHtml(M,el);place(e.clientX,e.clientY);hl(svg,el)});
+  svg.addEventListener('pointerleave',()=>{if(!pinned){tip.style.display='none';reset(svg)}});
+  svg.addEventListener('click',e=>{const el=e.target.closest('.rib');if(!el)return;e.stopPropagation();
+    const key=el.dataset.link||('n'+el.dataset.node);
+    if(pinned&&pinned.key===key){unpin();return}
+    pinned={key,svg};tip.innerHTML=tipHtml(M,el);tip.classList.add('pinned');place(e.clientX,e.clientY);hl(svg,el)});
+}
+function unpin(){if(!pinned)return;reset(pinned.svg);pinned=null;tip.classList.remove('pinned');tip.style.display='none'}
+document.addEventListener('click',unpin);document.addEventListener('keydown',e=>{if(e.key==='Escape')unpin()});addEventListener('scroll',unpin,{passive:true});
+
+/* ---------- the card ---------- */
+function cardHtml(id){
+  const S=STATES[cur], D=STATE_DEFS.find(d=>d.id===cur);
+  const sel=S.nodes.find(n=>n.code===S.sel&&(S.kind==='chapter'?n.col===0:S.kind==='product'?n.col===1:n.col===2));
+  const kindWord={chapter:'Chapter',product:'Product',use:'Use'}[S.kind];
+  const outside=S.kind==='use'?'Other uses of these products':S.kind==='chapter'?'From other chapters':'From other products';
+  const rows=[];const M=model(S);const agg={};M.segs.forEach(s=>{const k=s.s+'>'+s.t;agg[k]=(agg[k]||0)+s.v});
+  Object.entries(agg).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{const [a,b]=k.split('>');rows.push(`<tr><td>${esc(M.byId[a].label)}</td><td>${esc(M.byId[b].label)}</td><td class="n">${fmt(v)}</td></tr>`)});
+  return `<h3>From product to use, 2025</h3>
+   <p class="take">${esc(D.take)}</p>
+   <div class="sel-line"><span>${kindWord}: <b>${esc(sel.label)}</b> · ${S.flow==='imports'?'Imports':'Exports'} · ${fmt(S.total)}</span><span>Tap a line in “What the U.S. trades” to follow it here.</span></div>
+   <div class="colheads cap" id="${id}-heads"><span>Chapter</span><span>Product</span><span>Use</span></div>
+   <div class="plot" id="${id}-plot"></div>
+   <div class="legend">${S.kind==='use'?'':`<span><i style="background:var(--outside)"></i>${outside} (outside the selection)</span>`}<span><i style="background:var(--s-other)"></i>Other: lines past the top ${S.kind==='use'?'6 chapters / 8 products':'8 products / 6 uses'}, or under 1%</span></div>
+   <div class="notes"><details><summary>Data notes</summary><p>Each band is the dollar value of 2025 U.S. goods ${S.flow} (${S.flow==='imports'?'general imports':'total exports'}, all countries) that Census classes under both a 4-digit HS heading and an end-use category. Census assigns every 10-digit tariff line to exactly one end use, so the bands add up to the chapter, product and end-use totals shown elsewhere on this page. A product can feed several uses and a use draws on many products; ${S.kind==='use'?'each product shows only the part that goes to this use.':'grey shows the part of each use that comes from outside the line you picked.'} Special entries (returned goods, low-value shipments) are left out. Source: U.S. Census Bureau, international trade API (HS10) and its HS-to-end-use concordance.</p></details>
+   <details><summary>View as table</summary><table><thead><tr><th>From</th><th>To</th><th>Value</th></tr></thead><tbody>${rows.join('')}</tbody></table></details></div>`;
+}
+function renderCard(elId,id){const el=document.getElementById(elId);
+  if(country){el.innerHTML='<p class="allc" style="margin:0">(Mock only: with a country picked the card is removed from the page, the same way it is absent until a line is tapped. Nothing is drawn here.)</p>';el.classList.add('stub');return}
+  el.classList.remove('stub');el.innerHTML=cardHtml(id);const plot=document.getElementById(id+'-plot');const w=plot.clientWidth;draw(plot,w);
+  const heads=document.getElementById(id+'-heads');if(w<720)heads.innerHTML='<span>Chapter ↓ Product ↓ Use</span>';}
+function render(){unpin();renderAbove();renderCard('sankey-card','main');renderCard('phone-card','ph');
+  document.querySelectorAll('#states button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===cur))}
+document.getElementById('states').innerHTML=STATE_DEFS.map(d=>`<button data-id="${d.id}">${d.btn}</button>`).join('');
+document.getElementById('states').addEventListener('click',e=>{const b=e.target.closest('button');if(b){cur=b.dataset.id;render()}});
+document.getElementById('cty').addEventListener('change',e=>{country=e.target.checked;render()});
+const q=new URLSearchParams(location.search);if(q.get('s'))cur=q.get('s');if(q.get('c'))country=true,document.getElementById('cty').checked=true;
+let rw=0;addEventListener('resize',()=>{if(innerWidth!==rw){rw=innerWidth;render()}});
+document.fonts.ready.then(render);render();
+</script>
+</body></html>
