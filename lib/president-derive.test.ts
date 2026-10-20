@@ -47,14 +47,14 @@ const TODAY = "2026-10-19";
 describe("buildPresidents", () => {
   const list = buildPresidents(ADMINS, new Map([["barack-obama", "/images/presidents/barack-obama.jpg"]]));
 
-  it("starts at Truman and gives a returning president one page with both terms", () => {
-    expect(list.map((p) => p.slug)).toEqual(["harry-s-truman", "barack-obama", "donald-trump", "joe-biden"]);
+  it("starts at Roosevelt and gives a returning president one page with both terms", () => {
+    expect(list.map((p) => p.slug)).toEqual(["franklin-d-roosevelt", "harry-s-truman", "barack-obama", "donald-trump", "joe-biden"]);
     expect(list.find((p) => p.slug === "donald-trump")!.terms.map((t) => t.termId)).toEqual(["2017-01-20", "2025-01-20"]);
   });
 
   it("numbers rows from Roosevelt's 32nd, so a non-consecutive return gets its own ordinal", () => {
     // Only the rows given count here; the real table numbers Trump 45 and 47.
-    expect(list[0].terms[0].ordinal).toBe(33);
+    expect(list[0].terms[0].ordinal).toBe(32);
     expect(list.find((p) => p.slug === "donald-trump")!.terms.map((t) => t.ordinal)).toEqual([35, 37]);
   });
 

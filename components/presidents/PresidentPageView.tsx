@@ -176,6 +176,20 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
     ? `Signed ${fmtInt(data.eos.total)} executive orders${data.eos.topics[0] ? `; the most common topic was ${data.eos.topics[0].label.toLowerCase()} (${fmtInt(data.eos.topics[0].n)})` : ""}.`
     : "";
 
+  const early = data.earlyMajor.length;
+  const majorTotal = data.laws?.major == null && early === 0 ? null : (data.laws?.major ?? 0) + early;
+  const majorNote =
+    majorTotal === null
+      ? data.landmarks.length > 0
+        ? "Landmark laws below"
+        : data.laws
+          ? "Not yet assessed"
+          : "Data starts 1947"
+      : first.start < "1947-01-03"
+        ? "From 1947"
+        : data.laws?.majorPartial
+          ? "Later term not yet assessed"
+          : undefined;
   const counts = [data.laws ? "laws" : null, data.eos ? "eos" : null].filter(Boolean);
 
   return (
@@ -231,10 +245,10 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
       <div className="grid grid-cols-3 gap-3">
         <Stat value={tenureText(data.days)} label={serving ? "In office so far" : "In office"} note={`${fmtInt(data.days)} days`} />
         <Stat
-          value={data.laws && data.laws.major !== null ? fmtInt(data.laws.major) : "—"}
+          value={majorTotal === null ? "—" : fmtInt(majorTotal)}
           label="Major laws signed"
           tip={MAJOR_LAW_DEFINITION}
-          note={!data.laws ? "Data starts 1973" : data.laws.major === null ? "Not yet assessed" : data.laws.majorPartial ? "Later term not yet assessed" : data.laws.coverage}
+          note={majorNote}
         />
         <Stat value={String(data.justices.filter((j) => !j.elevated).length)} label="Justices appointed" note={data.justices.some((j) => j.elevated) ? "plus one elevated to chief" : undefined} />
       </div>
@@ -244,7 +258,7 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         <JusticesCard justices={data.justices} takeaway={justicesTakeaway(data)} notes={NOTES.justices} more={MORE.justices} />
       </Row>
 
-      {(counts.length > 0 || data.earlyMajor.length > 0) && (
+      {(counts.length > 0 || data.earlyMajor.length > 0 || data.landmarks.length > 0) && (
         <Row label="Laws and orders" id="laws">
           {data.laws && (
             <CountCard
@@ -283,6 +297,16 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
               takeaway={`${fmtInt((data.laws?.majorList.length ?? 0) + data.earlyMajor.length)} of the laws ${p.last} signed are counted as important enactments, newest first${data.laws && data.laws.majorList.length > 0 ? ", with how each passed the House and Senate" : ""}.${data.earlyMajor.length > 0 && data.laws && data.laws.majorList.length > 0 ? " Laws before 1973 have no vote tallies here." : ""}${data.laws?.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
               notes={NOTES.major}
               more={MORE.major}
+            />
+          )}
+          {data.landmarks.length > 0 && data.earlyMajor.length === 0 && !data.laws?.majorList.length && (
+            <MajorLawsCard
+              title="Landmark laws signed"
+              laws={[]}
+              early={data.landmarks}
+              takeaway={`${fmtInt(data.landmarks.length)} landmark laws signed in ${p.last}'s time in office, newest first. Mayhew's lists of important enactments start in 1947, so this is the Timeline page's hand-picked list, not a count.`}
+              notes={NOTES.landmarks}
+              more={{ href: "/timeline", label: "Timeline page" }}
             />
           )}
         </Row>

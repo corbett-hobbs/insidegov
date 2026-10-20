@@ -58,6 +58,7 @@ import type {
   PresidentRef,
   PresidentSummary,
   PresidentTerm,
+  EarlyMajorLaw,
   SeriesCardId,
   SeriesFormat,
   SeriesPanel,
@@ -340,9 +341,21 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
     justices,
     laws: lawsFor(p, now),
     earlyMajor: earlyMajorFor(earlyEntries(), p.name).map((e) => ({ title: displayTitle(e.title), year: e.year, congress: e.congress, summary: e.summary, capitals: e.capitals })),
+    landmarks: landmarksFor(p, now),
     eos: eosFor(p, now),
     ...seriesCards(p, now),
   };
+}
+
+/** Timeline landmark laws signed in the president's time in office before Mayhew's first list (1947). */
+function landmarksFor(p: PresidentRef, now: string): EarlyMajorLaw[] {
+  const events = z.array(z.looseObject({ kind: z.string(), name: z.string(), what: z.string(), date: z.string().optional() })).parse(
+    JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "timeline-events.json"), "utf8")).events,
+  );
+  return events
+    .filter((e) => e.kind === "law" && e.date !== undefined && e.date < MAYHEW_START && inTerms(e.date, p.terms, now))
+    .sort((a, b) => (a.date! < b.date! ? 1 : -1))
+    .map((e) => ({ title: e.name, year: Number(e.date!.slice(0, 4)), congress: null, summary: e.what, capitals: false }));
 }
 
 let earlyCache: MayhewEarlyEntry[] | null = null;
@@ -355,7 +368,7 @@ function earlyEntries(): MayhewEarlyEntry[] {
 const MAYHEW_START = "1947-01-03";
 
 function majorNote(p: PresidentRef, laws: LawsSummary | null, early: number, now: string): string | null {
-  if (laws === null && early === 0) return p.terms.every((t) => termLast(t, now) < MAYHEW_START) ? "before Mayhew's lists (1947)" : "not yet assessed";
+  if (laws === null && early === 0) return p.terms.every((t) => termLast(t, now) < MAYHEW_START) ? "before Mayhew's lists; landmarks on page" : "not yet assessed";
   if (early === 0 && laws?.major === null) return "not yet assessed";
   if (p.terms[0].start < MAYHEW_START) return "from 1947";
   return laws?.majorPartial ? "later term not yet assessed" : null;
