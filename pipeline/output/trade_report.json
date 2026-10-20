@@ -86,6 +86,11 @@
     "headings_per_row": 10,
     "headings_national": 25,
     "headings_in_lookup": 1019,
+    "partners_per_product": 5,
+    "partner_lists": {
+      "chapters": 3264,
+      "headings": 850
+    },
     "heading_coverage_of_goods_value": {
       "median": 0.696,
       "p10": 0.439
@@ -186,6 +191,7 @@
       "bytes": 107436
     },
     "trade_products_national.json": 131056,
-    "trade_products_headings.json": 114947
+    "trade_products_headings.json": 114947,
+    "trade_products_partners.json": 587860
   }
 }

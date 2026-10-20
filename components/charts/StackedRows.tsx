@@ -9,7 +9,7 @@
  * Layout adapts to the list's own width (container query): five columns when wide, and under 400px
  * the bar drops to a second line and labels may wrap instead of truncating.
  */
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { selectedRowsKey, useScrollSelectedRow } from "./use-scroll-selected";
 
 export interface StackedRowData {
@@ -29,6 +29,9 @@ export interface StackedRowData {
    * Any row carrying the field (even null) gives the list the wider last column, for text like "Cap 30,000–50,000".
    */
   cap?: { min: number; max: number } | null;
+  /** This row opens to show `detail` under it (the trade products list: the top countries behind a product). Present only while open. */
+  expandable?: boolean;
+  detail?: ReactNode;
 }
 
 export function StackedRows({
@@ -78,7 +81,8 @@ export function StackedRows({
           <button
             type="button"
             onClick={() => onRowClick(r.id)}
-            aria-pressed={!!r.selected}
+            aria-pressed={r.expandable ? undefined : !!r.selected}
+            aria-expanded={r.expandable ? !!r.detail : undefined}
             data-selected-row={r.selected ? "" : undefined}
             className={`grid w-full cursor-pointer ${cols} items-center gap-x-2 rounded-md border-0 px-2 py-1.5 text-left text-ink hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${narrow} ${hasCap ? "" : "@max-[400px]:gap-y-1"} ${
               r.selected ? "bg-[color-mix(in_oklab,var(--accent)_13%,var(--surface))]" : "bg-transparent"
@@ -118,6 +122,7 @@ export function StackedRows({
             <span className="text-right font-mono text-[0.75rem] tabular-nums">{r.total}</span>
             {(hasDelta || hasCap) && <span className="whitespace-nowrap text-left font-mono text-[0.7rem] tabular-nums text-ink-muted">{r.delta ?? ""}</span>}
           </button>
+          {r.detail}
         </li>
       ))}
     </ul>

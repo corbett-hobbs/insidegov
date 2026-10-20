@@ -9,7 +9,9 @@ import {
   parseRawDescriptions,
   parseRawProducts,
   productsDescPath,
+  nationalTopHeadings,
   pruneHeadings,
+  topPartnerRows,
   type RawDescriptions,
   type RawProducts,
 } from "../fetch/census-products-lib";
@@ -63,6 +65,33 @@ describe("pruneHeadings", () => {
   });
 });
 
+describe("partner rankings (raw)", () => {
+  const rows: RawProducts["headings"] = [
+    ["-", "8517", "900"],
+    ["-", "8471", "500"],
+    ["-", "9999", "9000"],
+    ["-", "0101", "5"],
+    ["5700", "8517", "400"],
+    ["1220", "8517", "400"],
+    ["2010", "8517", "100"],
+    ["5700", "8471", "300"],
+    ["5700", "9999", "70"],
+  ];
+
+  it("takes the all-countries top goods headings, never a special one", () => {
+    expect(nationalTopHeadings(rows, 2)).toEqual(["8517", "8471"]);
+    expect(nationalTopHeadings(rows, 9)).toEqual(["8517", "8471", "0101"]);
+  });
+
+  it("keeps each top heading's k largest partners, ties by partner code, in heading order", () => {
+    expect(topPartnerRows(rows, new Set(["8517", "8471"]), 2)).toEqual([
+      ["5700", "8471", "300"],
+      ["1220", "8517", "400"],
+      ["5700", "8517", "400"],
+    ]);
+  });
+});
+
 describe("buildProducts", () => {
   const cc = (census_code: string, country_code: string): CountryRow => ({ country_code, census_code, name: country_code, iso2: null, kind: "country", is_aggregate: false, first_year: 2010, last_year: 2026, note: null });
   const tiny: RawDescriptions = { fetched_at: "", exports: { hs2: {}, hs4: { "8517": "PHONES" } }, imports: { hs2: {}, hs4: { "8517": "PHONES", "9999": "LOW VALUE" } } };
@@ -101,6 +130,55 @@ describe("buildProducts", () => {
     });
   });
 
+  it("ranks partners per chapter and per top heading, summing recoded codes and checking the partner's own file", () => {
+    const base = raw({
+      chapters: [
+        ["-", "85", "100", "90", "9"],
+        ["5700", "85", "60", "50", "5"],
+        ["1220", "85", "30", "30", "3"],
+        ["7320", "85", "6", "6", "0"],
+        ["7321", "85", "4", "4", "1"],
+      ],
+      headings: [
+        ["-", "8517", "80", "70", "7"],
+        ["5700", "8517", "50", "40", "4"],
+      ],
+      partners_k: 10,
+      partners: [
+        ["5700", "8517", "50", "40", "4"],
+        ["1220", "8517", "20", "20", "2"],
+        ["7320", "8517", "6", "6", "0"],
+        ["7321", "8517", "4", "4", "1"],
+      ],
+    });
+    const countries = [cc("5700", "CHN"), cc("1220", "CAN"), cc("7320", "SDN"), cc("7321", "SDN")];
+    const b = buildProducts([base], countries, tiny);
+    expect(b.partners).toHaveLength(1);
+    expect(b.partners[0]).toMatchObject({
+      year: 2024,
+      flow: "imports",
+      chapters: {
+        "85": [
+          ["CHN", 60, 50, 5],
+          ["CAN", 30, 30, 3],
+          ["SDN", 10, 10, 1],
+        ],
+      },
+      headings: {
+        "8517": [
+          ["CHN", 50, 40, 4],
+          ["CAN", 20, 20, 2],
+          ["SDN", 10, 10, 1],
+        ],
+      },
+    });
+    // The partner's own file and the ranking must agree to the dollar.
+    expect(() => buildProducts([{ ...base, partners: [["5700", "8517", "51", "40", "4"], ...base.partners!.slice(1)] }], countries, tiny)).toThrow(/ranking says \$51/);
+    // A top heading with no partner rows, or a year with no rankings at all, is a stale fetch.
+    expect(() => buildProducts([{ ...base, partners: [] }], countries, tiny)).toThrow(/no partner rows/);
+    expect(() => buildProducts([{ ...base, partners: undefined, partners_k: undefined }], countries, tiny)).toThrow(/partners-only/);
+  });
+
   it("fails on a chapter missing from the names table, an unlabelled special heading, or an unknown Census code", () => {
     expect(() => buildProducts([raw({ chapters: [["5700", "77", "1", "1", "0"]] })], [cc("5700", "CHN")], tiny)).toThrow(TradeDataError);
     expect(() => buildProducts([raw({ headings: [["5700", "9899", "1", "1", "0"]] })], [cc("5700", "CHN")], tiny)).toThrow(/no imports label/);
@@ -131,6 +209,29 @@ describe("the committed snapshot", () => {
     for (const r of b.rows) {
       expect(r.headings.length).toBeLessThanOrEqual(HEADINGS_PER_ROW);
       expect(r.headings.every((t) => !/^9[89]/.test(t[0]))).toBe(true);
+    }
+  });
+
+  it("ranks the top countries behind each chapter and top product, largest first, never more than the line", () => {
+    const natOf = (y: number, f: string) => b.national.find((r) => r.year === y && r.flow === f)!;
+    const imp = b.partners.find((r) => r.year === 2025 && r.flow === "imports")!;
+    const nat = natOf(2025, "imports");
+    const imp18 = b.partners.find((r) => r.year === 2018 && r.flow === "imports")!;
+    expect(Object.keys(imp.chapters).sort()).toEqual(nat.chapters.filter((t) => !/^9[89]/.test(t[0])).map((t) => t[0]).sort());
+    expect(Object.keys(imp.headings).sort()).toEqual(nat.headings.map((t) => t[0]).sort());
+    expect(imp18.chapters["85"][0][0]).toBe("CHN"); // electronics: China led in 2018, Mexico by 2025
+    for (const r of b.partners) {
+      const n = natOf(r.year, r.flow);
+      for (const [lists, level] of [[r.chapters, n.chapters], [r.headings, n.headings]] as const) {
+        for (const [code, items] of Object.entries(lists)) {
+          const list = items as readonly (readonly [string, number, ...number[]])[];
+          const line = level.find((t) => t[0] === code)![1];
+          expect(list.length, `${r.year} ${r.flow} ${code}`).toBeGreaterThan(0);
+          expect(list.length).toBeLessThanOrEqual(5);
+          expect(list.map((t) => t[1])).toEqual([...list.map((t) => t[1])].sort((a, c) => c - a));
+          expect(list.reduce((a, t) => a + t[1], 0)).toBeLessThanOrEqual(line * 1.002 + 1e6);
+        }
+      }
     }
   });
 

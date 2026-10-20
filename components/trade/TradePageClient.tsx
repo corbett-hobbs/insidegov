@@ -6,7 +6,7 @@ import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
-import { ALL_PRODUCTS, type TradeProductsPayload } from "@/lib/trade-products";
+import { ALL_PRODUCTS, type ProductPartnersPayload, type TradeProductsPayload } from "@/lib/trade-products";
 import { topByTotal } from "@/lib/trade-map";
 import { TradeBalanceCard } from "./TradeBalanceCard";
 import { TradeFilterBar } from "./TradeFilterBar";
@@ -101,6 +101,27 @@ function TradePage({ data }: { data: TradePageData }) {
     return () => ctl.abort();
   }, [productsKey, productFiles]);
   const productsPayload = productsKey ? productFiles[productsKey] ?? null : null;
+
+  // The top countries behind each product: one small file per year, fetched for the year on screen once a line has been opened.
+  const [partnersWanted, setPartnersWanted] = useState(false);
+  const [partnerFiles, setPartnerFiles] = useState<Record<number, ProductPartnersPayload>>({});
+  const [partnersFailed, setPartnersFailed] = useState<number | null>(null);
+  useEffect(() => {
+    const y = v.year;
+    if (!partnersWanted || partnerFiles[y] || partnersFailed === y) return;
+    const ctl = new AbortController();
+    fetch(`/data/trade/product-partners/${y}`, { signal: ctl.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json() as Promise<ProductPartnersPayload>;
+      })
+      .then((p) => setPartnerFiles((m) => ({ ...m, [y]: p })))
+      .catch((e) => {
+        if (e?.name !== "AbortError") setPartnersFailed(y);
+      });
+    return () => ctl.abort();
+  }, [partnersWanted, v.year, partnerFiles, partnersFailed]);
+  const partnersPayload = partnerFiles[v.year] ?? null;
 
   // While the next year loads, the previous one stays on screen (dimmed) instead of blanking the chart.
   const [lastShown, setLastShown] = useState<TradeYearPayload>(initialYear);
@@ -219,6 +240,12 @@ function TradePage({ data }: { data: TradePageData }) {
           lag={products.lag}
           loading={!!productsKey && !productsPayload && productsFailed !== productsKey}
           error={!!productsKey && !productsPayload && productsFailed === productsKey}
+          partners={partnersPayload}
+          partnersState={partnersPayload ? "ok" : partnersFailed === v.year ? "error" : partnersWanted ? "loading" : "idle"}
+          onWantPartners={() => {
+            setPartnersWanted(true);
+            setPartnersFailed(null); // a tap after a failure retries
+          }}
         />
 
         {/* Full width: the scatter needs the room for its labels. */}

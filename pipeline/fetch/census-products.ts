@@ -8,7 +8,11 @@ import {
   PRODUCTS_CACHE_DIR,
   PRODUCTS_FIRST_YEAR,
   RAW_HEADINGS_K,
+  RAW_PARTNERS_K,
+  RAW_PARTNER_HEADINGS,
   isSpecialHs,
+  nationalTopHeadings,
+  topPartnerRows,
   parseRawProducts,
   productsDescPath,
   productsRawPath,
@@ -29,6 +33,10 @@ import {
  *   pnpm fetch:census-products              # every year from 2010
  *   pnpm fetch:census-products --recent     # the year in progress and the three before it (weekly refresh)
  *   pnpm fetch:census-products --since 2023
+ *   pnpm fetch:census-products --partners-only   # only the partner rankings, into the existing files (about 10 calls)
+ *
+ * Each year's file also carries `partners`: for the year's top 25 all-countries goods headings, the top 10
+ * partners of each (exact, since the API returns every partner for a heading).
  *
  * Query shape (measured 2026-10-18; see docs/TRADE_METHODOLOGY.md):
  * - One call covers every year: `time=from <since>-01 to <latest>` with
@@ -201,6 +209,7 @@ await run("census-products", async () => {
   const since = Math.max(PRODUCTS_FIRST_YEAR, args.includes("--recent") ? latest.year - 3 : sinceArg >= 0 ? Number(args[sinceArg + 1]) : PRODUCTS_FIRST_YEAR);
   if (!Number.isInteger(since)) throw new Error("--since needs a year");
   const w: Window = { since, ...latest };
+  const partnersOnly = args.includes("--partners-only");
   console.log(`  window ${since}-01 .. ${latest.year}-${mm(latest.month)} (December of each full year, year to date for ${latest.year})`);
 
   const descriptions: RawDescriptions = { fetched_at: new Date().toISOString(), exports: { hs2: {}, hs4: {} }, imports: { hs2: {}, hs4: {} } };
@@ -213,6 +222,29 @@ await run("census-products", async () => {
     const chapters = [...new Set(nat2.rows.map((r) => r[1]))].sort();
     const headings = [...new Set(nat4.rows.map((r) => r[1]))].sort();
     console.log(`  ${flow}: ${chapters.length} chapters, ${headings.length} headings`);
+
+    if (partnersOnly) {
+      // Only the headings that make a year's all-countries top list, for every partner: a handful of calls.
+      const natYear = (y: number) => nat4.rows.filter((r) => Number(r[2].slice(0, 4)) === y).map((r) => [r[0], r[1], ...r.slice(3)] as RawProductRow);
+      const natYears = [...new Set(nat4.rows.map((r) => Number(r[2].slice(0, 4))))].filter((y) => y >= since).sort((a, b) => a - b);
+      const wanted = [...new Set(natYears.flatMap((y) => nationalTopHeadings(natYear(y), RAW_PARTNER_HEADINGS)))].sort();
+      console.log(`  ${flow}: ${wanted.length} headings reach an all-countries top ${RAW_PARTNER_HEADINGS} in ${natYears[0]}-${natYears[natYears.length - 1]}`);
+      const rows = (await pool(chunk(wanted, HEADINGS_PER_CALL).map((c) => () => batch(flow, "HS4", c, w)), CONCURRENCY)).flat();
+      for (const year of natYears) {
+        const of = (rs: CallRow[]) => rs.filter((r) => Number(r[2].slice(0, 4)) === year).map((r) => [r[0], r[1], ...r.slice(3)] as RawProductRow);
+        const dest = productsRawPath(flow, year);
+        if (!existsSync(dest)) throw new Error(`${dest} is missing; run the full fetch first`);
+        const prev = parseRawProducts(JSON.parse(await readFile(dest, "utf8")));
+        const top = new Set(nationalTopHeadings(natYear(year), RAW_PARTNER_HEADINGS));
+        const fresh = { ...prev, partners_k: RAW_PARTNERS_K, partners: topPartnerRows(of(rows), top, RAW_PARTNERS_K) };
+        const same = JSON.stringify({ ...prev, fetched_at: "" }) === JSON.stringify({ ...fresh, fetched_at: "" });
+        if (!same) fresh.fetched_at = new Date().toISOString();
+        await writeFile(`${dest}.download`, serializeRawProducts(parseRawProducts(fresh)));
+        await rename(`${dest}.download`, dest);
+        console.log(`  ${flow} ${year}: ${fresh.partners.length} partner rows for ${top.size} headings`);
+      }
+      continue;
+    }
 
     const hs2 = (await pool(chunk(chapters, CHAPTERS_PER_CALL).map((c) => () => batch(flow, "HS2", c, w)), CONCURRENCY)).flat();
     const hs4 = (await pool(chunk(headings, HEADINGS_PER_CALL).map((c) => () => batch(flow, "HS4", c, w)), CONCURRENCY)).flat();
@@ -240,6 +272,7 @@ await run("census-products", async () => {
     for (const year of years) {
       const of = (rows: CallRow[]) => rows.filter((r) => Number(r[2].slice(0, 4)) === year).map((r) => [r[0], r[1], ...r.slice(3)] as RawProductRow);
       const through_month = year === w.year ? w.month : 12;
+      const yearHeadings = of(hs4);
       const fresh = parseRawProducts({
         fetched_at: new Date().toISOString(),
         flow,
@@ -247,7 +280,9 @@ await run("census-products", async () => {
         through_month,
         heading_k: RAW_HEADINGS_K,
         chapters: sortRows(of(hs2)),
-        headings: pruneHeadings(of(hs4), RAW_HEADINGS_K),
+        headings: pruneHeadings(yearHeadings, RAW_HEADINGS_K),
+        partners_k: RAW_PARTNERS_K,
+        partners: topPartnerRows(yearHeadings, new Set(nationalTopHeadings(yearHeadings, RAW_PARTNER_HEADINGS)), RAW_PARTNERS_K),
       });
       const dest = productsRawPath(flow, year);
       if (existsSync(dest)) {
@@ -262,6 +297,7 @@ await run("census-products", async () => {
       console.log(`  ${flow} ${year} (through ${mm(through_month)}): ${fresh.chapters.length} chapter rows, ${fresh.headings.length} heading rows (${special} special)`);
     }
   }
+  if (partnersOnly) return;
   const prevDesc = existsSync(productsDescPath) ? await readFile(productsDescPath, "utf8") : "";
   const sorted = (o: Record<string, string>) => Object.fromEntries(Object.entries(o).sort(([a], [b]) => a.localeCompare(b)));
   const body = (d: RawDescriptions) =>

@@ -3,6 +3,7 @@ import {
   PRODUCTS_START_YEAR,
   type TradeProductsHeading,
   type TradeProductsNationalRow,
+  type TradeProductsPartnersRow,
   type TradeProductsRow,
 } from "../../lib/trade-products-entities";
 import { TradeDataError, type CountryRow, type DutiesByCountryRow, type TradeByCountryRow, type TradeNationalRow } from "../../lib/trade-entities";
@@ -23,6 +24,8 @@ import { isSpecialHs, type Flow, type RawDescriptions, type RawProducts } from "
 export const HEADINGS_PER_ROW = 10;
 /** The all-countries rows keep more headings: one small file, and the default view of the page. */
 export const HEADINGS_NATIONAL = 25;
+/** Countries listed behind each chapter and each all-countries heading. */
+export const PARTNERS_PER_PRODUCT = 5;
 
 /** Reconciliation tolerances. Tripping one fails the build; measured values in docs/TRADE_METHODOLOGY.md. */
 export const PRODUCTS_TOL = {
@@ -66,6 +69,7 @@ export interface ProductsBuild {
   rows: TradeProductsRow[];
   national: TradeProductsNationalRow[];
   headings: TradeProductsHeading[];
+  partners: TradeProductsPartnersRow[];
   firstYear: number;
   lastYear: number;
   lastMonth: number;
@@ -84,6 +88,66 @@ function toRow(flow: Flow, year: number, acc: Acc, n: number) {
   return { year, months: acc.months, flow, value: sum(1), con_value: sum(2), duties: sum(3), chapters, headings, special } as Extract<TradeProductsNationalRow, { flow: "imports" }>;
 }
 
+/**
+ * The top countries behind every chapter and every all-countries top heading, per (year, flow). Chapters come from the
+ * partners' own chapter rows (`perCountry`, keyed `${country_code}|${year}|${flow}`: every partner carries every
+ * chapter, so the ranking is exact). Headings come from the raw files' `partners` rows (each top heading's top
+ * partners, taken from the API's response for every partner), because a partner's own file keeps only its top 25
+ * headings and so cannot rank a heading it does not list. Where a partner lists the heading too, the two sources must
+ * agree to the dollar.
+ */
+function buildPartners(
+  perCountry: Map<string, Acc>,
+  national: TradeProductsNationalRow[],
+  partnerRows: Map<string, [string, string, ...number[]][]>,
+  codesOf: Map<string, number>,
+  n: number,
+): TradeProductsPartnersRow[] {
+  const byYearFlow = new Map<string, [string, Acc][]>();
+  for (const [key, acc] of perCountry) {
+    const [cc, y, flow] = key.split("|");
+    byYearFlow.set(`${y}|${flow}`, [...(byYearFlow.get(`${y}|${flow}`) ?? []), [cc, acc]]);
+  }
+  const rows: TradeProductsPartnersRow[] = [];
+  for (const r of national) {
+    const yf = `${r.year}|${r.flow}`;
+    const accs = byYearFlow.get(yf) ?? [];
+    const chapters: Record<string, [string, ...number[]][]> = {};
+    for (const t of r.chapters) {
+      if (isSpecialHs(t[0])) continue;
+      chapters[t[0]] = accs
+        .flatMap(([cc, acc]) => {
+          const v = acc.chapters.get(t[0]);
+          return v && v[0] > 0 ? [[cc, ...v] as [string, ...number[]]] : [];
+        })
+        .sort(byValue)
+        .slice(0, n);
+    }
+    const raw = partnerRows.get(yf);
+    if (!raw) throw new TradeDataError(`products ${yf}: the raw file has no partner rankings — run pnpm fetch:census-products --partners-only`);
+    const own = new Map(accs);
+    const sums = new Map<string, Map<string, number[]>>(); // heading -> country_code -> values
+    for (const [cc, hs, ...v] of raw) {
+      const m = sums.get(hs) ?? new Map<string, number[]>();
+      sums.set(hs, m);
+      add(m, cc, v);
+    }
+    const headings: Record<string, [string, ...number[]][]> = {};
+    for (const t of r.headings) {
+      const m = sums.get(t[0]);
+      if (!m) throw new TradeDataError(`products ${yf}: top heading ${t[0]} has no partner rows in the raw file — run pnpm fetch:census-products --partners-only`);
+      const ranked = [...m].map(([cc, v]) => [cc, ...v] as [string, ...number[]]).sort(byValue);
+      for (const [cc, ...v] of ranked) {
+        const have = own.get(cc)?.headings.get(t[0]);
+        if (have && codesOf.get(cc) === 1 && have[0] !== v[0]) throw new TradeDataError(`products ${yf} ${t[0]} ${cc}: the partner ranking says $${v[0]} but the partner's own file says $${have[0]}`);
+      }
+      headings[t[0]] = ranked.slice(0, n);
+    }
+    rows.push({ year: r.year, months: r.months, flow: r.flow, chapters, headings } as TradeProductsPartnersRow);
+  }
+  return rows;
+}
+
 export function buildProducts(raws: RawProducts[], countries: CountryRow[], desc: RawDescriptions, headingsPerRow = HEADINGS_PER_ROW): ProductsBuild {
   const toCountry = new Map(countries.map((c) => [c.census_code, c]));
   const perCountry = new Map<string, Acc>(); // `${country_code}|${year}|${flow}`
@@ -91,6 +155,7 @@ export function buildProducts(raws: RawProducts[], countries: CountryRow[], desc
   const seen = new Set<string>();
   const monthsOfYear = new Map<number, number>();
   const usedHeadings = new Set<string>();
+  const partnerRows = new Map<string, [string, string, ...number[]][]>(); // `${year}|${flow}` -> [country_code, hs4, ...values]
   let lastYear = 0;
   let firstYear = Infinity;
 
@@ -133,6 +198,15 @@ export function buildProducts(raws: RawProducts[], countries: CountryRow[], desc
         add(level === "chapter" ? acc.chapters : acc.headings, code, v);
       }
     }
+    if (raw.partners) {
+      const list: [string, string, ...number[]][] = [];
+      for (const [cty, code, ...vs] of raw.partners) {
+        const c = toCountry.get(cty);
+        if (!c || c.is_aggregate) throw new TradeDataError(`products ${raw.flow} ${raw.year}: partner ranking has Census code ${cty}, not a partner in countries.json`);
+        list.push([c.country_code, code, ...(vs.map(Number) as Values)]);
+      }
+      partnerRows.set(`${raw.year}|${raw.flow}`, list);
+    }
   }
 
   const rows: TradeProductsRow[] = [];
@@ -157,7 +231,10 @@ export function buildProducts(raws: RawProducts[], countries: CountryRow[], desc
     const s = SPECIAL_HEADINGS[hs];
     return { hs, chapter: hs.slice(0, 2), census_desc, special_label: s ? { exports: s.exports ?? null, imports: s.imports ?? null } : null };
   });
-  return { rows, national: nat, headings, firstYear, lastYear, lastMonth: monthsOfYear.get(lastYear) ?? 0 };
+  const codesOf = new Map<string, number>();
+  for (const c of countries) if (!c.is_aggregate) codesOf.set(c.country_code, (codesOf.get(c.country_code) ?? 0) + 1);
+  const partners = buildPartners(perCountry, nat, partnerRows, codesOf, PARTNERS_PER_PRODUCT);
+  return { rows, national: nat, headings, partners, firstYear, lastYear, lastMonth: monthsOfYear.get(lastYear) ?? 0 };
 }
 
 // -------------------------------------------------------------- validation
@@ -293,6 +370,32 @@ export function validateProducts(args: {
     }
   }
   for (const [k, v] of sums) if (v > PRODUCTS_TOL.goodsAbs) fail(`${k}: partners carry $${v} with no all-countries row`);
+
+  // The partners behind each product: known countries, largest first, and never more than the all-countries row they sit under.
+  const natValue = new Map<string, number>();
+  for (const r of build.national) {
+    for (const t of r.chapters) natValue.set(`${r.year}|${r.flow}|${t[0]}`, t[1]);
+    for (const t of r.headings) natValue.set(`${r.year}|${r.flow}|${t[0]}`, t[1]);
+  }
+  if (build.partners.length !== build.national.length) fail(`${build.partners.length} partner rows for ${build.national.length} all-countries rows`);
+  for (const r of build.partners) {
+    for (const [level, lists] of [["chapter", r.chapters], ["heading", r.headings]] as const) {
+      for (const [code, items] of Object.entries(lists)) {
+        const list = items as readonly (readonly [string, number, ...number[]])[];
+        const k = `${r.year}|${r.flow}|${code}`;
+        const want = natValue.get(k);
+        if (want === undefined) fail(`partners ${level} ${k} has no all-countries row`);
+        let sum = 0;
+        list.forEach((t, i) => {
+          if (!known.get(t[0]) || known.get(t[0])!.is_aggregate) fail(`partners ${k}: ${t[0]} is not a non-aggregate countries.json code`);
+          if (i > 0 && t[1] > list[i - 1][1]) fail(`partners ${k}: not largest first`);
+          sum += t[1];
+        });
+        if (sum > want! * (1 + PRODUCTS_TOL.countrySumShare) + PRODUCTS_TOL.goodsAbs) fail(`partners ${level} ${k}: ${list.length} countries sum to $${sum}, more than the all-countries $${want}`);
+        if (list.length === 0 && want! > PRODUCTS_TOL.goodsAbs) fail(`partners ${level} ${k}: no countries for $${want}`);
+      }
+    }
+  }
 
   // All countries vs the World goods total (Census basis), full years only.
   let worstNational: Gap | null = null;

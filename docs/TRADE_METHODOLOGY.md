@@ -149,6 +149,17 @@ refetch. `descriptions.json` keeps Census's short descriptions. The API's aggreg
 numbering from `country.xlsx`) are dropped; partners map to `country_code` through `countries.json`, and recoded
 partners (Sudan 7320/7321) are summed, as in the goods file.
 
+**Partner rankings.** Each raw year file also carries `partners`: for the year's top 25 all-countries goods
+headings (the "Top products" list), that heading's top 10 partners, as `[CTY_CODE, HS4, ...values]`. These come
+from the same batched calls as the headings above, in which the API returns every partner for a heading, so the
+ranking is exact. The per-partner top-25 lists cannot give it: a partner keeps only its 25 largest headings, so
+for the lower-ranked national headings (rank 15-25, where a top country's value in that heading can be smaller
+than Canada's or Mexico's 25th-largest heading) most years' top five could not be proven (553 of 850 lists on the
+first attempt). `pnpm fetch:census-products --partners-only` fills the field into the existing files with about ten
+calls (new headings that reached a top 25 since the last full fetch only); a full or `--recent` fetch keeps it
+current. The transform fails if a year has no rankings, if a top heading has no rows, or if a partner's own file
+(where it also lists the heading) differs by a dollar.
+
 **Outputs.**
 
 | File | Grain |
@@ -156,6 +167,7 @@ partners (Sudan 7320/7321) are summed, as in the goods file.
 | `trade_products/<country_code>.json` | one row per (year, flow) for that partner: `value` (and `con_value`, `duties` for imports), every chapter with trade, the top 10 goods headings, and every special heading in `special` |
 | `trade_products_national.json` | the same per (year, flow) for all countries together (the API's all-countries row), top 25 goods headings |
 | `trade_products_headings.json` | every heading in either file: chapter, Census's description, special-heading labels by flow |
+| `trade_products_partners.json` | one row per (year, flow): the top 5 partners behind each chapter (from the partners' chapter rows: exact) and each all-countries top heading (from the raw `partners` rows: exact), in the same tuples |
 
 Sharded by partner because the page loads one country at a time. Lists are tuples (`[code, value]`, or
 `[code, value, con_value, duties]` for imports), largest first, to keep the files small.
@@ -250,6 +262,11 @@ shows, and why:
   to Canada, 0.76% below (Census revision timing, above), computed at build so the note follows the data.
 - *Before 2010* there is no product data: the card says so and offers 2010, which also moves the partners card
   (they share one year).
+- *Top countries behind a line:* with all countries showing, a clicked chapter or product also opens a panel under
+  its row with the five countries that sent or took the most of it, on the line's own dollars (bar = share of the
+  line; imports add each country's collected rate in that product, exports its share). One small static file per
+  year, `/data/trade/product-partners/[year]` (from `trade_products_partners.json`), fetched the first time a line opens, for the year on screen. With
+  one country picked there is nothing to break down, so a click only highlights.
 
 ## Country codes
 

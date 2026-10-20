@@ -84,3 +84,21 @@ export const tradeProductsHeading = z
   })
   .strict();
 export type TradeProductsHeading = z.infer<typeof tradeProductsHeading>;
+
+/**
+ * The partners behind each product: for one (year, flow), the countries that sent or took the most of each
+ * chapter and of each all-countries top heading, largest first, in the same tuples as the lists above.
+ * `trade_products_partners.json`, one row per (year, flow). Chapters are exact (every partner carries every
+ * chapter). A heading lists only the ranks that are provably right: partners keep their top 25 headings, so a
+ * country missing from a heading's list could still hold up to its 25th-largest heading's value; the list stops
+ * before any rank that bound could displace. See docs/TRADE_METHODOLOGY.md ("Partners behind each product").
+ */
+export const tradeProductsPartnersRow = z.discriminatedUnion("flow", [
+  z
+    .object({ ...common, flow: z.literal("exports"), chapters: z.record(hs2, z.array(exportsItem(country_code))), headings: z.record(hs4, z.array(exportsItem(country_code))) })
+    .strict(),
+  z
+    .object({ ...common, flow: z.literal("imports"), chapters: z.record(hs2, z.array(importsItem(country_code))), headings: z.record(hs4, z.array(importsItem(country_code))) })
+    .strict(),
+]);
+export type TradeProductsPartnersRow = z.infer<typeof tradeProductsPartnersRow>;

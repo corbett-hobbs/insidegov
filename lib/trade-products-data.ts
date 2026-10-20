@@ -1,7 +1,7 @@
 import "server-only";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsRow } from "./trade-products-entities";
+import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsPartnersRow, tradeProductsRow, type TradeProductsPartnersRow } from "./trade-products-entities";
 import { headingName } from "./trade-hs-headings";
 import { ALL_PRODUCTS, type TradeProductsPayload } from "./trade-products";
 
@@ -51,4 +51,9 @@ export function getProductsPayload(code: string): TradeProductsPayload | null {
   const names: Record<string, string> = {};
   for (const r of rows) for (const h of r.headings) names[h[0]] ??= headingName(h[0], d.get(h[0]));
   return { code: code === ALL_PRODUCTS ? null : code, rows, names };
+}
+
+/** The top countries behind each chapter and top heading, every (year, flow): `trade_products_partners.json`. Country names are added by the route. */
+export function getProductPartnerRows(): TradeProductsPartnersRow[] {
+  return (JSON.parse(readFileSync(join(OUT, "trade_products_partners.json"), "utf8")) as unknown[]).map((r) => tradeProductsPartnersRow.parse(r));
 }

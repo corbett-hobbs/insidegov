@@ -19,6 +19,13 @@ export const PRODUCTS_FIRST_YEAR = 2010;
  * a refetch. Special headings (chapters 98-99) are always kept, all of them.
  */
 export const RAW_HEADINGS_K = 25;
+/**
+ * The all-countries top goods headings that get a partner ranking (the products card's "Top products" list), and how
+ * many partners are kept for each: the API returns every partner for a heading, so these rankings are exact, which
+ * the per-partner top-`RAW_HEADINGS_K` lists above cannot give for the lower-ranked headings.
+ */
+export const RAW_PARTNER_HEADINGS = 25;
+export const RAW_PARTNERS_K = 10;
 
 export const FLOWS = ["exports", "imports"] as const;
 export type Flow = (typeof FLOWS)[number];
@@ -68,6 +75,13 @@ const rawProducts = z
     heading_k: z.number().int().positive(),
     chapters: z.array(row),
     headings: z.array(row),
+    /**
+     * For each of the year's top `RAW_PARTNER_HEADINGS` all-countries goods headings, its top `partners_k` partners
+     * (every partner was in the API response, so the ranking is exact): `[CTY_CODE, HS4, ...values]`, heading by
+     * heading, largest first. Absent in a snapshot fetched before partner rankings existed.
+     */
+    partners_k: z.number().int().positive().optional(),
+    partners: z.array(row).optional(),
   })
   .strict();
 export type RawProducts = z.infer<typeof rawProducts>;
@@ -76,11 +90,11 @@ export type RawProductRow = RawProducts["chapters"][number];
 export function parseRawProducts(value: unknown): RawProducts {
   const r = rawProducts.parse(value);
   const width = r.flow === "exports" ? 3 : 5;
-  for (const x of [...r.chapters, ...r.headings]) {
+  for (const x of [...r.chapters, ...r.headings, ...(r.partners ?? [])]) {
     if (x.length !== width) throw new Error(`products raw ${r.flow} ${r.year}: row ${JSON.stringify(x)} has ${x.length} cells, expected ${width}`);
   }
   for (const x of r.chapters) if (!/^\d{2}$/.test(x[1])) throw new Error(`products raw ${r.flow} ${r.year}: bad chapter "${x[1]}"`);
-  for (const x of r.headings) if (!/^\d{4}$/.test(x[1])) throw new Error(`products raw ${r.flow} ${r.year}: bad heading "${x[1]}"`);
+  for (const x of [...r.headings, ...(r.partners ?? [])]) if (!/^\d{4}$/.test(x[1])) throw new Error(`products raw ${r.flow} ${r.year}: bad heading "${x[1]}"`);
   return r;
 }
 
@@ -101,8 +115,8 @@ export function parseRawDescriptions(value: unknown): RawDescriptions {
 /** One row per line inside a small object, so a refresh diffs by row in git. */
 export function serializeRawProducts(r: RawProducts): string {
   const rows = (a: RawProductRow[]) => (a.length ? `[\n${a.map((x) => JSON.stringify(x)).join(",\n")}\n]` : "[]");
-  const head = { fetched_at: r.fetched_at, flow: r.flow, year: r.year, through_month: r.through_month, heading_k: r.heading_k };
-  return `${JSON.stringify(head).slice(0, -1)},\n"chapters": ${rows(r.chapters)},\n"headings": ${rows(r.headings)}\n}\n`;
+  const head = { fetched_at: r.fetched_at, flow: r.flow, year: r.year, through_month: r.through_month, heading_k: r.heading_k, ...(r.partners_k ? { partners_k: r.partners_k } : {}) };
+  return `${JSON.stringify(head).slice(0, -1)},\n"chapters": ${rows(r.chapters)},\n"headings": ${rows(r.headings)}${r.partners ? `,\n"partners": ${rows(r.partners)}` : ""}\n}\n`;
 }
 
 /**
@@ -125,3 +139,21 @@ export function pruneHeadings(rows: RawProductRow[], k: number): RawProductRow[]
 }
 
 export const sortRows = (rows: RawProductRow[]) => rows.sort((a, b) => (a[0] === b[0] ? a[1].localeCompare(b[1]) : a[0] === "-" ? -1 : b[0] === "-" ? 1 : a[0].localeCompare(b[0])));
+
+/** The `n` largest goods headings (chapters 01-97) in the all-countries ("-") rows, by first value; ties by code. */
+export function nationalTopHeadings(rows: RawProductRow[], n: number): string[] {
+  return rows
+    .filter((r) => r[0] === "-" && !isSpecialHs(r[1]))
+    .sort((a, b) => Number(b[2]) - Number(a[2]) || a[1].localeCompare(b[1]))
+    .slice(0, n)
+    .map((r) => r[1]);
+}
+
+/** For each heading in `headings`, its `k` largest partner rows (by first value; ties by partner code), in `sortRows` order. */
+export function topPartnerRows(rows: RawProductRow[], headings: ReadonlySet<string>, k: number): RawProductRow[] {
+  const byHeading = new Map<string, RawProductRow[]>();
+  for (const r of rows) if (r[0] !== "-" && headings.has(r[1])) byHeading.set(r[1], [...(byHeading.get(r[1]) ?? []), r]);
+  const out: RawProductRow[] = [];
+  for (const list of byHeading.values()) out.push(...list.sort((a, b) => Number(b[2]) - Number(a[2]) || a[0].localeCompare(b[0])).slice(0, k));
+  return out.sort((a, b) => a[1].localeCompare(b[1]) || Number(b[2]) - Number(a[2]) || a[0].localeCompare(b[0]));
+}
