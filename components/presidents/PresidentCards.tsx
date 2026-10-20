@@ -215,7 +215,6 @@ export function CountCard({ title, takeaway, panel, slots, breakdown, breakdownL
   );
 }
 
-const partyName = (p: Party) => (p === "D" ? "Democrats" : "Republicans");
 const chipStyle = (p: Party) => ({ background: `color-mix(in oklab, var(${p === "D" ? "--dem" : "--rep"}) 16%, var(--surface))`, borderLeft: `3px solid var(${p === "D" ? "--dem" : "--rep"})` });
 
 function Chip({ chamber, party, seats }: { chamber: string; party: Party; seats: [number, number, number] }) {
@@ -253,7 +252,6 @@ export function CongressCard({ congress, takeaway, notes, wide, more }: { congre
       {congress.rows.some((r) => r.senateChanged) && (
         <p className="m-0 text-[0.72rem] text-ink-muted">* The Senate majority changed hands during this Congress; the chip shows the party that held it longer while this president was in office.</p>
       )}
-      <p className="m-0 text-[0.72rem] text-ink-muted">Seats are at the start of each Congress. {partyName("D")} and {partyName("R")} include the independents who caucused with them.</p>
     </CardShell>
   );
 }
