@@ -95,16 +95,8 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
 
       {list.length > 0 && (
         <>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
+          <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
             <span>Passage votes and Court votes</span>
-            <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
-              <i aria-hidden className="inline-block size-2.5 rounded-[3px] bg-ink" />
-              Law
-            </span>
-            <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
-              <i aria-hidden className="inline-block size-2.5 rounded-full bg-ink" />
-              Court case
-            </span>
           </div>
           <ul tabIndex={0} aria-label="Landmark laws and cases, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-0 touch-scroll">
             {list.map((e) => (
