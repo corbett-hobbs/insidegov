@@ -47,12 +47,9 @@ export function MemberProfileView({
   wealthProfile,
   bio,
 }: MemberProfileViewProps) {
-  const explorerHref =
-    profile.chamber === "house" ? "/congress/ideology?chamber=house" : "/congress/ideology";
-
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-6 pb-16 pt-11">
-      <SetBackLink href={explorerHref} />
+      <SetBackLink href="/congress/members" />
 
       <ProfileHeader profile={profile} bio={bio} />
 
