@@ -117,11 +117,15 @@ export function LawsListCard() {
             );
           })}
         </div>
-        {major && (
-          <Chip onClear={() => setMajor(false)} label="Clear the major laws filter">
-            Major laws
-          </Chip>
-        )}
+        <button
+          type="button"
+          aria-pressed={major}
+          onClick={() => setMajor(!major)}
+          title="Only the laws on David Mayhew’s lists of important enactments"
+          className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.75rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${major ? "border-ink bg-surface text-ink" : "border-line-strong bg-surface-raised text-ink-muted hover:text-ink"}`}
+        >
+          Major laws
+        </button>
         {groups !== null && (
           <Chip onClear={() => setGroups(null)} label="Clear the policy area filter">
             {filterLabel(data, groups)}
