@@ -46,7 +46,7 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
   const takeaway =
     nLaws === 0 && nCases === 0
       ? `No landmark laws or Supreme Court cases on the Timeline fall in ${p.last}'s time in office.`
-      : `${fmtInt(nLaws)} landmark law${nLaws === 1 ? "" : "s"} and ${fmtInt(nCases)} Supreme Court case${nCases === 1 ? "" : "s"} fall in ${p.last}'s time in office, set against who held Congress and the Court.`;
+      : `${fmtInt(nLaws)} landmark law${nLaws === 1 ? "" : "s"} and ${fmtInt(nCases)} Supreme Court case${nCases === 1 ? "" : "s"} from ${p.last}'s time in office: the few the era is best remembered for, picked by hand for the Timeline page and set against who held Congress and the Court.`;
 
   return (
     <CardShell title="Landmark laws and cases" takeaway={takeaway} wide notes={NOTES.timeline} more={{ href: "/timeline", label: "Timeline" }}>

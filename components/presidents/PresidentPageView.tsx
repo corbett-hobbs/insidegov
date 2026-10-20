@@ -9,10 +9,10 @@ import { dateLabel, ordinalWord, termYears } from "@/lib/president-derive";
 import { congressTakeaway, fmtInt, panelTakeaway, tenureText } from "@/lib/president-format";
 import { presidentPath, PRESIDENTS_PATH } from "@/lib/president-url";
 import type { PresidentPageData, SeriesCardId, SeriesPanel } from "@/lib/president-types";
-import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
+import { CongressCard, CountCard, JusticesCard, LawsCard, SeriesCard, type PresidentLite } from "./PresidentCards";
 import { PresidentTimelineCard } from "./PresidentTimelineCard";
 import { PresidentPortrait } from "./PresidentPortrait";
-import { MAJOR_LAW_DEFINITION, MORE, NOTES } from "./notes";
+import { MAJOR_LAW_DEFINITION, MAJOR_LIST_NOTE, MORE, NOTES } from "./notes";
 
 /** Previous / next president: a small round portrait (initials when there is none) beside the name, shown as the surname so the row fits the header's 500px identity column on one line. */
 function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPageData["prev"]>; dir: "prev" | "next" }) {
@@ -170,9 +170,6 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
   const serving = last.end === null;
   const ordinals = p.terms.map((t) => ordinalWord(t.ordinal)).join(" and ");
 
-  const lawsTakeaway = data.laws
-    ? `Signed ${fmtInt(data.laws.signed)} laws${data.laws.major !== null ? `, ${fmtInt(data.laws.major)} of them major laws` : ""}${data.laws.overridden ? `. Congress enacted ${fmtInt(data.laws.overridden)} more over a veto` : ""}.`
-    : "";
   const eosTakeaway = data.eos
     ? `Signed ${fmtInt(data.eos.total)} executive orders${data.eos.topics[0] ? `; the most common topic was ${data.eos.topics[0].label.toLowerCase()} (${fmtInt(data.eos.topics[0].n)})` : ""}.`
     : "";
@@ -191,7 +188,11 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         : data.laws?.majorPartial
           ? "Later term not yet assessed"
           : undefined;
-  const counts = [data.laws ? "laws" : null, data.eos ? "eos" : null].filter(Boolean);
+  const majorCount = (data.laws?.majorList.length ?? 0) + data.earlyMajor.length;
+  const majorPart = data.laws?.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : "";
+  const lawsCardTakeaway = data.laws
+    ? `Signed ${fmtInt(data.laws.signed)} laws${first.start < "1973-01-03" ? " from 1973, when the site's full record of laws begins" : ""}${data.laws.overridden ? `; Congress enacted ${fmtInt(data.laws.overridden)} more over a veto` : ""}.${majorCount > 0 ? ` ${fmtInt(majorCount)} major laws${first.start < "1973-01-03" ? " over the whole time in office" : ""} are listed with how each passed the House and Senate.` : ""}${majorPart}`
+    : `${fmtInt(majorCount)} of the laws ${p.last} signed are major laws, listed newest first with how each passed the House and Senate. The site's full record of laws starts in 1973, so earlier years show the major laws only.`;
 
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
@@ -259,46 +260,25 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
         <JusticesCard justices={data.justices} takeaway={justicesTakeaway(data)} notes={NOTES.justices} more={MORE.justices} />
       </Row>
 
-      {(counts.length > 0 || data.earlyMajor.length > 0 || data.timeline !== null) && (
-        <Row label="Laws and orders" id="laws">
+      {(data.laws || majorCount > 0 || data.timeline) && (
+        <Row label="Laws" id="laws">
           {data.timeline && <PresidentTimelineCard p={p} timeline={data.timeline} />}
-          {data.laws && (
-            <CountCard
+          {(data.laws || majorCount > 0) && (
+            <LawsCard
               title="Laws signed"
-              takeaway={lawsTakeaway}
-              panel={data.laws.panel}
-              coverage={data.laws.coverage}
-              slots={1}
-              breakdown={data.laws.groups}
-              breakdownLabel="By policy area"
+              takeaway={lawsCardTakeaway}
+              count={data.laws ? { panel: data.laws.panel, coverage: data.laws.coverage, breakdown: data.laws.groups } : null}
               president={lite}
-              notes={NOTES.laws(data.laws.dataThrough)}
-              more={MORE.laws}
-              wide={counts.length === 1}
-            />
-          )}
-          {data.eos && (
-            <CountCard
-              title="Executive orders"
-              takeaway={eosTakeaway}
-              panel={data.eos.panel}
-              coverage={data.eos.coverage}
-              slots={1}
-              breakdown={data.eos.topics}
-              breakdownLabel="By topic"
-              president={lite}
-              notes={NOTES.eos}
-              more={MORE.eos}
-              wide={counts.length === 1}
-            />
-          )}
-          {(data.laws?.majorList.length || data.earlyMajor.length) > 0 && (
-            <MajorLawsCard
-              laws={data.laws?.majorList ?? []}
+              major={data.laws?.majorList ?? []}
               early={data.earlyMajor}
-              takeaway={`${fmtInt((data.laws?.majorList.length ?? 0) + data.earlyMajor.length)} of the laws ${p.last} signed are counted as important enactments, newest first, with how each passed the House and Senate.${data.laws?.majorPartial ? ` Laws after the ${ordinalWord(data.laws.majorThrough)} Congress are not yet assessed.` : ""}`}
-              notes={NOTES.major}
-              more={MORE.major}
+              listNote={MAJOR_LIST_NOTE}
+              notes={
+                <>
+                  {data.laws && NOTES.laws(data.laws.dataThrough)}
+                  {majorCount > 0 && NOTES.major}
+                </>
+              }
+              more={MORE.laws}
             />
           )}
         </Row>
@@ -326,6 +306,24 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
           </Row>
         );
       })}
+
+      {data.eos && (
+        <Row label="Executive orders" id="orders">
+          <CountCard
+            title="Executive orders signed"
+            takeaway={eosTakeaway}
+            panel={data.eos.panel}
+            coverage={data.eos.coverage}
+            slots={1}
+            breakdown={data.eos.topics}
+            breakdownLabel="By topic"
+            president={lite}
+            notes={NOTES.eos}
+            more={MORE.eos}
+            wide
+          />
+        </Row>
+      )}
 
       <MethodologyNote className="-mb-3">
       

@@ -100,4 +100,8 @@ export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos
 };
 
 /** What "major law" means, for the directory's column key and the president page's tile. */
+/** Under the major-laws list: what "major" means, and how it differs from the landmark card above it. */
+export const MAJOR_LIST_NOTE =
+  "The laws named on political scientist David Mayhew\u2019s lists of important enactments, judged from news coverage at the time and later policy studies: the count used across the site. The landmark laws above are a much shorter hand-picked list of the best remembered, shown with the era\u2019s big court cases.";
+
 export const MAJOR_LAW_DEFINITION = "A major law is one that political scientist David Mayhew\u2019s lists of important enactments name, judged from the press at the time and later policy studies. His lists run through the 118th Congress.";

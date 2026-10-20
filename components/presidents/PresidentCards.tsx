@@ -322,10 +322,43 @@ export function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally | nu
   );
 }
 
-export function MajorLawsCard({ title = "Major laws signed", laws, early = [], notes, takeaway, more }: { title?: string; early?: EarlyMajorLaw[]; laws: { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } }[]; notes: ReactNode; takeaway: ReactNode; more?: MoreLink }) {
-  return (
-    <CardShell title={title} takeaway={takeaway} wide notes={notes} more={more} className="md:mt-6">
-      {(laws.length > 0 || early.length > 0) && (
+type MajorLawRow = { title: string; date: string; path: string; summary: string; votes: string; house: ChamberTally; senate: ChamberTally; area: { label: string; color: string } };
+
+/**
+ * Laws signed, one card: the bars per year in office and the split by policy area (from 1973), beside the major laws, newest first, each
+ * with its summary and passage votes (rule: one card per subject, so the count and the list behind it read together). Before 1973 only
+ * the list. `listNote` is the line under the list's heading that says what "major" means and how it differs from the landmark card above.
+ */
+export function LawsCard({
+  title,
+  takeaway,
+  count,
+  president,
+  major,
+  early,
+  listNote,
+  notes,
+  more,
+}: {
+  title: string;
+  takeaway: ReactNode;
+  count: { panel: SeriesPanel; coverage?: string; breakdown: CountBreakdown[] } | null;
+  president: PresidentLite;
+  major: MajorLawRow[];
+  early: EarlyMajorLaw[];
+  listNote: ReactNode;
+  notes: ReactNode;
+  more?: MoreLink;
+}) {
+  const n = major.length + early.length;
+  const list = n > 0 && (
+    <div className="flex min-w-0 flex-col gap-2">
+      <div>
+        <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
+          Major laws <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(n)}</span>
+        </p>
+        <p className="m-0 mt-1 text-[0.75rem] leading-[1.45] text-ink-muted">{listNote}</p>
+      </div>
       <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
         <span>Passage votes</span>
         <span className="inline-flex items-center gap-1.5 normal-case tracking-normal">
@@ -337,43 +370,53 @@ export function MajorLawsCard({ title = "Major laws signed", laws, early = [], n
           Nay
         </span>
       </div>
-      )}
-      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[28rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-0 touch-scroll">
-        {laws.map((l) => (
-          <li key={l.path} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
-            <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{dateLabel(l.date)}</span>
-            <span className="min-w-0">
-              <span className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
-                <Link href={l.path} className="min-w-0 text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
-                  {l.title}
-                </Link>
-                <span className="ml-auto inline-flex flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted">
-                  <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: l.area.color }} />
-                  {l.area.label}
-                </span>
+      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[30rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 touch-scroll">
+        {major.map((l) => (
+          <li key={l.path} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
+            <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+              <span className="font-mono text-[0.7rem] text-ink-muted">{dateLabel(l.date)}</span>
+              <span className="inline-flex flex-none items-center gap-1 whitespace-nowrap text-[0.68rem] text-ink-muted">
+                <i aria-hidden className="inline-block size-2 flex-none rounded-[2px]" style={{ background: l.area.color }} />
+                {l.area.label}
               </span>
-              {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-              <span className="mt-1 flex gap-3">
-                <MiniVote chamber="House" t={l.house} />
-                <MiniVote chamber="Senate" t={l.senate} />
-              </span>
+            </span>
+            <Link href={l.path} className="mt-0.5 block text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+              {l.title}
+            </Link>
+            {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
+            <span className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+              <MiniVote chamber="House" t={l.house} />
+              <MiniVote chamber="Senate" t={l.senate} />
             </span>
           </li>
         ))}
         {early.map((l) => (
-          <li key={l.title} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
-            <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{l.year ?? (l.congress ? `${l.congress}th Congress` : "")}</span>
-            <span className="min-w-0">
-              <span className="text-ink">{l.title}</span>
-              {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-              <span className="mt-1 flex gap-3">
-                <MiniVote chamber="House" t={l.house} />
-                <MiniVote chamber="Senate" t={l.senate} />
-              </span>
+          <li key={l.title} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
+            <span className="font-mono text-[0.7rem] text-ink-muted">{l.year ?? (l.congress ? `${ordinalWord(l.congress)} Congress` : "")}</span>
+            <span className="mt-0.5 block text-ink">{l.title}</span>
+            {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
+            <span className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+              <MiniVote chamber="House" t={l.house} />
+              <MiniVote chamber="Senate" t={l.senate} />
             </span>
           </li>
         ))}
       </ul>
+    </div>
+  );
+  return (
+    <CardShell title={title} takeaway={takeaway} wide notes={notes} table={count ? <PanelTables panels={[{ ...count.panel, coverage: count.coverage }]} /> : undefined} more={more}>
+      {count ? (
+        <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
+          <div className="flex min-w-0 flex-col gap-4">
+            <Panel panel={{ ...count.panel, coverage: count.coverage }} plotH={PLOT_H} president={president} />
+            <Breakdown items={count.breakdown} label="By policy area" />
+          </div>
+          {list || <p className="m-0 text-[0.8rem] text-ink-muted">No major laws assessed for this term yet.</p>}
+        </div>
+      ) : (
+        list
+      )}
     </CardShell>
   );
 }
