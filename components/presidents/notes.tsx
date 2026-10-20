@@ -27,7 +27,7 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "l
   ),
   landmarks: (
     <p>
-      The laws picked as landmarks for the Timeline page, each with the year it was signed. It is an editorial list, not a count: David Mayhew&rsquo;s lists of important enactments, which the other presidents&rsquo; pages use, start with the 80th Congress in 1947, so the 1933&ndash;46 laws have no list to count from and no law pages or vote tallies on this site.
+      The laws picked as landmarks for the Timeline page, each with the year it was signed and a link to its Wikipedia article. It is an editorial list, not a count: David Mayhew&rsquo;s lists of important enactments, which the other presidents&rsquo; pages use, start with the 80th Congress in 1947, so the 1933&ndash;46 laws have no list to count from and no law pages or vote tallies on this site.
     </p>
   ),
   major: (

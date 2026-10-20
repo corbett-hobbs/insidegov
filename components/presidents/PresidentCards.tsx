@@ -364,7 +364,14 @@ export function MajorLawsCard({ title = "Major laws signed", laws, early = [], n
           <li key={l.title} className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
             <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{l.year ?? (l.congress ? `${l.congress}th Congress` : "")}</span>
             <span className="min-w-0">
-              <span className="text-ink">{l.title}</span>
+              {l.href ? (
+                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-line-strong underline-offset-2 hover:decoration-accent">
+                  {l.title}
+                  <span className="sr-only"> (Wikipedia, opens in a new tab)</span>
+                </a>
+              ) : (
+                <span className="text-ink">{l.title}</span>
+              )}
               {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
             </span>
           </li>

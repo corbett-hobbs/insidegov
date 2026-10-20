@@ -172,6 +172,8 @@ export interface EarlyMajorLaw {
   summary: string;
   /** Mayhew printed the entry in capitals, his mark for the most important. */
   capitals: boolean;
+  /** Wikipedia article for a landmark law (Mayhew's early entries have none). */
+  href?: string;
 }
 
 export interface LawsSummary {

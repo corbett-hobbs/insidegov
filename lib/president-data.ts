@@ -349,13 +349,13 @@ export function getPresidentPage(slug: string): PresidentPageData | null {
 
 /** Timeline landmark laws signed in the president's time in office before Mayhew's first list (1947). */
 function landmarksFor(p: PresidentRef, now: string): EarlyMajorLaw[] {
-  const events = z.array(z.looseObject({ kind: z.string(), name: z.string(), what: z.string(), date: z.string().optional() })).parse(
+  const events = z.array(z.looseObject({ kind: z.string(), name: z.string(), what: z.string(), date: z.string().optional(), wiki: z.string().optional() })).parse(
     JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "timeline-events.json"), "utf8")).events,
   );
   return events
     .filter((e) => e.kind === "law" && e.date !== undefined && e.date < MAYHEW_START && inTerms(e.date, p.terms, now))
     .sort((a, b) => (a.date! < b.date! ? 1 : -1))
-    .map((e) => ({ title: e.name, year: Number(e.date!.slice(0, 4)), congress: null, summary: e.what, capitals: false }));
+    .map((e) => ({ title: e.name, year: Number(e.date!.slice(0, 4)), congress: null, summary: e.what, capitals: false, href: e.wiki ? `https://en.wikipedia.org/wiki/${encodeURIComponent(e.wiki.replace(/ /g, "_"))}` : undefined }));
 }
 
 let earlyCache: MayhewEarlyEntry[] | null = null;
