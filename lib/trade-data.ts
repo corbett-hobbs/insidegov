@@ -17,6 +17,8 @@ import { displayCountryName } from "./trade-names";
 import { getEraLayers } from "./indicator-data";
 import { getWorldMap } from "./foreign-aid-data";
 import { spanEnd } from "./trade-chart";
+import { monthIndexOfDay } from "./indicator-time";
+import { buildHubTariff, type HubTariff } from "./trade-hub";
 import type { EconomyPayload } from "./indicator-payload";
 import { tariffActionsFile } from "./tariff-actions-entities";
 import { buildScatterRows, scatterWindows, type ScatterRow, type ScatterWindows } from "./trade-scatter";
@@ -205,4 +207,22 @@ export function getTariffFlags(): { tariffFlags: TariffFlag[]; tariffLastReviewe
       rateNote: a.rate_note ?? null,
     })),
   };
+}
+
+/** The homepage Presidency card: the national duty rate with the presidential terms under it (`lib/trade-hub.ts`). */
+export function getHubTariff(): HubTariff {
+  const national = getTradeNational();
+  const { terms } = getEraLayers(spanEnd(monthIndex(national.lastPeriod)));
+  return buildHubTariff(
+    national.duties,
+    national.dutyImports,
+    terms.map((t) => ({
+      label: t.label,
+      party: t.party,
+      startYear: t.startYear,
+      endYear: t.endYear,
+      m0: monthIndexOfDay(t.s),
+      m1: monthIndexOfDay(t.e - 1),
+    })),
+  );
 }
