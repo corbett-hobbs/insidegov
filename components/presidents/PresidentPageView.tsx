@@ -13,7 +13,7 @@ import { CongressCard, CountCard, JusticesCard, MajorLawsCard, SeriesCard, type 
 import { PresidentPortrait } from "./PresidentPortrait";
 import { MORE, NOTES } from "./notes";
 
-/** Previous / next president: a small round portrait (initials when there is none) beside the name, shown as the surname so the row fits the header's 380px identity column on one line. */
+/** Previous / next president: a small round portrait (initials when there is none) beside the name, shown as the surname so the row fits the header's 500px identity column on one line. */
 function NeighbourLink({ president, dir }: { president: NonNullable<PresidentPageData["prev"]>; dir: "prev" | "next" }) {
   const thumb = president.photo ? (
     // eslint-disable-next-line @next/next/no-img-element
@@ -141,9 +141,9 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
       <SetBackLink href={PRESIDENTS_PATH} />
 
       <header className="flex flex-col gap-4">
-        {/* Same layout as the member and justice headers: portrait and identity on the left (380px from lg), the Wikipedia lead on the right. */}
+        {/* Same layout as the member and justice headers: portrait and identity on the left (500px from lg), the Wikipedia lead on the right. */}
         <div className={data.bio ? "flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-0" : "flex flex-row items-start gap-4 sm:gap-6"}>
-          <div className={`flex min-w-0 flex-col gap-4 ${data.bio ? "lg:w-[380px] lg:flex-none" : ""}`}>
+          <div className={`flex min-w-0 flex-col gap-4 ${data.bio ? "lg:w-[500px] lg:flex-none" : ""}`}>
             <div className="flex flex-row items-start gap-4 sm:gap-6">
               <PresidentPortrait president={p} size="lg" />
               <div className="min-w-0">
@@ -165,11 +165,11 @@ export function PresidentPageView({ data }: { data: PresidentPageData }) {
             </nav>
           </div>
           {data.bio && (
-            <section aria-label="About" className="border-t border-line pt-4 lg:relative lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-              <div className="flex flex-col gap-1.5 lg:absolute lg:inset-0 lg:overflow-hidden">
+            <section aria-label="About" className="border-t border-line pt-4 lg:min-w-0 lg:flex-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <div className="flex flex-col gap-1.5 lg:h-full lg:justify-center">
                 <p className="flex-none font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-faint">About</p>
-                <p className="font-serif text-[1.0625rem] leading-[1.35] text-ink lg:line-clamp-4 lg:min-h-0 lg:text-base">{data.bio.extract}</p>
-                <p className="flex-none text-xs leading-[1.4] text-ink-muted lg:whitespace-nowrap">
+                <p className="font-serif text-[1.0625rem] leading-[1.35] text-ink lg:text-[1.3rem] lg:leading-[1.4]">{data.bio.extract}</p>
+                <p className="flex-none text-xs leading-[1.4] text-ink-muted ">
                   From{" "}
                   <a href={data.bio.url} rel="noopener" className="text-accent underline underline-offset-2">
                     Wikipedia
