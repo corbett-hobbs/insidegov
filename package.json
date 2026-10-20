@@ -30,6 +30,7 @@
     "fetch:census-trade": "tsx pipeline/fetch/census-trade.ts",
     "fetch:census-products": "tsx pipeline/fetch/census-products.ts",
     "fetch:census-enduse": "tsx pipeline/fetch/census-enduse.ts",
+    "fetch:census-productuse": "tsx pipeline/fetch/census-productuse.ts",
     "fetch:foreign-assistance": "tsx pipeline/fetch/foreign-assistance.ts",
     "fetch:dmdc-location": "tsx pipeline/fetch/dmdc-location.ts",
     "fetch:troopdata": "tsx pipeline/fetch/troopdata.ts",
