@@ -306,11 +306,11 @@ const NAY = "var(--line)";
 export function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally | null }) {
   const share = t && yeaShare(t[1], t[2]);
   return (
-    <span className="inline-flex w-[9.25rem] flex-none items-center gap-1.5 text-[0.68rem] text-ink-muted">
-      <span className="w-[2.6rem] flex-none">{chamber}</span>
+    <span className="inline-flex min-w-0 flex-1 items-center gap-1.5 text-[0.68rem] text-ink-muted sm:w-[9.25rem] sm:flex-none">
+      <span className="w-[2.3rem] flex-none sm:w-[2.6rem]">{chamber}</span>
       {t && t[0] === 0 && share !== null ? (
         <>
-          <span aria-hidden className="flex h-1.5 w-10 flex-none overflow-hidden rounded-full" style={{ background: NAY }}>
+          <span aria-hidden className="flex h-1.5 w-8 flex-none overflow-hidden rounded-full sm:w-10" style={{ background: NAY }}>
             <span style={{ width: `${share * 100}%`, background: YEA }} />
           </span>
           <span className="whitespace-nowrap font-mono tabular-nums">{`${t[1]}–${t[2]}`}</span>
@@ -387,7 +387,7 @@ export function LawsCard({
               {l.title}
             </Link>
             {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-            <span className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+            <span className="mt-1 flex gap-3">
               <MiniVote chamber="House" t={l.house} />
               <MiniVote chamber="Senate" t={l.senate} />
             </span>
@@ -398,7 +398,7 @@ export function LawsCard({
             <span className="font-mono text-[0.7rem] text-ink-muted">{l.year ?? (l.congress ? `${ordinalWord(l.congress)} Congress` : "")}</span>
             <span className="mt-0.5 block text-ink">{l.title}</span>
             {l.summary && <span className="mt-0.5 block text-[0.75rem] leading-[1.45] text-ink-muted">{l.summary}</span>}
-            <span className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+            <span className="mt-1 flex gap-3">
               <MiniVote chamber="House" t={l.house} />
               <MiniVote chamber="Senate" t={l.senate} />
             </span>
