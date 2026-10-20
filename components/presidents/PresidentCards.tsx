@@ -439,7 +439,7 @@ export function LawsCard({
     </div>
   );
   return (
-    <CardShell title={title} takeaway={takeaway} wide notes={notes} table={count ? <PanelTables panels={[{ ...count.panel, coverage: count.coverage }]} /> : undefined} more={more}>
+    <CardShell title={title} takeaway={takeaway} wide className="md:mt-6" notes={notes} table={count ? <PanelTables panels={[{ ...count.panel, coverage: count.coverage }]} /> : undefined} more={more}>
       {count ? (
         <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
           <div className="flex min-w-0 flex-col gap-4">
