@@ -388,6 +388,106 @@ civilian-aircraft asymmetry (exports one line, imports three). The partner lag n
 end-use and HS files agree to the dollar. `next.config.ts` keeps `trade_enduse/**` and `trade_enduse_partners.json`
 out of every server function's trace (as for `trade_products`), since only those static routes read them.
 
+## Goods by product and use (HS heading x end use)
+
+What each product (HS heading) is *used for*, in dollars, 2010 on, all countries: the data behind a chapter -> product ->
+use Sankey. It joins the two classifications above ("Goods by product", "Goods by use") at the finest level Census
+publishes, the 10-digit HS line, so each heading's value is split exactly among the end-use categories its lines are filed
+under. Data layer only: no route or card reads it yet. Fetch `pipeline/fetch/census-productuse.ts` (library
+`census-productuse-lib.ts`, spreadsheet readers `pipeline/transform/xlsx.ts` and `xls.ts`); transform
+`pipeline/transform/trade-productuse.ts` (run from `trade-run.ts`); schema `lib/trade-product-use-entities.ts`.
+
+**Source.** Two Census downloads per (flow, year):
+
+- The HS10 values, `timeseries/intltrade/{exports,imports}/hs`, `COMM_LVL=HS10&CTY_CODE=-&time=<year>-12` (the year in
+  progress: its latest month, year to date). One call returns every line for all countries: 2025 exports 9,442 lines (0.45
+  MB, 4-14 s), imports 18,850 (1.3 MB, 7-14 s). Same variables as the other trade files: exports `ALL_VAL_YR`; imports
+  `GEN_VAL_YR`, `CON_VAL_YR`, `CAL_DUT_YR`. 34 calls for 2010-2026.
+- Census's yearly HS10 -> end-use concordance, `https://www.census.gov/foreign-trade/reference/codes/concordance/`
+  `expconcord<YY>` (Schedule B) and `impconcord<YY>` (HTS): one file per year and flow, `commodity` -> `end_use` (the
+  same five-digit codes as the `enduse` API, so a code is only read with its flow, as in "Goods by use"). 2010-2019 are
+  old binary `.xls` (read by `pipeline/transform/xls.ts`, a minimal BIFF8 reader, no dependency), 2020 on `.xlsx`. The
+  index page lists only up to 2022; 2023-2026 exist at the same URL pattern. Column order differs by year, so columns are
+  found by header name.
+
+Both are cached under `pipeline/raw/census-trade/product-use/_cache/` (git-ignored, 121 MB) so an interrupted run resumes
+and the join can be redone offline. Only the joined sums are committed:
+`pipeline/raw/census-trade/product-use/{exports,imports}/<year>.json`, `[HS4, end use, ...values]` summed over the HS10
+lines, whole dollars, one row per line (2.4 MB for both flows, 2010-2026, `assigned` lists included). A fetch from an empty cache
+reproduces them byte for byte (`fetched_at` is carried over while nothing changed).
+
+**The concordance is incomplete in 2017-2022** (found by the first full join; the feasibility check had only looked at 2025).
+Census builds each year's file before the codes added during the year, so some HS10 lines that trade have no row in their
+own year's file, and the code is in the *next* year's. Exports are affected 2017-2020 (12, 113, 2 and 4 lines), imports
+2017-2022 (up to 197 lines and $32.5B in 2020). The join therefore looks a line up in its own year's file, then the next
+year's, then the previous year's, then the hand maps below. Every line that did not come from its own year's file is listed
+in the raw file (`assigned`: HS10, end use, source year or `map`, value), counted per (year, flow) in `trade_report.json`
+(`product_use.assigned_lines`), and logged by the fetch. The adjacent-year answer is right where it can be checked: it takes
+the dollars that do not match the published end-use totals from $10.8B to $78M for 2018 imports, and from $16.4B to $0.5B
+for 2020 imports. A line still without a row fails `pnpm transform`, naming the HS10 code. A blank `end_use` cell is
+treated as no row (two in the 2016 imports file, neither with trade).
+
+**Hand maps** (`census-productuse-lib.ts`, each with the reasoning in its comment):
+
+- *Exports, chapter 98.* The statistical codes 9880002000 and 9880004000 (low-value estimate, $54.7B in 2025) -> `60000`,
+  9880006000 (undocumented exports to Canada, 2024 on) -> `60040`, 9870003000, 9870005000 and 9870007000 (special Canadian
+  classifications, $0.15B) -> `60010`. They are missing from the concordance from 2022 on; with the map every 2025 export category
+  matches to the dollar. A code a concordance does carry keeps that end use.
+- *Imports, 17 lines in 2017, 2021 and 2022* that no concordance has (2 in 2017: metal furniture 9403200022/24 -> `41000`;
+  5 in 2021: organic chemicals 2903392036/38/40 and 2931390020/30 -> `12540`; 10 in 2022: fresh vegetables `07xx` ->
+  `00130` and 2206009010/20 -> `00190`). Each takes the end use its numerically nearest HS10 neighbours share in the same
+  file; checked against the published totals (2017 imports: dollars under a different end use fell from $575M to $218M).
+  Keyed by year and code, so it cannot hide a new gap.
+
+**Special entries** are flagged, not dropped, as in the other files: a pair goes in `special` if its end use is in
+`ENDUSE_SPECIAL` (minimum-value shipments, returned goods...) *or* its heading is in chapter 98/99. Both stay in every sum.
+So a chapter-37 line filed under the special "Movies, miscellaneous imports" use is in `special` although its chapter is
+ordinary, and a chapter-98 line under an ordinary use is too. `value`, `con_value` and `duties` are sums over both lists.
+
+**Output** (`trade_product_use/<year>.json`, 2010-2026, 17 files, 2.3 MB; one row per flow, exports then imports; schema
+`lib/trade-product-use-entities.ts`, validated by Zod). A row is `{year, months, flow, value, [con_value, duties,] rows,
+special}`; `rows` and `special` hold tuples `[hs4, use, value]` (exports) or `[hs4, use, value, con_value, duties]` (imports),
+ordered by heading, then value, largest first. The chapter is `hs4.slice(0, 2)`. 2025: exports 1,793 + 15 pairs (48 KB, 16
+KB gzipped), imports 2,084 + 18 (93 KB, 37 KB gzipped; without `con_value` and duties it would be about 56 KB). A year's
+file is about 2,000 rows per flow, so every read the card needs is one pass in the browser (under a millisecond; tested in
+`trade-productuse.test.ts`):
+
+| Card read | From one flow's rows |
+| --- | --- |
+| Chapter -> top headings -> top uses | keep `hs4` starting with the chapter; sum by `hs4`; sum by `use` |
+| One heading -> its uses | keep that `hs4`; sum by `use` |
+| One use -> top chapters -> top headings | keep that `use`; sum by `hs4.slice(0, 2)`; sum by `hs4` |
+| A use's total from outside the selection | the use's total over **all** pairs (`rows` + `special`) minus the selection's |
+
+Use totals over all pairs equal `trade_enduse_national.json` up to the drift below. Names: end uses
+`lib/trade-enduse-labels.ts` (by flow); chapters `lib/trade-hs-chapters.ts`. **Heading names are not solved by this
+layer:** `lib/trade-hs-headings.ts` names only headings that have appeared in a top list, but this file has about 1,230
+headings per flow, so the card session needs names for the rest (Census's short description is available at HS4).
+
+**Validation (fails `pnpm transform`; `validateProductUse`, tolerances `PRODUCT_USE_TOL`, measured values in
+`trade_report.json` under `product_use`).** Zod on every row; every end use has a label for its flow; no duplicate
+(heading, use); exports and imports cover the same months; no unmatched line. Against `trade_products_national.json` (the
+same HS10 lines summed by the API): triples summed by **chapter** (all of them, 98/99 included) and by **heading** (its top 25
+and every special heading) match within $1; measured **$0 gap** across all 34 (year, flow)s (3,315 chapter and 1,070 heading
+comparisons; for imports, `con_value` and duties as well). The grand total matches `trade_enduse_national.json`'s
+`value`, `con_value` and `duties` within $1 (measured $0). Against the same file, summed by **end use**, the join is not
+exact: the concordance is the end-of-year file, so a line whose end use changed during the year is filed under its final
+category here and split between the old and new in the API's end-use series (the $38.3M live-animals import line in 2025 is
+the example). Measured over 2010-2026: the dollars under a different end use are 0% in 2013-14 and 2026 (and 2025 exports), and at most
+0.25% of the flow (imports 2010; 0.23% in 2011, 0.13% in 2022-23, 0.03% or less in other years; exports at most 0.09%), and no single
+category is off by more than $2.9B (0.15% of the flow: imports 2022, category 20005, with 41050 on the other side). The
+tolerances are 0.3% of the flow per category and 0.5% for the total moved. Imports' `con_value` and duties are not compared
+by end use. A category off by more than $1M turns up 217 times in the 34 (year, flow)s (the report lists the largest).
+
+**Refresh.** The weekly `trade-freshness.yml` runs `pnpm fetch:census-productuse --recent` (the year in progress and the year
+before: 4 HS10 calls, their concordances and the neighbouring years', about 25 s; `--recent` downloads them again), then
+the usual transform. A full fetch (`pnpm fetch:census-productuse`, 2010-2026) takes about 3 minutes from an empty
+cache (measured 3 min 17 s, two downloads at a time). A new Census year is picked up by itself (the concordance for it has to exist: the fetch fails otherwise, naming the
+file). `next.config.ts` keeps `trade_product_use/**` out of every server function's trace until a route reads it.
+
+**Not in this layer.** Per-country product-to-use (exact, via the HS10 call per partner, about 7,400 calls) is a separate
+future session; these files are all countries only.
+
 ## Country codes
 
 `country_code` is the join key. Rows in `countries.json` are one per **Census code**

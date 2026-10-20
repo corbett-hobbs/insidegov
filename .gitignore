@@ -60,3 +60,5 @@ pipeline/financial_disclosures/checkbox_scan_v2_results.json
 pipeline/raw/census-trade/products/_cache/
 # per-call Census API cache that makes the end-use fetch resumable
 pipeline/raw/census-trade/enduse/_cache/
+# HS10 responses and concordance files behind the product-to-use join (resumable fetch)
+pipeline/raw/census-trade/product-use/_cache/

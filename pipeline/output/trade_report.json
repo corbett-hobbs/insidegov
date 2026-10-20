@@ -266,6 +266,223 @@
       }
     }
   },
+  "product_use": {
+    "coverage": {
+      "first_year": 2010,
+      "last_year": 2026,
+      "last_year_months": 8
+    },
+    "rows": {
+      "exports": 30546,
+      "imports": 35447
+    },
+    "assigned_lines": [
+      {
+        "year": 2017,
+        "flow": "exports",
+        "adjacent": 12,
+        "adjacent_value": 1191772886,
+        "mapped": 0
+      },
+      {
+        "year": 2017,
+        "flow": "imports",
+        "adjacent": 75,
+        "adjacent_value": 8537085318,
+        "mapped": 2
+      },
+      {
+        "year": 2018,
+        "flow": "exports",
+        "adjacent": 113,
+        "adjacent_value": 926701832,
+        "mapped": 0
+      },
+      {
+        "year": 2018,
+        "flow": "imports",
+        "adjacent": 197,
+        "adjacent_value": 21543969220,
+        "mapped": 0
+      },
+      {
+        "year": 2019,
+        "flow": "exports",
+        "adjacent": 2,
+        "adjacent_value": 20952489,
+        "mapped": 0
+      },
+      {
+        "year": 2019,
+        "flow": "imports",
+        "adjacent": 53,
+        "adjacent_value": 5966307596,
+        "mapped": 0
+      },
+      {
+        "year": 2020,
+        "flow": "exports",
+        "adjacent": 4,
+        "adjacent_value": 7644953028,
+        "mapped": 0
+      },
+      {
+        "year": 2020,
+        "flow": "imports",
+        "adjacent": 80,
+        "adjacent_value": 32516331458,
+        "mapped": 0
+      },
+      {
+        "year": 2021,
+        "flow": "imports",
+        "adjacent": 70,
+        "adjacent_value": 9088570015,
+        "mapped": 5
+      },
+      {
+        "year": 2022,
+        "flow": "exports",
+        "adjacent": 5,
+        "adjacent_value": 50905477621,
+        "mapped": 0
+      },
+      {
+        "year": 2022,
+        "flow": "imports",
+        "adjacent": 118,
+        "adjacent_value": 8809761190,
+        "mapped": 10
+      },
+      {
+        "year": 2023,
+        "flow": "exports",
+        "adjacent": 0,
+        "adjacent_value": 0,
+        "mapped": 5
+      },
+      {
+        "year": 2024,
+        "flow": "exports",
+        "adjacent": 0,
+        "adjacent_value": 0,
+        "mapped": 6
+      },
+      {
+        "year": 2025,
+        "flow": "exports",
+        "adjacent": 0,
+        "adjacent_value": 0,
+        "mapped": 6
+      },
+      {
+        "year": 2026,
+        "flow": "exports",
+        "adjacent": 0,
+        "adjacent_value": 0,
+        "mapped": 6
+      }
+    ],
+    "reconciliation": {
+      "tolerances": {
+        "totalAbs": 1,
+        "chapterAbs": 1,
+        "headingAbs": 1,
+        "useShareOfFlow": 0.003,
+        "useMovedShare": 0.005
+      },
+      "checked": {
+        "yearFlows": 34,
+        "chapters": 3315,
+        "headings": 1070,
+        "uses": 4732
+      },
+      "worst_total_usd": {
+        "key": "2010 exports value",
+        "got": 1278494525839,
+        "want": 1278494525839,
+        "gap": 0
+      },
+      "worst_chapter_usd": {
+        "key": "2010 exports chapter 01 value",
+        "got": 814890071,
+        "want": 814890071,
+        "gap": 0
+      },
+      "worst_heading_usd": {
+        "key": "2010 exports heading 8800 value",
+        "got": 71921297041,
+        "want": 71921297041,
+        "gap": 0
+      },
+      "worst_end_use_usd": {
+        "key": "2022 imports end use 20005 value",
+        "got": 88695301612,
+        "want": 91591763257,
+        "gap": 2896461645
+      },
+      "worst_end_use_share_moved": {
+        "key": "2010 imports",
+        "got": 4821987390,
+        "want": 1913856594014,
+        "gap": 4821987390,
+        "share": 0.0025195134291052983
+      },
+      "end_use_gaps_over_1m_usd": {
+        "count": 217,
+        "largest": [
+          {
+            "key": "2022 imports end use 20005 value",
+            "got": 88695301612,
+            "want": 91591763257,
+            "gap": 2896461645
+          },
+          {
+            "key": "2010 imports end use 41050 value",
+            "got": 68558992894,
+            "want": 71452863355,
+            "gap": 2893870461
+          },
+          {
+            "key": "2022 imports end use 41050 value",
+            "got": 132281547743,
+            "want": 129393015553,
+            "gap": 2888532190
+          },
+          {
+            "key": "2011 imports end use 20005 value",
+            "got": 41545845113,
+            "want": 38746818464,
+            "gap": 2799026649
+          },
+          {
+            "key": "2011 imports end use 41050 value",
+            "got": 77688058532,
+            "want": 80276006084,
+            "gap": 2587947552
+          },
+          {
+            "key": "2023 imports end use 20005 value",
+            "got": 94151639259,
+            "want": 96713598343,
+            "gap": 2561959084
+          },
+          {
+            "key": "2023 imports end use 41050 value",
+            "got": 119539754701,
+            "want": 116989027886,
+            "gap": 2550726815
+          },
+          {
+            "key": "2011 imports end use 21320 value",
+            "got": 37950320033,
+            "want": 40170405094,
+            "gap": 2220085061
+          }
+        ]
+      }
+    }
+  },
   "duties_codes_not_carried": [
     "0001 OPEC",
     "0003 EUROPEAN UNION",
@@ -311,6 +528,8 @@
     },
     "trade_enduse_national.json": 152628,
     "trade_enduse_labels.json": 33943,
-    "trade_enduse_partners.json": 670051
+    "trade_enduse_partners.json": 670051,
+    "trade_product_use/* (total)": 2323134,
+    "trade_product_use/* (largest year)": 141361
   }
 }

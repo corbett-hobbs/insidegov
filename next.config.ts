@@ -78,6 +78,8 @@ const nextConfig: NextConfig = {
       // Goods by end-use category (14 MB, 236 files): same story, nothing in a server function reads them.
       "./pipeline/output/trade_enduse/**",
       "./pipeline/output/trade_enduse_partners.json",
+      // Goods by product and use (2.3 MB, 17 year files): no route reads them yet. The route that does (the Sankey card's) is static, like the others.
+      "./pipeline/output/trade_product_use/**",
     ],
   },
 };
