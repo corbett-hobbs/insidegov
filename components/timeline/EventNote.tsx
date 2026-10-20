@@ -43,7 +43,7 @@ function Votes({ e }: { e: TlEvent }) {
     return (
       <div className="mt-1.5 text-[0.75rem] text-ink-muted">
         {e.override && "Passed over a veto. "}
-        {e.date < "1973" ? "Vote by party: not in our data before 1973." : "No recorded roll-call vote by party."}
+        No recorded roll-call vote by party.
       </div>
     );
   }
@@ -55,7 +55,6 @@ function Votes({ e }: { e: TlEvent }) {
     <div className="mt-1.5 text-[0.75rem] text-ink-muted">
       <div>
         Share of each party voting yes{e.override && " (veto override)"}
-        {e.splitHand && " · typed in from the record"}
       </div>
       {rows.map(([ch, t]) => t && (["D", "R"] as const).map((p) => <VoteRow key={ch + p} label={`${ch} ${p}`} yes={t[p][0]} no={t[p][1]} party={p} />))}
     </div>

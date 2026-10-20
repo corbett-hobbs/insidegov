@@ -54,7 +54,7 @@ const ROWS = [
   ["P", 24, 4],
   ["S", 30, 4],
   ["H", 30, 4],
-  ["C", 30, 12],
+  ["C", 38, 12],
   ["law", 40, 4],
   ["case", 40, 4],
 ] as const;
@@ -102,6 +102,7 @@ export function PowerChart({
   onJump = noop,
   compact = false,
   startIso = TIMELINE_START,
+  endIso,
   presCard,
 }: {
   data: TimelinePayload;
@@ -125,6 +126,8 @@ export function PowerChart({
   compact?: boolean;
   /** The first day of the window (default: the timeline's start). */
   startIso?: string;
+  /** The last day of the window (default: the end of the last year in `range`, or today). A president's snapshot ends on their last day in office. */
+  endIso?: string;
   /** The card a tapped president opens (compact mode); it is the only thing that links on. */
   presCard?: (p: TlPresident) => ReactNode;
 }) {
@@ -136,7 +139,7 @@ export function PowerChart({
   const pw = Math.max(0, W - LG - 8);
   const today = data.today;
   const v0 = range[0] === minYear ? dayOfIso(startIso) : dayOf(range[0], 0, 1);
-  const v1 = Math.min(dayOf(range[1] + 1, 0, 1), dayOfIso(today) + 1);
+  const v1 = Math.min(endIso ? dayOfIso(endIso) + 1 : dayOf(range[1] + 1, 0, 1), dayOfIso(today) + 1);
   const X = (day: number) => LG + ((day - v0) / (v1 - v0)) * pw;
   const XI = (iso: string) => X(dayOfIso(iso));
   const clipX = (iso: string) => Math.max(LG, Math.min(LG + pw, XI(iso)));
@@ -595,7 +598,8 @@ function ApptRow({ r, spans, clipX, inWin }: { r: { y: number; h: number }; span
 /** The Court by its median justice's Martin-Quinn score, one bar a term: down for liberal, up for conservative, grey near the centre. */
 function LeanRow({ r, data, X, LG, pw, v0, v1 }: { r: { y: number; h: number }; data: TimelinePayload; X: (day: number) => number; LG: number; pw: number; v0: number; v1: number }) {
   const mid = r.y + r.h / 2;
-  const sc = (v: number) => mid - (Math.max(-1.6, Math.min(1.6, v)) / 1.6) * (r.h / 2);
+  // Median scores run about -1.1 to +1.1, so the bar's full height is +-1.15 (the old +-1.6 left every bar short in a tall, empty strip).
+  const sc = (v: number) => mid - (Math.max(-1.15, Math.min(1.15, v)) / 1.15) * (r.h / 2);
   const cx = (day: number) => Math.max(LG, Math.min(LG + pw, X(day)));
   const firstTerm = dayOf(data.lean[0]![0], 9, 1);
   const noScoreW = cx(firstTerm) - LG;

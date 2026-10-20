@@ -83,8 +83,8 @@ export interface TlEvent {
   lawPath?: string;
   /** Final-passage yes and no votes by party, per chamber, where recorded. */
   split?: { house?: TlTally; senate?: TlTally };
-  /** The split was typed in by hand from the record (1964 and 1965). */
-  splitHand?: boolean;
+  /** Each chamber's final-passage vote, all members (`[yea, nay]`), where it was a recorded roll call. */
+  tally?: { house?: [number, number]; senate?: [number, number] };
   /** Passed over a veto. */
   override?: boolean;
   // Links between events on the list

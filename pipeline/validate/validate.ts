@@ -495,6 +495,33 @@ await step("voteview/rollcalls_93on.json", async () => {
   return `${rows.length} roll calls ok; (congress, chamber, rollnumber) unique; last House ${manifest.last_date.H}, Senate ${manifest.last_date.S}`;
 });
 
+await step("reference/early-law-votes.json + voteview/early_law_votes.json", async () => {
+  const { earlyLawVotesRef, rawEarlyLawVotesFile } = await import("../../lib/early-law-votes-entities");
+  const { mayhewEarlyFile } = await import("../../lib/mayhew-early");
+  const { timelineEventsFile } = await import("../../lib/timeline-entities");
+  const file = "pipeline/reference/early-law-votes.json";
+  const ref = earlyLawVotesRef.parse(JSON.parse(await readFile(file, "utf8")));
+  const raw = rawEarlyLawVotesFile.parse(JSON.parse(await readFile(`${VOTEVIEW}/early_law_votes.json`, "utf8")));
+  const mayhew = new Map(mayhewEarlyFile.parse(JSON.parse(await readFile("pipeline/reference/mayhew-1947-1972.json", "utf8"))).entries.map((e) => [e.entry_id, e]));
+  const timeline = timelineEventsFile.parse(JSON.parse(await readFile("pipeline/reference/timeline-events.json", "utf8"))).events;
+  // Every law the pages show before 1973 has a reviewed entry: the Timeline's laws without a law_id and Mayhew's signed laws.
+  const want = [...timeline.filter((e) => e.kind === "law" && !e.law_id).map((e) => `timeline:${e.id}`), ...[...mayhew.values()].filter((e) => e.kind === "law").map((e) => `mayhew:${e.entry_id}`)];
+  const have = new Set(ref.laws.flatMap((e) => [e.timeline && `timeline:${e.timeline}`, e.mayhew && `mayhew:${e.mayhew}`]));
+  const missing = want.filter((id) => !have.has(id));
+  if (missing.length) throw new ValidationError(file, "coverage", `no entry for ${missing.slice(0, 8).join(", ")}`);
+  const tlIds = new Set(timeline.map((e) => e.id));
+  for (const e of ref.laws) {
+    if (e.timeline && !tlIds.has(e.timeline)) throw new ValidationError(file, "timeline", `${e.timeline} is not a Timeline event`);
+    const m = e.mayhew ? mayhew.get(e.mayhew) : undefined;
+    if (e.mayhew && !m) throw new ValidationError(file, "mayhew", `${e.mayhew} is not a Mayhew 1947-72 entry`);
+    if (m && m.congress !== e.congress) throw new ValidationError(file, "congress", `${e.mayhew} is the ${m.congress}th Congress, the entry says ${e.congress}`);
+    const rolls = raw.congresses[String(e.congress)]?.rolls ?? [];
+    for (const [ch, r] of [["H", e.house], ["S", e.senate], ["H", e.house_override], ["S", e.senate_override]] as const)
+      if (r !== undefined && !rolls.some((x) => x[0] === ch && x[1] === r)) throw new ValidationError(file, "fetched", `${e.timeline ?? e.mayhew}: ${e.congress} ${ch} roll ${r} is not in early_law_votes.json; run pnpm fetch:voteview-early-votes`);
+  }
+  return `${ref.laws.length} laws ok (reviewed ${ref.last_reviewed}); every pre-1973 Timeline law and Mayhew signed law covered; every pick fetched`;
+});
+
 await step("reference/mayhew-major-laws.json", async () => {
   const { mayhewFile } = await import("../../lib/laws-entities");
   const file = "pipeline/reference/mayhew-major-laws.json";

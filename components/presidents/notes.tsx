@@ -4,7 +4,7 @@ import type { SeriesCardId } from "@/lib/president-types";
 
 
 /** One "Data notes" paragraph per president-page card (rule 7: what it counts, the caveat a reader could misread, the source). */
-export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "landmarks" | "eos", ReactNode> & { laws: (through: string) => ReactNode } = {
+export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "timeline" | "eos", ReactNode> & { laws: (through: string) => ReactNode } = {
   congress: (
     <p>
       Each Congress is clipped to the days this president was in office; one that convened less than a month before the president left is left out. A chamber&rsquo;s majority is the party that held it for most of those days; seat counts are at the start of the Congress, with independents counted with the party they caucused with. From the <SourceLink id="house-party-division">House</SourceLink> and <SourceLink id="senate-party-division">Senate</SourceLink> historians&rsquo; party divisions.
@@ -25,14 +25,19 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "l
       Executive orders signed in the term, from the <SourceLink id="federal-register-eo">Federal Register</SourceLink>, whose electronic record begins in 1994. Each order has one primary topic, assigned as on the Executive orders page. Counts say how many orders were signed, not how much they did: one order can set up a program or rename an office. A bar is one year in office.
     </p>
   ),
-  landmarks: (
-    <p>
-      The laws picked as landmarks for the Timeline page, each with the year it was signed and a link to its Wikipedia article. It is an editorial list, not a count: David Mayhew&rsquo;s lists of important enactments, which the other presidents&rsquo; pages use, start with the 80th Congress in 1947, so the 1933&ndash;46 laws have no list to count from and no law pages or vote tallies on this site.
-    </p>
+  timeline: (
+    <>
+      <p>
+        The Timeline page&rsquo;s chart cut to this president&rsquo;s years in office, with the hand-picked landmark laws and Supreme Court cases of those years: a short editorial list, not a count. The president&rsquo;s own count of major laws is the card below. The White House row is the president, the Senate and House rows each party&rsquo;s share of seats at the start of each Congress, and the Court row which way its median justice leaned each term (<SourceLink id="martin-quinn">Martin-Quinn scores</SourceLink>, from October 1937). A marker is the day the law was signed or the case decided; tap it for the vote and who held power that day. The Timeline page also has the Court measure by appointing president and the year zoom.
+      </p>
+      <p>
+        A law&rsquo;s votes are each chamber&rsquo;s final roll call, from <SourceLink id="voteview">Voteview</SourceLink>: matched to the law through Congress.gov from 1973, and by hand before then (the last recorded vote approving the bill: its passage, a conference report or agreeing to the other chamber&rsquo;s version). &ldquo;No roll call&rdquo; means that chamber passed it by voice vote or without a recorded vote. Case votes are from the <SourceLink id="scdb">Supreme Court Database</SourceLink> (from 1946; earlier ones typed in by hand).
+      </p>
+    </>
   ),
   major: (
     <p>
-      Laws counted as important enactments, the same list the Laws page uses for its &ldquo;Major law&rdquo; badge, which explains where it comes from. The list does not yet cover a Congress still in session. Each summary is the first sentence of the <SourceLink id="congress-gov">Congressional Research Service</SourceLink> summary, where one stands alone; votes are each chamber&rsquo;s final-passage tally, or how it passed without a recorded vote. Laws before 1973 come from the same David Mayhew lists (1947 on) but are not on the site&rsquo;s law pages, so they show his one-line description and no votes; a law enacted over a veto, a treaty and a constitutional amendment on his lists are left out.
+      Laws counted as important enactments, the same list the Laws page uses for its &ldquo;Major law&rdquo; badge, which explains where it comes from. The list does not yet cover a Congress still in session. Each summary is the first sentence of the <SourceLink id="congress-gov">Congressional Research Service</SourceLink> summary, where one stands alone; votes are each chamber&rsquo;s final-passage tally, or how it passed without a recorded vote. Laws before 1973 come from the same David Mayhew lists (1947 on) but are not on the site&rsquo;s law pages, so they show his one-line description; their votes are each chamber&rsquo;s last recorded roll call approving the bill, from <SourceLink id="voteview">Voteview</SourceLink>, matched to the law by hand, and &ldquo;No roll call&rdquo; means the chamber passed it by voice vote or without a recorded vote. A law enacted over a veto, a treaty and a constitutional amendment on his lists are left out.
     </p>
   ),
   misery: (
@@ -95,4 +100,8 @@ export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos
 };
 
 /** What "major law" means, for the directory's column key and the president page's tile. */
+/** Under the major-laws list: what "major" means, and how it differs from the landmark card above it. */
+export const MAJOR_LIST_NOTE =
+  "The laws named on political scientist David Mayhew\u2019s lists of important enactments, judged from news coverage at the time and later policy studies: the count used across the site. The landmark laws above are a much shorter hand-picked list of the best remembered, shown with the era\u2019s big court cases.";
+
 export const MAJOR_LAW_DEFINITION = "A major law is one that political scientist David Mayhew\u2019s lists of important enactments name, judged from the press at the time and later policy studies. His lists run through the 118th Congress.";

@@ -228,8 +228,10 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
                 the tied Senates of 2001 and 2021 follow the vice president&rsquo;s vote. A justice counts with the party of the president who first
                 appointed them, and a seat empty for under six months with the justice who left it. The Court&rsquo;s lean is the median
                 justice&rsquo;s <SourceLink id="martin-quinn">Martin-Quinn score</SourceLink> each term, from October 1937; within 0.15 of zero is the
-                centre. Case votes are from the <SourceLink id="scdb">Supreme Court Database</SourceLink> (from 1946), law votes from{" "}
-                <SourceLink id="voteview">Voteview</SourceLink> (from 1973); earlier ones are typed in by hand. Full method in the{" "}
+                centre. Case votes are from the <SourceLink id="scdb">Supreme Court Database</SourceLink> (from 1946; earlier ones are typed in
+                by hand). Law votes are each chamber&rsquo;s final roll call from <SourceLink id="voteview">Voteview</SourceLink>, matched to the
+                law through the Congress.gov record from 1973 and by hand before then; a chamber that passed a law by voice vote has no split, and
+                before 1973 members of third parties count in neither column. Full method in the{" "}
                 <SourceLink href={docUrl("docs/TIMELINE_METHODOLOGY.md")}>timeline methodology</SourceLink>.
               </p>
             </MethodologyNote>

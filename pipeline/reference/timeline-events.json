@@ -1,6 +1,6 @@
 {
- "_note": "Hand-picked landmark laws and Supreme Court cases for /timeline (\"Who Held Power When It Happened?\"), read and joined by lib/timeline-data.ts. Laws with a `law_id` take their signing date, veto override and party vote split from pipeline/output (laws.json, law_votes/); a `date` on one is a check that must agree. Laws without one (before 1973, or not in laws.json) carry their own `date`. Cases with a `case_id` take their vote and each justice's vote from decisions_cases.json and court/justice_votes.json; a `date` on one overrides SCDB's date. Cases decided before the SCDB data starts (1946) carry a hand-entered `hand_vote` (the vote and the dissenters' last names), and the 1964 and 1965 civil-rights laws carry a hand-typed `hand_split` (yes and no votes by party per chamber, from the record; to verify against Voteview): both are marked as typed in by hand on the page. `wiki` is the English Wikipedia article title, each checked to exist (redirects followed) through the MediaWiki API on 2026-10-16.",
- "last_reviewed": "2026-10-16",
+ "_note": "Hand-picked landmark laws and Supreme Court cases for /timeline (\"Who Held Power When It Happened?\"), read and joined by lib/timeline-data.ts. Laws with a `law_id` take their signing date, veto override and party vote split from pipeline/output (laws.json, law_votes/); a `date` on one is a check that must agree. Laws without one (before 1973) carry their own `date` and take their party vote split from early_law_votes.json (Voteview roll calls matched by hand in reference/early-law-votes.json). Cases with a `case_id` take their vote and each justice's vote from decisions_cases.json and court/justice_votes.json; a `date` on one overrides SCDB's date. Cases decided before the SCDB data starts (1946) carry a hand-entered `hand_vote` (the vote and the dissenters' last names) (marked as typed in by hand on the page). `wiki` is the English Wikipedia article title, each checked to exist (redirects followed) through the MediaWiki API on 2026-10-16 (the twenty laws added on 2026-10-20 the same day).",
+ "last_reviewed": "2026-10-20",
  "extra_justices": [
   {
    "last": "Van Devanter",
@@ -357,28 +357,6 @@
    "name": "Civil Rights Act of 1964",
    "what": "Banned discrimination in public accommodations and employment.",
    "date": "1964-07-02",
-   "hand_split": {
-    "house": {
-     "D": [
-      152,
-      96
-     ],
-     "R": [
-      138,
-      34
-     ]
-    },
-    "senate": {
-     "D": [
-      46,
-      21
-     ],
-     "R": [
-      27,
-      6
-     ]
-    }
-   },
    "wiki": "Civil Rights Act of 1964"
   },
   {
@@ -403,28 +381,6 @@
    "name": "Voting Rights Act",
    "what": "Banned discriminatory voting practices and required federal preclearance in some states.",
    "date": "1965-08-06",
-   "hand_split": {
-    "house": {
-     "D": [
-      217,
-      54
-     ],
-     "R": [
-      111,
-      20
-     ]
-    },
-    "senate": {
-     "D": [
-      49,
-      17
-     ],
-     "R": [
-      30,
-      1
-     ]
-    }
-   },
    "wiki": "Voting Rights Act of 1965"
   },
   {
@@ -876,6 +832,166 @@
    "what": "Extended the 2017 tax cuts and cut Medicaid and food-aid spending.",
    "law_id": "119-pub-21",
    "wiki": "One Big Beautiful Bill Act"
+  },
+  {
+   "id": "national-security-act-of-1947",
+   "kind": "law",
+   "name": "National Security Act of 1947",
+   "what": "Unified the armed services under a Defense Secretary and created the CIA and the National Security Council.",
+   "date": "1947-07-26",
+   "wiki": "National Security Act of 1947"
+  },
+  {
+   "id": "greek-and-turkish-assistance-act",
+   "kind": "law",
+   "name": "Greek and Turkish Assistance Act (Truman Doctrine)",
+   "what": "Sent $400 million in aid to Greece and Turkey, the start of the Truman Doctrine.",
+   "date": "1947-05-22",
+   "wiki": "Greek and Turkish Assistance Act of 1947"
+  },
+  {
+   "id": "marshall-plan",
+   "kind": "law",
+   "name": "Marshall Plan (Economic Cooperation Act)",
+   "what": "Funded the rebuilding of Western Europe with about $13 billion in aid.",
+   "date": "1948-04-03",
+   "wiki": "Marshall Plan"
+  },
+  {
+   "id": "national-aeronautics-and-space-act",
+   "kind": "law",
+   "name": "National Aeronautics and Space Act",
+   "what": "Created NASA to run the civilian space program.",
+   "date": "1958-07-29",
+   "wiki": "National Aeronautics and Space Act"
+  },
+  {
+   "id": "national-defense-education-act",
+   "kind": "law",
+   "name": "National Defense Education Act",
+   "what": "Funded science, math and language teaching and college loans after Sputnik.",
+   "date": "1958-09-02",
+   "wiki": "National Defense Education Act"
+  },
+  {
+   "id": "landrum-griffin-act",
+   "kind": "law",
+   "name": "Labor-Management Reporting and Disclosure Act (Landrum–Griffin)",
+   "what": "Required union financial reporting and curbed corruption and abuse of power.",
+   "date": "1959-09-14",
+   "wiki": "Labor Management Reporting and Disclosure Act of 1959"
+  },
+  {
+   "id": "peace-corps-act",
+   "kind": "law",
+   "name": "Peace Corps Act",
+   "what": "Made the Peace Corps a permanent agency sending volunteers abroad.",
+   "date": "1961-09-22",
+   "wiki": "Peace Corps"
+  },
+  {
+   "id": "trade-expansion-act-of-1962",
+   "kind": "law",
+   "name": "Trade Expansion Act",
+   "what": "Gave the president broad power to cut tariffs through trade negotiations.",
+   "date": "1962-10-11",
+   "wiki": "Trade Expansion Act"
+  },
+  {
+   "id": "equal-pay-act-of-1963",
+   "kind": "law",
+   "name": "Equal Pay Act",
+   "what": "Banned paying women less than men for equal work.",
+   "date": "1963-06-10",
+   "wiki": "Equal Pay Act of 1963"
+  },
+  {
+   "id": "economic-opportunity-act-of-1964",
+   "kind": "law",
+   "name": "Economic Opportunity Act",
+   "what": "Launched the War on Poverty with the Job Corps and community action programs.",
+   "date": "1964-08-20",
+   "wiki": "Economic Opportunity Act of 1964"
+  },
+  {
+   "id": "elementary-and-secondary-education-act",
+   "kind": "law",
+   "name": "Elementary and Secondary Education Act",
+   "what": "Gave federal money to schools serving low-income children for the first time.",
+   "date": "1965-04-11",
+   "wiki": "Elementary and Secondary Education Act"
+  },
+  {
+   "id": "national-environmental-policy-act",
+   "kind": "law",
+   "name": "National Environmental Policy Act",
+   "what": "Required environmental impact statements for major federal actions.",
+   "date": "1970-01-01",
+   "wiki": "National Environmental Policy Act"
+  },
+  {
+   "id": "erisa",
+   "kind": "law",
+   "name": "Employee Retirement Income Security Act (ERISA)",
+   "what": "Set federal rules for private pension and benefit plans.",
+   "law_id": "93-pub-406",
+   "wiki": "Employee Retirement Income Security Act of 1974"
+  },
+  {
+   "id": "federal-election-campaign-act-amendments-of-1974",
+   "kind": "law",
+   "name": "Federal Election Campaign Act Amendments of 1974",
+   "what": "Capped contributions, created the FEC and set up public financing of presidential campaigns.",
+   "law_id": "93-pub-443",
+   "wiki": "Federal Election Campaign Act Amendments of 1974"
+  },
+  {
+   "id": "education-for-all-handicapped-children-act",
+   "kind": "law",
+   "name": "Education for All Handicapped Children Act (IDEA)",
+   "what": "Guaranteed a free public education to children with disabilities.",
+   "law_id": "94-pub-142",
+   "wiki": "Individuals with Disabilities Education Act"
+  },
+  {
+   "id": "energy-policy-and-conservation-act",
+   "kind": "law",
+   "name": "Energy Policy and Conservation Act",
+   "what": "Created the Strategic Petroleum Reserve and set fuel economy standards.",
+   "law_id": "94-pub-163",
+   "wiki": "Energy Policy and Conservation Act"
+  },
+  {
+   "id": "airline-deregulation-act",
+   "kind": "law",
+   "name": "Airline Deregulation Act",
+   "what": "Phased out federal control of airline fares and routes.",
+   "law_id": "95-pub-504",
+   "wiki": "Airline Deregulation Act"
+  },
+  {
+   "id": "alaska-national-interest-lands-conservation-act",
+   "kind": "law",
+   "name": "Alaska National Interest Lands Conservation Act",
+   "what": "Protected over 100 million acres of Alaska as parks, refuges and wilderness.",
+   "law_id": "96-pub-487",
+   "wiki": "Alaska National Interest Lands Conservation Act"
+  },
+  {
+   "id": "superfund-act",
+   "kind": "law",
+   "name": "Superfund (CERCLA)",
+   "what": "Created the Superfund to clean up toxic waste sites.",
+   "law_id": "96-pub-510",
+   "wiki": "Superfund"
+  },
+  {
+   "id": "american-rescue-plan-act",
+   "kind": "law",
+   "name": "American Rescue Plan Act",
+   "what": "Sent $1.9 trillion in pandemic relief, including $1,400 checks and a bigger child tax credit.",
+   "law_id": "117-pub-2",
+   "wiki": "American Rescue Plan Act of 2021"
   }
  ],
  "tested": [
