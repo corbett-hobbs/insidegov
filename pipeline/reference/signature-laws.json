@@ -1,0 +1,20 @@
+{
+ "_comment": "The law each president is best known for, named under the Major laws count on /presidents ('incl. ...'). An editorial pick, not a measure: Mayhew's capitals mark what mattered most to Congress, which favours budget reconciliation acts no reader associates with a president. Each pick must be on that president's Mayhew list, by its title as the site shows it (the law's Congress.gov title from 1973, Mayhew's entry title before); lib/president-data.test.ts checks every pick matches. 'label' is the shorter name readers know it by (NAFTA, not the North American Free Trade Agreement Implementation Act), shown in place of the title. A president with no pick, or a pick that stops matching, falls back to biggestMajorLaw. Checked against a year of English Wikipedia pageviews (Sep 2024-Aug 2025) where the choice was close: NAFTA 568k vs OBRA 1993 22k, ADA 163k vs OBRA 1990 9k, ACA 633k vs the Recovery Act 88k, No Child Left Behind 308k vs EGTRRA 17k.",
+ "last_reviewed": "2026-10-20",
+ "picks": [
+  { "president": "Harry S. Truman", "law": "Marshall Plan (European Recovery Program)", "label": "Marshall Plan", "why": "Rebuilt postwar Western Europe; the defining act of his foreign policy." },
+  { "president": "Dwight D. Eisenhower", "law": "Federal-Aid Highway Act of 1956", "why": "Built the Interstate Highway System, which carries his name." },
+  { "president": "John F. Kennedy", "law": "Peace Corps established", "label": "Peace Corps Act", "why": "The program most tied to his call to service." },
+  { "president": "Lyndon B. Johnson", "law": "Civil Rights Act of 1964", "why": "Ended legal segregation in public places and banned job discrimination." },
+  { "president": "Richard Nixon", "law": "Clean Air Act of 1970", "why": "The core of his environmental record, alongside the EPA he created the same year." },
+  { "president": "Gerald Ford", "law": "Employee Retirement Income Security Act of 1974", "why": "Set the rules for private pensions and, later, 401(k) plans." },
+  { "president": "Jimmy Carter", "law": "Department of Education Organization Act", "why": "Created the Department of Education." },
+  { "president": "Ronald Reagan", "law": "Tax Reform Act of 1986", "why": "The tax overhaul that cut rates and closed loopholes." },
+  { "president": "George H. W. Bush", "law": "Americans with Disabilities Act of 1990", "why": "Banned discrimination against people with disabilities." },
+  { "president": "Bill Clinton", "law": "North American Free Trade Agreement Implementation Act", "label": "NAFTA", "why": "Put NAFTA into effect." },
+  { "president": "George W. Bush", "law": "No Child Left Behind Act of 2001", "why": "His signature domestic law: national testing and school accountability." },
+  { "president": "Barack Obama", "law": "Patient Protection and Affordable Care Act", "label": "Affordable Care Act", "why": "The Affordable Care Act, known as Obamacare." },
+  { "president": "Donald Trump", "law": "Tax Cuts and Jobs Act", "why": "The 2017 tax cuts." },
+  { "president": "Joe Biden", "law": "Inflation Reduction Act of 2022", "why": "The largest climate and clean-energy investment in U.S. history." }
+ ]
+}

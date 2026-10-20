@@ -391,23 +391,52 @@ function majorRanks(): Map<string, number> {
   return majorRankCache;
 }
 
+let signatureCache: Map<string, { law: string; label?: string }> | null = null;
+
+/** President name -> the law they are best known for (`pipeline/reference/signature-laws.json`, an editorial pick): its title on their list, and the shorter name to show, if any. */
+export function signatureLaws(): Map<string, { law: string; label?: string }> {
+  signatureCache ??= new Map(
+    z
+      .object({ picks: z.array(z.object({ president: z.string(), law: z.string(), label: z.string().optional(), why: z.string() })) })
+      .parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "signature-laws.json"), "utf8")))
+      .picks.map((p) => [p.president, { law: p.law, label: p.label }]),
+  );
+  return signatureCache;
+}
+
+/**
+ * The law named under the directory's Major laws count: the president's signature law when it is on their list, else
+ * the first law Mayhew prints in capitals before 1973, else `biggestMajorLaw`. Null with no major laws.
+ */
+export function majorTopFor(name: string, laws: LawsSummary | null, early: readonly { title: string; capitals: boolean }[]): PresidentSummary["majorTop"] {
+  const pick = signatureLaws().get(name);
+  if (pick !== undefined) {
+    const title = pick.label ?? pick.law;
+    const law = laws?.majorList.find((l) => l.title.trim() === pick.law);
+    if (law) return { title, path: law.path };
+    if (early.some((e) => e.title === pick.law)) return { title, path: null };
+  }
+  const earlyTop = [...early].reverse().find((e) => e.capitals);
+  if (earlyTop) return { title: earlyTop.title, path: null };
+  const ranks = majorRanks();
+  const top = laws ? biggestMajorLaw(laws.majorList, (l) => ranks.get(l.path.split("/")[3]) ?? 0) : null;
+  return top ? { title: top.title, path: top.path } : null;
+}
+
 /** The directory rows, newest first (lists with dates run newest first). */
 export function getPresidentDirectory(): PresidentSummary[] {
-  const ranks = majorRanks();
   return getPresidents()
     .map((p) => {
       const page = getPresidentPage(p.slug)!;
       const laws = page.laws;
       const early = page.earlyMajor;
-      const earlyTop = early.length ? ([...early].reverse().find((e) => e.capitals) ?? null) : null;
-      const top = laws ? biggestMajorLaw(laws.majorList, (l) => ranks.get(l.path.split("/")[3]) ?? 0) : null;
       const misery = page.cards.misery?.[0];
       const pts = misery?.segments.flatMap((s) => s.points) ?? [];
       return {
         ...p,
         days: page.days,
         major: laws?.major == null && early.length === 0 ? null : (laws?.major ?? 0) + early.length,
-        majorTop: earlyTop ? { title: earlyTop.title, path: null } : top ? { title: top.title, path: top.path } : null,
+        majorTop: majorTopFor(p.name, laws, early),
         majorNote: majorNote(p, laws, early.length, today()),
         control: page.congress.days,
         justices: page.justices

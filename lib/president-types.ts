@@ -43,7 +43,7 @@ export interface PresidentSummary extends PresidentRef {
   days: number;
   /** Major laws signed (David Mayhew's lists, from 1947); null before them or when no Congress in the term is assessed yet. */
   major: number | null;
-  /** The biggest of them (see `biggestMajorLaw`), with the link to its page (null before 1973, when the site has no law pages). */
+  /** The one the president is best known for (`majorTopFor`), with the link to its page (null before 1973, when the site has no law pages). */
   majorTop: { title: string; path: string | null } | null;
   /** Why the count is partial or missing ("from 1947", "later term not yet assessed"), or null when it covers the whole time in office. */
   majorNote: string | null;
