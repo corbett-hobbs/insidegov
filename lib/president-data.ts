@@ -29,6 +29,7 @@ import { decodeAid, spendingByYear, topRecipientsByYear } from "./foreign-aid-de
 import { getTroopsPayload } from "./troops-data";
 import { decodeTroops, periodView } from "./troops-derive";
 import { lawMajorFile } from "./laws-entities";
+import { mayhewNote } from "./mayhew-note";
 import { displayTitle, earlyMajorFor, mayhewEarlyFile, type MayhewEarlyEntry } from "./mayhew-early";
 import { mayhewEarlyWikiFile, mayhewWikiFor, type MayhewEarlyWikiFile } from "./mayhew-early-wiki";
 import { earlyLawVotesFile, type EarlyChamberVote, type EarlyLawVotes } from "./early-law-votes-entities";
@@ -145,7 +146,7 @@ function lawsFor(p: PresidentRef, now: string): LawsSummary | null {
       title: r[3],
       date: r[2],
       path: lawPath(lawId(r[0], r[1]), r[3]),
-      summary: r[11],
+      summary: r[11] || mayhewDescription(lawId(r[0], r[1]), r[3]),
       area: { label: groupLabel.get(groupOfArea[r[4]]) ?? "Not classified", color: fill.get(groupOfArea[r[4]]) ?? "var(--ink-faint)" },
       house: r[6],
       senate: r[7],
@@ -363,6 +364,25 @@ function timelineFor(p: PresidentRef, payload: TimelinePayload, now: string): Pr
   if (last <= TIMELINE_START) return null;
   const from = p.terms[0]!.start < TIMELINE_START ? TIMELINE_START : p.terms[0]!.start;
   return { payload, from, to: last, eventNos: payload.events.filter((e) => inTerms(e.date, p.terms, now)).map((e) => e.no) };
+}
+
+let mayhewQuoteCache: Map<string, { quote: string; scope: "whole" | "part" }> | null = null;
+
+/**
+ * A major law with no usable CRS first sentence (an omnibus act) shows Mayhew's own description of it instead, trimmed (`lib/mayhew-note.ts`);
+ * "" when his entry has none. A law named by several entries uses its first whole one.
+ */
+function mayhewDescription(id: string, title: string): string {
+  if (!mayhewQuoteCache) {
+    mayhewQuoteCache = new Map();
+    const entries = z
+      .array(z.looseObject({ quote: z.string(), law_ids: z.array(z.string()), scope: z.enum(["whole", "part", "none"]) }))
+      .parse(JSON.parse(readFileSync(join(process.cwd(), "pipeline", "reference", "mayhew-major-laws.json"), "utf8")).entries);
+    for (const e of [...entries].sort((a, b) => (a.scope === "whole" ? 0 : 1) - (b.scope === "whole" ? 0 : 1)))
+      if (e.scope !== "none") for (const l of e.law_ids) if (!mayhewQuoteCache.has(l)) mayhewQuoteCache.set(l, { quote: e.quote, scope: e.scope });
+  }
+  const e = mayhewQuoteCache.get(id);
+  return (e && mayhewNote(e.quote, title, e.scope)) ?? "";
 }
 
 let earlyVotesCache: Map<string, EarlyLawVotes> | null = null;
