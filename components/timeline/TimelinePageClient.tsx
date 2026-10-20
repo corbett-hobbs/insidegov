@@ -229,7 +229,9 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
                 appointed them, and a seat empty for under six months with the justice who left it. The Court&rsquo;s lean is the median
                 justice&rsquo;s <SourceLink id="martin-quinn">Martin-Quinn score</SourceLink> each term, from October 1937; within 0.15 of zero is the
                 centre. Case votes are from the <SourceLink id="scdb">Supreme Court Database</SourceLink> (from 1946; earlier ones are typed in
-                by hand). Law votes are each chamber&rsquo;s final roll call from <SourceLink id="voteview">Voteview</SourceLink>, matched to the
+                by hand). The &ldquo;Conservative outcome&rdquo; or &ldquo;Liberal outcome&rdquo; tag on a case is the database&rsquo;s coding of
+                who prevailed, which says nothing about the justices&rsquo; own leanings; it is left off cases before 1946 and where the database
+                does not code one. Law votes are each chamber&rsquo;s final roll call from <SourceLink id="voteview">Voteview</SourceLink>, matched to the
                 law through the Congress.gov record from 1973 and by hand before then; a chamber that passed a law by voice vote has no split, and
                 before 1973 members of third parties count in neither column. Full method in the{" "}
                 <SourceLink href={docUrl("docs/TIMELINE_METHODOLOGY.md")}>timeline methodology</SourceLink>.
@@ -279,7 +281,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
           </ChartNotesRow>
         </ChartCard>
 
-        <ErasCard eras={eras} mode={mode} range={range} status={status} events={shown} query={query} onQuery={(q) => (setQuery(q), setOpen(null))} onJump={jumpTo} today={data.today} byId={byId} />
+        <ErasCard eras={eras} mode={mode} range={range} status={status} events={shown} query={query} onQuery={(q) => (setQuery(q), setOpen(null))} today={data.today} byId={byId} />
 
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
           Source: {nLaws} laws and {nCases} Supreme Court cases picked by hand (list last reviewed {fmtDate(data.reviewed)}), each linked to its{" "}

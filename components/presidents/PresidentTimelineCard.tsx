@@ -11,6 +11,7 @@ import type { PresidentRef, PresidentTimeline } from "@/lib/president-types";
 import { buildSpans, changePoints, powerIndex, wikiUrl } from "@/lib/timeline-derive";
 import type { PowerState } from "@/lib/timeline-derive";
 import type { TlEvent } from "@/lib/timeline-types";
+import { DirectionTag } from "@/components/decisions/DirectionTag";
 import { CardShell, MiniVote } from "./PresidentCards";
 import { NOTES } from "./notes";
 
@@ -140,9 +141,10 @@ function EventRow({ e, onOpen }: { e: TlEvent; onOpen: (no: number) => void }) {
             <MiniVote chamber="Senate" t={e.tally?.senate ? [0, e.tally.senate[0], e.tally.senate[1]] : null} />
           </span>
         ) : (
-          <span className="mt-1 block font-mono text-[0.7rem] text-ink-muted">
-            Court vote {e.vote}
-            {e.author && ` · opinion by ${e.author}`}
+          <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[0.7rem] text-ink-muted">
+            <span>Court vote {e.vote}</span>
+            {e.direction && <DirectionTag outcome direction={e.direction} areaId={e.areaId ?? null} />}
+            {e.author && <span>opinion by {e.author}</span>}
           </span>
         )}
       </span>

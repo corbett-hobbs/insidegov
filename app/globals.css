@@ -91,13 +91,13 @@
   --laws-6: #008300;
   --laws-7: #4a3aa7;
   --laws-8: #e34948;
-  /* Decisions case list: the Liberal / Conservative outcome tag. Teal and violet, not red and blue: a tag codes who prevailed in a case, it is not a party. */
+  /* Decisions case list: the Liberal / Conservative outcome tag. Teal and amber, not red and blue (nor the purple accent): a tag codes who prevailed in a case, it is not a party. */
   --outcome-lib: #0f6e56;
   --outcome-lib-bg: #e1f5ee;
   --outcome-lib-ink: #085041;
-  --outcome-con: #534ab7;
-  --outcome-con-bg: #eeedfe;
-  --outcome-con-ink: #3c3489;
+  --outcome-con: #b45f06;
+  --outcome-con-bg: #fdf0d9;
+  --outcome-con-ink: #7a3f03;
   /* Congresses-served tints (components/demographics): four steps of the accent hue, lightest = first Congress.
      Validated by validate_palette.js (FORCED_PAIRS: all pairs, >= 3:1 on every surface). */
   --tenure-1: #8d82b5;
@@ -216,9 +216,9 @@
     --outcome-lib: #5dcaa5;
     --outcome-lib-bg: #0b3a30;
     --outcome-lib-ink: #9fe1cb;
-    --outcome-con: #afa9ec;
-    --outcome-con-bg: #28235a;
-    --outcome-con-ink: #cecbf6;
+    --outcome-con: #f0b24d;
+    --outcome-con-bg: #4a2f08;
+    --outcome-con-ink: #f8d596;
     --tenure-1: #7466a5;
     --tenure-2: #9588c8;
     --tenure-3: #b9aee2;
@@ -320,9 +320,9 @@
   --outcome-lib: #5dcaa5;
   --outcome-lib-bg: #0b3a30;
   --outcome-lib-ink: #9fe1cb;
-  --outcome-con: #afa9ec;
-  --outcome-con-bg: #28235a;
-  --outcome-con-ink: #cecbf6;
+  --outcome-con: #f0b24d;
+  --outcome-con-bg: #4a2f08;
+  --outcome-con-ink: #f8d596;
   --tenure-1: #7466a5;
   --tenure-2: #9588c8;
   --tenure-3: #b9aee2;

@@ -78,6 +78,10 @@ export interface TlEvent {
   dissent?: Partial<Record<Side, number>>;
   /** The vote was entered by hand (before the SCDB data starts in 1946). */
   voteHand?: boolean;
+  /** The Supreme Court Database's coding of who prevailed: 1 conservative, 2 liberal. Absent before 1946 and where uncoded. */
+  direction?: 1 | 2;
+  /** The case's issue area id, for the direction pill's note. */
+  areaId?: string;
   // Laws
   /** The law's page on this site, when it has one (93rd Congress on). */
   lawPath?: string;
