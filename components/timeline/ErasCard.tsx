@@ -19,7 +19,7 @@ const GRID = "grid grid-cols-[minmax(0,1fr)] gap-1 sm:grid-cols-[8.6rem_9.4rem_m
 
 /**
  * "Era by era": each row a stretch when no institution changed hands, newest first (rule 15a), with the events of the
- * stretch as buttons. A button opens the event's note under its era row (the same note as the chart's), with "See on timeline" (desktop) to jump to its marker; links inside the note open the linked event there too. Its own search box filters the rows to eras with a matching event and
+ * stretch as buttons. A button opens the event's note under its era row (the same note as the chart's),; links inside the note open the linked event there too. Its own search box filters the rows to eras with a matching event and
  * highlights the matching markers on the chart.
  */
 export function ErasCard({
@@ -30,7 +30,6 @@ export function ErasCard({
   events,
   query,
   onQuery,
-  onJump,
   today,
   byId,
 }: {
@@ -42,7 +41,6 @@ export function ErasCard({
   events: readonly TlEvent[];
   query: string;
   onQuery: (q: string) => void;
-  onJump: (no: number) => void;
   today: string;
   byId: ReadonlyMap<string, TlEvent>;
 }) {
@@ -145,7 +143,7 @@ export function ErasCard({
               )}
               {picked !== null && evs.some((e) => e.no === picked) && byNo.has(picked) && (
                 <div ref={noteRef} className="relative mt-2 rounded-lg border border-line-strong bg-surface px-3 py-2.5 text-[0.8rem] leading-[1.45] shadow-[0_4px_14px_rgba(26,34,51,0.12)]">
-                  <EventNotes items={[byNo.get(picked)!]} focus={null} byId={byId} onJump={(no) => setPicked(no)} onSee={onJump} />
+                  <EventNotes items={[byNo.get(picked)!]} focus={null} byId={byId} onJump={(no) => setPicked(no)} />
                   <button type="button" aria-label="Close" onClick={() => setPicked(null)} className={`absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded text-[1rem] leading-none text-ink-muted hover:text-ink ${FOCUS_RING}`}>
   ×
 </button>

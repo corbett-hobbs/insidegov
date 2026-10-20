@@ -210,7 +210,7 @@ export function buildTimelinePayload(inputs: TimelineInputs, today: string): Tim
         const rows = votes.get(e.case_id) ?? [];
         const pick = (v: number) => rows.filter(([j, vote]) => vote === v && byId.has(j)).map(([j]) => byId.get(j)!);
         const author = rows.find(([j, , role]) => role === ROLE_MAJORITY && byId.has(j));
-        return { ...base, casePath: decisionPath(c.case_id, c.name), date: e.date ?? c.date, vote: `${c.maj}–${c.min}`, ...(author ? { author: byId.get(author[0])!.name } : {}), majority: count(pick(VOTE_MAJORITY)), dissent: count(pick(VOTE_DISSENT)) };
+        return { ...base, casePath: decisionPath(c.case_id, c.name), date: e.date ?? c.date, vote: `${c.maj}–${c.min}`, ...(c.direction ? { direction: c.direction === "conservative" ? (1 as const) : (2 as const) } : {}), ...(c.issue_area_id ? { areaId: c.issue_area_id } : {}), ...(author ? { author: byId.get(author[0])!.name } : {}), majority: count(pick(VOTE_MAJORITY)), dissent: count(pick(VOTE_DISSENT)) };
       }
       // Before 1946: the bench that day (the recorded service dates, no vacancy rule) split by the hand-entered dissenters.
       const date = e.date!;

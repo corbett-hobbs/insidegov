@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { eraLabel, fmtDate, wikiUrl, type CourtMode, type PowerState } from "@/lib/timeline-derive";
 import type { Side, TlEvent, TlLink, TlTally } from "@/lib/timeline-types";
+import { DirectionTag } from "../decisions/DirectionTag";
 import { FOCUS_RING, numberBadge, partyColor } from "./shared";
 
 function VoteRow({ label, yes, no, party }: { label: string; yes: number; no: number; party: Side }) {
@@ -25,10 +26,12 @@ function Votes({ e }: { e: TlEvent }) {
   if (e.kind === "case") {
     return (
       <div className="mt-1.5 text-[0.75rem] text-ink-muted">
-        <div>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <b className="font-semibold text-ink">{e.vote}</b>
-          {e.author && ` · opinion by ${e.author}`}
-          <br />
+          {e.direction && <DirectionTag outcome direction={e.direction} areaId={e.areaId ?? null} />}
+          {e.author && <span>opinion by {e.author}</span>}
+        </div>
+        <div>
           Share of each party&rsquo;s appointees in the majority
         </div>
         {(["D", "R"] as const).map((p) => {
@@ -105,85 +108,82 @@ function Links({ e, byId, onJump }: { e: TlEvent; byId: ReadonlyMap<string, TlEv
 }
 
 /**
- * Who held power, once at the top of a chart note: the era's own sentence with a dot in the party's colour (neutral when the
- * White House and Congress were split). Events in one marker can fall in different eras, so each distinct sentence shows once.
+ * Who held power during the events that follow: the era's own sentence on a band in the party's colour (neutral when the
+ * White House and Congress were split). The note shows one band before the first event and another wherever the era changes, so the events read in context.
  */
-export function HeldNow({ items, stateOf, mode }: { items: readonly TlEvent[]; stateOf: (e: TlEvent) => PowerState; mode: CourtMode }) {
-  const seen = new Map<string, PowerState>();
-  for (const e of items) {
-    const st = stateOf(e);
-    seen.set(eraLabel(st, mode), st);
-  }
+function EraBand({ st, mode, first }: { st: PowerState; mode: CourtMode; first: boolean }) {
+  const color = st.status === "split" ? "var(--ink-muted)" : partyColor(st.P);
   return (
-    <div className="mb-2 border-b border-line pb-2 pr-6">
-      {[...seen].map(([label, st]) => {
-        const color = st.status === "split" ? "var(--ink-muted)" : partyColor(st.P);
-        return (
-          <div key={label} className="flex items-start gap-1.5 text-[0.78rem] font-medium leading-snug" style={{ color: `color-mix(in oklab, ${color} 72%, var(--ink))` }}>
-            <i aria-hidden className="mt-[0.32rem] inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: color }} />
-            {label}
-          </div>
-        );
-      })}
+    <div
+      className={`-mx-3 border-y px-3 py-1.5 text-[0.78rem] font-medium leading-snug ${first ? "-mt-2.5 mb-2.5 border-t-0 pr-9" : "my-2.5"}`}
+      style={{ background: `color-mix(in oklab, ${color} 14%, var(--surface))`, borderColor: `color-mix(in oklab, ${color} 45%, transparent)`, color: `color-mix(in oklab, ${color} 72%, var(--ink))` }}
+    >
+      {eraLabel(st, mode)}
     </div>
   );
 }
 
 /**
- * The note card's content for one marker: every event it holds, each with its date, one line, the vote
- * (party yes-vote bars for a law, appointing-party bars for a case) and its links to other events on the list. The title is the
- * link: the law's page here, a case's decision page here (cases before the 1946 term have none), else its Wikipedia article. Who held power is on the chart and era rows, not repeated here.
+ * The note card's content for one marker: every event it holds, newest first as on the Era by era card, each with its date (right of the title on a
+ * desktop, under it on a phone), one line, the vote (party yes-vote bars for a law, appointing-party bars and the
+ * conservative / liberal pill for a case) and its links to other events on the list. The title is the link: the law's page
+ * here, a case's decision page here (cases before the 1946 term have none), else its Wikipedia article. With `stateOf`, a full-width band
+ * saying who held power opens the note and returns wherever the era changes between events.
  */
 export function EventNotes({
   items,
   focus,
   byId,
   onJump,
-  onSee,
+  stateOf,
+  mode,
 }: {
   items: readonly TlEvent[];
   focus: number | null;
   byId: ReadonlyMap<string, TlEvent>;
   onJump: (no: number) => void;
-  /** Set by the Era by era card: adds "See on timeline" to the date line (desktop only: on a phone the jump leaves the note behind). */
-  onSee?: (no: number) => void;
+  stateOf?: (e: TlEvent) => PowerState;
+  mode?: CourtMode;
 }) {
+  const sorted = [...items].sort((a, b) => b.date.localeCompare(a.date) || b.no - a.no);
+  const labels = sorted.map((e) => (stateOf && mode ? eraLabel(stateOf(e), mode) : null));
   return (
     <>
-      {items.map((e) => (
-        <div
-          key={e.no}
-          data-no={e.no}
-          className={`[&+&]:mt-2.5 [&+&]:border-t [&+&]:border-line [&+&]:pt-2.5 ${focus === e.no && items.length > 1 ? "-mx-1.5 rounded-md bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-1.5" : ""}`}
-        >
-          <div className="pr-6">
-            <span className={numberBadge(e.kind)}>{e.no}</span>
-            {e.lawPath ?? e.casePath ? (
-              <Link href={(e.lawPath ?? e.casePath)!} target="_blank" rel="noreferrer" className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
-                {e.name} ↗
-              </Link>
-            ) : (
-              <a href={wikiUrl(e.wiki)} target="_blank" rel="noreferrer" className={`font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`}>
-                {e.name} ↗
-              </a>
-            )}
+      {sorted.map((e, i) => {
+        const st = stateOf && mode ? stateOf(e) : null;
+        const band = st && mode && labels[i] !== labels[i - 1];
+        const date = `${e.kind === "law" ? "Signed" : "Decided"} ${fmtDate(e.date)}`;
+        const linkCls = `font-semibold text-ink underline decoration-line-strong underline-offset-2 hover:text-accent ${FOCUS_RING}`;
+        return (
+          <div key={e.no}>
+            {band && <EraBand st={st} mode={mode!} first={i === 0} />}
+            <div
+              data-no={e.no}
+              className={`${i > 0 && !band ? "mt-2.5 border-t border-line pt-2.5" : ""} ${focus === e.no && sorted.length > 1 ? "-mx-1.5 rounded-md bg-[color-mix(in_oklab,var(--accent)_10%,transparent)] px-1.5" : ""}`}
+            >
+              <div className="pr-6 sm:flex sm:items-baseline sm:justify-between sm:gap-3">
+                <div>
+                  <span className={numberBadge(e.kind)}>{e.no}</span>
+                  {e.lawPath ?? e.casePath ? (
+                    <Link href={(e.lawPath ?? e.casePath)!} target="_blank" rel="noreferrer" className={linkCls}>
+                      {e.name} ↗
+                    </Link>
+                  ) : (
+                    <a href={wikiUrl(e.wiki)} target="_blank" rel="noreferrer" className={linkCls}>
+                      {e.name} ↗
+                    </a>
+                  )}
+                </div>
+                <div className="whitespace-nowrap font-mono text-[0.7rem] text-ink-faint max-sm:hidden">{date}</div>
+              </div>
+              <div className="font-mono text-[0.7rem] text-ink-faint sm:hidden">{date}</div>
+              <p className="m-0 mt-[3px] text-ink-muted">{e.what}</p>
+              <Votes e={e} />
+              <Links e={e} byId={byId} onJump={onJump} />
+            </div>
           </div>
-          <div className="font-mono text-[0.7rem] text-ink-faint">
-            {e.kind === "law" ? "Signed" : "Decided"} {fmtDate(e.date)}
-            {onSee && (
-              <span className="max-sm:hidden">
-                {" · "}
-                <button type="button" data-tl-jump onClick={() => onSee(e.no)} className={`font-medium text-accent underline-offset-2 hover:underline ${FOCUS_RING}`}>
-                  See on timeline ↑
-                </button>
-              </span>
-            )}
-          </div>
-          <p className="m-0 mt-[3px] text-ink-muted">{e.what}</p>
-          <Votes e={e} />
-          <Links e={e} byId={byId} onJump={onJump} />
-                  </div>
-      ))}
+        );
+      })}
     </>
   );
 }

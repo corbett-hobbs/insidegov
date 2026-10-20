@@ -21,7 +21,7 @@ const MARGIN = 8;
  * or on a tap (a second tap, a tap elsewhere, Escape or scrolling closes it). The note is `position: fixed`, so the list's scroll
  * box never clips it.
  */
-export function DirectionTag({ direction, areaId, className = "" }: { direction: DecisionDirection; areaId: string | null; className?: string }) {
+export function DirectionTag({ direction, areaId, className = "", outcome = false }: { direction: DecisionDirection; areaId: string | null; className?: string; /** Reads "Conservative outcome": for places with no other context saying the tag is about the case, not a justice. */ outcome?: boolean }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ left: number; top: number } | null>(null);
   const btn = useRef<HTMLButtonElement>(null);
@@ -89,7 +89,7 @@ export function DirectionTag({ direction, areaId, className = "" }: { direction:
         className={`${PILL} cursor-help border-transparent font-[inherit] ${TONE[direction]} ${className} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
       >
         {label}
-        <span className="sr-only"> outcome</span>
+        {outcome ? " outcome" : <span className="sr-only"> outcome</span>}
       </button>
       {open && (
         <span
