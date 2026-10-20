@@ -133,14 +133,14 @@ function EventRow({ e, onOpen }: { e: TlEvent; onOpen: (no: number) => void }) {
     <li className="grid grid-cols-1 gap-x-3 gap-y-0.5 border-t border-line py-2 text-[0.82rem] first:border-t-0 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
       <span className="font-mono text-[0.7rem] leading-[1.7] text-ink-muted">{dateLabel(e.date)}</span>
       <span className="min-w-0">
-        <span className="flex flex-wrap items-baseline gap-x-2">
+        {/* One run of text: number, title and summary flow together and wrap back to the left edge, under the number. */}
+        <span className="block text-[0.75rem] leading-[1.55] text-ink-muted">
           <button type="button" onClick={() => onOpen(e.no)} aria-label={`Show ${e.name} on the chart`} className={`${numberBadge(e.kind)} cursor-pointer ${FOCUS_RING}`}>
             {e.no}
           </button>
-          {title}
-          {e.override && <span className="text-[0.68rem] text-ink-muted">· passed over a veto</span>}
-          {/* Beside the title from sm up (saves a line); under it on a phone, or when it will not fit. */}
-          <span className="mt-0.5 basis-full text-[0.75rem] leading-[1.45] text-ink-muted sm:mt-0 sm:min-w-[14rem] sm:flex-1 sm:basis-0">{e.what}</span>
+          <span className="text-[0.82rem]">{title}</span>
+          {e.override && <span className="ml-1.5 text-[0.68rem]">· passed over a veto</span>}
+          <span className="ml-2">{e.what}</span>
         </span>
         {e.kind === "law" ? (
           <span className="mt-1 flex gap-3">
