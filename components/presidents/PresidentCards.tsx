@@ -306,7 +306,7 @@ const NAY = "var(--line)";
 export function MiniVote({ chamber, t }: { chamber: string; t: ChamberTally | null }) {
   const share = t && yeaShare(t[1], t[2]);
   return (
-    <span className="inline-flex min-w-0 flex-1 items-center gap-1.5 text-[0.68rem] text-ink-muted sm:w-[9.25rem] sm:flex-none">
+    <span className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap text-[0.68rem] text-ink-muted sm:w-[9.25rem]">
       <span className="w-[2.3rem] flex-none sm:w-[2.6rem]">{chamber}</span>
       {t && t[0] === 0 && share !== null ? (
         <>
@@ -340,7 +340,7 @@ function LawRow({ date, title, summary, area, house, senate }: { date: string; t
           {summary && <span className="ml-2">{summary}</span>}
         </span>
         <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="flex gap-3">
+          <span className="flex flex-wrap gap-x-3 gap-y-1">
             <MiniVote chamber="House" t={house} />
             <MiniVote chamber="Senate" t={senate} />
           </span>

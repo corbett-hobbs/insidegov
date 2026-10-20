@@ -143,7 +143,7 @@ function EventRow({ e, onOpen }: { e: TlEvent; onOpen: (no: number) => void }) {
           <span className="ml-2">{e.what}</span>
         </span>
         {e.kind === "law" ? (
-          <span className="mt-1 flex gap-3">
+          <span className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
             <MiniVote chamber="House" t={e.tally?.house ? [0, e.tally.house[0], e.tally.house[1]] : null} />
             <MiniVote chamber="Senate" t={e.tally?.senate ? [0, e.tally.senate[0], e.tally.senate[1]] : null} />
           </span>
