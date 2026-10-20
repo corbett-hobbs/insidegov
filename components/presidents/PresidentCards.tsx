@@ -10,6 +10,7 @@ import { useMediaQuery } from "@/lib/use-media-query";
 import { dateLabel, ordinalWord } from "@/lib/president-derive";
 import { fmtExact, fmtInt, fmtValue } from "@/lib/president-format";
 import type { AppointedJustice, CongressSummary, CountBreakdown, Party, SeriesPanel } from "@/lib/president-types";
+import { HelpTip } from "@/components/charts/FilterBarParts";
 import { TermSeriesChart } from "./TermSeriesChart";
 import { methodText, yeaShare } from "@/lib/law-details-derive";
 import type { ChamberTally } from "@/lib/laws-types";
@@ -327,7 +328,7 @@ type MajorLawRow = { title: string; date: string; path: string; summary: string;
 /**
  * Laws signed, one card: the bars per year in office and the split by policy area (from 1973), beside the major laws, newest first, each
  * with its summary and passage votes (rule: one card per subject, so the count and the list behind it read together). Before 1973 only
- * the list. `listNote` is the line under the list's heading that says what "major" means and how it differs from the landmark card above.
+ * the list. `listNote` is the note behind the list's "?": what "major" means and how it differs from the landmark card above.
  */
 export function LawsCard({
   title,
@@ -346,18 +347,20 @@ export function LawsCard({
   president: PresidentLite;
   major: MajorLawRow[];
   early: EarlyMajorLaw[];
-  listNote: ReactNode;
+  listNote: string;
   notes: ReactNode;
   more?: MoreLink;
 }) {
   const n = major.length + early.length;
+  // With the count beside it, the list is as tall as that column (the right side fills it, no white space under either side) and scrolls inside; alone it is capped.
+  const beside = count !== null;
   const list = n > 0 && (
-    <div className="flex min-w-0 flex-col gap-2">
-      <div>
+    <div className={`flex min-w-0 flex-col gap-2 ${beside ? "md:absolute md:inset-0" : ""}`}>
+      <div className="relative flex items-center gap-2">
         <p className="m-0 text-[0.8rem] font-medium leading-tight text-ink">
           Major laws <span className="font-mono text-[0.72rem] font-normal text-ink-muted">{fmtInt(n)}</span>
         </p>
-        <p className="m-0 mt-1 text-[0.75rem] leading-[1.45] text-ink-muted">{listNote}</p>
+        <HelpTip label="What is a major law?" text={listNote} />
       </div>
       <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
         <span>Passage votes</span>
@@ -370,7 +373,7 @@ export function LawsCard({
           Nay
         </span>
       </div>
-      <ul tabIndex={0} aria-label="Major laws, scrollable" className="m-0 flex max-h-[30rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 touch-scroll">
+      <ul tabIndex={0} aria-label="Major laws, scrollable" className={`m-0 flex list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain border-t border-line p-0 touch-scroll ${beside ? "max-h-[30rem] md:max-h-none md:min-h-0 md:flex-1" : "max-h-[30rem]"}`}>
         {major.map((l) => (
           <li key={l.path} className="border-b border-line py-2 text-[0.82rem] last:border-b-0">
             <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
@@ -412,7 +415,7 @@ export function LawsCard({
             <Panel panel={{ ...count.panel, coverage: count.coverage }} plotH={PLOT_H} president={president} />
             <Breakdown items={count.breakdown} label="By policy area" />
           </div>
-          {list || <p className="m-0 text-[0.8rem] text-ink-muted">No major laws assessed for this term yet.</p>}
+          {list ? <div className="relative min-w-0 md:min-h-[26rem]">{list}</div> : <p className="m-0 text-[0.8rem] text-ink-muted">No major laws assessed for this term yet.</p>}
         </div>
       ) : (
         list
