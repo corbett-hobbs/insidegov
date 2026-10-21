@@ -71,6 +71,7 @@
     "node": ">=20.9"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "d3-array": "^3.2.4",
     "d3-force": "^3.0.0",
     "d3-scale": "^4.0.2",

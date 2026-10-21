@@ -1,5 +1,7 @@
 "use client";
 
+import { track } from "@/lib/analytics";
+
 interface ZoomControlsProps {
   onZoomIn: () => void;
   onZoomOut: () => void;
@@ -37,7 +39,10 @@ export function ZoomControls({
     >
       <button
         type="button"
-        onClick={onZoomIn}
+        onClick={() => {
+          track("chart_zoom", { how: "in" });
+          onZoomIn();
+        }}
         disabled={!canZoomIn}
         aria-label="Zoom in"
         title="Zoom in (or double-click, pinch, Ctrl/⌘ + scroll)"
@@ -47,7 +52,10 @@ export function ZoomControls({
       </button>
       <button
         type="button"
-        onClick={onZoomOut}
+        onClick={() => {
+          track("chart_zoom", { how: "out" });
+          onZoomOut();
+        }}
         disabled={!zoomed}
         aria-label="Zoom out"
         title="Zoom out"
@@ -57,7 +65,10 @@ export function ZoomControls({
       </button>
       <button
         type="button"
-        onClick={onReset}
+        onClick={() => {
+          track("chart_zoom", { how: "reset" });
+          onReset();
+        }}
         disabled={!zoomed}
         aria-label="Reset zoom"
         title="Reset zoom"

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { TradePageClient } from "@/components/trade/TradePageClient";
 import { getTradePageData } from "@/lib/trade-data";
 import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /**
  * /presidency/trade — the Presidency vertical's Trade section. The filter bar and
@@ -23,5 +24,10 @@ export const metadata: Metadata = {
 };
 
 export default function TradePage() {
-  return <TradePageClient data={getTradePageData()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/presidency/trade" />
+      <TradePageClient data={getTradePageData()} />
+    </>
+  );
 }

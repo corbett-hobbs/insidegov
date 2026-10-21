@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LawsPageClient } from "@/components/laws/LawsPageClient";
 import { getLawsPageData } from "@/lib/laws-data";
 import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /congress/laws — the Congress vertical's Laws section. */
 export const metadata: Metadata = {
@@ -18,5 +19,10 @@ export const metadata: Metadata = {
 };
 
 export default function LawsPage() {
-  return <LawsPageClient data={getLawsPageData()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/congress/laws" />
+      <LawsPageClient data={getLawsPageData()} />
+    </>
+  );
 }

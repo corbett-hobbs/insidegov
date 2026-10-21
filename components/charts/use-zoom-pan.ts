@@ -8,6 +8,7 @@ import {
   useState,
   type RefObject,
 } from "react";
+import { track } from "@/lib/analytics";
 
 /**
  * Zoom + pan for a square-domain scatter. The view is a window into the base
@@ -149,6 +150,7 @@ export function useZoomPan({
     const onWheel = (e: WheelEvent) => {
       if (!e.ctrlKey && !e.metaKey) return;
       e.preventDefault();
+      track("chart_zoom", { how: "gesture" }, 5000);
       const factor = Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.01));
       zoomBy(factor, e);
     };
@@ -194,6 +196,7 @@ export function useZoomPan({
         const newDist = Math.hypot(c.x - d.x, c.y - d.y);
         const newMid = { x: (c.x + d.x) / 2, y: (c.y + d.y) / 2 };
         if (gesture.current) gesture.current.dragging = true;
+        track("chart_zoom", { how: "gesture" }, 5000);
         panByPx(newMid.x - oldMid.x, newMid.y - oldMid.y);
         if (oldDist > 0 && newDist > 0) {
           zoomBy(newDist / oldDist, { clientX: newMid.x, clientY: newMid.y });
@@ -208,6 +211,7 @@ export function useZoomPan({
         // Nothing to pan at full fit; leave the gesture a plain click/hover.
         if (viewRef.current.k <= 1) return;
         g.dragging = true;
+        track("chart_zoom", { how: "gesture" }, 5000);
         svgRef.current?.setPointerCapture(e.pointerId);
       }
       pointers.current.set(e.pointerId, cur);
@@ -216,6 +220,7 @@ export function useZoomPan({
     onPointerUp: endPointer,
     onPointerCancel: endPointer,
     onDoubleClick: (e: React.MouseEvent<SVGSVGElement>) => {
+      track("chart_zoom", { how: "gesture" }, 5000);
       zoomBy(BUTTON_STEP * 1.25, e);
     },
     // Swallow the click that ends a drag so it doesn't open a dot's profile.

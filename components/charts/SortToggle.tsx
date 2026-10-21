@@ -1,5 +1,7 @@
 "use client";
 
+import { track } from "@/lib/analytics";
+
 /**
  * Shared sort control for "How each state votes" / "How each committee
  * votes" — three grouped pills, matching the site's existing toggle chrome
@@ -36,6 +38,7 @@ export function SortToggle({
   spreadLabel?: string;
 }) {
   function select(mode: SortMode) {
+    track("filter_change", { control: ariaLabel, value: mode });
     if (mode !== "ideology") {
       onChange({ mode, direction: state.direction });
       return;
@@ -133,7 +136,10 @@ export function ReversibleSortToggle<K extends string>({
           <button
             key={o.key}
             type="button"
-            onClick={() => onSelect(o.key)}
+            onClick={() => {
+              track("filter_change", { control: ariaLabel, value: o.key });
+              onSelect(o.key);
+            }}
             aria-pressed={on}
             disabled={o.disabled}
             title={on ? `${o.hint ? `${o.hint}. ` : ""}Click again to reverse the order` : o.hint}

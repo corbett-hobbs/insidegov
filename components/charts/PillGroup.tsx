@@ -1,5 +1,7 @@
 "use client";
 
+import { track } from "@/lib/analytics";
+
 /**
  * A grouped pick-one pill control in the site's existing toggle chrome (same
  * classes as `ChamberSwitch` and `SortToggle`): controlled, no state of its
@@ -30,7 +32,10 @@ export function PillGroup<T extends string>({
         <button
           key={o.value}
           type="button"
-          onClick={() => onChange(o.value)}
+          onClick={() => {
+            if (o.value !== value) track("filter_change", { control: ariaLabel ?? "pill group", value: o.value });
+            onChange(o.value);
+          }}
           aria-pressed={value === o.value}
           disabled={o.disabled}
           title={o.title}

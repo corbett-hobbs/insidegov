@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { track } from "@/lib/analytics";
 import { isPicked, pickLabel, pickedCount, setPicked, type Picked } from "@/lib/multi-select";
 
 export interface MultiOption<T> {
@@ -89,6 +90,11 @@ export function MultiSelectFilter<T extends string | number>({
     allLabel,
   );
 
+  const change = (next: Picked<T>) => {
+    track("filter_change", { control: label }, 1000);
+    onChange(next);
+  };
+
   return (
     <div
       ref={root}
@@ -129,13 +135,13 @@ export function MultiSelectFilter<T extends string | number>({
               {ticked} of {options.length} shown
             </span>
             <span className="text-[0.75rem]">
-              <button type="button" onClick={() => onChange(null)} className="rounded px-1 text-accent underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-focus">
+              <button type="button" onClick={() => change(null)} className="rounded px-1 text-accent underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-focus">
                 All
               </button>
               <span aria-hidden className="text-ink-faint">
                 {" · "}
               </span>
-              <button type="button" onClick={() => onChange(new Set())} className="rounded px-1 text-accent underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-focus">
+              <button type="button" onClick={() => change(new Set())} className="rounded px-1 text-accent underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-focus">
                 Clear
               </button>
             </span>
@@ -145,7 +151,7 @@ export function MultiSelectFilter<T extends string | number>({
               const on = isPicked(value, o.id);
               return (
                 <label key={String(o.id)} className="flex min-h-[2.75rem] cursor-pointer items-center gap-2 px-3 py-1.5 text-[0.8rem] hover:bg-surface-raised sm:min-h-[2.1rem]">
-                  <input type="checkbox" checked={on} onChange={(e) => onChange(setPicked(value, o.id, e.target.checked, ids))} className="m-0 h-4 w-4 flex-none cursor-pointer accent-[var(--accent)]" />
+                  <input type="checkbox" checked={on} onChange={(e) => change(setPicked(value, o.id, e.target.checked, ids))} className="m-0 h-4 w-4 flex-none cursor-pointer accent-[var(--accent)]" />
                   {o.swatch && <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-[2px] ${on ? "" : "opacity-35"}`} style={{ background: o.swatch }} />}
                   <span className="min-w-0 flex-1">
                     <span className={`block truncate ${on ? "text-ink" : "text-ink-muted"}`}>{o.label}</span>

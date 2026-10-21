@@ -13,18 +13,28 @@ import { decisionPath } from "@/lib/decision-url";
 import { getPresidentSlugs } from "@/lib/president-data";
 import { presidentPath } from "@/lib/president-url";
 import { liveSections } from "@/lib/verticals";
+import { branchFreshness, siteFreshness } from "@/lib/data-freshness";
+import { parseDataDate } from "@/lib/freshness-dates";
 import { absoluteUrl } from "@/lib/site";
 import { CROSS_BRANCH_PAGES, STATIC_PAGES } from "@/lib/site-info";
 
+const sectionDate = (href: string) =>
+  href.startsWith("/congress") ? branchFreshness("congress") : href.startsWith("/supreme-court") ? branchFreshness("court") : branchFreshness("presidency");
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // Real data dates (lib/data-freshness.ts), not the build time: a crawler is told a page changed only when its data did.
+  // A branch with no date leaves `lastModified` off.
+  const site = siteFreshness();
+  const congress = branchFreshness("congress");
+  const court = branchFreshness("court");
+  const presidency = branchFreshness("presidency");
 
   const profiles = CHAMBERS.flatMap((chamber) =>
     getCurrentMembers(chamber).map((m) => ({
       url: absoluteUrl(
         memberPath({ bioguideId: m.bioguideId, chamber, name: m.name }),
       ),
-      lastModified: now,
+      lastModified: congress,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
@@ -32,35 +42,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const committees = getAllCommittees().map((c) => ({
     url: absoluteUrl(committeePath(c)),
-    lastModified: now,
+    lastModified: congress,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
   const justices = getJusticeRefs().map((j) => ({
     url: absoluteUrl(justicePath(j)),
-    lastModified: now,
+    lastModified: court,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
   const presidents = getPresidentSlugs().map((slug) => ({
     url: absoluteUrl(presidentPath(slug)),
-    lastModified: now,
+    lastModified: presidency,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const laws = getLawRefs().map((l) => ({
     url: absoluteUrl(lawPath(l.lawId, l.title)),
-    lastModified: now,
+    lastModified: parseDataDate(l.date),
     changeFrequency: "yearly" as const,
     priority: 0.4,
   }));
 
   const decisions = getDecisionRefs().map((r) => ({
     url: absoluteUrl(decisionPath(r.caseId, r.name)),
-    lastModified: now,
+    lastModified: court,
     changeFrequency: "yearly" as const,
     priority: 0.4,
   }));
@@ -68,25 +78,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: absoluteUrl("/"),
-      lastModified: now,
+      lastModified: site,
       changeFrequency: "weekly",
       priority: 1,
     },
     ...liveSections().map((s) => ({
       url: absoluteUrl(s.href),
-      lastModified: now,
+      lastModified: sectionDate(s.href),
       changeFrequency: "weekly" as const,
       priority: 0.9,
     })),
     ...CROSS_BRANCH_PAGES.map((p) => ({
       url: absoluteUrl(p.href),
-      lastModified: now,
+      lastModified: site,
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
     ...STATIC_PAGES.map((path) => ({
       url: absoluteUrl(path),
-      lastModified: now,
+      lastModified: site,
       changeFrequency: "monthly" as const,
       priority: 0.5,
     })),

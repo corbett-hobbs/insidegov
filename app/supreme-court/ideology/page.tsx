@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getCourtPayload, getCourtPresidentBand } from "@/lib/justice-data";
 import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
 import { CourtExplorer } from "@/components/court/CourtExplorer";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 // PLACEHOLDER COPY — title/description awaiting Corby's edit.
 export const metadata: Metadata = {
@@ -20,5 +21,10 @@ export const metadata: Metadata = {
 };
 
 export default function SupremeCourtPage() {
-  return <CourtExplorer data={getCourtPayload()} presidents={getCourtPresidentBand()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/supreme-court/ideology" />
+      <CourtExplorer data={getCourtPayload()} presidents={getCourtPresidentBand()} />
+    </>
+  );
 }

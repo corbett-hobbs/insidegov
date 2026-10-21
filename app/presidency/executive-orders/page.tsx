@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getExecutiveOrdersData } from "@/lib/executive-orders-data";
 import { ExecutiveOrdersPageClient } from "@/components/executive-orders/ExecutiveOrdersPageClient";
 import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/executive-orders — the Presidency vertical's Executive orders section. */
 export const metadata: Metadata = {
@@ -19,5 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default function ExecutiveOrdersPage() {
-  return <ExecutiveOrdersPageClient data={getExecutiveOrdersData()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/presidency/executive-orders" />
+      <ExecutiveOrdersPageClient data={getExecutiveOrdersData()} />
+    </>
+  );
 }

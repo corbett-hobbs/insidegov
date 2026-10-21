@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ForeignAidPageClient } from "@/components/foreign-aid/ForeignAidPageClient";
 import { getAidPayload, getWorldMap } from "@/lib/foreign-aid-data";
 import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/foreign-aid — U.S. foreign assistance disbursements by fiscal year, country and sector. */
 export const metadata: Metadata = {
@@ -19,5 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default function ForeignAidPage() {
-  return <ForeignAidPageClient payload={getAidPayload()} map={getWorldMap()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/presidency/foreign-aid" />
+      <ForeignAidPageClient payload={getAidPayload()} map={getWorldMap()} />
+    </>
+  );
 }
