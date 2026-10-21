@@ -42,6 +42,7 @@ export function StackedRows({
   emptyText,
   rowClass = "",
   wideLabels = false,
+  centreSelected = true,
 }: {
   rows: readonly StackedRowData[];
   /** The value a full-width bar stands for. */
@@ -53,9 +54,11 @@ export function StackedRows({
   rowClass?: string;
   /** Long labels (product names): a label column up to 260px instead of 118px, so names truncate far less often. Ranked rows with a delta only. */
   wideLabels?: boolean;
+  /** Centre a selected row in its scroll box (default). Off when the caller scrolls an opened row itself (the trade goods lists put it at the top, its panel under it). */
+  centreSelected?: boolean;
 }) {
   const listRef = useRef<HTMLUListElement>(null);
-  useScrollSelectedRow(listRef, selectedRowsKey(rows));
+  useScrollSelectedRow(listRef, centreSelected ? selectedRowsKey(rows) : "");
   // No row has a second value (a delta, a military dollar figure): drop its column so the bar runs the full width.
   const hasDelta = rows.some((r) => !!r.delta);
   // No row has a rank (policy areas, issue areas): drop its column so labels start at the left edge and get the space back.

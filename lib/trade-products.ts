@@ -2,11 +2,11 @@ import { HS_CHAPTERS, SPECIAL_HEADINGS } from "./trade-hs-chapters";
 import type { TradeProductsNationalRow, TradeProductsPartnersRow } from "./trade-products-entities";
 
 /**
- * Pure model for the "What the U.S. trades" card: one partner's (or all
- * countries') goods by Harmonized System chapter and top headings, for one year
+ * Pure model for the chapter list of the "What the U.S. trades" card: one
+ * partner's (or all countries') goods by Harmonized System chapter, for one year
  * and flow. Values are whole dollars, as in `trade_products_*`. Chapters 98 and
  * 99 and the special headings (returned goods, low-value estimates) are never
- * ranked as products: they are summed into `special` for a footnote. A chapter's
+ * ranked as chapters: they are summed into `special` for a footnote. A chapter's
  * collected rate is calculated duty over imports for consumption (tuple index 3
  * over index 2), never over general imports. See docs/TRADE_METHODOLOGY.md
  * ("Goods by product").
@@ -16,7 +16,11 @@ import type { TradeProductsNationalRow, TradeProductsPartnersRow } from "./trade
 export const ALL_PRODUCTS = "all";
 
 export type ProductsFlow = "exports" | "imports";
-export type ProductsRow = TradeProductsNationalRow;
+/** `Omit` for each member of a union (a plain `Omit` collapses exports and imports rows into their common fields). */
+type OmitEach<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
+/** A products row without its top headings: the card ranks chapters only, so the routes drop them. */
+export type ProductsRow = OmitEach<TradeProductsNationalRow, "headings">;
 
 /** What `/data/trade/products/[code]` serves. */
 export interface TradeProductsPayload {
@@ -24,13 +28,11 @@ export interface TradeProductsPayload {
   code: string | null;
   /** One row per (year, flow), 2010 on; the year in progress has `months` < 12. */
   rows: ProductsRow[];
-  /** Plain-English name for every heading the rows rank (`lib/trade-hs-headings.ts`). */
-  names: Record<string, string>;
 }
 
-/** What `/data/trade/product-partners/[year]` serves: the top countries behind each chapter and top heading in one year (both flows). */
+/** What `/data/trade/product-partners/[year]` serves: the top countries behind each chapter in one year (both flows). */
 export interface ProductPartnersPayload {
-  rows: TradeProductsPartnersRow[];
+  rows: OmitEach<TradeProductsPartnersRow, "headings">[];
   /** Display name for every partner code the rows list. */
   names: Record<string, string>;
 }
@@ -56,8 +58,6 @@ export interface ProductLine {
   share: number;
   /** Imports only: calculated duty / imports for consumption. Null for exports or no imports for consumption. */
   rate: number | null;
-  /** The heading's chapter (a chapter's own code for chapter lines). */
-  chapter: string;
 }
 
 export interface ProductsView {
@@ -70,8 +70,6 @@ export interface ProductsView {
   rate: number | null;
   /** Ordinary chapters (01-97) with trade, largest first. */
   chapters: ProductLine[];
-  /** Top goods headings, largest first (10 per partner, 25 for all countries). */
-  headings: ProductLine[];
   /** Special headings with trade, largest first, with their labels for this flow. */
   special: { code: string; label: string; value: number }[];
   /** Chapters 98 + 99. */
@@ -86,18 +84,14 @@ export function productsView(payload: TradeProductsPayload, year: number, flow: 
   if (!r) return null;
   const total = r.value;
   const share = (v: number) => (total > 0 ? v / total : 0);
-  const line = (t: readonly (string | number)[], name: string, chapter: string): ProductLine => {
+  const line = (t: readonly (string | number)[], name: string): ProductLine => {
     const value = t[1] as number;
-    return { code: t[0] as string, name, value, share: share(value), rate: r.flow === "imports" ? rateOf(t[2] as number, t[3] as number) : null, chapter };
+    return { code: t[0] as string, name, value, share: share(value), rate: r.flow === "imports" ? rateOf(t[2] as number, t[3] as number) : null };
   };
   const isSpecial = (code: string) => HS_CHAPTERS[code]?.kind === "special";
   const chapters = r.chapters
     .filter((t) => !isSpecial(t[0]) && t[1] > 0)
-    .map((t) => line(t, HS_CHAPTERS[t[0]]?.name ?? `Chapter ${t[0]}`, t[0]))
-    .sort((a, b) => b.value - a.value);
-  const headings = r.headings
-    .filter((t) => t[1] > 0)
-    .map((t) => line(t, payload.names[t[0]] ?? `Heading ${t[0]}`, t[0].slice(0, 2)))
+    .map((t) => line(t, HS_CHAPTERS[t[0]]?.name ?? `Chapter ${t[0]}`))
     .sort((a, b) => b.value - a.value);
   const special = r.special
     .filter((t) => t[1] > 0)
@@ -111,19 +105,18 @@ export function productsView(payload: TradeProductsPayload, year: number, flow: 
     total,
     rate: r.flow === "imports" ? rateOf(r.con_value, r.duties) : null,
     chapters,
-    headings,
     special,
     specialTotal,
   };
 }
 
 /**
- * The countries behind one chapter or heading in one year and flow, largest first (at most 5), or null when the
- * payload has no such list (a year or heading it does not carry). `lineValue` is the product's all-countries value.
+ * The countries behind one chapter in one year and flow, largest first (at most 5), or null when the payload has no
+ * such list (a year or chapter it does not carry). `lineValue` is the chapter's all-countries value.
  */
-export function partnersOf(payload: ProductPartnersPayload, year: number, flow: ProductsFlow, level: "chapter" | "heading", code: string, lineValue: number): PartnerLine[] | null {
+export function partnersOf(payload: ProductPartnersPayload, year: number, flow: ProductsFlow, code: string, lineValue: number): PartnerLine[] | null {
   const r = payload.rows.find((x) => x.year === year && x.flow === flow);
-  const list = (level === "chapter" ? r?.chapters : r?.headings)?.[code] as readonly (readonly (string | number)[])[] | undefined;
+  const list = r?.chapters[code] as readonly (readonly (string | number)[])[] | undefined;
   return list ? partnerLines(list, payload.names, flow, lineValue) : null;
 }
 
@@ -161,11 +154,11 @@ export function fmtPct(r: number): string {
 }
 
 /**
- * The footnote for what the ranking leaves out: "Plus $30.4B in special entries, not ranked as products: returned
+ * The footnote for what a ranking leaves out: "Plus $30.4B in special entries, not ranked as chapters: returned
  * American goods $24.1B, estimated low-value shipments $7.9B, other $0.5B." Names the two largest special entries;
- * null when there are none. `ranked` names what the list ranks ("products", or "kinds of goods" in the "By use" view).
+ * null when there are none. `ranked` names what the list ranks ("chapters", or "uses" for the end-use list).
  */
-export function specialNote(view: Pick<ProductsView, "special" | "specialTotal">, ranked = "products"): string | null {
+export function specialNote(view: Pick<ProductsView, "special" | "specialTotal">, ranked = "chapters"): string | null {
   if (view.specialTotal <= 0 || view.special.length === 0) return null;
   const named = view.special.slice(0, 2);
   const rest = view.specialTotal - named.reduce((a, s) => a + s.value, 0);

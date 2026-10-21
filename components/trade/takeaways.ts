@@ -33,13 +33,7 @@ export const TRADE_TAKEAWAYS = {
   products: {
     title: "What the U.S. trades",
     takeaway: (through: string) =>
-      `Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021 and led each year through ${through} 2026. Machinery and computers grew from 13% of goods imports in 2010 to a record 25% in 2026 through ${through}.`,
-  },
-  /** The products card's "By use" view (end-use categories). */
-  enduse: {
-    title: "What the U.S. trades, by use",
-    takeaway: (through: string) =>
-      `Civilian aircraft, engines and parts led U.S. goods exports every year from 2010 to 2020 and again since 2024. Computers became the largest goods import in 2026 through ${through}, passing pharmaceuticals; crude oil led in 2010.`,
+      `Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021 and led each year through ${through} 2026. By use, computers became the largest goods import in 2026 through ${through}, passing pharmaceuticals.`,
   },
   scatter: {
     title: "Did tariffs shift trade?",

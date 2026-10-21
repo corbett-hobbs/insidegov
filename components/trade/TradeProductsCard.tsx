@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useMemo, useState, type ReactNode } from "react";
+import { memo, useCallback, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
@@ -9,11 +9,12 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
 import { ToggleReadout } from "@/components/charts/ToggleReadout";
 import { YearPicker } from "@/components/charts/YearPicker";
-import { EnduseYearsChart } from "./EnduseYearsChart";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
 import { MONTH_NAMES } from "@/lib/indicator-time";
-import { ENDUSE_GROUPS, enduseCategoryByYear, enduseColor, enduseGroupIndex, enduseSeries, endusePartnersOf, enduseView, OTHER_COLOR, type EndusePartnersPayload, type TradeEndusePayload } from "@/lib/trade-enduse";
+import { breakdown, linkedCodes, type BreakdownKind, type BreakdownPart, type ChapterUsePayload } from "@/lib/trade-chapter-use";
+import { endusePartnersOf, enduseView, type EndusePartnersPayload, type EnduseView, type TradeEndusePayload } from "@/lib/trade-enduse";
+import { ENDUSE_LABELS } from "@/lib/trade-enduse-labels";
 import { HS_CHAPTERS } from "@/lib/trade-hs-chapters";
 import {
   fmtDollars,
@@ -30,37 +31,40 @@ import {
   type ProductsView,
   type TradeProductsPayload,
 } from "@/lib/trade-products";
-import type { SankeyPick } from "@/lib/trade-sankey";
 import { TRADE_TAKEAWAYS } from "./takeaways";
-
-/** The same goods two ways: Harmonized System products, or Census end-use categories. */
-const MODES = [
-  { value: "product", label: "By product" },
-  { value: "use", label: "By use" },
-] as const;
-type Mode = (typeof MODES)[number]["value"];
 
 const FLOWS = [
   { value: "exports", label: "Exports" },
   { value: "imports", label: "Imports" },
 ] as const;
 
-/** One solid colour for every bar (rule 8): each list is a single series, and the toggle says which flow. */
+/** One solid colour for every bar in both lists (rule 8): each list is a single series, and the toggle says which flow. */
 const BAR = "var(--ink-muted)";
 const CAPTION = "m-0 font-mono text-[0.65rem] uppercase tracking-[0.06em] text-ink-muted";
+/** The panel's rows use the list rows' own grid (`StackedRows` with `wideLabels`: rank, label, bar, dollars, last column), so its numbers sit under the row's. */
+const GRID = "grid grid-cols-[24px_minmax(110px,260px)_minmax(60px,1fr)_50px_44px] items-center gap-x-2 px-2 @max-[400px]:grid-cols-[24px_1fr_auto_auto]";
+/** Breakdown colours: five named parts, then grey for the Other line and lighter grey for special entries. */
+const PART_COLOURS = ["var(--breakdown-1)", "var(--breakdown-2)", "var(--breakdown-3)", "var(--breakdown-4)", "var(--breakdown-5)"] as const;
+const PART_OTHER = "var(--breakdown-other)";
+const PART_SPECIAL = "color-mix(in oklab, var(--ink-muted) 45%, var(--surface))";
+/** The countries: steps of one grey, so colour in an open panel always means a use or a chapter, never a country. */
+const countryTone = (i: number) => `color-mix(in oklab, var(--ink-muted) ${100 - i * 17}%, var(--surface))`;
 
-/** One ranked list in the table fallback: its screen-reader caption and its lines. */
+type Loaded = "loading" | "error" | "ok";
+
+/** One ranked list in the table fallback. */
 interface TableSection {
   caption: string;
+  code: string;
+  name: string;
   lines: ProductLine[];
+  special: ProductsView["special"];
+  specialHead: string;
 }
 
-/**
- * The table fallback for either view: the ranked lists (chapters then top products, or the categories), then the special
- * entries. `code` and `name` head the first two columns ("HS" / "Product", or "Code" / "Category").
- */
-const DataTable = memo(function DataTable({ view, sections, code, name, intro, where }: { view: Pick<ProductsView, "flow" | "year" | "months" | "special">; sections: TableSection[]; code: string; name: string; intro: string; where: string }) {
-  const imports = view.flow === "imports";
+/** The table fallback: every chapter, then every use, each followed by the special entries it leaves out. */
+const DataTable = memo(function DataTable({ flow, period, sections, where }: { flow: ProductsFlow; period: string; sections: TableSection[]; where: string }) {
+  const imports = flow === "imports";
   const head = (cells: string[]) => (
     <thead className="sticky top-0 bg-surface-raised">
       <tr className="font-mono text-[0.65rem] uppercase tracking-[0.05em] text-ink-muted">
@@ -70,142 +74,208 @@ const DataTable = memo(function DataTable({ view, sections, code, name, intro, w
       </tr>
     </thead>
   );
-  const cols = imports ? [code, name, "Imports", "Share", "Duty rate"] : [code, name, "Exports", "Share"];
-  const body = (lines: ProductLine[]) => (
-    <tbody>
-      {lines.map((l) => (
-        <tr key={l.code} className="border-t border-line">
-          <td className="px-2 py-1 font-mono">{l.code}</td>
-          <th scope="row" className="px-2 py-1 font-normal">{l.name}</th>
-          <td className="px-2 py-1">{fmtDollars(l.value)}</td>
-          <td className="px-2 py-1">{fmtPct(l.share)}</td>
-          {imports && <td className="px-2 py-1">{l.rate === null ? "—" : fmtPct(l.rate)}</td>}
-        </tr>
-      ))}
-    </tbody>
-  );
-  const period = periodText(view.year, view.months, MONTH_NAMES);
   return (
     <details className="mt-3">
       <summary className={TABLE_TOGGLE}>View as table</summary>
       <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">
-        {intro}, for {where}, {period}, for screen readers and copying.{imports ? " Duty rate: calculated duties over imports for consumption." : ""}
+        Every chapter, then every use, for {where}, {period}, for screen readers and copying.{imports ? " Duty rate: calculated duties over imports for consumption." : ""}
       </p>
       <div className="mt-2 max-h-72 overflow-auto">
         {sections.map((t, i) => (
-          <table key={t.caption} className={`${i > 0 ? "mt-4 " : ""}w-full border-collapse text-left text-[0.75rem] tabular-nums`}>
-            <caption className="sr-only">{`${t.caption}, ${where}, ${period}`}</caption>
-            {head(cols)}
-            {body(t.lines)}
-          </table>
+          <div key={t.caption}>
+            <table className={`${i > 0 ? "mt-4 " : ""}w-full border-collapse text-left text-[0.75rem] tabular-nums`}>
+              <caption className="sr-only">{`${t.caption}, ${where}, ${period}`}</caption>
+              {head(imports ? [t.code, t.name, "Imports", "Share", "Duty rate"] : [t.code, t.name, "Exports", "Share"])}
+              <tbody>
+                {t.lines.map((l) => (
+                  <tr key={l.code} className="border-t border-line">
+                    <td className="px-2 py-1 font-mono">{l.code}</td>
+                    <th scope="row" className="px-2 py-1 font-normal">{l.name}</th>
+                    <td className="px-2 py-1">{fmtDollars(l.value)}</td>
+                    <td className="px-2 py-1">{fmtPct(l.share)}</td>
+                    {imports && <td className="px-2 py-1">{l.rate === null ? "—" : fmtPct(l.rate)}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {t.special.length > 0 && (
+              <table className="mt-2 w-full border-collapse text-left text-[0.75rem] tabular-nums">
+                <caption className="sr-only">{`Special entries, not ranked as ${t.name.toLowerCase()}s, ${where}, ${period}`}</caption>
+                {head([t.code, t.specialHead, imports ? "Imports" : "Exports"])}
+                <tbody>
+                  {t.special.map((s) => (
+                    <tr key={s.code} className="border-t border-line">
+                      <td className="px-2 py-1 font-mono">{s.code}</td>
+                      <th scope="row" className="px-2 py-1 font-normal">{s.label}</th>
+                      <td className="px-2 py-1">{fmtDollars(s.value)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         ))}
-        {view.special.length > 0 && (
-          <table className="mt-4 w-full border-collapse text-left text-[0.75rem] tabular-nums">
-            <caption className="sr-only">{`Special entries, not ranked, ${where}, ${period}`}</caption>
-            {head([code, "Special entry (not ranked)", imports ? "Imports" : "Exports"])}
-            <tbody>
-              {view.special.map((s) => (
-                <tr key={s.code} className="border-t border-line">
-                  <td className="px-2 py-1 font-mono">{s.code}</td>
-                  <th scope="row" className="px-2 py-1 font-normal">{s.label}</th>
-                  <td className="px-2 py-1">{fmtDollars(s.value)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
       </div>
     </details>
   );
 });
 
-/** An open line: which list it is in, and its code (two digits for a chapter, four for a product, five for a category in the "By use" view). */
+/** An open line: which list it is in, and its code (two digits for a chapter, five for a use). */
 interface Open {
-  level: "chapter" | "heading" | "category";
+  kind: BreakdownKind;
   code: string;
 }
 
-/**
- * The countries behind an open line, under its row: same columns as the list (rank, name, bar, dollars, duty rate or
- * share), the bar measured against the line's own total so it reads as the country's share of it.
- */
-function CountriesPanel({ line, flow, partners, state }: { line: ProductLine; flow: ProductsFlow; partners: PartnerLine[] | null; state: "loading" | "error" | "ok" }): ReactNode {
-  const imports = flow === "imports";
-  const note = (text: string) => <p className="m-0 px-2 py-2 text-[0.78rem] text-ink-muted">{text}</p>;
-  // The list rows' own grid (`StackedRows`: rank, label, bar, dollars, rate; the bar drops to its own line under 400px), so the bar and the numbers sit under the row's.
-  const GRID = "grid grid-cols-[24px_minmax(110px,260px)_minmax(60px,1fr)_50px_44px] items-center gap-x-2 px-2 @max-[400px]:grid-cols-[24px_1fr_auto_auto]";
-  let body: ReactNode;
-  if (state === "error") body = note("Couldn’t load the countries. Tap the line again to retry.");
-  else if (state === "loading") body = note("Loading the countries…");
-  else if (!partners || partners.length === 0) body = note("No countries recorded for this line.");
-  else {
-    const covered = partners.reduce((a, p) => a + p.share, 0);
-    const caption = `Top ${partners.length} ${imports ? "suppliers" : "buyers"} · ${fmtPct(Math.min(1, covered))} of line`;
-    // One bar on the line's own scale, one segment per country in steps of one grey, then one row per country under it.
-    const tone = (i: number) => `color-mix(in oklab, var(--ink-muted) ${100 - i * 17}%, var(--surface))`;
-    body = (
-      <>
-        <div className={`${GRID} gap-y-1`}>
-          <span className={`${CAPTION} col-[1/4] @max-[400px]:col-[1/3]`}>{caption}</span>
-          <span className={`${CAPTION} col-[4/6] text-right @max-[400px]:col-[3/5]`}>{imports ? "Duty rate" : "Share"}</span>
-          <span className="col-[3] flex h-[11px] overflow-hidden rounded-[2px] bg-[color-mix(in_oklab,var(--ink)_5%,transparent)] @max-[400px]:col-[2/-1]" role="img" aria-label={caption}>
-            {partners.map((p, i) => (
-              <i key={p.code} className="block h-full" style={{ width: `${(p.value / line.value) * 100}%`, background: tone(i) }} title={`${p.name}: ${fmtDollars(p.value)}, ${fmtPct(p.share)} of ${line.name}`} />
-            ))}
-          </span>
-        </div>
-        <ol className="m-0 mt-1 list-none p-0 text-[0.82rem] text-ink">
-          {partners.map((p, i) => (
-            <li key={p.code} className={`${GRID} py-0.5`}>
-              <svg width="8" height="8" aria-hidden className="justify-self-end">
-                <rect width="8" height="8" rx="2" fill={tone(i)} />
-              </svg>
-              <span className="col-[2/4] truncate @max-[400px]:col-[2]" title={p.name}>{p.name}</span>
-              <span className="text-right font-mono text-[0.75rem] tabular-nums">{fmtDollars(p.value)}</span>
-              <span className="whitespace-nowrap text-left font-mono text-[0.7rem] tabular-nums text-ink-muted">{imports ? (p.rate === null ? "—" : fmtPct(p.rate)) : fmtPct(p.share)}</span>
-            </li>
+const note = (text: string) => <p className="m-0 px-2 py-1 text-[0.78rem] text-ink-muted">{text}</p>;
+
+/** One section of an open line's panel: a caption with a right-hand column head, one bar split into parts, then a row per part. */
+function PanelSection({ caption, right, segments, children }: { caption: string; right: string; segments: { key: string; value: number; colour: string; title: string }[]; children: ReactNode }) {
+  return (
+    <>
+      <div className={`${GRID} gap-y-1`}>
+        <span className={`${CAPTION} col-[1/4] @max-[400px]:col-[1/3]`}>{caption}</span>
+        <span className={`${CAPTION} col-[4/6] text-right @max-[400px]:col-[3/5]`}>{right}</span>
+        <span className="col-[3] flex h-[11px] overflow-hidden rounded-[2px] bg-[color-mix(in_oklab,var(--ink)_5%,transparent)] @max-[400px]:col-[2/-1]" role="img" aria-label={caption}>
+          {segments.map((s) => (
+            <i key={s.key} className="block h-full border-r border-surface last:border-r-0" style={{ width: `${s.value * 100}%`, background: s.colour }} title={s.title} />
           ))}
-        </ol>
-      </>
-    );
-  }
-  return <div className="mb-1.5 mt-0.5 rounded-md bg-[color-mix(in_oklab,var(--ink)_4%,transparent)] py-1.5">{body}</div>;
+        </span>
+      </div>
+      <ol className="m-0 mt-1 list-none p-0 text-[0.82rem] text-ink">{children}</ol>
+    </>
+  );
 }
 
-/** The "By use" view's data, fetched by the page the first time someone switches to it (`onWant`). */
-export interface ByUseProps {
-  payload: TradeEndusePayload | null;
-  /** False when the picked country has no end-use file. */
+const swatch = (fill: string) => (
+  <svg width="8" height="8" aria-hidden className="justify-self-end">
+    <rect width="8" height="8" rx="2" fill={fill} />
+  </svg>
+);
+
+const lowerFirst = (s: string) => (s.length > 1 && /[a-z]/.test(s[1]) ? s[0].toLowerCase() + s.slice(1) : s);
+
+/**
+ * "What it's used for" (an open chapter's end uses) or "Where it comes from" (an open use's chapters): the top five
+ * parts and an Other line, each with its share of the line and, under its name, how much of that whole use (or
+ * chapter) this line accounts for.
+ */
+function BreakdownSection({ line, kind, flow, parts, count, state }: { line: ProductLine; kind: BreakdownKind; flow: ProductsFlow; parts: BreakdownPart[] | null; count: number; state: Loaded }) {
+  const chapter = kind === "chapter";
+  const title = chapter ? "What it’s used for" : "Where it comes from";
+  if (state === "error") return note(`${title}: couldn’t load. Tap the line again to retry.`);
+  if (state === "loading" || !parts) return note(`${title}: loading…`);
+  if (parts.length === 0) return note(`${title}: nothing recorded.`);
+  const noun = chapter ? (count === 1 ? "use" : "uses") : count === 1 ? "chapter" : "chapters";
+  const colour = (p: BreakdownPart, i: number) => (p.special ? PART_SPECIAL : p.code === null ? PART_OTHER : PART_COLOURS[i] ?? PART_OTHER);
+  const context = (p: BreakdownPart) =>
+    p.whole === null || p.value >= p.whole * 0.995 ? null : chapter ? `${fmtPct(p.value / p.whole)} of all ${lowerFirst(p.name)} ${flow}` : `${fmtPct(p.value / p.whole)} of the chapter’s ${flow}`;
+  return (
+    <PanelSection
+      caption={`${title} · ${count} ${noun}`}
+      right="Share"
+      segments={parts.map((p, i) => ({ key: p.code ?? p.name, value: p.share, colour: colour(p, i), title: `${p.name}: ${fmtDollars(p.value)}, ${fmtPct(p.share)} of ${line.name}` }))}
+    >
+      {parts.map((p, i) => {
+        const c = context(p);
+        return (
+          <li key={p.code ?? p.name} className={`${GRID} py-0.5`}>
+            {swatch(colour(p, i))}
+            <span className="col-[2/4] min-w-0 @max-[400px]:col-[2]">
+              <span className={`block truncate ${p.code === null ? "italic text-ink-muted" : ""}`} title={p.name}>
+                {p.name}
+              </span>
+              {c && <span className="block text-[0.7rem] leading-tight text-ink-muted">{c}</span>}
+            </span>
+            <span className="text-right font-mono text-[0.75rem] tabular-nums">{fmtDollars(p.value)}</span>
+            <span className="whitespace-nowrap text-left font-mono text-[0.7rem] tabular-nums text-ink-muted">{fmtPct(p.share)}</span>
+          </li>
+        );
+      })}
+    </PanelSection>
+  );
+}
+
+/** The countries behind an open line: one grey bar on the line's own scale, then a row per country with its duty rate (imports) or share. */
+function CountriesSection({ line, flow, partners, state }: { line: ProductLine; flow: ProductsFlow; partners: PartnerLine[] | null; state: Loaded }) {
+  const imports = flow === "imports";
+  if (state === "error") return note("Couldn’t load the countries. Tap the line again to retry.");
+  if (state === "loading") return note("Loading the countries…");
+  if (!partners || partners.length === 0) return note("No countries recorded for this line.");
+  const covered = partners.reduce((a, p) => a + p.share, 0);
+  return (
+    <PanelSection
+      caption={`Top ${partners.length} ${imports ? "suppliers" : "buyers"} · ${fmtPct(Math.min(1, covered))} of line`}
+      right={imports ? "Duty rate" : "Share"}
+      segments={partners.map((p, i) => ({ key: p.code, value: p.value / line.value, colour: countryTone(i), title: `${p.name}: ${fmtDollars(p.value)}, ${fmtPct(p.share)} of ${line.name}` }))}
+    >
+      {partners.map((p, i) => (
+        <li key={p.code} className={`${GRID} py-0.5`}>
+          {swatch(countryTone(i))}
+          <span className="col-[2/4] truncate @max-[400px]:col-[2]" title={p.name}>
+            {p.name}
+          </span>
+          <span className="text-right font-mono text-[0.75rem] tabular-nums">{fmtDollars(p.value)}</span>
+          <span className="whitespace-nowrap text-left font-mono text-[0.7rem] tabular-nums text-ink-muted">{imports ? (p.rate === null ? "—" : fmtPct(p.rate)) : fmtPct(p.share)}</span>
+        </li>
+      ))}
+    </PanelSection>
+  );
+}
+
+/** A callback ref that reports the element's height (margins included), kept current as it resizes; 0 once it unmounts. */
+function useHeight(): [(el: HTMLElement | null) => void, number] {
+  const [h, setH] = useState(0);
+  const ro = useRef<ResizeObserver | null>(null);
+  const ref = useCallback((el: HTMLElement | null) => {
+    ro.current?.disconnect();
+    ro.current = null;
+    if (!el) {
+      setH(0);
+      return;
+    }
+    const measure = () => {
+      const cs = getComputedStyle(el);
+      setH(Math.ceil(el.getBoundingClientRect().height + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom)));
+    };
+    const o = new ResizeObserver(measure);
+    o.observe(el);
+    ro.current = o;
+    measure();
+  }, []);
+  return [ref, h];
+}
+
+/** The page's files for one list kind: its ranked payload and the top-countries file behind its lines. */
+export interface ListFiles<P, Q> {
+  payload: P | null;
+  /** False when the picked country has no file of this kind. */
   hasData: boolean;
   loading: boolean;
   error: boolean;
-  onWant: () => void;
-  /** The top countries behind each category for the year on screen, once fetched (after `onWantPartners`). */
-  partners: EndusePartnersPayload | null;
+  /** The top countries behind each line for the year on screen, once fetched (after `onWantPartners`). */
+  partners: Q | null;
   partnersState: "idle" | "loading" | "error" | "ok";
   onWantPartners: () => void;
 }
 
 /**
- * "What the U.S. trades": goods by Harmonized System chapter, ranked by dollars, beside the top products
- * (four-digit headings), for the year the partners card above shows (the page's one selected year; this card's
- * own YearPicker sets the same year) and the page's Country filter (all countries when none is picked). An
- * Exports / Imports toggle; imports carry each chapter's collected rate (calculated duties over imports for
- * consumption). Chapters 98 and 99 are never ranked: they are a footnote line under the lists. Clicking a
- * chapter highlights its products and dims the rest (rule 4: a comparison highlights, never narrows); clicking a
- * product highlights its chapter. With all countries showing, a clicked line also opens a panel under its row with the
- * five countries that sent or took the most of it (`CountriesPanel`; data: `/data/trade/product-partners/[year]`, fetched the
- * first time a line opens, for the year on screen); with one country picked there is nothing to break down, so a click only highlights.
- * Model: `lib/trade-products.ts`; data: `/data/trade/products/[code]`.
+ * "What the U.S. trades": goods two ways side by side, on one dollar scale, for the year the partners card above shows (the
+ * page's one selected year; this card's own YearPicker sets the same year) and the page's Country filter (all countries
+ * when none is picked). Left, Harmonized System chapters (what the goods are); right, Census end-use categories (what they
+ * are for). An Exports / Imports toggle; imports carry each line's collected rate (calculated duties over imports for
+ * consumption). Special entries (chapters 98-99; minimum-value shipments and returned goods) are never ranked: a footnote
+ * line under the lists sums each.
  *
- * A By product / By use toggle switches the same card (same year, Country filter, flow) to Census end-use categories
- * (aircraft, computers, semiconductors, cell phones): one ranked list drawn with the same rows, countries panel, footnote and
- * table, its special entries (minimum-value shipments, returned goods) in the footnote. With one country picked its rows do
- * not open (as for products) and, with no chapter to highlight, do nothing. Model: `lib/trade-enduse.ts`; data:
- * `/data/trade/enduse/[code]` and `/data/trade/enduse-partners/[year]`.
+ * With all countries showing, a tapped line opens a panel under its row: its breakdown (a chapter's uses, or a use's
+ * chapters: `BreakdownSection`, data `/data/trade/chapter-use/[year]`) above the five countries behind it
+ * (`CountriesSection`, data `/data/trade/product-partners/[year]` or `/data/trade/enduse-partners/[year]`), all fetched
+ * for the year on screen the first time a line opens. The other list keeps the lines linked to it lit and dims the rest
+ * (rule 4: a comparison highlights, never narrows). Each list is a fixed-height scroll box (rule 11a); an open panel adds
+ * its own height to its box, and on two columns to the other box too, so the open list keeps the rows it showed and the
+ * other list shows more instead of leaving a gap. With one country picked there is nothing to break down, so rows do not open.
+ * Models: `lib/trade-products.ts`, `lib/trade-enduse.ts`, `lib/trade-chapter-use.ts`.
  */
 export function TradeProductsCard({
-  payload,
   year,
   onYear,
   firstYear,
@@ -213,17 +283,13 @@ export function TradeProductsCard({
   through,
   country,
   countryName,
-  hasData,
   lag,
-  loading,
-  error,
-  partners,
-  partnersState,
-  onWantPartners,
-  byUse,
-  onFollow,
+  chapters,
+  uses,
+  chapterUse,
+  chapterUseState,
+  onWantChapterUse,
 }: {
-  payload: TradeProductsPayload | null;
   year: number;
   onYear: (y: number) => void;
   firstYear: number;
@@ -232,290 +298,197 @@ export function TradeProductsCard({
   through: string;
   country: string | null;
   countryName: string | null;
-  /** False when the picked country has no product file (a former partner, say). */
-  hasData: boolean;
   lag: (ProductsLag & { name: string })[];
-  loading: boolean;
-  error: boolean;
-  /** The top countries behind each product for the year on screen, once fetched (the page fetches it after `onWantPartners` is first called). */
-  partners: ProductPartnersPayload | null;
-  partnersState: "idle" | "loading" | "error" | "ok";
-  onWantPartners: () => void;
-  byUse: ByUseProps;
-  /**
-   * The line the "From product to use" card below follows, reported once a line has been tapped with all countries
-   * showing: the open line, or this card's top line (chapter, or category in the By use view) when none is open.
-   */
-  onFollow?: (f: { flow: ProductsFlow; pick: SankeyPick }) => void;
+  chapters: ListFiles<TradeProductsPayload, ProductPartnersPayload>;
+  uses: ListFiles<TradeEndusePayload, EndusePartnersPayload>;
+  /** Every chapter x use pair for the year on screen, once fetched (after `onWantChapterUse`). */
+  chapterUse: ChapterUsePayload | null;
+  chapterUseState: "idle" | "loading" | "error" | "ok";
+  onWantChapterUse: () => void;
 }) {
-  const [mode, setMode] = useState<Mode>("product");
   const [flow, setFlow] = useState<ProductsFlow>("exports");
   const [open, setOpen] = useState<Open | null>(null);
-  // The Sankey card below appears once a line is tapped (all countries); from then on it follows this card.
-  const [tapped, setTapped] = useState(false);
-  const use = mode === "use";
-  const productView = useMemo(() => (!use && payload && year >= firstYear ? productsView(payload, year, flow) : null), [use, payload, year, firstYear, flow]);
-  const useView = useMemo(() => (use && byUse.payload && year >= firstYear ? enduseView(byUse.payload, year, flow) : null), [use, byUse.payload, year, firstYear, flow]);
-  const view = use ? useView : productView;
-  // The by-year chart's stack: Census's five end-use groups, each one colour (also drawn on every category's row in the list).
-  const series = useMemo(() => (use && byUse.payload ? enduseSeries(byUse.payload, flow) : null), [use, byUse.payload, flow]);
+  const [panelRef, panelH] = useHeight();
+  const chapterView = chapters.payload && year >= firstYear ? productsView(chapters.payload, year, flow) : null;
+  const useView: EnduseView | null = uses.payload && year >= firstYear ? enduseView(uses.payload, year, flow) : null;
+  const view = chapterView ?? useView;
   const partial = !!view && view.months < 12;
   const where = countryName ?? "all countries";
   const title = `What the U.S. trades${countryName ? ` with ${countryName}` : ""}, ${year}${partial ? " so far" : ""}`;
   const imports = flow === "imports";
   const rateHead = imports ? "Duty rate" : "Share";
-  // The highlighted chapter: the open chapter, or the chapter of the open product. Categories have none.
-  const openChapter = open && open.level !== "category" ? (open.level === "chapter" ? open.code : open.code.slice(0, 2)) : null;
-  const active = openChapter !== null && productView?.chapters.some((c) => c.code === openChapter) ? openChapter : null;
-  const toggle = (level: Open["level"], code: string) => {
-    if (country) {
-      // One country: nothing to break down. A product still highlights its chapter; a category has nothing to highlight.
-      if (level !== "category") setOpen((o) => (o?.level === level && o.code === code ? null : { level, code }));
-      return;
-    }
-    setOpen((o) => (o?.level === level && o.code === code ? null : { level, code }));
-    setTapped(true);
-    (level === "category" ? byUse.onWantPartners : onWantPartners)();
-  };
-  const pickMode = (m: Mode) => {
-    setMode(m);
-    setOpen(null);
-    if (m === "use") byUse.onWant();
-  };
-  const panelFor = (l: ProductLine, level: Open["level"]): ReactNode => {
-    if (country !== null || open?.level !== level || open.code !== l.code) return undefined;
-    const cat = level === "category";
-    const file = cat ? byUse.partners : partners;
-    const lines = !file ? null : cat ? endusePartnersOf(byUse.partners!, year, flow, l.code, l.value) : partnersOf(partners!, year, flow, level, l.code, l.value);
-    return <CountriesPanel line={l} flow={flow} partners={lines} state={(cat ? byUse.partnersState : partnersState) === "error" ? "error" : file ? "ok" : "loading"} />;
+  const period = view ? periodText(view.year, view.months, MONTH_NAMES) : String(year);
+
+  // A line stays open across a year or flow change only while it is still in the list; a country closes it.
+  const openLine = open && country === null ? (open.kind === "chapter" ? chapterView?.chapters : useView?.categories)?.find((l) => l.code === open.code) ?? null : null;
+  const pairs = chapterUse && chapterUse.year === year ? chapterUse : null;
+  const linked = openLine && pairs ? linkedCodes(pairs, flow, open!.kind, openLine.code) : null;
+
+  const toggle = (kind: BreakdownKind, code: string) => {
+    if (country) return; // One country: nothing to break down.
+    setOpen((o) => (o?.kind === kind && o.code === code ? null : { kind, code }));
+    (kind === "chapter" ? chapters : uses).onWantPartners();
+    onWantChapterUse();
   };
 
-  // What the Sankey follows: the open line, else the top line of the list on screen.
-  const top = use ? useView?.categories[0] : productView?.chapters[0];
-  const followKind: SankeyPick["kind"] | null = open ? (open.level === "chapter" ? "chapter" : open.level === "heading" ? "product" : "use") : top ? (use ? "use" : "chapter") : null;
-  const followCode = open ? open.code : top?.code ?? null;
-  useEffect(() => {
-    if (tapped && followKind && followCode) onFollow?.({ flow, pick: { kind: followKind, code: followCode } });
-  }, [tapped, flow, followKind, followCode, onFollow]);
+  const chapterName = (c: string) => HS_CHAPTERS[c]?.name ?? `Chapter ${c}`;
+  const useName = (c: string) => ENDUSE_LABELS[flow][c] ?? `Category ${c}`;
+  const chapterTotal = (c: string) => chapterView?.chapters.find((l) => l.code === c)?.value ?? null;
+  const useTotal = (c: string) => useView?.categories.find((l) => l.code === c)?.value ?? null;
 
-  const lines = useView ? useView.categories : productView?.chapters ?? [];
-  const scaleMax = Math.max(1, lines[0]?.value ?? 1);
-  const rowsOf = (lines: ProductLine[], level: Open["level"]): StackedRowData[] =>
+  const panelFor = (l: ProductLine, kind: BreakdownKind): ReactNode => {
+    if (!openLine || open!.kind !== kind || openLine.code !== l.code) return undefined;
+    const chapter = kind === "chapter";
+    const b = pairs ? breakdown(pairs, flow, kind, l.code, chapter ? useName : chapterName, chapter ? useTotal : chapterTotal) : null;
+    const pairsState: Loaded = chapterUseState === "error" ? "error" : pairs ? "ok" : "loading";
+    const files = chapter ? chapters : uses;
+    const lines = !files.partners ? null : chapter ? partnersOf(chapters.partners!, year, flow, l.code, l.value) : endusePartnersOf(uses.partners!, year, flow, l.code, l.value);
+    const partnersState: Loaded = files.partnersState === "error" ? "error" : files.partners ? "ok" : "loading";
+    return (
+      <div ref={panelRef} className="mb-1.5 mt-0.5 rounded-md bg-[color-mix(in_oklab,var(--ink)_4%,transparent)] py-1.5">
+        <BreakdownSection line={l} kind={kind} flow={flow} parts={b?.parts ?? null} count={b?.count ?? 0} state={pairsState} />
+        <div className="mx-2 my-2 border-t border-line" />
+        <CountriesSection line={l} flow={flow} partners={lines} state={partnersState} />
+      </div>
+    );
+  };
+
+  const scaleMax = Math.max(1, chapterView?.chapters[0]?.value ?? 0, useView?.categories[0]?.value ?? 0);
+  const rowsOf = (lines: ProductLine[], kind: BreakdownKind): StackedRowData[] =>
     lines.map((l, i) => ({
       expandable: country === null,
-      detail: panelFor(l, level),
+      detail: panelFor(l, kind),
       id: l.code,
       rank: i + 1,
       label: l.name,
-      segments: [{ value: l.value, color: level === "category" && enduseGroupIndex(l.code) >= 0 ? enduseColor(enduseGroupIndex(l.code)) : BAR, title: `${l.name}: ${fmtDollars(l.value)}` }],
+      segments: [{ value: l.value, color: BAR, title: `${l.name}: ${fmtDollars(l.value)}` }],
       total: fmtDollars(l.value),
       delta: imports ? (l.rate === null ? "—" : fmtPct(l.rate)) : fmtPct(l.share),
-      selected: active !== null && (level === "chapter" ? l.code === active : l.chapter === active),
-      dimmed: active !== null && (level === "chapter" ? l.code !== active : l.chapter !== active),
+      selected: !!openLine && open!.kind === kind && openLine.code === l.code,
+      dimmed: !!linked && open!.kind !== kind && !linked.has(l.code),
     }));
-  const chapterRows = productView ? rowsOf(productView.chapters, "chapter") : [];
-  const headingRows = productView ? rowsOf(productView.headings, "heading") : [];
-  const categoryRows = useView ? rowsOf(useView.categories, "category") : [];
-  const note = view ? specialNote(view, use ? "kinds of goods" : "products") : null;
-  const lagNotes = lag.filter((l) => l.year === year && l.flow === flow && (country === null || l.code === country));
 
+  const lagNotes = lag.filter((l) => l.year === year && l.flow === flow && (country === null || l.code === country));
   const line = view
     ? {
         values: [fmtDollars(view.total)],
         headline: fmtDollars(view.total),
-        date: `Goods ${flow}, ${periodText(view.year, view.months, MONTH_NAMES)}`,
+        date: `Goods ${flow}, ${period}`,
         term: view.rate !== null ? `Duty rate ${fmtPct(view.rate)}` : undefined,
       }
     : null;
 
-  const by = use ? "use" : "product";
-  const empty = (() => {
-    if (!(use ? byUse.hasData : hasData)) return `Census reports no goods by ${by} for ${countryName}.`;
-    if (year < firstYear) return null; // its own message, with a button
-    if (use ? byUse.error : error) return `Couldn’t load the goods by ${by} for ${where}. ${use ? "Switch to By use again" : "Pick the country again"} to retry.`;
-    if (use ? !byUse.payload || byUse.loading : !payload || loading) return `Loading ${where}…`;
-    if (!view) return `No goods ${flow} ${countryName ? `to or from ${countryName}` : ""} recorded in ${year}.`.replace("  ", " ");
+  /** Why a list has nothing to show, or null when it does. */
+  const emptyFor = (files: ListFiles<unknown, unknown>, by: string, v: unknown): string | null => {
+    if (!files.hasData) return `Census reports no goods by ${by} for ${countryName}.`;
+    if (files.error) return `Couldn’t load the goods by ${by} for ${where}. Pick the country again to retry.`;
+    if (!files.payload || files.loading) return `Loading ${where}…`;
+    if (!v) return `No goods ${flow} by ${by}${countryName ? ` with ${countryName}` : ""} recorded in ${year}.`;
     return null;
-  })();
+  };
+  const columns = [
+    { kind: "chapter" as const, head: "By chapter", what: "what it is", lines: chapterView?.chapters ?? [], empty: emptyFor(chapters, "chapter", chapterView), aria: `U.S. goods ${flow} by HS chapter, ${where}, ${year}, largest first` },
+    { kind: "use" as const, head: "By use", what: "what it’s for", lines: useView?.categories ?? [], empty: emptyFor(uses, "use", useView), aria: `U.S. goods ${flow} by end-use category, ${where}, ${year}, largest first` },
+  ];
+  const notes = [chapterView && specialNote(chapterView, "chapters"), useView && specialNote(useView, "uses")].filter((n): n is string => !!n);
+  const anyData = chapters.hasData || uses.hasData;
 
   return (
     <ChartCard
       className="min-w-0"
       title={title}
-      takeaway={countryName ? undefined : (use ? TRADE_TAKEAWAYS.enduse : TRADE_TAKEAWAYS.products).takeaway(through)}
-      lede={countryName ? `Goods ${flow === "exports" ? "sold to" : "bought from"} ${countryName}, by ${by}.` : undefined}
-      action={<YearPicker value={Math.max(year, firstYear)} range={[firstYear, lastYear]} onChange={onYear} format={String} ariaLabel="Year shown in the products lists (and the partners card)" />}
+      takeaway={countryName ? undefined : TRADE_TAKEAWAYS.products.takeaway(through)}
+      lede={countryName ? `Goods ${flow === "exports" ? "sold to" : "bought from"} ${countryName}, by chapter and by use.` : undefined}
+      action={<YearPicker value={Math.max(year, firstYear)} range={[firstYear, lastYear]} onChange={onYear} format={String} ariaLabel="Year shown in the goods lists (and the partners card)" />}
     >
       <ToggleReadout
-        toggle={
-          <div className="flex flex-wrap gap-2">
-            <PillGroup options={MODES} value={mode} onChange={(m) => pickMode(m as Mode)} ariaLabel="Goods by product or by use" />
-            <PillGroup options={FLOWS} value={flow} onChange={(f) => setFlow(f as ProductsFlow)} ariaLabel="Exports or imports" />
-          </div>
-        }
+        toggle={<PillGroup options={FLOWS} value={flow} onChange={(f) => setFlow(f as ProductsFlow)} ariaLabel="Exports or imports" />}
         line={line}
         pinned={false}
         onClear={() => setOpen(null)}
         hint=""
       />
 
-      {year < firstYear && (use ? byUse.hasData : hasData) ? (
+      {year < firstYear && anyData ? (
         <div role="status" className="mt-3 flex min-h-[10rem] flex-col items-center justify-center gap-2 rounded-md border border-dashed border-line px-4 text-center text-[0.85rem] text-ink-muted">
-          Goods by {by} start in {firstYear}; the partners card above is showing {year}.
+          Goods by chapter and use start in {firstYear}; the partners card above is showing {year}.
           <button type="button" onClick={() => onYear(firstYear)} className="rounded-md border border-line-strong bg-surface-raised px-3 py-1 text-[0.8rem] text-ink hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
             Show {firstYear}
           </button>
         </div>
-      ) : empty ? (
-        <div role="status" className="mt-3 flex min-h-[10rem] items-center justify-center rounded-md border border-dashed border-line px-4 text-center text-[0.85rem] text-ink-muted">
-          {empty}
-        </div>
       ) : (
-        view && (
-          <>
-            {country === null && <p className="m-0 mt-3 px-2 text-[0.78rem] text-ink-muted">Tap a line to see the five countries behind it{use ? " and trace it across the years" : ""}.</p>}
-            {useView ? (
-              <div className="mt-3 grid min-w-0 grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                <div className="flex min-w-0 flex-col">
+        <>
+          {country === null && view && (
+            <p className="m-0 mt-3 px-2 text-[0.78rem] text-ink-muted">Tap a chapter to see what it’s used for, or a use to see which chapters it comes from, with the five countries behind it.</p>
+          )}
+          <div className="mt-3 grid min-w-0 grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+            {columns.map((c) => {
+              const own = openLine && open!.kind === c.kind ? panelH : 0;
+              // The open list's box grows by its panel's height on every width, so the tapped row stays put with its whole panel under it;
+              // side by side, the other box grows with it and shows more rows instead of leaving a gap.
+              const style = { "--own": `${own}px`, "--grow": `${openLine ? panelH : 0}px` } as CSSProperties;
+              return (
+                <div key={c.kind} className="flex min-w-0 flex-col">
                   <div className="flex h-4 items-baseline justify-between gap-2 px-2 leading-4">
-                    <h3 className={CAPTION}>By use · {useView.categories.length}</h3>
+                    <h3 className={CAPTION}>
+                      {c.head}
+                      {c.lines.length > 0 ? ` · ${c.lines.length}` : ""} <span className="normal-case tracking-normal">({c.what})</span>
+                    </h3>
                     <span className={CAPTION}>{rateHead}</span>
                   </div>
-                  {/* One list of about 130 categories: a scroll box at every width (rule 11a), the same height as the By product lists. */}
-                  <div className="mt-1 h-[22rem] overflow-y-auto overscroll-contain touch-scroll lg:h-[26rem]" tabIndex={0} aria-label="Categories, scrollable">
-                    <StackedRows
-                      rows={categoryRows}
-                      scaleMax={scaleMax}
-                      onRowClick={(code) => toggle("category", code)}
-                      ariaLabel={`U.S. goods ${flow} by end-use category, ${where}, ${year}, largest first`}
-                      emptyText="No goods recorded."
-                      wideLabels
-                    />
-                  </div>
+                  {c.empty ? (
+                    <div role="status" className="mt-1 flex h-[22rem] items-center justify-center rounded-md border border-dashed border-line px-4 text-center text-[0.85rem] text-ink-muted lg:h-[26rem]">
+                      {c.empty}
+                    </div>
+                  ) : (
+                    <div
+                      style={style}
+                      className="mt-1 h-[calc(22rem+var(--own))] overflow-y-auto overscroll-contain touch-scroll lg:h-[calc(26rem+var(--grow))]"
+                      tabIndex={0}
+                      aria-label={`${c.head}, scrollable`}
+                    >
+                      <StackedRows rows={rowsOf(c.lines, c.kind)} scaleMax={scaleMax} onRowClick={(code) => toggle(c.kind, code)} ariaLabel={c.aria} emptyText="No goods recorded." wideLabels centreSelected={false} />
+                    </div>
+                  )}
                 </div>
-                {series && (
-                  <EnduseYearsChart
-                    series={series}
-                    year={year}
-                    onYear={onYear}
-                    code={open?.level === "category" ? open.code : null}
-                    codeName={open?.level === "category" ? useView.categories.find((c) => c.code === open.code)?.name ?? null : null}
-                    focus={open?.level === "category" && byUse.payload ? enduseCategoryByYear(byUse.payload, flow, series, open.code) : null}
-                  />
-                )}
-              </div>
-            ) : (
-              productView && (
-                <div className="mt-3 grid min-w-0 grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div className="flex min-w-0 flex-col">
-                    <div className="flex items-baseline justify-between gap-2 px-2">
-                      <h3 className={CAPTION}>By chapter · {productView.chapters.length}</h3>
-                      <span className={CAPTION}>{rateHead}</span>
-                    </div>
-                    {/* Phones: a fixed-height scroll box (rule 11a). Desktop: fills the height the products column sets. */}
-                    <div className="relative mt-1 h-[22rem] lg:h-auto lg:min-h-[18rem] lg:flex-1">
-                      <div className="absolute inset-0 overflow-y-auto overscroll-contain touch-scroll" tabIndex={0} aria-label="Chapters, scrollable">
-                        <StackedRows rows={chapterRows} scaleMax={scaleMax} onRowClick={(code) => toggle("chapter", code)} ariaLabel={`U.S. goods ${flow} by HS chapter, ${where}, ${year}, largest first`} emptyText="No goods recorded." wideLabels />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex min-w-0 flex-col">
-                    {/* The highlight note sits in the header row, so opening a line never pushes this list below the chapters list. */}
-                    <div className="flex h-4 items-baseline gap-2 px-2 leading-4">
-                      <h3 className={`${CAPTION} shrink-0`}>Top products</h3>
-                      {active ? (
-                        <span className="flex min-w-0 flex-1 items-baseline gap-1.5 text-[0.75rem] normal-case tracking-normal text-ink-muted">
-                          <span className="truncate" title={HS_CHAPTERS[active]?.name ?? active}>
-                            {`· ${HS_CHAPTERS[active]?.name ?? active}${headingRows.some((r) => r.selected) ? "" : " (none here)"}`}
-                          </span>
-                          <button type="button" onClick={() => setOpen(null)} className="shrink-0 text-ink underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
-                            Clear
-                          </button>
-                        </span>
-                      ) : (
-                        <span className="flex-1" />
-                      )}
-                      <span className={`${CAPTION} shrink-0`}>{rateHead}</span>
-                    </div>
-                    <div className="mt-1 max-h-[22rem] overflow-y-auto overscroll-contain touch-scroll lg:max-h-[26rem]" tabIndex={0} aria-label="Top products, scrollable">
-                      <StackedRows
-                        rows={headingRows}
-                        scaleMax={scaleMax}
-                        onRowClick={(code) => toggle("heading", code)}
-                        ariaLabel={`Top U.S. goods ${flow} by HS heading, ${where}, ${year}, largest first`}
-                        emptyText="No products recorded."
-                        wideLabels
-                      />
-                    </div>
-                  </div>
-                </div>
-              )
-            )}
-            {note && <p className="m-0 mt-3 px-2 text-[0.78rem] leading-[1.5] text-ink-muted">{note}</p>}
-            <div className={`${LEGEND_ROW} mt-2 px-2`}>
-              {use && series ? (
-                <>
-                  {ENDUSE_GROUPS.map((t, i) => (
-                    <span key={t.code} className={LEGEND_ITEM}>
-                      <svg width="10" height="10" aria-hidden>
-                        <rect width="10" height="10" rx="2" fill={enduseColor(i)} />
-                      </svg>
-                      {t.name}
-                    </span>
-                  ))}
-                  <span className={LEGEND_ITEM}>
-                    <svg width="10" height="10" aria-hidden>
-                      <rect width="10" height="10" rx="2" fill={OTHER_COLOR} />
-                    </svg>
-                    Other &amp; special
-                  </span>
-                </>
-              ) : (
-                <span className={LEGEND_ITEM}>
-                  <svg width="10" height="10" aria-hidden>
-                    <rect width="10" height="10" rx="2" fill={BAR} />
-                  </svg>
-                  {imports ? "Imports" : "Exports"}, dollars (both lists on one scale)
-                </span>
-              )}
-              <span className={LEGEND_ITEM}>{imports ? "Duty rate: calculated duties ÷ imports for consumption" : "Share: of all goods exports"}</span>
-            </div>
-          </>
-        )
+              );
+            })}
+          </div>
+          {notes.map((n) => (
+            <p key={n} className="m-0 mt-2 px-2 text-[0.78rem] leading-[1.5] text-ink-muted first-of-type:mt-3">
+              {n}
+            </p>
+          ))}
+          <div className={`${LEGEND_ROW} mt-2 px-2`}>
+            <span className={LEGEND_ITEM}>
+              <svg width="10" height="10" aria-hidden>
+                <rect width="10" height="10" rx="2" fill={BAR} />
+              </svg>
+              {imports ? "Imports" : "Exports"}, dollars (both lists on one scale)
+            </span>
+            <span className={LEGEND_ITEM}>{imports ? "Duty rate: calculated duties ÷ imports for consumption" : "Share: of all goods exports"}</span>
+          </div>
+        </>
       )}
 
       <ChartNotesRow>
         <MethodologyNote>
-          {use ? (
-            <p>
-              <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade by end-use category (what goods are used for, about 140 kinds from soybeans to semiconductors), 2010 on, the first year Census publishes it, in dollars: total exports and general imports, the same totals as the cards above. Exports publish civilian aircraft, engines and parts as one line; imports split them into three, so add those up to compare. Minimum-value shipments, returned U.S. goods and other special transactions are not kinds of goods, so they are not ranked; the line under the list sums them. Opening a line names its top five countries and draws its slice in dark, inside its group, across every year in the chart beside the list. The chart stacks Census’s five end-use groups (foods, industrial supplies, capital goods, autos, consumer goods; the colour is also on each category’s bar in the list), and the small remainder, other goods and the special entries, in grey; its line follows the year picked or played.
-              {partial && view ? ` ${view.year} covers January to ${MONTH_NAMES[view.months - 1]}.` : ""}
-              {lagNotes.map((l) => lagText(l)).join("")}
-            </p>
-          ) : (
-            <p>
-              <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade by Harmonized System chapter (96 product groups) and the largest four-digit headings within them, 2010 on, in dollars: total exports and general imports, the same totals as the cards above. The duty rate is calculated duties over imports for consumption. Chapters 98 and 99 (returned American goods, repairs, estimated low-value shipments) are not products, so they are not ranked; the line under the lists sums them. Opening a line names the five countries with the most of it, on the same dollars, each with its own duty rate on imports.
-              {partial && view ? ` ${view.year} covers January to ${MONTH_NAMES[view.months - 1]}.` : ""}
-              {lagNotes.map((l) => lagText(l)).join("")}
-            </p>
-          )}
+          <p>
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade two ways, 2010 on, in dollars: total exports and general imports, the same totals as the cards above. By chapter: the 96 product groups of the Harmonized System, the tariff schedule’s own groups. By use: Census’s end-use categories (what goods are for, about 140 kinds from soybeans to semiconductors). Exports publish civilian aircraft, engines and parts as one use; imports split them into three, so add those up to compare. The duty rate is calculated duties over imports for consumption. Special entries (chapters 98 and 99: returned American goods, repairs, estimated low-value shipments; and the matching end-use entries such as minimum-value shipments) are not kinds of goods, so neither list ranks them; the lines under the lists sum them. Opening a line splits it the other way (all countries only), from every ten-digit import or export line, each filed under one chapter and, through Census’s concordance, one use; special entries are their own part when they are 0.5% of the line or more. A chapter’s split adds up to its total above; a use’s can differ from its published total by a few percent, because the concordance does not quite match Census’s own category totals. The line also names the five countries with the most of it, each with its own duty rate on imports.
+            {partial && view ? ` ${view.year} covers January to ${MONTH_NAMES[view.months - 1]}.` : ""}
+            {lagNotes.map((l) => lagText(l)).join("")}
+          </p>
         </MethodologyNote>
-        {useView ? (
-          <DataTable view={useView} sections={[{ caption: `U.S. goods ${flow} by end-use category`, lines: useView.categories }]} code="Code" name="Category" intro="Every category" where={where} />
-        ) : (
-          productView && (
-            <DataTable
-              view={productView}
-              sections={[
-                { caption: `U.S. goods ${flow} by HS chapter`, lines: productView.chapters },
-                { caption: `Top U.S. goods ${flow} by HS heading`, lines: productView.headings },
-              ]}
-              code="HS"
-              name="Product"
-              intro="Every chapter, then the top products"
-              where={where}
-            />
-          )
+        {chapterView && useView && (
+          <DataTable
+            flow={flow}
+            period={period}
+            where={where}
+            sections={[
+              { caption: `U.S. goods ${flow} by HS chapter`, code: "HS", name: "Chapter", lines: chapterView.chapters, special: chapterView.special, specialHead: "Special entry (not ranked)" },
+              { caption: `U.S. goods ${flow} by end-use category`, code: "Code", name: "Use", lines: useView.categories, special: useView.special, specialHead: "Special entry (not ranked)" },
+            ]}
+          />
         )}
       </ChartNotesRow>
     </ChartCard>

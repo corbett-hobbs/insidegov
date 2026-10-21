@@ -13,14 +13,14 @@ const OUT = "pipeline/output";
 const read = <T>(file: string) => JSON.parse(readFileSync(`${OUT}/${file}`, "utf8")) as T[];
 
 describe("goods-by-product payloads", () => {
-  it("serve every partner file and all countries, with a name for every ranked heading", () => {
+  it("serve every partner file and all countries, chapters only (no top headings)", () => {
     const codes = getProductsCodes();
     expect(codes.length).toBeGreaterThan(200);
     expect(codes).toContain("CHN");
     for (const code of ["all", "CHN", "CAN", "TUV"]) {
       const p = getProductsPayload(code)!;
       expect(p.code).toBe(code === "all" ? null : code);
-      for (const r of p.rows) for (const h of r.headings) expect(p.names[h[0]], `${code} ${h[0]}`).toBeTruthy();
+      for (const r of p.rows) expect(r).not.toHaveProperty("headings");
       expect(p.rows[0]).not.toHaveProperty("country_code");
     }
     expect(getProductsPayload("XXX")).toBeNull();
@@ -31,23 +31,22 @@ describe("partnersOf", () => {
   const payload: ProductPartnersPayload = {
     names: { CHN: "China", MEX: "Mexico" },
     rows: [
-      { year: 2025, months: 12, flow: "imports", chapters: { "85": [["CHN", 60, 50, 5], ["MEX", 30, 0, 0]] }, headings: { "8517": [["CHN", 40, 40, 4]] } },
-      { year: 2025, months: 12, flow: "exports", chapters: { "85": [["MEX", 20]] }, headings: {} },
+      { year: 2025, months: 12, flow: "imports", chapters: { "85": [["CHN", 60, 50, 5], ["MEX", 30, 0, 0]] } },
+      { year: 2025, months: 12, flow: "exports", chapters: { "85": [["MEX", 20]] } },
     ],
   };
 
   it("names each country, shares its value of the line, and takes a duty rate from imports only", () => {
-    expect(partnersOf(payload, 2025, "imports", "chapter", "85", 100)).toEqual([
+    expect(partnersOf(payload, 2025, "imports", "85", 100)).toEqual([
       { code: "CHN", name: "China", value: 60, share: 0.6, rate: 0.1 },
       { code: "MEX", name: "Mexico", value: 30, share: 0.3, rate: null },
     ]);
-    expect(partnersOf(payload, 2025, "exports", "chapter", "85", 40)![0]).toEqual({ code: "MEX", name: "Mexico", value: 20, share: 0.5, rate: null });
-    expect(partnersOf(payload, 2025, "imports", "heading", "8517", 80)![0].share).toBe(0.5);
+    expect(partnersOf(payload, 2025, "exports", "85", 40)![0]).toEqual({ code: "MEX", name: "Mexico", value: 20, share: 0.5, rate: null });
   });
 
-  it("is null for a year, heading or flow the payload does not carry", () => {
-    expect(partnersOf(payload, 2024, "imports", "chapter", "85", 100)).toBeNull();
-    expect(partnersOf(payload, 2025, "exports", "heading", "8517", 100)).toBeNull();
+  it("is null for a year, chapter or flow the payload does not carry", () => {
+    expect(partnersOf(payload, 2024, "imports", "85", 100)).toBeNull();
+    expect(partnersOf(payload, 2025, "exports", "84", 100)).toBeNull();
   });
 });
 
@@ -59,7 +58,6 @@ describe("productsView", () => {
     expect(v.chapters.every((c) => HS_CHAPTERS[c.code].kind === "goods")).toBe(true);
     expect(v.chapters.map((c) => c.value)).toEqual([...v.chapters.map((c) => c.value)].sort((a, b) => b - a));
     expect(v.chapters.reduce((a, c) => a + c.value, 0) + v.specialTotal).toBe(v.total);
-    expect(v.headings.every((h) => !h.code.startsWith("98") && !h.code.startsWith("99"))).toBe(true);
     expect(v.special.map((s) => s.code)).toContain("9999");
     expect(v.special.find((s) => s.code === "9999")!.label).toBe("Low-value shipments (estimated)");
   });
@@ -88,21 +86,21 @@ describe("productsView", () => {
 describe("special-entry footnote", () => {
   const label = (code: string) => (code === "9999" ? "Low-value shipments (estimated)" : code === "9801" ? "Returned American goods" : "U.S. government imports");
   const view = (special: [string, number][], specialTotal: number): ProductsView => ({
-    year: 2025, months: 12, flow: "imports", total: 1e12, rate: 0.1, chapters: [], headings: [], specialTotal,
+    year: 2025, months: 12, flow: "imports", total: 1e12, rate: 0.1, chapters: [], specialTotal,
     special: special.map(([code, value]) => ({ code, value, label: label(code) })),
   });
 
   it("names the two largest and sums the rest", () => {
     expect(specialNote(view([["9999", 8.7e9], ["9801", 4.1e9], ["9808", 1e9]], 13.8e9))).toBe(
-      "Plus $13.8B in special entries, not ranked as products: low-value shipments (estimated) $8.7B, returned American goods $4.1B, other $1.0B.",
+      "Plus $13.8B in special entries, not ranked as chapters: low-value shipments (estimated) $8.7B, returned American goods $4.1B, other $1.0B.",
     );
-    expect(specialNote(view([["9808", 5e6]], 5e6))).toBe("Plus $5.0M in special entries, not ranked as products: U.S. government imports $5.0M.");
+    expect(specialNote(view([["9808", 5e6]], 5e6))).toBe("Plus $5.0M in special entries, not ranked as chapters: U.S. government imports $5.0M.");
     expect(specialNote(view([], 0))).toBeNull();
   });
 
   it("is built from the real all-countries file", () => {
     const all = getProductsPayload("all") as TradeProductsPayload;
-    expect(specialNote(productsView(all, 2025, "imports")!)).toMatch(/^Plus \$1\d\dB in special entries, not ranked as products: returned American goods \$\d+B, low-value shipments \(estimated\) \$\d+(\.\d)?B, other/);
+    expect(specialNote(productsView(all, 2025, "imports")!)).toMatch(/^Plus \$1\d\dB in special entries, not ranked as chapters: returned American goods \$\d+B, low-value shipments \(estimated\) \$\d+(\.\d)?B, other/);
   });
 });
 
