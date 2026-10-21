@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { HS_CHAPTERS } from "./trade-hs-chapters";
 import { HS_HEADINGS, fallbackHeadingName, headingName } from "./trade-hs-headings";
+import type { TradeProductUseRow } from "./trade-product-use-entities";
 import type { TradeProductsHeading, TradeProductsNationalRow } from "./trade-products-entities";
 
 /**
@@ -33,6 +34,12 @@ describe("HS heading names", () => {
 
   it("cover every heading in the all-countries top list", () => {
     expect([...national].filter((hs) => !HS_HEADINGS[hs])).toEqual([]);
+  });
+
+  it("cover every ordinary heading in the product-to-use files, which the Sankey card can name", () => {
+    const missing = new Set<string>();
+    for (const f of readdirSync(`${OUT}/trade_product_use`)) for (const r of read<TradeProductUseRow>(`trade_product_use/${f}`)) for (const t of r.rows) if (!HS_HEADINGS[t[0]]) missing.add(t[0]);
+    expect([...missing].sort()).toEqual([]);
   });
 
   it("give every heading a partner list shows a readable name, hand-written or not", () => {

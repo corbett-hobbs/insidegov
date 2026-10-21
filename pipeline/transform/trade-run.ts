@@ -18,7 +18,7 @@ import { PRODUCTUSE_RAW_DIR, parseRawProductUse, type RawProductUse } from "../f
 import { tradeProductUseRow } from "../../lib/trade-product-use-entities";
 import { PRODUCT_USE_TOL, buildProductUse, validateProductUse } from "./trade-productuse";
 import { tradeProductsHeading, tradeProductsNationalRow, tradeProductsPartnersRow, tradeProductsRow } from "../../lib/trade-products-entities";
-import { HEADINGS_NATIONAL, HEADINGS_PER_ROW, PARTNERS_PER_PRODUCT, PRODUCTS_TOL, buildProducts, validateProducts } from "./trade-products";
+import { HEADINGS_NATIONAL, HEADINGS_PER_ROW, PARTNERS_PER_PRODUCT, PRODUCTS_TOL, buildProducts, headingRows, validateProducts } from "./trade-products";
 import {
   buildCountries,
   buildDuties,
@@ -189,7 +189,8 @@ async function main() {
   });
 
   // Goods by product: built and validated against the goods and duties files above.
-  const productsBuild = buildProducts(await readRawProducts(), countries, parseRawDescriptions(JSON.parse(await readFile(productsDescPath, "utf8"))));
+  const productsDesc = parseRawDescriptions(JSON.parse(await readFile(productsDescPath, "utf8")));
+  const productsBuild = buildProducts(await readRawProducts(), countries, productsDesc);
   const products = {
     ...productsBuild,
     rows: productsBuild.rows.map((r) => tradeProductsRow.parse(r)),
@@ -214,6 +215,10 @@ async function main() {
   const puBuild = buildProductUse(await readRawProductUse());
   const productUse = { ...puBuild, rows: puBuild.rows.map((r) => tradeProductUseRow.parse(r)) };
   const puv = validateProductUse({ build: puBuild, productsNational: products.national, enduseNational: enduse.national });
+  // The heading lookup also covers every heading the product-use files carry: the Sankey card can name any of them.
+  const lookup = new Set(products.headings.map((h) => h.hs));
+  const puHeadings = puBuild.rows.flatMap((r) => r.rows.map((t) => t[0])).filter((hs) => !lookup.has(hs));
+  products.headings = headingRows([...lookup, ...puHeadings], productsDesc).map((r) => tradeProductsHeading.parse(r));
 
   await mkdir(OUT, { recursive: true });
   await writeFile(`${OUT}/countries.json`, oneRowPerLine(countries));

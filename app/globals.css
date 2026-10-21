@@ -82,6 +82,19 @@
   --fuel-wind: #708ca9;
   --fuel-solar: #878b36;
   --fuel-other: #526f64;
+  /* Trade "From product to use" Sankey (components/trade/TradeSankeyCard): six solid colours for the colour-key column (the
+     uses on a chapter or product pick, the chapters on a use pick), validated in the mockup
+     (docs/mockups/trade-sankey-mock.html), plus a neutral "Other", a lighter grey for trade from outside the selection,
+     and the ink of a node that is not on the key column. */
+  --sankey-1: #2a78d6;
+  --sankey-2: #eb6834;
+  --sankey-3: #1baf7a;
+  --sankey-4: #eda100;
+  --sankey-5: #e87ba4;
+  --sankey-6: #4a3aa7;
+  --sankey-other: #8890a0;
+  --sankey-outside: #d3d8e0;
+  --sankey-node: #5b6472;
   /* Laws page topic groups: eight categorical slots (validate_palette.js: lightness, chroma, adjacent CVD and normal-vision separation pass; light-mode contrast is below 3:1 for slots 3-5, so the legend and table view carry the names). Slot order is the stack order. */
   --laws-1: #2a78d6;
   --laws-2: #eb6834;
@@ -205,6 +218,15 @@
     --fuel-wind: #5bf6ef;
     --fuel-solar: #eedb3c;
     --fuel-other: #ddb183;
+    --sankey-1: #3987e5;
+    --sankey-2: #d95926;
+    --sankey-3: #199e70;
+    --sankey-4: #c98500;
+    --sankey-5: #d55181;
+    --sankey-6: #9085e9;
+    --sankey-other: #6b7280;
+    --sankey-outside: #3a4050;
+    --sankey-node: #9aa2af;
     --laws-1: #3987e5;
     --laws-2: #d95926;
     --laws-3: #199e70;
@@ -309,6 +331,15 @@
   --fuel-wind: #5bf6ef;
   --fuel-solar: #eedb3c;
   --fuel-other: #ddb183;
+  --sankey-1: #3987e5;
+  --sankey-2: #d95926;
+  --sankey-3: #199e70;
+  --sankey-4: #c98500;
+  --sankey-5: #d55181;
+  --sankey-6: #9085e9;
+  --sankey-other: #6b7280;
+  --sankey-outside: #3a4050;
+  --sankey-node: #9aa2af;
   --laws-1: #3987e5;
   --laws-2: #d95926;
   --laws-3: #199e70;
@@ -459,6 +490,13 @@ body {
   fill: var(--ink);
   stroke: var(--surface);
   stroke-width: 4px;
+  paint-order: stroke;
+}
+/* Trade Sankey: product labels sit over the bands, so they carry a surface halo. */
+.sankey-halo {
+  stroke: var(--surface);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
   paint-order: stroke;
 }
 /* The profile compass's own member — labelled to match its accent ring. */

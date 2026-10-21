@@ -85,7 +85,7 @@
     "partners": 236,
     "headings_per_row": 10,
     "headings_national": 25,
-    "headings_in_lookup": 1019,
+    "headings_in_lookup": 1245,
     "partners_per_product": 5,
     "partner_lists": {
       "chapters": 3264,
@@ -519,7 +519,7 @@
       "bytes": 107436
     },
     "trade_products_national.json": 131056,
-    "trade_products_headings.json": 114947,
+    "trade_products_headings.json": 139950,
     "trade_products_partners.json": 587860,
     "trade_enduse/* (total)": 14456060,
     "trade_enduse/* (largest partner)": {

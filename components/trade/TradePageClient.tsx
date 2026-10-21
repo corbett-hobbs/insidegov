@@ -1,18 +1,21 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
-import { ALL_PRODUCTS, type ProductPartnersPayload, type TradeProductsPayload } from "@/lib/trade-products";
+import { ALL_PRODUCTS, type ProductPartnersPayload, type ProductsFlow, type TradeProductsPayload } from "@/lib/trade-products";
+import { PRODUCT_USE_START_YEAR } from "@/lib/trade-product-use-entities";
+import type { ProductUsePayload, SankeyPick } from "@/lib/trade-sankey";
 import type { EndusePartnersPayload, TradeEndusePayload } from "@/lib/trade-enduse";
 import { topByTotal } from "@/lib/trade-map";
 import { TradeBalanceCard } from "./TradeBalanceCard";
 import { TradeFilterBar } from "./TradeFilterBar";
 import { TradePartnersCard } from "./TradePartnersCard";
 import { TradeProductsCard } from "./TradeProductsCard";
+import { TradeSankeyCard } from "./TradeSankeyCard";
 import { TradeScatterCard } from "./TradeScatterCard";
 import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
@@ -94,6 +97,22 @@ function TradePage({ data }: { data: TradePageData }) {
   const enduseFile = useStaticFile<TradeEndusePayload>("/data/trade/enduse", enduseWanted ? enduseKey : null);
   const [endusePartnersWanted, setEndusePartnersWanted] = useState(false);
   const endusePartnersFile = useStaticFile<EndusePartnersPayload>("/data/trade/enduse-partners", endusePartnersWanted ? String(v.year) : null);
+
+  // "From product to use": shown once a line is tapped in the products card (all countries only), fetching the year's file then.
+  const [follow, setFollow] = useState<{ flow: ProductsFlow; pick: SankeyPick } | null>(null);
+  const sankeyShown = follow !== null && v.country === null && v.year >= PRODUCT_USE_START_YEAR;
+  const productUseFile = useStaticFile<ProductUsePayload>("/data/trade/product-use", sankeyShown ? String(v.year) : null);
+  // A new line followed after a failed load retries it.
+  const retryProductUse = useRef<() => void>(() => {});
+  useEffect(() => {
+    retryProductUse.current = productUseFile.state === "error" ? productUseFile.retry : () => {};
+  });
+  const onFollow = useCallback((f: { flow: ProductsFlow; pick: SankeyPick }) => {
+    setFollow((o) => (o && o.flow === f.flow && o.pick.kind === f.pick.kind && o.pick.code === f.pick.code ? o : f));
+    retryProductUse.current();
+  }, []);
+  const [lastYearStr, lastMonthStr] = national.lastPeriod.split("-");
+  const yearPartial = v.year === Number(lastYearStr) && Number(lastMonthStr) < 12;
 
   // While the next year loads, the previous one stays on screen (dimmed) instead of blanking the chart.
   const [lastShown, setLastShown] = useState<TradeYearPayload>(initialYear);
@@ -234,7 +253,20 @@ function TradePage({ data }: { data: TradePageData }) {
               endusePartnersFile.retry();
             },
           }}
+          onFollow={onFollow}
         />
+
+        {/* Directly under the products card, once a line there is tapped: that line followed from chapter to product to use. */}
+        {sankeyShown && follow && (
+          <TradeSankeyCard
+            payload={productUseFile.data}
+            state={productUseFile.state === "error" ? "error" : productUseFile.data ? "ok" : "loading"}
+            year={v.year}
+            partial={yearPartial}
+            flow={follow.flow}
+            pick={follow.pick}
+          />
+        )}
 
         {/* Full width: the scatter needs the room for its labels. */}
         <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} />
