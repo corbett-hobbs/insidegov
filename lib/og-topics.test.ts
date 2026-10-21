@@ -31,7 +31,8 @@ describe("sparkline helpers", () => {
   });
 });
 
-describe("topic share cards", () => {
+// Each card reads its page's full payload; under a parallel run that can pass vitest's 5s default.
+describe("topic share cards", { timeout: 30_000 }, () => {
   it.each(TOPIC_PATHS)("%s has a figure, a caption and something to draw", (path) => {
     const c = topicCard(path);
     expect(c.figure).toMatch(/\d/);
