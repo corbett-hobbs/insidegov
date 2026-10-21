@@ -1,5 +1,5 @@
 /**
- * "Download PNG" for a chart card (`components/charts/ChartDownload.tsx`). Browser-only.
+ * The chart image behind the share menu's "Download image" (`components/charts/ChartShare.tsx`). Browser-only.
  *
  * The card is cloned into an SVG `<foreignObject>` together with the page's own CSS (its
  * `@font-face` files inlined as data URLs, since an SVG drawn as an image loads nothing
@@ -133,7 +133,7 @@ async function cardPicture(card: HTMLElement, bg: string, ink: string, credit: s
   probe.style.cssText = `position:absolute;left:-100000px;top:0;width:${w}px`;
   probe.appendChild(clone);
   card.parentElement!.appendChild(probe);
-  const h = Math.ceil(clone.getBoundingClientRect().height) + 2;
+  const h = Math.ceil(probe.getBoundingClientRect().height) + 8;
   probe.remove();
   const css = await pageCss();
   const html = new XMLSerializer().serializeToString(clone);
@@ -193,20 +193,24 @@ export function creditLine(siteName: string, host: string, pathAndQuery: string)
   return `${siteName} · ${host}${pathAndQuery}`;
 }
 
-/** Render `card` to a PNG and save it as `insidegov-<title>.png`. */
-export async function downloadCardPng(card: HTMLElement, siteName: string): Promise<void> {
+/** Render `card` to a PNG blob (with the credit line). */
+export async function cardPng(card: HTMLElement, siteName: string): Promise<Blob> {
   const cs = getComputedStyle(card);
   let bg = cs.backgroundColor;
   if (!bg || bg === "rgba(0, 0, 0, 0)" || bg === "transparent") bg = getComputedStyle(document.body).backgroundColor || "#fff";
   const ink = getComputedStyle(document.body).color || "#111";
-  const credit = creditLine(siteName, location.host, `${location.pathname}${location.search}`);
-  let blob: Blob;
+  const credit = creditLine(siteName, location.host, `${location.pathname}${location.search}${card.id ? `#${card.id}` : ""}`);
   try {
-    blob = await cardPicture(card, bg, ink, credit);
+    return await cardPicture(card, bg, ink, credit);
   } catch {
-    blob = await svgPicture(card, bg, ink, credit);
+    return svgPicture(card, bg, ink, credit);
   }
-  const title = card.querySelector("h2, h3")?.textContent?.trim() ?? document.title;
+}
+
+/** Render `card` to a PNG and save it as `insidegov-<title>.png`. */
+export async function downloadCardPng(card: HTMLElement, siteName: string): Promise<void> {
+  const blob = await cardPng(card, siteName);
+  const title = (card.querySelector("h2, h3")?.textContent ?? document.title).trim();
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = `${slugify(siteName)}-${slugify(title)}.png`;
