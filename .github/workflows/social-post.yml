@@ -1,0 +1,50 @@
+name: Social post (disabled)
+
+# Posts an approved social draft to Bluesky. DISABLED: the job runs only when the repository variable
+# SOCIAL_POSTING_ENABLED is "true" (Settings > Secrets and variables > Actions > Variables), and it is unset.
+#
+# To enable (see pipeline/insights/README.md, "Turning posting on"):
+#   1. create a Bluesky app password (Settings > Privacy and security > App passwords) for the InsideGov account;
+#   2. add repo secrets BLUESKY_HANDLE and BLUESKY_APP_PASSWORD;
+#   3. set the repo variable SOCIAL_POSTING_ENABLED to true.
+# Then adding the `social-approved` label to a `social-draft` issue posts exactly its caption, link and image, comments
+# the post URL, labels it `social-posted` and closes it. The poster re-checks the caption against the draft's facts.
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: social-post-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  post:
+    if: >-
+      vars.SOCIAL_POSTING_ENABLED == 'true' &&
+      github.event.label.name == 'social-approved' &&
+      contains(github.event.issue.labels.*.name, 'social-draft')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Post to Bluesky
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOCIAL_POSTING_ENABLED: ${{ vars.SOCIAL_POSTING_ENABLED }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+        run: pnpm insights:post -- --issue ${{ github.event.issue.number }}

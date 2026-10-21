@@ -1,0 +1,50 @@
+name: Social drafts (manual)
+
+# Draft social posts from the data on main, by hand: the same step the freshness workflows run after a refresh
+# (.github/actions/social-drafts), but with "new" meaning "after a date" instead of "newer than the data before the
+# refresh". One `social-draft` issue per draft; nothing is posted. See pipeline/insights/README.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      datasets:
+        description: "Comma-separated: energy, gas, encounters, ice, trade, executive_orders, laws"
+        default: "energy,gas,encounters,ice,trade,executive_orders,laws"
+      since:
+        description: "Periods after this date (YYYY-MM-DD) count as new"
+        required: true
+      dry_run:
+        description: "Print the issues instead of opening them"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: social-drafts
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/social-drafts
+        with:
+          datasets: ${{ inputs.datasets }}
+          since: ${{ inputs.since }}
+          token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          dry-run: ${{ inputs.dry_run }}

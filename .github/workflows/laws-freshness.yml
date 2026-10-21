@@ -24,10 +24,16 @@ on:
   schedule:
     - cron: "37 7 * * 1" # Mondays 07:37 UTC
   workflow_dispatch:
+    inputs:
+      social_dry_run:
+        description: "Social drafts: print the issues instead of opening them"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 concurrency:
   group: laws-freshness
@@ -82,6 +88,18 @@ jobs:
           pnpm exec tsx pipeline/transform/laws-run.ts
           pnpm exec tsx pipeline/transform/law-details-run.ts
           pnpm exec tsx pipeline/transform/committee-bills-run.ts
+
+      # Social post drafts about what this refresh added: one issue per draft, posted only by hand
+      # (pipeline/insights/README.md). Runs before the PR step, while HEAD still holds the old data.
+      - name: Draft social posts
+        if: steps.detect.outputs.changed == 'true'
+        continue-on-error: true
+        uses: ./.github/actions/social-drafts
+        with:
+          datasets: laws
+          token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          dry-run: ${{ github.event.inputs.social_dry_run == 'true' }}
 
       - name: Open pull request
         id: cpr

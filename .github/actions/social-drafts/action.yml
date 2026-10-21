@@ -1,0 +1,85 @@
+name: Draft social posts from new data
+description: >
+  After a freshness workflow's transform, drafts social posts about what the refresh added (pipeline/insights/run.ts:
+  new highs and lows, biggest moves, same-point-in-term comparisons; captions by the Claude API, every number checked
+  against the data), pushes the chart images to the `social-drafts` branch, and opens one `social-draft` issue per
+  draft for a human to approve. Never posts. Run it with `continue-on-error: true` so it can never block a data refresh.
+  Needs `contents: write` (the image branch) and `issues: write`.
+
+inputs:
+  datasets:
+    description: Comma-separated dataset ids (energy, gas, encounters, ice, trade, executive_orders, laws)
+    required: true
+  since-ref:
+    description: Git ref holding the data from before the refresh (periods newer than it are new)
+    required: false
+    default: HEAD
+  since:
+    description: Instead of since-ref, treat periods after this date (YYYY-MM-DD) as new
+    required: false
+    default: ""
+  token:
+    description: Token with issues write (github.token)
+    required: true
+  anthropic-api-key:
+    description: For Claude captions; without it the deterministic template captions are used
+    required: false
+    default: ""
+  dry-run:
+    description: "'true' prints each issue instead of opening it, and pushes no images"
+    required: false
+    default: "false"
+
+outputs:
+  count:
+    description: Number of drafts written
+    value: ${{ steps.draft.outputs.count }}
+
+runs:
+  using: composite
+  steps:
+    - id: draft
+      shell: bash
+      env:
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        DATASETS: ${{ inputs.datasets }}
+        SINCE_REF: ${{ inputs.since-ref }}
+        SINCE: ${{ inputs.since }}
+      run: |
+        if [ -n "$SINCE" ]; then since=(--since "$SINCE"); else since=(--since-ref "$SINCE_REF"); fi
+        pnpm exec tsx pipeline/insights/run.ts --datasets "$DATASETS" "${since[@]}" --out "$RUNNER_TEMP/social-drafts"
+
+    # Images live on an orphan branch so issues can embed them (raw.githubusercontent.com) without touching main.
+    - id: images
+      if: steps.draft.outputs.count != '0' && inputs.dry-run != 'true'
+      shell: bash
+      run: |
+        dir="$RUNNER_TEMP/social-drafts-branch"
+        if git ls-remote --exit-code --heads origin social-drafts >/dev/null 2>&1; then
+          git fetch --depth 1 origin social-drafts
+          git worktree add --detach "$dir" FETCH_HEAD
+        else
+          git worktree add --orphan -b social-drafts "$dir"
+        fi
+        mkdir -p "$dir/images"
+        cp "$RUNNER_TEMP"/social-drafts/*.png "$dir/images/"
+        cd "$dir"
+        git add images
+        git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+          commit -q -m "Social draft images from $GITHUB_WORKFLOW run $GITHUB_RUN_ID"
+        for attempt in 1 2 3; do
+          git push -q origin HEAD:refs/heads/social-drafts && break
+          git pull -q --rebase origin social-drafts
+        done
+        echo "base=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/social-drafts/images" >> "$GITHUB_OUTPUT"
+
+    - if: steps.draft.outputs.count != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        DRY_RUN: ${{ inputs.dry-run }}
+        IMAGE_BASE: ${{ steps.images.outputs.base }}
+      run: |
+        args=(--dir "$RUNNER_TEMP/social-drafts")
+        if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); else args+=(--image-base-url "$IMAGE_BASE"); fi
+        pnpm exec tsx pipeline/insights/open-issues.ts "${args[@]}"
