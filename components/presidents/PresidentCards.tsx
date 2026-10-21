@@ -59,29 +59,38 @@ export function CardShell({ title, takeaway, wide, children, notes, table, more,
   );
 }
 
-/** "Jan 2009 7.8% → Jan 2017 4.7%" for each term of a panel. */
+/** "Jan 2009 7.8% → Jan 2017 4.7%" for each term of a panel; a panel that draws several lines gets one row per line, led by its colour. */
 function StartEnd({ panel }: { panel: SeriesPanel }) {
+  const series = [
+    { id: panel.id, color: panel.color, segments: panel.segments },
+    ...(panel.parts ?? []),
+  ];
+  const multi = series.length > 1;
   return (
     <div className="flex max-w-full flex-col items-start text-left font-mono sm:items-end sm:text-right text-[0.72rem] leading-[1.35] text-ink-muted">
-      {panel.segments.map((s) => {
-        const a = s.points[0];
-        const b = s.points[s.points.length - 1];
-        return (
-          <span key={s.termId} className="sm:whitespace-nowrap">
-            <span className="whitespace-nowrap">
-              {a.label} <span className="font-medium text-ink">{fmtValue(a.value, panel.format)}</span>
+      {series.flatMap((line) =>
+        line.segments.map((s) => {
+          const a = s.points[0];
+          const b = s.points[s.points.length - 1];
+          if (!a) return null;
+          return (
+            <span key={`${line.id}-${s.termId}`} className="sm:whitespace-nowrap">
+              {multi && <i aria-hidden className="mr-1.5 inline-block size-2 rounded-[2px] align-middle" style={{ background: line.color }} />}
+              <span className="whitespace-nowrap">
+                {a.label} <span className="font-medium text-ink">{fmtValue(a.value, panel.format)}</span>
+              </span>
+              {s.points.length > 1 && (
+                <>
+                  {" → "}
+                  <span className="whitespace-nowrap">
+                    {b.label} <span className="font-medium text-ink">{fmtValue(b.value, panel.format)}</span>
+                  </span>
+                </>
+              )}
             </span>
-            {s.points.length > 1 && (
-              <>
-                {" → "}
-                <span className="whitespace-nowrap">
-                  {b.label} <span className="font-medium text-ink">{fmtValue(b.value, panel.format)}</span>
-                </span>
-              </>
-            )}
-          </span>
-        );
-      })}
+          );
+        }),
+      )}
     </div>
   );
 }
