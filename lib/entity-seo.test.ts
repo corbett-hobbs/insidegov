@@ -2,17 +2,29 @@ import { describe, expect, it } from "vitest";
 import { committeeCommonName, committeeSeo, decisionSeo, justiceSeo, memberSeo, presidentSeo } from "./entity-seo";
 
 describe("memberSeo", () => {
-  const schumer = { name: "Chuck Schumer", lastName: "Schumer", chamber: "senate" as const, party: "Democrat", partyAbbr: "D", state: "NY", stateName: "New York", district: null, firstTermYear: 1999, hasWealth: true };
+  const schumer = { name: "Chuck Schumer", lastName: "Schumer", chamber: "senate" as const, party: "Democrat", caucus: "Democrat", partyAbbr: "D", state: "NY", stateName: "New York", district: null, firstTermYear: 1999, peers: { toward: 20, away: 26, of: 47 }, lawsSponsored: 33, netWorth: 2_672_524 };
   it("titles with the role, party-state and what the page shows", () => {
-    const s = memberSeo(schumer);
-    expect(s.title).toBe("Sen. Chuck Schumer (D-NY): Ideology, Laws and Net Worth");
-    expect(s.description).toBe("Chuck Schumer, Democratic U.S. senator from New York since 1999. How Schumer votes, laws sponsored, committees and estimated net worth.");
+    expect(memberSeo(schumer).title).toBe("Sen. Chuck Schumer (D-NY): Ideology, Laws and Net Worth");
   });
-  it("names a House district and stays under 160 characters", () => {
-    const s = memberSeo({ ...schumer, name: "Alexandria Ocasio-Cortez", lastName: "Ocasio-Cortez", chamber: "house", district: 14, firstTermYear: 2019 });
-    expect(s.title.startsWith("Rep. Alexandria Ocasio-Cortez (D-NY-14)")).toBe(true);
+  it("leads with where the member sits in their caucus, then the record", () => {
+    expect(memberSeo(schumer).description).toBe("Chuck Schumer votes near the middle of Senate Democrats. See where Schumer has stood since 1999, 33 laws sponsored and a $2.7 million net worth.");
+    expect(memberSeo({ ...schumer, peers: { toward: 13, away: 33, of: 47 } }).description).toMatch(/^Chuck Schumer votes more liberally than 72% of Senate Democrats\./);
+    expect(memberSeo({ ...schumer, peers: { toward: 41, away: 5, of: 47 } }).description).toMatch(/^Chuck Schumer votes more conservatively than 89% of Senate Democrats\./);
+  });
+  it("ranks a member near either end of the caucus", () => {
+    const murkowski = { ...schumer, name: "Lisa Murkowski", lastName: "Murkowski", party: "Republican", caucus: "Republican", partyAbbr: "R", peers: { toward: 53, away: 1, of: 55 } };
+    expect(memberSeo(murkowski).description).toMatch(/^Lisa Murkowski is the Senate's 2nd most liberal Republican\./);
+    const sanders = { ...schumer, name: "Bernie Sanders", lastName: "Sanders", party: "Independent", partyAbbr: "I", peers: { toward: 2, away: 44, of: 47 } };
+    expect(memberSeo(sanders).description).toMatch(/^Bernie Sanders is the Senate's 3rd most liberal member of the Democratic caucus\./);
+  });
+  it("joins the record with 'and' and words a negative net worth", () => {
+    const aoc = { ...schumer, name: "Alexandria Ocasio-Cortez", lastName: "Ocasio-Cortez", chamber: "house" as const, district: 14, firstTermYear: 2019, peers: { toward: 63, away: 157, of: 221 }, lawsSponsored: 0, netWorth: -145_000 };
+    expect(memberSeo(aoc).description).toBe("Alexandria Ocasio-Cortez votes more liberally than 71% of House Democrats. See where Ocasio-Cortez has stood since 2019 and an estimated net worth below zero.");
+  });
+  it("falls back to the plain description for a member with no score yet", () => {
+    const s = memberSeo({ ...schumer, peers: null });
+    expect(s.description).toMatch(/^Chuck Schumer, Democratic U\.S\. senator from New York since 1999\./);
     expect(s.description.length).toBeLessThanOrEqual(160);
-    expect(s.description).toMatch(/^Alexandria Ocasio-Cortez, Democratic/);
   });
 });
 
@@ -39,11 +51,20 @@ describe("justiceSeo", () => {
 });
 
 describe("presidentSeo", () => {
-  it("titles the presidency and lists both terms", () => {
-    const s = presidentSeo({ name: "Donald Trump", terms: [{ ordinal: "45th", years: "2017–2021" }, { ordinal: "47th", years: "2025–" }] });
-    expect(s.title).toBe("Donald Trump Presidency: Laws, Economy and Record");
-    expect(s.description).toMatch(/^Donald Trump, (the )?45th and 47th president \(2017–2021, 2025–\): laws signed/);
-    expect(s.description.length).toBeLessThanOrEqual(160);
+  const obama = { name: "Barack Obama", terms: [{ ordinal: "44th", years: "2009–2017" }], party: "D" as const, serving: false, laws: { signed: 1289, major: 45 }, executiveOrders: 276, justices: 2, congress: { both: 713, one: 1461, neither: 731 }, sections: ["misery", "fiscal", "arrivals", "trade"] };
+  it("titles the presidency and leads with the record in office", () => {
+    const s = presidentSeo(obama);
+    expect(s.title).toBe("Barack Obama Presidency: Laws, Economy and Record");
+    expect(s.description).toBe("Barack Obama signed 1,289 laws (45 major), issued 276 executive orders and appointed 2 justices. Democrats held both chambers of Congress for 2 of 8 years.");
+  });
+  it("says 'has' once for a serving president", () => {
+    const s = presidentSeo({ ...obama, name: "Donald Trump", party: "R", serving: true });
+    expect(s.description).toMatch(/^Donald Trump has signed 1,289 laws \(45 major\), issued 276 executive orders and appointed 2 justices\./);
+  });
+  it("names only the sections the page has, and never economy figures", () => {
+    const s = presidentSeo({ ...obama, name: "Franklin D. Roosevelt", terms: [{ ordinal: "32nd", years: "1933–1945" }], laws: null, executiveOrders: null, justices: 8, congress: { both: 4422, one: 0, neither: 0 }, sections: ["fiscal"] });
+    expect(s.description).toBe("Franklin D. Roosevelt appointed 8 justices. Democrats held both chambers of Congress throughout. See the federal budget during the term.");
+    expect(s.description).not.toMatch(/%/);
   });
 });
 

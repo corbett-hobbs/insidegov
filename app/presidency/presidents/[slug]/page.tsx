@@ -26,7 +26,18 @@ export async function generateMetadata({ params }: { params: Promise<RouteParams
   const data = getPresidentPage(slug);
   if (!data) return { title: "President not found" };
   const p = data.president;
-  const { title, description } = presidentSeo({ name: p.name, terms: p.terms.map((t) => ({ ordinal: ordinalWord(t.ordinal), years: termYears(t) })) });
+  const { title, description } = presidentSeo({
+    name: p.name,
+    terms: p.terms.map((t) => ({ ordinal: ordinalWord(t.ordinal), years: termYears(t) })),
+    party: p.party,
+    serving: p.terms[p.terms.length - 1]!.end === null,
+    laws: data.laws ? { signed: data.laws.signed, major: data.laws.major } : null,
+    // Only a count that covers the whole time in office (the record starts in 1994).
+    executiveOrders: data.eos && !data.eos.coverage ? data.eos.total : null,
+    justices: data.justices.filter((j) => !j.elevated).length,
+    congress: data.congress.days,
+    sections: Object.keys(data.cards),
+  });
   return pageMetadata({ title, description, path: presidentPath(slug), type: "profile" });
 }
 

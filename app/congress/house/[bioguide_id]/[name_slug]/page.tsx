@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { memberSeo } from "@/lib/entity-seo";
+import { memberSeoInput } from "@/lib/member-seo-data";
 import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
@@ -11,7 +12,6 @@ import { getMemberCommitteeMemberships } from "@/lib/committee-data";
 import { getMemberWealthProfile } from "@/lib/wealth-data";
 import { getMemberWikipediaBio } from "@/lib/wikipedia-bio";
 import { memberPath, memberSlug } from "@/lib/member-url";
-import { partyAbbr } from "@/components/senate/format";
 import { JsonLd } from "@/components/JsonLd";
 import { personJsonLd } from "@/lib/structured-data";
 import { MemberProfileView } from "@/components/profile/MemberProfileView";
@@ -42,7 +42,7 @@ export async function generateMetadata({
   const { bioguide_id } = await params;
   const profile = getMemberProfile("house", bioguide_id);
   if (!profile) return { title: "Representative not found" };
-  const { title, description } = memberSeo({ ...profile, chamber: "house", partyAbbr: partyAbbr(profile.party), hasWealth: getMemberWealthProfile(bioguide_id) != null });
+  const { title, description } = memberSeo(memberSeoInput("house", profile));
   return pageMetadata({ title, description, path: memberPath(profile), type: "profile", ownImage: true });
 }
 
@@ -64,7 +64,7 @@ export default async function RepresentativePage({
   const current = getChamberCurrent("house");
   return (
     <>
-      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Representative", description: memberSeo({ ...profile, chamber: "house", partyAbbr: partyAbbr(profile.party), hasWealth: false }).jobDescription, affiliation: "U.S. House of Representatives" })} />
+      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Representative", description: memberSeo(memberSeoInput("house", profile)).jobDescription, affiliation: "U.S. House of Representatives" })} />
     <MemberProfileView
       profile={profile}
       compassMembers={current.plottable}
