@@ -45,17 +45,24 @@ export const twitterDefaults: { images: string[] } = {
 };
 
 /**
- * For a page with its own `opengraph-image.tsx` / `twitter-image.tsx` (the topic
- * pages' data share cards, `app/_og/topic-card.tsx`): the same fields without
- * `images`. Config `images` win over the file convention, so a page that spread
- * `ogDefaults` would keep sharing the generic card.
+ * Open Graph and Twitter fields for a topic page with a data share card
+ * (`app/og/[topic]/route.tsx`, figures from `lib/og-topics.ts`). One prerendered
+ * route serves every card: per-page `opengraph-image.tsx` files would each count as
+ * a serverless function, and the Hobby plan allows 12 per deployment.
  */
-export const topicOgDefaults: { type: "website"; siteName: string } = {
-  type: "website",
-  siteName: site.name,
-};
+export const ogTopicSlug = (path: string) => path.replace(/\//g, "-");
 
-export const topicTwitterDefaults: { card: "summary_large_image" } = { card: "summary_large_image" };
+function topicImage(path: string) {
+  return { url: `/og/${ogTopicSlug(path)}`, width: 1200, height: 630, alt: `${site.name}: the latest figure and its trend for /${path}` };
+}
+
+export function topicOg(path: string): { type: "website"; siteName: string; images: ReturnType<typeof topicImage>[] } {
+  return { type: "website", siteName: site.name, images: [topicImage(path)] };
+}
+
+export function topicTwitter(path: string): { card: "summary_large_image"; images: ReturnType<typeof topicImage>[] } {
+  return { card: "summary_large_image", images: [topicImage(path)] };
+}
 
 export function absoluteUrl(path: string): string {
   return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;

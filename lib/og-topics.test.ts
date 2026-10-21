@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { median, sparkPath, thin } from "./og-sparkline";
 
@@ -43,11 +43,11 @@ describe("topic share cards", { timeout: 30_000 }, () => {
     expect(Number(c.from)).toBeLessThan(Number(c.to));
   });
 
-  it("has an opengraph-image and twitter-image next to every topic page", () => {
+  it("points every topic page's share metadata at its /og card", () => {
     for (const path of TOPIC_PATHS) {
-      expect(existsSync(`app/${path}/page.tsx`), path).toBe(true);
-      expect(existsSync(`app/${path}/opengraph-image.tsx`), path).toBe(true);
-      expect(existsSync(`app/${path}/twitter-image.tsx`), path).toBe(true);
+      const page = readFileSync(`app/${path}/page.tsx`, "utf8");
+      expect(page, path).toContain(`topicOg("${path}")`);
+      expect(page, path).toContain(`topicTwitter("${path}")`);
     }
   });
 });

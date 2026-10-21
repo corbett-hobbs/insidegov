@@ -8,9 +8,8 @@ import { site } from "@/lib/site";
 /**
  * The share card for a topic page: the page's eyebrow and `<h1>` question, its
  * headline figure (from `lib/og-topics.ts`, read through the page's own loaders) and a
- * sparkline of the series behind it, on the branch's deep colour. Each topic page's
- * `opengraph-image.tsx` and `twitter-image.tsx` is a three-line call to this, so the
- * look lives in one place. Same 1200×630 and Newsreader serif as `app/opengraph-image.tsx`.
+ * sparkline of the series behind it, on the branch's deep colour. Served by
+ * `app/og/[topic]/route.tsx`, so the look lives in one place. Same 1200×630 and Newsreader serif as `app/opengraph-image.tsx`.
  */
 
 export const TOPIC_OG_SIZE = { width: 1200, height: 630 };
@@ -94,10 +93,4 @@ export async function topicImage(path: TopicPath): Promise<ImageResponse> {
       fonts: [{ name: "Newsreader", data: serif, weight: 500, style: "normal" }],
     },
   );
-}
-
-/** Alt text for a topic page's share image. */
-export function topicAlt(path: TopicPath): string {
-  const c = topicCard(path);
-  return `${c.title} ${c.figure}: ${c.caption}. ${site.name}`;
 }
