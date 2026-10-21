@@ -5,6 +5,10 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { GlobalFooter } from "@/components/GlobalFooter";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { BackLinkProvider } from "@/components/BackLinkContext";
+import { OutboundLinkTracker } from "@/components/OutboundLinkTracker";
+import { JsonLd } from "@/components/JsonLd";
+import { siteJsonLd } from "@/lib/structured-data";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -59,11 +63,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-ink">
+        <JsonLd data={siteJsonLd()} />
         <BackLinkProvider>
           <ScrollToTop />
           <SiteHeader />
           {children}
           <GlobalFooter />
+          <OutboundLinkTracker />
+          <Analytics />
         </BackLinkProvider>
       </body>
     </html>

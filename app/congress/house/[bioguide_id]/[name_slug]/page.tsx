@@ -10,6 +10,8 @@ import { getMemberWealthProfile } from "@/lib/wealth-data";
 import { getMemberWikipediaBio } from "@/lib/wikipedia-bio";
 import { memberPath, memberSlug } from "@/lib/member-url";
 import { partyAbbr } from "@/components/senate/format";
+import { JsonLd } from "@/components/JsonLd";
+import { personJsonLd } from "@/lib/structured-data";
 import { MemberProfileView } from "@/components/profile/MemberProfileView";
 
 interface RouteParams {
@@ -78,6 +80,8 @@ export default async function RepresentativePage({
 
   const current = getChamberCurrent("house");
   return (
+    <>
+      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Representative", description: `${profile.name}, ${profile.party} representative for ${profile.stateName}.`, affiliation: "U.S. House of Representatives" })} />
     <MemberProfileView
       profile={profile}
       compassMembers={current.plottable}
@@ -87,5 +91,6 @@ export default async function RepresentativePage({
       wealthProfile={getMemberWealthProfile(bioguide_id)}
       bio={getMemberWikipediaBio(bioguide_id)}
     />
+    </>
   );
 }

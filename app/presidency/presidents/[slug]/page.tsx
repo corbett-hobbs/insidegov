@@ -4,6 +4,8 @@ import { getPresidentPage, getPresidentSlugs } from "@/lib/president-data";
 import { ordinalWord, termYears } from "@/lib/president-derive";
 import { presidentPath } from "@/lib/president-url";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { personJsonLd } from "@/lib/structured-data";
 import { PresidentPageView } from "@/components/presidents/PresidentPageView";
 
 interface RouteParams {
@@ -39,5 +41,20 @@ export default async function PresidentPage({ params }: { params: Promise<RouteP
   const { slug } = await params;
   const data = getPresidentPage(slug);
   if (!data) notFound();
-  return <PresidentPageView data={data} />;
+  const p = data.president;
+  return (
+    <>
+      <JsonLd
+        data={personJsonLd({
+          path: presidentPath(slug),
+          name: p.name,
+          jobTitle: `${ordinalWord(p.terms[0].ordinal)} President of the United States`,
+          description: `${p.name}, ${p.terms.map((t) => termYears(t)).join(" and ")}.`,
+          image: p.photo,
+          affiliation: "Executive Office of the President of the United States",
+        })}
+      />
+      <PresidentPageView data={data} />
+    </>
+  );
 }

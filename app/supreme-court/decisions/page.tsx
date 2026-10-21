@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DecisionsPageClient } from "@/components/decisions/DecisionsPageClient";
 import { getDecisionsPageData } from "@/lib/decisions-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /supreme-court/decisions — the Supreme Court vertical's Decisions section. */
 export const metadata: Metadata = {
@@ -18,5 +19,10 @@ export const metadata: Metadata = {
 };
 
 export default function DecisionsPage() {
-  return <DecisionsPageClient data={getDecisionsPageData()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/supreme-court/decisions" />
+      <DecisionsPageClient data={getDecisionsPageData()} />
+    </>
+  );
 }

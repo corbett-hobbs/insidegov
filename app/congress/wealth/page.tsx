@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getWealthData } from "@/lib/wealth-data";
 import { WealthPageClient } from "@/components/wealth/WealthPageClient";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /congress/wealth — the Congress vertical's Wealth section. */
 export const metadata: Metadata = {
@@ -21,5 +22,10 @@ export const metadata: Metadata = {
 
 export default function WealthPage() {
   const members = getWealthData();
-  return <WealthPageClient members={members} />;
+  return (
+    <>
+      <TopicDatasetLd path="/congress/wealth" />
+      <WealthPageClient members={members} />
+    </>
+  );
 }

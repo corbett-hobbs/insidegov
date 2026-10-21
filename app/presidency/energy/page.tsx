@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { EnergyPageClient } from "@/components/energy/EnergyPageClient";
 import { getEnergyPayload } from "@/lib/energy-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/energy — the Presidency vertical's Energy section: the Strategic Petroleum Reserve, the oil balance, electricity by source and LNG exports. */
 export const metadata: Metadata = {
@@ -19,5 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default function EnergyPage() {
-  return <EnergyPageClient payload={getEnergyPayload()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/presidency/energy" />
+      <EnergyPageClient payload={getEnergyPayload()} />
+    </>
+  );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { track } from "@/lib/analytics";
 
 interface Props {
   /** Full extent the handles can span (inclusive). */
@@ -62,7 +63,10 @@ export function RangeSelector({ min, max, value, onChange, minSpan = 0, step = 1
           value={from}
           aria-label={`${ariaLabel}, start`}
           aria-valuetext={format(from)}
-          onChange={(e) => onChange([Math.min(+e.target.value, to - minSpan), to])}
+          onChange={(e) => {
+            track("filter_change", { control: ariaLabel }, 3000);
+            onChange([Math.min(+e.target.value, to - minSpan), to]);
+          }}
           // When both handles sit at the right end, the start handle must be the grabbable one.
           style={{ zIndex: from >= max - step ? 2 : 1 }}
         />
@@ -74,7 +78,10 @@ export function RangeSelector({ min, max, value, onChange, minSpan = 0, step = 1
           value={to}
           aria-label={`${ariaLabel}, end`}
           aria-valuetext={format(to)}
-          onChange={(e) => onChange([from, Math.max(+e.target.value, from + minSpan)])}
+          onChange={(e) => {
+            track("filter_change", { control: ariaLabel }, 3000);
+            onChange([from, Math.max(+e.target.value, from + minSpan)]);
+          }}
         />
       </div>
       {below}
