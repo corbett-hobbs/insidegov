@@ -49,25 +49,42 @@ const pickString = (row: ApiRow, ...keys: string[]): string => {
   return "";
 };
 
-async function fetchSeries(entry: EnergyCatalogEntry): Promise<RawEnergySeries> {
-  const key = process.env.EIA_API_KEY;
-  if (!key) throw new Error("EIA_API_KEY is not set (put it in the environment or .env.local)");
-  const valueField = "valueField" in entry.source ? entry.source.valueField : "value";
-  const route = `${entry.source.route}/data`;
+async function fetchRows(key: string, label: string, route: string, source: EnergyCatalogEntry["source"]): Promise<{ rows: ApiRow[]; total: number; query: string }> {
   const rows: ApiRow[] = [];
   let total = Infinity;
   while (rows.length < total) {
-    const url = `${EIA_API}/${route}?api_key=${encodeURIComponent(key)}&${queryFor(entry, rows.length, EIA_PAGE_LENGTH)}`;
-    const { response } = await getJson(url, `${entry.series_id} (offset ${rows.length})`);
+    const url = `${EIA_API}/${route}/data?api_key=${encodeURIComponent(key)}&${queryFor({ source }, rows.length, EIA_PAGE_LENGTH)}`;
+    const { response } = await getJson(url, `${label} (offset ${rows.length})`);
     total = Number(response.total);
-    if (!Number.isInteger(total)) throw new Error(`EIA ${entry.series_id}: response.total is not a number`);
+    if (!Number.isInteger(total)) throw new Error(`EIA ${label}: response.total is not a number`);
     if (response.data.length === 0) break;
     rows.push(...response.data);
   }
   if (rows.length !== total) {
-    throw new Error(`EIA ${entry.series_id}: received ${rows.length} rows but the API reports ${total} (truncated?)`);
+    throw new Error(`EIA ${label}: received ${rows.length} rows but the API reports ${total} (truncated?)`);
   }
-  if (rows.length === 0) throw new Error(`EIA ${entry.series_id}: no rows`);
+  if (rows.length === 0) throw new Error(`EIA ${label}: no rows`);
+  return { rows, total, query: queryFor({ source }, 0, EIA_PAGE_LENGTH) };
+}
+
+async function fetchSeries(entry: EnergyCatalogEntry): Promise<RawEnergySeries> {
+  const key = process.env.EIA_API_KEY;
+  if (!key) throw new Error("EIA_API_KEY is not set (put it in the environment or .env.local)");
+  const valueField = "valueField" in entry.source ? entry.source.valueField : "value";
+  const main = await fetchRows(key, entry.series_id, entry.source.route, entry.source);
+  const { rows } = main;
+  let { total, query } = main;
+  let route: string = entry.source.route;
+  if (entry.extend) {
+    // Months newer than the main route's last one, from the faster route (see EnergyCatalogEntry.extend).
+    const ext = await fetchRows(key, `${entry.series_id} (extend)`, entry.extend.route, { ...entry.extend, frequency: entry.frequency });
+    const lastMain = rows[rows.length - 1].period;
+    const extra = ext.rows.filter((r) => r.period > lastMain).map((r) => ({ period: r.period, [valueField]: r[entry.extend!.valueField] }));
+    rows.push(...extra);
+    total += extra.length;
+    route = `${route} + ${entry.extend.route} for periods after ${lastMain}`;
+    query = `${query} + ${queryFor({ source: { ...entry.extend, frequency: entry.frequency } }, 0, EIA_PAGE_LENGTH)}`;
+  }
   const first = rows[0];
   return rawEnergySeries.parse({
     fetched_at: new Date().toISOString(),
@@ -75,8 +92,8 @@ async function fetchSeries(entry: EnergyCatalogEntry): Promise<RawEnergySeries> 
       id: entry.series_id,
       title: pickString(first, "seriesDescription", "series-description"),
       units: pickString(first, "unit", "units", `${valueField}-units`),
-      route: entry.source.route,
-      query: queryFor(entry, 0, EIA_PAGE_LENGTH),
+      route,
+      query,
       total,
     },
     observations: rows.map((r) => {
