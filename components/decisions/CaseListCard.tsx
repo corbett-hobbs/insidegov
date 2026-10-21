@@ -183,7 +183,16 @@ export interface CaseQualifier {
   note?: ReactNode;
 }
 
-export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area: string; areaId: string | null; qualifier?: CaseQualifier }) {
+export function CaseRow({ c, area, areaId, qualifier, stacked = false, outcome = false }: {
+  c: DecisionCase;
+  area: string;
+  areaId: string | null;
+  qualifier?: CaseQualifier;
+  /** One narrow column at every width, for a list that sits half-width beside another: name; date, citation and issue area; then the vote with its tags. */
+  stacked?: boolean;
+  /** Tags read "Liberal outcome" / "Conservative outcome": for lists whose page does not already say what the tag means. */
+  outcome?: boolean;
+}) {
   const name = (
     <Link
       href={decisionPath(c[14], c[2])}
@@ -207,6 +216,23 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
   ) : null;
   const direction = c[13] !== 0 ? c[13] : null;
   const hasPills = direction !== null || badge !== null || !!qualifier?.note;
+  if (stacked) {
+    // The tally leads the pill line in the timeline case note's plain bold, with no colour key.
+    return (
+      <li className="flex flex-col gap-1 border-b border-line px-3 py-2.5 text-[0.82rem] last:border-b-0">
+        <span className="min-w-0 break-words">{name}</span>
+        <span className="text-[0.75rem] tabular-nums text-ink-muted">
+          {[fmtDate(c[1]), c[3], area].filter(Boolean).join(" \u00b7 ")}
+        </span>
+        <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <b className="font-semibold tabular-nums text-ink" title={BAND_LONG[c[5]]}>{`${c[6]}\u2013${c[7]}`}</b>
+          {direction !== null && <DirectionTag direction={direction} areaId={areaId} outcome={outcome} />}
+          {badge}
+        </span>
+        {c[11] && <Summary text={c[11]} claude={c[12] === 1} wide={false} stacked />}
+      </li>
+    );
+  }
   return (
     <li className={`grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 border-b border-line px-3 py-2.5 text-[0.82rem] last:border-b-0 ${qualifier ? JUSTICE_COLUMNS : "sm:grid-cols-[6.5rem_minmax(0,1fr)_9.5rem_4.5rem]"} sm:items-baseline sm:gap-y-0.5 sm:py-2`}>
       {/* name (+ badge and citation inline from sm) */}
@@ -214,7 +240,7 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
         {name}
         {direction !== null && (
           <span className="ml-2 max-sm:hidden">
-            <DirectionTag direction={direction} areaId={areaId} />
+            <DirectionTag direction={direction} areaId={areaId} outcome={outcome} />
           </span>
         )}
         {badge && <span className="ml-2 max-sm:hidden">{badge}</span>}
@@ -230,7 +256,7 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
         {area}
         {hasPills && (
           <span className="hidden max-sm:contents">
-            {direction !== null && <DirectionTag direction={direction} areaId={areaId} />}
+            {direction !== null && <DirectionTag direction={direction} areaId={areaId} outcome={outcome} />}
             {badge}
             {qualifier?.note}
           </span>
@@ -262,15 +288,15 @@ export function CaseRow({ c, area, areaId, qualifier }: { c: DecisionCase; area:
  * under the row (from `sm` it lines up with the name column). On phones it holds to three lines and a tap opens the rest; a
  * wide row shows the whole sentence, which is at most 300 characters.
  */
-function Summary({ text, claude, wide }: { text: string; claude: boolean; wide: boolean }) {
+function Summary({ text, claude, wide, stacked = false }: { text: string; claude: boolean; wide: boolean; stacked?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
-    <p className={`col-span-2 m-0 text-[0.76rem] leading-[1.45] text-ink-muted sm:col-start-2 sm:row-start-2 max-sm:row-start-4 ${wide ? "sm:col-span-4" : "sm:col-span-3"}`}>
+    <p className={`m-0 text-[0.76rem] leading-[1.45] text-ink-muted ${stacked ? "" : `col-span-2 sm:col-start-2 sm:row-start-2 max-sm:row-start-4 ${wide ? "sm:col-span-4" : "sm:col-span-3"}`}`}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className={`block w-full cursor-pointer border-0 bg-transparent p-0 text-left font-[inherit] text-inherit sm:cursor-text ${open ? "" : "max-sm:line-clamp-3"} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
+        className={`block w-full cursor-pointer border-0 bg-transparent p-0 text-left font-[inherit] text-inherit ${stacked ? "" : "sm:cursor-text"} ${open ? "" : stacked ? "line-clamp-3" : "max-sm:line-clamp-3"} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`}
       >
         {text}
         {claude && (
