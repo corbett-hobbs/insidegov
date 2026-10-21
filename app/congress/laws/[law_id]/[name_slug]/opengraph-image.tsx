@@ -26,7 +26,7 @@ export default async function Image({ params }: { params: Promise<{ law_id: stri
     );
   }
 
-  const title = law.title.length > 150 ? `${law.title.slice(0, 147)}…` : law.title;
+  const title = law.shortTitle;
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: BG, padding: 72, fontFamily: "sans-serif" }}>

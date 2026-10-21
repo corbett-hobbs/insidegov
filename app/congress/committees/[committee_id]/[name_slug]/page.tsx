@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { committeeSeo } from "@/lib/entity-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
   getAllCommittees,
@@ -37,18 +39,8 @@ export async function generateMetadata({
   const { committee_id } = await params;
   const committee = getCommitteeProfile(committee_id);
   if (!committee) return { title: "Committee not found" };
-
-  const title = committee.name;
-  const description = `${committee.name} — where it sits on the DW-NOMINATE ideology map, how far apart its members are, and its nearest committees in the ${committee.latestCongress}th Congress.`;
-  const url = committeePath(committee);
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { title, description, url },
-    twitter: { card: "summary_large_image", title, description },
-  };
+  const { title, description } = committeeSeo({ ...committee, chair: committee.chair?.name ?? null, rankingMember: committee.rankingMember?.name ?? null });
+  return pageMetadata({ title, description, path: committeePath(committee), ownImage: true });
 }
 
 export default async function CommitteePage({

@@ -1,23 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ForeignAidPageClient } from "@/components/foreign-aid/ForeignAidPageClient";
 import { getAidPayload, getWorldMap } from "@/lib/foreign-aid-data";
-import { site, topicOg, topicTwitter } from "@/lib/site";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/foreign-aid — U.S. foreign assistance disbursements by fiscal year, country and sector. */
-export const metadata: Metadata = {
-  title: "Where does U.S. foreign aid go?",
-  description:
-    "U.S. foreign assistance disbursements by fiscal year, sector and recipient country since FY2001, with presidential terms marked. From ForeignAssistance.gov.",
-  alternates: { canonical: "/presidency/foreign-aid" },
-  openGraph: {
-    ...topicOg("presidency/foreign-aid"),
-    title: `Where does U.S. foreign aid go? · ${site.name}`,
-    description: "U.S. foreign assistance disbursements by fiscal year, sector and country. From ForeignAssistance.gov.",
-    url: "/presidency/foreign-aid",
-  },
-  twitter: topicTwitter("presidency/foreign-aid"),
-};
+export const metadata: Metadata = pageMetadata({
+  title: "U.S. Foreign Aid by Country and Year",
+  description: "Where U.S. foreign aid goes: disbursements by recipient country, sector and fiscal year since 2001, by president. Data from ForeignAssistance.gov.",
+  path: "/presidency/foreign-aid",
+  topic: "presidency/foreign-aid",
+});
 
 export default function ForeignAidPage() {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
 import { SourceLink } from "@/components/SourceLink";
@@ -6,22 +7,15 @@ import { CurrentCourt } from "@/components/court/directory/CurrentCourt";
 import { DirectoryTable } from "@/components/court/directory/DirectoryTable";
 import { TenureTimeline } from "@/components/court/directory/TenureTimeline";
 import { getJusticeDirectory } from "@/lib/justice-directory-data";
-import { site, topicOg, topicTwitter } from "@/lib/site";
 import { UpNext } from "@/components/UpNext";
 
 /** /supreme-court/justices — the Supreme Court vertical's Justices section: the way into every justice profile. */
-export const metadata: Metadata = {
-  title: "Who has sat on the Supreme Court?",
-  description: "The nine justices on the Supreme Court today and every justice since the 1937 term: how long each served, who appointed them, how the Senate voted to confirm them and how often they dissented.",
-  alternates: { canonical: "/supreme-court/justices" },
-  openGraph: {
-    ...topicOg("supreme-court/justices"),
-    title: `Who has sat on the Supreme Court? · ${site.name}`,
-    description: "Every Supreme Court justice since the 1937 term, with the length of their tenure, their appointing president and their record.",
-    url: "/supreme-court/justices",
-  },
-  twitter: topicTwitter("supreme-court/justices"),
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Supreme Court Justices: Current and Past",
+  description: "The nine current Supreme Court justices and every justice since 1937: years served, appointing president, Senate confirmation vote and how often they dissented.",
+  path: "/supreme-court/justices",
+  topic: "supreme-court/justices",
+});
 
 const linkClass = "font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 

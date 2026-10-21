@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { lawMetaDescription, lawSummaryLead, lawTitle } from "@/lib/law-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { legislationJsonLd } from "@/lib/structured-data";
@@ -30,10 +32,15 @@ export async function generateMetadata({ params }: { params: Promise<RouteParams
   const { law_id } = await params;
   const law = getLawPage(law_id);
   if (!law) return { title: "Law not found" };
-  const title = `${law.title} (${law.publicLaw})`;
-  const description = (law.summary?.[0] ?? `${law.publicLaw}, ${ordinal(law.congress)} Congress, ${law.billLabel}.`).slice(0, 200);
-  const url = lawPath(law.lawId, law.title);
-  return { title, description, alternates: { canonical: url }, openGraph: { title, description, url, type: "article" }, twitter: { card: "summary_large_image", title, description } };
+  const description = lawMetaDescription({
+    shortTitle: law.shortTitle,
+    officialTitle: law.officialTitle ?? law.title,
+    summary: law.summary,
+    president: law.president.name,
+    year: Number(law.date.slice(0, 4)),
+    veto: law.veto,
+  });
+  return pageMetadata({ title: lawTitle(law.shortTitle, law.date), description, path: lawPath(law.lawId, law.title), type: "article", ownImage: true });
 }
 
 export default async function LawPage({ params }: { params: Promise<RouteParams> }) {
@@ -48,11 +55,12 @@ export default async function LawPage({ params }: { params: Promise<RouteParams>
       <JsonLd
         data={legislationJsonLd({
           path: lawPath(law.lawId, law.title),
-          name: law.title,
+          name: law.shortTitle,
+          alternateName: law.shortTitle !== law.title ? law.title : undefined,
           publicLaw: law.publicLaw,
           congressLabel: ordinal(law.congress),
           date: law.date,
-          description: law.summary?.[0]?.slice(0, 300),
+          description: lawSummaryLead(law.summary, [law.shortTitle, law.title]) ?? undefined,
         })}
       />
       <LawPageView law={law} />

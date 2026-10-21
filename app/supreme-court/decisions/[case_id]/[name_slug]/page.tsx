@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { decisionSeo } from "@/lib/entity-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import { DecisionPageView } from "@/components/decisions/detail/DecisionPageView";
 import { getDecisionPage, getDecisionRef, getDecisionRefs } from "@/lib/decision-page-data";
@@ -27,10 +29,16 @@ export async function generateMetadata({ params }: { params: Promise<RouteParams
   const { case_id } = await params;
   const d = isCaseId(case_id) ? getDecisionPage(case_id) : null;
   if (!d) return { title: "Decision not found" };
-  const title = `${d.name}${d.cite ? ` (${d.cite})` : ""}`;
-  const description = (d.sentence?.text ?? `Decided ${d.vote.maj}–${d.vote.min} in the ${d.term} term${d.disposition ? `: ${d.disposition.toLowerCase()}` : ""}.`).slice(0, 200);
-  const url = decisionPath(d.caseId, d.name);
-  return { title, description, alternates: { canonical: url }, openGraph: { title, description, url, type: "article" }, twitter: { card: "summary_large_image", title, description } };
+  const { title, description } = decisionSeo({
+    shortName: d.shortName,
+    decided: d.decided,
+    lead: d.sentence?.text ?? d.summary?.paragraphs[0] ?? null,
+    maj: d.vote.maj,
+    min: d.vote.min,
+    area: d.area?.label ?? null,
+    disposition: d.disposition,
+  });
+  return pageMetadata({ title, description, path: decisionPath(d.caseId, d.name), type: "article", ownImage: true });
 }
 
 export default async function DecisionPage({ params }: { params: Promise<RouteParams> }) {

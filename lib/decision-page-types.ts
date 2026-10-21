@@ -47,7 +47,10 @@ export interface DecisionParty {
 
 export interface DecisionPageData {
   caseId: string;
+  /** The full caption SCDB records ("Michael J. Astrue, Commissioner of Social Security, Petitioner v. ..."). */
   name: string;
+  /** The name the case is known by ("Astrue v. Capato"), from `lib/case-name.ts`. */
+  shortName: string;
   cite: string;
   docket: string | null;
   term: number;

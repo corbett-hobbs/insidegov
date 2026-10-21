@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { justiceSeo } from "@/lib/entity-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import { getJusticeVotesSource } from "@/lib/decisions-data";
 import { getJusticeProfile, getJusticeRefs } from "@/lib/justice-data";
@@ -41,18 +43,16 @@ export async function generateMetadata({
   const id = parseId(justice_id);
   const profile = id == null ? null : getJusticeProfile(id);
   if (!profile) return { title: "Justice not found" };
-
   const { justice, identity } = profile;
-  const title = `${justice.name} — ${identity.role}`;
-  const description = `${justice.name}, appointed by ${identity.appointedBy.president} (${identity.appointedBy.party}) — Martin–Quinn ideology score by term, and how ${profile.last} compares with every justice since 1937.`;
-  const url = justicePath(justice);
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { title, description, url, type: "profile" },
-    twitter: { card: "summary_large_image", title, description },
-  };
+  const { title, description } = justiceSeo({
+    name: justice.name,
+    last: profile.last,
+    role: identity.role,
+    appointedBy: identity.appointedBy.president,
+    served: identity.served,
+    hasVotes: getVotedJusticeIds().includes(justice.id),
+  });
+  return pageMetadata({ title, description, path: justicePath(justice), type: "profile" });
 }
 
 export default async function JusticePage({

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { memberSeo } from "@/lib/entity-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
   getChamberCurrent,
@@ -40,27 +42,8 @@ export async function generateMetadata({
   const { bioguide_id } = await params;
   const profile = getMemberProfile("house", bioguide_id);
   if (!profile) return { title: "Representative not found" };
-
-  const abbr = partyAbbr(profile.party);
-  const seat =
-    profile.district != null
-      ? `${profile.state}-${profile.district}`
-      : `${profile.state} at-large`;
-  const congresses =
-    profile.chamberCongressCount === 1
-      ? "their first Congress"
-      : `${profile.chamberCongressCount} Congresses`;
-  const title = `${profile.name} (${abbr}-${seat})`;
-  const description = `${profile.name}, ${profile.party} representative for ${seat} — DW-NOMINATE ideology score and how it has moved across ${congresses}.`;
-  const url = memberPath(profile);
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { title, description, url, type: "profile" },
-    twitter: { card: "summary_large_image", title, description },
-  };
+  const { title, description } = memberSeo({ ...profile, chamber: "house", partyAbbr: partyAbbr(profile.party), hasWealth: getMemberWealthProfile(bioguide_id) != null });
+  return pageMetadata({ title, description, path: memberPath(profile), type: "profile", ownImage: true });
 }
 
 export default async function RepresentativePage({
@@ -81,7 +64,7 @@ export default async function RepresentativePage({
   const current = getChamberCurrent("house");
   return (
     <>
-      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Representative", description: `${profile.name}, ${profile.party} representative for ${profile.stateName}.`, affiliation: "U.S. House of Representatives" })} />
+      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Representative", description: memberSeo({ ...profile, chamber: "house", partyAbbr: partyAbbr(profile.party), hasWealth: false }).jobDescription, affiliation: "U.S. House of Representatives" })} />
     <MemberProfileView
       profile={profile}
       compassMembers={current.plottable}

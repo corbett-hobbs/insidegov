@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { memberSeo } from "@/lib/entity-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
   getChamberCurrent,
@@ -41,23 +43,8 @@ export async function generateMetadata({
   const { bioguide_id } = await params;
   const profile = getMemberProfile("senate", bioguide_id);
   if (!profile) return { title: "Senator not found" };
-
-  const abbr = partyAbbr(profile.party);
-  const congresses =
-    profile.chamberCongressCount === 1
-      ? "their first Congress"
-      : `${profile.chamberCongressCount} Congresses`;
-  const title = `${profile.name} (${abbr}-${profile.state})`;
-  const description = `${profile.name}, ${profile.party} senator from ${profile.stateName} — DW-NOMINATE ideology score and how it has moved across ${congresses}.`;
-  const url = memberPath(profile);
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: { title, description, url, type: "profile" },
-    twitter: { card: "summary_large_image", title, description },
-  };
+  const { title, description } = memberSeo({ ...profile, chamber: "senate", partyAbbr: partyAbbr(profile.party), hasWealth: getMemberWealthProfile(bioguide_id) != null });
+  return pageMetadata({ title, description, path: memberPath(profile), type: "profile", ownImage: true });
 }
 
 export default async function SenatorPage({
@@ -78,7 +65,7 @@ export default async function SenatorPage({
   const current = getChamberCurrent("senate");
   return (
     <>
-      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Senator", description: `${profile.name}, ${profile.party} senator for ${profile.stateName}.`, affiliation: "U.S. Senate" })} />
+      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Senator", description: memberSeo({ ...profile, chamber: "senate", partyAbbr: partyAbbr(profile.party), hasWealth: false }).jobDescription, affiliation: "U.S. Senate" })} />
     <MemberProfileView
       profile={profile}
       compassMembers={current.plottable}

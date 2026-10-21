@@ -190,7 +190,7 @@ describe("specific justices", () => {
   it("Rehnquist: highest role Chief Justice, original president, elevation line", () => {
     const r = p("Rehnquist");
     expect(r.identity.role).toBe("Chief Justice");
-    expect(r.identity.appointedBy.president).toBe("Richard M. Nixon");
+    expect(r.identity.appointedBy.president).toBe("Richard Nixon");
     expect(r.identity.elevated).toBe("Elevated to Chief Justice by Ronald Reagan, 1986");
   });
 

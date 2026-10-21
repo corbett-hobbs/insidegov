@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { LawsPageClient } from "@/components/laws/LawsPageClient";
 import { getLawsPageData } from "@/lib/laws-data";
-import { site, topicOg, topicTwitter } from "@/lib/site";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /congress/laws — the Congress vertical's Laws section. */
-export const metadata: Metadata = {
-  title: "What laws does Congress pass?",
-  description: "How many public laws Congress enacts each Congress, by policy area, and how broadly they are supported, since 1973.",
-  alternates: { canonical: "/congress/laws" },
-  openGraph: {
-    ...topicOg("congress/laws"),
-    title: `What laws does Congress pass? · ${site.name}`,
-    description: "Public laws per Congress, by policy area and the closest recorded vote on passage, for every Congress since 1973.",
-    url: "/congress/laws",
-  },
-  twitter: topicTwitter("congress/laws"),
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Laws Passed by Congress, by Year and Topic",
+  description: "Every public law Congress has passed since 1973, by year, policy area and vote margin. Look up any law's sponsors, votes and legislative history.",
+  path: "/congress/laws",
+  topic: "congress/laws",
+});
 
 export default function LawsPage() {
   return (

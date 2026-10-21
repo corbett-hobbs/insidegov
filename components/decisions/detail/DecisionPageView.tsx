@@ -309,9 +309,10 @@ export function DecisionPageView({ d }: { d: DecisionPageData }) {
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <SetBackLink href="/supreme-court/decisions" />
-      <PageHeader eyebrow="Supreme Court · Decisions" title={d.name}>
+      <PageHeader eyebrow="Supreme Court · Decisions" title={d.shortName}>
         <div className="flex flex-col gap-5 lg:flex-row lg:gap-8">
           <div className="flex min-w-0 flex-col gap-3 lg:flex-1">
+            {d.shortName !== d.name && <p className="m-0 text-[0.9rem] text-ink-muted">Full case name: {d.name}</p>}
             <Gist d={d} />
             <Facts d={d} />
           </div>

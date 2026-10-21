@@ -229,14 +229,17 @@ function Committees({ law }: { law: LawPageData }) {
   );
 }
 
+/** The formal title, shown under the heading whenever the heading is a popular or shortened name. */
+const officialTitle = (law: LawPageData): string | null => law.officialTitle ?? (law.shortTitle !== law.title.replace(/\.$/, "").trim() ? law.title : null);
+
 export function LawPageView({ law }: { law: LawPageData }) {
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <SetBackLink href="/congress/laws" />
-      <PageHeader eyebrow="Congress · Laws" title={law.title}>
+      <PageHeader eyebrow="Congress · Laws" title={law.shortTitle}>
         <div className="flex flex-col gap-5 lg:flex-row lg:gap-8">
           <div className="flex min-w-0 flex-col gap-3 lg:flex-1">
-            {law.officialTitle && <p className="m-0 text-[0.9rem] text-ink-muted">Official title: {law.officialTitle}</p>}
+            {officialTitle(law) && <p className="m-0 text-[0.9rem] text-ink-muted">Official title: {officialTitle(law)}</p>}
             <Facts law={law} />
             <CosponsorsHeader people={law.cosponsors} unresolved={law.cosponsorsUnresolved} withdrawn={law.withdrawn} />
           </div>

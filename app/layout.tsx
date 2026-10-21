@@ -32,7 +32,7 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const HEADLINE = `${site.name} · ${site.tagline}`;
+const HEADLINE = site.homeTitle;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

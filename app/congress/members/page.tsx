@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getMembersDirectory } from "@/lib/members-directory-data";
 import { MembersPageClient } from "@/components/members/MembersPageClient";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 
 /** /congress/members — the Congress vertical's Members directory. */
-export const metadata: Metadata = {
-  title: "Who is in Congress today?",
-  description:
-    "Every senator and representative in office today: search by name, filter by chamber, state and party, and sort by ideology, seniority, net worth or how often they are looked up.",
-  alternates: { canonical: "/congress/members" },
-  openGraph: {
-    ...ogDefaults,
-    title: `Who is in Congress today? · ${site.name}`,
-    description: "Every senator and representative in office today, with links to their pages.",
-    url: "/congress/members",
-  },
-  twitter: twitterDefaults,
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Current Members of Congress by State and Party",
+  description: "Every current U.S. senator and representative: search by name or state, filter by party and chamber, and sort by ideology, seniority or net worth.",
+  path: "/congress/members",
+});
 
 export default function MembersPage() {
   const { members, pageviews } = getMembersDirectory();

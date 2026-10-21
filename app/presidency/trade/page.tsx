@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { TradePageClient } from "@/components/trade/TradePageClient";
 import { getTradePageData } from "@/lib/trade-data";
-import { site, topicOg, topicTwitter } from "@/lib/site";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /**
@@ -9,19 +9,12 @@ import { TopicDatasetLd } from "@/components/TopicDatasetLd";
  * the trade-balance chart are in; the tariff, partner and scatter charts land in
  * later sessions (docs: trade UI execution plan).
  */
-export const metadata: Metadata = {
-  title: "How does the U.S. trade with the world?",
-  description:
-    "U.S. goods trade with every partner and the calculated duties on imports since 1991, with presidential terms marked. From the Census Bureau and the U.S. International Trade Commission.",
-  alternates: { canonical: "/presidency/trade" },
-  openGraph: {
-    ...topicOg("presidency/trade"),
-    title: `How does the U.S. trade with the world? · ${site.name}`,
-    description: "U.S. goods trade and calculated duties on imports, by country. From the Census Bureau and the USITC.",
-    url: "/presidency/trade",
-  },
-  twitter: topicTwitter("presidency/trade"),
-};
+export const metadata: Metadata = pageMetadata({
+  title: "U.S. Trade and Tariffs by Country",
+  description: "U.S. imports, exports and trade balance with every country since 1991, and the tariffs collected on imports, by president. Census Bureau and USITC data.",
+  path: "/presidency/trade",
+  topic: "presidency/trade",
+});
 
 export default function TradePage() {
   return (
