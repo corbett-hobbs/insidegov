@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
 import { SourceLink } from "@/components/SourceLink";
@@ -10,12 +11,15 @@ import { getJusticeDirectory } from "@/lib/justice-directory-data";
 import { UpNext } from "@/components/UpNext";
 
 /** /supreme-court/justices — the Supreme Court vertical's Justices section: the way into every justice profile. */
-export const metadata: Metadata = pageMetadata({
-  title: "Supreme Court Justices: Current and Past",
-  description: "The nine current Supreme Court justices and every justice since 1937: years served, appointing president, Senate confirmation vote and how often they dissented.",
-  path: "/supreme-court/justices",
-  topic: "supreme-court/justices",
-});
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "Supreme Court Justices: Current and Past",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/supreme-court/justices", "The nine current Supreme Court justices and every justice since 1937: years served, appointing president, Senate confirmation vote and how often they dissented."),
+    path: "/supreme-court/justices",
+    topic: "supreme-court/justices",
+  });
+}
 
 const linkClass = "font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
