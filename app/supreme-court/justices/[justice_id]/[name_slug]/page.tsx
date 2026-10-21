@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { justiceSeo } from "@/lib/entity-seo";
+import { getJusticeDirectory } from "@/lib/justice-directory-data";
+import { votingLean } from "@/lib/justice-directory";
 import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import { getJusticeVotesSource } from "@/lib/decisions-data";
-import { getJusticeProfile, getJusticeRefs } from "@/lib/justice-data";
+import { getCourtPayload, getJusticeProfile, getJusticeRefs } from "@/lib/justice-data";
+import type { CourtJustice, CourtPayload } from "@/lib/court-types";
 import { getVotedJusticeIds } from "@/lib/justice-votes-data";
 import { justicePath, justiceSlug } from "@/lib/justice-url";
 import { JsonLd } from "@/components/JsonLd";
@@ -34,6 +37,14 @@ function parseId(raw: string): number | null {
   return /^\d+$/.test(raw) ? Number(raw) : null;
 }
 
+/** A sitting justice's place on their side of today's Court, by each sitting justice's latest-term score. */
+function benchRank(court: CourtPayload, j: CourtJustice): { n: number; side: "liberal" | "conservative" } {
+  const latest = (x: CourtJustice) => x.s[x.s.length - 1]!;
+  const bench = court.justices.filter((x) => x.t1 === court.lastTerm);
+  const side = latest(j) > 0 ? "conservative" : "liberal";
+  return { n: 1 + bench.filter((x) => (side === "conservative" ? latest(x) > latest(j) : latest(x) < latest(j))).length, side };
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -44,12 +55,20 @@ export async function generateMetadata({
   const profile = id == null ? null : getJusticeProfile(id);
   if (!profile) return { title: "Justice not found" };
   const { justice, identity } = profile;
+  const rows = getJusticeDirectory().rows;
+  const court = getCourtPayload();
+  const row = rows.find((r) => r.id === justice.id);
+  const side = justice.career > 0 ? "conservative" : "liberal";
   const { title, description } = justiceSeo({
     name: justice.name,
     last: profile.last,
     role: identity.role,
-    appointedBy: identity.appointedBy.president,
     served: identity.served,
+    sitting: profile.chart.sitting,
+    lean: row ? votingLean(row) : "",
+    rank: { n: 1 + rows.filter((r) => (side === "conservative" ? r.careerScore > justice.career : r.careerScore < justice.career)).length, of: rows.length, side },
+    medianTerms: court.terms.filter((t) => t.medianJusticeId === justice.id).length,
+    benchRank: profile.chart.sitting ? benchRank(court, justice) : null,
     hasVotes: getVotedJusticeIds().includes(justice.id),
   });
   return pageMetadata({ title, description, path: justicePath(justice), type: "profile" });

@@ -61,26 +61,67 @@ export interface JusticeSeoInput {
   last: string;
   /** "Chief Justice" or "Associate Justice". */
   role: string;
-  appointedBy: string;
-  /** "Served 1991–present · 34 terms". */
+  /** "Served 1991–present · 34 terms" ("… in the data" when the record starts after their service did). */
   served: string;
+  sitting: boolean;
+  /** The directory's "Voting lean" (`votingLean` in `lib/justice-directory.ts`): "Conservative throughout", "From left of center to liberal", "Liberal so far". */
+  lean: string;
+  /** Rank by career ideology score on the justice's own side among every justice in the data (1 = most), and how many there are. */
+  rank: { n: number; of: number; side: "liberal" | "conservative" };
+  /** Terms the court record names this justice its most likely median justice. */
+  medianTerms: number;
+  /** A sitting justice's rank on their side of today's Court by latest-term score; null when not sitting. */
+  benchRank: { n: number; side: "liberal" | "conservative" } | null;
   hasVotes: boolean;
 }
 
+const ordinalWord = (n: number) => (n === 1 ? "" : `${ordinal(n)} `);
+/** "left of center" reads as an adverb after "voted"; "center" needs "near the". */
+const leanWords = (band: string) => (band === "center" ? "near the center" : band);
+
+/**
+ * A justice page leads with what only this site shows: how the justice's ideology moved over their tenure and how it ranks
+ * against every justice since 1937, then their case-by-case record. ("Clarence Thomas has voted conservative throughout 34
+ * terms, the most conservative of 49 justices since 1937.")
+ */
 export function justiceSeo(j: JusticeSeoInput): { title: string; description: string } {
   const base = `${j.role === "Chief Justice" ? "Chief Justice" : "Justice"} ${j.name}`;
-  const title = fitTitle(base, j.hasVotes ? [": Voting Record and Ideology", ": Votes and Ideology", " Voting Record"] : [": Ideology and Record", " Ideology"], TITLE_MAX);
-  const span = j.served.match(/(\d{4})–(\d{4}|present)/);
-  const when = span ? (span[2] === "present" ? ` since ${span[1]}` : ` (${span[1]}–${span[2]})`) : "";
-  const what = j.hasVotes ? `Every vote and dissent, ideology by term and how ${j.last} compares with every justice since 1937.` : `Ideology by term and how ${j.last} compares with every justice since 1937.`;
-  const brief = j.hasVotes ? "Every vote and dissent, and ideology by term." : `Ideology by term against every justice since 1937.`;
-  const description = firstFit([
-    `${j.name}, ${j.role.toLowerCase()} of the U.S. Supreme Court${when}, appointed by ${j.appointedBy}. ${what}`,
-    `${j.name}, Supreme Court ${j.role.toLowerCase()}${when}, appointed by ${j.appointedBy}. ${what}`,
-    `${j.name}, ${j.role.toLowerCase()} of the U.S. Supreme Court${when}, appointed by ${j.appointedBy}. ${brief}`,
-    `${j.name}, Supreme Court ${j.role.toLowerCase()}${when}, appointed by ${j.appointedBy}. ${brief}`,
-  ]);
-  return { title, description };
+  const title = fitTitle(base, j.hasVotes ? [": Ideology Over Time and Voting Record", ": Ideology and Voting Record", ": Ideology Over Time", " Ideology"] : [": Ideology Over Time", " Ideology"], TITLE_MAX);
+
+  const terms = j.served.match(/· (\d+) terms?$/)?.[1];
+  const n = terms && Number(terms) > 1 ? terms : null;
+  const over = n ? ` over ${n} terms` : "";
+  const has = j.sitting ? "has voted" : "voted";
+  const lean = j.lean.toLowerCase();
+  const moved = lean.match(/^from (.+) to (.+)$/);
+  const trajectory = moved
+    ? `${j.name} ${j.sitting ? "has moved" : "moved"} from ${leanWords(moved[1])} to ${leanWords(moved[2])}${over}`
+    : lean.endsWith(" throughout")
+      ? `${j.name} ${has} ${leanWords(lean.replace(/ throughout$/, ""))} throughout${n ? ` ${n} terms` : ""}`
+      : lean.endsWith(" so far")
+        ? `${j.name} has voted ${leanWords(lean.replace(/ so far$/, ""))} so far`
+        : `${j.name} ${has} ${leanWords(lean)}`;
+  // How the justice compares with peers: the Court's swing vote, else an all-time extreme, else today's bench.
+  const peers =
+    j.medianTerms >= 2
+      ? `, the Court's median justice in ${j.medianTerms} terms`
+      : j.rank.n <= 10
+        ? `, the ${ordinalWord(j.rank.n)}most ${j.rank.side} of ${j.rank.of} justices since 1937`
+        : j.benchRank
+          ? `, now the Court's ${ordinalWord(j.benchRank.n)}most ${j.benchRank.side} member`
+          : "";
+  const tails = j.hasVotes
+    ? [
+        ` Plus every case ${j.last} heard: landmark rulings, opinions written, dissents and 5–4 splits.`,
+        " Plus landmark rulings, opinions written, dissents and 5–4 splits.",
+        " Plus every landmark ruling, dissent and 5–4 split.",
+        " Plus the landmark rulings and 5–4 splits.",
+        " Plus every 5–4 split.",
+        "",
+      ]
+    : [" Charted term by term beside every colleague.", ""];
+  const candidates = [peers, ""].flatMap((r) => tails.map((t) => `${trajectory}${r}.${t}`));
+  return { title, description: firstFit(candidates) };
 }
 
 export interface PresidentSeoInput {

@@ -17,12 +17,24 @@ describe("memberSeo", () => {
 });
 
 describe("justiceSeo", () => {
-  it("uses the title the justice is known by and the years served", () => {
-    const s = justiceSeo({ name: "Ruth Bader Ginsburg", last: "Ginsburg", role: "Associate Justice", appointedBy: "Bill Clinton", served: "Served 1993–2020 · 27 terms", hasVotes: true });
-    expect(s.title).toBe("Justice Ruth Bader Ginsburg: Voting Record and Ideology");
-    expect(s.description).toMatch(/^Ruth Bader Ginsburg, .*\(1993–2020\), appointed by Bill Clinton\. Every vote/);
+  const thomas = { name: "Clarence Thomas", last: "Thomas", role: "Associate Justice", served: "Served 1991–present · 34 terms", sitting: true, lean: "Conservative throughout", rank: { n: 2, of: 49, side: "conservative" as const }, medianTerms: 0, benchRank: { n: 1, side: "conservative" as const }, hasVotes: true };
+  it("leads with the ideology trajectory and an all-time rank", () => {
+    const s = justiceSeo(thomas);
+    expect(s.title).toBe("Justice Clarence Thomas: Ideology and Voting Record");
+    expect(s.description).toBe("Clarence Thomas has voted conservative throughout 34 terms, the 2nd most conservative of 49 justices since 1937. Plus the landmark rulings and 5–4 splits.");
+  });
+  it("calls a swing justice the Court's median, and words a move", () => {
+    const s = justiceSeo({ ...thomas, name: "Anthony Kennedy", last: "Kennedy", sitting: false, served: "Served 1988–2018 · 31 terms", lean: "From right of center to center", rank: { n: 20, of: 49, side: "conservative" }, medianTerms: 17, benchRank: null });
+    expect(s.description).toMatch(/^Anthony Kennedy moved from right of center to near the center over 31 terms, the Court's median justice in 17 terms\./);
+  });
+  it("ranks a sitting justice on today's Court when not an all-time extreme", () => {
+    const s = justiceSeo({ ...thomas, name: "Neil Gorsuch", last: "Gorsuch", served: "Served 2017–present · 9 terms", lean: "Right of center throughout", rank: { n: 15, of: 49, side: "conservative" }, benchRank: { n: 3, side: "conservative" } });
+    expect(s.description).toMatch(/now the Court's 3rd most conservative member\./);
+  });
+  it("keeps every description under 160 characters with a decisions line", () => {
+    const s = justiceSeo({ ...thomas, name: "Ruth Bader Ginsburg", last: "Ginsburg", sitting: false, served: "Served 1993–2020 · 27 terms", lean: "From center to liberal", rank: { n: 8, of: 49, side: "liberal" } });
     expect(s.description.length).toBeLessThanOrEqual(160);
-    expect(justiceSeo({ name: "John Roberts", last: "J. Roberts", role: "Chief Justice", appointedBy: "George W. Bush", served: "Served 2005–present · 20 terms", hasVotes: true }).description).toMatch(/since 2005/);
+    expect(s.description).toMatch(/Plus /);
   });
 });
 
