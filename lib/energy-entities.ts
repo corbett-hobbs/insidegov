@@ -113,6 +113,12 @@ export interface EnergyCatalogEntry {
   revision_tolerance: number;
   /** True when the series legitimately begins after the display window starts. */
   late_start?: boolean;
+  /**
+   * A faster route for the newest months. The Monthly Energy Review repackages the Electric Power
+   * Monthly about a month later, so months after this series' last observation are appended from here
+   * (same quantity and units; the overlapping months match to the rounding digit).
+   */
+  extend?: { route: string; facets: Record<string, string>; valueField: string };
 }
 
 export const EIA_SOURCE_AGENCY = "U.S. Energy Information Administration";
@@ -133,6 +139,7 @@ const mer = (
   status_rule: StatusRule,
   revision_tolerance: number,
   caveats: string[] = [],
+  extend?: EnergyCatalogEntry["extend"],
 ): EnergyCatalogEntry => ({
   series_id,
   title,
@@ -145,9 +152,16 @@ const mer = (
   status_rule,
   caveats: [MER_NOTE, ...caveats],
   revision_tolerance,
+  ...(extend ? { extend } : {}),
 });
 
 const GEN = "Million kilowatthours";
+/** Newest-months route for the generation series: Electric Power Monthly, all sectors, U.S. (`fueltypeid` is the EPM fuel code). */
+const epm = (fueltypeid: string): EnergyCatalogEntry["extend"] => ({
+  route: "electricity/electric-power-operational-data",
+  facets: { fueltypeid, sectorid: "99", location: "US" },
+  valueField: "generation",
+});
 const GEN_NOTE = "Utility-scale generation only: excludes small-scale solar photovoltaic (see ENERGY_SMALL_SOLAR). All sectors from 1989; through 1988 electric utilities only.";
 
 /**
@@ -194,14 +208,14 @@ export const ENERGY_CATALOG: readonly EnergyCatalogEntry[] = [
     revision_tolerance: 5000,
     late_start: true,
   },
-  mer("CLETPUS", "Electricity net generation from coal, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 560, [GEN_NOTE]),
-  mer("NGETPUS", "Electricity net generation from natural gas, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 1600, [GEN_NOTE]),
-  mer("NUETPUS", "Electricity net generation from nuclear, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 700, [GEN_NOTE]),
-  mer("HVETPUS", "Electricity net generation from conventional hydroelectric, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 300, [GEN_NOTE, "Pumped storage is a separate series from 1990; through 1989 it is included here."]),
-  mer("WYETPUS", "Electricity net generation from wind, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 400, [GEN_NOTE]),
-  mer("SOETPUS", "Electricity net generation from utility-scale solar, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 400, [GEN_NOTE]),
-  mer("PAETPUS", "Electricity net generation from petroleum, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 15, [GEN_NOTE]),
-  mer("ELETPUS", "Electricity net generation, all fuels, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 4000, [GEN_NOTE, "Includes sources not listed separately (wood, waste, geothermal, other gases, pumped storage); the reader derives \"other\" as this total minus the named fuels."]),
+  mer("CLETPUS", "Electricity net generation from coal, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 560, [GEN_NOTE], epm("COW")),
+  mer("NGETPUS", "Electricity net generation from natural gas, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 1600, [GEN_NOTE], epm("NG")),
+  mer("NUETPUS", "Electricity net generation from nuclear, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 700, [GEN_NOTE], epm("NUC")),
+  mer("HVETPUS", "Electricity net generation from conventional hydroelectric, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 300, [GEN_NOTE, "Pumped storage is a separate series from 1990; through 1989 it is included here."], epm("HYC")),
+  mer("WYETPUS", "Electricity net generation from wind, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 400, [GEN_NOTE], epm("WND")),
+  mer("SOETPUS", "Electricity net generation from utility-scale solar, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 400, [GEN_NOTE], epm("SUN")),
+  mer("PAETPUS", "Electricity net generation from petroleum, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 15, [GEN_NOTE], epm("PET")),
+  mer("ELETPUS", "Electricity net generation, all fuels, all sectors", GEN, "Million Kilowatthours", "electricity", 3, "current_and_prior_calendar_year", 4000, [GEN_NOTE, "Includes sources not listed separately (wood, waste, geothermal, other gases, pumped storage); the reader derives \"other\" as this total minus the named fuels."], epm("ALL")),
   {
     series_id: "ELEC_SMALL_SOLAR",
     title: "Small-scale solar photovoltaic generation (estimated)",

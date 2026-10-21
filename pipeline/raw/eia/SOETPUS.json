@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:33:34.178Z","series":{"id":"SOETPUS","title":"Electricity Net Generation From Solar, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=SOETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":642}},
+  "head": {"fetched_at":"2026-10-21T17:55:12.562Z","series":{"id":"SOETPUS","title":"Electricity Net Generation From Solar, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=SOETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":643}},
   "observations": [
     ["1973-01","Not Available"],
     ["1973-02","Not Available"],
@@ -642,6 +642,7 @@
     ["2026-03","29000.431"],
     ["2026-04","31103.652"],
     ["2026-05","36418.42"],
-    ["2026-06","38923.392"]
+    ["2026-06","38923.392"],
+    ["2026-07","41411.7763"]
   ]
 }
