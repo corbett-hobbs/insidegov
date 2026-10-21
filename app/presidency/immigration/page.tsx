@@ -6,7 +6,7 @@ import { getWorldMap } from "@/lib/foreign-aid-data";
 import { getLprPayload } from "@/lib/lpr-data";
 import { getRefugeePayload } from "@/lib/refugee-data";
 import { getRemovalsCountryPayload } from "@/lib/removals-country-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
 
 /** /presidency/immigration — green cards and naturalizations, refugee admissions against the presidential ceiling, CBP border encounters and ICE removals, by fiscal year and administration. */
 export const metadata: Metadata = {
@@ -15,13 +15,13 @@ export const metadata: Metadata = {
     "Green cards and naturalizations by class and country of birth, refugee admissions against each year's presidential ceiling, CBP border encounters and ICE removals, by fiscal year and set against the administration in office. From DHS, State Department, CBP and ICE statistics.",
   alternates: { canonical: "/presidency/immigration" },
   openGraph: {
-    ...ogDefaults,
+    ...topicOgDefaults,
     title: `How many people come in and out of the U.S.? · ${site.name}`,
     description:
       "Who gets a green card, which refugees are resettled, who is stopped at the border and who ICE removes, by fiscal year and administration. From DHS, State Department, CBP and ICE statistics.",
     url: "/presidency/immigration",
   },
-  twitter: twitterDefaults,
+  twitter: topicTwitterDefaults,
 };
 
 export default function ImmigrationPage() {

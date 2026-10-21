@@ -44,6 +44,19 @@ export const twitterDefaults: { images: string[] } = {
   images: ["/opengraph-image"],
 };
 
+/**
+ * For a page with its own `opengraph-image.tsx` / `twitter-image.tsx` (the topic
+ * pages' data share cards, `app/_og/topic-card.tsx`): the same fields without
+ * `images`. Config `images` win over the file convention, so a page that spread
+ * `ogDefaults` would keep sharing the generic card.
+ */
+export const topicOgDefaults: { type: "website"; siteName: string } = {
+  type: "website",
+  siteName: site.name,
+};
+
+export const topicTwitterDefaults: { card: "summary_large_image" } = { card: "summary_large_image" };
+
 export function absoluteUrl(path: string): string {
   return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
 }

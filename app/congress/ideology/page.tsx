@@ -10,7 +10,7 @@ import {
   getCommittees,
   getCommitteeSearchIndex,
 } from "@/lib/committee-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { site, topicOgDefaults, topicTwitterDefaults } from "@/lib/site";
 import { SenateExplorer } from "@/components/senate/SenateExplorer";
 
 export const metadata: Metadata = {
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   description: site.congressIdeologyDescription,
   alternates: { canonical: "/congress/ideology" },
   openGraph: {
-    ...ogDefaults,
+    ...topicOgDefaults,
     title: `How does Congress vote? · ${site.name}`,
     description: site.congressIdeologyDescription,
     url: "/congress/ideology",
   },
-  twitter: twitterDefaults,
+  twitter: topicTwitterDefaults,
 };
 
 export default function Home() {
