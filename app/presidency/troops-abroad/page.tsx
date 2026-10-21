@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { TroopsPageClient } from "@/components/troops/TroopsPageClient";
 import { getBasesPayload } from "@/lib/bases-data";
 import { getTroopsPayload, getTroopsWorldMap } from "@/lib/troops-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/troops-abroad — active-duty U.S. personnel stationed abroad, by region, country and branch. */
-export const metadata: Metadata = {
-  title: "Where are U.S. troops stationed abroad?",
-  description:
-    "Active-duty U.S. military personnel stationed abroad by region, host country and branch since 2008, with presidential terms marked. From the Defense Manpower Data Center.",
-  alternates: { canonical: "/presidency/troops-abroad" },
-  openGraph: {
-    ...ogDefaults,
-    title: `Where are U.S. troops stationed abroad? · ${site.name}`,
-    description: "Active-duty U.S. personnel by host country, region and branch. From the Defense Manpower Data Center.",
-    url: "/presidency/troops-abroad",
-  },
-  twitter: twitterDefaults,
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "U.S. Troops Stationed Abroad by Country",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/presidency/troops-abroad", "How many U.S. troops are stationed overseas, by host country, region and military branch since 2008, by president. Defense Manpower Data Center figures."),
+    path: "/presidency/troops-abroad",
+    topic: "presidency/troops-abroad",
+  });
+}
 
 export default function TroopsAbroadPage() {
-  return <TroopsPageClient payload={getTroopsPayload()} map={getTroopsWorldMap()} bases={getBasesPayload()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/presidency/troops-abroad" />
+      <TroopsPageClient payload={getTroopsPayload()} map={getTroopsWorldMap()} bases={getBasesPayload()} />
+    </>
+  );
 }

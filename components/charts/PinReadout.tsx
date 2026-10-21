@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
+import { track } from "@/lib/analytics";
+
 /**
  * Phones have no hover tooltip, so each time chart prints the active month's reading above it (phones only):
  * the pinned month, or the latest while nothing is pinned. Page-state-agnostic: the caller passes the line and
@@ -18,6 +21,9 @@ export interface PinLine {
 }
 
 export function PinReadout({ line, pinned, onClear, hint = "Tap or drag the chart to pin a month." }: { line: PinLine | null; pinned: boolean; onClear: () => void; hint?: string }) {
+  useEffect(() => {
+    if (pinned) track("chart_pin", {});
+  }, [pinned]);
   return (
     <div className="mt-2 sm:hidden">
       {line && (

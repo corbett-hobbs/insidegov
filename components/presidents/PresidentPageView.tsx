@@ -152,7 +152,7 @@ function seriesTakeaway(id: SeriesCardId, panels: SeriesPanel[], data: President
 function justicesTakeaway(data: PresidentPageData): string {
   const js = data.justices;
   if (js.length === 0) return `${data.president.name} appointed no justices.`;
-  const names = [...js].reverse().map((j) => `${j.name.split(" ").pop()} (${j.elevated ? "elevated to chief justice, " : ""}${j.nominated.slice(0, 4)})`);
+  const names = [...js].reverse().map((j) => `${j.name.replace(/\s+(?:Jr\.|Sr\.|II|III)$/, "").split(" ").pop()} (${j.elevated ? "elevated to chief justice, " : ""}${j.nominated.slice(0, 4)})`);
   const list = names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0];
   const n = js.filter((j) => !j.elevated).length;
   return `${data.president.name} ${n === 0 ? "made one appointment" : `appointed ${n === 1 ? "one justice" : `${n} justices`}`}${js.some((j) => j.elevated) && n > 0 ? " and elevated one" : ""}: ${list}.`;

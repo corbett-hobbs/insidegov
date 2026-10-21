@@ -7,7 +7,7 @@ export const rawPath = (id: string) => `${EIA_DIR}/${id}.json`;
 export const EIA_API = "https://api.eia.gov/v2";
 
 /** The query for a catalog entry, WITHOUT the key (this string is committed in the raw file). */
-export function queryFor(entry: EnergyCatalogEntry, offset: number, length: number): string {
+export function queryFor(entry: Pick<EnergyCatalogEntry, "source">, offset: number, length: number): string {
   const s = entry.source;
   const q = new URLSearchParams();
   q.set("frequency", s.frequency);

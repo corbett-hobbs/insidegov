@@ -254,7 +254,7 @@ export function BenchCard({
       )}
       <MethodologyNote>
         <p>
-          Each justice’s vote and what they wrote are from the justice-centered file of the <SourceLink id="scdb">Supreme Court Database</SourceLink>. “Wrote a concurrence” means the justice sided with the majority and wrote separately; a justice who dissented in part is counted on the side they took overall. A justice who wrote nothing is listed as joining their side.
+          Each justice’s vote and what they wrote are from the justice-centered file of the <SourceLink id="scdb">Supreme Court Database</SourceLink>. “Wrote a concurrence” means the justice sided with the majority and wrote separately; a justice who dissented in part is counted on the side they took overall, and one who agreed with the result but not the reasoning counts in the majority. A justice who wrote nothing is listed as joining their side.
         </p>
         <p>
           Positions are each justice’s <SourceLink id="martin-quinn">Martin–Quinn score</SourceLink> for the case’s term{provisional ? "" : ", the same scores as the Ideology page"}: negative is more liberal, positive more conservative. A score sums up a justice’s votes across the whole term, so it says where they usually sit, not why they voted as they did here. The median line is the Court’s median justice that term.

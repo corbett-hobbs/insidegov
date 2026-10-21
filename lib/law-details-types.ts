@@ -63,6 +63,8 @@ export interface LawPageData {
   congress: number;
   number: number;
   title: string;
+  /** The name a reader searches for (`lib/law-seo.ts`): `title` itself when it is a short title, else a cleaned-up formal one. */
+  shortTitle: string;
   /** The law's formal title, set only when `title` is its popular name instead. */
   officialTitle: string | null;
   /** "Public Law 118-90". */

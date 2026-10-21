@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { DecisionsPageClient } from "@/components/decisions/DecisionsPageClient";
 import { getDecisionsPageData } from "@/lib/decisions-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /supreme-court/decisions — the Supreme Court vertical's Decisions section. */
-export const metadata: Metadata = {
-  title: "How does the Supreme Court decide?",
-  description: "How many argued cases the Supreme Court decides each term and how often it splits, by issue area, since 1946.",
-  alternates: { canonical: "/supreme-court/decisions" },
-  openGraph: {
-    ...ogDefaults,
-    title: `How does the Supreme Court decide? · ${site.name}`,
-    description: "Cases decided per term, and how many justices dissented, for every Supreme Court term since 1946.",
-    url: "/supreme-court/decisions",
-  },
-  twitter: twitterDefaults,
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "Supreme Court Decisions by Term and Issue",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/supreme-court/decisions", "Every argued Supreme Court case since 1946: how many the Court decides each term, how often it splits and on which issues. Look up any decision."),
+    path: "/supreme-court/decisions",
+    topic: "supreme-court/decisions",
+  });
+}
 
 export default function DecisionsPage() {
-  return <DecisionsPageClient data={getDecisionsPageData()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/supreme-court/decisions" />
+      <DecisionsPageClient data={getDecisionsPageData()} />
+    </>
+  );
 }

@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { site, siteUrl } from "@/lib/site";
 import { SiteHeader } from "@/components/SiteHeader";
 import { GlobalFooter } from "@/components/GlobalFooter";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { BackLinkProvider } from "@/components/BackLinkContext";
+import { OutboundLinkTracker } from "@/components/OutboundLinkTracker";
+import { JsonLd } from "@/components/JsonLd";
+import { EmbedMode } from "@/components/charts/EmbedMode";
+import { EMBED_BOOT } from "@/lib/embed";
+import { siteJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -28,7 +34,7 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const HEADLINE = `${site.name} · ${site.tagline}`;
+const HEADLINE = site.homeTitle;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -57,13 +63,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* An embedded chart (?embed=): hide the page before first paint and pick the theme (lib/embed.ts). */}
+        <script dangerouslySetInnerHTML={{ __html: EMBED_BOOT }} />
+      </head>
       <body className="min-h-full flex flex-col bg-bg text-ink">
+        <JsonLd data={siteJsonLd()} />
         <BackLinkProvider>
           <ScrollToTop />
           <SiteHeader />
           {children}
           <GlobalFooter />
+          <EmbedMode />
+          <OutboundLinkTracker />
+          <Analytics />
         </BackLinkProvider>
       </body>
     </html>

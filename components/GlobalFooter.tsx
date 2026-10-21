@@ -21,7 +21,6 @@ export function GlobalFooter() {
             <li><Link href="/contact" className={LINK}>Contact and corrections</Link></li>
             <li><Link href="/api" className={LINK}>API and MCP</Link></li>
             <li><a href={siteInfo.githubUrl} className={LINK}>GitHub</a></li>
-            <li><a href="/sitemap.xml" className={LINK}>Sitemap</a></li>
           </ul>
         </nav>
         <div className="flex flex-col gap-1.5 border-t border-line pb-6 pt-4 text-[0.78rem] leading-[1.6] text-ink-muted">

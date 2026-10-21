@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { getBothTrend, getViewCurrent } from "@/lib/congress-data";
 import { getBranch } from "@/lib/verticals";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { site } from "@/lib/site";
 import { getCourtPayload } from "@/lib/justice-data";
 import { getHubTariff } from "@/lib/trade-data";
 import { fmtRate } from "@/lib/trade-hub";
@@ -17,24 +18,13 @@ import { HomeBranchCard } from "@/components/home/HomeBranchCard";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { IntroWords } from "@/components/home/IntroWords";
 
-export const metadata: Metadata = {
-  title: { absolute: `${site.name} · ${site.tagline}` },
-  description: site.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    ...ogDefaults,
-    title: `${site.name} · ${site.tagline}`,
-    description: site.description,
-    url: "/",
-  },
-  twitter: twitterDefaults,
-};
+export const metadata: Metadata = pageMetadata({ title: site.homeTitle, description: site.description, path: "/", absolute: true });
 
 const BLURBS: Record<string, string> = {
   congress:
     "Every member\u2019s votes as a two-dimensional ideology score, the laws Congress enacts and how broadly they are supported, estimated net worth from financial disclosures, and who serves by age, gender and tenure.",
   "supreme-court":
-    "Where the justices sit over time, from Martin\u2013Quinn ideology scores, and how many cases the Court decides and how often it splits.",
+    "Where the justices sit over time, based on their ideology, and how many cases the Court decides and how often it splits.",
   presidency:
     "The economy, trade, immigration, energy, foreign aid, troops abroad and executive orders, laid out against each presidential term, from gas prices and tariffs to deportations.",
 };
@@ -108,9 +98,9 @@ export default function Hub() {
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
         <p className="home-intro pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
           <IntroWords
-            before="One place for the data driving the news cycle, straight from "
-            highlight="the public record"
-            after=": gas prices, mortgage rates, tariffs, deportations, the deficit, the laws Congress passes and the Supreme Court’s rulings, plus executive orders, energy, foreign aid, troops abroad, and who serves in Congress and how they vote."
+            before="When a number makes the news, the same questions follow: is it high, has it happened before, and on whose watch did it change? Every chart here runs up to the latest figures and back through "
+            highlight="who held power"
+            after=". That includes the officeholders themselves, from how they vote to what they’re worth."
           />
         </p>
 

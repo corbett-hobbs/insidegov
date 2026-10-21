@@ -2,6 +2,7 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
+import { shortCaseName } from "./case-name";
 import { getDecisionCases, getDecisionsPageData } from "./decisions-data";
 import { caseLeadRow, decisionDetailRow, type DecisionDetailRow, type JusticeVote } from "./decisions-entities";
 import type { DecisionCase } from "./decisions-types";
@@ -31,6 +32,8 @@ interface Index {
   bench: Map<string, [number, JusticeVote[1], JusticeVote[2]][]>;
   /** SCDB issue -> every case filed under it, newest first, as list rows. */
   related: Map<string, RelatedDecision[]>;
+  /** Term -> every case argued and decided in it, newest first, as list rows. */
+  byTerm: Map<number, RelatedDecision[]>;
 }
 
 let index: Index | null = null;
@@ -64,16 +67,21 @@ function load(): Index {
   }
   // The case list is newest first, so each issue's cases are too.
   const related = new Map<string, RelatedDecision[]>();
+  const byTerm = new Map<number, RelatedDecision[]>();
   const areas = getDecisionsPageData().areas;
   for (const c of list) {
+    const area = c[4] >= 0 ? areas[c[4]] : undefined;
+    const row = { c, area: area?.label ?? "No issue area", areaId: area?.id ?? null };
+    let terms = byTerm.get(c[0]);
+    if (!terms) byTerm.set(c[0], (terms = []));
+    terms.push(row);
     const issue = details.get(c[14])?.issue;
     if (!issue) continue;
     let arr = related.get(issue);
     if (!arr) related.set(issue, (arr = []));
-    const area = c[4] >= 0 ? areas[c[4]] : undefined;
-    arr.push({ c, area: area?.label ?? "No issue area", areaId: area?.id ?? null });
+    arr.push(row);
   }
-  index = { cases, details, leads, bench, related };
+  index = { cases, details, leads, bench, related, byTerm };
   return index;
 }
 
@@ -102,7 +110,7 @@ export function getDecisionRef(caseId: string): DecisionRef | null {
 }
 
 export function getDecisionPage(caseId: string): DecisionPageData | null {
-  const { cases, details, leads, bench, related } = load();
+  const { cases, details, leads, bench, related, byTerm } = load();
   const c = cases.get(caseId);
   const d = details.get(caseId);
   if (!c || !d) return null;
@@ -131,6 +139,7 @@ export function getDecisionPage(caseId: string): DecisionPageData | null {
   const writer = d.maj_writer === null ? null : seats.find((s) => s.id === d.maj_writer) ?? null;
   const termRec = court.terms.find((t) => t.term === term);
 
+  const termPeers = (byTerm.get(term) ?? []).filter((r) => r.c[14] !== caseId);
   const peers = d.issue ? (related.get(d.issue) ?? []).filter((r) => r.c[14] !== caseId) : [];
   const courtBelow = courtName(d.source, d.source_state);
   const provision = provisionText(d);
@@ -140,6 +149,7 @@ export function getDecisionPage(caseId: string): DecisionPageData | null {
   return {
     caseId,
     name: c[2],
+    shortName: shortCaseName(c[2], typeof c[10] === "string" ? c[10] : c[8] || lead?.title || null),
     cite: c[3],
     docket: d.docket,
     term,
@@ -171,6 +181,7 @@ export function getDecisionPage(caseId: string): DecisionPageData | null {
     sentence: c[11] ? { text: c[11], claude: c[12] === 1 } : null,
     timeline: buildTimeline(d, { date: c[1], maj: c[6], min: c[7], disposition, petitionerWon: d.petitioner_won, petitioner: parties.petitioner.name }),
     related: d.issue && peers.length > 0 ? { issue: codebookLabel(d.issue), cases: peers } : null,
+    sameTerm: termPeers.length > 0 ? { term, cases: termPeers } : null,
     links: { wikipedia: wiki, oyez: oyezUrl(term, d.docket), justia: justiaUrl(c[3]) },
     scdbVersion: payload.versionLabel,
     dataThroughTerm: payload.terms[payload.terms.length - 1]!,

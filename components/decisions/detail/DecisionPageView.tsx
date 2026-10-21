@@ -6,13 +6,12 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { SourceLink } from "@/components/SourceLink";
 import { DirectionTag } from "@/components/decisions/DirectionTag";
 import { LANDMARK_WORD, PILL_LANDMARK, PILL_NEUTRAL } from "@/components/decisions/pill";
-import { Swatch } from "@/components/decisions/shared";
 import { longDate } from "@/lib/law-details-derive";
-import { BAND_COLORS, BAND_LONG } from "@/lib/decisions-types";
-import type { DecisionPageData, DecisionParty } from "@/lib/decision-page-types";
+import type { DecisionPageData, DecisionParty, RelatedDecision } from "@/lib/decision-page-types";
 import { BenchCard } from "./BenchCard";
 import { CaseRow } from "@/components/decisions/CaseListCard";
 import { LeadBody } from "./LeadBody";
+import { MatchedCards } from "./MatchedCards";
 
 const BADGE = PILL_NEUTRAL;
 const LINK = "text-ink underline decoration-line-strong underline-offset-2 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
@@ -21,25 +20,19 @@ const LINK = "text-ink underline decoration-line-strong underline-offset-2 hover
 const MAJ = "var(--ink)";
 const DIS = "var(--line-strong)";
 
-/** The one-sentence ruling from the Decisions list, first under the title, as the law page's official title sits. */
+/** The one-sentence ruling from the Decisions list, first under the title, as the law page's official title sits. A Claude-written one carries no tag here (the list tags it); the Summary card's note says so. */
 function Gist({ d }: { d: DecisionPageData }) {
   if (!d.sentence) return null;
   return (
     <p className="m-0 text-[1rem] leading-[1.55] text-ink">
       {d.sentence.text}
-      {d.sentence.claude && (
-        <span className="ml-1.5 whitespace-nowrap text-[0.82rem] text-ink-faint" title="Written by Claude from the opening of the Wikipedia article">
-          · AI-written
-        </span>
-      )}
     </p>
   );
 }
 
-/** Facts under the title: cite, docket, term and Court; dates; issue; badges; who wrote the opinion. */
+/** Facts under the title: cite, docket, term and Court; dates; issue with its badges. The outcome tag and the opinion's author sit with the vote. */
 function Facts({ d }: { d: DecisionPageData }) {
   const badges = [
-    d.direction && <DirectionTag key="dir" direction={d.direction} areaId={d.area?.id ?? null} />,
     d.landmark && (
       <span key="lm" className={PILL_LANDMARK} title="On Wikipedia’s list of landmark decisions">
         <span className={LANDMARK_WORD}>Landmark</span>
@@ -67,33 +60,30 @@ function Facts({ d }: { d: DecisionPageData }) {
         {d.argued ? ` · argued ${longDate(d.argued)}` : ""}
         {d.reargued ? `, reargued ${longDate(d.reargued)}` : ""}
       </p>
-      {(d.area || d.issue) && (
-        <p className="m-0">
-          {d.area?.label}
-          {d.area && d.issue ? " · " : ""}
-          {d.issue}
-        </p>
-      )}
-      {badges.length > 0 && <p className="m-0 flex flex-wrap gap-1.5">{badges}</p>}
-      {d.writer && (
-        <p className="m-0">
-          <span className="text-ink-faint">Majority opinion: </span>
-          <Link href={d.writer.path} className={LINK}>
-            {d.writer.name}
-          </Link>
-        </p>
+      {/* The badges are about the issue, so they share its line and drop below it only when it leaves no room. */}
+      {(d.area || d.issue || badges.length > 0) && (
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+          {(d.area || d.issue) && (
+            <p className="m-0">
+              {d.area?.label}
+              {d.area && d.issue ? " · " : ""}
+              {d.issue}
+            </p>
+          )}
+          {badges}
+        </div>
       )}
     </>
   );
 }
 
-/** The vote, in the page header beside the facts: the split as one bar, then what the Court did and who won. */
+/** The vote, in the page header beside the facts: the split as one bar, the split as one bar, who prevailed and who wrote the opinion, then what the Court did. */
 function Vote({ d }: { d: DecisionPageData }) {
-  const { maj, min, band } = d.vote;
+  const { maj, min } = d.vote;
   const total = maj + min;
   const won = d.petitionerWon === null ? null : `${d.petitioner.name ?? "The party that brought the case"} ${d.petitionerWon ? "won" : "lost"}`;
   return (
-    <section aria-label="The vote" className="lg:w-[17rem]">
+    <section aria-label="The vote" className="lg:w-[25.5rem]">
       <h2 className="m-0 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.72rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
         <span>The vote</span>
         <span className="inline-flex items-center gap-3 normal-case tracking-normal">
@@ -117,18 +107,22 @@ function Vote({ d }: { d: DecisionPageData }) {
         <span className="whitespace-nowrap font-medium tabular-nums text-ink">{`${maj}–${min}`}</span>
         <span className="sr-only">{maj === min ? `${maj} on each side` : `${maj} in the majority, ${min} in dissent`}</span>
       </p>
-      <p className="m-0 mt-1.5 inline-flex items-center gap-1.5 text-[0.82rem] text-ink-muted">
-        {maj === min ? (
-          "Equally divided: the decision below stands"
-        ) : (
-          <>
-            <Swatch color={BAND_COLORS[band as 0 | 1 | 2 | 3 | 4]} />
-            {BAND_LONG[band as 0 | 1 | 2 | 3 | 4]}
-          </>
-        )}
-      </p>
+      {maj === min && <p className="m-0 mt-1.5 text-[0.82rem] text-ink-muted">Equally divided: the decision below stands</p>}
+      {(d.direction || d.writer) && (
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          {d.direction && <DirectionTag outcome direction={d.direction} areaId={d.area?.id ?? null} />}
+          {d.writer && (
+            <p className="m-0 text-[0.82rem]">
+              <span className="text-ink-muted">Majority opinion by </span>
+              <Link href={d.writer.path} className={LINK}>
+                {d.writer.name}
+              </Link>
+            </p>
+          )}
+        </div>
+      )}
       {(d.disposition || won) && (
-        <p className="m-0 mt-2 text-[0.85rem] text-ink">
+        <p className="m-0 mt-2.5 text-[0.85rem] text-ink">
           {d.disposition}
           {d.disposition && won ? ". " : ""}
           {won && <span className="text-ink-muted">{`${won}.`}</span>}
@@ -141,9 +135,6 @@ function Vote({ d }: { d: DecisionPageData }) {
             {`${d.petitioner.name ? `${d.petitioner.name} was the petitioner` : "The petitioner is"}, the side that asked the Supreme Court to review the case. “${d.petitionerWon ? "Won" : "Lost"}” means the Court ${d.petitionerWon ? "gave" : "did not give"} that side the result it asked for.`}
           </p>
         )}
-        <p>
-          From the <SourceLink id="scdb">Supreme Court Database</SourceLink>. A justice who agreed with the result but not the reasoning counts in the majority.
-        </p>
       </MethodologyNote>
     </section>
   );
@@ -183,7 +174,7 @@ function Summary({ d }: { d: DecisionPageData }) {
       )}
       <MethodologyNote>
         <p>
-          The text is Wikipedia’s (CC BY-SA 4.0), matched to the case by its citation, docket number or name and year, and is not checked against the opinion. The site keeps the article’s opening section, ending on its last full sentence. The one-sentence summary under the title is the Decisions list’s: Wikipedia’s own ruling sentence, or, tagged “AI-written”, one Claude wrote from this opening.
+          The text is Wikipedia’s (CC BY-SA 4.0), matched to the case by its citation, docket number or name and year, and is not checked against the opinion. The site keeps the article’s opening section, ending on its last full sentence. The one-sentence summary under the title is the Decisions list’s: Wikipedia’s own ruling sentence or, where Wikipedia’s opening does not state the ruling, one Claude wrote from this opening (the list tags those “AI-written”).
         </p>
       </MethodologyNote>
     </ChartCard>
@@ -277,22 +268,51 @@ function Timeline({ d }: { d: DecisionPageData }) {
   );
 }
 
+/** The scrollable case list both "other decisions" cards share, so the pair matches in rows and height. */
+function CaseScroll({ label, cases }: { label: string; cases: RelatedDecision[] }) {
+  return (
+    <div data-case-scroll tabIndex={0} aria-label={`${label}, scrollable`} className="touch-scroll max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
+      <ol className="m-0 list-none p-0">
+        {cases.map((r) => (
+          <CaseRow key={r.c[14]} c={r.c} area={r.area} areaId={r.areaId} stacked outcome />
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function Related({ d }: { d: DecisionPageData }) {
   if (!d.related) return null;
   const { issue, cases } = d.related;
   const n = cases.length;
   return (
     <ChartCard title="Other decisions on the same issue" lede={`${n} other argued case${n === 1 ? "" : "s"} since 1946 on ${issue.charAt(0).toLowerCase()}${issue.slice(1).replace(/:\s+including\b/, ", including")}, newest first.`}>
-      <div tabIndex={0} aria-label="Other decisions on the same issue, scrollable" className="touch-scroll max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
-        <ol className="m-0 list-none p-0">
-          {cases.map((r) => (
-            <CaseRow key={r.c[14]} c={r.c} area={r.area} areaId={r.areaId} />
-          ))}
-        </ol>
-      </div>
+      <CaseScroll label="Other decisions on the same issue" cases={cases} />
       <MethodologyNote>
         <p>
           Every other orally argued case with a clear vote, from the 1946 term on, that the <SourceLink id="scdb">Supreme Court Database</SourceLink> files under the same issue as this one. The database gives each case one issue from a list of about 270 (abortion, search and seizure of vehicles, the death penalty, and so on), whatever law it turned on.
+        </p>
+      </MethodologyNote>
+    </ChartCard>
+  );
+}
+
+function SameTerm({ d }: { d: DecisionPageData }) {
+  if (!d.sameTerm) return null;
+  const { term, cases } = d.sameTerm;
+  const n = cases.length;
+  // The term's three biggest issue areas by case count (ties: the first met, newest), so the line runs as long as the same-issue card's.
+  const tally = new Map<string, number>();
+  for (const r of cases) if (r.areaId) tally.set(r.area, (tally.get(r.area) ?? 0) + 1);
+  const top = [...tally].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([label]) => (/\s[A-Z]/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1)));
+  // Only three are named, so a term with more areas says so: the line must not read as if those were the only issues.
+  const areas = tally.size > top.length ? `${top.join(", ")} and more` : top.length > 1 ? `${top.slice(0, -1).join(", ")} and ${top[top.length - 1]}` : top[0];
+  return (
+    <ChartCard title="Other decisions from the same term" lede={`${n} other argued case${n === 1 ? "" : "s"} decided in the ${term} term${areas ? `, across ${areas}` : ""}, newest first.`}>
+      <CaseScroll label="Other decisions from the same term" cases={cases} />
+      <MethodologyNote>
+        <p>
+          Every other orally argued case with a clear vote that the <SourceLink id="scdb">Supreme Court Database</SourceLink> counts in the {term} term, the Court’s year from the first Monday in October through the following summer.
         </p>
       </MethodologyNote>
     </ChartCard>
@@ -309,9 +329,10 @@ export function DecisionPageView({ d }: { d: DecisionPageData }) {
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <SetBackLink href="/supreme-court/decisions" />
-      <PageHeader eyebrow="Supreme Court · Decisions" title={d.name}>
+      <PageHeader eyebrow="Supreme Court · Decisions" title={d.shortName}>
         <div className="flex flex-col gap-5 lg:flex-row lg:gap-8">
           <div className="flex min-w-0 flex-col gap-3 lg:flex-1">
+            {d.shortName !== d.name && <p className="m-0 text-[0.9rem] text-ink-muted">Full case name: {d.name}</p>}
             <Gist d={d} />
             <Facts d={d} />
           </div>
@@ -327,7 +348,12 @@ export function DecisionPageView({ d }: { d: DecisionPageData }) {
         <Law d={d} />
       </div>
       <Timeline d={d} />
-      <Related d={d} />
+      {(d.related || d.sameTerm) && (
+        <MatchedCards className={`grid grid-cols-1 gap-6 ${d.related && d.sameTerm ? "lg:grid-cols-2" : ""}`}>
+          <Related d={d} />
+          <SameTerm d={d} />
+        </MatchedCards>
+      )}
       <section aria-label="Official record" className="rounded-[10px] border border-line bg-surface p-[1.1rem_1.35rem] text-[0.85rem] text-ink-muted">
         <h2 className="m-0 font-serif text-[1.05rem] font-medium text-ink">Official record</h2>
         <p className="m-0 mt-1">

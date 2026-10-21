@@ -61,7 +61,7 @@ export function voteTotals(rows: readonly (readonly [string, number, number])[])
 
 export interface DirectoryRow {
   id: number;
-  /** "John Stevens", as the profile URL uses it. */
+  /** "John Paul Stevens", as the profile URL uses it. */
   name: string;
   /** Chart label: last name, with a first initial only where two justices share one. */
   short: string;
@@ -352,7 +352,8 @@ export function tenureYears(r: Pick<DirectoryRow, "start" | "end">): string {
 // ---------------------------------------------------------------------------------------------------------------------
 // Takeaways (rule 7c): built from the rows, so a data refresh rewrites them instead of leaving a stale sentence
 
-const surname = (r: Pick<DirectoryRow, "name">) => r.name.split(" ").slice(1).join(" ");
+/** The surname from the chart label ("K. Jackson" -> "Jackson"): display names can carry a middle name ("Ketanji Brown Jackson"). */
+const surname = (r: Pick<DirectoryRow, "short">) => r.short.replace(/^[A-Z]\. /, "");
 
 /** The sitting Court card: who appointed the nine and who has sat longest and shortest. */
 export function courtTakeaway(rows: readonly DirectoryRow[]): string {

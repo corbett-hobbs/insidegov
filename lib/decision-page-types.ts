@@ -31,7 +31,7 @@ export interface TimelineStep {
   text: string;
 }
 
-/** One row of "Other decisions on the same issue": the Decisions list's own tuple, so the row matches "Every case". */
+/** One row of "Other decisions on the same issue" and "Other decisions from the same term": the Decisions list's own tuple, so the row matches "Every case". */
 export interface RelatedDecision {
   c: DecisionCase;
   area: string;
@@ -47,7 +47,10 @@ export interface DecisionParty {
 
 export interface DecisionPageData {
   caseId: string;
+  /** The full caption SCDB records ("Michael J. Astrue, Commissioner of Social Security, Petitioner v. ..."). */
   name: string;
+  /** The name the case is known by ("Astrue v. Capato"), from `lib/case-name.ts`. */
+  shortName: string;
   cite: string;
   docket: string | null;
   term: number;
@@ -91,6 +94,8 @@ export interface DecisionPageData {
   timeline: TimelineStep[];
   /** Every other case SCDB files under the same issue ("Abortion: including contraceptives"), newest first. */
   related: { issue: string; cases: RelatedDecision[] } | null;
+  /** Every other argued case decided in the same term, newest first. */
+  sameTerm: { term: number; cases: RelatedDecision[] } | null;
   links: { wikipedia: string | null; oyez: string | null; justia: string | null };
   /** "Version 2026 Release 01". */
   scdbVersion: string;

@@ -1,24 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { siteInfo } from "@/lib/site-info";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 
 const DESCRIPTION =
   "InsideGov charts the data behind the news, from gas prices and tariffs to new laws and Supreme Court rulings, drawn straight from public government records.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description: DESCRIPTION,
-  alternates: { canonical: "/about" },
-  openGraph: {
-    ...ogDefaults,
-    title: `About · ${site.name}`,
-    description: DESCRIPTION,
-    url: "/about",
-  },
-  twitter: twitterDefaults,
-};
+  path: "/about",
+});
 
 const QUESTIONS = [
   "How many executive orders has each president signed, and on what topics?",

@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:33:27.177Z","series":{"id":"WYETPUS","title":"Electricity Net Generation From Wind, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=WYETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":642}},
+  "head": {"fetched_at":"2026-10-21T17:55:05.382Z","series":{"id":"WYETPUS","title":"Electricity Net Generation From Wind, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=WYETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":643}},
   "observations": [
     ["1973-01","Not Available"],
     ["1973-02","Not Available"],
@@ -642,6 +642,7 @@
     ["2026-03","52219.087"],
     ["2026-04","49135.977"],
     ["2026-05","41157.206"],
-    ["2026-06","41887.969"]
+    ["2026-06","41887.969"],
+    ["2026-07","32183.92818"]
   ]
 }

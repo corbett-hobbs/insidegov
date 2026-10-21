@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { getCourtPayload, getCourtPresidentBand } from "@/lib/justice-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { CourtExplorer } from "@/components/court/CourtExplorer";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 // PLACEHOLDER COPY — title/description awaiting Corby's edit.
-export const metadata: Metadata = {
-  title: "How does the Supreme Court lean?",
-  description:
-    "Where each Supreme Court justice sits on the liberal–conservative scale, term by term, from Martin–Quinn scores.",
-  alternates: { canonical: "/supreme-court/ideology" },
-  openGraph: {
-    ...ogDefaults,
-    title: `How does the Supreme Court lean? · ${site.name}`,
-    description:
-      "Where each Supreme Court justice sits on the liberal–conservative scale, term by term, from Martin–Quinn scores.",
-    url: "/supreme-court/ideology",
-  },
-  twitter: twitterDefaults,
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "Supreme Court Ideology: How Each Justice Leans",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/supreme-court/ideology", "How liberal or conservative each Supreme Court justice votes, term by term since 1937, from Martin–Quinn scores, and where the Court's median justice sits."),
+    path: "/supreme-court/ideology",
+    topic: "supreme-court/ideology",
+  });
+}
 
 export default function SupremeCourtPage() {
-  return <CourtExplorer data={getCourtPayload()} presidents={getCourtPresidentBand()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/supreme-court/ideology" />
+      <CourtExplorer data={getCourtPayload()} presidents={getCourtPresidentBand()} />
+    </>
+  );
 }

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { lawSeo, lawSummaryLead } from "@/lib/law-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
+import { legislationJsonLd } from "@/lib/structured-data";
 import { LawPageView } from "@/components/laws/detail/LawPageView";
 import { getLawPage, getLawRef, getLawRefs } from "@/lib/law-details-data";
 import { lawPath, lawSlug } from "@/lib/law-url";
@@ -28,10 +32,20 @@ export async function generateMetadata({ params }: { params: Promise<RouteParams
   const { law_id } = await params;
   const law = getLawPage(law_id);
   if (!law) return { title: "Law not found" };
-  const title = `${law.title} (${law.publicLaw})`;
-  const description = (law.summary?.[0] ?? `${law.publicLaw}, ${ordinal(law.congress)} Congress, ${law.billLabel}.`).slice(0, 200);
-  const url = lawPath(law.lawId, law.title);
-  return { title, description, alternates: { canonical: url }, openGraph: { title, description, url, type: "article" }, twitter: { card: "summary_large_image", title, description } };
+  const { title, description } = lawSeo({
+    lawId: law.lawId,
+    shortTitle: law.shortTitle,
+    officialTitle: law.officialTitle ?? law.title,
+    summary: law.summary,
+    president: law.president.name,
+    date: law.date,
+    veto: law.veto,
+    originChamber: law.originChamber,
+    passage: law.passage,
+    chartChambers: law.votes.map((v) => v.chamber),
+    hasCommittees: law.committees.length > 0,
+  });
+  return pageMetadata({ title, description, path: lawPath(law.lawId, law.title), type: "article", ownImage: true });
 }
 
 export default async function LawPage({ params }: { params: Promise<RouteParams> }) {
@@ -41,5 +55,20 @@ export default async function LawPage({ params }: { params: Promise<RouteParams>
   if (name_slug !== lawSlug(ref.title)) permanentRedirect(lawPath(ref.lawId, ref.title));
   const law = getLawPage(law_id);
   if (!law) notFound();
-  return <LawPageView law={law} />;
+  return (
+    <>
+      <JsonLd
+        data={legislationJsonLd({
+          path: lawPath(law.lawId, law.title),
+          name: law.shortTitle,
+          alternateName: law.shortTitle !== law.title ? law.title : undefined,
+          publicLaw: law.publicLaw,
+          congressLabel: ordinal(law.congress),
+          date: law.date,
+          description: lawSummaryLead(law.summary, [law.shortTitle, law.title]) ?? undefined,
+        })}
+      />
+      <LawPageView law={law} />
+    </>
+  );
 }
