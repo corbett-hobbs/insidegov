@@ -31,7 +31,7 @@ export interface TimelineStep {
   text: string;
 }
 
-/** One row of "Other decisions on the same issue": the Decisions list's own tuple, so the row matches "Every case". */
+/** One row of "Other decisions on the same issue" and "Other decisions from the same term": the Decisions list's own tuple, so the row matches "Every case". */
 export interface RelatedDecision {
   c: DecisionCase;
   area: string;
@@ -91,6 +91,8 @@ export interface DecisionPageData {
   timeline: TimelineStep[];
   /** Every other case SCDB files under the same issue ("Abortion: including contraceptives"), newest first. */
   related: { issue: string; cases: RelatedDecision[] } | null;
+  /** Every other argued case decided in the same term, newest first. */
+  sameTerm: { term: number; cases: RelatedDecision[] } | null;
   links: { wikipedia: string | null; oyez: string | null; justia: string | null };
   /** "Version 2026 Release 01". */
   scdbVersion: string;
