@@ -29,6 +29,18 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // An embedded chart (`?embed=<card id>`, lib/embed.ts) is the same page with only the card showing:
+  // keep those URLs out of search so they never compete with the real page.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "query" as const, key: "embed" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+    ];
+  },
+
   // Several routes render as serverless functions (stale-slug redirects on the
   // profile pages; the OG images, which now render on demand) and read
   // pipeline/output/*.json via fs — a computed path Next's tracer doesn't

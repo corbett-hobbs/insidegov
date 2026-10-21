@@ -1,9 +1,11 @@
 /**
- * The chart image behind the share menu's "Download image" (`components/charts/ChartShare.tsx`). Browser-only.
+ * The chart image behind the share menu's Download / Copy / Share image (`components/charts/ChartShare.tsx`). Browser-only.
  *
- * The card is cloned into an SVG `<foreignObject>` together with the page's own CSS (its
- * `@font-face` files inlined as data URLs, since an SVG drawn as an image loads nothing
- * external) and the card's resolved custom properties (theme, branch accent, font
+ * The card is cloned into an SVG `<foreignObject>` together with the page's own CSS (the
+ * `@font-face` files the card's text actually uses, matched on family, weight, style and
+ * unicode-range, fetched in parallel and inlined as data URLs, since an SVG drawn as an image
+ * loads nothing external; the rest of the page's 30-odd faces are left out, which is what
+ * made the first image take many seconds on a cold load) and the card's resolved custom properties (theme, branch accent, font
  * variables), drawn onto a 2x canvas, and given a credit line naming the page and the
  * exact view (path + query, see `lib/use-url-state.ts`), so a shared image leads back.
  * Controls that make no sense in a picture (`<details>` notes and tables, the notes
@@ -18,46 +20,151 @@ const SCALE = 2;
 const PAD = 24;
 const FOOTER = 40;
 
-let cssCache: Promise<string> | null = null;
-
-/** Every same-origin stylesheet's text, with font files inlined. Cached for the page's life. */
-function pageCss(): Promise<string> {
-  cssCache ??= (async () => {
-    const parts: string[] = [];
-    for (const sheet of Array.from(document.styleSheets)) {
-      let rules: CSSRuleList;
-      try {
-        rules = sheet.cssRules;
-      } catch {
-        continue; // cross-origin sheet
-      }
-      for (const rule of Array.from(rules)) {
-        let text = rule.cssText;
-        if (rule.constructor.name === "CSSFontFaceRule" || text.startsWith("@font-face")) {
-          text = await inlineUrls(text, sheet.href ?? location.href);
-        }
-        parts.push(text);
-      }
-    }
-    return parts.join("\n");
-  })();
-  return cssCache;
+interface Face {
+  css: string;
+  base: string;
+  family: string;
+  lo: number;
+  hi: number;
+  italic: boolean;
+  ranges: [number, number][] | null;
+}
+interface Sheets {
+  sig: string;
+  css: string;
+  faces: Face[];
 }
 
-async function inlineUrls(css: string, base: string): Promise<string> {
-  const urls = [...css.matchAll(/url\((['"]?)([^'")]+)\1\)/g)].map((m) => m[2]!);
-  let out = css;
-  for (const u of new Set(urls)) {
-    if (u.startsWith("data:")) continue;
+let sheetsCache: Sheets | null = null;
+
+const unquote = (s: string) => s.trim().replace(/^["']|["']$/g, "");
+
+/** "U+0-FF, U+131, U+4??" as ranges; null when the face covers everything. */
+function parseRanges(s: string): [number, number][] | null {
+  const out: [number, number][] = [];
+  for (const part of s.split(",")) {
+    const m = /U\+([0-9A-F?]+)(?:-([0-9A-F]+))?/i.exec(part.trim());
+    if (!m) continue;
+    if (m[1]!.includes("?")) out.push([parseInt(m[1]!.replace(/\?/g, "0"), 16), parseInt(m[1]!.replace(/\?/g, "F"), 16)]);
+    else out.push([parseInt(m[1]!, 16), parseInt(m[2] ?? m[1]!, 16)]);
+  }
+  return out.length ? out : null;
+}
+
+/** "400", "200 800", "bold" as a [lo, hi] weight range; no descriptor covers every weight. */
+function parseWeights(s: string): [number, number] {
+  const n = s.match(/\d+/g)?.map(Number);
+  if (n?.length) return [n[0]!, n[1] ?? n[0]!];
+  if (s.trim() === "bold") return [700, 700];
+  return s.trim() === "normal" ? [400, 400] : [1, 1000];
+}
+
+/**
+ * The page's same-origin CSS (every rule but the `@font-face` ones, as one string) and its font
+ * faces, read once and kept until the set of stylesheets changes (a client-side navigation adds some).
+ */
+function readSheets(): Sheets {
+  const sheets = Array.from(document.styleSheets);
+  const sig = sheets.map((s) => s.href ?? s.ownerNode?.textContent?.length ?? 0).join("|");
+  if (sheetsCache?.sig === sig) return sheetsCache;
+  const parts: string[] = [];
+  const faces: Face[] = [];
+  for (const sheet of sheets) {
+    let rules: CSSRuleList;
     try {
-      const res = await fetch(new URL(u, base));
-      if (!res.ok) continue;
-      out = out.split(u).join(await blobToDataUrl(await res.blob()));
+      rules = sheet.cssRules;
     } catch {
-      /* leave it; the text falls back to a system font */
+      continue; // cross-origin sheet
+    }
+    for (const rule of Array.from(rules)) {
+      if (rule instanceof CSSFontFaceRule) {
+        const [lo, hi] = parseWeights(rule.style.getPropertyValue("font-weight"));
+        faces.push({
+          css: rule.cssText,
+          base: sheet.href ?? location.href,
+          family: unquote(rule.style.getPropertyValue("font-family")),
+          lo,
+          hi,
+          italic: /^(italic|oblique)/.test(rule.style.getPropertyValue("font-style")),
+          ranges: parseRanges(rule.style.getPropertyValue("unicode-range")),
+        });
+      } else parts.push(rule.cssText);
     }
   }
+  sheetsCache = { sig, css: parts.join("\n"), faces };
+  return sheetsCache;
+}
+
+interface Used {
+  families: string[];
+  weight: number;
+  italic: boolean;
+}
+
+/** The fonts the card's visible text is set in, and every character it uses. */
+function usedFonts(card: HTMLElement): { used: Used[]; chars: Set<number> } {
+  const used = new Map<string, Used>();
+  const chars = new Set<number>();
+  const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT);
+  const seen = new Set<Element>();
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const el = n.parentElement;
+    const text = n.nodeValue ?? "";
+    if (!el || !text.trim() || el.closest("details, [data-png-skip]")) continue;
+    for (const ch of text) chars.add(ch.codePointAt(0)!);
+    if (seen.has(el)) continue;
+    seen.add(el);
+    const cs = getComputedStyle(el);
+    const key = `${cs.fontFamily}|${cs.fontWeight}|${cs.fontStyle}`;
+    if (!used.has(key)) used.set(key, { families: cs.fontFamily.split(",").map(unquote), weight: Number(cs.fontWeight) || 400, italic: /^(italic|oblique)/.test(cs.fontStyle) });
+  }
+  return { used: [...used.values()], chars };
+}
+
+/** The font faces the card needs: a family, weight and style it uses, with a unicode-range it draws from. */
+function neededFaces(faces: Face[], { used, chars }: ReturnType<typeof usedFonts>): Face[] {
+  const hasItalic = new Set(faces.filter((f) => f.italic).map((f) => f.family));
+  return faces.filter(
+    (f) =>
+      (!f.ranges || [...chars].some((c) => f.ranges!.some(([a, b]) => c >= a && c <= b))) &&
+      used.some((u) => u.families.includes(f.family) && u.weight >= f.lo && u.weight <= f.hi && (f.italic === u.italic || (u.italic && !hasItalic.has(f.family)))),
+  );
+}
+
+/** Font file (absolute URL) → data URL, fetched once per page life. */
+const fontData = new Map<string, Promise<string>>();
+
+function fontDataUrl(url: string): Promise<string> {
+  let p = fontData.get(url);
+  if (!p) {
+    p = fetch(url).then((res) => (res.ok ? res.blob().then(blobToDataUrl) : Promise.reject(new Error(`font ${res.status}`))));
+    p.catch(() => fontData.delete(url));
+    fontData.set(url, p);
+  }
+  return p;
+}
+
+/** `css` with its font files inlined (an SVG drawn as an image loads nothing external), fetched in parallel. */
+async function inlineUrls(css: string, base: string): Promise<string> {
+  const urls = [...new Set([...css.matchAll(/url\((['"]?)([^'")]+)\1\)/g)].map((m) => m[2]!))].filter((u) => !u.startsWith("data:"));
+  const data = await Promise.all(urls.map((u) => fontDataUrl(new URL(u, base).href).catch(() => null)));
+  let out = css;
+  urls.forEach((u, i) => {
+    if (data[i]) out = out.split(u).join(data[i]!); // else: leave it, the text falls back to a system font
+  });
   return out;
+}
+
+/** The page CSS plus only the font faces this card's text uses, inlined. */
+async function cardCss(card: HTMLElement): Promise<string> {
+  const { css, faces } = readSheets();
+  const fonts = await Promise.all(neededFaces(faces, usedFonts(card)).map((f) => inlineUrls(f.css, f.base)));
+  return `${css}\n${fonts.join("\n")}`;
+}
+
+/** Fetch the card's fonts now (cheap, cached) so a later `cardPng` doesn't wait on the network. */
+export function warmCardPng(card: HTMLElement): void {
+  cardCss(card).catch(() => {});
 }
 
 function blobToDataUrl(blob: Blob): Promise<string> {
@@ -135,7 +242,7 @@ async function cardPicture(card: HTMLElement, bg: string, ink: string, credit: s
   card.parentElement!.appendChild(probe);
   const h = Math.ceil(probe.getBoundingClientRect().height) + 8;
   probe.remove();
-  const css = await pageCss();
+  const css = await cardCss(card);
   const html = new XMLSerializer().serializeToString(clone);
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" overflow="hidden">` +
@@ -193,6 +300,9 @@ export function creditLine(siteName: string, host: string, pathAndQuery: string)
   return `${siteName} · ${host}${pathAndQuery}`;
 }
 
+/** Set once a browser refuses to read back a canvas that drew a `foreignObject` (Safari), so later images skip that attempt. */
+let foreignObjectTainted = false;
+
 /** Render `card` to a PNG blob (with the credit line). */
 export async function cardPng(card: HTMLElement, siteName: string): Promise<Blob> {
   const cs = getComputedStyle(card);
@@ -200,20 +310,27 @@ export async function cardPng(card: HTMLElement, siteName: string): Promise<Blob
   if (!bg || bg === "rgba(0, 0, 0, 0)" || bg === "transparent") bg = getComputedStyle(document.body).backgroundColor || "#fff";
   const ink = getComputedStyle(document.body).color || "#111";
   const credit = creditLine(siteName, location.host, `${location.pathname}${location.search}${card.id ? `#${card.id}` : ""}`);
-  try {
-    return await cardPicture(card, bg, ink, credit);
-  } catch {
-    return svgPicture(card, bg, ink, credit);
+  if (!foreignObjectTainted) {
+    try {
+      return await cardPicture(card, bg, ink, credit);
+    } catch (e) {
+      if (e instanceof DOMException && e.name === "SecurityError") foreignObjectTainted = true;
+    }
   }
+  return svgPicture(card, bg, ink, credit);
 }
 
-/** Render `card` to a PNG and save it as `insidegov-<title>.png`. */
-export async function downloadCardPng(card: HTMLElement, siteName: string): Promise<void> {
-  const blob = await cardPng(card, siteName);
+/** The file name for a card's image: `insidegov-<title>.png`. */
+export function pngName(card: HTMLElement, siteName: string): string {
   const title = (card.querySelector("h2, h3")?.textContent ?? document.title).trim();
+  return `${slugify(siteName)}-${slugify(title)}.png`;
+}
+
+/** Save a rendered PNG as a file. */
+export function savePng(blob: Blob, name: string): void {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `${slugify(siteName)}-${slugify(title)}.png`;
+  a.download = name;
   document.body.appendChild(a);
   a.click();
   a.remove();
