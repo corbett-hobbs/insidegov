@@ -1,24 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Suspense } from "react";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHeader } from "@/components/PageHeader";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 
 const DESCRIPTION = "Report a number that looks wrong, ask a question, or send an idea about InsideGov.";
 
-export const metadata: Metadata = {
-  title: "Contact and corrections",
+export const metadata: Metadata = pageMetadata({
+  title: "Contact and Corrections",
   description: DESCRIPTION,
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    ...ogDefaults,
-    title: `Contact and corrections · ${site.name}`,
-    description: DESCRIPTION,
-    url: "/contact",
-  },
-  twitter: twitterDefaults,
-};
+  path: "/contact",
+});
 
 const LINK =
   "text-accent underline underline-offset-2 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";

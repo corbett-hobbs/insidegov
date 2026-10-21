@@ -2,6 +2,7 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
+import { lawShortTitle } from "./law-seo";
 import { getAllCommittees } from "./committee-data";
 import { committeePath } from "./committee-url";
 import { administration } from "./executive-orders-entities";
@@ -141,6 +142,7 @@ export function getLawPage(lawId: string): LawPageData | null {
     congress: law.congress,
     number: law.number,
     title: law.title,
+    shortTitle: lawShortTitle(law.title),
     officialTitle: law.official_title ?? null,
     publicLaw: `Public Law ${law.congress}-${law.number}`,
     date: law.date,

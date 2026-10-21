@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { getExecutiveOrdersData } from "@/lib/executive-orders-data";
 import { ExecutiveOrdersPageClient } from "@/components/executive-orders/ExecutiveOrdersPageClient";
-import { site, topicOg, topicTwitter } from "@/lib/site";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/executive-orders — the Presidency vertical's Executive orders section. */
-export const metadata: Metadata = {
-  title: "How many executive orders does each president sign?",
-  description:
-    "Executive orders signed each year since 1994, stacked by primary topic, with presidential terms marked. From the Federal Register.",
-  alternates: { canonical: "/presidency/executive-orders" },
-  openGraph: {
-    ...topicOg("presidency/executive-orders"),
-    title: `How many executive orders does each president sign? · ${site.name}`,
-    description: "Executive orders signed each year since 1994, by primary topic. From the Federal Register.",
-    url: "/presidency/executive-orders",
-  },
-  twitter: topicTwitter("presidency/executive-orders"),
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "Executive Orders by President and Year",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/presidency/executive-orders", "How many executive orders each president has signed, every year since 1994, by topic. Data from the Federal Register."),
+    path: "/presidency/executive-orders",
+    topic: "presidency/executive-orders",
+  });
+}
 
 export default function ExecutiveOrdersPage() {
   return (

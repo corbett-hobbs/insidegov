@@ -2,6 +2,7 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
+import { shortCaseName } from "./case-name";
 import { getDecisionCases, getDecisionsPageData } from "./decisions-data";
 import { caseLeadRow, decisionDetailRow, type DecisionDetailRow, type JusticeVote } from "./decisions-entities";
 import type { DecisionCase } from "./decisions-types";
@@ -148,6 +149,7 @@ export function getDecisionPage(caseId: string): DecisionPageData | null {
   return {
     caseId,
     name: c[2],
+    shortName: shortCaseName(c[2], typeof c[10] === "string" ? c[10] : c[8] || lead?.title || null),
     cite: c[3],
     docket: d.docket,
     term,

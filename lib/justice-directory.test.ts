@@ -86,7 +86,7 @@ describe("the real directory", () => {
     expect(rows).toHaveLength(49);
     expect(new Set(rows.map((r) => r.id)).size).toBe(49);
     expect(rows.map((r) => r.start)).toEqual([...rows.map((r) => r.start)].sort());
-    expect(rows[0].name).toBe("Charles Hughes"); // first sat in 1910
+    expect(rows[0].name).toBe("Charles Evans Hughes"); // first sat in 1910
   });
 
   it("carries a portrait, a score and a party for everyone", () => {
@@ -251,7 +251,7 @@ describe("table", () => {
   });
 
   it("opens each column in a sensible direction and sorts the first day on the Court newest first", () => {
-    expect(sortRows(rows, "start", "desc")[0].name).toBe("Ketanji Jackson");
+    expect(sortRows(rows, "start", "desc")[0].name).toBe("Ketanji Brown Jackson");
   });
 
   it("filters by every typed word starting a word in the name, president or party", () => {
@@ -291,7 +291,7 @@ describe("takeaways", () => {
   });
 
   it("does not rank a short record's dissent rate", () => {
-    const short = { ...row("Thomas"), name: "Test Short", votesTaken: MIN_VOTES_FOR_RATE - 1, dissentRate: 99 };
+    const short = { ...row("Thomas"), name: "Test Short", short: "Short", votesTaken: MIN_VOTES_FOR_RATE - 1, dissentRate: 99 };
     expect(tableTakeaway([...rows, short])).toBe(tableTakeaway(rows));
     expect(tableTakeaway([...rows, { ...short, votesTaken: MIN_VOTES_FOR_RATE }])).toMatch(/Short dissented most often, in 99\.0%/);
   });
@@ -327,7 +327,7 @@ describe("votingLean", () => {
     for (const r of rows) expect(votingLean(r), r.name).toMatch(/^(From .+ to .+|\w[\w ]+( throughout| so far)?)$/);
     expect(votingLean(row("Thomas"))).toBe("Conservative throughout");
     expect(votingLean(row("Sotomayor"))).toBe("From left of center to liberal");
-    expect(votingLean(row("Ketanji Jackson"))).toBe("Liberal so far");
+    expect(votingLean(row("Ketanji Brown Jackson"))).toBe("Liberal so far");
   });
 
   it("sorts by the latest score", () => {

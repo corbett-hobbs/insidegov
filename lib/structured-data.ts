@@ -143,6 +143,8 @@ export function personJsonLd(opts: {
 export function legislationJsonLd(opts: {
   path: string;
   name: string;
+  /** The formal title when `name` is a popular or shortened one. */
+  alternateName?: string;
   publicLaw: string;
   congressLabel: string;
   date: string;
@@ -153,6 +155,7 @@ export function legislationJsonLd(opts: {
     "@context": CONTEXT,
     "@type": "Legislation",
     name: opts.name,
+    ...(opts.alternateName ? { alternateName: opts.alternateName } : {}),
     legislationIdentifier: opts.publicLaw,
     legislationType: "Public law",
     legislationJurisdiction: "US",

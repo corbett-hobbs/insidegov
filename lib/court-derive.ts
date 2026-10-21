@@ -59,6 +59,27 @@ const partyOf = (p: Justice["appointing_party"]): CourtParty =>
   p === "Democratic" ? "D" : "R";
 
 /** Fitted score domain: data min/max, 3% padding, rounded outward to 0.5. */
+
+/**
+ * Justices whose first + last name is not the name they are known and searched by, keyed by justice id. Used for every
+ * display of the name (and so the page URL); the short chart label still comes from the surname.
+ */
+const JUSTICE_KNOWN_AS: Readonly<Record<number, string>> = {
+  74: "Harlan F. Stone",
+  75: "Charles Evans Hughes",
+  81: "William O. Douglas",
+  83: "James F. Byrnes",
+  84: "Robert H. Jackson",
+  87: "Fred M. Vinson",
+  88: "Tom C. Clark",
+  91: "John Marshall Harlan II",
+  92: "William J. Brennan Jr.",
+  103: "John Paul Stevens",
+  104: "Sandra Day O'Connor",
+  109: "Ruth Bader Ginsburg",
+  117: "Amy Coney Barrett",
+  118: "Ketanji Brown Jackson",
+};
 export function fitDomain(scores: readonly number[]): [number, number] {
   const lo = Math.min(...scores);
   const hi = Math.max(...scores);
@@ -178,7 +199,7 @@ export function buildCourtPayload(input: {
     const dup = (lastNames.get(j.name.last) ?? 0) > 1;
     out.push({
       id: j.justice_id,
-      name: `${first} ${j.name.last}`,
+      name: JUSTICE_KNOWN_AS[j.justice_id] ?? `${first} ${j.name.last}`,
       short: dup ? `${first[0]}. ${j.name.last}` : j.name.last,
       pres: presKeyFor.get(j.appointing_president) as string,
       party: partyOf(j.appointing_party),
