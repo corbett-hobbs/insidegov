@@ -9,10 +9,11 @@ import { PillGroup } from "@/components/charts/PillGroup";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
 import { ToggleReadout } from "@/components/charts/ToggleReadout";
 import { YearPicker } from "@/components/charts/YearPicker";
+import { EnduseYearsChart } from "./EnduseYearsChart";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
 import { MONTH_NAMES } from "@/lib/indicator-time";
-import { endusePartnersOf, enduseView, type EndusePartnersPayload, type TradeEndusePayload } from "@/lib/trade-enduse";
+import { ENDUSE_GROUPS, enduseCategoryByYear, enduseColor, enduseGroupIndex, enduseSeries, endusePartnersOf, enduseView, OTHER_COLOR, type EndusePartnersPayload, type TradeEndusePayload } from "@/lib/trade-enduse";
 import { HS_CHAPTERS } from "@/lib/trade-hs-chapters";
 import {
   fmtDollars,
@@ -256,6 +257,8 @@ export function TradeProductsCard({
   const productView = useMemo(() => (!use && payload && year >= firstYear ? productsView(payload, year, flow) : null), [use, payload, year, firstYear, flow]);
   const useView = useMemo(() => (use && byUse.payload && year >= firstYear ? enduseView(byUse.payload, year, flow) : null), [use, byUse.payload, year, firstYear, flow]);
   const view = use ? useView : productView;
+  // The by-year chart's stack: Census's five end-use groups, each one colour (also drawn on every category's row in the list).
+  const series = useMemo(() => (use && byUse.payload ? enduseSeries(byUse.payload, flow) : null), [use, byUse.payload, flow]);
   const partial = !!view && view.months < 12;
   const where = countryName ?? "all countries";
   const title = `What the U.S. trades${countryName ? ` with ${countryName}` : ""}, ${year}${partial ? " so far" : ""}`;
@@ -304,7 +307,7 @@ export function TradeProductsCard({
       id: l.code,
       rank: i + 1,
       label: l.name,
-      segments: [{ value: l.value, color: BAR, title: `${l.name}: ${fmtDollars(l.value)}` }],
+      segments: [{ value: l.value, color: level === "category" && enduseGroupIndex(l.code) >= 0 ? enduseColor(enduseGroupIndex(l.code)) : BAR, title: `${l.name}: ${fmtDollars(l.value)}` }],
       total: fmtDollars(l.value),
       delta: imports ? (l.rate === null ? "—" : fmtPct(l.rate)) : fmtPct(l.share),
       selected: active !== null && (level === "chapter" ? l.code === active : l.chapter === active),
@@ -370,24 +373,36 @@ export function TradeProductsCard({
       ) : (
         view && (
           <>
-            {country === null && <p className="m-0 mt-3 px-2 text-[0.78rem] text-ink-muted">Tap a line to see the five countries behind it.</p>}
+            {country === null && <p className="m-0 mt-3 px-2 text-[0.78rem] text-ink-muted">Tap a line to see the five countries behind it{use ? " and trace it across the years" : ""}.</p>}
             {useView ? (
-              <div className="mt-3 flex min-w-0 flex-col">
-                <div className="flex items-baseline justify-between gap-2 px-2">
-                  <h3 className={CAPTION}>By use · {useView.categories.length}</h3>
-                  <span className={CAPTION}>{rateHead}</span>
+              <div className="mt-3 grid min-w-0 grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+                <div className="flex min-w-0 flex-col">
+                  <div className="flex h-4 items-baseline justify-between gap-2 px-2 leading-4">
+                    <h3 className={CAPTION}>By use · {useView.categories.length}</h3>
+                    <span className={CAPTION}>{rateHead}</span>
+                  </div>
+                  {/* One list of about 130 categories: a scroll box at every width (rule 11a), the same height as the By product lists. */}
+                  <div className="mt-1 h-[22rem] overflow-y-auto overscroll-contain touch-scroll lg:h-[26rem]" tabIndex={0} aria-label="Categories, scrollable">
+                    <StackedRows
+                      rows={categoryRows}
+                      scaleMax={scaleMax}
+                      onRowClick={(code) => toggle("category", code)}
+                      ariaLabel={`U.S. goods ${flow} by end-use category, ${where}, ${year}, largest first`}
+                      emptyText="No goods recorded."
+                      wideLabels
+                    />
+                  </div>
                 </div>
-                {/* One list of about 130 categories: a scroll box at every width (rule 11a), taller on desktop. */}
-                <div className="mt-1 max-h-[22rem] overflow-y-auto overscroll-contain touch-scroll lg:max-h-[30rem]" tabIndex={0} aria-label="Categories, scrollable">
-                  <StackedRows
-                    rows={categoryRows}
-                    scaleMax={scaleMax}
-                    onRowClick={(code) => toggle("category", code)}
-                    ariaLabel={`U.S. goods ${flow} by end-use category, ${where}, ${year}, largest first`}
-                    emptyText="No goods recorded."
-                    wideLabels
+                {series && (
+                  <EnduseYearsChart
+                    series={series}
+                    year={year}
+                    onYear={onYear}
+                    code={open?.level === "category" ? open.code : null}
+                    codeName={open?.level === "category" ? useView.categories.find((c) => c.code === open.code)?.name ?? null : null}
+                    focus={open?.level === "category" && byUse.payload ? enduseCategoryByYear(byUse.payload, flow, series, open.code) : null}
                   />
-                </div>
+                )}
               </div>
             ) : (
               productView && (
@@ -438,12 +453,31 @@ export function TradeProductsCard({
             )}
             {note && <p className="m-0 mt-3 px-2 text-[0.78rem] leading-[1.5] text-ink-muted">{note}</p>}
             <div className={`${LEGEND_ROW} mt-2 px-2`}>
-              <span className={LEGEND_ITEM}>
-                <svg width="10" height="10" aria-hidden>
-                  <rect width="10" height="10" rx="2" fill={BAR} />
-                </svg>
-                {imports ? "Imports" : "Exports"}, dollars{use ? "" : " (both lists on one scale)"}
-              </span>
+              {use && series ? (
+                <>
+                  {ENDUSE_GROUPS.map((t, i) => (
+                    <span key={t.code} className={LEGEND_ITEM}>
+                      <svg width="10" height="10" aria-hidden>
+                        <rect width="10" height="10" rx="2" fill={enduseColor(i)} />
+                      </svg>
+                      {t.name}
+                    </span>
+                  ))}
+                  <span className={LEGEND_ITEM}>
+                    <svg width="10" height="10" aria-hidden>
+                      <rect width="10" height="10" rx="2" fill={OTHER_COLOR} />
+                    </svg>
+                    Other &amp; special
+                  </span>
+                </>
+              ) : (
+                <span className={LEGEND_ITEM}>
+                  <svg width="10" height="10" aria-hidden>
+                    <rect width="10" height="10" rx="2" fill={BAR} />
+                  </svg>
+                  {imports ? "Imports" : "Exports"}, dollars (both lists on one scale)
+                </span>
+              )}
               <span className={LEGEND_ITEM}>{imports ? "Duty rate: calculated duties ÷ imports for consumption" : "Share: of all goods exports"}</span>
             </div>
           </>
@@ -454,7 +488,7 @@ export function TradeProductsCard({
         <MethodologyNote>
           {use ? (
             <p>
-              <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade by end-use category (what goods are used for, about 140 kinds from soybeans to semiconductors), 2010 on, the first year Census publishes it, in dollars: total exports and general imports, the same totals as the cards above. Exports publish civilian aircraft, engines and parts as one line; imports split them into three, so add those up to compare. Minimum-value shipments, returned U.S. goods and other special transactions are not kinds of goods, so they are not ranked; the line under the list sums them. Opening a line names its top five countries.
+              <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade by end-use category (what goods are used for, about 140 kinds from soybeans to semiconductors), 2010 on, the first year Census publishes it, in dollars: total exports and general imports, the same totals as the cards above. Exports publish civilian aircraft, engines and parts as one line; imports split them into three, so add those up to compare. Minimum-value shipments, returned U.S. goods and other special transactions are not kinds of goods, so they are not ranked; the line under the list sums them. Opening a line names its top five countries and draws its slice in dark, inside its group, across every year in the chart beside the list. The chart stacks Census’s five end-use groups (foods, industrial supplies, capital goods, autos, consumer goods; the colour is also on each category’s bar in the list), and the small remainder, other goods and the special entries, in grey; its line follows the year picked or played.
               {partial && view ? ` ${view.year} covers January to ${MONTH_NAMES[view.months - 1]}.` : ""}
               {lagNotes.map((l) => lagText(l)).join("")}
             </p>

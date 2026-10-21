@@ -55,6 +55,12 @@
   --crim-none: #d3cce0;
   --crim-notconvicted: #b9bdc6;
   /* Executive-order topic colours: one solid colour per topic (nine categorical hues), deliberately not the party hues. */
+  /* Census end-use group colours (the By use year chart). */
+  --enduse-1: #3b6ea8;
+  --enduse-2: #d0762b;
+  --enduse-3: #4c9a5a;
+  --enduse-4: #b8453f;
+  --enduse-5: #7b5ea7;
   --topic-government_operations: #7b4f87;
   --topic-economy_labor: #c28a2c;
   --topic-trade: #3e9886;
@@ -196,6 +202,11 @@
     --crim-pending: #8d78b5;
     --crim-none: #4a4458;
     --crim-notconvicted: #5b606c;
+    --enduse-1: #6fa0d8;
+    --enduse-2: #eb9a52;
+    --enduse-3: #7fc48a;
+    --enduse-4: #e57c75;
+    --enduse-5: #a98bd6;
     --topic-government_operations: #b58ac4;
     --topic-economy_labor: #e0b04e;
     --topic-trade: #4fb7a2;
@@ -309,6 +320,11 @@
   --crim-pending: #8d78b5;
   --crim-none: #4a4458;
   --crim-notconvicted: #5b606c;
+  --enduse-1: #6fa0d8;
+  --enduse-2: #eb9a52;
+  --enduse-3: #7fc48a;
+  --enduse-4: #e57c75;
+  --enduse-5: #a98bd6;
   --topic-government_operations: #b58ac4;
   --topic-economy_labor: #e0b04e;
   --topic-trade: #4fb7a2;
