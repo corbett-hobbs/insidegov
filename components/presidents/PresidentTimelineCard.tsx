@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useCallback, useMemo, useRef, useState } from "react";
+import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
+import { PillGroup } from "@/components/charts/PillGroup";
 import { PowerChart, type OpenNote } from "@/components/timeline/PowerChart";
 import { FOCUS_RING, numberBadge, partyColor, partyTint } from "@/components/timeline/shared";
 import { dateLabel } from "@/lib/president-derive";
@@ -32,10 +34,13 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
   const byId = useMemo(() => new Map(payload.events.map((e) => [e.id, e])), [payload.events]);
   const states = useMemo(() => new Map(payload.events.map((e) => [e.no, idx.stateAt(e.date, MODE)])), [payload.events, idx]);
   const stateOf = useCallback((e: TlEvent): PowerState => states.get(e.no)!, [states]);
-  const events = useMemo(() => eventNos.map((no) => payload.events[no - 1]!), [eventNos, payload.events]);
+  const [kind, setKind] = useState<"all" | "law" | "case">("all");
+  const all = useMemo(() => eventNos.map((no) => payload.events[no - 1]!), [eventNos, payload.events]);
+  const events = useMemo(() => (kind === "all" ? all : all.filter((e) => e.kind === kind)), [all, kind]);
   const list = useMemo(() => [...events].reverse(), [events]);
-  const nLaws = events.filter((e) => e.kind === "law").length;
-  const nCases = events.length - nLaws;
+  const nLaws = all.filter((e) => e.kind === "law").length;
+  const nCases = all.length - nLaws;
+  const kindOptions = [{ value: "all" as const, label: "All" }, { value: "law" as const, label: "Laws" }, { value: "case" as const, label: "Cases" }];
   const y0 = Number(from.slice(0, 4));
   const y1 = Number(to.slice(0, 4));
 
@@ -94,12 +99,20 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
         </div>
       </div>
 
-      {list.length > 0 && (
+      {all.length > 0 && (
         <>
-          <div className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
-            <span>Passage votes and Court votes</span>
+          <div className="flex flex-nowrap items-center justify-between gap-3 text-[0.68rem] font-medium uppercase tracking-[0.06em] text-ink-faint">
+            <span>
+              <span className="sm:hidden">Votes</span>
+              <span className="max-sm:hidden">Passage votes and Court votes</span>
+            </span>
+            <div className="flex flex-none items-center gap-2 [&>[role=group]>button]:whitespace-nowrap">
+              <FilterCaption id="pres-tl-events">Events</FilterCaption>
+              <PillGroup options={kindOptions} value={kind} onChange={(v) => (setKind(v), setOpen(null))} labelledBy="pres-tl-events" />
+            </div>
           </div>
           <ul tabIndex={0} aria-label="Landmark laws and cases, scrollable" className="relative m-0 flex max-h-[28rem] list-none flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-0 touch-scroll">
+            {list.length === 0 && <li className="py-2 text-[0.8rem] text-ink-faint">No {kind === "law" ? "laws" : "Supreme Court cases"} on the Timeline in these years.</li>}
             {list.map((e) => (
               <EventRow key={e.id} e={e} onOpen={jump} />
             ))}
