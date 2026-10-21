@@ -13,6 +13,7 @@ import { getCourtPayload } from "./justice-data";
 import { getJusticeDirectory } from "./justice-directory-data";
 import { getLawsPageData } from "./laws-data";
 import { ordinal } from "./laws-entities";
+import { compactDollars, compactNumber } from "./format-number";
 import { median } from "./og-sparkline";
 import { getTimelinePayload } from "./timeline-data";
 import { buildSpans, changePoints, fracYear, powerIndex, yearsByStatus } from "./timeline-derive";
@@ -70,7 +71,6 @@ export const TOPIC_PATHS = [
 ] as const;
 export type TopicPath = (typeof TOPIC_PATHS)[number];
 
-const int = (n: number) => Math.round(n).toLocaleString("en-US");
 const dayYear = (day: number) => fmtDay(day).slice(-4);
 
 const DEM = "#5b8fd6";
@@ -98,7 +98,7 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       branch: "presidency",
       eyebrow: "Presidency · Energy",
       title: "How has U.S. energy changed?",
-      figure: `${int(kbbl / 1000)}M`,
+      figure: compactNumber(kbbl * 1000),
       caption: `Barrels of crude in the Strategic Petroleum Reserve, ${fmtDay(day)}`,
       series: spr.map(([, v]) => v),
       from: dayYear(spr[0]![0]),
@@ -125,7 +125,7 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       branch: "presidency",
       eyebrow: "Presidency · Immigration",
       title: "How many people come in and out of the U.S.?",
-      figure: int(last.value!),
+      figure: compactNumber(last.value!),
       caption: `Removals from the U.S. in fiscal ${last.fy}${last.status === "preliminary" ? " (preliminary)" : ""}`,
       series: ys.map((y) => y.value!),
       from: String(ys[0]!.fy),
@@ -156,7 +156,7 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       branch: "presidency",
       eyebrow: "Presidency · Troops abroad",
       title: "Where are U.S. troops stationed abroad?",
-      figure: int(last.total),
+      figure: compactNumber(last.total),
       caption: `U.S. troops stationed abroad, ${p.periods[last.pi]!.label}`,
       series: stacks.map((s) => s.total),
       from: String(p.years[stacks[0]!.yi]!.fy),
@@ -171,7 +171,7 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       branch: "presidency",
       eyebrow: "Presidency · Executive orders",
       title: "How many executive orders does each president sign?",
-      figure: int(last.total),
+      figure: compactNumber(last.total),
       caption: last.partial ? `Executive orders signed so far in ${last.year} (through ${fmtIso(d.throughDate).replace(/, \d{4}$/, "")})` : `Executive orders signed in ${last.year}`,
       series: done.map((y) => y.total),
       from: String(done[0]!.year),
@@ -203,7 +203,7 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       branch: "congress",
       eyebrow: "Congress · Laws",
       title: "What laws does Congress pass?",
-      figure: int(d.lawCount),
+      figure: compactNumber(d.lawCount),
       caption: `Public laws enacted since the ${ordinal(d.congresses[0]!)} Congress`,
       series: done,
       from: String(1789 + (d.congresses[0]! - 1) * 2),
@@ -223,7 +223,7 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       branch: "congress",
       eyebrow: "Congress · Wealth",
       title: "How much is Congress worth?",
-      figure: m >= 1e6 ? `$${(m / 1e6).toFixed(1)}M` : `$${int(m / 1000)}K`,
+      figure: compactDollars(m),
       caption: `Median estimated net worth of a current member of Congress, ${last.year} disclosures`,
       series: medians.map((y) => y.median),
       from: String(medians[0]!.year),

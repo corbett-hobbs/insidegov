@@ -17,6 +17,11 @@ export const LAW_POPULAR_NAMES: Record<string, string> = {
   "97-pub-205": "Voting Rights Act Amendments of 1982",
   "98-pub-144": "Martin Luther King Jr. Federal Holiday Act",
   "106-pub-286": "U.S.-China Relations Act of 2000",
+  "117-pub-168": "Honoring our PACT Act of 2022",
+  "118-pub-50": "Ukraine, Israel and Taiwan Security Supplemental Appropriations Act, 2024",
+  "93-pub-502": "Freedom of Information Act Amendments of 1974",
+  "109-pub-53": "CAFTA-DR Implementation Act",
+  "112-pub-208": "Sergei Magnitsky Rule of Law Accountability Act of 2012",
 };
 
 /** The title to show for a law: its popular name, else the formal title. `lawId` is "119-pub-21". */

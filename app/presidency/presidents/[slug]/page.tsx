@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { presidentSeo } from "@/lib/entity-seo";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { getPresidentPage, getPresidentSlugs } from "@/lib/president-data";
 import { ordinalWord, termYears } from "@/lib/president-derive";
 import { presidentPath } from "@/lib/president-url";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { personJsonLd } from "@/lib/structured-data";
 import { PresidentPageView } from "@/components/presidents/PresidentPageView";
@@ -25,16 +26,19 @@ export async function generateMetadata({ params }: { params: Promise<RouteParams
   const data = getPresidentPage(slug);
   if (!data) return { title: "President not found" };
   const p = data.president;
-  const terms = p.terms.map((t) => `${ordinalWord(t.ordinal)} president, ${termYears(t)}`).join("; ");
-  const description = `${p.name} (${terms}): laws signed, executive orders, justices appointed, party control of Congress, and the economy, immigration, trade, foreign aid and troops abroad during the time in office.`;
-  const url = presidentPath(slug);
-  return {
-    title: p.name,
-    description,
-    alternates: { canonical: url },
-    openGraph: { ...ogDefaults, title: `${p.name} · ${site.name}`, description, url, type: "profile" },
-    twitter: twitterDefaults,
-  };
+  const { title, description } = presidentSeo({
+    name: p.name,
+    terms: p.terms.map((t) => ({ ordinal: ordinalWord(t.ordinal), years: termYears(t) })),
+    party: p.party,
+    serving: p.terms[p.terms.length - 1]!.end === null,
+    laws: data.laws ? { signed: data.laws.signed, major: data.laws.major } : null,
+    // Only a count that covers the whole time in office (the record starts in 1994).
+    executiveOrders: data.eos && !data.eos.coverage ? data.eos.total : null,
+    justices: data.justices.filter((j) => !j.elevated).length,
+    congress: data.congress.days,
+    sections: Object.keys(data.cards),
+  });
+  return pageMetadata({ title, description, path: presidentPath(slug), type: "profile" });
 }
 
 export default async function PresidentPage({ params }: { params: Promise<RouteParams> }) {

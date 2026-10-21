@@ -45,9 +45,9 @@ describe("topic share cards", { timeout: 30_000 }, () => {
 
   it("points every topic page's share metadata at its /og card", () => {
     for (const path of TOPIC_PATHS) {
+      // `pageMetadata({ ..., topic })` (lib/seo.ts) sets both the Open Graph and Twitter images from topicOg / topicTwitter.
       const page = readFileSync(`app/${path}/page.tsx`, "utf8");
-      expect(page, path).toContain(`topicOg("${path}")`);
-      expect(page, path).toContain(`topicTwitter("${path}")`);
+      expect(page, path).toContain(`topic: "${path}"`);
     }
   });
 });

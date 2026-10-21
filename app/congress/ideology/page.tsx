@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { Suspense } from "react";
 import {
   getBothTrend,
@@ -10,22 +12,19 @@ import {
   getCommittees,
   getCommitteeSearchIndex,
 } from "@/lib/committee-data";
-import { site, topicOg, topicTwitter } from "@/lib/site";
+import { site } from "@/lib/site";
 import { SenateExplorer } from "@/components/senate/SenateExplorer";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
-export const metadata: Metadata = {
-  title: "How does Congress vote?",
-  description: site.congressIdeologyDescription,
-  alternates: { canonical: "/congress/ideology" },
-  openGraph: {
-    ...topicOg("congress/ideology"),
-    title: `How does Congress vote? · ${site.name}`,
-    description: site.congressIdeologyDescription,
-    url: "/congress/ideology",
-  },
-  twitter: topicTwitter("congress/ideology"),
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "Ideology Scores for Every Member of Congress",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/congress/ideology", site.congressIdeologyDescription),
+    path: "/congress/ideology",
+    topic: "congress/ideology",
+  });
+}
 
 export default function Home() {
   const senate = getChamberCurrent("senate");

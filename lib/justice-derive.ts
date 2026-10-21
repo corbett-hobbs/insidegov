@@ -41,7 +41,16 @@ export const yearSpan = (a: number, b: number | "present") =>
 const year = (iso: string) => Number(iso.slice(0, 4));
 
 /** FJC writes "Harry S Truman"; everywhere else it is "Harry S. Truman". */
-export const presidentDisplay = (p: string) => (p === "Harry S Truman" ? "Harry S. Truman" : p);
+/** The FJC's formal president names, shown as the president pages name them ("William J. Clinton" -> "Bill Clinton"). */
+const PRESIDENT_KNOWN_AS: Readonly<Record<string, string>> = {
+  "Harry S Truman": "Harry S. Truman",
+  "Richard M. Nixon": "Richard Nixon",
+  "George H.W. Bush": "George H. W. Bush",
+  "William J. Clinton": "Bill Clinton",
+  "Donald J. Trump": "Donald Trump",
+  "Joseph R. Biden": "Joe Biden",
+};
+export const presidentDisplay = (p: string) => PRESIDENT_KNOWN_AS[p] ?? p;
 
 export function servedLine(
   j: Pick<Justice, "appointment_start" | "service_end">,

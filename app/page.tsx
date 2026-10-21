@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { getBothTrend, getViewCurrent } from "@/lib/congress-data";
 import { getBranch } from "@/lib/verticals";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { site } from "@/lib/site";
 import { getCourtPayload } from "@/lib/justice-data";
 import { getHubTariff } from "@/lib/trade-data";
 import { fmtRate } from "@/lib/trade-hub";
@@ -17,18 +18,7 @@ import { HomeBranchCard } from "@/components/home/HomeBranchCard";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { IntroWords } from "@/components/home/IntroWords";
 
-export const metadata: Metadata = {
-  title: { absolute: `${site.name} · ${site.tagline}` },
-  description: site.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    ...ogDefaults,
-    title: `${site.name} · ${site.tagline}`,
-    description: site.description,
-    url: "/",
-  },
-  twitter: twitterDefaults,
-};
+export const metadata: Metadata = pageMetadata({ title: site.homeTitle, description: site.description, path: "/", absolute: true });
 
 const BLURBS: Record<string, string> = {
   congress:

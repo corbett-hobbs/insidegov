@@ -35,7 +35,7 @@ export function CurrentCourt({ rows }: { rows: readonly DirectoryRow[] }) {
                 <span aria-hidden className="absolute inset-x-0 bottom-0 h-1" style={{ background: partyVar(r.party) }} />
               </span>
               <span className="mt-1.5 block font-serif text-[0.95rem] font-medium leading-tight text-ink group-hover:underline group-hover:underline-offset-2 md:text-[0.85rem] lg:text-[0.95rem]">
-                {r.name.split(" ").slice(1).join(" ")}
+                {r.short.replace(/^[A-Z]\. /, "")}
               </span>
               <span className="block font-mono text-[0.62rem] uppercase leading-snug tracking-[0.06em] text-ink-faint">
                 {r.chiefNow ? (

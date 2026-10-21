@@ -17,12 +17,14 @@ export const site = {
   /** Slug form — kept in sync with package.json `name`, not the display name. */
   shortName: "congress-ideology",
   tagline: "The U.S. government, by the numbers",
-  /** Whole-site blurb: the default meta description and the share-card text. */
+  /** Search title for the homepage: the site name, then the words people search. */
+  homeTitle: "InsideGov: U.S. Government Data, by the Numbers",
+  /** Whole-site blurb: the default meta description and the share-card text. Kept under 160 characters. */
   description:
-    "The data behind the headlines, from the government's own records: gas prices, mortgage rates, tariffs, deportations, the deficit, the laws Congress passes and Supreme Court decisions, plus executive orders, energy, foreign aid, troops abroad, and who serves in Congress.",
+    "Charts of Congress, the president and the Supreme Court from official records: laws, votes, tariffs, gas prices, deportations, the deficit and more.",
   /** The Congress ideology explorer's own blurb (`/congress/ideology`). */
   congressIdeologyDescription:
-    "Every member of Congress's votes reduced to a two-dimensional ideology score (DW-NOMINATE, 1st–119th Congress). Scrub through 236 years of the House and Senate, filter a state's delegation, and read any current member's trajectory.",
+    "How liberal or conservative every member of Congress votes, from DW-NOMINATE scores for the House and Senate since 1789. Filter by state, party and Congress.",
 } as const;
 
 /**
