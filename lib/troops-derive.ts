@@ -449,6 +449,8 @@ export { yearLabelEvery } from "./chart-bars";
 
 export const formatCount = (n: number) => Math.round(n).toLocaleString("en-US");
 export const formatCountAxis = (v: number) => (v >= 1_000_000 ? `${+(v / 1_000_000).toFixed(1)}M` : v >= 1000 ? `${+(v / 1000).toFixed(1)}k` : String(v));
+/** In-bar segment labels only: a tight cell, so it abbreviates from 1,000 and drops decimals (rule 2g allows this). Prose and
+ * peak call-outs use `compactNumber` (lib/format-number.ts). */
 export const formatCountCompact = (v: number) => (v >= 1_000_000 ? `${+(v / 1_000_000).toFixed(2)}M` : v >= 10000 ? `${Math.round(v / 1000)}k` : v >= 1000 ? `${+(v / 1000).toFixed(1)}k` : String(Math.round(v)));
 
 /** Fixed absolute bins for the map, so periods stay comparable while scrubbing. */
