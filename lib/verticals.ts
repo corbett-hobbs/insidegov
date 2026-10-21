@@ -68,7 +68,7 @@ const DEFS: readonly BranchDef[] = [
         label: "Presidents",
         status: "live",
         blurb:
-          "Every president since Truman, each with a page that clips the site\u2019s data to their time in office.",
+          "Every president since FDR, each with a page that clips the site\u2019s data to their time in office.",
       },
       {
         id: "economy",
