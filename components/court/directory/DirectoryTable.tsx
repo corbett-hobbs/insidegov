@@ -139,7 +139,7 @@ export function DirectoryTable({ rows }: { rows: readonly DirectoryRow[] }) {
         )}
       </div>
 
-      <ChartNotesRow>
+      <ChartNotesRow download={false}>
         <MethodologyNote>
           <p>
             Confirmed is the Senate roll-call vote on the appointment that seated the justice (ayes–nays), from the <SourceLink id="fjc">Federal Judicial Center</SourceLink>; &ldquo;Voice&rdquo; means it passed without a recorded vote (the last was in 1965). A justice later elevated to Chief Justice shows the vote on the first appointment. The column sorts by the share of votes cast in favour, voice votes first. Dissents come from the justice-centered <SourceLink id="scdb">Supreme Court Database</SourceLink>: argued cases from the 1946 term on, so justices who sat earlier have no rate (—), and those who sat before and after show a partial record (†). The dissent rate is dissenting votes divided by cases where the justice took a side; an equally divided Court or a recusal counts as neither. The takeaway compares only justices with {MIN_VOTES_FOR_RATE}+ such votes. Voting lean is measured from how justices vote, not from stated views, using <SourceLink id="martin-quinn">Martin–Quinn</SourceLink> scores: the average of the first three scored terms against the latest term, put into fixed bands from liberal to conservative. A change under 0.6 points, or one that stays in the same band, reads &ldquo;throughout&rdquo;; fewer than four scored terms gives only a position. Years served are completed years.

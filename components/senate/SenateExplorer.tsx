@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { intParam } from "@/lib/url-state";
+import { useUrlState } from "@/lib/use-url-state";
 import { useRouter } from "next/navigation";
 import { mean } from "d3-array";
 import type {
@@ -141,6 +143,13 @@ export function SenateExplorer({
     setPlaying(false);
     setHoveredId(null);
   }
+
+  // The scrubbed Congress joins chamber/state/show in the URL (`?congress=104`) so a historical view can be linked
+  // (lib/use-url-state.ts; the chamber and state filter are written by lib/use-chamber.ts).
+  useUrlState({ congress: intParam.format(congress, latestCongress) }, (q) => {
+    const n = intParam.parse(q.get("congress"), minCongress, latestCongress);
+    if (n != null) setCongress(n);
+  });
 
   const atLatest = congress === latestCongress;
   const historyPending = !atLatest && (!history || history.chamber !== view);

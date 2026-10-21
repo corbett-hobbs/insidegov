@@ -112,8 +112,8 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       eyebrow: "Presidency · Trade",
       title: "How does the U.S. trade with the world?",
       figure: fmtRate(t.latest.rate),
-      caption: `Average tariff on U.S. imports, ${t.latest.label} (${fmtRate(t.baseline.rate)} in ${t.baseline.year})`,
-      series: t.rates,
+      caption: `Average tariff on U.S. imports, ${t.latest.label}${t.baseline ? ` (${fmtRate(t.baseline.rate)} in ${t.baseline.year})` : ""}`,
+      series: t.rates.filter((r): r is number => r != null),
       from: t.first.slice(0, 4),
       to: t.latest.label.slice(-4),
     };
