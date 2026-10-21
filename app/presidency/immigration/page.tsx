@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { hubDescription } from "@/lib/hub-seo";
 import { ImmigrationPageClient } from "@/components/immigration/ImmigrationPageClient";
 import { getEncountersPayload } from "@/lib/encounters-data";
 import { getImmigrationPageData } from "@/lib/immigration-data";
@@ -6,24 +8,18 @@ import { getWorldMap } from "@/lib/foreign-aid-data";
 import { getLprPayload } from "@/lib/lpr-data";
 import { getRefugeePayload } from "@/lib/refugee-data";
 import { getRemovalsCountryPayload } from "@/lib/removals-country-data";
-import { site, topicOg, topicTwitter } from "@/lib/site";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/immigration — green cards and naturalizations, refugee admissions against the presidential ceiling, CBP border encounters and ICE removals, by fiscal year and administration. */
-export const metadata: Metadata = {
-  title: "How many people come in and out of the U.S.?",
-  description:
-    "Green cards and naturalizations by class and country of birth, refugee admissions against each year's presidential ceiling, CBP border encounters and ICE removals, by fiscal year and set against the administration in office. From DHS, State Department, CBP and ICE statistics.",
-  alternates: { canonical: "/presidency/immigration" },
-  openGraph: {
-    ...topicOg("presidency/immigration"),
-    title: `How many people come in and out of the U.S.? · ${site.name}`,
-    description:
-      "Who gets a green card, which refugees are resettled, who is stopped at the border and who ICE removes, by fiscal year and administration. From DHS, State Department, CBP and ICE statistics.",
-    url: "/presidency/immigration",
-  },
-  twitter: topicTwitter("presidency/immigration"),
-};
+export function generateMetadata(): Metadata {
+  return pageMetadata({
+    title: "U.S. Immigration Statistics by President",
+    // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
+    description: hubDescription("/presidency/immigration", "Green cards, naturalizations, refugee admissions, border encounters and ICE deportations by fiscal year and president. From DHS, State, CBP and ICE data."),
+    path: "/presidency/immigration",
+    topic: "presidency/immigration",
+  });
+}
 
 export default function ImmigrationPage() {
   return (

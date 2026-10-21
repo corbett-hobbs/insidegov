@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { GROUP_LABEL, listDatasetDefs, type DatasetGroup } from "@/lib/api-datasets";
-import { site, ogDefaults, twitterDefaults, siteUrl } from "@/lib/site";
+import { siteUrl } from "@/lib/site";
 import { docUrl } from "@/lib/site-info";
 
 const DESCRIPTION =
   "Query the data behind InsideGov's charts: a free JSON and CSV API and an MCP server for AI assistants. Free to use with credit to InsideGov.";
 
-export const metadata: Metadata = {
-  title: "API and MCP",
+export const metadata: Metadata = pageMetadata({
+  title: "Free Government Data API and MCP Server",
   description: DESCRIPTION,
-  alternates: { canonical: "/api" },
-  openGraph: { ...ogDefaults, title: `API and MCP · ${site.name}`, description: DESCRIPTION, url: "/api" },
-  twitter: twitterDefaults,
-};
+  path: "/api",
+});
 
 const LINK =
   "text-accent underline underline-offset-2 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
