@@ -21,7 +21,7 @@ describe("justiceSeo", () => {
   it("leads with the ideology trajectory and an all-time rank", () => {
     const s = justiceSeo(thomas);
     expect(s.title).toBe("Justice Clarence Thomas: Ideology and Voting Record");
-    expect(s.description).toBe("Clarence Thomas has voted conservative throughout 34 terms, the 2nd most conservative of 49 justices since 1937. Plus the landmark rulings and 5–4 splits.");
+    expect(s.description).toBe("Clarence Thomas has voted conservative throughout 34 terms, the 2nd most conservative of 49 justices since 1937. See how Thomas voted in every case.");
   });
   it("calls a swing justice the Court's median, and words a move", () => {
     const s = justiceSeo({ ...thomas, name: "Anthony Kennedy", last: "Kennedy", sitting: false, served: "Served 1988–2018 · 31 terms", lean: "From right of center to center", rank: { n: 20, of: 49, side: "conservative" }, medianTerms: 17, benchRank: null });
@@ -34,7 +34,7 @@ describe("justiceSeo", () => {
   it("keeps every description under 160 characters with a decisions line", () => {
     const s = justiceSeo({ ...thomas, name: "Ruth Bader Ginsburg", last: "Ginsburg", sitting: false, served: "Served 1993–2020 · 27 terms", lean: "From center to liberal", rank: { n: 8, of: 49, side: "liberal" } });
     expect(s.description.length).toBeLessThanOrEqual(160);
-    expect(s.description).toMatch(/Plus /);
+    expect(s.description).toMatch(/ See (how Ginsburg voted|every vote Ginsburg cast)/);
   });
 });
 

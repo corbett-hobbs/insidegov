@@ -110,16 +110,18 @@ export function justiceSeo(j: JusticeSeoInput): { title: string; description: st
         : j.benchRank
           ? `, now the Court's ${ordinalWord(j.benchRank.n)}most ${j.benchRank.side} member`
           : "";
+  // The second sentence carries on in the justice's own actions, like the first ("See how Thomas voted …"). The sentence has
+  // already named the justice, so the chart label's disambiguating initial ("J. Roberts") is dropped.
+  const surname = j.last.replace(/^[A-Z]\. /, "");
   const tails = j.hasVotes
     ? [
-        ` Plus every case ${j.last} heard: landmark rulings, opinions written, dissents and 5–4 splits.`,
-        " Plus landmark rulings, opinions written, dissents and 5–4 splits.",
-        " Plus every landmark ruling, dissent and 5–4 split.",
-        " Plus the landmark rulings and 5–4 splits.",
-        " Plus every 5–4 split.",
+        ` See how ${surname} voted in every case, from landmark rulings to 5–4 splits.`,
+        ` See how ${surname} voted in every case, including the 5–4 splits.`,
+        ` See how ${surname} voted in every case.`,
+        ` See every vote ${surname} cast.`,
         "",
       ]
-    : [" Charted term by term beside every colleague.", ""];
+    : [` See where ${surname} stood each term beside every colleague.`, ` See where ${surname} stood each term.`, ""];
   const candidates = [peers, ""].flatMap((r) => tails.map((t) => `${trajectory}${r}.${t}`));
   return { title, description: firstFit(candidates) };
 }
