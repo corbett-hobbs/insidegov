@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useMemo, useState, type ReactNode } from "react";
+import { memo, useEffect, useMemo, useState, type ReactNode } from "react";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
@@ -29,6 +29,7 @@ import {
   type ProductsView,
   type TradeProductsPayload,
 } from "@/lib/trade-products";
+import type { SankeyPick } from "@/lib/trade-sankey";
 import { TRADE_TAKEAWAYS } from "./takeaways";
 
 /** The same goods two ways: Harmonized System products, or Census end-use categories. */
@@ -219,6 +220,7 @@ export function TradeProductsCard({
   partnersState,
   onWantPartners,
   byUse,
+  onFollow,
 }: {
   payload: TradeProductsPayload | null;
   year: number;
@@ -239,10 +241,17 @@ export function TradeProductsCard({
   partnersState: "idle" | "loading" | "error" | "ok";
   onWantPartners: () => void;
   byUse: ByUseProps;
+  /**
+   * The line the "From product to use" card below follows, reported once a line has been tapped with all countries
+   * showing: the open line, or this card's top line (chapter, or category in the By use view) when none is open.
+   */
+  onFollow?: (f: { flow: ProductsFlow; pick: SankeyPick }) => void;
 }) {
   const [mode, setMode] = useState<Mode>("product");
   const [flow, setFlow] = useState<ProductsFlow>("exports");
   const [open, setOpen] = useState<Open | null>(null);
+  // The Sankey card below appears once a line is tapped (all countries); from then on it follows this card.
+  const [tapped, setTapped] = useState(false);
   const use = mode === "use";
   const productView = useMemo(() => (!use && payload && year >= firstYear ? productsView(payload, year, flow) : null), [use, payload, year, firstYear, flow]);
   const useView = useMemo(() => (use && byUse.payload && year >= firstYear ? enduseView(byUse.payload, year, flow) : null), [use, byUse.payload, year, firstYear, flow]);
@@ -262,6 +271,7 @@ export function TradeProductsCard({
       return;
     }
     setOpen((o) => (o?.level === level && o.code === code ? null : { level, code }));
+    setTapped(true);
     (level === "category" ? byUse.onWantPartners : onWantPartners)();
   };
   const pickMode = (m: Mode) => {
@@ -276,6 +286,14 @@ export function TradeProductsCard({
     const lines = !file ? null : cat ? endusePartnersOf(byUse.partners!, year, flow, l.code, l.value) : partnersOf(partners!, year, flow, level, l.code, l.value);
     return <CountriesPanel line={l} flow={flow} partners={lines} state={(cat ? byUse.partnersState : partnersState) === "error" ? "error" : file ? "ok" : "loading"} />;
   };
+
+  // What the Sankey follows: the open line, else the top line of the list on screen.
+  const top = use ? useView?.categories[0] : productView?.chapters[0];
+  const followKind: SankeyPick["kind"] | null = open ? (open.level === "chapter" ? "chapter" : open.level === "heading" ? "product" : "use") : top ? (use ? "use" : "chapter") : null;
+  const followCode = open ? open.code : top?.code ?? null;
+  useEffect(() => {
+    if (tapped && followKind && followCode) onFollow?.({ flow, pick: { kind: followKind, code: followCode } });
+  }, [tapped, flow, followKind, followCode, onFollow]);
 
   const lines = useView ? useView.categories : productView?.chapters ?? [];
   const scaleMax = Math.max(1, lines[0]?.value ?? 1);

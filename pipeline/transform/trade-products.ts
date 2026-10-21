@@ -148,6 +148,16 @@ function buildPartners(
   return rows;
 }
 
+/** The heading lookup rows (`trade_products_headings.json`) for a set of headings, sorted: Census's description and, for a special heading, its labels. */
+export function headingRows(hsList: Iterable<string>, desc: RawDescriptions): TradeProductsHeading[] {
+  return [...new Set(hsList)].sort().map((hs) => {
+    const census_desc = desc.imports.hs4[hs] ?? desc.exports.hs4[hs];
+    if (!census_desc) throw new TradeDataError(`products: heading ${hs} has no Census description in descriptions.json`);
+    const s = SPECIAL_HEADINGS[hs];
+    return { hs, chapter: hs.slice(0, 2), census_desc, special_label: s ? { exports: s.exports ?? null, imports: s.imports ?? null } : null };
+  });
+}
+
 export function buildProducts(raws: RawProducts[], countries: CountryRow[], desc: RawDescriptions, headingsPerRow = HEADINGS_PER_ROW): ProductsBuild {
   const toCountry = new Map(countries.map((c) => [c.census_code, c]));
   const perCountry = new Map<string, Acc>(); // `${country_code}|${year}|${flow}`
@@ -225,12 +235,7 @@ export function buildProducts(raws: RawProducts[], countries: CountryRow[], desc
   nat.sort((a, b) => a.year - b.year || a.flow.localeCompare(b.flow));
   for (const r of nat) for (const t of [...r.headings, ...r.special]) usedHeadings.add(t[0]);
 
-  const headings: TradeProductsHeading[] = [...usedHeadings].sort().map((hs) => {
-    const census_desc = desc.imports.hs4[hs] ?? desc.exports.hs4[hs];
-    if (!census_desc) throw new TradeDataError(`products: heading ${hs} has no Census description in descriptions.json`);
-    const s = SPECIAL_HEADINGS[hs];
-    return { hs, chapter: hs.slice(0, 2), census_desc, special_label: s ? { exports: s.exports ?? null, imports: s.imports ?? null } : null };
-  });
+  const headings = headingRows(usedHeadings, desc);
   const codesOf = new Map<string, number>();
   for (const c of countries) if (!c.is_aggregate) codesOf.set(c.country_code, (codesOf.get(c.country_code) ?? 0) + 1);
   const partners = buildPartners(perCountry, nat, partnerRows, codesOf, PARTNERS_PER_PRODUCT);

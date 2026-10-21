@@ -393,7 +393,8 @@ out of every server function's trace (as for `trade_products`), since only those
 What each product (HS heading) is *used for*, in dollars, 2010 on, all countries: the data behind a chapter -> product ->
 use Sankey. It joins the two classifications above ("Goods by product", "Goods by use") at the finest level Census
 publishes, the 10-digit HS line, so each heading's value is split exactly among the end-use categories its lines are filed
-under. Data layer only: no route or card reads it yet. Fetch `pipeline/fetch/census-productuse.ts` (library
+under. Read by the "From product to use" card (`components/trade/TradeSankeyCard.tsx`, model `lib/trade-sankey.ts`) through the
+static `/data/trade/product-use/[year]` route. Fetch `pipeline/fetch/census-productuse.ts` (library
 `census-productuse-lib.ts`, spreadsheet readers `pipeline/transform/xlsx.ts` and `xls.ts`); transform
 `pipeline/transform/trade-productuse.ts` (run from `trade-run.ts`); schema `lib/trade-product-use-entities.ts`.
 
@@ -460,9 +461,10 @@ file is about 2,000 rows per flow, so every read the card needs is one pass in t
 | A use's total from outside the selection | the use's total over **all** pairs (`rows` + `special`) minus the selection's |
 
 Use totals over all pairs equal `trade_enduse_national.json` up to the drift below. Names: end uses
-`lib/trade-enduse-labels.ts` (by flow); chapters `lib/trade-hs-chapters.ts`. **Heading names are not solved by this
-layer:** `lib/trade-hs-headings.ts` names only headings that have appeared in a top list, but this file has about 1,230
-headings per flow, so the card session needs names for the rest (Census's short description is available at HS4).
+`lib/trade-enduse-labels.ts` (by flow); chapters `lib/trade-hs-chapters.ts`. Heading names: `lib/trade-hs-headings.ts` was written for
+the headings that appear in a top list (about 1,000); these files have about 1,230 per flow, so the card's session named the
+other 226 by hand as well (every heading here has a hand name, checked in `lib/trade-hs-headings.test.ts`), and the transform
+adds their Census descriptions to `trade_products_headings.json`.
 
 **Validation (fails `pnpm transform`; `validateProductUse`, tolerances `PRODUCT_USE_TOL`, measured values in
 `trade_report.json` under `product_use`).** Zod on every row; every end use has a label for its flow; no duplicate
@@ -483,7 +485,7 @@ by end use. A category off by more than $1M turns up 217 times in the 34 (year, 
 before: 4 HS10 calls, their concordances and the neighbouring years', about 25 s; `--recent` downloads them again), then
 the usual transform. A full fetch (`pnpm fetch:census-productuse`, 2010-2026) takes about 3 minutes from an empty
 cache (measured 3 min 17 s, two downloads at a time). A new Census year is picked up by itself (the concordance for it has to exist: the fetch fails otherwise, naming the
-file). `next.config.ts` keeps `trade_product_use/**` out of every server function's trace until a route reads it.
+file). `next.config.ts` keeps `trade_product_use/**` out of every server function's trace: the only route that reads it is static.
 
 **Not in this layer.** Per-country product-to-use (exact, via the HS10 call per partner, about 7,400 calls) is a separate
 future session; these files are all countries only.
