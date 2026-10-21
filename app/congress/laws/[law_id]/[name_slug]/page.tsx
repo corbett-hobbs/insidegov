@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
+import { legislationJsonLd } from "@/lib/structured-data";
 import { LawPageView } from "@/components/laws/detail/LawPageView";
 import { getLawPage, getLawRef, getLawRefs } from "@/lib/law-details-data";
 import { lawPath, lawSlug } from "@/lib/law-url";
@@ -41,5 +43,19 @@ export default async function LawPage({ params }: { params: Promise<RouteParams>
   if (name_slug !== lawSlug(ref.title)) permanentRedirect(lawPath(ref.lawId, ref.title));
   const law = getLawPage(law_id);
   if (!law) notFound();
-  return <LawPageView law={law} />;
+  return (
+    <>
+      <JsonLd
+        data={legislationJsonLd({
+          path: lawPath(law.lawId, law.title),
+          name: law.title,
+          publicLaw: law.publicLaw,
+          congressLabel: ordinal(law.congress),
+          date: law.date,
+          description: law.summary?.[0]?.slice(0, 300),
+        })}
+      />
+      <LawPageView law={law} />
+    </>
+  );
 }

@@ -10,6 +10,8 @@ import { getMemberWealthProfile } from "@/lib/wealth-data";
 import { getMemberWikipediaBio } from "@/lib/wikipedia-bio";
 import { memberPath, memberSlug } from "@/lib/member-url";
 import { partyAbbr } from "@/components/senate/format";
+import { JsonLd } from "@/components/JsonLd";
+import { personJsonLd } from "@/lib/structured-data";
 import { MemberProfileView } from "@/components/profile/MemberProfileView";
 
 interface RouteParams {
@@ -75,6 +77,8 @@ export default async function SenatorPage({
 
   const current = getChamberCurrent("senate");
   return (
+    <>
+      <JsonLd data={personJsonLd({ path: memberPath(profile), name: profile.name, jobTitle: "U.S. Senator", description: `${profile.name}, ${profile.party} senator for ${profile.stateName}.`, affiliation: "U.S. Senate" })} />
     <MemberProfileView
       profile={profile}
       compassMembers={current.plottable}
@@ -84,5 +88,6 @@ export default async function SenatorPage({
       wealthProfile={getMemberWealthProfile(bioguide_id)}
       bio={getMemberWikipediaBio(bioguide_id)}
     />
+    </>
   );
 }

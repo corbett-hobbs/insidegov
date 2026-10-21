@@ -1,5 +1,6 @@
 import { apiError, apiJson, apiText, MAX_BODY_BYTES, preflight } from "@/lib/api-http";
 import { toCsv } from "@/lib/api-query";
+import { logApiCall } from "@/lib/api-log";
 import { attribution, query } from "@/lib/api-service";
 
 /**
@@ -11,6 +12,7 @@ const LIMITS = { defaultLimit: 100, maxLimit: 5000 };
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const url = new URL(request.url);
+  logApiCall("rest", { route: "rows", dataset: id.slice(0, 60), format: (url.searchParams.get("format") ?? "json").slice(0, 8) }, request);
   const format = url.searchParams.get("format") ?? "json";
   if (format !== "json" && format !== "csv") return apiError(400, `"format" must be json or csv.`);
 

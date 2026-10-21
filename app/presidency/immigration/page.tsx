@@ -7,6 +7,7 @@ import { getLprPayload } from "@/lib/lpr-data";
 import { getRefugeePayload } from "@/lib/refugee-data";
 import { getRemovalsCountryPayload } from "@/lib/removals-country-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/immigration — green cards and naturalizations, refugee admissions against the presidential ceiling, CBP border encounters and ICE removals, by fiscal year and administration. */
 export const metadata: Metadata = {
@@ -25,5 +26,10 @@ export const metadata: Metadata = {
 };
 
 export default function ImmigrationPage() {
-  return <ImmigrationPageClient data={getImmigrationPageData()} countries={getRemovalsCountryPayload()} refugees={getRefugeePayload()} lpr={getLprPayload()} encounters={getEncountersPayload()} worldMap={(({ width, height, features }) => ({ width, height, features }))(getWorldMap())} />;
+  return (
+    <>
+      <TopicDatasetLd path="/presidency/immigration" />
+      <ImmigrationPageClient data={getImmigrationPageData()} countries={getRemovalsCountryPayload()} refugees={getRefugeePayload()} lpr={getLprPayload()} encounters={getEncountersPayload()} worldMap={(({ width, height, features }) => ({ width, height, features }))(getWorldMap())} />
+    </>
+  );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DemographicsPageClient } from "@/components/demographics/DemographicsPageClient";
 import { getDemographicsPayload, getRosterVersion } from "@/lib/demographics-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /congress/demographics — the Congress vertical's Demographics section. */
 export const metadata: Metadata = {
@@ -18,5 +19,10 @@ export const metadata: Metadata = {
 };
 
 export default function DemographicsPage() {
-  return <DemographicsPageClient data={getDemographicsPayload()} rosterVersion={getRosterVersion()} />;
+  return (
+    <>
+      <TopicDatasetLd path="/congress/demographics" />
+      <DemographicsPageClient data={getDemographicsPayload()} rosterVersion={getRosterVersion()} />
+    </>
+  );
 }

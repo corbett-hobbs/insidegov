@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { FilterCaption } from "./FilterBarParts";
 
 export interface PartyOption<T extends string> {
@@ -43,7 +44,10 @@ export function PartyFilter<T extends string>({
       <select
         aria-label={ariaLabel ?? label}
         value={value ?? ""}
-        onChange={(e) => onChange((e.target.value || null) as T | null)}
+        onChange={(e) => {
+          track("filter_change", { control: label, value: e.target.value || "all" });
+          onChange((e.target.value || null) as T | null);
+        }}
         className={`min-w-0 rounded-md border bg-surface-raised px-[0.55rem] py-[0.42rem] text-[0.8rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${value ? "border-accent" : "border-line-strong"} ${selectClassName}`}
       >
         <option value="">{allLabel}</option>

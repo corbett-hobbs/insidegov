@@ -12,6 +12,7 @@ import {
 } from "@/lib/committee-data";
 import { site, ogDefaults, twitterDefaults } from "@/lib/site";
 import { SenateExplorer } from "@/components/senate/SenateExplorer";
+import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 export const metadata: Metadata = {
   title: "How does Congress vote?",
@@ -35,6 +36,8 @@ export default function Home() {
   const committeeSearch = getCommitteeSearchIndex();
 
   return (
+    <>
+      <TopicDatasetLd path="/congress/ideology" />
     <Suspense fallback={<div className="min-h-screen" />}>
       <SenateExplorer
         senate={senate}
@@ -46,5 +49,6 @@ export default function Home() {
         committeeCongress={committeesLatestCongress()}
       />
     </Suspense>
+    </>
   );
 }

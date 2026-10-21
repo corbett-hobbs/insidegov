@@ -4,6 +4,8 @@ import { getJusticeVotesSource } from "@/lib/decisions-data";
 import { getJusticeProfile, getJusticeRefs } from "@/lib/justice-data";
 import { getVotedJusticeIds } from "@/lib/justice-votes-data";
 import { justicePath, justiceSlug } from "@/lib/justice-url";
+import { JsonLd } from "@/components/JsonLd";
+import { personJsonLd } from "@/lib/structured-data";
 import { JusticeProfileView } from "@/components/court/JusticeProfileView";
 
 interface RouteParams {
@@ -70,5 +72,19 @@ export default async function JusticePage({
   // The court's argued-case record starts in 1946: an earlier justice has no votes to list.
   const votes = getVotedJusticeIds().includes(profile.justice.id) ? getJusticeVotesSource() : null;
 
-  return <JusticeProfileView profile={profile} votes={votes} />;
+  return (
+    <>
+      <JsonLd
+        data={personJsonLd({
+          path: justicePath(profile.justice),
+          name: profile.justice.name,
+          jobTitle: profile.identity.role,
+          description: `${profile.justice.name}, ${profile.identity.role} of the U.S. Supreme Court, appointed by ${profile.identity.appointedBy.president}. ${profile.identity.served}.`,
+          image: profile.photoSrc,
+          affiliation: "Supreme Court of the United States",
+        })}
+      />
+      <JusticeProfileView profile={profile} votes={votes} />
+    </>
+  );
 }
