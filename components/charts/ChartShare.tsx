@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { cardPng, downloadCardPng, slugify } from "@/lib/chart-png";
+import { cardPng, pngName, savePng, slugify, warmCardPng } from "@/lib/chart-png";
+import { embedSnippet, embedUrl, type EmbedTheme } from "@/lib/embed";
 import { site } from "@/lib/site";
 import { shareLinks } from "@/lib/chart-share";
 
@@ -14,9 +15,11 @@ import { shareLinks } from "@/lib/chart-share";
  * its title) so "Copy link" can point at this chart in the current view (path + filters + `#id`),
  * and a link with that hash scrolls to it on load.
  *
- * The menu (portalled to `<body>`, fixed under the icon, so no card clips it): Copy link, Download
- * image (`lib/chart-png.ts`), Post on X, Bluesky, LinkedIn, Email; on devices with a share sheet,
- * "Share…" (link) and "Share image" first.
+ * The menu (portalled to `<body>`, fixed under the icon, so no card clips it): Copy link, Embed this
+ * chart (an iframe snippet, `lib/embed.ts`), Copy image, Download image (`lib/chart-png.ts`), then Post on X and Bluesky (`lib/chart-share.ts`). The
+ * image starts rendering the moment the menu opens (and its fonts when the icon is hovered), so it is
+ * usually ready by the click. On touch devices with a share sheet, "Share…" (link) and "Share image…"
+ * come first; on a desktop they would duplicate Copy link and Download, so they aren't offered.
  */
 
 /** Three connected dots, the platform-neutral "share" glyph (not the iOS box-and-arrow). */
@@ -110,6 +113,8 @@ function ShareButton({ target }: { target: Target }) {
         title="Share this chart"
         aria-haspopup="menu"
         aria-expanded={open != null}
+        onPointerEnter={() => warmCardPng(target.card)}
+        onFocus={() => warmCardPng(target.card)}
         onClick={() => setOpen(open ? null : btn.current!.getBoundingClientRect())}
         className="inline-flex size-7 cursor-pointer items-center justify-center rounded-md border border-line bg-transparent p-0 text-ink-faint hover:border-line-strong hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus aria-expanded:text-ink"
       >
@@ -126,13 +131,27 @@ const ITEM =
 function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: DOMRect; onClose: () => void; returnFocus: React.RefObject<HTMLButtonElement | null> }) {
   const menu = useRef<HTMLDivElement>(null);
   const [note, setNote] = useState<string | null>(null);
+  const [view, setView] = useState<"menu" | "embed">("menu");
   const url = `${location.origin}${location.pathname}${location.search}#${target.card.id}`;
   const text = `${target.title} · ${site.name}`;
   const links = shareLinks(url, text);
-  const canShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
+  // A phone or tablet with a share sheet; a desktop browser's sheet only repeats Copy link and Download.
+  const sheet = typeof navigator !== "undefined" && typeof navigator.share === "function" && window.matchMedia("(pointer: coarse)").matches;
+
+  // The image, rendered once per open menu and shared by every item that wants it.
+  const png = useRef<Promise<Blob> | null>(null);
+  const getPng = () => (png.current ??= cardPng(target.card, site.name));
+  useEffect(() => {
+    const t = setTimeout(() => getPng().catch(() => {}), 60); // let the menu paint first
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    menu.current?.querySelector<HTMLElement>("button, a")?.focus({ preventScroll: true });
+    menu.current?.querySelector<HTMLElement>("button, a, textarea")?.focus({ preventScroll: true });
+  }, [view]);
+
+  useEffect(() => {
     const away = (e: PointerEvent) => {
       if (!menu.current?.contains(e.target as Node) && !returnFocus.current?.contains(e.target as Node)) onClose();
     };
@@ -159,7 +178,7 @@ function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: D
     };
   }, [onClose, returnFocus]);
 
-  const W = 232;
+  const W = view === "embed" ? 340 : 232;
   const left = Math.max(8, Math.min(at.left, window.innerWidth - W - 8));
 
   const done = (msg: string) => {
@@ -179,9 +198,11 @@ function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: D
         <p role="status" className="m-0 px-2.5 py-1.5 text-[0.85rem] text-ink">
           {note}
         </p>
+      ) : view === "embed" ? (
+        <EmbedPanel target={target} onBack={() => setView("menu")} onCopied={() => done("Embed code copied")} />
       ) : (
         <>
-          {canShare && (
+          {sheet && (
             <>
               <button role="menuitem" type="button" className={ITEM} onClick={() => navigator.share({ title: text, url }).then(onClose, () => {})}>
                 Share…
@@ -193,19 +214,19 @@ function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: D
                 onClick={async () => {
                   setNote("Making the image…");
                   try {
-                    const blob = await cardPng(target.card, site.name);
-                    const file = new File([blob], `${slugify(site.name)}-${slugify(target.title)}.png`, { type: "image/png" });
+                    const blob = await getPng();
+                    const file = new File([blob], pngName(target.card, site.name), { type: "image/png" });
                     if (navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], title: text, url });
-                    else await downloadCardPng(target.card, site.name);
+                    else savePng(blob, file.name);
                     onClose();
                   } catch {
                     // The share sheet needs a fresh tap on some phones; saving the file still works.
-                    await downloadCardPng(target.card, site.name).catch(() => {});
+                    await getPng().then((b) => savePng(b, pngName(target.card, site.name)), () => {});
                     onClose();
                   }
                 }}
               >
-                Share image
+                Share image…
               </button>
               <hr className="mx-1 my-1 border-0 border-t border-line" />
             </>
@@ -223,14 +244,34 @@ function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: D
           >
             Copy link to this chart
           </button>
+          <button role="menuitem" type="button" className={ITEM} onClick={() => setView("embed")}>
+            Embed this chart…
+          </button>
+          <hr className="mx-1 my-1 border-0 border-t border-line" />
+          <button
+            role="menuitem"
+            type="button"
+            className={ITEM}
+            onClick={() => {
+              // The clipboard takes the image as a promise, so the copy still counts as the click's even while it renders.
+              if (typeof ClipboardItem === "undefined" || !navigator.clipboard?.write) return done("This browser can’t copy images");
+              setNote("Copying…");
+              navigator.clipboard.write([new ClipboardItem({ "image/png": getPng() })]).then(
+                () => done("Image copied"),
+                () => done("Couldn’t copy the image"),
+              );
+            }}
+          >
+            Copy image
+          </button>
           <button
             role="menuitem"
             type="button"
             className={ITEM}
             onClick={() => {
               setNote("Saving…");
-              downloadCardPng(target.card, site.name).then(
-                () => done("Image saved"),
+              getPng().then(
+                (blob) => (savePng(blob, pngName(target.card, site.name)), done("Image saved")),
                 () => done("Couldn’t save the image"),
               );
             }}
@@ -245,6 +286,55 @@ function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: D
           ))}
         </>
       )}
+    </div>
+  );
+}
+
+const PILL =
+  "cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-1 text-[0.8rem] text-ink-muted hover:border-line-strong hover:text-ink aria-pressed:border-line-strong aria-pressed:bg-[color-mix(in_oklab,var(--ink)_7%,transparent)] aria-pressed:text-ink focus-visible:outline-2 focus-visible:outline-focus";
+
+/** The embed view of the menu: the iframe code for this chart in its current view, with a theme pick. */
+function EmbedPanel({ target, onBack, onCopied }: { target: Target; onBack: () => void; onCopied: () => void }) {
+  const [theme, setTheme] = useState<EmbedTheme>("light");
+  const [failed, setFailed] = useState(false);
+  const area = useRef<HTMLTextAreaElement>(null);
+  const src = embedUrl(`${location.origin}${location.pathname}${location.search}`, target.card.id, theme);
+  const code = embedSnippet({ url: src, title: `${target.title} · ${site.name}`, height: Math.ceil(target.card.getBoundingClientRect().height) + 40, origin: location.origin });
+  return (
+    <div className="flex flex-col gap-2 p-2.5">
+      <p className="m-0 text-[0.85rem] font-medium text-ink">Embed this chart</p>
+      <p className="m-0 text-[0.78rem] leading-snug text-ink-muted">Paste this into your page. It shows this chart with the filters as they are now, and links back here.</p>
+      <textarea
+        ref={area}
+        readOnly
+        value={code}
+        rows={7}
+        aria-label="Embed code"
+        onFocus={(e) => e.currentTarget.select()}
+        className="w-full resize-none rounded-md border border-line bg-bg p-2 font-mono text-[0.72rem] leading-snug text-ink"
+      />
+      <div className="flex items-center gap-1.5" role="group" aria-label="Theme">
+        <span className="mr-1 text-[0.78rem] text-ink-muted">Theme</span>
+        {(["light", "dark"] as const).map((t) => (
+          <button key={t} type="button" aria-pressed={theme === t} className={PILL} onClick={() => setTheme(t)}>
+            {t === "light" ? "Light" : "Dark"}
+          </button>
+        ))}
+      </div>
+      {failed && <p className="m-0 text-[0.78rem] text-ink-muted">Couldn’t copy; select the code and copy it.</p>}
+      <div className="flex items-center justify-between gap-2">
+        <button type="button" className={`${PILL} text-ink`} onClick={() => navigator.clipboard.writeText(code).then(onCopied, () => (setFailed(true), area.current?.select()))}>
+          Copy code
+        </button>
+        <span className="flex gap-3 text-[0.78rem]">
+          <a href={src} target="_blank" rel="noopener noreferrer" className="text-ink-muted underline hover:text-ink">
+            Preview
+          </a>
+          <button type="button" onClick={onBack} className="cursor-pointer border-0 bg-transparent p-0 text-[0.78rem] text-ink-muted underline hover:text-ink">
+            Back
+          </button>
+        </span>
+      </div>
     </div>
   );
 }

@@ -1068,3 +1068,33 @@ html[data-home-motion] .home-card[data-seen] .home-rows > li:not(:last-child)::a
 :root[data-theme="dark"] :is([data-nav-branch="congress"], header[data-branch="congress"]) { --nav-branch: #7fcaa3; --nav-branch-wash: #1d2a25; }
 :root[data-theme="dark"] :is([data-nav-branch="supreme-court"], header[data-branch="supreme-court"]) { --nav-branch: #e29aa8; --nav-branch-wash: #2b1f24; }
 :root[data-theme="dark"] [data-nav-branch="timeline"] { --nav-branch: #c9c7c1; }
+
+/* Embedded chart (`?embed=<card id>`, lib/embed.ts, components/charts/EmbedMode.tsx): the head script marks
+   <html data-embed> and hides the page until EmbedMode has found the card; EmbedMode then hides every sibling
+   of the card's ancestors and flattens those ancestors, so the card alone fills the frame. */
+html[data-embed]:not([data-embed-ready]) body { visibility: hidden; }
+html[data-embed],
+html[data-embed] body { height: auto; min-height: 0; background: var(--bg); }
+html[data-embed] [data-embed-hide],
+html[data-embed] [data-share-slot] { display: none !important; }
+html[data-embed] [data-embed-flat] {
+  display: block !important;
+  position: static !important;
+  width: auto !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-embed] [data-embed-card] { margin: 0 !important; scroll-margin-top: 0; }
+.embed-credit {
+  margin-top: 0.75rem;
+  align-self: flex-start;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.embed-credit:hover { color: var(--ink); text-decoration: underline; }
