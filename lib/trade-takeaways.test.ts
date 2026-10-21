@@ -78,9 +78,8 @@ const scatter = buildScatterRows(
 const top5 = topByTotal(year(lastYear), 5).map((c) => scatter.find((r) => r.code === c)!);
 
 // The products card (all countries): goods by HS chapter per year, as the card ranks them (chapters 98-99 left out).
-const productsAll = { code: null, rows: read<ProductsRow>("trade_products_national.json"), names: {} };
+const productsAll = { code: null, rows: read<ProductsRow>("trade_products_national.json") };
 const productsIn = (y: number, flow: "exports" | "imports") => productsView(productsAll, y, flow)!;
-const chapterShare = (y: number, flow: "exports" | "imports", hs: string) => productsIn(y, flow).chapters.find((c) => c.code === hs)!.share;
 
 // The same card's "By use" view (all countries): goods by Census end-use category, special entries left out.
 const enduseAll = { code: null, rows: read<TradeEnduseNationalRow>("trade_enduse_national.json") };
@@ -88,7 +87,6 @@ const enduseTop = (y: number, flow: "exports" | "imports") => enduseView(enduseA
 
 const partnersText = TRADE_TAKEAWAYS.partners.takeaway(through);
 const productsText = TRADE_TAKEAWAYS.products.takeaway(through);
-const enduseText = TRADE_TAKEAWAYS.enduse.takeaway(through);
 const scatterText = TRADE_TAKEAWAYS.scatter.takeaway(windowText(windows.baseline), windowText(windows.latest));
 
 const cases: { title: string; text: string; says: string[]; check: () => void }[] = [
@@ -139,28 +137,15 @@ const cases: { title: string; text: string; says: string[]; check: () => void }[
   {
     title: TRADE_TAKEAWAYS.products.title,
     text: productsText,
-    says: ["Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021", "led each year through August 2026", "13% of goods imports in 2010", "a record 25% in 2026"],
+    says: ["Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021", "led each year through August 2026", "computers became the largest goods import in 2026 through August", "passing pharmaceuticals"],
     check: () => {
       expect(lastYear).toBe(2026);
       expect(productsIn(2026, "exports").months).toBe(Number(national.lastPeriod.slice(5)));
       for (let y = 2010; y <= 2020; y++) expect(productsIn(y, "exports").chapters[0].code, String(y)).toBe("84");
       for (let y = 2021; y <= 2026; y++) expect(productsIn(y, "exports").chapters[0].code, String(y)).toBe("27");
-      expect(Math.round(chapterShare(2010, "imports", "84") * 100)).toBe(13);
-      const shares = Array.from({ length: lastYear - 2009 }, (_, i) => chapterShare(2010 + i, "imports", "84"));
-      expect(Math.max(...shares)).toBe(shares.at(-1));
-      expect(Math.round(shares.at(-1)! * 100)).toBe(25);
-    },
-  },
-  {
-    title: TRADE_TAKEAWAYS.enduse.title,
-    text: enduseText,
-    says: ["Civilian aircraft, engines and parts led U.S. goods exports every year from 2010 to 2020 and again since 2024", "Computers became the largest goods import in 2026 through August", "passing pharmaceuticals", "crude oil led in 2010"],
-    check: () => {
-      expect(lastYear).toBe(2026);
-      for (let y = 2010; y <= lastYear; y++) expect(enduseTop(y, "exports") === "22090", String(y)).toBe(y <= 2020 || y >= 2024);
-      // Computers (21300) lead imports for the first time in 2026; pharmaceuticals (40100) led in 2025.
+      // Computers (21300) lead imports by use for the first time in 2026; pharmaceuticals (40100) led in 2025.
       for (let y = 2010; y < 2026; y++) expect(enduseTop(y, "imports"), String(y)).not.toBe("21300");
-      expect([enduseTop(2026, "imports"), enduseTop(2025, "imports"), enduseTop(2010, "imports")]).toEqual(["21300", "40100", "10000"]);
+      expect([enduseTop(2026, "imports"), enduseTop(2025, "imports")]).toEqual(["21300", "40100"]);
     },
   },
   {

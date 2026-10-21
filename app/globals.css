@@ -55,12 +55,6 @@
   --crim-none: #d3cce0;
   --crim-notconvicted: #b9bdc6;
   /* Executive-order topic colours: one solid colour per topic (nine categorical hues), deliberately not the party hues. */
-  /* Census end-use group colours (the By use year chart). */
-  --enduse-1: #3b6ea8;
-  --enduse-2: #d0762b;
-  --enduse-3: #4c9a5a;
-  --enduse-4: #b8453f;
-  --enduse-5: #7b5ea7;
   --topic-government_operations: #7b4f87;
   --topic-economy_labor: #c28a2c;
   --topic-trade: #3e9886;
@@ -88,19 +82,15 @@
   --fuel-wind: #708ca9;
   --fuel-solar: #878b36;
   --fuel-other: #526f64;
-  /* Trade "From product to use" Sankey (components/trade/TradeSankeyCard): six solid colours for the colour-key column (the
-     uses on a chapter or product pick, the chapters on a use pick), validated in the mockup
-     (docs/mockups/trade-sankey-mock.html), plus a neutral "Other", a lighter grey for trade from outside the selection,
-     and the ink of a node that is not on the key column. */
-  --sankey-1: #2a78d6;
-  --sankey-2: #eb6834;
-  --sankey-3: #1baf7a;
-  --sankey-4: #eda100;
-  --sankey-5: #e87ba4;
-  --sankey-6: #4a3aa7;
-  --sankey-other: #8890a0;
-  --sankey-outside: #d3d8e0;
-  --sankey-node: #5b6472;
+  /* Trade goods breakdown (an opened line in components/trade/TradeProductsCard): five solid colours for a chapter's top
+     uses or a use's top chapters, in rank order, plus a neutral "Other". The first five of the palette validated for the
+     product-to-use Sankey it replaced (PR #322). */
+  --breakdown-1: #2a78d6;
+  --breakdown-2: #eb6834;
+  --breakdown-3: #1baf7a;
+  --breakdown-4: #eda100;
+  --breakdown-5: #e87ba4;
+  --breakdown-other: #8890a0;
   /* Laws page topic groups: eight categorical slots (validate_palette.js: lightness, chroma, adjacent CVD and normal-vision separation pass; light-mode contrast is below 3:1 for slots 3-5, so the legend and table view carry the names). Slot order is the stack order. */
   --laws-1: #2a78d6;
   --laws-2: #eb6834;
@@ -202,11 +192,6 @@
     --crim-pending: #8d78b5;
     --crim-none: #4a4458;
     --crim-notconvicted: #5b606c;
-    --enduse-1: #6fa0d8;
-    --enduse-2: #eb9a52;
-    --enduse-3: #7fc48a;
-    --enduse-4: #e57c75;
-    --enduse-5: #a98bd6;
     --topic-government_operations: #b58ac4;
     --topic-economy_labor: #e0b04e;
     --topic-trade: #4fb7a2;
@@ -229,15 +214,12 @@
     --fuel-wind: #5bf6ef;
     --fuel-solar: #eedb3c;
     --fuel-other: #ddb183;
-    --sankey-1: #3987e5;
-    --sankey-2: #d95926;
-    --sankey-3: #199e70;
-    --sankey-4: #c98500;
-    --sankey-5: #d55181;
-    --sankey-6: #9085e9;
-    --sankey-other: #6b7280;
-    --sankey-outside: #3a4050;
-    --sankey-node: #9aa2af;
+    --breakdown-1: #3987e5;
+    --breakdown-2: #d95926;
+    --breakdown-3: #199e70;
+    --breakdown-4: #c98500;
+    --breakdown-5: #d55181;
+    --breakdown-other: #6b7280;
     --laws-1: #3987e5;
     --laws-2: #d95926;
     --laws-3: #199e70;
@@ -320,11 +302,6 @@
   --crim-pending: #8d78b5;
   --crim-none: #4a4458;
   --crim-notconvicted: #5b606c;
-  --enduse-1: #6fa0d8;
-  --enduse-2: #eb9a52;
-  --enduse-3: #7fc48a;
-  --enduse-4: #e57c75;
-  --enduse-5: #a98bd6;
   --topic-government_operations: #b58ac4;
   --topic-economy_labor: #e0b04e;
   --topic-trade: #4fb7a2;
@@ -347,15 +324,12 @@
   --fuel-wind: #5bf6ef;
   --fuel-solar: #eedb3c;
   --fuel-other: #ddb183;
-  --sankey-1: #3987e5;
-  --sankey-2: #d95926;
-  --sankey-3: #199e70;
-  --sankey-4: #c98500;
-  --sankey-5: #d55181;
-  --sankey-6: #9085e9;
-  --sankey-other: #6b7280;
-  --sankey-outside: #3a4050;
-  --sankey-node: #9aa2af;
+  --breakdown-1: #3987e5;
+  --breakdown-2: #d95926;
+  --breakdown-3: #199e70;
+  --breakdown-4: #c98500;
+  --breakdown-5: #d55181;
+  --breakdown-other: #6b7280;
   --laws-1: #3987e5;
   --laws-2: #d95926;
   --laws-3: #199e70;
@@ -506,13 +480,6 @@ body {
   fill: var(--ink);
   stroke: var(--surface);
   stroke-width: 4px;
-  paint-order: stroke;
-}
-/* Trade Sankey: product labels sit over the bands, so they carry a surface halo. */
-.sankey-halo {
-  stroke: var(--surface);
-  stroke-width: 3.5px;
-  stroke-linejoin: round;
   paint-order: stroke;
 }
 /* The profile compass's own member — labelled to match its accent ring. */

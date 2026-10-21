@@ -1,21 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
-import { ALL_PRODUCTS, type ProductPartnersPayload, type ProductsFlow, type TradeProductsPayload } from "@/lib/trade-products";
+import { ALL_PRODUCTS, type ProductPartnersPayload, type TradeProductsPayload } from "@/lib/trade-products";
 import { PRODUCT_USE_START_YEAR } from "@/lib/trade-product-use-entities";
-import type { ProductUsePayload, SankeyPick } from "@/lib/trade-sankey";
+import type { ChapterUsePayload } from "@/lib/trade-chapter-use";
 import type { EndusePartnersPayload, TradeEndusePayload } from "@/lib/trade-enduse";
 import { topByTotal } from "@/lib/trade-map";
 import { TradeBalanceCard } from "./TradeBalanceCard";
 import { TradeFilterBar } from "./TradeFilterBar";
 import { TradePartnersCard } from "./TradePartnersCard";
 import { TradeProductsCard } from "./TradeProductsCard";
-import { TradeSankeyCard } from "./TradeSankeyCard";
 import { TradeScatterCard } from "./TradeScatterCard";
 import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
@@ -81,38 +80,21 @@ function TradePage({ data }: { data: TradePageData }) {
       });
     return () => ctl.abort();
   }, [v.year, years]);
-  // Goods by product: one file per partner (all years), plus one for all countries, fetched when first needed.
+  // "What the U.S. trades": goods by chapter and by use, one file each per partner (all years), plus one for all countries.
   const productCodes = useMemo(() => new Set(products.codes), [products.codes]);
   const productsKey = v.country ? (productCodes.has(v.country) ? v.country : null) : ALL_PRODUCTS;
   const productFile = useStaticFile<TradeProductsPayload>("/data/trade/products", productsKey);
-
-  // The top countries behind each product: one small file per year, fetched for the year on screen once a line has been opened.
-  const [partnersWanted, setPartnersWanted] = useState(false);
-  const partnersFile = useStaticFile<ProductPartnersPayload>("/data/trade/product-partners", partnersWanted ? String(v.year) : null);
-
-  // The card's "By use" view: the same two kinds of file by end-use category, fetched only once someone switches to it.
-  const [enduseWanted, setEnduseWanted] = useState(false);
   const enduseCodes = useMemo(() => new Set(enduse.codes), [enduse.codes]);
   const enduseKey = v.country ? (enduseCodes.has(v.country) ? v.country : null) : ALL_PRODUCTS;
-  const enduseFile = useStaticFile<TradeEndusePayload>("/data/trade/enduse", enduseWanted ? enduseKey : null);
+  const enduseFile = useStaticFile<TradeEndusePayload>("/data/trade/enduse", enduseKey);
+
+  // An opened line's top countries (one small file per year and list) and its chapter x use split, fetched for the year on screen once a line has been opened.
+  const [partnersWanted, setPartnersWanted] = useState(false);
+  const partnersFile = useStaticFile<ProductPartnersPayload>("/data/trade/product-partners", partnersWanted ? String(v.year) : null);
   const [endusePartnersWanted, setEndusePartnersWanted] = useState(false);
   const endusePartnersFile = useStaticFile<EndusePartnersPayload>("/data/trade/enduse-partners", endusePartnersWanted ? String(v.year) : null);
-
-  // "From product to use": shown once a line is tapped in the products card (all countries only), fetching the year's file then.
-  const [follow, setFollow] = useState<{ flow: ProductsFlow; pick: SankeyPick } | null>(null);
-  const sankeyShown = follow !== null && v.country === null && v.year >= PRODUCT_USE_START_YEAR;
-  const productUseFile = useStaticFile<ProductUsePayload>("/data/trade/product-use", sankeyShown ? String(v.year) : null);
-  // A new line followed after a failed load retries it.
-  const retryProductUse = useRef<() => void>(() => {});
-  useEffect(() => {
-    retryProductUse.current = productUseFile.state === "error" ? productUseFile.retry : () => {};
-  });
-  const onFollow = useCallback((f: { flow: ProductsFlow; pick: SankeyPick }) => {
-    setFollow((o) => (o && o.flow === f.flow && o.pick.kind === f.pick.kind && o.pick.code === f.pick.code ? o : f));
-    retryProductUse.current();
-  }, []);
-  const [lastYearStr, lastMonthStr] = national.lastPeriod.split("-");
-  const yearPartial = v.year === Number(lastYearStr) && Number(lastMonthStr) < 12;
+  const [chapterUseWanted, setChapterUseWanted] = useState(false);
+  const chapterUseFile = useStaticFile<ChapterUsePayload>("/data/trade/chapter-use", chapterUseWanted && v.year >= PRODUCT_USE_START_YEAR ? String(v.year) : null);
 
   // While the next year loads, the previous one stays on screen (dimmed) instead of blanking the chart.
   const [lastShown, setLastShown] = useState<TradeYearPayload>(initialYear);
@@ -219,7 +201,6 @@ function TradePage({ data }: { data: TradePageData }) {
 
         {/* Full width, under the partners card whose year it shares: which goods, for the Country filter's partner (or all countries). */}
         <TradeProductsCard
-          payload={productFile.data}
           year={v.year}
           onYear={setYear}
           firstYear={products.firstYear}
@@ -227,25 +208,24 @@ function TradePage({ data }: { data: TradePageData }) {
           through={MONTH_NAMES[Number(national.lastPeriod.slice(5)) - 1]}
           country={v.country}
           countryName={countryRef?.name ?? null}
-          hasData={productsKey !== null}
           lag={products.lag}
-          loading={productFile.state === "loading"}
-          error={productFile.state === "error"}
-          partners={partnersFile.data}
-          partnersState={partnersFile.state}
-          onWantPartners={() => {
-            setPartnersWanted(true);
-            partnersFile.retry(); // a tap after a failure retries
+          chapters={{
+            payload: productFile.data,
+            hasData: productsKey !== null,
+            loading: productFile.state === "loading",
+            error: productFile.state === "error",
+            partners: partnersFile.data,
+            partnersState: partnersFile.state,
+            onWantPartners: () => {
+              setPartnersWanted(true);
+              partnersFile.retry(); // a tap after a failure retries
+            },
           }}
-          byUse={{
+          uses={{
             payload: enduseFile.data,
             hasData: enduseKey !== null,
-            loading: enduseFile.state === "loading" || (enduseKey !== null && enduseFile.state === "idle"),
+            loading: enduseFile.state === "loading",
             error: enduseFile.state === "error",
-            onWant: () => {
-              setEnduseWanted(true);
-              enduseFile.retry();
-            },
             partners: endusePartnersFile.data,
             partnersState: endusePartnersFile.state,
             onWantPartners: () => {
@@ -253,20 +233,13 @@ function TradePage({ data }: { data: TradePageData }) {
               endusePartnersFile.retry();
             },
           }}
-          onFollow={onFollow}
+          chapterUse={chapterUseFile.data}
+          chapterUseState={chapterUseFile.state}
+          onWantChapterUse={() => {
+            setChapterUseWanted(true);
+            chapterUseFile.retry();
+          }}
         />
-
-        {/* Directly under the products card, once a line there is tapped: that line followed from chapter to product to use. */}
-        {sankeyShown && follow && (
-          <TradeSankeyCard
-            payload={productUseFile.data}
-            state={productUseFile.state === "error" ? "error" : productUseFile.data ? "ok" : "loading"}
-            year={v.year}
-            partial={yearPartial}
-            flow={follow.flow}
-            pick={follow.pick}
-          />
-        )}
 
         {/* Full width: the scatter needs the room for its labels. */}
         <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} />

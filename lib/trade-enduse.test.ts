@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { enduseSeries, endusePartnersOf, enduseView, type EndusePartnersPayload, type TradeEndusePayload } from "./trade-enduse";
+import { endusePartnersOf, enduseView, type EndusePartnersPayload, type TradeEndusePayload } from "./trade-enduse";
 import { specialNote } from "./trade-products";
 
 // The data module is server-only; under vitest it is just a file reader.
@@ -53,7 +53,7 @@ describe("enduseView", () => {
     expect(v.rate).toBe(0.1);
     expect(v.special.map((s) => s.code)).toEqual(["50020", "50030"]);
     expect(v.specialTotal).toBe(200);
-    expect(specialNote(v, "kinds of goods")).toBe("Plus $200 in special entries, not ranked as kinds of goods: U.S. goods returned & reimports $150, minimum-value shipments $50.");
+    expect(specialNote(v, "uses")).toBe("Plus $200 in special entries, not ranked as uses: U.S. goods returned & reimports $150, minimum-value shipments $50.");
     expect(enduseView(payload, 2025, "exports")).toBeNull();
   });
 
@@ -76,20 +76,5 @@ describe("endusePartnersOf", () => {
     ]);
     expect(endusePartnersOf(payload, 2025, "imports", "99999", 100)).toBeNull();
     expect(endusePartnersOf(payload, 2024, "imports", "21300", 100)).toBeNull();
-  });
-});
-
-describe("enduseSeries", () => {
-  it("splits every year's total into the five groups and an other remainder that sum back to it", () => {
-    for (const flow of ["exports", "imports"] as const) {
-      const p = getEndusePayload("all")!;
-      const s = enduseSeries(p, flow);
-      expect(s.years.length).toBeGreaterThan(10);
-      for (const y of s.years) {
-        expect(y.parts).toHaveLength(5);
-        expect(y.parts.reduce((a, v) => a + v, 0) + y.other).toBe(y.total);
-        expect(y.other).toBeLessThan(y.total * 0.1);
-      }
-    }
   });
 });
