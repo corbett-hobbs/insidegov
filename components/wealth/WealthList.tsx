@@ -93,7 +93,7 @@ export function WealthList({ title, takeaway, direction, members, view, stateFil
           )}
         </div>
       </div>
-      <ChartNotesRow className="mt-auto pt-1 md:self-end">
+      <ChartNotesRow share={false} className="mt-auto pt-1 md:self-end">
         <MethodologyNote>
           <p>
             Ranked from the {direction === "highest" ? "top" : "bottom"}: the {ranked.length} {noun}

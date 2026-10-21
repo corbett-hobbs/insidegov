@@ -2,6 +2,8 @@
 
 import { ImmigrationWindowProvider } from "./TermWindowContext";
 import { useMemo, useState } from "react";
+import { intParam, yearsParam } from "@/lib/url-state";
+import { useUrlState } from "@/lib/use-url-state";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionPills, SectionStrip, SectionToc, useSectionScroll, type SectionNavItem } from "@/components/SectionNav";
 import { type ImmigrationPageData } from "@/lib/immigration-derive";
@@ -51,6 +53,16 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
     setRangeRaw(r);
     setFyRaw(pickYear(r)); // the country card's year follows the window's last year
   };
+  // The window and the selected year live in the URL (`?years=2009-2016&fy=2012`) so a view can be linked (lib/use-url-state.ts).
+  useUrlState(
+    { years: yearsParam.format(range, bounds[0], bounds[1]), fy: intParam.format(fy, pickYear(range)) },
+    (q) => {
+      const r = yearsParam.parse(q.get("years"), bounds[0], bounds[1]) ?? range;
+      const f = intParam.parse(q.get("fy"), r[0], r[1]);
+      setRangeRaw(r);
+      setFyRaw(f ?? pickYear(r));
+    },
+  );
   // The fiscal year either section-3 card is hovered or pinned on, lit on both so a year can be read straight down. Each card keeps
   // its own tooltip and numbers; a card reports its own year and is lit by the other's.
   const [syncFy, setSyncFy] = useState<number | null>(null);

@@ -20,6 +20,10 @@ import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { codeParam, enumParam, flagParam, yearsParam } from "@/lib/url-state";
+import { useUrlState } from "@/lib/use-url-state";
+
+const MEASURE_PARAM = enumParam(["balance", "flows"] as const, "balance");
 
 export function TradePageClient({ data }: { data: TradePageData }) {
   return (
@@ -31,7 +35,7 @@ export function TradePageClient({ data }: { data: TradePageData }) {
 
 function TradePage({ data }: { data: TradePageData }) {
   const v = useTradeValues();
-  const { setRange, clearPin, setCountry, setShowCong, setYear } = useTradeActions();
+  const { setRange, clearPin, setCountry, setShowCong, setYear, setMeasure } = useTradeActions();
   const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products, enduse } = data;
   const [loaded, setLoaded] = useState<Record<string, TradeCountryPayload>>({});
   const [failed, setFailed] = useState<string | null>(null);
@@ -116,6 +120,26 @@ function TradePage({ data }: { data: TradePageData }) {
   );
 
   const range = useMemo<[number, number]>(() => v.range ?? [firstYear, lastYear], [v.range, firstYear, lastYear]);
+
+  // Country, year window, measure and the Congress toggle live in the URL so a view can be linked (lib/use-url-state.ts).
+  const countryCodes = useMemo(() => new Set(countries.map((c) => c.code)), [countries]);
+  useUrlState(
+    {
+      country: codeParam.format(v.country),
+      years: yearsParam.format(v.range, firstYear, lastYear),
+      measure: MEASURE_PARAM.format(v.measure),
+      cong: flagParam.format(v.showCong),
+    },
+    (q) => {
+      const code = codeParam.parse(q.get("country"), countryCodes);
+      if (code) setCountry(code);
+      const r = yearsParam.parse(q.get("years"), firstYear, lastYear);
+      if (r) setRange(r);
+      const m = MEASURE_PARAM.parse(q.get("measure"));
+      if (m) setMeasure(m);
+      if (flagParam.parse(q.get("cong"))) setShowCong(true);
+    },
+  );
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(era.span, dayOf(range[1] + 1, 0, 1))], [range, era.span]);
 
   const describe = (d: number) => {

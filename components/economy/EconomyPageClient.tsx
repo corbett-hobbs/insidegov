@@ -16,6 +16,10 @@ import { EconomyFilterBar } from "./EconomyFilterBar";
 import { CARD_ROWS, SPECS, USD_SPECS, type ChartSpec } from "./specs";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { UpNext } from "@/components/UpNext";
+import { enumParam, flagParam, yearsParam } from "@/lib/url-state";
+import { useUrlState } from "@/lib/use-url-state";
+
+const UNIT_PARAM = enumParam<FiscalUnit>(["usd", "pct"], "usd");
 
 const longDate = (iso: string) =>
   new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -85,6 +89,17 @@ function EconomyPage({
   const lastYear = dateOfDay(data.span - 1).year;
   const range = useMemo<[number, number]>(() => values.range ?? [firstYear, lastYear], [values.range, firstYear, lastYear]);
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(data.span, dayOf(range[1] + 1, 0, 1))], [range, data.span]);
+  // Year window, deficit/debt unit and the Congress toggle live in the URL so a view can be linked (lib/use-url-state.ts).
+  useUrlState(
+    { years: yearsParam.format(values.range, firstYear, lastYear), unit: UNIT_PARAM.format(unit), cong: flagParam.format(showCong) },
+    (q) => {
+      const r = yearsParam.parse(q.get("years"), firstYear, lastYear);
+      if (r) setRange(r);
+      const u = UNIT_PARAM.parse(q.get("unit"));
+      if (u) setUnit(u);
+      if (flagParam.parse(q.get("cong"))) setShowCong(true);
+    },
+  );
   const common = { data, showCong, view };
   /** Deficit and debt read the unit-swapped data and spec, with the other unit beside them. */
   const isFiscal = (k: keyof typeof SPECS): k is "def" | "debt" => k === "def" || k === "debt";

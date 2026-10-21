@@ -44,6 +44,26 @@ export const twitterDefaults: { images: string[] } = {
   images: ["/opengraph-image"],
 };
 
+/**
+ * Open Graph and Twitter fields for a topic page with a data share card
+ * (`app/og/[topic]/route.tsx`, figures from `lib/og-topics.ts`). One prerendered
+ * route serves every card: per-page `opengraph-image.tsx` files would each count as
+ * a serverless function, and the Hobby plan allows 12 per deployment.
+ */
+export const ogTopicSlug = (path: string) => path.replace(/\//g, "-");
+
+function topicImage(path: string) {
+  return { url: `/og/${ogTopicSlug(path)}`, width: 1200, height: 630, alt: `${site.name}: the latest figure and its trend for /${path}` };
+}
+
+export function topicOg(path: string): { type: "website"; siteName: string; images: ReturnType<typeof topicImage>[] } {
+  return { type: "website", siteName: site.name, images: [topicImage(path)] };
+}
+
+export function topicTwitter(path: string): { card: "summary_large_image"; images: ReturnType<typeof topicImage>[] } {
+  return { card: "summary_large_image", images: [topicImage(path)] };
+}
+
 export function absoluteUrl(path: string): string {
   return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
 }

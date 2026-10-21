@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { EnergyPageClient } from "@/components/energy/EnergyPageClient";
 import { getEnergyPayload } from "@/lib/energy-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { site, topicOg, topicTwitter } from "@/lib/site";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/energy — the Presidency vertical's Energy section: the Strategic Petroleum Reserve, the oil balance, electricity by source and LNG exports. */
@@ -11,12 +11,12 @@ export const metadata: Metadata = {
     "The Strategic Petroleum Reserve, U.S. oil production, imports and exports, electricity by source and LNG exports since 1991, with presidential terms and policy actions marked. From the U.S. Energy Information Administration.",
   alternates: { canonical: "/presidency/energy" },
   openGraph: {
-    ...ogDefaults,
+    ...topicOg("presidency/energy"),
     title: `How has U.S. energy changed? · ${site.name}`,
     description: "The Strategic Petroleum Reserve, oil, electricity and LNG exports, with presidential terms and policy actions marked. From the U.S. Energy Information Administration.",
     url: "/presidency/energy",
   },
-  twitter: twitterDefaults,
+  twitter: topicTwitter("presidency/energy"),
 };
 
 export default function EnergyPage() {

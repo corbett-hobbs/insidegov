@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getCourtPayload, getCourtPresidentBand } from "@/lib/justice-data";
-import { site, ogDefaults, twitterDefaults } from "@/lib/site";
+import { site, topicOg, topicTwitter } from "@/lib/site";
 import { CourtExplorer } from "@/components/court/CourtExplorer";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     "Where each Supreme Court justice sits on the liberal–conservative scale, term by term, from Martin–Quinn scores.",
   alternates: { canonical: "/supreme-court/ideology" },
   openGraph: {
-    ...ogDefaults,
+    ...topicOg("supreme-court/ideology"),
     title: `How does the Supreme Court lean? · ${site.name}`,
     description:
       "Where each Supreme Court justice sits on the liberal–conservative scale, term by term, from Martin–Quinn scores.",
     url: "/supreme-court/ideology",
   },
-  twitter: twitterDefaults,
+  twitter: topicTwitter("supreme-court/ideology"),
 };
 
 export default function SupremeCourtPage() {
