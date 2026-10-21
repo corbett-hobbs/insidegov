@@ -1,4 +1,5 @@
-import { clampDescription, TITLE_MAX, truncateWords } from "./seo";
+import type { ChamberTally } from "./laws-types";
+import { clampDescription, DESCRIPTION_MAX, fitTitle, TITLE_MAX, truncateWords } from "./seo";
 
 /**
  * Friendly names and search descriptions for law pages. Pure and isomorphic.
@@ -98,6 +99,79 @@ export function lawTitle(shortTitle: string, date: string): string {
   return !/\b(?:1[7-9]|20)\d{2}\b/.test(shortTitle) && withYear.length <= TITLE_MAX ? withYear : shortTitle;
 }
 
+/** "the House 224–201", "the Senate by voice vote": one chamber's final-passage vote, as a description says it. */
+function chamberVote(chamber: "House" | "Senate", t: ChamberTally): string {
+  if (t[0] === 0 && t[1] != null && t[2] != null) return `the ${chamber} ${t[1]}–${t[2]}`;
+  if (t[0] === 1) return `the ${chamber} by voice vote`;
+  if (t[0] === 2) return `the ${chamber} by unanimous consent`;
+  return `the ${chamber}`;
+}
+
+/**
+ * Hand-written vote leads, keyed by law id, for laws whose recorded final action misstates how they passed. The search
+ * description says these instead of the computed "passed the House … and the Senate …".
+ */
+const VOTE_LEADS: Readonly<Record<string, string>> = {
+  // H.R. 815: on 2024-04-20 the House voted on the package as four bills (Ukraine 311–112, Israel 366–58, Indo-Pacific
+  // 385–34, H.R. 8038 360–58) and attached them by rule, so the bill's own House action reads as unanimous consent. The
+  // Senate then passed the package 79–18 on 2024-04-23 (the recorded Senate tally).
+  "118-pub-50": "The House passed it in four parts, Ukraine aid 311–112 and Israel aid 366–58; the Senate passed the package 79–18.",
+};
+
+export interface LawSeoInput {
+  /** "118-pub-50", for the hand-written `VOTE_LEADS`. */
+  lawId: string;
+  shortTitle: string;
+  officialTitle: string;
+  summary: readonly string[] | null;
+  president: string;
+  /** Signing date (or the override date), ISO. */
+  date: string;
+  veto: boolean;
+  originChamber: "House" | "Senate" | null;
+  passage: { house: ChamberTally; senate: ChamberTally; override: [number | null, number | null, number | null, number | null] | null };
+  /** Chambers the page's "Who voted for it" chart covers (each member's final-passage vote by ideology); empty = no chart. */
+  chartChambers: readonly ("House" | "Senate")[];
+  hasCommittees: boolean;
+}
+
+/**
+ * Title and description for a law page. A law passed on a recorded vote leads with what only this site shows: the tally
+ * and every member's vote by ideology, then its path through committee ("Tax Cuts and Jobs Act: How Congress Voted").
+ * A voice-vote law (most minor laws) has no vote to show, so it keeps the plain summary of what it does.
+ */
+export function lawSeo(l: LawSeoInput): { title: string; description: string } {
+  const year = Number(l.date.slice(0, 4));
+  if (l.chartChambers.length === 0) {
+    return { title: lawTitle(l.shortTitle, l.date), description: lawMetaDescription({ ...l, year }) };
+  }
+  const hasYear = /\b(?:1[7-9]|20)\d{2}\b/.test(l.shortTitle);
+  const title = fitTitle(l.shortTitle, [...(hasYear ? [] : [`: How Congress Voted (${year})`]), ": How Congress Voted", ...(hasYear ? [] : [` (${year})`])], TITLE_MAX);
+
+  const named = /\b(?:Act|Resolution|Amendments|Designation)\b/.test(l.shortTitle) ? `${/^the\s/i.test(l.shortTitle) ? "" : "The "}${l.shortTitle}` : "This law";
+  const o = l.passage.override;
+  let lead: string;
+  if (VOTE_LEADS[l.lawId]) {
+    lead = VOTE_LEADS[l.lawId];
+  } else if (l.veto && o && o[0] != null && o[1] != null && o[2] != null && o[3] != null) {
+    lead = `Congress overrode ${l.president}'s veto of the ${l.shortTitle}, ${o[0]}–${o[1]} in the House and ${o[2]}–${o[3]} in the Senate.`;
+  } else {
+    const first = l.originChamber === "Senate" ? chamberVote("Senate", l.passage.senate) : chamberVote("House", l.passage.house);
+    const second = l.originChamber === "Senate" ? chamberVote("House", l.passage.house) : chamberVote("Senate", l.passage.senate);
+    lead = `${named} passed ${first} and ${second}.`;
+  }
+  // The chart covers only the chambers that held a recorded vote: never promise "every member" for a voice-vote House.
+  const who = l.chartChambers.length > 1 ? "every member" : l.chartChambers[0] === "Senate" ? "every senator" : "every House member";
+  const tails = l.hasCommittees
+    ? [` See how ${who} voted by ideology, its path through committee and what it does.`, ` See how ${who} voted by ideology and its path through committee.`, ` See how ${who} voted by ideology.`]
+    : [` See how ${who} voted by ideology and what the law does.`, ` See how ${who} voted by ideology.`];
+  for (const tail of tails) if (lead.length + tail.length <= DESCRIPTION_MAX) return { title, description: lead + tail };
+  // A long name: the tally without it.
+  const bare = lead.replace(/^(?:The |This law ).*? passed /, "Passed ").replace(/^Congress overrode .*?'s veto of the .*?, /, "Veto overridden, ");
+  for (const tail of tails) if (bare.length + tail.length <= DESCRIPTION_MAX) return { title, description: bare + tail };
+  return { title, description: clampDescription(lead) };
+}
+
 /** A paragraph that only names the law ("Government Employee Fair Treatment Act of 2019"), as CRS summaries often open. */
 const isTitleLine = (p: string, names: string[]) =>
   names.some((n) => n && tidy(n).replace(/\.$/, "").toLowerCase() === p.replace(/\.$/, "").toLowerCase()) ||
@@ -141,21 +215,23 @@ export function lawMetaDescription(opts: {
   president: string;
   year: number;
   veto: boolean;
+  /** Final passage per chamber; both by voice vote (or both by unanimous consent) adds how it passed, when it fits. */
+  passage?: { house: ChamberTally; senate: ChamberTally };
 }): string {
-  const signed = opts.veto ? `Enacted over ${opts.president}'s veto in ${opts.year}.` : `Signed by ${opts.president} in ${opts.year}.`;
+  const plain = opts.veto ? `Enacted over ${opts.president}'s veto in ${opts.year}.` : `Signed by ${opts.president} in ${opts.year}.`;
+  const kinds = opts.passage ? [opts.passage.house[0], opts.passage.senate[0]] : [];
+  const method = kinds.length && kinds.every((k) => k === 1) ? "voice vote" : kinds.length && kinds.every((k) => k === 2) ? "unanimous consent" : null;
+  const signedOptions = method && !opts.veto ? [`Passed by ${method}; signed by ${opts.president} in ${opts.year}.`, plain] : [plain];
+  const how = opts.veto ? `enacted over ${opts.president}'s veto` : `signed into law by ${opts.president}`;
   const lead = lawSummaryLead(opts.summary, [opts.shortTitle, opts.officialTitle]);
-  if (!lead) {
-    const how = opts.veto ? `enacted over ${opts.president}'s veto` : `signed into law by ${opts.president}`;
-    return clampDescription(`${opts.shortTitle}, ${how} in ${opts.year}: the votes in Congress, sponsors and legislative history.`);
+  if (!lead) return clampDescription(`${opts.shortTitle}, ${how} in ${opts.year}: its path through Congress, sponsors and legislative history.`);
+  for (const signed of signedOptions) {
+    const first = clampDescription(lead, DESCRIPTION_MAX - 2 - signed.length);
+    if (!first.endsWith("…") && first.length + signed.length + 1 <= DESCRIPTION_MAX) return `${/[.!?]["”']?$/.test(first) ? first : `${first}.`} ${signed}`;
   }
-  const first = clampDescription(lead, 158 - signed.length);
-  if (first.endsWith("…") || first.length + signed.length + 1 > 160) {
-    const cut = clampDescription(lead);
-    // A lead cut off inside a parenthesis or quotation reads as noise: say what the page holds instead.
-    const open = (cut.match(/\(/g)?.length ?? 0) > (cut.match(/\)/g)?.length ?? 0) || (cut.match(/["“”]/g)?.length ?? 0) % 2 === 1;
-    if (!open) return cut;
-    const how = opts.veto ? `enacted over ${opts.president}'s veto` : `signed into law by ${opts.president}`;
-    return clampDescription(`${opts.shortTitle}, ${how} in ${opts.year}: what it does, the votes in Congress, sponsors and legislative history.`);
-  }
-  return `${/[.!?]["”']?$/.test(first) ? first : `${first}.`} ${signed}`;
+  const cut = clampDescription(lead);
+  // A lead cut off inside a parenthesis or quotation reads as noise: say what the page holds instead.
+  const open = (cut.match(/\(/g)?.length ?? 0) > (cut.match(/\)/g)?.length ?? 0) || (cut.match(/["“”]/g)?.length ?? 0) % 2 === 1;
+  if (!open) return cut;
+  return clampDescription(`${opts.shortTitle}, ${how} in ${opts.year}: what it does, its path through Congress, sponsors and legislative history.`);
 }

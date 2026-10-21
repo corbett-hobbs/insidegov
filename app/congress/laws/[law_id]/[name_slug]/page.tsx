@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { lawMetaDescription, lawSummaryLead, lawTitle } from "@/lib/law-seo";
+import { lawSeo, lawSummaryLead } from "@/lib/law-seo";
 import { pageMetadata } from "@/lib/seo";
 import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
@@ -32,15 +32,20 @@ export async function generateMetadata({ params }: { params: Promise<RouteParams
   const { law_id } = await params;
   const law = getLawPage(law_id);
   if (!law) return { title: "Law not found" };
-  const description = lawMetaDescription({
+  const { title, description } = lawSeo({
+    lawId: law.lawId,
     shortTitle: law.shortTitle,
     officialTitle: law.officialTitle ?? law.title,
     summary: law.summary,
     president: law.president.name,
-    year: Number(law.date.slice(0, 4)),
+    date: law.date,
     veto: law.veto,
+    originChamber: law.originChamber,
+    passage: law.passage,
+    chartChambers: law.votes.map((v) => v.chamber),
+    hasCommittees: law.committees.length > 0,
   });
-  return pageMetadata({ title: lawTitle(law.shortTitle, law.date), description, path: lawPath(law.lawId, law.title), type: "article", ownImage: true });
+  return pageMetadata({ title, description, path: lawPath(law.lawId, law.title), type: "article", ownImage: true });
 }
 
 export default async function LawPage({ params }: { params: Promise<RouteParams> }) {

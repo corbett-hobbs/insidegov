@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { lawMetaDescription, lawShortTitle, lawSummaryLead, lawTitle } from "./law-seo";
+import { lawMetaDescription, lawSeo, lawShortTitle, lawSummaryLead, lawTitle } from "./law-seo";
 
 describe("lawShortTitle", () => {
   it("passes a short title or popular name through", () => {
@@ -48,6 +48,48 @@ describe("lawMetaDescription", () => {
     expect(lawMetaDescription({ ...base, veto: true, summary: ["This bill extends a federal program."] })).toBe("This bill extends a federal program. Enacted over Donald Trump's veto in 2019.");
   });
   it("falls back to a plain sentence with no summary", () => {
-    expect(lawMetaDescription({ ...base, summary: null })).toBe("X Act, signed into law by Donald Trump in 2019: the votes in Congress, sponsors and legislative history.");
+    expect(lawMetaDescription({ ...base, summary: null })).toBe("X Act, signed into law by Donald Trump in 2019: its path through Congress, sponsors and legislative history.");
+  });
+});
+
+describe("lawSeo", () => {
+  const tcja = {
+    lawId: "115-pub-97",
+    shortTitle: "Tax Cuts and Jobs Act",
+    officialTitle: "An Act to provide for reconciliation",
+    summary: ["This bill amends the Internal Revenue Code to reduce tax rates."],
+    president: "Donald Trump",
+    date: "2017-12-22",
+    veto: false,
+    originChamber: "House" as const,
+    passage: { house: [0, 224, 201] as [0, number, number], senate: [0, 51, 48] as [0, number, number], override: null },
+    chartChambers: ["House", "Senate"] as ("House" | "Senate")[],
+    hasCommittees: true,
+  };
+  it("leads a recorded-vote law with the tally and the vote chart", () => {
+    const s = lawSeo(tcja);
+    expect(s.title).toBe("Tax Cuts and Jobs Act: How Congress Voted (2017)");
+    expect(s.description).toBe("The Tax Cuts and Jobs Act passed the House 224–201 and the Senate 51–48. See how every member voted by ideology, its path through committee and what it does.");
+  });
+  it("names the chamber that passed it first, and a voice vote as such", () => {
+    const s = lawSeo({ ...tcja, originChamber: "Senate", chartChambers: ["Senate"], passage: { house: [1, null, null], senate: [0, 86, 11], override: null } });
+    expect(s.description).toMatch(/^The Tax Cuts and Jobs Act passed the Senate 86–11 and the House by voice vote\. See how every senator voted/);
+  });
+  it("describes a veto override by its override votes", () => {
+    const s = lawSeo({ ...tcja, shortTitle: "William M. (Mac) Thornberry National Defense Authorization Act for Fiscal Year 2021", veto: true, passage: { ...tcja.passage, override: [322, 87, 81, 13] } });
+    expect(s.description).toMatch(/322–87 in the House and 81–13 in the Senate/);
+    expect(s.description.length).toBeLessThanOrEqual(160);
+    expect(s.title).toBe("William M. (Mac) Thornberry National Defense Authorization Act for Fiscal Year 2021"); // pageMetadata cuts it to 60
+  });
+  it("uses a hand-written lead where the recorded action misstates the vote", () => {
+    const s = lawSeo({ ...tcja, lawId: "118-pub-50", shortTitle: "Ukraine, Israel and Taiwan Security Supplemental Appropriations Act, 2024", chartChambers: ["Senate"], passage: { house: [2, null, null], senate: [0, 79, 18], override: null } });
+    expect(s.description).toMatch(/^The House passed it in four parts, Ukraine aid 311–112 and Israel aid 366–58; the Senate passed the package 79–18\. See how every senator voted by ideology/);
+    expect(s.description).not.toMatch(/unanimous consent/);
+    expect(s.description.length).toBeLessThanOrEqual(160);
+  });
+  it("keeps the plain summary for a law with no recorded vote", () => {
+    const s = lawSeo({ ...tcja, shortTitle: "Ray Chavez Post Office Building Designation", summary: ['Designates the facility in Poway, California, as the "Ray Chavez Post Office Building."'], date: "2020-12-21", chartChambers: [], passage: { house: [1, null, null], senate: [1, null, null], override: null } });
+    expect(s.title).toBe("Ray Chavez Post Office Building Designation (2020)");
+    expect(s.description).toBe('Designates the facility in Poway, California, as the "Ray Chavez Post Office Building." Passed by voice vote; signed by Donald Trump in 2020.');
   });
 });
