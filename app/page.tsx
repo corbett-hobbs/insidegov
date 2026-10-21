@@ -108,9 +108,9 @@ export default function Hub() {
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
         <p className="home-intro pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
           <IntroWords
-            before="One place for the data driving the news cycle, straight from "
-            highlight="the public record"
-            after=": gas prices, mortgage rates, tariffs, deportations, the deficit, the laws Congress passes and the Supreme Court’s rulings, plus executive orders, energy, foreign aid, troops abroad, and who serves in Congress and how they vote."
+            before="When a number makes the news, the same questions follow: is it high, has it happened before, and on whose watch did it change? Every chart here runs up to the latest figures and back through "
+            highlight="who held power"
+            after=". That includes the officeholders themselves, from how they vote to what they’re worth."
           />
         </p>
 
