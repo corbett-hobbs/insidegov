@@ -7,7 +7,7 @@ describe("memberSeo", () => {
     expect(memberSeo(schumer).title).toBe("Sen. Chuck Schumer (D-NY): Ideology, Laws and Net Worth");
   });
   it("leads with where the member sits in their caucus, then the record", () => {
-    expect(memberSeo(schumer).description).toBe("Chuck Schumer votes near the middle of Senate Democrats. See where Schumer has stood since 1999, 33 laws sponsored and a $2.7 million net worth.");
+    expect(memberSeo(schumer).description).toBe("Chuck Schumer votes near the middle of Senate Democrats. See where Schumer has stood since 1999, the 33 laws Schumer sponsored and an estimated $2.7M net worth.");
     expect(memberSeo({ ...schumer, peers: { toward: 13, away: 33, of: 47 } }).description).toMatch(/^Chuck Schumer votes more liberally than 72% of Senate Democrats\./);
     expect(memberSeo({ ...schumer, peers: { toward: 41, away: 5, of: 47 } }).description).toMatch(/^Chuck Schumer votes more conservatively than 89% of Senate Democrats\./);
   });

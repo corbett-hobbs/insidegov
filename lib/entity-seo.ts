@@ -1,3 +1,4 @@
+import { compactDollars } from "./format-number";
 import { clampDescription, DESCRIPTION_MAX, fitTitle, TITLE_MAX } from "./seo";
 
 /**
@@ -45,12 +46,9 @@ export interface MemberSeoInput {
   netWorth: number | null;
 }
 
-/** "$2.7 million", "$896,000", "below zero": a net worth estimate in a sentence. */
+/** "$2.7M", "$896K", "below zero": a net worth estimate in a sentence (the compact number rule, `lib/format-number.ts`). */
 export function moneyWords(v: number): string {
-  if (v < 0) return "below zero";
-  if (v >= 1e9) return `$${(v / 1e9).toFixed(1).replace(/\.0$/, "")} billion`;
-  if (v >= 1e6) return `$${(v / 1e6).toFixed(1).replace(/\.0$/, "")} million`;
-  return `$${(Math.round(v / 1000) * 1000).toLocaleString("en-US")}`;
+  return v < 0 ? "below zero" : compactDollars(v);
 }
 
 /**

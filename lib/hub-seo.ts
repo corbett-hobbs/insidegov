@@ -6,7 +6,8 @@ import { getDemographicsPayload } from "./demographics-data";
 import { getEnergyPayload } from "./energy-data";
 import { getExecutiveOrdersData } from "./executive-orders-data";
 import { firstFit, moneyWords } from "./entity-seo";
-import { decodeAid, formatAidMoney, spendingByYear } from "./foreign-aid-derive";
+import { compactDollars, compactNumber } from "./format-number";
+import { decodeAid, spendingByYear } from "./foreign-aid-derive";
 import { getAidPayload } from "./foreign-aid-data";
 import { getImmigrationPageData } from "./immigration-data";
 import { getEconomyPayload } from "./indicator-data";
@@ -32,7 +33,8 @@ import { getWealthData, SERIES_YEARS } from "./wealth-data";
  * under 160 characters.
  */
 
-const int = (n: number) => Math.round(n).toLocaleString("en-US");
+/** Counts follow the compact number rule: exact under 10,000, "166.6K" above (`lib/format-number.ts`). */
+const int = (n: number) => compactNumber(n);
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 
 /** The last earlier entry that beat `value` ("the most since 2013"), or null when `value` is the record. */
@@ -103,7 +105,7 @@ const BUILDERS: Record<string, () => string[]> = {
     // A recent baseline, not the all-time peak: the reading closest to five years before the latest.
     const target = day - Math.round(5 * 365.25);
     const then = spr.reduce((best, p) => (Math.abs(p[0] - target) < Math.abs(best[0] - target) ? p : best));
-    const m = (kbbl: number) => `${int(kbbl / 1000)} million`;
+    const m = (kbbl: number) => compactNumber(kbbl * 1000);
     const dir = now < then[1] ? "down" : "up";
     const thenYear = fmtDay(then[0]).slice(-4);
     return [
@@ -126,11 +128,10 @@ const BUILDERS: Record<string, () => string[]> = {
     const years = spendingByYear(decodeAid(p), p.years[0]!, p.defaultYear, -1, null);
     const last = years[years.length - 1]!;
     const prev = years[years.length - 2];
-    const change = prev ? `, ${last.total < prev.total ? "down" : "up"} from ${formatAidMoney(prev.total)} the year before` : "";
-    const words = (s: string) => s.replace(/\$([\d.]+)B$/, "$$$1 billion").replace(/\$([\d.]+)M$/, "$$$1 million");
+    const change = prev ? `, ${last.total < prev.total ? "down" : "up"} from ${compactDollars(prev.total)} the year before` : "";
     return [
-      `The U.S. disbursed ${words(formatAidMoney(last.total))} in foreign aid in fiscal ${last.fy}${words(change)}. See where it went, by country and sector, under every president since 2001.`,
-      `The U.S. disbursed ${words(formatAidMoney(last.total))} in foreign aid in fiscal ${last.fy}. See where it went, by country and sector, under every president since 2001.`,
+      `The U.S. disbursed ${compactDollars(last.total)} in foreign aid in fiscal ${last.fy}${change}. See where it went, by country and sector, under every president since 2001.`,
+      `The U.S. disbursed ${compactDollars(last.total)} in foreign aid in fiscal ${last.fy}. See where it went, by country and sector, under every president since 2001.`,
     ];
   },
   "/presidency/troops-abroad": () => {
