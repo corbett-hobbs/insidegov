@@ -299,11 +299,11 @@ function EmbedPanel({ target, onBack, onCopied }: { target: Target; onBack: () =
   const [failed, setFailed] = useState(false);
   const area = useRef<HTMLTextAreaElement>(null);
   const src = embedUrl(`${location.origin}${location.pathname}${location.search}`, target.card.id, theme);
-  const code = embedSnippet({ url: src, title: `${target.title} · ${site.name}`, height: Math.ceil(target.card.getBoundingClientRect().height) + 40, origin: location.origin });
+  const code = embedSnippet({ url: src, title: target.title, siteName: site.name, sourceUrl: `${location.origin}${location.pathname}#${target.card.id}`, height: Math.ceil(target.card.getBoundingClientRect().height) + 40, origin: location.origin });
   return (
     <div className="flex flex-col gap-2 p-2.5">
       <p className="m-0 text-[0.85rem] font-medium text-ink">Embed this chart</p>
-      <p className="m-0 text-[0.78rem] leading-snug text-ink-muted">Paste this into your page. It shows this chart with the filters as they are now, and links back here.</p>
+      <p className="m-0 text-[0.78rem] leading-snug text-ink-muted">Paste this into your page. It shows this chart with the filters as they are now, and credits InsideGov with a link under it.</p>
       <textarea
         ref={area}
         readOnly

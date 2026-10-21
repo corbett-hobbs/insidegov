@@ -33,15 +33,20 @@ export function embedSourceUrl(embedHref: string): string {
   return u.toString();
 }
 
+const text = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const attr = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
 /**
- * The code a site owner pastes. The frame works alone at the given height; the script (optional,
- * some CMSs strip it) resizes it to the card as filters or notes open and close.
+ * The code a site owner pastes: the frame, a plain source link under it, and the resize script. The
+ * link is the point for search: a link inside an iframe (and the embed URL is `noindex`) passes nothing
+ * to the embedding page's backlinks, so the credit also lives in the owner's own HTML, pointing at the
+ * clean chart URL (no filters, no embed params). The frame works alone at the given height; the script
+ * (optional, some CMSs strip it) resizes it to the card as filters or notes open and close.
  */
-export function embedSnippet({ url, title, height, origin }: { url: string; title: string; height: number; origin: string }): string {
+export function embedSnippet({ url, title, height, origin, sourceUrl, siteName }: { url: string; title: string; height: number; origin: string; sourceUrl: string; siteName: string }): string {
   return (
-    `<iframe src="${attr(url)}" title="${attr(title)}" width="100%" height="${height}" style="border:0;max-width:100%" loading="lazy"></iframe>\n` +
+    `<iframe src="${attr(url)}" title="${attr(title)} · ${attr(siteName)}" width="100%" height="${height}" style="border:0;max-width:100%" loading="lazy"></iframe>\n` +
+    `<p style="margin:.4em 0 0;font-size:.85em">Source: <a href="${attr(sourceUrl)}">${text(title)} · ${text(siteName)}</a></p>\n` +
     `<script src="${attr(origin)}/embed.js" async></script>`
   );
 }

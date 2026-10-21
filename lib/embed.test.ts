@@ -27,11 +27,21 @@ describe("chart embeds", () => {
     expect(back.hash).toBe("#goods-trade-balance");
   });
 
-  it("writes an iframe that survives being pasted into HTML, plus the resize script", () => {
-    const code = embedSnippet({ url: embedUrl(page, "x", "light"), title: 'The "big" one', height: 520, origin: "https://insidegov.org" });
+  it("writes an iframe, a source link in the page's own HTML, and the resize script", () => {
+    const code = embedSnippet({
+      url: embedUrl(page, "x", "light"),
+      title: 'The "big" one',
+      siteName: "InsideGov",
+      sourceUrl: "https://insidegov.org/presidency/trade#x",
+      height: 520,
+      origin: "https://insidegov.org",
+    });
     expect(code).toContain('src="https://insidegov.org/presidency/trade?country=CHN&amp;years=2001-2010&amp;embed=x&amp;theme=light"');
-    expect(code).toContain('title="The &quot;big&quot; one"');
+    expect(code).toContain('title="The &quot;big&quot; one · InsideGov"');
     expect(code).toContain('height="520"');
+    // The link sits outside the iframe, with no rel="nofollow" and no embed params.
+    expect(code).toMatch(/<\/iframe>\n<p[^>]*>Source: <a href="https:\/\/insidegov\.org\/presidency\/trade#x">The "big" one · InsideGov<\/a><\/p>/);
+    expect(code).not.toMatch(/nofollow/);
     expect(code).toContain('<script src="https://insidegov.org/embed.js" async></script>');
   });
 });
