@@ -9,7 +9,6 @@ import { BackLinkProvider } from "@/components/BackLinkContext";
 import { OutboundLinkTracker } from "@/components/OutboundLinkTracker";
 import { JsonLd } from "@/components/JsonLd";
 import { siteJsonLd } from "@/lib/structured-data";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -73,7 +72,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <OutboundLinkTracker />
           <Analytics />
         </BackLinkProvider>
-        <Analytics />
       </body>
     </html>
   );
