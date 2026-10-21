@@ -62,3 +62,6 @@ pipeline/raw/census-trade/products/_cache/
 pipeline/raw/census-trade/enduse/_cache/
 # HS10 responses and concordance files behind the product-to-use join (resumable fetch)
 pipeline/raw/census-trade/product-use/_cache/
+
+# social post drafts (pipeline/insights): reviewed locally, never committed
+/social-drafts/

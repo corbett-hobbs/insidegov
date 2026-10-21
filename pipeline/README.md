@@ -9,6 +9,7 @@ pipeline/
   transform/   raw/ -> normalized, bioguide_id-keyed JSON -> output/
   raw/         checked-in raw snapshots (committed, never gitignored)
   output/      checked-in normalized JSON the app imports (committed)
+  insights/    social post drafts from output/ (charts + checked captions), reviewed as GitHub issues; see insights/README.md
 ```
 
 `fetch/photos.ts` is the one exception to `fetch -> raw/`: the member photos it
