@@ -1,103 +1,100 @@
-import { execFileSync } from "node:child_process";
-import { pathToFileURL } from "node:url";
-import { checkCaption } from "./caption";
-import { APPROVED_LABEL, POSTED_LABEL, type DraftBlock, parseDraftBlock } from "./issue";
-
 /**
- * Bluesky poster (AT Protocol) for an APPROVED draft issue. Stub, disabled: it posts only when ALL of these hold,
- * and otherwise prints the record it would have posted.
- *   - env SOCIAL_POSTING_ENABLED=true (the social-post workflow passes the repo variable of the same name, unset by default)
- *   - env BLUESKY_HANDLE and BLUESKY_APP_PASSWORD (an app password from Settings > Privacy and security, never the main one)
- *   - the issue has the `social-approved` label and not `social-posted`
- *   - the caption in the issue's hidden block still passes checkCaption against its facts (so an edit cannot add numbers)
- *
- *   pnpm insights:post -- --issue 123        # dry run unless enabled as above
- *
- * Uses the XRPC endpoints directly (no SDK dependency): com.atproto.server.createSession, com.atproto.repo.uploadBlob,
- * com.atproto.repo.createRecord with an app.bsky.feed.post record (link facet + one image with alt text).
+ * Bluesky poster (AT Protocol), called by post-next.ts. Uses the XRPC endpoints directly (no SDK dependency):
+ *   com.atproto.server.createSession   log in with the handle and an APP PASSWORD (never the account password)
+ *   com.atproto.repo.uploadBlob        the chart PNG
+ *   com.atproto.repo.createRecord      an app.bsky.feed.post (link facets, one image with alt text, replies for threads)
+ *   com.atproto.repo.getRecord/putRecord on app.bsky.actor.profile/self to pin the intro thread
  */
 
 const SERVICE = process.env.BLUESKY_SERVICE ?? "https://bsky.social";
 export const MAX_GRAPHEMES = 300;
 
-type Blob = { $type: "blob"; ref: { $link: string }; mimeType: string; size: number };
+export type Blob = { $type: "blob"; ref: { $link: string }; mimeType: string; size: number };
+export type StrongRef = { uri: string; cid: string };
+export type Session = { accessJwt: string; did: string; handle: string };
 
 export function graphemes(text: string): number {
   return [...new Intl.Segmenter("en", { granularity: "grapheme" }).segment(text)].length;
 }
 
-/** The app.bsky.feed.post record: caption, blank line, link (as a link facet, offsets in UTF-8 bytes), one image. */
+/** Link facets (offsets in UTF-8 bytes) for each `text` that appears in the post, pointing at `uri`. */
+export function linkFacets(text: string, links: { text: string; uri: string }[]) {
+  return links.flatMap((l) => {
+    const at = text.indexOf(l.text);
+    if (at < 0) return [];
+    const byteStart = Buffer.byteLength(text.slice(0, at), "utf8");
+    return [{ index: { byteStart, byteEnd: byteStart + Buffer.byteLength(l.text, "utf8") }, features: [{ $type: "app.bsky.richtext.facet#link", uri: l.uri }] }];
+  });
+}
+
+/** The app.bsky.feed.post record for a chart: caption, blank line, link (as a facet), one image. */
 export function buildPostRecord(caption: string, link: string, image: Blob, alt: string, createdAt: string) {
   const text = `${caption}\n\n${link}`;
   if (graphemes(text) > MAX_GRAPHEMES) throw new Error(`post is ${graphemes(text)} graphemes; Bluesky allows ${MAX_GRAPHEMES}`);
-  const byteStart = Buffer.byteLength(`${caption}\n\n`, "utf8");
   return {
     $type: "app.bsky.feed.post",
     text,
     createdAt,
     langs: ["en"],
-    facets: [{ index: { byteStart, byteEnd: byteStart + Buffer.byteLength(link, "utf8") }, features: [{ $type: "app.bsky.richtext.facet#link", uri: link }] }],
+    facets: linkFacets(text, [{ text: link, uri: link }]),
     embed: { $type: "app.bsky.embed.images", images: [{ alt: alt.slice(0, 2000), image, aspectRatio: { width: 1200, height: 675 } }] },
   };
 }
 
-async function xrpc<T>(method: string, init: RequestInit): Promise<T> {
-  const res = await fetch(`${SERVICE}/xrpc/${method}`, init);
+async function xrpc<T>(method: string, init: RequestInit & { query?: Record<string, string> }): Promise<T> {
+  const qs = init.query ? `?${new URLSearchParams(init.query)}` : "";
+  const res = await fetch(`${SERVICE}/xrpc/${method}${qs}`, init);
   if (!res.ok) throw new Error(`${method}: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
   return (await res.json()) as T;
 }
 
-export async function postToBluesky(block: DraftBlock, png: Buffer, creds: { handle: string; password: string }): Promise<string> {
-  const session = await xrpc<{ accessJwt: string; did: string }>("com.atproto.server.createSession", {
+export async function login(handle: string, password: string): Promise<Session> {
+  return xrpc<Session>("com.atproto.server.createSession", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ identifier: creds.handle, password: creds.password }),
+    body: JSON.stringify({ identifier: handle, password }),
   });
-  const auth = { Authorization: `Bearer ${session.accessJwt}` };
-  const { blob } = await xrpc<{ blob: Blob }>("com.atproto.repo.uploadBlob", { method: "POST", headers: { ...auth, "Content-Type": "image/png" }, body: new Uint8Array(png) });
-  const record = buildPostRecord(block.caption, block.link, blob, block.alt, new Date().toISOString());
-  const created = await xrpc<{ uri: string }>("com.atproto.repo.createRecord", {
+}
+
+const auth = (s: Session) => ({ Authorization: `Bearer ${s.accessJwt}` });
+
+async function createPostRecord(s: Session, record: object): Promise<StrongRef> {
+  return xrpc<StrongRef>("com.atproto.repo.createRecord", {
     method: "POST",
-    headers: { ...auth, "Content-Type": "application/json" },
-    body: JSON.stringify({ repo: session.did, collection: "app.bsky.feed.post", record }),
+    headers: { ...auth(s), "Content-Type": "application/json" },
+    body: JSON.stringify({ repo: s.did, collection: "app.bsky.feed.post", record }),
   });
-  // at://did/app.bsky.feed.post/<rkey> -> the public URL
-  return `https://bsky.app/profile/${creds.handle}/post/${created.uri.split("/").at(-1)}`;
 }
 
-async function main() {
-  const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
-  const issue = arg("--issue");
-  if (!issue) throw new Error("pass --issue N");
-  const gh = (args: string[]) => execFileSync("gh", args, { encoding: "utf8" }).trim();
-  const data = JSON.parse(gh(["issue", "view", issue, "--json", "body,labels,state"])) as { body: string; labels: { name: string }[]; state: string };
-  const labels = data.labels.map((l) => l.name);
-  if (!labels.includes(APPROVED_LABEL)) throw new Error(`issue ${issue} is not labelled ${APPROVED_LABEL}`);
-  if (labels.includes(POSTED_LABEL)) {
-    console.log(`issue ${issue} is already ${POSTED_LABEL}; nothing to do`);
-    return;
-  }
-  const block = parseDraftBlock(data.body);
-  if (!block) throw new Error(`issue ${issue} has no readable social-draft block`);
-  const errors = checkCaption(block.caption, block.facts);
-  if (errors.length) throw new Error(`caption fails the check: ${errors.join("; ")}`);
-  const enabled = process.env.SOCIAL_POSTING_ENABLED === "true";
-  const handle = process.env.BLUESKY_HANDLE;
-  const password = process.env.BLUESKY_APP_PASSWORD;
-  if (!enabled || !handle || !password) {
-    const fakeBlob: Blob = { $type: "blob", ref: { $link: "(uploaded image)" }, mimeType: "image/png", size: 0 };
-    console.log(`DRY RUN (posting disabled: set SOCIAL_POSTING_ENABLED=true, BLUESKY_HANDLE and BLUESKY_APP_PASSWORD). Would post:`);
-    console.log(JSON.stringify(buildPostRecord(block.caption, block.link, fakeBlob, block.alt, new Date().toISOString()), null, 2));
-    return;
-  }
-  const res = await fetch(block.image_url);
-  if (!res.ok) throw new Error(`image ${block.image_url}: HTTP ${res.status}`);
-  const url = await postToBluesky(block, Buffer.from(await res.arrayBuffer()), { handle, password });
-  gh(["issue", "comment", issue, "--body", `Posted to Bluesky: ${url}`]);
-  gh(["label", "create", POSTED_LABEL, "--color", "0E8A16", "--description", "Posted to social media", "--force"]);
-  gh(["issue", "edit", issue, "--add-label", POSTED_LABEL]);
-  gh(["issue", "close", issue]);
-  console.log(`posted ${url}`);
+export function postUrl(s: Session, ref: StrongRef): string {
+  return `https://bsky.app/profile/${s.handle}/post/${ref.uri.split("/").at(-1)}`;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) await main();
+export async function postChart(s: Session, caption: string, link: string, png: Buffer, alt: string): Promise<StrongRef> {
+  const { blob } = await xrpc<{ blob: Blob }>("com.atproto.repo.uploadBlob", { method: "POST", headers: { ...auth(s), "Content-Type": "image/png" }, body: new Uint8Array(png) });
+  return createPostRecord(s, buildPostRecord(caption, link, blob, alt, new Date().toISOString()));
+}
+
+/** Posts `texts` as a thread (each a reply to the one before); `links` become facets wherever they appear. */
+export async function postThread(s: Session, texts: string[], links: { text: string; uri: string }[]): Promise<StrongRef[]> {
+  const refs: StrongRef[] = [];
+  for (const text of texts) {
+    if (graphemes(text) > MAX_GRAPHEMES) throw new Error(`thread post is ${graphemes(text)} graphemes; Bluesky allows ${MAX_GRAPHEMES}`);
+    const reply = refs.length ? { root: refs[0], parent: refs.at(-1) } : undefined;
+    refs.push(await createPostRecord(s, { $type: "app.bsky.feed.post", text, createdAt: new Date().toISOString(), langs: ["en"], facets: linkFacets(text, links), ...(reply ? { reply } : {}) }));
+  }
+  return refs;
+}
+
+/** Pins a post on the profile (the profile record's `pinnedPost`), keeping the rest of the profile as it is. */
+export async function pinPost(s: Session, ref: StrongRef): Promise<void> {
+  const cur = await xrpc<{ value: Record<string, unknown>; cid: string }>("com.atproto.repo.getRecord", {
+    method: "GET",
+    query: { repo: s.did, collection: "app.bsky.actor.profile", rkey: "self" },
+  });
+  await xrpc("com.atproto.repo.putRecord", {
+    method: "POST",
+    headers: { ...auth(s), "Content-Type": "application/json" },
+    body: JSON.stringify({ repo: s.did, collection: "app.bsky.actor.profile", rkey: "self", record: { ...cur.value, pinnedPost: ref }, swapRecord: cur.cid }),
+  });
+}

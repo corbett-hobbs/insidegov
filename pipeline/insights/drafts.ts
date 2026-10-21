@@ -3,7 +3,7 @@ import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 import { claudeCaption, templateCaption } from "./caption";
 import { SITE_URL, renderChart } from "./chart";
-import type { Insight } from "./types";
+import type { Insight, Release } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
 
 /**
@@ -32,6 +32,10 @@ export type Draft = {
   score: number;
   facts: { id: string; text: string; president?: string; derivation: Insight["facts"][number]["derivation"] }[];
   template: string;
+  series_id: string;
+  frequency: Insight["frequency"];
+  /** When the data came out, whether the draft must say so, and when it goes stale (freshness.ts). */
+  release: Release | null;
 };
 
 export function slugFor(id: string): string {
@@ -82,6 +86,9 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         score: Math.round(insight.score * 10) / 10,
         facts: insight.facts.map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}), derivation: f.derivation })),
         template: insight.template,
+        series_id: insight.seriesId,
+        frequency: insight.frequency,
+        release: insight.release ?? null,
       };
       writeFileSync(join(opts.outDir, `${slug}.json`), `${JSON.stringify(draft, null, 2)}\n`);
       drafts.push(draft);
@@ -113,7 +120,7 @@ export function writeIndex(outDir: string, drafts: Draft[], dropped: string[]): 
       ">",
       `> ${d.link}`,
       "",
-      `\`${d.id}\` · score ${d.score} · caption: ${d.caption_source}${d.caption_model ? ` (${d.caption_model})` : ""}`,
+      `\`${d.id}\` · score ${d.score} · caption: ${d.caption_source}${d.caption_model ? ` (${d.caption_model})` : ""}${d.release ? ` · released ${d.release.releasedOn}${d.release.estimated ? " (est.)" : ""}, fresh until ${d.release.expiresOn}${d.release.lagged ? " · lagged" : ""}` : ""}`,
       "",
     ]),
     ...(dropped.length ? ["## Dropped", "", ...dropped.map((d) => `- ${d}`), ""] : []),
@@ -126,7 +133,7 @@ article{background:#fff;border-radius:10px;padding:16px;margin:0 0 24px;box-shad
 <body><main><h1>Social post drafts (${drafts.length})</h1><p>Nothing here is posted. Each caption's numbers were checked against the data cells listed under "Facts".</p>
 ${drafts
   .map(
-    (d, n) => `<article><div class="meta">${n + 1} · ${esc(d.dataset)} · ${esc(d.kind)} · ${esc(d.period)} · score ${d.score} · caption: ${esc(d.caption_source)}</div>
+    (d, n) => `<article><div class="meta">${n + 1} · ${esc(d.dataset)} · ${esc(d.kind)} · ${esc(d.period)} · score ${d.score} · caption: ${esc(d.caption_source)}${d.release ? ` · released ${esc(d.release.releasedOn)}${d.release.estimated ? " (est.)" : ""}, fresh until ${esc(d.release.expiresOn)}${d.release.lagged ? " · lagged" : ""}` : ""}</div>
 <img src="${esc(d.image)}" alt="${esc(d.alt)}"><div class="post">${esc(d.caption)}\n\n<a href="${esc(d.link)}">${esc(d.link)}</a></div>
 <details><summary>Facts and template</summary><p><b>Template:</b> ${esc(d.template)}</p><ul>${d.facts.map((f) => `<li><b>${esc(f.text)}</b> <code>${esc(f.id)}</code></li>`).join("")}</ul></details></article>`,
   )

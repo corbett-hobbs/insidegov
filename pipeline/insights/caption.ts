@@ -52,8 +52,9 @@ export function numberTokens(text: string): string[] {
  * Every reason the caption fails (none: it passes). `facts` are the insight's facts, headline number first; the poster
  * re-runs this on the draft's stored facts, so a caption edited in the issue is held to the same rules.
  */
-export function checkCaption(caption: string, facts: { id?: string; text: string; president?: string }[]): string[] {
+export function checkCaption(caption: string, facts: { id?: string; text: string; president?: string }[], opts: { lagged?: boolean } = {}): string[] {
   const errors: string[] = [];
+  if (opts.lagged && !/\breleased\b/i.test(caption)) errors.push('the data covers a period long before its release, so the caption must say it is newly "released"');
   if (caption.length > CAPTION_MAX_CHARS) errors.push(`${caption.length} characters; the limit is ${CAPTION_MAX_CHARS}`);
   if (caption.trim().length < 40) errors.push("too short to say anything");
   if (/https?:|www\.|\.(?:com|org|gov|fyi)\b/i.test(caption)) errors.push("contains a link (the link is added separately)");
@@ -112,6 +113,7 @@ The caption:
 - No adjectives that judge or dramatize (surge, plunge, soaring, massive, crisis, historic, record), no party names or ideological labels, no claims about causes or consequences, no predictions, and nothing you know from outside the facts. Name a president only to identify a term.
 - Comparisons across presidential terms are side by side at the same elapsed time; describe them that way and do not imply credit or blame. Mention either every earlier term or none of them (the chart shows them all, so stating the current term's figure and its rank among the terms, if a fact gives one, is usually best); never pick out one or a few, such as the predecessor.
 - No hashtags, links, mentions, emoji, exclamation marks or questions. The link to the data is added after your text.
+- If a context note says the data is newly released, the caption must say so with the word "released" (for example "Newly released EIA data show ..."), so a chart ending months ago does not read as old news.
 - Respect the context notes (for example, say "encounters", never "people" or "migrants", when encounters count events).`;
 
 const TOOL: Anthropic.Beta.BetaTool = {
@@ -140,7 +142,7 @@ export function insightPrompt(insight: Insight): string {
 
 /** The template caption, if it passes the check (it is built from the facts, so it should; tests hold it to that). */
 export function templateCaption(insight: Insight): CaptionResult {
-  const errors = checkCaption(insight.template, insight.facts);
+  const errors = checkCaption(insight.template, insight.facts, { lagged: insight.release?.lagged });
   return errors.length ? { error: `template fails the check: ${errors.join("; ")}` } : { caption: insight.template, source: "template", attempts: 0 };
 }
 
@@ -172,7 +174,7 @@ export async function claudeCaption(client: Anthropic, insight: Insight): Promis
       continue;
     }
     const caption = parsed.data.caption.trim().replace(/\s+/g, " ");
-    const errors = checkCaption(caption, insight.facts);
+    const errors = checkCaption(caption, insight.facts, { lagged: insight.release?.lagged });
     if (errors.length === 0) return { caption, source: "claude", model: res.model, attempts: attempt };
     feedback = `\n\n---\nA previous caption was rejected: ${errors.join("; ")}.\nRejected caption: ${caption}`;
   }

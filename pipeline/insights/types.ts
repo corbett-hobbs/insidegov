@@ -56,6 +56,13 @@ export type Series = {
   source: string;
   /** Ranking weight: how much a reader cares about this series (1 = default). */
   weight: number;
+  /** The dataset's headline series gets a routine `latest` post when nothing notable happened (schedule.ts). */
+  headline?: boolean;
+  /**
+   * Typical days from the end of a period to its publication. Only used to ESTIMATE release dates for the backfill;
+   * the freshness workflows know the real one (the day they see the data).
+   */
+  releaseLagDays: number;
 };
 
 export type EventRecord = { date: string; cell: CellRef };
@@ -121,7 +128,8 @@ export type ChartSpec =
       orientation: "horizontal" | "vertical";
     };
 
-export type InsightKind = "extreme_high" | "extreme_low" | "move_up" | "move_down" | "term_comparison";
+/** `latest` is the routine reading (newest value, change on the period and on the year) that keeps a refresh postable. */
+export type InsightKind = "extreme_high" | "extreme_low" | "move_up" | "move_down" | "term_comparison" | "latest";
 
 export type Insight = {
   id: string;
@@ -130,6 +138,8 @@ export type Insight = {
   kind: InsightKind;
   /** The period the insight is about (the newest observation it rests on), YYYY-MM-DD. */
   period: string;
+  /** How often the data comes out (event roundups count as monthly). */
+  frequency: Frequency;
   /** Chart headline, short and factual. */
   headline: string;
   /** Deterministic caption built only from `facts`; used when no API key is set and as the model's reference. */
@@ -145,4 +155,20 @@ export type Insight = {
   score: number;
   /** Alt text for the chart image. */
   alt: string;
+  /** Freshness (freshness.ts): set when the insight is stamped with the day its data was released. */
+  release?: Release;
+};
+
+/** When the data behind an insight came out, and what that means for posting it. */
+export type Release = {
+  /** Last day the newest period covers (a month's last day, a week's date, September 30 for a fiscal year). */
+  periodEnd: string;
+  /** Day the data was published (or first seen by a freshness workflow). */
+  releasedOn: string;
+  /** Whether the release date is an estimate (backfill) rather than observed (workflow). */
+  estimated: boolean;
+  /** The period ends long before the release, so chart and caption must say the data is newly released. */
+  lagged: boolean;
+  /** Last day the draft may post; after that it is stale (newer data is out or due). */
+  expiresOn: string;
 };

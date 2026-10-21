@@ -1,5 +1,6 @@
-import { detectEventTermComparison, detectExtremes, detectSeries, eventMonthlySeries, truncate, truncateEvents } from "./detect";
+import { detectEventTermComparison, detectExtremes, detectLatest, detectSeries, eventMonthlySeries, truncate, truncateEvents } from "./detect";
 import { addDays, addMonths } from "./format";
+import { estimateRelease } from "./freshness";
 import type { Administration, EventSet, Insight, Series } from "./types";
 
 /**
@@ -18,33 +19,58 @@ export function lastFullMonthEnd(date: string): string {
   return addDays(`${date.slice(0, 7)}-01`, -1);
 }
 
+/** Term comparisons run quarterly (on March, June, September and December data), not with every refresh. */
+export const TERM_MONTHS = ["03", "06", "09", "12"];
+
 /**
- * Insights at each date: the series cut at that date, so each reads as "when this period was the newest".
- * Weekly series compare terms only on the first week of a month, so a weekly refresh does not repeat the same chart.
+ * Whether a term comparison is due at `date`: a quarter-end month for monthly data and month-end roundups, the first
+ * week of a quarter-end month for weekly data. The comparison is the same chart month to month otherwise.
  */
+export function termComparisonDue(frequency: Series["frequency"], date: string, prevDate: string | undefined): boolean {
+  if (!TERM_MONTHS.includes(date.slice(5, 7))) return false;
+  return frequency !== "weekly" || !prevDate || prevDate.slice(0, 7) !== date.slice(0, 7);
+}
+
+/**
+ * The routine `latest` reading is a fallback: kept only when nothing else came out of the same series and period, so a
+ * refresh always has something to post but a notable one is not posted twice.
+ */
+function withoutRedundantLatest(insights: Insight[]): Insight[] {
+  const other = new Set(insights.filter((i) => i.kind !== "latest").map((i) => `${i.seriesId}|${i.period}`));
+  return insights.filter((i) => i.kind !== "latest" || !other.has(`${i.seriesId}|${i.period}`));
+}
+
+/** Insights at each date: the series cut at that date, so each reads as "when this period was the newest". */
 export function seriesInsightsAt(series: Series, admins: Administration[], dates: string[]): Insight[] {
   return dates.flatMap((d) => {
     const cut = truncate(series, d);
     if (cut.points.at(-1)?.date !== d) return [];
-    const prev = cut.points.at(-2);
-    const firstOfMonth = !prev || prev.date.slice(0, 7) !== d.slice(0, 7);
-    return detectSeries(cut, admins).filter((i) => i.kind !== "term_comparison" || series.frequency !== "weekly" || firstOfMonth);
+    const due = termComparisonDue(series.frequency, d, cut.points.at(-2)?.date);
+    return withoutRedundantLatest(detectSeries(cut, admins).filter((i) => i.kind !== "term_comparison" || due));
   });
 }
 
 /**
- * Insights for an event set as of the end of each given month: the count by that day of the term against earlier terms,
- * and a new high for the month's total. Month ends keep the cadence monthly however often the data is refreshed.
+ * Insights for an event set as of the end of each given month: the month's total (a new high, or the routine reading),
+ * and at quarter ends the count by that day of the term against earlier terms.
  */
 export function eventInsightsAt(set: EventSet, admins: Administration[], monthEnds: string[]): Insight[] {
   const monthly = EVENT_MONTHLY[set.id];
   return monthEnds.flatMap((end) => {
     const cut = truncateEvents(set, end);
-    const out = detectEventTermComparison(cut, admins, end);
+    const out = termComparisonDue("monthly", end, undefined) ? detectEventTermComparison(cut, admins, end) : [];
     if (monthly) {
-      const series = eventMonthlySeries(cut, addDays(end, 1), { id: `${set.id}.monthly`, name: `the number of ${monthly.name}`, seasonal: monthly.seasonal, weight: set.weight, words: monthly.words });
-      // A month with none is not news, and neither is the fewest: only new highs.
-      out.push(...detectExtremes({ ...series, skip: ["move", "term"] }).filter((i) => i.kind === "extreme_high"));
+      const series = eventMonthlySeries(cut, addDays(end, 1), {
+        id: `${set.id}.monthly`,
+        name: `the number of ${monthly.name}`,
+        seasonal: monthly.seasonal,
+        weight: set.weight,
+        words: monthly.words,
+        headline: true,
+      });
+      // A month with none is not news, and neither is the fewest: only new highs, else the routine reading.
+      const notable = detectExtremes(series).filter((i) => i.kind === "extreme_high");
+      out.push(...(notable.length || out.length ? notable : detectLatest(series)));
     }
     return out;
   });
@@ -93,4 +119,15 @@ export function selectInsights(insights: Insight[], opts: SelectOptions): Insigh
     out.push(i);
   }
   return out;
+}
+
+/**
+ * An estimated release date for an insight, when the real one is unknown (the backfill, or drafting by date): the
+ * period end plus the series' typical publication lag. (The output files' `as_of`/`fetched_at` fields are when the
+ * site re-read a source, not when the source published, so they cannot stand in.) Event roundups (executive orders,
+ * laws) count as released the day after the month ends.
+ */
+export function releaseEstimator(series: Series[]): (insight: Insight) => string {
+  const lag = new Map(series.map((s) => [s.id, s.releaseLagDays] as const));
+  return (i) => estimateRelease(i.frequency, i.period, lag.get(i.seriesId) ?? 1);
 }

@@ -1,8 +1,9 @@
 import { appendFileSync } from "node:fs";
-import { eventInsightsAt, newDates, newMonthEnds, selectInsights, seriesInsightsAt } from "./collect";
+import { eventInsightsAt, newDates, newMonthEnds, releaseEstimator, selectInsights, seriesInsightsAt } from "./collect";
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
-import type { DatasetId, Insight } from "./types";
+import { stampRelease } from "./freshness";
+import type { DatasetId, Insight, Series } from "./types";
 
 /**
  * Drafts for what a data refresh added. Run by the freshness workflows (via .github/actions/social-drafts) after the
@@ -39,8 +40,10 @@ const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROP
 const admins = loadAdministrations();
 const today = new Date().toISOString().slice(0, 10);
 const insights: Insight[] = [];
+const allSeries: Series[] = [];
 for (const d of datasets) {
   const now = loadDataset(d);
+  allSeries.push(...now.series);
   const prev = sinceRef ? loadDataset(d, sinceRef) : null;
   for (const s of now.series) {
     const after = prev ? (prev.series.find((p) => p.id === s.id)?.points.at(-1)?.date ?? "") : since!;
@@ -54,7 +57,10 @@ for (const d of datasets) {
   }
 }
 
-const picked = selectInsights(insights, { max, perSeries: 2, perDataset: 3 });
+// A freshness workflow sees the data the day it comes out, so today is the release date (freshness.ts). Drafting by
+// date (--since) cannot know it, so it estimates.
+const estimate = releaseEstimator(allSeries);
+const picked = selectInsights(insights, { max, perSeries: 2, perDataset: 3 }).map((i) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true)));
 console.log(`insights:draft  ${insights.length} insights in ${datasets.join(", ")}, ${picked.length} picked, captions by ${useLlm ? "Claude" : "template"}`);
 const { drafts, dropped } = picked.length ? await buildDrafts(picked, { outDir, useLlm }) : { drafts: [], dropped: [] };
 for (const d of dropped) console.log(`  dropped ${d}`);
