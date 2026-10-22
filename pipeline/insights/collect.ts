@@ -46,7 +46,7 @@ export function seriesInsightsAt(series: Series, admins: Administration[], dates
     const cut = truncate(series, d);
     if (cut.points.at(-1)?.date !== d) return [];
     const due = termComparisonDue(series.frequency, d, cut.points.at(-2)?.date);
-    return withoutRedundantLatest(detectSeries(cut, admins).filter((i) => i.kind !== "term_comparison" || due));
+    return withoutRedundantLatest(detectSeries(cut, admins).filter((i) => i.kind !== "term_comparison" || due)).map((i) => (series.anchor ? { ...i, anchor: series.anchor } : i));
   });
 }
 

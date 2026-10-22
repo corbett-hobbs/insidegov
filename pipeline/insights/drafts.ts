@@ -70,7 +70,7 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
       }
       const slug = slugFor(insight.id);
       writeFileSync(join(opts.outDir, `${slug}.png`), await renderChart(insight));
-      const link = `${SITE_URL}${insight.url}`;
+      const link = `${SITE_URL}${insight.url}${insight.anchor ?? ""}`;
       const draft: Draft = {
         id: insight.id,
         slug,

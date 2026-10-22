@@ -125,6 +125,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     ],
     chart,
     url: series.url,
+    ...(series.anchor ? { anchor: series.anchor } : {}),
     source: series.source,
     score: 3 * series.weight,
     alt: `${bars ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${sentence}.`,
@@ -252,6 +253,8 @@ export function tariffContext(country: { code: string; name: string } | undefine
     ],
     chart,
     url: "/presidency/trade",
+    // The tariff card, filtered to the country (the trade page keeps its filters in the query string).
+    anchor: country ? `?country=${country.code}#tariffs` : "#tariffs",
     source: "U.S. Census Bureau and USITC (calculated duties ÷ imports for consumption)",
     score: 4.5,
     alt: `Line chart of the average tariff collected on ${subject}${country ? ", with all countries for comparison" : ""}, monthly through ${latestDate.text}. ${template.slice(opts.lead.length + 1)}`,

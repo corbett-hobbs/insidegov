@@ -55,6 +55,11 @@ export type Series = {
   context?: string[];
   points: Point[];
   url: string;
+  /**
+   * Where on the page the post links: the chart card's anchor, with any filter ("#gas-price", "?country=CAN#tariffs").
+   * Card ids are the share button's (components/charts/ChartShare.tsx: the title slugged) unless the card sets its own.
+   */
+  anchor?: string;
   source: string;
   /** Ranking weight: how much a reader cares about this series (1 = default). */
   weight: number;
@@ -158,8 +163,10 @@ export type Insight = {
   /** Context the caption writer may use as words, not numbers (series definition, caveats). */
   context: string[];
   chart: ChartSpec;
-  /** Canonical page path on the site, e.g. "/presidency/energy". */
+  /** Canonical page path on the site, e.g. "/presidency/energy" (printed on the chart). */
   url: string;
+  /** Appended to `url` for the post's link: the chart card and its filter (Series.anchor). */
+  anchor?: string;
   source: string;
   /** Higher is more notable; used to rank and pick drafts. */
   score: number;

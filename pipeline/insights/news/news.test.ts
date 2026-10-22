@@ -108,6 +108,8 @@ describe("news charts", () => {
     const lead = "Tariffs involving Canada are in the news.";
     const insight = tariffContext({ code: "CAN", name: "Canada" }, { lead, id: "news:tariff.CAN:2026-10-22" })!;
     expect(insight.kind).toBe("news");
+    // The post links to the tariff card filtered to the country, not the bare page.
+    expect(insight.anchor).toBe("?country=CAN#tariffs");
     expect(insight.chart.type === "line" && insight.chart.comparison?.mainLabel).toBe("Canada");
     expect(verifyInsight(insight, new CellIndex())).toEqual([]);
     expect(templateCaption(insight)).toMatchObject({ source: "template" });
@@ -137,6 +139,15 @@ describe("news charts", () => {
     expect(peaked).not.toContain("year earlier");
     // The latest value is the peak: a year earlier, plus how far back it stands.
     expect(make(rising)).toMatch(/up [\d.]+% from a year earlier \(\$[\d.]+\), the highest in data going back to 2016\.$/);
+  });
+
+  it("links every news topic's chart to its card on the page", () => {
+    const all = (["gas", "energy", "trade", "encounters", "ice"] as const).flatMap((d) => loadDataset(d).series);
+    for (const t of NEWS_TOPICS) {
+      if (t.build.kind !== "series") continue;
+      const id = t.build.seriesId;
+      expect(all.find((s) => s.id === id)?.anchor, id).toMatch(/^#[a-z-]+$/);
+    }
   });
 
   it("builds series context charts whose facts verify", () => {
