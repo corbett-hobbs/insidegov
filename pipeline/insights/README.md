@@ -92,6 +92,9 @@ retried with the reasons (three tries), then dropped. Without an API key the det
 - **Email**: each freshness run that opens drafts sends **one** email (not one per draft) listing them with links and a
   link to the review queue. It uses the same `NOTIFY_*` secrets as the data-check alerts (email, Slack as fallback; see
   `docs/DATA_CONVENTIONS.md`, "Review notifications"), so with those set there is nothing more to configure.
+- **Posting results**: `social-post.yml` sends one email when a run posts something (with the links), when a post fails
+  (which platform and the error; it retries next slot), when a due draft's caption fails the check, or when a draft
+  expires unposted. Quiet runs, and dry runs, send nothing.
 - **GitHub's own** issue emails still apply if you watch the repository.
 - Each draft issue has a **Length** section: characters used against Bluesky's 300 and X's 280 (X without and with the
   link), and whether the caption still passes the check. Editing the issue refreshes it automatically

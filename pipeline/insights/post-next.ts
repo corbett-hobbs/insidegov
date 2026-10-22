@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { appendFileSync, writeFileSync } from "node:fs";
 import * as bsky from "./bluesky";
 import { checkCaption } from "./caption";
 import { SITE_URL } from "./chart";
@@ -40,8 +41,31 @@ const live = enabled && platforms.length > 0;
 const gh = (args: string[]) => execFileSync("gh", args, { encoding: "utf8" }).trim();
 const act = (what: string, args: string[]) => (live ? gh(args) : console.log(`  [dry run] ${what}`));
 
-type Issue = { number: number; body: string; labels: { name: string }[]; closedAt?: string };
-const approved = JSON.parse(gh(["issue", "list", "--label", APPROVED_LABEL, "--state", "open", "--limit", "300", "--json", "number,body,labels"])) as Issue[];
+// What happened this run, for the notification email (live runs only; a dry run changes nothing and says nothing).
+const report: { posted: string[]; problems: string[]; expired: string[] } = { posted: [], problems: [], expired: [] };
+const titleOf = (n: number | string) => approved.find((i) => String(i.number) === String(n))?.title.replace(/^Social (draft|intro thread): ?/, "").replace(/ \[[^\]]*\]$/, "") ?? `#${n}`;
+const short = (e: unknown) => String((e as Error).message ?? e).split("\n")[0]!.slice(0, 240);
+
+/** Writes the email summary and its GitHub Actions outputs, then ends the run. */
+function finish(): never {
+  const { posted, problems, expired } = report;
+  if (live && (posted.length || problems.length || expired.length)) {
+    const lines = [
+      ...posted.map((p) => `POSTED ${p}`),
+      ...problems.map((p) => `PROBLEM ${p}`),
+      ...expired.map((p) => `EXPIRED ${p}`),
+    ];
+    const summary = lines.join("\n\n") + "\n";
+    const file = `${process.env.RUNNER_TEMP ?? "."}/social-post-summary.txt`;
+    writeFileSync(file, summary);
+    const subject = problems.length ? "InsideGov: a social post needs attention" : posted.length ? "InsideGov: posted to social" : "InsideGov: social draft expired unposted";
+    if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `notify=true\nsubject=${subject}\n`);
+  }
+  process.exit(0);
+}
+
+type Issue = { number: number; title: string; body: string; labels: { name: string }[]; closedAt?: string };
+const approved = JSON.parse(gh(["issue", "list", "--label", APPROVED_LABEL, "--state", "open", "--limit", "300", "--json", "number,title,body,labels"])) as Issue[];
 const posted = JSON.parse(gh(["issue", "list", "--label", POSTED_LABEL, "--state", "closed", "--limit", "100", "--json", "body,closedAt"])) as Issue[];
 
 const blocks = new Map<string, { issue: Issue; block: DraftBlock }>();
@@ -81,16 +105,18 @@ const now = new Date().toISOString();
 const decision = pickNext(queue, history, now, slot);
 console.log(`insights:post  ${slot} slot, ${queue.length} queued, platforms: ${platforms.join(", ") || "none configured"}${live ? "" : " (DRY RUN)"}`);
 
+if (decision.expired.length + decision.superseded.length) act("create the social-expired label", ["label", "create", EXPIRED_LABEL, "--color", "E4E669", "--description", "Not posted: went stale or was superseded (pipeline/insights)", "--force"]);
 for (const q of [...decision.expired, ...decision.superseded]) {
   const why = decision.expired.includes(q) ? "it went stale before a slot was free (newer data is out or due)" : "a newer draft for the same series is approved";
   console.log(`  expire #${q.key} ${q.id}: ${why}`);
+  report.expired.push(`#${q.key} ${titleOf(q.key)}: ${why}.`);
   act(`label #${q.key} ${EXPIRED_LABEL} and close`, ["issue", "close", q.key, "--comment", `Not posted: ${why}.`]);
   act(`label #${q.key}`, ["issue", "edit", q.key, "--add-label", EXPIRED_LABEL, "--remove-label", APPROVED_LABEL]);
 }
 
 if (!decision.post) {
   console.log(`  nothing to post: ${decision.reason}`);
-  process.exit(0);
+  finish();
 }
 const { issue, block } = blocks.get(decision.post.key)!;
 console.log(`  next: #${issue.number} ${block.id} (${decision.reason})`);
@@ -100,7 +126,8 @@ if (block.kind !== "intro") {
   if (errors.length) {
     console.log(`  caption fails the check: ${errors.join("; ")}`);
     act(`comment on #${issue.number}`, ["issue", "comment", String(issue.number), "--body", `Not posted: the caption fails the check (${errors.join("; ")}). Fix \`caption\` in the block and it will be picked up at the next slot.`]);
-    process.exit(0);
+    report.problems.push(`#${issue.number} ${titleOf(issue.number)} was due to post but its caption fails the check (${errors.join("; ")}). Edit it in the issue.`);
+    finish();
   }
 }
 
@@ -120,7 +147,12 @@ for (const p of todo.length ? todo : (["bluesky", "x"] as Platform[])) {
     succeeded.push(p);
   } catch (err) {
     console.log(`  ${p} failed: ${(err as Error).message}`);
-    gh(["issue", "comment", String(issue.number), "--body", `Posting to ${p} failed; it will be retried at the next slot.\n\n\`\`\`\n${(err as Error).message}\n\`\`\``]);
+    report.problems.push(`Posting #${issue.number} ${titleOf(issue.number)} to ${p === "x" ? "X" : "Bluesky"} failed; it retries at the next slot. ${short(err)}`);
+    try {
+      gh(["issue", "comment", String(issue.number), "--body", `Posting to ${p} failed; it will be retried at the next slot.\n\n\`\`\`\n${(err as Error).message}\n\`\`\``]);
+    } catch {
+      /* the email still goes out */
+    }
   }
 }
 if (live && links.length) {
@@ -132,7 +164,9 @@ if (live && links.length) {
     gh(["issue", "close", String(issue.number)]);
   }
   for (const l of links) console.log(`  posted ${l}`);
+  report.posted.push(`#${issue.number} ${titleOf(issue.number)}\n${links.map((l) => `  ${l}`).join("\n")}`);
 }
+finish();
 
 /** X text: the caption, plus the link only when X_INCLUDE_LINK=true (X charges far more for posts with URLs). */
 function xText(b: DraftBlock): string {
