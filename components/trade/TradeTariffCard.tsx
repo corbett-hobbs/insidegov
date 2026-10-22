@@ -150,6 +150,7 @@ export function TradeTariffCard({
           {reference && <LegendToggle active={only === "reference"} dimmed={only === "main"} onClick={() => isolate("reference")}><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-faint)" strokeWidth="1.75" /></svg>All countries, for reference</LegendToggle>}
           <span className="inline-flex items-center gap-1.5"><svg width="22" height="10" aria-hidden><line x1="11" x2="11" y1="0" y2="10" stroke="var(--accent)" strokeWidth="1.4" /><circle cx="11" cy="3" r="2.8" fill="var(--accent)" /></svg>Tariff action (solid: major; dashed: other)</span>
           <span className="inline-flex items-center gap-1.5"><Swatch color="color-mix(in srgb, var(--ink) 9%, transparent)" border />Recession (NBER)</span>
+          <span className="inline-flex items-center gap-1.5"><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-muted)" strokeWidth="1" strokeDasharray="3 3" /></svg>Data source change, Jan 2010</span>
         </div>
             }
           />
@@ -163,7 +164,7 @@ export function TradeTariffCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Calculated duties divided by the value of imports for consumption, monthly from January 1993, on the same timeline as the trade balance: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12). Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Tariff actions and court rulings are marked on the date each took effect; Census runs about two months behind, so later actions are pinned to the right edge. Legal status is as of {dateText(lastReviewed)}.
+            Calculated duties divided by the value of imports for consumption, monthly from January 1993, on the same timeline as the trade balance: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12); the dashed vertical line marks the change. Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Tariff actions and court rulings are marked on the date each took effect; Census runs about two months behind, so later actions are pinned to the right edge. Legal status is as of {dateText(lastReviewed)}.
           </p>
         </MethodologyNote>
         <EventsTable flags={flags} lastReviewed={lastReviewed} />
