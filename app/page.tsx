@@ -24,7 +24,7 @@ const BLURBS: Record<string, string> = {
   congress:
     "Every member\u2019s votes as a two-dimensional ideology score, the laws Congress enacts and how broadly they are supported, estimated net worth from financial disclosures, and who serves by age, gender and tenure.",
   "supreme-court":
-    "Where the justices sit over time, based on their ideology, and how many cases the Court decides and how often it splits.",
+    "Where the justices sit over time based on their ideology, how many cases the Court decides, and how often it splits.",
   presidency:
     "The economy, trade, immigration, energy, foreign aid, troops abroad and executive orders, laid out against each presidential term, from gas prices and tariffs to deportations.",
 };

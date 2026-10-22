@@ -6,6 +6,7 @@ import { fmtMbd, fmtMbdShort, isPreliminary, monthLabel, monthOfDay, monthlyAt, 
 import { monthStartDay, termLabel } from "@/lib/trade-chart";
 import type { EnergyPayload, MonthlyKey } from "@/lib/energy-types";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
+import { readoutRows, rowValues, type ReadoutLine } from "@/lib/line-readout";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
@@ -63,7 +64,7 @@ export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; vi
   const month = Math.min(day !== null ? monthOfDay(day) : last, last);
   const term = termAtDay(payload.terms, monthStartDay(month));
   const f = (k: MonthlyKey) => (m[k][month] == null ? "—" : fmtMbdShort(m[k][month] as number));
-  const readout = { values: [`Produced ${f("prod")}`, `Supplied ${f("supplied")}`], date: `${monthLabel(month)}${isPreliminary(payload, "prod", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  const readout = { values: rowValues(readoutRows<ReadoutLine<MonthlyKey>>([{ key: "prod", label: "Produced", value: f("prod") }, { key: "supplied", label: "Supplied", value: f("supplied") }], only)), date: `${monthLabel(month)}${isPreliminary(payload, "prod", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell

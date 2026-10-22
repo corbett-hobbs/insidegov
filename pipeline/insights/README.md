@@ -174,6 +174,14 @@ retried with the reasons (three tries), then dropped. Without an API key the det
   link), and whether the caption still passes the check. Editing the issue refreshes it automatically
   (`social-counts.yml`).
 
+## The chart image
+
+`chart.tsx` draws a 1200 × 675 card with `next/og`, the site's seal (`app/icon.svg`) and wordmark on top. Line charts (the usual card) carry the site's presidential-term band
+under the year axis: the same light party tint, party-coloured top rule and shortened names as the Energy and Trade
+pages (ARCHITECTURE_MAP rule 10b, `lib/term-label.ts`), from `administrations.json` plus Bush 41. The line, the dots and
+the newest-value accent stay neutral. Bar cards (a fiscal-year series, a term comparison) have no band: a term comparison
+already labels one bar per president.
+
 ## Reviewing
 
 Each draft issue shows the image, the exact post text, the freshness window ("queue it by …"), and every fact with its
