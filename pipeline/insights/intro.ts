@@ -79,6 +79,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
     console.log(introIssueBody(block));
   } else {
     const gh = (args: string[]) => execFileSync("gh", args, { encoding: "utf8" }).trim();
+    gh(["label", "create", DRAFT_LABEL, "--color", "C5DEF5", "--description", "Social post draft awaiting review (pipeline/insights)", "--force"]);
     gh(["label", "create", INTRO_LABEL, "--color", "D4C5F9", "--description", "The account intro thread (pipeline/insights)", "--force"]);
     const open = JSON.parse(gh(["issue", "list", "--label", INTRO_LABEL, "--state", "all", "--json", "number"])) as unknown[];
     if (open.length) {
