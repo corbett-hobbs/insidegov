@@ -1,5 +1,6 @@
 import { graphemes, MAX_GRAPHEMES } from "./bluesky";
 import { checkCaption } from "./caption";
+import { INSTAGRAM_MAX, instagramCaption } from "./instagram";
 import type { DraftBlock } from "./issue";
 import { X_MAX, xLength } from "./x";
 
@@ -31,12 +32,16 @@ export function lengthSection(block: DraftBlock): string {
     const bsky = `${block.caption}\n\n${block.link}`;
     const xPlain = xLength(block.caption);
     const xLinked = xLength(`${block.caption}\n\n${block.link}`);
+    const insta = instagramCaption(block);
     lines.push(
       `- **Bluesky** (caption and link): ${fit(graphemes(bsky), MAX_GRAPHEMES)}`,
       `- **X** (caption, no link by default): ${fit(xPlain, X_MAX)}; with the link: ${fit(xLinked, X_MAX)}`,
+      `- **Instagram** (caption, link-in-bio line and hashtags): ${fit(graphemes(insta), INSTAGRAM_MAX)}`,
     );
     const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead });
     lines.push(errors.length ? `- ⚠ **Caption check fails:** ${errors.join("; ")}. It will not post until this is fixed.` : "- ✅ Caption check passes (numbers match the facts, no loaded words).");
+    // Instagram is posted by hand: the text to paste, rebuilt with the rest of this section when the caption is edited.
+    lines.push("", "**Instagram text** (to post by hand; the hashtags are fixed per dataset in `instagram.ts`)", "", "```text", insta, "```");
   }
   return `${COUNTS_OPEN}\n**Length**\n\n${lines.join("\n")}\n${COUNTS_CLOSE}`;
 }

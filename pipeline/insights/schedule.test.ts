@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { graphemes, linkFacets, MAX_GRAPHEMES } from "./bluesky";
-import { checkCaption } from "./caption";
+import { BANNED_WORDS, checkCaption } from "./caption";
 import { detectExtremes } from "./detect";
 import { addMonths } from "./format";
 import { FRESH_DAYS, LAG_QUALIFIER_DAYS, isFresh, periodEnd, releaseFor, releaseNote, stampRelease } from "./freshness";
@@ -8,6 +8,7 @@ import { INTRO_THREAD } from "./intro";
 import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type QueueItem, localDate, localTimeToUtc, pickNext, simulate, slotAt, slotLabel } from "./schedule";
 import type { Series } from "./types";
 import { fit, lengthSection, refreshCounts } from "./counts";
+import { INSTAGRAM_HASHTAGS, instagramCaption } from "./instagram";
 import { type DraftBlock, blockComment, parseDraftBlock } from "./issue";
 import { X_MAX, oauthHeader, xLength } from "./x";
 
@@ -219,6 +220,27 @@ describe("length section", () => {
     const section = lengthSection(block({ caption: `${block().caption} That is 99% more than before.` }));
     expect(section).toContain("Caption check fails");
     expect(section).toMatch(/numbers not among the facts: 99%/);
+  });
+
+  it("gives the Instagram text: caption, link-in-bio line and the dataset's fixed hashtags", () => {
+    const b = block({ dataset: "trade", link: "https://insidegov.fyi/presidency/trade?country=CAN#tariffs" });
+    const text = instagramCaption(b);
+    expect(text).toBe(`${b.caption}\n\nChart and full data at insidegov.fyi/presidency/trade (link in bio).\n\n${INSTAGRAM_HASHTAGS.trade.join(" ")}`);
+    const section = lengthSection(b);
+    expect(section).toMatch(/\*\*Instagram\*\*.*\/ 2200/);
+    expect(section).toContain(text);
+  });
+
+  it("keeps every hashtag set to 3-5 plain topic tags, and the model still cannot write one", () => {
+    for (const tags of Object.values(INSTAGRAM_HASHTAGS)) {
+      expect(tags.length).toBeGreaterThanOrEqual(3);
+      expect(tags.length).toBeLessThanOrEqual(5);
+      for (const t of tags) {
+        expect(t).toMatch(/^#[A-Za-z]+$/);
+        expect(BANNED_WORDS).not.toContain(t.slice(1).toLowerCase());
+      }
+    }
+    expect(lengthSection(block({ caption: `${block().caption} #energy` }))).toContain("Caption check fails");
   });
 
   it("counts each intro post per platform", () => {
