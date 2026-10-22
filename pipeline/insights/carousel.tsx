@@ -68,7 +68,7 @@ function Header({ insight, label }: { insight: Insight; label?: string }) {
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 25, letterSpacing: -0.4, color: INK, textTransform: "none", marginRight: 14 }}>InsideGov</div>
       {label ?? KICKER[insight.dataset]}
       {note && label === undefined ? (
-        <div style={{ display: "flex", marginLeft: "auto", fontSize: 12, letterSpacing: 1, color: SURFACE, background: ACCENT, borderRadius: 4, padding: "3px 8px", maxWidth: 260 }}>{note}</div>
+        <div style={{ display: "flex", marginLeft: "auto", fontSize: 12, letterSpacing: 1, color: SURFACE, background: ACCENT, borderRadius: 4, padding: "4px 9px", maxWidth: 330, lineHeight: 1.35 }}>{note}</div>
       ) : null}
     </div>
   );
