@@ -167,6 +167,18 @@ quantities; no partisan or loaded words (`BANNED_WORDS`) or causal claims; no li
 or "?"; all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
 retried with the reasons (three tries), then dropped. Without an API key the deterministic template is used.
 
+## Instagram (posted by hand)
+
+There is no Instagram poster: Meta disabled the first account within hours, so Instagram is posted by hand from a new
+account until it has a normal history. Each draft issue's Length section also gives the **Instagram text** to paste
+(`instagram.ts`): the checked caption, "Chart and full data at insidegov.fyi/… (link in bio)" (Instagram captions
+cannot hold a link), and the dataset's fixed hashtags. It is rebuilt with the rest of the section when the caption is
+edited.
+
+**Hashtags are written by code, never by the model.** `INSTAGRAM_HASHTAGS` holds 3 to 5 plain topic tags per dataset
+(Instagram caps a post at 5), all ending in `#govdata`; `checkCaption` still rejects any caption containing "#", so the
+model cannot add one, and X and Bluesky stay hashtag-free. No party, person or campaign tags; a test checks each set.
+
 ## Notifications
 
 - **Email**: each freshness run that opens drafts sends **one** email (not one per draft) listing them with links and a
