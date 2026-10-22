@@ -65,7 +65,16 @@ function finish(): never {
 }
 
 type Issue = { number: number; title: string; body: string; labels: { name: string }[]; closedAt?: string };
-const approved = JSON.parse(gh(["issue", "list", "--label", APPROVED_LABEL, "--state", "open", "--limit", "300", "--json", "number,title,body,labels"])) as Issue[];
+// GitHub's issue listing has returned an empty page once while the issues were there (a live run reported "0 queued"
+// seconds after a dry run saw 4). An empty queue is retried before it is believed; a truly empty one costs two seconds.
+function listApproved(): Issue[] {
+  for (let attempt = 1; ; attempt++) {
+    const rows = JSON.parse(gh(["issue", "list", "--label", APPROVED_LABEL, "--state", "open", "--limit", "300", "--json", "number,title,body,labels"])) as Issue[];
+    if (rows.length > 0 || attempt >= 3) return rows;
+    execFileSync("sleep", ["2"]);
+  }
+}
+const approved = listApproved();
 const posted = JSON.parse(gh(["issue", "list", "--label", POSTED_LABEL, "--state", "closed", "--limit", "100", "--json", "body,closedAt"])) as Issue[];
 
 const blocks = new Map<string, { issue: Issue; block: DraftBlock }>();
