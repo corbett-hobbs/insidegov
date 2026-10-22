@@ -18,6 +18,7 @@ import { CASE_SUMMARIES_AI, aiSummaryCache, checkAiSummary, summarizeLead, type 
  *   ANTHROPIC_API_KEY=... pnpm summarize:cases      # (or put the key in the git-ignored .env.local)
  *   pnpm summarize:cases -- --limit 20              # try a few
  *   pnpm summarize:cases -- --landmarks             # landmark cases still without a sentence: ask again over more of the article
+ *   pnpm summarize:cases -- --long                  # the same for every linked case whose intro gave no ruling
  *
  * A landmark's article often opens with a short or purely descriptive paragraph, so `--landmarks` re-asks (replacing a cached
  * "no ruling") with the article's first ~9,000 characters, the same guard rails applied against that longer text. Landmarks are the
@@ -102,7 +103,8 @@ if (!process.env.ANTHROPIC_API_KEY) {
   process.exit(0);
 }
 
-const landmarksMode = process.argv.includes("--landmarks");
+const longMode = process.argv.includes("--long");
+const landmarksMode = longMode || process.argv.includes("--landmarks");
 
 /** The first ~9,000 characters of an article (not just its intro), for landmark cases whose intro states no ruling. */
 async function fetchLong(title: string): Promise<string | null> {
@@ -127,7 +129,7 @@ const landmarkTitles = new Set(
   (read(`${OUT}/decisions_landmarks.json`) as { case_id: string }[]).flatMap((l) => articles.filter((a) => a.case_id === l.case_id && a.title).map((a) => a.title!)),
 );
 const pending = [...new Set(articles.flatMap((a) => (a.title ? [a.title] : [])))]
-  .filter((t) => (landmarksMode ? landmarkTitles.has(t) && leads[t] && !summarizeLead(leads[t]) && !cache.get(t)?.summary : leads[t] && !cache.has(t) && !summarizeLead(leads[t])))
+  .filter((t) => (landmarksMode ? (longMode || landmarkTitles.has(t)) && leads[t] && !summarizeLead(leads[t]) && !cache.get(t)?.summary : leads[t] && !cache.has(t) && !summarizeLead(leads[t])))
   .sort()
   .slice(0, limit);
 if (pending.length === 0) {
