@@ -16,6 +16,8 @@ export type CellRef = {
   field: string;
   /** Read the value negated (a trade balance shown as a deficit). */
   negate?: boolean;
+  /** The field holds an array (one value per month, as in duties_by_country): read this element. */
+  index?: number;
 };
 
 /** A value is the sum of its cells (one cell for most series; several for e.g. encounters, which add components). */
@@ -118,6 +120,11 @@ export type ChartSpec =
       /** Dates to mark with a dot and a label (the latest value, the comparison point). */
       marks: { date: string; label: string; emphasis: boolean }[];
       frequency: Frequency;
+      /**
+       * A second, neutral line to read the main one against (news charts: a country's tariff rate against all
+       * countries). Both lines carry an end label naming them, since the headline names only the main one.
+       */
+      comparison?: { label: string; mainLabel: string; points: { date: string; value: number }[] };
     }
   | {
       type: "bars";
@@ -128,8 +135,11 @@ export type ChartSpec =
       orientation: "horizontal" | "vertical";
     };
 
-/** `latest` is the routine reading (newest value, change on the period and on the year) that keeps a refresh postable. */
-export type InsightKind = "extreme_high" | "extreme_low" | "move_up" | "move_down" | "term_comparison" | "latest";
+/**
+ * `latest` is the routine reading (newest value, change on the period and on the year) that keeps a refresh postable.
+ * `news` is a context chart drafted because a topic is in the news (news/README section in pipeline/insights/README.md).
+ */
+export type InsightKind = "extreme_high" | "extreme_low" | "move_up" | "move_down" | "term_comparison" | "latest" | "news";
 
 export type Insight = {
   id: string;
@@ -157,6 +167,32 @@ export type Insight = {
   alt: string;
   /** Freshness (freshness.ts): set when the insight is stamped with the day its data was released. */
   release?: Release;
+  /**
+   * Fixed opening words the caption must start with (news drafts: "Diesel is in the news."). Written by code, never by
+   * the model, so the news is named as a topic and never described.
+   */
+  lead?: string;
+  /** Set on news drafts: the story that triggered it. */
+  news?: NewsTrigger;
+};
+
+/** A headline as the watcher saw it (news/feeds.ts). */
+export type Headline = { title: string; source: string; url: string; published: string; feed: string };
+
+/** Why a news draft exists and how long it stays postable. */
+export type NewsTrigger = {
+  /** Catalog topic (news/topics.ts), e.g. "tariff_country". */
+  topic: string;
+  /** Topic plus parameter, the dedupe key: "tariff_country.CAN", "diesel". */
+  key: string;
+  /** First time the watcher saw the story (ISO). */
+  seenAt: string;
+  /** Last moment it may post (ISO): news goes stale in hours, not weeks. */
+  expiresAt: string;
+  /** The headlines behind it, newest first (shown to the reviewer, never posted). */
+  headlines: Headline[];
+  /** Why the classifier (or the keyword rule, without an API key) took it. */
+  reason: string;
 };
 
 /** When the data behind an insight came out, and what that means for posting it. */

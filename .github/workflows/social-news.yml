@@ -1,0 +1,119 @@
+name: Social news watcher
+
+# The news layer of the social posts (pipeline/insights/README.md, "News drafts"):
+#   - watch: every 15 minutes, read the headline feeds (White House presidential actions, Google News searches), find
+#     topics the site has data on that are in the news, and open a `social-draft` + `social-news` issue with a context
+#     chart (diesel prices for diesel news, the tariff rate on a country for tariff news). One email per run that
+#     opens drafts. Nothing posts without a person adding `social-approved`.
+#   - post: the news lane of the scheduler (post-next.ts --slot news). Runs right after each watch and the moment a
+#     news draft is approved, so an approved draft posts within minutes, not at the next weekday slot. Same posting
+#     switch as social-post.yml: nothing posts until the repo variable SOCIAL_POSTING_ENABLED is "true".
+#
+# Repo variable SOCIAL_NEWS_ENABLED=true turns the scheduled watch on (off by default, like posting). A manual run is
+# a dry run by default: it prints the drafts it would open.
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print the drafts instead of opening issues, and post nothing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  watch:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.SOCIAL_NEWS_ENABLED == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: social-news-watch
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: ./.github/actions/social-drafts
+        with:
+          news: "true"
+          token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
+        env:
+          SOCIAL_NEWS_SOURCES: ${{ vars.SOCIAL_NEWS_SOURCES }}
+
+  post:
+    needs: watch
+    # After every scheduled watch (a draft held back by the spacing rules goes out at a later run), and when a news
+    # draft is approved. `always()` so the labeled event, which skips the watch, still runs.
+    if: >-
+      always() && vars.SOCIAL_POSTING_ENABLED == 'true' &&
+      ((github.event_name == 'schedule' && needs.watch.result == 'success') ||
+       (github.event_name == 'issues' && github.event.label.name == 'social-approved' && contains(github.event.issue.labels.*.name, 'social-news')))
+    runs-on: ubuntu-latest
+    # Not shared with social-post.yml: GitHub keeps one pending run per group and cancels the older one, which could
+    # drop a data slot. The two lanes never pick the same draft (pickNews takes only news drafts, pickNext none).
+    concurrency:
+      group: social-post-news
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Post an approved news draft
+        id: post
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOCIAL_POSTING_ENABLED: ${{ vars.SOCIAL_POSTING_ENABLED }}
+          X_INCLUDE_LINK: ${{ vars.X_INCLUDE_LINK }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: pnpm exec tsx pipeline/insights/post-next.ts --slot news
+
+      - name: Notify
+        if: steps.post.outputs.notify == 'true'
+        uses: ./.github/actions/notify
+        with:
+          subject: ${{ steps.post.outputs.subject }}
+          body: "Social news lane, ${{ github.run_id }}. Details below; the draft issues have the full record."
+          url: ${{ github.server_url }}/${{ github.repository }}/issues?q=label%3Asocial-news
+          body-file: ${{ runner.temp }}/social-post-summary.txt
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}

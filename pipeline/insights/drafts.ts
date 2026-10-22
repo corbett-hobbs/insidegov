@@ -3,7 +3,7 @@ import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 import { claudeCaption, templateCaption } from "./caption";
 import { SITE_URL, renderChart } from "./chart";
-import type { Insight, Release } from "./types";
+import type { Insight, NewsTrigger, Release } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
 
 /**
@@ -36,6 +36,9 @@ export type Draft = {
   frequency: Insight["frequency"];
   /** When the data came out, whether the draft must say so, and when it goes stale (freshness.ts). */
   release: Release | null;
+  /** News drafts: the caption's fixed opening sentence, and the story behind the draft. */
+  lead?: string;
+  news?: NewsTrigger;
 };
 
 export function slugFor(id: string): string {
@@ -89,6 +92,8 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         series_id: insight.seriesId,
         frequency: insight.frequency,
         release: insight.release ?? null,
+        ...(insight.lead ? { lead: insight.lead } : {}),
+        ...(insight.news ? { news: insight.news } : {}),
       };
       writeFileSync(join(opts.outDir, `${slug}.json`), `${JSON.stringify(draft, null, 2)}\n`);
       drafts.push(draft);

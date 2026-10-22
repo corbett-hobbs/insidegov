@@ -18,6 +18,7 @@ import type { Administration, ChartSpec, DatasetId, Insight, UnitFormat } from "
  * One series, so no legend: the headline names it. The newest value is the accent colour, everything else neutral.
  * Line charts carry the site's presidential-term band under the axis (ARCHITECTURE_MAP rule 10b: a light party tint, a
  * solid party rule along the top, the name in ink, shortened by lib/term-label.ts); the line and its marks are never party-coloured.
+ * A news chart may add one comparison line (a country against all countries), drawn lighter, with both lines named at their ends.
  */
 
 export const WIDTH = 1200;
@@ -63,7 +64,7 @@ function tickText(v: number, unit: UnitFormat | null, step: number): string {
 /** A bar's value: the series format, keeping only a scale word of the suffix ("$1.87 trillion", "56.3"); the axis label has the unit. */
 function barValueText(v: number, unit: UnitFormat | null): string {
   if (!unit) return `${v >= 0 ? "+" : "-"}${fmtNumber(Math.abs(v), Math.abs(v) < 10 ? 1 : 0)}%`;
-  return fmtUnit(v, { ...unit, suffix: unit.suffix.match(/^ (thousand|million|billion|trillion)\b/)?.[0] ?? "" });
+  return fmtUnit(v, { ...unit, suffix: unit.suffix.match(/^(?: (?:thousand|million|billion|trillion)\b|[KMBT](?![a-z]))/)?.[0] ?? "" });
 }
 
 type Label = { x: number; y: number; text: string; align: "left" | "right" | "center"; size: number; color: string; bold?: boolean };
@@ -125,7 +126,8 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
   const dates = spec.points.map((p) => new Date(`${p.date}T00:00:00Z`));
   const bottom = BANDED_BOTTOM;
   const x = scaleUtc().domain([dates[0]!, dates.at(-1)!]).range([PLOT.left, PLOT.right]);
-  const values = spec.points.map((p) => p.value);
+  const cmp = spec.comparison?.points.filter((p) => p.date >= spec.points[0]!.date && p.date <= spec.points.at(-1)!.date) ?? [];
+  const values = [...spec.points, ...cmp].map((p) => p.value);
   const lo = Math.min(...values);
   const hi = Math.max(...values);
   const pad = (hi - lo || Math.abs(hi) || 1) * 0.08;
@@ -134,10 +136,11 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
   const ticks = y.ticks(5);
   const step = ticks.length > 1 ? ticks[1]! - ticks[0]! : 1;
   let svg = ticks.map((t) => `<line x1="${PLOT.left}" x2="${PLOT.right}" y1="${y(t)}" y2="${y(t)}" stroke="${GRID}" stroke-width="1.5"/>`).join("");
-  const path = line<{ date: string; value: number }>()
+  const toPath = line<{ date: string; value: number }>()
     .x((p) => x(new Date(`${p.date}T00:00:00Z`)))
-    .y((p) => y(p.value))(spec.points)!;
-  svg += `<path d="${path}" fill="none" stroke="${LINE}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+    .y((p) => y(p.value));
+  if (cmp.length > 1) svg += `<path d="${toPath(cmp)}" fill="none" stroke="${NEUTRAL}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+  svg += `<path d="${toPath(spec.points)}" fill="none" stroke="${LINE}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
 
   const labels: Label[] = ticks.map((t) => ({ x: PLOT.left - 14, y: y(t) - 11, text: tickText(t, spec.unit, step), align: "right", size: 18, color: MUTED }));
   const spanYears = (dates.at(-1)!.getTime() - dates[0]!.getTime()) / (365.25 * 86_400_000);
@@ -206,6 +209,28 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
     const spot = spots.reduce((best, s) => (cost(s) < cost(best) ? s : best), spots[0]!);
     taken.push(boxOf(spot));
     labels.push({ x: spot.x, y: spot.ly, text: m.label, align, size, color: m.emphasis ? INK : MUTED, bold: m.emphasis });
+  }
+  // Two lines: name both at their right ends. The comparison's name goes above or below its end, whichever crosses
+  // fewer points of either line (and stays clear of the main line's end); the main line's name joins its newest-value
+  // label, on the other side of its dot.
+  if (spec.comparison && cmp.length > 1) {
+    const cy = y(cmp.at(-1)!.value);
+    const my = y(spec.points.at(-1)!.value);
+    const text = spec.comparison.label;
+    const width = text.length * 10.5;
+    const all = [...spec.points, ...cmp].map((p) => ({ px: x(new Date(`${p.date}T00:00:00Z`)), py: y(p.value) }));
+    const crossings = (top: number) => all.filter((p) => p.px >= PLOT.right - width - 4 && p.py >= top - 4 && p.py <= top + 28).length;
+    const higher = cy <= my;
+    const outside = higher ? cy - 40 : cy + 14;
+    const between = higher ? cy + 14 : cy - 40;
+    const betweenFits = higher ? between + 28 < my - 12 : between > my + 12;
+    const ly = betweenFits && crossings(between) < crossings(outside) ? between : outside;
+    labels.push({ x: PLOT.right, y: ly, text, align: "right", size: 20, color: MUTED });
+    const main = labels.find((l) => l.bold && l.text === spec.marks.find((m) => m.emphasis)?.label);
+    if (main) {
+      main.text = `${spec.comparison.mainLabel}, ${main.text}`;
+      main.y = higher ? my + 18 : my - 46;
+    }
   }
   return { svg, labels };
 }
@@ -282,7 +307,7 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
   const spec = insight.chart;
   const { svg, labels } = spec.type === "line" ? lineChart(spec) : spec.orientation === "vertical" ? verticalBars(spec) : horizontalBars(spec);
   // Lagged data says it is new, so a chart ending months ago does not read as old news (freshness.ts).
-  const note = releaseNote(insight);
+  const note = releaseNote(insight) ?? (insight.kind === "news" ? "In the news" : null);
   const headlineSize = insight.headline.length > 96 ? 36 : insight.headline.length > 70 ? 40 : 46;
   const content: ReactNode = (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: "28px 60px 0 60px" }}>

@@ -18,6 +18,11 @@ import type { Frequency } from "./types";
  *      instead of three energy charts in a row.
  *   5. Among what is left: notability (the insight's score) × urgency (closer to going stale = sooner) × rotation
  *      (topics not posted for a while come first).
+ *
+ * News drafts (kind "news", pipeline/insights/news) do not wait for a slot: `pickNews` runs every few minutes and
+ * whenever a news draft is approved. They have their own caps (NEWS_MAX_PER_DAY, NEWS_MIN_MINUTES_BETWEEN after any
+ * post, MAX_TOTAL_PER_DAY with data posts) and expire within hours. Data slots leave them alone, and count them only
+ * for spacing and topic rotation, so a news post never uses up a day's data posts but does push back a same-topic one.
  */
 
 /**
@@ -84,6 +89,12 @@ export const DATASET_COOLDOWN_HOURS = 36;
 export const BACKLOG_THRESHOLD = 3;
 /** No topic more than this many times in any 7 days, however much it has (energy has 13 series). */
 export const MAX_PER_DATASET_WEEK = 2;
+/** News posts a (Pacific) day, on top of the data posts. */
+export const NEWS_MAX_PER_DAY = 2;
+/** A news post waits this long after any post, and a data slot this long after a news post. */
+export const NEWS_MIN_MINUTES_BETWEEN = 45;
+/** News and data posts together, per day. */
+export const MAX_TOTAL_PER_DAY = 4;
 
 export type QueueItem = {
   /** Issue number (or any unique key). */
@@ -97,9 +108,12 @@ export type QueueItem = {
   frequency: Frequency;
   releasedOn: string;
   expiresOn: string;
+  /** News drafts: the exact moment they go stale (ISO); `expiresOn` is its Pacific date. */
+  expiresAt?: string;
 };
 
-export type Posted = { dataset: string; postedAt: string };
+/** `kind` tells news posts from data posts (absent on posts from before the news lane: data). */
+export type Posted = { dataset: string; postedAt: string; kind?: string };
 
 export type Decision = {
   post: QueueItem | null;
@@ -111,10 +125,12 @@ export type Decision = {
 
 const hoursBetween = (a: string, b: string) => (Date.parse(b) - Date.parse(a)) / 3_600_000;
 
-export function pickNext(queue: QueueItem[], history: Posted[], now: string, slot: SlotName): Decision {
+export function pickNext(allQueue: QueueItem[], history: Posted[], now: string, slot: SlotName): Decision {
   const today = localDate(now);
-  const intro = queue.find((q) => q.kind === "intro");
+  const intro = allQueue.find((q) => q.kind === "intro");
   if (intro) return { post: intro, reason: "the intro thread goes first", expired: [], superseded: [] };
+  // News drafts have their own lane (pickNews).
+  const queue = allQueue.filter((q) => q.kind !== "news");
 
   const expired = queue.filter((q) => q.expiresOn < today);
   const live = queue.filter((q) => q.expiresOn >= today);
@@ -126,9 +142,12 @@ export function pickNext(queue: QueueItem[], history: Posted[], now: string, slo
 
   if (eligible.length === 0) return none("nothing fresh is approved");
   const sorted = [...history].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
-  if (sorted.filter((p) => localDate(p.postedAt) === today).length >= MAX_PER_DAY) return none(`already ${MAX_PER_DAY} posts today`);
-  if (sorted.filter((p) => hoursBetween(p.postedAt, now) < 7 * 24).length >= MAX_PER_WEEK) return none(`already ${MAX_PER_WEEK} posts in 7 days`);
-  if (sorted[0] && hoursBetween(sorted[0].postedAt, now) < MIN_HOURS_BETWEEN) return none(`last post under ${MIN_HOURS_BETWEEN} hours ago`);
+  const data = sorted.filter((p) => p.kind !== "news");
+  if (data.filter((p) => localDate(p.postedAt) === today).length >= MAX_PER_DAY) return none(`already ${MAX_PER_DAY} posts today`);
+  if (sorted.filter((p) => localDate(p.postedAt) === today).length >= MAX_TOTAL_PER_DAY) return none(`already ${MAX_TOTAL_PER_DAY} posts today with news`);
+  if (data.filter((p) => hoursBetween(p.postedAt, now) < 7 * 24).length >= MAX_PER_WEEK) return none(`already ${MAX_PER_WEEK} posts in 7 days`);
+  if (data[0] && hoursBetween(data[0].postedAt, now) < MIN_HOURS_BETWEEN) return none(`last post under ${MIN_HOURS_BETWEEN} hours ago`);
+  if (sorted[0]?.kind === "news" && hoursBetween(sorted[0].postedAt, now) < NEWS_MIN_MINUTES_BETWEEN / 60) return none(`a news post went out under ${NEWS_MIN_MINUTES_BETWEEN} minutes ago`);
   const backlogOnly = SLOTS.find((s) => s.name === slot)!.backlogOnly;
   // The intro's day is the exception: a first chart follows it in the afternoon, so a new account is not an intro and silence.
   const introToday = sorted.some((p) => p.dataset === "intro" && localDate(p.postedAt) === today);
@@ -155,6 +174,34 @@ export function pickNext(queue: QueueItem[], history: Posted[], now: string, slo
   };
   const best = [...pool].sort((a, b) => priority(b) - priority(a) || a.expiresOn.localeCompare(b.expiresOn) || a.key.localeCompare(b.key))[0]!;
   return { post: best, reason: `highest priority of ${pool.length} waiting${cooled.length < eligible.length ? ` (${eligible.length - cooled.length} held for topic spacing)` : ""}`, expired, superseded };
+}
+
+/** Whether a news item is past its moment (`expiresAt`, or the end of `expiresOn` for an item without one). */
+function newsExpired(q: QueueItem, now: string): boolean {
+  return q.expiresAt ? Date.parse(q.expiresAt) < Date.parse(now) : q.expiresOn < localDate(now);
+}
+
+/**
+ * The news lane: run every few minutes and on approval. Posts the most notable approved news draft that is still
+ * fresh, unless the intro has not gone out yet, NEWS_MAX_PER_DAY (or MAX_TOTAL_PER_DAY) is reached, or the last post
+ * of any kind was under NEWS_MIN_MINUTES_BETWEEN ago (it then posts at the next run that is clear). No slots, no
+ * weekday rule: a person approved it, and news does not keep office hours.
+ */
+export function pickNews(queue: QueueItem[], history: Posted[], now: string): Decision {
+  const news = queue.filter((q) => q.kind === "news");
+  const expired = news.filter((q) => newsExpired(q, now));
+  const live = news.filter((q) => !newsExpired(q, now));
+  const none = (reason: string): Decision => ({ post: null, reason, expired, superseded: [] });
+  if (queue.some((q) => q.kind === "intro")) return none("the intro thread goes first (at the next data slot)");
+  if (live.length === 0) return none("no fresh news draft is approved");
+  const today = localDate(now);
+  const sorted = [...history].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
+  const todays = sorted.filter((p) => localDate(p.postedAt) === today);
+  if (todays.filter((p) => p.kind === "news").length >= NEWS_MAX_PER_DAY) return none(`already ${NEWS_MAX_PER_DAY} news posts today`);
+  if (todays.length >= MAX_TOTAL_PER_DAY) return none(`already ${MAX_TOTAL_PER_DAY} posts today`);
+  if (sorted[0] && hoursBetween(sorted[0].postedAt, now) < NEWS_MIN_MINUTES_BETWEEN / 60) return none(`last post under ${NEWS_MIN_MINUTES_BETWEEN} minutes ago; it waits for the next run`);
+  const best = [...live].sort((a, b) => b.score - a.score || (a.expiresAt ?? "").localeCompare(b.expiresAt ?? "") || a.key.localeCompare(b.key))[0]!;
+  return { post: best, reason: `news, ${live.length === 1 ? "the one fresh draft" : `most notable of ${live.length} fresh`}`, expired, superseded: [] };
 }
 
 /**
