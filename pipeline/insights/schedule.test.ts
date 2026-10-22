@@ -9,7 +9,9 @@ import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type
 import type { Series } from "./types";
 import { fit, lengthSection, refreshCounts } from "./counts";
 import { INSTAGRAM_HASHTAGS, instagramCaption } from "./instagram";
-import { type DraftBlock, blockComment, parseDraftBlock } from "./issue";
+import { EXPLAINERS, explainer } from "./explain";
+import { type DraftBlock, blockComment, parseDraftBlock, slidesSection } from "./issue";
+import { pickMoments } from "./moments";
 import { X_MAX, oauthHeader, xLength } from "./x";
 
 const item = (over: Partial<QueueItem> & { key: string }): QueueItem => ({
@@ -258,5 +260,33 @@ describe("length section", () => {
     expect(next).toContain("after <!-- social-draft");
     expect(refreshCounts("no section here", edited)).toBe("no section here");
     expect(parseDraftBlock(blockComment(edited))?.caption).toBe(edited.caption);
+  });
+});
+
+describe("Instagram carousel", () => {
+  it("lists a series' own actions first, then the most important and newest, shown oldest first", () => {
+    const actions = [
+      { date: "2018-03-23", label_short: "all, old", flag_priority: 1 },
+      { date: "2025-03-04", label_short: "country", flag_priority: 1, specific: true },
+      { date: "2025-04-05", label_short: "all, low priority", flag_priority: 2 },
+      { date: "2026-02-24", label_short: "all, new", flag_priority: 1 },
+      { date: "2026-09-01", label_short: "after the window", flag_priority: 1, specific: true },
+    ];
+    expect(pickMoments(actions, "2016-01-01", "2026-08-31", 3).map((m) => m.label)).toEqual(["all, old", "country", "all, new"]);
+    expect(pickMoments(actions, "2016-01-01", "2026-08-31", 2).map((m) => m.label)).toEqual(["country", "all, new"]);
+  });
+
+  it("explains every series in words only, and news tariff charts by their prefix", () => {
+    for (const lines of Object.values(EXPLAINERS)) for (const t of lines) expect(t).not.toMatch(/\d/);
+    expect(explainer({ seriesId: "tariff.CAN", kind: "news" })).toBe(EXPLAINERS.tariff);
+    expect(explainer({ seriesId: "energy.spr", kind: "term_comparison" }).at(-1)).toMatch(/inauguration/);
+    expect(explainer({ seriesId: "nothing.here", kind: "latest" })).toEqual([]);
+  });
+
+  it("links each slide next to the chart image, in order", () => {
+    const lines = slidesSection({ image: "a-b.png", slides: ["a-b-ig-1.png", "a-b-ig-2.png"] }, "https://raw.example/images/a-b.png");
+    expect(lines[0]).toContain("Instagram slides** (2, 1080×1350)");
+    expect(lines[2]).toBe('<a href="https://raw.example/images/a-b-ig-1.png"><img src="https://raw.example/images/a-b-ig-1.png" width="150" alt="Slide 1"></a> <a href="https://raw.example/images/a-b-ig-2.png"><img src="https://raw.example/images/a-b-ig-2.png" width="150" alt="Slide 2"></a>');
+    expect(slidesSection({ image: "a.png" }, "x/a.png")).toEqual([]);
   });
 });

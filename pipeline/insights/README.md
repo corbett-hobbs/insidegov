@@ -1,6 +1,7 @@
 # pipeline/insights/ — social posts
 
-Turns new government data into social posts: one chart image, a one- or two-sentence caption, a link to the page.
+Turns new government data into social posts: one chart image, a one- or two-sentence caption, a link to the page,
+and a 4:5 Instagram carousel posted by hand.
 Because the content is political, **a person approves every post**. Posts follow the data: something is posted because
 data just came out, at a steady pace, never in bursts, **or because a topic the site has data on is in the news**
 (see "News drafts" below): a chart of diesel prices when diesel is in the headlines, the tariff rate collected on
@@ -174,6 +175,26 @@ account until it has a normal history. Each draft issue's Length section also gi
 (`instagram.ts`): the checked caption, "Chart and full data at insidegov.fyi/… (link in bio)" (Instagram captions
 cannot hold a link), and the dataset's fixed hashtags. It is rebuilt with the rest of the section when the caption is
 edited.
+
+**Slides.** Each draft also gets a 4:5 carousel (`carousel.tsx`), shown in its issue as thumbnails that link to the
+full 1080×1350 images, to save and upload in order. The slides go to the `social-drafts` branch with the chart.
+
+| Slide | What | When |
+| --- | --- | --- |
+| Hook | the newest value (a caption fact) large, the headline, a small trend line | always |
+| Chart | the draft's chart redrawn for the portrait frame (term band, marks, source) | always |
+| How to read this | what the series measures, from `explain.ts`: plain definitions, no numbers, no causes | the series has an entry |
+| Key moments | dated actions from the site's sourced timelines (`energy_actions.json`, `tariff_actions.json`) between the chart's first date and the draft, at most 4, then the latest reading; a note says they are listed in order, not as causes | a line chart whose series has a timeline (energy series, news tariff charts) |
+| End | the page, "Link in bio", the source | always |
+
+**The intro.** `pnpm insights:intro -- --instagram DIR` writes the account's first post: six slides drawn from the
+About page (cover with ten-year trend lines from real series, why it exists, questions it answers, what the account
+posts, what the charts do and don't, and a personal "Who's behind it" slide for people who knew the original
+InsideGov at Graphiq) and `intro-caption.txt`. The words are in `introCarousel()` in `intro.ts`; keep them in step with
+`app/about/page.tsx`.
+
+Slides are laid out on a 720×900 canvas and scaled 1.5× in the renderer, so the chart code's label sizes read at
+phone size. `chart.tsx` draws in a `Frame` (the card's 1200×675 or the slide's portrait frame); the card is unchanged.
 
 **Hashtags are written by code, never by the model.** `INSTAGRAM_HASHTAGS` holds 3 to 5 plain topic tags per dataset
 (Instagram caps a post at 5), all ending in `#govdata`; `checkCaption` still rejects any caption containing "#", so the
