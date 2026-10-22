@@ -87,6 +87,16 @@ quantities; no partisan or loaded words (`BANNED_WORDS`) or causal claims; no li
 or "?"; all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
 retried with the reasons (three tries), then dropped. Without an API key the deterministic template is used.
 
+## Notifications
+
+- **Email**: each freshness run that opens drafts sends **one** email (not one per draft) listing them with links and a
+  link to the review queue. It uses the same `NOTIFY_*` secrets as the data-check alerts (email, Slack as fallback; see
+  `docs/DATA_CONVENTIONS.md`, "Review notifications"), so with those set there is nothing more to configure.
+- **GitHub's own** issue emails still apply if you watch the repository.
+- Each draft issue has a **Length** section: characters used against Bluesky's 300 and X's 280 (X without and with the
+  link), and whether the caption still passes the check. Editing the issue refreshes it automatically
+  (`social-counts.yml`).
+
 ## Reviewing
 
 Each draft issue shows the image, the exact post text, the freshness window ("queue it by …"), and every fact with its
