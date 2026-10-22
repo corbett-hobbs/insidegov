@@ -102,7 +102,8 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
     only,
   );
   const flowValues = rowValues(flowRows);
-  const flowHeadline = flowRows.map((r) => `${r.label} ${mil(r.key as MonthlyKey)}`).join(" · ");
+  // Both showing: the unlabelled "exports / imports" pair as before; an isolated line is labelled alone.
+  const flowHeadline = only === null ? `${mil("exp")} / ${mil("imp")}` : flowRows.map((r) => `${r.label} ${mil(r.key as MonthlyKey)}`).join(" · ");
   const readout = { values: mode === "balance" ? [`Net exports ${ne == null ? "—" : signed(ne)}`] : flowValues, headline: mode === "balance" ? (ne == null ? "—" : signed(ne)) : flowHeadline, date: `${monthLabel(month)}${isPreliminary(payload, "net", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (

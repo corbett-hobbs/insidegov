@@ -240,7 +240,7 @@ function Overlay({ W, main, reference, only, scale, view, showCong, flagInputs, 
   const { year, month: mo } = dateOfDay(day);
   const month = (year - 1991) * 12 + mo;
   const val = only === "reference" ? null : (main[month] ?? null);
-  const refVal = reference && only !== "main" ? (reference[month] ?? null) : null;
+  const refVal = reference && only === "reference" ? (reference[month] ?? null) : null;
   return (
     <g pointerEvents="none">
       <line x1={x} x2={x} y1={g.mt} y2={g.axisY} stroke="var(--accent)" strokeWidth={v.hover === null ? 1.5 : 1} />
@@ -354,16 +354,15 @@ export function TradeTariffChart(props: Props) {
           const r = rateReadingAtDay(duties, imports, day);
           const t = termAtDay(era.terms, day);
           if (!r) return null;
-          const ref = reference && referenceDuties && referenceImports ? rateReadingAtDay(referenceDuties, referenceImports, day) : null;
+          // With the all-countries line isolated, the tooltip reports only that line; otherwise it reads as before.
+          const ref = only === "reference" && reference && referenceDuties && referenceImports ? rateReadingAtDay(referenceDuties, referenceImports, day) : null;
           if (ref) {
-            // A country against all countries: two equal rows, or just the isolated line's.
-            const detail = (x: typeof r) => (x.duties !== null && x.imports !== null ? `Duties ${fmtDollars(x.duties)} \u00b7 Imports ${fmtDollars(x.imports)}` : null);
             const rows = readoutRows<ReadoutRow<"main" | "reference">>(
               [
-                { key: "main", label: mainLabel ?? "Country", value: r.rate === null ? null : fmtPercent(r.rate), color: "var(--ink)", sub: detail(r) },
-                { key: "reference", label: "All countries", value: ref.rate === null ? null : fmtPercent(ref.rate), color: "var(--ink-faint)", sub: detail(ref) },
+                { key: "main", label: mainLabel ?? "Country", value: r.rate === null ? null : fmtPercent(r.rate), color: "var(--ink)" },
+                { key: "reference", label: "All countries", value: ref.rate === null ? null : fmtPercent(ref.rate), color: "var(--ink-faint)", sub: ref.duties !== null && ref.imports !== null ? `Duties ${fmtDollars(ref.duties)} \u00b7 Imports ${fmtDollars(ref.imports)}` : null },
               ],
-              only ?? null,
+              "reference",
             );
             return (
               <div className="flex min-w-[12rem] flex-col gap-0.5 text-[0.78rem]">
