@@ -11,6 +11,7 @@ import { TermBand } from "@/components/charts/TermBand";
 import { fmtInt, presidentBandTerms, sumBucket, windowSum } from "@/lib/decisions-derive";
 import { sameRange } from "@/lib/year-range";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
+import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import { areaFill } from "./shared";
 
 const LANDMARK_DEFINITION =
@@ -36,9 +37,9 @@ export function DecisionsFilterBar() {
   const options = useMemo<MultiOption<number>[]>(
     () =>
       data.areas
-        .map((a, id) => ({ id, label: a.label, n: sumBucket(windowSum(data, id, range)) }))
+        .map((a, id) => ({ id, key: a.id, label: a.label, n: sumBucket(windowSum(data, id, range)) }))
         .sort((a, b) => b.n - a.n || a.id - b.id)
-        .map((o) => ({ id: o.id, label: o.label, count: fmtInt(o.n), swatch: areaFill(data, o.id) })),
+        .map((o) => ({ id: o.id, label: o.label, count: fmtInt(o.n), swatch: areaFill(data, o.id), info: ISSUE_AREA_DESCRIPTIONS[o.key] })),
     [data, range],
   );
   // Counts follow the issue area, the years and the landmark filter, not the vote itself, so each row says what ticking it would add.

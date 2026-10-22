@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
+import { HowToRead } from "@/components/HowToRead";
 import { PageShortcuts } from "@/components/PageShortcuts";
 import { fmtInt } from "@/lib/decisions-derive";
+import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import type { DecisionsPayload } from "@/lib/decisions-types";
 import { AreasCard } from "./AreasCard";
 import { CaseListCard } from "./CaseListCard";
@@ -30,6 +32,19 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
           <p>
             Explore every argued Supreme Court case since {first}, categorized by dissent volume. Tracking unanimity versus razor-thin 5&ndash;4 decisions illustrates the fragility of legal consensus.
           </p>
+          <HowToRead>
+            <p>
+              Each case has one issue area, the Supreme Court Database&rsquo;s label for what it was mainly about. Pick one in the Issue area menu at the top (the &#9432; beside each area says the same thing), or select an area in the charts below.
+            </p>
+            <dl className="m-0 mt-2.5 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+              {data.areas.map((a) => (
+                <div key={a.id}>
+                  <dt className="font-medium text-ink">{a.label}</dt>
+                  <dd className="m-0 text-[0.86rem] leading-snug">{ISSUE_AREA_DESCRIPTIONS[a.id]}</dd>
+                </div>
+              ))}
+            </dl>
+          </HowToRead>
           <PageShortcuts>
             <JumpToCases />
             <p>

@@ -9,6 +9,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { areaRows, bandShare, fmtInt, fmtPct, nextAreaSort } from "@/lib/decisions-derive";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type AreaSort, type AreaSortKey } from "@/lib/decisions-types";
+import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DecadeHeatmap } from "./DecadeHeatmap";
@@ -38,6 +39,7 @@ export function AreasCard() {
       rows.map((r) => ({
         id: r.id,
         label: r.label,
+        labelTitle: ISSUE_AREA_DESCRIPTIONS[r.id] ? `${r.label}: ${ISSUE_AREA_DESCRIPTIONS[r.id]}` : undefined,
         total: fmtInt(r.total),
         selected: r.index >= 0 && isOnly(areas, r.index),
         dimmed: areas !== null && r.index >= 0 && !isPicked(areas, r.index),
