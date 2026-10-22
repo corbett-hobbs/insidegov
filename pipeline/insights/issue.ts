@@ -109,6 +109,7 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     "",
     lengthSection(block),
     "",
+    ...slidesSection(draft, imageUrl),
     `Dataset \`${draft.dataset}\` · ${draft.kind.replace("_", " ")} · period ${draft.period} · caption by ${draft.caption_source}${draft.caption_model ? ` (${draft.caption_model})` : ""}${extra.dataPr ? ` · data PR ${extra.dataPr}` : ""}${extra.runUrl ? ` · [run](${extra.runUrl})` : ""}`,
     "",
     "<details><summary>Every number the caption may use, traced to the data</summary>",
@@ -143,6 +144,21 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     blockComment(block),
     "",
   ].join("\n");
+}
+
+/**
+ * The Instagram carousel (carousel.tsx), posted by hand: each slide as a thumbnail linking to the full 1080x1350 image,
+ * in order. The slides sit next to the chart image, so their URLs share its folder.
+ */
+export function slidesSection(draft: Pick<Draft, "image" | "slides">, imageUrl: string): string[] {
+  if (!draft.slides?.length) return [];
+  const base = imageUrl.slice(0, imageUrl.length - draft.image.length);
+  return [
+    `**Instagram slides** (${draft.slides.length}, 1080×1350): open each, save it, and upload them in this order with the Instagram text above.`,
+    "",
+    draft.slides.map((f, i) => `<a href="${base}${f}"><img src="${base}${f}" width="150" alt="Slide ${i + 1}"></a>`).join(" "),
+    "",
+  ];
 }
 
 /** The block as an HTML comment. "--" cannot appear inside one; JSON lets us escape it. */

@@ -77,6 +77,9 @@ const ENERGY: (SeriesConfig & { series_id: string })[] = [
   { series_id: "SOETPUS", anchor: "#electricity", id: "energy.power_solar", name: "U.S. utility-scale solar generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , releaseLagDays: 55 },
 ];
 
+/** Insight series id to EIA series id ("energy.spr" -> "WCSSTUS1"), the key energy_actions.json flags its actions with. */
+export const EIA_SERIES: Record<string, string> = Object.fromEntries(ENERGY.map((c) => [c.id, c.series_id]));
+
 const GAS: (SeriesConfig & { series_id: string })[] = [
   {
     series_id: "GASREGW", anchor: "#gas-price",

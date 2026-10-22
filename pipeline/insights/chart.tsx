@@ -24,24 +24,28 @@ import type { Administration, ChartSpec, DatasetId, Insight, UnitFormat } from "
 export const WIDTH = 1200;
 export const HEIGHT = 675;
 
-const INK = "#1a2233";
-const MUTED = "#5b6472";
-const GRID = "#e3e7ec";
-const LINE = "#3d4a63";
-const NEUTRAL = "#b9c1cc";
-const ACCENT = "#5c4b7a";
-const SURFACE = "#ffffff";
+export const INK = "#1a2233";
+export const MUTED = "#5b6472";
+export const GRID = "#e3e7ec";
+export const LINE = "#3d4a63";
+export const NEUTRAL = "#b9c1cc";
+export const ACCENT = "#5c4b7a";
+export const SURFACE = "#ffffff";
 // The site's --dem / --rep (app/globals.css) and the tint its bands use, color-mix(in oklab, <party> 20%, white), as hex.
 const PARTY = { D: { rule: "#3a66c2", tint: "#d5e0f5" }, R: { rule: "#c24a3a", tint: "#f7dbd6" } } as const;
 
-const PLOT = { left: 128, right: 1140, top: 236, bottom: 580 };
-/** A line chart with the term band under it ends its plot higher: the axis labels, then the band, then the source line. */
-const BANDED_BOTTOM = 536;
+/**
+ * Where a chart draws inside its image: the card's 1200x675, or the Instagram slide's logical 720x900 (carousel.tsx).
+ * A line chart with the term band under it ends its plot higher (`bandedBottom`): the axis labels, then the band, then the source line.
+ */
+export type Frame = { width: number; height: number; plot: { left: number; right: number; top: number; bottom: number }; bandedBottom: number };
+
+export const CARD: Frame = { width: WIDTH, height: HEIGHT, plot: { left: 128, right: 1140, top: 236, bottom: 580 }, bandedBottom: 536 };
 const BAND_GAP = 44;
 const BAND_H = 30;
 const BAND_CHAR_W = 11.6; // lib/term-label.ts's width for an 11px label (6.4), scaled to this image's 19px
 
-const KICKER: Record<DatasetId, string> = {
+export const KICKER: Record<DatasetId, string> = {
   energy: "Energy",
   gas: "Gas prices",
   encounters: "Border encounters",
@@ -67,11 +71,11 @@ function barValueText(v: number, unit: UnitFormat | null): string {
   return fmtUnit(v, { ...unit, suffix: unit.suffix.match(/^(?: (?:thousand|million|billion|trillion)\b|[KMBT](?![a-z]))/)?.[0] ?? "" });
 }
 
-type Label = { x: number; y: number; text: string; align: "left" | "right" | "center"; size: number; color: string; bold?: boolean };
+export type Label = { x: number; y: number; text: string; align: "left" | "right" | "center"; size: number; color: string; bold?: boolean };
 
-function LabelDiv({ l }: { l: Label }) {
+export function LabelDiv({ l, width = WIDTH }: { l: Label; width?: number }) {
   const pos =
-    l.align === "left" ? { left: l.x } : l.align === "right" ? { right: WIDTH - l.x } : { left: l.x - 150, width: 300, justifyContent: "center" as const };
+    l.align === "left" ? { left: l.x } : l.align === "right" ? { right: width - l.x } : { left: l.x - 150, width: 300, justifyContent: "center" as const };
   return (
     <div style={{ position: "absolute", top: l.y, display: "flex", fontSize: l.size, color: l.color, fontWeight: l.bold ? 700 : 400, whiteSpace: "nowrap", ...pos }}>
       {l.text}
@@ -79,10 +83,10 @@ function LabelDiv({ l }: { l: Label }) {
   );
 }
 
-function svgImage(body: string) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">${body}</svg>`;
+export function svgImage(body: string, width = WIDTH, height = HEIGHT) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${body}</svg>`;
   // eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page
-  return <img src={`data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`} width={WIDTH} height={HEIGHT} alt="" style={{ position: "absolute", top: 0, left: 0 }} />;
+  return <img src={`data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`} width={width} height={height} alt="" style={{ position: "absolute", top: 0, left: 0 }} />;
 }
 
 type Term = { last: string; initials: string; label: string; party: "D" | "R"; start: string; end: string | null };
@@ -122,27 +126,27 @@ function termBand(first: Date, lastDate: Date, x: (d: Date) => number, top: numb
   return { svg, labels };
 }
 
-function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; labels: Label[] } {
+function lineChart(spec: Extract<ChartSpec, { type: "line" }>, f: Frame): { svg: string; labels: Label[] } {
   const dates = spec.points.map((p) => new Date(`${p.date}T00:00:00Z`));
-  const bottom = BANDED_BOTTOM;
-  const x = scaleUtc().domain([dates[0]!, dates.at(-1)!]).range([PLOT.left, PLOT.right]);
+  const bottom = f.bandedBottom;
+  const x = scaleUtc().domain([dates[0]!, dates.at(-1)!]).range([f.plot.left, f.plot.right]);
   const cmp = spec.comparison?.points.filter((p) => p.date >= spec.points[0]!.date && p.date <= spec.points.at(-1)!.date) ?? [];
   const values = [...spec.points, ...cmp].map((p) => p.value);
   const lo = Math.min(...values);
   const hi = Math.max(...values);
   const pad = (hi - lo || Math.abs(hi) || 1) * 0.08;
   // A series that never crosses zero never shows the other side of it: padding a count that runs 8,000 to 300,000 must not put -100,000 on the axis.
-  const y = scaleLinear().domain([lo >= 0 ? Math.max(0, lo - pad) : lo - pad, hi <= 0 ? Math.min(0, hi + pad) : hi + pad]).nice(5).range([bottom, PLOT.top]);
+  const y = scaleLinear().domain([lo >= 0 ? Math.max(0, lo - pad) : lo - pad, hi <= 0 ? Math.min(0, hi + pad) : hi + pad]).nice(5).range([bottom, f.plot.top]);
   const ticks = y.ticks(5);
   const step = ticks.length > 1 ? ticks[1]! - ticks[0]! : 1;
-  let svg = ticks.map((t) => `<line x1="${PLOT.left}" x2="${PLOT.right}" y1="${y(t)}" y2="${y(t)}" stroke="${GRID}" stroke-width="1.5"/>`).join("");
+  let svg = ticks.map((t) => `<line x1="${f.plot.left}" x2="${f.plot.right}" y1="${y(t)}" y2="${y(t)}" stroke="${GRID}" stroke-width="1.5"/>`).join("");
   const toPath = line<{ date: string; value: number }>()
     .x((p) => x(new Date(`${p.date}T00:00:00Z`)))
     .y((p) => y(p.value));
   if (cmp.length > 1) svg += `<path d="${toPath(cmp)}" fill="none" stroke="${NEUTRAL}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
   svg += `<path d="${toPath(spec.points)}" fill="none" stroke="${LINE}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
 
-  const labels: Label[] = ticks.map((t) => ({ x: PLOT.left - 14, y: y(t) - 11, text: tickText(t, spec.unit, step), align: "right", size: 18, color: MUTED }));
+  const labels: Label[] = ticks.map((t) => ({ x: f.plot.left - 14, y: y(t) - 11, text: tickText(t, spec.unit, step), align: "right", size: 18, color: MUTED }));
   const spanYears = (dates.at(-1)!.getTime() - dates[0]!.getTime()) / (365.25 * 86_400_000);
   for (const t of x.ticks(spanYears > 3 ? 6 : 5)) {
     const text = spanYears > 3 ? String(t.getUTCFullYear()) : t.toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
@@ -184,7 +188,7 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
     if (!m.emphasis && emph && Math.abs(emph.cx - m.cx) < 80) continue;
     const size = m.emphasis ? 24 : 20;
     const w = m.label.length * size * 0.525;
-    const onRight = m.cx > PLOT.left + (PLOT.right - PLOT.left) * 0.6;
+    const onRight = m.cx > f.plot.left + (f.plot.right - f.plot.left) * 0.6;
     const align = onRight ? ("right" as const) : ("left" as const);
     const flush = onRight ? m.cx + 10 : m.cx - 10;
     const beside = onRight ? m.cx - 16 : m.cx + 16;
@@ -201,7 +205,7 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
     };
     const cost = (s: { x: number; ly: number }) => {
       const b = boxOf(s);
-      if (s.ly < PLOT.top - 34 || b.y1 > bottom + 6 || b.x0 < PLOT.left - 70) return Infinity;
+      if (s.ly < f.plot.top - 34 || b.y1 > bottom + 6 || b.x0 < f.plot.left - 70) return Infinity;
       const onLine = samples.filter((p) => p.x >= b.x0 - 4 && p.x <= b.x1 + 4 && p.y >= b.y0 - 4 && p.y <= b.y1 + 4).length;
       const dots = marks.filter((o) => o !== m).map((o) => ({ x0: o.cx - 12, x1: o.cx + 12, y0: o.cy - 12, y1: o.cy + 12 }));
       return onLine + [...dots, ...taken].filter((o) => overlaps(b, o)).length * 1000;
@@ -219,13 +223,13 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
     const text = spec.comparison.label;
     const width = text.length * 10.5;
     const all = [...spec.points, ...cmp].map((p) => ({ px: x(new Date(`${p.date}T00:00:00Z`)), py: y(p.value) }));
-    const crossings = (top: number) => all.filter((p) => p.px >= PLOT.right - width - 4 && p.py >= top - 4 && p.py <= top + 28).length;
+    const crossings = (top: number) => all.filter((p) => p.px >= f.plot.right - width - 4 && p.py >= top - 4 && p.py <= top + 28).length;
     const higher = cy <= my;
     const outside = higher ? cy - 40 : cy + 14;
     const between = higher ? cy + 14 : cy - 40;
     const betweenFits = higher ? between + 28 < my - 12 : between > my + 12;
     const ly = betweenFits && crossings(between) < crossings(outside) ? between : outside;
-    labels.push({ x: PLOT.right, y: ly, text, align: "right", size: 20, color: MUTED });
+    labels.push({ x: f.plot.right, y: ly, text, align: "right", size: 20, color: MUTED });
     const main = labels.find((l) => l.bold && l.text === spec.marks.find((m) => m.emphasis)?.label);
     if (main) {
       main.text = `${spec.comparison.mainLabel}, ${main.text}`;
@@ -235,15 +239,15 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
   return { svg, labels };
 }
 
-function verticalBars(spec: Extract<ChartSpec, { type: "bars" }>): { svg: string; labels: Label[] } {
-  const x = scaleBand<number>().domain(spec.bars.map((_, i) => i)).range([PLOT.left, PLOT.right]).padding(0.25);
+function verticalBars(spec: Extract<ChartSpec, { type: "bars" }>, f: Frame): { svg: string; labels: Label[] } {
+  const x = scaleBand<number>().domain(spec.bars.map((_, i) => i)).range([f.plot.left, f.plot.right]).padding(0.25);
   const hi = Math.max(0, ...spec.bars.map((b) => b.value));
   const lo = Math.min(0, ...spec.bars.map((b) => b.value));
-  const y = scaleLinear().domain([lo, hi * 1.12]).nice(5).range([PLOT.bottom, PLOT.top]);
+  const y = scaleLinear().domain([lo, hi * 1.12]).nice(5).range([f.plot.bottom, f.plot.top]);
   const ticks = y.ticks(5);
   const step = ticks.length > 1 ? ticks[1]! - ticks[0]! : 1;
-  let svg = ticks.map((t) => `<line x1="${PLOT.left}" x2="${PLOT.right}" y1="${y(t)}" y2="${y(t)}" stroke="${GRID}" stroke-width="1.5"/>`).join("");
-  const labels: Label[] = ticks.map((t) => ({ x: PLOT.left - 14, y: y(t) - 11, text: tickText(t, spec.unit, step), align: "right", size: 18, color: MUTED }));
+  let svg = ticks.map((t) => `<line x1="${f.plot.left}" x2="${f.plot.right}" y1="${y(t)}" y2="${y(t)}" stroke="${GRID}" stroke-width="1.5"/>`).join("");
+  const labels: Label[] = ticks.map((t) => ({ x: f.plot.left - 14, y: y(t) - 11, text: tickText(t, spec.unit, step), align: "right", size: 18, color: MUTED }));
   const every = spec.bars.length > 12 ? 2 : 1;
   spec.bars.forEach((b, i) => {
     const bx = x(i)!;
@@ -253,21 +257,21 @@ function verticalBars(spec: Extract<ChartSpec, { type: "bars" }>): { svg: string
     // Rounded data end, square at the baseline.
     svg += `<path d="M${bx},${top + h} V${top + r} Q${bx},${top} ${bx + r},${top} H${bx + x.bandwidth() - r} Q${bx + x.bandwidth()},${top} ${bx + x.bandwidth()},${top + r} V${top + h} Z" fill="${b.emphasis ? ACCENT : NEUTRAL}"/>`;
     const cx = bx + x.bandwidth() / 2;
-    if (b.emphasis || (spec.bars.length - 1 - i) % every === 0) labels.push({ x: cx, y: PLOT.bottom + 12, text: b.label, align: "center", size: 18, color: b.emphasis ? INK : MUTED, bold: b.emphasis });
+    if (b.emphasis || (spec.bars.length - 1 - i) % every === 0) labels.push({ x: cx, y: f.plot.bottom + 12, text: b.label, align: "center", size: 18, color: b.emphasis ? INK : MUTED, bold: b.emphasis });
     if (b.emphasis) labels.push({ x: cx, y: top - 34, text: barValueText(b.value, spec.unit), align: "center", size: 22, color: INK, bold: true });
   });
-  svg += `<line x1="${PLOT.left}" x2="${PLOT.right}" y1="${y(0)}" y2="${y(0)}" stroke="${MUTED}" stroke-width="1.5"/>`;
+  svg += `<line x1="${f.plot.left}" x2="${f.plot.right}" y1="${y(0)}" y2="${y(0)}" stroke="${MUTED}" stroke-width="1.5"/>`;
   return { svg, labels };
 }
 
-function horizontalBars(spec: Extract<ChartSpec, { type: "bars" }>): { svg: string; labels: Label[] } {
+function horizontalBars(spec: Extract<ChartSpec, { type: "bars" }>, f: Frame): { svg: string; labels: Label[] } {
   const labelW = 170;
-  const left = PLOT.left - 70 + labelW;
-  const right = PLOT.right - 150;
+  const left = f.plot.left - 70 + labelW;
+  const right = f.plot.right - 150;
   const hi = Math.max(0, ...spec.bars.map((b) => b.value));
   const lo = Math.min(0, ...spec.bars.map((b) => b.value));
   const x = scaleLinear().domain([lo, hi]).range([lo < 0 ? left + 110 : left, right]);
-  const y = scaleBand<number>().domain(spec.bars.map((_, i) => i)).range([PLOT.top + 4, PLOT.bottom]).padding(0.28);
+  const y = scaleBand<number>().domain(spec.bars.map((_, i) => i)).range([f.plot.top + 4, f.plot.bottom]).padding(0.28);
   let svg = "";
   const labels: Label[] = [];
   spec.bars.forEach((b, i) => {
@@ -281,7 +285,7 @@ function horizontalBars(spec: Extract<ChartSpec, { type: "bars" }>): { svg: stri
         ? `<path d="M${x0},${by} H${x0 + w - r} Q${x0 + w},${by} ${x0 + w},${by + r} V${by + y.bandwidth() - r} Q${x0 + w},${by + y.bandwidth()} ${x0 + w - r},${by + y.bandwidth()} H${x0} Z" fill="${fill}"/>`
         : `<path d="M${x0 + w},${by} H${x0 + r} Q${x0},${by} ${x0},${by + r} V${by + y.bandwidth() - r} Q${x0},${by + y.bandwidth()} ${x0 + r},${by + y.bandwidth()} H${x0 + w} Z" fill="${fill}"/>`;
     const mid = by + y.bandwidth() / 2 - 13;
-    labels.push({ x: PLOT.left - 70, y: mid, text: b.label, align: "left", size: 22, color: b.emphasis ? INK : MUTED, bold: b.emphasis });
+    labels.push({ x: f.plot.left - 70, y: mid, text: b.label, align: "left", size: 22, color: b.emphasis ? INK : MUTED, bold: b.emphasis });
     const valueText = barValueText(b.value, spec.unit);
     labels.push(
       b.value >= 0
@@ -289,23 +293,34 @@ function horizontalBars(spec: Extract<ChartSpec, { type: "bars" }>): { svg: stri
         : { x: x0 - 12, y: mid, text: valueText, align: "right", size: 22, color: INK, bold: b.emphasis },
     );
   });
-  svg += `<line x1="${x(0)}" x2="${x(0)}" y1="${PLOT.top}" y2="${PLOT.bottom}" stroke="${MUTED}" stroke-width="1.5"/>`;
+  svg += `<line x1="${x(0)}" x2="${x(0)}" y1="${f.plot.top}" y2="${f.plot.bottom}" stroke="${MUTED}" stroke-width="1.5"/>`;
   return { svg, labels };
+}
+
+/** The chart's marks (one SVG) and its text labels, laid out in a frame. */
+export function chartLayer(spec: ChartSpec, f: Frame): { svg: string; labels: Label[] } {
+  return spec.type === "line" ? lineChart(spec, f) : spec.orientation === "vertical" ? verticalBars(spec, f) : horizontalBars(spec, f);
 }
 
 let fonts: { serif: Buffer } | null = null;
 let seal: string | null = null;
 
 /** The site's seal (app/icon.svg, the favicon: no background, so it sits on the white card), as a data URI. */
-function sealSrc(): string {
+export function sealSrc(): string {
   seal ??= `data:image/svg+xml;base64,${readFileSync(join(process.cwd(), "app/icon.svg")).toString("base64")}`;
   return seal;
 }
 
-export async function renderChart(insight: Insight): Promise<Buffer> {
+/** Newsreader, the site's serif, for headlines and the wordmark. */
+export function serifFont(): Buffer {
   fonts ??= { serif: readFileSync(join(process.cwd(), "app/_og/Newsreader.ttf")) };
+  return fonts.serif;
+}
+
+export async function renderChart(insight: Insight): Promise<Buffer> {
+  const serif = serifFont();
   const spec = insight.chart;
-  const { svg, labels } = spec.type === "line" ? lineChart(spec) : spec.orientation === "vertical" ? verticalBars(spec) : horizontalBars(spec);
+  const { svg, labels } = chartLayer(spec, CARD);
   // Lagged data says it is new, so a chart ending months ago does not read as old news (freshness.ts).
   const note = releaseNote(insight) ?? (insight.kind === "news" ? "In the news" : null);
   const headlineSize = insight.headline.length > 96 ? 36 : insight.headline.length > 70 ? 40 : 46;
@@ -322,7 +337,7 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
         ) : null}
       </div>
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headlineSize, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, maxWidth: 1080 }}>{insight.headline}</div>
-      <div style={{ position: "absolute", top: PLOT.top - 44, left: 60, display: "flex", fontSize: 17, color: MUTED }}>{spec.axisLabel}</div>
+      <div style={{ position: "absolute", top: CARD.plot.top - 44, left: 60, display: "flex", fontSize: 17, color: MUTED }}>{spec.axisLabel}</div>
       {labels.map((l, i) => (
         <LabelDiv key={i} l={l} />
       ))}
@@ -332,6 +347,6 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
       </div>
     </div>
   );
-  const res = new ImageResponse(content, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: fonts.serif, weight: 500, style: "normal" }] });
+  const res = new ImageResponse(content, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serif, weight: 500, style: "normal" }] });
   return Buffer.from(await res.arrayBuffer());
 }

@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 import { claudeCaption, templateCaption } from "./caption";
+import { renderCarousel } from "./carousel";
 import { SITE_URL, renderChart } from "./chart";
 import type { Insight, NewsTrigger, Release } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
@@ -10,7 +11,8 @@ import { CellIndex, verifyInsight } from "./verify";
  * Turns insights into drafts on disk: verify every fact against the data, write a caption (Claude, or the template with
  * --no-llm), render the chart. A draft whose facts or caption fail is dropped and reported, never written.
  *
- * Each draft is `<slug>.png` + `<slug>.json`; `index.md` and `index.html` list them for review.
+ * Each draft is `<slug>.png` + `<slug>.json`, plus its Instagram carousel `<slug>-ig-1.png` … (carousel.tsx);
+ * `index.md` and `index.html` list them for review.
  */
 
 export type Draft = {
@@ -27,6 +29,8 @@ export type Draft = {
   /** Exactly what would be posted: the caption, a blank line, the link. */
   post_text: string;
   image: string;
+  /** The Instagram carousel's slides, in order (posted by hand); absent on drafts made before carousels. */
+  slides?: string[];
   alt: string;
   source: string;
   score: number;
@@ -70,6 +74,11 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
       }
       const slug = slugFor(insight.id);
       writeFileSync(join(opts.outDir, `${slug}.png`), await renderChart(insight));
+      const slides = (await renderCarousel(insight)).map((png, i) => {
+        const file = `${slug}-ig-${i + 1}.png`;
+        writeFileSync(join(opts.outDir, file), png);
+        return file;
+      });
       const link = `${SITE_URL}${insight.url}${insight.anchor ?? ""}`;
       const draft: Draft = {
         id: insight.id,
@@ -84,6 +93,7 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         link,
         post_text: `${result.caption}\n\n${link}`,
         image: `${slug}.png`,
+        slides,
         alt: insight.alt,
         source: insight.source,
         score: Math.round(insight.score * 10) / 10,
@@ -134,12 +144,12 @@ export function writeIndex(outDir: string, drafts: Draft[], dropped: string[]): 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Social drafts</title>
 <style>body{font:16px/1.5 system-ui,sans-serif;background:#eef1f5;color:#1a2233;margin:0;padding:24px 16px}main{max-width:760px;margin:0 auto}
 article{background:#fff;border-radius:10px;padding:16px;margin:0 0 24px;box-shadow:0 1px 2px #0001}img{width:100%;height:auto;border:1px solid #d7dce3;border-radius:6px}
-.post{white-space:pre-wrap;font-size:17px;margin:12px 0}.meta{color:#5b6472;font-size:13px}details{font-size:13px;color:#5b6472}code{font-size:12px}</style></head>
+.slides{display:flex;gap:6px;margin-top:8px}.slides img{width:19%;border-radius:4px}.post{white-space:pre-wrap;font-size:17px;margin:12px 0}.meta{color:#5b6472;font-size:13px}details{font-size:13px;color:#5b6472}code{font-size:12px}</style></head>
 <body><main><h1>Social post drafts (${drafts.length})</h1><p>Nothing here is posted. Each caption's numbers were checked against the data cells listed under "Facts".</p>
 ${drafts
   .map(
     (d, n) => `<article><div class="meta">${n + 1} · ${esc(d.dataset)} · ${esc(d.kind)} · ${esc(d.period)} · score ${d.score} · caption: ${esc(d.caption_source)}${d.release ? ` · released ${esc(d.release.releasedOn)}${d.release.estimated ? " (est.)" : ""}, fresh until ${esc(d.release.expiresOn)}${d.release.lagged ? " · lagged" : ""}` : ""}</div>
-<img src="${esc(d.image)}" alt="${esc(d.alt)}"><div class="post">${esc(d.caption)}\n\n<a href="${esc(d.link)}">${esc(d.link)}</a></div>
+<img src="${esc(d.image)}" alt="${esc(d.alt)}">${d.slides?.length ? `<div class="slides">${d.slides.map((f) => `<a href="${esc(f)}"><img src="${esc(f)}" alt=""></a>`).join("")}</div>` : ""}<div class="post">${esc(d.caption)}\n\n<a href="${esc(d.link)}">${esc(d.link)}</a></div>
 <details><summary>Facts and template</summary><p><b>Template:</b> ${esc(d.template)}</p><ul>${d.facts.map((f) => `<li><b>${esc(f.text)}</b> <code>${esc(f.id)}</code></li>`).join("")}</ul></details></article>`,
   )
   .join("\n")}
