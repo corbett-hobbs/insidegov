@@ -113,8 +113,6 @@ const StaticLayer = memo(function StaticLayer({ main, reference, only = null, sc
   const zoneX1 = X(Math.min(ve, zoneEnd));
   const zoneW = zoneX1 - ml;
   const zoneText = first < 0 ? "No calculated duties data" : `Calculated duties data begins ${MONTH_NAMES[first % 12]} ${1991 + Math.floor(first / 12)}`;
-  const breakDay = monthStartDay(SOURCE_BREAK);
-  const breakVisible = breakDay > vs + 400 && breakDay < ve - 400 && first <= SOURCE_BREAK;
 
   return (
     <>
@@ -138,17 +136,6 @@ const StaticLayer = memo(function StaticLayer({ main, reference, only = null, sc
           <text x={ml - 6} y={Y(v) + 3.5} textAnchor="end" className="fill-ink-muted font-mono text-[11px]">{fmtPercentTick(v)}</text>
         </g>
       ))}
-      {breakVisible && (
-        <g>
-          <line x1={X(breakDay)} x2={X(breakDay)} y1={mt} y2={axisY} stroke="var(--ink-muted)" strokeWidth={1} strokeDasharray="2 3" />
-          {pw > 500 && (
-            <>
-              <text x={X(breakDay) - 4} y={axisY - 5} textAnchor="end" className="fill-ink-muted text-[10px]">USITC DataWeb</text>
-              <text x={X(breakDay) + 4} y={axisY - 5} className="fill-ink-muted text-[10px]">Census API</text>
-            </>
-          )}
-        </g>
-      )}
       <g clipPath={`url(#${clipId})`}>
         {reference && only !== "main" && <path d={gen(pts(reference)) ?? ""} fill="none" stroke="var(--ink-faint)" strokeWidth={1.75} strokeLinejoin="round" />}
         {only !== "reference" && <path d={gen(pts(main)) ?? ""} fill="none" stroke="var(--ink)" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />}
