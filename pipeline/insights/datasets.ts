@@ -40,10 +40,10 @@ export const DATASET_FILES: Record<DatasetId, string[]> = {
 
 export const DATASETS = Object.keys(DATASET_FILES) as DatasetId[];
 
-const MBD: UnitFormat = { scale: 0.001, decimals: 2, suffix: " million barrels a day" };
-const BKWH: UnitFormat = { scale: 0.001, decimals: 1, suffix: " billion kilowatthours" };
+const MBD: UnitFormat = { scale: 0.001, decimals: 2, suffix: "M barrels/day" };
+const BKWH: UnitFormat = { scale: 0.001, decimals: 1, suffix: "B kWh" };
 const COUNT: UnitFormat = { scale: 1, decimals: 0, suffix: "" };
-const USD_BN: UnitFormat = { scale: 0.001, decimals: 1, prefix: "$", suffix: " billion" };
+const USD_BN: UnitFormat = { scale: 0.001, decimals: 1, prefix: "$", suffix: "B" };
 
 type SeriesConfig = Omit<Series, "points" | "dataset" | "url" | "source" | "frequency" | "kind" | "moveMode"> &
   Partial<Pick<Series, "frequency" | "kind" | "moveMode">>;
@@ -59,7 +59,7 @@ const ENERGY: (SeriesConfig & { series_id: string })[] = [
     id: "energy.spr",
     name: "crude oil in the Strategic Petroleum Reserve",
     axisLabel: "million barrels",
-    unit: { scale: 0.001, decimals: 1, suffix: " million barrels" },
+    unit: { scale: 0.001, decimals: 1, suffix: "M barrels" },
     seasonal: false,
     frequency: "weekly",
     weight: 1.2,
@@ -67,8 +67,8 @@ const ENERGY: (SeriesConfig & { series_id: string })[] = [
     releaseLagDays: 5,
   },
   // Monthly totals vary with the number of days in a month, so these compare like months.
-  { series_id: "NGPRPUS", id: "energy.gas_production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: " billion cubic feet" }, seasonal: true, weight: 0.9 , releaseLagDays: 60 },
-  { series_id: "N9133US2", id: "energy.lng_exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: " billion cubic feet" }, seasonal: true, weight: 1.1 , releaseLagDays: 60 },
+  { series_id: "NGPRPUS", id: "energy.gas_production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: "B cu ft" }, seasonal: true, weight: 0.9 , releaseLagDays: 60 },
+  { series_id: "N9133US2", id: "energy.lng_exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: "B cu ft" }, seasonal: true, weight: 1.1 , releaseLagDays: 60 },
   { series_id: "ELETPUS", id: "energy.power_total", name: "U.S. electricity generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , releaseLagDays: 55, headline: true },
   { series_id: "CLETPUS", id: "energy.power_coal", name: "U.S. electricity generation from coal", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , releaseLagDays: 55 },
   { series_id: "NGETPUS", id: "energy.power_gas", name: "U.S. electricity generation from natural gas", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , releaseLagDays: 55 },
@@ -83,7 +83,7 @@ const GAS: (SeriesConfig & { series_id: string })[] = [
     id: "gas.regular",
     name: "the U.S. average price of regular gasoline",
     axisLabel: "dollars a gallon",
-    unit: { scale: 1, decimals: 2, prefix: "$", suffix: " a gallon" },
+    unit: { scale: 1, decimals: 2, prefix: "$", suffix: "/gal" },
     seasonal: false,
     frequency: "weekly",
     context: ["Weekly retail price averaged over all U.S. stations, in nominal dollars (not adjusted for inflation)."],
@@ -97,7 +97,7 @@ const GAS: (SeriesConfig & { series_id: string })[] = [
     id: "gas.diesel",
     name: "the U.S. average price of diesel",
     axisLabel: "dollars a gallon",
-    unit: { scale: 1, decimals: 2, prefix: "$", suffix: " a gallon" },
+    unit: { scale: 1, decimals: 2, prefix: "$", suffix: "/gal" },
     seasonal: false,
     frequency: "weekly",
     weight: 1.1,
@@ -260,7 +260,7 @@ export function loadTrade(ref?: string): Series[] {
         return { date: monthDate(String(r.period)), value: (d.negate ? -1 : 1) * (r[d.field] as number), cells: [cell] };
       })
       .sort((a, b) => a.date.localeCompare(b.date)),
-    totalUnit: { scale: 0.000001, decimals: 2, prefix: "$", suffix: " trillion" },
+    totalUnit: { scale: 0.000001, decimals: 2, prefix: "$", suffix: "T" },
     totalAxisLabel: "trillions of dollars, not adjusted for inflation",
     context: ["Dollar figures are nominal: not adjusted for inflation.", "Monthly figures are seasonally adjusted (the Census headline basis)."],
     url: "/presidency/trade",

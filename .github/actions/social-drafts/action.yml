@@ -4,12 +4,19 @@ description: >
   new highs and lows, biggest moves, same-point-in-term comparisons; captions by the Claude API, every number checked
   against the data), pushes the chart images to the `social-drafts` branch, and opens one `social-draft` issue per
   draft for a human to approve. Never posts. Run it with `continue-on-error: true` so it can never block a data refresh.
-  Needs `contents: write` (the image branch) and `issues: write`.
+  Needs `contents: write` (the image branch) and `issues: write`. With `news: 'true'` it runs the news watcher instead
+  (pipeline/insights/news/watch.ts: context charts for topics in the news), keeping the watcher's memory of turned-down
+  stories in `news/state.json` on the same branch.
 
 inputs:
   datasets:
-    description: Comma-separated dataset ids (energy, gas, encounters, ice, trade, executive_orders, laws)
-    required: true
+    description: Comma-separated dataset ids (energy, gas, encounters, ice, trade, executive_orders, laws); ignored with news
+    required: false
+    default: ""
+  news:
+    description: "'true' runs the news watcher instead of drafting from a data refresh"
+    required: false
+    default: "false"
   since-ref:
     description: Git ref holding the data from before the refresh (periods newer than it are new)
     required: false
@@ -61,17 +68,28 @@ runs:
       shell: bash
       env:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        GH_TOKEN: ${{ inputs.token }}
         DATASETS: ${{ inputs.datasets }}
         SINCE_REF: ${{ inputs.since-ref }}
         SINCE: ${{ inputs.since }}
+        NEWS: ${{ inputs.news }}
       run: |
+        if [ "$NEWS" = "true" ]; then
+          state="$RUNNER_TEMP/news-state.json"
+          if git fetch -q --depth 1 origin social-drafts 2>/dev/null && git show FETCH_HEAD:news/state.json > "$state" 2>/dev/null; then :; else echo '{}' > "$state"; fi
+          pnpm exec tsx pipeline/insights/news/watch.ts --github --state "$state" --out "$RUNNER_TEMP/social-drafts"
+          exit 0
+        fi
         if [ -n "$SINCE" ]; then since=(--since "$SINCE"); else since=(--since-ref "$SINCE_REF"); fi
         pnpm exec tsx pipeline/insights/run.ts --datasets "$DATASETS" "${since[@]}" --out "$RUNNER_TEMP/social-drafts"
 
     # Images live on an orphan branch so issues can embed them (raw.githubusercontent.com) without touching main.
+    # The news watcher's state goes there too, on every run (it changes even when nothing is drafted).
     - id: images
-      if: steps.draft.outputs.count != '0' && inputs.dry-run != 'true'
+      if: (steps.draft.outputs.count != '0' || inputs.news == 'true') && inputs.dry-run != 'true'
       shell: bash
+      env:
+        NEWS: ${{ inputs.news }}
       run: |
         dir="$RUNNER_TEMP/social-drafts-branch"
         if git ls-remote --exit-code --heads origin social-drafts >/dev/null 2>&1; then
@@ -81,16 +99,18 @@ runs:
           git worktree add --orphan -b social-drafts "$dir"
         fi
         mkdir -p "$dir/images"
-        cp "$RUNNER_TEMP"/social-drafts/*.png "$dir/images/"
+        cp "$RUNNER_TEMP"/social-drafts/*.png "$dir/images/" 2>/dev/null || true
+        if [ "$NEWS" = "true" ]; then mkdir -p "$dir/news" && cp "$RUNNER_TEMP/news-state.json" "$dir/news/state.json"; fi
+        echo "base=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/social-drafts/images" >> "$GITHUB_OUTPUT"
         cd "$dir"
-        git add images
+        git add -A images news 2>/dev/null || git add -A images
+        if git diff --cached --quiet; then exit 0; fi
         git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-          commit -q -m "Social draft images from $GITHUB_WORKFLOW run $GITHUB_RUN_ID"
+          commit -q -m "Social drafts from $GITHUB_WORKFLOW run $GITHUB_RUN_ID"
         for attempt in 1 2 3; do
           git push -q origin HEAD:refs/heads/social-drafts && break
           git pull -q --rebase origin social-drafts
         done
-        echo "base=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/social-drafts/images" >> "$GITHUB_OUTPUT"
 
     - if: steps.draft.outputs.count != '0'
       shell: bash
@@ -109,9 +129,9 @@ runs:
     - if: steps.issues.outputs.opened == 'true'
       uses: ./.github/actions/notify
       with:
-        subject: "InsideGov: social drafts to review"
-        body: "New social post drafts are waiting for approval. Open one and add the social-approved label to queue it (or close it to reject)."
-        url: ${{ github.server_url }}/${{ github.repository }}/issues?q=is%3Aopen+label%3Asocial-draft
+        subject: ${{ inputs.news == 'true' && 'InsideGov: news draft to approve (expires within a day)' || 'InsideGov: social drafts to review' }}
+        body: ${{ inputs.news == 'true' && 'A topic the site has data on is in the news. Approve the draft (label social-approved) and it posts within minutes; close it to reject. It expires unposted after a day.' || 'New social post drafts are waiting for approval. Open one and add the social-approved label to queue it (or close it to reject).' }}
+        url: ${{ github.server_url }}/${{ github.repository }}/issues?q=is%3Aopen+label%3A${{ inputs.news == 'true' && 'social-news' || 'social-draft' }}
         body-file: ${{ runner.temp }}/social-summary.txt
         smtp-server: ${{ inputs.smtp-server }}
         smtp-port: ${{ inputs.smtp-port }}

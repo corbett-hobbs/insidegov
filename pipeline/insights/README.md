@@ -2,7 +2,9 @@
 
 Turns new government data into social posts: one chart image, a one- or two-sentence caption, a link to the page.
 Because the content is political, **a person approves every post**. Posts follow the data: something is posted because
-data just came out, at a steady pace, never in bursts. Bluesky and X are supported; both are off until set up.
+data just came out, at a steady pace, never in bursts, **or because a topic the site has data on is in the news**
+(see "News drafts" below): a chart of diesel prices when diesel is in the headlines, the tariff rate collected on
+Canada when tariffs on Canada are. Bluesky and X are supported; both are off until set up.
 
 ```
 data refresh (a freshness workflow)                         release day = the day the workflow sees the data
@@ -16,6 +18,16 @@ data refresh (a freshness workflow)                         release day = the da
 you: label `social-approved` (queues it) or close (rejects it)
   └─ .github/workflows/social-post.yml, weekdays                       post-next.ts → schedule.ts
        expire stale drafts, pick at most one, post to Bluesky and X    bluesky.ts, x.ts
+
+headlines, every 15 minutes (.github/workflows/social-news.yml)
+  └─ .github/actions/social-drafts (news: true)
+       news/watch.ts      read the feeds                                 news/feeds.ts
+                          find topics in the news (2+ publishers)        news/match.ts, news/topics.ts
+                          is it a real, current story?  (Claude API)     news/classify.ts
+                          context chart from data the site has           news/charts.ts
+                          verify, caption, render: as above
+       open-issues.ts     `social-draft` + `social-news` issue, one email
+you: label `social-approved`  →  posts within minutes (no slot)        post-next.ts --slot news → schedule.ts pickNews
 ```
 
 ## What becomes a post
@@ -75,6 +87,68 @@ When each source publishes, which workflow picks it up, and what usually posts:
 | Executive orders, laws | continuously | `executive-orders-freshness`, `laws-freshness` (Mondays) | after each month: the month's count (or a new high); quarterly term comparison |
 | ICE removals and detention | yearly, curated by hand | no freshness workflow: run `social-drafts.yml` after updating | yearly figures |
 
+## News drafts: posting when a topic is in the news
+
+`news/`. The data calendar decides most posts, but a chart is most useful the day its topic is in the news: tariffs on
+Canada announced, a diesel deal with Russia. The news watcher listens for that and drafts a **context chart** from
+data the site already has. It does not report the news, it gives it background.
+
+**Topics** (`news/topics.ts`): only topics the site can chart. Add one there (feed query, title pattern, chart, lead).
+
+| Topic | Headline mentions | Chart |
+| --- | --- | --- |
+| Tariffs | "tariff(s)" (not utility rates); a big trade partner by name or demonym | the tariff rate collected on that partner against all countries, monthly, 10 years (or all countries alone) |
+| Diesel | "diesel" | weekly diesel price, 10 years, with its high |
+| Gas prices | "gas prices", "price of gasoline", "at the pump" | weekly regular gasoline price, 10 years, with its high |
+| SPR | "Strategic Petroleum Reserve" | weekly SPR level, 15 years, with its high |
+| Oil production | "U.S. oil production/output" | monthly crude production, 10 years, with its high |
+| LNG | "LNG", "liquefied natural gas" | monthly LNG exports, same month each year (the July peak for July data) |
+| Trade deficit | "trade deficit/gap/balance" | monthly goods deficit, 10 years, with its high |
+| Border | "border crossings/encounters/apprehensions" | monthly southwest border encounters, 10 years, with its high |
+| Deportations | "deportation(s)", "deported" | ICE removals by fiscal year |
+
+**The comparison point** is the peak in the chart's window, and how far back that peak stands in all the data
+("down from a peak of $6.53 a gallon in September 2026, the highest in data going back to 1994"; for a country's
+tariff rate, "The peak for Canada was 3.8% in September 2025", so it cannot be read as the all-countries rate). A year
+earlier is the fallback, when the latest value is itself the peak ("up 19% from a year earlier, the highest July in
+data going back to 1997"). Clauses are dropped from the end until the caption fits 240 characters.
+
+**Feeds** (`news/feeds.ts`), plain RSS, no keys: the White House's presidential actions feed (official, public domain:
+proclamations and executive orders, such as tariff changes) and a Google News search per topic query. Google's feed
+terms limit it to personal, non-commercial use; set the repo variable `SOCIAL_NEWS_SOURCES=whitehouse` to use the
+official feed only. (GDELT's free API was tried and dropped: it rate-limits GitHub's shared runners.)
+
+**What counts as a story** (`news/match.ts`, tested):
+
+| Rule | Value |
+| --- | --- |
+| Recency | headlines from the last **6 hours** (`NEWS_LOOKBACK_HOURS`) |
+| Corroboration | **2+ different publishers** (`NEWS_MIN_SOURCES`), or one official White House document |
+| Tariffs | a headline naming exactly one trade partner importing $2B+ a year is that partner's story; none or several, the all-countries story, which ranks after any partner's |
+| Relevance | with `ANTHROPIC_API_KEY`, the Claude API (`claude-opus-5-5`, effort `low`; `SOCIAL_NEWS_MODEL` / `SOCIAL_NEWS_EFFORT`) answers yes or no: a current, national development with the topic central, not opinion, local or company news. A "no" is remembered for **6 hours** (`news/state.json` on the `social-drafts` branch) so the same story is not asked about every run. Without a key, the keyword and publisher rules stand alone. |
+| Volume | at most **2 drafts a run**, one per topic; the same topic (and partner) at most once in **3 days** (`NEWS_COOLDOWN_DAYS`) |
+
+**The caption** opens with a fixed sentence written by code ("Diesel is in the news.", "Tariffs involving Canada are
+in the news.") and then says only what the data shows. The caption check rejects a caption that changes the opening,
+and the usual rules apply: every number is a fact from the data (so no rate or figure from a headline can get in),
+no loaded words, no causes. The model is told never to describe the news (who announced what, terms, reactions). The
+headlines are listed in the issue for the reviewer and are never posted. The tariff chart's context note says the
+collected rate is not an announced rate and moves months after a change.
+
+**Speed.** News goes stale in hours, so news drafts skip the weekday slots:
+
+| Rule | Value |
+| --- | --- |
+| Watch | every 15 minutes, around the clock, once the repo variable `SOCIAL_NEWS_ENABLED=true` |
+| Notify | one email per run that opens drafts ("news draft to approve"), same `NOTIFY_*` secrets |
+| Post | approving (label `social-approved`) triggers the news lane at once, and it also runs after every watch: it posts within minutes, any day or hour (a person approved it) |
+| Expiry | **24 hours** after the story was first seen (`NEWS_FRESH_HOURS`); then it is closed as `social-expired` |
+| Caps | **2 news posts a day** (`NEWS_MAX_PER_DAY`), **4 posts a day** with data posts (`MAX_TOTAL_PER_DAY`), **45 minutes** after any post (`NEWS_MIN_MINUTES_BETWEEN`); a held post goes out at the next clear run |
+| Data slots | ignore news drafts; news posts do not use up the data caps, but a data slot waits 45 minutes after a news post, and topic rotation counts them (a diesel news post holds back a gas-price data post for 36 hours) |
+
+To try it: Actions → "Social news watcher" → Run workflow (dry run ticked prints the drafts). Locally:
+`pnpm insights:news` (writes `social-drafts/news/`), `-- --no-llm` for keyword rules and template captions.
+
 ## Captions and the numbers check
 
 Each insight carries **facts**: every number a caption may use, as text (`"$4.33 a gallon"`, `"12.4%"`), with the
@@ -133,6 +207,9 @@ You create the accounts and the credentials; the code never signs up for anythin
    would post.
 5. **Turn it on**: repo variable `SOCIAL_POSTING_ENABLED` = `true`. The next weekday slot posts the intro thread; drafts
    follow as data comes out and you approve them. Delete the variable to stop.
+6. **News drafts** (optional): repo variable `SOCIAL_NEWS_ENABLED` = `true` starts the 15-minute news watcher. It only
+   drafts; posting still needs `SOCIAL_POSTING_ENABLED` and your approval. `ANTHROPIC_API_KEY` (already a secret for
+   captions) turns on the relevance check.
 
 A platform with no secrets is simply skipped, so you can start with Bluesky alone.
 
@@ -147,6 +224,9 @@ pnpm insights:draft -- --datasets energy --since-ref HEAD     # what the working
 pnpm insights:issues -- --dir social-drafts/latest --dry-run  # print the issues that would be opened
 pnpm insights:post -- --slot morning --dry-run                # what the scheduler would do at the next morning slot
 pnpm insights:intro -- --print               # the intro thread
+pnpm insights:news                           # the news watcher once: stories in the news -> social-drafts/news
+pnpm insights:news -- --no-llm               # ... keyword rules only, template captions
+pnpm insights:post -- --slot news --dry-run  # what the news lane would post now
 ```
 
 `social-drafts/` is git-ignored. Captions need `ANTHROPIC_API_KEY` (env or `.env.local`).

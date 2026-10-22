@@ -45,8 +45,9 @@ export class CellIndex {
     const matches = idx.get(JSON.stringify(fields.map((f) => cell.key[f] ?? null))) ?? [];
     if (matches.length !== 1) throw new Error(`${cell.file} ${JSON.stringify(cell.key)}: ${matches.length} rows`);
     if (cell.field === "__row") return 1;
-    const v = matches[0]![cell.field];
-    if (typeof v !== "number") throw new Error(`${cell.file} ${JSON.stringify(cell.key)}.${cell.field} is not a number`);
+    const raw = matches[0]![cell.field];
+    const v = cell.index === undefined ? raw : Array.isArray(raw) ? raw[cell.index] : undefined;
+    if (typeof v !== "number") throw new Error(`${cell.file} ${JSON.stringify(cell.key)}.${cell.field}${cell.index === undefined ? "" : `[${cell.index}]`} is not a number`);
     return cell.negate ? -v : v;
   }
 

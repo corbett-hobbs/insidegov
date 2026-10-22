@@ -35,7 +35,7 @@ export function lengthSection(block: DraftBlock): string {
       `- **Bluesky** (caption and link): ${fit(graphemes(bsky), MAX_GRAPHEMES)}`,
       `- **X** (caption, no link by default): ${fit(xPlain, X_MAX)}; with the link: ${fit(xLinked, X_MAX)}`,
     );
-    const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged });
+    const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead });
     lines.push(errors.length ? `- ⚠ **Caption check fails:** ${errors.join("; ")}. It will not post until this is fixed.` : "- ✅ Caption check passes (numbers match the facts, no loaded words).");
   }
   return `${COUNTS_OPEN}\n**Length**\n\n${lines.join("\n")}\n${COUNTS_CLOSE}`;

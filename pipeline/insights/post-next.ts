@@ -4,7 +4,7 @@ import * as bsky from "./bluesky";
 import { checkCaption } from "./caption";
 import { SITE_URL } from "./chart";
 import { APPROVED_LABEL, type DraftBlock, EXPIRED_LABEL, POSTED_LABEL, parseDraftBlock } from "./issue";
-import { type Posted, type QueueItem, SLOTS, type SlotName, pickNext, slotAt } from "./schedule";
+import { type Posted, type QueueItem, SLOTS, type SlotName, localDate, pickNews, pickNext, slotAt } from "./schedule";
 import * as x from "./x";
 
 /**
@@ -13,6 +13,7 @@ import * as x from "./x";
  *
  *   pnpm insights:post -- --slot morning --dry-run      # print what would happen, change nothing
  *   pnpm insights:post                                  # --slot auto: whichever slot it is now in Pacific time, if any
+ *   pnpm insights:post -- --slot news                   # the news lane: an approved news draft, now (schedule.ts pickNews)
  *
  * Posts only when SOCIAL_POSTING_ENABLED=true; a platform is enabled when its secrets are set:
  *   Bluesky: BLUESKY_HANDLE, BLUESKY_APP_PASSWORD
@@ -25,13 +26,14 @@ type Platform = "bluesky" | "x";
 const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
 // --slot auto (the scheduled runs): the slot this moment falls in, Pacific time; the cron fires at both UTC hours a
 // slot can land on across daylight saving, and the off one exits here.
+// --slot news: the news lane (news drafts only, any time; run every few minutes and when a news draft is approved).
 const slotArg = arg("--slot") ?? "auto";
-const slot = (slotArg === "auto" ? slotAt(new Date().toISOString()) : slotArg) as SlotName | null;
+const slot = (slotArg === "auto" ? slotAt(new Date().toISOString()) : slotArg) as SlotName | "news" | null;
 if (!slot) {
   console.log(`insights:post  not a posting slot in Pacific time (${SLOTS.map((s) => `${s.localHour}:00`).join(", ")} on weekdays); nothing to do`);
   process.exit(0);
 }
-if (!SLOTS.some((s) => s.name === slot)) throw new Error(`--slot is auto or one of ${SLOTS.map((s) => s.name).join(", ")}`);
+if (slot !== "news" && !SLOTS.some((s) => s.name === slot)) throw new Error(`--slot is auto, news or one of ${SLOTS.map((s) => s.name).join(", ")}`);
 const enabled = process.env.SOCIAL_POSTING_ENABLED === "true" && !process.argv.includes("--dry-run");
 const blueskyCreds = process.env.BLUESKY_HANDLE && process.env.BLUESKY_APP_PASSWORD ? { handle: process.env.BLUESKY_HANDLE, password: process.env.BLUESKY_APP_PASSWORD } : null;
 const xCreds = x.xCredsFromEnv();
@@ -102,21 +104,26 @@ for (const issue of approved) {
     frequency: block.frequency ?? "monthly",
     // The intro has no release: always fresh.
     releasedOn: r?.releasedOn ?? "0000-01-01",
-    expiresOn: r?.expiresOn ?? "9999-12-31",
+    expiresOn: block.news ? localDate(block.news.expiresAt) : (r?.expiresOn ?? "9999-12-31"),
+    ...(block.news ? { expiresAt: block.news.expiresAt } : {}),
   });
 }
 const history: Posted[] = posted.flatMap((i) => {
   const b = parseDraftBlock(i.body);
-  return b && i.closedAt ? [{ dataset: b.dataset, postedAt: i.closedAt }] : [];
+  return b && i.closedAt ? [{ dataset: b.dataset, postedAt: i.closedAt, kind: b.kind }] : [];
 });
 
 const now = new Date().toISOString();
-const decision = pickNext(queue, history, now, slot);
+const decision = slot === "news" ? pickNews(queue, history, now) : pickNext(queue, history, now, slot);
 console.log(`insights:post  ${slot} slot, ${queue.length} queued, platforms: ${platforms.join(", ") || "none configured"}${live ? "" : " (DRY RUN)"}`);
 
 if (decision.expired.length + decision.superseded.length) act("create the social-expired label", ["label", "create", EXPIRED_LABEL, "--color", "E4E669", "--description", "Not posted: went stale or was superseded (pipeline/insights)", "--force"]);
 for (const q of [...decision.expired, ...decision.superseded]) {
-  const why = decision.expired.includes(q) ? "it went stale before a slot was free (newer data is out or due)" : "a newer draft for the same series is approved";
+  const why = !decision.expired.includes(q)
+    ? "a newer draft for the same series is approved"
+    : q.kind === "news"
+      ? "the story it was posted for is no longer fresh (news drafts expire within a day)"
+      : "it went stale before a slot was free (newer data is out or due)";
   console.log(`  expire #${q.key} ${q.id}: ${why}`);
   report.expired.push(`#${q.key} ${titleOf(q.key)}: ${why}.`);
   act(`label #${q.key} ${EXPIRED_LABEL} and close`, ["issue", "close", q.key, "--comment", `Not posted: ${why}.`]);
@@ -131,7 +138,7 @@ const { issue, block } = blocks.get(decision.post.key)!;
 console.log(`  next: #${issue.number} ${block.id} (${decision.reason})`);
 
 if (block.kind !== "intro") {
-  const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged });
+  const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead });
   if (errors.length) {
     console.log(`  caption fails the check: ${errors.join("; ")}`);
     act(`comment on #${issue.number}`, ["issue", "comment", String(issue.number), "--body", `Not posted: the caption fails the check (${errors.join("; ")}). Fix \`caption\` in the block and it will be picked up at the next slot.`]);
