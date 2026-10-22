@@ -17,6 +17,12 @@ import { CASE_SUMMARIES_AI, aiSummaryCache, checkAiSummary, summarizeLead, type 
  *
  *   ANTHROPIC_API_KEY=... pnpm summarize:cases      # (or put the key in the git-ignored .env.local)
  *   pnpm summarize:cases -- --limit 20              # try a few
+ *   pnpm summarize:cases -- --landmarks             # landmark cases still without a sentence: ask again over more of the article
+ *   pnpm summarize:cases -- --long                  # the same for every linked case whose intro gave no ruling
+ *
+ * A landmark's article often opens with a short or purely descriptive paragraph, so `--landmarks` re-asks (replacing a cached
+ * "no ruling") with the article's first ~9,000 characters, the same guard rails applied against that longer text. Landmarks are the
+ * cases a reader most expects a summary on.
  *
  * Guard rails: cached entries are never overwritten; no key, an API error or a sentence that fails `checkAiSummary` leaves the case uncached and it is asked again next run; the transform labels these rows
  * "claude" in the report and the page's Data notes count them. Not part of `pnpm transform` / CI: the cache is a committed artifact.
@@ -97,6 +103,20 @@ if (!process.env.ANTHROPIC_API_KEY) {
   process.exit(0);
 }
 
+const longMode = process.argv.includes("--long");
+const landmarksMode = longMode || process.argv.includes("--landmarks");
+
+/** The first ~9,000 characters of an article (not just its intro), for landmark cases whose intro states no ruling. */
+async function fetchLong(title: string): Promise<string | null> {
+  const api = new URL("https://en.wikipedia.org/w/api.php");
+  api.search = new URLSearchParams({ format: "json", formatversion: "2", action: "query", prop: "extracts", explaintext: "1", redirects: "1", titles: title }).toString();
+  const res = await fetch(api, { headers: { "user-agent": "InsideGov-pipeline/0.1 (+https://github.com/corbett-hobbs/insidegov; landmark case summaries)" } });
+  if (!res.ok) return null;
+  const json = (await res.json()) as { query?: { pages?: { extract?: string; missing?: boolean }[] } };
+  const text = json.query?.pages?.[0]?.extract?.trim();
+  return text ? text.slice(0, 9000) : null;
+}
+
 const read = (path: string): unknown => JSON.parse(readFileSync(path, "utf8"));
 const articles = z.array(caseArticleRow).parse(read(`${OUT}/decisions_articles.json`));
 const leads = (read(`${RAW_DIR}/wikipedia-cases/leads.json`) as { leads: Record<string, string> }).leads;
@@ -105,8 +125,11 @@ const cache = new Map((existsSync(CASE_SUMMARIES_AI) ? aiSummaryCache.parse(read
 const limitAt = process.argv.indexOf("--limit");
 const limit = limitAt > 0 ? Number(process.argv[limitAt + 1]) : Infinity;
 // Linked titles with a lead the plain picker cannot use and no answer yet, in a stable order.
+const landmarkTitles = new Set(
+  (read(`${OUT}/decisions_landmarks.json`) as { case_id: string }[]).flatMap((l) => articles.filter((a) => a.case_id === l.case_id && a.title).map((a) => a.title!)),
+);
 const pending = [...new Set(articles.flatMap((a) => (a.title ? [a.title] : [])))]
-  .filter((t) => leads[t] && !cache.has(t) && !summarizeLead(leads[t]))
+  .filter((t) => (landmarksMode ? (longMode || landmarkTitles.has(t)) && leads[t] && !summarizeLead(leads[t]) && !cache.get(t)?.summary : leads[t] && !cache.has(t) && !summarizeLead(leads[t])))
   .sort()
   .slice(0, limit);
 if (pending.length === 0) {
@@ -122,7 +145,8 @@ let next = 0;
 async function worker() {
   while (next < pending.length) {
     const title = pending[next++]!;
-    const answer = await ask(title, leads[title]!);
+    const text = landmarksMode ? ((await fetchLong(title)) ?? leads[title]!) : leads[title]!;
+    const answer = await ask(title, text);
     if (answer === undefined) {
       failed++;
       continue;

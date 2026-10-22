@@ -102,6 +102,12 @@ async function main() {
   const articleBy = new Map<string, { title: string | null; via: WikiVia | null }>(wc.rows.map((r) => [r.case_id, { title: r.title, via: r.via }]));
   // A landmark's article is the list's own link; a case a list shows as a red link has no article (title null); a case on no list has no row.
   for (const l of listed) articleBy.set(l.case_id, { title: l.title, via: l.via as WikiVia });
+  // Links that go to an article about something else (a person, a place, a lower-court case): dropped as if red.
+  const excluded = z.object({ cases: z.record(z.string(), z.string()) }).parse(await readJson(`${REF}/case-article-exclusions.json`)).cases;
+  for (const id of Object.keys(excluded)) {
+    if (!selection.cases.some((c) => c.caseId === id)) throw new DecisionsDataError(`case-article-exclusions.json: ${id} is not a case on the page`);
+    articleBy.set(id, { title: null, via: null });
+  }
   const redLinked = new Set(wc.report.red_linked);
   for (const id of redLinked) if (!articleBy.has(id)) articleBy.set(id, { title: null, via: null });
   const articles = z.array(caseArticleRow).parse([...articleBy].map(([case_id, a]) => ({ case_id, ...a })).sort((a, b) => a.case_id.localeCompare(b.case_id)));
