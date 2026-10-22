@@ -1375,19 +1375,19 @@
     ]
   },
   "case_summaries": {
-    "fetched": "2026-10-19",
+    "fetched": "2026-10-22",
     "linked_cases": 3453,
-    "cases_with_summary": 2963,
+    "cases_with_summary": 3014,
     "articles": 3375,
-    "with_lead": 3351,
-    "summarized": 2908,
-    "claude": 866,
+    "with_lead": 3374,
+    "summarized": 2958,
+    "claude": 906,
     "from_sentence": {
-      "1": 1691,
-      "2": 271,
-      "3": 80
+      "1": 1699,
+      "2": 272,
+      "3": 81
     },
-    "without": 490
+    "without": 439
   },
   "case_details": {
     "cases": 8251,
@@ -1404,7 +1404,7 @@
     "precedent_altered": 191,
     "declared_unconstitutional": 647,
     "codebook_fetched": "2026-10-17",
-    "wikipedia_leads": 3401
+    "wikipedia_leads": 3424
   },
   "justice_votes": {
     "justices": 40,
