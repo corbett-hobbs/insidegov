@@ -157,13 +157,13 @@ export function MultiSelectFilter<T extends string | number>({
               const on = isPicked(value, o.id);
               const shown = o.info !== undefined && explained.has(o.id);
               return (
-                <label key={String(o.id)} className="flex min-h-[2.75rem] cursor-pointer items-center gap-2 px-3 py-1.5 text-[0.8rem] hover:bg-surface-raised sm:min-h-[2.1rem]">
+                <div key={String(o.id)} className="hover:bg-surface-raised">
+                <label className="flex min-h-[2.75rem] cursor-pointer items-center gap-2 px-3 py-1.5 text-[0.8rem] sm:min-h-[2.1rem]">
                   <input type="checkbox" checked={on} onChange={(e) => change(setPicked(value, o.id, e.target.checked, ids))} className="m-0 h-4 w-4 flex-none cursor-pointer accent-[var(--accent)]" />
                   {o.swatch && <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-[2px] ${on ? "" : "opacity-35"}`} style={{ background: o.swatch }} />}
                   <span className="min-w-0 flex-1" title={o.info}>
                     <span className={`block truncate ${on ? "text-ink" : "text-ink-muted"}`}>{o.label}</span>
                     {o.hint && <span className="block truncate text-[0.7rem] leading-tight text-ink-faint">{o.hint}</span>}
-                    {shown && <span className="mt-0.5 block text-[0.72rem] leading-snug text-ink-muted">{o.info}</span>}
                   </span>
                   {o.count !== undefined && <span className="flex-none font-mono text-[0.72rem] tabular-nums text-ink-muted">{o.count}</span>}
                   {o.info !== undefined && (
@@ -189,6 +189,8 @@ export function MultiSelectFilter<T extends string | number>({
                     </button>
                   )}
                 </label>
+                {shown && <p className="m-0 px-3 pb-2 text-[0.72rem] leading-snug text-ink-muted">{o.info}</p>}
+                </div>
               );
             })}
           </div>
