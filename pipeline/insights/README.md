@@ -128,6 +128,12 @@ official feed only. (GDELT's free API was tried and dropped: it rate-limits GitH
 | Relevance | with `ANTHROPIC_API_KEY`, the Claude API (`claude-opus-5-5`, effort `low`; `SOCIAL_NEWS_MODEL` / `SOCIAL_NEWS_EFFORT`) answers yes or no: a current, national development with the topic central, not opinion, local or company news. A "no" is remembered for **6 hours** (`news/state.json` on the `social-drafts` branch) so the same story is not asked about every run. Without a key, the keyword and publisher rules stand alone. |
 | Volume | at most **2 drafts a run**, one per topic; the same topic (and partner) at most once in **3 days** (`NEWS_COOLDOWN_DAYS`) |
 
+**The link** goes to the chart's own card, with its filter: `/presidency/trade?country=CAN#tariffs` for a country's
+tariffs, `/presidency/economy#gas-price`, `/presidency/energy#spr`. Each series' `anchor` (datasets.ts) names the card;
+data-release drafts use it too. Card ids are the ones the share button gives (the title slugged, components/charts/ChartShare.tsx),
+except the trade balance and tariff cards, which set fixed ids (`trade-balance`, `tariffs`) because their titles
+change with the country. Rename a card and its anchor here must follow.
+
 **The caption** opens with a fixed sentence written by code ("Diesel is in the news.", "Tariffs involving Canada are
 in the news.") and then says only what the data shows. The caption check rejects a caption that changes the opening,
 and the usual rules apply: every number is a fact from the data (so no rate or figure from a headline can get in),
