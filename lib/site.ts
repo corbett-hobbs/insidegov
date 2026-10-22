@@ -24,7 +24,7 @@ export const site = {
     "Charts of Congress, the president and the Supreme Court from official records: laws, votes, tariffs, gas prices, deportations, the deficit and more.",
   /** The Congress ideology explorer's own blurb (`/congress/ideology`). */
   congressIdeologyDescription:
-    "How liberal or conservative every member of Congress votes, from DW-NOMINATE scores for the House and Senate since 1789. Filter by state, party and Congress.",
+    "How every member of Congress votes, mapped from DW-NOMINATE roll-call scores for the House and Senate since 1789. Filter by state, party and Congress.",
 } as const;
 
 /**

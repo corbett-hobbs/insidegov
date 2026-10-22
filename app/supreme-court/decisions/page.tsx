@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Supreme Court Decisions by Term and Issue",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/supreme-court/decisions", "Every argued Supreme Court case since 1946: how many the Court decides each term, how often it splits and on which issues. Look up any decision."),
+    description: hubDescription("/supreme-court/decisions", "Every argued Supreme Court case since 1946, by dissent count: how often the Court is unanimous or splits 5–4. Look up any decision."),
     path: "/supreme-court/decisions",
     topic: "supreme-court/decisions",
   });

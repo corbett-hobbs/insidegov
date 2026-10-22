@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Net Worth of Every Member of Congress",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/congress/wealth", "Estimated net worth of every current senator and representative, and how it has changed, from their annual House and Senate financial disclosures."),
+    description: hubDescription("/congress/wealth", "Estimated net worth of every member of Congress, from yearly financial disclosures, and how it has changed over time."),
     path: "/congress/wealth",
     topic: "congress/wealth",
   });

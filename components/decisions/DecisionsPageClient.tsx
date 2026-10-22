@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
 import { fmtInt } from "@/lib/decisions-derive";
@@ -29,13 +28,8 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Supreme Court · Decisions" title="How Does the Supreme Court Decide?">
           <p>
-            Every case the Supreme Court has argued since {first}, sorted by how many justices dissented. How often the Court speaks with one voice, and how often a ruling turns on a single vote, shows how much the law can shift with one seat.
+            Explore every argued Supreme Court case since {first}, categorized by dissent volume. Tracking unanimity versus razor-thin 5&ndash;4 decisions illustrates the fragility of legal consensus.
           </p>
-          <HowToRead>
-            <p>
-              A case counts once, in the term it was decided. &ldquo;Unanimous&rdquo; means no justice dissented; the other bands count dissents, so &ldquo;5&ndash;4&rdquo; is four dissents (a 4&ndash;4 tie counts there too). Select a term to pin it across both charts and the case list. The band under each axis marks the president in office for most of the term.
-            </p>
-          </HowToRead>
           <PageShortcuts>
             <JumpToCases />
             <p>

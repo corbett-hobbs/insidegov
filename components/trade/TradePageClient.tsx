@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { HowToRead } from "@/components/HowToRead";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
 import type { TradePageData } from "@/lib/trade-data";
@@ -170,10 +171,13 @@ function TradePage({ data }: { data: TradePageData }) {
         </div>
         <PageHeader eyebrow="Presidency · Trade" title="How Does the U.S. Trade With the World?">
           <p>
-            Who the U.S. buys from and sells to, and what it charges in tariffs on what comes in. Tariffs change what
-            Americans pay and who they trade with, and the marked dates show when the courts, Congress and the White
-            House pulled the levers.
+            Track where goods flow and what the U.S. charges in tariffs. Measure import and export balances with global trading partners and see how effective duty rates shift over time&mdash;with major executive, legislative, and court actions marked along the timeline.
           </p>
+          <HowToRead>
+            <p>
+              The tariff line represents calculated duties divided by the total value of imports for consumption, sourced directly from Census Bureau and USITC data. Because these are computed from actual import entries rather than Treasury tax receipts, the effective rate can shift if importers pivot to different product types or partner countries, even without a formal policy change.
+            </p>
+          </HowToRead>
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">

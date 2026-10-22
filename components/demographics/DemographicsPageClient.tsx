@@ -2,7 +2,6 @@
 
 import { DemographicsWindowProvider } from "./TermWindowContext";
 import { useMemo, useState } from "react";
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import type { ChamberView } from "@/lib/chamber";
 import { SLIDER_BOUNDS, readoutRow, windowRows, type PartyPick } from "@/lib/demographics-chart";
@@ -48,13 +47,8 @@ export function DemographicsPageClient({ data, rosterVersion }: { data: Demograp
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Demographics" title="Who Serves in Congress?">
           <p>
-            The age, gender and tenure of every voting member of Congress since 1933. Who holds the seats shapes which questions Congress takes up, and these charts show how fast, or how slowly, that has changed.
+            Explore historical trends in lawmaker age, gender distribution, and career tenure since 1933. Tracking who holds the seats reveals how congressional representation evolves over time.
           </p>
-          <HowToRead>
-            <p>
-              Each bar or point is one Congress and counts everyone who held a seat at any time in its two years, so mid-term replacements are included. The strip under each chart shows the president in office for most of each Congress, tinted by party. Click a Congress to pin it across all three charts.
-            </p>
-          </HowToRead>
         </PageHeader>
 
         <StatStrip row={shown} party={party} />

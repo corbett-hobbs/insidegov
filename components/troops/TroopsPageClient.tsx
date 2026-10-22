@@ -1,6 +1,5 @@
 "use client";
 
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import type { BasesPayload } from "@/lib/bases-types";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
@@ -25,21 +24,8 @@ export function TroopsPageClient({ payload, map, bases }: { payload: TroopsPaylo
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Troops abroad" title="Where Are U.S. Troops Stationed Abroad?">
           <p>
-            Where U.S. active-duty troops are stationed abroad, country by country, from {first.fy} through {last.fy}. That
-            footprint shows where America has committed itself, and how it has grown, shrunk and shifted from one
-            president to the next.
+            Explore active-duty military deployments country by country, from {first.fy} through {last.fy}, to see how U.S. overseas commitments have expanded or contracted from one administration to the next.
           </p>
-          <HowToRead>
-            <p>
-              <b className="font-semibold text-ink">Each bar is one year&rsquo;s table</b>: the September 30 report (June 30 for 1953&ndash;56). Three sources count a little differently: DMDC&rsquo;s location tables from 2008, its country tables for 1996 and 1998&ndash;2005, and a research compilation for the rest. Only the DMDC tables include personnel afloat or unassigned, so a jump where the source changes is not a change in troops and no percent change is shown across one.
-            </p>
-            <p>
-              <b className="font-semibold text-ink">The series changes meaning after 2017.</b> Through the September 2017 table, counts include personnel deployed for contingency operations; from December 2017 they count only those permanently assigned. A drop across that line is a change in what is counted, not a withdrawal.
-            </p>
-            <p>
-              <b className="font-semibold text-ink">&ldquo;Not reported&rdquo; is not zero.</b> Hosts a table leaves blank add nothing to the totals. <b className="font-semibold text-ink">Abroad</b> means active-duty personnel at a foreign host plus &ldquo;afloat and unassigned&rdquo; rows where the source has them; U.S. territories are left out. Regions are fixed groupings of today&rsquo;s countries (Turkey and Greenland count as Europe, Egypt as the Middle East, North Africa and Djibouti as Africa); South Vietnam is shown as Vietnam.
-            </p>
-          </HowToRead>
         </PageHeader>
 
         <TroopsChartCard />
