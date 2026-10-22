@@ -116,8 +116,8 @@ export default function Hub() {
                 Average tariff on imports · {tariff.first.slice(0, 4)}&ndash;{tariff.latest.label.slice(-4)}
               </span>
               <Link
-                href={href(presidency)}
-                aria-label={`${presidency.label}: open the first page`}
+                href={`${presidency.href}/trade#tariff-chart`}
+                aria-label="Presidency: open the trade page"
                 className="flex flex-1"
               >
                 <HubTariffChart data={tariff} stretch />
@@ -150,6 +150,7 @@ export default function Hub() {
             <Stat figure={fmtRate(tariff.latest.rate)}>
               average tariff on U.S. imports in {tariff.latest.label}
               {tariff.baseline && <>, up from {fmtRate(tariff.baseline.rate)} in {tariff.baseline.year}</>}
+              {tariff.peak && <>{tariff.baseline ? ", but" : ","} down from {fmtRate(tariff.peak.rate)} in {tariff.peak.label}</>}
             </Stat>
           }
         />
@@ -161,8 +162,8 @@ export default function Hub() {
           blurb={BLURBS.congress}
           viz={
             <Link
-              href={href(congressBranch)}
-              aria-label={`${congressBranch.label}: open the first page`}
+              href={`${congressBranch.href}/ideology`}
+              aria-label="Congress: open the ideology page"
               className="block"
             >
               <HubCompass members={congress.plottable} />
@@ -186,8 +187,8 @@ export default function Hub() {
           blurb={BLURBS["supreme-court"]}
           viz={
             <Link
-              href={href(courtBranch)}
-              aria-label={`${courtBranch.label}: open the first page`}
+              href={`${courtBranch.href}/ideology`}
+              aria-label="Supreme Court: open the ideology page"
               className="block"
             >
               <CourtHubStrip data={court} compact />

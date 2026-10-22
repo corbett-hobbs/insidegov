@@ -29,6 +29,8 @@ export interface HubTariff {
   latest: { label: string; rate: number };
   /** The full calendar year before the sitting president's term began, for "up from X% in YYYY". */
   baseline: { year: number; rate: number } | null;
+  /** The highest monthly rate in the series; null when it is the newest month. */
+  peak: { label: string; rate: number } | null;
 }
 
 /** A term on the shared axis, as `getEraLayers` gives it (days from 1991-01-01). */
@@ -85,7 +87,17 @@ export function buildHubTariff(duties: Monthly, imports: Monthly, terms: readonl
     if (Number.isFinite(d) && v > 0) baseline = { year, rate: round2((d / v) * 100) };
   }
 
-  return { first: periodOf(a), rates, terms: hubTerms, latest, baseline };
+  let top = 0;
+  rates.forEach((r, k) => {
+    if (r !== null && r >= (rates[top] ?? -Infinity)) top = k;
+  });
+  const topPeriod = periodOf(a + top);
+  const peak =
+    top === rates.length - 1
+      ? null
+      : { label: `${MONTH_NAMES[Number(topPeriod.slice(5)) - 1]} ${topPeriod.slice(0, 4)}`, rate: rates[top]! };
+
+  return { first: periodOf(a), rates, terms: hubTerms, latest, baseline, peak };
 }
 
 /** "6.9%": one decimal, the precision the card prints. */
