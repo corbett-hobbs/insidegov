@@ -1,6 +1,7 @@
 "use client";
 
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
+import { readoutRows, type ReadoutLine } from "@/lib/line-readout";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
 import { memo, useMemo } from "react";
 import { MONTH_ABBR } from "@/lib/indicator-time";
@@ -107,7 +108,17 @@ export function TradeTariffCard({
   const lastIdx = main ? main.map((x) => x !== null).lastIndexOf(true) : -1;
   const rd = shown ? rateReadingAtDay(shown.duties, shown.imports, day ?? (lastIdx >= 0 ? monthStartDay(lastIdx) : -1)) : null;
   const pres = rd ? termAtDay(era.terms, monthStartDay(rd.month)) : undefined;
-  const mobileLine = rd ? { values: [`Duty rate ${rd.rate === null ? "\u2014" : fmtPercent(rd.rate)}`, ...(rd.duties !== null ? [`Duties ${fmtDollars(rd.duties)}`] : [])], date: rd.label, term: pres ? termLabel(pres) : undefined } : null;
+  // A country against all countries: each visible line is an equal row, and an isolated line stands alone.
+  const refRd = reference ? rateReadingAtDay(national.duties, national.imports, day ?? (lastIdx >= 0 ? monthStartDay(lastIdx) : -1)) : null;
+  const rateText = (x: typeof rd) => (x?.rate == null ? "\u2014" : fmtPercent(x.rate));
+  const compare = rd && refRd ? readoutRows<ReadoutLine<"main" | "reference">>([{ key: "main", label: countryName ?? "Country", value: rateText(rd) }, { key: "reference", label: "All countries", value: rateText(refRd) }], only) : null;
+  const dutiesOf = (key: "main" | "reference") => (key === "main" ? rd : refRd)?.duties ?? null;
+  const mobileValues = !rd
+    ? []
+    : compare
+      ? [...compare.map((c) => `${c.label} ${c.value}`), ...(compare.length === 1 && dutiesOf(compare[0].key) !== null ? [`Duties ${fmtDollars(dutiesOf(compare[0].key)!)}`] : [])]
+      : [`Duty rate ${rd.rate === null ? "\u2014" : fmtPercent(rd.rate)}`, ...(rd.duties !== null ? [`Duties ${fmtDollars(rd.duties)}`] : [])];
+  const mobileLine = rd ? { values: mobileValues, date: rd.label, term: pres ? termLabel(pres) : undefined } : null;
   const title = countryName ? `Tariffs on imports from ${countryName}` : "Tariffs on imports";
   const context = useTakeawayContext(TRADE_TAKEAWAYS.tariff.takeaway, countryName ? null : contextFor("tariff"));
   const aria = `${title}: calculated duties as a share of imports, monthly from 1993, with ${flags.length} tariff actions and court rulings marked, presidential terms and recessions. The same data is in the table below.`;
@@ -127,6 +138,9 @@ export function TradeTariffCard({
             duties={shown.duties}
             imports={shown.imports}
             reference={reference}
+            referenceDuties={national.duties}
+            referenceImports={national.imports}
+            mainLabel={countryName ?? undefined}
             only={only}
             scale={scale}
             era={era}

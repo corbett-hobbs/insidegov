@@ -132,7 +132,7 @@ export function readDebt(tot: readonly (number | null)[], held: readonly (number
   const qy = 1991 + Math.floor(q / 4);
   const qn = (q % 4) + 1;
   if (q >= tot.length || tot[q] === null) return none(`Q${qn} ${qy} not yet reported`);
-  return some(tot[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `total debt, Q${qn} ${qy}`, held[q] ?? null);
+  return some(tot[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `Q${qn} ${qy}`, held[q] ?? null);
 }
 
 export type EconomyKey = "mis" | "gas" | "infl" | "jobs" | "gdp" | "wage" | "un" | "mort" | "inc" | "def" | "debt";

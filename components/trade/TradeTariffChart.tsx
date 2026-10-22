@@ -8,6 +8,8 @@ import { ExampleMarks, pickExample } from "@/components/charts/ExampleMarks";
 import { ExtremeMarks, type ExtremeMark } from "@/components/charts/ExtremeMarks";
 import { findExtremes } from "@/lib/chart-extremes";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { TipReadout, type ReadoutRow } from "@/components/charts/LineReadout";
+import { readoutRows } from "@/lib/line-readout";
 import { useElementWidth } from "@/lib/use-element-width";
 import { dateOfDay, dayOfIso, MONTH_ABBR, MONTH_NAMES } from "@/lib/indicator-time";
 import { dayFromFraction } from "@/lib/indicator-lookup";
@@ -39,6 +41,11 @@ interface Props {
   imports: Monthly;
   /** The all-countries rate, drawn faint behind a single country. */
   reference: Monthly | null;
+  /** The all-countries duties and imports behind `reference`, for the tooltip. */
+  referenceDuties?: Monthly;
+  referenceImports?: Monthly;
+  /** The main line's name in the tooltip when a comparison line is drawn: the country. */
+  mainLabel?: string;
   scale: Scale;
   era: Era;
   flags: readonly TariffFlag[];
@@ -224,7 +231,7 @@ function Marks({ W, main, reference, only = null, scale, view, showCong, flagInp
   );
 }
 
-function Overlay({ W, main, scale, view, showCong, flagInputs, era }: { W: number; main: Monthly; scale: Scale; view: readonly [number, number]; showCong: boolean; flagInputs: readonly FlagInput[]; era: Era }) {
+function Overlay({ W, main, reference, only, scale, view, showCong, flagInputs, era }: { W: number; main: Monthly; reference: Monthly | null; only: "main" | "reference" | null; scale: Scale; view: readonly [number, number]; showCong: boolean; flagInputs: readonly FlagInput[]; era: Era }) {
   const v = useTradeValues();
   const day = activeDay(v);
   if (day === null || day < view[0] || day >= view[1]) return null;
@@ -232,17 +239,19 @@ function Overlay({ W, main, scale, view, showCong, flagInputs, era }: { W: numbe
   const x = g.X(day);
   const { year, month: mo } = dateOfDay(day);
   const month = (year - 1991) * 12 + mo;
-  const val = main[month] ?? null;
+  const val = only === "reference" ? null : (main[month] ?? null);
+  const refVal = reference && only !== "main" ? (reference[month] ?? null) : null;
   return (
     <g pointerEvents="none">
       <line x1={x} x2={x} y1={g.mt} y2={g.axisY} stroke="var(--accent)" strokeWidth={v.hover === null ? 1.5 : 1} />
+      {refVal !== null && <circle cx={g.X(monthMidDay(month))} cy={g.Y(refVal)} r={3.5} fill="var(--ink-faint)" stroke="var(--surface)" strokeWidth={1.5} />}
       {val !== null && <circle cx={g.X(monthMidDay(month))} cy={g.Y(val)} r={4} fill="var(--ink)" stroke="var(--surface)" strokeWidth={1.5} />}
     </g>
   );
 }
 
 export function TradeTariffChart(props: Props) {
-  const { main, reference, only, duties, imports, scale, era, flags, showCong, view, ariaLabel, legend } = props;
+  const { main, reference, referenceDuties, referenceImports, mainLabel, only, duties, imports, scale, era, flags, showCong, view, ariaLabel, legend } = props;
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const W = measured || 1140;
   const flagInputs = useFlagInputs(flags);
@@ -333,7 +342,7 @@ export function TradeTariffChart(props: Props) {
               flagTip.show(ids, e);
             }} onFlagLeave={() => !pinned && flagTip.hide()} />
             <Marks W={W} main={main} reference={reference} only={only} scale={scale} view={view} showCong={showCong} flagInputs={flagInputs} era={era} />
-            <Overlay W={W} main={main} scale={scale} view={view} showCong={showCong} flagInputs={flagInputs} era={era} />
+            <Overlay W={W} main={main} reference={reference} only={only ?? null} scale={scale} view={view} showCong={showCong} flagInputs={flagInputs} era={era} />
           </>
         )}
       </ChartFrame>
@@ -345,6 +354,26 @@ export function TradeTariffChart(props: Props) {
           const r = rateReadingAtDay(duties, imports, day);
           const t = termAtDay(era.terms, day);
           if (!r) return null;
+          const ref = reference && referenceDuties && referenceImports ? rateReadingAtDay(referenceDuties, referenceImports, day) : null;
+          if (ref) {
+            // A country against all countries: two equal rows, or just the isolated line's.
+            const detail = (x: typeof r) => (x.duties !== null && x.imports !== null ? `Duties ${fmtDollars(x.duties)} \u00b7 Imports ${fmtDollars(x.imports)}` : null);
+            const rows = readoutRows<ReadoutRow<"main" | "reference">>(
+              [
+                { key: "main", label: mainLabel ?? "Country", value: r.rate === null ? null : fmtPercent(r.rate), color: "var(--ink)", sub: detail(r) },
+                { key: "reference", label: "All countries", value: ref.rate === null ? null : fmtPercent(ref.rate), color: "var(--ink-faint)", sub: detail(ref) },
+              ],
+              only ?? null,
+            );
+            return (
+              <div className="flex min-w-[12rem] flex-col gap-0.5 text-[0.78rem]">
+                <div className="opacity-75">{r.label}</div>
+                <TipReadout rows={rows} />
+                {t && <div className="opacity-75">{termLabel(t)}</div>}
+                <div className="opacity-60">{r.month < SOURCE_BREAK ? "Source: USITC DataWeb" : "Source: Census Bureau"}</div>
+              </div>
+            );
+          }
           return (
             <div className="flex min-w-[10rem] flex-col gap-0.5 text-[0.78rem]">
               <div className="opacity-75">{r.label}</div>
