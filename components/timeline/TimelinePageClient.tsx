@@ -5,7 +5,6 @@ import { ChartCard } from "../charts/ChartCard";
 import { ChartNotesRow } from "../charts/ChartNotesRow";
 import { LEGEND_ITEM, LEGEND_ROW } from "../charts/legend";
 import { TABLE_TOGGLE } from "../charts/table-toggle";
-import { HowToRead } from "../HowToRead";
 import { MethodologyNote } from "../MethodologyNote";
 import { PageHeader } from "../PageHeader";
 import { PageShortcuts } from "../PageShortcuts";
@@ -124,31 +123,8 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader title="Who Held Power When It Happened?">
           <p>
-            Every landmark law and Supreme Court case since 1933, set against who held the White House, each chamber of Congress and the Court that
-            day. Sometimes one party held everything and the big change followed. Just as often it didn&rsquo;t: Roe came from a Court of Republican
-            appointees, and Dobbs from that Court&rsquo;s successors while Democrats held the White House and Congress.
+            Every landmark law and Supreme Court case since 1933, mapped against who controlled the White House, Congress, and the Court on that exact day. While single-party control sometimes paves the way for sweeping reform, history is full of exceptions&mdash;like <i>Roe</i>, which came from a Court with a Republican-appointed majority, or <i>Dobbs</i>, which came later while Democrats controlled the executive and legislative branches.
           </p>
-          <HowToRead>
-            <p>
-              The top four rows are the four institutions. The White House shows who was president; the Senate and House show the share of seats
-              each party held at the start of each Congress (Democrats from the bottom, Republicans from the top, the dashed line is half); the
-              Court shows which way its median justice leaned each term (bar down for liberal, up for conservative, grey near the centre). Set{" "}
-              <i>Court</i> to <i>By appointing president</i> to see how many sitting justices each party&rsquo;s presidents appointed instead.
-            </p>
-            <p>
-              The thin strip above them is filled when one party held the White House and both chambers and the Court leaned its way (liberal for
-              Democrats, conservative for Republicans), and lightly tinted when the Court didn&rsquo;t. With <i>By appointing president</i>, the Court counts
-              with the party that appointed most of it.
-            </p>
-            <p>
-              Tap a president&rsquo;s name to zoom to their years in office; tap it again to see every year. Once zoomed in, markers with room
-              beside them carry the law or case name.
-            </p>
-            <p>
-              Numbered squares are laws and circles are Court cases, numbered in date order. Tap one to see the vote and who held power that day.
-              Where events sit too close to tell apart, one marker holds them: &ldquo;22+4&rdquo; is event 22 and four more.
-            </p>
-          </HowToRead>
           <PageShortcuts>
             <p>
               <a

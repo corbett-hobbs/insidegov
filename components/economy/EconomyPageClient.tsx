@@ -1,6 +1,5 @@
 "use client";
 
-import { HowToRead } from "@/components/HowToRead";
 import { SourceLink } from "@/components/SourceLink";
 import { useMemo, useState } from "react";
 import { EconomyStateProvider, activeDay, useEconomyActions, useEconomyValues } from "./EconomyState";
@@ -21,8 +20,6 @@ import { useUrlState } from "@/lib/use-url-state";
 
 const UNIT_PARAM = enumParam<FiscalUnit>(["usd", "pct"], "usd");
 
-const longDate = (iso: string) =>
-  new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
 function Swatch({ color, border }: { color: string; border?: boolean }) {
   return <span aria-hidden className="inline-block size-3" style={{ background: color, border: border ? "1px solid var(--line)" : undefined }} />;
@@ -175,17 +172,8 @@ function EconomyPage({
         </div>
         <PageHeader eyebrow="Presidency · Economy" title="What Was the Economy Like?">
           <p>
-            Unemployment, inflation, jobs, growth, pay, gas prices, mortgage rates and the federal budget, since 1991. These
-            are the numbers households feel first, lined up against who held the White House and Congress at the time.
+            Track unemployment, inflation, job growth, real wages, gas prices, and the federal deficit since 1991&mdash;lined up directly against who controlled the White House and Congress.
           </p>
-          <HowToRead>
-            <p>
-              The colored bar under each chart shows who was president, and the gray columns mark recessions. These are conditions during each term, not a score of what any one official caused.
-            </p>
-            <p>
-              The bands show who held office, not who controlled the number: the Federal Reserve sets short-term rates on its own, and recessions, oil prices and older laws all move these figures. Congress bands show each chamber&rsquo;s majority party, with the Senate&rsquo;s mid-Congress changes (2001, 2002, 2021) on their dates. Values are the latest revised numbers as of {longDate(payload.fetchedAt)}; jobs and income figures are routinely revised.
-            </p>
-          </HowToRead>
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">

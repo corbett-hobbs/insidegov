@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Supreme Court Ideology: How Each Justice Leans",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/supreme-court/ideology", "How liberal or conservative each Supreme Court justice votes, term by term since 1937, from Martin–Quinn scores, and where the Court's median justice sits."),
+    description: hubDescription("/supreme-court/ideology", "How each Supreme Court justice leans, term by term since 1937, from Martin–Quinn scores, and how one seat can shift the Court's center."),
     path: "/supreme-court/ideology",
     topic: "supreme-court/ideology",
   });

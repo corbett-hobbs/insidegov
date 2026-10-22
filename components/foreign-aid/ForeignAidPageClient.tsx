@@ -24,9 +24,7 @@ export function ForeignAidPageClient({ payload, map }: { payload: AidPayload; ma
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Foreign aid" title="Where Does U.S. Foreign Aid Go?">
           <p>
-            What the U.S. actually pays out to other countries and to global and regional programs, fiscal year by fiscal
-            year from FY{first} through FY{last}. Aid is one of Washington&rsquo;s most direct tools abroad, and where it
-            goes shows which countries and causes America puts its money behind.
+            Follow fiscal year disbursements to recipient nations and regional programs from FY{first} through FY{last} to see which countries and causes Washington prioritizes.
           </p>
         </PageHeader>
 

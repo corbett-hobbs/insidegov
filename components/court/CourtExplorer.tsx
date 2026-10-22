@@ -24,7 +24,6 @@ import { PresidentRows, type PresidentSort } from "./PresidentRows";
 import type { CourtBandTerm } from "@/lib/court-president-band";
 import { JusticeTrajectory } from "./JusticeTrajectory";
 import { PageHeader } from "@/components/PageHeader";
-import { HowToRead } from "@/components/HowToRead";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
 import { COURT_TAKEAWAYS, contextFor } from "./takeaways";
@@ -38,9 +37,8 @@ const SORTS = [
   { value: "spread", label: "Widest spread" },
 ] as const;
 
-// PLACEHOLDER COPY — every string below awaiting Corby's edit.
-const introFor = (first: number) =>
-  `Where each justice sits on a liberal–conservative scale, every term since ${first}. One seat can tip the Court’s majority, so who holds it, who appointed them and how far they drift shapes how the country’s biggest cases come out.`;
+const INTRO =
+  "Martin–Quinn scores track each justice’s judicial philosophy term by term based on their voting patterns in divided rulings. Because a single seat can shift the Court’s center of gravity, mapping these trajectories shows how major precedents take shape.";
 
 export function CourtExplorer({ data, presidents = [] }: { data: CourtPayload; presidents?: CourtBandTerm[] }) {
   const { firstTerm, lastTerm } = data;
@@ -150,12 +148,7 @@ export function CourtExplorer({ data, presidents = [] }: { data: CourtPayload; p
 
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Supreme Court · Ideology" title="How Does the Supreme Court Lean?">
-          <p>{introFor(firstTerm)}</p>
-          <HowToRead>
-            <p>
-              Martin&ndash;Quinn scores estimate each justice&rsquo;s ideology from how they vote in divided cases: justices who vote alike land close together, and a justice&rsquo;s position can move from one term to the next. The data run from the {firstTerm} term through the {lastTerm} term. Pick a term to see who sat on the Court and which presidents appointed them.
-            </p>
-          </HowToRead>
+          <p>{INTRO}</p>
         </PageHeader>
 
         {/* Same card-height mechanism as the Congress explorer: the grid row is

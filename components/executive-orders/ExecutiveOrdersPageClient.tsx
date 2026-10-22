@@ -146,12 +146,7 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Executive orders" title="How Many Executive Orders Does Each President Sign?">
           <p>
-            Every executive order signed since 1994, counted by year and sorted
-            by topic. Orders let a president direct the federal government
-            without a new law, so how many each one signs, and on what, shows
-            where they chose to act alone. Presidents act first through orders,
-            and the economy, energy, immigration, trade, foreign aid and
-            troops abroad pages track what changed afterward.
+            Browse every executive order signed since 1994 by topic and volume to track how commanders-in-chief direct federal policy without passing new legislation.
           </p>
         </PageHeader>
 

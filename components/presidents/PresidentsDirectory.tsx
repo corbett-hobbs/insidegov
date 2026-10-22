@@ -108,13 +108,12 @@ function Key({ swatch, label }: { swatch: string; label: string }) {
  * dates, time in office, major laws signed, how long Congress was on their side, the justices they appointed and the economy through their term. The whole row opens the president's page.
  */
 export function PresidentsDirectory({ rows, timeline }: { rows: PresidentSummary[]; timeline: TimelinePayload }) {
-  const oldest = rows[rows.length - 1];
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-4 pb-16 pt-9 sm:px-6 sm:pt-11">
       <PageHeader eyebrow="Presidency · Presidents" title="Who has held the presidency?">
         <p>
-          Every president since {oldest.name}, newest first. Each page takes the site&rsquo;s data on the economy, immigration, trade, foreign aid, troops abroad, energy, laws, executive orders, the Supreme Court and Congress, and shows only that president&rsquo;s time in office.
-        </p>
+            Track every U.S. president since FDR, newest first. Each profile breaks down party control, major legislation, court appointments, and economic indicators strictly across that specific term in office.
+          </p>
       </PageHeader>
 
       <PresidentsPowerChart data={timeline} />

@@ -11,7 +11,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Economy by President: Jobs, Inflation, Gas",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/economy", "Gas prices, mortgage rates, jobs, inflation, income and the federal deficit since 1991, by president, with recessions and party control of Congress marked."),
+    description: hubDescription("/presidency/economy", "Unemployment, inflation, job growth, real wages, gas prices and the federal deficit since 1991, lined up against who controlled the White House and Congress."),
     path: "/presidency/economy",
     topic: "presidency/economy",
   });

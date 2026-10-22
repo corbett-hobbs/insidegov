@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
-import { ordinal } from "@/lib/demographics-chart";
 import { openYear } from "@/lib/laws-derive";
 import type { LawsPayload } from "@/lib/laws-types";
 import { LawsCountCard } from "./LawsCountCard";
@@ -41,13 +39,8 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Laws" title="What Laws Does Congress Pass?">
           <p>
-            Every public law Congress has passed since {first}, by policy area and by how close the vote was. How much Congress passes, on what, and by what margin shows whether it is governing or gridlocked.
+            Track federal legislation enacted since {first}, broken down by policy topic and final vote margins. Examining what passes&mdash;and how narrowly&mdash;provides a clear indicator of legislative productivity versus gridlock.
           </p>
-          <HowToRead>
-            <p>
-              One bar is one two-year Congress, labelled by the year it opens; the president under it signed most of its laws. A law counts in the Congress that enacted it, signed or not (veto overrides included); private laws are left out. A law&rsquo;s vote band is the closest final-passage vote it faced in either chamber; laws passed by voice vote or consent in both chambers have no tally and form their own band. &ldquo;Major laws&rdquo; are David Mayhew&rsquo;s lists of important enactments, assessed through the {ordinal(data.majorThrough)} Congress. Select a Congress to pin it on both charts.
-            </p>
-          </HowToRead>
           <PageShortcuts>
             <JumpToLaws />
             <p>

@@ -15,7 +15,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Supreme Court Justices: Current and Past",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/supreme-court/justices", "The nine current Supreme Court justices and every justice since 1937: years served, appointing president, Senate confirmation vote and how often they dissented."),
+    description: hubDescription("/supreme-court/justices", "The current Supreme Court bench and every justice since 1937: appointment, years served, opinions written and dissents."),
     path: "/supreme-court/justices",
     topic: "supreme-court/justices",
   });
@@ -29,7 +29,7 @@ export default function JusticesPage() {
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
       <PageHeader eyebrow="Supreme Court · Justices" title="Who Has Sat on the Supreme Court?">
         <p>
-          Every justice who has sat on the Court from the 1937 term on, {rows.length} in all: the nine on the bench today, how long each served, who appointed them, and how often they wrote the Court&rsquo;s opinion or dissented. A name opens that justice&rsquo;s profile.
+          Review the current bench alongside every historical justice since 1937. Explore complete appointment data, individual tenure lengths, and frequencies for authoring opinions or issuing dissents.
         </p>
         <PageShortcuts>
           <p>

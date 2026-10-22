@@ -48,8 +48,6 @@ export function MembersPageClient({ members, pageviews }: { members: DirectoryMe
   const sorted = useMemo(() => sortMembers(filtered, sort), [filtered, sort]);
   const leaders = useMemo(() => (query.trim() ? [] : pickLeaders(filtered)), [filtered, query]);
 
-  const senators = members.filter((m) => m.chamber === "senate").length;
-
   return (
     <>
       <MembersFilterBar
@@ -67,10 +65,7 @@ export function MembersPageClient({ members, pageviews }: { members: DirectoryMe
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Members" title="Who Is in Congress Today?">
           <p>
-            All {members.length} members in office today: {senators} senators and {members.length - senators} members of the
-            House, including the delegates from Washington, D.C., and the territories. Search by name or narrow by chamber,
-            state or party, then open anyone&rsquo;s page for their voting record, committees, laws and finances. The list
-            starts with the members people look up most on Wikipedia.
+            Browse all current lawmakers. Filter by chamber, party, or state to explore individual voting records, committee assignments, sponsored bills, and financial disclosures.
           </p>
         </PageHeader>
 
