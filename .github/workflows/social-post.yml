@@ -5,7 +5,7 @@ name: Social post (scheduled, disabled)
 #   - weekdays 9:00 a.m. Pacific (noon Eastern), and 1:00 p.m. Pacific (4:00 p.m. Eastern) only when 3+ drafts are
 #     waiting. Cron is UTC with no daylight saving, so each slot runs at both UTC hours it can fall on (16 and 17,
 #     20 and 21) and post-next.ts --slot auto keeps the one that is the slot's Pacific hour;
-#   - at most 2 a day, 8 in any 7 days, 4 hours apart, a topic at most twice a week;
+#   - at most 2 a day, 8 in any 7 days, 3 hours apart, a topic at most twice a week;
 #   - the intro thread first; nothing past its freshness window (freshness.ts).
 #
 # DISABLED: scheduled runs do nothing until the repo variable SOCIAL_POSTING_ENABLED is "true". A manual run without
@@ -55,6 +55,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Post the next draft
+        id: post
         env:
           GH_TOKEN: ${{ github.token }}
           SOCIAL_POSTING_ENABLED: ${{ vars.SOCIAL_POSTING_ENABLED }}
@@ -68,3 +69,19 @@ jobs:
           SLOT: ${{ inputs.slot || 'auto' }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
         run: pnpm exec tsx pipeline/insights/post-next.ts --slot "$SLOT" $DRY_RUN
+
+      # One email when something posted, a post failed or a draft expired unposted. Never fails the job.
+      - name: Notify
+        if: steps.post.outputs.notify == 'true'
+        uses: ./.github/actions/notify
+        with:
+          subject: ${{ steps.post.outputs.subject }}
+          body: "Social post scheduler, ${{ github.run_id }}. Details below; the draft issues have the full record."
+          url: ${{ github.server_url }}/${{ github.repository }}/issues?q=label%3Asocial-draft
+          body-file: ${{ runner.temp }}/social-post-summary.txt
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}

@@ -49,8 +49,8 @@ two weekday slots and posts at most one draft per slot:
 
 | Rule | Value |
 | --- | --- |
-| Slots | Mon–Fri **9:00 a.m. Pacific (noon Eastern)**: working hours on both coasts, after the morning releases. A second slot at **1:00 p.m. Pacific (4:00 p.m. Eastern)** runs only when 3+ drafts are waiting. No weekend posts. Slots are fixed in Pacific time through daylight saving (the workflow's UTC cron fires at both possible hours and `slotAt` keeps the right one). Change `SLOTS` / `TIME_ZONE` in `schedule.ts` to move them. |
-| Caps | 2 a day, 8 in any 7 days, at least 4 hours apart. |
+| Slots | Mon–Fri **9:00 a.m. Pacific (noon Eastern)**: working hours on both coasts, after the morning releases. A second slot at **1:00 p.m. Pacific (4:00 p.m. Eastern)** runs only when 3+ drafts are waiting, or on the day the intro posts (so the first chart follows it). No weekend posts. Slots are fixed in Pacific time through daylight saving (the workflow's UTC cron fires at both possible hours and `slotAt` keeps the right one). Change `SLOTS` / `TIME_ZONE` in `schedule.ts` to move them. |
+| Caps | 2 a day, 8 in any 7 days, at least 3 hours apart. |
 | Topic mix | A topic (energy, gas, trade, encounters, ICE, executive orders, laws) posts at most twice in 7 days, and one that posted in the last 36 hours waits if anything else is ready. |
 | Order | The intro thread first. Then notability × urgency (closer to going stale = sooner) × rotation (topics not seen for a while first). |
 
@@ -92,6 +92,9 @@ retried with the reasons (three tries), then dropped. Without an API key the det
 - **Email**: each freshness run that opens drafts sends **one** email (not one per draft) listing them with links and a
   link to the review queue. It uses the same `NOTIFY_*` secrets as the data-check alerts (email, Slack as fallback; see
   `docs/DATA_CONVENTIONS.md`, "Review notifications"), so with those set there is nothing more to configure.
+- **Posting results**: `social-post.yml` sends one email when a run posts something (with the links), when a post fails
+  (which platform and the error; it retries next slot), when a due draft's caption fails the check, or when a draft
+  expires unposted. Quiet runs, and dry runs, send nothing.
 - **GitHub's own** issue emails still apply if you watch the repository.
 - Each draft issue has a **Length** section: characters used against Bluesky's 300 and X's 280 (X without and with the
   link), and whether the caption still passes the check. Editing the issue refreshes it automatically
