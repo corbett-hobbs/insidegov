@@ -49,8 +49,8 @@ two weekday slots and posts at most one draft per slot:
 
 | Rule | Value |
 | --- | --- |
-| Slots | Mon–Fri **9:00 a.m. Pacific (noon Eastern)**: working hours on both coasts, after the morning releases. A second slot at **1:00 p.m. Pacific (4:00 p.m. Eastern)** runs only when 3+ drafts are waiting. No weekend posts. Slots are fixed in Pacific time through daylight saving (the workflow's UTC cron fires at both possible hours and `slotAt` keeps the right one). Change `SLOTS` / `TIME_ZONE` in `schedule.ts` to move them. |
-| Caps | 2 a day, 8 in any 7 days, at least 4 hours apart. |
+| Slots | Mon–Fri **9:00 a.m. Pacific (noon Eastern)**: working hours on both coasts, after the morning releases. A second slot at **1:00 p.m. Pacific (4:00 p.m. Eastern)** runs only when 3+ drafts are waiting, or on the day the intro posts (so the first chart follows it). No weekend posts. Slots are fixed in Pacific time through daylight saving (the workflow's UTC cron fires at both possible hours and `slotAt` keeps the right one). Change `SLOTS` / `TIME_ZONE` in `schedule.ts` to move them. |
+| Caps | 2 a day, 8 in any 7 days, at least 3 hours apart. |
 | Topic mix | A topic (energy, gas, trade, encounters, ICE, executive orders, laws) posts at most twice in 7 days, and one that posted in the last 36 hours waits if anything else is ready. |
 | Order | The intro thread first. Then notability × urgency (closer to going stale = sooner) × rotation (topics not seen for a while first). |
 

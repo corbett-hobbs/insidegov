@@ -5,7 +5,7 @@ name: Social post (scheduled, disabled)
 #   - weekdays 9:00 a.m. Pacific (noon Eastern), and 1:00 p.m. Pacific (4:00 p.m. Eastern) only when 3+ drafts are
 #     waiting. Cron is UTC with no daylight saving, so each slot runs at both UTC hours it can fall on (16 and 17,
 #     20 and 21) and post-next.ts --slot auto keeps the one that is the slot's Pacific hour;
-#   - at most 2 a day, 8 in any 7 days, 4 hours apart, a topic at most twice a week;
+#   - at most 2 a day, 8 in any 7 days, 3 hours apart, a topic at most twice a week;
 #   - the intro thread first; nothing past its freshness window (freshness.ts).
 #
 # DISABLED: scheduled runs do nothing until the repo variable SOCIAL_POSTING_ENABLED is "true". A manual run without

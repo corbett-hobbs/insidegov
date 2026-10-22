@@ -11,7 +11,8 @@ import type { Frequency } from "./types";
  *   2. Stale drafts never post: past their freshness window (freshness.ts), or superseded by a newer approved draft
  *      for the same series. They are expired (labelled and closed) instead.
  *   3. At most one post per slot, MAX_PER_DAY a day, MAX_PER_WEEK in any 7 days, MIN_HOURS_BETWEEN apart. The
- *      afternoon slot only runs when the queue is backed up (BACKLOG_THRESHOLD or more waiting).
+ *      afternoon slot only runs when the queue is backed up (BACKLOG_THRESHOLD or more waiting), or on the day the
+ *      intro posted, so the first chart follows it.
  *   4. A topic (dataset) posts at most MAX_PER_DATASET_WEEK times in 7 days, and one that posted in the last
  *      DATASET_COOLDOWN_HOURS waits unless nothing else is waiting at the morning slot, so a week mixes topics
  *      instead of three energy charts in a row.
@@ -78,7 +79,7 @@ export function slotLabel(iso: string): string {
 
 export const MAX_PER_DAY = 2;
 export const MAX_PER_WEEK = 8;
-export const MIN_HOURS_BETWEEN = 4;
+export const MIN_HOURS_BETWEEN = 3;
 export const DATASET_COOLDOWN_HOURS = 36;
 export const BACKLOG_THRESHOLD = 3;
 /** No topic more than this many times in any 7 days, however much it has (energy has 13 series). */
@@ -129,7 +130,9 @@ export function pickNext(queue: QueueItem[], history: Posted[], now: string, slo
   if (sorted.filter((p) => hoursBetween(p.postedAt, now) < 7 * 24).length >= MAX_PER_WEEK) return none(`already ${MAX_PER_WEEK} posts in 7 days`);
   if (sorted[0] && hoursBetween(sorted[0].postedAt, now) < MIN_HOURS_BETWEEN) return none(`last post under ${MIN_HOURS_BETWEEN} hours ago`);
   const backlogOnly = SLOTS.find((s) => s.name === slot)!.backlogOnly;
-  if (backlogOnly && eligible.length < BACKLOG_THRESHOLD) return none(`the ${slot} slot runs only with ${BACKLOG_THRESHOLD}+ waiting (${eligible.length})`);
+  // The intro's day is the exception: a first chart follows it in the afternoon, so a new account is not an intro and silence.
+  const introToday = sorted.some((p) => p.dataset === "intro" && localDate(p.postedAt) === today);
+  if (backlogOnly && !introToday && eligible.length < BACKLOG_THRESHOLD) return none(`the ${slot} slot runs only with ${BACKLOG_THRESHOLD}+ waiting (${eligible.length})`);
 
   const lastByDataset = new Map<string, string>();
   for (const p of sorted) if (!lastByDataset.has(p.dataset)) lastByDataset.set(p.dataset, p.postedAt);

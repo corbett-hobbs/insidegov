@@ -99,6 +99,14 @@ describe("pickNext", () => {
     expect(pickNext(more, [], "2026-10-21T20:00:00Z", "afternoon").post).not.toBeNull();
   });
 
+  it("opens the afternoon slot on the intro's day, so a first chart follows it", () => {
+    const q = [item({ key: "trade", dataset: "trade" })];
+    const intro: Posted = { dataset: "intro", postedAt: "2026-10-22T16:03:00Z" }; // 9:03 a.m. PDT, a few minutes late
+    expect(pickNext(q, [intro], "2026-10-22T20:00:00Z", "afternoon").post?.key).toBe("trade");
+    expect(pickNext(q, [], "2026-10-22T20:00:00Z", "afternoon").post).toBeNull(); // no intro today: backlog rule applies
+    expect(pickNext(q, [intro], "2026-10-23T20:00:00Z", "afternoon").post).toBeNull(); // next day: back to normal
+  });
+
   it("rotates topics: a topic that just posted waits, and none posts more than the weekly cap", () => {
     const q = [item({ key: "energy", score: 50 }), item({ key: "trade", dataset: "trade", score: 5 })];
     expect(pickNext(q, [{ dataset: "energy", postedAt: "2026-10-20T14:30:00Z" }], now, "morning").post?.key).toBe("trade");

@@ -121,7 +121,17 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>): { svg: string; l
       ly = top - 46 >= PLOT.top - 30 ? top - 46 : Math.max(...near.map((o) => o.cy)) + 18;
     } else {
       if (emph && Math.abs(emph.cx - m.cx) < 80) continue;
-      ly = m.cy - 46 >= PLOT.top - 30 ? m.cy - 46 : m.cy + 18;
+      // Above or below the dot, whichever puts fewer points of the line inside the label's box.
+      const width = m.label.length * 10.5;
+      const x0 = align === "right" ? m.cx + 10 - width : m.cx - 10;
+      const crossings = (top: number) => spec.points.filter((p) => {
+        const px = x(new Date(`${p.date}T00:00:00Z`));
+        const py = y(p.value);
+        return px >= x0 - 4 && px <= x0 + width + 4 && py >= top - 6 && py <= top + 30;
+      }).length;
+      const above = m.cy - 46;
+      const below = m.cy + 18;
+      ly = above < PLOT.top - 30 ? below : crossings(below) < crossings(above) ? below : above;
     }
     labels.push({ x: align === "right" ? m.cx + 10 : m.cx - 10, y: ly, text: m.label, align, size: m.emphasis ? 24 : 20, color: m.emphasis ? INK : MUTED, bold: m.emphasis });
   }
