@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { SITE_URL } from "./chart";
+import { lengthSection } from "./counts";
 import { APPROVED_LABEL, DRAFT_LABEL, INTRO_LABEL, type DraftBlock, blockComment } from "./issue";
 
 /**
@@ -66,6 +67,8 @@ export function introIssueBody(block: DraftBlock): string {
     "**X**",
     "",
     ...t.x.flatMap((p, i) => [`${i + 1}. ${p}`, ""]),
+    lengthSection(block),
+    "",
     `**To approve:** add the \`${APPROVED_LABEL}\` label. To change the wording, edit \`thread\` in the block below (Bluesky: 300 characters a post; X: 280, a link counts as 23).`,
     "",
     blockComment(block),
@@ -80,6 +83,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   } else {
     const gh = (args: string[]) => execFileSync("gh", args, { encoding: "utf8" }).trim();
     gh(["label", "create", DRAFT_LABEL, "--color", "C5DEF5", "--description", "Social post draft awaiting review (pipeline/insights)", "--force"]);
+    gh(["label", "create", APPROVED_LABEL, "--color", "0E8A16", "--description", "Approved for posting: queued for the next slot (pipeline/insights)", "--force"]);
     gh(["label", "create", INTRO_LABEL, "--color", "D4C5F9", "--description", "The account intro thread (pipeline/insights)", "--force"]);
     const open = JSON.parse(gh(["issue", "list", "--label", INTRO_LABEL, "--state", "all", "--json", "number"])) as unknown[];
     if (open.length) {

@@ -7,6 +7,8 @@ import { FRESH_DAYS, LAG_QUALIFIER_DAYS, isFresh, periodEnd, releaseFor, release
 import { INTRO_THREAD } from "./intro";
 import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type QueueItem, localDate, localTimeToUtc, pickNext, simulate, slotAt, slotLabel } from "./schedule";
 import type { Series } from "./types";
+import { fit, lengthSection, refreshCounts } from "./counts";
+import { type DraftBlock, blockComment, parseDraftBlock } from "./issue";
 import { X_MAX, oauthHeader, xLength } from "./x";
 
 const item = (over: Partial<QueueItem> & { key: string }): QueueItem => ({
@@ -177,5 +179,54 @@ describe("posters", () => {
     const text = "Café data: insidegov.fyi";
     const [f] = linkFacets(text, [{ text: "insidegov.fyi", uri: "https://insidegov.fyi" }]);
     expect(Buffer.from(text).subarray(f!.index.byteStart, f!.index.byteEnd).toString()).toBe("insidegov.fyi");
+  });
+});
+
+describe("length section", () => {
+  const block = (over: Partial<DraftBlock> = {}): DraftBlock => ({
+    id: "x",
+    kind: "extreme_high",
+    dataset: "energy",
+    series_id: "s",
+    period: "2026-07-01",
+    score: 1,
+    caption: "U.S. electricity generation was 453.7 billion kilowatthours in July 2026, the highest for any July.",
+    link: "https://insidegov.fyi/presidency/energy",
+    image_url: "https://example.org/x.png",
+    alt: "",
+    facts: [{ id: "latest_value", text: "453.7 billion kilowatthours" }, { id: "latest_date", text: "July 2026" }],
+    release: null,
+    ...over,
+  });
+
+  it("shows characters left on each platform and whether the caption check passes", () => {
+    const section = lengthSection(block());
+    expect(section).toMatch(/\*\*Bluesky\*\*.*\d+ \/ 300 \(\d+ left\)/);
+    expect(section).toMatch(/\*\*X\*\*.*\/ 280/);
+    expect(section).toContain("✅ Caption check passes");
+    expect(fit(312, 300)).toBe("⚠ 312 / 300 (12 over)");
+  });
+
+  it("flags an edit that adds a number or runs past the limit", () => {
+    const section = lengthSection(block({ caption: `${block().caption} That is 99% more than before.` }));
+    expect(section).toContain("Caption check fails");
+    expect(section).toMatch(/numbers not among the facts: 99%/);
+  });
+
+  it("counts each intro post per platform", () => {
+    const section = lengthSection(block({ kind: "intro", thread: { bluesky: ["a".repeat(301)], x: ["b".repeat(100)] } }));
+    expect(section).toContain("| 1 | ⚠ 301 / 300 (1 over) | 100 / 280 (180 left) |");
+  });
+
+  it("rewrites only the section when the caption is edited", () => {
+    const original = block();
+    const body = `intro\n\n${lengthSection(original)}\n\nafter ${blockComment(original)}`;
+    const edited = { ...original, caption: `${original.caption} More.` };
+    const next = refreshCounts(body, edited);
+    expect(next).not.toBe(body);
+    expect(next.startsWith("intro\n\n")).toBe(true);
+    expect(next).toContain("after <!-- social-draft");
+    expect(refreshCounts("no section here", edited)).toBe("no section here");
+    expect(parseDraftBlock(blockComment(edited))?.caption).toBe(edited.caption);
   });
 });

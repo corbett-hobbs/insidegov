@@ -119,6 +119,12 @@ jobs:
           datasets: executive_orders
           token: ${{ github.token }}
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
           dry-run: ${{ github.event.inputs.social_dry_run == 'true' }}
 
       - name: Open pull request

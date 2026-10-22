@@ -29,6 +29,25 @@ inputs:
     description: "'true' prints each issue instead of opening it, and pushes no images"
     required: false
     default: "false"
+  smtp-server:
+    description: Email notification (the data-check NOTIFY_* secrets); all optional, none means no email
+    required: false
+    default: ""
+  smtp-port:
+    required: false
+    default: "465"
+  smtp-user:
+    required: false
+    default: ""
+  smtp-password:
+    required: false
+    default: ""
+  email-to:
+    required: false
+    default: ""
+  slack-webhook:
+    required: false
+    default: ""
 
 outputs:
   count:
@@ -80,6 +99,23 @@ runs:
         DRY_RUN: ${{ inputs.dry-run }}
         IMAGE_BASE: ${{ steps.images.outputs.base }}
       run: |
-        args=(--dir "$RUNNER_TEMP/social-drafts")
+        args=(--dir "$RUNNER_TEMP/social-drafts" --summary-file "$RUNNER_TEMP/social-summary.txt")
         if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); else args+=(--image-base-url "$IMAGE_BASE"); fi
         pnpm exec tsx pipeline/insights/open-issues.ts "${args[@]}"
+        echo "opened=$([ -s "$RUNNER_TEMP/social-summary.txt" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      id: issues
+
+    # One email per run, however many drafts: links to each, and to the review queue. Never fails the job.
+    - if: steps.issues.outputs.opened == 'true'
+      uses: ./.github/actions/notify
+      with:
+        subject: "InsideGov: social drafts to review"
+        body: "New social post drafts are waiting for approval. Open one and add the social-approved label to queue it (or close it to reject)."
+        url: ${{ github.server_url }}/${{ github.repository }}/issues?q=is%3Aopen+label%3Asocial-draft
+        body-file: ${{ runner.temp }}/social-summary.txt
+        smtp-server: ${{ inputs.smtp-server }}
+        smtp-port: ${{ inputs.smtp-port }}
+        smtp-user: ${{ inputs.smtp-user }}
+        smtp-password: ${{ inputs.smtp-password }}
+        email-to: ${{ inputs.email-to }}
+        slack-webhook: ${{ inputs.slack-webhook }}

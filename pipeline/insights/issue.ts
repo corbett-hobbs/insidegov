@@ -1,3 +1,4 @@
+import { lengthSection } from "./counts";
 import type { Draft } from "./drafts";
 import type { CellRef, Derivation, Frequency, InsightKind, Release } from "./types";
 
@@ -95,6 +96,8 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     "```text",
     draft.post_text,
     "```",
+    "",
+    lengthSection(block),
     "",
     `Dataset \`${draft.dataset}\` · ${draft.kind.replace("_", " ")} · period ${draft.period} · caption by ${draft.caption_source}${draft.caption_model ? ` (${draft.caption_model})` : ""}${extra.dataPr ? ` · data PR ${extra.dataPr}` : ""}${extra.runUrl ? ` · [run](${extra.runUrl})` : ""}`,
     "",
