@@ -9,7 +9,7 @@ import { LANDMARK_WORD, PILL_LANDMARK, PILL_NEUTRAL } from "@/components/decisio
 import { longDate } from "@/lib/law-details-derive";
 import type { DecisionPageData, DecisionParty, RelatedDecision } from "@/lib/decision-page-types";
 import { BenchCard } from "./BenchCard";
-import { CaseRow } from "@/components/decisions/CaseListCard";
+import { RelatedCasesCard } from "./RelatedCasesCard";
 import { LeadBody } from "./LeadBody";
 import { MatchedCards } from "./MatchedCards";
 
@@ -268,39 +268,23 @@ function Timeline({ d }: { d: DecisionPageData }) {
   );
 }
 
-/** The scrollable case list both "other decisions" cards share, so the pair matches in rows and height. */
-function CaseScroll({ label, cases }: { label: string; cases: RelatedDecision[] }) {
-  return (
-    <div data-case-scroll tabIndex={0} aria-label={`${label}, scrollable`} className="touch-scroll max-h-[32rem] overflow-y-auto overflow-x-hidden overscroll-contain rounded-md border border-line">
-      <ol className="m-0 list-none p-0">
-        {cases.map((r) => (
-          <CaseRow key={r.c[14]} c={r.c} area={r.area} areaId={r.areaId} stacked outcome />
-        ))}
-      </ol>
-    </div>
-  );
-}
-
 function Related({ d }: { d: DecisionPageData }) {
   if (!d.related) return null;
   const { issue, cases } = d.related;
-  const n = cases.length;
   return (
-    <ChartCard title="Other decisions on the same issue" lede={`${n} other argued case${n === 1 ? "" : "s"} since 1946 on ${issue.charAt(0).toLowerCase()}${issue.slice(1).replace(/:\s+including\b/, ", including")}, newest first.`}>
-      <CaseScroll label="Other decisions on the same issue" cases={cases} />
+    <RelatedCasesCard title="Other decisions on the same issue" cases={cases} rest={` since 1946 on ${issue.charAt(0).toLowerCase()}${issue.slice(1).replace(/:\s+including\b/, ", including")}, newest first.`}>
       <MethodologyNote>
         <p>
           Every other orally argued case with a clear vote, from the 1946 term on, that the <SourceLink id="scdb">Supreme Court Database</SourceLink> files under the same issue as this one. The database gives each case one issue from a list of about 270 (abortion, search and seizure of vehicles, the death penalty, and so on), whatever law it turned on.
         </p>
       </MethodologyNote>
-    </ChartCard>
+    </RelatedCasesCard>
   );
 }
 
 function SameTerm({ d }: { d: DecisionPageData }) {
   if (!d.sameTerm) return null;
   const { term, cases } = d.sameTerm;
-  const n = cases.length;
   // The term's three biggest issue areas by case count (ties: the first met, newest), so the line runs as long as the same-issue card's.
   const tally = new Map<string, number>();
   for (const r of cases) if (r.areaId) tally.set(r.area, (tally.get(r.area) ?? 0) + 1);
@@ -308,14 +292,13 @@ function SameTerm({ d }: { d: DecisionPageData }) {
   // Only three are named, so a term with more areas says so: the line must not read as if those were the only issues.
   const areas = tally.size > top.length ? `${top.join(", ")} and more` : top.length > 1 ? `${top.slice(0, -1).join(", ")} and ${top[top.length - 1]}` : top[0];
   return (
-    <ChartCard title="Other decisions from the same term" lede={`${n} other argued case${n === 1 ? "" : "s"} decided in the ${term} term${areas ? `, across ${areas}` : ""}, newest first.`}>
-      <CaseScroll label="Other decisions from the same term" cases={cases} />
+    <RelatedCasesCard title="Other decisions from the same term" cases={cases} rest={` decided in the ${term} term${areas ? `, across ${areas}` : ""}, newest first.`}>
       <MethodologyNote>
         <p>
           Every other orally argued case with a clear vote that the <SourceLink id="scdb">Supreme Court Database</SourceLink> counts in the {term} term, the Court’s year from the first Monday in October through the following summer.
         </p>
       </MethodologyNote>
-    </ChartCard>
+    </RelatedCasesCard>
   );
 }
 
