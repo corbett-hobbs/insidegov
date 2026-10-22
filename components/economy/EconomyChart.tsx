@@ -452,7 +452,8 @@ export function EconomyChart({ data, spec, hero = false, showCong, view, reading
         {(day) => {
           const r = readAll(data, day)[spec.key]; // computed from the pointer's own date, not the rAF-throttled shared state
           const a = alt ? readAll(alt.data, day)[spec.key] : null;
-          if (hasSecondLine(spec)) {
+          // One line isolated: only its labelled row. Both showing: the main value with the second under it.
+          if (hasSecondLine(spec) && only !== null) {
             const rows = lineRows(spec, r, only, [altNote(alt, a?.value), altNote(alt, a?.value2)]);
             return (
               <div className="flex min-w-[10rem] flex-col gap-0.5 text-[0.78rem]">
@@ -463,7 +464,7 @@ export function EconomyChart({ data, spec, hero = false, showCong, view, reading
           }
           return (
           <div className="flex min-w-[8rem] flex-col gap-0.5 text-[0.78rem]">
-            <div className="opacity-75">{r.caption}</div>
+            <div className="opacity-75">{spec.key === "debt" ? `total debt, ${r.caption}` : r.caption}</div>
             <div className="font-mono text-[0.95rem] font-medium">{r.value === null ? "\u2014" : spec.head(r.value)}</div>
             {r.value2 !== null && <div className="opacity-75">{`${spec.label2 ?? "Total"} ${spec.head(r.value2)}`}</div>}
             {alt && a && a.value !== null && <div className="opacity-75">{altText(alt, a.value)}</div>}

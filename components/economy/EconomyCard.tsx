@@ -21,17 +21,17 @@ function altLine(alt: AltView | undefined, altReading: Reading | undefined, read
 }
 
 /**
- * The card's header reading. Gas and debt print each visible line as an equal labelled row (only the isolated one once
- * a legend entry is picked); every other card prints its one big number.
+ * The card's header reading: one big number, with the second line's value small under it while both lines show. Once a
+ * legend entry is isolated, gas and debt print only that line, labelled with its key, so no hidden line's value remains.
  */
 function Readout({ spec, reading, hero, alt, altReading, only }: { spec: ChartSpec; reading: Reading; hero: boolean; alt?: AltView; altReading?: Reading; only: LineId | null }) {
-  const caption = <div className="mt-0.5 text-[0.75rem] text-ink-muted">{reading.caption}</div>;
-  if (hasSecondLine(spec)) {
+  const caption = reading.caption;
+  if (hasSecondLine(spec) && only !== null) {
     const rows = lineRows(spec, reading, only, [altLine(alt, altReading, reading), altLine(alt, altReading, reading, altReading?.value2)]);
     return (
       <div className="min-w-[110px] shrink-0 text-right">
         <HeaderReadout rows={rows} />
-        {caption}
+        <div className="mt-0.5 text-[0.75rem] text-ink-muted">{caption}</div>
       </div>
     );
   }
@@ -41,8 +41,11 @@ function Readout({ spec, reading, hero, alt, altReading, only }: { spec: ChartSp
       <div className={`font-mono font-medium leading-tight text-ink ${hero ? "text-[1.6rem]" : "text-[1.25rem]"}`}>
         {reading.value === null ? "—" : spec.head(reading.value)}
       </div>
+      {hasSecondLine(spec) && reading.value2 !== null && (
+        <div className="mt-0.5 font-mono text-[0.8rem] text-ink-muted">{`${spec.label2} ${spec.head(reading.value2)}`}</div>
+      )}
       {other && <div className="mt-0.5 font-mono text-[0.8rem] text-ink-muted">{other}</div>}
-      {caption}
+      <div className="mt-0.5 text-[0.75rem] text-ink-muted">{spec.key === "debt" ? `total debt, ${caption}` : caption}</div>
     </div>
   );
 }
