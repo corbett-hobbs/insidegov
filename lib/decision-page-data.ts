@@ -8,7 +8,7 @@ import { caseLeadRow, decisionDetailRow, type DecisionDetailRow, type JusticeVot
 import type { DecisionCase } from "./decisions-types";
 import { buildTimeline, certReasonText, codebookLabel, courtName, dispositionMeaning, dispositionText, jurisdictionText, justiaUrl, oyezUrl, provisionText, splitParties, struckDownText } from "./decision-page-derive";
 import type { BenchJustice, BenchRole, BenchVote, DecisionPageData, RelatedDecision } from "./decision-page-types";
-import { wikiCaseUrl } from "./decisions-derive";
+import { caseScdbArea, caseTopic, wikiCaseUrl } from "./decisions-derive";
 import { getCourtPayload, getJusticeProfile } from "./justice-data";
 import { justicePath } from "./justice-url";
 import { justiceVotesFile } from "./decisions-entities";
@@ -68,10 +68,9 @@ function load(): Index {
   // The case list is newest first, so each issue's cases are too.
   const related = new Map<string, RelatedDecision[]>();
   const byTerm = new Map<number, RelatedDecision[]>();
-  const areas = getDecisionsPageData().areas;
+  const { areas, scdbAreas } = getDecisionsPageData();
   for (const c of list) {
-    const area = c[4] >= 0 ? areas[c[4]] : undefined;
-    const row = { c, area: area?.label ?? "No issue area", areaId: area?.id ?? null };
+    const row = { c, area: caseTopic(areas, c), areaId: caseScdbArea(scdbAreas, c) };
     let terms = byTerm.get(c[0]);
     if (!terms) byTerm.set(c[0], (terms = []));
     terms.push(row);
@@ -119,7 +118,8 @@ export function getDecisionPage(caseId: string): DecisionPageData | null {
   const term = c[0];
 
   const chief = payload.chiefs.find((s) => term >= s.start && term <= s.end);
-  const area = c[4] >= 0 ? payload.areas[c[4]]! : null;
+  const area = c[15] >= 0 ? payload.scdbAreas[c[15]]! : null;
+  const topic = c[4] >= 0 ? payload.areas[c[4]]! : null;
   const parties = splitParties(c[2], d);
   const disposition = dispositionText(d.disposition);
 
@@ -158,6 +158,7 @@ export function getDecisionPage(caseId: string): DecisionPageData | null {
     reargued: d.reargued,
     court: chief ? `${chief.last} Court` : `${term} term`,
     area: area ? { id: area.id, label: area.label } : null,
+    topic: topic ? { id: topic.id, label: topic.label } : null,
     issue: d.issue ? codebookLabel(d.issue) : null,
     direction: c[13] === 0 ? null : c[13],
     landmark: c[8] ? { title: c[8], topics: c[9] } : null,

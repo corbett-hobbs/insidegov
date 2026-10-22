@@ -1,0 +1,116 @@
+{
+  "_comment": "The 12 topics the Decisions page groups cases by: our grouping of the Supreme Court Database's own codes, not SCDB's. Every case with an SCDB issue area gets exactly one topic (cases with none stay unclassified). The transform (`groupId` in pipeline/transform/decisions.ts) assigns in three passes and stops at the first hit: (1) `cases`, hand-picked SCDB caseIds; (2) `issues` (SCDB `issue` codes) or `law_supp` (SCDB `lawSupp`, the legal provision), groups tried in the order below; (3) `issue_areas`, the case's SCDB issue area (ids from decision-issue-areas.json), which every area belongs to exactly once. Codes are the codebook's (scdb-codebook.json); an unknown code, an unknown or out-of-scope caseId, an area in no group or two, or a topic with no cases fails the build. `description` is what the page's Topic menu, tooltips and How to read this say. Order = the priority of pass 2 and the catalog order downstream. Methodology: docs/DECISIONS_METHODOLOGY.md, Topics.",
+  "groups": [
+    {
+      "id": "speech-religion-guns",
+      "label": "Speech, religion & guns",
+      "description": "Free speech, the press, protests, obscenity, the separation of church and state and the free exercise of religion, plus the Second Amendment and federal gun laws.",
+      "issues": [10440],
+      "law_supp": [239],
+      "issue_areas": ["first-amendment"]
+    },
+    {
+      "id": "immigration",
+      "label": "Immigration",
+      "description": "Deportation, asylum, citizenship, green cards and the rights of noncitizens, plus immigration crimes and presidential immigration orders.",
+      "issues": [10480, 20110, 20120, 20260, 20270, 20280, 20290, 20300, 20310],
+      "law_supp": [344]
+    },
+    {
+      "id": "elections",
+      "label": "Elections & campaign money",
+      "description": "Voting rights and the Voting Rights Act, redistricting and gerrymandering, ballot access, campaign finance and the bribery and corruption laws that police officials.",
+      "issues": [20010, 20020, 20030, 20090, 30140, 80140],
+      "law_supp": [238]
+    },
+    {
+      "id": "abortion-privacy-lgbtq",
+      "label": "Abortion, privacy & LGBTQ",
+      "description": "Abortion and contraception, the right to privacy and the right to die, and the cases on the rights of gay and transgender people, including religious and speech objections to the laws that protect them.",
+      "issues": [50010, 50020, 50030],
+      "law_supp": [],
+      "issue_areas": ["privacy"],
+      "cases": {
+        "1985-144": "Bowers v. Hardwick",
+        "1994-083": "Hurley v. Irish-American Gay, Lesbian and Bisexual Group of Boston",
+        "1995-053": "Romer v. Evans",
+        "1999-085": "Boy Scouts of America v. Dale",
+        "2002-083": "Lawrence v. Texas",
+        "2009-090": "Christian Legal Society v. Martinez",
+        "2012-077": "Hollingsworth v. Perry",
+        "2012-079": "United States v. Windsor",
+        "2014-070": "Obergefell v. Hodges",
+        "2017-020": "Masterpiece Cakeshop v. Colorado Civil Rights Commission",
+        "2019-004": "Bostock v. Clayton County",
+        "2020-015": "Fulton v. City of Philadelphia",
+        "2022-019": "303 Creative LLC v. Elenis",
+        "2024-019": "United States v. Skrmetti",
+        "2025-012": "Chiles v. Salazar",
+        "2025-032": "West Virginia v. B.P.J."
+      }
+    },
+    {
+      "id": "presidential-agency-power",
+      "label": "Presidential & agency power",
+      "description": "The president's powers and immunity, appointments and removals, disputes between the president and Congress, how far federal agencies can go and how courts review them, and public-records requests.",
+      "issues": [50040, 90120, 130010, 130015, 130020],
+      "law_supp": [100, 131, 133, 134, 135, 305],
+      "issue_areas": ["miscellaneous"]
+    },
+    {
+      "id": "environment-energy",
+      "label": "Environment & energy",
+      "description": "Pollution, the Clean Air and Clean Water Acts, public lands and wildlife, and the regulation of electricity, nuclear power, oil and gas.",
+      "issues": [80130, 80270, 80280, 80290, 80300, 80310, 100080, 100090],
+      "law_supp": [304, 338]
+    },
+    {
+      "id": "civil-rights",
+      "label": "Civil rights & discrimination",
+      "description": "Discrimination by race, sex, age or disability, school desegregation and affirmative action, civil-rights lawsuits against police and officials, and the rights of the poor, children and veterans.",
+      "issues": [20040, 20050, 20060, 20070, 20080, 20130, 20140, 20210, 20400, 20410],
+      "law_supp": [300, 340, 385],
+      "issue_areas": ["civil-rights"]
+    },
+    {
+      "id": "workers-unions",
+      "label": "Workers & unions",
+      "description": "Unions, collective bargaining and strikes, wage-and-hour and workplace safety laws, and pensions and benefits under ERISA.",
+      "issues": [80090],
+      "law_supp": [323, 334, 350, 351, 356, 363],
+      "issue_areas": ["unions"]
+    },
+    {
+      "id": "states-tribes",
+      "label": "States, tribes & federal power",
+      "description": "Where federal power ends and state power begins, when federal law overrides state law, disputes between states, and tribal sovereignty and the reach of state law on tribal land.",
+      "issues": [20150, 20160],
+      "law_supp": [],
+      "issue_areas": ["federalism", "interstate-relations"]
+    },
+    {
+      "id": "crime-policing",
+      "label": "Crime, police & punishment",
+      "description": "The rights of people accused or convicted of a crime: searches, confessions, the right to a lawyer, juries, sentencing, the death penalty, habeas corpus and prisoners' rights.",
+      "issues": [20320, 20330, 20340, 20350, 20360, 20370, 20380, 20390, 40040],
+      "law_supp": [],
+      "issue_areas": ["criminal-procedure"]
+    },
+    {
+      "id": "business-taxes",
+      "label": "Business & taxes",
+      "description": "Antitrust, securities, bankruptcy, patents and copyright, consumer protection, arbitration, injury and contract claims, takings of property, and federal, state and local taxes.",
+      "issues": [40070],
+      "law_supp": [],
+      "issue_areas": ["economic-activity", "federal-taxation", "private-action"]
+    },
+    {
+      "id": "courts-procedure",
+      "label": "Courts & procedure",
+      "description": "How the courts work: who can sue, which court hears a case, deadlines and class actions, fair hearings outside criminal cases, and lawyers' fees and discipline.",
+      "issues": [],
+      "law_supp": [],
+      "issue_areas": ["judicial-power", "due-process", "attorneys"]
+    }
+  ]
+}

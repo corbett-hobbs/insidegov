@@ -2,7 +2,7 @@ import type { ContextEntry } from "@/lib/chart-context";
 
 /**
  * The takeaway under each Supreme Court decisions chart title (ARCHITECTURE_MAP rule 7c): what the chart shows over its
- * full default window (every issue area, landmark filter off, the 1946 through 2025 terms), in at most two sentences.
+ * full default window (every topic, landmark filter off, the 1946 through 2025 terms), in at most two sentences.
  * Terms are the page's own: a case's term as the Supreme Court Database numbers it, "the 1972 term".
  * Every figure here is checked against pipeline/output in lib/decisions-takeaways.test.ts; a refresh that makes one untrue fails CI.
  */
@@ -20,7 +20,7 @@ export const DECISIONS_TAKEAWAYS = {
   areas: {
     title: "Which kinds of cases split the Court?",
     takeaway:
-      "Over the 1946 through 2025 terms, First Amendment cases split 5–4 most often, 25% of the time, followed by criminal procedure at 23%. Judicial power cases were the most often unanimous, at 51%.",
+      "Over the 1946 through 2025 terms, abortion, privacy and LGBTQ cases split 5–4 most often, 31% of the time, followed by speech, religion and guns at 24%. Courts and procedure cases were the most often unanimous, at 50%.",
   },
 } as const;
 
@@ -31,7 +31,7 @@ export const DECISIONS_TAKEAWAYS = {
  * main drop and nothing recent explains it. The split line is Barrett's 2020 confirmation next to the 6–3 band's three highest
  * shares. Pinned in lib/decisions-takeaways.test.ts (the statute to its own text, the seat to the Senate's nominations table, the
  * justices' dates, votes and appointing parties to pipeline/output/court/justices.json, which the Federal Judicial Center
- * supplies). "Which kinds of cases split the Court?" has none: no cited document says what lies behind an issue area's split rate.
+ * supplies). "Which kinds of cases split the Court?" has none: no cited document says what lies behind a topic's split rate.
  */
 export const DECISIONS_CONTEXT = {
   cases: {

@@ -60,18 +60,20 @@ function Facts({ d }: { d: DecisionPageData }) {
         {d.argued ? ` · argued ${longDate(d.argued)}` : ""}
         {d.reargued ? `, reargued ${longDate(d.reargued)}` : ""}
       </p>
-      {/* The badges are about the issue, so they share its line and drop below it only when it leaves no room. */}
-      {(d.area || d.issue || badges.length > 0) && (
+      {/* The badges are about the issue, so they share the topic's line and drop below it only when it leaves no room. */}
+      {(d.topic || badges.length > 0) && (
         <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
-          {(d.area || d.issue) && (
-            <p className="m-0">
-              {d.area?.label}
-              {d.area && d.issue ? " · " : ""}
-              {d.issue}
-            </p>
-          )}
+          {d.topic && <p className="m-0">{d.topic.label}</p>}
           {badges}
         </div>
+      )}
+      {(d.area || d.issue) && (
+        <p className="m-0">
+          {"Supreme Court Database: "}
+          {d.area?.label}
+          {d.area && d.issue ? " · " : ""}
+          {d.issue}
+        </p>
       )}
     </>
   );
@@ -285,14 +287,15 @@ function Related({ d }: { d: DecisionPageData }) {
 function SameTerm({ d }: { d: DecisionPageData }) {
   if (!d.sameTerm) return null;
   const { term, cases } = d.sameTerm;
-  // The term's three biggest issue areas by case count (ties: the first met, newest), so the line runs as long as the same-issue card's.
+  // The term's biggest topic by case count (ties: the first met, newest) and how many it spans. Topic labels hold commas and
+  // ampersands, so they are not listed one after another.
   const tally = new Map<string, number>();
   for (const r of cases) if (r.areaId) tally.set(r.area, (tally.get(r.area) ?? 0) + 1);
-  const top = [...tally].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([label]) => (/\s[A-Z]/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1)));
-  // Only three are named, so a term with more areas says so: the line must not read as if those were the only issues.
-  const areas = tally.size > top.length ? `${top.join(", ")} and more` : top.length > 1 ? `${top.slice(0, -1).join(", ")} and ${top[top.length - 1]}` : top[0];
+  const lead = [...tally].sort((a, b) => b[1] - a[1])[0]?.[0];
+  const low = lead ? lead.charAt(0).toLowerCase() + lead.slice(1) : "";
+  const areas = !lead ? "" : tally.size > 1 ? `${tally.size} topics, most often ${low}` : `all in ${low}`;
   return (
-    <RelatedCasesCard title="Other decisions from the same term" cases={cases} rest={` decided in the ${term} term${areas ? `, across ${areas}` : ""}, newest first.`}>
+    <RelatedCasesCard title="Other decisions from the same term" cases={cases} rest={` decided in the ${term} term${areas ? (areas.startsWith("all in") ? `, ${areas}` : `, across ${areas}`) : ""}, newest first.`}>
       <MethodologyNote>
         <p>
           Every other orally argued case with a clear vote that the <SourceLink id="scdb">Supreme Court Database</SourceLink> counts in the {term} term, the Court’s year from the first Monday in October through the following summer.

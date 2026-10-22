@@ -14,8 +14,8 @@ import { HISTORICAL_ADMINISTRATIONS } from "./troops-presidents";
  * rewrite the takeaway in components/decisions/takeaways.ts, then this check. Shares round the way the page's `fmtPct` does.
  */
 
-type Row = { term: number; issue_area_id: string | null; n: number; d0: number; d1: number; d2: number; d3: number; d4: number };
-type Meta = { first_term: number; data_through_term: number; case_count: number; issue_areas: { id: string; label: string }[] };
+type Row = { term: number; group_id: string | null; n: number; d0: number; d1: number; d2: number; d3: number; d4: number };
+type Meta = { first_term: number; data_through_term: number; case_count: number; groups: { id: string; label: string }[] };
 const rows = JSON.parse(readFileSync("pipeline/output/decisions_counts.json", "utf8")) as Row[];
 const meta = JSON.parse(readFileSync("pipeline/output/decisions_meta.json", "utf8")) as Meta;
 const caseRows = JSON.parse(readFileSync("pipeline/output/decisions_cases.json", "utf8")) as { term: number; band: number }[];
@@ -32,16 +32,16 @@ for (const r of rows) {
   if (!byTerm.has(r.term)) byTerm.set(r.term, [0, 0, 0, 0, 0]);
   add(byTerm.get(r.term)!, r);
   add(all, r);
-  if (r.issue_area_id === null) continue;
-  if (!byArea.has(r.issue_area_id)) byArea.set(r.issue_area_id, [0, 0, 0, 0, 0]);
-  add(byArea.get(r.issue_area_id)!, r);
+  if (r.group_id === null) continue;
+  if (!byArea.has(r.group_id)) byArea.set(r.group_id, [0, 0, 0, 0, 0]);
+  add(byArea.get(r.group_id)!, r);
 }
 const terms = [...byTerm.keys()].sort((a, b) => a - b);
 const cases = (t: number) => total(byTerm.get(t)!);
 const between = (from: number, to: number) => terms.filter((t) => t >= from && t <= to);
 const termsWhere = (f: (b: Bucket) => number, v: number) => terms.filter((t) => f(byTerm.get(t)!) === v);
 const share = (k: number) => (b: Bucket) => pct(b, k);
-/** Issue areas ranked by a band's exact share, highest first. */
+/** Topics ranked by a band's exact share, highest first. */
 const rankBy = (k: number) => [...byArea].sort(([, a], [, b]) => b[k] / total(b) - a[k] / total(a)).map(([id]) => id);
 
 const claims: Record<keyof typeof DECISIONS_TAKEAWAYS, { says: string[]; check: () => void }> = {
@@ -77,16 +77,16 @@ const claims: Record<keyof typeof DECISIONS_TAKEAWAYS, { says: string[]; check: 
     },
   },
   areas: {
-    says: ["Over the 1946 through 2025 terms", "First Amendment cases split 5–4 most often, 25% of the time", "followed by criminal procedure at 23%", "Judicial power cases were the most often unanimous, at 51%"],
+    says: ["Over the 1946 through 2025 terms", "abortion, privacy and LGBTQ cases split 5–4 most often, 31% of the time", "followed by speech, religion and guns at 24%", "Courts and procedure cases were the most often unanimous, at 50%"],
     check: () => {
-      expect(rankBy(4).slice(0, 2)).toEqual(["first-amendment", "criminal-procedure"]);
-      expect(pct(byArea.get("first-amendment")!, 4)).toBe(25);
-      expect(pct(byArea.get("criminal-procedure")!, 4)).toBe(23);
-      expect(rankBy(0)[0]).toBe("judicial-power");
-      expect(pct(byArea.get("judicial-power")!, 0)).toBe(51);
-      // The labels the takeaway uses are the page's own.
-      const label = (id: string) => meta.issue_areas.find((a) => a.id === id)!.label;
-      expect([label("first-amendment"), label("criminal-procedure"), label("judicial-power")]).toEqual(["First Amendment", "Criminal procedure", "Judicial power"]);
+      expect(rankBy(4).slice(0, 2)).toEqual(["abortion-privacy-lgbtq", "speech-religion-guns"]);
+      expect(pct(byArea.get("abortion-privacy-lgbtq")!, 4)).toBe(31);
+      expect(pct(byArea.get("speech-religion-guns")!, 4)).toBe(24);
+      expect(rankBy(0)[0]).toBe("courts-procedure");
+      expect(pct(byArea.get("courts-procedure")!, 0)).toBe(50);
+      // The topics the takeaway names are the page's own (its "and" stands for the labels' "&").
+      const label = (id: string) => meta.groups.find((a) => a.id === id)!.label;
+      expect([label("abortion-privacy-lgbtq"), label("speech-religion-guns"), label("courts-procedure")]).toEqual(["Abortion, privacy & LGBTQ", "Speech, religion & guns", "Courts & procedure"]);
     },
   },
 };

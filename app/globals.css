@@ -82,6 +82,22 @@
   --fuel-wind: #708ca9;
   --fuel-solar: #878b36;
   --fuel-other: #526f64;
+  /* Supreme Court decision topics (components/decisions): one fixed colour per topic, all twelve stacked on card 1 in size
+     order (largest at the bottom). Twelve hues cannot all be told apart by colour alone, so validate_palette.js holds the
+     pairs that touch in that stack (and in the Topic menu's list) apart, >= 3:1 on every surface; legend, tooltip and menu
+     name every topic. The six biggest keep the fuel colours they wore before the topics replaced the issue areas. */
+  --court-topic-business-taxes: #4d425d;
+  --court-topic-crime-policing: #8c0403;
+  --court-topic-courts-procedure: #5d6dd3;
+  --court-topic-civil-rights: #1244a7;
+  --court-topic-speech-religion-guns: #708ca9;
+  --court-topic-workers-unions: #878b36;
+  --court-topic-states-tribes: #2f4f4f;
+  --court-topic-presidential-agency-power: #b8780a;
+  --court-topic-elections: #6b3fa0;
+  --court-topic-environment-energy: #1f5a24;
+  --court-topic-immigration: #c4621c;
+  --court-topic-abortion-privacy-lgbtq: #b0407a;
   /* Trade goods breakdown (an opened line in components/trade/TradeProductsCard): five solid colours for a chapter's top
      uses or a use's top chapters, in rank order, plus a neutral "Other". The first five of the palette validated for the
      product-to-use Sankey it replaced (PR #322). */
@@ -214,6 +230,18 @@
     --fuel-wind: #5bf6ef;
     --fuel-solar: #eedb3c;
     --fuel-other: #ddb183;
+    --court-topic-business-taxes: #9c8ea2;
+    --court-topic-crime-policing: #ca7f23;
+    --court-topic-courts-procedure: #927aed;
+    --court-topic-civil-rights: #75bef6;
+    --court-topic-speech-religion-guns: #5bf6ef;
+    --court-topic-workers-unions: #eedb3c;
+    --court-topic-states-tribes: #6fae9c;
+    --court-topic-presidential-agency-power: #f0a04b;
+    --court-topic-elections: #c58af0;
+    --court-topic-environment-energy: #4caf50;
+    --court-topic-immigration: #ffc58a;
+    --court-topic-abortion-privacy-lgbtq: #f07aa8;
     --breakdown-1: #3987e5;
     --breakdown-2: #d95926;
     --breakdown-3: #199e70;
@@ -324,6 +352,18 @@
   --fuel-wind: #5bf6ef;
   --fuel-solar: #eedb3c;
   --fuel-other: #ddb183;
+  --court-topic-business-taxes: #9c8ea2;
+  --court-topic-crime-policing: #ca7f23;
+  --court-topic-courts-procedure: #927aed;
+  --court-topic-civil-rights: #75bef6;
+  --court-topic-speech-religion-guns: #5bf6ef;
+  --court-topic-workers-unions: #eedb3c;
+  --court-topic-states-tribes: #6fae9c;
+  --court-topic-presidential-agency-power: #f0a04b;
+  --court-topic-elections: #c58af0;
+  --court-topic-environment-energy: #4caf50;
+  --court-topic-immigration: #ffc58a;
+  --court-topic-abortion-privacy-lgbtq: #f07aa8;
   --breakdown-1: #3987e5;
   --breakdown-2: #d95926;
   --breakdown-3: #199e70;

@@ -10,7 +10,7 @@ export const CASE_LIST_ID = "case-list";
 
 /**
  * A link in the page intro to the case list at the bottom, so the list is found without scrolling past three charts. Its
- * count is the list's own count under the page-level filters (years, issue area, vote, landmark, pinned term); the list's
+ * count is the list's own count under the page-level filters (years, topic, vote, landmark, pinned term); the list's
  * local outcome pills and search box are not counted. Scrolls so the card lands just under the pinned filter bar, which
  * would otherwise cover its title.
  */

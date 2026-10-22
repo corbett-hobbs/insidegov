@@ -7,9 +7,8 @@ import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { StackedRows, type StackedRowData } from "@/components/charts/StackedRows";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
-import { areaRows, bandShare, fmtInt, fmtPct, nextAreaSort } from "@/lib/decisions-derive";
+import { areaRows, bandShare, fmtInt, fmtPct, nextAreaSort, topicTitle } from "@/lib/decisions-derive";
 import { BAND_COLORS, BAND_LONG, BAND_SHORT, type AreaSort, type AreaSortKey } from "@/lib/decisions-types";
-import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { DecadeHeatmap } from "./DecadeHeatmap";
@@ -25,9 +24,9 @@ const SORTS: { key: AreaSortKey; label: string; hint: string }[] = [
 ];
 
 /**
- * Card 3: one row per issue area, a 100% bar of the five dissent bands over the years in the window, case count at right
- * (a comparison chart, so a selection dims the other rows instead of removing them, rule 4). "All issue areas" is pinned
- * first. Clicking a row ticks just that issue area in the pinned bar; clicking it again, or All, clears the filter.
+ * Card 3: one row per topic, a 100% bar of the five dissent bands over the years in the window, case count at right
+ * (a comparison chart, so a selection dims the other rows instead of removing them, rule 4). "All topics" is pinned
+ * first. Clicking a row ticks just that topic in the pinned bar; clicking it again, or All, clears the filter.
  */
 export function AreasCard() {
   const { data, range, areas } = useDecisionsValues();
@@ -39,7 +38,7 @@ export function AreasCard() {
       rows.map((r) => ({
         id: r.id,
         label: r.label,
-        labelTitle: ISSUE_AREA_DESCRIPTIONS[r.id] ? `${r.label}: ${ISSUE_AREA_DESCRIPTIONS[r.id]}` : undefined,
+        labelTitle: topicTitle(data, r.id),
         total: fmtInt(r.total),
         selected: r.index >= 0 && isOnly(areas, r.index),
         dimmed: areas !== null && r.index >= 0 && !isPicked(areas, r.index),
@@ -49,7 +48,7 @@ export function AreasCard() {
           title: `${r.label}: ${BAND_LONG[k]}, ${fmtPct(bandShare(r.bucket, k))} (${fmtInt(r.bucket[k])} of ${fmtInt(r.total)})`,
         })),
       })),
-    [rows, areas],
+    [data, rows, areas],
   );
   const click = (id: string) => {
     const row = rows.find((r) => r.id === id);
@@ -64,7 +63,7 @@ export function AreasCard() {
       takeaway={DECISIONS_TAKEAWAYS.areas.takeaway}
       action={
         <ReversibleSortToggle
-          ariaLabel="Sort issue areas"
+          ariaLabel="Sort topics"
           options={SORTS}
           active={sort.key}
           reversed={sort.reversed}
@@ -85,20 +84,20 @@ export function AreasCard() {
             ))}
           </div>
           {/* Phones scroll the rows inside a fixed-height box (rule 11a); from `lg` all of them show (15 rows is not a long list). */}
-          <div className="relative max-h-[28rem] overflow-y-auto overscroll-contain touch-scroll lg:max-h-none lg:overflow-visible" tabIndex={0} aria-label="Issue areas, one row each">
-            <StackedRows rows={stacked} scaleMax={1} onRowClick={click} ariaLabel="Issue areas by number of dissenting justices" emptyText="No cases in these years." />
+          <div className="relative max-h-[28rem] overflow-y-auto overscroll-contain touch-scroll lg:max-h-none lg:overflow-visible" tabIndex={0} aria-label="Topics, one row each">
+            <StackedRows rows={stacked} scaleMax={1} onRowClick={click} ariaLabel="Topics by number of dissenting justices" emptyText="No cases in these years." />
           </div>
         </div>
       </div>
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Left: how many cases, how many split 5&ndash;4 or how many were unanimous in each decade, for each of the <SourceLink id="scdb">Supreme Court Database</SourceLink>&rsquo;s 14 issue areas (a rough guide). Right: how many justices dissented, in the years shown. The toggle picks the measure for both and orders the rows; click it again to reverse. Click an issue area in either to filter the charts and the case list. The {fmtInt(data.unclassified)} cases with none count only in &ldquo;All issue areas&rdquo;. Shares for small areas swing on a few cases. Each heatmap shares one colour scale, except &ldquo;All issue areas&rdquo;, which has its own.
+            Left: how many cases, how many split 5&ndash;4 or how many were unanimous in each decade, for each of our {data.areas.length} topics. Right: how many justices dissented, in the years shown. The topics are our grouping, not the database&rsquo;s: each case goes to one, by the <SourceLink id="scdb">Supreme Court Database</SourceLink>&rsquo;s issue code or the law the case turned on, else its issue area, with a short hand-picked list of LGBTQ cases. The {fmtInt(data.unclassified)} cases with no issue area count only in &ldquo;All topics&rdquo;. Shares for small topics swing on a few cases.
           </p>
         </MethodologyNote>
         <TableView
-          label="Table of issue areas by number of dissenting justices"
-          head={["Issue area", "Cases", ...BAND_SHORT]}
+          label="Table of topics by number of dissenting justices"
+          head={["Topic", "Cases", ...BAND_SHORT]}
           rows={rows.map((r) => [r.label, r.total, ...r.bucket])}
         />
       </ChartNotesRow>

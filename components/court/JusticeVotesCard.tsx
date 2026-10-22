@@ -6,17 +6,18 @@ import { CaseRow, JUSTICE_COLUMNS, type CaseQualifier } from "@/components/decis
 import { useDecisionCases } from "@/components/decisions/useDecisionCases";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { VOTE_DISSENT, VOTE_DIVIDED, VOTE_MAJORITY, VOTE_NONE, type JusticeVote } from "@/lib/decisions-entities";
-import { fmtInt } from "@/lib/decisions-derive";
+import { caseScdbArea, caseTopic, fmtInt } from "@/lib/decisions-derive";
 import { ROLE_LABEL, VOTE_FILTERS, VOTE_LABEL, joinVotes, matchesVote, pct, voteStats, type VoteFilter, type VotedCase } from "@/lib/justice-votes-derive";
 import { SourceLink } from "@/components/SourceLink";
 import { PILL as PILL_BASE } from "@/components/decisions/pill";
 
 const PAGE = 120;
 
-/** What the card needs from the Decisions data: the issue-area names (case tuples carry an index) and the case list's cache key. */
+/** What the card needs from the Decisions data: the topic and SCDB issue-area names (case tuples carry an index of each) and the case list's cache key. */
 export interface JusticeVotesSource {
   casesVersion: string;
   areas: { id: string; label: string }[];
+  scdbAreas: { id: string; label: string }[];
 }
 
 const PILL = {
@@ -156,7 +157,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
         >
           <span>Date</span>
           <span>Case</span>
-          <span>Issue area</span>
+          <span>Topic</span>
           <span>Vote</span>
           <span>{`How ${last} voted`}</span>
         </div>
@@ -167,7 +168,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
         ) : (
           <ol className="m-0 list-none p-0">
             {rows.slice(0, n).map((v) => (
-              <CaseRow key={v.c[14]} c={v.c} area={v.c[4] >= 0 ? (source.areas[v.c[4]]?.label ?? "No issue area") : "No issue area"} areaId={v.c[4] >= 0 ? (source.areas[v.c[4]]?.id ?? null) : null} qualifier={qualifierFor(v)} />
+              <CaseRow key={v.c[14]} c={v.c} area={caseTopic(source.areas, v.c)} areaId={caseScdbArea(source.scdbAreas, v.c)} qualifier={qualifierFor(v)} />
             ))}
           </ol>
         )}

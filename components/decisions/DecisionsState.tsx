@@ -8,7 +8,7 @@ import type { TermBandSelect } from "@/components/charts/TermBandSvg";
 import type { Picked } from "@/lib/multi-select";
 
 /**
- * The Decisions page's one source of truth: the years-shown window, the issue areas (null = all, or the set of ticked areas; set by the pinned bar's
+ * The Decisions page's one source of truth: the years-shown window, the topics (null = all, or the set of ticked topics; set by the pinned bar's
  * checkbox dropdown, or a click on a row or legend entry, which ticks just that one), and the hovered and pinned term, so one crosshair runs through
  * cards 1 and 2. Two contexts, so components that only need the stable actions don't re-render on every hover frame
  * (same shape as `EnergyState`). Hover is rAF-throttled.
