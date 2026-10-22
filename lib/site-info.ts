@@ -16,7 +16,7 @@ export const siteInfo = {
   /** The accounts that post new charts when government data is released (pipeline/insights). Blank = not linked anywhere. */
   blueskyUrl: "https://bsky.app/profile/insidegov.fyi",
   xUrl: "https://x.com/insidegovfyi",
-  threadsUrl: "",
+  threadsUrl: "https://www.threads.com/@insidegovfyi",
 } as const;
 
 /** The social accounts that are filled in, in display order. */
