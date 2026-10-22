@@ -19,16 +19,21 @@ import { APPROVED_LABEL, DRAFT_LABEL, INTRO_LABEL, type DraftBlock, blockComment
 
 const site = SITE_URL.replace(/^https?:\/\//, "");
 
+const POST_1 = `The news runs on numbers—tariffs, deportations, deficits, Supreme Court rulings—but rarely comes with the charts. InsideGov (${site}) pulls straight from official public records to put the historical data behind the headlines in one place.`;
+const POST_2 =
+  "From here on, this account posts a chart the moment fresh government data lands. Expect weekly updates on gas and energy, monthly releases on trade, immigration, and executive orders, and deeper metrics as they drop.";
+
 export const INTRO_THREAD = {
   bluesky: [
-    `This is InsideGov (${site}): the U.S. government's own data in one place. Gas prices, energy, trade and tariffs, border encounters and deportations, the deficit, executive orders, the laws Congress passes and Supreme Court decisions.`,
-    "From here on, this account posts a chart when new government data comes out. Weekly data (gas prices, the oil reserve) shows up most often; monthly releases (energy, trade, border encounters, executive orders, laws) each month or so; quarterly and yearly figures when they land.",
-    "Every number in a post is checked against the source data, a person reviews each post before it goes out, and each one links to the page with the full data and its sources. Corrections are welcome.",
+    POST_1,
+    POST_2,
+    "Every chart links directly to the full dataset and its primary government sources. Our numbers are checked, but if you ever spot a discrepancy, corrections are always welcome.",
   ],
+  // X posts carry no link by default (it bills more for them), so its third post points to the site instead.
   x: [
-    `This is InsideGov: the U.S. government's own data in one place. Gas prices, energy, trade, border encounters, the deficit, executive orders, the laws Congress passes and Supreme Court decisions. ${SITE_URL}`,
-    "From here on, this account posts a chart when new government data comes out. Weekly data (gas prices, the oil reserve) shows up most often; monthly releases (energy, trade, border, executive orders, laws) each month or so; yearly figures when they land.",
-    "Every number in a post is checked against the source data, and a person reviews each post before it goes out. The full data and sources are on the site. Corrections are welcome.",
+    POST_1,
+    POST_2,
+    "Every chart's full dataset and primary government sources are on the site. Our numbers are checked, but if you ever spot a discrepancy, corrections are always welcome.",
   ],
 };
 
