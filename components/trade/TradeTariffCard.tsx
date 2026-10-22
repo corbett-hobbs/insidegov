@@ -107,7 +107,10 @@ export function TradeTariffCard({
   const lastIdx = main ? main.map((x) => x !== null).lastIndexOf(true) : -1;
   const rd = shown ? rateReadingAtDay(shown.duties, shown.imports, day ?? (lastIdx >= 0 ? monthStartDay(lastIdx) : -1)) : null;
   const pres = rd ? termAtDay(era.terms, monthStartDay(rd.month)) : undefined;
-  const mobileLine = rd ? { values: [`Duty rate ${rd.rate === null ? "\u2014" : fmtPercent(rd.rate)}`, ...(rd.duties !== null ? [`Duties ${fmtDollars(rd.duties)}`] : [])], date: rd.label, term: pres ? termLabel(pres) : undefined } : null;
+  // As before, the phone line reads the shown country; with the all-countries line isolated it reads that line alone.
+  const refRd = reference && only === "reference" ? rateReadingAtDay(national.duties, national.imports, day ?? (lastIdx >= 0 ? monthStartDay(lastIdx) : -1)) : null;
+  const line = refRd ?? rd;
+  const mobileLine = line ? { values: [`${refRd ? "All countries" : "Duty rate"} ${line.rate === null ? "\u2014" : fmtPercent(line.rate)}`, ...(line.duties !== null ? [`Duties ${fmtDollars(line.duties)}`] : [])], date: line.label, term: pres ? termLabel(pres) : undefined } : null;
   const title = countryName ? `Tariffs on imports from ${countryName}` : "Tariffs on imports";
   const context = useTakeawayContext(TRADE_TAKEAWAYS.tariff.takeaway, countryName ? null : contextFor("tariff"));
   const aria = `${title}: calculated duties as a share of imports, monthly from 1993, with ${flags.length} tariff actions and court rulings marked, presidential terms and recessions. The same data is in the table below.`;
@@ -127,6 +130,9 @@ export function TradeTariffCard({
             duties={shown.duties}
             imports={shown.imports}
             reference={reference}
+            referenceDuties={national.duties}
+            referenceImports={national.imports}
+            mainLabel={countryName ?? undefined}
             only={only}
             scale={scale}
             era={era}
