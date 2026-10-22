@@ -1,10 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { EIA_ATTRIBUTION } from "@/lib/energy-entities";
-import { dateText, termAtDay } from "@/lib/energy-derive";
+import { termAtDay } from "@/lib/energy-derive";
 import type { EnergyPayload } from "@/lib/energy-types";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termLabel } from "@/lib/trade-chart";
@@ -54,21 +53,8 @@ function EnergyPage({ payload }: { payload: EnergyPayload }) {
         </div>
         <PageHeader eyebrow="Presidency · Energy" title="How Has U.S. Energy Changed?">
           <p>
-            Where U.S. electricity comes from, how much oil the country produces, uses and trades, how much natural gas it
-            ships abroad, and what is left in the emergency oil reserve, since 1991. Energy costs feed into nearly every
-            other price, and the marked dates show where presidents, Congress and agencies stepped in.
+            Track electricity sources, domestic oil production, LNG exports, and Strategic Petroleum Reserve levels since 1991. Because energy costs ripple through the economy, key regulatory and legislative turning points are marked along the way.
           </p>
-          <HowToRead>
-            <p>
-              The colored bar under each chart shows who was president, the gray columns mark recessions, and the marked dates are executive, congressional and agency actions.
-            </p>
-            <p>
-              The cards are not equally tied to Washington. The reserve&rsquo;s level is closest to a presidential decision, and even it is shared: presidents authorize releases and exchanges, Congress mandates sales and funds refills. Oil production, imports, exports and LNG exports are shaped by policy but mostly move with markets and technology, and enabling rules often came years before the trade did, so a mark there reads &ldquo;enabled, not caused.&rdquo; Products supplied and the electricity mix are context.
-            </p>
-            <p>
-              Monthly figures are not seasonally adjusted. The hatched stretch at the right of a chart is preliminary. Figures are as of {longDate(payload.fetchedAt)}; marked actions were last reviewed {dateText(payload.flagsReviewed)}.
-            </p>
-          </HowToRead>
         </PageHeader>
 
         <ElectricityCard payload={payload} view={view} />

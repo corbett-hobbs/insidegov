@@ -14,7 +14,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Trade and Tariffs by Country",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/trade", "U.S. imports, exports and trade balance with every country since 1991, and the tariffs collected on imports, by president. Census Bureau and USITC data."),
+    description: hubDescription("/presidency/trade", "U.S. imports, exports and tariffs with every country since 1991, with major executive, legislative and court actions marked. Census and USITC data."),
     path: "/presidency/trade",
     topic: "presidency/trade",
   });

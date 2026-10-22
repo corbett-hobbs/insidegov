@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Energy by President: Oil, SPR and LNG",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/energy", "U.S. oil production, imports and exports, the Strategic Petroleum Reserve, electricity by source and LNG exports since 1991, by president. From the EIA."),
+    description: hubDescription("/presidency/energy", "Electricity by source, U.S. oil production, LNG exports and Strategic Petroleum Reserve levels since 1991, with key policy turning points marked. From the EIA."),
     path: "/presidency/energy",
     topic: "presidency/energy",
   });

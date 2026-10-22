@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Foreign Aid by Country and Year",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/foreign-aid", "Where U.S. foreign aid goes: disbursements by recipient country, sector and fiscal year since 2001, by president. Data from ForeignAssistance.gov."),
+    description: hubDescription("/presidency/foreign-aid", "Where U.S. foreign aid goes: disbursements to recipient countries and regional programs by fiscal year since 2001. Data from ForeignAssistance.gov."),
     path: "/presidency/foreign-aid",
     topic: "presidency/foreign-aid",
   });

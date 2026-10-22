@@ -15,7 +15,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Immigration Statistics by President",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/immigration", "Green cards, naturalizations, refugee admissions, border encounters and ICE deportations by fiscal year and president. From DHS, State, CBP and ICE data."),
+    description: hubDescription("/presidency/immigration", "Green cards, refugee admissions, border encounters and ICE deportations by fiscal year, showing how immigration policy shifts between administrations."),
     path: "/presidency/immigration",
     topic: "presidency/immigration",
   });

@@ -11,7 +11,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Troops Stationed Abroad by Country",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/troops-abroad", "How many U.S. troops are stationed overseas, by host country, region and military branch since 2008, by president. Defense Manpower Data Center figures."),
+    description: hubDescription("/presidency/troops-abroad", "Where U.S. active-duty troops are stationed abroad, by country, region and branch, and how deployments changed from one administration to the next."),
     path: "/presidency/troops-abroad",
     topic: "presidency/troops-abroad",
   });

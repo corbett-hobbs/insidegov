@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Congress Demographics: Age, Gender and Tenure",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/congress/demographics", "The average age of Congress, how many members are women and how long they have served, for every House and Senate since 1933."),
+    description: hubDescription("/congress/demographics", "Age, gender and career tenure of members of Congress since 1933, and how who holds the seats has changed over time."),
     path: "/congress/demographics",
     topic: "congress/demographics",
   });

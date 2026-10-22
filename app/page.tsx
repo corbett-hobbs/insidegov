@@ -84,11 +84,7 @@ export default function Hub() {
         }
         intro={
           <p>
-            The news runs on numbers: gas prices, mortgage rates, tariffs,
-            deportations, the deficit, the vote on a new law, a 6&ndash;3 ruling.
-            The stories rarely come with the charts. InsideGov is where
-            you find them, drawn from the government&rsquo;s own records so you
-            can see the data behind the headlines for yourself.
+            The headlines give you the numbers&mdash;gas prices, tariffs, court rulings, national debt&mdash;but rarely show you the full context. InsideGov pulls straight from official public records, putting the historical data behind the news directly in your hands.
           </p>
         }
         startHref={href(presidency)}
@@ -96,11 +92,12 @@ export default function Hub() {
       />
 
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
-        <p className="home-intro pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
+        <h2 className="-mb-3 pt-12 font-mono text-[0.68rem] font-medium uppercase tracking-[0.14em] text-accent">The Data Behind the Headlines</h2>
+        <p className="home-intro pb-3 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
           <IntroWords
-            before="When a number makes the news, the same questions follow: is it high, has it happened before, and on whose watch did it change? Every chart here runs up to the latest figures and back through "
-            highlight="who held power"
-            after=". That includes the officeholders themselves, from how they vote to what they’re worth."
+            before="When a number makes headlines, three questions immediately follow: Is it unusually high, has it happened before, and "
+            highlight="on whose watch did it change?"
+            after=" Every chart tracks historical trends across changing political administrations, while parallel pages let you look up individual lawmakers—from their personal voting records to financial disclosures."
           />
         </p>
 
