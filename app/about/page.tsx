@@ -91,9 +91,9 @@ export default function AboutPage() {
         {socialLinks().length > 0 && (
           <Section title="Follow along">
             <p>
-              I post a chart on <SocialLinkList className={LINK} /> whenever new government data comes out. When
-              something like tariffs or gas prices is in the news, I post a chart showing how it has changed over the
-              years. Every number is checked against the source before it goes up, and the full data is here on the
+              A chart is posted on <SocialLinkList className={LINK} /> whenever new government data comes out. When
+              something like tariffs or gas prices is in the news, a chart showing how it has changed over the years
+              is posted too. Every number is checked against the source before it goes up, and the full data is here on the
               site.
             </p>
           </Section>
