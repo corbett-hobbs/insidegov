@@ -91,9 +91,11 @@ export default function AboutPage() {
         {socialLinks().length > 0 && (
           <Section title="Follow along">
             <p>
-              When new government data is released, a chart goes out on <SocialLinkList className={LINK} />, and the page
-              with the full data and its sources is on this site. Every number in a post is checked against the source
-              data before it is posted.
+              When new government data is released, a chart goes out on <SocialLinkList className={LINK} />. When a topic
+              is in the news, such as tariffs, fuel prices or the border, a chart with the longer record goes out too, so
+              the headline has context. The posts show what the data says and don’t describe the news. The page with the
+              full data and its sources is on this site, and every number in a post is checked against the source data
+              before it is posted.
             </p>
           </Section>
         )}
