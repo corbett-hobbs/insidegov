@@ -1,5 +1,5 @@
 import type { Draft } from "./drafts";
-import type { CellRef, Derivation } from "./types";
+import type { CellRef, Derivation, Frequency, InsightKind, Release } from "./types";
 
 /**
  * The GitHub issue for one draft: image, the exact post text, every fact traced to its data cells, and a hidden
@@ -10,8 +10,29 @@ export const DRAFT_LABEL = "social-draft";
 export const APPROVED_LABEL = "social-approved";
 export const POSTED_LABEL = "social-posted";
 
-/** What the poster needs, stored in the issue body as an HTML comment. */
-export type DraftBlock = { id: string; caption: string; link: string; image_url: string; alt: string; facts: { id: string; text: string; president?: string }[] };
+export const INTRO_LABEL = "social-intro";
+export const EXPIRED_LABEL = "social-expired";
+
+/** What the scheduler and posters need, stored in the issue body as an HTML comment. */
+export type DraftBlock = {
+  id: string;
+  kind: InsightKind | "intro";
+  dataset: string;
+  series_id: string;
+  period: string;
+  /** How often the data comes out (sets the freshness window); absent on the intro. */
+  frequency?: Frequency;
+  score: number;
+  caption: string;
+  link: string;
+  /** Null for the text-only intro thread. */
+  image_url: string | null;
+  alt: string;
+  facts: { id: string; text: string; president?: string }[];
+  release: Release | null;
+  /** The intro only: the whole thread per platform (posts in order, each a reply to the one before). */
+  thread?: { bluesky: string[]; x: string[] };
+};
 
 const OPEN = "<!-- social-draft";
 const CLOSE = "-->";
@@ -50,9 +71,22 @@ export function derivationText(d: Derivation): string {
 }
 
 export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: string; runUrl?: string } = {}): string {
-  const block: DraftBlock = { id: draft.id, caption: draft.caption, link: draft.link, image_url: imageUrl, alt: draft.alt, facts: draft.facts.map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}) })) };
-  // "--" cannot appear inside an HTML comment; JSON lets us escape it.
-  const json = JSON.stringify(block, null, 2).replace(/--/g, "-\\u002d");
+  const block: DraftBlock = {
+    id: draft.id,
+    kind: draft.kind,
+    dataset: draft.dataset,
+    series_id: draft.series_id,
+    period: draft.period,
+    frequency: draft.frequency,
+    score: draft.score,
+    caption: draft.caption,
+    link: draft.link,
+    image_url: imageUrl,
+    alt: draft.alt,
+    facts: draft.facts.map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}) })),
+    release: draft.release,
+  };
+  const r = draft.release;
   return [
     `![${draft.alt.replace(/[[\]]/g, "")}](${imageUrl})`,
     "",
@@ -74,11 +108,22 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     "",
     "</details>",
     "",
-    "**To approve:** add the `" + APPROVED_LABEL + "` label. **To reject:** close the issue. Nothing is posted automatically: Bluesky posting is disabled until the repo variable `SOCIAL_POSTING_ENABLED` is `true` (see `pipeline/insights/README.md`). To change the caption, edit `caption` in the block below; the poster re-checks it against the facts before posting.",
+    ...(r
+      ? [
+          `**Freshness:** data released ${r.releasedOn}${r.estimated ? " (estimated)" : ""}; queue it by **${r.expiresOn}** or it expires unposted.${r.lagged ? " The data covers a period that ended " + r.periodEnd + ", so the chart and caption say it is newly released." : ""}`,
+          "",
+        ]
+      : []),
+    "**To approve:** add the `" + APPROVED_LABEL + "` label. That queues it; the scheduler posts it at the next open slot (one or two a weekday, see `pipeline/insights/README.md`). **To reject:** close the issue. Nothing posts while the repo variable `SOCIAL_POSTING_ENABLED` is unset. To change the caption, edit `caption` in the block below; the poster re-checks it against the facts before posting.",
     "",
-    `${OPEN}\n${json}\n${CLOSE}`,
+    blockComment(block),
     "",
   ].join("\n");
+}
+
+/** The block as an HTML comment. "--" cannot appear inside one; JSON lets us escape it. */
+export function blockComment(block: DraftBlock): string {
+  return `${OPEN}\n${JSON.stringify(block, null, 2).replace(/--/g, "-\\u002d")}\n${CLOSE}`;
 }
 
 /** The hidden block from an issue body, or null when there is none or it does not parse. */
@@ -89,7 +134,7 @@ export function parseDraftBlock(body: string): DraftBlock | null {
   if (end < 0) return null;
   try {
     const v = JSON.parse(body.slice(start + OPEN.length, end)) as DraftBlock;
-    return typeof v.caption === "string" && typeof v.link === "string" && typeof v.image_url === "string" && Array.isArray(v.facts) ? v : null;
+    return typeof v.caption === "string" && typeof v.link === "string" && (typeof v.image_url === "string" || v.image_url === null) && Array.isArray(v.facts) ? v : null;
   } catch {
     return null;
   }

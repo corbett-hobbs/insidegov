@@ -5,6 +5,7 @@ import { line } from "d3-shape";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { fmtNumber, fmtUnit } from "./format";
+import { releaseNote } from "./freshness";
 import type { ChartSpec, DatasetId, Insight, UnitFormat } from "./types";
 
 /**
@@ -191,6 +192,8 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
   fonts ??= { serif: readFileSync(join(process.cwd(), "app/_og/Newsreader.ttf")) };
   const spec = insight.chart;
   const { svg, labels } = spec.type === "line" ? lineChart(spec) : spec.orientation === "vertical" ? verticalBars(spec) : horizontalBars(spec);
+  // Lagged data says it is new, so a chart ending months ago does not read as old news (freshness.ts).
+  const note = releaseNote(insight);
   const headlineSize = insight.headline.length > 96 ? 36 : insight.headline.length > 70 ? 40 : 46;
   const content: ReactNode = (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: "34px 60px 0 60px" }}>
@@ -198,6 +201,9 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
       <div style={{ display: "flex", alignItems: "baseline", fontSize: 18, letterSpacing: 3, color: MUTED, textTransform: "uppercase" }}>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 30, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
         {KICKER[insight.dataset]}
+        {note ? (
+          <div style={{ display: "flex", marginLeft: "auto", fontSize: 17, letterSpacing: 1.5, color: SURFACE, background: ACCENT, borderRadius: 4, padding: "4px 10px" }}>{note}</div>
+        ) : null}
       </div>
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headlineSize, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, maxWidth: 1080 }}>{insight.headline}</div>
       <div style={{ position: "absolute", top: PLOT.top - 44, left: 60, display: "flex", fontSize: 17, color: MUTED }}>{spec.axisLabel}</div>

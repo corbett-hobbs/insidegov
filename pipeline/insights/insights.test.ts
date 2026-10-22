@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { buildPostRecord, graphemes } from "./bluesky";
 import { checkCaption, numberTokens, templateCaption } from "./caption";
-import { eventInsightsAt, newMonthEnds, selectInsights, seriesInsightsAt } from "./collect";
-import { MIN_YEARS, changes, detectEventTermComparison, detectExtremes, detectMoves, detectTermComparison, termLabel, truncate } from "./detect";
+import { eventInsightsAt, newMonthEnds, selectInsights, seriesInsightsAt, termComparisonDue } from "./collect";
+import { MIN_YEARS, changes, detectEventTermComparison, detectExtremes, detectLatest, detectMoves, detectTermComparison, termLabel, truncate } from "./detect";
 import type { Draft } from "./drafts";
 import { addMonths, fmtDate, fmtPct, fmtUnit } from "./format";
 import { issueBody, issueTitle, parseDraftBlock } from "./issue";
@@ -37,6 +37,7 @@ function monthly(values: number[], over: Partial<Series> = {}, start = "2000-01-
     url: "/presidency/energy",
     source: "Test agency",
     weight: 1,
+    releaseLagDays: 30,
     ...over,
   };
   return { series, rows };
@@ -242,18 +243,22 @@ describe("checkCaption", () => {
 });
 
 describe("collect", () => {
-  it("finds insights at each new date and respects the weekly term-comparison cadence", () => {
-    // Weekly from Monday 2000-01-03, rising steadily.
-    const n = 1400;
-    const points = Array.from({ length: n }, (_, i) => {
-      const date = new Date(Date.UTC(2000, 0, 3 + 7 * i)).toISOString().slice(0, 10);
-      return { date, value: 100 + i, cells: [] };
-    });
-    const weekly: Series = { ...monthly([1]).series, frequency: "weekly", points };
-    const firstOfMonth = points.findLast((p, i) => i > 0 && p.date.slice(0, 7) !== points[i - 1]!.date.slice(0, 7))!.date;
-    const next = points[points.findIndex((p) => p.date === firstOfMonth) + 1]!.date;
-    const periods = seriesInsightsAt(weekly, ADMINS, [firstOfMonth, next]).filter((i) => i.kind === "term_comparison").map((i) => i.period);
-    expect(periods).toEqual([firstOfMonth]);
+  it("runs term comparisons quarterly: quarter-end months, and only the first week of one for weekly data", () => {
+    expect(termComparisonDue("monthly", "2026-09-01", "2026-08-01")).toBe(true);
+    expect(termComparisonDue("monthly", "2026-08-01", "2026-07-01")).toBe(false);
+    expect(termComparisonDue("weekly", "2026-09-07", "2026-08-31")).toBe(true);
+    expect(termComparisonDue("weekly", "2026-09-14", "2026-09-07")).toBe(false);
+    const { series } = monthly(Array.from({ length: 12 * 26 + 8 }, (_, i) => 100 + i));
+    const kinds = (d: string) => seriesInsightsAt(series, ADMINS, [d]).map((i) => i.kind);
+    expect(kinds("2026-06-01")).toContain("term_comparison");
+    expect(kinds("2026-07-01")).not.toContain("term_comparison");
+  });
+
+  it("keeps the routine latest reading only when nothing else came out of that series and period", () => {
+    const { series } = monthly([...flat(120), 100.1], { headline: true });
+    expect(seriesInsightsAt(series, ADMINS, ["2010-01-01"]).map((i) => i.kind)).toEqual(["latest"]);
+    const jump = monthly([...flat(120), 150], { headline: true }).series;
+    expect(seriesInsightsAt(jump, ADMINS, ["2010-01-01"]).map((i) => i.kind)).not.toContain("latest");
   });
 
   it("lists month ends after a date up to the last full month", () => {
@@ -304,6 +309,9 @@ describe("issue and poster", () => {
     score: 1,
     facts: ins.facts.map((f) => ({ id: f.id, text: f.text, derivation: f.derivation })),
     template: ins.template,
+    series_id: ins.seriesId,
+    frequency: ins.frequency,
+    release: null,
   };
 
   it("round-trips the hidden draft block, even with -- in the text", () => {
@@ -334,5 +342,23 @@ describe("truncate", () => {
   it("cuts a series at a date", () => {
     const { series } = monthly(flat(24));
     expect(truncate(series, "2000-06-01").points.at(-1)?.date).toBe("2000-06-01");
+  });
+});
+
+describe("detectLatest", () => {
+  it("gives the newest value with its change on the period and on the year, for headline series only", () => {
+    const values = [...flat(119), 100, 110];
+    const { series, rows } = monthly(values, { headline: true });
+    const [ins] = detectLatest(series);
+    expect(ins?.kind).toBe("latest");
+    expect(ins?.template).toBe("Test output: 110.0 units in January 2010, up 10% from December 2009 and up 9.8% from a year earlier (100.2 units).");
+    expect(verifyInsight(ins!, indexFor(rows))).toEqual([]);
+    expect(checkCaption(ins!.template, ins!.facts)).toEqual([]);
+    expect(detectLatest(monthly(values).series)).toEqual([]);
+  });
+
+  it("leaves out the period change for seasonal series", () => {
+    const [ins] = detectLatest(monthly([...flat(119), 100, 110], { headline: true, seasonal: true }).series);
+    expect(ins?.template).not.toMatch(/December 2009/);
   });
 });

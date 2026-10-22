@@ -50,10 +50,10 @@ type SeriesConfig = Omit<Series, "points" | "dataset" | "url" | "source" | "freq
 
 const EIA = "U.S. Energy Information Administration";
 const ENERGY: (SeriesConfig & { series_id: string })[] = [
-  { series_id: "PAPRPUS", id: "energy.crude_production", name: "U.S. crude oil production", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 1.3 },
-  { series_id: "PAEXPUS", id: "energy.petroleum_exports", name: "U.S. petroleum exports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 },
-  { series_id: "PAIMPUS", id: "energy.petroleum_imports", name: "U.S. petroleum imports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 },
-  { series_id: "COEXPUS", id: "energy.crude_exports", name: "U.S. crude oil exports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 },
+  { series_id: "PAPRPUS", id: "energy.crude_production", name: "U.S. crude oil production", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 1.3 , releaseLagDays: 60, headline: true },
+  { series_id: "PAEXPUS", id: "energy.petroleum_exports", name: "U.S. petroleum exports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , releaseLagDays: 60 },
+  { series_id: "PAIMPUS", id: "energy.petroleum_imports", name: "U.S. petroleum imports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , releaseLagDays: 60 },
+  { series_id: "COEXPUS", id: "energy.crude_exports", name: "U.S. crude oil exports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , releaseLagDays: 60 },
   {
     series_id: "WCSSTUS1",
     id: "energy.spr",
@@ -63,16 +63,18 @@ const ENERGY: (SeriesConfig & { series_id: string })[] = [
     seasonal: false,
     frequency: "weekly",
     weight: 1.2,
+    // Weekly Petroleum Status Report: the week ending Friday is out the next Wednesday.
+    releaseLagDays: 5,
   },
   // Monthly totals vary with the number of days in a month, so these compare like months.
-  { series_id: "NGPRPUS", id: "energy.gas_production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: " billion cubic feet" }, seasonal: true, weight: 0.9 },
-  { series_id: "N9133US2", id: "energy.lng_exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: " billion cubic feet" }, seasonal: true, weight: 1.1 },
-  { series_id: "ELETPUS", id: "energy.power_total", name: "U.S. electricity generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 },
-  { series_id: "CLETPUS", id: "energy.power_coal", name: "U.S. electricity generation from coal", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 },
-  { series_id: "NGETPUS", id: "energy.power_gas", name: "U.S. electricity generation from natural gas", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 },
-  { series_id: "NUETPUS", id: "energy.power_nuclear", name: "U.S. electricity generation from nuclear plants", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.8 },
-  { series_id: "WYETPUS", id: "energy.power_wind", name: "U.S. electricity generation from wind", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 },
-  { series_id: "SOETPUS", id: "energy.power_solar", name: "U.S. utility-scale solar generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 },
+  { series_id: "NGPRPUS", id: "energy.gas_production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: " billion cubic feet" }, seasonal: true, weight: 0.9 , releaseLagDays: 60 },
+  { series_id: "N9133US2", id: "energy.lng_exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: " billion cubic feet" }, seasonal: true, weight: 1.1 , releaseLagDays: 60 },
+  { series_id: "ELETPUS", id: "energy.power_total", name: "U.S. electricity generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , releaseLagDays: 55, headline: true },
+  { series_id: "CLETPUS", id: "energy.power_coal", name: "U.S. electricity generation from coal", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , releaseLagDays: 55 },
+  { series_id: "NGETPUS", id: "energy.power_gas", name: "U.S. electricity generation from natural gas", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , releaseLagDays: 55 },
+  { series_id: "NUETPUS", id: "energy.power_nuclear", name: "U.S. electricity generation from nuclear plants", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.8 , releaseLagDays: 55 },
+  { series_id: "WYETPUS", id: "energy.power_wind", name: "U.S. electricity generation from wind", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , releaseLagDays: 55 },
+  { series_id: "SOETPUS", id: "energy.power_solar", name: "U.S. utility-scale solar generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , releaseLagDays: 55 },
 ];
 
 const GAS: (SeriesConfig & { series_id: string })[] = [
@@ -86,6 +88,9 @@ const GAS: (SeriesConfig & { series_id: string })[] = [
     frequency: "weekly",
     context: ["Weekly retail price averaged over all U.S. stations, in nominal dollars (not adjusted for inflation)."],
     weight: 1.5,
+    headline: true,
+    // EIA surveys stations on Monday and publishes that afternoon or Tuesday.
+    releaseLagDays: 1,
   },
   {
     series_id: "GASDESW",
@@ -96,6 +101,7 @@ const GAS: (SeriesConfig & { series_id: string })[] = [
     seasonal: false,
     frequency: "weekly",
     weight: 1.1,
+    releaseLagDays: 1,
   },
 ];
 
@@ -151,6 +157,9 @@ export function loadEncounters(ref?: string): Series[] {
       url: "/presidency/immigration",
       source: "U.S. Customs and Border Protection",
       weight: scope === "southwest" ? 1.5 : 1.1,
+      headline: scope === "southwest",
+      // CBP posts a month's figures in the middle of the next month.
+      releaseLagDays: 18,
     };
   });
   return [...monthly, loadEncountersFiscal(ref)];
@@ -188,6 +197,7 @@ function loadEncountersFiscal(ref?: string): Series {
     url: "/presidency/immigration",
     source: "U.S. Customs and Border Protection",
     weight: 1.5,
+    releaseLagDays: 18,
   };
 }
 
@@ -220,6 +230,8 @@ export function loadIce(ref?: string): Series[] {
     url: "/presidency/immigration",
     source: "U.S. Immigration and Customs Enforcement",
     weight: m.weight,
+    // ICE's annual report comes out months after the fiscal year ends.
+    releaseLagDays: 90,
   }));
 }
 
@@ -254,6 +266,9 @@ export function loadTrade(ref?: string): Series[] {
     url: "/presidency/trade",
     source: "U.S. Census Bureau",
     weight: d.weight,
+    headline: d.id === "trade.deficit",
+    // The Census/BEA trade release comes about five weeks after the month ends.
+    releaseLagDays: 36,
   }));
 }
 

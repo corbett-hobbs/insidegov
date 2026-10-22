@@ -165,6 +165,7 @@ export function detectExtremes(series: Series): Insight[] {
       seriesId: series.id,
       kind: dir === "high" ? "extreme_high" : "extreme_low",
       period: latest.date,
+      frequency: series.frequency,
       headline,
       template,
       facts,
@@ -263,6 +264,7 @@ export function detectMoves(series: Series): Insight[] {
       seriesId: series.id,
       kind: up ? "move_up" : "move_down",
       period: last.to.date,
+      frequency: series.frequency,
       headline,
       template,
       facts,
@@ -423,6 +425,7 @@ export function detectTermComparison(series: Series, admins: Administration[]): 
       seriesId: series.id,
       kind: "term_comparison",
       period: latest.date,
+      frequency: series.frequency,
       headline,
       template,
       facts,
@@ -470,6 +473,7 @@ export function detectEventTermComparison(set: EventSet, admins: Administration[
       seriesId: set.id,
       kind: "term_comparison",
       period: asOf,
+      frequency: "monthly",
       headline: `${capitalize(set.name)} ${set.verb} in the first ${daysFact.text} days of each term`,
       template,
       facts: [...[cur, ...others].flatMap((r) => [r.fact, termYearFact(r.term)]), daysFact, asOfFact, startFact, termsShownFact(rows)],
@@ -488,7 +492,7 @@ export function detectEventTermComparison(set: EventSet, admins: Administration[
 }
 
 /** Monthly counts of an event set as a series (full months before `asOf` only), for extremes on monthly totals. */
-export function eventMonthlySeries(set: EventSet, asOf: string, opts: Pick<Series, "id" | "name" | "seasonal" | "weight" | "words">): Series {
+export function eventMonthlySeries(set: EventSet, asOf: string, opts: Pick<Series, "id" | "name" | "seasonal" | "weight" | "words" | "headline">): Series {
   const lastFull = addMonths(asOf.slice(0, 7) + "-01", -1);
   const first = set.coverageStart.slice(0, 7) + "-01";
   const byMonth = new Map<string, CellRef[]>();
@@ -511,6 +515,7 @@ export function eventMonthlySeries(set: EventSet, asOf: string, opts: Pick<Serie
     kind: "flow",
     moveMode: "abs",
     skip: ["move", "term"],
+    releaseLagDays: 1,
     points,
     url: set.url,
     source: set.source,
@@ -526,7 +531,82 @@ export function truncateEvents(set: EventSet, date: string): EventSet {
   return { ...set, events: set.events.filter((e) => e.date <= date) };
 }
 
+/** The point a year before `p`: 12 months for monthly data, 52 weeks (within 3 days) for weekly, the prior fiscal year. */
+function yearEarlier(series: Series, p: Point): Point | undefined {
+  if (series.frequency === "monthly") return series.points.find((q) => q.date === addMonths(p.date, -12));
+  if (series.frequency === "fiscal_year") return series.points.find((q) => q.date === `${Number(p.date.slice(0, 4)) - 1}-09-30`);
+  const target = addDays(p.date, -364);
+  return series.points.find((q) => Math.abs(daysBetween(q.date, target)) <= 3);
+}
+
+/**
+ * The routine reading for a dataset's headline series: the newest value, its change on the period (not for seasonal
+ * series) and on the year. Scored below anything notable, so it posts only when a refresh brought nothing else.
+ */
+export function detectLatest(series: Series): Insight[] {
+  if (!series.headline) return [];
+  const pts = series.points;
+  const latest = pts.at(-1);
+  const prev = pts.at(-2);
+  if (!latest || !prev) return [];
+  const yearAgo = yearEarlier(series, latest);
+  const style = dateStyleFor(series.frequency);
+  const latestFact = unitFact("latest_value", latest.value, series.unit, latest.cells);
+  const latestDate = dateFact("latest_date", latest.date, style);
+  const facts: Fact[] = [latestFact, latestDate];
+  const parts: string[] = [];
+  const dirText = (f: Fact) => ((f.value as number) === 0 ? "unchanged" : `${(f.value as number) > 0 ? "up" : "down"} ${f.text}`);
+  const pctOk = (from: Point) => series.moveMode === "pct" && from.value > 0;
+  if (!series.seasonal && series.frequency !== "fiscal_year") {
+    const change = pctOk(prev) ? pctFact("change_period", prev, latest) : changeFact("change_period", prev, latest, series.unit);
+    const prevDate = dateFact("previous_date", prev.date, style);
+    facts.push(change, prevDate, unitFact("previous_value", prev.value, series.unit, prev.cells));
+    parts.push(`${dirText(change)} from ${series.frequency === "weekly" ? "the week of " : ""}${prevDate.text}`);
+  }
+  if (yearAgo) {
+    const change = pctOk(yearAgo) ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.unit);
+    const yaValue = unitFact("year_ago_value", yearAgo.value, series.unit, yearAgo.cells);
+    facts.push(change, yaValue, dateFact("year_ago_date", yearAgo.date, style));
+    parts.push(`${dirText(change)} from a year earlier (${yaValue.text})`);
+  }
+  if (parts.length === 0) return [];
+  const template = `${capitalize(series.name)}: ${latestFact.text} ${when(series, latestDate.text)}, ${parts.join(" and ")}.`;
+  const from = addMonths(latest.date, series.frequency === "weekly" ? -12 : series.frequency === "fiscal_year" ? -12 * 12 : -36);
+  const chart: ChartSpec = usesBars(series)
+    ? periodBars(series, latest, from, style)
+    : {
+        type: "line",
+        unit: series.unit,
+        axisLabel: series.axisLabel,
+        frequency: series.frequency,
+        points: linePoints(series, from, latest.date),
+        marks: [
+          { date: latest.date, label: `${markDate(series, latest.date)}: ${latestFact.text}`, emphasis: true },
+          ...(yearAgo && yearAgo.date >= from ? [{ date: yearAgo.date, label: `${markDate(series, yearAgo.date)}: ${fmtUnit(yearAgo.value, series.unit)}`, emphasis: false }] : []),
+        ],
+      };
+  return [
+    {
+      id: `${series.id}:latest:${latest.date}`,
+      dataset: series.dataset,
+      seriesId: series.id,
+      kind: "latest",
+      period: latest.date,
+      frequency: series.frequency,
+      headline: `${capitalize(series.name)}, ${series.frequency === "weekly" ? "week of " : ""}${latestDate.text}`,
+      template,
+      facts,
+      context: series.context ?? [],
+      chart,
+      url: series.url,
+      source: series.source,
+      score: 2 * series.weight,
+      alt: `${usesBars(series) ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${template}`,
+    },
+  ];
+}
+
 /** Every detector on one series. */
 export function detectSeries(series: Series, admins: Administration[]): Insight[] {
-  return [...detectExtremes(series), ...detectMoves(series), ...detectTermComparison(series, admins)];
+  return [...detectExtremes(series), ...detectMoves(series), ...detectTermComparison(series, admins), ...detectLatest(series)];
 }
