@@ -59,15 +59,20 @@ function Slide({ children }: { children: ReactNode }) {
   return <div style={{ display: "flex", flexDirection: "column", position: "relative", width: W, height: H, padding: `30px ${SIDE}px 0 ${SIDE}px`, color: INK, background: SURFACE }}>{children}</div>;
 }
 
-function Header({ insight, label }: { insight: Insight; label?: string }) {
-  const note = releaseNote(insight) ?? (insight.kind === "news" ? "In the news" : null);
+/** A draft's header: its dataset and, on the hook and chart, the release or news badge. */
+const headerOf = (insight: Insight, label?: string) => ({
+  kicker: label ?? KICKER[insight.dataset],
+  note: label === undefined ? (releaseNote(insight) ?? (insight.kind === "news" ? "In the news" : null)) : null,
+});
+
+function Header({ kicker, note }: { kicker: string; note?: string | null }) {
   return (
     <div style={{ display: "flex", alignItems: "center", fontSize: 14, letterSpacing: 2.5, color: MUTED, textTransform: "uppercase" }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
       <img src={sealSrc()} width={32} height={32} alt="" style={{ marginRight: 10 }} />
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 25, letterSpacing: -0.4, color: INK, textTransform: "none", marginRight: 14 }}>InsideGov</div>
-      {label ?? KICKER[insight.dataset]}
-      {note && label === undefined ? (
+      {kicker}
+      {note ? (
         <div style={{ display: "flex", marginLeft: "auto", fontSize: 12, letterSpacing: 1, color: SURFACE, background: ACCENT, borderRadius: 4, padding: "4px 9px", maxWidth: 330, lineHeight: 1.35 }}>{note}</div>
       ) : null}
     </div>
@@ -112,7 +117,7 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   return (
     <Slide>
       {svgImage(`<g transform="translate(${SIDE},${sparkTop})">${spark(insight, sparkW, sparkH)}</g>`, W, H)}
-      <Header insight={insight} />
+      <Header {...headerOf(insight)} />
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: SIDE, right: SIDE, bottom: H - sparkTop + 36 }}>
         {value ? <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value.length > 10 ? 76 : 96, lineHeight: 1, letterSpacing: -2, marginBottom: 22 }}>{value}</div> : null}
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value ? headSize : headSize + 8, lineHeight: 1.15, letterSpacing: -0.4 }}>{insight.headline}</div>
@@ -131,7 +136,7 @@ function chartSlide(insight: Insight, n: number, total: number): ReactNode {
   return (
     <Slide>
       {svgImage(svg, W, H)}
-      <Header insight={insight} />
+      <Header {...headerOf(insight)} />
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headSize, lineHeight: 1.12, letterSpacing: -0.4, marginTop: 14 }}>{insight.headline}</div>
       <div style={{ position: "absolute", top: frame.plot.top - 40, left: SIDE, display: "flex", fontSize: 16, color: MUTED }}>{spec.axisLabel}</div>
       {labels.map((l, i) => (
@@ -151,7 +156,7 @@ function explainerSlide(insight: Insight, lines: string[], n: number, total: num
   const size = lines.join(" ").length > 300 ? 25 : 28;
   return (
     <Slide>
-      <Header insight={insight} label="How to read this" />
+      <Header {...headerOf(insight, "How to read this")} />
       <Title>What this measures</Title>
       {lines.map((t, i) => (
         <div key={i} style={{ display: "flex", fontFamily: "Newsreader", fontSize: size, lineHeight: 1.4, marginBottom: 22 }}>
@@ -172,7 +177,7 @@ function momentsSlide(insight: Insight, moments: Moment[], n: number, total: num
   const rows = [...moments.map((m) => ({ when: momentDate(m.date), text: m.label, accent: false })), ...(latest ? [{ when: "Latest data", text: latest, accent: true }] : [])];
   return (
     <Slide>
-      <Header insight={insight} label="Key moments" />
+      <Header {...headerOf(insight, "Key moments")} />
       <Title>Key moments</Title>
       <div style={{ display: "flex", flexDirection: "column", borderLeft: `3px solid ${NEUTRAL}`, paddingLeft: 22 }}>
         {rows.map((r, i) => (
@@ -194,7 +199,7 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
   return (
     <Slide>
-      <Header insight={insight} label="" />
+      <Header kicker="" />
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: SIDE, right: SIDE, top: 230 }}>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.1, letterSpacing: -0.6 }}>The full chart, the data and its sources</div>
         <div style={{ display: "flex", fontSize: 26, color: INK, marginTop: 34 }}>{path}</div>
@@ -223,13 +228,11 @@ export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]
 }
 
 export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
-  const serif = serifFont();
   const plan = slidePlan(insight);
-  const out: Buffer[] = [];
-  for (const [i, s] of plan.entries()) {
-    const n = i + 1;
-    const body =
-      s.kind === "hook"
+  return renderSlides(
+    plan.map((s, i) => {
+      const n = i + 1;
+      return s.kind === "hook"
         ? hookSlide(insight, n, plan.length)
         : s.kind === "chart"
           ? chartSlide(insight, n, plan.length)
@@ -238,6 +241,15 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
             : s.kind === "moments"
               ? momentsSlide(insight, s.moments!, n, plan.length)
               : endSlide(insight, n, plan.length);
+    }),
+  );
+}
+
+/** Each slide (a <Slide>) to a 1080x1350 PNG. */
+async function renderSlides(bodies: ReactNode[]): Promise<Buffer[]> {
+  const serif = serifFont();
+  const out: Buffer[] = [];
+  for (const body of bodies) {
     // Laid out at 720x900, scaled into 1080x1350: the renderer keeps text and the SVG sharp at the larger size.
     const content = (
       <div style={{ display: "flex", width: SLIDE_W, height: SLIDE_H, background: SURFACE }}>
@@ -248,4 +260,75 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
     out.push(Buffer.from(await res.arrayBuffer()));
   }
   return out;
+}
+
+/**
+ * The account's intro carousel (intro.ts holds the words): a cover with small trend lines from real series, then text
+ * and list slides. Same canvas, header and footer as a draft's slides.
+ */
+export type IntroSlide =
+  | { kind: "cover"; title: string; sub: string; sparks: { label: string; points: number[] }[] }
+  | { kind: "text"; kicker: string; title: string; paragraphs: string[]; sign?: string }
+  | { kind: "list"; kicker: string; title: string; items: string[] };
+
+function sparkPath(vals: number[], w: number, h: number): string {
+  const lo = Math.min(...vals);
+  const hi = Math.max(...vals);
+  const x = (i: number) => 6 + (i / (vals.length - 1)) * (w - 12);
+  const y = (v: number) => 6 + (1 - (v - lo) / (hi - lo || 1)) * (h - 12);
+  const d = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  return `<path d="${d}" fill="none" stroke="${LINE}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(vals.length - 1)}" cy="${y(vals.at(-1)!)}" r="7" fill="${ACCENT}" stroke="${SURFACE}" stroke-width="3"/>`;
+}
+
+function introSlide(s: IntroSlide, n: number, total: number): ReactNode {
+  if (s.kind === "cover") {
+    const rowTop = 470;
+    const rowH = 118;
+    const sparkW = W - 2 * SIDE;
+    const svg = s.sparks.map((sp, i) => `<g transform="translate(${SIDE},${rowTop + i * rowH + 26})">${sparkPath(sp.points, sparkW, rowH - 44)}</g>`).join("");
+    return (
+      <Slide>
+        {svgImage(svg, W, H)}
+        <Header kicker="" />
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 64, lineHeight: 1.04, letterSpacing: -1.5, marginTop: 92 }}>{s.title}</div>
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 26, lineHeight: 1.35, color: MUTED, marginTop: 22 }}>{s.sub}</div>
+        {s.sparks.map((sp, i) => (
+          <div key={i} style={{ position: "absolute", left: SIDE, top: rowTop + i * rowH, display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED }}>
+            {sp.label}
+          </div>
+        ))}
+        <Footer n={n} total={total} left="Swipe" />
+      </Slide>
+    );
+  }
+  const body =
+    s.kind === "list" ? (
+      s.items.map((t, i) => (
+        <div key={i} style={{ display: "flex", alignItems: "flex-start", marginBottom: 24 }}>
+          <div style={{ display: "flex", width: 10, height: 10, borderRadius: 2, background: ACCENT, marginTop: 13, marginRight: 18, flexShrink: 0 }} />
+          <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 28, lineHeight: 1.35 }}>{t}</div>
+        </div>
+      ))
+    ) : (
+      s.paragraphs.map((t, i) => (
+        <div key={i} style={{ display: "flex", fontFamily: "Newsreader", fontSize: s.paragraphs.join(" ").length > 380 ? 26 : 29, lineHeight: 1.4, marginBottom: 20 }}>
+          {t}
+        </div>
+      ))
+    );
+  return (
+    <Slide>
+      <Header kicker={s.kicker} />
+      <Title>{s.title}</Title>
+      {body}
+      {s.kind === "text" && s.sign ? (
+        <div style={{ display: "flex", fontSize: 20, color: ACCENT, marginTop: 10, paddingTop: 20, borderTop: `2px solid ${NEUTRAL}` }}>{s.sign}</div>
+      ) : null}
+      <Footer n={n} total={total} />
+    </Slide>
+  );
+}
+
+export async function renderIntroCarousel(slides: IntroSlide[]): Promise<Buffer[]> {
+  return renderSlides(slides.map((s, i) => introSlide(s, i + 1, slides.length)));
 }
