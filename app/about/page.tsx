@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
-import { siteInfo } from "@/lib/site-info";
+import { SocialLinkList } from "@/components/SocialLinkList";
+import { siteInfo, socialLinks } from "@/lib/site-info";
 
 const DESCRIPTION =
   "InsideGov charts the data behind the news, from gas prices and tariffs to new laws and Supreme Court rulings, drawn straight from public government records.";
@@ -87,6 +88,16 @@ export default function AboutPage() {
             has the detail.
           </p>
         </Section>
+
+        {socialLinks().length > 0 && (
+          <Section title="Follow along">
+            <p>
+              When new government data is released, a chart goes out on <SocialLinkList className={LINK} />, and the page
+              with the full data and its sources is on this site. Every number in a post is checked against the source
+              data before it is posted.
+            </p>
+          </Section>
+        )}
 
         <Section title="Independence">
           <p>
