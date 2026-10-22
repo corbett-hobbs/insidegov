@@ -1,9 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { decadeCells, decadeInWindow, decadesOf, fmtInt, heatCount, heatCountMax, type AreaRow } from "@/lib/decisions-derive";
+import { decadeCells, decadeInWindow, decadesOf, fmtInt, heatCount, heatCountMax, topicTitle, type AreaRow } from "@/lib/decisions-derive";
 import { BAND_COLORS, type AreaSortKey } from "@/lib/decisions-types";
-import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { LEGEND_ROW } from "@/components/charts/legend";
@@ -16,10 +15,10 @@ const MEASURES: Record<AreaSortKey, { band: number | null; noun: string }> = {
 };
 
 /**
- * The companion to the issue-area rows: issue areas down the side (same order as the rows), decades across. The card's one
+ * The companion to the topic rows: topics down the side (same order as the rows), decades across. The card's one
  * toggle picks the measure for both charts, in the same numbers as the rows: cases decided (accent), cases that split 5–4, or
  * cases that were unanimous (those two in their band's colour). The rows show a whole window; this shows when. Darker = more
- * cases, on one scale for every area (the busiest decade of any one) with "All issue areas" on its own, being several times any
+ * cases, on one scale for every topic (the busiest decade of any one) with "All topics" on its own, being several times any
  * area. A click ticks just that area in the pinned bar for the whole page;
  * decades outside the years window fade; a picked area dims the other rows (a comparison chart highlights, rule 4).
  */
@@ -35,7 +34,7 @@ export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; mea
   return (
     <div>
       <p className="m-0 mb-2 text-[0.78rem] text-ink-muted">By decade, every year of data</p>
-      <div role="grid" aria-label={`${counts ? "Cases decided" : `Cases that ${noun}`}, by issue area and decade`} className="grid gap-px [--heat-label:6rem] min-[520px]:[--heat-label:minmax(5.5rem,8.5rem)]" style={{ gridTemplateColumns: `var(--heat-label) repeat(${decades.length}, minmax(0, 1fr))` }}>
+      <div role="grid" aria-label={`${counts ? "Cases decided" : `Cases that ${noun}`}, by topic and decade`} className="grid gap-px [--heat-label:6rem] min-[520px]:[--heat-label:minmax(5.5rem,8.5rem)]" style={{ gridTemplateColumns: `var(--heat-label) repeat(${decades.length}, minmax(0, 1fr))` }}>
         <div role="row" className="contents">
           <span />
           {decades.map((dec) => (
@@ -55,7 +54,7 @@ export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; mea
                 type="button"
                 onClick={select}
                 aria-pressed={on}
-                title={ISSUE_AREA_DESCRIPTIONS[row.id] ? `${row.label}: ${ISSUE_AREA_DESCRIPTIONS[row.id]}` : row.label}
+                title={topicTitle(data, row.id) ?? row.label}
                 className={`line-clamp-2 pr-1.5 text-left text-[0.7rem] leading-[1.05rem] text-ink hover:underline min-[520px]:truncate min-[520px]:text-[0.74rem] min-[520px]:leading-[1.9rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${on ? "font-semibold" : ""}`}
               >
                 {row.label}
@@ -97,7 +96,7 @@ export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; mea
           busiest decade
         </span>
         <span>
-          {counts ? "Cases decided" : `Cases that ${noun}`}, per decade; “All issue areas” is shaded on its own scale.
+          {counts ? "Cases decided" : `Cases that ${noun}`}, per decade; “All topics” is shaded on its own scale.
         </span>
       </div>
     </div>

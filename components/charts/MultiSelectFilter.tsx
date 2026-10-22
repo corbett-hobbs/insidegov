@@ -38,6 +38,7 @@ export function MultiSelectFilter<T extends string | number>({
   footerClassName = "",
   dotClassName = "sm:hidden",
   dot,
+  panelMaxWidth = "max-w-[min(18rem,calc(100vw-1rem))]",
 }: {
   /** Names the group for screen readers ("Policy area"). */
   label: string;
@@ -56,6 +57,8 @@ export function MultiSelectFilter<T extends string | number>({
   dotClassName?: string;
   /** When set, the button wears an accent dot (below `sm`) and says this to screen readers: a filter that lives in the footer is on. */
   dot?: string;
+  /** The panel's max-width class: wider for longer option labels, so none truncates (Decisions' topics). */
+  panelMaxWidth?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [explained, setExplained] = useState<ReadonlySet<T>>(new Set());
@@ -135,7 +138,7 @@ export function MultiSelectFilter<T extends string | number>({
         </svg>
       </button>
       {open && (
-        <div ref={panel} id={uid} role="group" aria-label={label} className="absolute left-0 top-[calc(100%+4px)] z-50 w-max min-w-[14rem] max-w-[min(18rem,calc(100vw-1rem))] overflow-hidden rounded-lg border border-line-strong bg-surface shadow-lg">
+        <div ref={panel} id={uid} role="group" aria-label={label} className={`absolute left-0 top-[calc(100%+4px)] z-50 w-max min-w-[14rem] ${panelMaxWidth} overflow-hidden rounded-lg border border-line-strong bg-surface shadow-lg`}>
           <div className="flex items-center justify-between gap-2 border-b border-line bg-surface-raised px-3 py-1.5">
             <span className="font-mono text-[0.66rem] text-ink-muted">
               {ticked} of {options.length} shown

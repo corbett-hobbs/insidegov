@@ -2,7 +2,7 @@ import { z } from "zod";
 
 /**
  * The Supreme Court "Decisions" track: institutional counts from the Supreme Court Database (SCDB),
- * case-centered by citation. Key is `(term, issue_area_id)` - NOT a `bioguide_id` and not a justice id.
+ * case-centered by citation. Key is `(term, group_id)` (our topic, `pipeline/reference/decision-groups.json`) - NOT a `bioguide_id` and not a justice id.
  * Case-grain data is never stored, only counts. Unit of analysis, buckets and caveats:
  * `docs/DECISIONS_METHODOLOGY.md`; conventions: `docs/DATA_CONVENTIONS.md` section 14.
  */
@@ -34,6 +34,10 @@ export const scdbCaseRow = z.object({
   voteUnclear: z.string().transform((s) => (s.trim() === "" ? 0 : Number(s))).pipe(z.union([z.literal(0), z.literal(1)])),
   /** Blank = no issue area coded. */
   issueArea: z.string().transform((s) => (s.trim() === "" ? null : Number(s))).pipe(z.number().int().min(1).nullable()),
+  /** SCDB `issue`, the fine-grained issue code under the area; blank = none. */
+  issue: z.string().transform((s) => (s.trim() === "" ? null : Number(s))).pipe(z.number().int().min(1).nullable()),
+  /** SCDB `lawSupp`, the legal provision the case turned on; blank = none. */
+  lawSupp: z.string().transform((s) => (s.trim() === "" ? null : Number(s))).pipe(z.number().int().min(1).nullable()),
   chief: z.string().min(1),
   /** SCDB `majOpinWriter`: the justice id who wrote the majority opinion; blank = none (per curiam, equally divided). */
   majOpinWriter: z.string().transform((s) => (s.trim() === "" ? null : Number(s))).pipe(z.number().int().nullable()),
@@ -92,6 +96,22 @@ export const issueAreaCatalogEntry = z.strictObject({
 });
 export type IssueAreaCatalogEntry = z.infer<typeof issueAreaCatalogEntry>;
 export const issueAreaCatalog = z.object({ areas: z.array(issueAreaCatalogEntry).min(1) });
+/** One topic in `pipeline/reference/decision-groups.json` (the rules are explained in its `_comment`). */
+export const decisionGroupEntry = z.strictObject({
+  id: z.string().regex(/^[a-z-]+$/),
+  label: z.string().min(1),
+  description: z.string().min(1),
+  /** SCDB `issue` codes. */
+  issues: z.array(int.min(1)),
+  /** SCDB `lawSupp` codes. */
+  law_supp: z.array(int.min(1)),
+  /** Fallback: SCDB issue-area ids (decision-issue-areas.json). */
+  issue_areas: z.array(z.string()).optional(),
+  /** Hand-picked SCDB caseId -> case name (the name is for the reader of the file). */
+  cases: z.record(z.string().regex(/^\d{4}-\d{3}$/), z.string().min(1)).optional(),
+});
+export type DecisionGroupEntry = z.infer<typeof decisionGroupEntry>;
+export const decisionGroupCatalog = z.object({ groups: z.array(decisionGroupEntry).min(1) });
 
 export const chiefReferenceEntry = z.strictObject({
   scdb_chief: z.string().min(1),
@@ -103,10 +123,10 @@ export const chiefReferenceEntry = z.strictObject({
 export type ChiefReferenceEntry = z.infer<typeof chiefReferenceEntry>;
 export const chiefReference = z.object({ chiefs: z.array(chiefReferenceEntry).min(1) });
 
-/** `decisions_counts.json`: one row per (term, issue area); `issue_area_id` null = no issue area coded. */
+/** `decisions_counts.json`: one row per (term, topic); `group_id` null = no SCDB issue area coded (so no topic). */
 export const decisionCountRow = z.strictObject({
   term: int.min(DECISIONS_FIRST_TERM),
-  issue_area_id: z.string().nullable(),
+  group_id: z.string().nullable(),
   n: int.min(1),
   d0: int.min(0),
   d1: int.min(0),
@@ -124,6 +144,9 @@ export const decisionCaseRow = z.strictObject({
   name: z.string().min(1),
   /** U.S. Reports cite, else S. Ct., else L. Ed., else Lexis; empty only if SCDB has none. */
   cite: z.string(),
+  /** Our topic (`decision-groups.json`); null exactly when `issue_area_id` is. */
+  group_id: z.string().nullable(),
+  /** SCDB's own issue area (decision pages, outcome-direction notes); null = none coded. */
   issue_area_id: z.string().nullable(),
   /** Dissent bucket 0-4. */
   band: int.min(0).max(4),
@@ -168,6 +191,8 @@ export const decisionsMeta = z.strictObject({
   landmarks: z.strictObject({ count: int.min(1), page: z.string(), url: z.string().url(), revision_id: int, revision_date: z.string(), license: z.string() }),
   chief_spans: z.array(chiefSpan).min(1),
   issue_areas: z.array(z.strictObject({ id: z.string(), label: z.string() })).min(1),
+  /** The page's topics, in catalog order. */
+  groups: z.array(z.strictObject({ id: z.string(), label: z.string(), description: z.string() })).min(1),
 });
 export type DecisionsMeta = z.infer<typeof decisionsMeta>;
 

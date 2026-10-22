@@ -34,7 +34,9 @@ export interface TimelineStep {
 /** One row of "Other decisions on the same issue" and "Other decisions from the same term": the Decisions list's own tuple, so the row matches "Every case". */
 export interface RelatedDecision {
   c: DecisionCase;
+  /** The case's topic label. */
   area: string;
+  /** Its SCDB issue-area id (the outcome tag's note), null = none coded. */
   areaId: string | null;
 }
 
@@ -59,7 +61,10 @@ export interface DecisionPageData {
   reargued: string | null;
   /** "Roberts Court". */
   court: string;
+  /** SCDB's own issue area. */
   area: { id: string; label: string } | null;
+  /** The Decisions page's topic (`pipeline/reference/decision-groups.json`); null when SCDB codes no issue area. */
+  topic: { id: string; label: string } | null;
   /** SCDB's issue, sentence-cased ("Search and seizure, vehicles"). */
   issue: string | null;
   direction: DecisionDirection | null;

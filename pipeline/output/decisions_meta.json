@@ -125,5 +125,67 @@
       "id": "private-action",
       "label": "Private action"
     }
+  ],
+  "groups": [
+    {
+      "id": "speech-religion-guns",
+      "label": "Speech, religion & guns",
+      "description": "Free speech, the press, protests, obscenity, the separation of church and state and the free exercise of religion, plus the Second Amendment and federal gun laws."
+    },
+    {
+      "id": "immigration",
+      "label": "Immigration",
+      "description": "Deportation, asylum, citizenship, green cards and the rights of noncitizens, plus immigration crimes and presidential immigration orders."
+    },
+    {
+      "id": "elections",
+      "label": "Elections & campaign money",
+      "description": "Voting rights and the Voting Rights Act, redistricting and gerrymandering, ballot access, campaign finance and the bribery and corruption laws that police officials."
+    },
+    {
+      "id": "abortion-privacy-lgbtq",
+      "label": "Abortion, privacy & LGBTQ",
+      "description": "Abortion and contraception, the right to privacy and the right to die, and the cases on the rights of gay and transgender people, including religious and speech objections to the laws that protect them."
+    },
+    {
+      "id": "presidential-agency-power",
+      "label": "Presidential & agency power",
+      "description": "The president's powers and immunity, appointments and removals, disputes between the president and Congress, how far federal agencies can go and how courts review them, and public-records requests."
+    },
+    {
+      "id": "environment-energy",
+      "label": "Environment & energy",
+      "description": "Pollution, the Clean Air and Clean Water Acts, public lands and wildlife, and the regulation of electricity, nuclear power, oil and gas."
+    },
+    {
+      "id": "civil-rights",
+      "label": "Civil rights & discrimination",
+      "description": "Discrimination by race, sex, age or disability, school desegregation and affirmative action, civil-rights lawsuits against police and officials, and the rights of the poor, children and veterans."
+    },
+    {
+      "id": "workers-unions",
+      "label": "Workers & unions",
+      "description": "Unions, collective bargaining and strikes, wage-and-hour and workplace safety laws, and pensions and benefits under ERISA."
+    },
+    {
+      "id": "states-tribes",
+      "label": "States, tribes & federal power",
+      "description": "Where federal power ends and state power begins, when federal law overrides state law, disputes between states, and tribal sovereignty and the reach of state law on tribal land."
+    },
+    {
+      "id": "crime-policing",
+      "label": "Crime, police & punishment",
+      "description": "The rights of people accused or convicted of a crime: searches, confessions, the right to a lawyer, juries, sentencing, the death penalty, habeas corpus and prisoners' rights."
+    },
+    {
+      "id": "business-taxes",
+      "label": "Business & taxes",
+      "description": "Antitrust, securities, bankruptcy, patents and copyright, consumer protection, arbitration, injury and contract claims, takings of property, and federal, state and local taxes."
+    },
+    {
+      "id": "courts-procedure",
+      "label": "Courts & procedure",
+      "description": "How the courts work: who can sue, which court hears a case, deadlines and class actions, fair hearings outside criminal cases, and lawyers' fees and discipline."
+    }
   ]
 }

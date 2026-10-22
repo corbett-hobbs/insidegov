@@ -18,6 +18,7 @@ import {
   landmarksManifest,
   decisionsMeta,
   issueAreaCatalog,
+  decisionGroupCatalog,
   justiceVotesFile,
   scdbJusticeRow,
   scdbManifest,
@@ -32,7 +33,7 @@ import { checkWikipediaCases, matchWikipediaCases, type WikiVia } from "./wikipe
 import { CASE_SUMMARIES_AI, aiSummaryCache, buildCaseSummaries, checkCaseSummaries } from "./wikipedia-case-summaries";
 import { checkLandmarks, leadLandmarks, matchLandmarks, parseLandmarkList } from "./landmarks";
 import { buildCaseDetails, buildCaseLeads } from "./decision-details";
-import { buildCaseRows, buildChiefSpans, buildCounts, buildMeta, checkChiefReference, parseScdb, recountFromCsv, runGates, selectCases } from "./decisions";
+import { buildCaseRows, buildChiefSpans, buildCounts, buildMeta, checkChiefReference, checkGroups, parseScdb, recountFromCsv, runGates, selectCases } from "./decisions";
 
 /**
  * Decisions track transform: raw/scdb (the pinned release in manifest.json) ->
@@ -69,6 +70,10 @@ async function main() {
   if (justiceRows.length !== manifest.justice_zip.rows) throw new DecisionsDataError(`manifest says ${manifest.justice_zip.rows} justice rows, parsed ${justiceRows.length}`);
 
   const catalog = issueAreaCatalog.parse(await readJson(`${REF}/decision-issue-areas.json`)).areas;
+  const groups = decisionGroupCatalog.parse(await readJson(`${REF}/decision-groups.json`)).groups;
+  const codebook = scdbCodebook.parse(await readJson(`${REF}/scdb-codebook.json`).catch(() => {
+    throw new DecisionsDataError(`${REF}/scdb-codebook.json is missing; run pnpm fetch:scdb-codebook`);
+  }));
   const chiefs = chiefReference.parse(await readJson(`${REF}/chief-justices.json`)).chiefs;
   const justices = z.array(z.object({ justice_id: z.number(), chief_justice_appointment: z.object({ president: z.string(), party: z.string() }).nullable() }).loose()).parse(await readJson(`${OUT}/court/justices.json`));
   checkChiefReference(chiefs, justices, [...HISTORICAL_ADMINISTRATIONS, ...ADMINISTRATIONS]);
@@ -76,11 +81,12 @@ async function main() {
   const rows = parseScdb(text);
   if (rows.length !== manifest.rows) throw new DecisionsDataError(`manifest says ${manifest.rows} rows, parsed ${rows.length}`);
   const selection = selectCases(rows);
+  checkGroups(groups, catalog, codebook, new Set(selection.cases.map((c) => c.caseId)));
   const jv = buildJusticeVotes(justiceRows, selection.cases);
   const jvFile = justiceVotesFile.parse(jv.votes);
   const known = new Set(justices.map((j) => j.justice_id));
   const unknownIds = Object.keys(jvFile).filter((id) => !known.has(Number(id)));
-  const counts = z.array(decisionCountRow).parse(buildCounts(selection.cases, catalog));
+  const counts = z.array(decisionCountRow).parse(buildCounts(selection.cases, catalog, groups));
   const spans = buildChiefSpans(selection.cases, chiefs);
   // Wikipedia's list of landmark decisions -> the cases it names.
   const lmManifest = landmarksManifest.parse(await readJson(`${RAW_DIR}/wikipedia-landmarks/manifest.json`).catch(() => {
@@ -132,29 +138,31 @@ async function main() {
   const leadsFile = JSON.parse(leadsText) as { leads: Record<string, string> };
   const summarized = new Set(summaries.map((r) => r.case_id));
   const leads = z.array(caseLeadRow).parse(buildCaseLeads(linked.map((l) => ({ ...l, summary: summarized.has(l.case_id) })), leadsFile.leads));
-  const codebook = scdbCodebook.parse(await readJson(`${REF}/scdb-codebook.json`).catch(() => {
-    throw new DecisionsDataError(`${REF}/scdb-codebook.json is missing; run pnpm fetch:scdb-codebook`);
-  }));
   const det = buildCaseDetails(text, selection.cases.map((c) => c.caseId), codebook);
   const details = z.array(decisionDetailRow).parse(det.rows.sort((a, b) => a.case_id.localeCompare(b.case_id)));
 
   const meta = decisionsMeta.parse({
-    ...buildMeta({ version: manifest.version, sourceFile: manifest.csv_file, cases: selection.cases, selection, catalog, spans }),
+    ...buildMeta({ version: manifest.version, sourceFile: manifest.csv_file, cases: selection.cases, selection, catalog, groups, spans }),
     landmarks: { count: landmarks.length, page: lmManifest.page, url: lmManifest.url, revision_id: lmManifest.revid, revision_date: lmManifest.revision_timestamp.slice(0, 10), license: lmManifest.license },
   });
-  const caseRows = z.array(decisionCaseRow).parse(buildCaseRows(selection.cases, catalog));
+  const caseRows = z.array(decisionCaseRow).parse(buildCaseRows(selection.cases, catalog, groups));
   const gates = runGates({ version: manifest.version, counts, caseRows, meta, recount: recountFromCsv(text) });
 
-  // Human report: totals by bucket, by decade, by issue area.
+  // Human report: totals by bucket, by decade, by topic and by SCDB issue area.
   const bucketTotals = [0, 0, 0, 0, 0];
   const byDecade: Record<string, number> = {};
+  const byGroup: Record<string, number> = {};
   const byArea: Record<string, number> = {};
+  for (const r of caseRows) {
+    const k = r.issue_area_id ?? "(unclassified)";
+    byArea[k] = (byArea[k] ?? 0) + 1;
+  }
   for (const r of counts) {
     [r.d0, r.d1, r.d2, r.d3, r.d4].forEach((v, i) => (bucketTotals[i]! += v));
     const decade = `${Math.floor(r.term / 10) * 10}s`;
     byDecade[decade] = (byDecade[decade] ?? 0) + r.n;
-    const k = r.issue_area_id ?? "(unclassified)";
-    byArea[k] = (byArea[k] ?? 0) + r.n;
+    const k = r.group_id ?? "(unclassified)";
+    byGroup[k] = (byGroup[k] ?? 0) + r.n;
   }
   const report = {
     scdb_version: meta.scdb_version,
@@ -168,7 +176,9 @@ async function main() {
     unanimous_share: Number((bucketTotals[0]! / meta.case_count).toFixed(3)),
     five_four_share: Number((bucketTotals[4]! / meta.case_count).toFixed(3)),
     cases_by_decade: byDecade,
+    cases_by_topic: byGroup,
     cases_by_issue_area: byArea,
+    hand_picked_topics: Object.fromEntries(groups.filter((g) => g.cases).map((g) => [g.id, Object.keys(g.cases!).length])),
     outcome_direction: {
       liberal: caseRows.filter((r) => r.direction === "liberal").length,
       conservative: caseRows.filter((r) => r.direction === "conservative").length,

@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
 import { PageShortcuts } from "@/components/PageShortcuts";
 import { fmtInt } from "@/lib/decisions-derive";
-import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import type { DecisionsPayload } from "@/lib/decisions-types";
 import { AreasCard } from "./AreasCard";
 import { CaseListCard } from "./CaseListCard";
@@ -18,8 +17,8 @@ import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
 
 /**
- * /supreme-court/decisions. One shared state (`DecisionsState`): the years window, the issue area and the hovered / pinned
- * term. The window and the area narrow cards 1 and 2 (rule 4); card 3 compares areas over the same window and sets the area.
+ * /supreme-court/decisions. One shared state (`DecisionsState`): the years window, the topic and the hovered / pinned
+ * term. The window and the topic narrow cards 1 and 2 (rule 4); card 3 compares topics over the same window and sets the topic.
  */
 export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
   const first = data.terms[0];
@@ -34,13 +33,13 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
           </p>
           <HowToRead>
             <p>
-              Each case has one issue area, the Supreme Court Database&rsquo;s label for what it was mainly about. Pick one in the Issue area menu at the top (the &#9432; beside each area says the same thing), or select an area in the charts below.
+              Each case has one topic, our grouping of the Supreme Court Database&rsquo;s codes for what it was mainly about. Pick one in the Topic menu at the top (the &#9432; beside each topic says the same thing), or select a topic in the charts below. A case&rsquo;s own page also shows the database&rsquo;s issue area and issue.
             </p>
             <dl className="m-0 mt-2.5 grid gap-x-6 gap-y-2 sm:grid-cols-2">
               {data.areas.map((a) => (
                 <div key={a.id}>
                   <dt className="font-medium text-ink">{a.label}</dt>
-                  <dd className="m-0 text-[0.86rem] leading-snug">{ISSUE_AREA_DESCRIPTIONS[a.id]}</dd>
+                  <dd className="m-0 text-[0.86rem] leading-snug">{a.description}</dd>
                 </div>
               ))}
             </dl>

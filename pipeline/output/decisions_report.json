@@ -30,22 +30,40 @@
     "2010s": 673,
     "2020s": 354
   },
+  "cases_by_topic": {
+    "speech-religion-guns": 624,
+    "immigration": 195,
+    "presidential-agency-power": 276,
+    "environment-energy": 209,
+    "civil-rights": 747,
+    "workers-unions": 515,
+    "states-tribes": 464,
+    "crime-policing": 1816,
+    "business-taxes": 1888,
+    "courts-procedure": 1148,
+    "(unclassified)": 67,
+    "elections": 228,
+    "abortion-privacy-lgbtq": 74
+  },
   "cases_by_issue_area": {
+    "economic-activity": 1754,
     "criminal-procedure": 1760,
     "civil-rights": 1292,
-    "first-amendment": 628,
-    "due-process": 335,
-    "privacy": 110,
-    "unions": 358,
-    "economic-activity": 1754,
     "judicial-power": 1068,
-    "federalism": 379,
-    "interstate-relations": 66,
+    "unions": 358,
+    "due-process": 335,
     "federal-taxation": 304,
+    "first-amendment": 628,
+    "privacy": 110,
+    "interstate-relations": 66,
+    "federalism": 379,
     "(unclassified)": 67,
     "attorneys": 93,
     "miscellaneous": 32,
     "private-action": 5
+  },
+  "hand_picked_topics": {
+    "abortion-privacy-lgbtq": 16
   },
   "outcome_direction": {
     "liberal": 4093,
@@ -1432,5 +1450,5 @@
     "rows_in_raw": 9409,
     "anchors_checked": true
   },
-  "count_rows": 901
+  "count_rows": 924
 }

@@ -21,7 +21,7 @@ import { DECISIONS_TAKEAWAYS, contextFor } from "./takeaways";
 /**
  * Card 2: how divided the Court is. The stacked area of `SplitChart`, a Share of cases / Number of cases toggle, and a
  * legend whose entries isolate a band (rule 12c): the pick draws that band alone from zero on its own axis and switches to
- * the count view; going back to Share clears it. Few-cases note when the issue area is thin; the chart is never hidden.
+ * the count view; going back to Share clears it. Few-cases note when the topic is thin; the chart is never hidden.
  */
 export function SplitCard() {
   const { data, range, areas } = useDecisionsValues();
