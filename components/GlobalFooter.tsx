@@ -7,7 +7,7 @@ const LINK =
 function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="m-0 mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-ink-muted">{title}</h2>
+      <h2 className="m-0 mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-ink">{title}</h2>
       <ul className="m-0 flex list-none flex-col p-0 sm:flex-row sm:gap-x-5 [&_a]:inline-block [&_a]:py-1.5 sm:[&_a]:py-1">{children}</ul>
     </div>
   );
@@ -23,7 +23,7 @@ export function GlobalFooter() {
   return (
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6">
-        <nav aria-label="About InsideGov and project" className="grid grid-cols-[repeat(3,minmax(0,1fr))] gap-x-4 pb-4 pt-5 text-[0.88rem] sm:flex sm:flex-wrap sm:gap-x-10 sm:gap-y-1 sm:pb-3">
+        <nav aria-label="About InsideGov and project" className="grid grid-cols-[repeat(3,minmax(0,1fr))] gap-x-4 pb-4 pt-5 text-[0.88rem] sm:flex sm:flex-wrap sm:justify-between sm:gap-x-10 sm:gap-y-1 sm:pb-3">
           <FooterGroup title="Project">
             <li><Link href="/about" className={LINK}>About</Link></li>
             <li><Link href="/contact" className={LINK}>Contact</Link></li>
