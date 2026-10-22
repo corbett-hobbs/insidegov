@@ -6,8 +6,8 @@ const LINK =
 
 function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="sm:flex sm:items-baseline sm:gap-3">
-      <h2 className="m-0 mb-1 sm:mb-0 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-ink-muted">{title}</h2>
+    <div>
+      <h2 className="m-0 mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-ink-muted">{title}</h2>
       <ul className="m-0 flex list-none flex-col p-0 sm:flex-row sm:gap-x-5 [&_a]:inline-block [&_a]:py-1.5 sm:[&_a]:py-1">{children}</ul>
     </div>
   );
