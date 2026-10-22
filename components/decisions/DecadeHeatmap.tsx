@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { decadeCells, decadeInWindow, decadesOf, fmtInt, heatCount, heatCountMax, type AreaRow } from "@/lib/decisions-derive";
 import { BAND_COLORS, type AreaSortKey } from "@/lib/decisions-types";
+import { ISSUE_AREA_DESCRIPTIONS } from "@/lib/decisions-issue-areas";
 import { isOnly, isPicked, toggleOnly } from "@/lib/multi-select";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { LEGEND_ROW } from "@/components/charts/legend";
@@ -54,7 +55,7 @@ export function DecadeHeatmap({ rows, measure }: { rows: readonly AreaRow[]; mea
                 type="button"
                 onClick={select}
                 aria-pressed={on}
-                title={row.label}
+                title={ISSUE_AREA_DESCRIPTIONS[row.id] ? `${row.label}: ${ISSUE_AREA_DESCRIPTIONS[row.id]}` : row.label}
                 className={`line-clamp-2 pr-1.5 text-left text-[0.7rem] leading-[1.05rem] text-ink hover:underline min-[520px]:truncate min-[520px]:text-[0.74rem] min-[520px]:leading-[1.9rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus ${on ? "font-semibold" : ""}`}
               >
                 {row.label}

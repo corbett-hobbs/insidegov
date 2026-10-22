@@ -13,6 +13,11 @@ export interface MultiOption<T> {
   swatch?: string;
   /** One muted line under the name, for an option worth explaining (Laws: what "Commemorations" holds). */
   hint?: string;
+  /**
+   * A sentence or two about the option (Decisions: what an issue area holds). Adds an ⓘ button at the right of the row that opens it
+   * under the name (tap or click; it never ticks the box), and the same text as a hover tooltip on the name.
+   */
+  info?: string;
 }
 
 /**
@@ -53,6 +58,7 @@ export function MultiSelectFilter<T extends string | number>({
   dot?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [explained, setExplained] = useState<ReadonlySet<T>>(new Set());
   const root = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -149,15 +155,39 @@ export function MultiSelectFilter<T extends string | number>({
           <div className="touch-scroll max-h-[min(19rem,60vh)] overflow-y-auto overscroll-contain">
             {options.map((o) => {
               const on = isPicked(value, o.id);
+              const shown = o.info !== undefined && explained.has(o.id);
               return (
                 <label key={String(o.id)} className="flex min-h-[2.75rem] cursor-pointer items-center gap-2 px-3 py-1.5 text-[0.8rem] hover:bg-surface-raised sm:min-h-[2.1rem]">
                   <input type="checkbox" checked={on} onChange={(e) => change(setPicked(value, o.id, e.target.checked, ids))} className="m-0 h-4 w-4 flex-none cursor-pointer accent-[var(--accent)]" />
                   {o.swatch && <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-[2px] ${on ? "" : "opacity-35"}`} style={{ background: o.swatch }} />}
-                  <span className="min-w-0 flex-1">
+                  <span className="min-w-0 flex-1" title={o.info}>
                     <span className={`block truncate ${on ? "text-ink" : "text-ink-muted"}`}>{o.label}</span>
                     {o.hint && <span className="block truncate text-[0.7rem] leading-tight text-ink-faint">{o.hint}</span>}
+                    {shown && <span className="mt-0.5 block text-[0.72rem] leading-snug text-ink-muted">{o.info}</span>}
                   </span>
                   {o.count !== undefined && <span className="flex-none font-mono text-[0.72rem] tabular-nums text-ink-muted">{o.count}</span>}
+                  {o.info !== undefined && (
+                    <button
+                      type="button"
+                      aria-expanded={shown}
+                      aria-label={`About ${o.label}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setExplained((cur) => {
+                          const next = new Set(cur);
+                          if (!next.delete(o.id)) next.add(o.id);
+                          return next;
+                        });
+                      }}
+                      className="-mr-2 flex h-9 w-9 flex-none cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 text-ink-faint hover:text-ink focus-visible:outline-2 focus-visible:outline-focus sm:-mr-1 sm:h-7 sm:w-7"
+                    >
+                      <svg aria-hidden viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.3">
+                        <circle cx="8" cy="8" r="6.5" />
+                        <path d="M8 7.2v4" strokeLinecap="round" />
+                        <circle cx="8" cy="4.9" r="0.45" fill="currentColor" />
+                      </svg>
+                    </button>
+                  )}
                 </label>
               );
             })}
