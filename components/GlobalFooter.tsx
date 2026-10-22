@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteInfo } from "@/lib/site-info";
+import { siteInfo, socialLinks } from "@/lib/site-info";
 
 const LINK =
   "text-ink-muted underline-offset-2 hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
@@ -21,6 +21,11 @@ export function GlobalFooter() {
             <li><Link href="/contact" className={LINK}>Contact and corrections</Link></li>
             <li><Link href="/api" className={LINK}>API and MCP</Link></li>
             <li><a href={siteInfo.githubUrl} className={LINK}>GitHub</a></li>
+            {socialLinks().map((l) => (
+              <li key={l.label}>
+                <a href={l.url} className={LINK} rel="noopener">{l.label}</a>
+              </li>
+            ))}
           </ul>
         </nav>
         <div className="flex flex-col gap-1.5 border-t border-line pb-6 pt-4 text-[0.78rem] leading-[1.6] text-ink-muted">

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHeader } from "@/components/PageHeader";
+import { SocialLinkList } from "@/components/SocialLinkList";
+import { socialLinks } from "@/lib/site-info";
 
 const DESCRIPTION = "Report a number that looks wrong, ask a question, or send an idea about InsideGov.";
 
@@ -29,6 +31,11 @@ export default function ContactPage() {
           . Many figures that look off are documented, such as net worth shown as a range, preliminary data that gets
           revised, and counting rules that changed over time.
         </p>
+        {socialLinks().length > 0 && (
+          <p>
+            New charts are posted when government data is released. Follow on <SocialLinkList className={LINK} />.
+          </p>
+        )}
       </PageHeader>
       <Suspense fallback={null}>
         <ContactForm />
