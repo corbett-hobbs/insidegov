@@ -15,15 +15,14 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const QUESTIONS = [
+  "How have jobs, inflation, gas prices, mortgage rates and the deficit moved from one administration to the next?",
+  "What does the U.S. trade, with whom, and how have tariffs changed?",
+  "How many people are removed, get green cards, become citizens or arrive as refugees each year?",
+  "Where do U.S. troops and foreign aid go, and how has that changed?",
   "How many executive orders has each president signed, and on what topics?",
   "How divided is Congress, and does my state’s delegation vote as a bloc?",
   "Which laws has Congress passed, and who voted for them?",
-  "How wealthy are members of Congress, and how has their net worth changed?",
-  "How have gas prices, mortgage rates, tariffs, jobs and the deficit moved from one administration to the next?",
-  "How many people are removed, get green cards, become citizens or arrive as refugees each year?",
-  "Where do U.S. troops and foreign aid go, and how has that changed?",
   "What has the Supreme Court decided, and how has its middle moved over time?",
-  "Who held the White House, Congress and the Court when a landmark law passed or a big case was decided?",
 ];
 
 const LINK =
