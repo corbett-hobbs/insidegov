@@ -41,21 +41,21 @@ export const MIN_TERM_DAYS = 45;
 
 const sameMonth = (a: string, b: string) => a.slice(5, 7) === b.slice(5, 7);
 
-function unitFact(id: string, value: number, unit: UnitFormat, cells: CellRef[]): Fact {
+export function unitFact(id: string, value: number, unit: UnitFormat, cells: CellRef[]): Fact {
   return { id, text: fmtUnit(value, unit), value, format: { kind: "unit", unit }, derivation: { op: "value", cells } };
 }
 
-function dateFact(id: string, date: string, style: DateStyle): Fact {
+export function dateFact(id: string, date: string, style: DateStyle): Fact {
   return { id, text: fmtDate(date, style), value: date, format: { kind: "date", style }, derivation: { op: "date", date, style } };
 }
 
-function pctFact(id: string, from: Point, to: Point): Fact {
+export function pctFact(id: string, from: Point, to: Point): Fact {
   const value = ((to.value - from.value) / Math.abs(from.value)) * 100;
   const decimals = pctDecimals(value);
   return { id, text: fmtPct(value, decimals), value, format: { kind: "pct", decimals }, derivation: { op: "pct_change", from: from.cells, to: to.cells } };
 }
 
-function changeFact(id: string, from: Point, to: Point, unit: UnitFormat): Fact {
+export function changeFact(id: string, from: Point, to: Point, unit: UnitFormat): Fact {
   const value = to.value - from.value;
   return { id, text: fmtUnitAbs(value, unit), value, format: { kind: "unit_abs", unit }, derivation: { op: "change", from: from.cells, to: to.cells } };
 }
@@ -65,16 +65,16 @@ function intFact(id: string, value: number, derivation: Fact["derivation"]): Fac
 }
 
 /** "in August 2026", "in the week of October 12, 2026", "in fiscal 2025". */
-function when(series: Series, dateText: string): string {
+export function when(series: Series, dateText: string): string {
   return series.frequency === "weekly" ? `in the week of ${dateText}` : `in ${dateText}`;
 }
 
 /** Chart label date: "Jun 2026", or "Jun 19, 2026" for weekly data. */
-function markDate(series: Series, date: string): string {
+export function markDate(series: Series, date: string): string {
   return series.frequency === "weekly" ? `${shortMonth(date).slice(0, 3)} ${Number(date.slice(8, 10))}, ${date.slice(0, 4)}` : shortMonth(date);
 }
 
-function capitalize(s: string): string {
+export function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
@@ -82,7 +82,7 @@ function words(series: Series) {
   return series.words ?? { high: "highest", low: "lowest", up: "rose", down: "fell" };
 }
 
-function linePoints(series: Series, from: string, to: string) {
+export function linePoints(series: Series, from: string, to: string) {
   return series.points.filter((p) => p.date >= from && p.date <= to).map((p) => ({ date: p.date, value: p.value }));
 }
 
@@ -97,7 +97,7 @@ function lineWindow(series: Series, latest: Point, comparison: string | null, mi
 }
 
 /** Same-calendar-month bars (seasonal) or one bar per fiscal year, ending at the latest point. */
-function periodBars(series: Series, latest: Point, from: string, style: DateStyle): ChartSpec {
+export function periodBars(series: Series, latest: Point, from: string, style: DateStyle): ChartSpec {
   const pts = series.points.filter((p) => p.date >= from && p.date <= latest.date && (!series.seasonal || sameMonth(p.date, latest.date)));
   return {
     type: "bars",
@@ -108,7 +108,7 @@ function periodBars(series: Series, latest: Point, from: string, style: DateStyl
   };
 }
 
-function usesBars(series: Series): boolean {
+export function usesBars(series: Series): boolean {
   return series.seasonal || series.frequency === "fiscal_year";
 }
 
@@ -532,7 +532,7 @@ export function truncateEvents(set: EventSet, date: string): EventSet {
 }
 
 /** The point a year before `p`: 12 months for monthly data, 52 weeks (within 3 days) for weekly, the prior fiscal year. */
-function yearEarlier(series: Series, p: Point): Point | undefined {
+export function yearEarlier(series: Series, p: Point): Point | undefined {
   if (series.frequency === "monthly") return series.points.find((q) => q.date === addMonths(p.date, -12));
   if (series.frequency === "fiscal_year") return series.points.find((q) => q.date === `${Number(p.date.slice(0, 4)) - 1}-09-30`);
   const target = addDays(p.date, -364);

@@ -4,8 +4,17 @@ import { siteInfo, socialLinks } from "@/lib/site-info";
 const LINK =
   "text-ink-muted underline-offset-2 hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
+function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h2 className="m-0 mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-ink">{title}</h2>
+      <ul className="m-0 flex list-none flex-col p-0 sm:flex-row sm:gap-x-5 [&_a]:inline-block [&_a]:py-1.5 sm:[&_a]:py-1">{children}</ul>
+    </div>
+  );
+}
+
 /**
- * The site-wide footer, rendered once by the root layout: a wrapping row of links,
+ * The site-wide footer, rendered once by the root layout: three labeled link columns,
  * a hairline, then the disclaimer.
  * Page-specific source lines (e.g. `senate/SiteFooter`) stay on their pages.
  * Only links to routes that exist belong here.
@@ -14,19 +23,23 @@ export function GlobalFooter() {
   return (
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-6">
-        <nav aria-label="About InsideGov and project" className="pb-4 pt-5">
-          <ul className="m-0 flex list-none flex-wrap gap-x-[22px] gap-y-1.5 p-0 text-[0.88rem]">
+        <nav aria-label="About InsideGov and project" className="flex justify-between gap-x-4 pb-4 pt-5 text-[0.88rem] sm:flex-wrap sm:gap-x-10 sm:gap-y-1 sm:pb-3">
+          <FooterGroup title="Project">
             <li><Link href="/about" className={LINK}>About</Link></li>
-            <li><Link href="/methodology" className={LINK}>Methodology and sources</Link></li>
-            <li><Link href="/contact" className={LINK}>Contact and corrections</Link></li>
+            <li><Link href="/contact" className={LINK}>Contact</Link></li>
+          </FooterGroup>
+          <FooterGroup title="Data">
+            <li><Link href="/methodology" className={LINK}>Methodology</Link></li>
             <li><Link href="/api" className={LINK}>API and MCP</Link></li>
-            <li><a href={siteInfo.githubUrl} className={LINK}>GitHub</a></li>
+          </FooterGroup>
+          <FooterGroup title="Follow">
+            <li><a href={siteInfo.githubUrl} className={LINK} rel="noopener">GitHub <span aria-hidden="true">↗</span></a></li>
             {socialLinks().map((l) => (
               <li key={l.label}>
-                <a href={l.url} className={LINK} rel="noopener">{l.label}</a>
+                <a href={l.url} className={LINK} rel="noopener">{l.label} <span aria-hidden="true">↗</span></a>
               </li>
             ))}
-          </ul>
+          </FooterGroup>
         </nav>
         <div className="flex flex-col gap-1.5 border-t border-line pb-6 pt-4 text-[0.78rem] leading-[1.6] text-ink-muted">
           <p className="m-0">

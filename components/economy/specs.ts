@@ -16,6 +16,8 @@ export interface ChartSpec {
   aria: string;
   /** Unit label for the table fallback. */
   unit: string;
+  /** Names of the two lines of a gas or debt card ("Regular" / "Diesel"), as the header and tooltip print them side by side. */
+  label1?: string;
   /** Name of the second series (shown in the tooltip and readout) when the chart has one. */
   label2?: string;
   /** Values are a share of GDP, so a tooltip names the base ("of GDP"). */
@@ -49,6 +51,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     title: "Gas price",
     takeaway:
       "Regular gas peaked at $5.01 a gallon in June 2022, above its 2008 high of $4.11. In 2026 it climbed from $2.78 in January to $4.50 in May, and diesel hit a record $6.53 in September.",
+    label1: "Regular",
     label2: "Diesel",
     kind: "line",
     domain: [0.5, 6.7],
@@ -170,6 +173,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     takeaway:
       "Total debt fell to 54% of GDP in 2001, then more than doubled to a peak of 133% in mid-2020. It eased to 116% in early 2023 and was back at 123% by early 2026.",
     kind: "debt",
+    label1: "Total",
     label2: "Held by the public",
     domain: [20, 140],
     ticks: [40, 80, 120],
@@ -209,6 +213,7 @@ export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
     takeaway:
       "Total federal debt has grown more than elevenfold since 1991, from $3.5 trillion to $40.2 trillion in 2026. It passed $10 trillion in 2008, $20 trillion in 2017 and $30 trillion in 2022.",
     kind: "debt",
+    label1: "Total",
     label2: "Held by the public",
     domain: [0, 42000],
     ticks: [10000, 20000, 30000, 40000],

@@ -168,7 +168,9 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
   const term = termAtDay(payload.terms, monthStartDay(month));
   const gasShare = m.total[month] ? ((m.gas[month] as number) / (m.total[month] as number)) * 100 : null;
   const gasText = `Gas ${gasShare === null ? "—" : `${gasShare.toFixed(0)}%`}`;
-  const readout = { values: [fmtTwh(m.total[month] as number), gasText], headline: mode === "share" ? gasText : fmtTwh(m.total[month] as number), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  // An isolated fuel is the only figure on the card; otherwise the total and gas's share, as before.
+  const fuelText = only ? `${FUELS[only].short} ${m[only][month] == null ? "\u2014" : fmtTwh(m[only][month] as number)}` : null;
+  const readout = { values: fuelText ? [fuelText] : [fmtTwh(m.total[month] as number), gasText], headline: fuelText ?? (mode === "share" ? gasText : fmtTwh(m.total[month] as number)), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell
@@ -204,7 +206,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
               return (
                 <div className="flex min-w-[13rem] flex-col gap-0.5 text-[0.78rem]">
                   <div className="opacity-75">{monthLabel(mo)}</div>
-                  {[...FUEL_KEYS].reverse().map((k) => {
+                  {[...FUEL_KEYS].reverse().filter((k) => !only || k === only).map((k) => {
                     const val = m[k][mo];
                     return (
                       <div key={k} className="flex items-center justify-between gap-3">
@@ -213,7 +215,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
                       </div>
                     );
                   })}
-                  <div className="flex items-center justify-between gap-3 font-medium"><span>Total</span><span className="font-mono">{tot == null ? "—" : fmtTwh(tot)}</span></div>
+                  {!only && <div className="flex items-center justify-between gap-3 font-medium"><span>Total</span><span className="font-mono">{tot == null ? "—" : fmtTwh(tot)}</span></div>}
                   {m.small[mo] != null && <div className="flex items-center justify-between gap-3"><span>Small-scale solar (est.)</span><span className="font-mono">{fmtTwh(m.small[mo] as number)}</span></div>}
                   {t && <div className="opacity-75">{termLabel(t)}</div>}
                   <div className="opacity-60">{statusText(isPreliminary(payload, "total", mo))}</div>

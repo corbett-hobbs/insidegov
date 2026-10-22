@@ -116,7 +116,7 @@ export default function Hub() {
                 Average tariff on imports · {tariff.first.slice(0, 4)}&ndash;{tariff.latest.label.slice(-4)}
               </span>
               <Link
-                href={`${presidency.href}/trade#tariff-chart`}
+                href={`${presidency.href}/trade#tariffs`}
                 aria-label="Presidency: open the trade page"
                 className="flex flex-1"
               >

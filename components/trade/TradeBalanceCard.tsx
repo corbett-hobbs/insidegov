@@ -126,7 +126,8 @@ export function TradeBalanceCard({
   const aria = `${title}, monthly, ${adjLabel.toLowerCase()}, ${measure === "balance" ? "exports minus imports" : "exports and imports"}, with presidential terms and recessions marked. The same data is in the table below.`;
 
   return (
-    <section className="min-w-0 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
+    // A fixed anchor: the title changes with the country, and social posts link here.
+    <section id="trade-balance" className="min-w-0 scroll-mt-32 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">{title}</h2>
       {/* The takeaway is about all countries, so a country view goes without one. */}
       {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{TRADE_TAKEAWAYS.balance.takeaway}</p>}

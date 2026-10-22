@@ -7,6 +7,7 @@ import { flagsForCard, fmtMbd, fmtMbdShort, isPreliminary, monthLabel, monthOfDa
 import { monthStartDay, termLabel } from "@/lib/trade-chart";
 import type { EnergyPayload, MonthlyKey } from "@/lib/energy-types";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
+import { readoutRows, rowValues, type ReadoutLine } from "@/lib/line-readout";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
 import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
@@ -95,7 +96,15 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
   const f = (k: MonthlyKey) => (m[k][month] == null ? "—" : fmtMbdShort(m[k][month] as number));
   const ne = netExp[month];
   const mil = (k: MonthlyKey) => (m[k][month] == null ? "—" : `${((m[k][month] as number) / 1000).toFixed(1)}M`);
-  const readout = { values: mode === "balance" ? [`Net exports ${ne == null ? "—" : signed(ne)}`] : [`Exports ${f("exp")}`, `Imports ${f("imp")}`], headline: mode === "balance" ? (ne == null ? "—" : signed(ne)) : `${mil("exp")} / ${mil("imp")}`, date: `${monthLabel(month)}${isPreliminary(payload, "net", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  // Exports and imports are equal peers in the readout; the crude-only subset joins it only when isolated, and an isolated line stands alone.
+  const flowRows = readoutRows<ReadoutLine<MonthlyKey>>(
+    FLOWS.filter((l) => l.key !== "cexp" || only === "cexp").map((l) => ({ key: l.key, label: l.short, value: f(l.key) })),
+    only,
+  );
+  const flowValues = rowValues(flowRows);
+  // Both showing: the unlabelled "exports / imports" pair as before; an isolated line is labelled alone.
+  const flowHeadline = only === null ? `${mil("exp")} / ${mil("imp")}` : flowRows.map((r) => `${r.label} ${mil(r.key as MonthlyKey)}`).join(" · ");
+  const readout = { values: mode === "balance" ? [`Net exports ${ne == null ? "—" : signed(ne)}`] : flowValues, headline: mode === "balance" ? (ne == null ? "—" : signed(ne)) : flowHeadline, date: `${monthLabel(month)}${isPreliminary(payload, "net", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell
