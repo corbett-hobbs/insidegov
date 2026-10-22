@@ -48,6 +48,7 @@
     "summarize:eos": "tsx pipeline/classification/eo-summaries-auto.ts",
     "insights:draft": "tsx pipeline/insights/run.ts",
     "insights:backfill": "tsx pipeline/insights/backfill.ts",
+    "insights:plan": "tsx pipeline/insights/plan.ts",
     "insights:issues": "tsx pipeline/insights/open-issues.ts",
     "insights:post": "tsx pipeline/insights/post-next.ts",
     "insights:intro": "tsx pipeline/insights/intro.ts",

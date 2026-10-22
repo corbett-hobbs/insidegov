@@ -3,7 +3,7 @@ import * as bsky from "./bluesky";
 import { checkCaption } from "./caption";
 import { SITE_URL } from "./chart";
 import { APPROVED_LABEL, type DraftBlock, EXPIRED_LABEL, POSTED_LABEL, parseDraftBlock } from "./issue";
-import { type Posted, type QueueItem, SLOTS, type SlotName, pickNext } from "./schedule";
+import { type Posted, type QueueItem, SLOTS, type SlotName, pickNext, slotAt } from "./schedule";
 import * as x from "./x";
 
 /**
@@ -11,6 +11,7 @@ import * as x from "./x";
  * post (schedule.ts), and post it to every enabled platform. Run by .github/workflows/social-post.yml.
  *
  *   pnpm insights:post -- --slot morning --dry-run      # print what would happen, change nothing
+ *   pnpm insights:post                                  # --slot auto: whichever slot it is now in Pacific time, if any
  *
  * Posts only when SOCIAL_POSTING_ENABLED=true; a platform is enabled when its secrets are set:
  *   Bluesky: BLUESKY_HANDLE, BLUESKY_APP_PASSWORD
@@ -21,8 +22,15 @@ import * as x from "./x";
 
 type Platform = "bluesky" | "x";
 const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
-const slot = (arg("--slot") ?? "morning") as SlotName;
-if (!SLOTS.some((s) => s.name === slot)) throw new Error(`--slot is one of ${SLOTS.map((s) => s.name).join(", ")}`);
+// --slot auto (the scheduled runs): the slot this moment falls in, Pacific time; the cron fires at both UTC hours a
+// slot can land on across daylight saving, and the off one exits here.
+const slotArg = arg("--slot") ?? "auto";
+const slot = (slotArg === "auto" ? slotAt(new Date().toISOString()) : slotArg) as SlotName | null;
+if (!slot) {
+  console.log(`insights:post  not a posting slot in Pacific time (${SLOTS.map((s) => `${s.localHour}:00`).join(", ")} on weekdays); nothing to do`);
+  process.exit(0);
+}
+if (!SLOTS.some((s) => s.name === slot)) throw new Error(`--slot is auto or one of ${SLOTS.map((s) => s.name).join(", ")}`);
 const enabled = process.env.SOCIAL_POSTING_ENABLED === "true" && !process.argv.includes("--dry-run");
 const blueskyCreds = process.env.BLUESKY_HANDLE && process.env.BLUESKY_APP_PASSWORD ? { handle: process.env.BLUESKY_HANDLE, password: process.env.BLUESKY_APP_PASSWORD } : null;
 const xCreds = x.xCredsFromEnv();

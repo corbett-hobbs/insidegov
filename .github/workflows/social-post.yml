@@ -2,7 +2,9 @@ name: Social post (scheduled, disabled)
 
 # The posting scheduler. Approving a `social-draft` issue (label `social-approved`) only QUEUES it; at each slot this
 # runs pipeline/insights/post-next.ts, which expires stale drafts and posts at most one (rules: pipeline/insights/schedule.ts):
-#   - weekdays 14:30 UTC (10:30 ET summer / 9:30 winter), and 20:00 UTC only when 3+ drafts are waiting;
+#   - weekdays 9:00 a.m. Pacific (noon Eastern), and 1:00 p.m. Pacific (4:00 p.m. Eastern) only when 3+ drafts are
+#     waiting. Cron is UTC with no daylight saving, so each slot runs at both UTC hours it can fall on (16 and 17,
+#     20 and 21) and post-next.ts --slot auto keeps the one that is the slot's Pacific hour;
 #   - at most 2 a day, 8 in any 7 days, 4 hours apart, a topic at most twice a week;
 #   - the intro thread first; nothing past its freshness window (freshness.ts).
 #
@@ -14,14 +16,14 @@ name: Social post (scheduled, disabled)
 
 on:
   schedule:
-    - cron: "30 14 * * 1-5"
-    - cron: "0 20 * * 1-5"
+    - cron: "0 16,17 * * 1-5"
+    - cron: "0 20,21 * * 1-5"
   workflow_dispatch:
     inputs:
       slot:
-        description: "Which slot to run"
+        description: "Which slot to run (auto: whichever it is now, Pacific time)"
         type: choice
-        options: [morning, afternoon]
+        options: [morning, afternoon, auto]
         default: morning
       dry_run:
         description: "Print the decision, post nothing"
@@ -63,6 +65,6 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
-          SLOT: ${{ inputs.slot || (github.event.schedule == '0 20 * * 1-5' && 'afternoon' || 'morning') }}
+          SLOT: ${{ inputs.slot || 'auto' }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
         run: pnpm exec tsx pipeline/insights/post-next.ts --slot "$SLOT" $DRY_RUN

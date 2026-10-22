@@ -19,12 +19,62 @@ import type { Frequency } from "./types";
  *      (topics not posted for a while come first).
  */
 
+/**
+ * Slots are in Pacific time, so they stay put across daylight saving (GitHub's cron is UTC only: the workflow runs at
+ * both UTC hours a slot can fall on, and `slotAt` keeps the one that is the slot's local hour).
+ *   9:00 a.m. PT = noon ET: working hours on both coasts, after the morning releases (EIA gas, WPSR, Census).
+ *   1:00 p.m. PT = 4:00 p.m. ET: the backlog slot, still inside East Coast working hours.
+ */
+export const TIME_ZONE = "America/Los_Angeles";
 export const SLOTS = [
-  // 14:30 UTC = 10:30 ET in summer, 9:30 in winter: after the morning releases (EIA gas Monday, WPSR Wednesday).
-  { name: "morning", cron: "30 14 * * 1-5", backlogOnly: false },
-  { name: "afternoon", cron: "0 20 * * 1-5", backlogOnly: true },
+  { name: "morning", localHour: 9, backlogOnly: false },
+  { name: "afternoon", localHour: 13, backlogOnly: true },
 ] as const;
 export type SlotName = (typeof SLOTS)[number]["name"];
+/** A run up to this long after a slot's time still counts as that slot (GitHub delays scheduled runs under load). */
+export const SLOT_GRACE_MINUTES = 75;
+
+/** Wall-clock parts of an instant in a time zone. */
+function localParts(iso: string, tz: string) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", weekday: "short", hourCycle: "h23" })
+      .formatToParts(new Date(iso))
+      .map((p) => [p.type, p.value]),
+  );
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour), minute: Number(parts.minute), weekday: parts.weekday as string };
+}
+
+/** The calendar date in the schedule's time zone (caps "per day" and freshness go by Pacific days). */
+export function localDate(iso: string, tz = TIME_ZONE): string {
+  return localParts(iso, tz).date;
+}
+
+/** The slot an instant belongs to (a weekday, within SLOT_GRACE_MINUTES after the slot's local time), or null. */
+export function slotAt(iso: string, tz = TIME_ZONE): SlotName | null {
+  const p = localParts(iso, tz);
+  if (p.weekday === "Sat" || p.weekday === "Sun") return null;
+  const minutes = p.hour * 60 + p.minute;
+  return SLOTS.find((s) => minutes >= s.localHour * 60 && minutes < s.localHour * 60 + SLOT_GRACE_MINUTES)?.name ?? null;
+}
+
+/** The UTC instant of `hour`:00 local time on `date` (daylight-saving aware). */
+export function localTimeToUtc(date: string, hour: number, tz = TIME_ZONE): string {
+  // Start from the hour as if UTC, then correct by the zone's offset at that moment (twice, in case it crosses a change).
+  let t = Date.parse(`${date}T${String(hour).padStart(2, "0")}:00:00Z`);
+  for (let i = 0; i < 2; i++) {
+    const p = localParts(new Date(t).toISOString(), tz);
+    const asUtc = Date.parse(`${p.date}T${String(p.hour).padStart(2, "0")}:${String(p.minute).padStart(2, "0")}:00Z`);
+    t -= asUtc - Date.parse(`${date}T${String(hour).padStart(2, "0")}:00:00Z`);
+  }
+  return new Date(t).toISOString();
+}
+
+/** "Tue Oct 22, 9:00 a.m. PT / 12:00 p.m. ET". */
+export function slotLabel(iso: string): string {
+  const fmt = (tz: string, withDay: boolean) =>
+    new Intl.DateTimeFormat("en-US", { timeZone: tz, ...(withDay ? { weekday: "short", month: "short", day: "numeric" } : {}), hour: "numeric", minute: "2-digit" }).format(new Date(iso));
+  return `${fmt(TIME_ZONE, true)} PT / ${fmt("America/New_York", false)} ET`;
+}
 
 export const MAX_PER_DAY = 2;
 export const MAX_PER_WEEK = 8;
@@ -61,7 +111,7 @@ export type Decision = {
 const hoursBetween = (a: string, b: string) => (Date.parse(b) - Date.parse(a)) / 3_600_000;
 
 export function pickNext(queue: QueueItem[], history: Posted[], now: string, slot: SlotName): Decision {
-  const today = now.slice(0, 10);
+  const today = localDate(now);
   const intro = queue.find((q) => q.kind === "intro");
   if (intro) return { post: intro, reason: "the intro thread goes first", expired: [], superseded: [] };
 
@@ -75,7 +125,7 @@ export function pickNext(queue: QueueItem[], history: Posted[], now: string, slo
 
   if (eligible.length === 0) return none("nothing fresh is approved");
   const sorted = [...history].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
-  if (sorted.filter((p) => p.postedAt.slice(0, 10) === today).length >= MAX_PER_DAY) return none(`already ${MAX_PER_DAY} posts today`);
+  if (sorted.filter((p) => localDate(p.postedAt) === today).length >= MAX_PER_DAY) return none(`already ${MAX_PER_DAY} posts today`);
   if (sorted.filter((p) => hoursBetween(p.postedAt, now) < 7 * 24).length >= MAX_PER_WEEK) return none(`already ${MAX_PER_WEEK} posts in 7 days`);
   if (sorted[0] && hoursBetween(sorted[0].postedAt, now) < MIN_HOURS_BETWEEN) return none(`last post under ${MIN_HOURS_BETWEEN} hours ago`);
   const backlogOnly = SLOTS.find((s) => s.name === slot)!.backlogOnly;
@@ -104,8 +154,6 @@ export function pickNext(queue: QueueItem[], history: Posted[], now: string, slo
   return { post: best, reason: `highest priority of ${pool.length} waiting${cooled.length < eligible.length ? ` (${eligible.length - cooled.length} held for topic spacing)` : ""}`, expired, superseded };
 }
 
-const SLOT_TIMES: Record<SlotName, string> = { morning: "14:30", afternoon: "20:00" };
-
 /**
  * Plays the schedule forward: every weekday slot from `start` for `days` days, with items joining the queue on their
  * release day. Returns what would post when, and what would expire unposted.
@@ -118,11 +166,11 @@ export function simulate(items: QueueItem[], start: string, days: number): { pos
   const expired: QueueItem[] = [];
   for (let d = 0; d < days; d++) {
     const date = addDays(start, d);
-    const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
+    const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
     for (let i = pending.length - 1; i >= 0; i--) if (pending[i]!.releasedOn <= date) queue.push(...pending.splice(i, 1));
     if (weekday === 0 || weekday === 6) continue;
     for (const slot of SLOTS) {
-      const at = `${date}T${SLOT_TIMES[slot.name]}:00Z`;
+      const at = localTimeToUtc(date, slot.localHour);
       const dec = pickNext(queue, history, at, slot.name);
       const gone = new Set([...dec.expired, ...dec.superseded].map((q) => q.key));
       expired.push(...queue.filter((q) => gone.has(q.key)));

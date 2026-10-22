@@ -5,11 +5,11 @@ import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { addDays, addMonths } from "./format";
 import { stampRelease } from "./freshness";
-import { type QueueItem, simulate } from "./schedule";
+import { type QueueItem, localDate, simulate, slotLabel } from "./schedule";
 import type { Insight, Series } from "./types";
 
 /**
- * One-off: replay the last six months as if the pipeline had been running. Every period that came out in that time is
+ * One-off: replay the last six months as if the pipeline had been running (for the plan from tomorrow on, see plan.ts). Every period that came out in that time is
  * run through the detectors on its (estimated) release day, joins the queue, and the scheduler (schedule.ts) picks
  * what posts in each slot, so the replay shows the real cadence: what would have posted, when, and what would have
  * gone stale. Then the most recent `--max` posts are drafted (captioned and rendered) for review.
@@ -76,8 +76,8 @@ const posts = replay.posts.filter((p) => p.item.kind !== "intro");
 // The replay, for the cadence: posts per week and per dataset, then every post.
 const perWeek = new Map<string, number>();
 for (const p of posts) {
-  const d = new Date(`${p.at.slice(0, 10)}T00:00:00Z`);
-  const monday = addDays(p.at.slice(0, 10), -((d.getUTCDay() + 6) % 7));
+  const day = localDate(p.at);
+  const monday = addDays(day, -((new Date(`${day}T12:00:00Z`).getUTCDay() + 6) % 7));
   perWeek.set(monday, (perWeek.get(monday) ?? 0) + 1);
 }
 const perDataset = new Map<string, number>();
@@ -97,9 +97,9 @@ const schedule = [
   "",
   "## Every post",
   "",
-  "| When (UTC) | Slot | Dataset | Kind | Released | Draft |",
+  "| When | Slot | Dataset | Kind | Released | Draft |",
   "| --- | --- | --- | --- | --- | --- |",
-  ...replay.posts.map((p) => `| ${p.at.slice(0, 16).replace("T", " ")} | ${p.slot} | ${p.item.dataset} | ${p.item.kind} | ${p.item.releasedOn} | ${p.item.kind === "intro" ? "Intro thread" : byKey.get(p.item.id)!.template.replace(/\|/g, "\\|")} |`),
+  ...replay.posts.map((p) => `| ${slotLabel(p.at)} | ${p.slot} | ${p.item.dataset} | ${p.item.kind} | ${p.item.releasedOn} | ${p.item.kind === "intro" ? "Intro thread" : byKey.get(p.item.id)!.template.replace(/\|/g, "\\|")} |`),
   "",
 ].join("\n");
 

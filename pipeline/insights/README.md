@@ -49,13 +49,17 @@ two weekday slots and posts at most one draft per slot:
 
 | Rule | Value |
 | --- | --- |
-| Slots | Mon–Fri 14:30 UTC (10:30 a.m. ET in summer, 9:30 in winter). A second slot at 20:00 UTC runs only when 3+ drafts are waiting. No weekend posts. |
+| Slots | Mon–Fri **9:00 a.m. Pacific (noon Eastern)**: working hours on both coasts, after the morning releases. A second slot at **1:00 p.m. Pacific (4:00 p.m. Eastern)** runs only when 3+ drafts are waiting. No weekend posts. Slots are fixed in Pacific time through daylight saving (the workflow's UTC cron fires at both possible hours and `slotAt` keeps the right one). Change `SLOTS` / `TIME_ZONE` in `schedule.ts` to move them. |
 | Caps | 2 a day, 8 in any 7 days, at least 4 hours apart. |
 | Topic mix | A topic (energy, gas, trade, encounters, ICE, executive orders, laws) posts at most twice in 7 days, and one that posted in the last 36 hours waits if anything else is ready. |
 | Order | The intro thread first. Then notability × urgency (closer to going stale = sooner) × rotation (topics not seen for a while first). |
 
-Over the last six months, the replay (`pnpm insights:backfill`, `schedule.md`) gives about **4–5 posts a week**,
-roughly: energy 2, gas prices 1–2, trade 2 a month, encounters, executive orders and laws about monthly, ICE yearly.
+**The plan from tomorrow**: `pnpm insights:plan` writes `social-drafts/plan.md`, slot by slot for the next 28 days,
+from the drafts already out and still fresh plus every upcoming release (estimated from each source's usual lag) that
+is sure to give at least a routine reading. That floor is about **3 posts a week**; notable highs, lows and moves
+(which cannot be known ahead) add to it. Replaying the last six months the same way (`pnpm insights:backfill`,
+`schedule.md`) gave about **4–5 posts a week**: energy 2, gas prices 1–2, trade 2 a month, encounters, executive
+orders and laws about monthly, ICE yearly.
 
 ### Data calendar
 
@@ -122,11 +126,13 @@ A platform with no secrets is simply skipped, so you can start with Bluesky alon
 ## Commands
 
 ```bash
+pnpm insights:plan                           # the posting plan from tomorrow, 28 days -> social-drafts/plan.md
+pnpm insights:plan -- --draft                # ... and caption + render the drafts that are ready now
 pnpm insights:backfill                       # replay the last 6 months: schedule.md + the last 50 posts as drafts
 pnpm insights:backfill -- --no-llm           # same, template captions, no API calls
 pnpm insights:draft -- --datasets energy --since-ref HEAD     # what the working tree adds over HEAD (the workflow step)
 pnpm insights:issues -- --dir social-drafts/latest --dry-run  # print the issues that would be opened
-pnpm insights:post -- --slot morning --dry-run                # what the scheduler would do now
+pnpm insights:post -- --slot morning --dry-run                # what the scheduler would do at the next morning slot
 pnpm insights:intro -- --print               # the intro thread
 ```
 

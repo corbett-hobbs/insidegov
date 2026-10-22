@@ -5,7 +5,7 @@ import { detectExtremes } from "./detect";
 import { addMonths } from "./format";
 import { FRESH_DAYS, LAG_QUALIFIER_DAYS, isFresh, periodEnd, releaseFor, releaseNote, stampRelease } from "./freshness";
 import { INTRO_THREAD } from "./intro";
-import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type QueueItem, pickNext, simulate } from "./schedule";
+import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type QueueItem, localDate, localTimeToUtc, pickNext, simulate, slotAt, slotLabel } from "./schedule";
 import type { Series } from "./types";
 import { X_MAX, oauthHeader, xLength } from "./x";
 
@@ -85,7 +85,7 @@ describe("pickNext", () => {
 
   it("caps posts per day and spaces them out", () => {
     const q = [item({ key: "a" }), item({ key: "b", dataset: "trade" }), item({ key: "c", dataset: "gas" })];
-    const today = (h: number): Posted => ({ dataset: "laws", postedAt: `2026-10-21T0${h}:00:00Z` });
+    const today = (h: number): Posted => ({ dataset: "laws", postedAt: `2026-10-21T1${h - 1}:00:00Z` }); // early morning Pacific
     expect(pickNext(q, Array.from({ length: MAX_PER_DAY }, (_, i) => today(i + 1)), now, "morning").reason).toMatch(/posts today/);
     expect(pickNext(q, [{ dataset: "laws", postedAt: "2026-10-21T12:00:00Z" }], now, "morning").reason).toMatch(/hours ago/);
   });
@@ -110,6 +110,27 @@ describe("pickNext", () => {
   it("prefers a draft about to go stale over a slightly more notable one with time left", () => {
     const d = pickNext([item({ key: "fresh", score: 11, expiresOn: "2026-11-10" }), item({ key: "closing", dataset: "trade", score: 10, expiresOn: "2026-10-22" })], [], now, "morning");
     expect(d.post?.key).toBe("closing");
+  });
+});
+
+describe("slots in Pacific time", () => {
+  it("puts 9 a.m. Pacific at the right UTC hour on both sides of daylight saving", () => {
+    expect(localTimeToUtc("2026-10-22", 9)).toBe("2026-10-22T16:00:00.000Z"); // PDT
+    expect(localTimeToUtc("2026-12-01", 9)).toBe("2026-12-01T17:00:00.000Z"); // PST
+    expect(slotLabel("2026-12-01T17:00:00.000Z")).toBe("Tue, Dec 1, 9:00 AM PT / 12:00 PM ET");
+  });
+
+  it("matches a run to its slot by Pacific time, so the off-season cron hour does nothing", () => {
+    expect(slotAt("2026-10-22T16:00:00Z")).toBe("morning"); // 9:00 PDT
+    expect(slotAt("2026-10-22T17:00:00Z")).toBe("morning"); // 10:00 PDT, inside the grace for a delayed run
+    expect(slotAt("2026-12-01T16:00:00Z")).toBeNull(); // 8:00 PST: the other cron hour
+    expect(slotAt("2026-12-01T17:20:00Z")).toBe("morning");
+    expect(slotAt("2026-10-22T20:00:00Z")).toBe("afternoon");
+    expect(slotAt("2026-10-24T16:00:00Z")).toBeNull(); // Saturday
+  });
+
+  it("counts days in Pacific time", () => {
+    expect(localDate("2026-10-23T03:00:00Z")).toBe("2026-10-22");
   });
 });
 
