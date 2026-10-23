@@ -5,7 +5,8 @@ import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { PartyFilter } from "@/components/charts/PartyFilter";
 import { StateFilter } from "@/components/senate/StateFilter";
 import type { ChamberView } from "@/lib/chamber";
-import type { DirectoryParty } from "@/lib/members-directory";
+import type { DirectoryMember, DirectoryParty } from "@/lib/members-directory";
+import { memberPath } from "@/lib/member-url";
 
 const PARTIES: readonly { id: DirectoryParty; label: string }[] = [
   { id: "Democrat", label: "Democrats" },
@@ -28,6 +29,7 @@ export function MembersFilterBar({
   onStateChange,
   party,
   onPartyChange,
+  suggestions = null,
 }: {
   query: string;
   onQueryChange: (q: string) => void;
@@ -38,6 +40,8 @@ export function MembersFilterBar({
   onStateChange: (s: string | null) => void;
   party: DirectoryParty | null;
   onPartyChange: (p: DirectoryParty | null) => void;
+  /** Phones only: members matching the typed name, listed under the bar. `null` hides the list. */
+  suggestions?: DirectoryMember[] | null;
 }) {
   return (
     <div data-pinned-bar className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 backdrop-blur">
@@ -71,6 +75,28 @@ export function MembersFilterBar({
           />
         </div>
       </div>
+
+      {suggestions && (
+        <ul
+          aria-label="Matching members"
+          className="m-0 max-h-[40svh] list-none overflow-y-auto border-t border-line-strong bg-surface p-0 sm:hidden"
+        >
+          {suggestions.length === 0 ? (
+            <li className="px-4 py-3 text-[0.85rem] text-ink-muted">No members match.</li>
+          ) : (
+            suggestions.map((m) => (
+              <li key={m.bioguideId} className="border-b border-line last:border-0">
+                <a href={memberPath(m)} className="flex flex-col px-4 py-2.5 active:bg-surface-raised">
+                  <span className="text-[0.9rem] font-medium leading-tight text-ink">{m.name}</span>
+                  <span className="mt-0.5 text-[0.72rem] text-ink-faint">
+                    {m.party} · {m.chamber === "senate" ? "Senate" : "House"} · {m.state}
+                  </span>
+                </a>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
     </div>
   );
 }
