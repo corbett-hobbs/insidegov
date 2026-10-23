@@ -50,7 +50,7 @@ export function DecisionsFilterBar() {
     <div data-pinned-bar className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur sm:shadow-none">
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
         <div className="flex flex-col gap-1.5 lg:flex-row lg:items-center lg:gap-x-4">
-          <div className="flex flex-none flex-wrap items-center gap-x-1.5 gap-y-1.5 sm:gap-x-2.5 lg:flex-[1.3_1_0%] lg:flex-nowrap xl:flex-[1_1_0%]">
+          <div className="flex flex-none flex-wrap items-center gap-x-1.5 gap-y-1.5 sm:gap-x-2.5 lg:min-w-[36rem] lg:flex-[1.3_1_0%] lg:flex-nowrap xl:flex-[1_1_0%]">
             <div className="flex min-w-0 flex-[1.5] basis-0 items-center gap-2 sm:max-w-[16rem] sm:flex-[1.5]">
               <FilterCaption>Topic</FilterCaption>
               <MultiSelectFilter
