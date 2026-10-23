@@ -9,6 +9,7 @@ import {
   pickLeaders,
   seatLabel,
   sortMembers,
+  suggestMembers,
   type DirectoryMember,
 } from "./members-directory";
 
@@ -69,6 +70,30 @@ describe("filterMembers", () => {
   it("filters party by registration: an independent is not a Democrat", () => {
     expect(ids(filterMembers(all, { ...NO_FILTERS, party: "Independent" }))).toEqual(["Bernie Sanders"]);
     expect(ids(filterMembers(all, { ...NO_FILTERS, party: "Democrat" }))).not.toContain("Bernie Sanders");
+  });
+});
+
+describe("suggestMembers", () => {
+  it("returns nothing for an empty or blank query", () => {
+    expect(suggestMembers(all, NO_FILTERS)).toEqual({ matches: [], total: 0 });
+    expect(suggestMembers(all, { ...NO_FILTERS, query: "   " })).toEqual({ matches: [], total: 0 });
+  });
+
+  it("lists matches most looked-up first and reports the full count", () => {
+    const r = suggestMembers(all, { ...NO_FILTERS, query: "jo" });
+    expect(ids(r.matches)).toEqual(["Mike Johnson", "John Thune"]);
+    expect(r.total).toBe(2);
+  });
+
+  it("cuts to the limit but still counts every match", () => {
+    const r = suggestMembers(all, { ...NO_FILTERS, query: "e" }, 2);
+    expect(r.matches).toHaveLength(2);
+    expect(r.total).toBeGreaterThan(2);
+  });
+
+  it("respects the chamber, state and party filters", () => {
+    expect(ids(suggestMembers(all, { ...NO_FILTERS, query: "jo", chamber: "senate" }).matches)).toEqual(["John Thune"]);
+    expect(suggestMembers(all, { ...NO_FILTERS, query: "jo", state: "NY" })).toEqual({ matches: [], total: 0 });
   });
 });
 

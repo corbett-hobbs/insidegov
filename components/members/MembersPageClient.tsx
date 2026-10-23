@@ -4,11 +4,13 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { SourceLink } from "@/components/SourceLink";
 import { stateName } from "@/lib/states";
+import { useMediaQuery } from "@/lib/use-media-query";
 import type { ChamberView } from "@/lib/chamber";
 import {
   filterMembers,
   pickLeaders,
   sortMembers,
+  suggestMembers,
   type DirectoryMember,
   type DirectoryParty,
   type DirectorySort,
@@ -21,7 +23,8 @@ import { UpNext } from "@/components/UpNext";
 /**
  * /congress/members: one page-level filter (name, chamber, state, party) and
  * one sort, read by the single list. Page state, not URL params, like
- * /congress/wealth.
+ * /congress/wealth. On phones the name box suggests members under the bar
+ * rather than filtering the list (see `MembersFilterBar`).
  */
 export function MembersPageClient({ members, pageviews }: { members: DirectoryMember[]; pageviews: PageviewsWindow | null }) {
   const [query, setQuery] = useState("");
@@ -41,18 +44,31 @@ export function MembersPageClient({ members, pageviews }: { members: DirectoryMe
   // A territory has no senators: switching to the Senate drops it rather than show an empty list.
   const effectiveState = state && states.includes(state) ? state : null;
 
+  // On a phone the keyboard hides the list, so typing a name can't be seen filtering it. There
+  // the name box feeds a suggestions panel under the pinned bar instead (each row opens the
+  // member's page) and the list keeps every other filter but ignores the name. Same breakpoint
+  // as Tailwind's `sm`, where the bar goes to one row.
+  const phone = useMediaQuery("(max-width: 639px)");
+  const listQuery = phone ? "" : query;
+
   const filtered = useMemo(
-    () => filterMembers(members, { query, chamber, party, state: effectiveState }),
-    [members, query, chamber, party, effectiveState],
+    () => filterMembers(members, { query: listQuery, chamber, party, state: effectiveState }),
+    [members, listQuery, chamber, party, effectiveState],
   );
   const sorted = useMemo(() => sortMembers(filtered, sort), [filtered, sort]);
-  const leaders = useMemo(() => (query.trim() ? [] : pickLeaders(filtered)), [filtered, query]);
+  const leaders = useMemo(() => (listQuery.trim() ? [] : pickLeaders(filtered)), [filtered, listQuery]);
+  const suggestions = useMemo(
+    () => (phone && query.trim() ? suggestMembers(members, { query, chamber, party, state: effectiveState }) : null),
+    [phone, members, query, chamber, party, effectiveState],
+  );
 
   return (
     <>
       <MembersFilterBar
         query={query}
         onQueryChange={setQuery}
+        suggestions={suggestions}
+        otherFiltersOn={chamber !== "both" || effectiveState !== null || party !== null}
         chamber={chamber}
         onChamberChange={setChamber}
         states={states}

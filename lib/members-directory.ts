@@ -93,6 +93,21 @@ export function filterMembers(members: readonly DirectoryMember[], f: DirectoryF
   );
 }
 
+/**
+ * The members a phone's name box suggests while typing: every member who passes the
+ * filters, most looked-up first (so "john" leads with the best-known Johns), cut to
+ * `limit`. `total` is the full match count so the panel can say when it is a short list.
+ */
+export function suggestMembers(
+  members: readonly DirectoryMember[],
+  f: DirectoryFilters,
+  limit = 6,
+): { matches: DirectoryMember[]; total: number } {
+  if (!f.query.trim()) return { matches: [], total: 0 };
+  const all = sortMembers(filterMembers(members, f), "interest");
+  return { matches: all.slice(0, limit), total: all.length };
+}
+
 const byLastName = (a: DirectoryMember, b: DirectoryMember) =>
   a.lastName.localeCompare(b.lastName) || a.name.localeCompare(b.name);
 
