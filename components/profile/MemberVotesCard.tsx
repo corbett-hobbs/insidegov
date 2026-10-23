@@ -5,8 +5,9 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceLink } from "@/components/SourceLink";
 import { fmtInt } from "@/lib/decisions-derive";
-import { lawPath } from "@/lib/law-url";
-import { pctWith, type MemberVotes } from "@/lib/member-votes";
+import { LawRow } from "@/components/laws/LawsListCard";
+import { lawIdOf } from "@/lib/member-laws";
+import { pctWith, type MemberVotesPayload } from "@/lib/member-votes";
 
 const PAGE = 120;
 const FOCUS_RING = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
@@ -15,12 +16,12 @@ const BADGE = "inline-block whitespace-nowrap rounded-full border px-1.5 py-px a
 type Pick = "all" | "against" | "split";
 
 /** One member's votes, fetched once on mount. */
-function useMemberVotes(bioguideId: string): { votes: MemberVotes | null | undefined; failed: boolean } {
-  const [state, setState] = useState<{ id: string; votes: MemberVotes | null | undefined; failed: boolean }>({ id: bioguideId, votes: undefined, failed: false });
+function useMemberVotes(bioguideId: string): { votes: MemberVotesPayload | null | undefined; failed: boolean } {
+  const [state, setState] = useState<{ id: string; votes: MemberVotesPayload | null | undefined; failed: boolean }>({ id: bioguideId, votes: undefined, failed: false });
   useEffect(() => {
     let live = true;
     fetch(`/data/members/${bioguideId}/votes`)
-      .then((r) => (r.ok ? (r.json() as Promise<MemberVotes | null>) : Promise.reject(new Error(String(r.status)))))
+      .then((r) => (r.ok ? (r.json() as Promise<MemberVotesPayload | null>) : Promise.reject(new Error(String(r.status)))))
       .then(
         (votes) => live && setState({ id: bioguideId, votes, failed: false }),
         () => live && setState({ id: bioguideId, votes: undefined, failed: true }),
@@ -71,6 +72,7 @@ export function MemberVotesCard({ bioguideId, name }: { bioguideId: string; name
     if (n < rows.length && el.scrollTop + el.clientHeight > el.scrollHeight - 240) setShown({ pick, n: n + PAGE });
   };
 
+  const byLaw = new Map((votes?.list.rows ?? []).map((lr) => [lawIdOf(lr), lr]));
   const loaded = votes !== undefined;
   const partyName = votes?.party === "D" ? "Democrats" : votes?.party === "R" ? "Republicans" : null;
   const all = votes ? pctWith(votes.all) : null;
@@ -114,27 +116,31 @@ export function MemberVotesCard({ bioguideId, name }: { bioguideId: string; name
             {votes &&
               rows.slice(0, n).map((r) => {
                 const [lawId, chamber, cast, wp, isSplit, py, pn] = r;
-                const [title, date] = votes.laws[lawId]!;
+                const lr = byLaw.get(lawId);
+                if (!lr) return null;
                 const against = wp === 0;
                 return (
-                  <li key={`${lawId}-${chamber}`} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-line px-3 py-2.5 last:border-b-0">
-                    <span className="w-[4.6rem] shrink-0 font-mono text-[0.72rem] tabular-nums text-ink-faint">{date}</span>
-                    <a href={lawPath(lawId, title)} className={`min-w-0 flex-1 basis-[16rem] text-[0.86rem] leading-[1.35] text-ink underline-offset-2 hover:underline ${FOCUS_RING}`}>
-                      {title}
-                    </a>
-                    <span className="flex flex-wrap items-baseline gap-1.5">
-                      <span className={`${BADGE} ${cast === 1 ? "border-transparent bg-ink text-surface" : "border-line-strong bg-surface-raised text-ink"}`}>
-                        {chamber === 0 ? "House" : "Senate"}: {CAST_LABEL[cast]}
-                      </span>
-                      {wp !== 2 && (
-                        <span className={`${BADGE} ${against ? "border-ink text-ink" : "border-line text-ink-muted"}`}>{against ? "Against party" : "With party"}</span>
-                      )}
-                      {isSplit === 1 && <span className={`${BADGE} border-line text-ink-muted`}>Party split</span>}
-                      {wp !== 2 && partyName && (
-                        <span className="text-[0.7rem] tabular-nums text-ink-faint">{`${votes.party}: ${fmtInt(py)} yea, ${fmtInt(pn)} nay`}</span>
-                      )}
-                    </span>
-                  </li>
+                  <LawRow
+                    key={`${lawId}-${chamber}`}
+                    r={lr}
+                    data={votes.list}
+                    list={votes.list}
+                    extraBadge={
+                      <>
+                        <span className={`${BADGE} ${cast === 1 ? "border-transparent bg-ink text-surface" : "border-line-strong bg-surface-raised text-ink"}`}>
+                          {chamber === 0 ? "House" : "Senate"}: {CAST_LABEL[cast]}
+                        </span>
+                        {wp !== 2 && (
+                          <span
+                            className={`${BADGE} ${against ? "border-ink text-ink" : "border-line text-ink-muted"}`}
+                            title={partyName ? `${partyName}: ${fmtInt(py)} yea, ${fmtInt(pn)} nay` : undefined}>
+                            {against ? "Against party" : "With party"}
+                          </span>
+                        )}
+                        {isSplit === 1 && <span className={`${BADGE} border-line text-ink-muted`}>Party split</span>}
+                      </>
+                    }
+                  />
                 );
               })}
           </ol>

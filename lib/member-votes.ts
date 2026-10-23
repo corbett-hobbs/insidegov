@@ -8,6 +8,8 @@
  * have no party stat.
  */
 
+import type { MemberLaws } from "./laws-types";
+
 /** Cast characters in a `law_votes` shard. */
 export const YEA = "1";
 export const NAY = "2";
@@ -67,14 +69,15 @@ export function isPartySplit(splits: { D: PartySplit; R: PartySplit }): boolean 
  */
 export type MemberVoteRow = [string, 0 | 1, 1 | 2 | 3 | 4, WithParty, 0 | 1, number, number];
 
-/** What a law looks like in the record: `[title, signing date]`, keyed by law id. */
-export type MemberVoteLaw = [string, string];
+/** A member's record, served at `/data/members/[id]/votes`: `list` holds the Laws list's own tuples for the laws voted on, which the rows' law ids look up. */
+export interface MemberVotesPayload extends MemberVotes {
+  list: MemberLaws;
+}
 
 export interface MemberVotes {
   party: PartyLetter;
   /** Newest first. */
   rows: MemberVoteRow[];
-  laws: Record<string, MemberVoteLaw>;
   /** Votes with / against the party, over all counted votes and over the party-split ones only. */
   all: { with: number; against: number };
   split: { with: number; against: number };

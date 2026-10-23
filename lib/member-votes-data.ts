@@ -2,10 +2,12 @@ import "server-only";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
+import { getLawsList } from "./laws-data";
 import { sponsorPartyFromTerms } from "./laws-derive";
+import { buildMemberLaws } from "./member-laws";
 import { lawRow, lawsMeta } from "./laws-entities";
 import { lawVotesShard } from "./law-votes-entities";
-import { castsById, isPartySplit, partySplits, tallyRows, withParty, type MemberVoteRow, type MemberVotes } from "./member-votes";
+import { castsById, isPartySplit, partySplits, tallyRows, withParty, type MemberVoteRow, type MemberVotes, type MemberVotesPayload } from "./member-votes";
 import { term } from "./entities";
 
 /**
@@ -22,7 +24,6 @@ function build(): Map<string, MemberVotes> {
   const partyOf = sponsorPartyFromTerms(z.array(term).parse(read("terms.json")).filter((t) => t.congress_number >= first));
   const laws = new Map(z.array(lawRow).parse(read("laws.json")).map((l) => [l.law_id, l]));
   const rows = new Map<string, MemberVoteRow[]>();
-  const used = new Map<string, Set<string>>();
   const parties = new Map<string, MemberVotes["party"]>();
 
   const files = readdirSync(join(OUT, "law_votes")).filter((f) => /^\d+\.json$/.test(f)).sort((a, b) => parseInt(a) - parseInt(b));
@@ -44,8 +45,6 @@ function build(): Map<string, MemberVotes> {
           const mine = p === "I" ? ([0, 0] as const) : splits[p];
           const r: MemberVoteRow = [lawId, chamber, Number(c) as 1 | 2 | 3 | 4, withParty(c, p, splits), split, mine[0], mine[1]];
           rows.set(id, [...(rows.get(id) ?? []), r]);
-          if (!used.has(id)) used.set(id, new Set());
-          used.get(id)!.add(lawId);
           parties.set(id, p); // shards are read oldest first, so the latest Congress wins
         }
       }
@@ -55,14 +54,16 @@ function build(): Map<string, MemberVotes> {
   const out = new Map<string, MemberVotes>();
   for (const [id, list] of rows) {
     list.sort((a, b) => (laws.get(b[0])!.date < laws.get(a[0])!.date ? -1 : laws.get(b[0])!.date > laws.get(a[0])!.date ? 1 : b[0].localeCompare(a[0], undefined, { numeric: true })));
-    const recorded: MemberVotes["laws"] = {};
-    for (const lawId of used.get(id)!) recorded[lawId] = [laws.get(lawId)!.title, laws.get(lawId)!.date];
-    out.set(id, { party: parties.get(id) ?? "I", rows: list, laws: recorded, ...tallyRows(list) });
+    out.set(id, { party: parties.get(id) ?? "I", rows: list, ...tallyRows(list) });
   }
   return out;
 }
 
-export function getMemberVotes(bioguideId: string): MemberVotes | null {
+export function getMemberVotes(bioguideId: string): MemberVotesPayload | null {
   all ??= build();
-  return all.get(bioguideId) ?? null;
+  const v = all.get(bioguideId);
+  if (!v) return null;
+  const roles = new Map(v.rows.map((r) => [r[0], 0 as const]));
+  const areas = lawsMeta.parse(read("laws_meta.json")).areas;
+  return { ...v, list: buildMemberLaws(getLawsList(), areas, roles) };
 }
