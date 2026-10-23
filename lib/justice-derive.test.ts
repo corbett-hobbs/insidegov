@@ -198,8 +198,9 @@ describe("specific justices", () => {
     expect(p("Hughes").identity.elevated).toBeNull();
   });
 
-  it("disambiguates the two Roberts and two Jacksons in headings", () => {
+  it("uses the bare surname in headings, even for the two Roberts and two Jacksons", () => {
     const lasts = profiles.filter((x) => /Roberts|Jackson/.test(x.justice.name)).map((x) => x.last);
-    expect(new Set(lasts).size).toBe(lasts.length);
+    expect(lasts.length).toBeGreaterThan(0);
+    expect(lasts.every((l) => /^(Roberts|Jackson)$/.test(l))).toBe(true);
   });
 });

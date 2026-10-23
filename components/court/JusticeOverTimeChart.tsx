@@ -96,8 +96,9 @@ export function JusticeOverTimeChart({
     return peers.filter(show);
   }, [peers, narrow, mode]);
 
+  const subjectName = profile.last;
   const maxLabel = Math.max(
-    justice.short.length * (charW + 0.6),
+    subjectName.length * (charW + 0.6),
     ...labeled.map((p) => p.short.length * charW),
   );
   const margin = {
@@ -152,7 +153,7 @@ export function JusticeOverTimeChart({
           const items = [
             {
               key: "subject",
-              text: justice.short,
+              text: subjectName,
               x: x(t1),
               y: y(justice.s[justice.s.length - 1]),
               subject: true,
@@ -189,7 +190,7 @@ export function JusticeOverTimeChart({
               score: justice.s[i],
               lo: justice.lo[i],
               hi: justice.hi[i],
-              name: justice.short,
+              name: subjectName,
             };
             tip.show(data, e);
           };
