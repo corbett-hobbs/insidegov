@@ -58,7 +58,7 @@ export interface RosterRow {
 
 export interface JusticeProfile {
   justice: CourtJustice;
-  /** "Stevens"; "J. Roberts" where two justices share a last name. Used in headings. */
+  /** The surname alone ("Stevens", "Roberts"), even where two justices share it. Used in headings. */
   last: string;
   identity: {
     /** "Chief Justice" or "Associate Justice" — the highest role held. */
