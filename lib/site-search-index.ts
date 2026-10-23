@@ -1,8 +1,9 @@
 import "server-only";
 import { getMemberSearchIndex } from "./congress-data";
 import { getCommitteeSearchIndex } from "./committee-data";
-import { getJusticeRefs } from "./justice-data";
+import { getJusticeProfile, getJusticeRefs } from "./justice-data";
 import { memberPath } from "./member-url";
+import { memberPhotoSrc } from "./member-photo";
 import { committeePath } from "./committee-url";
 import { justicePath } from "./justice-url";
 import { stateName } from "./states";
@@ -65,7 +66,7 @@ export function getSiteSearchIndex(): SearchEntry[] {
 
   // Presidents are pages, listed with the other pages; their aliases catch the ordinal ("44th").
   const presidents = getPresidents().map(
-    (p): SearchEntry => ({ n: p.name, s: `President · ${p.terms.map(termYears).join(", ")}`, u: presidentPath(p.slug), k: "page", a: p.terms.map((t) => ordinalWord(t.ordinal)).join(" ") }),
+    (p): SearchEntry => ({ n: p.name, s: `President · ${p.terms.map(termYears).join(", ")}`, u: presidentPath(p.slug), k: "president", i: p.photo ?? undefined, a: p.terms.map((t) => ordinalWord(t.ordinal)).join(" ") }),
   );
 
   const members = getMemberSearchIndex().map((m): SearchEntry => {
@@ -75,12 +76,13 @@ export function getSiteSearchIndex(): SearchEntry[] {
       s: `${m.chamber === "senate" ? "Senator" : "Representative"} · ${PARTY[m.group]}-${seat}`,
       u: memberPath({ bioguideId: m.bioguideId, chamber: m.chamber, name: m.name }),
       k: "member",
+      i: memberPhotoSrc(m.bioguideId, m.hasPhoto, "small"),
       a: stateName(m.state),
     };
   });
 
   const justices = getJusticeRefs().map(
-    (j): SearchEntry => ({ n: j.name, s: "Supreme Court justice", u: justicePath(j), k: "justice" }),
+    (j): SearchEntry => ({ n: j.name, s: "Supreme Court justice", u: justicePath(j), k: "justice", i: getJusticeProfile(j.id)?.photoSrc ?? undefined }),
   );
 
   const committees = getCommitteeSearchIndex().map(
@@ -89,6 +91,7 @@ export function getSiteSearchIndex(): SearchEntry[] {
       s: c.name === c.shortName ? "Committee" : c.name,
       u: committeePath(c),
       k: "committee",
+      i: c.chamber,
       a: c.name,
     }),
   );
