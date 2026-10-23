@@ -3,12 +3,13 @@
  * normaliser and the ranker. The index itself is built at build time by
  * lib/site-search-index.ts and served as static JSON from /api/search-index.
  */
-export type SearchKind = "page" | "member" | "justice" | "committee";
+export type SearchKind = "page" | "president" | "member" | "justice" | "committee";
 
 /** Result groups, in display order. */
-export const KIND_ORDER: readonly SearchKind[] = ["page", "member", "justice", "committee"];
+export const KIND_ORDER: readonly SearchKind[] = ["page", "president", "member", "justice", "committee"];
 export const KIND_LABELS: Record<SearchKind, string> = {
   page: "Pages",
+  president: "Presidents",
   member: "Members of Congress",
   justice: "Justices",
   committee: "Committees",
@@ -22,6 +23,8 @@ export interface SearchEntry {
   /** Destination path. */
   u: string;
   k: SearchKind;
+  /** Thumbnail: a photo path for people, the chamber ("house" | "senate" | "joint") for committees. */
+  i?: string;
   /** Extra match terms: aliases, state names, short forms. */
   a?: string;
 }
