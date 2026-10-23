@@ -54,16 +54,16 @@ export function useSectionScroll(items: readonly SectionNavItem[]) {
 const NUM = "font-mono text-[0.7rem] font-medium";
 
 /** The numbered jump pills in the page header: one line on a phone (the short names, scrolling sideways if they still do not fit), wrapping from `sm`. */
-export function SectionPills({ items, pillsRef }: { items: readonly SectionNavItem[]; pillsRef: RefObject<HTMLElement | null> }) {
+export function SectionPills({ items, pillsRef, numbered = true, className = "" }: { items: readonly SectionNavItem[]; pillsRef?: RefObject<HTMLElement | null>; numbered?: boolean; className?: string }) {
   return (
-    <nav ref={pillsRef} aria-label="Sections" className="flex gap-1.5 overflow-x-auto sm:flex-wrap sm:gap-2 sm:overflow-visible">
+    <nav ref={pillsRef} aria-label="Sections" className={`flex gap-1.5 overflow-x-auto sm:flex-wrap sm:gap-2 sm:overflow-visible ${className}`}>
       {items.map((it, i) => (
         <a
           key={it.id}
           href={`#${it.id}`}
           className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full border border-line-strong bg-surface px-2.5 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:px-3"
         >
-          <span className={`${NUM} text-accent`}>{i + 1}</span>
+          {numbered && <span className={`${NUM} text-accent`}>{i + 1}</span>}
           {it.short ? (
             <>
               <span className="sm:hidden">{it.short}</span>
