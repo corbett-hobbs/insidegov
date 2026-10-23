@@ -103,6 +103,7 @@ export function JusticeVotesCard({ justiceId, last, source }: { justiceId: numbe
 
   return (
     <ChartCard
+      more={{ href: "/supreme-court/decisions", label: "Decisions page" }}
       title={`How ${last} voted`}
       action={
         <input

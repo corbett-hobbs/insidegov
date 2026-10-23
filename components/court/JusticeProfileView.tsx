@@ -11,6 +11,7 @@ import type { JusticeMode } from "./justice-mode";
 import { SourceLink } from "@/components/SourceLink";
 import { ProfileSection } from "@/components/profile/ProfileSection";
 import { SectionPills } from "@/components/SectionNav";
+import { CardMoreLink } from "@/components/charts/CardMoreLink";
 
 /**
  * A justice's profile page: identity row, then two cards side by side (the
@@ -92,6 +93,7 @@ export function JusticeProfileView({ profile, votes }: { profile: JusticeProfile
               justice&rsquo;s first terms, and narrower as votes accumulate.
             </p>
           </details>
+          <CardMoreLink href="/supreme-court/ideology" label="Ideology page" />
         </section>
 
         <div data-testid="roster-card" className="flex min-w-0 flex-col [&>section]:flex-1">
