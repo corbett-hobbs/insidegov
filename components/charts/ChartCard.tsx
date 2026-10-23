@@ -1,4 +1,5 @@
 import { forwardRef, type CSSProperties, type ReactNode } from "react";
+import { CardMoreLink } from "./CardMoreLink";
 
 interface ChartCardProps {
   title: ReactNode;
@@ -7,6 +8,8 @@ interface ChartCardProps {
   /** What the chart shows, in one or two sentences, in ink (ARCHITECTURE_MAP rule 7c). Use instead of `lede`. */
   takeaway?: ReactNode;
   action?: ReactNode;
+  /** A quiet link to the page this card summarises, at the foot of the card. */
+  more?: { href: string; label: string };
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -24,6 +27,7 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
   lede,
   takeaway,
   action,
+  more,
   className,
   style,
   children,
@@ -47,6 +51,7 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
         </p>
       )}
       {children}
+      {more && <CardMoreLink href={more.href} label={more.label} />}
     </section>
   );
 });

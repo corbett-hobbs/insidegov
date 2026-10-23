@@ -79,6 +79,7 @@ export function MemberVotesCard({ bioguideId, name }: { bioguideId: string; name
 
   return (
     <ChartCard
+      more={{ href: "/congress/laws", label: "Laws page" }}
       title={`${name}'s voting record on laws`}
       lede={`How ${name} voted on final passage of every public law since 1973 that came to a recorded vote in their chamber, newest first, and how often that vote matched ${partyName ? `a majority of ${partyName}` : "their party"}. Only bills that became law appear, so this is not their whole voting record.`}>
       {votes && partyName && all !== null && (

@@ -95,6 +95,7 @@ export function MemberLawsCard({ bioguideId, name }: { bioguideId: string; name:
   const span = oldest === null ? "" : oldest === newest ? ` in ${oldest}` : ` from ${oldest} to ${newest}`;
   return (
     <ChartCard
+      more={{ href: "/congress/laws", label: "Laws page" }}
       title={`Laws ${name} sponsored or cosponsored`}
       action={
         <input

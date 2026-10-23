@@ -6,6 +6,7 @@ import { AlignmentTrack } from "@/components/charts/AlignmentTrack";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { fmtScore } from "@/lib/court-types";
 import type { JusticeProfile, RosterRow } from "@/lib/justice-types";
+import { CardMoreLink } from "@/components/charts/CardMoreLink";
 import { JusticeSwarm } from "./JusticeSwarm";
 import { modeOptions, partyVar, type JusticeMode } from "./justice-mode";
 
@@ -130,6 +131,7 @@ export function JusticeRosterCard({
           </svg>
         </button>
       )}
+      <CardMoreLink href="/supreme-court/ideology" label="Ideology page" className="mt-auto pt-3" />
     </section>
   );
 }
