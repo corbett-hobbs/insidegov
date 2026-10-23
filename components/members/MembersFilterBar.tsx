@@ -81,7 +81,7 @@ export function MembersFilterBar({
       {suggestions && (
         <ul
           aria-label="Matching members"
-          className="m-0 max-h-[40svh] list-none overflow-y-auto border-t border-line-strong bg-surface p-0 sm:hidden"
+          className="absolute left-4 right-4 top-[calc(100%+4px)] z-50 m-0 max-h-[40svh] list-none overflow-y-auto rounded-lg border border-line-strong bg-surface p-0 shadow-lg sm:hidden"
         >
           {suggestions.length === 0 ? (
             <li className="px-4 py-3 text-[0.85rem] text-ink-muted">No members match.</li>
