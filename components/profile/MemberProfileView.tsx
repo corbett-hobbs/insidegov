@@ -14,6 +14,9 @@ import { CommitteeMembershipsCard } from "./CommitteeMembershipsCard";
 import { MemberWealthSection } from "./MemberWealthSection";
 import { getMemberViews } from "@/lib/members-directory-data";
 import { MemberLawsCard } from "./MemberLawsCard";
+import { MemberVotesCard } from "./MemberVotesCard";
+import { ProfileSection } from "./ProfileSection";
+import { SectionPills, type SectionNavItem } from "@/components/SectionNav";
 
 interface MemberProfileViewProps {
   profile: MemberProfile;
@@ -47,29 +50,50 @@ export function MemberProfileView({
   wealthProfile,
   bio,
 }: MemberProfileViewProps) {
+  // Mirrors the early return in MemberWealthSection, so its header never shows over nothing.
+  const hasWealth = !!wealthProfile?.years.some((y) => y.kind === "usable" || y.kind === "needs_review");
+  const sections: SectionNavItem[] = [
+    { id: "member-ideology", label: "Ideology" },
+    ...(committeeMemberships.length > 0 ? [{ id: "member-committees", label: "Committees" }] : []),
+    { id: "member-laws", label: "Laws" },
+    ...(hasWealth ? [{ id: "member-net-worth", label: "Net worth" }] : []),
+  ];
   return (
     <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-7 px-6 pb-16 pt-11">
       <SetBackLink href="/congress/members" />
 
       <ProfileHeader profile={profile} bio={bio} />
 
-      <MemberIdeologySection
-        profile={profile}
-        compassMembers={compassMembers}
-        delegationMembers={delegationMembers}
-        trend={trend}
-        views={getMemberViews()}
-      />
+      <SectionPills items={sections} numbered={false} className="sm:hidden" />
 
-      <CommitteeMembershipsCard
-        profile={profile}
-        memberships={committeeMemberships}
-      />
+      <ProfileSection label="Ideology" id="member-ideology">
+        <MemberIdeologySection
+          profile={profile}
+          compassMembers={compassMembers}
+          delegationMembers={delegationMembers}
+          trend={trend}
+          views={getMemberViews()}
+        />
+      </ProfileSection>
 
-      <MemberLawsCard bioguideId={profile.bioguideId} name={profile.name} />
+      {committeeMemberships.length > 0 && (
+        <ProfileSection label="Committees" id="member-committees">
+          <CommitteeMembershipsCard
+            profile={profile}
+            memberships={committeeMemberships}
+          />
+        </ProfileSection>
+      )}
 
-      {wealthProfile && (
-        <MemberWealthSection profile={profile} wealthProfile={wealthProfile} />
+      <ProfileSection label="Laws" id="member-laws">
+        <MemberLawsCard bioguideId={profile.bioguideId} name={profile.name} />
+        <MemberVotesCard bioguideId={profile.bioguideId} name={profile.name} />
+      </ProfileSection>
+
+      {hasWealth && wealthProfile && (
+        <ProfileSection label="Net worth" id="member-net-worth">
+          <MemberWealthSection profile={profile} wealthProfile={wealthProfile} />
+        </ProfileSection>
       )}
 
       <SiteFooter />
