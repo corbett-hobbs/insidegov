@@ -154,17 +154,25 @@ export function fmtPct(r: number): string {
 }
 
 /**
- * The footnote for what a ranking leaves out: "Plus $30.4B in special entries, not ranked as chapters: returned
- * American goods $24.1B, estimated low-value shipments $7.9B, other $0.5B." Names the two largest special entries;
- * null when there are none. `ranked` names what the list ranks ("chapters", or "uses" for the end-use list).
+ * The one footnote for what both rankings leave out: "Neither list includes $51.3B of special entries, shipments
+ * recorded by how they were handled rather than what they are. Largest: low-value shipments (estimated) and late
+ * filings $44.1B, repaired imports sent back $5.6B." The chapter file names the parts (the use file when there is no
+ * chapter view); the use file's own tally gets one more sentence only when it prints differently. Null when neither
+ * leaves anything out.
  */
-export function specialNote(view: Pick<ProductsView, "special" | "specialTotal">, ranked = "chapters"): string | null {
-  if (view.specialTotal <= 0 || view.special.length === 0) return null;
-  const named = view.special.slice(0, 2);
-  const rest = view.specialTotal - named.reduce((a, s) => a + s.value, 0);
-  const parts = named.map((s) => `${lowerFirst(s.label)} ${fmtDollars(s.value)}`);
-  if (rest >= 0.005 * view.specialTotal) parts.push(`other ${fmtDollars(rest)}`);
-  return `Plus ${fmtDollars(view.specialTotal)} in special entries, not ranked as ${ranked}: ${parts.join(", ")}.`;
+export function specialNote(
+  chapters: Pick<ProductsView, "special" | "specialTotal"> | null | undefined,
+  uses?: Pick<ProductsView, "special" | "specialTotal"> | null,
+): string | null {
+  const has = (v: typeof chapters) => !!v && v.specialTotal > 0 && v.special.length > 0;
+  const lead = has(chapters) ? chapters! : has(uses) ? uses! : null;
+  if (!lead) return null;
+  const who = has(chapters) && has(uses) ? "Neither list includes" : lead === chapters ? "The chapter list leaves out" : "The use list leaves out";
+  const named = lead.special.slice(0, 2).map((s) => `${lowerFirst(s.label)} ${fmtDollars(s.value)}`);
+  const total = fmtDollars(lead.specialTotal);
+  let note = `${who} ${total} of special entries, shipments recorded by how they were handled rather than what they are. ${lead.special.length > 1 ? "Largest" : "All of it"}: ${named.join(", ")}.`;
+  if (lead === chapters && has(uses) && fmtDollars(uses!.specialTotal) !== total) note += ` Census tallies them a little differently by use: ${fmtDollars(uses!.specialTotal)}.`;
+  return note;
 }
 
 // "U.S. government imports" keeps its capitals; ordinary labels read mid-sentence in lower case.

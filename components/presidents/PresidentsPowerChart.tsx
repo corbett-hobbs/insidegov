@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ChartCard } from "../charts/ChartCard";
+import { RangeReset } from "../charts/RangeReset";
+import { RangeSelector } from "../charts/RangeSelector";
 import { LEGEND_ITEM, LEGEND_ROW } from "../charts/legend";
 import { MethodologyNote } from "../MethodologyNote";
 import { SourceLink } from "../SourceLink";
@@ -20,13 +22,17 @@ const yrs = (n: number) => `${Math.round(n * 10) / 10}`;
 /**
  * "Was Congress on their side?" above the Presidents table, collapsed by default: the one-party strip and the president,
  * Senate and House rows of /timeline (the same `PowerChart`, in its compact mode), over Truman to today. The Court is left
- * out because the table below has no Court measure. No filters, zoom or pan; a tap on a president opens a card that links to their page.
+ * out because the table below has no Court measure. A two-handle year slider under the chart zooms the rows and the headline; a tap on a president opens a card that links to their page.
  */
 export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
   const idx = useMemo(() => powerIndex(data), [data]);
   const spans = useMemo(() => buildSpans(idx, changePoints(data), "appt"), [idx, data]);
   const maxYear = Number(data.today.slice(0, 4));
-  const whole = useMemo(() => chamberYears(spans, START, data.today), [spans, data.today]);
+  const [range, setRange] = useState<[number, number]>([1945, maxYear]);
+  const full = range[0] === 1945 && range[1] === maxYear;
+  const from = range[0] === 1945 ? START : `${range[0]}-01-01`;
+  const to = range[1] === maxYear ? data.today : `${range[1]}-12-31`;
+  const whole = useMemo(() => chamberYears(spans, from, to), [spans, from, to]);
 
   const card = (p: TlPresident) => {
     const to = p.end && p.end < data.today ? p.end : data.today;
@@ -61,14 +67,26 @@ export function PresidentsPowerChart({ data }: { data: TimelinePayload }) {
       <summary className="cursor-pointer font-medium text-ink">Was Congress on their side?</summary>
       <ChartCard
       className="mt-2"
-      title="Congress and the White House, 1945 to today"
+      title={full ? "Congress and the White House, 1945 to today" : `Congress and the White House, ${range[0]} to ${range[1] === maxYear ? "today" : range[1]}`}
       takeaway={
         <>
-          Since 1945, one party held the White House and both chambers of Congress for <b className="font-semibold">{Math.round(whole.both)}</b> of {Math.round(whole.total)} years.
+          {full ? "Since 1945" : `From ${range[0]} to ${range[1] === maxYear ? "today" : range[1]}`}, one party held the White House and both chambers of Congress for <b className="font-semibold">{Math.round(whole.both)}</b> of {Math.round(whole.total)} years.
         </>
       }
     >
-      <PowerChart data={data} idx={idx} spans={spans} mode="appt" range={[1945, maxYear]} minYear={1945} maxYear={maxYear} onRange={() => {}} compact startIso={START} presCard={card} />
+      <PowerChart data={data} idx={idx} spans={spans} mode="appt" range={range} minYear={1945} maxYear={maxYear} onRange={setRange} compact startIso={START} presCard={card} />
+      <div className="mx-0.5 mt-3">
+        <RangeSelector
+          min={1945}
+          max={maxYear}
+          value={range}
+          minSpan={3}
+          onChange={setRange}
+          format={String}
+          ariaLabel="Years shown on the chart"
+          action={<RangeReset show={!full} onReset={() => setRange([1945, maxYear])} ariaLabel="Reset the chart zoom to every year" className="mt-0.5 font-sans leading-none" />}
+        />
+      </div>
       <div className={`${LEGEND_ROW} mt-1.5`}>
         <span className={LEGEND_ITEM}>
           <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("D") }} />
