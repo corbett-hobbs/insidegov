@@ -122,7 +122,7 @@ export function PowerChart({
   stateOf?: (e: TlEvent) => PowerState;
   byId?: ReadonlyMap<string, TlEvent>;
   onJump?: (no: number) => void;
-  /** The directory's version: no marker rows, no zoom or pan, a tap on a president opens `presCard`. */
+  /** The directory's version: no marker rows, a tap on a president opens `presCard`. */
   compact?: boolean;
   /** The first day of the window (default: the timeline's start). */
   startIso?: string;
