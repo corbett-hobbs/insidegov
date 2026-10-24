@@ -9,6 +9,7 @@ import { TERM_BAND_H, TermBandSvg, termSegments } from "@/components/charts/Term
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
 import { useElementWidth } from "@/lib/use-element-width";
 import { BRANCH_NAMES, formatCount, formatCountAxis, formatCountCompact, measureLabel, niceCountTicks, topHostRuns, topHostsByYear, yearLabelEvery, type TopHostYear } from "@/lib/troops-derive";
+import { compactNumber } from "@/lib/format-number";
 import { useTroopsState } from "./TroopsState";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -236,7 +237,7 @@ export function TroopsFirstPlaceCard() {
                 (() => {
                   const i = peak.yi - range[0];
                   const h = (topVal(peak) / maxTop) * maxH;
-                  const lab = formatCountCompact(topVal(peak));
+                  const lab = compactNumber(topVal(peak));
                   const tw = lab.length * 6.4;
                   const cx = Math.min(Math.max(MX + i * step + step / 2, MX + tw / 2), W - MR - tw / 2);
                   return (

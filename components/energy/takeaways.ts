@@ -15,22 +15,22 @@ export const ENERGY_TAKEAWAYS = {
   supply: {
     title: "Oil supply and demand",
     takeaway:
-      "Production averaged 6.8 million barrels a day in 2008, its lowest year, and 21.2 million in 2025, the first year in records back to 1973 that it topped products supplied. Products supplied ranged between 14.5 million (April 2020) and 21.7 million (August 2005).",
+      "Production averaged 6.8M barrels a day in 2008, its lowest year, and 21.2M in 2025, the first year in records back to 1973 that it topped products supplied. Products supplied ranged between 14.5M (April 2020) and 21.7M (August 2005).",
   },
   oil: {
     title: "Oil imports and exports",
     takeaway:
-      "Net petroleum imports peaked at 13.4 million barrels a day in August 2006. In October 2019 exports topped imports for the first time in monthly records back to 1973, and the U.S. was a net exporter every year from 2020 through 2025.",
+      "Exports first topped imports in October 2019, in monthly records back to 1973, and the U.S. was a net exporter every year from 2020 through 2025. Net exports peaked at 5.9M barrels a day in May 2026, against a 13.4M net-import high in August 2006.",
   },
   lng: {
     title: "Liquefied natural gas exports",
     takeaway:
-      "Exports stayed under 16 billion cubic feet a month from 1997 through 2015. After Sabine Pass’s first cargo sailed in February 2016, the yearly total rose each year through 2025, and March 2026 set the monthly record of 573 billion.",
+      "Exports stayed under 16B cubic feet a month from 1997 through 2015. After Sabine Pass’s first cargo sailed in February 2016, the yearly total rose each year through 2025, and March 2026 set the monthly record of 573.1B.",
   },
   spr: {
     title: "The Strategic Petroleum Reserve",
     takeaway:
-      "The reserve peaked at 727 million barrels in January 2010 and fell to a low of 347 million in July 2023. It was refilled to 415 million by March 2026, when an emergency exchange was authorized, and fell below the 2023 low in June 2026.",
+      "The reserve fell from 638.1M barrels in January 2021 to a low of 346.8M in July 2023, after peaking at 726.6M in January 2010. Refilled to 415.4M by March 2026, when an emergency exchange was authorized, it fell below that low by June 2026.",
   },
 } as const;
 
@@ -43,7 +43,7 @@ export const ENERGY_TAKEAWAYS = {
  */
 export const ENERGY_CONTEXT = {
   oil: {
-    text: "Public Law 114-113, signed December 18, 2015, repealed the federal restriction on crude oil exports. Crude exports, the dashed line under Exports & imports, rose from 0.5M barrels a day in 2015 to 3.0M in 2019, when total exports first topped imports.",
+    text: "Public Law 114-113, signed December 18, 2015, repealed the federal restriction on crude oil exports. Crude exports, the dashed line under Exports & imports, rose from 464.6K barrels a day in 2015 to 3M in 2019, when total exports first topped imports.",
     sources: [{ id: "plaw-114-113", label: "Public Law 114-113" }],
   },
   lng: {
@@ -54,7 +54,7 @@ export const ENERGY_CONTEXT = {
     ],
   },
   spr: {
-    text: "Biden authorized selling up to 180M barrels on March 31, 2022; with 38M of mandated sales, the reserve fell from 568M barrels that month to 372M by December. The 172M-barrel exchange authorized March 11, 2026 drew it below the 2023 low by June.",
+    text: "Biden authorized selling up to 180M barrels on March 31, 2022; with 38M of mandated sales, the reserve fell from 568.3M barrels that month to 372.4M by December. The 172M-barrel exchange authorized March 11, 2026 drew it below the 2023 low by June.",
     sources: [
       { id: "doe-spr-history", label: "DOE release history" },
       { id: "doe-spr-172m-exchange-2026", label: "DOE, March 2026" },

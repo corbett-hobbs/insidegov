@@ -9,7 +9,7 @@ export const LAWS_TAKEAWAYS = {
   count: {
     title: "How many laws does Congress pass?",
     takeaway:
-      "From 1973 through 2024, Congress enacted the most laws in 1987–88 (713) and the fewest in 2023–24 (274). Commemorations peaked at 40% of laws in 1985–86; without them, the most was 596, in 1973–74.",
+      "Congress enacted 274 laws in 2023–24, the fewest of any Congress from 1973 through 2024; the most was 713, in 1987–88. Commemorations peaked at 40% of laws in 1985–86; without them, the most was 596, in 1973–74.",
   },
   support: {
     title: "How broadly are laws supported?",

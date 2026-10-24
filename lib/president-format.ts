@@ -1,4 +1,5 @@
 import { findExtremes } from "./chart-extremes";
+import { compactNumber } from "./format-number";
 import type { CongressSummary, SeriesFormat, SeriesPanel, SeriesPoint } from "./president-types";
 
 /**
@@ -9,7 +10,7 @@ const MINUS = "−";
 const trim = (v: number, dp: number) => v.toFixed(dp).replace(/\.0+$/, "").replace(/(\.\d*?)0+$/, "$1");
 const neg = (s: string, v: number) => (v < 0 ? `${MINUS}${s}` : s);
 
-/** The value as a card prints it: "7.8%", "−3.1%", "1.13M", "−$46.7B", "703M bbl". */
+/** The value as a card and its takeaway print it: "7.8%", "−3.1%", "1.1M" (counts follow rule 2g, `compactNumber`), "−$46.7B", "703M bbl". */
 export function fmtValue(v: number, f: SeriesFormat): string {
   const a = Math.abs(v);
   switch (f) {
@@ -20,7 +21,7 @@ export function fmtValue(v: number, f: SeriesFormat): string {
     case "pctSigned":
       return v === 0 ? "0%" : `${v < 0 ? MINUS : "+"}${trim(a, 1)}%`;
     case "count":
-      return neg(a >= 1_000_000 ? `${trim(a / 1_000_000, 2)}M` : a >= 10_000 ? `${Math.round(a / 1000)}k` : Math.round(a).toLocaleString("en-US"), v);
+      return compactNumber(v);
     case "usdB":
       return neg(`$${trim(a, 1)}B`, v);
     case "mbbl":

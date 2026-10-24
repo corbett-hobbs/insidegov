@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { TRADE_CONTEXT, TRADE_TAKEAWAYS } from "../components/trade/takeaways";
 import { SOURCE_LINKS } from "./source-links";
+import { compactDollars } from "./format-number";
 import { MONTH_NAMES } from "./indicator-time";
 import { ratePercentSeries } from "./trade-chart";
 import { monthCount, monthIndex, partnerBalance, partnerTotal } from "./trade-derive";
@@ -93,23 +94,28 @@ const cases: { title: string; text: string; says: string[]; check: () => void }[
   {
     title: TRADE_TAKEAWAYS.balance.title,
     text: TRADE_TAKEAWAYS.balance.takeaway,
-    says: ["every month from January 1991 through August 2026", "$76 billion in July 2008", "$35 billion in May 2009", "record $158.7 billion in March 2025"],
+    says: ["ran a goods deficit every month from January 1991 through August 2026", "hit a record $158.7B in March 2025", "narrowed to $61.4B in October 2025", "after $76B in July 2008 and $35.4B in May 2009"],
     check: () => {
       expect(bal[0]).not.toBeNull(); // the series starts January 1991
       const span = balIn("1991-01", "2026-08");
       expect(span.every((x) => x !== null && x < 0)).toBe(true);
-      const before = deepest("1991-01", "2008-12");
-      expect([Math.round(before.v / 1000), before.at]).toEqual([-76, monthIndex("2008-07")]);
-      const shallowest2009 = Math.max(...(balIn("2009-01", "2009-12") as number[]));
-      expect([Math.round(shallowest2009 / 1000), bal.indexOf(shallowest2009)]).toEqual([-35, monthIndex("2009-05")]);
       const record = deepest("1991-01", national.lastPeriod);
-      expect([Math.round(record.v / 100) / 10, record.at]).toEqual([-158.7, monthIndex("2025-03")]);
+      expect([compactDollars(-record.v * 1e6), record.at]).toEqual(["$158.7B", monthIndex("2025-03")]);
+      // October 2025 is the shallowest month after the record.
+      const oct = bal[monthIndex("2025-10")]!;
+      expect(compactDollars(-oct * 1e6)).toBe("$61.4B");
+      expect(Math.max(...(balIn("2025-04", national.lastPeriod) as number[]))).toBe(oct);
+      // The deepest month before 2009, and the shallowest of 2009.
+      const before = deepest("1991-01", "2008-12");
+      expect([compactDollars(-before.v * 1e6), before.at]).toEqual(["$76B", monthIndex("2008-07")]);
+      const shallowest2009 = Math.max(...(balIn("2009-01", "2009-12") as number[]));
+      expect([compactDollars(-shallowest2009 * 1e6), bal.indexOf(shallowest2009)]).toEqual(["$35.4B", monthIndex("2009-05")]);
     },
   },
   {
     title: TRADE_TAKEAWAYS.tariff.title,
     text: TRADE_TAKEAWAYS.tariff.takeaway,
-    says: ["4.7% of imports in February 1994", "1.1% in March 2008", "3.2% by September 2019", "record 10.8% in October", "more than double the 1994 high"],
+    says: ["In 2025 calculated duties reached a record 10.8% of imports in October", "more than double their February 1994 high of 4.7%", "fallen to 1.1% in March 2008", "rose to 3.2% by September 2019"],
     check: () => {
       expect(rate.findIndex((x) => x !== null)).toBe(monthIndex("1993-01"));
       const high = peak("1993-01", "2024-12");
