@@ -1,11 +1,11 @@
 {
   "counts": {
-    "executive_orders": 1545,
+    "executive_orders": 1547,
     "administrations": 6
   },
   "signing_range": [
     "1994-01-15",
-    "2026-10-05"
+    "2026-10-19"
   ],
   "dropped_not_an_eo": [
     "95-23442 (1995-09-18) Continuation of Emergency With Respect to UNITA"
@@ -35,16 +35,16 @@
     "total_2025": 238
   },
   "topic_method": {
-    "model": 1422,
+    "model": 1424,
     "parent-inherit": 123
   },
   "needs_review": 73,
   "summaries": {
-    "summarized": 947,
+    "summarized": 949,
     "failing_check": [],
     "orphans": [],
     "by_model": {
-      "claude-sonnet-5-5": 947
+      "claude-sonnet-5-5": 949
     },
     "without": 598
   }
