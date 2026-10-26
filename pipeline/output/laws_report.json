@@ -1,10 +1,10 @@
 {
-  "laws": 12624,
+  "laws": 12634,
   "congresses": "93-119",
   "partial_congresses": [
     119
   ],
-  "data_through": "2026-10-15",
+  "data_through": "2026-10-20",
   "sources": [
     {
       "source": "congress-gov",
@@ -371,20 +371,20 @@
       "list_rows_beyond_laws": null,
       "independent_count": 274,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-13",
+      "fetched": "2026-10-26",
       "source_corrections": [],
       "multiple_became_law_dates": []
     },
     {
       "congress": 119,
       "source": "govinfo-billstatus",
-      "laws": 124,
-      "highest_number": 124,
+      "laws": 134,
+      "highest_number": 134,
       "list_rows": null,
       "list_rows_beyond_laws": null,
       "independent_count": null,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-19",
+      "fetched": "2026-10-26",
       "source_corrections": [
         "119-pub-120: Bill Status also lists it on HR 766, which has no signing action; kept S 766"
       ],
@@ -415,19 +415,19 @@
   "policy_areas": {
     "by_name": {
       "Government Operations and Politics": 1825,
-      "Public Lands and Natural Resources": 1346,
+      "Public Lands and Natural Resources": 1350,
       "Commemorations": 1146,
       "Armed Forces and National Security": 905,
       "Economics and Public Finance": 679,
       "Health": 582,
       "International Affairs": 492,
       "Transportation and Public Works": 482,
-      "Native Americans": 408,
-      "Crime and Law Enforcement": 403,
+      "Native Americans": 409,
+      "Crime and Law Enforcement": 404,
       "Agriculture and Food": 288,
       "Finance and Financial Sector": 274,
-      "Commerce": 271,
-      "Energy": 239,
+      "Commerce": 273,
+      "Energy": 240,
       "Education": 235,
       "Water Resources Development": 220,
       "Environmental Protection": 214,
@@ -439,7 +439,7 @@
       "Labor and Employment": 160,
       "Taxation": 158,
       "Emergency Management": 149,
-      "Social Welfare": 133,
+      "Social Welfare": 134,
       "Immigration": 127,
       "Housing and Community Development": 106,
       "Families": 90,
@@ -1045,14 +1045,14 @@
         "check_minor": 3
       },
       "2020s": {
-        "laws": 760,
-        "chamber_votes": 1520,
-        "roll": 419,
-        "tally_from_text": 419,
-        "check_exact": 417,
-        "join_clerk": 419,
-        "consent": 590,
-        "voice": 474,
+        "laws": 770,
+        "chamber_votes": 1540,
+        "roll": 420,
+        "tally_from_text": 420,
+        "check_exact": 418,
+        "join_clerk": 420,
+        "consent": 600,
+        "voice": 483,
         "unstated": 37,
         "check_minor": 2,
         "nonroll_with_a_voteview_vote_on_the_bill_that_day": 1
@@ -1095,11 +1095,11 @@
         388
       ],
       "2020s": [
-        429,
+        438,
         51,
         20,
         48,
-        212
+        213
       ]
     },
     "band_counts_by_congress": {
@@ -1286,11 +1286,11 @@
         62
       ],
       "119": [
-        62,
+        71,
         29,
         6,
         5,
-        22
+        23
       ]
     },
     "unverified_disagreements": [
@@ -1417,8 +1417,8 @@
         "fill": "67%"
       },
       "2020s": {
-        "laws": 760,
-        "with_sentence": 701,
+        "laws": 770,
+        "with_sentence": 711,
         "too-long": 58,
         "empty": 1,
         "fill": "92%"
@@ -1497,7 +1497,7 @@
       "117": 13,
       "118": 8
     },
-    "laws_not_yet_assessed": 124
+    "laws_not_yet_assessed": 134
   },
   "veto_overrides": [
     "93-pub-148 1973-11-07",
@@ -1553,13 +1553,13 @@
       "111-pub-139"
     ],
     "not_in_legislators": [],
-    "resolved": 12609
+    "resolved": 12619
   },
   "cosponsors": {
-    "laws_with_cosponsors": 9414
+    "laws_with_cosponsors": 9421
   },
   "committees": {
-    "laws_with_a_committee": 12155,
+    "laws_with_a_committee": 12165,
     "distinct_ids": 386,
     "ids_with_a_page": 156,
     "share_of_committee_links_with_a_page_by_decade": {
@@ -1568,7 +1568,7 @@
       "1990s": "92% of 3815",
       "2000s": "100% of 3760",
       "2010s": "100% of 2983",
-      "2020s": "100% of 1148"
+      "2020s": "100% of 1166"
     },
     "ids_with_more_than_one_name": [
       "HSED: Education and Workforce Committee / Education and the Workforce Committee",
