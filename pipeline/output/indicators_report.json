@@ -1,9 +1,9 @@
 {
   "display_start": "1991-01-21",
   "counts": {
-    "GASREGW": 1881,
-    "GASDESW": 1700,
-    "MORTGAGE30US": 2899,
+    "GASREGW": 1882,
+    "GASDESW": 1701,
+    "MORTGAGE30US": 2900,
     "PAYEMS": 1053,
     "UNRATE": 944,
     "CPIAUCSL": 956,
@@ -20,9 +20,9 @@
     "USREC": 2062
   },
   "last_observation": {
-    "GASREGW": "2026-10-12",
-    "GASDESW": "2026-10-12",
-    "MORTGAGE30US": "2026-10-15",
+    "GASREGW": "2026-10-19",
+    "GASDESW": "2026-10-19",
+    "MORTGAGE30US": "2026-10-22",
     "PAYEMS": "2026-09-01",
     "UNRATE": "2026-09-01",
     "CPIAUCSL": "2026-09-01",
