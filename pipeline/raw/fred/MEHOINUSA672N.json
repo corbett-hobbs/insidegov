@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-12T20:25:14.436Z","series":{"id":"MEHOINUSA672N","title":"Real Median Household Income in the United States","units":"2024 C-CPI-U Dollars","frequency":"Annual","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1984-01-01","observation_end":"2025-01-01","last_updated":"2026-09-16 15:39:42-05","notes":"Income in 2024 C-CPI-U (2000-2024) and R-CPI-U-RS (pre-2000) adjusted dollars."}},
+  "head": {"fetched_at":"2026-10-26T17:38:28.267Z","series":{"id":"MEHOINUSA672N","title":"Real Median Household Income in the United States","units":"2025 C-CPI-U Dollars","frequency":"Annual","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1984-01-01","observation_end":"2025-01-01","last_updated":"2026-09-16 15:39:42-05","notes":"Income in 2025 C-CPI-U (2000-2025) and R-CPI-U-RS (pre-2000) adjusted dollars."}},
   "observations": [
     ["1984-01-01","61910"],
     ["1985-01-01","63090"],
