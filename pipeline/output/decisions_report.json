@@ -356,13 +356,13 @@
   },
   "case_articles": {
     "cases": 8251,
-    "linked": 3440,
+    "linked": 3443,
     "by_via": {
-      "us_cite": 2971,
+      "us_cite": 2974,
       "docket": 267,
       "name_year": 203
     },
-    "no_article": 4790,
+    "no_article": 4787,
     "unlisted": 20,
     "conflicts": [
       {
@@ -1392,11 +1392,11 @@
     ]
   },
   "case_summaries": {
-    "fetched": "2026-10-22",
-    "linked_cases": 3440,
+    "fetched": "2026-10-26",
+    "linked_cases": 3443,
     "cases_with_summary": 3350,
-    "articles": 3364,
-    "with_lead": 3363,
+    "articles": 3365,
+    "with_lead": 3364,
     "summarized": 3278,
     "claude": 1226,
     "from_sentence": {
@@ -1404,7 +1404,7 @@
       "2": 272,
       "3": 81
     },
-    "without": 90
+    "without": 93
   },
   "case_details": {
     "cases": 8251,
