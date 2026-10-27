@@ -41,7 +41,7 @@ export function lengthSection(block: DraftBlock): string {
     const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead });
     lines.push(errors.length ? `- ⚠ **Caption check fails:** ${errors.join("; ")}. It will not post until this is fixed.` : "- ✅ Caption check passes (numbers match the facts, no loaded words).");
     // Instagram is posted by hand: the text to paste, rebuilt with the rest of this section when the caption is edited.
-    lines.push("", "**Instagram text** (to post by hand; the hashtags are fixed per dataset in `instagram.ts`)", "", "```text", insta, "```");
+    lines.push("", "**Instagram text** (to post by hand; hashtags are set per series in `instagram.ts`)", "", "```text", insta, "```");
   }
   return `${COUNTS_OPEN}\n**Length**\n\n${lines.join("\n")}\n${COUNTS_CLOSE}`;
 }

@@ -172,6 +172,10 @@ export type Insight = {
   source: string;
   /** Series.note: printed on the chart after the source. */
   note?: string;
+  /** Electricity generation: each source's change, as verified facts (mix.ts), for the carousel's breakdown slide. */
+  mix?: PowerMix;
+  /** Why the number moved, from named sources (why.ts), for the carousel's "why" slide. */
+  why?: Why;
   /** Higher is more notable; used to rank and pick drafts. */
   score: number;
   /** Alt text for the chart image. */
@@ -220,3 +224,13 @@ export type Release = {
   /** Last day the draft may post; after that it is stale (newer data is out or due). */
   expiresOn: string;
 };
+
+/** Fact ids for each source's change over two spans: the same month a year earlier, and the 12 months to date. */
+export type PowerMix = {
+  period: string;
+  rows: { name: string; yoy: string; year: string }[];
+  total: { yoy: string; year: string };
+};
+
+/** Paragraphs in words (no figures but years) and the sources they come from, by name. */
+export type Why = { title: string; paragraphs: string[]; sources: string[] };
