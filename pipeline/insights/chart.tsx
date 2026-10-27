@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { scaleBand, scaleLinear, scaleUtc } from "d3-scale";
 import { line } from "d3-shape";
+import sharp from "sharp";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { BUSH_41 } from "../../lib/economy-presidents";
@@ -311,10 +312,111 @@ export function sealSrc(): string {
   return seal;
 }
 
+type Branch = "presidency" | "congress" | "supreme-court";
+
+/** The page's branch landmark and colour (app/globals.css: div[data-branch], .branch-bg). `pos` is the photo's vertical focus. */
+const BRANCHES: Record<Branch, { accent: string; photo: string; pos: number }> = {
+  presidency: { accent: "#2f4f87", photo: "white-house.jpg", pos: 0.62 },
+  congress: { accent: "#2f6b4f", photo: "capitol.jpg", pos: 0.3 },
+  "supreme-court": { accent: "#7a2e3b", photo: "supreme-court.jpg", pos: 0.3 },
+};
+
+/** The section a page path belongs to ("/presidency/energy" → presidency). */
+export function branchOf(url: string): Branch {
+  const first = url.split("/")[1];
+  return first === "congress" || first === "supreme-court" ? first : "presidency";
+}
+
+export const branchAccent = (url: string) => BRANCHES[branchOf(url)].accent;
+
+const backdrops = new Map<string, string>();
+
+/**
+ * The faint landmark behind the top of the image, as on the site's pages: the branch photo in greyscale, washed in the
+ * branch colour, at low opacity, fading to the white surface before the plot so the marks sit on a clean field.
+ * Baked into a PNG (the renderer has no blend modes, filters or masks).
+ */
+export async function backdropSrc(url: string, width: number, height: number): Promise<string> {
+  const key = `${branchOf(url)}:${width}x${height}`;
+  const cached = backdrops.get(key);
+  if (cached) return cached;
+  const b = BRANCHES[branchOf(url)];
+  const file = join(process.cwd(), "public/images/branches", b.photo);
+  // Trim 4% off each edge first: the White House scan has a white border the page's wider crop hides.
+  const meta = await sharp(file).metadata();
+  const inset = { left: Math.round(meta.width! * 0.04), top: Math.round(meta.height! * 0.04), width: Math.round(meta.width! * 0.92), height: Math.round(meta.height! * 0.92) };
+  const trimmed = await sharp(file).extract(inset).toBuffer();
+  const scaledH = Math.round((inset.height * width) / inset.width);
+  const top = Math.max(0, Math.round((scaledH - height) * b.pos));
+  const grey = await sharp(trimmed).resize({ width }).extract({ left: 0, top, width, height: Math.min(height, scaledH - top) }).greyscale().linear(1.1, -12.8).raw().toBuffer({ resolveWithObject: true });
+  const [ar, ag, ab] = [1, 3, 5].map((i) => parseInt(b.accent.slice(i, i + 2), 16));
+  // `mix-blend-mode: color`: the photo's lightness, the accent's hue. Lightness scales the accent toward black or white.
+  const accentL = 0.299 * ar + 0.587 * ag + 0.114 * ab;
+  const OPACITY = 0.16;
+  const h = grey.info.height;
+  const out = Buffer.alloc(width * h * 3);
+  for (let y = 0; y < h; y++) {
+    // Full strength over the top quarter, then fading to nothing (the page's mask: #000 25%, transparent 100%).
+    const t = y / h;
+    const a = OPACITY * (t < 0.25 ? 1 : 1 - (t - 0.25) / 0.75);
+    for (let x = 0; x < width; x++) {
+      const L = grey.data[(y * width + x) * grey.info.channels]!;
+      for (const [c, v] of [ar, ag, ab].entries()) {
+        const tinted = L <= accentL ? (v * L) / accentL : v + ((255 - v) * (L - accentL)) / (255 - accentL);
+        out[(y * width + x) * 3 + c] = Math.round(255 * (1 - a) + tinted * a);
+      }
+    }
+  }
+  const png = await sharp(out, { raw: { width, height: h, channels: 3 } }).png().toBuffer();
+  const src = `data:image/png;base64,${png.toString("base64")}`;
+  backdrops.set(key, src);
+  return src;
+}
+
 /** Newsreader, the site's serif, for headlines and the wordmark. */
 export function serifFont(): Buffer {
   fonts ??= { serif: readFileSync(join(process.cwd(), "app/_og/Newsreader.ttf")) };
   return fonts.serif;
+}
+
+/**
+ * Why the chart is posted now, top right: "In the news" on a news draft; otherwise the data's release ("New data, released
+ * … · covers …" when it lags its period, else "Data update"). A pill in the branch colour, with a dot (red for news).
+ */
+export function badgeOf(insight: Insight): { text: string; dot: string; color: string } {
+  const color = branchAccent(insight.url);
+  if (insight.kind === "news") return { text: "In the news", dot: NEWS_DOT, color };
+  return { text: releaseNote(insight) ?? "Data update", dot: color, color };
+}
+
+/** The backdrop fades out just below the plot's top gridline. */
+const BACKDROP_H = 270;
+
+const NEWS_DOT = "#c8372d";
+
+export function Badge({ text, dot, color, size }: { text: string; dot: string; color: string; size: number }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginLeft: "auto",
+        fontSize: size,
+        letterSpacing: 0.3,
+        lineHeight: 1.25,
+        textTransform: "none",
+        color,
+        background: "rgba(255, 255, 255, 0.88)",
+        border: `1.5px solid ${color}55`,
+        borderRadius: 999,
+        padding: `${Math.round(size * 0.35)}px ${Math.round(size * 0.85)}px`,
+        boxShadow: `0 2px 8px ${color}1f`,
+      }}
+    >
+      <div style={{ display: "flex", width: size * 0.55, height: size * 0.55, borderRadius: 999, background: dot, marginRight: size * 0.5, boxShadow: `0 0 0 ${Math.round(size * 0.22)}px ${dot}2e` }} />
+      {text}
+    </div>
+  );
 }
 
 export async function renderChart(insight: Insight): Promise<Buffer> {
@@ -322,19 +424,20 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
   const spec = insight.chart;
   const { svg, labels } = chartLayer(spec, CARD);
   // Lagged data says it is new, so a chart ending months ago does not read as old news (freshness.ts).
-  const note = releaseNote(insight) ?? (insight.kind === "news" ? "In the news" : null);
+  const badge = badgeOf(insight);
+  const backdrop = await backdropSrc(insight.url, WIDTH, BACKDROP_H);
   const headlineSize = insight.headline.length > 96 ? 36 : insight.headline.length > 70 ? 40 : 46;
   const content: ReactNode = (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: "28px 60px 0 60px" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+      <img src={backdrop} width={WIDTH} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
       {svgImage(svg)}
       <div style={{ display: "flex", alignItems: "center", fontSize: 18, letterSpacing: 3, color: MUTED, textTransform: "uppercase" }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
         <img src={sealSrc()} width={42} height={42} alt="" style={{ marginRight: 12 }} />
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 32, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
         {KICKER[insight.dataset]}
-        {note ? (
-          <div style={{ display: "flex", marginLeft: "auto", fontSize: 17, letterSpacing: 1.5, color: SURFACE, background: ACCENT, borderRadius: 4, padding: "4px 10px" }}>{note}</div>
-        ) : null}
+        <Badge {...badge} size={19} />
       </div>
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headlineSize, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, maxWidth: 1080 }}>{insight.headline}</div>
       <div style={{ position: "absolute", top: CARD.plot.top - 44, left: 60, display: "flex", fontSize: 17, color: MUTED }}>{spec.axisLabel}</div>
