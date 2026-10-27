@@ -172,9 +172,9 @@ export type Insight = {
   source: string;
   /** Series.note: printed on the chart after the source. */
   note?: string;
-  /** Electricity generation: each source's change, as verified facts (mix.ts), for the carousel's breakdown slide. */
-  mix?: PowerMix;
-  /** Why the number moved, from named sources (why.ts), for the carousel's "why" slide. */
+  /** What drove the change, as verified facts (breakdown.ts): each source's or partner's part, for the carousel. */
+  breakdown?: Breakdown;
+  /** Why the number moved, from named sources (research.ts, or why.ts by hand), for the caption and the carousel. */
   why?: Why;
   /** Higher is more notable; used to rank and pick drafts. */
   score: number;
@@ -225,12 +225,18 @@ export type Release = {
   expiresOn: string;
 };
 
-/** Fact ids for each source's change over two spans: the same month a year earlier, and the 12 months to date. */
-export type PowerMix = {
-  period: string;
-  rows: { name: string; yoy: string; year: string }[];
-  total: { yoy: string; year: string };
+/**
+ * A carousel breakdown slide: one or two blocks of rows (each a fact id, so every number is verified), with a total.
+ * Row facts are signed changes or levels in the series' unit.
+ */
+export type Breakdown = {
+  title: string;
+  blocks: { label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }[];
+  note: string;
 };
 
-/** Paragraphs in words (no figures but years) and the sources they come from, by name. */
-export type Why = { title: string; paragraphs: string[]; sources: string[] };
+/**
+ * Why a number moved. `captionLine` is one attributed sentence for the post; `paragraphs` expand on it for the carousel
+ * (words only, years apart); `sources` are the pages they come from, each on the allowed list and actually read.
+ */
+export type Why = { title: string; captionLine: string; paragraphs: string[]; sources: { name: string; url: string }[] };

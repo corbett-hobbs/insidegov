@@ -367,3 +367,24 @@ describe("detectLatest", () => {
     expect(ins?.template).not.toMatch(/December 2009/);
   });
 });
+
+describe("breakdowns", () => {
+  it("traces every electricity and trade breakdown number to the data", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withBreakdown } = await import("./breakdown");
+    const energy = loadDataset("energy").series;
+    const trade = loadDataset("trade").series;
+    const index = new CellIndex();
+    const base = { kind: "latest", frequency: "monthly", facts: [], source: "S", chart: { type: "line", points: [], marks: [] } } as never as Insight;
+    const lastPower = energy.find((s) => s.id === "energy.power_total")!.points.at(-1)!.date;
+    const power = withBreakdown({ ...base, id: "p", dataset: "energy", seriesId: "energy.power_total", period: lastPower }, energy);
+    expect(power.breakdown?.blocks).toHaveLength(2);
+    expect(power.breakdown?.blocks[0]!.rows.map((r) => r.name)).toContain("Natural gas");
+    expect(verifyInsight(power, index)).toEqual([]);
+    const lastTrade = trade.find((s) => s.id === "trade.deficit")!.points.at(-1)!.date;
+    const deficit = withBreakdown({ ...base, id: "t", dataset: "trade", seriesId: "trade.deficit", period: lastTrade }, trade);
+    expect(deficit.breakdown?.blocks[0]!.rows).toHaveLength(5);
+    expect(verifyInsight(deficit, index)).toEqual([]);
+    expect(withBreakdown({ ...base, id: "g", dataset: "gas", seriesId: "gas.regular", period: lastTrade }, []).breakdown).toBeUndefined();
+  });
+});

@@ -78,6 +78,26 @@ export function numberInSource(n: Num, sourceNums: readonly Num[], sourceText: s
   });
 }
 
+/**
+ * The neutrality rules on their own: no loaded words, no parties or politicians (unless allowed by name), and no sentence
+ * that pairs a cause word with a policy word. Also used for the social posts' "why it moved" text (insights/research.ts).
+ */
+export function neutralityProblem(text: string, sentences: readonly string[] = splitSentences(text.replace(US_STOP, "US.")), allowNames: readonly string[] = []): string | null {
+  const loaded = text.match(LOADED_RE);
+  if (loaded) return `"${loaded[0]}" is a loaded word; describe it in plain, neutral terms`;
+  const allowed = new Set(allowNames);
+  const party = text.match(PARTY);
+  if (party && !allowed.has(party[0])) return `"${party[0]}": leave parties and political labels out`;
+  const person = text.match(POLITICIAN_RE) ?? text.match(NAMED_ADMIN);
+  if (person && !allowed.has(person[0])) return `"${person[0]}": name the office ("the President"), not the politician`;
+  for (const s of sentences) {
+    const cause = s.match(CAUSE);
+    const policy = s.match(POLICY);
+    if (cause && policy) return `"${s}" reads as a causal claim about policy ("${cause[0]}" with "${policy[0]}"); say what the rule or law does, not what it caused`;
+  }
+  return null;
+}
+
 /** Why an answer fails, or null when it passes. `cited` are the sources the answer cites, with their text read now. */
 export function checkFaqAnswer(answer: string, cited: readonly CitedSource[], opts: { allowNames?: readonly string[] } = {}): string | null {
   if (/[\n\r]/.test(answer) || /[*#_`[\]<>]/.test(answer)) return "the answer must be plain prose: no line breaks, lists, links or markdown";
@@ -87,18 +107,8 @@ export function checkFaqAnswer(answer: string, cited: readonly CitedSource[], op
   const sentences = splitSentences(answer.replace(US_STOP, "US."));
   if (sentences.length < MIN_SENTENCES || sentences.length > MAX_SENTENCES) return `the answer has ${sentences.length} sentences; it must have ${MIN_SENTENCES} to ${MAX_SENTENCES}`;
 
-  const loaded = answer.match(LOADED_RE);
-  if (loaded) return `"${loaded[0]}" is a loaded word; describe it in plain, neutral terms`;
-  const allowed = new Set(opts.allowNames ?? []);
-  const party = answer.match(PARTY);
-  if (party && !allowed.has(party[0])) return `"${party[0]}": leave parties and political labels out`;
-  const person = answer.match(POLITICIAN_RE) ?? answer.match(NAMED_ADMIN);
-  if (person && !allowed.has(person[0])) return `"${person[0]}": name the office ("the President"), not the politician`;
-  for (const s of sentences) {
-    const cause = s.match(CAUSE);
-    const policy = s.match(POLICY);
-    if (cause && policy) return `"${s}" reads as a causal claim about policy ("${cause[0]}" with "${policy[0]}"); say what the rule or law does, not what it caused`;
-  }
+  const neutral = neutralityProblem(answer, sentences, opts.allowNames);
+  if (neutral) return neutral;
 
   if (cited.length === 0) return "the answer cites no source";
   for (const c of cited) {
