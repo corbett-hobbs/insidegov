@@ -382,6 +382,10 @@ export function InTheNews({ items, updated, focus = null }: { items: readonly Ne
 
 /** Evergreen "why it matters, and to whom" questions, grouped by the page's rows or sections and closed by default. */
 export function Questions({ groups, focus = null }: { groups: readonly QuestionGroup[]; focus?: string | null }) {
+  // Opened imperatively (not via an `open` prop) so the answer stays open after the highlight fades.
+  const openOnce = (el: HTMLDetailsElement | null) => {
+    if (el) el.open = true;
+  };
   if (!groups.length) return null;
   return (
     <section id={QUESTIONS_ID} aria-labelledby={`${QUESTIONS_ID}-h`} className="flex scroll-mt-32 flex-col gap-3">
@@ -395,7 +399,7 @@ export function Questions({ groups, focus = null }: { groups: readonly QuestionG
             {g.items.map((item) => {
               const on = focus !== null && item.charts.some((c) => c.target === focus);
               return (
-                <details key={item.id} open={on || undefined} className={`group -mx-2 rounded-md px-2 transition-colors duration-500 ${on ? "bg-accent/10" : ""}`}>
+                <details key={item.id} ref={on ? openOnce : undefined} className={`group -mx-2 rounded-md px-2 transition-colors duration-500 ${on ? "bg-accent/10" : ""}`}>
                   <summary className={`flex cursor-pointer list-none items-start gap-3 py-2.5 font-serif text-[1.05rem] leading-snug text-ink [&::-webkit-details-marker]:hidden ${FOCUS}`}>
                     <span aria-hidden className="mt-[0.2rem] font-mono text-[0.75rem] text-ink-faint transition-transform group-open:rotate-90">›</span>
                     <span className="flex-1">{item.q}</span>
