@@ -2,9 +2,10 @@ name: Social post (scheduled, disabled)
 
 # The posting scheduler. Approving a `social-draft` issue (label `social-approved`) only QUEUES it; at each slot this
 # runs pipeline/insights/post-next.ts, which expires stale drafts and posts at most one (rules: pipeline/insights/schedule.ts):
-#   - weekdays 9:00 a.m. Pacific (noon Eastern), and 1:00 p.m. Pacific (4:00 p.m. Eastern) only when 3+ drafts are
-#     waiting. Cron is UTC with no daylight saving, so each slot runs at both UTC hours it can fall on (16 and 17,
-#     20 and 21) and post-next.ts --slot auto keeps the one that is the slot's Pacific hour;
+#   - weekdays from 9:00 a.m. Pacific (noon Eastern), and from 1:00 p.m. Pacific (4:00 p.m. Eastern) only when 3+
+#     drafts are waiting. Each slot is a window (9-1 and 1-5 Pacific) with at most one post: GitHub starts scheduled
+#     runs hours late or drops them, so the cron fires every half hour (off the hour, when GitHub is least loaded)
+#     across both windows in either daylight-saving season, and post-next.ts --slot auto exits outside them;
 #   - at most 2 a day, 8 in any 7 days, 3 hours apart, a topic at most twice a week;
 #   - the intro thread first; nothing past its freshness window (freshness.ts).
 #
@@ -16,8 +17,10 @@ name: Social post (scheduled, disabled)
 
 on:
   schedule:
-    - cron: "0 16,17 * * 1-5"
-    - cron: "0 20,21 * * 1-5"
+    # 9 a.m.-5 p.m. Pacific is 16:00-00:00 UTC in summer, 17:00-01:00 in winter; the 0-1 UTC runs are the evening
+    # before in Pacific, hence Tue-Sat.
+    - cron: "17,47 16-23 * * 1-5"
+    - cron: "17,47 0,1 * * 2-6"
   workflow_dispatch:
     inputs:
       slot:
