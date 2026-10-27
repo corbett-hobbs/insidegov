@@ -94,7 +94,7 @@ When each source publishes, which workflow picks it up, and what usually posts:
 Canada announced, a diesel deal with Russia. The news watcher listens for that and drafts a **context chart** from
 data the site already has. It does not report the news, it gives it background.
 
-**Topics** (`news/topics.ts`): only topics the site can chart. Add one there (feed query, title pattern, chart, lead).
+**Topics** (`news/topics.ts`, `NEWS_TOPICS`): only topics the site can chart. Add one there (title pattern, chart, lead).
 
 | Topic | Headline mentions | Chart |
 | --- | --- | --- |
@@ -114,17 +114,19 @@ tariff rate, "The peak for Canada was 3.8% in September 2025", so it cannot be r
 earlier is the fallback, when the latest value is itself the peak ("up 19% from a year earlier, the highest July in
 data going back to 1997"). Clauses are dropped from the end until the caption fits 240 characters.
 
-**Feeds** (`news/feeds.ts`), plain RSS, no keys: the White House's presidential actions feed (official, public domain:
-proclamations and executive orders, such as tariff changes) and a Google News search per topic query. Google's feed
-terms limit it to personal, non-commercial use; set the repo variable `SOCIAL_NEWS_SOURCES=whitehouse` to use the
-official feed only. (GDELT's free API was tried and dropped: it rate-limits GitHub's shared runners.)
+**Feeds** (`news/feeds.ts`, `news/outlets.ts`), plain RSS, no keys: the White House's presidential actions feed
+(official, public domain: proclamations and executive orders, such as tariff changes) and the news outlets' own feeds
+(the roster under "In the news on the pages" below; the end reserves are not read here), opinion filtered out. Set the
+repo variable `SOCIAL_NEWS_SOURCES=whitehouse` to use the official feed only (`outlets` for the outlets only; the old
+value `google` means `outlets`). Google News searches were used before (its feed terms limit it to personal,
+non-commercial use) and GDELT's free API before that (it rate-limits GitHub's shared runners).
 
 **What counts as a story** (`news/match.ts`, tested):
 
 | Rule | Value |
 | --- | --- |
 | Recency | headlines from the last **6 hours** (`NEWS_LOOKBACK_HOURS`) |
-| Corroboration | **2+ different publishers** (`NEWS_MIN_SOURCES`), or one official White House document |
+| Corroboration | **2+ different outlets** (`NEWS_MIN_SOURCES`), or one official White House document |
 | Tariffs | a headline naming exactly one trade partner importing $2B+ a year is that partner's story; none or several, the all-countries story, which ranks after any partner's |
 | Relevance | with `ANTHROPIC_API_KEY`, the Claude API (`claude-opus-5-5`, effort `low`; `SOCIAL_NEWS_MODEL` / `SOCIAL_NEWS_EFFORT`) answers yes or no: a current, national development with the topic central, not opinion, local or company news. A "no" is remembered for **6 hours** (`news/state.json` on the `social-drafts` branch) so the same story is not asked about every run. Without a key, the keyword and publisher rules stand alone. |
 | Volume | at most **2 drafts a run**, one per topic; the same topic (and partner) at most once in **3 days** (`NEWS_COOLDOWN_DAYS`) |
@@ -155,6 +157,60 @@ collected rate is not an announced rate and moves months after a change.
 
 To try it: Actions → "Social news watcher" → Run workflow (dry run ticked prints the drafts). Locally:
 `pnpm insights:news` (writes `social-drafts/news/`), `-- --no-llm` for keyword rules and template captions.
+
+## In the news on the pages
+
+`news/pages.ts`. Each data page ends with an "In the news" row: one card per story, showing how a left-of-center and a
+right-of-center outlet headlined it, beside the agency's own release (or a Center outlet) and the chart it is about,
+so readers judge the framing themselves. The pipeline writes `pipeline/output/news_<page>.json` (economy, immigration,
+trade, energy) in the UI's schema (`lib/news-types.ts`: `{ asOf, stories: [{ id, date, topic, chartId, headlines:
+[{ outletId, outlet, lean, title, url }] }] }`).
+
+```
+four times a day (.github/workflows/news-pages.yml, repo variable NEWS_PAGES_ENABLED=true)
+  news/pages.ts   read the outlets' and agencies' feeds                  news/feeds.ts, news/outlets.ts
+                  + the topic headlines earlier runs saw (Actions cache)
+                  one topic per headline, one chart per topic             news/topics.ts PAGE_TOPICS
+                  group into stories, add same-story companions           news/cards.ts
+                  which are straight news of one development? (Claude)    news/classify.ts checkCandidate
+                  balance rule, data release, merge with earlier cards    news/cards.ts
+  changed file → PR → full CI gate → merged                              .github/actions/gate-and-merge
+```
+
+**Outlets and leans** (`news/outlets.ts`, one table): leans are AllSides Media Bias Ratings™ of each outlet's news
+coverage, read 2026-10-27 (`ALLSIDES_READ_ON`). Licence: CC BY-NC 4.0, free for noncommercial use with attribution
+(`ALLSIDES_CREDIT` must appear where leans are shown; commercial use needs AllSides' consent). Every request identifies
+the watcher (`InsideGov news watcher (+https://insidegov.fyi)`); a feed that blocks it is dropped, never fetched as a
+browser.
+
+| Lean | Outlets (feeds) |
+| --- | --- |
+| Left | HuffPost (politics, U.S. news; needs the check), The Guardian (U.S. politics) |
+| Lean Left | New York Times (Politics, Economy, U.S.), NBC News (politics, business, news), CBS News (politics, MoneyWatch, U.S.); reserves AP (via Flipboard, ~14h lag), ABC News, NPR |
+| Center | Wall Street Journal (U.S. news, U.S. business: its "social" feeds carry post blurbs, not headlines), BBC News, The Hill, Bloomberg |
+| Lean Right | Washington Examiner, Washington Times, Fox Business |
+| Right | Fox News (politics, U.S., latest; not its opinion feed), New York Post |
+| End reserves | Mother Jones (Left), Breitbart (Right), both need the check |
+| Data | BLS (CPI, jobs, real earnings), BEA (GDP, trade), EIA, CBP (monthly updates), USCIS, Federal Register (presidential documents) |
+
+Unavailable: Reuters (no RSS), CNN (feeds frozen), the Washington Post and Newsmax (block bots); Treasury's statement
+and Freddie Mac's mortgage survey have no feed the watcher can read, so those stories show a Center outlet. MS NOW and
+White House statements are left out by choice. A reserve is used only when no roster outlet on its side covered the story.
+
+**Rules** (`news/cards.ts`, tested in `cards.test.ts`):
+
+| Rule | Value |
+| --- | --- |
+| Opinion | dropped by feed choice, by URL (`/opinion/`, `/commentisfree/`, show blogs, per-outlet paths) and marked titles ("Opinion \|", "Analysis:", "Live updates"); outlets with no signal (HuffPost) count only when the check calls them news, so without an API key they are left out |
+| Topic | a headline goes to the first `PAGE_TOPICS` entry its title matches, so a story is about one chart on one page; tariffs by the one trade partner named |
+| Story | one topic within **3 days** of its first headline (`STORY_WINDOW_DAYS`), joined by other outlets' headlines that share 3+ detail words without the topic's words ("Supreme Court declines to halt DOJ deal…" on the deportation story) |
+| Same development | the Claude API (`SOCIAL_NEWS_MODEL`, effort `SOCIAL_NEWS_EFFORT`) keeps the headlines that are straight news of one current national development with the topic central; it sees outlets and titles, never leans. Answers are cached by the story's set of URLs. Without a key: headlines must share 2 detail words with another outlet's, except periodic topics (a weekly price, a monthly report) |
+| Balance | published only with a left-of-center **and** a right-of-center outlet; at most 3 headlines: the agency's release (else a Center outlet), the left and the right; per side, the outlet with the most headlines on the story, then roster order; the same wire headline never stands for both sides |
+| Release | the topic's agency item from 2 days before the first headline to 2 days after the last (Federal Register 7) |
+| Page | earlier cards kept (the file is the memory); a card expires **14 days** after its date (`STORY_TTL_DAYS`); newest first; at most **6** cards, **2** per chart; `asOf` moves only when the cards change |
+
+Locally: `pnpm news:pages -- --dry-run` (prints each page's cards), `-- --no-llm` for the word rules,
+`--out DIR` to write elsewhere. Add a topic in `PAGE_TOPICS` (page, chart id, label, title pattern, release).
 
 ## Captions and the numbers check
 
@@ -274,6 +330,7 @@ pnpm insights:intro -- --print               # the intro thread
 pnpm insights:news                           # the news watcher once: stories in the news -> social-drafts/news
 pnpm insights:news -- --no-llm               # ... keyword rules only, template captions
 pnpm insights:post -- --slot news --dry-run  # what the news lane would post now
+pnpm news:pages -- --dry-run                 # the pages' In the news cards, printed (no files written)
 ```
 
 `social-drafts/` is git-ignored. Captions need `ANTHROPIC_API_KEY` (env or `.env.local`).

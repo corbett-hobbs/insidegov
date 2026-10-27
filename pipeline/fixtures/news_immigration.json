@@ -1,0 +1,114 @@
+{
+  "asOf": "2026-10-27",
+  "stories": [
+    {
+      "id": "border-oct21",
+      "date": "2026-10-21",
+      "topic": "Border encounters",
+      "chartId": "chart-encounters",
+      "headlines": [
+        {
+          "outletId": "cbp",
+          "outlet": "U.S. Customs and Border Protection",
+          "lean": "Data",
+          "title": "CBP releases September 2026 monthly update",
+          "url": "https://www.cbp.gov/newsroom/stats"
+        },
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "What the latest border numbers show, and what they leave out",
+          "url": "https://www.nbcnews.com/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "New border data shows September encounter totals",
+          "url": "https://www.foxnews.com/"
+        }
+      ]
+    },
+    {
+      "id": "greencards-oct16",
+      "date": "2026-10-16",
+      "topic": "Green card waits",
+      "chartId": "chart-green-cards",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "For Families Waiting on Green Cards, the Line Barely Moves",
+          "url": "https://www.nytimes.com/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Visa bulletin leaves family green card backlog unchanged",
+          "url": "https://www.washingtonexaminer.com/"
+        }
+      ]
+    },
+    {
+      "id": "removals-oct09",
+      "date": "2026-10-09",
+      "topic": "ICE removals",
+      "chartId": "chart-removals",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "ICE publishes deportation figures for fiscal 2026",
+          "url": "https://www.theguardian.com/"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "ICE releases removal totals for the fiscal year",
+          "url": "https://thehill.com/"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "ICE reveals deportation numbers for fiscal 2026",
+          "url": "https://nypost.com/"
+        }
+      ]
+    },
+    {
+      "id": "refugees-oct01",
+      "date": "2026-10-01",
+      "topic": "Refugee cap",
+      "chartId": "chart-refugees",
+      "headlines": [
+        {
+          "outletId": "federalregister",
+          "outlet": "Federal Register",
+          "lean": "Data",
+          "title": "Presidential Determination on Refugee Admissions for Fiscal Year 2027",
+          "url": "https://www.federalregister.gov/"
+        },
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "White House sets refugee admissions cap for 2027",
+          "url": "https://www.cbsnews.com/"
+        },
+        {
+          "outletId": "washingtontimes",
+          "outlet": "Washington Times",
+          "lean": "Lean Right",
+          "title": "Refugee ceiling for 2027 announced",
+          "url": "https://www.washingtontimes.com/"
+        }
+      ]
+    }
+  ]
+}

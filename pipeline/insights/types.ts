@@ -184,7 +184,8 @@ export type Insight = {
 };
 
 /** A headline as the watcher saw it (news/feeds.ts). */
-export type Headline = { title: string; source: string; url: string; published: string; feed: string };
+/** One headline from a feed. `source` is the outlet's (or agency's) name, `outletId` its key in news/outlets.ts. */
+export type Headline = { title: string; source: string; url: string; published: string; feed: string; outletId?: string };
 
 /** Why a news draft exists and how long it stays postable. */
 export type NewsTrigger = {

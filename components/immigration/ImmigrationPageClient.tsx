@@ -22,6 +22,10 @@ import { RemovalsCountryCard } from "./RemovalsCountryCard";
 import { SectionHeading } from "./SectionHeading";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { EXTRA_NAV, NEWS_ID, QUESTIONS_ID, InTheNews, NewsAndFaqBand, Questions } from "@/components/news/NewsSections";
+import { immigrationFaq, immigrationNews } from "./immigration-news";
+import { updatedLabel } from "@/lib/news-derive";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
 
 const asOfLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -33,7 +37,7 @@ const SECTIONS: readonly SectionNavItem[] = [
   { id: "border", label: "Border encounters and ICE removals", short: "Border & removals" },
 ];
 
-export function ImmigrationPageClient({ data, countries, refugees, lpr, encounters, worldMap }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; lpr: LprPayload; encounters: EncountersPayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] } }) {
+export function ImmigrationPageClient({ data, countries, refugees, lpr, encounters, worldMap, newsFile, faqFile }: { data: ImmigrationPageData; countries: RemovalsCountryPayload; refugees: RefugeePayload; lpr: LprPayload; encounters: EncountersPayload; worldMap: { width: number; height: number; features: { key: string; name: string; d: string }[] }; newsFile: NewsFile | null; faqFile: FaqFile | null }) {
   // Two pieces of page state: the fiscal-year window (the two-handle slider and the term band) narrows the timeline, and
   // the selected fiscal year (a click on a bar, or the year dropdown in the country card) picks the year the country list
   // shows and is marked on the timeline. The selected year is always inside the window.
@@ -67,7 +71,12 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
   // its own tooltip and numbers; a card reports its own year and is lit by the other's.
   const [syncFy, setSyncFy] = useState<number | null>(null);
   const iceByFy = useMemo(() => new Map(data.years.map((y) => [y.fy, y.value])), [data.years]);
-  const { pillsRef, stuck, active } = useSectionScroll(SECTIONS);
+  // "In the news" and "FAQs" follow the numbered sections in the nav, each only when it has something to show.
+  const news = useMemo(() => immigrationNews(data, lpr, refugees, encounters, newsFile), [data, lpr, refugees, encounters, newsFile]);
+  const faq = useMemo(() => immigrationFaq(faqFile), [faqFile]);
+  const extras = useMemo(() => EXTRA_NAV.filter((it) => (it.id === NEWS_ID ? news.length > 0 : it.id === QUESTIONS_ID && faq.length > 0)), [news, faq]);
+  const allNav = useMemo(() => [...SECTIONS, ...extras], [extras]);
+  const { pillsRef, stuck, active } = useSectionScroll(allNav);
   // ICE's figures begin in FY2003 and end at the page's last year, so the ICE cards get the part of the window they have; a window
   // that ends before FY2003 gets a short notice instead of empty charts.
   const iceFirst = Math.max(range[0], data.firstFy);
@@ -91,15 +100,15 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
   return (
     <ImmigrationWindowProvider value={{ min: bounds[0], max: bounds[1], value: range, onChange: setRange }}>
       <ImmigrationFilterBar terms={lpr.terms} years={lpr.years} bounds={bounds} range={range} onRange={setRange}>
-        {stuck && <SectionStrip items={SECTIONS} active={active} />}
+        {stuck && <SectionStrip items={SECTIONS} extras={extras} active={active} />}
       </ImmigrationFilterBar>
-      <SectionToc items={SECTIONS} active={active} visible={stuck} />
+      <SectionToc items={SECTIONS} extras={extras} active={active} visible={stuck} />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Immigration" title="How Many People Come In and Out of the U.S.?">
           <p>
             Track green cards, refugee admissions, border encounters, and ICE deportations year by year. These records reveal who enters, who is removed, and how sharply immigration policy shifts from one administration to another.
           </p>
-          <SectionPills items={SECTIONS} pillsRef={pillsRef} />
+          <SectionPills items={SECTIONS} extras={extras} pillsRef={pillsRef} />
         </PageHeader>
 
         <SectionHeading id="green-cards" number={1} title="How Many People Get Green Cards?" />
@@ -119,9 +128,14 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
           </p>
         </SectionHeading>
 
+        {/* The wrappers give the news and questions jump links a card to scroll to. */}
+        <div id="chart-encounters" className="scroll-mt-32 rounded-[10px]">
         <EncountersCard payload={encounters} range={range} iceLastFy={data.lastFy} removals={iceByFy} activeFy={syncFy} onActiveFy={setSyncFy} />
+        </div>
 
+        <div id="chart-removals" className="scroll-mt-32 rounded-[10px]">
         <RemovalsCard data={data} range={removalsRange} fy={fyIce} onFy={setFy} activeFy={syncFy} onActiveFy={setSyncFy} />
+        </div>
 
         {iceRange ? (
           <>
@@ -133,6 +147,13 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
           <p className="m-0 rounded-[10px] border border-line bg-surface px-5 py-4 text-[0.9rem] text-ink-muted">
             ICE’s own figures, which the criminal-history and country charts use, begin in FY{data.firstFy}. Move the left end of the years slider up to FY{data.firstFy} or later to see them. {snap}
           </p>
+        )}
+
+        {(news.length > 0 || faq.length > 0) && (
+          <NewsAndFaqBand>
+            <InTheNews items={news} updated={updatedLabel(newsFile?.asOf)} />
+            <Questions groups={faq} />
+          </NewsAndFaqBand>
         )}
 
         <UpNext />

@@ -24,7 +24,7 @@ import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_TOPICS } from "./topics";
  *   pnpm insights:news -- --github             # skip stories already drafted (reads issue titles with gh)
  *
  * --out DIR      where drafts go (default social-drafts/news)
- * --feeds LIST   whitehouse,google (default: SOCIAL_NEWS_SOURCES, else both)
+ * --feeds LIST   whitehouse,outlets (default: SOCIAL_NEWS_SOURCES, else both; news/feeds.ts)
  * --now ISO      pretend it is this moment (headline recency, freshness)
  * --state FILE   stories the relevance check turned down, read and rewritten (so they are not asked about every run)
  */
@@ -38,7 +38,8 @@ try {
 const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
 const outDir = arg("--out") ?? "social-drafts/news";
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
-const feeds = (arg("--feeds") ?? process.env.SOCIAL_NEWS_SOURCES ?? FEEDS.join(",")).split(",").map((f) => f.trim()) as FeedId[];
+// "google" was the news searches' name before the outlets' own feeds replaced them; a repo variable may still say it.
+const feeds = (arg("--feeds") || process.env.SOCIAL_NEWS_SOURCES || FEEDS.join(",")).split(",").map((f) => (f.trim() === "google" ? "outlets" : f.trim())) as FeedId[];
 for (const f of feeds) if (!FEEDS.includes(f)) throw new Error(`unknown feed ${f} (one of ${FEEDS.join(", ")})`);
 const now = arg("--now") ?? new Date().toISOString();
 const stateFile = arg("--state");
@@ -54,7 +55,7 @@ if (process.argv.includes("--github")) {
   earlier = titles.flatMap((t) => t.title.match(/\[(news:[^\]]+)\]$/)?.[1] ?? []);
 }
 
-const headlines = await fetchHeadlines(NEWS_TOPICS, feeds);
+const headlines = await fetchHeadlines(feeds);
 const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASES);
 const stories = findStories(headlines, NEWS_TOPICS, partners, now);
 console.log(`insights:news  ${headlines.length} headlines from ${feeds.join(", ")}, ${stories.length} stories in the news: ${stories.map((s) => `${s.key} (${s.sources.length} sources${s.official ? ", official" : ""})`).join(", ") || "none"}`);

@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-21T17:54:51.156Z","series":{"id":"NUETPUS","title":"Electricity Net Generation From Nuclear Electric Power, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NUETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":643}},
+  "head": {"fetched_at":"2026-10-27T18:02:12.236Z","series":{"id":"NUETPUS","title":"Electricity Net Generation From Nuclear Electric Power, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NUETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=NUC&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
   "observations": [
     ["1973-01","6246.251"],
     ["1973-02","5928.069"],
@@ -643,6 +643,7 @@
     ["2026-04","57373.01"],
     ["2026-05","65000.849"],
     ["2026-06","68786.11"],
-    ["2026-07","71171.673"]
+    ["2026-07","71171.673"],
+    ["2026-08","70661.112"]
   ]
 }

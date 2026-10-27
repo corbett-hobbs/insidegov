@@ -40,7 +40,10 @@ export function RefugeeSection({
 
   return (
     <>
-      <RefugeeCeilingCard payload={payload} years={years} fy={fy} onFy={setFy} />
+      {/* The anchor the news and questions jump links scroll to. */}
+      <div id="chart-refugees" className="scroll-mt-32 rounded-[10px]">
+        <RefugeeCeilingCard payload={payload} years={years} fy={fy} onFy={setFy} />
+      </div>
       {hasDetail && <RefugeeCountryCard payload={payload} worldMap={worldMap} fy={fy} yearRange={[detailFirst, lastShown]} onFy={setFy} country={country} onCountry={setCountry} />}
       {hasDetail && <RefugeeTopCard payload={payload} fromFy={detailFirst} toFy={lastShown} fy={fy} onFy={setFy} country={country} />}
     </>
