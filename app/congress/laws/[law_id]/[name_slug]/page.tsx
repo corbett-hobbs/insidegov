@@ -5,7 +5,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { legislationJsonLd } from "@/lib/structured-data";
 import { LawPageView } from "@/components/laws/detail/LawPageView";
-import { getLawPage, getLawRef, getLawRefs } from "@/lib/law-details-data";
+import { getLawPage, getLawRef, getPrebuiltLawRefs } from "@/lib/law-details-data";
 import { lawPath, lawSlug } from "@/lib/law-url";
 import { ordinal } from "@/lib/laws-entities";
 
