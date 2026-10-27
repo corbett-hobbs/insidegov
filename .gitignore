@@ -65,3 +65,5 @@ pipeline/raw/census-trade/product-use/_cache/
 
 # social post drafts (pipeline/insights): reviewed locally, never committed
 /social-drafts/
+/faq-drafts/
+/faq-recheck-*.md

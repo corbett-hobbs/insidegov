@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { MethodologyNote } from "@/components/MethodologyNote";
 import { SectionPills, type SectionNavItem } from "@/components/SectionNav";
 import { SourceLink } from "@/components/SourceLink";
 import { LEANS, type Lean } from "@/lib/news-types";
@@ -395,6 +396,13 @@ export function Questions({ groups, focus = null }: { groups: readonly QuestionG
           </div>
         ))}
       </div>
+      <MethodologyNote className="mt-0">
+        <p>
+          Answers are drafted with AI from the sources cited under each one, checked against those sources (every figure must appear in one) and reviewed before
+          they are published. Sources are limited to federal agencies, Congress&rsquo;s research and budget offices, the Federal Reserve, universities and, for an
+          industry&rsquo;s own operating costs, that industry&rsquo;s research institute. Answers that quote figures are checked again whenever the data updates.
+        </p>
+      </MethodologyNote>
     </section>
   );
 }
