@@ -8,7 +8,7 @@ import type { NewsTopic } from "./topics";
  * single opinion piece is not enough.
  */
 
-/** Only headlines published this recently count (the watcher runs every 15 minutes; this is the overlap). */
+/** Only headlines published this recently count (the watcher runs hourly; this is the overlap). */
 export const NEWS_LOOKBACK_HOURS = 6;
 /** Different publishers a story needs, unless an official document carries it. */
 export const NEWS_MIN_SOURCES = 2;

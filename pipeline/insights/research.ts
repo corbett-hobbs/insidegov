@@ -23,8 +23,8 @@ import type { Insight, Why } from "./types";
  * back to the "How to read this" slide. A person still approves every draft.
  */
 
-const MODEL = process.env.SOCIAL_WHY_MODEL ?? "claude-opus-5-5";
-const EFFORT = (process.env.SOCIAL_WHY_EFFORT ?? "high") as "low" | "medium" | "high" | "xhigh" | "max";
+const MODEL = process.env.SOCIAL_WHY_MODEL ?? "claude-sonnet-5-5";
+const EFFORT = (process.env.SOCIAL_WHY_EFFORT ?? "medium") as "low" | "medium" | "high" | "xhigh" | "max";
 
 /** The release pages to start from, by series id or dataset: the agency's own write-up of each period's data. */
 export const RELEASE_PAGES: Record<string, string[]> = {
@@ -231,8 +231,8 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
         output_config: { effort: EFFORT },
         system: SYSTEM,
         tools: [
-          { type: "web_fetch_20260209", name: "web_fetch", allowed_domains: WEB_DOMAINS, max_uses: 10 },
-          { type: "web_search_20260209", name: "web_search", allowed_domains: WEB_DOMAINS, max_uses: 6 },
+          { type: "web_fetch_20260209", name: "web_fetch", allowed_domains: WEB_DOMAINS, max_uses: 6 },
+          { type: "web_search_20260209", name: "web_search", allowed_domains: WEB_DOMAINS, max_uses: 4 },
           TOOL,
         ],
         tool_choice: { type: "auto" },

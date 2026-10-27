@@ -9,7 +9,7 @@ import type { Story } from "./match";
  * the keyword match and the two-publisher rule stand alone (the human approval still applies).
  */
 
-const MODEL = process.env.SOCIAL_NEWS_MODEL ?? "claude-opus-5-5";
+const MODEL = process.env.SOCIAL_NEWS_MODEL ?? "claude-haiku-5-5";
 const EFFORT = (process.env.SOCIAL_NEWS_EFFORT ?? "low") as "low" | "medium" | "high" | "xhigh" | "max";
 
 const SYSTEM = `InsideGov, a nonpartisan site of U.S. government data, posts a factual chart to social media when a topic it has data on is in the news. You decide whether a story is worth that chart. Always answer by calling the record_decision tool.

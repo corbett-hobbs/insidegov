@@ -105,7 +105,7 @@ export function singledOutTerms(caption: string, facts: { id?: string; text: str
 }
 
 // Opus 5.5 by default. The task is short, but the rules are strict and a rejected caption costs a retry.
-const MODEL = process.env.SOCIAL_CAPTION_MODEL ?? "claude-opus-5-5";
+const MODEL = process.env.SOCIAL_CAPTION_MODEL ?? "claude-sonnet-5-5";
 const EFFORT = (process.env.SOCIAL_CAPTION_EFFORT ?? "medium") as "low" | "medium" | "high" | "xhigh" | "max";
 
 const SYSTEM = `You write the caption for one chart that InsideGov, a nonpartisan site of U.S. government data, will post to social media. Always answer by calling the record_caption tool.

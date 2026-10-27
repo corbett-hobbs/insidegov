@@ -20,7 +20,7 @@ you: label `social-approved` (queues it) or close (rejects it)
   └─ .github/workflows/social-post.yml, weekdays                       post-next.ts → schedule.ts
        expire stale drafts, pick at most one, post to Bluesky and X    bluesky.ts, x.ts
 
-headlines, every 15 minutes (.github/workflows/social-news.yml)
+headlines, hourly (.github/workflows/social-news.yml)
   └─ .github/actions/social-drafts (news: true)
        news/watch.ts      read the feeds                                 news/feeds.ts
                           find topics in the news (2+ publishers)        news/match.ts, news/topics.ts
@@ -128,7 +128,7 @@ non-commercial use) and GDELT's free API before that (it rate-limits GitHub's sh
 | Recency | headlines from the last **6 hours** (`NEWS_LOOKBACK_HOURS`) |
 | Corroboration | **2+ different outlets** (`NEWS_MIN_SOURCES`), or one official White House document |
 | Tariffs | a headline naming exactly one trade partner importing $2B+ a year is that partner's story; none or several, the all-countries story, which ranks after any partner's |
-| Relevance | with `ANTHROPIC_API_KEY`, the Claude API (`claude-opus-5-5`, effort `low`; `SOCIAL_NEWS_MODEL` / `SOCIAL_NEWS_EFFORT`) answers yes or no: a current, national development with the topic central, not opinion, local or company news. A "no" is remembered for **6 hours** (`news/state.json` on the `social-drafts` branch) so the same story is not asked about every run. Without a key, the keyword and publisher rules stand alone. |
+| Relevance | with `ANTHROPIC_API_KEY`, the Claude API (`claude-haiku-5-5`, effort `low`; `SOCIAL_NEWS_MODEL` / `SOCIAL_NEWS_EFFORT`) answers yes or no: a current, national development with the topic central, not opinion, local or company news. A "no" is remembered for **6 hours** (`news/state.json` on the `social-drafts` branch) so the same story is not asked about every run. Without a key, the keyword and publisher rules stand alone. |
 | Volume | at most **2 drafts a run**, one per topic; the same topic (and partner) at most once in **3 days** (`NEWS_COOLDOWN_DAYS`) |
 
 **The link** goes to the chart's own card, with its filter: `/presidency/trade?country=CAN#tariffs` for a country's
@@ -148,7 +148,7 @@ collected rate is not an announced rate and moves months after a change.
 
 | Rule | Value |
 | --- | --- |
-| Watch | every 15 minutes, around the clock, once the repo variable `SOCIAL_NEWS_ENABLED=true` |
+| Watch | hourly, around the clock, once the repo variable `SOCIAL_NEWS_ENABLED=true` |
 | Notify | one email per run that opens drafts ("news draft to approve"), same `NOTIFY_*` secrets |
 | Post | approving (label `social-approved`) triggers the news lane at once, and it also runs after every watch: it posts within minutes, any day or hour (a person approved it) |
 | Expiry | **24 hours** after the story was first seen (`NEWS_FRESH_HOURS`); then it is closed as `social-expired` |
@@ -218,7 +218,7 @@ Each insight carries **facts**: every number a caption may use, as text (`"$4.33
 exact rows it comes from (`energy_observations.json series_id=GASREGW, date=2026-10-12 → value`). `verify.ts`
 re-derives each from the committed files; a draft that does not match is dropped.
 
-The Claude API (`claude-opus-5-5`, effort `medium`; `SOCIAL_CAPTION_MODEL` / `SOCIAL_CAPTION_EFFORT` to change)
+The Claude API (`claude-sonnet-5-5`, effort `medium`; `SOCIAL_CAPTION_MODEL` / `SOCIAL_CAPTION_EFFORT` to change)
 rewrites the template caption, and `checkCaption` enforces in code: every number is a fact's text; no spelled-out
 quantities; no partisan or loaded words (`BANNED_WORDS`) or causal claims; no links, hashtags, mentions, emoji, "!"
 or "?"; all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
@@ -228,7 +228,7 @@ retried with the reasons (three tries), then dropped. Without an API key the det
 
 Every data draft says why its number went up or down, and the Instagram carousel expands on it. Two parts:
 
-**The reasons, researched** (`research.ts`). Before the caption is written, Claude (`claude-opus-5-5`, effort `high`;
+**The reasons, researched** (`research.ts`). Before the caption is written, Claude (`claude-sonnet-5-5`, effort `medium`;
 `SOCIAL_WHY_MODEL` / `SOCIAL_WHY_EFFORT`) opens the agency's own release for the period (`RELEASE_PAGES`: EIA's
 Electricity Monthly Update, BEA and Census's trade release, CBP's encounter statistics, ...), then mainstream news
 reporting of the same release (`NEWS_OUTLETS`: Reuters, AP, Bloomberg, WSJ, CNBC and other outlets AllSides rates

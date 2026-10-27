@@ -1,7 +1,7 @@
 name: Social news watcher
 
 # The news layer of the social posts (pipeline/insights/README.md, "News drafts"):
-#   - watch: every 15 minutes, read the headline feeds (White House presidential actions, the outlets' own RSS feeds), find
+#   - watch: hourly, read the headline feeds (White House presidential actions, the outlets' own RSS feeds), find
 #     topics the site has data on that are in the news, and open a `social-draft` + `social-news` issue with a context
 #     chart (diesel prices for diesel news, the tariff rate on a country for tariff news). One email per run that
 #     opens drafts. Nothing posts without a person adding `social-approved`.
@@ -14,7 +14,7 @@ name: Social news watcher
 
 on:
   schedule:
-    - cron: "7,22,37,52 * * * *"
+    - cron: "7 * * * *"
   issues:
     types: [labeled]
   workflow_dispatch:
