@@ -46,6 +46,16 @@ export function getLawRefs(): { lawId: string; title: string; congress: number; 
     .map((l) => ({ lawId: l.law_id, title: l.title, congress: l.congress, date: l.date, major: l.major }));
 }
 
+/**
+ * The laws built at deploy time: the two most recent Congresses' and every Mayhew major law. The rest render on first request,
+ * so the sitemap leaves them out rather than invite a crawler to render thousands of them.
+ */
+export function getPrebuiltLawRefs() {
+  const refs = getLawRefs();
+  const newest = new Set([...new Set(refs.map((r) => r.congress))].sort((a, b) => b - a).slice(0, 2));
+  return refs.filter((r) => newest.has(r.congress) || r.major === true);
+}
+
 export function getLawRef(lawId: string): { lawId: string; title: string } | null {
   const l = loadRows().rows.get(lawId);
   return l ? { lawId: l.law_id, title: l.title } : null;

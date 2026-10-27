@@ -19,9 +19,7 @@ interface RouteParams {
  * and are then cached (`dynamicParams`), the way the member and justice pages handle a stale or unlisted URL.
  */
 export function generateStaticParams(): RouteParams[] {
-  const refs = getLawRefs();
-  const newest = new Set([...new Set(refs.map((r) => r.congress))].sort((a, b) => b - a).slice(0, 2));
-  return refs.filter((r) => newest.has(r.congress) || r.major === true).map((r) => ({ law_id: r.lawId, name_slug: lawSlug(r.title) }));
+  return getPrebuiltLawRefs().map((r) => ({ law_id: r.lawId, name_slug: lawSlug(r.title) }));
 }
 
 // A valid id with a stale slug is not pre-built: keep dynamicParams on so the request reaches the page, which redirects to

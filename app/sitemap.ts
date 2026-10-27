@@ -6,7 +6,7 @@ import { memberPath } from "@/lib/member-url";
 import { committeePath } from "@/lib/committee-url";
 import { getJusticeRefs } from "@/lib/justice-data";
 import { justicePath } from "@/lib/justice-url";
-import { getLawRefs } from "@/lib/law-details-data";
+import { getPrebuiltLawRefs } from "@/lib/law-details-data";
 import { lawPath } from "@/lib/law-url";
 import { getDecisionRefs } from "@/lib/decision-page-data";
 import { decisionPath } from "@/lib/decision-url";
@@ -61,7 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const laws = getLawRefs().map((l) => ({
+  const laws = getPrebuiltLawRefs().map((l) => ({
     url: absoluteUrl(lawPath(l.lawId, l.title)),
     lastModified: parseDataDate(l.date),
     changeFrequency: "yearly" as const,
