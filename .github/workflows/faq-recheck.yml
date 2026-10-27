@@ -1,0 +1,45 @@
+name: FAQ re-check
+
+# Re-runs the checks on every published FAQ answer (pipeline/faq/recheck.ts) when a page's data changes on
+# main, and weekly for the source pages, which can change without our data changing. An answer that no
+# longer holds (a figure the data has overtaken, a source that changed) opens ONE `faq-recheck` issue per
+# page. Never edits the published files. The data paths below are each page's `dataFiles` in
+# pipeline/faq/questions/<page>.json (pipeline/faq/faq.test.ts keeps them in step).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - pipeline/output/encounters_series.json
+      - pipeline/output/treasury_fiscal.json
+      - pipeline/output/faq_*.json
+      - pipeline/faq/**
+  schedule:
+    - cron: "23 14 * * 1" # Mondays 14:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: faq-recheck
+  cancel-in-progress: false
+
+jobs:
+  recheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils
+
+      - name: Re-check published answers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm faq:recheck -- --open-issues

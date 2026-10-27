@@ -1,0 +1,71 @@
+name: FAQ publish
+
+# Adding the `faq-approved` label to a `faq-draft` issue publishes it: pipeline/faq/publish.ts re-runs every
+# check against the sources as they read now (with any edits made in the issue's block), writes
+# pipeline/output/faq_<page>.json and this opens a pull request. A failing answer stops the publish and is
+# reported on the issue. Nothing reaches the site until the PR merges. See pipeline/faq/README.md.
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: faq-publish-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event.label.name == 'faq-approved' && contains(github.event.issue.labels.*.name, 'faq-draft')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils
+
+      - name: Check and write
+        id: publish
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm faq:publish -- --issue "${{ github.event.issue.number }}" --report-file faq-publish-report.md
+
+      - name: Report a failed check
+        if: steps.publish.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -s faq-publish-report.md ] || echo "Not published: the publish step failed before the checks ran. See the workflow run." > faq-publish-report.md
+          gh issue comment "${{ github.event.issue.number }}" --body-file faq-publish-report.md
+          gh issue edit "${{ github.event.issue.number }}" --remove-label faq-approved
+          exit 1
+
+      - name: Open pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: pipeline/output/faq_*.json
+          branch: faq/publish-${{ github.event.issue.number }}
+          base: main
+          delete-branch: true
+          commit-message: "content(faq): publish approved answers from #${{ github.event.issue.number }}"
+          title: "Publish FAQ answers (#${{ github.event.issue.number }})"
+          body: |
+            Approved in #${{ github.event.issue.number }}. Every answer passed the checks in `pipeline/faq/check.ts` again against its sources at publish time.
+
+            Closes #${{ github.event.issue.number }}
+
+      - name: Link the PR on the issue
+        if: steps.cpr.outputs.pull-request-url != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue comment "${{ github.event.issue.number }}" --body "$(cat faq-publish-report.md) Pull request: ${{ steps.cpr.outputs.pull-request-url }}"

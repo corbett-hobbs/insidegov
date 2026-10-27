@@ -1,0 +1,52 @@
+name: FAQ drafts (manual)
+
+# Drafts a page's "Frequently asked questions" answers from its reviewed question list
+# (pipeline/faq/questions/<page>.json) and opens, or updates, the page's one `faq-draft` issue.
+# Nothing is published: adding the `faq-approved` label runs faq-publish.yml. See pipeline/faq/README.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      page:
+        description: "Page to draft"
+        type: choice
+        options: [economy, immigration]
+      only:
+        description: "Comma-separated question ids (blank: all of the page's questions)"
+        default: ""
+      dry_run:
+        description: "Print the issue instead of opening it"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: faq-${{ inputs.page }}
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # pdftotext, for sources published as PDFs.
+      - run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils
+
+      - name: Draft
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: pnpm faq:draft -- --page "${{ inputs.page }}" ${{ inputs.only != '' && format('--only "{0}"', inputs.only) || '' }}
+
+      - name: Open or update the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm faq:issue -- --page "${{ inputs.page }}" ${{ inputs.dry_run && '--dry-run' || '' }}
