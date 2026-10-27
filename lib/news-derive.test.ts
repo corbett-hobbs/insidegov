@@ -91,10 +91,11 @@ describe("outlet icons", () => {
 
 describe("shipped files", () => {
   const read = (dir: string, f: string) => JSON.parse(readFileSync(join(process.cwd(), dir, f), "utf8"));
-  it("the empty files parse and are empty", () => {
+  // The pipelines fill these files (an approved FAQ publish, the news watcher), so they may be empty or not; they must parse.
+  it("the shipped files parse, and every shipped story is balanced", () => {
     for (const p of ["economy", "immigration"]) {
-      expect(newsFile.parse(read("pipeline/output", `news_${p}.json`)).stories).toEqual([]);
-      expect(faqFile.parse(read("pipeline/output", `faq_${p}.json`)).groups).toEqual([]);
+      for (const s of newsFile.parse(read("pipeline/output", `news_${p}.json`)).stories) expect(isBalanced(s.headlines)).toBe(true);
+      faqFile.parse(read("pipeline/output", `faq_${p}.json`));
     }
   });
   it("the fixtures parse, and every fixture story is balanced", () => {
