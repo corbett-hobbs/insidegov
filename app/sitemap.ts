@@ -6,9 +6,9 @@ import { memberPath } from "@/lib/member-url";
 import { committeePath } from "@/lib/committee-url";
 import { getJusticeRefs } from "@/lib/justice-data";
 import { justicePath } from "@/lib/justice-url";
-import { getPrebuiltLawRefs } from "@/lib/law-details-data";
+import { getLandmarkLawRefs } from "@/lib/law-details-data";
 import { lawPath } from "@/lib/law-url";
-import { getDecisionRefs } from "@/lib/decision-page-data";
+import { getLandmarkDecisionRefs } from "@/lib/decision-page-data";
 import { decisionPath } from "@/lib/decision-url";
 import { getPresidentSlugs } from "@/lib/president-data";
 import { presidentPath } from "@/lib/president-url";
@@ -61,14 +61,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const laws = getPrebuiltLawRefs().map((l) => ({
+  const laws = getLandmarkLawRefs().map((l) => ({
     url: absoluteUrl(lawPath(l.lawId, l.title)),
     lastModified: parseDataDate(l.date),
     changeFrequency: "yearly" as const,
     priority: 0.4,
   }));
 
-  const decisions = getDecisionRefs().map((r) => ({
+  const decisions = getLandmarkDecisionRefs().map((r) => ({
     url: absoluteUrl(decisionPath(r.caseId, r.name)),
     lastModified: court,
     changeFrequency: "yearly" as const,

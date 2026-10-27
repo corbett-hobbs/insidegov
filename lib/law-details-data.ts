@@ -56,6 +56,11 @@ export function getPrebuiltLawRefs() {
   return refs.filter((r) => newest.has(r.congress) || r.major === true);
 }
 
+/** The Mayhew major laws: the only law pages crawlers are pointed at (the sitemap and robots.txt). */
+export function getLandmarkLawRefs() {
+  return getLawRefs().filter((r) => r.major === true);
+}
+
 export function getLawRef(lawId: string): { lawId: string; title: string } | null {
   const l = loadRows().rows.get(lawId);
   return l ? { lawId: l.law_id, title: l.title } : null;

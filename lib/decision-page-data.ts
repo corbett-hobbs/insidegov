@@ -103,6 +103,11 @@ export function getDecisionRefs(): DecisionRef[] {
   return getDecisionCases().map((c) => ({ caseId: c[14], name: c[2], term: c[0], landmark: c[8] !== "" }));
 }
 
+/** The landmark cases: the only decision pages crawlers are pointed at (the sitemap and robots.txt). */
+export function getLandmarkDecisionRefs(): DecisionRef[] {
+  return getDecisionRefs().filter((r) => r.landmark);
+}
+
 export function getDecisionRef(caseId: string): DecisionRef | null {
   const c = load().cases.get(caseId);
   return c ? { caseId: c[14], name: c[2], term: c[0], landmark: c[8] !== "" } : null;
