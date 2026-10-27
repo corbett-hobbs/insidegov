@@ -15,7 +15,7 @@ import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_TOPICS } from "./topics";
 
 /**
  * The news watcher: reads the headline feeds, finds topics the site has data on that are in the news right now, checks
- * each is a real story (Claude API, when a key is set), and drafts a context chart for it. Run every 15 minutes by
+ * each is a real story (Claude API, when a key is set), and drafts a context chart for it. Run hourly by
  * .github/workflows/social-news.yml through .github/actions/social-drafts; nothing is posted here. The drafts become
  * `social-draft` + `social-news` issues, and an approved one posts within minutes (schedule.ts pickNews).
  *
