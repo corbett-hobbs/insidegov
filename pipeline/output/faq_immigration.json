@@ -1,1 +1,124 @@
-{ "asOf": "", "groups": [] }
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Green cards",
+      "items": [
+        {
+          "id": "green-card-vs-citizenship",
+          "q": "What is the difference between a green card and citizenship?",
+          "a": "A green card holder can live and work permanently in the U.S. and is covered by its laws, but cannot vote in federal, state or local elections, and some jobs are limited to citizens. Permanent residents must file income tax returns and, if male and 18 through 25, register with the Selective Service. Citizenship is granted to a permanent resident through naturalization after meeting requirements set by Congress. A spouse of a U.S. citizen can apply after at least three years as a permanent resident, if living in marital union with that spouse.",
+          "sources": [
+            {
+              "label": "U.S. Citizenship and Immigration Services, Rights and responsibilities of a green card holder",
+              "url": "https://www.uscis.gov/green-card/after-we-grant-your-green-card/rights-and-responsibilities-of-a-green-card-holder-permanent-resident"
+            },
+            {
+              "label": "U.S. Citizenship and Immigration Services, Citizenship and naturalization",
+              "url": "https://www.uscis.gov/citizenship/learn-about-citizenship/citizenship-and-naturalization"
+            },
+            {
+              "label": "U.S. Citizenship and Immigration Services, Naturalization for spouses of U.S. citizens",
+              "url": "https://www.uscis.gov/citizenship/learn-about-citizenship/citizenship-and-naturalization/i-am-married-to-a-us-citizen"
+            }
+          ],
+          "chartIds": [
+            "chart-green-cards"
+          ]
+        },
+        {
+          "id": "green-card-vs-visa",
+          "q": "What is the difference between a green card and a visa?",
+          "a": "A green card is evidence of lawful permanent resident status, while a nonimmigrant is admitted to the U.S. for a specific temporary period with clear conditions on the stay. Someone already in the U.S., including a person admitted as a nonimmigrant, can apply for a green card through adjustment of status without returning home for visa processing. Most categories require an approved immigrant petition, usually filed by a sponsor, and in general an available visa before the person files Form I-485.",
+          "sources": [
+            {
+              "label": "U.S. Citizenship and Immigration Services, Glossary",
+              "url": "https://www.uscis.gov/tools/glossary"
+            },
+            {
+              "label": "U.S. Citizenship and Immigration Services, Adjustment of status",
+              "url": "https://www.uscis.gov/green-card/green-card-processes-and-procedures/adjustment-of-status"
+            }
+          ],
+          "chartIds": [
+            "chart-green-cards"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Refugees",
+      "items": [
+        {
+          "id": "refugee-vs-asylum",
+          "q": "What is the difference between a refugee and an asylum seeker?",
+          "a": "The difference is location. A person seeking refugee status must be outside the United States and is considered for resettlement through the U.S. Refugee Admissions Program. An asylum applicant must be physically present in the United States and files Form I-589. The yearly ceiling counts refugees: the President sets the number of refugees who may be admitted under section 207 before each fiscal year.",
+          "sources": [
+            {
+              "label": "U.S. Citizenship and Immigration Services, Refugees",
+              "url": "https://www.uscis.gov/humanitarian/refugees-and-asylum/refugees"
+            },
+            {
+              "label": "U.S. Citizenship and Immigration Services, Asylum",
+              "url": "https://www.uscis.gov/humanitarian/refugees-and-asylum/asylum"
+            },
+            {
+              "label": "Immigration and Nationality Act, section 207 (8 U.S.C. 1157)",
+              "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title8/html/USCODE-2023-title8-chap12-subchapII-partI-sec1157.htm"
+            }
+          ],
+          "chartIds": [
+            "chart-refugees"
+          ]
+        },
+        {
+          "id": "refugee-ceiling-who",
+          "q": "Who decides how many refugees the U.S. admits?",
+          "a": "The President sets the number of refugees who may be admitted each fiscal year. The President makes that determination before the fiscal year begins, after Cabinet-level representatives consult in person with members of the House and Senate Judiciary Committees. The number can be changed during the year: if the President determines, after the same consultation, that an unforeseen emergency refugee situation exists, the President may fix a separate number of admissions for a period of up to twelve months.",
+          "sources": [
+            {
+              "label": "Immigration and Nationality Act, section 207 (8 U.S.C. 1157)",
+              "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title8/html/USCODE-2023-title8-chap12-subchapII-partI-sec1157.htm"
+            }
+          ],
+          "chartIds": [
+            "chart-refugees"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Border & removals",
+      "items": [
+        {
+          "id": "removal-vs-return",
+          "q": "What is the difference between a removal and a return?",
+          "a": "A removal is the confirmed movement of an inadmissible or deportable noncitizen out of the United States based on an order of removal. A return is a similar movement out of the country that is not based on a final order of removal. Removal types include expedited removal, reinstatement of a previous removal order, and administrative removal. Returns include voluntary departure, voluntary return, and withdrawal of an application for admission.",
+          "sources": [
+            {
+              "label": "DHS Office of Homeland Security Statistics, Glossary",
+              "url": "https://ohss.dhs.gov/glossary0"
+            }
+          ],
+          "chartIds": [
+            "chart-removals"
+          ]
+        },
+        {
+          "id": "ports-vs-between",
+          "q": "What is the difference between encounters at ports of entry and Border Patrol apprehensions?",
+          "a": "The Office of Field Operations (OFO) encounters people at ports of entry, including people seeking lawful admission who are found inadmissible. The U.S. Border Patrol apprehends people not lawfully in the country between ports of entry. In fiscal year 2026 (preliminary, first 11 months), 238.7K of 348.9K nationwide encounters (68%) were at ports of entry and 110.1K (32%) were Border Patrol apprehensions. The southwest border accounted for 16% of OFO's encounters and 82% of Border Patrol's apprehensions.",
+          "sources": [
+            {
+              "label": "U.S. Customs and Border Protection, Nationwide Encounters",
+              "url": "https://www.cbp.gov/newsroom/stats/nationwide-encounters"
+            }
+          ],
+          "chartIds": [
+            "chart-encounters"
+          ]
+        }
+      ]
+    }
+  ]
+}
