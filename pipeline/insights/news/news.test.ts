@@ -14,7 +14,7 @@ import { COUNTRY_ALIASES, NEWS_TOPICS } from "./topics";
 
 const NOW = "2026-10-22T18:00:00.000Z";
 const hoursAgo = (h: number) => new Date(Date.parse(NOW) - h * 3_600_000).toISOString();
-const head = (title: string, source: string, over: Partial<Headline> = {}): Headline => ({ title, source, url: `https://example.com/${encodeURIComponent(title)}`, published: hoursAgo(1), feed: "google", ...over });
+const head = (title: string, source: string, over: Partial<Headline> = {}): Headline => ({ title, source, url: `https://example.com/${encodeURIComponent(title)}`, published: hoursAgo(1), feed: "outlets", ...over });
 const PARTNERS = partnersFor(
   [
     { code: "CAN", name: "Canada" },
@@ -26,13 +26,28 @@ const PARTNERS = partnersFor(
 );
 
 describe("feeds", () => {
-  it("parses Google News items, cutting the publisher from the title", () => {
-    const xml = `<rss><channel><item><title>Canada answers U.S. tariffs - Reuters</title><link>https://news.google.com/rss/articles/abc?oc=5</link>
-      <pubDate>Thu, 22 Oct 2026 16:10:21 GMT</pubDate><source url="https://www.reuters.com">Reuters</source></item>
-      <item><title>No date - AP</title><link>https://x</link></item></channel></rss>`;
-    expect(parseRss(xml, "google", "Google News")).toEqual([
-      { title: "Canada answers U.S. tariffs", source: "Reuters", url: "https://news.google.com/rss/articles/abc?oc=5", published: "2026-10-22T16:10:21.000Z", feed: "google" },
+  it("parses an outlet's items under the outlet's own name, dropping undated items and non-web links", () => {
+    const xml = `<rss><channel><item><title>Canada answers U.S. tariffs</title><link>https://apnews.com/article/abc</link>
+      <pubDate>Thu, 22 Oct 2026 16:10:21 GMT</pubDate><source url="https://flipboard.com">Top Stories</source></item>
+      <item><title>No date</title><link>https://x.com/a</link></item>
+      <item><title>Not a web link</title><link>mailto:x@y.z</link><pubDate>Thu, 22 Oct 2026 16:10:21 GMT</pubDate></item></channel></rss>`;
+    expect(parseRss(xml, "outlets", "Associated Press", "apnews")).toEqual([
+      { title: "Canada answers U.S. tariffs", source: "Associated Press", url: "https://apnews.com/article/abc", published: "2026-10-22T16:10:21.000Z", feed: "outlets", outletId: "apnews" },
     ]);
+  });
+
+  it("parses Atom entries (BLS) with the link in an attribute", () => {
+    const xml = `<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>CPI for all items increases 0.6% in September; gasoline rises</title>
+      <link href="https://www.bls.gov/news.release/archives/cpi_10142026.htm"/><id>cpi-1</id>
+      <published>2026-10-14T07:50:31.2-04:00</published><updated>2026-10-14T07:50:31.2-04:00</updated></entry></feed>`;
+    expect(parseRss(xml, "data", "Bureau of Labor Statistics", "bls")).toEqual([
+      { title: "CPI for all items increases 0.6% in September; gasoline rises", source: "Bureau of Labor Statistics", url: "https://www.bls.gov/news.release/archives/cpi_10142026.htm", published: "2026-10-14T11:50:31.200Z", feed: "data", outletId: "bls" },
+    ]);
+  });
+
+  it("still cuts an aggregator's ' - Publisher' suffix when the item names its source", () => {
+    const xml = `<item><title>Diesel prices jump - Reuters</title><link>https://news.example/a</link><pubDate>Thu, 22 Oct 2026 16:10:21 GMT</pubDate><source url="https://www.reuters.com">Reuters</source></item>`;
+    expect(parseRss(xml, "outlets", "Example")[0]).toMatchObject({ title: "Diesel prices jump", source: "Reuters" });
   });
 
   it("decodes entities and CDATA in White House titles", () => {

@@ -53,6 +53,7 @@
     "insights:post": "tsx pipeline/insights/post-next.ts",
     "insights:intro": "tsx pipeline/insights/intro.ts",
     "insights:news": "tsx pipeline/insights/news/watch.ts",
+    "news:pages": "tsx pipeline/insights/news/pages.ts",
     "classify:audit": "tsx pipeline/classification/executive-orders-audit.ts",
     "fetch:billstatus": "tsx pipeline/fetch/govinfo-billstatus.ts",
     "fetch:laws": "tsx pipeline/fetch/congress-gov.ts",

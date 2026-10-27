@@ -1,0 +1,98 @@
+name: In the news (page cards)
+
+# The pages' "In the news" row (pipeline/insights/README.md, "In the news on the pages"): four times a day, read the
+# outlets' and agencies' feeds, group headlines into balanced stories (a left-of-center and a right-of-center outlet,
+# plus the agency's data release or a Center outlet) and rewrite pipeline/output/news_<page>.json. The pipeline moves a
+# file's `asOf` only when its stories change, so an unchanged run changes nothing and opens nothing. A change opens a
+# PR that is merged only after the full CI gate (.github/actions/gate-and-merge), like the data refreshes.
+#
+# Repo variable NEWS_PAGES_ENABLED=true turns the schedule on (off by default). ANTHROPIC_API_KEY (already a secret)
+# turns on the relevance check; without it, HuffPost and the other outlets that need the check are left out.
+# The Actions cache keeps the headlines earlier runs saw and the check's answers (pipeline/.cache, git-ignored): feeds
+# carry a day or two, and one side may headline a story a day after the other. A manual run is a dry run by default.
+#
+# Requires Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+
+on:
+  schedule:
+    - cron: "17 11,15,19,23 * * *" # 7:17 a.m., 11:17 a.m., 3:17 p.m., 7:17 p.m. Eastern (daylight time)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print the stories instead of opening a PR"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: news-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || vars.NEWS_PAGES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # A new cache entry each run (entries are immutable), restored from the latest.
+      - uses: actions/cache@v4
+        with:
+          path: pipeline/.cache
+          key: news-pages-${{ github.run_id }}
+          restore-keys: news-pages-
+
+      - name: Build the cards
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: pnpm news:pages $([ "$DRY_RUN" = "true" ] && echo "-- --dry-run")
+
+      - name: Did a page change?
+        id: diff
+        run: |
+          changed="$(git status --porcelain -- 'pipeline/output/news_*.json')"
+          echo "material=$([ -n "$changed" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          [ -n "$changed" ] && echo "$changed" || echo "No page's stories changed."
+
+      - name: Open pull request
+        id: cpr
+        if: steps.diff.outputs.material == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: pipeline/output/news_*.json
+          branch: data/news-pages
+          base: main
+          delete-branch: true
+          commit-message: "chore(pipeline): refresh In the news cards"
+          title: "In the news cards refresh"
+          labels: data-refresh
+          body: |
+            The news watcher found new or changed stories for the pages' "In the news" row (pipeline/insights/news/pages.ts).
+            Every card has a left-of-center and a right-of-center outlet (AllSides ratings, outlets.ts). The run log lists
+            each page's cards with their headlines.
+
+            Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch
+            (.github/actions/gate-and-merge). If you are reading this on an open PR, that gate failed: see the run log.
+
+      - name: Gate and merge
+        if: contains(fromJSON('["created","updated"]'), steps.cpr.outputs.pull-request-operation)
+        uses: ./.github/actions/gate-and-merge
+        with:
+          pr-number: ${{ steps.cpr.outputs.pull-request-number }}
+          branch: ${{ steps.cpr.outputs.pull-request-branch }}
+          head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          token: ${{ github.token }}
