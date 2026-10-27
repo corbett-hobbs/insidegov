@@ -133,13 +133,26 @@ describe("slots in Pacific time", () => {
     expect(slotLabel("2026-12-01T17:00:00.000Z")).toBe("Tue, Dec 1, 9:00 AM PT / 12:00 PM ET");
   });
 
-  it("matches a run to its slot by Pacific time, so the off-season cron hour does nothing", () => {
+  it("matches a run to its slot window by Pacific time, so late runs still count", () => {
     expect(slotAt("2026-10-22T16:00:00Z")).toBe("morning"); // 9:00 PDT
-    expect(slotAt("2026-10-22T17:00:00Z")).toBe("morning"); // 10:00 PDT, inside the grace for a delayed run
-    expect(slotAt("2026-12-01T16:00:00Z")).toBeNull(); // 8:00 PST: the other cron hour
+    expect(slotAt("2026-10-22T19:36:00Z")).toBe("morning"); // 12:36 PDT: a run GitHub started 3.5 hours late
+    expect(slotAt("2026-12-01T16:47:00Z")).toBeNull(); // 8:47 PST: before the window
     expect(slotAt("2026-12-01T17:20:00Z")).toBe("morning");
     expect(slotAt("2026-10-22T20:00:00Z")).toBe("afternoon");
+    expect(slotAt("2026-10-22T23:56:00Z")).toBe("afternoon"); // 4:56 PDT
+    expect(slotAt("2026-10-23T00:17:00Z")).toBeNull(); // 5:17 PDT: after the window
     expect(slotAt("2026-10-24T16:00:00Z")).toBeNull(); // Saturday
+  });
+
+  it("posts once per slot window however many runs land in it", () => {
+    const queue = [item({ key: "a" }), item({ key: "b", dataset: "trade" })];
+    const morning = [{ dataset: "gas", postedAt: "2026-10-27T16:20:00Z" }]; // 9:20 PDT
+    expect(pickNext(queue, morning, "2026-10-27T19:47:00Z", "morning").reason).toMatch(/morning slot already posted/);
+    // Nothing posted yet today: a late run in the window posts.
+    expect(pickNext(queue, [], "2026-10-27T19:47:00Z", "morning").post).not.toBeNull();
+    // A late morning post still lets the afternoon slot post once 3 hours have passed (here the backlog is too small).
+    const late = [{ dataset: "gas", postedAt: "2026-10-27T19:47:00Z" }];
+    expect(pickNext(queue, late, "2026-10-27T21:17:00Z", "afternoon").reason).toMatch(/3 hours/);
   });
 
   it("counts days in Pacific time", () => {

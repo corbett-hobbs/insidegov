@@ -10,7 +10,7 @@ import type { Frequency } from "./types";
  *   1. The intro thread goes first, before anything else, on each platform.
  *   2. Stale drafts never post: past their freshness window (freshness.ts), or superseded by a newer approved draft
  *      for the same series. They are expired (labelled and closed) instead.
- *   3. At most one post per slot, MAX_PER_DAY a day, MAX_PER_WEEK in any 7 days, MIN_HOURS_BETWEEN apart. The
+ *   3. At most one data post per slot a day (a slot is a window that several runs share), MAX_PER_DAY a day, MAX_PER_WEEK in any 7 days, MIN_HOURS_BETWEEN apart. The
  *      afternoon slot only runs when the queue is backed up (BACKLOG_THRESHOLD or more waiting), or on the day the
  *      intro posted, so the first chart follows it.
  *   4. A topic (dataset) posts at most MAX_PER_DATASET_WEEK times in 7 days, and one that posted in the last
@@ -26,19 +26,18 @@ import type { Frequency } from "./types";
  */
 
 /**
- * Slots are in Pacific time, so they stay put across daylight saving (GitHub's cron is UTC only: the workflow runs at
- * both UTC hours a slot can fall on, and `slotAt` keeps the one that is the slot's local hour).
+ * Slots are in Pacific time, so they stay put across daylight saving. Each is a window, not a moment: GitHub starts
+ * scheduled runs hours late or skips them under load, so the workflow fires every half hour through the windows and
+ * the first run that finds something to post uses the slot (at most one data post per slot a day).
  *   9:00 a.m. PT = noon ET: working hours on both coasts, after the morning releases (EIA gas, WPSR, Census).
- *   1:00 p.m. PT = 4:00 p.m. ET: the backlog slot, still inside East Coast working hours.
+ *   1:00 p.m. PT = 4:00 p.m. ET: the backlog slot, still inside East Coast working hours; open until 5 p.m. PT.
  */
 export const TIME_ZONE = "America/Los_Angeles";
 export const SLOTS = [
-  { name: "morning", localHour: 9, backlogOnly: false },
-  { name: "afternoon", localHour: 13, backlogOnly: true },
+  { name: "morning", localHour: 9, untilHour: 13, backlogOnly: false },
+  { name: "afternoon", localHour: 13, untilHour: 17, backlogOnly: true },
 ] as const;
 export type SlotName = (typeof SLOTS)[number]["name"];
-/** A run up to this long after a slot's time still counts as that slot (GitHub delays scheduled runs under load). */
-export const SLOT_GRACE_MINUTES = 75;
 
 /** Wall-clock parts of an instant in a time zone. */
 function localParts(iso: string, tz: string) {
@@ -55,12 +54,11 @@ export function localDate(iso: string, tz = TIME_ZONE): string {
   return localParts(iso, tz).date;
 }
 
-/** The slot an instant belongs to (a weekday, within SLOT_GRACE_MINUTES after the slot's local time), or null. */
+/** The slot window an instant falls in (a weekday, from the slot's local hour until its `untilHour`), or null. */
 export function slotAt(iso: string, tz = TIME_ZONE): SlotName | null {
   const p = localParts(iso, tz);
   if (p.weekday === "Sat" || p.weekday === "Sun") return null;
-  const minutes = p.hour * 60 + p.minute;
-  return SLOTS.find((s) => minutes >= s.localHour * 60 && minutes < s.localHour * 60 + SLOT_GRACE_MINUTES)?.name ?? null;
+  return SLOTS.find((s) => p.hour >= s.localHour && p.hour < s.untilHour)?.name ?? null;
 }
 
 /** The UTC instant of `hour`:00 local time on `date` (daylight-saving aware). */
@@ -143,6 +141,7 @@ export function pickNext(allQueue: QueueItem[], history: Posted[], now: string, 
   if (eligible.length === 0) return none("nothing fresh is approved");
   const sorted = [...history].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
   const data = sorted.filter((p) => p.kind !== "news");
+  if (data.some((p) => localDate(p.postedAt) === today && slotAt(p.postedAt) === slot)) return none(`the ${slot} slot already posted today`);
   if (data.filter((p) => localDate(p.postedAt) === today).length >= MAX_PER_DAY) return none(`already ${MAX_PER_DAY} posts today`);
   if (sorted.filter((p) => localDate(p.postedAt) === today).length >= MAX_TOTAL_PER_DAY) return none(`already ${MAX_TOTAL_PER_DAY} posts today with news`);
   if (data.filter((p) => hoursBetween(p.postedAt, now) < 7 * 24).length >= MAX_PER_WEEK) return none(`already ${MAX_PER_WEEK} posts in 7 days`);
