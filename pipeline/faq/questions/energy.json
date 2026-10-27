@@ -1,6 +1,8 @@
 {
   "page": "energy",
-  "dataFiles": [],
+  "dataFiles": [
+    "pipeline/output/energy_observations.json"
+  ],
   "groups": [
     {
       "row": "Electricity",
@@ -10,10 +12,20 @@
           "kind": "difference",
           "q": "What is the difference between renewable and nonrenewable energy?",
           "searched": "renewable vs nonrenewable energy",
-          "chartIds": ["electricity"],
-          "brief": "What makes a source renewable, which of the sources that make U.S. electricity fall on each side, and where nuclear fits.",
+          "chartIds": [
+            "electricity"
+          ],
+          "brief": "What makes a source renewable, which sources fall on each side and where nuclear fits; then, for the latest full year and this year so far, the share of U.S. electricity from wind, utility-scale solar and conventional hydropower together (call it that, not 'renewable', since it leaves out biomass and geothermal).",
           "sources": [
-            { "label": "Energy Information Administration, Renewable energy explained", "url": "https://www.eia.gov/energyexplained/renewable-sources/" }
+            {
+              "label": "Energy Information Administration, Renewable energy explained",
+              "url": "https://www.eia.gov/energyexplained/renewable-sources/"
+            },
+            {
+              "label": "Energy Information Administration, Monthly Energy Review: electricity",
+              "url": "https://www.eia.gov/totalenergy/data/monthly/",
+              "facts": "electricity"
+            }
           ]
         },
         {
@@ -21,11 +33,24 @@
           "kind": "difference",
           "q": "What is the difference between utility-scale and small-scale solar?",
           "searched": "what is considered utility scale solar",
-          "chartIds": ["electricity"],
-          "brief": "The size line between them, what small-scale systems usually are, and each one's share of U.S. solar generation in the latest year.",
+          "chartIds": [
+            "electricity"
+          ],
+          "brief": "The size line between them, what small-scale systems usually are, and how solar generation splits between them this year so far (and the latest full year).",
           "sources": [
-            { "label": "Energy Information Administration, Where solar is found", "url": "https://www.eia.gov/energyexplained/solar/where-solar-is-found.php" },
-            { "label": "Energy Information Administration, Record small-scale solar capacity added in 2022", "url": "https://www.eia.gov/todayinenergy/detail.php?id=60341" }
+            {
+              "label": "Energy Information Administration, Where solar is found",
+              "url": "https://www.eia.gov/energyexplained/solar/where-solar-is-found.php"
+            },
+            {
+              "label": "Energy Information Administration, Record small-scale solar capacity added in 2022",
+              "url": "https://www.eia.gov/todayinenergy/detail.php?id=60341"
+            },
+            {
+              "label": "Energy Information Administration, Monthly Energy Review: electricity",
+              "url": "https://www.eia.gov/totalenergy/data/monthly/",
+              "facts": "electricity"
+            }
           ]
         }
       ]
@@ -38,10 +63,16 @@
           "kind": "difference",
           "q": "What is the difference between crude oil and petroleum?",
           "searched": "difference between crude oil and petroleum",
-          "chartIds": ["supply", "oil"],
+          "chartIds": [
+            "supply",
+            "oil"
+          ],
           "brief": "Crude oil as the raw input, petroleum products as what refineries make from it (and natural gas liquids), and that petroleum in EIA's totals covers all of them.",
           "sources": [
-            { "label": "Energy Information Administration, Oil and petroleum products explained", "url": "https://www.eia.gov/energyexplained/oil-and-petroleum-products/" }
+            {
+              "label": "Energy Information Administration, Oil and petroleum products explained",
+              "url": "https://www.eia.gov/energyexplained/oil-and-petroleum-products/"
+            }
           ]
         }
       ]
@@ -54,11 +85,24 @@
           "kind": "difference",
           "q": "What is the difference between LNG and natural gas?",
           "searched": "difference between lng and natural gas",
-          "chartIds": ["lng"],
-          "brief": "LNG is natural gas cooled to a liquid for shipping by sea; how much smaller it gets; and how most other U.S. gas exports travel instead.",
+          "chartIds": [
+            "lng"
+          ],
+          "brief": "LNG is natural gas cooled to a liquid for shipping by sea; how much smaller it gets; and, in the latest full year, how U.S. gas exports split between pipeline and LNG.",
           "sources": [
-            { "label": "Energy Information Administration, Liquefied natural gas", "url": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php" },
-            { "label": "Energy Information Administration, Natural gas imports and exports", "url": "https://www.eia.gov/energyexplained/natural-gas/imports-and-exports.php" }
+            {
+              "label": "Energy Information Administration, Liquefied natural gas",
+              "url": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php"
+            },
+            {
+              "label": "Energy Information Administration, Natural gas imports and exports",
+              "url": "https://www.eia.gov/energyexplained/natural-gas/imports-and-exports.php"
+            },
+            {
+              "label": "Energy Information Administration, U.S. natural gas exports by country",
+              "url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_a.htm",
+              "facts": "ngExports"
+            }
           ]
         },
         {
@@ -66,11 +110,16 @@
           "kind": "matters",
           "q": "Who buys U.S. liquefied natural gas?",
           "searched": "who buys us lng",
-          "chartIds": ["lng"],
-          "brief": "Where U.S. LNG goes, by country or region, in the latest year the sources give.",
+          "chartIds": [
+            "lng"
+          ],
+          "brief": "How many countries bought U.S. LNG in the latest full year and the largest buyers with their shares; then how LNG exports this year so far compare with the same months last year.",
           "sources": [
-            { "label": "Energy Information Administration, Liquefied natural gas", "url": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php" },
-            { "label": "Energy Information Administration, Natural gas imports and exports", "url": "https://www.eia.gov/energyexplained/natural-gas/imports-and-exports.php" }
+            {
+              "label": "Energy Information Administration, U.S. natural gas exports by country",
+              "url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_a.htm",
+              "facts": "ngExports"
+            }
           ]
         }
       ]
@@ -83,11 +132,19 @@
           "kind": "matters",
           "q": "Who decides when oil is released from the Strategic Petroleum Reserve?",
           "searched": "how does the strategic petroleum reserve work",
-          "chartIds": ["spr"],
+          "chartIds": [
+            "spr"
+          ],
           "brief": "The President's finding for a full or a limited drawdown and the limits on a limited one, and what the Secretary of Energy can do without a finding. The office, not the person holding it.",
           "sources": [
-            { "label": "Department of Energy, Statutory authority for an SPR drawdown", "url": "https://www.energy.gov/hgeo/opr/statutory-authority-spr-drawdown" },
-            { "label": "Department of Energy, SPR FAQs", "url": "https://www.energy.gov/hgeo/opr/spr-faqs" }
+            {
+              "label": "Department of Energy, Statutory authority for an SPR drawdown",
+              "url": "https://www.energy.gov/hgeo/opr/statutory-authority-spr-drawdown"
+            },
+            {
+              "label": "Department of Energy, SPR FAQs",
+              "url": "https://www.energy.gov/hgeo/opr/spr-faqs"
+            }
           ]
         },
         {
@@ -95,10 +152,15 @@
           "kind": "difference",
           "q": "What is the difference between an SPR sale and an exchange?",
           "searched": "is the strategic petroleum reserve depleted",
-          "chartIds": ["spr"],
+          "chartIds": [
+            "spr"
+          ],
           "brief": "A sale sells the oil for good; an exchange lends it to companies, who return it later with extra barrels.",
           "sources": [
-            { "label": "Department of Energy, SPR FAQs", "url": "https://www.energy.gov/hgeo/opr/spr-faqs" }
+            {
+              "label": "Department of Energy, SPR FAQs",
+              "url": "https://www.energy.gov/hgeo/opr/spr-faqs"
+            }
           ]
         }
       ]

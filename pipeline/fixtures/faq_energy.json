@@ -1,0 +1,132 @@
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Electricity",
+      "items": [
+        {
+          "id": "renewable-vs-nonrenewable",
+          "q": "What is the difference between renewable and nonrenewable energy?",
+          "a": "Renewable energy comes from sources that naturally replenish but are flow-limited, meaning they are limited by how much of the resource is available. The major renewable types are biomass (wood and wood waste, municipal solid waste, landfill gas and biogas, and biofuels), hydropower, geothermal, wind and solar. Coal, petroleum and natural gas, which are fossil fuels, are listed as nonrenewable, and nuclear is listed with them. In 2023, about 21% of U.S. electricity generation was from renewable sources.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Renewable energy explained",
+              "url": "https://www.eia.gov/energyexplained/renewable-sources/"
+            }
+          ],
+          "chartIds": [
+            "electricity"
+          ]
+        },
+        {
+          "id": "utility-vs-small-solar",
+          "q": "What is the difference between utility-scale and small-scale solar?",
+          "a": "Utility-scale solar power plants have at least 1 megawatt (1,000 kilowatts) of generation capacity, while small-scale systems have less than 1 megawatt. Most small-scale systems are photovoltaic (PV) systems installed on or near buildings. In 2025, utility-scale PV plants produced about 76% of U.S. solar electricity generation and utility-scale solar thermal-electric plants about 1%. Small-scale PV systems produced about 24%.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Where solar is found",
+              "url": "https://www.eia.gov/energyexplained/solar/where-solar-is-found.php"
+            }
+          ],
+          "chartIds": [
+            "electricity"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Oil",
+      "items": [
+        {
+          "id": "crude-vs-petroleum",
+          "q": "What is the difference between crude oil and petroleum?",
+          "a": "Crude oil is the oil removed from the ground, and petroleum products are the fuels made from it. The word petroleum means rock oil or oil from the earth, so it is also used for crude oil itself. At a refinery, different parts of the crude oil are separated into usable petroleum products. Petroleum products are also made from the hydrocarbons contained in natural gas.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Oil and petroleum products explained",
+              "url": "https://www.eia.gov/energyexplained/oil-and-petroleum-products/"
+            }
+          ],
+          "chartIds": [
+            "supply",
+            "oil"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Natural gas",
+      "items": [
+        {
+          "id": "lng-vs-natural-gas",
+          "q": "What is the difference between LNG and natural gas?",
+          "a": "LNG is natural gas that has been cooled to about -260° Fahrenheit so it becomes a liquid for shipping and storage. The liquid is about 600 times smaller than the gas in pipelines, which lets it travel on ocean-going LNG ships. Other U.S. natural gas exports move as a gas by pipeline. In 2022, about 44% of total U.S. natural gas exports went by pipeline, with about 68% of those going to Mexico and 32% to Canada.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Liquefied natural gas",
+              "url": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php"
+            },
+            {
+              "label": "Energy Information Administration, Natural gas imports and exports",
+              "url": "https://www.eia.gov/energyexplained/natural-gas/imports-and-exports.php"
+            }
+          ],
+          "chartIds": [
+            "lng"
+          ]
+        },
+        {
+          "id": "lng-buyers",
+          "q": "Who buys U.S. liquefied natural gas?",
+          "a": "In 2023, U.S. LNG exports averaged 11.90 Bcf/day to 43 countries. The top five destinations were the Netherlands (589 Bcf, 14%), France (493 Bcf, 11%), the United Kingdom (451 Bcf, 10%), Japan (310 Bcf, 7%) and South Korea (276 Bcf, 6%). About 0.69 Bcf more went by truck to Canada and Mexico, with 88% of it going to Mexico. These are preliminary 2023 figures.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Liquefied natural gas",
+              "url": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php"
+            }
+          ],
+          "chartIds": [
+            "lng"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Strategic Petroleum Reserve",
+      "items": [
+        {
+          "id": "spr-who-decides",
+          "q": "Who decides when oil is released from the Strategic Petroleum Reserve?",
+          "a": "The President decides. A full drawdown and sale requires a Presidential finding of a severe energy supply interruption or of obligations under the international energy program. For a limited drawdown, the President finds another energy supply shortage of significant scope or duration, and the Secretary of Energy then draws down the Reserve, up to 30M barrels and 60 days per shortage, and not below 252.4M barrels stored. Without a finding, the Secretary can run test drawdowns; a test sale or exchange is capped at 5M barrels.",
+          "sources": [
+            {
+              "label": "Department of Energy, Statutory authority for an SPR drawdown",
+              "url": "https://www.energy.gov/hgeo/opr/statutory-authority-spr-drawdown"
+            },
+            {
+              "label": "Department of Energy, SPR FAQs",
+              "url": "https://www.energy.gov/hgeo/opr/spr-faqs"
+            }
+          ],
+          "chartIds": [
+            "spr"
+          ]
+        },
+        {
+          "id": "spr-sale-vs-exchange",
+          "q": "What is the difference between an SPR sale and an exchange?",
+          "a": "In an exchange, a company receives SPR oil and must repay oil of similar quality, plus extra \"premium barrels\" (similar to interest), within a specified time. The premium amount and repayment date are set through contract negotiations. A sale and drawdown is run online as a competitive process, and deliveries can begin as early as 13 days after the sale is announced. Exchange agreements can be completed within a few days of a company's request.",
+          "sources": [
+            {
+              "label": "Department of Energy, SPR FAQs",
+              "url": "https://www.energy.gov/hgeo/opr/spr-faqs"
+            }
+          ],
+          "chartIds": [
+            "spr"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { TradePageClient } from "@/components/trade/TradePageClient";
 import { getTradePageData } from "@/lib/trade-data";
+import { getFaqFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /**
@@ -24,7 +25,7 @@ export default function TradePage() {
   return (
     <>
       <TopicDatasetLd path="/presidency/trade" />
-      <TradePageClient data={getTradePageData()} />
+      <TradePageClient data={getTradePageData()} faqFile={getFaqFile("trade")} />
     </>
   );
 }

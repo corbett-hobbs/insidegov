@@ -3,6 +3,8 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, isBalanced, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
 import { faqFile, newsFile, type Lean, type NewsHeadline, type NewsStory } from "./news-types";
+import { energyFaq } from "../components/energy/energy-news";
+import { tradeFaq } from "../components/trade/trade-news";
 
 const h = (lean: Lean, outletId = lean.replace(/\s/g, "").toLowerCase()): NewsHeadline => ({ outletId, outlet: outletId, lean, title: `${lean} headline`, url: "https://example.com/a" });
 const story = (id: string, date: string, headlines: NewsHeadline[]): NewsStory => ({ id, date, topic: "Topic", chartId: "chart-gas", headlines });
@@ -91,10 +93,11 @@ describe("outlet icons", () => {
 
 describe("shipped files", () => {
   const read = (dir: string, f: string) => JSON.parse(readFileSync(join(process.cwd(), dir, f), "utf8"));
-  it("the empty files parse and are empty", () => {
+  // The pipelines fill these files (an approved FAQ publish, the news watcher), so they may be empty or not; they must parse.
+  it("the shipped files parse, and every shipped story is balanced", () => {
     for (const p of ["economy", "immigration"]) {
-      expect(newsFile.parse(read("pipeline/output", `news_${p}.json`)).stories).toEqual([]);
-      expect(faqFile.parse(read("pipeline/output", `faq_${p}.json`)).groups).toEqual([]);
+      for (const s of newsFile.parse(read("pipeline/output", `news_${p}.json`)).stories) expect(isBalanced(s.headlines)).toBe(true);
+      faqFile.parse(read("pipeline/output", `faq_${p}.json`));
     }
   });
   it("the fixtures parse, and every fixture story is balanced", () => {
@@ -103,6 +106,14 @@ describe("shipped files", () => {
       expect(news.stories.length).toBeGreaterThan(0);
       for (const s of news.stories) expect(isBalanced(s.headlines)).toBe(true);
       expect(faqFile.parse(read("pipeline/fixtures", `faq_${p}.json`)).groups.length).toBeGreaterThan(0);
+    }
+  });
+  it("the Energy and Trade FAQ fixtures parse, and every chart id is one of the page's cards", () => {
+    for (const [p, resolve] of [["energy", energyFaq], ["trade", tradeFaq]] as const) {
+      const file = faqFile.parse(read("pipeline/fixtures", `faq_${p}.json`));
+      const ids = file.groups.flatMap((g) => g.items.flatMap((it) => it.chartIds));
+      expect(ids.length).toBeGreaterThan(0);
+      expect(resolve(file).flatMap((g) => g.items.flatMap((it) => it.charts)).length).toBe(ids.length);
     }
   });
 });

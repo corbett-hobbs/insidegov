@@ -1,0 +1,97 @@
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Trade balance",
+      "items": [
+        {
+          "id": "goods-vs-goods-and-services",
+          "q": "What is the difference between the goods trade deficit and the overall trade deficit?",
+          "a": "The goods deficit counts only trade in physical goods, while the overall goods and services deficit also includes trade in services such as travel, transport and financial services. The U.S. runs a surplus in services, so the overall deficit is smaller than the goods deficit. In August 2026, the goods deficit was $136.6 billion, the services surplus was $31.0 billion, and the combined goods and services deficit was $105.6 billion.",
+          "sources": [
+            {
+              "label": "Bureau of Economic Analysis, U.S. International Trade in Goods and Services, August 2026",
+              "url": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-august-2026"
+            }
+          ],
+          "chartIds": [
+            "trade-balance"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Tariffs",
+      "items": [
+        {
+          "id": "who-pays-tariffs",
+          "q": "Who pays tariffs?",
+          "a": "The importer owes the duty (tariff) to the U.S. government, not the foreign seller. U.S. Customs and Border Protection holds the importer liable for paying it. Under the standard entry process, the importer must pay estimated duties within 10 days of the cargo's release from CBP custody. For goods sent through international mail, duty is usually paid at the local post office.",
+          "sources": [
+            {
+              "label": "U.S. Customs and Border Protection, Internet purchases",
+              "url": "https://www.cbp.gov/trade/basic-import-export/internet-purchases"
+            },
+            {
+              "label": "U.S. Customs and Border Protection, Entry summary and post-release processes",
+              "url": "https://www.cbp.gov/trade/programs-administration/entry-summary"
+            }
+          ],
+          "chartIds": [
+            "tariffs"
+          ]
+        },
+        {
+          "id": "who-decides-tariffs",
+          "q": "Who decides tariffs, the President or Congress?",
+          "a": "Congress holds the constitutional power over tariffs, and tariffs must be uniform throughout the United States. Congress has passed laws that let the President, or an executive agency, impose tariffs under set conditions: Section 232 of the Trade Expansion Act of 1962, Sections 122, 201 and 301 of the Trade Act of 1974, and Section 338 of the Tariff Act of 1930. Some require an agency investigation first. In February 2026 the Supreme Court held that the International Emergency Economic Powers Act does not authorize tariffs.",
+          "sources": [
+            {
+              "label": "U.S. Constitution, Article I, Section 8 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "Congressional Research Service, Congressional and Presidential Authority to Impose Import Tariffs",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48435/R48435.4.pdf"
+            }
+          ],
+          "chartIds": [
+            "tariffs"
+          ]
+        },
+        {
+          "id": "section-232-vs-301",
+          "q": "What is the difference between Section 232 and Section 301 tariffs?",
+          "a": "Section 232 covers imports that threaten to impair national security: the Department of Commerce investigates and reports to the President, who decides whether to act, for example with tariffs or quotas. Section 301 covers a foreign country's act, policy or practice that is unreasonable or discriminatory and burdens or restricts U.S. commerce: the Office of the U.S. Trade Representative investigates and can impose duties or other import restrictions.",
+          "sources": [
+            {
+              "label": "Bureau of Industry and Security, Section 232 investigations",
+              "url": "https://www.bis.gov/about-bis/bis-leadership-and-offices/SIES/section-232-investigations"
+            },
+            {
+              "label": "U.S. International Trade Commission, Section 232 and 301 trade actions in 2018",
+              "url": "https://www.usitc.gov/research_and_analysis/trade_shifts_2018/special_topic.htm"
+            }
+          ],
+          "chartIds": [
+            "tariffs"
+          ]
+        },
+        {
+          "id": "tariff-vs-duty",
+          "q": "What is the difference between a tariff and a duty?",
+          "a": "In U.S. trade law the two words are used largely interchangeably for a charge on imported goods. The Constitution gives Congress the power to \"lay and collect Taxes, Duties, Imposts and Excises,\" and that power underlies Congress's authority over import tariffs. Executive orders that impose tariffs have been titled \"Imposing Duties,\" and the Supreme Court has said Section 232 of the Trade Expansion Act of 1962 is natural to read as authorizing \"duties.\"",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Congressional and Presidential Authority to Impose Import Tariffs",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48435/R48435.4.pdf"
+            }
+          ],
+          "chartIds": [
+            "tariffs"
+          ]
+        }
+      ]
+    }
+  ]
+}

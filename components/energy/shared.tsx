@@ -107,6 +107,7 @@ export function EnergyCardShell({
   notes,
   tables,
   context,
+  jump,
   small = false,
 }: {
   id: string;
@@ -121,6 +122,8 @@ export function EnergyCardShell({
   tables: ReactNode;
   /** The takeaway's context line (rule 7d, `contextFor` in `takeaways.ts`), behind a closed Context toggle. */
   context?: ContextEntry | null;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
   small?: boolean;
 }) {
   const ctx = useTakeawayContext(takeaway, context);
@@ -137,6 +140,7 @@ export function EnergyCardShell({
           <summary className={TABLE_TOGGLE}>View as table</summary>
           {tables}
         </details>
+        {jump}
       </ChartNotesRow>
     </section>
   );

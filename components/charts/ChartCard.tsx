@@ -10,6 +10,8 @@ interface ChartCardProps {
   action?: ReactNode;
   /** A quiet link to the page this card summarises, at the foot of the card. */
   more?: { href: string; label: string };
+  /** The card's DOM id, for links and jump links that must not depend on the title (rule 7e otherwise derives one). */
+  id?: string;
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -28,6 +30,7 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
   takeaway,
   action,
   more,
+  id,
   className,
   style,
   children,
@@ -35,6 +38,7 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
   return (
     <section
       ref={ref}
+      id={id}
       style={style}
       className={`flex flex-col rounded-[10px] border border-line bg-surface p-[1.35rem_1.35rem_1.1rem] ${className ?? ""}`}
     >
