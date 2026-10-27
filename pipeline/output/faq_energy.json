@@ -1,0 +1,144 @@
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Electricity",
+      "items": [
+        {
+          "id": "renewable-vs-nonrenewable",
+          "q": "What is the difference between renewable and nonrenewable energy?",
+          "a": "Renewable energy comes from sources that naturally replenish but are flow-limited: virtually inexhaustible, yet limited by the availability of the resource. These include biomass, hydropower, geothermal, wind and solar. Nonrenewable sources are the fossil fuels (coal, petroleum and natural gas), and nuclear is also listed as nonrenewable. Wind, utility-scale solar and conventional hydropower together made up 23% of U.S. electricity generation in 2025 and 25% in January to August 2026 (preliminary).",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Renewable energy explained",
+              "url": "https://www.eia.gov/energyexplained/renewable-sources/"
+            },
+            {
+              "label": "Energy Information Administration, Monthly Energy Review: electricity",
+              "url": "https://www.eia.gov/totalenergy/data/monthly/"
+            }
+          ],
+          "chartIds": [
+            "electricity"
+          ]
+        },
+        {
+          "id": "utility-vs-small-solar",
+          "q": "What is the difference between utility-scale and small-scale solar?",
+          "a": "Utility-scale solar comes from power plants with at least 1 megawatt (1,000 kilowatts) of generation capacity. Small-scale solar comes from systems under 1 megawatt, most of which are installed on or near buildings, such as rooftop panels on homes. In January to August 2026 (preliminary), utility-scale plants made 78% of U.S. solar generation and small-scale systems 22%. In 2025, the full-year split was 76% utility-scale and 24% small-scale.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Where solar is found",
+              "url": "https://www.eia.gov/energyexplained/solar/where-solar-is-found.php"
+            },
+            {
+              "label": "Energy Information Administration, Record small-scale solar capacity added in 2022",
+              "url": "https://www.eia.gov/todayinenergy/detail.php?id=60341"
+            },
+            {
+              "label": "Energy Information Administration, Monthly Energy Review: electricity",
+              "url": "https://www.eia.gov/totalenergy/data/monthly/"
+            }
+          ],
+          "chartIds": [
+            "electricity"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Oil",
+      "items": [
+        {
+          "id": "crude-vs-petroleum",
+          "q": "What is the difference between crude oil and petroleum?",
+          "a": "Crude oil is the raw mixture of hydrocarbons taken from underground reservoirs, while petroleum products are the fuels made from it. At a refinery, different parts of crude oil are separated into useable products. Petroleum products can also be made from hydrocarbons in natural gas, and from coal and biomass. A 42-gallon barrel of crude oil yields about 45 gallons of petroleum products in U.S. refineries.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Oil and petroleum products explained",
+              "url": "https://www.eia.gov/energyexplained/oil-and-petroleum-products/"
+            }
+          ],
+          "chartIds": [
+            "supply",
+            "oil"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Natural gas",
+      "items": [
+        {
+          "id": "lng-vs-natural-gas",
+          "q": "What is the difference between LNG and natural gas?",
+          "a": "LNG is natural gas that has been cooled to a liquid state, about -260° Fahrenheit, so it can be shipped and stored, including on ocean-going tankers. The liquid takes up about 600 times less volume than the gas does in a pipeline. In 2025, the latest full year, 61% of U.S. natural gas exports (5.5 trillion cubic feet) left as LNG, and 39% (3.5 trillion cubic feet) went by pipeline.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Liquefied natural gas",
+              "url": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php"
+            },
+            {
+              "label": "Energy Information Administration, U.S. natural gas exports by country",
+              "url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_a.htm"
+            }
+          ],
+          "chartIds": [
+            "lng"
+          ]
+        },
+        {
+          "id": "lng-buyers",
+          "q": "Who buys U.S. liquefied natural gas?",
+          "a": "In 2025, 43 countries bought U.S. LNG, which totaled 5.5 trillion cubic feet. The largest buyers were the Netherlands (645.8 billion cubic feet, 12% of U.S. LNG exports), France (533.1 billion, 10%), Egypt (435.3 billion, 8%), Spain (373.1 billion, 7%) and the United Kingdom (372.2 billion, 7%). In January to July 2026, preliminary LNG exports were 3.7 trillion cubic feet, 23% more than the 3.0 trillion cubic feet in the same months of 2025.",
+          "sources": [
+            {
+              "label": "Energy Information Administration, U.S. natural gas exports by country",
+              "url": "https://www.eia.gov/dnav/ng/ng_move_expc_s1_a.htm"
+            }
+          ],
+          "chartIds": [
+            "lng"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Strategic Petroleum Reserve",
+      "items": [
+        {
+          "id": "spr-who-decides",
+          "q": "Who decides when oil is released from the Strategic Petroleum Reserve?",
+          "a": "The President decides, by making a finding. A full drawdown requires a finding of a severe energy supply interruption or of U.S. obligations under the international energy program. For a limited drawdown, the President finds an energy supply shortage of significant scope or duration, and the Secretary of Energy then draws down the Reserve, up to 30M barrels and 60 days per shortage and not if fewer than 252.4M barrels are stored. Without a finding, the Secretary can run test drawdowns, capped at 5M barrels if they include a sale or exchange.",
+          "sources": [
+            {
+              "label": "Department of Energy, Statutory authority for an SPR drawdown",
+              "url": "https://www.energy.gov/hgeo/opr/statutory-authority-spr-drawdown"
+            },
+            {
+              "label": "Department of Energy, SPR FAQs",
+              "url": "https://www.energy.gov/hgeo/opr/spr-faqs"
+            }
+          ],
+          "chartIds": [
+            "spr"
+          ]
+        },
+        {
+          "id": "spr-sale-vs-exchange",
+          "q": "What is the difference between an SPR sale and an exchange?",
+          "a": "In an exchange, a company takes SPR oil and must repay oil of similar quality, plus premium barrels (similar to interest), within a specified time. The premium and the repayment date are set through contract negotiations. A sale and drawdown is conducted online competitively, and deliveries can begin as early as 13 days after the sale is announced. An exchange agreement can be completed within a few days of a company's request.",
+          "sources": [
+            {
+              "label": "Department of Energy, SPR FAQs",
+              "url": "https://www.energy.gov/hgeo/opr/spr-faqs"
+            }
+          ],
+          "chartIds": [
+            "spr"
+          ]
+        }
+      ]
+    }
+  ]
+}
