@@ -90,17 +90,28 @@ describe("special-entry footnote", () => {
     special: special.map(([code, value]) => ({ code, value, label: label(code) })),
   });
 
-  it("names the two largest and sums the rest", () => {
+  const lead = "of special entries, shipments recorded by how they were handled rather than what they are.";
+
+  it("names the two largest, from the chapter list", () => {
     expect(specialNote(view([["9999", 8.7e9], ["9801", 4.1e9], ["9808", 1e9]], 13.8e9))).toBe(
-      "Plus $13.8B in special entries, not ranked as chapters: low-value shipments (estimated) $8.7B, returned American goods $4.1B, other $1.0B.",
+      `The chapter list leaves out $13.8B ${lead} Largest: low-value shipments (estimated) $8.7B, returned American goods $4.1B.`,
     );
-    expect(specialNote(view([["9808", 5e6]], 5e6))).toBe("Plus $5.0M in special entries, not ranked as chapters: U.S. government imports $5.0M.");
+    expect(specialNote(view([["9808", 5e6]], 5e6))).toBe(`The chapter list leaves out $5.0M ${lead} All of it: U.S. government imports $5.0M.`);
     expect(specialNote(view([], 0))).toBeNull();
+    expect(specialNote(null, null)).toBeNull();
+  });
+
+  it("writes one note for both lists, adding the use tally only when it differs", () => {
+    const chapters = view([["9999", 8.7e9], ["9801", 4.1e9]], 13.8e9);
+    expect(specialNote(chapters, view([["9801", 13.8e9]], 13.8e9))).toBe(
+      `Neither list includes $13.8B ${lead} Largest: low-value shipments (estimated) $8.7B, returned American goods $4.1B.`,
+    );
+    expect(specialNote(chapters, view([["9801", 13.2e9]], 13.2e9))).toMatch(/^Neither list includes \$13\.8B .* Census tallies them a little differently by use: \$13\.2B\.$/);
   });
 
   it("is built from the real all-countries file", () => {
     const all = getProductsPayload("all") as TradeProductsPayload;
-    expect(specialNote(productsView(all, 2025, "imports")!)).toMatch(/^Plus \$1\d\dB in special entries, not ranked as chapters: returned American goods \$\d+B, low-value shipments \(estimated\) \$\d+(\.\d)?B, other/);
+    expect(specialNote(productsView(all, 2025, "imports")!)).toMatch(/^The chapter list leaves out \$1\d\dB of special entries, .* Largest: returned American goods \$\d+B, low-value shipments \(estimated\) \$\d+(\.\d)?B\.$/);
   });
 });
 
