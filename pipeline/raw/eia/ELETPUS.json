@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-21T17:55:27.104Z","series":{"id":"ELETPUS","title":"Electricity Net Generation Total (including from sources not shown), All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=ELETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":643}},
+  "head": {"fetched_at":"2026-10-27T18:02:47.922Z","series":{"id":"ELETPUS","title":"Electricity Net Generation Total (including from sources not shown), All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=ELETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=ALL&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
   "observations": [
     ["1973-01","160217.989"],
     ["1973-02","143538.699"],
@@ -643,6 +643,7 @@
     ["2026-04","330706.52"],
     ["2026-05","354690.526"],
     ["2026-06","399671.285"],
-    ["2026-07","453744.39758"]
+    ["2026-07","451966.70113"],
+    ["2026-08","449405.55472"]
   ]
 }
