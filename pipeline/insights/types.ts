@@ -61,6 +61,8 @@ export type Series = {
    */
   anchor?: string;
   source: string;
+  /** A method note printed on the chart after the source ("Not adjusted for inflation"); captions never repeat it. */
+  note?: string;
   /** Ranking weight: how much a reader cares about this series (1 = default). */
   weight: number;
   /** The dataset's headline series gets a routine `latest` post when nothing notable happened (schedule.ts). */
@@ -168,6 +170,8 @@ export type Insight = {
   /** Appended to `url` for the post's link: the chart card and its filter (Series.anchor). */
   anchor?: string;
   source: string;
+  /** Series.note: printed on the chart after the source. */
+  note?: string;
   /** Higher is more notable; used to rank and pick drafts. */
   score: number;
   /** Alt text for the chart image. */

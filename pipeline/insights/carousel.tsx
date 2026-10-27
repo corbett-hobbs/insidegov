@@ -139,7 +139,7 @@ function chartSlide(insight: Insight, n: number, total: number): ReactNode {
       {labels.map((l, i) => (
         <LabelDiv key={i} l={l} width={W} />
       ))}
-      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 74, display: "flex", fontSize: 15, color: MUTED }}>{`Source: ${insight.source}`}</div>
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 74, display: "flex", fontSize: 15, color: MUTED }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
       <Footer n={n} total={total} left={path} />
     </Slide>
   );
@@ -201,7 +201,7 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.1, letterSpacing: -0.6 }}>The full chart, the data and its sources</div>
         <div style={{ display: "flex", fontSize: 26, color: INK, marginTop: 34 }}>{path}</div>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 28, color: INK, marginTop: 12 }}>Link in bio.</div>
-        <div style={{ display: "flex", fontSize: 18, lineHeight: 1.45, color: MUTED, marginTop: 44 }}>{`Source: ${insight.source}`}</div>
+        <div style={{ display: "flex", fontSize: 18, lineHeight: 1.45, color: MUTED, marginTop: 44 }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 26, lineHeight: 1.3, color: INK, marginTop: 70, paddingTop: 26, borderTop: `2px solid ${NEUTRAL}` }}>
           New charts when new government data comes out.
         </div>
