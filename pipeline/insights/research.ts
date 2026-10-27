@@ -23,8 +23,8 @@ import type { Insight, Why } from "./types";
  * back to the "How to read this" slide. A person still approves every draft.
  */
 
-const MODEL = process.env.SOCIAL_WHY_MODEL ?? "claude-sonnet-5-5";
-const EFFORT = (process.env.SOCIAL_WHY_EFFORT ?? "medium") as "low" | "medium" | "high" | "xhigh" | "max";
+const MODEL = process.env.SOCIAL_WHY_MODEL || "claude-sonnet-5-5";
+const EFFORT = (process.env.SOCIAL_WHY_EFFORT || "medium") as "low" | "medium" | "high" | "xhigh" | "max";
 
 /** The release pages to start from, by series id or dataset: the agency's own write-up of each period's data. */
 export const RELEASE_PAGES: Record<string, string[]> = {
