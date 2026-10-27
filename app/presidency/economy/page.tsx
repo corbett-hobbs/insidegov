@@ -4,6 +4,7 @@ import { hubDescription } from "@/lib/hub-seo";
 import { getEconomyPayload, getIndicatorSeriesList } from "@/lib/indicator-data";
 import { FRED_API_NOTICE } from "@/lib/indicator-entities";
 import { EconomyPageClient } from "@/components/economy/EconomyPageClient";
+import { getFaqFile, getNewsFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/economy — the Presidency vertical's Economy section. */
@@ -23,7 +24,7 @@ export default function EconomyPage() {
   return (
     <>
       <TopicDatasetLd path="/presidency/economy" />
-      <EconomyPageClient payload={getEconomyPayload()} fredNotice={FRED_API_NOTICE} mortgageAttribution={mortgage.attribution} />
+      <EconomyPageClient payload={getEconomyPayload()} fredNotice={FRED_API_NOTICE} mortgageAttribution={mortgage.attribution} newsFile={getNewsFile("economy")} faqFile={getFaqFile("economy")} />
     </>
   );
 }

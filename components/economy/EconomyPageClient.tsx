@@ -15,6 +15,10 @@ import { EconomyFilterBar } from "./EconomyFilterBar";
 import { CARD_ROWS, SPECS, USD_SPECS, type ChartSpec } from "./specs";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { UpNext } from "@/components/UpNext";
+import { updatedLabel } from "@/lib/news-derive";
+import { cardId, economyFaq, economyNews } from "./economy-news";
+import { ChartJumpLink, InTheNews, NewsAndFaqBand, NewsQuestionsPills, Questions } from "@/components/news/NewsSections";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
 import { enumParam, flagParam, yearsParam } from "@/lib/url-state";
 import { useUrlState } from "@/lib/use-url-state";
 
@@ -37,6 +41,9 @@ interface PageProps {
   payload: EconomyPayload;
   fredNotice: string;
   mortgageAttribution: string;
+  /** `news_economy.json` and `faq_economy.json`; null (or empty) when a file is missing, which leaves out the sections, their links and the cards' jump links. */
+  newsFile: NewsFile | null;
+  faqFile: FaqFile | null;
 }
 
 /** "March 2009, Obama (D)" for an axis day. */
@@ -50,17 +57,27 @@ function EconomyPage({
   payload,
   fredNotice,
   mortgageAttribution,
+  newsFile,
+  faqFile,
 }: PageProps) {
   const data = useMemo(() => fromEconomyPayload(payload), [payload]);
   const values = useEconomyValues();
   const { setRange, clearPin } = useEconomyActions();
   const [showCong, setShowCong] = useState(false);
+  // The card whose jump link was tapped (its DOM id); its news and questions are highlighted for a few seconds.
+  const [focus, setFocus] = useState<string | null>(null);
+  const jumpTo = (target: string) => {
+    setFocus(target);
+    window.setTimeout(() => setFocus((f) => (f === target ? null : f)), 4000);
+  };
   // Deficit and debt open in dollars; the toggle switches both to a share of GDP. The other unit stays beside the headline and in the tooltip.
   const [unit, setUnit] = useState<FiscalUnit>("usd");
   const other: FiscalUnit = unit === "usd" ? "pct" : "usd";
   const fiscal = useMemo(() => withFiscalUnit(data, unit), [data, unit]);
   const fiscalAlt = useMemo(() => withFiscalUnit(data, other), [data, other]);
   const specs = useMemo<Record<keyof typeof SPECS, ChartSpec>>(() => ({ ...SPECS, ...(unit === "usd" ? USD_SPECS : {}) }), [unit]);
+  const news = useMemo(() => economyNews(fiscal, specs, newsFile), [fiscal, specs, newsFile]);
+  const faq = useMemo(() => economyFaq(faqFile, specs), [faqFile, specs]);
   const altSpecs = useMemo(() => (unit === "usd" ? SPECS : USD_SPECS), [unit]);
   const day = activeDay(values);
   // Hero and cards read the same date, from the same lookup module.
@@ -174,6 +191,7 @@ function EconomyPage({
           <p>
             Track unemployment, inflation, job growth, real wages, gas prices, and the federal deficit since 1991&mdash;lined up directly against who controlled the White House and Congress.
           </p>
+          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">
@@ -232,6 +250,7 @@ function EconomyPage({
                   reading={latest[k]}
                   takeaway={specs[k].takeaway}
                   notes={<p>{notes[k]}</p>}
+                  jump={<ChartJumpLink target={cardId(k)} news={news} groups={faq} onJump={jumpTo} />}
                   legend={
                     k === "gas" || k === "debt"
                       ? ({ only, isolate }) => (
@@ -253,6 +272,13 @@ function EconomyPage({
             </div>
           </section>
         ))}
+
+        {(news.length > 0 || faq.length > 0) && (
+          <NewsAndFaqBand>
+            <InTheNews items={news} updated={updatedLabel(newsFile?.asOf)} focus={focus} />
+            <Questions groups={faq} focus={focus} />
+          </NewsAndFaqBand>
+        )}
 
         <UpNext />
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">

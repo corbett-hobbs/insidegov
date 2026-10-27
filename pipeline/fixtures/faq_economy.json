@@ -1,0 +1,84 @@
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Everyday costs",
+      "items": [
+        {
+          "id": "diesel-matter",
+          "q": "Why do diesel prices matter if I don't drive a diesel?",
+          "a": "Diesel engines in trucks, trains, boats and barges move nearly all the products Americans buy, so the cost of shipping goods rises with the fuel. Diesel also powers most farm and construction equipment, and generators that make electricity.",
+          "sources": [
+            {
+              "label": "Energy Information Administration",
+              "url": "https://www.eia.gov/energyexplained/diesel-fuel/"
+            }
+          ],
+          "chartIds": [
+            "chart-diesel"
+          ]
+        },
+        {
+          "id": "mortgage-fed",
+          "q": "Why can mortgage rates move when the Fed hasn't changed rates?",
+          "a": "The 30-year rate follows long-term borrowing costs, chiefly the 10-year Treasury yield, more closely than the Fed's overnight rate. Expectations about inflation and future Fed decisions move that yield every day.",
+          "sources": [
+            {
+              "label": "Federal Reserve Bank of St. Louis",
+              "url": "https://www.stlouisfed.org/"
+            }
+          ],
+          "chartIds": [
+            "chart-mort"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Behind the misery index",
+      "items": [
+        {
+          "id": "infl-hardest",
+          "q": "Who is hit hardest when inflation rises?",
+          "a": "Households that spend most of their budget on necessities. Lower-income households put a larger share of their spending into food and housing than higher-income ones, so price increases there take up more of what they spend.",
+          "sources": [
+            {
+              "label": "Bureau of Labor Statistics, Consumer Expenditure Survey",
+              "url": "https://www.bls.gov/cex/"
+            }
+          ],
+          "chartIds": [
+            "chart-infl"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Federal finances",
+      "items": [
+        {
+          "id": "deficit-debt",
+          "q": "What is the difference between the deficit and the debt?",
+          "a": "The deficit is one year's shortfall: what the government spent minus what it took in. The debt is the running total of past borrowing, so each deficit adds to it and a surplus pays some down.",
+          "sources": [
+            {
+              "label": "Treasury Fiscal Data",
+              "url": "https://fiscaldata.treasury.gov/"
+            }
+          ],
+          "chartIds": [
+            "chart-def",
+            "chart-debt"
+          ]
+        },
+        {
+          "id": "general",
+          "q": "A general question with no chart attached",
+          "a": "Answers like this show without chips.",
+          "sources": [],
+          "chartIds": []
+        }
+      ]
+    }
+  ]
+}

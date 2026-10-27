@@ -1,0 +1,63 @@
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Green cards",
+      "items": [
+        {
+          "id": "gc-citizenship",
+          "q": "What is the difference between a green card and citizenship?",
+          "a": "A green card makes someone a lawful permanent resident: they can live and work in the U.S. indefinitely but cannot vote in federal elections. Most can apply to naturalize as citizens after five years, or three if married to and living with a U.S. citizen.",
+          "sources": [
+            {
+              "label": "U.S. Citizenship and Immigration Services",
+              "url": "https://www.uscis.gov/"
+            }
+          ],
+          "chartIds": [
+            "chart-green-cards"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Refugees",
+      "items": [
+        {
+          "id": "ref-asylum",
+          "q": "What is the difference between a refugee and an asylum seeker?",
+          "a": "Both are seeking protection from persecution. A refugee applies from outside the U.S. and is approved before traveling; an asylum seeker applies after arriving in the U.S. or at its border. Only refugee admissions count toward the yearly ceiling.",
+          "sources": [
+            {
+              "label": "U.S. Citizenship and Immigration Services",
+              "url": "https://www.uscis.gov/"
+            }
+          ],
+          "chartIds": [
+            "chart-refugees"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Border & removals",
+      "items": [
+        {
+          "id": "removal-return",
+          "q": "What is the difference between a removal and a return?",
+          "a": "A removal is a confirmed departure under a final order of removal, which carries penalties if the person later tries to come back. A return is a confirmed departure without an order, so it does not carry those removal penalties.",
+          "sources": [
+            {
+              "label": "DHS Office of Homeland Security Statistics",
+              "url": "https://ohss.dhs.gov/"
+            }
+          ],
+          "chartIds": [
+            "chart-removals",
+            "chart-encounters"
+          ]
+        }
+      ]
+    }
+  ]
+}
