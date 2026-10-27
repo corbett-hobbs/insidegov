@@ -1,17 +1,19 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { neutralityProblem } from "../faq/check";
-import { ALLOWED_HOSTS, sourceNotAllowed } from "../faq/sources";
+import { sourceNotAllowed } from "../faq/sources";
 import { BANNED_WORDS, CAUSAL_PHRASES } from "./caption";
 import type { Insight, Why } from "./types";
 
 /**
  * Why a number moved, researched for every data draft: Claude reads the agency's own release for the period (and other
- * sources on the owner's list: federal agencies, CRS/CBO/GAO, the Federal Reserve, universities), then writes one
+ * sources on the owner's list: federal agencies, CRS/CBO/GAO, the Federal Reserve, universities) and mainstream news
+ * reporting (NEWS_OUTLETS) to corroborate it and to add reasons the agency's write-up does not give, then writes one
  * attributed sentence for the post and a few paragraphs for the Instagram carousel. Code then checks it:
  *
- *   - every source is on the allowed list (pipeline/faq/sources.ts) and is a page the model actually opened or found
- *     in this request, so a citation cannot be made up;
+ *   - every source is an allowed agency site (pipeline/faq/sources.ts) or a news report from NEWS_OUTLETS (never an
+ *     opinion page), and is a page the model actually opened or found in this request, so a citation cannot be made up;
+ *   - news is corroborated: a why that cites news cites at least two different outlets;
  *   - the carousel paragraphs carry no figures but years (the breakdown slide carries the verified numbers);
  *   - the FAQ neutrality rules: no loaded words, parties or politicians, and no sentence pairing a cause word with a
  *     policy word (what a release measured, not a verdict on a policy);
@@ -45,11 +47,55 @@ export function releasePages(insight: Pick<Insight, "seriesId" | "dataset">): st
   return RELEASE_PAGES[prefix ?? insight.dataset] ?? [];
 }
 
-/** Hostnames for the web tools: the allowed list without the bare "edu" (the tools take hostnames only). */
-const DOMAINS = Object.keys(ALLOWED_HOSTS).filter((h) => h.includes("."));
+/**
+ * Mainstream outlets whose straight news reporting may corroborate a release or add reasons it does not give, by host.
+ * The owner's rule: agency write-ups can lag or say little, which does not make well-reported reasons untrue. Outlets
+ * rated Center, Lean Left or Lean Right by AllSides (read 2026-10-27; CNBC added by the owner), so the reasons do not
+ * lean on either end; opinion pages are never sources (OPINION_PATH).
+ */
+export const NEWS_OUTLETS: Record<string, string> = {
+  "reuters.com": "Reuters",
+  "apnews.com": "AP",
+  "bloomberg.com": "Bloomberg",
+  "wsj.com": "The Wall Street Journal",
+  "cnbc.com": "CNBC",
+  "marketwatch.com": "MarketWatch",
+  "bbc.com": "BBC",
+  "nytimes.com": "The New York Times",
+  "npr.org": "NPR",
+  "axios.com": "Axios",
+  "abcnews.go.com": "ABC News",
+  "cbsnews.com": "CBS News",
+  "nbcnews.com": "NBC News",
+  "politico.com": "Politico",
+  "thehill.com": "The Hill",
+  "foxbusiness.com": "Fox Business",
+  "washingtonexaminer.com": "Washington Examiner",
+  "washingtontimes.com": "The Washington Times",
+};
+const OPINION_PATH = /\/(?:opinions?|commentisfree|editorials?|columns?|columnists?|blogs?|op-ed|analysis\/opinion)(?:\/|$)/i;
+
+/** The outlet a news URL belongs to, or null (not an outlet, or an opinion page). */
+export function newsOutlet(url: string): string | null {
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    return null;
+  }
+  const host = u.hostname.toLowerCase();
+  const key = Object.keys(NEWS_OUTLETS).find((h) => host === h || host.endsWith(`.${h}`));
+  return key && u.protocol === "https:" && !OPINION_PATH.test(u.pathname) ? NEWS_OUTLETS[key]! : null;
+}
+
+/** The hosts both web tools may reach: the main agencies and the outlets (the tools take at most 64). */
+const AGENCY_SEARCH = ["eia.gov", "energy.gov", "bea.gov", "census.gov", "trade.gov", "ustr.gov", "cbp.gov", "dhs.gov", "ice.gov", "bls.gov", "treasury.gov", "usda.gov", "federalreserve.gov", "stlouisfed.org", "newyorkfed.org", "dallasfed.org", "cbo.gov", "congress.gov", "gao.gov", "federalregister.gov", "whitehouse.gov"];
+const WEB_DOMAINS = [...AGENCY_SEARCH, ...Object.keys(NEWS_OUTLETS)];
 
 /** Short names a post sentence may attribute to. */
-const ATTRIBUTION = /\b(EIA|Energy Information Administration|Energy Department|Census|Census Bureau|BEA|Bureau of Economic Analysis|Commerce Department|CBP|Customs and Border Protection|ICE|DHS|Homeland Security|BLS|Labor Department|Treasury|the Fed|Federal Reserve|CBO|CRS|GAO|Federal Register|Congress\.gov|USDA|Agriculture Department)\b/;
+const ATTRIBUTION = new RegExp(
+  `\\b(EIA|Energy Information Administration|Energy Department|Census|Census Bureau|BEA|Bureau of Economic Analysis|Commerce Department|Commerce data|CBP|Customs and Border Protection|ICE|DHS|Homeland Security|BLS|Labor Department|Treasury|the Fed|Federal Reserve|CBO|CRS|GAO|Federal Register|Congress\\.gov|USDA|Agriculture Department|Associated Press|Wall Street Journal|WSJ|New York Times|${Object.values(NEWS_OUTLETS).map((n) => n.replace(/^The /, "")).join("|")})\\b`,
+);
 const POST_LINE_MAX = 130;
 const PARAGRAPH_MAX = 280;
 /** The carousel slide's paragraphs together: about what one 4:5 slide holds at a readable size. */
@@ -57,12 +103,14 @@ export const WHY_MAX = 760;
 
 const SYSTEM = `You explain, for InsideGov (a nonpartisan site of U.S. government data), why one number in a new data release moved, so a social post and an Instagram carousel can say so. Always finish by calling the record_why tool.
 
-Research first. Open the release pages you are given and find the agency's own write-up of this period (search the allowed sites when the page has moved or a later edition exists). Use other allowed sources (federal agencies, CRS, CBO, GAO, the Federal Reserve, universities) only to add context the release does not give, such as a forecast or a longer trend. Never rely on news coverage, commentary, think tanks or advocacy groups.
+Research first. Open the release pages you are given and find the agency's own write-up of this period (search the allowed sites when the page has moved or a later edition exists). Then search mainstream news reporting of the same release (Reuters, AP, Bloomberg, The Wall Street Journal, CNBC and the other searchable outlets) to corroborate it and to find the reasons reporters give that the agency's write-up does not, such as what kinds of buyers, projects or events are behind a category. Agency write-ups often lag or say little; a reason that several outlets report is still a reason. Other allowed sources (federal agencies, CRS, CBO, GAO, the Federal Reserve, universities) can add a forecast or a longer trend. Never use opinion pieces, columns, think tanks, advocacy groups or company marketing.
+
+Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and is attributed to them by name ("Reuters and Bloomberg report ..."). When the agency and news agree, name the agency.
 
 What to write:
-- caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ..."). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
+- caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Reuters and Bloomberg tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
 - title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "What changed".
-- paragraphs: 2 to 4 short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they fill one slide) that expand on the reasons: what the agency says moved it, which parts or sources drove it, and any longer trend or outlook the sources give. Words only: no figures, percentages or amounts (years are fine). Name the agency in each claim.
+- paragraphs: 2 to 4 short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they fill one slide) that expand on the reasons: what the agency says moved it, which parts or sources drove it, and any longer trend or outlook the sources give. Words only: no figures, percentages or amounts (years are fine). Name the agency or the outlets in each claim.
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 
 Rules: say only what the sources say. State reasons as the source does ("EIA says", "Census reports"), never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more.`;
@@ -122,7 +170,7 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
   const errors: string[] = [];
   if (!w.captionLine.trim()) errors.push("caption_line is empty");
   if (w.captionLine.length > POST_LINE_MAX) errors.push(`caption_line is ${w.captionLine.length} characters; the limit is ${POST_LINE_MAX}`);
-  if (!ATTRIBUTION.test(w.captionLine)) errors.push("caption_line must name its source (EIA, Census, BEA, CBP, ...)");
+  if (!ATTRIBUTION.test(w.captionLine)) errors.push("caption_line must name its source (EIA, Census, BEA, CBP, Reuters, ...)");
   const causal = CAUSAL_PHRASES.filter((c) => w.captionLine.toLowerCase().includes(c));
   if (causal.length) errors.push(`caption_line: say what the source cites or reports instead of "${causal.join('", "')}"`);
   const allowedNums = new Set(facts.flatMap((f) => f.text.match(/\d[\d,.]*/g) ?? []));
@@ -144,11 +192,15 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
   }
   if (w.sources.length === 0) errors.push("no sources");
   const seenNorm = new Set([...seen].map(normalize));
+  const outlets = new Set<string>();
   for (const s of w.sources) {
-    const not = sourceNotAllowed(s.url);
-    if (not) errors.push(not);
+    const outlet = newsOutlet(s.url);
+    const not = outlet ? null : sourceNotAllowed(s.url);
+    if (not) errors.push(`${not}, and not a news report from the listed outlets`);
     else if (!seenNorm.has(normalize(s.url))) errors.push(`${s.url} was not opened or found in this research; cite only pages you read`);
+    if (outlet) outlets.add(outlet);
   }
+  if (outlets.size === 1) errors.push(`news cited from ${[...outlets][0]} only; a reason from news needs at least two outlets reporting it`);
   return errors;
 }
 
@@ -179,8 +231,8 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
         output_config: { effort: EFFORT },
         system: SYSTEM,
         tools: [
-          { type: "web_fetch_20260209", name: "web_fetch", allowed_domains: DOMAINS, max_uses: 8 },
-          { type: "web_search_20260209", name: "web_search", allowed_domains: DOMAINS, max_uses: 5 },
+          { type: "web_fetch_20260209", name: "web_fetch", allowed_domains: WEB_DOMAINS, max_uses: 10 },
+          { type: "web_search_20260209", name: "web_search", allowed_domains: WEB_DOMAINS, max_uses: 6 },
           TOOL,
         ],
         tool_choice: { type: "auto" },
