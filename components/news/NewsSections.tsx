@@ -55,21 +55,9 @@ export function NewsQuestionsPills({ news, groups }: { news: readonly NewsItem[]
 /** The two sections' headings: the serif section-heading style (Immigration's `SectionHeading`, unnumbered), not the mono row labels the chart rows use. */
 const HEADING = "m-0 flex flex-1 items-center gap-3 font-serif text-[clamp(1.35rem,2.6vw,1.6rem)] font-medium leading-[1.2] tracking-[-0.01em] text-ink";
 
-/**
- * The full-width band both sections sit in, a shade off the page background, so the page reads as data above and context
- * below. It is the page's branch colour (`--accent`: Presidency blue, Congress green, Court red) mixed lightly into the
- * background, so it follows the branch and its dark-mode shade on its own. It spans the viewport with a wide box-shadow
- * clipped to its own height, which adds no width to the page.
- */
+/** The wrapper both sections sit in: the page's own background, set off from the charts above by a thin rule. */
 export function NewsAndFaqBand({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{ "--band": "color-mix(in srgb, var(--accent) 12%, var(--bg))" } as React.CSSProperties}
-      className="mt-4 flex flex-col gap-10 bg-[var(--band)] py-9 shadow-[0_0_0_100vmax_var(--band)] [clip-path:inset(0_-100vmax)]"
-    >
-      {children}
-    </div>
-  );
+  return <div className="mt-10 flex flex-col gap-10 border-t border-line-strong pb-9 pt-10">{children}</div>;
 }
 const FOCUS = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
 
