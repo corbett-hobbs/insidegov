@@ -30,6 +30,8 @@ export const ALLOWED_HOSTS: Record<string, string> = {
   "ustr.gov": "U.S. Trade Representative",
   "usitc.gov": "U.S. International Trade Commission",
   "trade.gov": "International Trade Administration",
+  "bis.gov": "Bureau of Industry and Security",
+  "commerce.gov": "Department of Commerce",
   "defense.gov": "Department of Defense",
   "usaid.gov": "USAID",
   "foreignassistance.gov": "ForeignAssistance.gov",

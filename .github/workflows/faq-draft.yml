@@ -10,7 +10,7 @@ on:
       page:
         description: "Page to draft"
         type: choice
-        options: [economy, immigration]
+        options: [economy, immigration, energy, trade]
       only:
         description: "Comma-separated question ids (blank: all of the page's questions)"
         default: ""

@@ -9,7 +9,7 @@ import { z } from "zod";
  * line) or how it is measured (that is the chart's Data notes). Edited by hand and reviewed like code.
  */
 
-export const FAQ_PAGES = ["economy", "immigration"] as const;
+export const FAQ_PAGES = ["economy", "immigration", "energy", "trade"] as const;
 export type FaqPage = (typeof FAQ_PAGES)[number];
 
 export const questionSource = z.strictObject({
@@ -34,7 +34,8 @@ export const question = z.strictObject({
   q: z.string().min(1),
   /** The search phrase the question came from, as Google's autocomplete gave it. */
   searched: z.string().min(1),
-  chartIds: z.array(z.string().regex(/^chart-[a-z0-9-]+$/)).min(1),
+  /** DOM ids of the cards the question is about (Economy and Immigration `chart-…`, Energy `spr`, Trade `tariffs` …). */
+  chartIds: z.array(z.string().regex(/^[a-z][a-z0-9-]*$/)).min(1),
   sources: z.array(questionSource).min(1),
   /** A note to the drafting model on what the answer should cover (not shown on the site). */
   brief: z.string().optional(),
