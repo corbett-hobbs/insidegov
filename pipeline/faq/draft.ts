@@ -66,7 +66,7 @@ async function answer(q: Question): Promise<{ item: FaqItem } | { error: string 
   const texts = new Map<string, string>();
   for (const s of q.sources) {
     try {
-      texts.set(s.url, await readSource(s));
+      texts.set(s.url, (await readSource(s)).text);
     } catch (err) {
       return { error: `source unreadable: ${(err as Error).message}` };
     }

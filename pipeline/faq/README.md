@@ -23,5 +23,10 @@ summaries (`pnpm summarize:eos`, `checkEoSummary`) and the social-drafts approva
 
 The drafting workflow (`faq-draft.yml`, manual) runs steps 2-3 in CI.
 
+**Saved copies.** Every source read is saved to `pipeline/raw/faq-sources/` (committed). When a page cannot be read (BLS answers
+GitHub's runners with 403; other sites time out), publishing and the re-check check the answer against the saved copy and the
+report names it. `pnpm faq:sources` refreshes every copy from a machine that can reach the sites; the publish PR also commits the
+copies its run refreshed.
+
 Adding a page: add it to `FAQ_PAGES`, write `questions/<page>.json` (rows in the page's order), add its `dataFiles` to
 `faq-recheck.yml`'s paths (the tests check this), its name to `PAGE_NAME` in `issue.ts`, and it to the `page` options in `faq-draft.yml`.

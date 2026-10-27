@@ -1,10 +1,11 @@
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
 import { describe, expect, it } from "vitest";
 import { checkFaqAnswer, numberInSource, numbersIn } from "./check";
 import { debtFacts, encountersFacts } from "./facts";
 import { blockComment, issueBody, parseFaqBlock, type FaqDraft } from "./issue";
 import { FAQ_PAGES, checkQuestion, readQuestionList, type Question } from "./questions";
-import { htmlToText, sourceNotAllowed } from "./sources";
+import { htmlToText, readSource, savedPath, sourceNotAllowed } from "./sources";
 
 const NASS = { label: "NASS", url: "https://www.nass.usda.gov/x.pdf", text: "Farm production expenditures, 2024. Total fuel expense is $15.4 billion. Diesel, the largest sub-component, is $9.9 billion, accounting for 64.3 percent." };
 const ok = (a: string, cited = [NASS]) => checkFaqAnswer(a, cited);
@@ -188,5 +189,23 @@ describe("answers that talk about their sources", () => {
   it("count a sentence that ends in U.S.", () => {
     const five = "A green card lets a person live in the U.S. A citizen can vote. A resident cannot. Both pay taxes. Both obey laws.";
     expect(ok(five, none)).toMatch(/5 sentences/);
+  });
+});
+
+describe("saved source copies", () => {
+  it("checks against the saved copy when the page cannot be read, and says so", async () => {
+    const url = "https://127.0.0.1:9/faq-test-source";
+    const file = savedPath(url);
+    mkdirSync(dirname(file), { recursive: true });
+    writeFileSync(file, `# saved 2026-10-27 from ${url}\nDiesel was $9.9 billion in 2024.\n`);
+    try {
+      const r = await readSource({ label: "x", url });
+      expect(r.saved).toBe("2026-10-27");
+      expect(r.text).toContain("$9.9 billion");
+      rmSync(file);
+      await expect(readSource({ label: "x", url })).rejects.toThrow(/no saved copy/);
+    } finally {
+      rmSync(file, { force: true });
+    }
   });
 });

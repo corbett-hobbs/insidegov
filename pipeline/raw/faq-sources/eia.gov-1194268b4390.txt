@@ -1,0 +1,194 @@
+# saved 2026-10-27 from https://www.eia.gov/todayinenergy/detail.php?id=60341
+Record U.S. small-scale solar capacity was added in 2022 -
+U.S. Energy Information Administration (EIA)
+Today in Energy
+Skip to page content
+Recent articles
+Browse by tag
+liquid fuels
+natural gas
+electricity
+oil/petroleum
+production/supply
+crude oil
+consumption/demand
+generation
+prices
+map
+states
+exports/imports
+international
+coal
+renewables
+weather
+forecasts/projections
+gasoline
+capacity
+steo (short-term energy outlook)
+Prices
+Archive
+About
+Glossary
+FAQS
+September 11, 2023
+Record U.S. small-scale solar capacity was added in 2022
+Data source: U.S. Energy Information Administration, Monthly Electric Power Industry Report , June 2023
+We estimate that the United States added 6.4 gigawatts (GW) of small-scale solar capacity in 2022, the most ever in a single year.
+Small-scale solar—also called distributed solar or rooftop solar—refers to solar-power systems with 1 megawatt (MW) of capacity or less. Rooftop solar panels installed on homes make up the majority of small-scale solar capacity in the United States. Small-scale solar power systems are also used in the commercial and industrial sectors.
+U.S. small-scale solar capacity grew from 7.3 GW in 2014, when we started publishing these estimates, to 39.5 GW in 2022. Small-scale solar makes up about one-third of the total solar capacity in the United States.
+Tax credits and incentives, public policy, and higher retail electricity prices have encouraged the growth of small-scale solar capacity over the past decade. Falling solar panel costs have also played a significant role.
+California has, by far, the largest share of the country’s small-scale solar capacity, at 36%. Ample sunshine, favorable incentives, and relatively high retail electricity prices have encouraged rooftop solar adoption in California. California’s Net Energy Metering Program allows rooftop solar panels to be connected to the power grid and provides credits for any surplus electricity produced by the panels and sent to the grid. Starting in 2020, California requires newly built single-family homes and multifamily buildings up to three stories high to have solar panels installed.
+New York and New Jersey—mid-Atlantic states with less year-round sunshine—have the second- and third-most small-scale solar capacity, respectively, although in recent years, sunny Texas and Arizona have been closing the gap. Long-standing state policies in New York and New Jersey offer generous solar incentives and have encouraged small-scale solar growth.
+Many of the states with the most small-scale solar capacity also have large populations. Accounting for population size provides insight into how prevalent small-scale solar capacity really is in a state. Although California has the most small-scale solar capacity, Hawaii has the highest small-scale solar penetration, at 541 watts per capita.
+Data source: U.S. Energy Information Administration, Monthly Electric Power Industry Report ; U.S. Census Bureau
+A large share of Hawaii’s electricity has historically come from oil-fired power plants. These plants rely on expensive fuel imports, resulting in high electricity bills. As solar panel costs have fallen, many homes and businesses in Hawaii have added solar panels, reducing their electricity bills and helping the state work toward its target to generate 100% of its electricity from renewable sources by 2045 .
+Principal contributors: Elesia Fasching, Katherine Antonio
+Tags:
+generation , electricity , Hawaii , New York , solar , New Jersey , California , states , renewables
+More recent articles &rsaquo;
+Statistics
+Analysis
+Tools
+Education
+News
+Petroleum & Other Liquids
+Crude oil, gasoline, heating oil, diesel, propane, and other liquids including biofuels and natural gas liquids.
+Natural Gas
+Exploration and reserves, storage, imports and exports, production, prices, sales.
+Electricity
+Sales, revenue and prices, power plants, fuel use, stocks, generation, trade, demand & emissions.
+Coal
+Reserves, production, prices, employment and productivity, distribution, stocks, imports and exports.
+Nuclear & Uranium
+Uranium fuel, nuclear reactors, generation, spent fuel.
+Renewable & Alternative Fuels
+Includes hydropower, solar, wind, geothermal, biomass and ethanol.
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Total Energy
+Comprehensive data summaries, comparisons, analysis, and projections integrated across all energy sources.
+Monthly Energy Review
+Annual Energy Review
+Consumption & Efficiency
+Energy use in homes, commercial buildings, manufacturing, and transportation.
+Residential Energy Consumption Survey (RECS)
+Commercial Buildings Energy Consumption Survey (CBECS)
+Manufacturing Energy Consumption Survey (MECS)
+U.S. States
+State energy information, including overviews, rankings, data, and analyses.
+State Energy Data System (SEDS)
+International
+International energy information, including overviews, rankings, data, and analyses.
+International Energy Statistics
+Environment
+Greenhouse gas data, voluntary reporting, electric power plant emissions.
+U.S. Energy-Related Carbon Dioxide Emissions
+Energy-Related Carbon Dioxide Emissions at the State Level, 2005-2016
+Energy-Related Carbon Dioxide Emissions at the State Level
+Analysis and Projections
+Monthly and yearly energy forecasts, analysis of energy topics, financial analysis, congressional reports.
+Short-Term Energy Outlook
+Annual Energy Outlook
+Special Reports
+Special market analysis and/or data requests.
+EIA-112 Residential Utility Disconnections
+SHIP Act
+Energy & Financial Markets: What Drives Crude Oil Prices?
+International
+International energy analyses.
+Regional Analysis Briefs
+Country Analysis Briefs
+World Oil Transit Chokepoints
+OPEC Revenue
+Global Energy Security Data
+Glossary
+Data Tools, Apps, & Maps
+Tools to customize searches, view specific data sets, study detailed documentation, and access time-series data.
+Open Data
+EIA's free and open data available as API, Excel add-in, bulk files, and widgets
+EIA Beta
+Come test out some of the products still in development and let us know what you think!
+Open Source Code
+EIA's open source code, available on GitHub.
+All Reports & Products
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Email Updates
+Sign up for email subscriptions to receive messages about specific EIA products
+RSS Feeds
+Subscribe to feeds for updates on EIA products including Today in Energy and What's New.
+Follow us. . .
+A-Z Index
+A |
+B |
+C |
+D |
+E |
+F |
+G |
+H |
+I |
+J |
+K |
+L |
+M |
+N |
+O |
+P |
+Q |
+R |
+S |
+T |
+U |
+V |
+W |
+XYZ
+Today in Energy
+Short, timely articles with graphics on energy, facts, issues, and trends.
+Energy Explained
+What is Energy?
+Units & Calculators
+U.S. Energy Facts
+Use of Energy
+Energy & Environment
+Petroleum
+Hydrocarbon Gas Liquids
+Natural Gas
+Coal
+Nuclear
+Electricity
+Hydrogen
+Hydropower
+Biofuels
+Biomass
+Wind
+Geothermal
+Solar
+For Teachers
+Lesson plans, science fair experiments, field trips, teacher guide, and career corner.
+Glossary
+FAQs
+Coal
+Conversion & Equivalents
+Oil/Petroleum
+Diesel
+Electricity
+Environment
+Gasoline
+General Energy
+Natural Gas
+Nuclear
+Prices
+Renewables
+What's New?
+Electric Power Monthly
+Oct 23, 2026
+Electric Power Annual 2025
+Oct 21, 2026
+Wholesale Electricity Market Data
+Oct 15, 2026
+Press Room
+Press Releases
+Congressional Testimony
+Presentations
+Events

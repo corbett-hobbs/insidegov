@@ -34,6 +34,7 @@ for (const page of pages) {
   const unreadable: string[] = [];
   for (const it of items) {
     const v = await verifyItem(it, list);
+    for (const c of v.savedCopies ?? []) console.log(`  ${it.id}: checked against the saved copy of ${c}`);
     if (v.ok) continue;
     (v.unreadable ? unreadable : failures).push(`- \`${it.id}\` ${it.q}\n  > ${it.a}\n\n  ${v.reason}`);
   }

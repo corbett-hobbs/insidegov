@@ -1,0 +1,440 @@
+# saved 2026-10-27 from https://www.eia.gov/energyexplained/solar/where-solar-is-found.php
+Where solar is found - U.S. Energy Information Administration (EIA)
+Solar explained
+Where solar is found and used
+Basics
++Menu
+What is energy?
+Units and calculators
+U.S. energy facts
+Use of energy
+Energy and the environment
+Close
+Also in What is energy?
+What is energy?
+Forms of energy
+Sources of energy
+Laws of energy
+Close
+Also in Units and calculators explained
+Units and calculators
+Energy conversion calculators
+British thermal units (Btu)
+Degree days
+Close
+Also in U.S. energy facts explained
+Consumption and production
+Imports and exports
+Data and statistics
+State and U.S. territory data
+Close
+Also in Use of energy explained
+Use of energy
+Energy use in industry
+Energy use in manufacturing
+Energy use for transportation
+Electric vehicles
+Energy use in homes
+Electricity use in homes
+Energy use in commercial buildings
+Energy intensity in commercial buildings
+Energy efficiency and conservation
+Energy indicators
+Close
+Also in Energy and the environment explained
+Energy and the environment
+Greenhouse gases
+Greenhouse gases and the climate
+Where greenhouse gases come from
+Outlook for future emissions
+Recycling and energy
+Nonrenewable sources
+Oil and petroleum products
+Gasoline
+Diesel fuel
+Heating oil
+Close
+Also in Oil and petroleum products explained
+Oil and petroleum products
+Data and statistics
+Refining crude oil
+The refining process
+Inputs and outputs
+Refinery rankings
+Where oil is produced
+Where oil comes from
+Imports and exports
+Offshore oil and natural gas
+Offshore oil and natural gas production
+Use of oil
+Prices and outlook
+Oil and the environment
+Close
+Also in Gasoline explained
+Gasoline
+Octane in depth
+Where our gasoline comes from
+Use of gasoline
+Prices and outlook
+Factors affecting gasoline prices
+Regional price differences
+Price fluctuations
+History of gasoline
+Gasoline and the environment
+Leaded Gasoline
+Close
+Also in Diesel fuel explained
+Diesel fuel
+Where our diesel comes from
+Use of diesel
+Prices and outlook
+Factors affecting diesel prices
+Diesel fuel surcharges
+Diesel and the environment
+Close
+Also in Heating oil explained
+Heating oil
+Where our heating oil comes from
+Use of heating oil
+Prices and outlook
+Factors affecting heating oil prices
+Hydrocarbon Gas Liquids
+Natural gas
+Coal
+Nuclear
+Close
+Also in Hydrocarbon gas liquids explained
+Hydrocarbon gas liquids
+Where do hydrocarbon gas liquids come from?
+Propane production
+Transporting and storing
+Uses of hydrocarbon gas liquids
+Propane consumption
+Imports and exports
+Prices
+Propane prices
+Close
+Also in Natural gas explained
+Natural gas
+Data and statistics
+Delivery and storage
+Natural gas pipelines
+Liquefied natural gas
+Where our natural gas comes from
+Imports and exports
+How much gas is left
+Use of natural gas
+Prices
+Factors affecting natural gas prices
+Natural gas and the environment
+Customer choice programs
+Close
+Also in Coal explained
+Coal
+Data and statistics
+Mining and transportation
+Where our coal comes from
+Imports and exports
+How much coal is left
+Use of coal
+Prices and outlook
+Coal and the environment
+Close
+Also in Nuclear explained
+Nuclear
+Data and statistics
+Nuclear power plants
+Types of reactors
+The nuclear fuel cycle
+Where our uranium comes from
+U.S. nuclear industry
+Nuclear power and the environment
+Renewable sources
+Renewable energy
+Hydropower
+Biomass
+Biofuels
+Close
+Also in Renewable energy explained
+Renewable energy
+Types & usages
+Incentives
+Portfolio standards
+Close
+Also in Hydropower explained
+Hydropower
+Where hydropower is generated
+Hydropower and the environment
+Tidal power
+Wave power
+Ocean thermal energy conversion
+Close
+Also in Biomass explained
+Biomass
+Wood and wood waste
+Waste-to-energy (MSW)
+In depth
+Landfill gas and biogas
+Biomass and the environment
+Close
+Also in Biofuels explained
+Biofuels
+Data and statistics
+Ethanol
+Ethanol Use
+Ethanol Supply
+Biodiesel, renewable diesel, and other biofuels
+Use and supply
+Biofuels and the environment
+Wind
+Geothermal
+Solar
+Close
+Also in Wind explained
+Wind
+Electricity generation from wind
+Where wind power is harnessed
+Types of wind turbines
+History of wind power
+Wind energy and the environment
+Close
+Also in Geothermal explained
+Geothermal
+Where geothermal energy is found
+Use of geothermal energy
+Geothermal power plants
+Geothermal heat pumps
+Geothermal energy and the environment
+Close
+Also in Solar explained
+Solar
+Photovoltaics and electricity
+Where solar is found and used
+Solar thermal power plants
+Solar thermal collectors
+Solar energy and the environment
+Secondary sources
+Electricity
+Hydrogen
+Close
+Also in Electricity explained
+Electricity
+Data and statistics
+The science of electricity
+Magnets and electricity
+Batteries, circuits, and transformers
+Measuring electricity
+How electricity is generated
+Energy storage for electricity generation
+Electricity in the United States
+Generation, capacity, and sales
+Top 10
+Delivery to consumers
+Use of electricity
+Prices and factors affecting prices
+Electricity and the environment
+Close
+Also in Hydrogen explained
+Hydrogen
+Hydrogen production
+Use of hydrogen
+Solar energy is sunshine
+Sunshine is radiant energy from the sun. The amount of solar radiation , or
+solar energy , the earth receives each day is many times greater than the total amount of all energy people consume each day. However, on the earth's surface, solar energy is a variable and intermittent energy source. Nevertheless, use of solar energy, especially for electricity generation, has increased significantly in the United States and around the world in the past 30 years.
+Solar energy resources vary by location
+The availability and intensity of solar radiation on the earth's surface varies by time of day and location. In general, the intensity of solar radiation at any location is greatest when the sun is at its highest apparent position in the sky—at solar noon—on clear, cloudless days.
+Latitude, climate, and weather patterns are major factors that affect insolation —the amount of solar radiation received on a given surface area during a specific amount of time. Locations in lower latitudes and in arid climates generally receive higher amounts of insolation than other locations. Clouds, dust, volcanic ash, and pollution in the atmosphere affect insolation levels at the surface. Buildings, trees, and mountains may shade a location during different times of the day in different months of the year. Seasonal (monthly) variations in solar resources increase with increasing distance from the earth's equator.
+The type of solar collector also determines the type of solar radiation and insolation that a solar collector receives. Concentrating solar collector systems, such as those used in solar thermal-electric power plants , require direct solar radiation , which is generally greater in arid regions with few cloudy days. Flat-plate solar thermal and photovoltaic (PV) collectors can use global solar radiation , which includes diffuse (scattered) and direct solar radiation.
+In general, a solar energy collector with a tracking system that keeps the solar collectors oriented toward the sun will have higher daily and annual insolation than a solar collector in a fixed position.
+The two maps below show U.S. average annual solar radiation in kilowatthours (kWh) per square meter per day (kWh/m2/d) for direct normal irradiance (DNI) and global horizontal irradiance (GHI). The world map below shows average daily global solar radiation on a horizontal flat surface.
+Source: National Renewable Energy Laboratory, U.S. Department of Energy
+Click to enlarge
+Source: National Renewable Energy Laboratory, U.S. Department of Energy
+Click to enlarge
+World map of solar resources
+Source: United Nations Environment Programme (UNEP) , NASA Surface meteorology and Solar Energy (SSE), 2008.
+Click to enlarge
+Electricity generation is the top use of solar energy in the United States
+Insolation is important for the technical and economic performance of solar energy systems. The availability of financial and other incentives for solar energy are major factors that affect where solar energy systems are installed. Net metering has been especially important in encouraging PV systems on homes and businesses.
+Total solar energy use in the United States increased from about 0.02 trillion British thermal units (Btu) in 1984 to about 1,438 trillion Btu (or about 1.4 quadrillion Btu) in 2025. Solar electricity generation accounted for about 92% of total solar energy use in 2025 and solar energy use for space and water heating accounted for about 8%.
+Total U.S. solar electricity generation increased from about 5 million kWh in 1984 (nearly all from utility-scale, solar thermal-electric power plants) to about 389 billion kWh in 2025. In 2025, utility-scale PV power plants accounted for about 76% of total solar electricity generation, small-scale PV systems accounted for about 24%, and utility-scale solar thermal-electric power plants accounted for about 1%. Utility-scale power plants have at least 1,000 kilowatts (kW) (or one megawatt [MW]) of electricity generation capacity. Small-scale PV systems have less than 1 MW generation capacity.
+In 2025, Texas accounted for the largest percentage share of total utility-scale solar electricity generation (20%), followed by California (18%). California accounted for nearly 37% of total generation from small-scale PV systems. Most small-scale PV systems are installed on or near buildings. Residential sector small-scale PV systems accounted for 68% of total small-scale PV electricity generation, and California's percentage was 37%.
+Click to enlarge
+Click to enlarge
+Solar energy is used throughout the world
+Solar energy is used all over the world, and like the United States, global solar electricity generation has increased substantially. Total world solar electricity generation grew from 0.4 billion kWh in 1990 to about 2,090 billion kWh (2.1 trillion kWh) in 2024 . China and the United States together accounted for about one-half of total world solar electricity generation in 2024. The top five producers of solar electricity and their percentage shares of world total solar electricity generation in 2024 were:
+China–40%
+United States–15%
+India–6%
+Japan–5%
+Germany–3%
+Also in Solar explained
+Solar
+Photovoltaics and electricity
+Where solar is found and used
+Solar thermal power plants
+Solar thermal collectors
+Solar energy and the environment
+Learn more
+U.S. Department of Energy Solar Energy Technologies Office
+Solar energy basics
+Solar resource information
+Solar resource glossary
+Monthly Energy Review –Renewable Energy
+Annual Energy Outlook
+Articles on solar energy
+Also on Energy Explained
+U.S. energy facts
+Electricity in the United States
+Renewable energy types and usages
+Renewable energy incentives
+Also on EIA.gov
+What is the difference between electricity generation capacity and electricity generation?
+How much of U.S. energy consumption and electricity generation comes from renewable energy sources?
+How much of world energy consumption and production is from renewable energy?
+Statistics
+Analysis
+Tools
+Education
+News
+Petroleum & Other Liquids
+Crude oil, gasoline, heating oil, diesel, propane, and other liquids including biofuels and natural gas liquids.
+Natural Gas
+Exploration and reserves, storage, imports and exports, production, prices, sales.
+Electricity
+Sales, revenue and prices, power plants, fuel use, stocks, generation, trade, demand & emissions.
+Coal
+Reserves, production, prices, employment and productivity, distribution, stocks, imports and exports.
+Nuclear & Uranium
+Uranium fuel, nuclear reactors, generation, spent fuel.
+Renewable & Alternative Fuels
+Includes hydropower, solar, wind, geothermal, biomass and ethanol.
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Total Energy
+Comprehensive data summaries, comparisons, analysis, and projections integrated across all energy sources.
+Monthly Energy Review
+Annual Energy Review
+Consumption & Efficiency
+Energy use in homes, commercial buildings, manufacturing, and transportation.
+Residential Energy Consumption Survey (RECS)
+Commercial Buildings Energy Consumption Survey (CBECS)
+Manufacturing Energy Consumption Survey (MECS)
+U.S. States
+State energy information, including overviews, rankings, data, and analyses.
+State Energy Data System (SEDS)
+International
+International energy information, including overviews, rankings, data, and analyses.
+International Energy Statistics
+Environment
+Greenhouse gas data, voluntary reporting, electric power plant emissions.
+U.S. Energy-Related Carbon Dioxide Emissions
+Energy-Related Carbon Dioxide Emissions at the State Level, 2005-2016
+Energy-Related Carbon Dioxide Emissions at the State Level
+Analysis and Projections
+Monthly and yearly energy forecasts, analysis of energy topics, financial analysis, congressional reports.
+Short-Term Energy Outlook
+Annual Energy Outlook
+Special Reports
+Special market analysis and/or data requests.
+EIA-112 Residential Utility Disconnections
+SHIP Act
+Energy & Financial Markets: What Drives Crude Oil Prices?
+International
+International energy analyses.
+Regional Analysis Briefs
+Country Analysis Briefs
+World Oil Transit Chokepoints
+OPEC Revenue
+Global Energy Security Data
+Glossary
+Data Tools, Apps, & Maps
+Tools to customize searches, view specific data sets, study detailed documentation, and access time-series data.
+Open Data
+EIA's free and open data available as API, Excel add-in, bulk files, and widgets
+EIA Beta
+Come test out some of the products still in development and let us know what you think!
+Open Source Code
+EIA's open source code, available on GitHub.
+All Reports & Products
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Email Updates
+Sign up for email subscriptions to receive messages about specific EIA products
+RSS Feeds
+Subscribe to feeds for updates on EIA products including Today in Energy and What's New.
+Follow us. . .
+A-Z Index
+A |
+B |
+C |
+D |
+E |
+F |
+G |
+H |
+I |
+J |
+K |
+L |
+M |
+N |
+O |
+P |
+Q |
+R |
+S |
+T |
+U |
+V |
+W |
+XYZ
+Today in Energy
+Short, timely articles with graphics on energy, facts, issues, and trends.
+Energy Explained
+What is Energy?
+Units & Calculators
+U.S. Energy Facts
+Use of Energy
+Energy & Environment
+Petroleum
+Hydrocarbon Gas Liquids
+Natural Gas
+Coal
+Nuclear
+Electricity
+Hydrogen
+Hydropower
+Biofuels
+Biomass
+Wind
+Geothermal
+Solar
+For Teachers
+Lesson plans, science fair experiments, field trips, teacher guide, and career corner.
+Glossary
+FAQs
+Coal
+Conversion & Equivalents
+Oil/Petroleum
+Diesel
+Electricity
+Environment
+Gasoline
+General Energy
+Natural Gas
+Nuclear
+Prices
+Renewables
+What's New?
+Electric Power Monthly
+Oct 23, 2026
+Electric Power Annual 2025
+Oct 21, 2026
+Wholesale Electricity Market Data
+Oct 15, 2026
+Press Room
+Press Releases
+Congressional Testimony
+Presentations
+Events

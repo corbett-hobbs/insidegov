@@ -1,0 +1,76 @@
+# saved 2026-10-27 from https://www.stlouisfed.org/publications/page-one-economics/2026/oct/what-determines-mortgage-rates
+What Determines Mortgage Rates?
+October 01, 2026
+By
+Amanda Geiger
+SHARE THIS PAGE:
+Link Copied
+Introduction
+In 2024, about 60% of owner-occupied homes had mortgages and a little more than 30% of total annual household spending was devoted to housing. It’s no wonder that home mortgage rates are one of the most watched and reported interest rates in the U.S. financial system.
+As part of its monetary policy, the Federal Reserve sets the target range for the federal funds rate , which influences interest rates in the larger economy. But when the Fed changes their monetary policy stance you don’t usually see immediate movement in mortgage interest rates. The key to understanding why there is not more of a direct connection between monetary policy and mortgage rates is that mortgage rates are determined in long-term financial markets, where expectations about future interest rates, inflation, and economic conditions play a larger role.
+Monetary Policy and Short-Term Interest Rates
+The Fed sets a target range for the federal funds rate—the lending rate between banks. These loans are short-term, just overnight or even just a matter of hours. The federal funds rate serves as a guide (a “base rate” or “benchmark”) for other short-term interest rates. Changes to the federal funds target range influence, first, the federal funds rate itself and, then, other short-term interest rates such as the market interest rate charged on credit cards and the interest rate offered on savings accounts.
+Why Mortgages Are Different
+Mortgages are 15- to 30-year commitments. Because these loans exist over a very long period, bankers look at a wide variety of factors, including what they believe economic conditions and expectations will be during the duration of the loan, when they set the interest rate.
+The 10-Year Treasury Note and Mortgage-Backed Securities
+Treasury securities such as the 10-year Treasury note are considered to be investments with very low risk because they’re backed by the U.S. government. When investors consider longer term investments, the yields on Treasury securities act as a way to compare investment options.
+The 10-year Treasury note specifically acts as a benchmark or base rate for the 30-year mortgage rate because it has a closer duration to the average mortgage. Although many mortgages are structured as 30-year loans , it is uncommon for borrowers to retain the same mortgage for the full term. Instead, most mortgages are paid off, refinanced, or ended through the sale of the home well before reaching 30 years. As a result, the average length of time before a mortgage is paid off tends to be much closer to 10 years .
+Mortgage-backed securities , known as MBS, are investments secured by a pool of home or real estate loans . Some banks bundle thousands of mortgages together and sell them as securities to investors. Investors then receive regular payouts of principal and interest made by homeowners, making them a popular fixed-income asset.
+MBS, like bonds , are bought and sold in financial markets and their prices are determined by supply and demand. Investors compare the rates of return on MBS and other long-term investments, especially the 10-year Treasury note. See illustration below.
+NOTE: The yield is how much on average you expect to earn from owning a bond or security. The yield is based on how much you paid for the bond or security compared with how much you expect to earn from holding it. Because the interest payments you earn on an existing bond are fixed, a higher market price means investors earn a lower yield. A lower market price means investors earn a higher yield. As a result, by definition, bond prices and yields move in opposite directions.
+MBS and 10-year Treasury notes respond similarly to economic signals, such as data about inflation and economic growth, and their yields often move in the same direction. But MBS are considered riskier than Treasury notes , so investors demand a higher yield to compensate them for the additional risk they’re taking.
+The market value of this additional risk plus the additional cost associated with mortgages (origination expenses, servicing fees, and lender profit) are added together into what is called the mortgage spread. The spread changes based on expectations around inflation and other macroeconomic factors. As a general example you might see something like:
+Mortgage rate &asymp; Treasury yield + Mortgage spread
+For example, if the 10-year Treasury yield were 4% and the relevant mortgage spread were 2 percentage points, the mortgage rate would be around 6%.
+The Fed’s Role
+The connection between monetary policy and mortgage rates is less direct than it is with short-term interest rates. The Fed affects long-term rates, such as Treasury yields, by influencing future expectations of short-term interest rates and inflation. Changes to future expectations will shape the demand for securities, such as the 10-year Treasury note and MBS, which changes their yields and, in the opposite direction, changes their prices, as illustrated below.
+NOTE: The Federal Reserve influences mortgage rates largely by affecting the financial market’s expectations about inflation and future short-term interest rates, which can influence longer-term Treasury and mortgage-backed securities yields.
+The Fed can also influence longer-term interest rates through their own portfolio: When the Fed buys Treasury notes or MBS in the market, the increased demand tends to raise their prices and lower their yields. This February 2026 Page One Economics essay on the Fed’s balance sheet and ample reserves offers a closer look at how the Fed impacts demand for long-term securities.
+The Fed may choose to lower short-term rates using monetary policy tools, but long-term mortgage rates could stay high or even rise. If inflation expectations increase despite Fed action or if there is high economic uncertainty, investors may demand higher yields to cover the change in expected inflation or increased perception of risk.
+Conclusion
+Monetary policy tools have the most direct impact on short-term interest rates. However, the Fed influences the interest rate environment as they influence macroeconomic expectations on inflation and economic growth. Mortgage rates, while ultimately set by bond market investors, demand, and pricing for long-term risks, are still influenced by monetary policy and financial markets that respond to expectations around inflation and economic growth.
+Glossary
+Bond: A certificate of indebtedness issued by a government or corporation.
+Federal funds rate: The interest rate depository institutions charge each other to borrow or lend reserves in the federal funds market; these funds are immediately available.
+Mortgage: A loan for the purchase of a home or real estate.
+Mortgage-backed securities (MBS): Bond-like investments secured by a pool of home or real estate loans. When investors purchase MBS, they get a share of the money that people pay back on their house loans every month.
+Mortgage spread: The difference between the interest rate charged on a home loan (such as a 30-year fixed mortgage) and a benchmark financial rate like the 10-year U.S. Treasury yield. Lenders use this gap to cover the inherent risks, operational costs, and profit margins of home lending.
+Treasury note: A fixed-rate, interest-bearing security issued by the Treasury with an original maturity of more than 1 year but not more than 10 years.
+Yield: The average return from owning a bond. Yield depends on the price paid for the bond, its coupon payments, and the time to maturity.
+References
+Congressional Research Service. “Single-Family Mortgage Pricing and Primary Market Policy Issues.” Congress.gov, CRS Products from the Library of Congress, R46980.
+Drake, Nathanial. “What Determines the Rate on a 30-Year Mortgage?" Fannie Mae Research and Insights, December 11, 2024.
+Fabina, Jacob. “Share of Owner-Occupied, Mortgage-Free Homes Up in 2024: Nearly 40% of U.S. Homeowners Did Not Have a Mortgage in 2024.” Census.gov, Library, America Counts: Stories, January 29, 2026.
+Ihrig, Jane and Wolla, Scott. “How Does the Fed Use Its Monetary Policy Tools to Influence the Economy?” Federal Reserve Bank of St. Louis Page One Economics , May 2, 2022.
+Ihrig, Jane and Wolla, Scott. “The Fed’s Balance Sheet and Ample Reserves.” Federal Reserve Bank of St. Louis Page One Economics , February 18, 2026.
+U.S. Bureau of Labor Statistics. “TED: The Economics Daily.” February 12, 2026.
+U.S. Securities and Exchange Commission. “Mortgage-Backed Securities and Collateralized Mortgage Obligations.” Investor.gov, Introduction to Investing Glossary.
+Willen, Paul. “Why Mortgage Rates Exceed Treasury Yields.” Federal Reserve Bank of Boston Current Policy Perspectives, May 19, 2026.
+Teacher Resources
+Preview the Reading Q&A version of this essay on the Federal Reserve Education website (FRE.org ). Then, log in or create an account to download the content for your online classroom.
+Preview the Reading Q&A
+ABOUT THE AUTHOR
+Amanda Geiger
+Amanda is a St. Louis Fed senior economic education specialist with an M.A. in economics and entrepreneurship. She previously served as an AP Macroeconomics exam reader and table leader.
+Amanda Geiger
+Amanda is a St. Louis Fed senior economic education specialist with an M.A. in economics and entrepreneurship. She previously served as an AP Macroeconomics exam reader and table leader.
+Related Topics
+Financial Markets
+Household Finances
+Interest Rates
+Monetary Policy
+Cite This Article
+&times;
+Citation
+Amanda Geiger,
+ldquo What Determines Mortgage Rates? ,rdquo
+Federal Reserve Bank of St. Louis
+Page One Economics ,
+Oct. 1, 2026.
+Copy
+Close
+Subscribe to Page One Economics
+These essays from our education specialists cover economic and personal finance basics. Special versions are available for classroom use. Views expressed are not necessarily those of the St. Louis Fed or Federal Reserve System.
+Email Us
+- Media Inquiries
+- Economic Education

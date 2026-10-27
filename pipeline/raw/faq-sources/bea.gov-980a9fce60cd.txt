@@ -1,0 +1,49 @@
+# saved 2026-10-27 from https://www.bea.gov/resources/learning-center/what-to-know-gdp
+Gross Domestic Product | U.S. Bureau of Economic Analysis (BEA)
+Skip to main content
+Home
+Resources
+Learning Center
+Gross Domestic Product
+Gross Domestic Product
+The value of the final goods and services produced in the United States is the gross domestic product . The percentage that GDP grew (or shrank) from one period to another is an important way for Americans to gauge how their economy is doing. The United States' GDP is also watched around the world as an economic barometer.
+GDP is the signature piece of BEA's National Income and Product Accounts, which measure the value and makeup of the nation's output, the types of income generated, and how that income is used.
+BEA also estimates GDP for states, counties, and U.S. territories. We publish GDP by industry, as well.
+What can you do with GDP numbers?
+Answer questions like:
+How fast is the U.S. economy growing?
+How does my state's economy stack up against others?
+Which industries are growing? Which are slowing?
+The White House and Congress use GDP numbers to plan spending and tax policy. The Federal Reserve uses them when setting monetary policy. State and local governments rely on GDP numbers, too. Business people use these stats when making decisions about jobs, expansion, investments, and more.
+Where do you find GDP data?
+See the latest numbers in the news release for:
+Gross Domestic Product
+BEA estimates the nation's GDP for each year and each quarter. But new GDP statistics are released every month. Why? Because for each quarter, BEA estimates GDP three times. The advance estimate , coming about a month after the quarter's end, is an early look based on the best information available at that time. The second estimate and third estimate each incorporate additional source data that weren't available the month before, improving accuracy.
+More to know
+The nation's gross domestic product totals trillions of dollars. Most often, the number you'll hear people refer to as "GDP" is a percentage. That's the rate of change in real GDP from the previous quarter or year. "Real" or "chained" GDP numbers have been adjusted to remove the effects of inflation over time, so different periods can be compared.
+"Current-dollar" or "nominal" GDP estimates are based on market prices during the period being measured.
+Table showing percent change in GDP dating back to 1930.
+Table showing dollar amounts for GDP dating back to 1929.
+GDP data are seasonally adjusted to remove the effects of yearly patterns, such as winter weather, holidays, or factory production schedules. This ensures that the remaining movements in GDP better reflect true patterns in economic activity. BEA also releases GDP data that are not seasonally adjusted.
+Quarterly GDP data are reported at annual rates , for ease of comparison, unless otherwise specified.
+Check the current news release schedule for release dates.
+More data and historical trends are available in BEA's Interactive Data .
+Learn more:
+What is GDP? A printable explainer
+BEA in Brief: The Making of GDP
+Video: Why Do Old GDP Numbers Change?
+Measuring the Economy: A Primer on GDP and the National Income and Product Accounts
+GDP by State
+BEA estimates the value of the goods and services produced in each state and the District of Columbia quarterly and annually. The data include breakdowns of industries' contributions to each of these economies.
+GDP by County
+GDP statistics for counties are released annually. They include 34 industries' contributions to the local economies. BEA's first official GDP statistics for the nation's 3,113 counties and county equivalents were produced in December 2019. GDP by Metro Area
+GDP statistics for metropolitan statistical areas are released annually. They include breakdowns by industry.
+GDP by County
+GDP statistics for 3,113 counties and county equivalents are released annually. The data include industry breakouts for private goods-producing industries, private services-producing industries, and the government and government enterprises industry group.
+-->
+GDP for U.S. Territories
+GDP reports for American Samoa , the Commonwealth of the Northern Mariana Islands , Guam , Puerto Rico , and the U.S. Virgin Islands , including industry statistics, are released annually.
+GDP by Industry
+Produced quarterly and annually, these statistics measure each industry's performance and its contributions to the overall economy, also known as its "value added." The data also include industries' gross output, compensation of employees, gross operating surplus, and taxes.
+Download Acrobat Reader
+Page last modified on 4/9/26
