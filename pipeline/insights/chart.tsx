@@ -445,7 +445,7 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
         <LabelDiv key={i} l={l} />
       ))}
       <div style={{ position: "absolute", left: 60, right: 60, top: HEIGHT - 50, display: "flex", justifyContent: "space-between", fontSize: 18, color: MUTED }}>
-        <div style={{ display: "flex" }}>Source: {insight.source}</div>
+        <div style={{ display: "flex" }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
         <div style={{ display: "flex", color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
       </div>
     </div>

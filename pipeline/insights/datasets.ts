@@ -90,6 +90,7 @@ const GAS: (SeriesConfig & { series_id: string })[] = [
     seasonal: false,
     frequency: "weekly",
     context: ["Weekly retail price averaged over all U.S. stations, in nominal dollars (not adjusted for inflation)."],
+    note: "Not adjusted for inflation",
     weight: 1.5,
     headline: true,
     // EIA surveys stations on Monday and publishes that afternoon or Tuesday.
@@ -269,6 +270,7 @@ export function loadTrade(ref?: string): Series[] {
     totalUnit: { scale: 0.000001, decimals: 2, prefix: "$", suffix: "T" },
     totalAxisLabel: "trillions of dollars, not adjusted for inflation",
     context: ["Dollar figures are nominal: not adjusted for inflation.", "Monthly figures are seasonally adjusted (the Census headline basis)."],
+    note: "Not adjusted for inflation",
     url: "/presidency/trade",
     anchor: "#trade-balance",
     source: "U.S. Census Bureau",

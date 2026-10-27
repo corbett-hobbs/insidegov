@@ -212,6 +212,11 @@ describe("checkCaption", () => {
     expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 39% since January 20, 2025.", facts)).toEqual([]);
   });
 
+  it("leaves method notes to the chart", () => {
+    expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 39% since January 20, 2025, in seasonally adjusted Census data.", facts).join()).toMatch(/method note/);
+    expect(checkCaption("The average price of regular gas was $4.33 a gallon, not adjusted for inflation.", facts).join()).toMatch(/method note/);
+  });
+
   it("rejects numbers that are not facts, including re-rounded ones", () => {
     expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 40% since January 20, 2025.", facts).join()).toMatch(/numbers not among the facts: 40%/);
     expect(checkCaption("Crude oil production hit 13.6 million barrels a day as gas reached $4.33 a gallon.", facts).join()).toMatch(/13.6 million/);

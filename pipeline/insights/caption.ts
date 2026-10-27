@@ -27,6 +27,8 @@ export const BANNED_WORDS = [
   "wins", "victory", "blame", "blamed", "credit", "credited", "caused", "thanks", "record", "records", "record-breaking",
   "all-time", "only", "just", "merely", "whopping", "incredible", "amazing", "good", "bad", "worse", "worst", "best", "better",
 ];
+/** Method notes belong on the chart (Series.note, the axis label), not in the caption. */
+const METHOD_NOTES = /\b(?:seasonally adjusted|not seasonally|adjusted for inflation|inflation[- ]adjusted|nominal dollars)\b/i;
 const CAUSAL_PHRASES = ["because of", "due to", "as a result", "led to", "driven by", "thanks to", "under the leadership"];
 const NUMBER_WORDS = [
   "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "dozen", "dozens",
@@ -66,6 +68,8 @@ export function checkCaption(caption: string, facts: { id?: string; text: string
   const words = new Set(lower.match(/[a-z]+(?:-[a-z]+)*/g) ?? []);
   const banned = BANNED_WORDS.filter((w) => words.has(w));
   if (banned.length) errors.push(`uses loaded or partisan words: ${banned.join(", ")}`);
+  const method = caption.match(METHOD_NOTES);
+  if (method) errors.push(`restates a method note ("${method[0]}"); the chart prints those`);
   const causal = CAUSAL_PHRASES.filter((p) => lower.includes(p));
   if (causal.length) errors.push(`makes a causal claim: ${causal.join(", ")}`);
   const spelled = NUMBER_WORDS.filter((w) => words.has(w));
@@ -117,6 +121,7 @@ The caption:
 - No hashtags, links, mentions, emoji, exclamation marks or questions. The link to the data is added after your text.
 - If a context note says the data is newly released, the caption must say so with the word "released" (for example "Newly released EIA data show ..."), so a chart ending months ago does not read as old news.
 - Respect the context notes (for example, say "encounters", never "people" or "migrants", when encounters count events).
+- Method notes in the context (seasonal adjustment, inflation adjustment, units, how the survey works) are for your understanding only: the chart prints them. Never restate them in the caption. Name the source at most by its short name ("Census", "EIA"), and only when it helps.
 - If the insight has a required_opening, the caption begins with exactly that sentence, unchanged. It names a topic that is in the news; the rest of the caption states only what the data shows. Never describe the news itself: who did or announced what, rates or terms, reactions, or what might follow.`;
 
 const TOOL: Anthropic.Beta.BetaTool = {
