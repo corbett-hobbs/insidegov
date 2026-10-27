@@ -30,7 +30,10 @@ export function LprSection({ payload, worldMap, range }: { payload: LprPayload; 
   if (years.length === 0) return null;
   return (
     <>
-      <LprGreenCardCard payload={payload} years={years} fy={fy} onFy={setFy} metric={metric} onMetric={setMetric} />
+      {/* MOCKUP: a card for the news and questions chips to scroll to. */}
+      <div id="chart-green-cards" className="scroll-mt-32 rounded-[10px]">
+        <LprGreenCardCard payload={payload} years={years} fy={fy} onFy={setFy} metric={metric} onMetric={setMetric} />
+      </div>
       {hasDetail && <LprCountryCard payload={payload} worldMap={worldMap} fy={fy} yearRange={[detailFirst, last]} onFy={setFy} metric={metric} onMetric={setMetric} country={country} onCountry={setCountry} />}
     </>
   );

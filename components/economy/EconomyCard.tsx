@@ -112,7 +112,10 @@ export function EconomyCard({
   legend,
   alt,
   altReading,
+  jump,
 }: {
+  /** MOCKUP: the "2 questions · 1 in the news ↓" link at the end of the notes row. */
+  jump?: ReactNode;
   data: EconomyData;
   spec: ChartSpec;
   reading: Reading;
@@ -134,7 +137,8 @@ export function EconomyCard({
   const ctx = useTakeawayContext(takeaway, contextFor(spec.key));
   return (
     <section
-      className={`min-w-0 rounded-[10px] border border-line bg-surface ${
+      id={`chart-${spec.key}`}
+      className={`min-w-0 scroll-mt-32 rounded-[10px] border border-line bg-surface ${
         hero ? "p-5 sm:p-6" : "flex flex-col p-[1.1rem_1.1rem_0.9rem] md:row-span-5 md:grid md:grid-rows-subgrid md:gap-y-0"
       }`}
     >
@@ -155,6 +159,7 @@ export function EconomyCard({
       <ChartNotesRow className="mt-auto pt-3 md:w-full md:self-end">
         {notes && <MethodologyNote>{notes}</MethodologyNote>}
         <DataTable data={data} spec={spec} />
+        {jump}
       </ChartNotesRow>
     </section>
   );
