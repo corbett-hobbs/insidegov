@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-21T17:54:44.165Z","series":{"id":"NGETPUS","title":"Electricity Net Generation From Natural Gas, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NGETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":643}},
+  "head": {"fetched_at":"2026-10-27T18:02:05.129Z","series":{"id":"NGETPUS","title":"Electricity Net Generation From Natural Gas, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-06","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NGETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
   "observations": [
     ["1973-01","21184.967"],
     ["1973-02","20252.525"],
@@ -643,6 +643,7 @@
     ["2026-04","124449.351"],
     ["2026-05","137271.02"],
     ["2026-06","163236.526"],
-    ["2026-07","205294.0875"]
+    ["2026-07","205225.06959"],
+    ["2026-08","209842.94095"]
   ]
 }
