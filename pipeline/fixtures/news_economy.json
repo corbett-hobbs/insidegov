@@ -1,0 +1,179 @@
+{
+  "asOf": "2026-10-27",
+  "stories": [
+    {
+      "id": "diesel-oct24",
+      "date": "2026-10-24",
+      "topic": "Diesel prices",
+      "chartId": "chart-diesel",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Diesel spike squeezes farmers at harvest as costs keep piling up",
+          "url": "https://www.huffpost.com/"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Diesel Prices Climb as Harvest Demand Tightens Supplies",
+          "url": "https://www.wsj.com/"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Diesel prices jump heading into winter, hitting truckers and farmers",
+          "url": "https://www.foxbusiness.com/"
+        }
+      ]
+    },
+    {
+      "id": "mortgage-oct23",
+      "date": "2026-10-23",
+      "topic": "Mortgage rates",
+      "chartId": "chart-mort",
+      "headlines": [
+        {
+          "outletId": "freddiemac",
+          "outlet": "Freddie Mac",
+          "lean": "Data",
+          "title": "Mortgage rates decrease for the third consecutive week",
+          "url": "https://www.freddiemac.com/pmms"
+        },
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Mortgage rates dip again, but buyers still face a tight market",
+          "url": "https://www.nbcnews.com/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Mortgage rates fall for a third straight week",
+          "url": "https://www.washingtonexaminer.com/"
+        }
+      ]
+    },
+    {
+      "id": "deficit-oct22",
+      "date": "2026-10-22",
+      "topic": "Federal deficit",
+      "chartId": "chart-def",
+      "headlines": [
+        {
+          "outletId": "treasury",
+          "outlet": "U.S. Treasury",
+          "lean": "Data",
+          "title": "Monthly Treasury Statement for September 2026",
+          "url": "https://fiscaldata.treasury.gov/"
+        },
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Federal Deficit Tops $2 Trillion for the Fiscal Year",
+          "url": "https://www.nytimes.com/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Deficit hits $2 trillion as spending outpaces revenue",
+          "url": "https://www.foxnews.com/"
+        }
+      ]
+    },
+    {
+      "id": "gas-oct20",
+      "date": "2026-10-20",
+      "topic": "Gas prices",
+      "chartId": "chart-gas",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "US gas prices ease as winter blend arrives, but relief may be short-lived",
+          "url": "https://www.theguardian.com/"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "US petrol prices drift lower ahead of winter",
+          "url": "https://www.bbc.com/news"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Gas prices finally slide as stations switch to winter fuel",
+          "url": "https://nypost.com/"
+        }
+      ]
+    },
+    {
+      "id": "cpi-oct15",
+      "date": "2026-10-15",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "Consumer Price Index, September 2026",
+          "url": "https://www.bls.gov/"
+        },
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "Inflation ticks up again as energy costs rise",
+          "url": "https://www.cbsnews.com/"
+        },
+        {
+          "outletId": "washingtontimes",
+          "outlet": "Washington Times",
+          "lean": "Lean Right",
+          "title": "Consumer prices climb again, led by energy",
+          "url": "https://www.washingtontimes.com/"
+        }
+      ]
+    },
+    {
+      "id": "jobs-oct03",
+      "date": "2026-10-03",
+      "topic": "Unemployment",
+      "chartId": "chart-un",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "The Employment Situation, September 2026",
+          "url": "https://www.bls.gov/"
+        },
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Hiring slows again as the job market cools",
+          "url": "https://www.huffpost.com/"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Jobless rate unchanged as employers pull back on hiring",
+          "url": "https://www.foxbusiness.com/"
+        }
+      ]
+    }
+  ]
+}

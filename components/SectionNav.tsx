@@ -53,27 +53,58 @@ export function useSectionScroll(items: readonly SectionNavItem[]) {
 
 const NUM = "font-mono text-[0.7rem] font-medium";
 
+/**
+ * The thin rule between a page's numbered sections and its unnumbered page-wide entries (`extras`: "In the news",
+ * "FAQs"), which follow the numbers in the pills and the strip as accent links rather than pills, and sit under a gap in
+ * the contents list. They are never numbered: the numbers belong to the sections and their source notes.
+ */
+/** The extras are links, not pills: styled like the Laws page's "Browse all N laws ↓" (accent, medium weight, underlined). */
+const EXTRA_LINK =
+  "font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus";
+
+function Divider() {
+  return <span aria-hidden className="mx-0.5 w-px flex-none self-stretch bg-line-strong" />;
+}
+
 /** The numbered jump pills in the page header: one line on a phone (the short names, scrolling sideways if they still do not fit), wrapping from `sm`. */
-export function SectionPills({ items, pillsRef, numbered = true, className = "" }: { items: readonly SectionNavItem[]; pillsRef?: RefObject<HTMLElement | null>; numbered?: boolean; className?: string }) {
+export function SectionPills({ items, extras = [], pillsRef, numbered = true, className = "" }: { items: readonly SectionNavItem[]; extras?: readonly SectionNavItem[]; pillsRef?: RefObject<HTMLElement | null>; numbered?: boolean; className?: string }) {
   return (
-    <nav ref={pillsRef} aria-label="Sections" className={`flex gap-1.5 overflow-x-auto sm:flex-wrap sm:gap-2 sm:overflow-visible ${className}`}>
-      {items.map((it, i) => (
-        <a
-          key={it.id}
-          href={`#${it.id}`}
-          className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full border border-line-strong bg-surface px-2.5 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:px-3"
-        >
-          {numbered && <span className={`${NUM} text-accent`}>{i + 1}</span>}
-          {it.short ? (
-            <>
-              <span className="sm:hidden">{it.short}</span>
-              <span className="max-sm:hidden">{it.label}</span>
-            </>
-          ) : (
-            it.label
-          )}
-        </a>
-      ))}
+    <nav ref={pillsRef} aria-label="Sections" className={`flex flex-col gap-2 ${className}`}>
+      {items.length > 0 && (
+        <div className="flex gap-1.5 overflow-x-auto sm:flex-wrap sm:gap-2 sm:overflow-visible">
+          {items.map((it, i) => (
+            <a
+              key={it.id}
+              href={`#${it.id}`}
+              className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full border border-line-strong bg-surface px-2.5 py-0.5 text-[0.78rem] text-ink no-underline hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:px-3"
+            >
+              {numbered && <span className={`${NUM} text-accent`}>{i + 1}</span>}
+              {it.short ? (
+                <>
+                  <span className="sm:hidden">{it.short}</span>
+                  <span className="max-sm:hidden">{it.label}</span>
+                </>
+              ) : (
+                it.label
+              )}
+            </a>
+          ))}
+        </div>
+      )}
+      {/* The links get their own line under the pills, like the Laws page's "Browse all N laws ↓", so a phone never hides them off the end of the scrolling pill row. */}
+      {extras.length > 0 && (
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+          {extras.map((it) => (
+            <a
+              key={it.id}
+              href={`#${it.id}`}
+              className={`whitespace-nowrap text-[0.85rem] ${EXTRA_LINK}`}
+            >
+              {it.label} ↓
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
@@ -83,7 +114,7 @@ export function SectionPills({ items, pillsRef, numbered = true, className = "" 
  * `SectionToc` in the left gutter instead). One row that scrolls sideways if the labels do not fit; the active section is
  * filled and kept in view.
  */
-export function SectionStrip({ items, active }: { items: readonly SectionNavItem[]; active: string | null }) {
+export function SectionStrip({ items, extras = [], active }: { items: readonly SectionNavItem[]; extras?: readonly SectionNavItem[]; active: string | null }) {
   const rowRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const row = rowRef.current;
@@ -113,6 +144,20 @@ export function SectionStrip({ items, active }: { items: readonly SectionNavItem
             </a>
           );
         })}
+        {extras.length > 0 && <Divider />}
+        {extras.map((it) => {
+          const on = it.id === active;
+          return (
+            <a
+              key={it.id}
+              href={`#${it.id}`}
+              aria-current={on ? "true" : undefined}
+              className={`flex-none self-center whitespace-nowrap px-1 text-[0.78rem] ${EXTRA_LINK} ${on ? "decoration-accent decoration-2" : ""}`}
+            >
+              {it.short ?? it.label}
+            </a>
+          );
+        })}
       </div>
     </nav>
   );
@@ -122,7 +167,7 @@ export function SectionStrip({ items, active }: { items: readonly SectionNavItem
  * A floating contents list in the left gutter, on screens at least 1420px wide (where the 1180px column leaves room for it).
  * It appears once the header pills have scrolled away and follows the reader from section to section.
  */
-export function SectionToc({ items, active, visible }: { items: readonly SectionNavItem[]; active: string | null; visible: boolean }) {
+export function SectionToc({ items, extras = [], active, visible }: { items: readonly SectionNavItem[]; extras?: readonly SectionNavItem[]; active: string | null; visible: boolean }) {
   if (!visible) return null;
   return (
     <nav aria-label="Contents" className="fixed left-[calc(50%-694px)] top-36 z-30 hidden w-28 min-[1420px]:block">
@@ -145,6 +190,24 @@ export function SectionToc({ items, active, visible }: { items: readonly Section
           );
         })}
       </ol>
+      {extras.length > 0 && (
+        <ul className="m-0 mt-2 flex list-none flex-col gap-0.5 border-l border-line-strong p-0">
+          {extras.map((it) => {
+            const on = it.id === active;
+            return (
+              <li key={it.id}>
+                <a
+                  href={`#${it.id}`}
+                  aria-current={on ? "true" : undefined}
+                  className={`-ml-px block border-l-2 py-1 pl-2.5 pr-1 text-[0.75rem] leading-snug ${EXTRA_LINK} ${on ? "border-accent" : "border-transparent"}`}
+                >
+                  {it.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </nav>
   );
 }
