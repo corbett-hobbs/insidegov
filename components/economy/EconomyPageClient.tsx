@@ -17,7 +17,7 @@ import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { UpNext } from "@/components/UpNext";
 import { updatedLabel } from "@/lib/news-derive";
 import { cardId, economyFaq, economyNews } from "./economy-news";
-import { ChartJumpLink, InTheNews, NewsAndFaqBand, NewsQuestionsPills, Questions } from "@/components/news/NewsSections";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
 import type { FaqFile, NewsFile } from "@/lib/news-types";
 import { enumParam, flagParam, yearsParam } from "@/lib/url-state";
 import { useUrlState } from "@/lib/use-url-state";
@@ -64,12 +64,6 @@ function EconomyPage({
   const values = useEconomyValues();
   const { setRange, clearPin } = useEconomyActions();
   const [showCong, setShowCong] = useState(false);
-  // The card whose jump link was tapped (its DOM id); its news and questions are highlighted for a few seconds.
-  const [focus, setFocus] = useState<string | null>(null);
-  const jumpTo = (target: string) => {
-    setFocus(target);
-    window.setTimeout(() => setFocus((f) => (f === target ? null : f)), 4000);
-  };
   // Deficit and debt open in dollars; the toggle switches both to a share of GDP. The other unit stays beside the headline and in the tooltip.
   const [unit, setUnit] = useState<FiscalUnit>("usd");
   const other: FiscalUnit = unit === "usd" ? "pct" : "usd";
@@ -78,6 +72,7 @@ function EconomyPage({
   const specs = useMemo<Record<keyof typeof SPECS, ChartSpec>>(() => ({ ...SPECS, ...(unit === "usd" ? USD_SPECS : {}) }), [unit]);
   const news = useMemo(() => economyNews(fiscal, specs, newsFile), [fiscal, specs, newsFile]);
   const faq = useMemo(() => economyFaq(faqFile, specs), [faqFile, specs]);
+  const { focus, jump } = useChartJump(news, faq);
   const altSpecs = useMemo(() => (unit === "usd" ? SPECS : USD_SPECS), [unit]);
   const day = activeDay(values);
   // Hero and cards read the same date, from the same lookup module.
@@ -250,7 +245,7 @@ function EconomyPage({
                   reading={latest[k]}
                   takeaway={specs[k].takeaway}
                   notes={<p>{notes[k]}</p>}
-                  jump={<ChartJumpLink target={cardId(k)} news={news} groups={faq} onJump={jumpTo} />}
+                  jump={jump(cardId(k))}
                   legend={
                     k === "gas" || k === "debt"
                       ? ({ only, isolate }) => (
@@ -273,12 +268,7 @@ function EconomyPage({
           </section>
         ))}
 
-        {(news.length > 0 || faq.length > 0) && (
-          <NewsAndFaqBand>
-            <InTheNews items={news} updated={updatedLabel(newsFile?.asOf)} focus={focus} />
-            <Questions groups={faq} focus={focus} />
-          </NewsAndFaqBand>
-        )}
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} focus={focus} />
 
         <UpNext />
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">
