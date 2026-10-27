@@ -3,6 +3,8 @@ import { eventInsightsAt, newDates, newMonthEnds, releaseEstimator, selectInsigh
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { stampRelease } from "./freshness";
+import { withPowerMix } from "./mix";
+import { withWhy } from "./why";
 import type { DatasetId, Insight, Series } from "./types";
 
 /**
@@ -60,7 +62,9 @@ for (const d of datasets) {
 // A freshness workflow sees the data the day it comes out, so today is the release date (freshness.ts). Drafting by
 // date (--since) cannot know it, so it estimates.
 const estimate = releaseEstimator(allSeries);
-const picked = selectInsights(insights, { max, perSeries: 2, perDataset: 3 }).map((i) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true)));
+const picked = selectInsights(insights, { max, perSeries: 2, perDataset: 3 })
+  .map((i) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true)))
+  .map((i) => withWhy(withPowerMix(i, allSeries)));
 console.log(`insights:draft  ${insights.length} insights in ${datasets.join(", ")}, ${picked.length} picked, captions by ${useLlm ? "Claude" : "template"}`);
 const { drafts, dropped } = picked.length ? await buildDrafts(picked, { outDir, useLlm }) : { drafts: [], dropped: [] };
 for (const d of dropped) console.log(`  dropped ${d}`);
