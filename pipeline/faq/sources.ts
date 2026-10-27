@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { factsText } from "./facts";
@@ -110,27 +111,57 @@ function pdfToText(buf: Buffer): string {
   }
 }
 
-const CACHE_DIR = "pipeline/raw/_scratch/faq-sources";
+/**
+ * A copy of every source page as last read, committed, so publishing and the re-check still work when a site refuses
+ * GitHub's runners (BLS answers them 403) or is down: the answer is then checked against the copy, and the report says so.
+ */
+export const SAVED_DIR = "pipeline/raw/faq-sources";
+export const savedPath = (url: string) => join(SAVED_DIR, `${new URL(url).hostname.replace(/^www\./, "")}-${createHash("sha1").update(url).digest("hex").slice(0, 12)}.txt`);
 
-/** The text of one source, fetched now. Throws when the page cannot be read. */
-export async function readSource(src: QuestionSource): Promise<string> {
+async function fetchPage(url: string): Promise<string> {
+  let last: unknown;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const res = await fetch(url, { headers: { "user-agent": UA, accept: "text/html,application/pdf,application/json;q=0.9,*/*;q=0.8" }, signal: AbortSignal.timeout(90_000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const type = res.headers.get("content-type") ?? "";
+      const buf = Buffer.from(await res.arrayBuffer());
+      const text = type.includes("pdf") || url.endsWith(".pdf") ? pdfToText(buf) : type.includes("json") ? JSON.stringify(JSON.parse(buf.toString("utf8")), null, 1) : htmlToText(buf.toString("utf8"));
+      if (text.length < 200) throw new Error(`only ${text.length} characters of text`);
+      return text;
+    } catch (err) {
+      last = err;
+      // A refusal will not change on a second try; a timeout or a dropped connection might.
+      if (/^HTTP 4/.test((err as Error).message)) break;
+    }
+  }
+  throw last;
+}
+
+/**
+ * The text of one source: the page as it reads now (saved as the new copy), or the saved copy when the page cannot be read,
+ * with the date it was saved. Throws when there is neither.
+ */
+export async function readSource(src: QuestionSource): Promise<{ text: string; saved?: string }> {
   const parts: string[] = [];
   if (src.facts) parts.push(factsText(src.facts));
   const url = src.fetch ?? src.url;
+  const file = savedPath(url);
+  let saved: string | undefined;
   try {
-    const res = await fetch(url, { headers: { "user-agent": UA, accept: "text/html,application/pdf,application/json;q=0.9,*/*;q=0.8" }, signal: AbortSignal.timeout(60_000) });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const type = res.headers.get("content-type") ?? "";
-    const buf = Buffer.from(await res.arrayBuffer());
-    const text = type.includes("pdf") || url.endsWith(".pdf") ? pdfToText(buf) : type.includes("json") ? JSON.stringify(JSON.parse(buf.toString("utf8")), null, 1) : htmlToText(buf.toString("utf8"));
-    if (text.length < 200) throw new Error(`only ${text.length} characters of text`);
-    parts.push(text);
+    const page = await fetchPage(url);
+    mkdirSync(SAVED_DIR, { recursive: true });
+    writeFileSync(file, `# saved ${new Date().toISOString().slice(0, 10)} from ${url}\n${page}\n`);
+    parts.push(page);
   } catch (err) {
-    // A facts source still has its figures; the page only adds the agency's wording around them.
-    if (!src.facts) throw new Error(`${url}: ${(err as Error).message}`);
+    if (existsSync(file)) {
+      const [head = "", ...rest] = readFileSync(file, "utf8").split("\n");
+      saved = head.match(/saved (\d{4}-\d{2}-\d{2})/)?.[1] ?? "unknown date";
+      parts.push(rest.join("\n"));
+    } else if (!src.facts) {
+      // A facts source still has its figures; the page only adds the agency's wording around them.
+      throw new Error(`${url}: ${(err as Error).message}, and there is no saved copy`);
+    }
   }
-  const text = parts.join("\n\n");
-  mkdirSync(CACHE_DIR, { recursive: true });
-  writeFileSync(join(CACHE_DIR, `${encodeURIComponent(src.url).slice(0, 180)}.txt`), text);
-  return text;
+  return { text: parts.join("\n\n"), ...(saved ? { saved } : {}) };
 }

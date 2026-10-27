@@ -53,7 +53,9 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v8
         with:
-          add-paths: pipeline/output/faq_*.json
+          add-paths: |
+            pipeline/output/faq_*.json
+            pipeline/raw/faq-sources/*.txt
           branch: faq/publish-${{ github.event.issue.number }}
           base: main
           delete-branch: true

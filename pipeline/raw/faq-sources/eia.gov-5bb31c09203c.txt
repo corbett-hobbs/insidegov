@@ -1,0 +1,429 @@
+# saved 2026-10-27 from https://www.eia.gov/energyexplained/renewable-sources/
+Renewable energy explained - U.S. Energy Information Administration (EIA)
+Renewable energy explained
+Basics
++Menu
+What is energy?
+Units and calculators
+U.S. energy facts
+Use of energy
+Energy and the environment
+Close
+Also in What is energy?
+What is energy?
+Forms of energy
+Sources of energy
+Laws of energy
+Close
+Also in Units and calculators explained
+Units and calculators
+Energy conversion calculators
+British thermal units (Btu)
+Degree days
+Close
+Also in U.S. energy facts explained
+Consumption and production
+Imports and exports
+Data and statistics
+State and U.S. territory data
+Close
+Also in Use of energy explained
+Use of energy
+Energy use in industry
+Energy use in manufacturing
+Energy use for transportation
+Electric vehicles
+Energy use in homes
+Electricity use in homes
+Energy use in commercial buildings
+Energy intensity in commercial buildings
+Energy efficiency and conservation
+Energy indicators
+Close
+Also in Energy and the environment explained
+Energy and the environment
+Greenhouse gases
+Greenhouse gases and the climate
+Where greenhouse gases come from
+Outlook for future emissions
+Recycling and energy
+Nonrenewable sources
+Oil and petroleum products
+Gasoline
+Diesel fuel
+Heating oil
+Close
+Also in Oil and petroleum products explained
+Oil and petroleum products
+Data and statistics
+Refining crude oil
+The refining process
+Inputs and outputs
+Refinery rankings
+Where oil is produced
+Where oil comes from
+Imports and exports
+Offshore oil and natural gas
+Offshore oil and natural gas production
+Use of oil
+Prices and outlook
+Oil and the environment
+Close
+Also in Gasoline explained
+Gasoline
+Octane in depth
+Where our gasoline comes from
+Use of gasoline
+Prices and outlook
+Factors affecting gasoline prices
+Regional price differences
+Price fluctuations
+History of gasoline
+Gasoline and the environment
+Leaded Gasoline
+Close
+Also in Diesel fuel explained
+Diesel fuel
+Where our diesel comes from
+Use of diesel
+Prices and outlook
+Factors affecting diesel prices
+Diesel fuel surcharges
+Diesel and the environment
+Close
+Also in Heating oil explained
+Heating oil
+Where our heating oil comes from
+Use of heating oil
+Prices and outlook
+Factors affecting heating oil prices
+Hydrocarbon Gas Liquids
+Natural gas
+Coal
+Nuclear
+Close
+Also in Hydrocarbon gas liquids explained
+Hydrocarbon gas liquids
+Where do hydrocarbon gas liquids come from?
+Propane production
+Transporting and storing
+Uses of hydrocarbon gas liquids
+Propane consumption
+Imports and exports
+Prices
+Propane prices
+Close
+Also in Natural gas explained
+Natural gas
+Data and statistics
+Delivery and storage
+Natural gas pipelines
+Liquefied natural gas
+Where our natural gas comes from
+Imports and exports
+How much gas is left
+Use of natural gas
+Prices
+Factors affecting natural gas prices
+Natural gas and the environment
+Customer choice programs
+Close
+Also in Coal explained
+Coal
+Data and statistics
+Mining and transportation
+Where our coal comes from
+Imports and exports
+How much coal is left
+Use of coal
+Prices and outlook
+Coal and the environment
+Close
+Also in Nuclear explained
+Nuclear
+Data and statistics
+Nuclear power plants
+Types of reactors
+The nuclear fuel cycle
+Where our uranium comes from
+U.S. nuclear industry
+Nuclear power and the environment
+Renewable sources
+Renewable energy
+Hydropower
+Biomass
+Biofuels
+Close
+Also in Renewable energy explained
+Renewable energy
+Types & usages
+Incentives
+Portfolio standards
+Close
+Also in Hydropower explained
+Hydropower
+Where hydropower is generated
+Hydropower and the environment
+Tidal power
+Wave power
+Ocean thermal energy conversion
+Close
+Also in Biomass explained
+Biomass
+Wood and wood waste
+Waste-to-energy (MSW)
+In depth
+Landfill gas and biogas
+Biomass and the environment
+Close
+Also in Biofuels explained
+Biofuels
+Data and statistics
+Ethanol
+Ethanol Use
+Ethanol Supply
+Biodiesel, renewable diesel, and other biofuels
+Use and supply
+Biofuels and the environment
+Wind
+Geothermal
+Solar
+Close
+Also in Wind explained
+Wind
+Electricity generation from wind
+Where wind power is harnessed
+Types of wind turbines
+History of wind power
+Wind energy and the environment
+Close
+Also in Geothermal explained
+Geothermal
+Where geothermal energy is found
+Use of geothermal energy
+Geothermal power plants
+Geothermal heat pumps
+Geothermal energy and the environment
+Close
+Also in Solar explained
+Solar
+Photovoltaics and electricity
+Where solar is found and used
+Solar thermal power plants
+Solar thermal collectors
+Solar energy and the environment
+Secondary sources
+Electricity
+Hydrogen
+Close
+Also in Electricity explained
+Electricity
+Data and statistics
+The science of electricity
+Magnets and electricity
+Batteries, circuits, and transformers
+Measuring electricity
+How electricity is generated
+Energy storage for electricity generation
+Electricity in the United States
+Generation, capacity, and sales
+Top 10
+Delivery to consumers
+Use of electricity
+Prices and factors affecting prices
+Electricity and the environment
+Close
+Also in Hydrogen explained
+Hydrogen
+Hydrogen production
+Use of hydrogen
+What is renewable energy?
+Renewable energy is energy from sources that are naturally replenishing but flow-limited; renewable resources are virtually inexhaustible, but they are limited by the availability of the resources.
+The major types of renewable energy sources are:
+Biomass
+Wood and wood waste
+Municipal solid waste
+Landfill gas and biogas
+Biofuels
+Hydropower
+Geothermal
+Wind
+Solar
+Download image
+Data source: U.S. Energy Information Administration, Monthly Energy Review , Table 1.3 and 10.1,
+April 2024, preliminary data
+Note: Sum of components may not equal 100% because of independent rounding.
+What role does renewable energy play in the United States?
+Until the mid-1800s, wood was the source of nearly all the nation's energy needs for heating, cooking, and lighting. From the late 1800s until today, fossil fuels—coal, petroleum, and natural gas—have been the primary sources of energy. Hydropower and wood were the most used renewable energy resources until the 1990s. Since then, U.S. energy consumption from biofuels, geothermal energy, solar energy, and wind energy have increased.
+In 2023, renewable energy provided about 9%, or 8.2 quadrillion British thermal units (quads)—1 quadrillion is the number 1 followed by 15 zeros—of total U.S. energy consumption. The electric power sector accounted for about 39% of total U.S. renewable energy consumption in 2023, and about 21% of total U.S. electricity generation was from renewable energy sources.
+Click to enlarge
+Renewable energy can play an important role in U.S. energy security and in reducing greenhouse gas emissions. Using renewable energy can help to reduce energy imports and fossil fuel use, the largest source of U.S. carbon dioxide emissions . According to projections in the Annual Energy Outlook 2023 Reference case, U.S. renewable energy consumption will continue to increase through 2050. The Reference case generally assumes that current laws and regulations that affect the energy sector, including laws that have end dates, remain unchanged throughout the projection period.
+Last updated: September 13, 2024, with data from the Monthly Energy Review , April 2024, and the Annual Energy Outlook 2023 , March 2023; data for 2022 are preliminary.
+Also in Renewable energy explained
+Renewable energy
+Types & usages
+Incentives
+Portfolio standards
+Learn more
+Monthly Energy Review
+U.S. energy consumption by source and sector
+U.S. renewable energy consumption by source and sector
+Monthly and annual data on renewable energy
+Annual Energy Outlook
+Database of State Incentives for Renewables and Efficiency
+Federal and state laws and incentives for alternative fuels and vehicles
+Articles on renewable energy
+Also on Energy Explained
+U.S. energy facts
+Use of energy
+Electricity in the United States
+Frequently asked questions
+How much U.S. energy consumption and electricity generation comes from renewable sources?
+How much of world energy consumption and production is from renewable energy?
+Renewable energy FAQs
+Statistics
+Analysis
+Tools
+Education
+News
+Petroleum & Other Liquids
+Crude oil, gasoline, heating oil, diesel, propane, and other liquids including biofuels and natural gas liquids.
+Natural Gas
+Exploration and reserves, storage, imports and exports, production, prices, sales.
+Electricity
+Sales, revenue and prices, power plants, fuel use, stocks, generation, trade, demand & emissions.
+Coal
+Reserves, production, prices, employment and productivity, distribution, stocks, imports and exports.
+Nuclear & Uranium
+Uranium fuel, nuclear reactors, generation, spent fuel.
+Renewable & Alternative Fuels
+Includes hydropower, solar, wind, geothermal, biomass and ethanol.
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Total Energy
+Comprehensive data summaries, comparisons, analysis, and projections integrated across all energy sources.
+Monthly Energy Review
+Annual Energy Review
+Consumption & Efficiency
+Energy use in homes, commercial buildings, manufacturing, and transportation.
+Residential Energy Consumption Survey (RECS)
+Commercial Buildings Energy Consumption Survey (CBECS)
+Manufacturing Energy Consumption Survey (MECS)
+U.S. States
+State energy information, including overviews, rankings, data, and analyses.
+State Energy Data System (SEDS)
+International
+International energy information, including overviews, rankings, data, and analyses.
+International Energy Statistics
+Environment
+Greenhouse gas data, voluntary reporting, electric power plant emissions.
+U.S. Energy-Related Carbon Dioxide Emissions
+Energy-Related Carbon Dioxide Emissions at the State Level, 2005-2016
+Energy-Related Carbon Dioxide Emissions at the State Level
+Analysis and Projections
+Monthly and yearly energy forecasts, analysis of energy topics, financial analysis, congressional reports.
+Short-Term Energy Outlook
+Annual Energy Outlook
+Special Reports
+Special market analysis and/or data requests.
+EIA-112 Residential Utility Disconnections
+SHIP Act
+Energy & Financial Markets: What Drives Crude Oil Prices?
+International
+International energy analyses.
+Regional Analysis Briefs
+Country Analysis Briefs
+World Oil Transit Chokepoints
+OPEC Revenue
+Global Energy Security Data
+Glossary
+Data Tools, Apps, & Maps
+Tools to customize searches, view specific data sets, study detailed documentation, and access time-series data.
+Open Data
+EIA's free and open data available as API, Excel add-in, bulk files, and widgets
+EIA Beta
+Come test out some of the products still in development and let us know what you think!
+Open Source Code
+EIA's open source code, available on GitHub.
+All Reports & Products
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Email Updates
+Sign up for email subscriptions to receive messages about specific EIA products
+RSS Feeds
+Subscribe to feeds for updates on EIA products including Today in Energy and What's New.
+Follow us. . .
+A-Z Index
+A |
+B |
+C |
+D |
+E |
+F |
+G |
+H |
+I |
+J |
+K |
+L |
+M |
+N |
+O |
+P |
+Q |
+R |
+S |
+T |
+U |
+V |
+W |
+XYZ
+Today in Energy
+Short, timely articles with graphics on energy, facts, issues, and trends.
+Energy Explained
+What is Energy?
+Units & Calculators
+U.S. Energy Facts
+Use of Energy
+Energy & Environment
+Petroleum
+Hydrocarbon Gas Liquids
+Natural Gas
+Coal
+Nuclear
+Electricity
+Hydrogen
+Hydropower
+Biofuels
+Biomass
+Wind
+Geothermal
+Solar
+For Teachers
+Lesson plans, science fair experiments, field trips, teacher guide, and career corner.
+Glossary
+FAQs
+Coal
+Conversion & Equivalents
+Oil/Petroleum
+Diesel
+Electricity
+Environment
+Gasoline
+General Energy
+Natural Gas
+Nuclear
+Prices
+Renewables
+What's New?
+Wholesale Electricity Market Data
+Oct 15, 2026
+Monthly Densified Biomass Fuel Report
+Oct 08, 2026
+Final 2025 Annual Electric Sales and Revenue Data
+Oct 07, 2026
+Press Room
+Press Releases
+Congressional Testimony
+Presentations
+Events
