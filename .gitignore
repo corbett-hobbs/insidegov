@@ -65,3 +65,6 @@ pipeline/raw/census-trade/product-use/_cache/
 
 # social post drafts (pipeline/insights): reviewed locally, never committed
 /social-drafts/
+
+# the news check's earlier answers (pipeline/insights/news/pages.ts; kept in the Actions cache)
+/pipeline/.cache/

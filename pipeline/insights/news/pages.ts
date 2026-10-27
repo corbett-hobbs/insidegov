@@ -1,0 +1,135 @@
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import Anthropic from "@anthropic-ai/sdk";
+import { z } from "zod";
+import type { Headline } from "../types";
+import { type Candidate, LEAN_ORDER, addCompanions, needsCheck, topicOf, type PageNewsFile, type PageStory, STORY_TTL_DAYS, groupCandidates, mergeStories, pageFile, pickHeadlines, sameDevelopment, storyFor } from "./cards";
+import { tariffPartners } from "./charts";
+import { checkCandidate } from "./classify";
+import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
+import { partnersFor } from "./match";
+import { ALLSIDES_READ_ON } from "./outlets";
+import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_TOPICS } from "./topics";
+
+/**
+ * The page-level "In the news" builder: reads the outlets' and agencies' feeds, groups headlines into stories about one
+ * chart each, checks them (Claude API, when a key is set), keeps the balanced ones and writes
+ * pipeline/output/news_<page>.json for the pages' "In the news" row (schema: lib/news-types.ts). Run a few times a day
+ * by .github/workflows/news-pages.yml; see pipeline/insights/README.md, "In the news on the pages".
+ *
+ *   pnpm news:pages                    # build and write the files
+ *   pnpm news:pages -- --dry-run       # print the stories, write nothing
+ *   pnpm news:pages -- --no-llm        # keyword and detail-word rules only (outlets that need the check are left out)
+ *
+ * --out DIR       where the files are (default pipeline/output); the earlier cards are read from there too
+ * --pages LIST    economy,immigration,trade,energy (default all)
+ * --now ISO       pretend it is this moment
+ * --cache FILE    what earlier runs saw, read and rewritten (default pipeline/.cache/news_pages.json, git-ignored; the
+ *                 workflow keeps it in the Actions cache): topic headlines from the last STORY_TTL_DAYS (feeds carry a
+ *                 day or two, and one side's outlet may headline a story a day after the other's), and the check's
+ *                 answers, so an unchanged story is not asked about every run. Without it a run sees only today's feeds.
+ */
+
+try {
+  process.loadEnvFile(".env.local");
+} catch {
+  /* no .env.local (CI passes the secret as an env var) */
+}
+
+const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
+const outDir = arg("--out") ?? "pipeline/output";
+const dryRun = process.argv.includes("--dry-run");
+const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
+const now = arg("--now") ?? new Date().toISOString();
+const cacheFile = arg("--cache") ?? "pipeline/.cache/news_pages.json";
+const pages = (arg("--pages") ?? NEWS_PAGES.join(",")).split(",").map((p) => p.trim()) as NewsPage[];
+for (const p of pages) if (!NEWS_PAGES.includes(p)) throw new Error(`unknown page ${p} (one of ${NEWS_PAGES.join(", ")})`);
+
+/** lib/news-types.ts `newsFile`, mirrored here so a file the site would reject is never written. */
+const fileSchema = z.object({
+  asOf: z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}$/), z.literal("")]),
+  stories: z.array(
+    z.object({
+      id: z.string().min(1),
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      topic: z.string().min(1),
+      chartId: z.string().min(1),
+      headlines: z.array(z.object({ outletId: z.string().regex(/^[a-z0-9]+$/), outlet: z.string().min(1), lean: z.enum(LEAN_ORDER), title: z.string().min(1), url: z.url() })).min(1).max(3),
+    }),
+  ),
+});
+
+type Check = { at: string; keep: string[]; reason: string };
+type Cache = { headlines: Headline[]; checks: Record<string, Check> };
+const cache: Cache = { headlines: [], checks: {}, ...(existsSync(cacheFile) ? (JSON.parse(readFileSync(cacheFile, "utf8") || "{}") as Partial<Cache>) : {}) };
+
+const [live, releases] = await Promise.all([fetchOutletHeadlines(), fetchDataReleases()]);
+const perOutlet = new Map<string, number>();
+for (const h of live) perOutlet.set(h.outletId!, (perOutlet.get(h.outletId!) ?? 0) + 1);
+const liveUrls = new Set(live.map((h) => h.url));
+const headlines = [...live, ...cache.headlines.filter((h) => !liveUrls.has(h.url))];
+console.log(`news:pages  ${live.length} outlet headlines from ${perOutlet.size} outlets (+${headlines.length - live.length} remembered), ${releases.length} agency items; leans: AllSides, read ${ALLSIDES_READ_ON}${useLlm ? "" : "; no Claude check (outlets that need it are left out)"}`);
+
+const client = useLlm ? new Anthropic({ maxRetries: 4 }) : null;
+const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASES);
+const topics = PAGE_TOPICS.filter((t) => pages.includes(t.page));
+const usable = (h: Headline) => client !== null || !needsCheck(h);
+const candidates = addCompanions(groupCandidates(headlines, topics, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
+
+/** The headlines of a candidate that are straight news of one development: the check's answer, else the word rule. */
+async function kept(c: Candidate): Promise<Headline[]> {
+  if (!client) return sameDevelopment(c);
+  const key = createHash("sha256").update(c.headlines.map((h) => h.url).sort().join("\n")).digest("hex").slice(0, 20);
+  let check = cache.checks[key];
+  if (!check) {
+    const answer = await checkCandidate(client, {
+      topic: c.topic.label(c.country?.name),
+      chart: c.topic.chart,
+      country: c.country?.name,
+      headlines: c.headlines.map((h) => ({ title: h.title, outlet: h.source, published: h.published })),
+    });
+    if (!answer) {
+      console.log(`  check failed for ${c.key}: word rule instead`);
+      return sameDevelopment({ ...c, headlines: c.headlines.filter((h) => !needsCheck(h)) });
+    }
+    check = { at: now, keep: answer.keep.map((i) => c.headlines[i]!.url), reason: answer.reason };
+    cache.checks[key] = check;
+  }
+  return c.headlines.filter((h) => check.keep.includes(h.url));
+}
+
+const fresh = new Map<NewsPage, PageStory[]>(pages.map((p) => [p, []]));
+for (const c of candidates) {
+  // A story one side alone covered can never be shown: no check spent on it.
+  if (!pickHeadlines(c.headlines)) continue;
+  const story = storyFor(c, await kept(c), releases);
+  if (story) fresh.get(c.topic.page)!.push(story);
+  else console.log(`  skip  ${c.key} (${c.headlines.length} headlines): not balanced after the check`);
+}
+
+const used = new Map<string, number>();
+for (const page of pages) {
+  const path = join(outDir, `news_${page}.json`);
+  const previous = existsSync(path) ? (fileSchema.parse(JSON.parse(readFileSync(path, "utf8"))) as PageNewsFile) : null;
+  const file = fileSchema.parse(pageFile(previous, mergeStories(previous?.stories ?? [], fresh.get(page)!, now), now)) as PageNewsFile;
+  console.log(`\n${page}: ${file.stories.length} stories (${fresh.get(page)!.length} from this run's feeds)`);
+  for (const s of file.stories) {
+    console.log(`  ${s.date}  ${s.topic}  → ${s.chartId}`);
+    for (const h of s.headlines) {
+      console.log(`      ${h.lean.padEnd(10)} ${h.outlet}: ${h.title}`);
+      used.set(h.outlet, (used.get(h.outlet) ?? 0) + 1);
+    }
+  }
+  const text = `${JSON.stringify(file, null, 2)}\n`;
+  if (!dryRun && (!existsSync(path) || readFileSync(path, "utf8") !== text)) writeFileSync(path, text);
+}
+console.log(`\nheadlines on cards by outlet: ${[...used].sort((a, b) => b[1] - a[1]).map(([o, n]) => `${o} ${n}`).join(", ") || "none"}`);
+
+if (!dryRun) {
+  const cutoff = Date.parse(now) - STORY_TTL_DAYS * 86_400_000;
+  cache.checks = Object.fromEntries(Object.entries(cache.checks).filter(([, c]) => Date.parse(c.at) >= cutoff));
+  cache.headlines = headlines.filter((h) => Date.parse(h.published) >= cutoff && topicOf(h.title, PAGE_TOPICS, partners));
+  mkdirSync(dirname(cacheFile), { recursive: true });
+  writeFileSync(cacheFile, `${JSON.stringify(cache, null, 2)}\n`);
+}
