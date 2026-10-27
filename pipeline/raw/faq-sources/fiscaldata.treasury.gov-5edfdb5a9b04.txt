@@ -1,0 +1,106 @@
+# saved 2026-10-27 from https://fiscaldata.treasury.gov/americas-finance-guide/national-deficit/
+What is the national deficit?
+A deficit occurs when the federal government’s spending exceeds its revenues. The federal government has spent $ -- more than it has collected in fiscal year (FY) -- , resulting in a national deficit.
+Fiscal year-to-date (since October -- ) total updated monthly using the Monthly Treasury Statement (MTS) dataset.
+Compared to the national deficit of $ for the same period last year ( -- ), our national deficit has by $ -- .
+$ --
+-- %
+Share this page
+Facebook
+X (Twitter)
+LinkedIn
+Reddit
+Email
+Key Takeaways
+A budget deficit occurs when the money going out exceeds the money coming in for a
+given period. On this page, we calculate the deficit by the government’s fiscal year.
+In the last 50 years, the federal government budget has run a surplus four times,
+most recently in 2001.
+To pay for government programs while operating under a deficit, the federal
+government borrows money by selling U.S. Treasury bonds, bills, and other securities.
+The national debt is the accumulation of this borrowing along with associated interest
+owed to investors who purchased these securities.
+Understanding the National Deficit
+A budget deficit occurs when money going out ( spending ) exceeds money coming in ( revenue ) during a defined period. In FY -- , the federal government spent $ -- trillion and collected $ -- trillion in revenue, resulting in a deficit. The amount by which spending exceeds revenue, $ -- trillion in -- , is referred to as deficit spending.
+The opposite of a budget deficit is a budget surplus , which occurs when the federal government collects more money than it spends. The U.S. has experienced a fiscal year-end budget surplus four times in the last 50 years, most recently in 2001.
+When there is no deficit or surplus due to spending and revenue being equal, the budget is considered balanced .
+The terms “national deficit”, “federal deficit” and “U.S. deficit” have the same meaning and are used interchangeably by the U.S. Treasury.
+Surplus
+Balanced Budget
+Deficit
+A surplus occurs when the government collects more money than it spends.
+The last surplus for the federal government was in 2001.
+The chart below shows a breakdown of how the U.S. deficit compares to the corresponding revenue and spending.
+U.S. Deficit Compared to Revenue and Spending, FY --
+Loading...
+Visit the Monthly Treasury Statement (MTS) dataset to explore and download this data.
+Please note: This data visual only includes completed fiscal years. The following year will be displayed at the end of the fiscal year. Last Updated: --
+In FY -- total government spending was $ -- trillion and total revenue was $ -- trillion, resulting in a deficit of $ -- trillion, from the previous fiscal year.
+The Causes of Deficits and Surpluses
+The size of the national deficit or surplus is largely influenced by the health of the economy and spending and revenue policies set by Congress and the President. The health of the economy is often evaluated by the growth in the country’s gross domestic product (GDP) , fluctuations in the nation’s employment rates, and the stability of prices. Simply put, when the country’s people and businesses are making less money, the amount collected by the government also decreases. Similarly, when the economy is doing well and people and businesses are earning more money, the government collects more. On the spending side, the increase or decrease of spending also impacts the budget, creating deficits or surpluses.
+Legislation increasing spending on Social Security, health care, and defense that outpace revenue can increase the deficit. While revenue increased during the COVID-19 pandemic, from approximately $3.5 trillion in 2019 to $4 trillion in 2021, increased government spending related to widespread unemployment and health care caused spikes in the deficit. Visit USAspending.gov to learn more about the federal response to COVID-19 .
+The Difference Between the National Deficit and the National Debt
+The terms deficit and debt are frequently used when discussing the nation’s finances and are often confused with one another.
+To pay for a deficit, the federal government borrows money by selling Treasury bonds , bills , and other securities. The national debt is the accumulation of this borrowing along with associated interest owed to the investors who purchased these securities. As the federal government experiences reoccurring deficits, which are common, the national debt grows. To learn more about the national debt, visit the National Debt Explainer .
+The visualization below shows how deficits from previous years are added to the current year’s deficit to equal total debt. This illustration is simplified to show how debt and deficit are different. In reality, the U.S. government must pay interest on the national debt. This interest expense increases spending each year, increasing spending (and thus, deficits) as the debt grows.
+How else does the federal government finance a deficit?
+toggle contents
+U.S. Deficit by Year
+Since 2001, the federal government’s budget has run a deficit each year. Starting in 2016, increases in spending on Social Security, health care, and interest on federal debt have outpaced the growth of federal revenue .
+From FY 2019 to FY 2021, federal spending increased by about 50 percent in response to the COVID-19 pandemic .
+Federal Deficit Trends Over Time, FY 2001---
+-- Fiscal Year
+$-- Total Deficit
+Loading...
+Visit the Monthly Treasury Statement (MTS) dataset to explore and download this data.
+Please note: This data visual only includes completed fiscal years. Last Updated: --
+The last surplus for the federal government was in 2001.
+Learn More about the Deficit
+For more information about the national deficit, please
+explore more of Fiscal Data and check out the extensive resources listed below.
+America’s Fiscal Future
+https://www.gao.gov/americas-fiscal-future
+An Update to the Budget and Economic Outlook: 2021 to 2031
+https://www.cbo.gov/publication/57339
+Congressional Budget Office Topics – Budget
+https://www.cbo.gov/topics/budget
+Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19
+https://www.congress.gov/crs-product/R46729
+FY 2024 Final Monthly Treasury Statement
+https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202409.pdf
+Data Sources & Methodologies
+toggle contents
+Table of Contents
+See the datasets behind the national deficit
+Monthly Treasury Statement (MTS)
+Date Range
+10/31/1980 - 09/30/2026
+Last Updated
+10/26/2026
+Release Frequency
+Monthly
+18 Data Tables
+U.S. Treasury Savings Bonds: Issues, Redemptions, and Maturities by Series
+Date Range
+09/30/1998 - 09/30/2026
+Last Updated
+10/13/2026
+Release Frequency
+Monthly
+3 Data Tables
+Financial Report of the U.S. Government
+Date Range
+09/30/1995 - 09/30/2025
+Last Updated
+03/19/2026
+Release Frequency
+Annually
+8 Data Tables
+Daily Treasury Statement (DTS)
+Date Range
+10/03/2005 - 10/23/2026
+Last Updated
+10/26/2026
+Release Frequency
+Daily
+9 Data Tables

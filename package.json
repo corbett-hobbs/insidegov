@@ -58,6 +58,7 @@
     "faq:issue": "tsx pipeline/faq/open-issue.ts",
     "faq:publish": "tsx pipeline/faq/publish.ts",
     "faq:recheck": "tsx pipeline/faq/recheck.ts",
+    "faq:sources": "tsx pipeline/faq/save-sources.ts",
     "classify:audit": "tsx pipeline/classification/executive-orders-audit.ts",
     "fetch:billstatus": "tsx pipeline/fetch/govinfo-billstatus.ts",
     "fetch:laws": "tsx pipeline/fetch/congress-gov.ts",

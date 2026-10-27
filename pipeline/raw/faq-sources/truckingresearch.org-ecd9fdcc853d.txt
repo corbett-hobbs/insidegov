@@ -1,0 +1,113 @@
+# saved 2026-10-27 from https://truckingresearch.org/2026/07/new-atri-report-details-accelerating-costs-and-low-profitability-despite-cuts/
+New ATRI Report Details Accelerating Costs and Low Profitability Despite Cuts
+Skip to content
+Linkedin
+Twitter
+Search
+Search
+subscribe to atri's latest releases
+New ATRI Report Details Accelerating Costs and Low Profitability Despite Cuts
+Wednesday, July 15, 2026
+Contact: Alex Leslie
+Phone: (651) 641-6162
+ALeslie@trucking.org
+Washington, D.C. – The American Transportation Research Institute (ATRI) today released the 2026 Analysis of the Operational Costs of Trucking , its flagship benchmarking report.
+The industry-average cost to operate a truck in 2025 was $2.336 per mile, 3.4 percent higher than the previous year and the highest per-mile cost in the report’s history. Excluding fuel, costs rose by 4.2 percent to $1.854 per mile.
+Costs were up in all major line-items in 2025, with the largest percentage gains in tolls (13.2%), repair and maintenance (8.6%), driver benefits (6.6%), and tires (6.4%). Only two line-items rose at sub-inflationary rates: fuel and, for the second year in a row, driver pay. Truck and trailer procurement costs varied by fleet size amid high prices and low freight volumes. Small fleets spent less on trucks and trailers in 2025 than in 2024, while truckload fleets with more than 1,000 trucks spent 16.1 percent more. First-quarter 2026 data show a continuation of most 2025 cost trends.
+Faced with rising costs and stagnant rates, carriers executed their largest reduction in freight capacity since the start of the freight recession in 2022 – reducing truck counts by 2.4 percent and leaving another 10 percent of trucks unseated on average. Other key metrics show the impact of this prolonged downturn on operations. Average truck age and annual mileage increased, deadhead mileage remained elevated, and non-driver staffing levels were cut by 7.8 percent.
+Despite these austerity efforts, carrier profitability remained poor. Operating margins in the truckload and refrigerated sectors improved slightly but were still below 1.0 percent, while tank carriers averaged 4.0 percent. Only LTLs and fleets with more than 1,000 trucks had healthy – but flat year-over-year – margins in 2025. Flatbed carriers, however, had an average operating loss of -0.5 percent.
+“Freight rates are finally turning a corner in 2026, but the acceleration of industry-wide costs means that fleets must continue with aggressive cost discipline,” said PGT Trucking, Inc. Chief Operating Officer Chad Marsilio . “ATRI’s Operational Costs and the customized benchmarking reports provide vital intelligence for balancing cost management and performance as we prepare our fleet for the much-needed trucking recovery.”
+The full report is available on ATRI’s website here .  Participating carriers receive a customized report directly comparing their operations to an anonymized peer group of the same sector and size.
+ATRI is the trucking industry’s 501c3 not-for-profit research organization. It is engaged in critical research relating to freight transportation’s essential role in maintaining a safe and efficient transportation system.
+# # #
+The American Transportation Research Institute (ATRI) has been engaged in critical transportation studies and operational tests since 1954.  ATRI is a 501(c)(3)  not-for-profit research organization headquartered in Washington, D.C., with offices in Atlanta, Minneapolis, and  Sacramento.
+ATRI’s primary mission is to conduct transportation research, with an emphasis on the trucking industry’s essential role in a safe, efficient and viable transportation system.  ATRI’s research focus areas include: Congestion and Mobility; Economic Analysis; Safety and Security; Technology and Operations; Environment; and Transportation Infrastructure.
+ATRI’s extensive experience covers a broad range of commercial vehicle operations including leadership and/or participation in numerous national freight analyses, technology research initiatives and field operational tests.
+ATRI presently manages the U.S. DOT’s Freight Mobility Program, and has provided freight mobility and performance measures technical assistance to 31 state DOTs and 11 of the 15 largest MPOs in the U.S. ATRI has received top research awards from ITS America, TIDA, University of Minnesota and the Institute of Transportation Engineers.
+Follow ATRI
+Linkedin
+Research Hot Topics
+About
+Popular Downloads
+Cookie Consent
+We use cookies to improve your experience on our site. By using our site, you consent to cookies.
+Preferences Reject Accept All
+Powered by (opens in a new window)
+Cookie Preferences
+&times;
+Manage your cookie preferences below:
+Toggle Essential Essential
+Essential cookies enable basic functions and are necessary for the proper function of the website.
+Name
+Description
+Duration
+Cookie Preferences
+This cookie is used to store the user's cookie consent preferences.
+30 days
+Toggle Statistics Statistics
+Statistics cookies collect information anonymously. This information helps us understand how visitors use our website.
+Toggle Google Analytics Google Analytics
+Google Analytics is a powerful tool that tracks and analyzes website traffic for informed marketing decisions.
+Service URL: policies.google.com (opens in a new window)
+Name
+Description
+Duration
+_gid
+ID used to identify users for 24 hours after last activity
+24 hours
+_gat
+Used to monitor number of Google Analytics server requests when using Google Tag Manager
+1 minute
+_gali
+Used by Google Analytics to determine which links on a page are being clicked
+30 seconds
+_ga_
+ID used to identify users
+2 years
+_ga
+ID used to identify users
+2 years
+__utmv
+Contains custom information set by the web developer via the _setCustomVar method in Google Analytics. This cookie is updated every time new data is sent to the Google Analytics server.
+2 years after last activity
+__utmx
+Used to determine whether a user is included in an A / B or Multivariate test.
+18 months
+__utmz
+Contains information about the traffic source or campaign that directed user to the website. The cookie is set when the GA.js javascript is loaded and updated when data is sent to the Google Anaytics server
+6 months after last activity
+__utmc
+Used only with old Urchin versions of Google Analytics and not with GA.js. Was used to distinguish between new sessions and visits at the end of a session.
+End of session (browser)
+__utmt
+Used to monitor number of Google Analytics server requests
+10 minutes
+__utmb
+Used to distinguish new sessions and visits. This cookie is set when the GA.js javascript library is loaded and there is no existing __utmb cookie. The cookie is updated every time data is sent to the Google Analytics server.
+30 minutes after last activity
+__utma
+ID used to identify users and sessions
+2 years after last activity
+_gac_
+Contains information related to marketing campaigns of the user. These are shared with Google AdWords / Google Ads when the Google Ads and Google Analytics accounts are linked together.
+90 days
+Toggle Jetpack Stats Jetpack Stats
+Jetpack's built-in visitor analytics. It records page views, referring sites, search terms, and outbound link clicks, and also carries the shared visitor-tracking library used by Jetpack Instant Search and WooCommerce Analytics.
+Service URL: automattic.com (opens in a new window)
+Name
+Description
+Duration
+tk_aip
+Stores a list of anonymous visitor IDs so they can be merged into one identity once a visitor is recognized.
+Up to 5 years
+tk_qs
+Queues analytics events for Jetpack's Tracks library so none are lost if the page closes before they can be sent.
+30 minutes
+tk_tc
+Used once per page load to work out which cookie domain the Tracks library should use, then removed as soon as it's read back.
+Session (deleted immediately after use)
+tk_ai
+Stores a randomly-generated anonymous visitor ID so Jetpack's Tracks analytics library can link tracking events to the same visitor.
+Session in wp-admin; up to 5 years on the frontend
+Accept All Close Save and Close
+Powered by (opens in a new window)

@@ -1,0 +1,74 @@
+{
+  "page": "trade",
+  "dataFiles": [],
+  "groups": [
+    {
+      "row": "Trade balance",
+      "questions": [
+        {
+          "id": "goods-vs-goods-and-services",
+          "kind": "difference",
+          "q": "What is the difference between the goods trade deficit and the overall trade deficit?",
+          "searched": "goods and services trade deficit",
+          "chartIds": ["trade-balance"],
+          "brief": "The overall deficit adds trade in services (travel, transport, finance and the like), where the U.S. runs a surplus; give the latest month's goods deficit, services surplus and combined figure.",
+          "sources": [
+            { "label": "Bureau of Economic Analysis, U.S. International Trade in Goods and Services, August 2026", "url": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-august-2026" }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Tariffs",
+      "questions": [
+        {
+          "id": "who-pays-tariffs",
+          "kind": "matters",
+          "q": "Who pays tariffs?",
+          "searched": "who pays tariffs importer or exporter",
+          "chartIds": ["tariffs"],
+          "brief": "Who owes the duty to the U.S. government (the importer, not the foreign seller) and when it is paid. Only who pays the government; not who ends up bearing the cost.",
+          "sources": [
+            { "label": "U.S. Customs and Border Protection, Internet purchases", "url": "https://www.cbp.gov/trade/basic-import-export/internet-purchases" },
+            { "label": "U.S. Customs and Border Protection, Entry summary and post-release processes", "url": "https://www.cbp.gov/trade/programs-administration/entry-summary" }
+          ]
+        },
+        {
+          "id": "who-decides-tariffs",
+          "kind": "matters",
+          "q": "Who decides tariffs, the President or Congress?",
+          "searched": "who decides tariffs president or congress",
+          "chartIds": ["tariffs"],
+          "brief": "The Constitution gives Congress the power over duties; Congress has delegated some of it to the President by law, with conditions. Name the laws the sources name; no politicians.",
+          "sources": [
+            { "label": "U.S. Constitution, Article I, Section 8 (National Archives)", "url": "https://www.archives.gov/founding-docs/constitution-transcript" },
+            { "label": "Congressional Research Service, Congressional and Presidential Authority to Impose Import Tariffs", "url": "https://www.congress.gov/crs_external_products/R/PDF/R48435/R48435.4.pdf" }
+          ]
+        },
+        {
+          "id": "section-232-vs-301",
+          "kind": "difference",
+          "q": "What is the difference between Section 232 and Section 301 tariffs?",
+          "searched": "section 232 vs section 301 tariffs",
+          "chartIds": ["tariffs"],
+          "brief": "Which agency investigates, what each one must find (a threat to national security; an unfair foreign trade practice), and who then acts.",
+          "sources": [
+            { "label": "Bureau of Industry and Security, Section 232 investigations", "url": "https://www.bis.gov/about-bis/bis-leadership-and-offices/SIES/section-232-investigations" },
+            { "label": "U.S. International Trade Commission, Section 232 and 301 trade actions in 2018", "url": "https://www.usitc.gov/research_and_analysis/trade_shifts_2018/special_topic.htm" }
+          ]
+        },
+        {
+          "id": "tariff-vs-duty",
+          "kind": "difference",
+          "q": "What is the difference between a tariff and a duty?",
+          "searched": "difference between tariff and duty",
+          "chartIds": ["tariffs"],
+          "brief": "Whether the two words mean the same thing in U.S. trade law, and what a tariff schedule is.",
+          "sources": [
+            { "label": "Congressional Research Service, Congressional and Presidential Authority to Impose Import Tariffs", "url": "https://www.congress.gov/crs_external_products/R/PDF/R48435/R48435.4.pdf" }
+          ]
+        }
+      ]
+    }
+  ]
+}

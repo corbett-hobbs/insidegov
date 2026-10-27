@@ -8,7 +8,9 @@ import { INTRO_THREAD } from "./intro";
 import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type QueueItem, localDate, localTimeToUtc, pickNext, simulate, slotAt, slotLabel } from "./schedule";
 import type { Series } from "./types";
 import { fit, lengthSection, refreshCounts } from "./counts";
-import { INSTAGRAM_HASHTAGS, instagramCaption } from "./instagram";
+import { INSTAGRAM_HASHTAGS, SERIES_HASHTAGS, hashtagsFor, instagramCaption } from "./instagram";
+import { WHY } from "./why";
+import { slidePlan } from "./carousel";
 import { EXPLAINERS, explainer } from "./explain";
 import { type DraftBlock, blockComment, parseDraftBlock, slidesSection } from "./issue";
 import { pickMoments } from "./moments";
@@ -247,7 +249,7 @@ describe("length section", () => {
   });
 
   it("keeps every hashtag set to 3-5 plain topic tags, and the model still cannot write one", () => {
-    for (const tags of Object.values(INSTAGRAM_HASHTAGS)) {
+    for (const tags of [...Object.values(INSTAGRAM_HASHTAGS), ...Object.values(SERIES_HASHTAGS)]) {
       expect(tags.length).toBeGreaterThanOrEqual(3);
       expect(tags.length).toBeLessThanOrEqual(5);
       for (const t of tags) {
@@ -287,6 +289,27 @@ describe("Instagram carousel", () => {
     ];
     expect(pickMoments(actions, "2016-01-01", "2026-08-31", 3).map((m) => m.label)).toEqual(["all, old", "country", "all, new"]);
     expect(pickMoments(actions, "2016-01-01", "2026-08-31", 2).map((m) => m.label)).toEqual(["country", "all, new"]);
+  });
+
+  it("tags an electricity chart for its sources, not oil", () => {
+    expect(hashtagsFor({ dataset: "energy", series_id: "energy.power_total" })).toContain("#solarenergy");
+    expect(hashtagsFor({ dataset: "energy", series_id: "energy.power_total" })).not.toContain("#oil");
+    expect(hashtagsFor({ dataset: "trade", series_id: "trade.deficit" })).toEqual(INSTAGRAM_HASHTAGS.trade);
+  });
+
+  it("writes the why slides in words, years apart, and names their sources", () => {
+    for (const w of Object.values(WHY)) {
+      for (const t of w.paragraphs) expect(t.replace(/\b(19|20)\d\d\b/g, "")).not.toMatch(/\d/);
+      expect(w.sources.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("puts the why and breakdown slides in place of the explainer", () => {
+    const base = { seriesId: "energy.power_total", kind: "extreme_high", dataset: "energy", period: "2026-08-01", chart: { type: "line", marks: [], points: [] } } as never;
+    expect(slidePlan(base).map((s) => s.kind)).toContain("explainer");
+    const withWhy = { ...(base as object), why: { title: "Why", paragraphs: ["Hot weather."], sources: ["EIA"] }, mix: { period: "2026-08-01", rows: [], total: { yoy: "a", year: "b" } } } as never;
+    expect(slidePlan(withWhy).map((s) => s.kind).slice(0, 4)).toEqual(["hook", "chart", "why", "mix"]);
+    expect(slidePlan(withWhy).map((s) => s.kind)).not.toContain("explainer");
   });
 
   it("explains every series in words only, and news tariff charts by their prefix", () => {

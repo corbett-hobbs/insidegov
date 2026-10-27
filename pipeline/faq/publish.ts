@@ -40,10 +40,13 @@ const draft = parseFaqBlock(body);
 if (!draft) fail(["The issue's hidden `faq-draft` block is missing or no longer parses (check the JSON if it was edited)."]);
 const list = readQuestionList(draft!.page);
 const failures: string[] = [];
+const savedCopies = new Set<string>();
 for (const it of draft!.groups.flatMap((g) => g.items)) {
   const v = await verifyItem(it, list);
+  v.savedCopies?.forEach((c) => savedCopies.add(c));
   if (!v.ok) failures.push(`- \`${it.id}\` ${it.q}: ${v.reason}`);
 }
+const savedNote = savedCopies.size ? ` These sources could not be read from GitHub's servers and were checked against the copy saved when the answer was drafted: ${[...savedCopies].join("; ")}.` : "";
 if (failures.length) fail([`Not published: ${failures.length} answer${failures.length === 1 ? "" : "s"} failed the checks. Fix the answer in the block (or delete the item) and re-add the \`${FAQ_APPROVED_LABEL}\` label.`, "", ...failures]);
 
 // Groups keep the question list's order (the page's own row order), whatever order the block has them in.
@@ -56,4 +59,5 @@ const file = `pipeline/output/faq_${draft!.page}.json`;
 writeFileSync(file, `${JSON.stringify(out, null, 2)}\n`);
 const n = out.groups.reduce((s, g) => s + g.items.length, 0);
 console.log(`faq:publish  ${n} answers → ${file}`);
-if (reportFile) writeFileSync(reportFile, `All ${n} answers passed the checks again; wrote \`${file}\`.`);
+console.log(savedNote.trim());
+if (reportFile) writeFileSync(reportFile, `All ${n} answers passed the checks again; wrote \`${file}\`.${savedNote}`);
