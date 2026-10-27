@@ -1,8 +1,7 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
-import { ACCENT, INK, KICKER, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Frame, chartLayer, sealSrc, serifFont, svgImage } from "./chart";
+import { ACCENT, Badge, INK, KICKER, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Frame, chartLayer, sealSrc, serifFont, svgImage, backdropSrc, badgeOf } from "./chart";
 import { explainer } from "./explain";
-import { releaseNote } from "./freshness";
 import { type Moment, keyMoments } from "./moments";
 import type { Insight } from "./types";
 
@@ -56,25 +55,23 @@ function headlineValue(insight: Insight): string | null {
 
 /** One slide's 720x900 canvas. Every slide returns one (a fragment would be laid out as a row). */
 function Slide({ children }: { children: ReactNode }) {
-  return <div style={{ display: "flex", flexDirection: "column", position: "relative", width: W, height: H, padding: `30px ${SIDE}px 0 ${SIDE}px`, color: INK, background: SURFACE }}>{children}</div>;
+  return <div style={{ display: "flex", flexDirection: "column", position: "relative", width: W, height: H, padding: `30px ${SIDE}px 0 ${SIDE}px`, color: INK }}>{children}</div>;
 }
 
 /** A draft's header: its dataset and, on the hook and chart, the release or news badge. */
 const headerOf = (insight: Insight, label?: string) => ({
   kicker: label ?? KICKER[insight.dataset],
-  note: label === undefined ? (releaseNote(insight) ?? (insight.kind === "news" ? "In the news" : null)) : null,
+  badge: label === undefined ? badgeOf(insight) : null,
 });
 
-function Header({ kicker, note }: { kicker: string; note?: string | null }) {
+function Header({ kicker, badge }: { kicker: string; badge?: ReturnType<typeof badgeOf> | null }) {
   return (
     <div style={{ display: "flex", alignItems: "center", fontSize: 14, letterSpacing: 2.5, color: MUTED, textTransform: "uppercase" }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
       <img src={sealSrc()} width={32} height={32} alt="" style={{ marginRight: 10 }} />
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 25, letterSpacing: -0.4, color: INK, textTransform: "none", marginRight: 14 }}>InsideGov</div>
       {kicker}
-      {note ? (
-        <div style={{ display: "flex", marginLeft: "auto", fontSize: 12, letterSpacing: 1, color: SURFACE, background: ACCENT, borderRadius: 4, padding: "4px 9px", maxWidth: 330, lineHeight: 1.35 }}>{note}</div>
-      ) : null}
+      {badge ? <Badge {...badge} size={12} /> : null}
     </div>
   );
 }
@@ -242,17 +239,22 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
               ? momentsSlide(insight, s.moments!, n, plan.length)
               : endSlide(insight, n, plan.length);
     }),
+    await backdropSrc(insight.url, SLIDE_W, BACKDROP_H),
   );
 }
 
-/** Each slide (a <Slide>) to a 1080x1350 PNG. */
-async function renderSlides(bodies: ReactNode[]): Promise<Buffer[]> {
+const BACKDROP_H = 380;
+
+/** Each slide (a <Slide>) to a 1080x1350 PNG, over the branch backdrop when given (chart.tsx backdropSrc). */
+async function renderSlides(bodies: ReactNode[], backdrop?: string): Promise<Buffer[]> {
   const serif = serifFont();
   const out: Buffer[] = [];
   for (const body of bodies) {
     // Laid out at 720x900, scaled into 1080x1350: the renderer keeps text and the SVG sharp at the larger size.
     const content = (
-      <div style={{ display: "flex", width: SLIDE_W, height: SLIDE_H, background: SURFACE }}>
+      <div style={{ display: "flex", position: "relative", width: SLIDE_W, height: SLIDE_H, background: SURFACE }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+        {backdrop ? <img src={backdrop} width={SLIDE_W} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} /> : null}
         <div style={{ display: "flex", width: W, height: H, transform: `scale(${SCALE})`, transformOrigin: "top left" }}>{body}</div>
       </div>
     );
