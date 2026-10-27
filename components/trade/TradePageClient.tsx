@@ -21,26 +21,38 @@ import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { ChartJumpLink, NewsAndFaqBand, NewsQuestionsPills, Questions } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { tradeFaq } from "./trade-news";
 import { codeParam, enumParam, flagParam, yearsParam } from "@/lib/url-state";
 import { useUrlState } from "@/lib/use-url-state";
 
 const MEASURE_PARAM = enumParam(["balance", "flows"] as const, "balance");
 
-export function TradePageClient({ data }: { data: TradePageData }) {
+/** `faqFile` is `faq_trade.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
+export function TradePageClient({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | null }) {
   return (
     <TradeStateProvider lastYear={data.lastYear}>
-      <TradePage data={data} />
+      <TradePage data={data} faqFile={faqFile} />
     </TradeStateProvider>
   );
 }
 
-function TradePage({ data }: { data: TradePageData }) {
+function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | null }) {
   const v = useTradeValues();
   const { setRange, clearPin, setCountry, setShowCong, setYear, setMeasure } = useTradeActions();
   const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products, enduse } = data;
   const [loaded, setLoaded] = useState<Record<string, TradeCountryPayload>>({});
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
+  const faq = useMemo(() => tradeFaq(faqFile), [faqFile]);
+  // The card whose jump link was tapped (its DOM id); its questions are highlighted for a few seconds.
+  const [focus, setFocus] = useState<string | null>(null);
+  const jumpTo = (target: string) => {
+    setFocus(target);
+    window.setTimeout(() => setFocus((f) => (f === target ? null : f)), 4000);
+  };
+  const jump = (target: string) => <ChartJumpLink target={target} news={[]} groups={faq} onJump={jumpTo} />;
   const [years, setYears] = useState<Record<number, TradeYearPayload>>({ [initialYear.year]: initialYear });
   const [yearFailed, setYearFailed] = useState<number | null>(null);
 
@@ -178,6 +190,7 @@ function TradePage({ data }: { data: TradePageData }) {
               The tariff line represents calculated duties divided by the total value of imports for consumption, sourced directly from Census Bureau and USITC data. Because these are computed from actual import entries rather than Treasury tax receipts, the effective rate can shift if importers pivot to different product types or partner countries, even without a formal policy change.
             </p>
           </HowToRead>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">
@@ -198,6 +211,7 @@ function TradePage({ data }: { data: TradePageData }) {
           view={view}
           loading={loadState === "loading"}
           error={loadState === "error"}
+          jump={jump("trade-balance")}
         />
 
         <TradeTariffCard
@@ -210,6 +224,7 @@ function TradePage({ data }: { data: TradePageData }) {
           lastReviewed={tariffLastReviewed}
           loading={loadState === "loading"}
           error={loadState === "error"}
+          jump={jump("tariffs")}
         />
 
         {/* One card: the list and the map share the year and the Total trade / Balance choice. */}
@@ -225,6 +240,7 @@ function TradePage({ data }: { data: TradePageData }) {
             onPickCountry={setCountry}
             loading={!yearPayload && yearFailed !== v.year}
             error={!yearPayload && yearFailed === v.year}
+            jump={jump("who-the-u-s-trades-with")}
           />
 
         {/* Full width, under the partners card whose year it shares: which goods, for the Country filter's partner (or all countries). */}
@@ -267,10 +283,17 @@ function TradePage({ data }: { data: TradePageData }) {
             setChapterUseWanted(true);
             chapterUseFile.retry();
           }}
+          jump={jump("what-the-u-s-trades")}
         />
 
         {/* Full width: the scatter needs the room for its labels. */}
-        <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} />
+        <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} jump={jump("did-tariffs-shift-trade")} />
+
+        {faq.length > 0 && (
+          <NewsAndFaqBand>
+            <Questions groups={faq} focus={focus} />
+          </NewsAndFaqBand>
+        )}
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { line } from "d3-shape";
 import { flagsForCard, fmtBcf, isPreliminary, monthLabel, monthOfDay, monthlyAt, termAtDay } from "@/lib/energy-derive";
 import type { EnergyPayload } from "@/lib/energy-types";
@@ -15,7 +15,7 @@ const LNG_START = 72; // January 1997, in months since January 1991
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
 
 /** Card 4 (small): liquefied natural gas exports, with the 2012 export approval, the first 2016 cargo, the 2024 pause and the 2025 reversal marked. Policy here leads the trade by years. */
-export function LngCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function LngCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const flags = useMemo(() => flagsForCard(payload.flags, "lng"), [payload.flags]);
@@ -97,6 +97,7 @@ export function LngCard({ payload, view }: { payload: EnergyPayload; view: reado
           }}
         />
       }
+      jump={jump}
       notes={
         <p>
           <SourceLink id="eia-lng-exports">Energy Information Administration</SourceLink> LNG exports: natural gas shipped abroad as liquid, in billions of cubic feet a month. The series starts in 1997 but large-scale exports begin in February 2016; earlier volumes are small but unverified, so read the flat stretch as small, not necessarily zero. The rise traces to approvals made years earlier: in August 2012 the Energy Department gave final approval to the first terminal to export to countries without a free trade agreement (Sabine Pass, Louisiana), under President Obama. The first cargo sailed on February 24, 2016, after construction. The Energy Department&rsquo;s 2024 pause on new approvals and its 2025 reversal are marked too. Approvals come years before cargoes, so flags mark what the Department of Energy decided and when, not any month&rsquo;s volume.

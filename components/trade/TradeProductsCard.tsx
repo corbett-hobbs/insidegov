@@ -289,6 +289,7 @@ export function TradeProductsCard({
   chapterUse,
   chapterUseState,
   onWantChapterUse,
+  jump,
 }: {
   year: number;
   onYear: (y: number) => void;
@@ -305,6 +306,8 @@ export function TradeProductsCard({
   chapterUse: ChapterUsePayload | null;
   chapterUseState: "idle" | "loading" | "error" | "ok";
   onWantChapterUse: () => void;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const [flow, setFlow] = useState<ProductsFlow>("exports");
   const [open, setOpen] = useState<Open | null>(null);
@@ -395,6 +398,7 @@ export function TradeProductsCard({
 
   return (
     <ChartCard
+      id="what-the-u-s-trades"
       className="min-w-0"
       title={title}
       takeaway={countryName ? undefined : TRADE_TAKEAWAYS.products.takeaway(through)}
@@ -486,6 +490,7 @@ export function TradeProductsCard({
             ]}
           />
         )}
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

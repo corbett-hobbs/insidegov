@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { line } from "d3-shape";
 import { fmtMbd, fmtMbdShort, isPreliminary, monthLabel, monthOfDay, monthlyAt, termAtDay } from "@/lib/energy-derive";
 import { monthStartDay, termLabel } from "@/lib/trade-chart";
@@ -26,7 +26,7 @@ const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
  * Card 2: supply and demand. Total-petroleum production against products supplied (EIA's stand-in for consumption),
  * so the gap between them is the story. Both are total petroleum, never crude alone. Context, not policy: no flags.
  */
-export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function SupplyDemandCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const [only, isolate] = useIsolate<MonthlyKey>();
   const shown = useMemo(() => LINES.filter((l) => !only || l.key === only), [only]);
@@ -109,6 +109,7 @@ export function SupplyDemandCard({ payload, view }: { payload: EnergyPayload; vi
           }}
         />
       }
+      jump={jump}
       notes={
         <p>
           <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>, monthly: what U.S. fields produce against what refiners supply to the market. Both lines are <em>total petroleum</em> (crude plus natural gas liquids and refined products); crude alone is smaller, about 13.7 million barrels a day produced in 2025 against 21.2 million for total. Products supplied is what left refineries, blending and storage for the domestic market, adjusted for stock changes: EIA&rsquo;s stand-in for consumption, so the gap between the lines is roughly how much the country relies on imports or exports. Prices, weather and the vehicle fleet drive both lines, so the card carries no policy marks.
