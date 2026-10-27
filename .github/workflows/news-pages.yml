@@ -58,6 +58,8 @@ jobs:
       - name: Build the cards
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SOCIAL_NEWS_MODEL: ${{ vars.SOCIAL_NEWS_MODEL }}
+          SOCIAL_NEWS_EFFORT: ${{ vars.SOCIAL_NEWS_EFFORT }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: pnpm news:pages $([ "$DRY_RUN" = "true" ] && echo "-- --dry-run")
 

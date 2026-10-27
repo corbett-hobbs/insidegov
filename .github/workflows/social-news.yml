@@ -62,6 +62,12 @@ jobs:
           slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
         env:
           SOCIAL_NEWS_SOURCES: ${{ vars.SOCIAL_NEWS_SOURCES }}
+          SOCIAL_CAPTION_MODEL: ${{ vars.SOCIAL_CAPTION_MODEL }}
+          SOCIAL_CAPTION_EFFORT: ${{ vars.SOCIAL_CAPTION_EFFORT }}
+          SOCIAL_WHY_MODEL: ${{ vars.SOCIAL_WHY_MODEL }}
+          SOCIAL_WHY_EFFORT: ${{ vars.SOCIAL_WHY_EFFORT }}
+          SOCIAL_NEWS_MODEL: ${{ vars.SOCIAL_NEWS_MODEL }}
+          SOCIAL_NEWS_EFFORT: ${{ vars.SOCIAL_NEWS_EFFORT }}
 
   post:
     needs: watch
