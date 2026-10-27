@@ -166,11 +166,11 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
   const day = activeDay(v);
   const month = Math.min(day !== null ? monthOfDay(day) : last, last);
   const term = termAtDay(payload.terms, monthStartDay(month));
-  const gasShare = m.total[month] ? ((m.gas[month] as number) / (m.total[month] as number)) * 100 : null;
-  const gasText = `Gas ${gasShare === null ? "—" : `${gasShare.toFixed(0)}%`}`;
-  // An isolated fuel is the only figure on the card; otherwise the total and gas's share, as before.
+  // An isolated fuel is the only figure on the card. Otherwise Amount shows the month's total; Share shows no big figure,
+  // since six fuels split the whole and singling one out (gas) would imply it matters more than the rest.
+  const totalText = fmtTwh(m.total[month] as number);
   const fuelText = only ? `${FUELS[only].short} ${m[only][month] == null ? "\u2014" : fmtTwh(m[only][month] as number)}` : null;
-  const readout = { values: fuelText ? [fuelText] : [fmtTwh(m.total[month] as number), gasText], headline: fuelText ?? (mode === "share" ? gasText : fmtTwh(m.total[month] as number)), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  const readout = { values: fuelText ? [fuelText] : [totalText], headline: fuelText ?? (mode === "share" ? "" : totalText), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell
