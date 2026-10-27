@@ -29,7 +29,7 @@ export const BANNED_WORDS = [
 ];
 /** Method notes belong on the chart (Series.note, the axis label), not in the caption. */
 const METHOD_NOTES = /\b(?:seasonally adjusted|not seasonally|adjusted for inflation|inflation[- ]adjusted|nominal dollars)\b/i;
-const CAUSAL_PHRASES = ["because of", "due to", "as a result", "led to", "driven by", "thanks to", "under the leadership"];
+export const CAUSAL_PHRASES = ["because of", "due to", "as a result", "led to", "driven by", "thanks to", "under the leadership"];
 const NUMBER_WORDS = [
   "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "dozen", "dozens",
   "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred", "hundreds", "thousands", "millions",
@@ -116,7 +116,8 @@ The caption:
 - One or two plain declarative sentences, ${CAPTION_MAX_CHARS} characters at most. State what the data shows, as a wire-service data reporter would.
 - Every number you write must be copied exactly from a fact's text (same rounding, same abbreviated units, e.g. "13.85M barrels/day", "$4.33/gal", "518.8B cu ft", "$132.1B", "12.4%"; never spell an abbreviation out). Never compute, round, convert or estimate a number, and never spell one out ("two", "half", "doubled").
 - Include the first fact (the headline number).
-- No adjectives that judge or dramatize (surge, plunge, soaring, massive, crisis, historic, record), no party names or ideological labels, no claims about causes or consequences, no predictions, and nothing you know from outside the facts. Name a president only to identify a term.
+- No adjectives that judge or dramatize (surge, plunge, soaring, massive, crisis, historic, record), no party names or ideological labels, no claims of your own about causes or consequences, no predictions of your own, and nothing you know from outside the facts and the why. Name a president only to identify a term.
+- If the insight has a why, write two sentences: first what the data shows, then the reason the why gives, kept attributed to its named source ("EIA cites ..."). You may shorten the why to fit, never add to it. Drop comparisons from the first sentence before you drop the why.
 - Comparisons across presidential terms are side by side at the same elapsed time; describe them that way and do not imply credit or blame. Mention either every earlier term or none of them (the chart shows them all, so stating the current term's figure and its rank among the terms, if a fact gives one, is usually best); never pick out one or a few, such as the predecessor.
 - No hashtags, links, mentions, emoji, exclamation marks or questions. The link to the data is added after your text.
 - If a context note says the data is newly released, the caption must say so with the word "released" (for example "Newly released EIA data show ..."), so a chart ending months ago does not read as old news.
@@ -143,6 +144,7 @@ export function insightPrompt(insight: Insight): string {
       facts: insight.facts.map((f) => ({ id: f.id, text: f.text })),
       context: insight.context,
       source: insight.source,
+      ...(insight.why ? { why: insight.why.captionLine } : {}),
     },
     null,
     2,
@@ -152,7 +154,11 @@ export function insightPrompt(insight: Insight): string {
 /** The template caption, if it passes the check (it is built from the facts, so it should; tests hold it to that). */
 export function templateCaption(insight: Insight): CaptionResult {
   const errors = checkCaption(insight.template, insight.facts, { lagged: insight.release?.lagged, lead: insight.lead });
-  return errors.length ? { error: `template fails the check: ${errors.join("; ")}` } : { caption: insight.template, source: "template", attempts: 0 };
+  if (errors.length) return { error: `template fails the check: ${errors.join("; ")}` };
+  // With a why, the template's sentence and the why's, when both fit and still pass.
+  const withWhy = insight.why ? `${insight.template} ${insight.why.captionLine}` : null;
+  if (withWhy && checkCaption(withWhy, insight.facts, { lagged: insight.release?.lagged, lead: insight.lead }).length === 0) return { caption: withWhy, source: "template", attempts: 0 };
+  return { caption: insight.template, source: "template", attempts: 0 };
 }
 
 export async function claudeCaption(client: Anthropic, insight: Insight): Promise<CaptionResult> {

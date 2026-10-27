@@ -109,6 +109,7 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     "",
     lengthSection(block),
     "",
+    ...whySection(draft),
     ...slidesSection(draft, imageUrl),
     `Dataset \`${draft.dataset}\` · ${draft.kind.replace("_", " ")} · period ${draft.period} · caption by ${draft.caption_source}${draft.caption_model ? ` (${draft.caption_model})` : ""}${extra.dataPr ? ` · data PR ${extra.dataPr}` : ""}${extra.runUrl ? ` · [run](${extra.runUrl})` : ""}`,
     "",
@@ -178,4 +179,25 @@ export function parseDraftBlock(body: string): DraftBlock | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * Why the number moved (research.ts), for review: the post's sentence, the carousel's paragraphs and every source, linked,
+ * so the reasons can be checked against what the agency said before approving. Or why there is none.
+ */
+export function whySection(draft: Pick<Draft, "why" | "why_error">): string[] {
+  const w = draft.why;
+  if (!w) return draft.why_error ? [`**Why it moved:** none found (${draft.why_error}). The carousel explains the measure instead; add a reason by hand in \`pipeline/insights/why.ts\` if one is needed.`, ""] : [];
+  return [
+    `**Why it moved** (check it against the sources before approving): ${w.captionLine}`,
+    "",
+    `<details><summary>Carousel slide "${w.title}" and its sources</summary>`,
+    "",
+    ...w.paragraphs.flatMap((p) => [`> ${p}`, ">"]).slice(0, -1),
+    "",
+    ...w.sources.map((s) => `- [${s.name.replace(/[[\]]/g, "")}](${s.url})`),
+    "",
+    "</details>",
+    "",
+  ];
 }

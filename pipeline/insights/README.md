@@ -224,6 +224,38 @@ quantities; no partisan or loaded words (`BANNED_WORDS`) or causal claims; no li
 or "?"; all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
 retried with the reasons (three tries), then dropped. Without an API key the deterministic template is used.
 
+## Why it moved: every post explains the change
+
+Every data draft says why its number went up or down, and the Instagram carousel expands on it. Two parts:
+
+**The reasons, researched** (`research.ts`). Before the caption is written, Claude (`claude-opus-5-5`, effort `high`;
+`SOCIAL_WHY_MODEL` / `SOCIAL_WHY_EFFORT`) opens the agency's own release for the period (`RELEASE_PAGES`: EIA's
+Electricity Monthly Update, BEA and Census's trade release, CBP's encounter statistics, ...) and, for context only, other
+sources on the FAQ list (`pipeline/faq/sources.ts`: federal agencies, CRS/CBO/GAO, the Federal Reserve, universities).
+The web tools are limited to those sites. It returns one attributed sentence for the post (`caption_line`: "EIA cites
+warmer weather ...") and two to four paragraphs for a "Why it went up" slide, with every source. Code then checks:
+
+- each source is on the allowed list **and** is a page the model opened or found in that request (no made-up citations);
+- the post sentence names its source and uses no causal phrase from `CAUSAL_PHRASES` ("cites", "reports", not "due to");
+- the paragraphs carry no figures but years (the numbers are on the breakdown slide, where they are verified), fit one
+  slide (`WHY_MAX`), and pass the FAQ neutrality rules (`neutralityProblem`: no loaded words, parties or politicians,
+  and no sentence pairing a cause word with a policy word).
+
+A failing answer is retried with the reasons; after three tries the draft opens without one and says so in the issue.
+The caption writer then puts the why second, after the data sentence, still under 240 characters and still checked by
+`checkCaption`. Each draft issue shows the why and links every source, to check before approving. `why.ts` holds
+hand-written reasons that replace the research for a given draft. News drafts keep their own caption rules and get none.
+
+**The drivers, from the data** (`breakdown.ts`). Where the data splits the change into parts, a breakdown slide shows
+each part's change as bars, every value a verified fact (so captions may cite them too):
+
+| Series | Breakdown |
+| --- | --- |
+| Total electricity generation | each source (gas, solar, wind, nuclear, coal): the month against a year earlier, and 12 months against the 12 before |
+| Goods trade deficit, imports, exports | the 5 partners whose part changed most: the month against a year earlier, and the year to date against the same months a year earlier (not seasonally adjusted) |
+
+Gas prices, encounters, ICE, executive orders and laws have no breakdown in the data, so they get the why slide only.
+
 ## Instagram (posted by hand)
 
 There is no Instagram poster: Meta disabled the first account within hours, so Instagram is posted by hand from a new
@@ -239,7 +271,9 @@ full 1080×1350 images, to save and upload in order. The slides go to the `socia
 | --- | --- | --- |
 | Hook | the newest value (a caption fact) large, the headline, a small trend line | always |
 | Chart | the draft's chart redrawn for the portrait frame (term band, marks, source) | always |
-| How to read this | what the series measures, from `explain.ts`: plain definitions, no numbers, no causes | the series has an entry |
+| Why it went up | the researched reasons and their sources (`research.ts`, or `why.ts` by hand) | the draft has a why |
+| What drove it | each source's or partner's change, as bars (`breakdown.ts`) | the series has a breakdown |
+| How to read this | what the series measures, from `explain.ts`: plain definitions, no numbers, no causes | the series has an entry, and the draft has neither of the two above |
 | Key moments | dated actions from the site's sourced timelines (`energy_actions.json`, `tariff_actions.json`) between the chart's first date and the draft, at most 4, then the latest reading; a note says they are listed in order, not as causes | a line chart whose series has a timeline (energy series, news tariff charts) |
 | End | the page, "Link in bio", the source | always |
 
@@ -253,7 +287,8 @@ Slides are laid out on a 720×900 canvas and scaled 1.5× in the renderer, so th
 phone size. `chart.tsx` draws in a `Frame` (the card's 1200×675 or the slide's portrait frame); the card is unchanged.
 
 **Hashtags are written by code, never by the model.** `INSTAGRAM_HASHTAGS` holds 3 to 5 plain topic tags per dataset
-(Instagram caps a post at 5), all ending in `#govdata`; `checkCaption` still rejects any caption containing "#", so the
+(Instagram caps a post at 5), all ending in `#govdata`, and `SERIES_HASHTAGS` overrides them for a series whose
+dataset's set would be off topic (an electricity chart gets `#electricity #naturalgas #solarenergy`, not `#oil`); `checkCaption` still rejects any caption containing "#", so the
 model cannot add one, and X and Bluesky stay hashtag-free. No party, person or campaign tags; a test checks each set.
 
 ## Notifications

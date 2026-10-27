@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, KICKER, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Frame, chartLayer, sealSrc, serifFont, svgImage, backdropSrc, badgeOf } from "./chart";
 import { explainer } from "./explain";
-import { addMonths } from "./format";
+import { signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
 import type { Insight } from "./types";
 
@@ -13,9 +13,9 @@ import type { Insight } from "./types";
  *
  *   1. hook       the newest value, large, the headline, a small trend line
  *   2. chart      the draft's chart redrawn for the portrait frame (term band, marks, source)
- *   3. why        "Why it went up" (why.ts): the reasons, in words, from named sources
- *   4. mix        "Where it came from" (mix.ts): each source's change, for electricity generation
- *   5. explainer  "How to read this" (explain.ts): what the series measures, only when there is no why or mix slide
+ *   3. why        "Why it went up" (research.ts): the reasons, in words, from named sources
+ *   4. breakdown  "What drove it" (breakdown.ts): each source's or partner's part of the change, as bars
+ *   5. explainer  "How to read this" (explain.ts): what the series measures, only when there is no why or breakdown slide
  *   6. moments    "Key moments" (moments.ts): dated actions from the site's sourced timelines, and the latest reading
  *   7. end        where the full chart and data are, and the source
  *
@@ -45,7 +45,7 @@ export function portraitFrame(headline: string): Frame {
   return { width: W, height: H, plot: { left: 104, right: W - SIDE, top, bottom: 760 }, bandedBottom: 730 };
 }
 
-export type SlideKind = "hook" | "chart" | "why" | "mix" | "explainer" | "moments" | "end";
+export type SlideKind = "hook" | "chart" | "why" | "breakdown" | "explainer" | "moments" | "end";
 
 /**
  * The newest value, as written in the caption: the fact a hook shows large. A term comparison shows the level too, not
@@ -170,77 +170,75 @@ function explainerSlide(insight: Insight, lines: string[], n: number, total: num
 
 function whySlide(insight: Insight, n: number, total: number): ReactNode {
   const why = insight.why!;
-  const size = why.paragraphs.join(" ").length > 520 ? 23 : 25;
+  const len = why.paragraphs.join(" ").length;
+  const size = len > 620 ? 21 : len > 480 ? 23 : 25;
   return (
     <Slide>
       <Header {...headerOf(insight, "The reasons")} />
       <Title>{why.title}</Title>
       {why.paragraphs.map((t, i) => (
-        <div key={i} style={{ display: "flex", fontFamily: "Newsreader", fontSize: size, lineHeight: 1.38, marginBottom: 18 }}>
+        <div key={i} style={{ display: "flex", fontFamily: "Newsreader", fontSize: size, lineHeight: 1.36, marginBottom: 16 }}>
           {t}
         </div>
       ))}
-      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Sources: ${why.sources.join("; ")}.`}</div>
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Sources: ${why.sources.map((s) => s.name).join("; ")}.`}</div>
       <Footer n={n} total={total} />
     </Slide>
   );
 }
 
-const NAME_W = 132;
-const VALUE_W = 118;
+const NAME_W = 150;
+const VALUE_W = 124;
 const BAR_W = W - 2 * SIDE - NAME_W - VALUE_W;
 
-/** One span's rows: a bar per source from a shared zero line, the signed change beside it, and the total under them. */
-function MixBlock({ insight, label, rows, total }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total: string }) {
-  const fact = (id: string) => insight.facts.find((f) => f.id === id)!;
-  const signed = (id: string) => {
-    const f = fact(id);
-    const v = f.value as number;
-    return parseFloat(f.text.replace(/[^\d.]/g, "")) === 0 ? f.text : `${v < 0 ? "−" : "+"}${f.text}`;
-  };
-  const vals = rows.map((r) => fact(r.fact).value as number);
+/** One block's rows: a bar per row from a shared zero line, the signed value beside it, and the total under them. */
+function BreakdownBlock({ insight, label, rows, total }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }) {
+  const value = (id: string) => insight.facts.find((f) => f.id === id)!.value as number;
+  const vals = rows.map((r) => value(r.fact));
   const hi = Math.max(0, ...vals);
   const lo = Math.min(0, ...vals);
   const scale = BAR_W / (hi - lo || 1);
   const zero = -lo * scale;
+  // One line per row: "South Korea (Republic of Korea)" shows as "South Korea".
+  const names = rows.map((r) => r.name.replace(/\s*\(.*\)\s*$/, ""));
+  const long = names.some((n) => n.length > 11);
   return (
-    <div style={{ display: "flex", flexDirection: "column", marginBottom: 26 }}>
-      <div style={{ display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED, marginBottom: 12 }}>{label}</div>
+    <div style={{ display: "flex", flexDirection: "column", marginBottom: 24 }}>
+      <div style={{ display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>{label}</div>
       {rows.map((r, i) => {
         const v = vals[i]!;
         const w = Math.max(2, Math.abs(v) * scale);
         return (
           <div key={i} style={{ display: "flex", alignItems: "center", height: 34 }}>
-            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: 23 }}>{r.name}</div>
+            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: long ? 19 : 23, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
             <div style={{ display: "flex", position: "relative", width: BAR_W, height: 34 }}>
               <div style={{ position: "absolute", left: zero, top: 0, width: 1, height: 34, background: MUTED, display: "flex" }} />
               <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: 9, width: w, height: 16, borderRadius: 2, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
             </div>
-            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 19, color: INK }}>{signed(r.fact)}</div>
+            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 19, color: INK }}>{signedFact(insight, r.fact)}</div>
           </div>
         );
       })}
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19, color: INK, marginTop: 8, paddingTop: 8, borderTop: `1px solid ${NEUTRAL}` }}>
-        <div style={{ display: "flex" }}>All sources</div>
-        <div style={{ display: "flex" }}>{signed(total)}</div>
-      </div>
+      {total ? (
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19, color: INK, marginTop: 8, paddingTop: 8, borderTop: `1px solid ${NEUTRAL}` }}>
+          <div style={{ display: "flex" }}>{total.name}</div>
+          <div style={{ display: "flex" }}>{signedFact(insight, total.fact)}</div>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function mixSlide(insight: Insight, n: number, total: number): ReactNode {
-  const mix = insight.mix!;
-  const month = momentDate(mix.period).replace(/ \d+,/, "");
-  const lastYear = momentDate(addMonths(mix.period, -12)).replace(/ \d+,/, "");
+function breakdownSlide(insight: Insight, n: number, total: number): ReactNode {
+  const b = insight.breakdown!;
   return (
     <Slide>
-      <Header {...headerOf(insight, "The sources")} />
-      <Title>Where the extra power came from</Title>
-      <MixBlock insight={insight} label={`${month} vs. ${lastYear}`} rows={mix.rows.map((r) => ({ name: r.name, fact: r.yoy }))} total={mix.total.yoy} />
-      <MixBlock insight={insight} label={`12 months to ${month} vs. the 12 before`} rows={mix.rows.map((r) => ({ name: r.name, fact: r.year }))} total={mix.total.year} />
-      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>
-        {`Change in generation, billion kilowatthours. Utility-scale solar only. Hydro and smaller sources are not shown, so the rows do not add up to the total. Source: ${insight.source}.`}
-      </div>
+      <Header {...headerOf(insight, "What drove it")} />
+      <Title>{b.title}</Title>
+      {b.blocks.map((blk, i) => (
+        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} />
+      ))}
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{b.note}</div>
       <Footer n={n} total={total} />
     </Slide>
   );
@@ -294,13 +292,13 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
 export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[] }[] {
-  const lines = insight.why || insight.mix ? [] : explainer(insight);
+  const lines = insight.why || insight.breakdown ? [] : explainer(insight);
   const moments = keyMoments(insight);
   return [
     { kind: "hook" },
     { kind: "chart" },
     ...(insight.why ? [{ kind: "why" as const }] : []),
-    ...(insight.mix ? [{ kind: "mix" as const }] : []),
+    ...(insight.breakdown ? [{ kind: "breakdown" as const }] : []),
     ...(lines.length ? [{ kind: "explainer" as const, lines }] : []),
     ...(moments.length ? [{ kind: "moments" as const, moments }] : []),
     { kind: "end" },
@@ -318,8 +316,8 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
           ? chartSlide(insight, n, plan.length)
           : s.kind === "why"
             ? whySlide(insight, n, plan.length)
-            : s.kind === "mix"
-              ? mixSlide(insight, n, plan.length)
+            : s.kind === "breakdown"
+              ? breakdownSlide(insight, n, plan.length)
               : s.kind === "explainer"
             ? explainerSlide(insight, s.lines!, n, plan.length)
             : s.kind === "moments"

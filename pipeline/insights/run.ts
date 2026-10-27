@@ -3,7 +3,7 @@ import { eventInsightsAt, newDates, newMonthEnds, releaseEstimator, selectInsigh
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { stampRelease } from "./freshness";
-import { withPowerMix } from "./mix";
+import { withBreakdown } from "./breakdown";
 import { withWhy } from "./why";
 import type { DatasetId, Insight, Series } from "./types";
 
@@ -64,7 +64,7 @@ for (const d of datasets) {
 const estimate = releaseEstimator(allSeries);
 const picked = selectInsights(insights, { max, perSeries: 2, perDataset: 3 })
   .map((i) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true)))
-  .map((i) => withWhy(withPowerMix(i, allSeries)));
+  .map((i) => withWhy(withBreakdown(i, allSeries)));
 console.log(`insights:draft  ${insights.length} insights in ${datasets.join(", ")}, ${picked.length} picked, captions by ${useLlm ? "Claude" : "template"}`);
 const { drafts, dropped } = picked.length ? await buildDrafts(picked, { outDir, useLlm }) : { drafts: [], dropped: [] };
 for (const d of dropped) console.log(`  dropped ${d}`);

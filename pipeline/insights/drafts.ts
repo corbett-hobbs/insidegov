@@ -3,13 +3,15 @@ import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 import { claudeCaption, templateCaption } from "./caption";
 import { renderCarousel } from "./carousel";
+import { researchWhy } from "./research";
 import { SITE_URL, renderChart } from "./chart";
-import type { Insight, NewsTrigger, Release } from "./types";
+import type { Insight, NewsTrigger, Release, Why } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
 
 /**
- * Turns insights into drafts on disk: verify every fact against the data, write a caption (Claude, or the template with
- * --no-llm), render the chart. A draft whose facts or caption fail is dropped and reported, never written.
+ * Turns insights into drafts on disk: verify every fact against the data, research why the number moved (research.ts;
+ * skipped with --no-llm or when why.ts has a hand-written one), write a caption (Claude, or the template with --no-llm),
+ * render the chart and the carousel. A draft whose facts or caption fail is dropped and reported, never written.
  *
  * Each draft is `<slug>.png` + `<slug>.json`, plus its Instagram carousel `<slug>-ig-1.png` … (carousel.tsx);
  * `index.md` and `index.html` list them for review.
@@ -43,6 +45,9 @@ export type Draft = {
   /** News drafts: the caption's fixed opening sentence, and the story behind the draft. */
   lead?: string;
   news?: NewsTrigger;
+  /** Why the number moved, with its sources (research.ts), or why there is none. */
+  why?: Why;
+  why_error?: string;
 };
 
 export function slugFor(id: string): string {
@@ -61,11 +66,18 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
   let next = 0;
   async function worker() {
     while (next < insights.length) {
-      const insight = insights[next++]!;
+      let insight = insights[next++]!;
       const factErrors = verifyInsight(insight, index);
       if (factErrors.length) {
         dropped.push(`${insight.id}: facts do not trace to the data (${factErrors.join("; ")})`);
         continue;
+      }
+      // News drafts have their own fixed caption rules (news/), so only data drafts get a researched why.
+      let whyError: string | undefined;
+      if (client && !insight.why && insight.kind !== "news") {
+        const found = await researchWhy(client, insight);
+        if ("why" in found) insight = { ...insight, why: found.why };
+        else whyError = found.error;
       }
       const result = client ? await claudeCaption(client, insight) : templateCaption(insight);
       if ("error" in result) {
@@ -104,6 +116,8 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         release: insight.release ?? null,
         ...(insight.lead ? { lead: insight.lead } : {}),
         ...(insight.news ? { news: insight.news } : {}),
+        ...(insight.why ? { why: insight.why } : {}),
+        ...(whyError ? { why_error: whyError } : {}),
       };
       writeFileSync(join(opts.outDir, `${slug}.json`), `${JSON.stringify(draft, null, 2)}\n`);
       drafts.push(draft);

@@ -10,6 +10,7 @@ import type { Series } from "./types";
 import { fit, lengthSection, refreshCounts } from "./counts";
 import { INSTAGRAM_HASHTAGS, SERIES_HASHTAGS, hashtagsFor, instagramCaption } from "./instagram";
 import { WHY } from "./why";
+import { checkWhy, releasePages } from "./research";
 import { slidePlan } from "./carousel";
 import { EXPLAINERS, explainer } from "./explain";
 import { type DraftBlock, blockComment, parseDraftBlock, slidesSection } from "./issue";
@@ -297,18 +298,35 @@ describe("Instagram carousel", () => {
     expect(hashtagsFor({ dataset: "trade", series_id: "trade.deficit" })).toEqual(INSTAGRAM_HASHTAGS.trade);
   });
 
-  it("writes the why slides in words, years apart, and names their sources", () => {
-    for (const w of Object.values(WHY)) {
-      for (const t of w.paragraphs) expect(t.replace(/\b(19|20)\d\d\b/g, "")).not.toMatch(/\d/);
-      expect(w.sources.length).toBeGreaterThan(0);
-    }
+  it("holds the hand-written whys to the researched ones' rules", () => {
+    for (const w of Object.values(WHY)) expect(checkWhy(w, new Set(w.sources.map((s) => s.url)), [])).toEqual([]);
+  });
+
+  it("checks a researched why: allowed and actually read sources, words-only paragraphs, attribution, neutrality", () => {
+    const good = { title: "Why it went up", captionLine: "EIA cites warmer weather.", paragraphs: ["EIA says August was warmer.", "EIA says gas plants supplied most of it."], sources: [{ name: "EIA", url: "https://www.eia.gov/electricity/monthly/update/" }] };
+    const seen = new Set(["https://www.eia.gov/electricity/monthly/update"]);
+    expect(checkWhy(good, seen, [])).toEqual([]);
+    const errs = (w: object, s = seen) => checkWhy({ ...good, ...w }, s, []).join(" | ");
+    expect(errs({ sources: [{ name: "Blog", url: "https://www.example.com/a" }] })).toMatch(/not on the allowed source list/);
+    expect(errs({}, new Set())).toMatch(/was not opened or found/);
+    expect(errs({ paragraphs: ["EIA says it rose 6.8% on the year.", "EIA says gas led."] })).toMatch(/words only/);
+    expect(errs({ captionLine: "Warmer weather lifted use." })).toMatch(/name its source/);
+    expect(errs({ captionLine: "EIA says generation rose due to heat." })).toMatch(/due to/);
+    expect(errs({ paragraphs: ["Census says imports rose because of tariffs.", "Census says chips led."] })).toMatch(/causal claim about policy/);
+    expect(errs({ paragraphs: ["Census says imports soared.", "Census says chips led."] })).toMatch(/soared/);
+  });
+
+  it("starts research from the agency's own release page", () => {
+    expect(releasePages({ seriesId: "energy.power_total", dataset: "energy" })[0]).toMatch(/eia\.gov\/electricity\/monthly\/update/);
+    expect(releasePages({ seriesId: "trade.deficit", dataset: "trade" })[0]).toMatch(/bea\.gov/);
+    expect(releasePages({ seriesId: "gas.regular", dataset: "gas" })[0]).toMatch(/gasdiesel/);
   });
 
   it("puts the why and breakdown slides in place of the explainer", () => {
     const base = { seriesId: "energy.power_total", kind: "extreme_high", dataset: "energy", period: "2026-08-01", chart: { type: "line", marks: [], points: [] } } as never;
     expect(slidePlan(base).map((s) => s.kind)).toContain("explainer");
-    const withWhy = { ...(base as object), why: { title: "Why", paragraphs: ["Hot weather."], sources: ["EIA"] }, mix: { period: "2026-08-01", rows: [], total: { yoy: "a", year: "b" } } } as never;
-    expect(slidePlan(withWhy).map((s) => s.kind).slice(0, 4)).toEqual(["hook", "chart", "why", "mix"]);
+    const withWhy = { ...(base as object), why: { title: "Why", captionLine: "EIA cites heat.", paragraphs: ["Hot weather."], sources: [] }, breakdown: { title: "t", blocks: [], note: "" } } as never;
+    expect(slidePlan(withWhy).map((s) => s.kind).slice(0, 4)).toEqual(["hook", "chart", "why", "breakdown"]);
     expect(slidePlan(withWhy).map((s) => s.kind)).not.toContain("explainer");
   });
 
