@@ -2,7 +2,7 @@
 
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
-import { memo, useMemo } from "react";
+import { memo, useMemo, type ReactNode } from "react";
 import { MONTH_ABBR } from "@/lib/indicator-time";
 import { fmtDollars, fmtPercent, monthStartDay, rateReadingAtDay, rateScale, ratePercentSeries, termAtDay, termLabel } from "@/lib/trade-chart";
 import { MobileReadout } from "./MobileReadout";
@@ -84,6 +84,7 @@ export function TradeTariffCard({
   lastReviewed,
   loading,
   error,
+  jump,
 }: {
   national: { duties: Monthly; imports: Monthly };
   country: { duties: Monthly; imports: Monthly } | null;
@@ -94,6 +95,8 @@ export function TradeTariffCard({
   lastReviewed: string;
   loading: boolean;
   error: boolean;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const v = useTradeValues();
   const { showCong } = v;
@@ -169,6 +172,7 @@ export function TradeTariffCard({
           </p>
         </MethodologyNote>
         <EventsTable flags={flags} lastReviewed={lastReviewed} />
+        {jump}
       </ChartNotesRow>
     </section>
   );

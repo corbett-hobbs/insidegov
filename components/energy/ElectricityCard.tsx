@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { area, line } from "d3-shape";
 import { SEGMENT_LABEL_STYLE } from "@/lib/chart-bars";
 import { placeBandLabels } from "@/lib/energy-chart";
@@ -37,7 +37,7 @@ const fmtTwhTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
  * amounts, with small-scale solar (rooftop and similar, estimated, from 2014) as its own line underneath instead
  * of spliced in. The 2022 climate-and-tax law and the 2025 reconciliation law are marked, as context only.
  */
-export function ElectricityCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function ElectricityCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const [mode, setMode] = useState<Mode>("share");
@@ -225,6 +225,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
           />
         </>
       }
+      jump={jump}
       notes={
         <p>
           <SourceLink id="eia-electricity">Energy Information Administration</SourceLink> net generation by source, monthly, all sectors, <em>utility-scale only</em>: each fuel&rsquo;s share of the total or its amount. Small-scale solar such as rooftop panels is estimated separately from 2014 and drawn on its own line (about a quarter of all solar in 2025), so solar and the total are understated from then. &ldquo;Other&rdquo; is the total minus the six named fuels (petroleum, biomass, geothermal, waste, pumped storage, other gases). The hatched stretch is the current and previous calendar year, preliminary until EIA&rsquo;s annual figures. The 2022 Inflation Reduction Act and 2025 reconciliation flags mark when Congress acted, not any month&rsquo;s mix.

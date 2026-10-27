@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { line } from "d3-shape";
 import { dateText, flagsForCard, fmtMillionBarrels, sprAt, termAtDay } from "@/lib/energy-derive";
 import { dateOfDay } from "@/lib/indicator-time";
@@ -19,7 +19,7 @@ const fmtShort = (v: number) => `${(v / 1000).toFixed(1)}M bbl`;
  * Card 1: the Strategic Petroleum Reserve, weekly, with the curated drawdown, exchange and refill actions marked and
  * each flag naming its authority. The one series that is close to presidential, and still shared with Congress.
  */
-export function SprCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function SprCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const flags = useMemo(() => flagsForCard(payload.flags, "spr"), [payload.flags]);
   const era = useMemo(() => ({ span: payload.span, rec: payload.rec, terms: payload.terms, control: payload.control }), [payload]);
@@ -102,6 +102,7 @@ export function SprCard({ payload, view }: { payload: EnergyPayload; view: reado
           }}
         />
       }
+      jump={jump}
       notes={
         <p>
           Crude oil held in underground salt caverns: the weekly stock level from the <SourceLink id="eia-spr">Energy Information Administration</SourceLink>, in millions of barrels, a level, not a flow. Releases, exchanges and refills are marked where they were authorized, and each label says who acted and what happened to the oil. A sale sells the oil, an exchange lends it to be returned with a premium, and a refill buys oil or takes back what was lent; the 2026 drawdown is an exchange, so the lower level is not a sale. A date marks when an action was authorized, not when barrels moved. Actions are hand-curated and checked against Department of Energy and Federal Register pages; the 1991 sale predates the first weekly reading, and the 2005 and 2011 sales are unmarked because their months are unconfirmed.

@@ -1,7 +1,7 @@
 "use client";
 
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
-import { memo, useMemo } from "react";
+import { memo, useMemo, type ReactNode } from "react";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { dateOfDay } from "@/lib/indicator-time";
 import {
@@ -96,6 +96,7 @@ export function TradeBalanceCard({
   view,
   loading,
   error,
+  jump,
 }: {
   series: FlowSeries | null;
   countryName: string | null;
@@ -104,6 +105,8 @@ export function TradeBalanceCard({
   view: readonly [number, number];
   loading: boolean;
   error: boolean;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const { measure, showCong } = useTradeValues();
   const { setMeasure, clearPin } = useTradeActions();
@@ -166,6 +169,7 @@ export function TradeBalanceCard({
           </p>
         </MethodologyNote>
         {series && <DataTable series={series} era={era} caption={`${title}, monthly, ${adjLabel.toLowerCase()}`} />}
+        {jump}
       </ChartNotesRow>
     </section>
   );

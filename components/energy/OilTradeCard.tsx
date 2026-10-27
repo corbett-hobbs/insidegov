@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { line } from "d3-shape";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { flagsForCard, fmtMbd, fmtMbdShort, isPreliminary, monthLabel, monthOfDay, monthlyAt, termAtDay } from "@/lib/energy-derive";
@@ -36,7 +36,7 @@ const signed = (v: number) => (v > 0 ? "+" : "") + fmtMbdShort(v);
  * exports as a thin dashed line in the flows view, where the 2015 repeal of the export restriction shows. Total
  * petroleum throughout, except that one labelled crude series.
  */
-export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function OilTradeCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const [mode, setMode] = useState<Mode>("balance");
@@ -157,6 +157,7 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
           />
         </>
       }
+      jump={jump}
       notes={
         <p>
           <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>: what the U.S. brings in and sends out, monthly, as the balance between them or each flow on its own. Imports, exports and net exports are <em>total petroleum</em> (crude oil plus natural gas liquids and the refined products made from it). Net exports are exports minus imports, the sign EIA&rsquo;s net-imports series flipped, so a rise means the U.S. depends less on foreign oil. Above zero means the U.S. exported more than it imported, first true for a full year in 2020. The dashed line is the one crude-only series: crude exports rose from about 0.5 million barrels a day in 2015 to about 3 million in 2019, but the 2015 repeal flag marks an act that enabled the change, not one that caused it.
