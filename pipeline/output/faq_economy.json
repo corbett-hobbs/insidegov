@@ -1,1 +1,132 @@
-{ "asOf": "", "groups": [] }
+{
+  "asOf": "2026-10-27",
+  "groups": [
+    {
+      "row": "Everyday costs",
+      "items": [
+        {
+          "id": "diesel-why",
+          "q": "Why do diesel prices matter if I don't drive a diesel?",
+          "a": "Diesel matters to people who never buy it because diesel engines move and power much of what they use. Trucks, trains, boats and barges with diesel engines help transport nearly all products people consume. Diesel also powers most U.S. farm and construction equipment, public and school buses, and backup generators at hospitals and large buildings. In 2025, the U.S. transportation sector used about 2.94 million barrels of diesel per day (preliminary data).",
+          "sources": [
+            {
+              "label": "Energy Information Administration, Use of diesel",
+              "url": "https://www.eia.gov/energyexplained/diesel-fuel/use-of-diesel.php"
+            }
+          ],
+          "chartIds": [
+            "chart-diesel"
+          ]
+        },
+        {
+          "id": "diesel-who",
+          "q": "Who feels diesel prices the most?",
+          "a": "Trucking carriers and farms both carry diesel costs. In ATRI's 2026 benchmarking report, the industry-average cost to operate a truck in 2025 was $2.336 per mile, or $1.854 per mile excluding fuel. On farms in 2024, diesel was $9.9B of the $15.4B total fuel expense, or 64.3 percent, making it the largest fuel type.",
+          "sources": [
+            {
+              "label": "American Transportation Research Institute (trucking industry research), Operational Costs of Trucking 2026",
+              "url": "https://truckingresearch.org/2026/07/new-atri-report-details-accelerating-costs-and-low-profitability-despite-cuts/"
+            },
+            {
+              "label": "USDA National Agricultural Statistics Service, Farm Production Expenditures 2024",
+              "url": "https://www.nass.usda.gov/Publications/Todays_Reports/reports/fpex0725.pdf"
+            }
+          ],
+          "chartIds": [
+            "chart-diesel"
+          ]
+        },
+        {
+          "id": "mortgage-vs-fed",
+          "q": "What is the difference between mortgage rates and the Fed's interest rate?",
+          "a": "The Fed sets a target range for the federal funds rate, the overnight lending rate between banks, which guides short-term rates such as credit card and savings account rates. The 30-year mortgage rate instead follows the 10-year Treasury yield plus a mortgage spread. The two do not usually move together because mortgage rates are set in long-term markets, based on expectations for inflation, future interest rates and the economy. They can stay high or rise even when the Fed lowers short-term rates.",
+          "sources": [
+            {
+              "label": "Federal Reserve Bank of St. Louis, What Determines Mortgage Rates? (2026)",
+              "url": "https://www.stlouisfed.org/publications/page-one-economics/2026/oct/what-determines-mortgage-rates"
+            }
+          ],
+          "chartIds": [
+            "chart-mort"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Federal finances",
+      "items": [
+        {
+          "id": "deficit-vs-debt",
+          "q": "What is the difference between the deficit and the debt?",
+          "a": "The deficit is the amount by which federal spending exceeds revenue during a set period, such as a fiscal year. The national debt is the total amount the federal government has borrowed over time. It is the accumulation of past borrowing, sold as Treasury bonds, bills and other securities to cover deficits, plus the interest owed to investors. When deficits recur, the debt grows.",
+          "sources": [
+            {
+              "label": "Treasury Fiscal Data, National Deficit",
+              "url": "https://fiscaldata.treasury.gov/americas-finance-guide/national-deficit/"
+            },
+            {
+              "label": "Treasury Fiscal Data, Understanding the National Debt",
+              "url": "https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/"
+            }
+          ],
+          "chartIds": [
+            "chart-def",
+            "chart-debt"
+          ]
+        },
+        {
+          "id": "debt-holders",
+          "q": "What is the difference between debt held by the public and intragovernmental debt?",
+          "a": "Debt held by the public is owed to holders outside the U.S. government, such as individuals, corporations, state or local governments, Federal Reserve Banks, and foreign governments. Intragovernmental debt is owed by the government to itself, in securities held by government trust funds, revolving funds, and special funds, plus Federal Financing Bank securities. In July 2026, debt held by the public was $32.4 trillion, 81% of the $40.2 trillion total; intragovernmental holdings were $7.7 trillion, 19%.",
+          "sources": [
+            {
+              "label": "Treasury Fiscal Data, Understanding the National Debt",
+              "url": "https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/"
+            },
+            {
+              "label": "Treasury Fiscal Data, Debt to the Penny",
+              "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/"
+            }
+          ],
+          "chartIds": [
+            "chart-debt"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Jobs and output",
+      "items": [
+        {
+          "id": "jobs-vs-unemployment",
+          "q": "What is the difference between jobs added and the unemployment rate?",
+          "a": "Jobs added comes from the payroll survey of businesses and government agencies, while the unemployment rate comes from the household survey of households. The payroll survey counts nonfarm jobs, with a multiple jobholder counted for each job. The household survey counts employed people once and includes the self-employed and agricultural workers. Because the definitions and methods differ, employment trends in the two surveys sometimes diverge.",
+          "sources": [
+            {
+              "label": "Bureau of Labor Statistics, Comparing employment from the household and payroll surveys",
+              "url": "https://www.bls.gov/web/empsit/ces_cps_trends.htm"
+            }
+          ],
+          "chartIds": [
+            "chart-jobs",
+            "chart-un"
+          ]
+        },
+        {
+          "id": "real-vs-nominal-gdp",
+          "q": "What is the difference between real GDP and nominal GDP?",
+          "a": "Real GDP has been adjusted to remove the effects of inflation over time, so different periods can be compared. Nominal GDP, which the Bureau of Economic Analysis also calls \"current-dollar\" GDP, is based on market prices during the period being measured. The GDP percentage figure people usually hear about is the rate of change in real GDP from the previous quarter or year.",
+          "sources": [
+            {
+              "label": "Bureau of Economic Analysis, What to know about GDP",
+              "url": "https://www.bea.gov/resources/learning-center/what-to-know-gdp"
+            }
+          ],
+          "chartIds": [
+            "chart-gdp"
+          ]
+        }
+      ]
+    }
+  ]
+}
