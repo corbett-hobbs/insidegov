@@ -109,6 +109,35 @@ export function ChartJumpLink({ target, news, groups, onJump }: { target: string
   );
 }
 
+/**
+ * A page's state for its chart jump links: `jump(target)` is the "N questions · N in the news ↓" link for a card's notes
+ * row, and `focus` is the card whose link was last tapped (for a few seconds), which the band highlights. Give `focus` to
+ * `NewsFaqBand`.
+ */
+export function useChartJump(news: readonly NewsItem[], groups: readonly QuestionGroup[]) {
+  const [focus, setFocus] = useState<string | null>(null);
+  const onJump = (target: string) => {
+    setFocus(target);
+    window.setTimeout(() => setFocus((f) => (f === target ? null : f)), 4000);
+  };
+  const jump = (target: string) => <ChartJumpLink target={target} news={news} groups={groups} onJump={onJump} />;
+  return { focus, jump };
+}
+
+/**
+ * The page's whole bottom band: "In the news" and the FAQs in the tinted wrapper, left out entirely when the page has
+ * neither. A page with no news row passes `news={[]}`.
+ */
+export function NewsFaqBand({ news, updated, groups, focus = null }: { news: readonly NewsItem[]; updated?: string; groups: readonly QuestionGroup[]; focus?: string | null }) {
+  if (news.length === 0 && groups.length === 0) return null;
+  return (
+    <NewsAndFaqBand>
+      <InTheNews items={news} updated={updated} focus={focus} />
+      <Questions groups={groups} focus={focus} />
+    </NewsAndFaqBand>
+  );
+}
+
 const W = 240;
 const H = 44;
 

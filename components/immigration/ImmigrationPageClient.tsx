@@ -22,7 +22,7 @@ import { RemovalsCountryCard } from "./RemovalsCountryCard";
 import { SectionHeading } from "./SectionHeading";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
-import { EXTRA_NAV, NEWS_ID, QUESTIONS_ID, InTheNews, NewsAndFaqBand, Questions } from "@/components/news/NewsSections";
+import { EXTRA_NAV, NEWS_ID, QUESTIONS_ID, NewsFaqBand } from "@/components/news/NewsSections";
 import { immigrationFaq, immigrationNews } from "./immigration-news";
 import { updatedLabel } from "@/lib/news-derive";
 import type { FaqFile, NewsFile } from "@/lib/news-types";
@@ -149,12 +149,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
           </p>
         )}
 
-        {(news.length > 0 || faq.length > 0) && (
-          <NewsAndFaqBand>
-            <InTheNews items={news} updated={updatedLabel(newsFile?.asOf)} />
-            <Questions groups={faq} />
-          </NewsAndFaqBand>
-        )}
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} />
 
         <UpNext />
         <div className="flex flex-col gap-1.5 text-[0.8rem] leading-[1.6] text-ink-muted [&>p]:m-0">

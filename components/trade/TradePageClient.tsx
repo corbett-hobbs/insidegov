@@ -21,7 +21,7 @@ import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
-import { ChartJumpLink, NewsAndFaqBand, NewsQuestionsPills, Questions } from "@/components/news/NewsSections";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
 import type { FaqFile } from "@/lib/news-types";
 import { tradeFaq } from "./trade-news";
 import { codeParam, enumParam, flagParam, yearsParam } from "@/lib/url-state";
@@ -46,13 +46,7 @@ function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | 
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
   const faq = useMemo(() => tradeFaq(faqFile), [faqFile]);
-  // The card whose jump link was tapped (its DOM id); its questions are highlighted for a few seconds.
-  const [focus, setFocus] = useState<string | null>(null);
-  const jumpTo = (target: string) => {
-    setFocus(target);
-    window.setTimeout(() => setFocus((f) => (f === target ? null : f)), 4000);
-  };
-  const jump = (target: string) => <ChartJumpLink target={target} news={[]} groups={faq} onJump={jumpTo} />;
+  const { focus, jump } = useChartJump([], faq);
   const [years, setYears] = useState<Record<number, TradeYearPayload>>({ [initialYear.year]: initialYear });
   const [yearFailed, setYearFailed] = useState<number | null>(null);
 
@@ -289,11 +283,7 @@ function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | 
         {/* Full width: the scatter needs the room for its labels. */}
         <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} jump={jump("did-tariffs-shift-trade")} />
 
-        {faq.length > 0 && (
-          <NewsAndFaqBand>
-            <Questions groups={faq} focus={focus} />
-          </NewsAndFaqBand>
-        )}
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

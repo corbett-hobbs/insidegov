@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { EIA_ATTRIBUTION } from "@/lib/energy-entities";
 import { termAtDay } from "@/lib/energy-derive";
@@ -17,7 +17,7 @@ import { SupplyDemandCard } from "./SupplyDemandCard";
 import { SprCard } from "./SprCard";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
-import { ChartJumpLink, NewsAndFaqBand, NewsQuestionsPills, Questions } from "@/components/news/NewsSections";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
 import { energyFaq } from "./energy-news";
 
 /** `faqFile` is `faq_energy.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
@@ -41,13 +41,7 @@ function EnergyPage({ payload, faqFile }: { payload: EnergyPayload; faqFile: Faq
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(payload.span, dayOf(range[1] + 1, 0, 1))], [range, payload.span]);
 
   const faq = useMemo(() => energyFaq(faqFile), [faqFile]);
-  // The card whose jump link was tapped (its DOM id); its questions are highlighted for a few seconds.
-  const [focus, setFocus] = useState<string | null>(null);
-  const jumpTo = (target: string) => {
-    setFocus(target);
-    window.setTimeout(() => setFocus((f) => (f === target ? null : f)), 4000);
-  };
-  const jump = (target: string) => <ChartJumpLink target={target} news={[]} groups={faq} onJump={jumpTo} />;
+  const { focus, jump } = useChartJump([], faq);
 
   const pinDay = activeDay({ hover: null, pin: v.pin });
   const announcement = (() => {
@@ -77,11 +71,7 @@ function EnergyPage({ payload, faqFile }: { payload: EnergyPayload; faqFile: Faq
         <LngCard payload={payload} view={view} jump={jump("lng")} />
         <SprCard payload={payload} view={view} jump={jump("spr")} />
 
-        {faq.length > 0 && (
-          <NewsAndFaqBand>
-            <Questions groups={faq} focus={focus} />
-          </NewsAndFaqBand>
-        )}
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
