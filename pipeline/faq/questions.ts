@@ -23,7 +23,7 @@ export const questionSource = z.strictObject({
    * The source's figures come from the site's own copy of the agency's data (`facts.ts`), not from the page at `url`, which
    * only renders in a browser. The re-check workflow re-runs these when the data updates.
    */
-  facts: z.enum(["encounters", "debt"]).optional(),
+  facts: z.enum(["encounters", "debt", "electricity", "ngExports"]).optional(),
 });
 export type QuestionSource = z.infer<typeof questionSource>;
 

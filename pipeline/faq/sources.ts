@@ -143,25 +143,24 @@ async function fetchPage(url: string): Promise<string> {
  * with the date it was saved. Throws when there is neither.
  */
 export async function readSource(src: QuestionSource): Promise<{ text: string; saved?: string }> {
-  const parts: string[] = [];
-  if (src.facts) parts.push(factsText(src.facts));
   const url = src.fetch ?? src.url;
   const file = savedPath(url);
+  let page = "";
   let saved: string | undefined;
   try {
-    const page = await fetchPage(url);
+    page = await fetchPage(url);
     mkdirSync(SAVED_DIR, { recursive: true });
     writeFileSync(file, `# saved ${new Date().toISOString().slice(0, 10)} from ${url}\n${page}\n`);
-    parts.push(page);
   } catch (err) {
     if (existsSync(file)) {
       const [head = "", ...rest] = readFileSync(file, "utf8").split("\n");
       saved = head.match(/saved (\d{4}-\d{2}-\d{2})/)?.[1] ?? "unknown date";
-      parts.push(rest.join("\n"));
-    } else if (!src.facts) {
-      // A facts source still has its figures; the page only adds the agency's wording around them.
+      page = rest.join("\n");
+    } else if (!src.facts || src.facts === "ngExports") {
+      // A facts source from the site's own data still has its figures; the page only adds the agency's wording around them.
       throw new Error(`${url}: ${(err as Error).message}, and there is no saved copy`);
     }
   }
+  const parts = [...(src.facts ? [factsText(src.facts, page)] : []), page].filter(Boolean);
   return { text: parts.join("\n\n"), ...(saved ? { saved } : {}) };
 }

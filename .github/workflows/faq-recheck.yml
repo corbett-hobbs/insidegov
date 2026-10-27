@@ -12,6 +12,7 @@ on:
     paths:
       - pipeline/output/encounters_series.json
       - pipeline/output/treasury_fiscal.json
+      - pipeline/output/energy_observations.json
       - pipeline/output/faq_*.json
       - pipeline/faq/**
   schedule:
