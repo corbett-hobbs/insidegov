@@ -1,1 +1,56 @@
-{ "asOf": "", "stories": [] }
+{
+  "asOf": "2026-10-27",
+  "stories": [
+    {
+      "id": "diesel-2026-10-23",
+      "date": "2026-10-23",
+      "topic": "Diesel prices",
+      "chartId": "chart-diesel",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Russian diesel tanker heads to the U.S., the first since Trump’s deal with Putin",
+          "url": "https://www.nbcnews.com/business/energy/russian-diesel-tanker-heads-us-trump-deal-putin-ukraine-war-rcna605187"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "First Russian diesel tanker heads to New York after Trump's deal with Putin to lower fuel prices",
+          "url": "https://www.foxbusiness.com/politics/first-russian-diesel-tanker-heads-new-york-after-trumps-deal-putin-lower-fuel-prices"
+        }
+      ]
+    },
+    {
+      "id": "inflation-2026-10-14",
+      "date": "2026-10-14",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "CPI for all items increases 0.6% in September; gasoline rises",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm"
+        },
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Democrats Blame Trump After CPI Report Shows Energy Prices Drove Up Inflation",
+          "url": "https://www.nytimes.com/2026/10/14/business/economy/inflation-trump-democrats-midterms-energy.html"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Consumer inflation rose faster than expected in September, CPI report shows",
+          "url": "https://www.foxbusiness.com/economy/cpi-inflation-september-2026"
+        }
+      ]
+    }
+  ]
+}

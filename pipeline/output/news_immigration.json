@@ -1,1 +1,27 @@
-{ "asOf": "", "stories": [] }
+{
+  "asOf": "2026-10-27",
+  "stories": [
+    {
+      "id": "removals-2026-10-27",
+      "date": "2026-10-27",
+      "topic": "Deportations",
+      "chartId": "chart-removals",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "US Supreme Court Denies Immigration Judges The Power To Shelve Deportation Cases",
+          "url": "https://www.huffpost.com/entry/us-supreme-court-denies-immigration-judges-the-power-to-shelve-deportation-cases_n_6ae0d41ee4b059999c6307d2"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Supreme Court declines to halt DOJ deal ending Biden-era immigration rule",
+          "url": "https://www.washingtonexaminer.com/news/supreme-court/4781315/supreme-court-declines-halt-doj-deal-ending-biden-immigration-rule/"
+        }
+      ]
+    }
+  ]
+}
