@@ -7,9 +7,16 @@
  * no rates or terms, no people), so the post is context for the story, not a take on it.
  */
 
+/**
+ * A second line on the same axis (both in percent, say): the series, how its caption sentence starts ("Inflation was 3.7% in
+ * September 2026, ..."), the data note beside the source, and the source when it differs. Pairs also need an explainer
+ * (explain.ts PAIRS) so the carousel and thread define both lines as one passage.
+ */
+export type Pair = { id: string; subject: string; note: string; source?: string };
+
 export type ChartBuild =
   /** A series from datasets.ts by id: its latest value against its peak in the window (else the change on a year). */
-  | { kind: "series"; seriesId: string; years: number; peak: boolean; compare?: string }
+  | { kind: "series"; seriesId: string; years: number; peak: boolean; compare?: Pair }
   /** The collected tariff rate: a country against all countries, or all countries alone (news/charts.ts). */
   | { kind: "tariff" };
 

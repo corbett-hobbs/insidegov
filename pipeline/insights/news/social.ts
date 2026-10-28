@@ -47,24 +47,25 @@ const EXTRA: Record<string, SocialBuild> = {
   },
   mortgage: {
     lead: () => "Mortgage rates are in the news.",
-    build: { kind: "series", seriesId: "economy.mortgage_rate", years: 10, peak: true },
+    // Mortgage rates are read beside the ten-year Treasury yield, the market rate they are usually set against.
+    build: { kind: "series", seriesId: "economy.mortgage_rate", years: 10, peak: true, compare: { id: "economy.treasury_10y", subject: "The ten-year Treasury yield", note: "Weekly averages", source: "Freddie Mac and Federal Reserve Board, via FRED" } },
     weight: 1.2,
   },
   fed_rates: {
     lead: () => "The Federal Reserve and interest rates are in the news.",
     // Inflation is what readers feel and what the headlines pair the decision with: the second line and caption sentence.
-    build: { kind: "series", seriesId: "economy.fed_funds", years: 10, peak: true, compare: "economy.inflation" },
-    context: "The chart has two lines: the federal funds rate (weekly) and the inflation rate (monthly), both in percent. The caption may state each one's latest reading; it must not say the Fed's rate caused, answers or should follow inflation.",
+    build: { kind: "series", seriesId: "economy.fed_funds", years: 10, peak: true, compare: { id: "economy.inflation", subject: "Inflation", note: "Weekly average; inflation vs. a year earlier", source: "Federal Reserve and BLS, via FRED" } },
     weight: 1.2,
   },
   treasury_yields: {
     lead: () => "Treasury yields are in the news.",
-    build: { kind: "series", seriesId: "economy.treasury_10y", years: 10, peak: true },
+    build: { kind: "series", seriesId: "economy.treasury_10y", years: 10, peak: true, compare: { id: "economy.fed_funds", subject: "The federal funds rate", note: "Weekly averages", source: "Federal Reserve Board, via FRED" } },
     weight: 1.0,
   },
   unemployment: {
     lead: () => "Unemployment is in the news.",
-    build: { kind: "series", seriesId: "economy.unemployment", years: 10, peak: true },
+    // Unemployment beside inflation, both monthly rates: the two numbers behind the misery index.
+    build: { kind: "series", seriesId: "economy.unemployment", years: 10, peak: true, compare: { id: "economy.inflation", subject: "Inflation", note: "Monthly; inflation vs. a year earlier" } },
     weight: 1.2,
   },
   inflation: {

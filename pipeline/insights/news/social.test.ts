@@ -8,6 +8,7 @@ import { CellIndex, verifyInsight } from "../verify";
 import { type Candidate, topicOf } from "./cards";
 import { seriesContext } from "./charts";
 import { slidePlan } from "../carousel";
+import { explainer } from "../explain";
 import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
 import { outletById } from "./outlets";
@@ -158,6 +159,30 @@ describe("a Fed rate decision story", () => {
     const why = { title: "Why it held", captionLine: "x", paragraphs: ["Words only."], sources: [{ name: "FOMC", url: "https://www.federalreserve.gov/x" }] };
     const kinds = slidePlan({ ...insight, kind: "news", why }).map((s) => s.kind);
     expect(kinds).toEqual(expect.arrayContaining(["why", "explainer"]));
+  });
+});
+
+describe("two-line charts", () => {
+  const all = DATASETS.flatMap((d) => loadDataset(d).series);
+  const g = (id: string) => all.find((s) => s.id === id)!;
+  const pairs = PAGE_TOPICS.flatMap((t) => {
+    const sb = socialBuild({ topic: t, key: t.id }, []);
+    return sb && sb.build.kind === "series" && sb.build.compare ? [{ topic: t.id, lead: sb.lead(), build: sb.build, compare: sb.build.compare }] : [];
+  });
+
+  it("covers the Fed, mortgage, Treasury and unemployment stories", () => {
+    expect(pairs.map((p) => p.topic).sort()).toEqual(["fed_rates", "mortgage", "treasury_yields", "unemployment"]);
+  });
+
+  it.each(pairs.map((p) => [p.topic, p] as const))("%s: traced facts, a second line, one decimal, and one explainer for both", (_t, p) => {
+    const insight = seriesContext(g(p.build.seriesId), { years: p.build.years, peak: p.build.peak, lead: p.lead, id: "n", compare: g(p.compare.id), pair: p.compare })!;
+    expect(verifyInsight(insight, new CellIndex())).toEqual([]);
+    expect(insight.chart.type === "line" && insight.chart.comparison?.points.length).toBeGreaterThan(1);
+    expect(insight.template).not.toMatch(/\d\.\d\d%/);
+    expect(insight.template).not.toContain(":");
+    expect(insight.template).toContain(`${p.compare.subject} was`);
+    // A pair has its own passage, not the first series' lines followed by the second's.
+    expect(explainer(insight)).toEqual(expect.arrayContaining([expect.stringMatching(/share one scale|share one scale:/)]));
   });
 });
 
