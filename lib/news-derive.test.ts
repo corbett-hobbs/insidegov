@@ -5,6 +5,7 @@ import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, isBalanced, o
 import { faqFile, newsFile, type Lean, type NewsHeadline, type NewsStory } from "./news-types";
 import { energyFaq } from "../components/energy/energy-news";
 import { tradeFaq } from "../components/trade/trade-news";
+import { foreignAidFaq } from "../components/foreign-aid/foreign-aid-news";
 
 const h = (lean: Lean, outletId = lean.replace(/\s/g, "").toLowerCase()): NewsHeadline => ({ outletId, outlet: outletId, lean, title: `${lean} headline`, url: "https://example.com/a" });
 const story = (id: string, date: string, headlines: NewsHeadline[]): NewsStory => ({ id, date, topic: "Topic", chartId: "chart-gas", headlines });
@@ -108,8 +109,8 @@ describe("shipped files", () => {
       expect(faqFile.parse(read("pipeline/fixtures", `faq_${p}.json`)).groups.length).toBeGreaterThan(0);
     }
   });
-  it("the Energy and Trade FAQ fixtures parse, and every chart id is one of the page's cards", () => {
-    for (const [p, resolve] of [["energy", energyFaq], ["trade", tradeFaq]] as const) {
+  it("the FAQ-only pages' fixtures parse, and every chart id is one of the page's cards", () => {
+    for (const [p, resolve] of [["energy", energyFaq], ["trade", tradeFaq], ["foreign-aid", foreignAidFaq]] as const) {
       const file = faqFile.parse(read("pipeline/fixtures", `faq_${p}.json`));
       const ids = file.groups.flatMap((g) => g.items.flatMap((it) => it.chartIds));
       expect(ids.length).toBeGreaterThan(0);

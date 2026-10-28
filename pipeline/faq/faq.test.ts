@@ -2,7 +2,7 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { describe, expect, it } from "vitest";
 import { checkFaqAnswer, numberInSource, numbersIn } from "./check";
-import { debtFacts, electricityFacts, encountersFacts, ngExportsFacts } from "./facts";
+import { aidFacts, debtFacts, electricityFacts, encountersFacts, ngExportsFacts } from "./facts";
 import { blockComment, issueBody, parseFaqBlock, type FaqDraft } from "./issue";
 import { FAQ_PAGES, checkQuestion, readQuestionList, type Question } from "./questions";
 import { htmlToText, readSource, savedPath, sourceNotAllowed } from "./sources";
@@ -72,6 +72,7 @@ describe("checkFaqAnswer", () => {
     expect(ok("The Biden administration raised it. Congress is consulted first.", none)).toMatch(/Biden/);
     expect(ok("Republicans wanted it lower. Congress is consulted first.", none)).toMatch(/parties/);
     expect(checkFaqAnswer("The Reagan administration signed it into law. Congress passed it first.", none, { allowNames: ["Reagan"] })).toBeNull();
+    expect(checkFaqAnswer("Reagan signed it into law. Bush signed the next one.", none, { allowNames: ["Reagan"] })).toMatch(/"Bush"/);
     expect(ok("The President sets the ceiling each year. Congress is consulted first.", none)).toBeNull();
   });
 
@@ -232,5 +233,21 @@ describe("energy facts", () => {
     expect(text).toContain("shipped to 2 countries");
     expect(text).toContain("France 3.0 billion cubic feet (50% of U.S. LNG exports), Netherlands 3.0 billion cubic feet (50%");
     expect(text).toContain("LNG exports January to January 2026 (preliminary): 1.2 billion cubic feet, 20% more");
+  });
+});
+
+describe("foreign aid facts", () => {
+  const row = (recipient_name: string, fiscal_year: number, usd: number, military = 0, recipient_type: "country" | "regional" | "global" = "country") =>
+    ({ recipient_type, recipient_name, fiscal_year, disbursements_usd: usd, military_disbursements_usd: military }) as const;
+  const meta = { data_through: "2026-09-30", years: [{ fiscal_year: 2025, is_partial: false }, { fiscal_year: 2026, is_partial: true }] };
+
+  it("gives the latest full fiscal year and the partial one, labelled partial", () => {
+    const text = aidFacts([row("Ukraine", 2025, 6e9, 1e9), row("Israel", 2025, 3e9, 3e9), row("Global", 2025, 1e9, 0, "global"), row("Jordan", 2026, 1.2e9), row("Kenya", 2026, 4e8)], meta);
+    expect(text).toContain("Fiscal year 2025: $10.0 billion disbursed in all, $4.0 billion of it (40%) military assistance");
+    expect(text).toContain("$9.0 billion (90%) went to single countries and $1.0 billion (10%) to global and regional programs.");
+    expect(text).toContain("Largest country recipients: Ukraine $6.0 billion (67% of the country total), Israel $3.0 billion (33% of the country total).");
+    expect(text).toContain("Largest recipients of military assistance: Israel $3.0 billion (75% of military assistance), Ukraine $1.0 billion (25% of military assistance).");
+    expect(text).toContain("Fiscal year 2026 so far (partial: reported through September 30, 2026;");
+    expect(text).toContain("Kenya $400 million");
   });
 });

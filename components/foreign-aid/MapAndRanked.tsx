@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
 import { MapCard } from "./MapCard";
 
@@ -8,6 +9,6 @@ import { MapCard } from "./MapCard";
  * sharing the Dollars / Military share toggle. Side by side (md+) the list stretches to the map
  * column's height and scrolls inside it; stacked, it is a fixed 28rem box.
  */
-export function MapAndRanked({ map }: { map: WorldMapFile }) {
-  return <MapCard map={map} />;
+export function MapAndRanked({ map, jump }: { map: WorldMapFile; jump?: ReactNode }) {
+  return <MapCard map={map} jump={jump} />;
 }
