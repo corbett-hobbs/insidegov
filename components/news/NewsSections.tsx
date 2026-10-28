@@ -268,7 +268,7 @@ function RowArrows({ row }: { row: React.RefObject<HTMLUListElement | null> }) {
     const el = row.current;
     if (!el) return;
     const left = el.getBoundingClientRect().left;
-    const offs = [...el.querySelectorAll("li")].map((li) => li.getBoundingClientRect().left - left);
+    const offs = [...el.querySelectorAll(":scope > li")].map((li) => li.getBoundingClientRect().left - left);
     const off = dir === 1 ? offs.find((o) => o > 4) : offs.findLast((o) => o < -4);
     if (off !== undefined) el.scrollTo({ left: el.scrollLeft + off, behavior: "smooth" });
   };
