@@ -36,8 +36,8 @@ import type { Frequency } from "./types";
 
 /**
  * Slots are in Pacific time, so they stay put across daylight saving. Each is a window, not a moment: GitHub starts
- * scheduled runs hours late or skips them under load, so the workflow fires every half hour through the windows and
- * the first run that finds something to post uses the slot (at most one data post per slot a day).
+ * scheduled runs hours late or skips them under load, so the workflow fires every 15 minutes through the windows (and when
+ * a draft is approved) and the first run that finds something to post uses the slot (at most one data post per slot a day).
  *   9:00 a.m. PT = noon ET: working hours on both coasts, after the morning releases (EIA gas, WPSR, Census).
  *   1:00 p.m. PT = 4:00 p.m. ET: the backlog slot, still inside East Coast working hours; open until 5 p.m. PT.
  */
