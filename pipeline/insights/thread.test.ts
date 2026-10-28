@@ -100,9 +100,9 @@ describe("planThread", () => {
     expect(last).toBe("Data: U.S. Energy Information Administration. Reasons: EIA Electricity Monthly Update, October 2026; Bloomberg.");
   });
 
-  it("has no thread when there is nothing to add, and never for news", () => {
+  it("has no thread when there is nothing to add, and treats news like any other draft", () => {
     expect(planThread(insight({ why: undefined, breakdown: undefined }))).toBeNull();
-    expect(planThread(insight({ kind: "news" }))).toBeNull();
+    expect(planThread(insight({ kind: "news" }))?.replies.length).toBeGreaterThan(0);
   });
 
   it("drops the smallest rows of a breakdown line that is too long", () => {

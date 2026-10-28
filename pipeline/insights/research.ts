@@ -150,6 +150,11 @@ export function signedFact(insight: Pick<Insight, "facts">, id: string): string 
   return parseFloat(f.text.replace(/[^\d.]/g, "")) === 0 ? f.text : `${(f.value as number) < 0 ? "−" : "+"}${f.text}`;
 }
 
+/** A breakdown row as printed: a signed change, or the level itself when the breakdown shows levels (a peak, a low, today). */
+export function rowValue(insight: Pick<Insight, "facts" | "breakdown">, id: string): string {
+  return insight.breakdown?.levels ? (insight.facts.find((x) => x.id === id)?.text ?? "") : signedFact(insight, id);
+}
+
 export function whyPrompt(insight: Insight): string {
   return JSON.stringify(
     {

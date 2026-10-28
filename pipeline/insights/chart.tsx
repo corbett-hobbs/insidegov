@@ -218,12 +218,52 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>, f: Frame): { svg:
     };
     const spot = spots.reduce((best, s) => (cost(s) < cost(best) ? s : best), spots[0]!);
     taken.push(boxOf(spot));
-    labels.push({ x: spot.x, y: spot.ly, text: m.label, align, size, color: m.emphasis ? INK : MUTED, bold: m.emphasis });
+    labels.push({ x: spot.x, y: spot.ly, text: m.label, align, size, // On a two-line chart the marks belong to the main (dark) line, so a mark is never the second line's grey.
+    color: m.emphasis || spec.comparison ? INK : MUTED, bold: m.emphasis });
   }
   // Two lines: name both at their right ends. The comparison's name goes above or below its end, whichever crosses
   // fewer points of either line (and stays clear of the main line's end); the main line's name joins its newest-value
   // label, on the other side of its dot.
-  if (spec.comparison && cmp.length > 1) {
+  if (spec.comparison && cmp.length > 1 && f.height > f.width) {
+    // The portrait slide is narrower, so a name set at a line's end would cross the lines: each name is smaller and takes the
+    // spot (above or below its end, up to a few rows away) with the fewest points of either line under it, nearest first.
+    // The landscape chart keeps the simple placement below.
+    const cy = y(cmp.at(-1)!.value);
+    const my = y(spec.points.at(-1)!.value);
+    const main = labels.find((l) => l.bold && l.text === spec.marks.find((m) => m.emphasis)?.label);
+    if (main) {
+      main.text = `${spec.comparison.mainLabel}, ${main.text}`;
+      main.size = 20;
+    }
+    const dense = (pts: { date: string; value: number }[]) =>
+      pts.flatMap((p, i) => {
+        const a = { x: x(new Date(`${p.date}T00:00:00Z`)), y: y(p.value) };
+        const q = pts[i + 1];
+        if (!q) return [a];
+        const b = { x: x(new Date(`${q.date}T00:00:00Z`)), y: y(q.value) };
+        const n = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 3));
+        return Array.from({ length: n }, (_, k) => ({ x: a.x + ((b.x - a.x) * k) / n, y: a.y + ((b.y - a.y) * k) / n }));
+      });
+    const lines = [...dense(spec.points), ...dense(cmp)];
+    const boxes: Box[] = [...taken];
+    // `away`: which side of its line the name should lean to (+1 below, -1 above): the side with no other line end.
+    const place = (text: string, size: number, endY: number, right: number, away = 0): number => {
+      const w = text.length * size * 0.5;
+      const offsets = [-34, 12, -62, 40, -90, 68, -118, 96, -146, 124];
+      const cost = (top: number) => {
+        const bx = { x0: right - w, x1: right, y0: top + size * 0.1, y1: top + size * 1.1 };
+        if (top < f.plot.top - 34 || bx.y1 > bottom + 6) return Infinity;
+        const onLine = lines.filter((p) => p.x >= bx.x0 - 4 && p.x <= bx.x1 + 4 && p.y >= bx.y0 - 4 && p.y <= bx.y1 + 4).length;
+        return onLine + Math.abs(top - endY) * 0.1 + (away !== 0 && Math.sign(top - endY) !== away ? 60 : 0) + boxes.filter((o) => bx.x0 < o.x1 && o.x0 < bx.x1 && bx.y0 < o.y1 && o.y0 < bx.y1).length * 1000;
+      };
+      const top = offsets.map((o) => endY + o).reduce((best, t) => (cost(t) < cost(best) ? t : best));
+      boxes.push({ x0: right - w, x1: right, y0: top + size * 0.1, y1: top + size * 1.1 });
+      return top;
+    };
+    if (main) main.y = place(main.text, main.size, my, main.x, cy >= my ? -1 : 1);
+    const text = spec.comparison.label;
+    labels.push({ x: f.plot.right, y: place(text, 18, cy, f.plot.right, cy >= my ? 1 : -1), text, align: "right", size: 18, color: MUTED });
+  } else if (spec.comparison && cmp.length > 1) {
     const cy = y(cmp.at(-1)!.value);
     const my = y(spec.points.at(-1)!.value);
     const text = spec.comparison.label;
