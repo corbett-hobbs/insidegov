@@ -181,6 +181,22 @@
       ],
       "reason": "Headlines report the Fed's October 28, 2026 decision to hold rates steady; previews, live blogs, explainers, takeaways, and the separate meeting-schedule and Treasury-yield stories are excluded.",
       "chart": ""
+    },
+    "eb37fe07aab5d708e6c6": {
+      "at": "2026-10-28T23:51:01.521Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Straight news reports that the Fed held interest rates steady on Oct 28, 2026; previews, live blogs, explainers, takeaways, and other developments were excluded.",
+      "chart": ""
     }
   },
   "dispatched": {}
