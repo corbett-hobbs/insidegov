@@ -57,9 +57,10 @@ for (const d of drafts) {
   const bodyFile = join(dir, `${d.slug}.issue.md`);
   writeFileSync(bodyFile, body);
   if (dryRun) {
-    console.log(`\n=== DRY RUN: would run gh issue create --label ${labels} --title ${JSON.stringify(title)} --body-file ${bodyFile}\n${body}`);
+    console.log(`\n=== DRY RUN: would run gh issue create --assignee corbett-hobbs --label ${labels} --title ${JSON.stringify(title)} --body-file ${bodyFile}\n${body}`);
   } else {
-    const url = gh(["issue", "create", "--title", title, "--label", labels, "--body-file", bodyFile]);
+    // Assigned so GitHub emails the owner; a bot-opened issue notifies nobody otherwise.
+    const url = gh(["issue", "create", "--title", title, "--label", labels, "--assignee", "corbett-hobbs", "--body-file", bodyFile]);
     console.log(`  opened   ${url}`);
     const by = d.news ? ` (in the news: ${d.news.headlines[0]?.title ?? d.news.key}; approve by ${slotLabel(d.news.expiresAt)})` : d.release ? ` (queue by ${d.release.expiresOn})` : "";
     summary.push(`- ${d.headline}${by}\n  ${url}`);
