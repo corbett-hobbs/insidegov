@@ -2,7 +2,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { displayCountryName } from "../../../lib/trade-names";
 import { readOutput } from "../datasets";
 import { capitalize, changeFact, dateFact, linePoints, markDate, pctFact, periodBars, unitFact, usesBars, when, yearEarlier } from "../detect";
-import { addMonths, dateStyleFor, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
+import { addMonths, bareIfSameYear, dateStyleFor, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
 import { CAPTION_MAX_CHARS } from "../caption";
 import { chartTitle } from "../title";
 import type { ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
@@ -12,8 +12,9 @@ import type { ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } f
  * is the reason to post, and the chart answers "where does this stand, and how did it get here" from data the site
  * already has. Every number is still a Fact traced to its cells, and the caption check still applies.
  *
- * The comparison point is the PEAK in the chart's window (how far the latest value is from it, and how far back the
- * peak stands in all the data). A year earlier is the fallback: when there is no peak to compare with (bar charts,
+ * Every caption first says which way the latest value moved from the previous reading (a status update, not only a
+ * comparison with the past), then compares with the PEAK in the chart's window (how far the latest value is from it, and
+ * how far back the peak stands in all the data). A year earlier is the fallback: when there is no peak to compare with (bar charts,
  * or the latest value IS the peak), or when the peak sentence does not fit the caption limit.
  */
 
@@ -42,7 +43,7 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
     isLatest: peak.date === latest.date,
     reach: { text: higher ? `the highest ${which}since ${reachFact.text}` : `the highest ${which}in data going back to ${reachFact.text}`, facts: [reachFact] },
     value: unitFact("peak_value", peak.value, unit, peak.cells),
-    date: dateFact("peak_date", peak.date, monthly),
+    date: dateFact("peak_date", peak.date, bareIfSameYear(monthly, peak.date, latest.date)),
   };
 }
 
@@ -70,6 +71,18 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   }
   const join = (...cs: Clause[]): Clause => ({ text: cs.map((c) => c.text).join(""), facts: cs.flatMap((c) => c.facts) });
 
+  // The previous reading, ahead of everything else. Not for seasonal series (the last month is not comparable) or fiscal years.
+  const prevPoint = series.seasonal || series.frequency === "fiscal_year" ? undefined : series.points.at(-2);
+  let prev: Clause | null = null;
+  if (prevPoint) {
+    const prevValue = unitFact("previous_value", prevPoint.value, series.unit, prevPoint.cells);
+    const prevDate = dateFact("previous_date", prevPoint.date, bareIfSameYear(style, prevPoint.date, latest.date));
+    const dir = latest.value > prevPoint.value ? "up" : latest.value < prevPoint.value ? "down" : "unchanged";
+    prev = { text: `, ${dir} from ${prevValue.text} ${when(series, prevDate.text)}`, facts: [prevValue, prevDate] };
+  }
+  // "up from 3.4% in August 2026" then ", and down from a peak ..." / ", the highest since ...": the join word follows.
+  const withPrev = (c: Clause, joiner: string): Clause[] => (prev ? [{ text: prev.text + (joiner ? `${joiner} ${c.text.replace(/^, /, "")}` : c.text), facts: [...prev.facts, ...c.facts] }, c] : [c]);
+
   let peak: Point | undefined;
   const options: Clause[] = [];
   if (opts.peak) {
@@ -80,17 +93,21 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     if (w.isLatest) {
       // The latest value is the peak: say how far back it stands, with the year-earlier change.
       const reach = { text: `, ${w.reach.text}`, facts: w.reach.facts };
-      if (year) options.push(join(year.full, reach), join(year.short, reach));
-      options.push(reach);
+      if (year) options.push(...withPrev(join(year.full, reach), " and"), ...withPrev(join(year.short, reach), " and"));
+      options.push(...withPrev(reach, ""));
     } else {
       if (!bars) peak = w.peak;
       // One sentence, newest value first and the peak at the end ("…: $6.18 a gallon in the week of October 12, 2026,
       // down from a peak of $6.53 a gallon in September 2026, the highest in data going back to 1994").
       const peakText = `, down from ${series.seasonal ? `the ${which}` : "a "}peak of ${w.value.text} in ${w.date.text}`;
-      options.push({ text: `${peakText}, ${w.reach.text}`, facts: [w.value, w.date, ...w.reach.facts] }, { text: peakText, facts: [w.value, w.date] });
+      options.push(
+        ...withPrev({ text: `${peakText}, ${w.reach.text}`, facts: [w.value, w.date, ...w.reach.facts] }, " and"),
+        ...withPrev({ text: peakText, facts: [w.value, w.date] }, " and"),
+      );
     }
   }
-  if (year) options.push(year.full, year.short);
+  if (year) options.push(...withPrev(year.full, " and"), ...withPrev(year.short, " and"));
+  if (prev) options.push(prev);
   const clause = firstFitting(opts.lead, head, options);
   facts.push(...clause.facts);
   const sentence = head + clause.text;
@@ -214,13 +231,22 @@ export function tariffContext(country: { code: string; name: string } | undefine
   const ya = yearAgo ? unitFact("year_ago_value", yearAgo.value, RATE, yearAgo.cells) : null;
   const yaDate = yearAgo ? dateFact("year_ago_date", yearAgo.date, style) : null;
   const yearClause: Clause[] = ya && yaDate ? [{ text: `. In ${yaDate.text} the rate${whose} was ${ya.text}`, facts: [ya, yaDate] }] : [];
-  const options: Clause[] = w.isLatest
+  // Which way the rate moved from the previous month comes first, then the peak (or a year earlier).
+  const prevPoint = main.filter((p) => p.date < latest.date).at(-1);
+  const prevFact = prevPoint ? unitFact("previous_value", prevPoint.value, RATE, prevPoint.cells) : null;
+  const prevDate = prevPoint ? dateFact("previous_date", prevPoint.date, bareIfSameYear(style, prevPoint.date, latest.date)) : null;
+  const prevClause: Clause | null =
+    prevPoint && prevFact && prevDate
+      ? { text: `. The rate${whose} is ${latest.value > prevPoint.value ? "up" : latest.value < prevPoint.value ? "down" : "unchanged"} from ${prevFact.text} in ${prevDate.text}`, facts: [prevFact, prevDate] }
+      : null;
+  const peakOptions: Clause[] = w.isLatest
     ? [...yearClause.map((c) => ({ text: `. That is ${w.reach.text}${c.text}`, facts: [...w.reach.facts, ...c.facts] })), { text: `. That is ${w.reach.text}`, facts: w.reach.facts }, ...yearClause]
     : [
         { text: `. The peak${whose} was ${w.value.text} in ${w.date.text}, ${w.reach.text}`, facts: [w.value, w.date, ...w.reach.facts] },
         { text: `. The peak${whose} was ${w.value.text} in ${w.date.text}`, facts: [w.value, w.date] },
         ...yearClause,
       ];
+  const options: Clause[] = [...(prevClause ? peakOptions.map((c) => ({ text: prevClause.text + c.text, facts: [...prevClause.facts, ...c.facts] })) : []), ...peakOptions, ...(prevClause ? [prevClause] : [])];
   const clause = firstFitting(opts.lead, head, options);
   facts.push(...clause.facts);
   const template = `${opts.lead} ${head}${clause.text}.`;
