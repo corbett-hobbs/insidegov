@@ -1,3 +1,38 @@
 {
-  "rejected": {}
+  "checks": {
+    "b2bb80eab5917fe874c1": {
+      "at": "2026-10-28T16:34:16.371Z",
+      "keep": [],
+      "reason": "Headlines are previews of an upcoming Fed decision (hold expected, or whether it will raise) and explainers on how it affects borrowing; no completed government action is reported, and the outlets disagree on direction. No chart measures the Fed's rate decisions, so no chart link.",
+      "chart": ""
+    },
+    "bb17672826b3a7f5af30": {
+      "at": "2026-10-28T16:34:16.371Z",
+      "keep": [],
+      "reason": "Headlines 1, 3 and 4 cover an expected Fed rate hold, a monetary decision where the CPI chart is not central (inflation appears only as a voter concern, and only in headline 3); headline 2 is about Canada trade, a different development.",
+      "chart": ""
+    },
+    "920b9b850352eaf711e0": {
+      "at": "2026-10-28T16:34:16.371Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/",
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/",
+        "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f",
+        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
+        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
+        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
+        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings"
+      ],
+      "reason": "All eight headlines report the same development: Trump's announced rollback of Biden-era methane rules for oil and gas companies. No pick_chart option measures methane or emissions, so no chart link is made.",
+      "chart": ""
+    },
+    "8d8bfb70be48a69dcd65": {
+      "at": "2026-10-28T16:34:16.371Z",
+      "keep": [],
+      "reason": "Headlines 1-2 cover reported ICE arrest increases in California, a regional matter that neither chart measures; headlines 3-4 concern a streamer's remarks, not a government action.",
+      "chart": ""
+    }
+  },
+  "dispatched": {}
 }
