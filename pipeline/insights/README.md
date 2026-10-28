@@ -372,6 +372,13 @@ InsideGov at Graphiq) and `intro-caption.txt`. The words are in `introCarousel()
 Slides are laid out on a 720×900 canvas and scaled 1.5× in the renderer, so the chart code's label sizes read at
 phone size. `chart.tsx` draws in a `Frame` (the card's 1200×675 or the slide's portrait frame); the card is unchanged.
 
+**To the phone.** Instagram is posted from the phone, so `pnpm insights:slides -- --issue N` pulls an approved draft's
+slides (the issue's own images) and its Instagram text into `InsideGov Instagram/<date> <draft>/` in the Google Drive
+folder that Google Drive for desktop syncs (`~/Library/CloudStorage/GoogleDrive-*/My Drive`), as `slide-1.png` … and
+`caption.txt`; the Drive app on the phone has them a minute later. `-- --intro` renders the account intro the same way
+into `intro/`. Without Drive installed it saves to `~/Downloads/InsideGov Instagram` and says so; `--out DIR` or
+`INSTAGRAM_OUT_DIR` picks another folder. A draft made before carousels has no slides, and the command says that.
+
 **Hashtags are written by code, never by the model.** `INSTAGRAM_HASHTAGS` holds 3 to 5 plain topic tags per dataset
 (Instagram caps a post at 5), all ending in `#govdata`, and `SERIES_HASHTAGS` overrides them for a series whose
 dataset's set would be off topic (an electricity chart gets `#electricity #naturalgas #solarenergy`, not `#oil`); `checkCaption` still rejects any caption containing "#", so the

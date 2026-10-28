@@ -52,6 +52,7 @@
     "insights:issues": "tsx pipeline/insights/open-issues.ts",
     "insights:post": "tsx pipeline/insights/post-next.ts",
     "insights:intro": "tsx pipeline/insights/intro.ts",
+    "insights:slides": "tsx pipeline/insights/slides.ts",
     "insights:news": "tsx pipeline/insights/news/watch.ts",
     "news:pages": "tsx pipeline/insights/news/pages.ts",
     "faq:draft": "tsx pipeline/faq/draft.ts",
