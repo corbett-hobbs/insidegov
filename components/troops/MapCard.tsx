@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import { useMemo, useRef, useState, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MapCallouts } from "@/components/charts/MapCallouts";
@@ -56,7 +56,7 @@ const MAX_ZOOM = 8;
  * scrubbing) beside the ranked host list. The selected country is outlined and raised, the rest dimmed; small hosts
  * get a marker. Territories, afloat and unassigned, and hosts with no outline are stated under the map.
  */
-export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload }) {
+export function MapCard({ map, bases, jump }: { map: WorldMapFile; bases: BasesPayload; jump?: ReactNode }) {
   const { data, yi, pi, range, setYear, country, toggleCountry, measure } = useTroopsState();
   const { places, periods, years } = data.payload;
   const tip = useTooltip<Hit>();
@@ -164,6 +164,7 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
 
   return (
     <ChartCard
+      id="where-they-are-and-who-hosts-the-most"
       title={TROOPS_TAKEAWAYS.map.title}
       takeaway={takeaway}
       action={
@@ -393,6 +394,7 @@ export function MapCard({ map, bases }: { map: WorldMapFile; bases: BasesPayload
             ))}
           </tbody>
         </TableView>
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

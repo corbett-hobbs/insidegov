@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useDecisionsActions } from "./DecisionsState";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LegendToggle } from "@/components/charts/LegendToggle";
@@ -23,7 +23,7 @@ import { DECISIONS_TAKEAWAYS, contextFor } from "./takeaways";
  * legend whose entries isolate a band (rule 12c): the pick draws that band alone from zero on its own axis and switches to
  * the count view; going back to Share clears it. Few-cases note when the topic is thin; the chart is never hidden.
  */
-export function SplitCard() {
+export function SplitCard({ jump }: { jump?: ReactNode }) {
   const { data, range, areas } = useDecisionsValues();
   const [mode, setModeRaw] = useState<SplitMode>("share");
   const { band } = useDecisionsValues();
@@ -57,6 +57,7 @@ export function SplitCard() {
 
   return (
     <ChartCard
+      id="how-divided-is-the-court"
       title={DECISIONS_TAKEAWAYS.split.title}
       takeaway={takeaway}
       action={
@@ -99,6 +100,7 @@ export function SplitCard() {
           head={[grain === "decade" ? "Decade" : "Term", "Cases", ...BAND_SHORT]}
           rows={grain === "decade" ? binByDecade(terms, cells).map((b) => [`${b.decade}s`, b.total, ...b.bucket]).reverse() : terms.map((t, i) => [t, sumBucket(cells[i]), ...cells[i]]).reverse()}
         />
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

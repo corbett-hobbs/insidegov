@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { DecisionsPageClient } from "@/components/decisions/DecisionsPageClient";
 import { getDecisionsPageData } from "@/lib/decisions-data";
+import { getFaqFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /supreme-court/decisions — the Supreme Court vertical's Decisions section. */
@@ -20,7 +21,7 @@ export default function DecisionsPage() {
   return (
     <>
       <TopicDatasetLd path="/supreme-court/decisions" />
-      <DecisionsPageClient data={getDecisionsPageData()} />
+      <DecisionsPageClient data={getDecisionsPageData()} faqFile={getFaqFile("decisions")} />
     </>
   );
 }

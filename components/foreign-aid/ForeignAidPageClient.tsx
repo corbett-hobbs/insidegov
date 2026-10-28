@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
 import type { AidPayload } from "@/lib/foreign-aid-types";
@@ -10,14 +11,20 @@ import { MapAndRanked } from "./MapAndRanked";
 import { SpendingCard } from "./SpendingCard";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { foreignAidFaq } from "./foreign-aid-news";
 
 const dateLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-export function ForeignAidPageClient({ payload, map }: { payload: AidPayload; map: WorldMapFile }) {
+/** `faqFile` is `faq_foreign-aid.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
+export function ForeignAidPageClient({ payload, map, faqFile }: { payload: AidPayload; map: WorldMapFile; faqFile: FaqFile | null }) {
   const first = payload.years[0];
   const last = payload.years[payload.years.length - 1];
   const partial = payload.partialYears.map((y) => `FY${y}`);
+  const faq = useMemo(() => foreignAidFaq(faqFile), [faqFile]);
+  const { focus, jump } = useChartJump([], faq);
   return (
     <AidStateProvider payload={payload}>
       <ForeignAidFilterBar />
@@ -26,13 +33,16 @@ export function ForeignAidPageClient({ payload, map }: { payload: AidPayload; ma
           <p>
             Follow fiscal year disbursements to recipient nations and regional programs from FY{first} through FY{last} to see which countries and causes Washington prioritizes.
           </p>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
-        <SpendingCard />
+        <SpendingCard jump={jump("how-much-the-u-s-spends")} />
 
-        <MapAndRanked map={map} />
+        <MapAndRanked map={map} jump={jump("where-it-goes-and-who-receives-the-most")} />
 
-        <FirstPlaceCard />
+        <FirstPlaceCard jump={jump("who-s-been-no-1")} />
+
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

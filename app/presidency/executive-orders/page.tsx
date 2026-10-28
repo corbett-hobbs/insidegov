@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { getExecutiveOrdersData } from "@/lib/executive-orders-data";
 import { ExecutiveOrdersPageClient } from "@/components/executive-orders/ExecutiveOrdersPageClient";
+import { getFaqFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/executive-orders — the Presidency vertical's Executive orders section. */
@@ -20,7 +21,7 @@ export default function ExecutiveOrdersPage() {
   return (
     <>
       <TopicDatasetLd path="/presidency/executive-orders" />
-      <ExecutiveOrdersPageClient data={getExecutiveOrdersData()} />
+      <ExecutiveOrdersPageClient data={getExecutiveOrdersData()} faqFile={getFaqFile("executive-orders")} />
     </>
   );
 }

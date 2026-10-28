@@ -9,7 +9,7 @@ import { compactNumber } from "../../lib/format-number";
  * They also keep answers on the latest year: EIA's "Energy Explained" pages lag its monthly data by a year or more.
  */
 
-export type FactsKey = "encounters" | "debt" | "electricity" | "ngExports";
+export type FactsKey = "encounters" | "debt" | "electricity" | "ngExports" | "aid" | "troops";
 
 const pct = (part: number, whole: number) => `${Math.round((part / whole) * 100)}%`;
 const read = <T>(file: string): T => JSON.parse(readFileSync(file, "utf8")) as T;
@@ -158,9 +158,76 @@ export function ngExportsFacts(pageText: string, obs: readonly EnergyObs[]): str
   return out.join("\n");
 }
 
+type AidRow = { recipient_type: "country" | "regional" | "global"; recipient_name: string; fiscal_year: number; disbursements_usd: number; military_disbursements_usd: number };
+type AidMeta = { data_through: string; years: { fiscal_year: number; is_partial: boolean }[] };
+
+const aidMoney = (usd: number) => (usd >= 0.95e9 ? `$${(usd / 1e9).toFixed(1)} billion` : `$${Math.round(usd / 1e6)} million`);
+
+/**
+ * The Foreign aid page's figures for the latest full fiscal year and the year so far (ForeignAssistance.gov disbursements):
+ * the total, the military share, the share tied to one country, the five largest country recipients with their share of
+ * the country dollars, and the three largest recipients of military assistance. The year so far is labelled partial, as the page labels it.
+ */
+export function aidFacts(rows: readonly AidRow[], meta: AidMeta): string {
+  const full = meta.years.filter((y) => !y.is_partial).at(-1)!.fiscal_year;
+  const last = meta.years.at(-1)!;
+  const through = new Date(`${meta.data_through}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+  const out = ["U.S. foreign aid disbursements, nominal dollars (InsideGov's copy of ForeignAssistance.gov data):"];
+  for (const fy of last.is_partial && last.fiscal_year > full ? [full, last.fiscal_year] : [full]) {
+    const ys = rows.filter((r) => r.fiscal_year === fy);
+    const total = ys.reduce((s, r) => s + r.disbursements_usd, 0);
+    const military = ys.reduce((s, r) => s + r.military_disbursements_usd, 0);
+    const byCountry = new Map<string, number>();
+    for (const r of ys) if (r.recipient_type === "country") byCountry.set(r.recipient_name, (byCountry.get(r.recipient_name) ?? 0) + r.disbursements_usd);
+    const country = [...byCountry.values()].reduce((s, v) => s + v, 0);
+    const top = [...byCountry].sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const byMilitary = new Map<string, number>();
+    for (const r of ys) if (r.recipient_type === "country" && r.military_disbursements_usd > 0) byMilitary.set(r.recipient_name, (byMilitary.get(r.recipient_name) ?? 0) + r.military_disbursements_usd);
+    const topMilitary = [...byMilitary].sort((a, b) => b[1] - a[1]).slice(0, 3);
+    const label = fy === full ? `Fiscal year ${fy}` : `Fiscal year ${fy} so far (partial: reported through ${through}; the source reports with a lag of about 45 days)`;
+    out.push(
+      `${label}: ${aidMoney(total)} disbursed in all, ${aidMoney(military)} of it (${pct(military, total)}) military assistance and the rest economic and other assistance. ` +
+        `${aidMoney(country)} (${pct(country, total)}) went to single countries and ${aidMoney(total - country)} (${pct(total - country, total)}) to global and regional programs. ` +
+        `Largest country recipients: ${top.map(([name, v]) => `${name} ${aidMoney(v)} (${pct(v, country)} of the country total)`).join(", ")}. ` +
+        `Largest recipients of military assistance: ${topMilitary.map(([name, v]) => `${name} ${aidMoney(v)} (${pct(v, military)} of military assistance)`).join(", ")}.`,
+    );
+  }
+  return out.join("\n");
+}
+
+type TroopsRow = { period: string; name: string; class: "host" | "territory" | "afloat_unassigned"; total: number | null };
+type TroopsPeriod = { period: string; as_of: string; abroad_total?: number; printed: { grand_total: { total: number | null } } };
+
+/**
+ * The Troops abroad page's figures (DMDC active-duty location tables) for the latest September snapshot, the one the page's
+ * yearly charts use, and the latest quarter when it is newer: troops abroad, all active-duty troops, how many host countries,
+ * and the five largest hosts with their share of the troops at foreign hosts.
+ */
+export function troopsFacts(rows: readonly TroopsRow[], periods: readonly TroopsPeriod[]): string {
+  const withAbroad = periods.filter((p) => p.abroad_total != null);
+  const september = withAbroad.filter((p) => p.period.endsWith("-09")).at(-1)!;
+  const latest = withAbroad.at(-1)!;
+  const out = ["U.S. active-duty troops abroad, permanently assigned (InsideGov's copy of Defense Manpower Data Center location tables):"];
+  for (const p of latest.period === september.period ? [september] : [september, latest]) {
+    const hosts = rows.filter((r) => r.period === p.period && r.class === "host" && (r.total ?? 0) > 0);
+    const atHosts = hosts.reduce((s, r) => s + r.total!, 0);
+    const top = [...hosts].sort((a, b) => b.total! - a.total!).slice(0, 5);
+    const date = new Date(`${p.as_of}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+    const all = p.printed.grand_total.total;
+    out.push(
+      `As of ${date}: ${compactNumber(p.abroad_total!)} active-duty troops abroad${all ? ` (outside the 50 states, D.C. and U.S. territories), of ${compactNumber(all)} active-duty troops in all` : ""}, in ${hosts.length} host countries. ` +
+        `Largest hosts: ${top.map((r) => `${r.name} ${compactNumber(r.total!)} (${pct(r.total!, atHosts)} of troops at foreign hosts)`).join(", ")}. ` +
+        `The top three together: ${pct(top.slice(0, 3).reduce((s, r) => s + r.total!, 0), atHosts)}.`,
+    );
+  }
+  return out.join("\n");
+}
+
 /** `page` is the source page's own text, for the facts that come from it (`ngExports`). */
 export function factsText(key: FactsKey, page = ""): string {
   if (key === "encounters") return encountersFacts(read<EncounterRow[]>("pipeline/output/encounters_series.json"));
+  if (key === "troops") return troopsFacts(read<TroopsRow[]>("pipeline/output/troops_location.json"), read<{ periods: TroopsPeriod[] }>("pipeline/output/troops_location_meta.json").periods);
+  if (key === "aid") return aidFacts(read<AidRow[]>("pipeline/output/foreign_assistance.json"), read<AidMeta>("pipeline/output/foreign_assistance_meta.json"));
   if (key === "debt") return debtFacts(read<{ debt: DebtRow[] }>("pipeline/output/treasury_fiscal.json").debt);
   const obs = read<EnergyObs[]>("pipeline/output/energy_observations.json");
   if (key === "electricity") return electricityFacts(obs);

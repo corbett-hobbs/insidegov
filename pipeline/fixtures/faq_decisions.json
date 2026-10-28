@@ -1,0 +1,111 @@
+{
+  "asOf": "2026-10-28",
+  "groups": [
+    {
+      "row": "How cases reach the Court",
+      "items": [
+        {
+          "id": "who-decides-cases",
+          "q": "Who decides which cases the Supreme Court hears?",
+          "a": "The Supreme Court's own justices decide. For most appeals, the Court is not required to hear a case, and under its rules four of the nine Justices must vote to accept one. Parties ask the Court to review their cases through petitions for a writ of certiorari. The Court agrees to hear about 100-150 of the more than 7,000 cases it is asked to review each year.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            },
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ],
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ]
+        },
+        {
+          "id": "certiorari-vs-appeal",
+          "q": "What is the difference between a writ of certiorari and an appeal?",
+          "a": "A petition for a writ of certiorari is a party's request that the Supreme Court review its case, and the Court, with a few exceptions, does not have to hear it. The Certiorari Act of 1925 gives the Court discretion to decide whether to do so. A federal court of appeals, by contrast, reviews district court decisions to determine whether the proceedings were fair and the law was applied correctly. The Supreme Court agrees to hear about 100-150 of the more than 7,000 cases it is asked to review each year.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            },
+            {
+              "label": "U.S. Courts, Courts of Appeals",
+              "url": "https://www.uscourts.gov/about-federal-courts/court-role-and-structure/about-us-courts-appeals"
+            }
+          ],
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ]
+        },
+        {
+          "id": "original-vs-appellate",
+          "q": "What is the difference between original and appellate jurisdiction?",
+          "a": "Original jurisdiction means a case is tried before the Supreme Court itself. It covers certain cases, such as suits between two or more states and cases involving ambassadors and other public ministers. Appellate jurisdiction means the Court can hear a case on appeal, and it applies to almost any other case involving a point of constitutional or federal law. With a few exceptions, the Court chooses whether to hear a case under its appellate jurisdiction.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ],
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ]
+        },
+        {
+          "id": "supreme-court-vs-appeals",
+          "q": "What is the difference between the Supreme Court and a federal court of appeals?",
+          "a": "There are 13 federal courts of appeals but only one Supreme Court. Each of the 12 regional circuits has a court of appeals that reviews district court cases from its circuit, usually with a panel of three judges, and a 13th hears specialized cases nationwide. The Supreme Court, with a Chief Justice and eight Associate Justices, mostly chooses its cases, hearing about 100-150 of more than 7,000 requests each year. Most courts of appeals decisions are final, since ten percent or fewer are appealed to the Supreme Court.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Courts of Appeals",
+              "url": "https://www.uscourts.gov/about-federal-courts/court-role-and-structure/about-us-courts-appeals"
+            },
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ],
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Opinions and votes",
+      "items": [
+        {
+          "id": "majority-vs-concurring",
+          "q": "What is the difference between a majority opinion and a concurring opinion?",
+          "a": "A majority opinion is the opinion of the Court. A majority of Justices must agree to all of its contents and \"sign onto\" it before it is delivered. A concurring opinion is written by a Justice who agrees with the outcome of the case but not the majority's rationale for it. A dissenting opinion, by contrast, is a separate opinion that any Justice may write in disagreement with the decision.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ],
+          "chartIds": [
+            "how-divided-is-the-court"
+          ]
+        },
+        {
+          "id": "who-writes-majority",
+          "q": "Who writes the majority opinion in the Supreme Court?",
+          "a": "After the Justices vote at conference, the Chief Justice assigns a Justice in the majority to write the opinion of the Court. If the Chief Justice is in the dissent, the most senior Justice in the majority makes the assignment. A majority of Justices must agree to all of the contents of the opinion before it is delivered. When there is a tie vote, the decision of the lower Court stands.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ],
+          "chartIds": [
+            "how-divided-is-the-court"
+          ]
+        }
+      ]
+    }
+  ]
+}

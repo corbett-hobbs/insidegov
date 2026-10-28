@@ -1,7 +1,7 @@
 "use client";
 
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
-import { useId, useMemo, useRef, useState, type PointerEvent } from "react";
+import { useId, useMemo, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartFrame } from "@/components/charts/ChartFrame";
@@ -25,7 +25,7 @@ const TICK = 5;
  * highlights the years that country led and dims the rest. Click or drag sets the year. Same layout as foreign aid's
  * "Who's been No. 1".
  */
-export function TroopsFirstPlaceCard() {
+export function TroopsFirstPlaceCard({ jump }: { jump?: ReactNode }) {
   const { data, yi, range, setRange, setYear, country, measure } = useTroopsState();
   const { places, years: allYears, periods } = data.payload;
   const years = useMemo(() => topHostsByYear(data, measure, range[0], range[1]), [data, measure, range]);
@@ -114,7 +114,7 @@ export function TroopsFirstPlaceCard() {
 
   const { takeaway, panel } = useTakeawayContext(TROOPS_TAKEAWAYS.firstPlace.takeaway, contextFor("firstPlace"));
   return (
-    <ChartCard title={TROOPS_TAKEAWAYS.firstPlace.title} takeaway={takeaway}>
+    <ChartCard id="who-s-hosted-the-most" title={TROOPS_TAKEAWAYS.firstPlace.title} takeaway={takeaway}>
       {panel}
       <Reading>{reading}</Reading>
       <div ref={wrapRef} className="touch-scroll relative -mx-3 sm:mx-0">
@@ -307,6 +307,7 @@ export function TroopsFirstPlaceCard() {
             })}
           </tbody>
         </TableView>
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

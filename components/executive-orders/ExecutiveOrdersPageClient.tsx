@@ -11,6 +11,9 @@ import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import { StackedBars, type StackBand, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { PageHeader } from "@/components/PageHeader";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { executiveOrdersFaq } from "./executive-orders-news";
 import {
   EO_TOPICS,
   EO_TOPIC_LABELS,
@@ -66,7 +69,10 @@ function termBands(admins: readonly EoAdmin[], firstYear: number, columns: numbe
   });
 }
 
-export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
+/** `faqFile` is `faq_executive-orders.json`; null (or empty) leaves out the FAQ section, its header link and the card's jump link. */
+export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; faqFile: FaqFile | null }) {
+  const faq = useMemo(() => executiveOrdersFaq(faqFile), [faqFile]);
+  const { focus, jump } = useChartJump([], faq);
   const [mode, setMode] = useState<Mode>("count");
   // Ticked topics (null = all). The chart draws only these; Share of year then reads "share of the year's orders".
   const [topics, setTopics] = useState<Picked<EoTopic>>(null);
@@ -148,9 +154,11 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
           <p>
             Browse every executive order signed since 1994 by topic and volume to track how commanders-in-chief direct federal policy without passing new legislation.
           </p>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
         <ChartCard
+          id="executive-orders-signed-per-year-by-topic"
           title={EO_TAKEAWAYS.perYear.title}
           takeaway={EO_TAKEAWAYS.perYear.takeaway}
           action={<PillGroup ariaLabel="Chart view" options={MODES} value={mode} onChange={setMode} />}
@@ -191,9 +199,11 @@ export function ExecutiveOrdersPageClient({ data }: { data: EoPayload }) {
               </p>
             </MethodologyNote>
             <TableFallback years={data.years} />
+            {jump("executive-orders-signed-per-year-by-topic")}
           </ChartNotesRow>
         </ChartCard>
 
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

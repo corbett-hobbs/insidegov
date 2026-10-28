@@ -1,0 +1,147 @@
+# saved 2026-10-28 from https://www.congress.gov/crs_external_products/IF/PDF/IF13050/IF13050.1.pdf
+                                                                                                                   July 1, 2025
+U.S.-South Korea Special Measures Agreements (SMAs):
+Legal and Policy Issues for Congress
+Overview                                                          policy considerations relevant in determining whether and
+The United States and South Korea (officially the Republic        how it may want to respond.
+of Korea, or ROK) forged a military alliance in the wake of
+the Korean War (1950-1953). Under the U.S.-ROK Mutual             History of U.S.-ROK SMAs
+Defense Treaty, which entered into force in 1954, the             U.S. budget concerns largely generated momentum for the
+United States bases troops in South Korea to help South           first SMA in 1991. In the late 1980s, growing U.S. budget
+Korea defend itself, particularly from North Korea.               deficits, coming amid South Korea’s emergence as a
+Approximately 28,500 U.S. troops—known as U.S. Forces             middle-income country, seemed to prompt calls for South
+Korea (USFK)—are identified as stationed in South Korea           Korea to pay more to support USFK. These calls coincided
+(Figure 1). Over the decades, as South Korea’s economy            with a gradual reduction of U.S. troop levels on the Korean
+grew, the two allies negotiated 12 “Special Measures              Peninsula. Some Members of Congress asserted that South
+Agreements” (SMAs) under which South Korea defrays the            Korea should offset more of the direct costs incurred by
+cost of stationing U.S. troops.                                   USFK and take more responsibility for its own security.
+                                                                  Since the late 2000s, U.S.-ROK SMAs have typically
+Figure 1. U.S. Military Bases in South Korea                      addressed party contributions over five-year periods. ROK
+                                                                  payments—a combination of cash and in-kind
+                                                                  contributions—fall into three categories: labor (salaries for
+                                                                  ROK citizens who work on U.S. bases), logistics, and
+                                                                  construction (by ROK firms for U.S. facilities).
+
+                                                                  U.S.-ROK SMAs contain “special measures”—or
+                                                                  exceptions—related to Article V of the U.S.-ROK Status of
+                                                                  Forces Agreement (SOFA), which provides a legal
+                                                                  framework for how U.S. military personnel operate in
+                                                                  South Korea. Article V stipulates that the United States will
+                                                                  cover all costs for maintaining its military presence in the
+                                                                  ROK, except costs associated with facilities. (The SOFA
+Source: Created by CRS using data from U.S. Department of         was concluded pursuant to Article IV of the U.S.-ROK
+Defense and U.S. Marine Corps.                                    Mutual Defense Treaty, which states that the ROK grants to
+                                                                  the United States “the right to dispose United States land,
+On November 4, 2024, the United States and South Korea            air and sea forces in and about the territory of the Republic
+signed the 12th SMA, which entered into force on                  of Korea as determined by mutual agreement.”)
+November 29. This SMA covers the years 2026-2030 and
+increases the ROK’s 2025 contribution by 8.3% in 2026, to         Although burden-sharing talks have been contentious since
+roughly $1.19 billion. Under the SMA, subsequent annual           the 1991 SMA, some reporting suggested that they became
+increases are tied to South Korea’s inflation rate and “shall     more divisive during the first Trump Administration as
+not exceed” 5%. In a break from previous patterns, the two        ROK officials reacted to U.S. requests for steep increases in
+allies concluded the 12th SMA more than a year before the         ROK contributions. In 2019, President Trump reportedly
+11th SMA expired. Some observers speculated the Biden             asked South Korea to increase its contribution by roughly
+Administration and South Korea negotiated the 12th SMA            400%. After a one-year stop-gap SMA that raised South
+earlier than usual to insulate the U.S.-ROK alliance from         Korea’s annual contribution by around 8% expired in
+possible policy shifts if President Donald Trump were             December 2019, about 4,500 ROK citizens who worked on
+reelected to office. During his first term, President Trump       U.S. bases were furloughed. At the time, some Members of
+stated that South Korea should contribute “substantially          Congress expressed concerns about the impasse, warning of
+more” for hosting U.S. troops and reportedly proposed a           potential negative impacts on U.S. military operations and
+“complete withdrawal of U.S. forces from South Korea.” A          readiness in the Indo-Pacific region. In March 2021, the
+Biden Administration official stated that the 12th SMA            Biden Administration concluded a new five-year SMA.
+would “strengthen our Alliance and our shared defense.”           Under that 11th SMA, South Korea agreed to pay roughly
+                                                                  $1 billion in 2021, a 13.9% increase from the 2019 SMA.
+Debates over cost-sharing may represent an important              The 11th and 12th SMAs permit the payment of ROK
+feature of U.S.-ROK alliance relations during the second          workers on U.S. bases for up to a year after the agreements
+Trump Administration. Congress may find some legal and            expire upon the request of the United States.
+
+                                                 https://crsreports.congress.gov
+                                                                   U.S.-South Korea Special Measures Agreements (SMAs):
+                                                                                      Legal and Policy Issues for Congress
+
+Legal Analysis of the 12th SMA                                   There is also no controlling judicial precedent addressing
+Both international and domestic legal requirements inform        the circumstances in which the President has unilateral
+United States adherence to the 12th SMA.                         authority to modify or withdraw from international
+                                                                 agreements. The Department of Justice’s Office of Legal
+International Law                                                Counsel (OLC) has argued that the President has
+Under the 12th SMA’s Article VII, the agreement entered          independent authority to withdraw from international
+into force on November 29, 2024, when the parties notified       agreements that Congress approved absent congressional
+each other that their requisite domestic legal processes had     restriction and that the President has exclusive authority to
+taken place.                                                     withdraw from treaties that received Senate advice and
+                                                                 consent. The OLC has also claimed that the President has
+Although the new ROK contributions provided in the 12th          some unilateral authority to modify international
+SMA are to begin in 2026, the agreement is in effect and         agreements.
+binding on both parties under international law. Consistent
+with its international legal obligations, a party may lawfully   To the extent the executive branch claims that the
+withdraw from or modify the agreement only pursuant to its       President’s Article II authorities are exclusive, it may
+terms or under other limited circumstances. The terms of         potentially assert that, according to Supreme Court
+the 12th SMA do not provide for withdrawal from the              precedent, Congress is constitutionally prohibited from
+agreement. Instead, it terminates automatically on               directly restricting the President’s ability to exercise those
+December 31, 2030, unless both the United States and the         authorities. At least in the absence of controlling judicial
+ROK agree in writing to extend. Article IX of the 12th SMA       precedent upholding such exclusive presidential authority,
+permits the parties to modify the SMA by written                 however, Congress may adopt a different interpretation. In
+agreement. Under this article, any such amendments would         2023, for example, Congress enacted legislation prohibiting
+enter into force in the same way as the SMA itself—that is,      the President from withdrawing from the North Atlantic
+as outlined in Article VII.                                      Treaty without prior congressional approval.
+
+U.S. Domestic Law                                                Considerations for Congress
+Under U.S. domestic law, binding international agreements        Congress may consider a variety of means to influence the
+may take the form of treaties—which are ratified with the        executive branch’s actions under the 12th SMA. Congress
+advice and consent of the Senate—or executive agreements.        could, for example, exercise its spending power to
+Although Congress enacts laws approving some executive           encourage the executive branch to pursue Congress’s
+agreements—including, for example, the free trade                preferred posture toward the SMA. Congress could also
+agreement with the ROK—the President concludes and               increase or decrease funding for the bilateral alliance to
+provides the United States’ formal consent to most               advance its policy toward the 12th SMA.
+executive agreements without submitting them to Congress
+for approval. The 12th SMA was concluded as an executive         Further, there are at least two potential sources of leverage
+agreement that the President did not submit to Congress for      implicating congressional authorities the Trump
+approval.                                                        Administration may use if it seeks to modify or withdraw
+                                                                 from the 12th SMA: (1) troop withdrawals from the Korean
+Since 2023, the State Department has been statutorily            Peninsula and (2) tariffs on South Korean imports into the
+required to provide Congress and the public a list and the       United States. While the allocation of presidential and
+text of international agreements concluded and a “detailed       congressional war powers authority is a subject of long-
+description of the legal authority” on which the President       standing debate raising questions that courts have generally
+relied in concluding the agreement. The State Department         declined to resolve, Congress has in the past asserted its
+did not identify an authorizing statute or an underlying,        war-related powers to, for example, set conditions on the
+ratified treaty as providing legal support for the United        executive branch for troop minimums or maximums on the
+States’ concluding the 12th SMA. According to the State          Korean Peninsula. Congress may also exercise its powers
+Department, the President invoked his authority under            over tariffs and foreign commerce to authorize or limit the
+Article II, Section 2, of the Constitution as “Commander in      imposition of tariffs or other trade restrictions on South
+Chief” and to conduct foreign relations as the legal basis for   Korea. (The imposition of such tariffs or restrictions could
+entering the 12th SMA on the United States’ behalf.              potentially place the United States in violation of its free
+                                                                 trade agreement with the ROK, noted above, or obligations
+There is no directly controlling judicial precedent regarding    under multilateral trade agreements.) Congress could also
+whether the President has unilateral Article II authority to     use its oversight authority to conduct hearings on the
+conclude an executive agreement such as the 12th SMA.            executive branch’s implementation of the 12th SMA or to
+The Supreme Court has upheld the President’s authority to        establish congressional notification and reporting
+conclude an executive agreement on criminal jurisdiction         requirements.
+over U.S. troops stationed in another country, basing its
+reasoning, in part, on the Senate’s approval of the              Daniel J. Longo, Analyst in Foreign Affairs
+underlying mutual security treaty. The Court has also held       Karen Sokol, Legislative Attorney
+that the President has unilateral authority to conclude
+executive agreements settling foreign claims.                                                                          IF13050
+
+
+
+                                                https://crsreports.congress.gov
+                                                                 U.S.-South Korea Special Measures Agreements (SMAs):
+                                                                                    Legal and Policy Issues for Congress
+
+
+
+
+Disclaimer
+This document was prepared by the Congressional Research Service (CRS). CRS serves as nonpartisan shared staff to
+congressional committees and Members of Congress. It operates solely at the behest of and under the direction of Congress.
+Information in a CRS Report should not be relied upon for purposes other than public understanding of information that has
+been provided by CRS to Members of Congress in connection with CRS’s institutional role. CRS Reports, as a work of the
+United States Government, are not subject to copyright protection in the United States. Any CRS Report may be
+reproduced and distributed in its entirety without permission from CRS. However, as a CRS Report may include
+copyrighted images or material from a third party, you may need to obtain the permission of the copyright holder if you
+wish to copy or otherwise use copyrighted material.
+
+
+
+
+                              https://crsreports.congress.gov | IF13050 · VERSION 1 · NEW
+

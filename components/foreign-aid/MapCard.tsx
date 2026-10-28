@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useMemo, useRef, useState, type PointerEvent } from "react";
+import { forwardRef, useMemo, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { YearPicker } from "@/components/charts/YearPicker";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -41,7 +41,7 @@ const MAX_ZOOM = 8;
  * The selected country is outlined and raised, the rest dimmed; recipients too small to see get a
  * marker. Regional and global programs and entities with no outline are stated under the map.
  */
-export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function MapCard({ map }, ref) {
+export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile; jump?: ReactNode }>(function MapCard({ map, jump }, ref) {
   const { data, year, range, setYear, secs, sole, country, toggleCountry, isPartial } = useAidState();
   const [pick, setPick] = useState<Pick>({ key: "dollars", reversed: false });
   const tip = useTooltip<Hit>();
@@ -154,6 +154,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
   return (
     <ChartCard
       ref={ref}
+      id="where-it-goes-and-who-receives-the-most"
       title="Where it goes, and who receives the most"
       takeaway={takeaway}
       action={
@@ -326,6 +327,7 @@ export const MapCard = forwardRef<HTMLElement, { map: WorldMapFile }>(function M
             ))}
           </tbody>
         </TableView>
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

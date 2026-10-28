@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShortcuts } from "@/components/PageShortcuts";
@@ -14,6 +15,9 @@ import { LawsStateProvider, useLawsActions, useLawsValues } from "./LawsState";
 import { LawsSupportCard } from "./LawsSupportCard";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { lawsFaq } from "./laws-news";
 
 function ControlToggle() {
   const { control } = useLawsValues();
@@ -30,9 +34,12 @@ function ControlToggle() {
  * /congress/laws. One shared state (`LawsState`): the years window, the ticked policy areas, major laws only, the ticked support bands and
  * the hovered / pinned Congress. The window and the policy areas narrow both cards (rule 4); the bands ticked in the bar or picked on card 2 also
  * narrows card 1. Card 3 compares policy areas (rows over the window, a heatmap by decade) and sets the policy area; the list of every law follows the same filters.
+ * `faqFile` is `faq_laws.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links.
  */
-export function LawsPageClient({ data }: { data: LawsPayload }) {
+export function LawsPageClient({ data, faqFile }: { data: LawsPayload; faqFile: FaqFile | null }) {
   const first = openYear(data.congresses[0]!);
+  const faq = useMemo(() => lawsFaq(faqFile), [faqFile]);
+  const { focus, jump } = useChartJump([], faq);
   return (
     <LawsStateProvider data={data}>
       <LawsFilterBar />
@@ -49,16 +56,19 @@ export function LawsPageClient({ data }: { data: LawsPayload }) {
               </Link>
             </p>
           </PageShortcuts>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
         {/* Sits with the charts it changes, not among the intro links. */}
         <div className="-mb-3"><ControlToggle /></div>
-        <LawsCountCard />
-        <LawsSupportCard />
-        <LawsGroupsCard />
+        <LawsCountCard jump={jump("how-many-laws-does-congress-pass")} />
+        <LawsSupportCard jump={jump("how-broadly-are-laws-supported")} />
+        <LawsGroupsCard jump={jump("which-kinds-of-laws-pass-and-how")} />
         <div id={LAW_LIST_ID}>
           <LawsListCard />
         </div>
+
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
