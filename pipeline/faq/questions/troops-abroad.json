@@ -1,0 +1,143 @@
+{
+  "page": "troops-abroad",
+  "dataFiles": [
+    "pipeline/output/troops_location.json",
+    "pipeline/output/troops_location_meta.json"
+  ],
+  "groups": [
+    {
+      "row": "Troops abroad",
+      "questions": [
+        {
+          "id": "why-bases-overseas",
+          "kind": "matters",
+          "q": "Why does the U.S. have military bases overseas?",
+          "searched": "why does the us have military bases overseas",
+          "chartIds": [
+            "how-many-troops-are-stationed-abroad",
+            "where-they-are-and-who-hosts-the-most"
+          ],
+          "brief": "The purposes the Defense Department gives for basing forces abroad (deterring conflict, responding quickly, supporting allies and partners), and that bases rest on agreements with the host governments. State the purposes as stated, with no judgement of whether they work. Offices and countries, not politicians or administrations.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Overseas Basing: Background and Issues for Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48123/R48123.4.pdf"
+            }
+          ]
+        },
+        {
+          "id": "active-vs-reserve",
+          "kind": "difference",
+          "q": "What is the difference between active duty and the reserves?",
+          "searched": "active duty vs reserve",
+          "chartIds": [
+            "how-many-troops-are-stationed-abroad"
+          ],
+          "brief": "Full-time service against part-time service in the seven reserve components (including the National Guard), and that reservists can be ordered to active duty. Then that the troops abroad on this page are active duty: how many were abroad in the latest September snapshot, out of how many active-duty troops in all.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Defense Primer: Reserve Forces",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10540/IF10540.24.pdf"
+            },
+            {
+              "label": "Defense Manpower Data Center, active-duty personnel by country",
+              "url": "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
+              "facts": "troops"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Host countries",
+      "questions": [
+        {
+          "id": "who-hosts-most",
+          "kind": "matters",
+          "q": "Who hosts the most U.S. troops?",
+          "searched": "which country has the most us troops stationed",
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most",
+            "who-s-hosted-the-most"
+          ],
+          "brief": "The five largest host countries in the latest September snapshot with their troop counts and shares, and the share of the top three; then whether the latest quarter changes the order. Never why a country hosts more.",
+          "sources": [
+            {
+              "label": "Defense Manpower Data Center, active-duty personnel by country",
+              "url": "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports",
+              "facts": "troops"
+            }
+          ]
+        },
+        {
+          "id": "sofa-vs-treaty",
+          "kind": "difference",
+          "q": "What is the difference between a status of forces agreement and a treaty?",
+          "searched": "what is a status of forces agreement",
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ],
+          "brief": "A status of forces agreement is usually an agreement between the executive branch and the host government that covers how U.S. forces operate there (legal jurisdiction, taxes and customs); a treaty such as a mutual defense treaty is separate, though a SOFA may be made under one; the NATO SOFA covers all NATO members.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Overseas Basing: Background and Issues for Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48123/R48123.4.pdf"
+            }
+          ]
+        },
+        {
+          "id": "why-japan",
+          "kind": "matters",
+          "q": "Why does the U.S. have troops in Japan?",
+          "searched": "why does the us have troops in japan",
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ],
+          "brief": "The U.S.-Japan mutual defense treaty: the right to base U.S. troops and assets in Japan in return for U.S. security guarantees; the shared goals the source names. About how many troops, as the source gives it. Offices and countries, not politicians or administrations.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S.-Japan Relations",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10199/IF10199.49.pdf"
+            }
+          ]
+        },
+        {
+          "id": "why-south-korea",
+          "kind": "matters",
+          "q": "Why does the U.S. have troops in South Korea?",
+          "searched": "why does the us have troops in south korea",
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ],
+          "brief": "The alliance formed after the Korean War and the Mutual Defense Treaty in force since 1954, under which U.S. troops (U.S. Forces Korea) are based there to help South Korea defend itself; about how many troops, as the source gives it. Offices and countries, not politicians or administrations.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S.-South Korea Special Measures Agreements",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF13050/IF13050.1.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-pays-troops-abroad",
+          "kind": "matters",
+          "q": "Who pays for U.S. troops stationed abroad?",
+          "searched": "who pays for us troops in south korea",
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ],
+          "brief": "The Defense Department's own budget pays for U.S. forces abroad; some host nations contribute to the upkeep of U.S. forces and facilities (burden sharing), and South Korea pays part of the cost under its Special Measures Agreements. Give the year with any figure. No view on whether hosts pay enough. Offices and countries, not politicians or administrations.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Overseas Basing: Background and Issues for Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48123/R48123.4.pdf"
+            },
+            {
+              "label": "Congressional Research Service, U.S.-South Korea Special Measures Agreements",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF13050/IF13050.1.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

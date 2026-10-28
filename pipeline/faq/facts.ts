@@ -9,7 +9,7 @@ import { compactNumber } from "../../lib/format-number";
  * They also keep answers on the latest year: EIA's "Energy Explained" pages lag its monthly data by a year or more.
  */
 
-export type FactsKey = "encounters" | "debt" | "electricity" | "ngExports" | "aid";
+export type FactsKey = "encounters" | "debt" | "electricity" | "ngExports" | "aid" | "troops";
 
 const pct = (part: number, whole: number) => `${Math.round((part / whole) * 100)}%`;
 const read = <T>(file: string): T => JSON.parse(readFileSync(file, "utf8")) as T;
@@ -195,9 +195,38 @@ export function aidFacts(rows: readonly AidRow[], meta: AidMeta): string {
   return out.join("\n");
 }
 
+type TroopsRow = { period: string; name: string; class: "host" | "territory" | "afloat_unassigned"; total: number | null };
+type TroopsPeriod = { period: string; as_of: string; abroad_total?: number; printed: { grand_total: { total: number | null } } };
+
+/**
+ * The Troops abroad page's figures (DMDC active-duty location tables) for the latest September snapshot, the one the page's
+ * yearly charts use, and the latest quarter when it is newer: troops abroad, all active-duty troops, how many host countries,
+ * and the five largest hosts with their share of the troops at foreign hosts.
+ */
+export function troopsFacts(rows: readonly TroopsRow[], periods: readonly TroopsPeriod[]): string {
+  const withAbroad = periods.filter((p) => p.abroad_total != null);
+  const september = withAbroad.filter((p) => p.period.endsWith("-09")).at(-1)!;
+  const latest = withAbroad.at(-1)!;
+  const out = ["U.S. active-duty troops abroad, permanently assigned (InsideGov's copy of Defense Manpower Data Center location tables):"];
+  for (const p of latest.period === september.period ? [september] : [september, latest]) {
+    const hosts = rows.filter((r) => r.period === p.period && r.class === "host" && (r.total ?? 0) > 0);
+    const atHosts = hosts.reduce((s, r) => s + r.total!, 0);
+    const top = [...hosts].sort((a, b) => b.total! - a.total!).slice(0, 5);
+    const date = new Date(`${p.as_of}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+    const all = p.printed.grand_total.total;
+    out.push(
+      `As of ${date}: ${compactNumber(p.abroad_total!)} active-duty troops abroad${all ? ` (outside the 50 states, D.C. and U.S. territories), of ${compactNumber(all)} active-duty troops in all` : ""}, in ${hosts.length} host countries. ` +
+        `Largest hosts: ${top.map((r) => `${r.name} ${compactNumber(r.total!)} (${pct(r.total!, atHosts)} of troops at foreign hosts)`).join(", ")}. ` +
+        `The top three together: ${pct(top.slice(0, 3).reduce((s, r) => s + r.total!, 0), atHosts)}.`,
+    );
+  }
+  return out.join("\n");
+}
+
 /** `page` is the source page's own text, for the facts that come from it (`ngExports`). */
 export function factsText(key: FactsKey, page = ""): string {
   if (key === "encounters") return encountersFacts(read<EncounterRow[]>("pipeline/output/encounters_series.json"));
+  if (key === "troops") return troopsFacts(read<TroopsRow[]>("pipeline/output/troops_location.json"), read<{ periods: TroopsPeriod[] }>("pipeline/output/troops_location_meta.json").periods);
   if (key === "aid") return aidFacts(read<AidRow[]>("pipeline/output/foreign_assistance.json"), read<AidMeta>("pipeline/output/foreign_assistance_meta.json"));
   if (key === "debt") return debtFacts(read<{ debt: DebtRow[] }>("pipeline/output/treasury_fiscal.json").debt);
   const obs = read<EnergyObs[]>("pipeline/output/energy_observations.json");

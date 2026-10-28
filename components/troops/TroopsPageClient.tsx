@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import type { BasesPayload } from "@/lib/bases-types";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
@@ -11,13 +12,19 @@ import { TroopsFilterBar } from "./TroopsFilterBar";
 import { TroopsStateProvider } from "./TroopsState";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { troopsFaq } from "./troops-news";
 
 const dateLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-export function TroopsPageClient({ payload, map, bases }: { payload: TroopsPayload; map: WorldMapFile; bases: BasesPayload }) {
+/** `faqFile` is `faq_troops-abroad.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
+export function TroopsPageClient({ payload, map, bases, faqFile }: { payload: TroopsPayload; map: WorldMapFile; bases: BasesPayload; faqFile: FaqFile | null }) {
   const first = payload.years[0];
   const last = payload.years[payload.years.length - 1];
+  const faq = useMemo(() => troopsFaq(faqFile), [faqFile]);
+  const { focus, jump } = useChartJump([], faq);
   return (
     <TroopsStateProvider payload={payload}>
       <TroopsFilterBar />
@@ -26,13 +33,16 @@ export function TroopsPageClient({ payload, map, bases }: { payload: TroopsPaylo
           <p>
             Explore active-duty military deployments country by country, from {first.fy} through {last.fy}, to see how U.S. overseas commitments have expanded or contracted from one administration to the next.
           </p>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
-        <TroopsChartCard />
+        <TroopsChartCard jump={jump("how-many-troops-are-stationed-abroad")} />
 
-        <MapCard map={map} bases={bases} />
+        <MapCard map={map} bases={bases} jump={jump("where-they-are-and-who-hosts-the-most")} />
 
-        <TroopsFirstPlaceCard />
+        <TroopsFirstPlaceCard jump={jump("who-s-hosted-the-most")} />
+
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

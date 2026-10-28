@@ -2,7 +2,7 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { describe, expect, it } from "vitest";
 import { checkFaqAnswer, numberInSource, numbersIn } from "./check";
-import { aidFacts, debtFacts, electricityFacts, encountersFacts, ngExportsFacts } from "./facts";
+import { aidFacts, debtFacts, troopsFacts, electricityFacts, encountersFacts, ngExportsFacts } from "./facts";
 import { blockComment, issueBody, parseFaqBlock, type FaqDraft } from "./issue";
 import { FAQ_PAGES, checkQuestion, readQuestionList, type Question } from "./questions";
 import { htmlToText, readSource, savedPath, sourceNotAllowed } from "./sources";
@@ -249,5 +249,18 @@ describe("foreign aid facts", () => {
     expect(text).toContain("Largest recipients of military assistance: Israel $3.0 billion (75% of military assistance), Ukraine $1.0 billion (25% of military assistance).");
     expect(text).toContain("Fiscal year 2026 so far (partial: reported through September 30, 2026;");
     expect(text).toContain("Kenya $400 million");
+  });
+});
+
+describe("troops facts", () => {
+  const host = (period: string, name: string, total: number) => ({ period, name, class: "host", total }) as const;
+  const period = (p: string, abroad: number | undefined, all = 1_300_000) => ({ period: p, as_of: `${p}-30`, abroad_total: abroad, printed: { grand_total: { total: all } } });
+
+  it("gives the latest September and the latest quarter, with each host's share of troops at foreign hosts", () => {
+    const rows = [host("2025-09", "Japan", 50_000), host("2025-09", "Germany", 30_000), host("2025-09", "Italy", 20_000), host("2026-03", "Japan", 60_000), host("2026-03", "Italy", 40_000)];
+    const text = troopsFacts(rows, [period("2025-06", 99_000), period("2025-09", 160_000), period("2025-12", undefined), period("2026-03", 165_000)]);
+    expect(text).toContain("160K active-duty troops abroad (outside the 50 states, D.C. and U.S. territories), of 1.3M active-duty troops in all, in 3 host countries.");
+    expect(text).toContain("Largest hosts: Japan 50K (50% of troops at foreign hosts), Germany 30K (30% of troops at foreign hosts), Italy 20K (20% of troops at foreign hosts).");
+    expect(text).toContain("Japan 60K (60% of troops at foreign hosts)");
   });
 });
