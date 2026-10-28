@@ -181,7 +181,8 @@ function whySlide(insight: Insight, n: number, total: number): ReactNode {
           {t}
         </div>
       ))}
-      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Sources: ${why.sources.map((s) => s.name).join("; ")}.`}</div>
+      {/* Anchored by its bottom edge, so a long list grows upward instead of into the page number. */}
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, bottom: 64, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Sources: ${why.sources.map((s) => s.name).join("; ")}.`}</div>
       <Footer n={n} total={total} />
     </Slide>
   );
