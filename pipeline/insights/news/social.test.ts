@@ -151,7 +151,7 @@ describe("a Fed rate decision story", () => {
 
   it("is researched like a data release, from the story's headlines, and its why stays out of the caption", () => {
     const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
-    const news = { topic: "fed_rates", key: "fed_rates", seenAt: NOW, expiresAt: NOW, headlines: [{ title: "Fed holds rates", source: "CBS News", url: "https://www.cbsnews.com/x", published: NOW, feed: "outlets" as const, outletId: "cbsnews" }] };
+    const news = { topic: "fed_rates", key: "fed_rates", seenAt: NOW, expiresAt: NOW, reason: "test", headlines: [{ title: "Fed holds rates", source: "CBS News", url: "https://www.cbsnews.com/x", published: NOW, feed: "outlets" as const, outletId: "cbsnews" }] };
     const prompt = JSON.parse(whyPrompt({ ...insight, news }));
     expect(prompt.in_the_news[0].url).toBe("https://www.cbsnews.com/x");
     expect(prompt.release_pages.join(" ")).toMatch(/federalreserve\.gov/);
