@@ -13,51 +13,15 @@
           "chartIds": [
             "how-many-cases-does-the-court-decide"
           ],
-          "brief": "The justices themselves: for most cases the Court chooses whether to hear them, and four of the nine must vote to accept a case; about how many petitions it reviews, as the sources give it. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "brief": "One answer that walks the path once, in plain words. The justices decide. A few kinds of case, such as suits between states, can start in the Supreme Court itself. Almost every other case comes up from a lower court: the losing side files a petition for a writ of certiorari (say what that is in plain words: a request that the Court review the case), and the Court can turn it down; four of the nine justices must vote to take a case. Then how many it takes of how many it is asked to review each year. Call the request a petition, never an appeal, and do not use the words original or appellate jurisdiction. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
           "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            },
             {
               "label": "U.S. Courts, Supreme Court Procedures",
               "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
-            },
-            {
-              "label": "U.S. Courts, About the Supreme Court",
-              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
-            }
-          ]
-        },
-        {
-          "id": "certiorari-vs-appeal",
-          "kind": "difference",
-          "q": "What is the difference between a writ of certiorari and an appeal?",
-          "searched": "difference between certiorari and appeal",
-          "chartIds": [
-            "how-many-cases-does-the-court-decide"
-          ],
-          "brief": "An appeal to a federal court of appeals is generally a right; a petition for a writ of certiorari asks the Supreme Court to review a case, and the Court, with a few exceptions, can decline (the Certiorari Act of 1925). The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
-          "sources": [
-            {
-              "label": "U.S. Courts, About the Supreme Court",
-              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
-            },
-            {
-              "label": "U.S. Courts, Courts of Appeals",
-              "url": "https://www.uscourts.gov/about-federal-courts/court-role-and-structure/about-us-courts-appeals"
-            }
-          ]
-        },
-        {
-          "id": "original-vs-appellate",
-          "kind": "difference",
-          "q": "What is the difference between original and appellate jurisdiction?",
-          "searched": "original vs appellate jurisdiction supreme court",
-          "chartIds": [
-            "how-many-cases-does-the-court-decide"
-          ],
-          "brief": "Original jurisdiction: the case is tried before the Supreme Court first (suits between states, cases involving ambassadors); appellate jurisdiction: the Court reviews a decision of a lower federal or state court, which is most of its cases. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
-          "sources": [
-            {
-              "label": "U.S. Courts, About the Supreme Court",
-              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
             }
           ]
         },
@@ -69,7 +33,7 @@
           "chartIds": [
             "how-many-cases-does-the-court-decide"
           ],
-          "brief": "How many courts of appeals there are and what they do (hear appeals from district courts in their circuit, with panels of judges), against the one Supreme Court with nine justices that chooses most of its cases; that most appeals end in the courts of appeals. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "brief": "Focus on the courts of appeals, since the Supreme Court's own process is answered elsewhere on the page: how many there are (12 regional circuits plus the Federal Circuit), that they review district court decisions with panels of three judges to check the proceedings were fair and the law applied correctly, how many cases they handle a year, and that ten percent or fewer of their decisions go on to the Supreme Court, so most are final. Then one short clause on the Supreme Court as the single court above them with nine justices. Do not give how many petitions the Supreme Court takes or say that it chooses its cases. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
           "sources": [
             {
               "label": "U.S. Courts, Courts of Appeals",
@@ -94,7 +58,7 @@
           "chartIds": [
             "how-divided-is-the-court"
           ],
-          "brief": "The majority opinion is the opinion of the Court, which a majority of justices sign onto; a concurring opinion is written by a justice who agrees with the outcome but not the majority's reasoning; a dissenting opinion disagrees with the outcome. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "brief": "The majority opinion is the opinion of the Court, which a majority of justices must sign onto; a concurring opinion is written by a justice who agrees with the outcome but not the majority's reasoning; a dissenting opinion disagrees with the outcome. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
           "sources": [
             {
               "label": "U.S. Courts, Supreme Court Procedures",
@@ -110,11 +74,27 @@
           "chartIds": [
             "how-divided-is-the-court"
           ],
-          "brief": "After the conference vote, the Chief Justice, or the most senior justice in the majority if the Chief Justice dissents, assigns a justice in the majority to write it; a majority must agree to its contents; what happens on a tie. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "brief": "After the justices vote in conference, the Chief Justice, or the most senior justice in the majority if the Chief Justice dissents, assigns a justice in the majority to write it; that justice has to keep the majority together through drafts. Then what happens on a tie vote. Do not repeat that a majority must sign onto the opinion; another answer says it. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
           "sources": [
             {
               "label": "U.S. Courts, Supreme Court Procedures",
               "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ]
+        },
+        {
+          "id": "how-many-justices",
+          "kind": "matters",
+          "q": "Who decides how many justices are on the Supreme Court?",
+          "searched": "who decides how many justices are on the supreme court",
+          "chartIds": [
+            "how-divided-is-the-court"
+          ],
+          "brief": "Congress sets the number by law and has changed it over time (the range the source gives); it has been nine since shortly after the Civil War: a Chief Justice and eight Associate Justices. Justices are appointed by the President and confirmed by the Senate, and typically serve for life. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
             }
           ]
         }
