@@ -134,30 +134,6 @@ function twoValues(insight: Insight): { name: string; value: string; line: strin
   ];
 }
 
-/**
- * A two-line hook trend line's names, set at the lines' right ends ("Federal funds rate, 3.9%", "Inflation, 3.7%") the way the
- * chart names them: the higher line's above its end, the lower line's below. Same scale as spark().
- */
-function sparkLabels(insight: Insight, h: number): { text: string; top: number; bold: boolean }[] {
-  const spec = insight.chart;
-  const pair = twoValues(insight);
-  if (spec.type !== "line" || !spec.comparison || !pair) return [];
-  const t0 = Date.parse(spec.points[0]!.date);
-  const t1 = Date.parse(spec.points.at(-1)!.date);
-  const cmp = spec.comparison.points.filter((p) => Date.parse(p.date) >= t0 && Date.parse(p.date) <= t1);
-  const all = [...spec.points, ...cmp].map((p) => p.value);
-  const lo = Math.min(...all);
-  const hi = Math.max(...all);
-  const y = (v: number) => 6 + (1 - (v - lo) / (hi - lo || 1)) * (h - 12);
-  const my = y(spec.points.at(-1)!.value);
-  const cy = y(cmp.at(-1)!.value);
-  const higher = my <= cy;
-  return [
-    { text: `${pair[0]!.name}, ${pair[0]!.value}`, top: higher ? my - 58 : my + 30, bold: true },
-    { text: `${pair[1]!.name}, ${pair[1]!.value}`, top: higher ? cy + 30 : cy - 58, bold: false },
-  ];
-}
-
 function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   const value = headlineValue(insight);
   const pair = twoValues(insight);
@@ -168,9 +144,6 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   return (
     <Slide>
       {svgImage(`<g transform="translate(${SIDE},${sparkTop})">${spark(insight, sparkW, sparkH)}</g>`, W, H)}
-      {sparkLabels(insight, sparkH).map((l, i) => (
-        <div key={i} style={{ position: "absolute", right: SIDE + 14, top: sparkTop + l.top, display: "flex", fontFamily: "Newsreader", fontSize: 21, color: l.bold ? INK : MUTED }}>{l.text}</div>
-      ))}
       <Header {...headerOf(insight)} />
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: SIDE, right: SIDE, bottom: H - sparkTop + 36 }}>
         {pair ? (
