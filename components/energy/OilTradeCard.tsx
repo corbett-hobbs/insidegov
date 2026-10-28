@@ -10,7 +10,7 @@ import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { readoutRows, rowValues, type ReadoutLine } from "@/lib/line-readout";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
-import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, useViewThrough, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
@@ -36,7 +36,7 @@ const signed = (v: number) => (v > 0 ? "+" : "") + fmtMbdShort(v);
  * exports as a thin dashed line in the flows view, where the 2015 repeal of the export restriction shows. Total
  * petroleum throughout, except that one labelled crude series.
  */
-export function OilTradeCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
+export function OilTradeCard({ payload, view: fullView, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const [mode, setMode] = useState<Mode>("balance");
@@ -47,6 +47,7 @@ export function OilTradeCard({ payload, view, jump }: { payload: EnergyPayload; 
   const prelim = useMemo(() => prelimBand(payload, KEYS), [payload]);
   const netExp = useMemo(() => flip(m.net), [m.net]);
   const last = Math.max(...KEYS.map((k) => lastIndexOf(m[k])));
+  const view = useViewThrough(fullView, last);
 
   const panels = useMemo<Panel[]>(() => {
     const inView = (a: readonly (number | null)[]) => a.filter((_, i) => monthMidDay(i) >= view[0] && monthMidDay(i) < view[1]);

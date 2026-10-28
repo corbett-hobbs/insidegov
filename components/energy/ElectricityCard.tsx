@@ -11,7 +11,7 @@ import { FUEL_KEYS, type EnergyPayload, type FuelKey } from "@/lib/energy-types"
 import { monthStartDay, niceScale, termLabel, type Scale } from "@/lib/trade-chart";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
-import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText, Swatch } from "./shared";
+import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, useViewThrough, statusText, Swatch } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
@@ -37,7 +37,7 @@ const fmtTwhTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
  * amounts, with small-scale solar (rooftop and similar, estimated, from 2014) as its own line underneath instead
  * of spliced in. The 2022 climate-and-tax law and the 2025 reconciliation law are marked, as context only.
  */
-export function ElectricityCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
+export function ElectricityCard({ payload, view: fullView, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const [mode, setMode] = useState<Mode>("share");
@@ -54,6 +54,7 @@ export function ElectricityCard({ payload, view, jump }: { payload: EnergyPayloa
   const era = useMemo(() => ({ span: payload.span, rec: payload.rec, terms: payload.terms, control: payload.control }), [payload]);
   const prelim = useMemo(() => prelimBand(payload, [...FUEL_KEYS, "total"]), [payload]);
   const last = lastIndexOf(m.total);
+  const view = useViewThrough(fullView, last);
   const smallFirst = m.small.findIndex((x) => x !== null);
 
   const panels = useMemo<Panel[]>(() => {

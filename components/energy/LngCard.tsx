@@ -7,7 +7,7 @@ import type { EnergyPayload } from "@/lib/energy-types";
 import { monthStartDay, termLabel } from "@/lib/trade-chart";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
-import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, useViewThrough, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
@@ -15,13 +15,14 @@ const LNG_START = 72; // January 1997, in months since January 1991
 const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
 
 /** Card 4 (small): liquefied natural gas exports, with the 2012 export approval, the first 2016 cargo, the 2024 pause and the 2025 reversal marked. Policy here leads the trade by years. */
-export function LngCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
+export function LngCard({ payload, view: fullView, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const flags = useMemo(() => flagsForCard(payload.flags, "lng"), [payload.flags]);
   const era = useMemo(() => ({ span: payload.span, rec: payload.rec, terms: payload.terms, control: payload.control }), [payload]);
   const prelim = useMemo(() => prelimBand(payload, ["lng"]), [payload]);
   const last = lastIndexOf(m.lng);
+  const view = useViewThrough(fullView, last);
 
   const panels = useMemo<Panel[]>(() => {
     const scale = scaleOver(m.lng.filter((_, i) => monthMidDay(i) >= view[0] && monthMidDay(i) < view[1]), 3, false);

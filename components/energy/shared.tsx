@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, type ReactNode } from "react";
+import { memo, useMemo, type ReactNode } from "react";
 import { PinReadout, type PinLine } from "@/components/charts/PinReadout";
 import { ToggleReadout } from "@/components/charts/ToggleReadout";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
@@ -44,6 +44,12 @@ export function scaleOver(values: readonly (number | null)[], count = 4, include
     if (includeLo && v < lo) lo = v;
   }
   return niceScale(lo, hi, count);
+}
+
+/** A monthly card's window, cut at the end of its newest month: the shared axis runs to the newest weekly SPR reading, which can be weeks later, and a monthly line would stop short of the edge. */
+export function useViewThrough(view: readonly [number, number], lastMonth: number): readonly [number, number] {
+  const [from, to] = view;
+  return useMemo(() => [from, Math.max(from + 1, Math.min(to, monthStartDay(lastMonth + 1)))] as const, [from, to, lastMonth]);
 }
 
 export const monthRangeOfView = (view: readonly [number, number]): [number, number] => [monthIndexOfDay(view[0]), monthIndexOfDay(view[1] - 1)];

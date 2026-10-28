@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fiscalBars, miseryPoints, monthlyPoints, yearRows } from "./economy-series";
+import { fiscalBars, incomePoints, miseryPoints, monthlyPoints, quarterlyPoints, seriesEnd, weeklyPoints, yearRows } from "./economy-series";
 import { dayOf } from "./indicator-time";
 
 describe("economy series", () => {
@@ -24,5 +24,14 @@ describe("economy series", () => {
       { day: dayOf(1991, 11, 1), value: 2 },
     ]);
     expect(rows).toEqual([{ year: 1991, last: 2, low: 1, high: 3 }]);
+  });
+  it("a series ends at the close of its newest period", () => {
+    expect(seriesEnd(monthlyPoints([1, 2, null]), "monthly")).toBe(dayOf(1991, 2, 1));
+    expect(seriesEnd(monthlyPoints([1, 2, null]), "point")).toBe(dayOf(1991, 1, 1) + 1);
+    expect(seriesEnd(quarterlyPoints([1, 2]), "quarterly")).toBe(dayOf(1991, 6, 1));
+    expect(seriesEnd(incomePoints({ 2023: 5 }), "annual")).toBe(dayOf(2024, 0, 1));
+    expect(seriesEnd(fiscalBars({ 2020: -1 }).map((b) => ({ day: b.mid, value: b.value })), "fiscal")).toBe(dayOf(2020, 9, 1));
+    expect(seriesEnd(weeklyPoints([[dayOf(2026, 9, 22), 3]]), "weekly")).toBe(dayOf(2026, 9, 22) + 1);
+    expect(seriesEnd([], "monthly")).toBeNull();
   });
 });

@@ -9,7 +9,7 @@ import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { readoutRows, rowValues, type ReadoutLine } from "@/lib/line-readout";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
-import { CommonKey, EnergyCardShell, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { CommonKey, EnergyCardShell, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, useViewThrough, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
@@ -26,7 +26,7 @@ const fmtTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
  * Card 2: supply and demand. Total-petroleum production against products supplied (EIA's stand-in for consumption),
  * so the gap between them is the story. Both are total petroleum, never crude alone. Context, not policy: no flags.
  */
-export function SupplyDemandCard({ payload, view, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
+export function SupplyDemandCard({ payload, view: fullView, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const [only, isolate] = useIsolate<MonthlyKey>();
   const shown = useMemo(() => LINES.filter((l) => !only || l.key === only), [only]);
@@ -34,6 +34,7 @@ export function SupplyDemandCard({ payload, view, jump }: { payload: EnergyPaylo
   const era = useMemo(() => ({ span: payload.span, rec: payload.rec, terms: payload.terms, control: payload.control }), [payload]);
   const prelim = useMemo(() => prelimBand(payload, KEYS), [payload]);
   const last = Math.max(...KEYS.map((k) => lastIndexOf(m[k])));
+  const view = useViewThrough(fullView, last);
   const noFlags = useMemo(() => [], []);
 
   const panels = useMemo<Panel[]>(() => {
