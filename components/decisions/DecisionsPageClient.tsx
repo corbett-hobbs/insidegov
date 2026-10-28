@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
@@ -15,13 +16,19 @@ import { CASE_LIST_ID, JumpToCases } from "./JumpToCases";
 import { SplitCard } from "./SplitCard";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { decisionsFaq } from "./decisions-news";
 
 /**
  * /supreme-court/decisions. One shared state (`DecisionsState`): the years window, the topic and the hovered / pinned
  * term. The window and the topic narrow cards 1 and 2 (rule 4); card 3 compares topics over the same window and sets the topic.
+ * `faqFile` is `faq_decisions.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links.
  */
-export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
+export function DecisionsPageClient({ data, faqFile }: { data: DecisionsPayload; faqFile: FaqFile | null }) {
   const first = data.terms[0];
+  const faq = useMemo(() => decisionsFaq(faqFile), [faqFile]);
+  const { focus, jump } = useChartJump([], faq);
   const last = data.terms[data.terms.length - 1];
   return (
     <DecisionsStateProvider data={data}>
@@ -52,14 +59,17 @@ export function DecisionsPageClient({ data }: { data: DecisionsPayload }) {
               </Link>
             </p>
           </PageShortcuts>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
-        <CasesCard />
-        <SplitCard />
-        <AreasCard />
+        <CasesCard jump={jump("how-many-cases-does-the-court-decide")} />
+        <SplitCard jump={jump("how-divided-is-the-court")} />
+        <AreasCard jump={jump("which-kinds-of-cases-split-the-court")} />
         <div id={CASE_LIST_ID}>
           <CaseListCard />
         </div>
+
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

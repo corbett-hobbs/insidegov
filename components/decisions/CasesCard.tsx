@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
@@ -29,7 +29,7 @@ type Mode = "count" | "share";
  * issue area for the whole page (the dropdown's value) and a second click clears it. Peak and low are re-picked from what
  * is drawn (rule 12), the presidential-term band runs under the axis (rule 10j), and the crosshair and pin are shared with card 2.
  */
-export function CasesCard() {
+export function CasesCard({ jump }: { jump?: ReactNode }) {
   const { data, range, areas, band, direction, hover, pin } = useDecisionsValues();
   const { moveHover, leaveHover, togglePin, clearPin, setAreas } = useDecisionsActions();
   const [mode, setMode] = useState<Mode>("count");
@@ -72,6 +72,7 @@ export function CasesCard() {
 
   return (
     <ChartCard
+      id="how-many-cases-does-the-court-decide"
       title={DECISIONS_TAKEAWAYS.cases.title}
       takeaway={takeaway}
       action={
@@ -156,6 +157,7 @@ export function CasesCard() {
           head={["Term", "Cases", ...series.map((s) => s.label)]}
           rows={[...cols].reverse().map((c) => [c.term, c.total, ...series.map((s) => c.values[s.id] ?? 0)])}
         />
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

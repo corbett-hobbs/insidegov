@@ -9,7 +9,7 @@ import { z } from "zod";
  * line) or how it is measured (that is the chart's Data notes). Edited by hand and reviewed like code.
  */
 
-export const FAQ_PAGES = ["economy", "immigration", "energy", "trade", "foreign-aid", "troops-abroad", "executive-orders", "laws"] as const;
+export const FAQ_PAGES = ["economy", "immigration", "energy", "trade", "foreign-aid", "troops-abroad", "executive-orders", "laws", "decisions"] as const;
 export type FaqPage = (typeof FAQ_PAGES)[number];
 
 export const questionSource = z.strictObject({
