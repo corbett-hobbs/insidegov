@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { ReversibleSortToggle } from "@/components/charts/SortToggle";
@@ -39,7 +39,7 @@ const pct = (x: number) => `${Math.round(x * 100)}%`;
  * groups. One toggle picks the heatmap's measure and orders both sides; clicking the active key reverses it. Clicking a group on
  * either side makes it the page's only ticked policy area; clicking it again, or "All policy areas", clears the filter.
  */
-export function LawsGroupsCard() {
+export function LawsGroupsCard({ jump }: { jump?: ReactNode }) {
   const { data, groups, major, bands, window: win } = useLawsValues();
   const { setGroups } = useLawsActions();
   const [pick, setSort] = useState<GroupSort>({ key: "n", reversed: false });
@@ -75,6 +75,7 @@ export function LawsGroupsCard() {
 
   return (
     <ChartCard
+      id="which-kinds-of-laws-pass-and-how"
       title={LAWS_TAKEAWAYS.groups.title}
       takeaway={takeaway}
       action={
@@ -121,6 +122,7 @@ export function LawsGroupsCard() {
           head={["Policy area", "Laws", ...SUPPORT_ORDER.map((k) => SUPPORT_SHORT[k]!)]}
           rows={rows.map((r) => [r.label, r.total, ...SUPPORT_ORDER.map((k) => r.bands[k]!)])}
         />
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

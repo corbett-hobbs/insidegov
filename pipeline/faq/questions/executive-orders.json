@@ -1,0 +1,136 @@
+{
+  "page": "executive-orders",
+  "dataFiles": [],
+  "groups": [
+    {
+      "row": "What an executive order is",
+      "questions": [
+        {
+          "id": "eo-vs-law",
+          "kind": "difference",
+          "q": "What is the difference between an executive order and a law?",
+          "searched": "executive order vs law passed by congress",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "A law is passed by Congress and signed by the President (or passed over a veto); an executive order is a written directive from the President, mainly to officials in the executive branch, that rests on authority the Constitution or a law gives the President and cannot override a law. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        },
+        {
+          "id": "eo-vs-memorandum",
+          "kind": "difference",
+          "q": "What is the difference between an executive order and a presidential memorandum?",
+          "searched": "executive order vs presidential memorandum",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "Both are written presidential directives and the difference is mostly one of form: executive orders are numbered and must be published in the Federal Register, memoranda need not be; neither has more legal force by its name alone. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        },
+        {
+          "id": "eo-vs-proclamation",
+          "kind": "difference",
+          "q": "What is the difference between an executive order and a proclamation?",
+          "searched": "executive order vs presidential proclamation",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "Orders tend to be directed at government officials and proclamations at private parties (and include ceremonial ones), but there is no strict legal difference in their force. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-writes-eos",
+          "kind": "matters",
+          "q": "Who writes executive orders?",
+          "searched": "who writes executive orders",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "How a draft order is prepared and reviewed under the standing rules: proposed by an agency or the White House, submitted to the Office of Management and Budget, which circulates it for comment, and reviewed by the Attorney General's Office of Legal Counsel for form and legality before the President signs it. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Limits and reach",
+      "questions": [
+        {
+          "id": "who-can-overturn-eo",
+          "kind": "matters",
+          "q": "Who can overturn an executive order?",
+          "searched": "who can overturn an executive order",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "A later President (or the same one) can revoke or change it; Congress can override it by passing a law, subject to a veto; courts can strike it down if it exceeds the President's authority. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-must-follow-eo",
+          "kind": "matters",
+          "q": "Who has to follow an executive order?",
+          "searched": "who has to follow executive orders",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "Officials and agencies of the executive branch, whom the orders direct; how an order can reach private parties through the rules and actions of those agencies, as the source puts it. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Counts",
+      "questions": [
+        {
+          "id": "who-signed-most-eos",
+          "kind": "matters",
+          "q": "Who signed the most executive orders?",
+          "searched": "which president signed the most executive orders",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "The president with the most executive orders of any, with the total and the number of years in office, as the table gives them; that the table counts executive orders only, not memoranda or other directives. Name only that one president, without party letters.",
+          "allowNames": [
+            "Roosevelt"
+          ],
+          "sources": [
+            {
+              "label": "The American Presidency Project (UC Santa Barbara), Executive Orders",
+              "url": "https://www.presidency.ucsb.edu/statistics/data/executive-orders"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { hubDescription } from "@/lib/hub-seo";
 import { TroopsPageClient } from "@/components/troops/TroopsPageClient";
 import { getBasesPayload } from "@/lib/bases-data";
 import { getTroopsPayload, getTroopsWorldMap } from "@/lib/troops-data";
+import { getFaqFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/troops-abroad — active-duty U.S. personnel stationed abroad, by region, country and branch. */
@@ -21,7 +22,7 @@ export default function TroopsAbroadPage() {
   return (
     <>
       <TopicDatasetLd path="/presidency/troops-abroad" />
-      <TroopsPageClient payload={getTroopsPayload()} map={getTroopsWorldMap()} bases={getBasesPayload()} />
+      <TroopsPageClient payload={getTroopsPayload()} map={getTroopsWorldMap()} bases={getBasesPayload()} faqFile={getFaqFile("troops-abroad")} />
     </>
   );
 }

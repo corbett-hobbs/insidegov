@@ -1,0 +1,1571 @@
+# saved 2026-10-28 from https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf
+Executive Orders: An Introduction
+
+March 29, 2021
+
+
+
+
+                              Congressional Research Service
+                               https://crsreports.congress.gov
+                                                      R46738
+                                                                                                            SUMMARY
+
+                                                                                                        R46738
+Executive Orders: An Introduction
+                                                                                                        March 29, 2021
+Executive orders are written instruments through which a President can issue directives to shape
+policy. Although the U.S. Constitution does not address executive orders and no statute grants the      Abigail A. Graber,
+President the general power to issue them, authority to issue such orders is accepted as an             Coordinator
+inherent aspect of presidential power, though their legal effect depends on various considerations.     Legislative Attorney
+This report discusses the following:
+
+    •    Issuance of Executive Orders. The typical process for issuing an executive order is set
+         forth in an executive order issued by President John F. Kennedy. That process is
+         coordinated by the Office of Management and Budget (OMB), which receives comments and language
+         from impacted and interested agencies. Once OMB and stakeholder agencies have reviewed the draft
+         language, the draft order is sent to the Attorney General and Director of the Office of the Federal Register
+         for review, and then on to the President for signing. After signing, executive orders are generally published
+         in the Federal Register. Not all executive orders go through this process.
+    •    Authority for Executive Orders. Executive orders typically convey presidential directives intended to
+         have the force and effect of law. To have legal effect, those directives must be issued pursuant to one of the
+         President’s sources of power: either Article II of the Constitution or a delegation of power from Congress.
+         One way that Congress can delegate power to the President is by enacting a statute before the order issues.
+         Congress can also ratify an already-issued executive order by enacting a statute, or can in rare
+         circumstances impliedly ratify an executive order through inaction.
+    •    Judicial Review of Executive Orders. Courts sometimes review the legality of executive orders. For
+         example, a court may determine whether the President may act at all. In those circumstances, the court will
+         employ a three-part analysis articulated by Justice Robert Jackson in his concurring opinion to the Supreme
+         Court’s decision in Youngstown Sheet & Tube Co. v. Sawyer. In other cases, a reviewing court may
+         determine the scope of Congress’s delegation of power to the President. To perform that analysis, courts
+         will generally use traditional tools of statutory interpretation. Courts may also be required to determine the
+         scope of the President’s action in the executive order. Courts will begin with the text of the executive order,
+         and may defer to agency interpretations of that order (depending on the circumstances of the particular
+         case). Separately, courts may also review other constitutional issues raised by the executive order (for
+         example, whether the order violates the First Amendment to the U.S. Constitution).
+    •    Modification and Revocation of Executive Orders. A President may amend, rescind, or revoke a prior
+         executive order issued by his or an earlier Administration. Although executive orders can be flexible and
+         powerful, they can also be impermanent because a later President can, generally, revoke or modify any
+         previously issued executive order with which he disagrees. Similarly, Congress may nullify the legal effect
+         of an executive order issued pursuant to power that it delegated to the President.
+
+Not all presidential directives take the form of an executive order. For example, some directives take the form of presidential
+proclamations and executive memoranda. Although a House of Representatives committee report observed that executive
+orders tend to be directed toward government officials and proclamations tend to be directed at private parties, there is no
+clear substantive distinction between these forms of executive action (other than the way they are titled). Regardless of the
+form of directive, each must be issued pursuant to one of the President’s powers to have legal effect. Although the form of
+the directive may dictate whether it is published in the Federal Register, there is no general legal requirement that the
+President use a particular type of directive to do a particular thing (although a statute giving power to the President may
+require that the President exercise that power using a particular directive).
+
+
+
+
+Congressional Research Service
+                                                                                                    Executive Orders: An Introduction
+
+
+
+
+Contents
+How Executive Orders Issue ........................................................................................................... 2
+Authority for Executive Orders ....................................................................................................... 4
+    U.S. Constitution ....................................................................................................................... 5
+    Congressional Delegation ......................................................................................................... 6
+        Before Issuance ................................................................................................................... 6
+        After Issuance ..................................................................................................................... 7
+Judicial Review of Executive Orders .............................................................................................. 8
+    Determining Whether the President May Act ........................................................................... 8
+    Determining the Scope of Congress’s Delegation ................................................................... 12
+    Determining the Scope of the Executive Order ...................................................................... 13
+Modification and Revocation of Executive Orders ....................................................................... 15
+    Modification or Revocation by the President .......................................................................... 15
+        Revocation by Present Administration .............................................................................. 15
+        Revocation by Later Administrations ............................................................................... 15
+    Modification, Abrogation, or Codification by Congress ......................................................... 17
+        Modifying or Abrogating Specific Orders ........................................................................ 17
+        Codifying Specific Orders ................................................................................................ 19
+        Imposing Broader Limitations on Executive Orders ........................................................ 19
+Other Presidential Directives ......................................................................................................... 20
+Conclusion ..................................................................................................................................... 21
+
+
+Contacts
+Author Information........................................................................................................................ 22
+
+
+
+
+Congressional Research Service
+                                                                                    Executive Orders: An Introduction
+
+
+
+
+T      he U.S. Constitution vests the President with the executive power of the United States.1 In
+       exercising these powers, the President may convey directives through various written
+       instruments, including executive orders, presidential proclamations, and executive
+memoranda.2 In addition to conveying policy goals or directives, an executive order or other
+written instrument issued by the President may have the force of law as long as it is issued
+pursuant to one of his granted powers.3 To have legal effect, an executive order must have as its
+source of authority either the President’s powers in Article II of the Constitution or an express or
+implied delegation of power from Congress to the President.4
+Although executive orders are a common form of presidential action, neither the Constitution nor
+any statute provides an overarching definition of an “executive order,” and no statute grants the
+President the general authority to issue executive orders.5 Nevertheless, it is widely accepted that
+the President has that power.6 For example, President George Washington issued what is now
+regarded as one of the first executive orders, asking the heads of executive departments “to
+submit ‘a clear account’ of affairs connected with their [d]epartments.”7 Over the years,
+Presidents have used executive orders to institute measures of various levels of consequence and
+controversy. For example, executive orders were used to establish internment camps that housed
+Japanese Americans during World War II;8 suspend the writ of habeas corpus during the Civil
+War;9 and bar discrimination based on race, color, religion, or national origin in the armed
+
+
+
+1 U.S. CONST. art. II, § 1.
+
+2 See, e.g., Christian Termyn, No Take Backs: Presidential Authority and Public Land Withdrawals, 19 SUSTAINABLE
+
+DEV. L. & POL’Y 4, 7 (2019) (“Presidents utilize various written instruments to direct the Executive branch and
+implement policy. These include executive orders, proclamations, presidential memoranda, administrative directives,
+findings, and others. Most of the time, the President is free to choose the instrument she wishes to use to carry out the
+executive function.”). Although styled differently, there are no overarching legal requirements that the President use a
+particular type of directive to accomplish a particular objective, although some statutes granting power to the President
+do require a particular type of directive to trigger their powers. See infra “Other Presidential Directives.”
+3 Tara Leigh Grove, Presidential Laws and the Missing Interpretive Theory, 168 U. PA. L. REV. 877, 884 (2020); Kevin
+
+M. Stack, The Statutory President, 90 IOWA L. REV. 539, 548 (2005) (“The Constitution does not mention the
+president’s authority to issue orders, though the president’s power to do so is by now beyond dispute.”). See also John
+C. Duncan, Jr., A Critical Consideration of Executive Orders: Glimmerings of Autopoiesis in the Executive Role, 35
+VT. L. REV. 333, 338 (2010); PHILLIP J. COOPER, BY ORDER OF THE PRESIDENT: THE USE AND ABUSE OF EXECUTIVE
+DIRECT ACTION 8–10 (2002); Tara L. Branum, President or King? The Use and Abuse of Executive Orders in Modern-
+Day America, 28 J. LEGIS. 1, 5 (2002); KENNETH R. MAYER, WITH THE STROKE OF A PEN: EXECUTIVE ORDERS AND
+PRESIDENTIAL POWER 34–36 (2001).
+4 Stack, supra note 3, at 551–52.
+
+5 Id. at 546 (“American law provides no definition of executive orders.”). The only statute that comes close defines an
+
+“executive order,” for the purposes of the National Crime Prevention and Privacy Compact, somewhat circularly as “an
+order of the President of the United States or the chief executive officer of a State that has the force of law and that is
+promulgated in accordance with applicable law.” 34 U.S.C. § 40316(11). As discussed infra, however, other forms of
+presidential action are subject to different (albeit unofficial and likely unenforceable) issuance procedures and
+publication requirements. See infra “Other Presidential Directives.”
+6 Stack, supra note 3, at 551.
+
+7 See N.J. HIST. REC. SURV. WORKS PROGRESS ADMIN., LIST AND INDEX OF PRESIDENTIAL EXECUTIVE ORDERS 1
+
+(Clifford L. Lord, ed., 1943).
+8 Exec. Order No. 9066, 7 Fed. Reg. 1407 (Feb. 25, 1942); see also Korematsu v. United States, 323 U.S. 214 (1944).
+
+9 See, e.g., Exec. Order from President Lincoln to Major-General H. W. Halleck, Commanding in the Department of
+
+Missouri (Dec. 1861), reprinted in A COMPILATION OF THE MESSAGES AND PAPERS OF THE PRESIDENTS, vol. VI, at 99
+(James D. Richardson, ed., 1902) (“General: As an insurrection exists in the United States and is in arms in the State of
+Missouri, you are hereby authorized and empowered to suspend the writ of habeas corpus within the limits of the
+military division under your command and to exercise martial law as you find it necessary, in your discretion, to secure
+the public safety and the authority of the United States.”); see also Ex parte Milligan, 71 U.S. 2, 115 (1866).
+
+
+
+Congressional Research Service                                                                                            1
+                                                                                     Executive Orders: An Introduction
+
+
+
+
+forces.10 Presidents have also used executive orders for more mundane governing tasks such as
+directing federal agencies to evaluate their ability to streamline customer service delivery11 and
+establishing advisory committees.12
+Executive orders can be a powerful tool for a President to shape policy and direct his
+Administration.13 Yet they are also impermanent, absent action by Congress. An executive order
+issued by one President may be revoked or modified by that President or by a later
+Administration. Congress may also alter the legal effect of an executive order issued pursuant to a
+power that it delegated to the President.14
+This report begins by discussing the procedures for issuing an executive order; sources of
+authority that the President may draw upon in issuing an executive order; and how courts review
+executive orders. The report next discusses how executive orders may be amended, abrogated, or
+otherwise altered both by the executive and legislative branches. Finally, the report briefly
+compares and contrasts executive orders and other written instruments issued by the President.
+
+
+How Executive Orders Issue
+Few enforceable guidelines for the issuance of executive orders exist. Neither the Constitution
+nor any statute sets forth general procedural (or other) prerequisites for an executive order to
+issue.15 Moreover, although the Administrative Procedure Act (APA) delineates particular
+procedures that an executive agency must take before acting, and for judicial review if those
+procedures are not followed,16 the Supreme Court has held that the President’s actions are not
+directly reviewable under the APA.17 Thus, challenges to the lawfulness of executive orders
+typically turn not on the process of their issuance, but on whether their implementation is
+consistent with statutory or constitutional requirements.18
+
+
+10 Exec. Order No. 9981, 13 Fed. Reg. 4313 (July 28, 1948) (“It is hereby declared to be the policy of the President that
+
+there shall be equality of treatment and opportunity for all persons in the armed services without regard to race, color,
+religion or national origin.”).
+11 Exec. Order No. 13,571, 76 Fed. Reg. 24,339 (May 2, 2011).
+
+12 Exec. Order No. 13,565, 76 Fed. Reg. 7681 (Feb. 11, 2011).
+
+13 See infra “How Executive Orders Issue.”
+
+14 See infra “Modification and Revocation.”
+
+15 As explained in more detail infra, there are specific publication requirements for issued executive orders.
+
+16 See, e.g., 5 U.S.C. § 553.
+
+17 Franklin v. Massachusetts, 505 U.S. 788, 800–01 (1992). In practice, however, agency action implementing an
+
+executive order may be challenged under the APA, and set aside if the action is inconsistent with governing statutes.
+See, e.g., E. Bay Sanctuary Covenant v. Trump, 932 F.3d 742, 770 (9th Cir. 2018); Holy Land Found. for Relief &
+Dev. v. Ashcroft, 333 F.3d 156, 160 (D.C. Cir. 2003) (reviewing challenge to agency action taken pursuant to executive
+orders); Chamber of Com. of U.S. v. Reich, 74 F.3d 1322, 1328 (D.C. Cir. 1996) (“We think it is now well established
+that ‘[r]eview of the legality of Presidential action can ordinarily be obtained in a suit seeking to enjoin the officers who
+attempt to enforce the President's directive.’” (quoting Franklin, 505 U.S. at 815 (Scalia, J., concurring in part and
+concurring in the judgment)). See also CRS Legal Sidebar LSB10172, Can a President Amend Regulations by
+Executive Order?, by Valerie C. Brannon.
+18 Review of executive orders is discussed in more detail infra. The Fifth Amendment’s Due Process Clause (which
+
+guarantees, among other rights, that “[n]o person shall be . . . deprived of life, liberty, or property, without due process
+of law”) seemingly provides some restrictions, such as hearing requirements, on issuance of executive orders if the
+order implicates a person’s interest in life, liberty, or property. See Mathews v. Eldridge, 424 U.S. 319, 332–35 (1976).
+In practice, however, procedural challenges to executive orders have not been successful. Stack, supra note 3, at 553.
+See also, e.g., Chichakli v. Szubin, 546 F.3d 315, 317 (5th Cir. 2008); Wong v. Campbell, 626 F.2d 739, 745 (9th Cir.
+1980); Jalil v. Campbell, 590 F.2d 1120, 1123 n.3 (D.C. Cir. 1978).
+
+
+
+Congressional Research Service                                                                                             2
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+The procedural requirements for issuing an executive order are themselves set forth in Executive
+Order No. 11,030, issued by President John F. Kennedy in 1962.19 Under that order’s procedure,
+draft executive orders are first submitted to the Director of the Office of Management and Budget
+(OMB), along with an explanation of “the nature, purpose, background, and effect of the
+proposed Executive order or proclamation and its relationship, if any, to pertinent laws and other
+Executive orders or proclamations.”20 If the Director of OMB approves the order, it is then
+transmitted to the Attorney General for “consideration as to both form and legality.”21 The
+Attorney General has delegated this responsibility to the Office of Legal Counsel (OLC) within
+the Department of Justice.22 If the Attorney General approves of the order, it is transmitted to the
+Director of the Office of the Federal Register to ensure it is “free from typographical or clerical
+error[s],” and then back to the President.23 If either the Director of OMB or the Attorney General
+does not approve of the order, “it shall not thereafter be presented to the President unless it is
+accompanied by a statement of the reasons for such disapproval.”24 The executive order does not
+provide any consequences for not following these procedures,25 and significant executive orders
+have issued without following these procedures.26
+There is evidence that consultative procedures regularly occur before an executive order issues.27
+One commentator, relying on interviews with former officials in recent presidential
+Administrations, has described the process as beginning in one of two ways: “top down,” where
+the President asks an agency official to draft a directive; or “bottom up,” where “an agency wants
+the executive branch to adopt a policy, but it lacks the authority to bind other agencies itself.”28 In
+either case, the process usually begins with an agency official or other executive officer writing
+an initial draft of the order.29 Once OMB receives a draft executive order, it shares the draft with
+other agencies that may be interested in the issue.30 Those agencies provide comments on any
+
+
+
+19 Exec. Order No. 11,030, 27 Fed. Reg. 5847, 5847 (June 19, 1962). This Order has been periodically modified over
+
+the years to account for, e.g., changes in technology or the names of relevant agencies. Exec. Order No. 13,403, § 1(a),
+71 Fed. Reg. 28,543, 28,543 (May 12, 2006) (replacing “typewritten” with “prepared”); Exec. Order No. 12,608, § 2,
+52 Fed. Reg. 34,617, 34,617 (Sept. 9, 1987) (replacing “Bureau of the Budget” with “Office of Management and
+Budget”).
+20 Exec. Order No. 11,030, § 2(a), 3 C.F.R. § 610 (1959–1963).
+
+21 Id. § 2(b).
+
+22 28 C.F.R. § 0.25(b) (2000).
+
+23 Exec. Order No. 11,030, § 2(c)–(d), 3 C.F.R. § 610 (1959–1963).
+
+24 Exec. Order No. 11,030, § 2(e).
+
+25 See generally id.; Stack, supra note 3, at 553 n.55 (citing KENNETH R. MAYER, WITH THE STROKE OF A PEN:
+
+EXECUTIVE ORDERS AND PRESIDENTIAL POWER 61 (2001)) (“Important orders have been issued without complying with
+this procedure, and there is no legal consequence to noncompliance.”).
+26 Id. One commentator has suggested that the executive branch may choose to deviate from established procedures
+
+when the subject matter is politically sensitive or when there are concerns about drafts leaking to the press. Grove,
+supra note 3, at 909–10. As another example, the New York Times reported that President Donald Trump’s first
+executive order suspending foreign travelers from certain countries from entering the United States was signed “with
+little or no legal review.” Michael D. Shear & Ron Nixon, How Trump’s Rush to Enact an Immigration Ban Unleashed
+Global Chaos, N.Y. TIMES (Jan. 29, 2017), https://www.nytimes.com/2017/01/29/us/politics/donald-trump-rush-
+immigration-order-chaos.html.
+27 Matthew Chou, Agency Interpretations of Executive Orders, 71 ADMIN. L. REV. 555, 563 (2019) (describing the
+
+process as “a matter of nonbinding but codified custom”).
+28 Grove, supra note 3, at 901.
+
+29 Id. at 902. As explained supra, the procedure (including the source of the initial draft) may vary depending on the
+
+circumstances. See supra note 26 and accompanying text.
+30 Id.; see also Chou, supra note 27, at 563.
+
+
+
+
+Congressional Research Service                                                                                         3
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+policy and legal issues the draft raises.31 Often there is debate on the “precise wording of the
+directive at issue,” commonly resulting in at least three drafts and three rounds of comments. 32
+Direct presidential involvement at this step is generally “the exception rather than the rule.”33
+After the language is settled, the draft is sent to OLC for legal review and certification.34 After
+OLC, the draft is sent to the White House Staff Secretary (Staff Secretary) to ensure that
+“‘relevant constituencies’ within the Executive Office of the President are on board.”35 Finally,
+the Staff Secretary sends the draft to the President, along with OLC’s certification on legality and
+a memo outlining any points of disagreement.36 The President then decides whether to sign the
+order.37
+There is a statutory requirement that executive orders must be published in the Federal Register
+after they issue, with certain exceptions. Specifically, a presidential proclamation or executive
+order must be published in the Federal Register unless it does “not having general applicability
+and legal effect” or is “effective only against Federal agencies or persons in their capacity as
+officers, agents, or employees thereof.”38 Although the statute states that “[f]or the purposes of
+this chapter every document or order which prescribes a penalty has general applicability and
+legal effect,” it does not otherwise define any of the potential language used which would indicate
+that an instrument is a proclamation or executive order, as opposed to another form of presidential
+action.39 Thus, one commentator has argued that “a president may avoid this publication
+requirement simply by calling the directive something other than an executive order or
+proclamation.”40 Nevertheless, the decision to employ a directive that is not published in the
+Federal Register may involve some important tradeoffs. For example, some federal statutes
+condition their delegation of authority to the President on a particular directive’s publication in
+the Federal Register.41 Attempting to enforce a particular directive without providing adequate
+notice may implicate due process concerns.42
+
+
+Authority for Executive Orders
+Although the President has some discretion in the procedure for issuing an executive order, there
+are some limits on the substantive content of executive orders. Because an executive order is an
+exercise of presidential power, its legal effect depends upon its reliance on a valid source of
+presidential authority. Thus, it is “black letter law” that for an executive order to have legal effect,
+its authority “must stem either from an act of Congress or from the Constitution itself.”43
+
+
+31 Grove, supra note 3, at 902.
+
+32 Id.
+
+33 Id. at 903.
+
+34 Id.
+
+35 Id. at 904.
+
+36 Id.
+
+37 Id.
+
+38 44 U.S.C. § 1505(a)(1).
+
+39 Id. § 1505.
+
+40 Stack, supra note 3, at 554–55.
+
+41 See, e.g., 50 U.S.C. § 1621.
+
+42 Mathews v. Eldridge, 424 U.S. 319, 332–35 (1976) (“Procedural due process imposes constraints on governmental
+
+decisions which deprive individuals of ‘liberty’ or ‘property’ interests within the meaning of the Due Process Clause of
+the Fifth or Fourteenth Amendment.”).
+43 Minnesota v. Mille Lacs Band of Chippewa Indians, 526 U.S. 172, 188 (1999) (citation omitted).
+
+
+
+
+Congressional Research Service                                                                                         4
+                                                                                    Executive Orders: An Introduction
+
+
+
+
+U.S. Constitution
+The Constitution vests the President with the “executive Power,”44 and assigns him a range of
+powers and functions, some addressed in general terms and others specific. The President is
+conferred responsibility to “take Care that the Laws be faithfully executed”45 and required by oath
+to “faithfully execute the Office of President of the United States,” and, to the best of his “Ability,
+preserve, protect and defend the Constitution of the United States.”46 The President is the
+“Commander in Chief of the Army and Navy of the United States.”47 Although not explicitly
+made plain by the Constitution, by nature of his role, including his power to “make Treaties,”48
+“appoint Ambassadors,”49 and receive foreign “Ambassadors and other Public Ministers,”50 he is
+also understood to be primarily responsible for carrying out the country’s foreign affairs.51
+Executive orders premised at least in part upon the President’s constitutional authority often
+involve foreign relations or military matters.52 For example, when issuing an executive order to
+desegregate the armed forces,53 President Harry S. Truman identified its legal basis as deriving
+not only from the general authority vested in the President “by the Constitution and the statutes of
+the United States,” but also his specific constitutional authority “as Commander in Chief of the
+armed services.”54
+Occasionally, courts may also examine whether a nonstatutory basis for a presidential directive is
+sufficient to give it legal effect. For example, in Medellin v. Texas the Supreme Court addressed
+the legal impact of a presidential memorandum that sought to give effect to an order of the
+International Court of Justice.55 The Supreme Court held that the memorandum was not directly
+enforceable under U.S. law.56 The Court held that, notwithstanding the President’s power to act in
+foreign affairs, the memorandum was of no legal effect because it did not derive from a power
+either in the Constitution or delegated by Congress.57
+
+
+44 U.S. CONST., Art, II, §1, cl. 1.
+
+45 Id., §3.
+
+46 Id., §1, cl. 8.
+
+47 Id., §2, cl. 1.
+
+48 Id., §2, cl. 2.
+
+49 Id.
+
+50 Id., §3.
+
+51 See e.g., Am. Ins. Ass’n v. Garamendi, 539 U.S. 396, 414 (2003) (“Although the source of the President's power to
+
+act in foreign affairs does not enjoy any textual detail, the historical gloss on the ‘executive Power’ vested in Article II
+of the Constitution has recognized the President’s ‘vast share of responsibility for the conduct of our foreign
+relations,’” quoting Youngstown Sheet & Tube Co. v. Sawyer, 343 U.S. 579, 610–611 (1952) (Frankfurter, J.,
+concurring). See also Zivotofsky v. Kerry, 576 U.S. 1, 11–16 (2015) (discussing bases for understanding the President
+to have exclusive constitutional authority over the recognition of foreign sovereigns).
+52 See, e.g., Exec. Order No. 10,631, 20 Fed. Reg. 6057 (Aug. 17, 1955) (prescribing code of conduct for the armed
+
+forces).
+53 Exec. Order No. 9981, 13 Fed. Reg. 4313 (July 26, 1948).
+
+54 Id. Although the order claims authority from the “statutes of the United States,” it does not identify any particular
+
+statute. Id. The Civil Rights Act of 1964, which barred various forms of racial discrimination, was not enacted until
+more than 15 years later. See generally Civil Rights Act of 1964, Pub. L. No. 88-352 (1964).
+55 Medellin v. Texas, 552 U.S. 491, 503, 507-508 (2008) (holding that Article 94 of the U.N. Charter, which states that
+
+each member of United Nations “undertakes to comply” with the decisions of the International Court of Justice (ICJ),
+was not self-executing under U.S. law and Congress had not passed legislation giving the ICJ’s orders domestic effect).
+56 Id.
+
+57 Id. at 525–32.
+
+
+
+
+Congressional Research Service                                                                                             5
+                                                                                    Executive Orders: An Introduction
+
+
+
+
+Congressional Delegation
+Few executive orders, particularly those involving domestic matters, are premised solely on a
+presidential or constitutional power. Frequently, directives contained in executive orders derive
+their authority from some form of congressional authorization for the President to act.58
+Generally, Congress may either actively delegate such power before the President issues the
+order, or may ratify the order after it issues either by codifying the order or providing
+authorization for it.
+
+Before Issuance
+The President may issue executive orders to carry out a delegation of authority given by
+Congress.59 The Defense Production Act (DPA)60 provides one example of a statutory delegation
+of power to the President. The DPA states that “[t]he President is hereby authorized” to require
+prioritization of contracts relating to the national defense and “to allocate materials, services, and
+facilities” in a manner necessary to promote the national defense.61 The DPA further indicates that
+its powers “shall not be used to control the general distribution of any material in the civilian
+market unless the President finds” both that the material “is a scarce and critical material essential
+to the national defense,” and that national defense requirements cannot otherwise be met.62
+In response to the Coronavirus Disease 2019 (COVID-19) pandemic, President Donald Trump
+invoked the DPA’s powers to protect food supply chain resources via executive order in April
+2020.63 In the order, the President found that “meat and poultry in the food supply chain meet the
+criteria” set forth in the DPA, and he directed the Secretary of Agriculture to “take all appropriate
+action under that section to ensure that meat and poultry processors continue operations.”64
+President Trump also delegated his powers to prioritize and require performance of contracts
+relating to “food supply chain resources, including meat and poultry,” to the Secretary of
+Agriculture.65 Due to the statutory source of power underlying the order, if these executive
+
+
+58 See, e.g., Exec. Order No. 14,014, 86 Fed. Reg. 9429 (Feb. 10, 2021) (citing as authority “the International
+
+Emergency Economic Powers Act (50 U.S.C. 1701 et seq.) (IEEPA), the National Emergencies Act (50 U.S.C. 1601 et
+seq.) (NEA), section 212(f) of the Immigration and Nationality Act of 1952 (8 U.S.C. 1182(f)), and section 301 of title
+3, United States Code”); Exec. Order No. 13,963, 85 Fed. Reg. 81,331 (Dec. 10, 2020) (citing as authority “the
+Constitution and the laws of the United States of America, including the Federal Vacancies Reform Act of 1998, as
+amended, 5 U.S.C. 3345 et seq.”); Exec. Order 13,751, 81 Fed. Reg. 88,609 (Dec. 5, 2016) (citing as authority “the
+Constitution and to ensure the faithful execution of the laws of the United States of America, including the National
+Environmental Policy Act of 1969, as amended (42 U.S.C. 4321 et seq.), the Nonindigenous Aquatic Nuisance
+Prevention and Control Act of 1990 (16 U.S.C. 4701 et seq.), the Plant Protection Act (7 U.S.C. 7701 et seq.), the
+Lacey Act, as amended (18 U.S.C. 42, 16 U.S.C. 3371-3378 et seq.), the Endangered Species Act of 1973, as amended
+(16 U.S.C. 1531 et seq.), the Noxious Weed Control and Eradication Act of 2004 (7 U.S.C. 7781 et seq.), and other
+pertinent statutes”).
+59 See, e.g., 8 U.S.C. § 1182(f) (“Whenever the President finds that the entry of any aliens or of any class of aliens into
+
+the United States would be detrimental to the interests of the United States, he may by proclamation, and for such
+period as he shall deem necessary, suspend the entry of all aliens or any class of aliens as immigrants or
+nonimmigrants, or impose on the entry of aliens any restrictions he may deem to be appropriate.”).
+60 50 U.S.C. §§ 4501 et seq.
+
+61 Id. § 4511(a).
+
+62 Id. § 4511(b).
+
+63 Exec. Order No. 13,917, 85 Fed. Reg. 26,313 (Apr. 28, 2020). See also CRS Legal Sidebar LSB10456, Executive
+
+Order on the Food Supply Chain and the Defense Production Act: FAQs, by Nina M. Hart.
+64 Exec. Order No. 13,917, 85 Fed. Reg. at 26,313.
+
+65 Id. at 26,314.
+
+
+
+
+Congressional Research Service                                                                                            6
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+actions were later challenged in court, the President or Secretary might contend they were acting
+pursuant to a power granted to Congress.
+
+After Issuance
+In addition to delegating power to the President before an executive order issues, Congress may
+also ratify an already-issued executive order. For example, Congress may opt to provide
+unambiguous statutory authorization for the President’s actions after an order has issued. The
+Supreme Court has also held that Congress ratified an executive order indirectly when it referred
+to the executive order in later legislation or made appropriations recognizing the executive order’s
+impact.66 In 1923, President Warren G. Harding issued an executive order creating the National
+Petroleum Reserve in the then-territory of Alaska.67 In later litigation, the Supreme Court held in
+United States v. Alaska that the Reserve included submerged lands within its boundaries, and that
+the Alaska Statehood Act passed by Congress indicated that title to the Reserve remained with the
+United States.68 Nevertheless, Alaska argued President Harding lacked the authority to include
+submerged lands in his executive order creating the Reserve; therefore, Alaska, and not the
+federal government, owned the submerged lands.69
+The Supreme Court disagreed, reasoning that Congress ratified President Harding’s executive
+order when it enacted the Alaska Statehood Act.70 Notably, the Court held that Congress had
+ratified the executive order even though it was unclear whether the Pickett Act, which was
+enacted before the order was issued, gave the President the authority to include submerged
+lands.71 Even so, the Court held the order “placed Congress on notice that the President had
+construed his reservation authority to extend to submerged lands and had exercised that authority
+to set aside uplands and submerged lands in the Reserve to secure a source of oil for the Navy.”72
+Thereafter, the Court reasoned, “Congress acknowledged the United States’ ownership of and
+jurisdiction over the Reserve in . . . the [Alaska] Statehood Act.”73 “Congress ratified the
+inclusion of submerged lands within the Reserve, whether or not it had intended the President’s
+reservation authority under the Pickett Act to extend to such lands.”74 Accordingly, even if the
+executive order was originally issued without statutory authority, later action by Congress
+retroactively conferred that authority.
+
+
+66 Isbrandtsen-Moller Co. v. United States, 300 U.S. 139, 147–48 (1937) (“Congress appears to have recognized the
+
+validity of the transfer and ratified the President’s action by the appropriation Acts of April 7, 1934, March 22, 1935,
+and May 15, 1936, all of which make appropriations to the Department of Commerce for salaries and expenses to carry
+out the provisions of the Shipping Act as amended and refer to the executive order. The appellant insists that these
+references were casual and are not to be taken as ratifying the President’s action. We need not shop to consider the
+argument since, by the Merchant Marine Act of 1936, the functions of the former Shipping Board are referred to as
+‘now vested in the Department of Commerce pursuant to section 12 of the President’s Executive order (No. 6166.).’”);
+Fleming v. Mohawk Wrecking & Lumber Co., 331 U.S. 111, 119 (1947) (reasoning that recognition of reorganization
+by executive order in appropriations act “was an acceptance or ratification by Congress of the President’s action in
+Executive Order No. 9809.”).
+67 United States v. Alaska, 521 U.S. 1, 36 (1997).
+
+68 Id. at 40–42.
+
+69 Id. at 43.
+
+70 Id. at 44 (“We conclude that Congress ratified the terms of the 1923 Executive Order in § 11(b) of the Statehood
+
+Act.”).
+71 Id. at 45.
+
+72
+   Id.
+73 Id.
+
+74 Id.
+
+
+
+
+Congressional Research Service                                                                                         7
+                                                                                   Executive Orders: An Introduction
+
+
+
+
+Judicial Review of Executive Orders
+In some cases, there may be a question whether an executive order is valid; that is, a question
+whether the executive order was issued pursuant to a delegation of power by Congress or
+pursuant to the President’s constitutional powers.75 In such circumstances the executive order may
+be challenged in court, assuming that the other requirements for bringing suit (for example,
+standing) are met.76 Thus, courts have been called on to determine whether a particular executive
+order is valid.77 In some cases, the President contends that his action is allowed by an independent
+constitutional basis beyond that which has been conferred to him by Congress. In other cases, the
+question turns on whether the President’s action falls within the scope of a power granted to him
+by Congress.
+
+Determining Whether the President May Act
+In some cases, there may be a question whether the President has the power to act at all. The
+Supreme Court in Youngstown Sheet & Tube Co. v. Sawyer established the framework for
+analyzing whether the President has the power to act in a particular case when the allocation of
+constitutional authority between the President and Congress is ambiguous or disputed. Although
+Justice Hugo Black authored the majority opinion, the framework explained in Justice Robert H.
+Jackson’s concurring opinion has become more influential, and has since been employed by the
+courts to analyze the validity of presidential actions.
+Youngstown addressed President Truman’s executive order directing the Secretary of Commerce
+to take possession of most of the nation’s steel mills to ensure continued production, in an effort
+to avert the effects of a workers’ strike during the Korean War.78 The steel companies challenged
+the Order, and the Supreme Court held it unconstitutional.79 The majority, through Justice Black,
+wrote that “the President’s power to see that laws are faithfully executed refuted the idea that he
+is to be a lawmaker.”80 Thus, the Court reasoned that presidential authority to issue such an
+executive order, “if any, must stem either from an act of Congress or from the Constitution
+itself.”81 Because no statute or constitutional provision authorized President Truman’s Order, the
+Court concluded it was effectively a legislative act.82 The Court further noted that Congress
+rejected seizure as a means of settling labor disputes during consideration of the Taft-Hartley Act
+of 1947, and instead adopted other processes.83 Thus, the Court ruled that the Order violated the
+
+
+
+
+75 See, e.g., Trump v. Hawaii, 138 S. Ct. 2392, 2403–04 (2018).
+
+76 See id.
+
+77 See, e.g., id.
+
+78 Id. at 582; Exec. Order No. 10,340, 71 Fed. Reg. 3139 (Apr. 10, 1952).
+
+79 Youngstown, 343 U.S. at 582–84, 588–89.
+
+80 Id. at 587.
+
+81 Id. at 585.
+
+82 Id. at 587 (“The order cannot properly be sustained as an exercise of the President’s military power as Commander in
+
+Chief of the Armed Forces. . . . Nor can the seizure order be sustained because of the several constitutional provisions
+that grant executive power to the President. . . . The President’s order does not direct that a congressional policy be
+executed in a manner prescribed by Congress—it directs that a presidential policy be executed in a manner prescribed
+by the President.”).
+83 Id. at 586 (citing 93 Cong. Rec. 3637–3645, where Congress rejected an amendment that would have authorized
+
+governmental seizures in cases of emergency); see also Taft-Hartley Act of 1947, Pub. L. No. 80-101 (1947).
+
+
+
+Congressional Research Service                                                                                             8
+                                                                                   Executive Orders: An Introduction
+
+
+
+
+separation-of-powers doctrine, explaining that “the Founders of this Nation entrusted the
+lawmaking power to the Congress alone in both good and bad times.”84
+Although Justice Black’s opinion was joined by a majority of the Court, five justices wrote
+concurring opinions.85 Justice Jackson’s concurrence has proven to be the most influential.86 In
+that opinion, Justice Jackson established a tripartite scheme for analyzing the validity of
+presidential actions in relation to constitutional and congressional authority.87 Justice Jackson
+articulated three categories of executive action:
+     1. “When the President acts pursuant to an express or implied authorization of Congress.”88
+Justice Jackson opined that the President’s authority to act is at a maximum when he acts within
+this first category because this includes all of the power that the President “possesses in his own
+right plus all that Congress can delegate.”89 In other words, the President is acting pursuant to the
+branches’ combined authorities. Such action “would be supported by the strongest of
+presumptions and the widest latitude of judicial interpretation.”90
+     2. “When the President acts in absence of either a congressional grant or denial of
+     authority.”91
+In this second category, where Congress has neither granted nor denied authority to the President,
+Justice Jackson maintained that the President could still act upon his own independent powers. In
+that case, there is a “zone of twilight in which [the President] and Congress may have concurrent
+authority, or in which distribution is uncertain.”92 Under these circumstances, Justice Jackson
+observed that congressional acquiescence or silence “may sometimes, at least as a practical
+matter, enable, if not invite, measures on independent presidential responsibility,” yet “any actual
+test of power is likely to depend on the imperatives of events and contemporary imponderables
+rather than on abstract theories of law.”93
+For example, in United States v. Midwest Oil Co., the Supreme Court affirmed the President’s
+power to create reservations, notwithstanding that no specific statute conferred that power.94 The
+Court reasoned that after the President created reservations, “Congress did not repudiate the
+power claimed or the . . . orders made. On the contrary, it uniformly and repeatedly acquiesced in
+the practice, and, as shown by these records, there had been, prior to 1910, at least 252 Executive
+
+
+
+84 Youngstown, 343 U.S. at 586–89.
+
+85 Id. at 580 (listing concurring justices).
+
+86 Zivotofsky v. Kerry, 576 U.S. 1 (2015) (stating that “[i]n considering claims of Presidential power this Court refers
+
+to Justice Jackson’s familiar tripartite framework”); Harlan Grant Cohen, Formalism and Distrust: Foreign Affairs Law
+in the Roberts Court, 83 GEO. WASH. L. REV. 380, 394 (2015) (“Functionalism, in contrast, is at the heart of Justice
+Jackson’s influential concurrence in Youngstown, now often read as the central opinion in that case.”); Greg
+Goelzhauser, Silent Concurrences, 31 CONST. COMMENT. 351, 354 (2016) (“Among the best known [concurrences] is
+Justice Robert H. Jackson’s concurrence in Youngstown Sheet & Tube Co. v. Sawyer delineating a three-part
+framework for analyzing the constitutional validity of unilateral executive actions.” (footnote omitted)).
+87 Youngstown, 343 U.S. at 635–38 (Jackson, J., concurring).
+
+88 Id. at 635.
+
+89 Id. at 635–37.
+
+90 Id. at 637.
+
+91 Id. at 637.
+
+92
+   Id.
+93 Id.
+
+94 United States v. Midwest Oil Co., 236 U.S. 459, 470–71 (1915).
+
+
+
+
+Congressional Research Service                                                                                             9
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+orders making reservations for useful, though nonstatutory, purposes.”95 Although Midwest Oil
+was decided early in the 20th century, the Court has reaffirmed the principle that “long-continued
+practice, known to and acquiesced in by Congress, would raise a presumption that the [action]
+had been [taken] in pursuance of its consent.”96
+     3. “When the President takes measures incompatible with the expressed or implied will of
+     Congress.”97
+In this third category, where the President acts in a manner “incompatible with the expressed or
+implied will of Congress,” the President’s power is at its “lowest ebb . . . for he can only rely
+upon his own constitutional powers minus any constitutional powers of Congress over the
+matter.”98 Justice Jackson observed that courts generally “sustain exclusive presidential control
+. . . only by disabling the Congress from acting upon the subject.”99 He cautioned that
+examination of presidential action under this third category deserved more scrutiny because for
+the President to exercise such “conclusive and preclusive” power would endanger “the
+equilibrium established by our constitutional system.”100
+Although Justice Jackson recognized that because “[p]residential powers are not fixed but
+fluctuate, depending upon their disjunction or conjunction with those of Congress,” the three
+categories he established were a “somewhat over-simplified grouping.”101 Nevertheless, he
+maintained that the categories assisted in identifying “practical situations in which a President
+may doubt, or others may challenge, his powers, and by distinguishing roughly the legal
+consequences of this factor of relativity.”102
+After outlining his framework, Justice Jackson applied it to President Truman’s action. Justice
+Jackson determined that analysis under the first category was inappropriate, because Congress
+had not explicitly or implicitly authorized seizure of the steel mills.103 Justice Jackson also
+determined that President Truman’s action did not fall under the second category because
+Congress had addressed the issue of seizure by creating statutory methods of seizure that
+President Truman had not used.104 The Justice therefore concluded that the President’s action
+could be sustained, if at all, only if it passed muster under the third category; that is, the Order
+could be approved only if “seizure of such strike-bound industries is within his domain and
+
+
+95 Id. at 471.
+
+96 Dames & Moore v. Regan, 453 U.S. 654, 686 (1981) (quoting Midwest Oil, 236 U.S. at 474 (alterations in original)).
+
+Regarding Midwest Oil, however, Congress later enacted a statutory framework governing land withdrawal, and so the
+President can no longer exercise that broad authority. Nat’l Mining Ass'n v. Zinke, 877 F.3d 845, 856 (9th Cir. 2017)
+(describing the statutory scheme and stating that it “eliminates the implied executive branch withdrawal authority
+recognized in Midwest Oil, and substitutes express, limited authority.”).
+97 Youngstown, 343 U.S. at 637 (Jackson, J., concurring).
+
+98 Id.
+
+99 Id. at 637–38.
+
+100 Id. at 638.
+
+101 Id. at 635.
+
+102 Id. at 635. The Supreme Court later agreed that “it is doubtless the case that executive action in any particular
+
+instance falls, not neatly in one of three pigeonholes, but rather at some point along a spectrum running from explicit
+congressional authorization to explicit congressional prohibition.” Dames & Moore v. Regan, 453 U.S. 654, 669
+(1981).
+103 Youngstown, 343 U.S. at 638.
+
+104 Id. at 638–39 (“None of the [three methods of seizure created by Congress] were invoked. In choosing a different
+
+and inconsistent way of his own, the President cannot claim that it is necessitated or invited by failure of Congress to
+legislate upon the occasions, grounds and methods for seizure of industrial properties.”).
+
+
+
+Congressional Research Service                                                                                        10
+                                                                                   Executive Orders: An Introduction
+
+
+
+
+beyond the control of Congress.”105 As seizure of steel mills was within the scope of
+congressional power, the exercise of presidential power under these circumstances was “most
+vulnerable to attack and [left the President] in the least favorable of possible constitutional
+postures.”106
+San Francisco v. Trump provides another example of a court analyzing whether the President had
+the power to act in a particular manner.107 That case involved a challenge to President Trump’s
+executive order deeming so-called “sanctuary” jurisdictions ineligible for federal grants, and
+directing federal agencies “to withhold funds appropriated by Congress in order to further the
+Administration’s policy objective of punishing cities and counties that adopt so-called ‘sanctuary’
+policies.”108 Applying Justice Jackson’s Youngstown framework, the U.S. Court of Appeals for the
+Ninth Circuit (Ninth Circuit) reasoned that “because Congress has the exclusive power to spend
+and has not delegated authority to the Executive to condition new grants” on nonsanctuary
+statuses, and because the Constitution has not allocated the President any spending powers, the
+President’s power was “at its lowest ebb.”109 Because the President does not have spending
+powers under the Constitution, the court reasoned it was unavailable as a source of authority for
+the Order.110 And because Congress had not delegated to the President the ability to add
+conditions to federal grants, the court reasoned there was similarly no statutory authority for the
+Order.111 As the President could not rely on constitutional powers or on powers delegated by
+Congress, the court concluded there was “no reasonable argument that the President ha[d] not
+exceeded his authority.”112 Accordingly, the Ninth Circuit held that the Order was
+unconstitutional.113
+The Youngstown framework is relevant to assessing the allocation of constitutional powers
+between Congress and the President. There are additional limitations on the actions that the
+President may take, outside of the Youngstown framework. For example, the President may not
+take an unconstitutional action, even if Congress has authorized such action. Clinton v. New York
+illustrates the point.114 That case involved a challenge to the Line Item Veto Act, which allowed
+the President to veto particular provisions in a bill that Congress passed, rather than vetoing the
+bill in its entirety.115 The Line Item Veto Act passed both houses of Congress and was signed by
+the President, and President Clinton attempted to use the powers that Congress granted by
+cancelling particular provisions in a piece of legislation.116 Notwithstanding that Congress
+specifically gave the President that power, the Supreme Court held that the power violated the
+Presentment Clause of the U.S. Constitution and therefore could not be exercised.117
+
+
+105 Id. at 640.
+
+106 Id.
+
+107 897 F.3d 1225 (9th Cir. 2018).
+
+108 Id. at 1233 (citing Exec. Order 13,768, 82 Fed. Reg. 8799 (Jan. 25, 2017)).
+
+109 Id. at 1233–34.
+
+110 See id.
+
+111 Id.
+
+112 Id. at 1234–35.
+
+113 Id. at 1235. Other cities challenged the Attorney General’s implementation of the executive order. See, e.g., City of
+
+Philadelphia v. Sessions, 280 F. Supp. 3d 579, 600 (E.D. Pa. 2017). This litigation strategy (i.e., challenging agency
+implementation of the executive order) allowed those cities to use the APA as a basis for their claims. See id.
+114 524 U.S. 417, 436 (1998).
+
+115
+    Id.
+116 Id.
+
+117 Id. at 421.
+
+
+
+
+Congressional Research Service                                                                                           11
+                                                                                    Executive Orders: An Introduction
+
+
+
+
+Determining the Scope of Congress’s Delegation
+In other cases, it may be clear that Congress has granted some power to the President; then, the
+question may become whether the President’s action falls within the scope of the power he has
+been granted. When presidential action is challenged, a court would analyze whether the action
+taken falls within the President’s delegated power, and whether the action otherwise violates the
+Constitution.118
+Generally, courts will begin with the text of the statute delegating power to the President to
+determine the scope of Congress’s delegation of power.119 Courts will also consider the amount of
+power typically afforded to the President in the particular subject area at issue.120 In limited
+circumstances, courts may also consider whether Congress has failed to act after a consistent and
+long-standing pattern of executive action taken under the statute.121 If so, then a court may view
+Congress as having acquiesced to the President’s power to act under the statute.122
+Trump v. Hawaii—the Supreme Court case analyzing President Trump’s proclamation suspending
+entry of foreign nationals from certain countries—provides one example of this analysis.123 There,
+President Trump argued that Congress delegated to him the power to suspend immigration, in
+certain circumstances, under the Immigration and Nationality Act (INA), and that the
+proclamation’s entry suspension fell within that grant of power.124
+The Supreme Court determined that “[b]y its plain language, [the INA] grants the President broad
+discretion to suspend the entry of aliens into the United States.”125 The Court then held that “[t]he
+President lawfully exercised that discretion based on his findings—following a worldwide, multi-
+agency review—that entry of the covered aliens would be detrimental to the national interest.”126
+The Court began by looking at the INA’s relevant language, concluding that Congress’s language
+
+
+
+
+118 Action by an administrative agency, as opposed to the President himself, is reviewed differently under the APA, and
+
+is outside of the scope of this report. For further information on review of agency action, see CRS Report R44699, An
+Introduction to Judicial Review of Federal Agency Action, by Jared P. Cole; see also Franklin v. Massachusetts, 505
+U.S. 788, 800–01 (1992) (holding that the President is not an “agency” under the APA). Parties sometimes challenge
+administrative action implementing an executive order, rather than the order itself, due to the different review afforded
+under the APA. See supra note 17 and accompanying text.
+119 See, e.g., Trump v. Hawaii, 138 S. Ct. 2392, 2408 (2018) (beginning analysis with the “plain language” of the
+
+Immigration and Nationality Act); Hamdan v. Rumsfeld, 548 U.S. 557, 593 (2006) (determining whether presidential
+order was authorized by two statutes).
+120 Hawaii, 138 S. Ct. at 2409 (“[P]laintiffs’ request for a searching inquiry into the persuasiveness of the President’s
+
+justifications is inconsistent with the broad statutory text and the deference traditionally accorded the President in this
+sphere.”).
+121 See, e.g., Zemel v. Rusk, 381 U.S. 1, 11 (1965) (“Under some circumstances, Congress’ failure to repeal or revise in
+
+the face of such administrative interpretation has been held to constitute persuasive evidence that that interpretation is
+the one intended by Congress.”).
+122 See id. Courts tend to find that such a pattern exists relatively infrequently. See Medellin v. Texas, 552 U.S. 491,
+
+530 (2008) (rejecting a claim of congressional acquiescence).
+123 Trump v. Hawaii, 138 S. Ct. 2392, 2403–04 (2018). President Trump’s first two written instruments limiting
+
+immigration were executive orders, but the third instrument (which the Supreme Court reviewed) was a presidential
+proclamation. Id. Although styled differently, proclamations are not treated differently for the purposes of this analysis,
+and signal a difference in form rather than substance. See infra “Other Presidential Directives.”
+124
+    Hawaii, 138 S. Ct. at 2407–10.
+125 Id. at 2408.
+
+126 Id.
+
+
+
+
+Congressional Research Service                                                                                          12
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+“exudes deference to the President in every clause.”127 Specifically, the INA allows the President
+to determine
+     •     “whether and when to suspend entry (‘[w]henever [he] finds that the entry’ of
+           aliens ‘would be detrimental’ to the national interest);
+     •     whose entry to suspend (‘all aliens or any class of aliens’);
+     •     for how long (‘for such period as he shall deem necessary’); and
+     •     on what conditions (‘any restrictions he may deem to be appropriate’).”128
+The Court next examined whether President Trump’s actions fell within the powers granted by the
+INA.129 Considering Congress’s broad grant of authority, the Court determined that the
+proclamation fell “well within this comprehensive delegation.”130 The Court noted that the
+President “ordered [the Department of Homeland Security] and other agencies to conduct a
+comprehensive evaluation” of compliance with different metrics, and set forth in the
+proclamation findings detailing how each restricted country was deficient.131 Although the
+challengers argued this was insufficient support, the Court determined that the request for a
+“searching inquiry” was inconsistent with the “broad statutory text and the deference traditionally
+accorded the President in this sphere.”132 The Court further determined that the statutory structure
+and legislative purpose did not “justif[y] departing from the clear text of the statute.”133 As the
+proclamation was “expressly premised on legitimate purposes: preventing entry of nationals who
+cannot be adequately vetted and inducing other nations to improve their practices,” the Court also
+rejected a challenge under the First Amendment.134 Accordingly, Trump v. Hawaii illustrates how
+courts analyze the legality of particular executive action: analyzing the scope of the granted
+power (here, the INA) and whether the particular action (here, the proclamation) falls within that
+grant of power.135
+
+Determining the Scope of the Executive Order
+The validity of an executive order may involve not only construing the statute delegating power
+to the President (to determine the scope of the delegation of power) but also construing an
+executive order (to determine whether the executive action set forth in the order falls within
+Congress’s delegation). In those circumstances, courts may be called on to interpret the
+underlying executive order to determine its scope and impact.
+
+
+
+
+127 Id.
+
+128 Id.
+
+129 Id. at 2408–09.
+
+130 Id. at 2408.
+
+131 Id. at 2408–09.
+
+132 Id. at 2409.
+
+133 Id. at 2410–15.
+
+134 Id. at 2415–23.
+
+135 Notably, Trump v. Hawaii involves questions relating to national security and foreign affairs—two spheres where
+
+the President generally has greater leeway. Id. at 2409–10. If an executive order touched on purely domestic issues,
+there may be less deference. See, e.g., Chamber of Com. of U.S. v. Reich, 74 F.3d 1322, 1325 (D.C. Cir. 1996)
+(invalidating executive order which barred “the federal government from contracting with employers who hire
+permanent replacements during a lawful strike.”).
+
+
+
+Congressional Research Service                                                                                         13
+                                                                                    Executive Orders: An Introduction
+
+
+
+
+In the past, courts have at times determined the scope of executive orders using the same
+interpretive tools traditionally used to interpret congressional statutes.136 In recent years, some
+courts and commenters have questioned whether the rationales underlying the various approaches
+to statutory interpretation apply to the interpretation of executive orders.137 Regardless of any
+differences in rationales, however, there appears to be general agreement that the analysis begins
+with the text of the directive.138
+Other parts of the executive branch may also clarify or interpret an executive order after the order
+issues.139 In those situations, courts may accord deference to the agency’s interpretation of the
+order.140 In determining whether to defer to an agency’s interpretation of an executive order, a
+court may consider whether the interpretation is consistent with the order; whether the executive
+order appears to delegate interpretative authority to the agency; whether it binds other agencies;
+and the timing of the interpretation (for example, whether the interpretation was a post-hoc
+response to litigation).141
+For example, following President Trump’s executive order on so-called “sanctuary” jurisdictions,
+the Attorney General issued a memorandum interpreting the President’s Order and arguably
+narrowing its scope and applicability.142 The government argued that the Ninth Circuit should
+defer to the interpretation articulated in the Attorney General’s memorandum, and thus uphold the
+underlying executive order.143 The court refused to do so.144 In particular, the court noted that the
+interpretation in the memorandum was inconsistent with the text of the order; the memorandum
+did not appear to delegate interpretive power to the Attorney General; the memorandum did not
+bind other agencies; and the memorandum appeared to have been issued in response to litigation
+over the Order.145
+In addition to agency interpretations of the order, courts may also consider the object and policy
+of the order.146 In some cases, that may include public statements made by or on behalf of the
+
+136 See, e.g., Ex parte Endo, 323 U.S. 283, 298 (1944) (“We approach the construction of Executive Order No. 9066 as
+
+we would approach the construction of legislation in this field.”). For a description of the approaches to statutory
+interpretation, see CRS Report R45153, Statutory Interpretation: Theories, Tools, and Trends, by Valerie C. Brannon.
+137 San Francisco v. Trump, 897 F.3d 1225, 1238 (9th Cir. 2018) (“Executive orders are unlike both statutes and other
+
+agency actions. In contrast to the many established principles for interpreting legislation, there appear to be few such
+principles to apply in interpreting executive orders.”); Grove, supra note 3, at 884–90 (“To the extent one believes that
+constitutional theory and institutional considerations should inform interpretive method (as many scholars do),
+presidential directives should be treated as distinct instruments. In short, presidential directives are not statutes.”).
+138 San Francisco, 897 F.3d at 1238 (“[O]ne interpretive principle is clear, and its application is dispositive. As is true
+
+of interpretation of statutes, the interpretation of an Executive Order begins with its text, which must be construed
+consistently with the Order’s object and policy.”) (internal quotation marks and citation omitted); Bassidji v. Goe, 413
+F.3d 928, 934 (9th Cir. 2005) (“As is true of interpretation of statutes, the interpretation of an Executive Order begins
+with its text.”); Grove, supra note 3, at 910–24 (arguing that executive orders should be interpreted using textualism).
+139 San Francisco, 897 F.3d at 1240.
+
+140 Udall v. Tallman, 380 U.S. 1, 4 (1965) (holding that courts must respect “quite clearly a reasonable interpretation”
+
+of an executive order by an agency); Kester v. Campbell, 652 F.2d 13, 15 (9th Cir. 1981) (“In light of an agency’s
+presumed expertise in interpreting executive orders charged to its administration, we review such agency
+interpretations with great deference.”). Although Tallman seems to mandate deference to an agency’s interpretation of
+an executive order, its continued vitality may be in question considering the Supreme Court’s recent approach to
+interpretive deference. Chou, supra note 27, at 567–71 (chronicling cases).
+141 San Francisco, 897 F.3d at 1242.
+
+142 Id.
+
+143 Id.
+
+144
+    Id.
+145 Id.
+
+146 Bassidji, 413 F.3d at 934.
+
+
+
+
+Congressional Research Service                                                                                           14
+                                                                                 Executive Orders: An Introduction
+
+
+
+
+Administration regarding the subject matter of the order.147 In the case addressing President
+Trump’s order on so-called “sanctuary” jurisdictions, the court analyzed statements by President
+Trump’s Administration and by President Trump himself in interpreting the Order.148
+
+
+Modification and Revocation of Executive Orders
+Once issued, a valid executive order has the force and effect of law. Executive orders do not, by
+default, expire when the issuing President leaves office. Instead, an issued executive order
+remains in effect until it is either struck down in court, modified, or revoked. This section
+provides more detail on how executive orders may be modified or revoked.
+
+Modification or Revocation by the President
+Executive orders are a powerful and flexible tool for Presidents to create policy and issue
+directives during their Administrations. However, executive orders are less persistent than other
+acts that have the force and effect of law, such as federal statutes that can be altered only through
+later-in-time enactments, because a sitting President can revoke or modify his or a prior
+President’s executive order by issuing a new executive order.149 In other words, if the current
+President disagrees with an existing executive order for any reason, he normally may revoke or
+modify that order without delay and without consulting with the other branches of government
+(unless Congress has codified the prior order in statute).150 Presidents may also revoke or modify
+executive orders issued earlier in their Administrations; more frequently, however, new Presidents
+revoke or modify executive orders issued by one of their predecessors.
+
+Revocation by Present Administration
+Sometimes a President will revoke or modify an executive order issued earlier in his own
+Administration. For example, in 2015, President Barack Obama revoked one of his prior
+executive orders, Executive Order 13,514,151 which aimed to reduce energy use by the federal
+government, and replaced that Order with a broader Order aimed at reducing the federal
+government’s contribution to climate change.152
+
+Revocation by Later Administrations
+More commonly, Presidents will revoke or modify executive orders issued by one of their
+predecessors. For example, in April 1992, President George H. W. Bush issued an executive order
+requiring that most federal contracts include a provision requiring the contractor to post a notice
+that employees could not be required to join or maintain membership in a labor union.153
+
+
+
+147 San Francisco, 897 F.3d at 1242–43.
+
+148 Id.
+
+149 Jack M. Beermann, Presidential Power in Transitions, 83 B.U. L. REV. 947, 994–95 (2003) (“Executive orders are
+
+also freely revocable and revisable by a subsequent President. All an incoming President needs to do to revoke or revise
+an executive order issued by his predecessor is issue a new executive order.”).
+150 Id.
+
+151 Exec. Order No. 13,514, 74 Fed. Reg. 52,117 (Oct. 5, 2009), revoked by Exec. Order No. 13,693, 80 Fed. Reg.
+
+15,871 (Mar. 9, 2015).
+152 Exec. Order No. 13,693, 80 Fed. Reg. 15,871 (Mar. 9, 2015).
+
+153 Exec. Order No. 12,800, 57 Fed. Reg. 12,985 (Apr. 13, 1992).
+
+
+
+
+Congressional Research Service                                                                                       15
+                                                                                 Executive Orders: An Introduction
+
+
+
+
+President Clinton revoked that Order in February 1993.154 President George W. Bush revoked
+President Clinton’s revocation in February 2001.155 President Obama revoked President Bush’s
+revocation of President Clinton’s revocation in January 2009.156
+The evolution of executive orders used to control and influence the agency rulemaking process
+illustrates how executive orders can modify or revoke orders used by a previous Administration,
+particularly when the executive order was issued by a President of a different political party. The
+following timeline demonstrates how succeeding Presidents have gradually modified the
+rulemaking process used by administrative agencies157 with a uniform set of standards regarding
+cost-benefit considerations:
+    •    President Gerald Ford issued Executive Order 11,821, which required agencies to
+         issue inflation impact statements for proposed regulations.158
+    •    President Jimmy Carter altered this practice with Executive Order 12,044, which
+         required agencies to consider the potential economic impact of certain rules and
+         identify alternatives.159
+    •    President Ronald Reagan revoked President Carter’s Order and issued Executive
+         Order 12,291, which directed agencies to implement rules only if the “potential
+         benefits to society for the regulation outweigh the potential costs to society.”160
+         This required agencies to prepare a cost-benefit analysis for any proposed rule
+         that could have a significant economic impact.161
+    •    President William J. Clinton issued Executive Order 12,866, which modified the
+         system established during the Reagan Administration.162 While retaining many of
+         the basic features of President Reagan’s Order, Executive Order 12,866 arguably
+         eased the cost-benefit analysis requirements.
+    •    President George W. Bush subsequently issued two executive orders—Executive
+         Orders 13,258 and 13,422—which amended President Clinton’s Order.163
+         Executive Order 13,258 concerned regulatory planning and review, and removed
+         references from President Clinton’s Order regarding the Vice President’s role,
+         and instead referenced the Director of OMB or the President’s Chief of Staff.164
+
+154 Exec. Order No. 12,836, 58 Fed. Reg. 7045 (Feb. 1, 1993).
+
+155 Exec. Order No. 13,201, 66 Fed. Reg. 11,221 (Feb. 17, 2001).
+
+156 Exec. Order No. 13,496, 74 Fed. Reg. 6107 (Jan. 30, 2009). As of this writing, President Obama’s Order has not
+
+been revoked.
+157
+    5 U.S.C. §§ 551 et seq. For further description of the rulemaking process and its requirements, see CRS Report
+R41546, A Brief Overview of Rulemaking and Judicial Review, by Todd Garvey; and CRS Report RL32240, The
+Federal Rulemaking Process: An Overview, coordinated by Maeve P. Carey.
+158 Exec. Order No. 11,821, 39 Fed. Reg. 41,501 (Nov. 27, 1974).
+
+159 Exec. Order No. 12,044, 43 Fed. Reg. 12,661 (Mar. 23, 1978).
+
+160 Exec. Order No. 12,291, 46 Fed. Reg. 13,193 (Feb. 17, 1981).
+
+161 Executive Order 12,291 was criticized by some as a violation of the separation-of-powers doctrine, on grounds that
+
+it imbued the President with the power to essentially control rulemaking authority that had been committed to a
+particular agency by Congress. See, e.g., Morton Rosenberg, Beyond the Limits of Executive Power: Presidential
+Control of Agency Rulemaking Under Executive Order 12291, 80 MICH. L. REV. 193 (1981); Erik D. Olsen, The Quiet
+Shift of Power: OMB Supervision of EPA Rulemaking Under Executive Order 12,291, 4 VA. J. NAT. RES. L. 1 (1984).
+Despite these concerns, there were no court rulings that assessed the validity of President Reagan’s Order.
+162 Exec. Order No. 12,866, 58 Fed. Reg. 51,735 (Oct. 4, 1993).
+
+163 Exec. Order No. 13,258, 67 Fed. Reg. 9385 (Feb. 28, 2002); Exec. Order No. 13,422, 72 Fed. Reg. 2763 (Jan. 23,
+
+2007).
+164 Exec. Order No. 13,528, 67 Fed. Reg. 9385 (Feb. 28, 2002).
+
+
+
+
+Congressional Research Service                                                                                       16
+                                                                                 Executive Orders: An Introduction
+
+
+
+
+          Executive Order 13,422 applied several parts of President Clinton’s Order to
+          agency guidance documents.165 It also required each agency head to designate a
+          presidential appointee to the newly created position of regulatory policy officer.
+          Executive Order 13,422 also made changes to the Office of Information and
+          Regulatory Affairs’ (OIRA’s) duties and authorities, including a requirement that
+          OIRA be given advance notice of significant guidance documents.
+     •    President Obama revoked both of President Bush’s Orders via Executive Order
+          13,497.166 This Order also instructed the Director of OMB and the heads of
+          executive departments and agencies to rescind orders, rules, guidelines, and
+          policies that implemented President Bush’s Orders identified above.167
+     •    Although President Trump did not revoke President Obama’s Executive Order
+          13,497, he did issue a number of executive orders regarding rulemaking and the
+          regulatory process.168
+     •    President Biden revoked a number of President Trump’s Orders on these
+          issues.169
+
+Modification, Abrogation, or Codification by Congress
+As explained previously, a President may issue an executive order using powers delegated to him
+by Congress.170 Congress may modify or nullify the legal effect of an executive order issued
+pursuant to powers it delegated to the President.171 (Congress could not, however, directly modify
+or revoke an executive order issued pursuant to powers granted exclusively to the President by
+the Constitution.)172 This section describes the process for congressional revocation or
+modification of a particular order, before discussing selected congressional proposals to limit the
+power of executive orders more broadly.
+
+Modifying or Abrogating Specific Orders
+To effectuate a repeal of a particular executive order, Congress sometimes enacts legislation
+directing that the order “shall not have legal effect” or “is revoked.” For example, the Energy
+Policy Act of 2005 explicitly revoked a December 13, 1912, executive order that had created the
+Naval Petroleum Reserve Numbered 2.173 In 1992, Congress similarly revoked an executive order
+issued by President George H. W. Bush that directed the Secretary of Health and Human Services
+
+
+165 Exec. Order No. 13,422, 72 Fed. Reg. 2763 (Jan. 23, 2007).
+
+166 Exec. Order No. 13,497, 74 Fed. Reg. 6113 (Feb. 4, 2009) (revoking Exec. Order Nos. 13,528 and 13,422).
+
+167 Id.
+
+168 See, e.g., Exec. Order No. 13,777, 82 Fed. Reg. 12,285 (Feb. 24, 2017); Exec. Order No. 13,771, 82 Fed. Reg. 9339
+
+(Jan. 30, 2017).
+169 Exec. Order No. 13,992, 86 Fed. Reg. 7049 (Jan. 20, 2021).
+
+170 See supra “Authority for Executive Orders.”
+
+171 Youngstown Sheet & Tube Co. v. Sawyer, 343 U.S. 579, 635–38 (1952). Consistent with the Youngstown
+
+framework, Congress’s authority to override an executive order relating to an area in which the President and Congress
+share power would likely depend on “the imperatives of events and contemporary imponderables.” See id. at 637
+(“[T]here is a zone of twilight in which he and Congress may have concurrent authority, or in which its distribution is
+uncertain.”).
+172 See id.
+
+173 Pub. L. No. 109-58, § 334 (2005) (“Effective on the date of the enactment of this Act, the Executive Order of
+
+December 13, 1912, which created Naval Petroleum Reserve Numbered 2, is revoked in its entirety.”).
+
+
+
+Congressional Research Service                                                                                       17
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+to establish a human fetal tissue bank for research purposes. The repeal legislation stated: “[t]he
+provisions of Executive Order 12806 . . . shall not have any legal effect.”174
+Repeals occur through passage of legislation through ordinary means; thus, legislative repeals
+may be relatively rare due to the threat of a presidential veto.175 In other words, if the President
+agrees that an order should be revoked, the President can revoke it by his own order; if the
+President disagrees, then Congress would presumably need sufficient votes to overcome a veto.
+Additionally, Congress may inhibit the implementation of an executive order by preventing funds
+from being used to put the order into practice. For example, Congress has used its appropriations
+authority to limit the effect of executive orders by denying salaries and expenses for an office
+established in an executive order,176 or by directly denying funds to implement a particular section
+of an order.177
+Although outside of the executive order context, the case of Zivotofsky v. Kerry178 illustrates that
+it is unconstitutional for Congress to legislate in an area granted exclusively to the President by
+the Constitution, and, by extension, that Congress could not revoke or modify an executive order
+that relied on the President’s exclusive constitutional powers. In Zivotofsky, Congress enacted a
+statute that allowed U.S. citizens born in Jerusalem to list their place of birth on their passport as
+“Israel”—suggesting that Jerusalem was under Israeli sovereignty.179 The statute attempted to
+override the State Department’s manual, which indicated that such citizens should list their
+birthplace as “Jerusalem,” because the United States does not recognize any sovereign as
+controlling Jerusalem.180 Zivotofsky requested that Israel be listed as his birthplace on his
+passport, but the American Embassy in Tel Aviv refused.181 Invoking the statute, Zivotofsky sued;
+the executive branch argued that under the Constitution, the President has the sole power to
+recognize sovereigns.182 Drawing upon Justice Jackson’s analysis from Youngstown, the Supreme
+Court reasoned that, because Congress had legislated on this particular issue, the President’s
+power was “at its lowest ebb.”183 Nevertheless, the Court analyzed the Constitution’s text and
+
+174 Pub. L. No. 103-43, § 121 (1993). See also Duncan Hunter National Defense Authorization Act for Fiscal Year
+
+2009, H.R. 5658, § 2587, 110th Cong. (2008) (would have revoked Executive Order 1922 of April 24, 1914, as
+amended, as it affected certain lands identified for conveyance to Utah).
+175 For example, a 1999 study found that, at that time, Congress had modified or repealed 239 executive orders.
+
+William J. Olson & Alan Woll, Executive Orders and National Emergencies: How Presidents Have Come to “Run the
+Country” by Usurping Legislative Power, 358 POLICY ANALYSIS 1, 10, App’x 3 (Oct. 28, 1999), https://www.cato.org/
+sites/cato.org/files/pubs/pdf/pa358.pdf. Another study suggests that less than 4% of executive orders have been
+modified by Congress. See ADAM L. WARBER, EXECUTIVE ORDERS AND THE MODERN PRESIDENCY 118–20 (2006).
+176 Congress has repeatedly enacted appropriations laws that prohibit funds from being used to establish a Legal
+
+Examining Unit within the Office of Personnel Management (OPM) pursuant to Executive Order 9358, 8 Fed. Reg.
+9175 (July 6, 1943), issued by President Franklin D. Roosevelt. President Roosevelt had discretionary authority
+pursuant to statute to issue regulations, via executive order, to organize the civil service and direct the Civil Service
+Commission, the precursor to OPM. See Pub. L. No. 76-880, § 1 (1940); Exec. Order No. 8743, 6 Fed. Reg. 2117 (Apr.
+25, 1941). Appropriations laws that contain this prohibition include Pub. L. No. 105-61 (1997); Pub. L. No. 105-277
+(1998); Pub. L. No. 106-58 (1999); Pub. L. No. 106-554 (2000); Pub. L. No. 107-67 (2001); Pub. L. No. 108-7 (2003);
+Pub. L. No. 108-199 (2004); Pub. L. No. 108-447 (2004); Pub. L. No. 109-115 (2005); Pub. L. No. 110-161 (2007);
+Pub. L. No. 111-8 (2009); Pub. L. No. 111-117 (2009).
+177 See, e.g., Pub. L. No. 111-8 (2009) (preventing funds from being used “to implement, administer, or enforce”
+
+Executive Order 13422 § 5(b), which was subsequently revoked by Executive Order 13497).
+178 576 U.S. 1 (2015).
+
+179 Id. at 8.
+
+180 Id.
+
+181
+    Id.
+182 Id. at 9.
+
+183 Id. at 10.
+
+
+
+
+Congressional Research Service                                                                                        18
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+structure, along with precedent and history, and held that the power to recognize foreign
+sovereigns fell to the President alone.184 Because the statute required the executive branch to
+contradict the President’s recognition determination in an official document, the Court held it was
+unconstitutional.185 Accordingly, any congressional attempt to revoke or modify an executive
+order issued based on the President’s exclusive constitutional authority would likely be similarly
+unconstitutional.186
+
+Codifying Specific Orders
+Congress may also enact legislation that specifically references and codifies the terms of a
+previously issued executive order.187 By codifying the sanctions in statute, Congress may ensure
+that the issuing Administration (or a later Administration) does not revoke them.188 For example,
+22 U.S.C. § 9522 codifies sanctions against the Russian Federation set forth in a series of
+executive orders, and provides the manner in which the President may terminate the sanctions.
+Because Congress codified the terms of the Order in a statute, the President may no longer revoke
+the Order using a new executive order; instead, the procedure set out in the statute must be
+followed and any preconditions must be met. Thus, Congress’s codification of a particular order
+renders the terms of the order more permanent.
+
+Imposing Broader Limitations on Executive Orders
+In addition to legislating regarding specific executive orders, Congress has also, at times,
+attempted to curtail the President’s power to issue executive orders more broadly through
+legislation. For example, the National Emergencies Act189 terminated, as of September 14, 1978,
+“[a]ll powers and authorities possessed by the President, any other officer or employee of the
+Federal Government, or any executive agency, . . . , as a result of the existence of any declaration
+of national emergency in effect” on the date of enactment,190 and attempted to curtail the
+President’s ability to declare and maintain new national emergencies.191 Whether that attempt
+successfully curtailed presidential power may be subject to debate.192 Since the NEA’s enactment,
+legislative proposals have occasionally been introduced to increase legislative oversight of
+executive orders generally.193
+
+
+184 Id. at 28.
+
+185 Id. at 30–31.
+
+186 Nevertheless, as explained previously, Congress may indirectly circumscribe the effect of an executive order by, for
+
+example, refusing to provide funding to implement the order. See supra notes 176–177 and accompanying text. In
+Zivotofsky the Court noted that the President could not, for example, build an embassy absent appropriations from
+Congress, id. at 15, and that Congress may circumscribe the impact of Presidential recognition by “enact[ing] an
+embargo, declin[ing] to confirm an ambassador, or even declar[ing] war,” id. at 30.
+187 See, e.g., 22 U.S.C. § 9522 (codifying sanctions against the Russian Federation set forth in a series of executive
+
+orders).
+188 See infra “Modification and Revocation of Executive Orders.”
+
+189 Pub. L. No. 914-412 (1976) (codified at 50 U.S.C. §§ 1601 et seq.).
+
+190 50 U.S.C. § 1601.
+
+191 Id. §§ 1621–22, 1631, 1641.
+
+192 In recent years the NEA has been used to arguably expand presidential power. For example, declaring a national
+
+emergency allows the President to invoke and take action pursuant to more than 100 statutes. CRS Report R46379,
+Emergency Authorities Under the National Emergencies Act, Stafford Act, and Public Health Service Act, coordinated
+by Jennifer K. Elsea.
+193 For example, the Separation of Powers Restoration Act (SPRA), introduced in the 106th Congress with more than
+
+(continued...)
+
+
+
+Congressional Research Service                                                                                        19
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+Other Presidential Directives
+While this report generally addresses the President’s use of executive orders, presidential
+directives may take other forms, including proclamations and memoranda.194 As with executive
+orders, the effect of these directives depends on their substance and source of legal authority.
+Often, the differences among the three instruments may be a matter of form rather than function
+and effect.195 A report issued in 1957 by the House of Representatives Government Operations
+Committee may shed some light on perceived differences.196 According to that report,
+“[e]xecutive orders are generally directed to, and govern actions by, Government officials and
+agencies. They usually affect private individuals only indirectly.”197 Proclamations, by contrast,
+“in most instances affect primarily the activities of private individuals.”198 According to the
+report, because “the President has no power or authority over individual citizens and their rights
+except where he is granted such power and authority by a provision in the Constitution or by
+statute, the President’s proclamations are not legally binding and are at best hortatory unless
+based on such grants of authority.”199 Nevertheless, certain statutes delegating power to the
+President may require that power to be exercised using a particular type of instrument. For
+example, the INA provides that the President may restrict or suspend entry of foreign nationals
+“by proclamation, and for such period as he shall deem necessary.”200
+Nevertheless, any distinction among these instruments—executive orders, presidential
+memoranda, and proclamations—is muddied by the fact that all three may be employed to direct
+and govern the actions of government officials and agencies.201 The OLC has opined that “there is
+
+40 sponsors, would have similarly terminated then-existing national emergencies, and allowed only Congress to declare
+new emergencies. H.R. 2655, 106th Cong. (1999). SPRA would have also required any presidential order to include “a
+statement of the specific statutory or constitutional provision which in fact grants the President the authority claimed
+for” the order, and that any order without that statement would be invalid if “issued under authority granted by a
+congressional enactment.” Id. § 4. The SPRA would also have limited presidential orders to affecting the executive
+branch only, and would have given certain parties the power to challenge such orders. Id. §§ 5-6. The Presidential
+Order Limitation Act of 1999 (POLA) provides another example. H.R. 3131, 106th Cong. (1999). POLA aimed to
+allow for increased congressional review of presidential orders by requiring the President to transmit orders to certain
+congressional officers. Id. § 3. Neither proposal received a vote.
+194 See, e.g., Termyn, supra note 2, at 7 (“Presidents utilize various written instruments to direct the Executive branch
+
+and implement policy. These include executive orders, proclamations, presidential memoranda, administrative
+directives, findings, and others. Most of the time, the President is free to choose the instrument she wishes to use to
+carry out the executive function.”).
+195 For example, President Trump issued three written instruments suspending immigration of nationals of certain
+
+countries early in his term. See Trump v. Hawaii, 138 S. Ct. 2392, 2403–04 (2018). The first two instruments were
+styled as executive orders; the third was styled as a proclamation. Id. In Hawaii, the Supreme Court did not comment
+on the change in form. See id.
+196 H. Comm. on Gov’t Operations, 85th Cong., Executive Orders and Proclamations: A Study of a Use of Presidential
+
+Powers 1 (Comm. Print 1957).
+197 Id.
+
+198 Id.
+
+199 Id.
+
+200 8 U.S.C. § 1182(f).
+
+201 See, e.g., Exec. Order No. 13,658, 79 Fed. Reg. 9851 (Feb. 12, 2014) (establishing a minimum wage for
+
+contractors); Exec. Order No. 13,588, 76 Fed. Reg. 68,295 (Nov. 3, 2011) (reducing prescription drug shortages);
+Memorandum for Heads of Executive Dep’t and Agencies on Advancing Pay Equality in the Federal Government and
+Learning From Successful Practices (May 10, 2013); Memorandum to Secretary of State on Waiver of Restriction on
+Providing Funds to the Palestinian Authority (Feb. 8, 2013); Proclamation No. 9072, 78 Fed. Reg. 80,417 (Dec. 23,
+2013) (ordering “Certain Action Under the African Growth and Opportunity Act and for Other Purposes”);
+Proclamation No. 8783, 77 Fed. Reg. 14,265 (Mar. 6, 2012) (implementing the United States-Korea Free Trade
+(continued...)
+
+
+
+Congressional Research Service                                                                                        20
+                                                                                  Executive Orders: An Introduction
+
+
+
+
+no substantive difference in the legal effectiveness of an executive order and a presidential
+directive that is styled other than as an executive order,” and that “it is the substance of a
+presidential determination or directive that is controlling and not whether the document is styled
+in a particular manner.”202 Moreover, if issued under a legitimate claim of authority and made
+public, a presidential directive could have the force and effect of law, “of which all courts are
+bound to take notice, and to which all courts are bound to give effect.”203 The only technical
+difference is that executive orders and proclamations must be published in the Federal Register
+(unless they do not have “general applicability and legal effect” or are “effective only against
+Federal agencies or persons in their capacity as officers, agents, or employees thereof”), whereas
+presidential memoranda are published only when the President determines they have “general
+applicability and legal effect.”204
+By its terms, the order setting forth the issuance process for executive orders applies only to
+executive orders and proclamations.205 Nevertheless, other presidential directives often go
+through extensive review before the President signs them.206 The main difference is that, whereas
+OMB oversees the process for issuing executive orders and proclamations, OLC typically
+oversees the process for other presidential directives.207
+
+
+Conclusion
+Executive orders are one method through which Presidents exercise their power. When issued
+pursuant to a valid grant of authority (i.e., one of the powers granted to the President under the
+Constitution or a power delegated to the President by Congress), executive orders have the force
+and effect of law. Although executive orders are flexible and potentially powerful tools to shape
+government policy, they are also impermanent. Later Administrations can modify or revoke a
+prior President’s executive orders, and Congress can also modify or otherwise circumscribe the
+legal effect of executive orders that address matters where the President does not possess
+exclusive constitutional authority.
+
+
+
+
+Agreement). See also Termyn, supra note 2, at 7 (“Though historical practice might suggest proclamations are more
+geared towards private individuals, while orders are more towards administration of government, more recent accounts
+suggest that the instruments defy these distinctions too often for any differences to be legally significant.” (footnote
+omitted)).
+202 Legal Effectiveness of a Presidential Directive, as Compared to an Executive Order, 24 Op. O.L.C. 29, 29 (2000).
+
+203 Armstrong v. United States, 80 U.S. 154, 155–56 (1871); see also Phillip J. Cooper, By Order of the President:
+
+Administration by Executive Order and Proclamation, 18 ADMIN. & SOC’Y 233, 240 (Aug. 1986) (citing Farkas v.
+Texas Instrument, Inc., 372 F.2d 629 (5th Cir. 1967); Farmer v. Phil. Elec. Co., 329 F.2d 3 (3d Cir. 1964); Jenkins v.
+Collard, 145 U.S. 546, 560–61 (1893)).
+204 44 U.S.C. § 1505.
+
+205
+    Exec. Order No. 11,030, § 2(a), 3 C.F.R. § 610 (1959–1963).
+206 Grove, supra note 3, at 908.
+
+207 Id.
+
+
+
+
+Congressional Research Service                                                                                        21
+                                                                          Executive Orders: An Introduction
+
+
+
+
+Author Information
+
+Abigail A. Graber, Coordinator
+Legislative Attorney
+
+
+
+
+Acknowledgments
+Former Legislative Attorney Kevin T. Richards was the author of this report. Future inquiries from
+congressional clients on this issue can be submitted to Abigail A. Graber, who is listed as coordinator for
+this product but is not the author. Previous versions of this report were written by Todd Garvey, Legislative
+Attorney; T.J. Halstead, Deputy Director, Congressional Research Service; and Vivian S. Chu.
+
+
+
+Disclaimer
+This document was prepared by the Congressional Research Service (CRS). CRS serves as nonpartisan
+shared staff to congressional committees and Members of Congress. It operates solely at the behest of and
+under the direction of Congress. Information in a CRS Report should not be relied upon for purposes other
+than public understanding of information that has been provided by CRS to Members of Congress in
+connection with CRS’s institutional role. CRS Reports, as a work of the United States Government, are not
+subject to copyright protection in the United States. Any CRS Report may be reproduced and distributed in
+its entirety without permission from CRS. However, as a CRS Report may include copyrighted images or
+material from a third party, you may need to obtain the permission of the copyright holder if you wish to
+copy or otherwise use copyrighted material.
+
+
+
+
+Congressional Research Service             R46738 · VERSION 6 · NEW                                        22
+

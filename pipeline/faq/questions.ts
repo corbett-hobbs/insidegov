@@ -9,7 +9,7 @@ import { z } from "zod";
  * line) or how it is measured (that is the chart's Data notes). Edited by hand and reviewed like code.
  */
 
-export const FAQ_PAGES = ["economy", "immigration", "energy", "trade"] as const;
+export const FAQ_PAGES = ["economy", "immigration", "energy", "trade", "foreign-aid", "troops-abroad", "executive-orders", "laws", "decisions"] as const;
 export type FaqPage = (typeof FAQ_PAGES)[number];
 
 export const questionSource = z.strictObject({
@@ -23,7 +23,7 @@ export const questionSource = z.strictObject({
    * The source's figures come from the site's own copy of the agency's data (`facts.ts`), not from the page at `url`, which
    * only renders in a browser. The re-check workflow re-runs these when the data updates.
    */
-  facts: z.enum(["encounters", "debt", "electricity", "ngExports"]).optional(),
+  facts: z.enum(["encounters", "debt", "electricity", "ngExports", "aid", "troops"]).optional(),
 });
 export type QuestionSource = z.infer<typeof questionSource>;
 

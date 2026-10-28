@@ -34,6 +34,7 @@ export const ALLOWED_HOSTS: Record<string, string> = {
   "bis.gov": "Bureau of Industry and Security",
   "commerce.gov": "Department of Commerce",
   "defense.gov": "Department of Defense",
+  "osd.mil": "Office of the Secretary of Defense (incl. the Defense Manpower Data Center)",
   "usaid.gov": "USAID",
   "foreignassistance.gov": "ForeignAssistance.gov",
   "federalregister.gov": "Federal Register",

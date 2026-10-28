@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { ReversibleSortToggle } from "@/components/charts/SortToggle";
@@ -28,7 +28,7 @@ const SORTS: { key: AreaSortKey; label: string; hint: string }[] = [
  * (a comparison chart, so a selection dims the other rows instead of removing them, rule 4). "All topics" is pinned
  * first. Clicking a row ticks just that topic in the pinned bar; clicking it again, or All, clears the filter.
  */
-export function AreasCard() {
+export function AreasCard({ jump }: { jump?: ReactNode }) {
   const { data, range, areas } = useDecisionsValues();
   const { setAreas } = useDecisionsActions();
   const [sort, setSort] = useState<AreaSort>({ key: "n", reversed: false });
@@ -59,6 +59,7 @@ export function AreasCard() {
 
   return (
     <ChartCard
+      id="which-kinds-of-cases-split-the-court"
       title={DECISIONS_TAKEAWAYS.areas.title}
       takeaway={DECISIONS_TAKEAWAYS.areas.takeaway}
       action={
@@ -100,6 +101,7 @@ export function AreasCard() {
           head={["Topic", "Cases", ...BAND_SHORT]}
           rows={rows.map((r) => [r.label, r.total, ...r.bucket])}
         />
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

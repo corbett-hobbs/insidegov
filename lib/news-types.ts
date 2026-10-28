@@ -2,7 +2,7 @@ import { z } from "zod";
 
 /**
  * The contract for the page-level "In the news" and "Frequently asked questions" sections: the shape of
- * `pipeline/output/news_<page>.json` and `faq_<page>.json` (page = `economy` | `immigration` | `energy` | `trade`), which the news and FAQ
+ * `pipeline/output/news_<page>.json` and `faq_<page>.json` (page = `economy` | `immigration` | `energy` | `trade` | `foreign-aid` | `troops-abroad` | `executive-orders` | `laws` | `decisions`), which the news and FAQ
  * pipelines write and `lib/news-data.ts` reads. Pure (no `server-only`), so the pipelines' tests and the unit tests can import it.
  *
  * `chartId` / `chartIds` are the DOM id of the card a story or question is about:
@@ -11,6 +11,11 @@ import { z } from "zod";
  *  - Immigration: `chart-green-cards`, `chart-refugees`, `chart-encounters`, `chart-removals`.
  *  - Energy (FAQ only): `electricity`, `supply`, `oil`, `lng`, `spr`.
  *  - Trade (FAQ only): `trade-balance`, `tariffs`, `who-the-u-s-trades-with`, `what-the-u-s-trades`, `did-tariffs-shift-trade`.
+ *  - Foreign aid (FAQ only): `how-much-the-u-s-spends`, `where-it-goes-and-who-receives-the-most`, `who-s-been-no-1`.
+ *  - Troops abroad (FAQ only): `how-many-troops-are-stationed-abroad`, `where-they-are-and-who-hosts-the-most`, `who-s-hosted-the-most`.
+ *  - Executive orders (FAQ only): `executive-orders-signed-per-year-by-topic`.
+ *  - Laws (FAQ only): `how-many-laws-does-congress-pass`, `how-broadly-are-laws-supported`, `which-kinds-of-laws-pass-and-how`.
+ *  - Decisions (FAQ only): `how-many-cases-does-the-court-decide`, `how-divided-is-the-court`, `which-kinds-of-cases-split-the-court`.
  * An id the page does not know is dropped (the story or the chip), never an error. The sparkline, latest value and its date
  * caption come from the page's own chart data, not from these files.
  */
@@ -76,4 +81,4 @@ export const faqFile = z.object({
 });
 export type FaqFile = z.infer<typeof faqFile>;
 
-export type NewsPage = "economy" | "immigration" | "energy" | "trade";
+export type NewsPage = "economy" | "immigration" | "energy" | "trade" | "foreign-aid" | "troops-abroad" | "executive-orders" | "laws" | "decisions";

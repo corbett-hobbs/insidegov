@@ -86,10 +86,11 @@ export function neutralityProblem(text: string, sentences: readonly string[] = s
   const loaded = text.match(LOADED_RE);
   if (loaded) return `"${loaded[0]}" is a loaded word; describe it in plain, neutral terms`;
   const allowed = new Set(allowNames);
-  const party = text.match(PARTY);
-  if (party && !allowed.has(party[0])) return `"${party[0]}": leave parties and political labels out`;
-  const person = text.match(POLITICIAN_RE) ?? text.match(NAMED_ADMIN);
-  if (person && !allowed.has(person[0])) return `"${person[0]}": name the office ("the President"), not the politician`;
+  // Every match, not the first: an allowed name must not let a second, unallowed one through.
+  const party = [...text.matchAll(new RegExp(PARTY, "gi"))].find((m) => !allowed.has(m[0]));
+  if (party) return `"${party[0]}": leave parties and political labels out`;
+  const person = [...text.matchAll(new RegExp(POLITICIAN_RE, "g")), ...text.matchAll(new RegExp(NAMED_ADMIN, "g"))].find((m) => !allowed.has(m[0]) && !allowed.has(m[0].replace(/ administration$/, "")));
+  if (person) return `"${person[0]}": name the office ("the President"), not the politician`;
   for (const s of sentences) {
     const cause = s.match(CAUSE);
     const policy = s.match(POLICY);
