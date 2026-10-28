@@ -242,7 +242,7 @@ describe("the page file", () => {
       economy: ["chart-gas", "chart-diesel", "chart-infl", "chart-jobs", "chart-un", "chart-wage", "chart-gdp", "chart-mort", "chart-def", "chart-debt", "chart-inc"],
       immigration: ["chart-encounters", "chart-removals", "chart-green-cards", "chart-refugees"],
       trade: ["tariffs", "trade-balance"],
-      energy: ["spr", "supply", "lng", "electricity"],
+      energy: ["spr", "supply", "oil", "lng", "electricity"],
     };
     expect(Object.keys(CHARTS)).toEqual([...NEWS_PAGES]);
     for (const t of PAGE_TOPICS) {

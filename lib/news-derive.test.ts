@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, hasEnoughOutlets, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
 import { faqFile, newsFile, type Lean, type NewsHeadline, type NewsStory } from "./news-types";
-import { energyFaq } from "../components/energy/energy-news";
+import { energyFaq, energyNews } from "../components/energy/energy-news";
 import { tradeFaq } from "../components/trade/trade-news";
 import { foreignAidFaq } from "../components/foreign-aid/foreign-aid-news";
 import { troopsFaq } from "../components/troops/troops-news";
@@ -119,5 +119,23 @@ describe("shipped files", () => {
       expect(ids.length).toBeGreaterThan(0);
       expect(resolve(file).flatMap((g) => g.items.flatMap((it) => it.charts)).length).toBe(ids.length);
     }
+  });
+});
+
+describe("energyNews", () => {
+  const imp = Array.from({ length: 400 }, (_, i) => (i < 390 ? 5000 + i : null));
+  const payload = { monthly: { imp } } as unknown as Parameters<typeof energyNews>[1];
+  const file = { asOf: "2026-10-27", stories: [story("oil-1", "2026-10-27", [h("Lean Left"), h("Right")]), { ...story("methane-1", "2026-10-27", [h("Lean Left"), h("Right")]), chartId: undefined }] } as unknown as Parameters<typeof energyNews>[0];
+
+  it("sparklines an oil-card story with its last 36 months of imports, labelled as what they are", () => {
+    const [oil] = energyNews({ ...file!, stories: [{ ...file!.stories[0]!, chartId: "oil" }] }, payload);
+    expect(oil!.chart).toMatchObject({ target: "oil", label: "Oil imports" });
+    expect(oil!.chart!.pts).toHaveLength(36);
+    expect(oil!.chart!.pts.at(-1)!.value).toBe(5389);
+  });
+  it("leaves a story with no chart, or another chart, as headlines over the wash", () => {
+    const items = energyNews(file, payload);
+    expect(items).toHaveLength(2);
+    expect(items.every((i) => i.chart === undefined)).toBe(true);
   });
 });

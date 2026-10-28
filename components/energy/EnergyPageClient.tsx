@@ -42,7 +42,7 @@ function EnergyPage({ payload, faqFile, newsFile }: { payload: EnergyPayload; fa
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(payload.span, dayOf(range[1] + 1, 0, 1))], [range, payload.span]);
 
   const faq = useMemo(() => energyFaq(faqFile), [faqFile]);
-  const news = useMemo(() => energyNews(newsFile), [newsFile]);
+  const news = useMemo(() => energyNews(newsFile, payload), [newsFile, payload]);
   const { focus, jump } = useChartJump(news, faq);
 
   const pinDay = activeDay({ hover: null, pin: v.pin });

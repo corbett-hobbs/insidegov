@@ -350,7 +350,7 @@ export const PAGE_TOPICS: PageTopic[] = [
     chart: "no chart on the page; U.S. ports, shipping and cargo",
     match: /\bports?\b.{0,30}\b(cargo|shipping|congestion|strike|workers?|dockworkers?)\b|\bshipping (costs|rates|delays|lanes)\b|\bdockworkers?\b|\bPanama Canal\b|\bcontainer (ships?|shipping)\b/i,
   },
-  // Energy
+  // Energy (Venezuelan oil has a chart: the oil card's imports)
   {
     id: "emissions_rules", page: "energy", label: fixed("Emissions rules"),
     chart: "no chart on the page; federal emissions and environmental rules for energy",
@@ -358,8 +358,8 @@ export const PAGE_TOPICS: PageTopic[] = [
     release: { source: "federalregister", match: /\bmethane\b|\boil and natural gas\b|\bemissions\b/i, lagDays: 7 },
   },
   {
-    id: "venezuela_oil", page: "energy", label: fixed("Venezuelan oil"),
-    chart: "no chart on the page; U.S. imports of Venezuelan crude oil",
+    id: "venezuela_oil", page: "energy", chartId: "oil", label: fixed("Venezuelan oil"),
+    chart: "monthly U.S. petroleum exports and imports (EIA): the page's oil card shows total imports, not Venezuela alone",
     match: /\bvenezuela\w*\b.{0,50}\b(oil|crude|barrels?|tankers?|petroleum)\b|\b(oil|crude|barrels?|tankers?)\b.{0,50}\bvenezuela\w*\b/i,
   },
   {
