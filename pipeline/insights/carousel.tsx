@@ -367,7 +367,7 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
 export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[] }[] {
   // A news chart's own breakdown (where each line stands) does not replace what the series measure.
-  const lines = insight.why || (insight.breakdown && insight.kind !== "news") ? [] : explainer(insight);
+  const lines = (insight.why || insight.breakdown) && insight.kind !== "news" ? [] : explainer(insight);
   const moments = keyMoments(insight);
   return [
     { kind: "hook" },

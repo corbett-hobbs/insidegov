@@ -7,6 +7,8 @@ import type { Headline } from "../types";
 import { CellIndex, verifyInsight } from "../verify";
 import { type Candidate, topicOf } from "./cards";
 import { seriesContext } from "./charts";
+import { slidePlan } from "../carousel";
+import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
 import { outletById } from "./outlets";
 import { coverageLine, couldDraft, isCurrent, postableCharts, powerSource, socialBuild, socialStories } from "./social";
@@ -145,6 +147,17 @@ describe("a Fed rate decision story", () => {
     expect(insight.breakdown?.levels).toBe(true);
     expect(insight.breakdown?.blocks.map((b) => b.rows.length)).toEqual([3, 3]);
     for (const row of insight.breakdown!.blocks.flatMap((b) => b.rows)) expect(insight.facts.some((f) => f.id === row.fact), row.fact).toBe(true);
+  });
+
+  it("is researched like a data release, from the story's headlines, and its why stays out of the caption", () => {
+    const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
+    const news = { topic: "fed_rates", key: "fed_rates", seenAt: NOW, expiresAt: NOW, headlines: [{ title: "Fed holds rates", source: "CBS News", url: "https://www.cbsnews.com/x", published: NOW, feed: "outlets" as const, outletId: "cbsnews" }] };
+    const prompt = JSON.parse(whyPrompt({ ...insight, news }));
+    expect(prompt.in_the_news[0].url).toBe("https://www.cbsnews.com/x");
+    expect(prompt.release_pages.join(" ")).toMatch(/federalreserve\.gov/);
+    const why = { title: "Why it held", captionLine: "x", paragraphs: ["Words only."], sources: [{ name: "FOMC", url: "https://www.federalreserve.gov/x" }] };
+    const kinds = slidePlan({ ...insight, kind: "news", why }).map((s) => s.kind);
+    expect(kinds).toEqual(expect.arrayContaining(["why", "explainer"]));
   });
 });
 
