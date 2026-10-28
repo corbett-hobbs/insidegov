@@ -92,8 +92,8 @@ export function introCarousel(): IntroSlide[] {
       kicker: "On this account",
       title: "What you’ll see here",
       items: [
-        "A chart whenever new government data comes out: gas and energy weekly; trade, the border and executive orders monthly.",
-        "When a topic like tariffs or gas prices is in the news, a chart of how it has changed over the years.",
+        "When a topic is in the news, a chart of how it has changed over the years: tariffs, gas prices, oil, the trade deficit, the border, deportations.",
+        "When a monthly release comes out, one post on its headline number (trade, the border, executive orders, laws, electricity, oil output) and a one-line reason it moved, from a named source.",
         "Every number checked against its source before it goes up, with the full data on the site.",
       ],
     },
@@ -125,7 +125,7 @@ export function introCarousel(): IntroSlide[] {
 /** The post's caption (Instagram: no clickable links, so it points to the bio). */
 export const INTRO_INSTAGRAM_CAPTION = [
   `Hi, I’m ${FIRST_NAME}. Some of you will remember InsideGov from our Graphiq days. I’ve rebuilt it from scratch as a passion project: charts of the data behind the news, straight from the government’s own records.`,
-  "This account will post a chart whenever new government data comes out, and when a topic like tariffs or gas prices is in the news. Every number is checked against its source.",
+  "This account posts a chart when a topic like tariffs or gas prices is in the news, and when a monthly release of government data comes out. Every number is checked against its source.",
   `The full charts, data and sources are at ${site} (link in bio).`,
   "#govdata #dataviz #publicdata",
 ].join("\n\n");
