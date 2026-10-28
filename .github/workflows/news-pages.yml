@@ -1,6 +1,6 @@
 name: In the news (page cards)
 
-# The pages' "In the news" row (pipeline/insights/README.md, "In the news on the pages"): four times a day, read the
+# The pages' "In the news" row (pipeline/insights/README.md, "In the news on the pages"): twice a day, read the
 # outlets' and agencies' feeds, group headlines into stories (at least two outlets, both sides when both ran it,
 # plus the agency's data release or a Center outlet) and rewrite pipeline/output/news_<page>.json. The pipeline moves a
 # file's `asOf` only when its stories change, so an unchanged run changes nothing and opens nothing. A change opens a
@@ -15,7 +15,7 @@ name: In the news (page cards)
 
 on:
   schedule:
-    - cron: "17 11,15,19,23 * * *" # 7:17 a.m., 11:17 a.m., 3:17 p.m., 7:17 p.m. Eastern (daylight time)
+    - cron: "17 11,23 * * *" # 7:17 a.m. and 7:17 p.m. Eastern (daylight time)
   workflow_dispatch:
     inputs:
       dry_run:

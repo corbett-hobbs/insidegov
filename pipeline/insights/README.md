@@ -167,7 +167,7 @@ trade, energy) in the UI's schema (`lib/news-types.ts`: `{ asOf, stories: [{ id,
 [{ outletId, outlet, lean, title, url }] }] }`).
 
 ```
-four times a day (.github/workflows/news-pages.yml, repo variable NEWS_PAGES_ENABLED=true)
+twice a day (.github/workflows/news-pages.yml, repo variable NEWS_PAGES_ENABLED=true)
   news/pages.ts   read the outlets' and agencies' feeds                  news/feeds.ts, news/outlets.ts
                   + the topic headlines earlier runs saw (Actions cache)
                   one topic per headline, one chart per topic             news/topics.ts PAGE_TOPICS

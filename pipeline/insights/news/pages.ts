@@ -78,11 +78,15 @@ const usable = (h: Headline) => client !== null || !needsCheck(h);
 const candidates = addCompanions(groupCandidates(headlines, topics, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
 
 /** The headlines of a candidate that are straight news of one development: the check's answer, else the word rule. */
+let checksRun = 0;
+let checksReused = 0;
 async function kept(c: Candidate): Promise<Headline[]> {
   if (!client) return sameDevelopment(c);
   const key = createHash("sha256").update(c.headlines.map((h) => h.url).sort().join("\n")).digest("hex").slice(0, 20);
   let check = cache.checks[key];
-  if (!check) {
+  if (check) checksReused++;
+  else {
+    checksRun++;
     const answer = await checkCandidate(client, {
       topic: c.topic.label(c.country?.name),
       chart: c.topic.chart,
@@ -112,6 +116,8 @@ for (const c of [...candidates].sort((a, b) => Number(!a.topic.chartId) - Number
     for (const h of story.headlines) onCards.add(h.url);
   } else console.log(`  skip  ${c.key} (${c.headlines.length} headlines): fewer than two outlets after the check`);
 }
+
+console.log(`Claude checks: ${checksRun} new, ${checksReused} reused from earlier runs`);
 
 const used = new Map<string, number>();
 for (const page of pages) {
