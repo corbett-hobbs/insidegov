@@ -105,6 +105,8 @@ export const OUTLETS: Outlet[] = [
     id: "washingtontimes", name: "Washington Times", lean: "Lean Right",
     feeds: ["politics", "business-economy", "national"].map((s) => `https://www.washingtontimes.com/rss/headlines/news/${s}/`),
   },
+  // Its feed is mostly commentary with no news/opinion URL signal (tested 2026-10-28): reserve, and the Claude check decides. AllSides rates "National Review (News)" Lean Right.
+  { id: "nationalreview", name: "National Review", lean: "Lean Right", reserve: true, needsCheck: true, feeds: ["https://www.nationalreview.com/feed/"] },
   { id: "foxbusiness", name: "Fox Business", lean: "Lean Right", feeds: ["economy", "markets", "latest"].map((s) => `https://moxie.foxbusiness.com/google-publisher/${s}.xml`), opinionUrl: /\/(media|lifestyle|personal-finance)\//i },
   // Right
   {
