@@ -357,12 +357,14 @@ describe("Instagram carousel", () => {
     expect(releasePages({ seriesId: "gas.regular", dataset: "gas" })[0]).toMatch(/gasdiesel/);
   });
 
-  it("puts the why and breakdown slides in place of the explainer", () => {
+  it("drops the explainer beside a why or breakdown unless it states a release lag", () => {
     const base = { seriesId: "energy.power_total", kind: "extreme_high", dataset: "energy", period: "2026-08-01", chart: { type: "line", marks: [], points: [] } } as never;
     expect(slidePlan(base).map((s) => s.kind)).toContain("explainer");
     const withWhy = { ...(base as object), why: { title: "Why", captionLine: "EIA cites heat.", paragraphs: ["Hot weather."], sources: [] }, breakdown: { title: "t", blocks: [], note: "" } } as never;
     expect(slidePlan(withWhy).map((s) => s.kind).slice(0, 4)).toEqual(["hook", "chart", "why", "breakdown"]);
-    expect(slidePlan(withWhy).map((s) => s.kind)).not.toContain("explainer");
+    expect(slidePlan(withWhy).map((s) => s.kind).slice(0, 5)).toEqual(["hook", "chart", "why", "breakdown", "explainer"]);
+    const noLag = { ...(withWhy as object), seriesId: "economy.unemployment" } as never;
+    expect(slidePlan(noLag).map((s) => s.kind)).not.toContain("explainer");
   });
 
   it("explains every series in words only, and news tariff charts by their prefix", () => {

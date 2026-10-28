@@ -15,6 +15,8 @@ const PETROLEUM = "Petroleum is crude oil plus refined products such as gasoline
 const POWER = "Electricity generated at U.S. power plants in a month, in billion kilowatthours.";
 const ENCOUNTER = "An encounter is a Border Patrol apprehension, or a person turned away at an official port of entry.";
 const EVENTS = "Encounters count events, not people: someone stopped twice counts twice.";
+const TARIFF_LAG = "That is why it sits below announced tariff rates, and why it moves months after a rate changes.";
+const ICE_PRELIM = "Fiscal years run from October to September. The newest year is preliminary until ICE's annual report.";
 const NOMINAL_TRADE = "Dollars are not adjusted for inflation; monthly figures are seasonally adjusted.";
 
 export const EXPLAINERS: Record<string, string[]> = {
@@ -26,14 +28,14 @@ export const EXPLAINERS: Record<string, string[]> = {
   "energy.petroleum_exports": [PETROLEUM, MONTHLY_EIA],
   "energy.petroleum_imports": [PETROLEUM, MONTHLY_EIA],
   "energy.crude_exports": ["Crude oil shipped from the United States to other countries, in barrels a day averaged over the month.", MONTHLY_EIA],
-  "energy.gas_production": ["Dry natural gas: gas ready for pipelines and customers, after liquids are taken out.", LIKE_MONTHS],
-  "energy.lng_exports": ["Liquefied natural gas is natural gas cooled into a liquid so it can be shipped by tanker.", LIKE_MONTHS],
-  "energy.power_total": [POWER, LIKE_MONTHS],
-  "energy.power_coal": [POWER, LIKE_MONTHS],
-  "energy.power_gas": [POWER, LIKE_MONTHS],
-  "energy.power_nuclear": [POWER, LIKE_MONTHS],
-  "energy.power_wind": [POWER, LIKE_MONTHS],
-  "energy.power_solar": [POWER, "Utility-scale plants only: rooftop solar is not included.", LIKE_MONTHS],
+  "energy.gas_production": ["Dry natural gas: gas ready for pipelines and customers, after liquids are taken out.", MONTHLY_EIA, LIKE_MONTHS],
+  "energy.lng_exports": ["Liquefied natural gas is natural gas cooled into a liquid so it can be shipped by tanker.", MONTHLY_EIA, LIKE_MONTHS],
+  "energy.power_total": [POWER, MONTHLY_EIA, LIKE_MONTHS],
+  "energy.power_coal": [POWER, MONTHLY_EIA, LIKE_MONTHS],
+  "energy.power_gas": [POWER, MONTHLY_EIA, LIKE_MONTHS],
+  "energy.power_nuclear": [POWER, MONTHLY_EIA, LIKE_MONTHS],
+  "energy.power_wind": [POWER, MONTHLY_EIA, LIKE_MONTHS],
+  "energy.power_solar": [POWER, "Utility-scale plants only: rooftop solar is not included.", MONTHLY_EIA, LIKE_MONTHS],
   "economy.mortgage_rate": ["The average interest rate on a home loan with a fixed rate and a thirty-year term, from Freddie Mac's weekly survey of lenders.", "The rate a buyer is offered depends on their credit and down payment; this is the national average."],
   "economy.fed_funds": ["The effective federal funds rate: the average interest rate banks charged each other for overnight loans that week, from the Federal Reserve Board.", "The Federal Reserve announces a target range and steers this rate into it; it is not the rate on a home or car loan."],
   "economy.treasury_10y": ["The market yield on ten-year U.S. Treasury notes, averaged over the week, from the Federal Reserve Board.", "Investors set it by buying and selling, not the Federal Reserve; mortgage rates tend to follow it."],
@@ -52,7 +54,7 @@ export const EXPLAINERS: Record<string, string[]> = {
   "encounters.southwest_fy": [ENCOUNTER, EVENTS, "Fiscal years run from October to September."],
   "ice.removals": [
     "A removal is a deportation carried out under a formal order by Immigration and Customs Enforcement.",
-    "Fiscal years run from October to September. The newest year is preliminary until ICE's annual report.",
+    ICE_PRELIM,
   ],
   "ice.detention": ["The average number of people held in ICE detention on a given day, over the fiscal year.", "Fiscal years run from October to September."],
   "trade.deficit": ["The goods trade deficit is the value of goods the United States imports minus the value it exports. Services are not included.", NOMINAL_TRADE],
@@ -60,11 +62,19 @@ export const EXPLAINERS: Record<string, string[]> = {
   "trade.imports": ["The value of goods the United States buys from other countries. Services are not included.", NOMINAL_TRADE],
   tariff: [
     "The tariff rate collected is the duty actually paid on imports, divided by the value of all imports, including goods that pay no duty.",
-    "That is why it sits below announced tariff rates, and why it moves months after a rate changes.",
+    TARIFF_LAG,
   ],
   executive_orders: ["Executive orders are signed directives from the president to the federal government, numbered and published in the Federal Register."],
   laws: ["Laws are bills that passed both houses of Congress and were signed by the president, or enacted over a veto."],
 };
+
+/** Lines that tell the reader the figures arrive late or may be revised: worth a slide or reply even beside a reason. */
+const LAGS = new Set([MONTHLY_EIA, TARIFF_LAG, ICE_PRELIM]);
+
+/** Whether the explainer states a release lag or revision, which a reader needs next to any reason the post gives. */
+export function hasLag(insight: Pick<Insight, "seriesId" | "kind">): boolean {
+  return explainer(insight).some((l) => LAGS.has(l));
+}
 
 const TERMS = "Each term is measured from its inauguration, so every president is compared at the same point.";
 
