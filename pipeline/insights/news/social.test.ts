@@ -144,6 +144,21 @@ describe("which stories become posts", () => {
     expect(socialBuild(cand("oil_markets", []), [], "oil")).toBeNull();
   });
 
+  it("routes trade-talk headlines about a partner to the tariffs chart, ahead of Inflation, and leaves other trade news alone", () => {
+    const of = (t: string) => topicOf(t, PAGE_TOPICS, PARTNERS);
+    // Canada trade talks are tariff news for Canada even without the word "tariff", and even when the headline also says "inflation".
+    expect(of("White House tempers its tough talk on Canada trade as inflation tops voter concerns")).toMatchObject({ key: "tariff.CAN", topic: { id: "tariff" } });
+    expect(of("Canada reports limited progress in trade talks with US")).toMatchObject({ key: "tariff.CAN" });
+    expect(of("US-Canada Trade Talks Are Picking Up Pace But No Deal Yet, Carney Says")).toMatchObject({ key: "tariff.CAN" });
+    // A talks headline with no partner we track is the chartless trade-deals topic; the trade gap is the balance chart.
+    expect(of("Uzbekistan-U.S. deepening trade relations after business summit")?.topic.id).toBe("trade_deals");
+    expect(of("US Trade Gap Hits Widest Since March 2025 on Capital Goods")?.topic.id).toBe("trade_deficit");
+    // Not trade talks: central bank news, trade-ins, the Canadian trade deficit, inflation on its own.
+    expect(of("Bank of Canada Hikes to 2.5%, Says More Could Be Needed")).toBeNull();
+    expect(of("Canada trade deficit widens in September")?.topic.id).not.toBe("tariff");
+    expect(of("Inflation cools as consumer prices rise 2.9%")?.topic.id).toBe("inflation");
+  });
+
   it("charts the one electricity source a story names, and nothing for a mixed or unnamed one", () => {
     const solar = [h("nbcnews", "Solar projects face new federal review"), h("foxnews", "Trump administration targets solar farms on federal land")];
     expect(powerSource(solar)!.build).toMatchObject({ seriesId: "energy.power_solar" });

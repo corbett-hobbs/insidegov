@@ -177,6 +177,8 @@ export type PageTopic = {
   chart: string;
   match: RegExp;
   exclude?: RegExp;
+  /** A headline this matches goes to the topic ahead of the list order (a Canada trade-talks story that also says "inflation" is still tariff news). */
+  priority?: RegExp;
   param?: "country";
   /** One development per window (a weekly price, a monthly report), so headlines need no shared detail to be one story. */
   periodic?: boolean;
@@ -185,6 +187,15 @@ export type PageTopic = {
 
 const social = (id: string) => NEWS_TOPICS.find((t) => t.id === id)!;
 const fixed = (s: string) => () => s;
+
+/**
+ * Headlines tell tariff news as trade talks and deals with the partner ("Canada reports limited progress in trade talks
+ * with US", "tempers its tough talk on Canada trade"), often without the word "tariff": the rate on that partner is what
+ * the talks are about, so the tariffs chart (a partner against all countries) is the one that measures them.
+ */
+const PARTNER = "Canada|Canadian|Mexico|Mexican|China|Chinese|Japan|Japanese|India|Indian|EU|European Union|Britain|British|Brazil|Brazilian|South Korea|Korean|Taiwan|Vietnam|Switzerland|Swiss";
+const TALKS = "trade (?:talks?|deals?|negotiations?|negotiators?|truce|war|disputes?|agreements?|pacts?)";
+const PARTNER_TRADE_TALKS = new RegExp(`\\b(?:${PARTNER})\\b.{0,40}\\b${TALKS}\\b|\\b${TALKS}\\b.{0,40}\\b(?:${PARTNER})\\b|\\b(?:Canada|Canadian|Mexico|Mexican|China|Chinese)(?:['’]s)? trade\\b(?![- ]?(?:in|deficit|gap|balance)\\b)`, "i");
 
 export const PAGE_TOPICS: PageTopic[] = [
   // Economy
@@ -282,7 +293,8 @@ export const PAGE_TOPICS: PageTopic[] = [
     id: "tariff", page: "trade", chartId: "tariffs", param: "country",
     label: (country) => (country ? `Tariffs involving ${country}` : "Tariffs"),
     chart: social("tariff").chart,
-    match: social("tariff").match,
+    match: new RegExp(`${social("tariff").match.source}|${PARTNER_TRADE_TALKS.source}`, "i"),
+    priority: PARTNER_TRADE_TALKS,
     exclude: social("tariff").exclude,
     release: { source: "federalregister", match: social("tariff").officialMatch!, lagDays: 7 },
   },

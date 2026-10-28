@@ -231,7 +231,7 @@ browser.
 | Lean | Outlets (feeds) |
 | --- | --- |
 | Left | HuffPost (politics, U.S. news; needs the check), The Guardian (U.S. politics) |
-| Lean Left | New York Times (Politics, Economy, U.S.), NBC News (politics, business, news), CBS News (politics, MoneyWatch, U.S.); reserves AP (via Flipboard, ~14h lag), ABC News, NPR |
+| Lean Left | New York Times (Politics, Economy, U.S.), NBC News (politics, business, news), CBS News (politics, MoneyWatch, U.S.), Politico (politics, economy; added 2026-10-28, AllSides Lean Left), Axios (added 2026-10-28, AllSides Lean Left); reserves AP (via Flipboard, ~14h lag), ABC News, NPR |
 | Center | Wall Street Journal (U.S. news, U.S. business: its "social" feeds carry post blurbs, not headlines), BBC News, The Hill, Bloomberg |
 | Lean Right | Washington Examiner, Washington Times, Fox Business |
 | Right | Fox News (politics, U.S., latest; not its opinion feed), New York Post |
@@ -240,7 +240,7 @@ browser.
 
 Unavailable: Reuters (no RSS), CNN (feeds frozen), the Washington Post and Newsmax (block bots); Treasury's statement
 and Freddie Mac's mortgage survey have no feed the watcher can read, so those stories show a Center outlet. MS NOW and
-White House statements are left out by choice. A reserve is used only when no roster outlet on its side covered the story.
+White House statements are left out by choice. Partner trade talks ("Canada trade talks", "China trade deal") are tariff news: `PARTNER_TRADE_TALKS` in `news/topics.ts` sends them to the tariffs chart ahead of the list order (a `priority` pattern on the topic), so a Canada talks story that also says "inflation" is not taken by Inflation. A reserve is used only when no roster outlet on its side covered the story.
 
 **Rules** (`news/cards.ts`, tested in `cards.test.ts`):
 

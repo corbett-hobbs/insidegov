@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { TradePageClient } from "@/components/trade/TradePageClient";
-import { getTradePageData } from "@/lib/trade-data";
+import { getStoryCountryRates, getTradePageData } from "@/lib/trade-data";
 import { getFaqFile, getNewsFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
@@ -22,10 +22,11 @@ export function generateMetadata(): Metadata {
 }
 
 export default function TradePage() {
+  const newsFile = getNewsFile("trade");
   return (
     <>
       <TopicDatasetLd path="/presidency/trade" />
-      <TradePageClient data={getTradePageData()} faqFile={getFaqFile("trade")} newsFile={getNewsFile("trade")} />
+      <TradePageClient data={getTradePageData()} faqFile={getFaqFile("trade")} newsFile={newsFile} storyRates={getStoryCountryRates(newsFile)} />
     </>
   );
 }
