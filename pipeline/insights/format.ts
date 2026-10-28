@@ -40,12 +40,20 @@ export function pctDecimals(pct: number): number {
   return Math.abs(pct) < 10 ? 1 : 0;
 }
 
+/** The style without its year when `date` falls in the same year as `latest` (already stated once in the caption). */
+export function bareIfSameYear(style: DateStyle, date: string, latest: string): DateStyle {
+  if (date.slice(0, 4) !== latest.slice(0, 4)) return style;
+  return style === "month" ? "month_bare" : style === "day" ? "day_bare" : style;
+}
+
 export function fmtDate(date: string, style: DateStyle): string {
   const [y, m, d] = date.split("-").map(Number) as [number, number, number];
   if (style === "year") return String(y);
   if (style === "fiscal_year") return `fiscal ${y}`;
   if (style === "quarter") return `Q${Math.floor((m - 1) / 3) + 1} ${y}`;
   if (style === "month") return `${MONTHS[m - 1]} ${y}`;
+  if (style === "month_bare") return MONTHS[m - 1]!;
+  if (style === "day_bare") return `${MONTHS[m - 1]} ${d}`;
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
 

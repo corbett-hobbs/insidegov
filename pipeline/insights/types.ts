@@ -128,7 +128,8 @@ export type Derivation =
   | { op: "date"; date: string; style: DateStyle }
   | { op: "duration"; from: string; to: string; unit: "days" | "months" | "years" };
 
-export type DateStyle = "month" | "day" | "year" | "fiscal_year" | "quarter";
+/** "month_bare" and "day_bare" drop the year ("September", "October 12") when the caption has already said it. */
+export type DateStyle = "month" | "day" | "year" | "fiscal_year" | "quarter" | "month_bare" | "day_bare";
 
 export type Fact = {
   id: string;
