@@ -92,10 +92,13 @@ const WEB_DOMAINS = [...AGENCY_SEARCH, ...Object.keys(NEWS_OUTLETS)];
 const ATTRIBUTION = new RegExp(
   `\\b(EIA|Energy Information Administration|Energy Department|Census|Census Bureau|BEA|Bureau of Economic Analysis|Commerce Department|Commerce data|CBP|Customs and Border Protection|ICE|DHS|Homeland Security|BLS|Labor Department|Treasury|the Fed|Federal Reserve|CBO|CRS|GAO|Federal Register|Congress\\.gov|USDA|Agriculture Department|Associated Press|Wall Street Journal|WSJ|New York Times|${Object.values(NEWS_OUTLETS).map((n) => n.replace(/^The /, "")).join("|")})\\b`,
 );
+/** Agency and outlet names: the post sentence names its source, but the carousel text leaves names to the footnote. */
+const NAMED_SOURCES = [...Object.values(NEWS_OUTLETS), "EIA", "BEA", "Census Bureau", "Census", "CBP", "BLS", "DOE", "Energy Department", "Commerce Department", "Federal Reserve", "CBO", "GAO", "CRS", "Energy Information Administration", "Bureau of Economic Analysis"];
+const NAMED_SOURCE = new RegExp(`\\b(?:${NAMED_SOURCES.map((n) => n.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")).join("|")})\\b`);
 const POST_LINE_MAX = 130;
-const PARAGRAPH_MAX = 280;
+const PARAGRAPH_MAX = 220;
 /** The carousel slide's paragraphs together: about what one 4:5 slide holds at a readable size. */
-export const WHY_MAX = 760;
+export const WHY_MAX = 380;
 
 const SYSTEM = `You explain, for InsideGov (a nonpartisan site of U.S. government data), why one number in a new data release moved, so a social post and an Instagram carousel can say so. Always finish by calling the record_why tool.
 
@@ -103,15 +106,15 @@ Research first. Open the release pages you are given and find the agency's own w
 
 Always run at least one news search for this release, outside code (call web_search directly so its results reach the answer), (the topic and month, e.g. "trade deficit August 2026"), and open the most relevant straight-news reports it returns, even when the agency's write-up seems complete: reporters often give the reasons behind a category that the agency leaves out.
 
-Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and is attributed to them by name ("Bloomberg and CNBC report ..."). When the agency and news agree, name the agency.
+Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not.
 
 What to write:
 - caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
 - title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "What changed".
-- paragraphs: 2 to 4 short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they fill one slide) that expand on the reasons: what the agency says moved it, which parts or sources drove it, and any longer trend or outlook the sources give. Words only: no figures, percentages or amounts (years are fine). Name the agency or the outlets in each claim.
+- paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency or news outlet in the text (they go in sources, which print as the slide's footnote). Words only: no figures, percentages or amounts (years are fine).
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 
-Rules: say only what the sources say. State reasons as the source does ("EIA says", "Census reports"), never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more. Write for the reader, never about your research: no "I", "we", "I found" or "the agencies do not give a cause".`;
+Rules: say only what the sources say. A reason that comes from reporting rather than a measured figure is worded as what the change came "amid" or is "tied to", never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more. Write for the reader, never about your research: no "I", "we", "I found" or "the agencies do not give a cause".`;
 
 const TOOL: Anthropic.Beta.BetaTool = {
   name: "record_why",
@@ -176,13 +179,17 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
   const allowedNums = new Set(facts.flatMap((f) => f.text.match(/\d[\d,.]*/g) ?? []));
   const strayNums = (w.captionLine.match(/\d[\d,.]*/g) ?? []).filter((n) => !allowedNums.has(n.replace(/[.,]$/, "")) && !/^(?:19|20)\d\d$/.test(n));
   if (strayNums.length) errors.push(`caption_line uses numbers that are not facts: ${strayNums.join(", ")}`);
-  if (w.paragraphs.length < 2 || w.paragraphs.length > 4) errors.push(`${w.paragraphs.length} paragraphs; write 2 to 4`);
+  if (w.paragraphs.length < 1 || w.paragraphs.length > 2) errors.push(`${w.paragraphs.length} paragraphs; write one or two`);
   const len = w.paragraphs.join(" ").length;
   if (len > WHY_MAX) errors.push(`the paragraphs run to ${len} characters; keep them to ${WHY_MAX} together so they fit one slide`);
   for (const p of w.paragraphs) {
     if (p.length > PARAGRAPH_MAX) errors.push(`a paragraph is ${p.length} characters; keep each under ${PARAGRAPH_MAX}`);
     if (/\d/.test(p.replace(YEARS, ""))) errors.push(`paragraphs are words only (years apart): "${p.slice(0, 60)}..."`);
     if (META.test(p)) errors.push(`write about the data, not the research: "${p.slice(0, 80)}..."`);
+    const named = p.match(NAMED_SOURCE);
+    if (named) errors.push(`the text names "${named[0]}": leave agencies and outlets to the sources footnote and say what changed: "${p.slice(0, 60)}..."`);
+    const causal = CAUSAL_PHRASES.filter((c) => p.toLowerCase().includes(c));
+    if (causal.length) errors.push(`a paragraph says "${causal.join('", "')}" in the site's own voice; word it as "amid" or "tied to": "${p.slice(0, 60)}..."`);
   }
   const words = new Set([w.captionLine, w.title, ...w.paragraphs].join(" ").toLowerCase().match(/[a-z]+(?:-[a-z]+)*/g) ?? []);
   const banned = BANNED_WORDS.filter((b) => words.has(b) && !["only", "just", "record", "records", "caused"].includes(b));
