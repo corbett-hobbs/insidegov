@@ -218,7 +218,8 @@ function lineChart(spec: Extract<ChartSpec, { type: "line" }>, f: Frame): { svg:
     };
     const spot = spots.reduce((best, s) => (cost(s) < cost(best) ? s : best), spots[0]!);
     taken.push(boxOf(spot));
-    labels.push({ x: spot.x, y: spot.ly, text: m.label, align, size, color: m.emphasis ? INK : MUTED, bold: m.emphasis });
+    labels.push({ x: spot.x, y: spot.ly, text: m.label, align, size, // On a two-line chart the marks belong to the main (dark) line, so a mark is never the second line's grey.
+    color: m.emphasis || spec.comparison ? INK : MUTED, bold: m.emphasis });
   }
   // Two lines: name both at their right ends. The comparison's name goes above or below its end, whichever crosses
   // fewer points of either line (and stays clear of the main line's end); the main line's name joins its newest-value
