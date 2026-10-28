@@ -239,7 +239,7 @@ describe("the page file", () => {
 
   it("points every topic at a chart its page has", () => {
     const CHARTS: Record<string, string[]> = {
-      economy: ["chart-gas", "chart-diesel", "chart-infl", "chart-jobs", "chart-un", "chart-wage", "chart-gdp", "chart-mort", "chart-def", "chart-debt", "chart-inc"],
+      economy: ["chart-gas", "chart-diesel", "chart-infl", "chart-jobs", "chart-un", "chart-wage", "chart-gdp", "chart-mort", "chart-def", "chart-debt", "chart-inc", "chart-ff", "chart-ten"],
       immigration: ["chart-encounters", "chart-removals", "chart-green-cards", "chart-refugees"],
       trade: ["tariffs", "trade-balance"],
       energy: ["spr", "supply", "oil", "lng", "electricity"],

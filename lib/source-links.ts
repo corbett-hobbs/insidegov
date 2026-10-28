@@ -134,6 +134,9 @@ export const SOURCE_LINKS = {
   "fred-deficit-usd": "https://fred.stlouisfed.org/series/FYFSD",
   "fred-debt-usd": "https://fred.stlouisfed.org/series/FYGFDPUN",
   "freddie-mac-pmms": "https://www.freddiemac.com/pmms",
+  "fred-fed-funds": "https://fred.stlouisfed.org/series/FF",
+  "fred-treasury-10y": "https://fred.stlouisfed.org/series/WGS10YR",
+  "federal-reserve-h15": "https://www.federalreserve.gov/releases/h15/",
   nber: "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions",
   // Economy context lines (rule 7d), added with them: the Fed's FOMC statements and CBO's CARES Act estimate (April 16, 2020).
   "fomc-statements": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",

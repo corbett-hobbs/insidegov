@@ -35,6 +35,8 @@ export const EXPLAINERS: Record<string, string[]> = {
   "energy.power_wind": [POWER, LIKE_MONTHS],
   "energy.power_solar": [POWER, "Utility-scale plants only: rooftop solar is not included.", LIKE_MONTHS],
   "economy.mortgage_rate": ["The average interest rate on a home loan with a fixed rate and a thirty-year term, from Freddie Mac's weekly survey of lenders.", "The rate a buyer is offered depends on their credit and down payment; this is the national average."],
+  "economy.fed_funds": ["The effective federal funds rate: the average interest rate banks charged each other for overnight loans that week, from the Federal Reserve Board.", "The Federal Reserve announces a target range and steers this rate into it; it is not the rate on a home or car loan."],
+  "economy.treasury_10y": ["The market yield on ten-year U.S. Treasury notes, averaged over the week, from the Federal Reserve Board.", "Investors set it by buying and selling, not the Federal Reserve; mortgage rates tend to follow it."],
   "economy.unemployment": ["The share of people in the labor force who have no job and are looking for one, from the Bureau of Labor Statistics' monthly household survey.", "It is seasonally adjusted."],
   "economy.inflation": ["The change in the prices consumers pay, measured by the Consumer Price Index for all urban consumers, compared with the same month a year earlier.", "It covers a broad basket of goods and services, seasonally adjusted."],
   "economy.jobs_added": ["The change from the previous month in the number of jobs on employers' payrolls, from the Bureau of Labor Statistics' monthly survey of employers.", "It excludes farm jobs and is seasonally adjusted; a negative number means jobs were lost."],

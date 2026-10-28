@@ -303,9 +303,14 @@ export const PAGE_TOPICS: PageTopic[] = [
   // on its own (national, current, the topic central).
   // Economy
   {
-    id: "fed_rates", page: "economy", label: fixed("Federal Reserve and interest rates"),
-    chart: "no chart on the page; the Federal Reserve's interest-rate decisions and its chair",
+    id: "fed_rates", periodic: true, page: "economy", chartId: "chart-ff", label: fixed("Federal Reserve and interest rates"),
+    chart: "the weekly effective federal funds rate, the interest rate the Federal Reserve steers with its decisions",
     match: /\b(Federal Reserve|the Fed)\b.{0,50}\b(rates?|cuts?|hikes?|holds?|meeting|chair|governor)\b|\binterest rates?\b|\bFOMC\b/i,
+  },
+  {
+    id: "treasury_yields", periodic: true, page: "economy", chartId: "chart-ten", label: fixed("Treasury yields"),
+    chart: "the weekly 10-year U.S. Treasury yield",
+    match: /\b(10-year|ten-year)\b.{0,20}\b(Treasury|yields?)\b|\bTreasury yields?\b|\bbond yields?\b/i,
   },
   {
     id: "markets", page: "economy", label: fixed("Stock market"),
@@ -399,6 +404,8 @@ export const PAGE_CHARTS: Record<NewsPage, PageChart[]> = {
     { id: "chart-wage", label: "Real hourly earnings", about: "average hourly earnings adjusted for inflation (BLS)" },
     { id: "chart-un", label: "Unemployment", about: "the monthly U.S. unemployment rate (BLS)" },
     { id: "chart-mort", label: "Mortgage rate", about: "the weekly average 30-year fixed mortgage rate (Freddie Mac)" },
+    { id: "chart-ff", label: "Federal funds rate", about: "the weekly effective federal funds rate, the interest rate the Federal Reserve steers" },
+    { id: "chart-ten", label: "10-year Treasury yield", about: "the weekly 10-year U.S. Treasury yield" },
     { id: "chart-inc", label: "Household income", about: "real median household income by year (Census)" },
     { id: "chart-def", label: "Federal deficit", about: "the federal budget deficit by fiscal year (Treasury)" },
     { id: "chart-debt", label: "Federal debt", about: "federal debt held by the public (Treasury)" },

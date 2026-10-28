@@ -155,6 +155,32 @@ export const CATALOG: readonly CatalogEntry[] = [
     revision_tolerance: 0.01,
   },
   {
+    series_id: "FF",
+    frequency: "weekly",
+    fred_frequency_prefix: "Weekly",
+    source_agency: "Board of Governors of the Federal Reserve System",
+    attribution: `Board of Governors of the Federal Reserve System (H.15 Selected Interest Rates), via ${FRED}`,
+    suggested_rollup: "level",
+    caveats: [
+      "The effective federal funds rate: the rate banks actually charged each other for overnight loans, averaged over the week. It is not the Fed's target range, which the FOMC announces; the rate trades inside the range.",
+      "Weekly, dated by the Wednesday ending the week.",
+    ],
+    revision_tolerance: 0.01,
+  },
+  {
+    series_id: "WGS10YR",
+    frequency: "weekly",
+    fred_frequency_prefix: "Weekly",
+    source_agency: "Board of Governors of the Federal Reserve System",
+    attribution: `Board of Governors of the Federal Reserve System (H.15 Selected Interest Rates), via ${FRED}`,
+    suggested_rollup: "level",
+    caveats: [
+      "The market yield on 10-year U.S. Treasury notes at constant maturity, averaged over the week. It moves with investors' demand, not by decision, so it is not a rate the Fed sets.",
+      "Weekly, dated by the Friday ending the week.",
+    ],
+    revision_tolerance: 0.01,
+  },
+  {
     series_id: "PAYEMS",
     frequency: "monthly",
     fred_frequency_prefix: "Monthly",

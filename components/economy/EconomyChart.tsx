@@ -36,6 +36,8 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
     case "mis": return miseryPoints(d);
     case "gas": return weeklyPoints(d.gas);
     case "mort": return weeklyPoints(d.mort);
+    case "ff": return weeklyPoints(d.ff);
+    case "ten": return weeklyPoints(d.ten);
     case "jobs": return monthlyPoints(d.jobs);
     case "gdp": return quarterlyPoints(d.gdp);
     case "wage": return monthlyPoints(d.wage);

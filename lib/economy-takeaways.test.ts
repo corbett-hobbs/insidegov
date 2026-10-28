@@ -28,6 +28,8 @@ const inc = shown(raw("MEHOINUSA672N"));
 const gas = shown(raw("GASREGW"));
 const diesel = shown(raw("GASDESW"));
 const mort = shown(raw("MORTGAGE30US"));
+const ff = shown(raw("FF"));
+const ten = shown(raw("WGS10YR"));
 const def = shown(raw("FYFSGDA188S"));
 const debt = shown(raw("GFDEGDQ188S"));
 // Dollar series: FRED's, then Treasury's for any later period, exactly as lib/indicator-data.ts merges them.
@@ -165,6 +167,38 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
       expect(Math.round(min(within(debt, "2020-07", "2027")).value)).toBe(116);
       expect(min(within(debt, "2020-07", "2027")).date.slice(0, 4)).toBe("2023");
       expect(Math.round(at(debt, "2026-01-01"))).toBe(123);
+    },
+  },
+  ff: {
+    says: ["near zero from December 2008 to December 2015", "again from March 2020 to March 2022", "5.33% by August 2023, the highest since 2001", "By October 2026 it was back down to 3.88%"],
+    check: () => {
+      // "Near zero" is under 0.3%: every week of both stretches, and not the weeks on either side of them.
+      for (const [from, to] of [["2008-12-10", "2015-12-16"], ["2020-03-25", "2022-03-16"]]) {
+        const run = within(ff, from, `${to}~`);
+        expect(Math.max(...run.map((p) => p.value)), from).toBeLessThan(0.3);
+        expect(lastOnOrBefore(ff, from).date, from).toBe(from);
+        expect(ff.filter((p) => p.date < from).at(-1)!.value, `before ${from}`).toBeGreaterThanOrEqual(0.3);
+        expect(ff.find((p) => p.date > to)!.value, `after ${to}`).toBeGreaterThanOrEqual(0.3);
+      }
+      const high = max(within(ff, "2022", "2026"));
+      expect(high.value).toBe(5.33);
+      expect(high.date.slice(0, 7)).toBe("2023-08");
+      expect(ff.filter((p) => p.value >= 5.33 && p.date < "2023").at(-1)!.date.slice(0, 4)).toBe("2001");
+      expect(ff.at(-1)!.date.slice(0, 7)).toBe("2026-10");
+      expect(ff.at(-1)!.value).toBe(3.88);
+    },
+  },
+  ten: {
+    says: ["8.3% in July 1991", "0.55% in August 2020", "5.26% in October 2026, the highest since 2002"],
+    check: () => {
+      expect(r1(max(ten).value)).toBe(8.3);
+      expect(max(ten).date.slice(0, 7)).toBe("1991-07");
+      expect(min(ten).value).toBe(0.55);
+      expect(min(ten).date.slice(0, 7)).toBe("2020-08");
+      const high = max(within(ten, "2020-08", "2027"));
+      expect(high.value).toBe(5.26);
+      expect(high.date.slice(0, 7)).toBe("2026-10");
+      expect(ten.filter((p) => p.value >= 5.26 && p.date < "2026").at(-1)!.date.slice(0, 4)).toBe("2002");
     },
   },
 };

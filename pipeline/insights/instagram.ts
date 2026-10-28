@@ -34,6 +34,8 @@ export const SERIES_HASHTAGS: Record<string, string[]> = {
   "energy.lng_exports": ["#naturalgas", "#LNG", "#energy", "#govdata"],
   "energy.spr": ["#oil", "#energy", "#govdata"],
   "economy.mortgage_rate": ["#mortgagerates", "#housing", "#economy", "#govdata"],
+  "economy.fed_funds": ["#federalreserve", "#interestrates", "#economy", "#govdata"],
+  "economy.treasury_10y": ["#treasuryyields", "#bonds", "#economy", "#govdata"],
   "economy.unemployment": ["#unemployment", "#jobs", "#economy", "#govdata"],
   "economy.inflation": ["#inflation", "#cpi", "#economy", "#govdata"],
   "economy.jobs_added": ["#jobsreport", "#jobs", "#economy", "#govdata"],

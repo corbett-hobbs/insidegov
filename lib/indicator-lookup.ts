@@ -14,7 +14,7 @@ import {
  * an axis day (days since 1991-01-01); `null` means "no date active", which
  * returns the latest available value.
  *
- * - Weekly (gas, mortgage): the last observation on or before the date, only
+ * - Weekly (gas, mortgage, federal funds, 10-year Treasury): the last observation on or before the date, only
  *   if within 14 days; otherwise no reading.
  * - Monthly: the exact calendar month. Missing -> no reading with a reason;
  *   after the last month -> "not yet released".
@@ -135,7 +135,7 @@ export function readDebt(tot: readonly (number | null)[], held: readonly (number
   return some(tot[q]!, dayOf(qy, (q % 4) * 3, 1) + 45, `Q${qn} ${qy}`, held[q] ?? null);
 }
 
-export type EconomyKey = "mis" | "gas" | "infl" | "jobs" | "gdp" | "wage" | "un" | "mort" | "inc" | "def" | "debt";
+export type EconomyKey = "mis" | "gas" | "infl" | "jobs" | "gdp" | "wage" | "un" | "mort" | "inc" | "def" | "debt" | "ff" | "ten";
 
 /** Every chart's reading for one date (or the latest values for `null`). */
 export function readAll(d: EconomyData, day: number | null): Record<EconomyKey, Reading> {
@@ -151,6 +151,8 @@ export function readAll(d: EconomyData, day: number | null): Record<EconomyKey, 
     inc: readIncome(d.inc, day),
     def: readFiscal(d.def, day),
     debt: readDebt(d.tot, d.held, day),
+    ff: readWeekly(d.ff, day),
+    ten: readWeekly(d.ten, day),
   };
 }
 
