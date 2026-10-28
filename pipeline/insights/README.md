@@ -323,7 +323,7 @@ Gas prices, encounters, ICE, executive orders and laws have no breakdown in the 
 `thread.ts`, `thread-charts.tsx`. A data draft posts as a thread: the caption and chart card first (as before), then
 replies. **Text is text and only charts are images**: the reasons, the key moments and the definition are plain posts, and
 each block of "What drove it" is a chart card. The same texts go to both platforms (written to 280 characters, X's limit).
-News drafts and the intro are not threads; a draft with nothing to add posts as one post.
+News drafts are threads in the same format as data drafts (the same researched why, breakdown, explainer and sources replies; a chart with two lines always gets its explainer, so a reader has both definitions); the intro is not a thread. A draft with nothing to add posts as one post.
 
 | Reply | What | When |
 | --- | --- | --- |

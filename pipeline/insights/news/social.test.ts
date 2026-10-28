@@ -8,6 +8,7 @@ import { CellIndex, verifyInsight } from "../verify";
 import { type Candidate, topicOf } from "./cards";
 import { seriesContext } from "./charts";
 import { slidePlan } from "../carousel";
+import { planThread } from "../thread";
 import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
 import { outletById } from "./outlets";
@@ -158,6 +159,14 @@ describe("a Fed rate decision story", () => {
     const why = { title: "Why it held", captionLine: "x", paragraphs: ["Words only."], sources: [{ name: "FOMC", url: "https://www.federalreserve.gov/x" }] };
     const kinds = slidePlan({ ...insight, kind: "news", why }).map((s) => s.kind);
     expect(kinds).toEqual(expect.arrayContaining(["why", "explainer"]));
+    // The same thread as a data draft: why, the bigger-picture levels (unsigned, with a chart), what it measures, sources.
+    const plan = planThread({ ...insight, kind: "news", why })!;
+    const texts = plan.replies.map((r) => r.text);
+    expect(texts.some((t) => t.startsWith("Why it held."))).toBe(true);
+    expect(texts.some((t) => /Where each stands/.test(t) && /Peak, \d{4} \d\.\d%/.test(t) && !/\+\d/.test(t))).toBe(true);
+    expect(plan.replies.filter((r) => r.chart !== undefined)).toHaveLength(2);
+    expect(texts.some((t) => /federal funds rate is the interest rate/.test(t)) && texts.some((t) => /^Inflation is how much/.test(t))).toBe(true);
+    expect(texts.at(-1)).toMatch(/^Data: /);
   });
 });
 

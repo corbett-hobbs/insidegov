@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { explainer, hasLag } from "./explain";
-import { newsOutlet, signedFact } from "./research";
+import { newsOutlet, rowValue, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
 import type { Insight } from "./types";
 
@@ -265,8 +265,8 @@ const VALUE_W = 124;
 const BAR_W = W - 2 * SIDE - NAME_W - VALUE_W;
 
 /** One block's rows: a bar per row from a shared zero line, the signed value beside it, and the total under them. */
-function BreakdownBlock({ insight, label, rows, total, levels }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string }; levels?: boolean }) {
-  const show = (id: string) => (levels ? insight.facts.find((f) => f.id === id)!.text : signedFact(insight, id));
+function BreakdownBlock({ insight, label, rows, total }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }) {
+  const show = (id: string) => rowValue(insight, id);
   const value = (id: string) => insight.facts.find((f) => f.id === id)!.value as number;
   const vals = rows.map((r) => value(r.fact));
   const hi = Math.max(0, ...vals);
@@ -310,7 +310,7 @@ function breakdownSlide(insight: Insight, n: number, total: number): ReactNode {
       <Header {...headerOf(insight, b.kicker ?? "What drove it")} />
       <Title>{b.title}</Title>
       {b.blocks.map((blk, i) => (
-        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} levels={b.levels} />
+        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} />
       ))}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{b.note}</div>
       <Footer n={n} total={total} />
@@ -366,8 +366,8 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
 export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[] }[] {
-  // A news chart's own breakdown (where each line stands) does not replace what the series measure.
-  const lines = insight.kind === "news" || !(insight.why || insight.breakdown) || hasLag(insight) ? explainer(insight) : [];
+  // A chart with two lines keeps its explainer beside a reason: a reader needs both definitions to read it.
+  const lines = !(insight.why || insight.breakdown) || hasLag(insight) || insight.alsoSeriesId ? explainer(insight) : [];
   const moments = keyMoments(insight);
   return [
     { kind: "hook" },

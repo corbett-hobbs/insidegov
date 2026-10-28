@@ -3,7 +3,7 @@ import { BANNED_WORDS, numberTokens } from "./caption";
 import { explainer, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
-import { newsOutlet, signedFact } from "./research";
+import { newsOutlet, rowValue, signedFact } from "./research";
 import type { Insight } from "./types";
 import { X_MAX, xLength } from "./x";
 
@@ -16,13 +16,13 @@ import { X_MAX, xLength } from "./x";
  *   why               "Why it went up" (research.ts): the researched paragraphs, packed into posts, text only
  *   breakdown         each block of "What drove it" (breakdown.ts): one line of signed changes and a bar chart
  *   moments           dated actions from the site's sourced timelines (moments.ts), listed in order, not as causes
- *   explainer         what the series measures (explain.ts), when there is neither a reason nor a breakdown, or when it states a release lag (explain.ts hasLag)
+ *   explainer         what the series measures (explain.ts), when there is neither a reason nor a breakdown, when it states a release lag (explain.ts hasLag), or when the chart has two lines
  *   sources           the data source and the pages the reasons came from; the link is added when it posts
  *
  * Every sentence comes from something already checked: the why's paragraphs passed checkWhy, the breakdown line is
  * built from verified facts, the moments are the site's curated timeline, the explainer has no numbers or causes.
  * checkReplies runs the plain rules on all of them again at posting time, so an edited reply cannot add a number or a
- * loaded word. News drafts and the intro are not threads.
+ * loaded word. News drafts are threads in the same format as data drafts (the intro has its own).
  */
 
 /** X's limit and the tighter of the two platforms: one text fits both (Bluesky allows 300). */
@@ -105,7 +105,7 @@ function whyReplies(insight: Insight): { replies: Reply[]; note?: string } {
 
 /** "Natural gas +16.9B kWh, Solar +7.0B kWh": a block's rows as signed changes, parentheses dropped from names. */
 function rowsText(insight: Insight, rows: { name: string; fact: string }[]): string {
-  return rows.map((r) => `${r.name.replace(/\s*\(.*\)\s*$/, "")} ${signedFact(insight, r.fact)}`).join(", ");
+  return rows.map((r) => `${r.name.replace(/\s*\(.*\)\s*$/, "")} ${rowValue(insight, r.fact)}`).join(", ");
 }
 
 function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string } {
@@ -113,7 +113,7 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
   if (!b) return { replies: [] };
   const replies: Reply[] = [];
   for (const [i, blk] of b.blocks.entries()) {
-    const total = blk.total ? ` ${blk.total.name} ${signedFact(insight, blk.total.fact)}.` : "";
+    const total = blk.total ? ` ${blk.total.name} ${rowValue(insight, blk.total.fact)}.` : "";
     const head = i === 0 ? `${b.title}\n\n` : "";
     // Trim the smallest rows (the last ones) until the line fits; a chart still shows them all.
     let rows = blk.rows;
@@ -174,12 +174,11 @@ function sourcesReply(insight: Insight): Reply {
 
 /** The replies after the chart post, or null when there is nothing to add (the draft then posts as a single post). */
 export function planThread(insight: Insight): ThreadPlan | null {
-  if (insight.kind === "news") return null;
   const notes: string[] = [];
   const sections = [whyReplies(insight), breakdownReplies(insight), momentsReplies(insight)];
   const replies = sections.flatMap((s) => s.replies);
   for (const s of sections) if (s.note) notes.push(s.note);
-  if ((!replies.length && !(insight.why && givesReason(insight.why)) && !insight.breakdown) || hasLag(insight)) replies.push(...explainerReplies(insight));
+  if ((!replies.length && !(insight.why && givesReason(insight.why)) && !insight.breakdown) || hasLag(insight) || insight.alsoSeriesId) replies.push(...explainerReplies(insight));
   if (!replies.length) return null;
   replies.push(sourcesReply(insight));
   return { replies, notes };
