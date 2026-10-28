@@ -1,4 +1,34 @@
 {
-  "asOf": "2026-10-27",
-  "stories": []
+  "asOf": "2026-10-28",
+  "stories": [
+    {
+      "id": "tariff.CAN-2026-10-23",
+      "date": "2026-10-23",
+      "topic": "Tariffs involving Canada",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "federalregister",
+          "outlet": "Federal Register",
+          "lean": "Data",
+          "title": "Adjusting Imports of Wind Turbines and Their Parts and Components Into the United States",
+          "url": "https://www.federalregister.gov/documents/2026/10/28/2026-22049/adjusting-imports-of-wind-turbines-and-their-parts-and-components-into-the-united-states"
+        },
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Trump administration cancels some Canada tariffs amid close midterm races",
+          "url": "https://www.nbcnews.com/business/economy/trump-cancels-canada-tariffs-susan-collins-rcna605270"
+        },
+        {
+          "outletId": "pbsnewshour",
+          "outlet": "PBS NewsHour",
+          "lean": "Lean Left",
+          "title": "Seeking to help Collins in Maine, Trump exempts some Canadian imports from his 50% tariffs",
+          "url": "https://www.pbs.org/newshour/politics/seeking-to-help-collins-in-maine-trump-exempts-some-canadian-imports-from-his-50-tariffs"
+        }
+      ]
+    }
+  ]
 }
