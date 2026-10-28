@@ -317,14 +317,23 @@ export function sealSrc(): string {
   return seal;
 }
 
-type Branch = "presidency" | "congress" | "supreme-court";
+export type Branch = "presidency" | "congress" | "supreme-court";
 
-/** The page's branch landmark and colour (app/globals.css: div[data-branch], .branch-bg). `pos` is the photo's vertical focus. */
-const BRANCHES: Record<Branch, { accent: string; photo: string; pos: number }> = {
-  presidency: { accent: "#2f4f87", photo: "white-house.jpg", pos: 0.62 },
-  congress: { accent: "#2f6b4f", photo: "capitol.jpg", pos: 0.3 },
-  "supreme-court": { accent: "#7a2e3b", photo: "supreme-court.jpg", pos: 0.3 },
+/**
+ * The page's branch landmark and colour (app/globals.css: div[data-branch], .branch-bg). `pos` is the photo's vertical
+ * focus. `deep` and `light` are the share card's deep ground and the dark-mode accent (app/_og/topic-card.tsx, globals.css),
+ * for a slide that is dark rather than pale.
+ */
+export const BRANCHES: Record<Branch, { accent: string; deep: string; light: string; photo: string; pos: number }> = {
+  presidency: { accent: "#2f4f87", deep: "#162b4f", light: "#8fb0ea", photo: "white-house.jpg", pos: 0.62 },
+  congress: { accent: "#2f6b4f", deep: "#20493a", light: "#7fcaa3", photo: "capitol.jpg", pos: 0.3 },
+  "supreme-court": { accent: "#7a2e3b", deep: "#5a2029", light: "#e29aa8", photo: "supreme-court.jpg", pos: 0.3 },
 };
+
+/** White mixed with a colour: the pale ground of a branch-tinted slide (about the site header's tint). */
+export function paleOf(hex: string, share = 0.07): string {
+  return `#${[1, 3, 5].map((i) => Math.round(255 - share * (255 - parseInt(hex.slice(i, i + 2), 16))).toString(16).padStart(2, "0")).join("")}`;
+}
 
 /** The section a page path belongs to ("/presidency/energy" → presidency). */
 export function branchOf(url: string): Branch {
@@ -342,33 +351,61 @@ const backdrops = new Map<string, string>();
  * Baked into a PNG (the renderer has no blend modes, filters or masks).
  */
 export async function backdropSrc(url: string, width: number, height: number): Promise<string> {
-  const key = `${branchOf(url)}:${width}x${height}`;
+  return backdropFor(branchOf(url), width, height);
+}
+
+export type BackdropOptions = {
+  /** How strongly the photo shows (the site's page uses 0.14; the share image 0.16). */
+  opacity?: number;
+  /** The colour under the photo (white by default; a tinted or deep ground for a slide that has no chart to keep clean). */
+  base?: string;
+  /** The colour the photo's lightness is mapped onto: the branch accent by default, its lighter tone on a deep ground. */
+  tint?: string;
+};
+
+const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)) as [number, number, number];
+
+export async function backdropFor(branch: Branch, width: number, height: number, opts: BackdropOptions = {}): Promise<string> {
+  const b = BRANCHES[branch];
+  const opacity = opts.opacity ?? 0.16;
+  const base = opts.base ?? "#ffffff";
+  const tint = opts.tint ?? b.accent;
+  const key = `${branch}:${width}x${height}:${opacity}:${base}:${tint}`;
   const cached = backdrops.get(key);
   if (cached) return cached;
-  const b = BRANCHES[branchOf(url)];
   const file = join(process.cwd(), "public/images/branches", b.photo);
   // Trim 4% off each edge first: the White House scan has a white border the page's wider crop hides.
   const meta = await sharp(file).metadata();
   const inset = { left: Math.round(meta.width! * 0.04), top: Math.round(meta.height! * 0.04), width: Math.round(meta.width! * 0.92), height: Math.round(meta.height! * 0.92) };
   const trimmed = await sharp(file).extract(inset).toBuffer();
   const scaledH = Math.round((inset.height * width) / inset.width);
-  const top = Math.max(0, Math.round((scaledH - height) * b.pos));
-  const grey = await sharp(trimmed).resize({ width }).extract({ left: 0, top, width, height: Math.min(height, scaledH - top) }).greyscale().linear(1.1, -12.8).raw().toBuffer({ resolveWithObject: true });
-  const [ar, ag, ab] = [1, 3, 5].map((i) => parseInt(b.accent.slice(i, i + 2), 16));
-  // `mix-blend-mode: color`: the photo's lightness, the accent's hue. Lightness scales the accent toward black or white.
-  const accentL = 0.299 * ar + 0.587 * ag + 0.114 * ab;
-  const OPACITY = 0.16;
+  // A short strip is cropped from the width-fitted photo; a tall one (a whole slide) is scaled up to cover it, cropped at the photo's focus.
+  const scale = Math.max(width / inset.width, height / inset.height);
+  const [sw, sh] = scaledH >= height ? [width, scaledH] : [Math.round(inset.width * scale), Math.round(inset.height * scale)];
+  const left = Math.round((sw - width) / 2);
+  const top = Math.max(0, Math.round((sh - height) * b.pos));
+  const grey = await sharp(trimmed)
+    .resize(scaledH >= height ? { width } : { width: sw, height: sh })
+    .extract({ left, top, width, height: Math.min(height, sh - top) })
+    .greyscale()
+    .linear(1.1, -12.8)
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const [ar, ag, ab] = rgb(tint);
+  const [br, bg, bb] = rgb(base);
+  // `mix-blend-mode: color`: the photo's lightness, the tint's hue. Lightness scales the tint toward black or white.
+  const tintL = 0.299 * ar + 0.587 * ag + 0.114 * ab;
   const h = grey.info.height;
   const out = Buffer.alloc(width * h * 3);
   for (let y = 0; y < h; y++) {
     // Full strength over the top quarter, then fading to nothing (the page's mask: #000 25%, transparent 100%).
     const t = y / h;
-    const a = OPACITY * (t < 0.25 ? 1 : 1 - (t - 0.25) / 0.75);
+    const a = opacity * (t < 0.25 ? 1 : 1 - (t - 0.25) / 0.75);
     for (let x = 0; x < width; x++) {
       const L = grey.data[(y * width + x) * grey.info.channels]!;
       for (const [c, v] of [ar, ag, ab].entries()) {
-        const tinted = L <= accentL ? (v * L) / accentL : v + ((255 - v) * (L - accentL)) / (255 - accentL);
-        out[(y * width + x) * 3 + c] = Math.round(255 * (1 - a) + tinted * a);
+        const tinted = L <= tintL ? (v * L) / tintL : v + ((255 - v) * (L - tintL)) / (255 - tintL);
+        out[(y * width + x) * 3 + c] = Math.round([br, bg, bb][c]! * (1 - a) + tinted * a);
       }
     }
   }

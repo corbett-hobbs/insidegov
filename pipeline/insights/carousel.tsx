@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
-import { ACCENT, Badge, INK, kickerFor, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Frame, chartLayer, sealSrc, serifFont, svgImage, backdropSrc, badgeOf } from "./chart";
+import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { explainer } from "./explain";
 import { signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
@@ -57,8 +57,8 @@ function headlineValue(insight: Insight): string | null {
 }
 
 /** One slide's 720x900 canvas. Every slide returns one (a fragment would be laid out as a row). */
-function Slide({ children }: { children: ReactNode }) {
-  return <div style={{ display: "flex", flexDirection: "column", position: "relative", width: W, height: H, padding: `30px ${SIDE}px 0 ${SIDE}px`, color: INK }}>{children}</div>;
+function Slide({ children, color = INK }: { children: ReactNode; color?: string }) {
+  return <div style={{ display: "flex", flexDirection: "column", position: "relative", width: W, height: H, padding: `30px ${SIDE}px 0 ${SIDE}px`, color }}>{children}</div>;
 }
 
 /** A draft's header: its dataset and, on the hook and chart, the release or news badge. */
@@ -67,21 +67,21 @@ const headerOf = (insight: Insight, label?: string) => ({
   badge: label === undefined ? badgeOf(insight) : null,
 });
 
-function Header({ kicker, badge }: { kicker: string; badge?: ReturnType<typeof badgeOf> | null }) {
+function Header({ kicker, badge, ink = INK, muted = MUTED }: { kicker: string; badge?: ReturnType<typeof badgeOf> | null; ink?: string; muted?: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", fontSize: 14, letterSpacing: 2.5, color: MUTED, textTransform: "uppercase" }}>
+    <div style={{ display: "flex", alignItems: "center", fontSize: 14, letterSpacing: 2.5, color: muted, textTransform: "uppercase" }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
       <img src={sealSrc()} width={32} height={32} alt="" style={{ marginRight: 10 }} />
-      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 25, letterSpacing: -0.4, color: INK, textTransform: "none", marginRight: 14 }}>InsideGov</div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 25, letterSpacing: -0.4, color: ink, textTransform: "none", marginRight: 14 }}>InsideGov</div>
       {kicker}
       {badge ? <Badge {...badge} size={12} /> : null}
     </div>
   );
 }
 
-function Footer({ n, total, left }: { n: number; total: number; left?: string }) {
+function Footer({ n, total, left, muted = MUTED }: { n: number; total: number; left?: string; muted?: string }) {
   return (
-    <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 48, display: "flex", justifyContent: "space-between", fontSize: 17, color: MUTED }}>
+    <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 48, display: "flex", justifyContent: "space-between", fontSize: 17, color: muted }}>
       <div style={{ display: "flex" }}>{left ?? ""}</div>
       <div style={{ display: "flex" }}>{`${n}/${total}`}</div>
     </div>
@@ -324,22 +324,26 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
               ? momentsSlide(insight, s.moments!, n, plan.length)
               : endSlide(insight, n, plan.length);
     }),
-    await backdropSrc(insight.url, SLIDE_W, BACKDROP_H),
+    { src: await backdropSrc(insight.url, SLIDE_W, BACKDROP_H), height: BACKDROP_H },
   );
 }
 
 const BACKDROP_H = 380;
 
-/** Each slide (a <Slide>) to a 1080x1350 PNG, over the branch backdrop when given (chart.tsx backdropSrc). */
-async function renderSlides(bodies: ReactNode[], backdrop?: string): Promise<Buffer[]> {
+/** A slide's backdrop (chart.tsx backdropFor): the image, how much of the slide it covers, and the colour under it. */
+type Backdrop = { src: string; height: number; bg?: string };
+
+/** Each slide (a <Slide>) to a 1080x1350 PNG, over its branch backdrop (one for all, or one per slide). */
+async function renderSlides(bodies: ReactNode[], backdrops?: Backdrop | Backdrop[]): Promise<Buffer[]> {
   const serif = serifFont();
   const out: Buffer[] = [];
-  for (const body of bodies) {
+  for (const [i, body] of bodies.entries()) {
+    const backdrop = Array.isArray(backdrops) ? backdrops[i] : backdrops;
     // Laid out at 720x900, scaled into 1080x1350: the renderer keeps text and the SVG sharp at the larger size.
     const content = (
-      <div style={{ display: "flex", position: "relative", width: SLIDE_W, height: SLIDE_H, background: SURFACE }}>
+      <div style={{ display: "flex", position: "relative", width: SLIDE_W, height: SLIDE_H, background: backdrop?.bg ?? SURFACE }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
-        {backdrop ? <img src={backdrop} width={SLIDE_W} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} /> : null}
+        {backdrop ? <img src={backdrop.src} width={SLIDE_W} height={backdrop.height} alt="" style={{ position: "absolute", top: 0, left: 0 }} /> : null}
         <div style={{ display: "flex", width: W, height: H, transform: `scale(${SCALE})`, transformOrigin: "top left" }}>{body}</div>
       </div>
     );
@@ -358,33 +362,80 @@ export type IntroSlide =
   | { kind: "text"; kicker: string; title: string; paragraphs: string[]; sign?: string }
   | { kind: "list"; kicker: string; title: string; items: string[] };
 
-function sparkPath(vals: number[], w: number, h: number): string {
+/** The intro cycles through the three branches, so each slide differs from its neighbours (presidency, Supreme Court, Congress). */
+export const INTRO_BRANCHES: Branch[] = ["presidency", "supreme-court", "congress"];
+
+/** The gold the share cards use on a deep ground (app/_og/topic-card.tsx). */
+const GOLD = "#e8c877";
+
+type Look = {
+  branch: Branch;
+  dark: boolean;
+  ink: string;
+  muted: string;
+  /** Bullets, rules and the sign-off. */
+  accent: string;
+  /** The ground and the faded photo over it (chart.tsx backdropFor). */
+  backdrop: (width: number, height: number) => Promise<Backdrop>;
+};
+
+/**
+ * One intro slide's look. A pale slide has the branch's photo in greyscale washed in its colour over a pale tint of it,
+ * the whole way down; a dark one (the cover) sits on the share card's deep branch ground with the photo lifted out of it,
+ * white type and gold marks. `darkCover` false makes the cover pale like the rest.
+ */
+export function introLook(i: number, darkCover = true): Look {
+  const branch = INTRO_BRANCHES[i % INTRO_BRANCHES.length]!;
+  const b = BRANCHES[branch];
+  if (i === 0 && darkCover) {
+    return {
+      branch,
+      dark: true,
+      ink: "#ffffff",
+      muted: "rgba(255,255,255,0.74)",
+      accent: GOLD,
+      backdrop: async (width, height) => ({ src: await backdropFor(branch, width, height, { base: b.deep, tint: b.light, opacity: 0.42 }), height, bg: b.deep }),
+    };
+  }
+  const pale = paleOf(b.accent);
+  return {
+    branch,
+    dark: false,
+    ink: INK,
+    muted: MUTED,
+    accent: b.accent,
+    backdrop: async (width, height) => ({ src: await backdropFor(branch, width, height, { base: pale, opacity: 0.3 }), height, bg: pale }),
+  };
+}
+
+function sparkPath(vals: number[], w: number, h: number, line = LINE, dot = ACCENT, ring = SURFACE): string {
   const lo = Math.min(...vals);
   const hi = Math.max(...vals);
   const x = (i: number) => 6 + (i / (vals.length - 1)) * (w - 12);
   const y = (v: number) => 6 + (1 - (v - lo) / (hi - lo || 1)) * (h - 12);
   const d = vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
-  return `<path d="${d}" fill="none" stroke="${LINE}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(vals.length - 1)}" cy="${y(vals.at(-1)!)}" r="7" fill="${ACCENT}" stroke="${SURFACE}" stroke-width="3"/>`;
+  return `<path d="${d}" fill="none" stroke="${line}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(vals.length - 1)}" cy="${y(vals.at(-1)!)}" r="7" fill="${dot}" stroke="${ring}" stroke-width="3"/>`;
 }
 
-function introSlide(s: IntroSlide, n: number, total: number): ReactNode {
+function introSlide(s: IntroSlide, n: number, total: number, look: Look): ReactNode {
   if (s.kind === "cover") {
     const rowTop = 470;
     const rowH = 118;
     const sparkW = W - 2 * SIDE;
-    const svg = s.sparks.map((sp, i) => `<g transform="translate(${SIDE},${rowTop + i * rowH + 26})">${sparkPath(sp.points, sparkW, rowH - 44)}</g>`).join("");
+    const [line, dot, ring] = look.dark ? ["#ffffff", GOLD, BRANCHES[look.branch].deep] : [LINE, look.accent, SURFACE];
+    const svg = s.sparks.map((sp, i) => `<g transform="translate(${SIDE},${rowTop + i * rowH + 26})">${sparkPath(sp.points, sparkW, rowH - 44, line, dot, ring)}</g>`).join("");
     return (
-      <Slide>
+      <Slide color={look.ink}>
         {svgImage(svg, W, H)}
-        <Header kicker="" />
+        <Header kicker="" ink={look.ink} muted={look.muted} />
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 64, lineHeight: 1.04, letterSpacing: -1.5, marginTop: 92 }}>{s.title}</div>
-        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 26, lineHeight: 1.35, color: MUTED, marginTop: 22 }}>{s.sub}</div>
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 24, lineHeight: 1.35, color: look.muted, marginTop: 22 }}>{s.sub}</div>
         {s.sparks.map((sp, i) => (
-          <div key={i} style={{ position: "absolute", left: SIDE, top: rowTop + i * rowH, display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED }}>
+          <div key={i} style={{ position: "absolute", left: SIDE, top: rowTop + i * rowH, display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: look.muted }}>
             {sp.label}
           </div>
         ))}
-        <Footer n={n} total={total} left="Swipe" />
+        <Footer n={n} total={total} left="Swipe" muted={look.muted} />
       </Slide>
     );
   }
@@ -392,7 +443,7 @@ function introSlide(s: IntroSlide, n: number, total: number): ReactNode {
     s.kind === "list" ? (
       s.items.map((t, i) => (
         <div key={i} style={{ display: "flex", alignItems: "flex-start", marginBottom: 24 }}>
-          <div style={{ display: "flex", width: 10, height: 10, borderRadius: 2, background: ACCENT, marginTop: 13, marginRight: 18, flexShrink: 0 }} />
+          <div style={{ display: "flex", width: 10, height: 10, borderRadius: 2, background: look.accent, marginTop: 13, marginRight: 18, flexShrink: 0 }} />
           <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 28, lineHeight: 1.35 }}>{t}</div>
         </div>
       ))
@@ -404,18 +455,22 @@ function introSlide(s: IntroSlide, n: number, total: number): ReactNode {
       ))
     );
   return (
-    <Slide>
-      <Header kicker={s.kicker} />
+    <Slide color={look.ink}>
+      <Header kicker={s.kicker} ink={look.ink} muted={look.muted} />
       <Title>{s.title}</Title>
       {body}
       {s.kind === "text" && s.sign ? (
-        <div style={{ display: "flex", fontSize: 20, color: ACCENT, marginTop: 10, paddingTop: 20, borderTop: `2px solid ${NEUTRAL}` }}>{s.sign}</div>
+        <div style={{ display: "flex", fontSize: 20, color: look.accent, marginTop: 10, paddingTop: 20, borderTop: `2px solid ${NEUTRAL}` }}>{s.sign}</div>
       ) : null}
-      <Footer n={n} total={total} />
+      <Footer n={n} total={total} muted={look.muted} />
     </Slide>
   );
 }
 
-export async function renderIntroCarousel(slides: IntroSlide[]): Promise<Buffer[]> {
-  return renderSlides(slides.map((s, i) => introSlide(s, i + 1, slides.length)));
+export async function renderIntroCarousel(slides: IntroSlide[], opts: { darkCover?: boolean } = {}): Promise<Buffer[]> {
+  const looks = slides.map((_, i) => introLook(i, opts.darkCover));
+  return renderSlides(
+    slides.map((s, i) => introSlide(s, i + 1, slides.length, looks[i]!)),
+    await Promise.all(looks.map((l) => l.backdrop(SLIDE_W, SLIDE_H))),
+  );
 }
