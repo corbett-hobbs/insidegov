@@ -3,7 +3,6 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { siteInfo } from "../../lib/site-info";
 import { type IntroSlide, renderIntroCarousel } from "./carousel";
 import { SITE_URL } from "./chart";
 import { lengthSection } from "./counts";
@@ -47,7 +46,8 @@ export const INTRO_THREAD = {
  * personal note, since the account's first followers include people who worked on the original InsideGov at Graphiq.
  * Keep it in step with the About page when either changes.
  */
-const FIRST_NAME = siteInfo.builderName.split(" ")[0]!;
+/** What the owner goes by on Instagram (the site's builder name is "Corbett Hobbs"). */
+const FIRST_NAME = "Corby";
 
 /** The cover's trend lines: real series, about ten years, no numbers (the slide names them only). */
 function coverSparks(): { label: string; points: number[] }[] {
