@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { eventInsightsAt, newMonthEnds, releaseEstimator, seriesInsightsAt } from "./collect";
@@ -5,6 +6,7 @@ import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { addDays, addMonths, fmtDate } from "./format";
 import { estimateRelease, releaseFor, stampRelease } from "./freshness";
+import { INTRO_LABEL, POSTED_LABEL } from "./issue";
 import { type QueueItem, localDate, simulate, slotLabel } from "./schedule";
 import type { Insight, Series } from "./types";
 
@@ -95,8 +97,17 @@ const estimate = releaseEstimator(allSeries);
 const fresh = ready.map((i) => stampRelease(i, estimate(i), true)).filter((i) => i.release!.releasedOn <= today && i.release!.expiresOn >= start);
 const byKey = new Map(fresh.map((i) => [i.id, i] as const));
 const labels = new Map<string, string>(expected.map((q) => [q.key, q.label]));
+/** The intro thread is a one-off: once its issue is closed (labelled posted) it is not in the plan. If `gh` cannot say, it stays in. */
+function introPosted(): boolean {
+  try {
+    return JSON.parse(execFileSync("gh", ["issue", "list", "--label", INTRO_LABEL, "--label", POSTED_LABEL, "--state", "closed", "--limit", "1", "--json", "number"], { encoding: "utf8" })).length > 0;
+  } catch {
+    console.warn("insights:plan  could not check whether the intro thread was posted (needs gh); keeping it in the plan");
+    return false;
+  }
+}
 const items: QueueItem[] = [
-  { key: "intro", id: "intro", kind: "intro", dataset: "intro", seriesId: "intro", period: "", score: 0, frequency: "monthly", releasedOn: start, expiresOn: "9999-12-31" },
+  ...(introPosted() ? [] : [{ key: "intro", id: "intro", kind: "intro", dataset: "intro", seriesId: "intro", period: "", score: 0, frequency: "monthly", releasedOn: start, expiresOn: "9999-12-31" } satisfies QueueItem]),
   ...fresh.map((i) => ({ key: i.id, id: i.id, kind: i.kind, dataset: i.dataset, seriesId: i.seriesId, period: i.period, score: i.score, frequency: i.frequency, releasedOn: i.release!.releasedOn, expiresOn: i.release!.expiresOn })),
   ...expected,
 ];
