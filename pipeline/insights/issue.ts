@@ -40,6 +40,13 @@ export type DraftBlock = {
   lead?: string;
   /** News drafts: the story, and when the draft stops being postable. */
   news?: NewsTrigger;
+  /**
+   * A data draft's long-form thread: the replies after the chart post, in order (thread.ts), each a reply to the one
+   * before; a reply with an image is a chart. The last reply gets the link when it posts. Absent: the draft is one post.
+   */
+  replies?: { text: string; image_url?: string; alt?: string }[];
+  /** The number tokens the replies were generated with; an edited reply may not add another. */
+  reply_numbers?: string[];
 };
 
 const OPEN = "<!-- social-draft";
@@ -98,6 +105,12 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     release: draft.release,
     ...(draft.lead ? { lead: draft.lead } : {}),
     ...(draft.news ? { news: draft.news } : {}),
+    ...(draft.replies?.length
+      ? {
+          replies: draft.replies.map((r) => ({ text: r.text, ...(r.image ? { image_url: `${imageUrl.slice(0, imageUrl.length - draft.image.length)}${r.image}`, alt: r.alt } : {}) })),
+          reply_numbers: draft.reply_numbers ?? [],
+        }
+      : {}),
   };
   const r = draft.release;
   const n = draft.news;
@@ -112,6 +125,7 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     "",
     lengthSection(block),
     "",
+    ...threadSection(block, draft.reply_notes),
     ...whySection(draft),
     ...slidesSection(draft, imageUrl),
     `Dataset \`${draft.dataset}\` · ${draft.kind.replace("_", " ")} · period ${draft.period} · caption by ${draft.caption_source}${draft.caption_model ? ` (${draft.caption_model})` : ""}${extra.dataPr ? ` · data PR ${extra.dataPr}` : ""}${extra.runUrl ? ` · [run](${extra.runUrl})` : ""}`,
@@ -148,6 +162,21 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     blockComment(block),
     "",
   ].join("\n");
+}
+
+/**
+ * The thread's replies for review: each one's text and, for a chart, its image. They post in this order after the chart,
+ * on X and Bluesky; the link goes on the last. Editing a reply means editing `replies` in the block below.
+ */
+export function threadSection(block: Pick<DraftBlock, "replies">, notes?: string[]): string[] {
+  const replies = block.replies;
+  if (!replies?.length) return notes?.length ? [`**Thread:** none (${notes.join("; ")}). This posts as a single post.`, ""] : [];
+  return [
+    `**Thread** (${replies.length} replies after the chart post, on X and Bluesky; text only except the charts; to change a reply, edit \`replies\` in the block below):`,
+    "",
+    ...replies.flatMap((r, i) => [`${i + 2}. ${r.text.replace(/\n/g, "\n   ")}`, ...(r.image_url ? ["", `   ![${(r.alt ?? "").replace(/[[\]]/g, "")}](${r.image_url})`] : []), ""]),
+    ...(notes?.length ? [`Left out: ${notes.join("; ")}.`, ""] : []),
+  ];
 }
 
 /**

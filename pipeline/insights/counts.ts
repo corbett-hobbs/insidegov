@@ -2,6 +2,7 @@ import { graphemes, MAX_GRAPHEMES } from "./bluesky";
 import { checkCaption } from "./caption";
 import { INSTAGRAM_MAX, instagramCaption } from "./instagram";
 import type { DraftBlock } from "./issue";
+import { checkReplies } from "./thread";
 import { X_MAX, xLength } from "./x";
 
 /**
@@ -40,6 +41,16 @@ export function lengthSection(block: DraftBlock): string {
     );
     const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead });
     lines.push(errors.length ? `- ⚠ **Caption check fails:** ${errors.join("; ")}. It will not post until this is fixed.` : "- ✅ Caption check passes (numbers match the facts, no loaded words).");
+    if (block.replies?.length) {
+      lines.push("", "**Thread** (the replies after the chart post; the link is added to the last)", "", "| Post | Bluesky (limit 300) | X (limit 280, link counts 23) |", "| --- | --- | --- |");
+      block.replies.forEach((r, i) => {
+        const last = i === block.replies!.length - 1;
+        const b = last ? `${r.text}\n\n${block.link}` : r.text;
+        lines.push(`| ${i + 2}${last ? " (last)" : ""} | ${fit(graphemes(b), MAX_GRAPHEMES)} | ${last ? `${fit(xLength(r.text), X_MAX)}; with the link: ${fit(xLength(`${r.text}\n\n${block.link}`), X_MAX)}` : fit(xLength(r.text), X_MAX)} |`);
+      });
+      const problems = checkReplies(block.replies, block.facts, block.reply_numbers ?? []);
+      lines.push("", problems.length ? `- ⚠ **Thread check fails:** ${problems.join("; ")}. It will not post until this is fixed.` : "- ✅ Thread check passes (numbers match the facts, no loaded words).");
+    }
     // Instagram is posted by hand: the text to paste, rebuilt with the rest of this section when the caption is edited.
     lines.push("", "**Instagram text** (to post by hand; hashtags are set per series in `instagram.ts`)", "", "```text", insta, "```");
   }

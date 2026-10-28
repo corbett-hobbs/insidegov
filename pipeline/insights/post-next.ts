@@ -3,6 +3,7 @@ import { appendFileSync, writeFileSync } from "node:fs";
 import * as bsky from "./bluesky";
 import { checkCaption } from "./caption";
 import { SITE_URL } from "./chart";
+import { checkReplies, partsOf, threadFit } from "./thread";
 import { APPROVED_LABEL, type DraftBlock, EXPIRED_LABEL, POSTED_LABEL, parseDraftBlock } from "./issue";
 import { type Posted, type QueueItem, SLOTS, type SlotName, localDate, pickNews, pickNext, slotAt } from "./schedule";
 import * as x from "./x";
@@ -39,6 +40,8 @@ const blueskyCreds = process.env.BLUESKY_HANDLE && process.env.BLUESKY_APP_PASSW
 const xCreds = x.xCredsFromEnv();
 const platforms: Platform[] = [...(blueskyCreds ? (["bluesky"] as const) : []), ...(xCreds ? (["x"] as const) : [])];
 const live = enabled && platforms.length > 0;
+/** X charges far more for a post with a URL, so its link is opt-in (X_INCLUDE_LINK=true); Bluesky always carries it. */
+const includeLink = process.env.X_INCLUDE_LINK === "true";
 
 const gh = (args: string[]) => execFileSync("gh", args, { encoding: "utf8" }).trim();
 const act = (what: string, args: string[]) => (live ? gh(args) : console.log(`  [dry run] ${what}`));
@@ -140,11 +143,11 @@ const { issue, block } = blocks.get(decision.post.key)!;
 console.log(`  next: #${issue.number} ${block.id} (${decision.reason})`);
 
 if (block.kind !== "intro") {
-  const errors = checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead });
+  const errors = [...checkCaption(block.caption, block.facts, { lagged: block.release?.lagged, lead: block.lead }), ...checkReplies(block.replies ?? [], block.facts, block.reply_numbers ?? []), ...threadFit(block, includeLink)];
   if (errors.length) {
-    console.log(`  caption fails the check: ${errors.join("; ")}`);
-    act(`comment on #${issue.number}`, ["issue", "comment", String(issue.number), "--body", `Not posted: the caption fails the check (${errors.join("; ")}). Fix \`caption\` in the block and it will be picked up at the next slot.`]);
-    report.problems.push(`#${issue.number} ${titleOf(issue.number)} was due to post but its caption fails the check (${errors.join("; ")}). Edit it in the issue.`);
+    console.log(`  caption or thread fails the check: ${errors.join("; ")}`);
+    act(`comment on #${issue.number}`, ["issue", "comment", String(issue.number), "--body", `Not posted: the caption or thread fails the check (${errors.join("; ")}). Fix \`caption\` or \`replies\` in the block and it will be picked up at the next slot.`]);
+    report.problems.push(`#${issue.number} ${titleOf(issue.number)} was due to post but its caption or thread fails the check (${errors.join("; ")}). Edit it in the issue.`);
     finish();
   }
 }
@@ -154,7 +157,7 @@ const succeeded: Platform[] = [];
 const todo = platforms.filter((p) => !issue.labels.some((l) => l.name === `posted-${p}`));
 for (const p of todo.length ? todo : (["bluesky", "x"] as Platform[])) {
   if (!live) {
-    const text = block.kind === "intro" ? block.thread![p].join("\n---\n") : p === "x" ? xText(block) : `${block.caption}\n\n${block.link}`;
+    const text = block.kind === "intro" ? block.thread![p].join("\n---\n") : block.replies?.length ? partsOf(block, p, includeLink).map((t, i) => `${i + 1}/${block.replies!.length + 1}${t.imageUrl ? " [chart]" : ""}: ${t.link ? `${t.text}\n\n${t.link}` : t.text}`).join("\n---\n") : p === "x" ? xText(block) : `${block.caption}\n\n${block.link}`;
     console.log(`  [dry run] ${p} would post:\n${text.replace(/^/gm, "    ")}${block.image_url ? `\n    [image] ${block.image_url}` : ""}`);
     continue;
   }
@@ -191,13 +194,71 @@ function xText(b: DraftBlock): string {
   return process.env.X_INCLUDE_LINK === "true" ? `${b.caption}\n\n${b.link}` : b.caption;
 }
 
-async function image(b: DraftBlock): Promise<Buffer> {
-  const res = await fetch(b.image_url!);
-  if (!res.ok) throw new Error(`image ${b.image_url}: HTTP ${res.status}`);
+async function fetchImage(url: string): Promise<Buffer> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`image ${url}: HTTP ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
 }
 
+const image = (b: DraftBlock) => fetchImage(b.image_url!);
+
+/**
+ * Each part posted is recorded as a comment on the issue, so a thread that stops halfway (an API error, a rate limit)
+ * resumes at the next slot from the part it was on, replying to the last one posted, instead of starting over.
+ */
+type Step = { platform: Platform; index: number; ref: unknown };
+function savedSteps(issueNumber: number, p: Platform): Step[] {
+  const { comments } = JSON.parse(gh(["issue", "view", String(issueNumber), "--json", "comments"])) as { comments: { body: string }[] };
+  return comments
+    .flatMap((c) => {
+      // (Declared here, not above: this script runs top to bottom, and the posting loop is above the helpers.)
+      const m = c.body.match(/<!-- social-thread (.*) -->/);
+      return m ? [JSON.parse(m[1]!) as Step] : [];
+    })
+    .filter((s) => s.platform === p)
+    .sort((a, b) => a.index - b.index);
+}
+function saveStep(issueNumber: number, step: Step, total: number): void {
+  try {
+    gh(["issue", "comment", String(issueNumber), "--body", `<!-- social-thread ${JSON.stringify(step)} -->\nPosted part ${step.index + 1} of ${total} to ${step.platform === "x" ? "X" : "Bluesky"}.`]);
+  } catch (err) {
+    console.log(`  could not record part ${step.index + 1} of the thread: ${(err as Error).message}`);
+  }
+}
+
+async function postBlueskyThread(b: DraftBlock, issueNumber: number): Promise<string> {
+  const s = await bsky.login(blueskyCreds!.handle, blueskyCreds!.password);
+  const parts = partsOf(b, "bluesky", includeLink);
+  const refs = savedSteps(issueNumber, "bluesky").map((st) => st.ref as bsky.StrongRef);
+  for (let i = refs.length; i < parts.length; i++) {
+    const t = parts[i]!;
+    const ref = await bsky.postPart(s, {
+      text: t.text,
+      ...(t.link ? { link: t.link } : {}),
+      ...(t.imageUrl ? { png: await fetchImage(t.imageUrl), alt: t.alt } : {}),
+      ...(i ? { reply: { root: refs[0]!, parent: refs[i - 1]! } } : {}),
+    });
+    refs.push(ref);
+    saveStep(issueNumber, { platform: "bluesky", index: i, ref }, parts.length);
+  }
+  return `${bsky.postUrl(s, refs[0]!)} (thread of ${parts.length})`;
+}
+
+async function postXThread(b: DraftBlock, issueNumber: number): Promise<string> {
+  const parts = partsOf(b, "x", includeLink);
+  const ids = savedSteps(issueNumber, "x").map((st) => st.ref as string);
+  for (let i = ids.length; i < parts.length; i++) {
+    const t = parts[i]!;
+    const media = t.imageUrl ? [await x.uploadImage(xCreds!, await fetchImage(t.imageUrl))] : undefined;
+    const id = await x.createPost(xCreds!, t.link ? `${t.text}\n\n${t.link}` : t.text, { ...(media ? { mediaIds: media } : {}), ...(i ? { replyTo: ids[i - 1] } : {}) });
+    ids.push(id);
+    saveStep(issueNumber, { platform: "x", index: i, ref: id }, parts.length);
+  }
+  return `${x.postUrl(ids[0]!)} (thread of ${parts.length})`;
+}
+
 async function postBluesky(b: DraftBlock): Promise<string> {
+  if (b.kind !== "intro" && b.replies?.length) return postBlueskyThread(b, issue.number);
   const s = await bsky.login(blueskyCreds!.handle, blueskyCreds!.password);
   if (b.kind === "intro") {
     const site = SITE_URL.replace(/^https?:\/\//, "");
@@ -209,6 +270,7 @@ async function postBluesky(b: DraftBlock): Promise<string> {
 }
 
 async function postX(b: DraftBlock): Promise<string> {
+  if (b.kind !== "intro" && b.replies?.length) return postXThread(b, issue.number);
   if (b.kind === "intro") {
     let parent: string | undefined;
     let first = "";

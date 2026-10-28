@@ -41,6 +41,23 @@ export function buildPostRecord(caption: string, link: string, image: Blob, alt:
   };
 }
 
+/** One post of a thread: text, an optional link (appended after a blank line, as a facet), an optional chart image, and what it replies to. */
+export type Part = { text: string; link?: string; image?: { blob: Blob; alt: string }; reply?: { root: StrongRef; parent: StrongRef } };
+
+export function buildPartRecord(part: Part, createdAt: string) {
+  const text = part.link ? `${part.text}\n\n${part.link}` : part.text;
+  if (graphemes(text) > MAX_GRAPHEMES) throw new Error(`post is ${graphemes(text)} graphemes; Bluesky allows ${MAX_GRAPHEMES}`);
+  return {
+    $type: "app.bsky.feed.post",
+    text,
+    createdAt,
+    langs: ["en"],
+    ...(part.link ? { facets: linkFacets(text, [{ text: part.link, uri: part.link }]) } : {}),
+    ...(part.image ? { embed: { $type: "app.bsky.embed.images", images: [{ alt: part.image.alt.slice(0, 2000), image: part.image.blob, aspectRatio: { width: 1200, height: 675 } }] } } : {}),
+    ...(part.reply ? { reply: part.reply } : {}),
+  };
+}
+
 async function xrpc<T>(method: string, init: RequestInit & { query?: Record<string, string> }): Promise<T> {
   const qs = init.query ? `?${new URLSearchParams(init.query)}` : "";
   const res = await fetch(`${SERVICE}/xrpc/${method}${qs}`, init);
@@ -73,6 +90,18 @@ export function postUrl(s: Session, ref: StrongRef): string {
 export async function postChart(s: Session, caption: string, link: string, png: Buffer, alt: string): Promise<StrongRef> {
   const { blob } = await xrpc<{ blob: Blob }>("com.atproto.repo.uploadBlob", { method: "POST", headers: { ...auth(s), "Content-Type": "image/png" }, body: new Uint8Array(png) });
   return createPostRecord(s, buildPostRecord(caption, link, blob, alt, new Date().toISOString()));
+}
+
+export async function uploadImage(s: Session, png: Buffer): Promise<Blob> {
+  const { blob } = await xrpc<{ blob: Blob }>("com.atproto.repo.uploadBlob", { method: "POST", headers: { ...auth(s), "Content-Type": "image/png" }, body: new Uint8Array(png) });
+  return blob;
+}
+
+/** Posts one part of a thread (`png` is its chart, if it has one); returns the post's reference, which the next part replies to. */
+export async function postPart(s: Session, part: Omit<Part, "image"> & { png?: Buffer; alt?: string }): Promise<StrongRef> {
+  const { png, alt, ...rest } = part;
+  const image = png ? { blob: await uploadImage(s, png), alt: alt ?? "" } : undefined;
+  return createPostRecord(s, buildPartRecord({ ...rest, ...(image ? { image } : {}) }, new Date().toISOString()));
 }
 
 /** Posts `texts` as a thread (each a reply to the one before); `links` become facets wherever they appear. */
