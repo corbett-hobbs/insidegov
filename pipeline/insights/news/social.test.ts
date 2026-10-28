@@ -122,6 +122,27 @@ describe("the Economy page's cards as series", () => {
   });
 });
 
+describe("a Fed rate decision story", () => {
+  const all = DATASETS.flatMap((d) => loadDataset(d).series);
+  const g = (id: string) => all.find((s) => s.id === id)!;
+  const route = (title: string) => topicOf(title, PAGE_TOPICS, [])?.key;
+
+  it("goes to the Fed topic even when the headline says inflation, while inflation news stays inflation", () => {
+    expect(route("Fed holds interest rates steady even as inflation remains high")).toBe("fed_rates");
+    expect(route("Federal Reserve leaves interest rates unchanged despite rising inflation")).toBe("fed_rates");
+    expect(route("CPI rises 3.7% in September")).toBe("inflation");
+    expect(route("Inflation hits 3.7% as Fed weighs rates")).toBe("inflation");
+  });
+
+  it("charts the federal funds rate with inflation beside it, traced to the data", () => {
+    const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
+    expect(insight.template).toMatch(/federal funds rate: [\d.]+% in the week of .*\. Inflation was [\d.]+% in \w+ \d{4}, (up|down) from [\d.]+% in \w+ \d{4}\.$/);
+    expect(insight.title).toBe("The federal funds rate and inflation, 2016 to 2026");
+    expect(insight.chart.type === "line" && insight.chart.comparison?.points.length).toBeGreaterThan(1);
+    expect(verifyInsight(insight, new CellIndex())).toEqual([]);
+  });
+});
+
 describe("which stories become posts", () => {
   it("gives each topic its chart: the social topics', the extras, and nothing where the site has no series", () => {
     expect(socialBuild(cand("diesel", []), [])!.build).toMatchObject({ seriesId: "gas.diesel" });

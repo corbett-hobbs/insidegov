@@ -48,7 +48,7 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
 }
 
 /** A series' latest value against its peak in the window (`peak`), else against a year earlier. */
-export function seriesContext(series: Series, opts: { years: number; peak: boolean; lead: string; id: string }): Insight | null {
+export function seriesContext(series: Series, opts: { years: number; peak: boolean; lead: string; id: string; compare?: Series }): Insight | null {
   const latest = series.points.at(-1);
   if (!latest || series.points.length < 3) return null;
   const style = dateStyleFor(series.frequency);
@@ -108,10 +108,34 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   }
   if (year) options.push(...withPrev(year.full, " and"), ...withPrev(year.short, " and"));
   if (prev) options.push(prev);
-  const clause = firstFitting(opts.lead, head, options);
+  // A second series (inflation beside the Fed's rate): its own sentence with its latest reading and the move on the previous
+  // one, kept ahead of the peak's reach when the caption is too long for both.
+  const cmpLatest = opts.compare?.points.at(-1);
+  const cmpPrev = opts.compare && !opts.compare.seasonal ? opts.compare.points.at(-2) : undefined;
+  let cmpClause: Clause | null = null;
+  let cmpShort: Clause | null = null;
+  if (opts.compare && cmpLatest) {
+    const cv = unitFact("compare_value", cmpLatest.value, opts.compare.unit, cmpLatest.cells);
+    const cd = dateFact("compare_date", cmpLatest.date, dateStyleFor(opts.compare.frequency));
+    const cf: Fact[] = [cv, cd];
+    let text = `. ${opts.compare.title} was ${cv.text} ${when(opts.compare, cd.text)}`;
+    cmpShort = { text, facts: [cv, cd] };
+    if (cmpPrev) {
+      const pv = unitFact("compare_previous_value", cmpPrev.value, opts.compare.unit, cmpPrev.cells);
+      const pd = dateFact("compare_previous_date", cmpPrev.date, dateStyleFor(opts.compare.frequency));
+      const dir = cmpLatest.value > cmpPrev.value ? "up" : cmpLatest.value < cmpPrev.value ? "down" : "unchanged";
+      text += `, ${dir} from ${pv.text} ${when(opts.compare, pd.text)}`;
+      cf.push(pv, pd);
+    }
+    cmpClause = { text, facts: cf };
+  }
+  // Richest first: every option with the full sentence, then with only the latest reading, then the sentence alone.
+  const withCmp = cmpClause && cmpShort ? [...options.map((c) => join(c, cmpClause!)), ...options.map((c) => join(c, cmpShort!)), cmpClause, cmpShort, ...options] : options;
+  const clause = firstFitting(opts.lead, head, withCmp);
   facts.push(...clause.facts);
   const sentence = head + clause.text;
 
+  const cmpWindow = opts.compare?.points.filter((p) => p.date >= from && p.date <= latest.date).map((p) => ({ date: p.date, value: p.value })) ?? [];
   const chart: ChartSpec = bars
     ? periodBars(series, latest, from, style)
     : {
@@ -124,6 +148,9 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
           { date: latest.date, label: `${markDate(series, latest.date)}: ${latestFact.text}`, emphasis: true },
           ...(peak ? [{ date: peak.date, label: `${markDate(series, peak.date)}: ${fmtUnit(peak.value, series.unit)}`, emphasis: false }] : []),
         ],
+        ...(opts.compare && cmpLatest && cmpWindow.length > 1
+          ? { comparison: { label: `${capitalize(opts.compare.title.toLowerCase())}: ${fmtUnit(cmpLatest.value, opts.compare.unit)}`, mainLabel: series.title, points: cmpWindow } }
+          : {}),
       };
   const template = `${opts.lead} ${sentence}.`;
   return {
@@ -133,8 +160,8 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     kind: "news",
     period: latest.date,
     frequency: series.frequency,
-    headline: `${capitalize(series.name)}${bars ? "" : `, ${fmtDate(chart.type === "line" ? chart.points[0]!.date : latest.date, "year")} to ${fmtDate(latest.date, "year")}`}`,
-    title: chartTitle(series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
+    headline: `${capitalize(series.name)}${opts.compare ? ` and ${opts.compare.name}` : ""}${bars ? "" : `, ${fmtDate(chart.type === "line" ? chart.points[0]!.date : latest.date, "year")} to ${fmtDate(latest.date, "year")}`}`,
+    title: chartTitle(opts.compare ? `${series.title} and ${opts.compare.title.toLowerCase()}` : series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
     template,
     lead: opts.lead,
     facts,
