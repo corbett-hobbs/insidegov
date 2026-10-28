@@ -114,7 +114,7 @@ Sourcing rules: take figures and categories from the agency. A reason that comes
 
 What to write:
 - caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
-- title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "Why it held", "What changed".
+- title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "Why it held", "Why it rose, then held"; use "What changed" only when the sources give no reason, never when they do.
 - paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency or news outlet in the text (they go in sources, which print as the slide's footnote). Words only: no figures, percentages or amounts (years are fine).
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 

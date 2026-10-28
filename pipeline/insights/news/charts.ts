@@ -234,6 +234,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     context: [
       ...(series.context ?? []),
       ...(opts.compare ? [`The chart has two lines on one axis, ${series.name} and ${opts.compare.name}. The caption may state each one's latest reading; it must not say either causes, answers or should follow the other.`] : []),
+      "The reference caption is already checked and fits the character limit: keep its sentences and comparisons (the previous reading, the peak, the second line) as written, and change it only to fix an error.",
       `This chart is posted because the topic is in the news. The caption opens with the fixed sentence "${opts.lead}" and then says only what the data shows; it never describes or comments on the news itself.`,
     ],
     chart,
