@@ -243,6 +243,8 @@ describe("the page file", () => {
       immigration: ["chart-encounters", "chart-removals", "chart-green-cards", "chart-refugees"],
       trade: ["tariffs", "trade-balance"],
       energy: ["spr", "supply", "oil", "lng", "electricity"],
+      laws: ["how-many-laws-does-congress-pass"],
+      decisions: ["how-many-cases-does-the-court-decide"],
     };
     expect(Object.keys(CHARTS)).toEqual([...NEWS_PAGES]);
     for (const t of PAGE_TOPICS) {

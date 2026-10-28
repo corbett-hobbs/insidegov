@@ -153,7 +153,7 @@ export const COUNTRY_ALIASES: Record<string, string[]> = {
 export const MIN_PARTNER_IMPORTS = 2e9;
 
 /** The pages with an "In the news" section: their output file is pipeline/output/news_<page>.json. */
-export const NEWS_PAGES = ["economy", "immigration", "trade", "energy"] as const;
+export const NEWS_PAGES = ["economy", "immigration", "trade", "energy", "laws", "decisions"] as const;
 export type NewsPage = (typeof NEWS_PAGES)[number];
 
 /**
@@ -172,6 +172,8 @@ export type PageTopic = {
   page: NewsPage;
   /** The chart's card id; absent on a chartless topic, a story the page has no chart for (its card shows a plain wash). */
   chartId?: string;
+  /** Laws and Decisions: the topic group the card's bar chart is filtered to (a `LawsGroup` id, a Decisions topic id); absent = every topic. */
+  groupId?: string;
   label: (country?: string) => string;
   /** What the chart shows, in words, for the relevance check. */
   chart: string;
@@ -186,7 +188,49 @@ export type PageTopic = {
 const social = (id: string) => NEWS_TOPICS.find((t) => t.id === id)!;
 const fixed = (s: string) => () => s;
 
+
+export const LAWS_COUNT_CHART = "how-many-laws-does-congress-pass";
+export const DECISIONS_COUNT_CHART = "how-many-cases-does-the-court-decide";
+
+/** A headline reporting a Supreme Court ruling, narrowed to the words of one subject when given. */
+const RULING_VERBS = "rules (on|that|against|for|in|to|the|a|with)|ruled|ruling|rulings|decides?|decision|strikes? down|struck down|upholds?|upheld|sides? with|overturns?|overrules?|sustains?";
+const ruling = (subject?: string) => new RegExp(`^(?=.*\\bSupreme Court\\b)(?=.*\\b(${RULING_VERBS})\\b)${subject ? `(?=.*\\b(${subject})\\b)` : ""}`, "i");
+
+/** Decisions topic id → words in a ruling headline that mean the case is about it (a regex alternation, ids in decision-groups.json). */
+const RULING_SUBJECTS: [string, string][] = [
+  ["immigration", "immigra\\w*|deport\\w*|asylum|citizenship|border|visas?"],
+  ["elections", "voting|voters?|ballots?|redistrict\\w*|gerrymander\\w*|election\\w*|campaign (finance|spending)|Voting Rights Act"],
+  ["abortion-privacy-lgbtq", "abortion|contracepti\\w*|transgender|gay|same-sex|LGBTQ\\w*"],
+  ["speech-religion-guns", "free speech|First Amendment|religio\\w*|church|Second Amendment|gun|firearms?|guns"],
+  ["presidential-agency-power", "tariffs?|executive power|presidential power|independent agenc\\w*|federal agenc\\w*|national guard|removal power"],
+  ["environment-energy", "climate|emissions|EPA|Clean (Air|Water) Act|environmental|pollution|oil and gas|pipelines?"],
+  ["crime-policing", "death penalty|execution|police|sentenc\\w*|criminal|prison\\w*|search warrants?|Fourth Amendment"],
+  ["workers-unions", "unions?|workers|employees|NLRB|minimum wage"],
+  ["business-taxes", "taxes|tax law|IRS|antitrust|securities|bankruptcy"],
+];
+const RULING_LABELS: Record<string, string> = {
+  immigration: "immigration", elections: "elections", "abortion-privacy-lgbtq": "abortion, privacy and LGBTQ rights", "speech-religion-guns": "speech, religion and guns",
+  "presidential-agency-power": "presidential and agency power", "environment-energy": "the environment and energy", "crime-policing": "crime and policing", "workers-unions": "workers and unions", "business-taxes": "business and taxes",
+};
+
+/**
+ * Supreme Court rulings, one topic per subject the Decisions page groups cases by, narrowest first, then any ruling. They
+ * come first in PAGE_TOPICS: a ruling on a deportation case belongs on the Decisions page, which the other pages' topics
+ * (they would take it for "deportations") must not get to first. Orders that only decline, deny or allow are not rulings
+ * and stay with the page whose subject they are about. A case the site lists that is in the news gets a topic of its own
+ * (news/subjects.ts), ahead of these.
+ */
+const RULING_TOPICS: PageTopic[] = [
+  ...RULING_SUBJECTS.map(([id, words]): PageTopic => ({ id: `ruling_${id}`, page: "decisions", chartId: DECISIONS_COUNT_CHART, groupId: id, label: fixed(`Supreme Court rulings on ${RULING_LABELS[id]}`), chart: `the number of cases the Supreme Court decides each term on ${RULING_LABELS[id]}`, match: ruling(words) })),
+  {
+    id: "ruling", page: "decisions", chartId: DECISIONS_COUNT_CHART, label: fixed("Supreme Court rulings"),
+    chart: "the number of cases the Supreme Court decides each term",
+    match: ruling(),
+  },
+];
+
 export const PAGE_TOPICS: PageTopic[] = [
+  ...RULING_TOPICS,
   // Economy
   { id: "diesel", periodic: true, page: "economy", chartId: "chart-diesel", label: fixed("Diesel prices"), chart: social("diesel").chart, match: social("diesel").match },
   { id: "gasoline", periodic: true, page: "economy", chartId: "chart-gas", label: fixed("Gas prices"), chart: social("gasoline").chart, match: social("gasoline").match },
@@ -383,6 +427,13 @@ export const PAGE_TOPICS: PageTopic[] = [
     match: /\b(oil|gas|drilling) leases?\b|\boffshore drilling\b|\bdrilling (permits?|plans?|rules?)\b|\bpipelines?\b/i,
     exclude: /\bpipeline (of|for) (talent|projects)\b/i,
   },
+
+  // Laws. A law the site lists that is in the news gets a topic of its own (news/subjects.ts); this one catches the rest.
+  {
+    id: "new_laws", page: "laws", chartId: LAWS_COUNT_CHART, label: fixed("Bills signed into law"),
+    chart: "the number of laws Congress enacts each Congress, by topic",
+    match: /\b(signs?|signed|signing)\b.{0,80}\binto law\b|\bbecomes? law\b|\bpresident signs\b/i,
+  },
 ];
 
 /**
@@ -430,6 +481,16 @@ export const PAGE_CHARTS: Record<NewsPage, PageChart[]> = {
     { id: "lng", label: "Liquefied natural gas exports", about: "monthly U.S. liquefied natural gas exports" },
     { id: "spr", label: "The Strategic Petroleum Reserve", about: "the weekly amount of crude oil in the Strategic Petroleum Reserve" },
   ],
+  laws: [
+    { id: "how-many-laws-does-congress-pass", label: "How many laws Congress passes", about: "federal laws enacted in each Congress, by topic" },
+    { id: "how-broadly-are-laws-supported", label: "How broadly laws are supported", about: "federal laws by how widely they were supported in the final vote" },
+    { id: "which-kinds-of-laws-pass-and-how", label: "Which kinds of laws pass", about: "laws by topic and how broadly each was supported, by decade" },
+  ],
+  decisions: [
+    { id: "how-many-cases-does-the-court-decide", label: "How many cases the Court decides", about: "Supreme Court cases decided in each term, by topic" },
+    { id: "how-divided-is-the-court", label: "How divided the Court is", about: "Supreme Court cases by the size of the majority, unanimous to 5-4" },
+    { id: "which-kinds-of-cases-split-the-court", label: "Which cases split the Court", about: "Supreme Court cases by topic and how divided the Court was" },
+  ],
 };
 
 /** Charts no topic above listens for (the news rarely names them), each with why. Only a chart in PAGE_CHARTS can be here. */
@@ -438,4 +499,8 @@ export const CHARTS_WITHOUT_TOPIC: Record<string, string> = {
   "who-the-u-s-trades-with": "a ranking, not a news topic; reached through tariff and trade-deal stories by the chart pick",
   "what-the-u-s-trades": "a ranking, not a news topic; reached through tariff and trade-deal stories by the chart pick",
   "did-tariffs-shift-trade": "an analysis card, not a news topic",
+  "how-broadly-are-laws-supported": "vote margins are not a news topic; a law's story points at the count card",
+  "which-kinds-of-laws-pass-and-how": "a comparison of topics, not a news topic; a law's story points at the count card",
+  "how-divided-is-the-court": "vote splits are not a news topic; a ruling's story points at the count card",
+  "which-kinds-of-cases-split-the-court": "a comparison of topics, not a news topic; a ruling's story points at the count card",
 };

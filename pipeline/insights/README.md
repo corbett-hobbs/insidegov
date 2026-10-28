@@ -208,8 +208,14 @@ To try it: Actions → "Social news watcher" → Run workflow (dry run ticked pr
 `news/pages.ts`. Each data page ends with an "In the news" row: one card per story, showing how a left-of-center and a
 right-of-center outlet headlined it, beside the agency's own release (or a Center outlet) and the chart it is about,
 so readers judge the framing themselves. The pipeline writes `pipeline/output/news_<page>.json` (economy, immigration,
-trade, energy) in the UI's schema (`lib/news-types.ts`: `{ asOf, stories: [{ id, date, topic, chartId, headlines:
-[{ outletId, outlet, lean, title, url }] }] }`).
+trade, energy, laws, decisions) in the UI's schema (`lib/news-types.ts`: `{ asOf, stories: [{ id, date, topic, chartId,
+groupId?, headlines: [{ outletId, outlet, lean, title, url }] }] }`).
+
+Laws and Decisions have no fixed list of subjects, so `news/subjects.ts` adds a topic per law enacted in the last year
+(short title of two or more words) and per case decided in the last 270 days, read from `laws.json` and
+`decisions_cases.json` (`--data DIR`), ahead of the fixed topics. A story about one carries `groupId`, the law's topic group or
+the case's topic, and the page draws its bar chart filtered to it. General topics ("signed into law", "Supreme Court
+rules …" by subject) catch a ruling the Court Database does not have yet.
 
 ```
 twice a day (.github/workflows/news-pages.yml, repo variable NEWS_PAGES_ENABLED=true)

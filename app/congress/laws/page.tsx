@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { LawsPageClient } from "@/components/laws/LawsPageClient";
 import { getLawsPageData } from "@/lib/laws-data";
-import { getFaqFile } from "@/lib/news-data";
+import { getFaqFile, getNewsFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /congress/laws — the Congress vertical's Laws section. */
@@ -21,7 +21,7 @@ export default function LawsPage() {
   return (
     <>
       <TopicDatasetLd path="/congress/laws" />
-      <LawsPageClient data={getLawsPageData()} faqFile={getFaqFile("laws")} />
+      <LawsPageClient data={getLawsPageData()} faqFile={getFaqFile("laws")} newsFile={getNewsFile("laws")} />
     </>
   );
 }

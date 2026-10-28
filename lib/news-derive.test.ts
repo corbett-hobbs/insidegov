@@ -11,8 +11,8 @@ import { CHARTS_WITHOUT_TOPIC, PAGE_CHARTS, PAGE_TOPICS } from "../pipeline/insi
 import { foreignAidFaq } from "../components/foreign-aid/foreign-aid-news";
 import { troopsFaq } from "../components/troops/troops-news";
 import { executiveOrdersFaq } from "../components/executive-orders/executive-orders-news";
-import { lawsFaq } from "../components/laws/laws-news";
-import { decisionsFaq } from "../components/decisions/decisions-news";
+import { LAWS_CHARTS, lawsFaq, lawsNews } from "../components/laws/laws-news";
+import { DECISIONS_CHARTS, decisionsFaq, decisionsNews } from "../components/decisions/decisions-news";
 
 const h = (lean: Lean, outletId = lean.replace(/\s/g, "").toLowerCase()): NewsHeadline => ({ outletId, outlet: outletId, lean, title: `${lean} headline`, url: "https://example.com/a" });
 const story = (id: string, date: string, headlines: NewsHeadline[]): NewsStory => ({ id, date, topic: "Topic", chartId: "chart-gas", headlines });
@@ -108,7 +108,7 @@ describe("shipped files", () => {
     }
   });
   it("the fixtures parse, and every fixture story has enough outlets", () => {
-    for (const p of ["economy", "immigration"]) {
+    for (const p of ["economy", "immigration", "laws", "decisions"]) {
       const news = newsFile.parse(read("pipeline/fixtures", `news_${p}.json`));
       expect(news.stories.length).toBeGreaterThan(0);
       for (const s of news.stories) expect(hasEnoughOutlets(s.headlines)).toBe(true);
@@ -150,6 +150,8 @@ describe("the news catalog covers every chart on the page", () => {
     immigration: Object.keys(IMMIGRATION_CHARTS),
     trade: Object.keys(TRADE_CHARTS),
     energy: [...ENERGY_CHARTS],
+    laws: Object.keys(LAWS_CHARTS),
+    decisions: Object.keys(DECISIONS_CHARTS),
   };
 
   it("lists in PAGE_CHARTS exactly the charts each page has", () => {
@@ -169,5 +171,45 @@ describe("the news catalog covers every chart on the page", () => {
       expect(all.some((c) => c.id === id), `${id} is not a chart`).toBe(true);
       expect(PAGE_TOPICS.some((t) => t.chartId === id), `${id} has a topic now: remove it from CHARTS_WITHOUT_TOPIC`).toBe(false);
     }
+  });
+});
+
+describe("lawsNews", () => {
+  // Two Congresses, two topic groups (areas 0 and 1 in group "a", area 2 in group "b"), the second Congress still in progress.
+  const payload = {
+    congresses: [118, 119],
+    partial: [false, true],
+    groups: [{ id: "a", label: "Land, water & farming" }, { id: "b", label: "Energy & environment" }],
+    areas: [{ group: "a" }, { group: "a" }, { group: "b" }],
+    counts: [[10, 5, 7], [3, 4, 2]],
+  } as unknown as Parameters<typeof lawsNews>[0];
+  const file = { asOf: "2026-10-27", stories: [{ ...story("law.1-2026-10-21", "2026-10-21", [h("Lean Left"), h("Right")]), chartId: "how-many-laws-does-congress-pass", groupId: "a" }, { ...story("new_laws-2026-10-22", "2026-10-22", [h("Lean Left"), h("Right")]), chartId: "how-many-laws-does-congress-pass" }] };
+
+  it("draws a law's story as bars of laws per Congress on its topic group, and any other as all laws", () => {
+    const [all, law] = lawsNews(payload, file);
+    expect(law!.chart).toMatchObject({ target: "how-many-laws-does-congress-pass", label: "Land, water & farming laws", value: "7", asOf: "119th Congress, so far", bars: true });
+    expect(law!.chart!.pts).toEqual([{ x: 118, value: 15 }, { x: 119, value: 7 }]);
+    expect(all!.chart).toMatchObject({ label: "Laws", value: "9" });
+  });
+  it("shows a story with no chart as headlines over a wash, and nothing without a file", () => {
+    expect(lawsNews(payload, { ...file, stories: [{ ...file.stories[0]!, chartId: undefined }] })[0]!.chart).toBeUndefined();
+    expect(lawsNews(payload, null)).toEqual([]);
+  });
+});
+
+describe("decisionsNews", () => {
+  const payload = {
+    terms: [2024, 2025],
+    areas: [{ id: "immigration", label: "Immigration" }, { id: "elections", label: "Elections & campaign money" }],
+    all: [[1, 2, 3, 4, 5], [2, 2, 2, 2, 2]],
+    by: [[[0, 1, 0, 0, 1], [1, 1, 1, 0, 1]], [[1, 0, 0, 0, 0], [0, 0, 0, 0, 1]]],
+  } as unknown as Parameters<typeof decisionsNews>[0];
+  const file = { asOf: "2026-10-27", stories: [{ ...story("case.1-2026-06-30", "2026-06-30", [h("Lean Left"), h("Right")]), chartId: "how-many-cases-does-the-court-decide", groupId: "immigration" }, { ...story("ruling-2026-06-29", "2026-06-29", [h("Lean Left"), h("Right")]), chartId: "how-many-cases-does-the-court-decide", groupId: "no-such-topic" }] };
+
+  it("draws a ruling's story as bars of cases per term on its topic, and an unknown topic as all cases", () => {
+    const [law, all] = decisionsNews(payload, file);
+    expect(law!.chart).toMatchObject({ label: "Immigration cases", value: "4", asOf: "2025 term", bars: true });
+    expect(law!.chart!.pts).toEqual([{ x: 2024, value: 2 }, { x: 2025, value: 4 }]);
+    expect(all!.chart).toMatchObject({ label: "Cases", value: "10" });
   });
 });
