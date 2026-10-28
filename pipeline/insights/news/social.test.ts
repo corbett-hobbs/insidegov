@@ -140,6 +140,11 @@ describe("a Fed rate decision story", () => {
     expect(insight.title).toBe("The federal funds rate and inflation, 2016 to 2026");
     expect(insight.chart.type === "line" && insight.chart.comparison?.points.length).toBeGreaterThan(1);
     expect(verifyInsight(insight, new CellIndex())).toEqual([]);
+    // The carousel's bigger-picture card: each line's peak, low and latest as traced facts, shown as levels.
+    expect(insight.alsoSeriesId).toBe("economy.inflation");
+    expect(insight.breakdown?.levels).toBe(true);
+    expect(insight.breakdown?.blocks.map((b) => b.rows.length)).toEqual([3, 3]);
+    for (const row of insight.breakdown!.blocks.flatMap((b) => b.rows)) expect(insight.facts.some((f) => f.id === row.fact), row.fact).toBe(true);
   });
 });
 

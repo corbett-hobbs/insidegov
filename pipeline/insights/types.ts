@@ -200,6 +200,8 @@ export type Insight = {
   note?: string;
   /** What drove the change, as verified facts (breakdown.ts): each source's or partner's part, for the carousel. */
   breakdown?: Breakdown;
+  /** A news chart's second line (the inflation rate beside the Fed's): its series id, for the explainer slide. */
+  alsoSeriesId?: string;
   /** Why the number moved, from named sources (research.ts, or why.ts by hand), for the caption and the carousel. */
   why?: Why;
   /** Higher is more notable; used to rank and pick drafts. */
@@ -259,6 +261,10 @@ export type Breakdown = {
   title: string;
   blocks: { label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }[];
   note: string;
+  /** The slide's header, when it is not "What drove it". */
+  kicker?: string;
+  /** The rows are levels (a peak, a low, today), shown as they are, not as signed changes. */
+  levels?: boolean;
 };
 
 /**

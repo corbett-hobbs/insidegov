@@ -5,7 +5,7 @@ import { capitalize, changeFact, dateFact, linePoints, markDate, pctFact, period
 import { addMonths, dateStyleFor, daysBetween, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
 import { CAPTION_MAX_CHARS } from "../caption";
 import { chartTitle } from "../title";
-import type { ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
+import type { Breakdown, ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
 
 /**
  * Context charts for news drafts. Unlike the data-release detectors these do not look for anything notable: the news
@@ -44,6 +44,43 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
     reach: { text: higher ? `the highest ${which}since ${reachFact.text}` : `the highest ${which}in data going back to ${reachFact.text}`, facts: [reachFact] },
     value: unitFact("peak_value", peak.value, unit, peak.cells),
     date: dateFact("peak_date", peak.date, monthly),
+  };
+}
+
+/**
+ * The carousel's "bigger picture" card for a chart with two lines: each line's highest and lowest reading in the chart's
+ * window beside its latest, as bars on one scale. Every value is a fact traced to its cells; the card says nothing the
+ * data does not.
+ */
+function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from: string, latest: Point, latestFact: Fact): { breakdown: Breakdown; facts: Fact[] } | null {
+  const facts: Fact[] = [];
+  const block = (s: Series, unit: UnitFormat, key: string, label: string, now: Point, nowFact: Fact) => {
+    const win = s.points.filter((p) => p.date >= from && p.date <= now.date);
+    if (win.length < 3) return null;
+    const hi = win.reduce((a, b) => (b.value > a.value ? b : a));
+    const lo = win.reduce((a, b) => (b.value < a.value ? b : a));
+    const row = (name: string, id: string, p: Point) => {
+      const f = unitFact(`trend_${key}_${id}`, p.value, unit, p.cells);
+      facts.push(f);
+      return { name, fact: f.id };
+    };
+    const rows = [row(`Peak, ${hi.date.slice(0, 4)}`, "peak", hi), row(`Low, ${lo.date.slice(0, 4)}`, "low", lo)];
+    facts.push({ ...nowFact, id: `trend_${key}_latest` });
+    return { label, rows: [...rows, { name: "Latest", fact: `trend_${key}_latest` }] };
+  };
+  const a = block(main, mainUnit, "a", capitalize(main.name.replace(/^the /, "")), latest, latestFact);
+  const otherLatest = other.points.at(-1);
+  const b = otherLatest ? block(other, other.unit, "b", capitalize(other.name.replace(/^the /, "")), otherLatest, unitFact("x", otherLatest.value, other.unit, otherLatest.cells)) : null;
+  if (!a || !b) return null;
+  return {
+    facts,
+    breakdown: {
+      title: "Where each stands against the last ten years",
+      kicker: "The bigger picture",
+      levels: true,
+      blocks: [a, b],
+      note: `Highest and lowest readings since ${from.slice(0, 4)}. The federal funds rate is a weekly average; inflation is the change from a year earlier.`,
+    },
   };
 }
 
@@ -177,7 +214,11 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
           : {}),
       };
   const template = `${opts.lead} ${sentence}.`;
+  const trend = opts.compare && cmpLatest && chart.type === "line" ? whereEachStands(series, unit, opts.compare, from, latest, latestFact) : null;
+  if (trend) facts.push(...trend.facts);
   return {
+    ...(opts.compare ? { alsoSeriesId: opts.compare.id } : {}),
+    ...(trend ? { breakdown: trend.breakdown } : {}),
     id: opts.id,
     dataset: series.dataset,
     seriesId: series.id,

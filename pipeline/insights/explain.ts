@@ -68,8 +68,10 @@ export const EXPLAINERS: Record<string, string[]> = {
 
 const TERMS = "Each term is measured from its inauguration, so every president is compared at the same point.";
 
-export function explainer(insight: Pick<Insight, "seriesId" | "kind">): string[] {
-  const lines = EXPLAINERS[insight.seriesId] ?? EXPLAINERS[insight.seriesId.split(".")[0]!] ?? [];
+export function explainer(insight: Pick<Insight, "seriesId" | "kind"> & { alsoSeriesId?: string }): string[] {
+  const of = (id: string) => EXPLAINERS[id] ?? EXPLAINERS[id.split(".")[0]!] ?? [];
+  // A chart with a second line explains both: the first series in full, the second's definition.
+  const lines = insight.alsoSeriesId ? [...of(insight.seriesId), ...of(insight.alsoSeriesId).slice(0, 1)] : of(insight.seriesId);
   if (!lines.length) return [];
   return insight.kind === "term_comparison" ? [...lines, TERMS] : lines;
 }
