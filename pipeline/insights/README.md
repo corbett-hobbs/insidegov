@@ -379,6 +379,16 @@ folder that Google Drive for desktop syncs (`~/Library/CloudStorage/GoogleDrive-
 into `intro/`. Without Drive installed it saves to `~/Downloads/InsideGov Instagram` and says so; `--out DIR` or
 `INSTAGRAM_OUT_DIR` picks another folder. A draft made before carousels has no slides, and the command says that.
 
+**Automatically, when you approve.** GitHub's servers cannot write to a folder on your Mac, so a small launchd job on the
+Mac does it: `scripts/install-instagram-sync.sh` (run once, from a checkout on main) makes a private checkout of main at
+`~/.insidegov-instagram-sync`, installs its packages, and registers an agent that runs `scripts/instagram-sync.sh` at login
+and every five minutes. Each run updates that checkout to main and runs `pnpm insights:slides -- --approved`: every issue
+labelled `social-approved` (open or closed, since posting closes it) in the last 7 days, not expired and not fetched
+before, gets its folder in Drive. Fetched issue numbers are kept in `~/.cache/insidegov-instagram-sync.json`. It needs the
+Mac on and `gh` signed in; a missed run is made up at the next. It costs nothing: GitHub's API (a handful of calls an
+hour), no Claude calls, and the files count toward the Google account's storage. Log: `~/Library/Logs/insidegov-instagram-sync.log`.
+`scripts/uninstall-instagram-sync.sh` removes it.
+
 **Hashtags are written by code, never by the model.** `INSTAGRAM_HASHTAGS` holds 3 to 5 plain topic tags per dataset
 (Instagram caps a post at 5), all ending in `#govdata`, and `SERIES_HASHTAGS` overrides them for a series whose
 dataset's set would be off topic (an electricity chart gets `#electricity #naturalgas #solarenergy`, not `#oil`); `checkCaption` still rejects any caption containing "#", so the
