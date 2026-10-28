@@ -32,6 +32,23 @@
       "keep": [],
       "reason": "Headlines 1-2 cover reported ICE arrest increases in California, a regional matter that neither chart measures; headlines 3-4 concern a streamer's remarks, not a government action.",
       "chart": ""
+    },
+    "cd4d5d4367c620dd60d4": {
+      "at": "2026-10-28T21:37:33.161Z",
+      "keep": [
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Four outlets report the same Oct 28 Fed decision to hold rates steady amid high inflation; the previews (1, 2) and Bloomberg's takeaways explainer (3) are excluded.",
+      "chart": ""
+    },
+    "e6bd56b51c8ccaab2be8": {
+      "at": "2026-10-28T21:37:33.161Z",
+      "keep": [],
+      "reason": "All headlines cover a streamer's mocking remarks about injuries to ICE agents and the backlash, not a government action, ruling, or official figure; no pick_chart option measures this.",
+      "chart": ""
     }
   },
   "dispatched": {}
