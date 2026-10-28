@@ -54,7 +54,6 @@ const EXTRA: Record<string, SocialBuild> = {
     lead: () => "The Federal Reserve and interest rates are in the news.",
     // Inflation is what readers feel and what the headlines pair the decision with: the second line and caption sentence.
     build: { kind: "series", seriesId: "economy.fed_funds", years: 10, peak: true, compare: "economy.inflation" },
-    note: "Inflation is the change in consumer prices (CPI-U) from a year earlier",
     context: "The chart has two lines: the federal funds rate (weekly) and the inflation rate (monthly), both in percent. The caption may state each one's latest reading; it must not say the Fed's rate caused, answers or should follow inflation.",
     weight: 1.2,
   },

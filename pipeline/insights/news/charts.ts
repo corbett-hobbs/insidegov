@@ -59,8 +59,8 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   const latestDate = dateFact("latest_date", latest.date, style);
   const facts: Fact[] = [latestFact, latestDate];
   const bars = usesBars(series);
-  // "Name stood at value when" reads right whether the name is singular (a price) or plural (encounters, exports).
-  const head = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}`;
+  // "Name stood at value when" ("was" beside a second series, to fit) reads right whether the name is singular (a price) or plural (encounters, exports).
+  const head = `${capitalize(series.name)} ${opts.compare ? "was" : "stood at"} ${latestFact.text} ${when(series, latestDate.text)}`;
 
   const yearAgo = yearEarlier(series, latest);
   let year: { short: Clause; full: Clause } | null = null;
@@ -168,11 +168,12 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
         frequency: series.frequency,
         points: linePoints(series, from, latest.date),
         marks: [
-          { date: latest.date, label: `${markDate(series, latest.date)}: ${latestFact.text}`, emphasis: true },
+          // Two lines are each named at their end ("Federal funds rate, 3.9%"), so the date stays out of the label.
+          { date: latest.date, label: opts.compare ? latestFact.text : `${markDate(series, latest.date)}: ${latestFact.text}`, emphasis: true },
           ...(peak ? [{ date: peak.date, label: `${markDate(series, peak.date)}: ${fmtUnit(peak.value, unit)}`, emphasis: false }] : []),
         ],
         ...(opts.compare && cmpLatest && cmpWindow.length > 1
-          ? { comparison: { label: `${capitalize(opts.compare.title.toLowerCase())}: ${fmtUnit(cmpLatest.value, opts.compare.unit)}`, mainLabel: series.title, points: cmpWindow } }
+          ? { comparison: { label: `${capitalize(opts.compare.title.toLowerCase())}: ${fmtUnit(cmpLatest.value, opts.compare.unit)}`, mainLabel: capitalize(series.name.replace(/^the /, "")), points: cmpWindow } }
           : {}),
       };
   const template = `${opts.lead} ${sentence}.`;
@@ -196,7 +197,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     url: series.url,
     ...(series.anchor ? { anchor: series.anchor } : {}),
     source: series.source,
-    note: series.note,
+    note: opts.compare ? `Weekly average; ${opts.compare.title.toLowerCase()} vs. a year earlier` : series.note,
     score: 3 * series.weight,
     alt: `${bars ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${sentence}.`,
   };
