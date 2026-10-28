@@ -114,7 +114,7 @@ describe("the Economy page's cards as series", () => {
 
   it("writes quarters as Q1 2026, years as 2025, and rate changes in percentage points", () => {
     const text = (id: string, peak = true) => seriesContext(all.find((s) => s.id === id)!, { years: 10, peak, lead: "X is in the news.", id: "n" })!.template;
-    expect(text("economy.gdp_growth")).toMatch(/: -?[\d.]+% in Q[1-4] \d{4}/);
+    expect(text("economy.gdp_growth")).toMatch(/ stood at -?[\d.]+% in Q[1-4] \d{4}/);
     expect(text("economy.debt", false)).toMatch(/\$[\d.]+T in Q[1-4] \d{4}, (up|down) from \$[\d.]+T in Q[1-4] \d{4} and (up|down) [\d.]+% from a year earlier/);
     expect(text("economy.household_income", false)).toMatch(/\$[\d,]+ in \d{4}/);
     expect(text("economy.jobs_added", false)).toMatch(/ jobs in \w+ \d{4}, (up|down) from [\d,-]+ jobs in \w+ \d{4} and (up|down) [\d,]+ jobs from a year earlier/);
@@ -136,7 +136,7 @@ describe("a Fed rate decision story", () => {
 
   it("charts the federal funds rate with inflation beside it, traced to the data", () => {
     const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
-    expect(insight.template).toMatch(/federal funds rate: \d\.\d% in the week of .*(unchanged|(up|down) from \d\.\d%) a? ?.*month earlier.*peak of \d\.\d% in .*\. Inflation was \d\.\d% in \w+ \d{4}, (up|down) from \d\.\d%/);
+    expect(insight.template).toMatch(/federal funds rate stood at \d\.\d% in the week of .*(unchanged|(up|down) from \d\.\d%) a? ?.*month earlier.*peak of \d\.\d% in .*\. Inflation was \d\.\d% in \w+ \d{4}, (up|down) from \d\.\d%/);
     expect(insight.title).toBe("The federal funds rate and inflation, 2016 to 2026");
     expect(insight.chart.type === "line" && insight.chart.comparison?.points.length).toBeGreaterThan(1);
     expect(verifyInsight(insight, new CellIndex())).toEqual([]);

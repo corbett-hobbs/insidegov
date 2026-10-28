@@ -115,7 +115,7 @@ describe("news charts", () => {
     const rising = Array.from({ length: 40 }, (_, i) => 2 + i * 0.05);
     // Peak earlier (month 30): the caption names it and how far back it stands, and says nothing of a year earlier.
     const peaked = make([...rising.slice(0, 31), ...rising.slice(0, 9).map((v) => v + 0.5)]);
-    expect(peaked).toMatch(/: \$[\d.]+ in April 2019, (up|down) from \$[\d.]+ in March 2019 and down from a peak of \$3\.50 in July 2018, the highest in data going back to 2016\.$/);
+    expect(peaked).toMatch(/ stood at \$[\d.]+ in April 2019, (up|down) from \$[\d.]+ in March 2019 and down from a peak of \$3\.50 in July 2018, the highest in data going back to 2016\.$/);
     expect(peaked).not.toContain("year earlier");
     // The latest value is the peak: a year earlier, plus how far back it stands.
     expect(make(rising)).toMatch(/up from \$[\d.]+ in \w+ \d{4} and up [\d.]+% from a year earlier \(\$[\d.]+\), the highest in data going back to 2016\.$/);

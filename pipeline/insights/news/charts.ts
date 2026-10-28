@@ -59,8 +59,8 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   const latestDate = dateFact("latest_date", latest.date, style);
   const facts: Fact[] = [latestFact, latestDate];
   const bars = usesBars(series);
-  // "Name: value when" reads right whether the name is singular (a price) or plural (encounters, exports).
-  const head = `${capitalize(series.name)}: ${latestFact.text} ${when(series, latestDate.text)}`;
+  // "Name stood at value when" reads right whether the name is singular (a price) or plural (encounters, exports).
+  const head = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}`;
 
   const yearAgo = yearEarlier(series, latest);
   let year: { short: Clause; full: Clause } | null = null;
