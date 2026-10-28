@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
-import { explainer } from "./explain";
+import { explainer, hasLag } from "./explain";
 import { newsOutlet, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
 import type { Insight } from "./types";
@@ -15,7 +15,7 @@ import type { Insight } from "./types";
  *   2. chart      the draft's chart redrawn for the portrait frame (term band, marks, source)
  *   3. why        "Why it went up" (research.ts): the reasons, in words, from named sources
  *   4. breakdown  "What drove it" (breakdown.ts): each source's or partner's part of the change, as bars
- *   5. explainer  "How to read this" (explain.ts): what the series measures, only when there is no why or breakdown slide
+ *   5. explainer  "How to read this" (explain.ts): what the series measures and when the figures come out, when there is no why or breakdown slide, or when it states a release lag
  *   6. moments    "Key moments" (moments.ts): dated actions from the site's sourced timelines, and the latest reading
  *   7. end        where the full chart and data are, and the source
  *
@@ -299,7 +299,7 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
 export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[] }[] {
-  const lines = insight.why || insight.breakdown ? [] : explainer(insight);
+  const lines = insight.why || insight.breakdown ? (hasLag(insight) ? explainer(insight) : []) : explainer(insight);
   const moments = keyMoments(insight);
   return [
     { kind: "hook" },

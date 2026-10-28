@@ -330,7 +330,7 @@ News drafts and the intro are not threads; a draft with nothing to add posts as 
 | Why it went up | the researched paragraphs (`research.ts`) packed into posts, kept whole, split between sentences if long | the research found a reason (a "What changed" answer is left out and noted in the issue) |
 | What drove it | one post and one 1200×675 chart card per breakdown block: a line of signed changes, then bars (`breakdown.ts`) | the series has a breakdown (total electricity, goods trade) |
 | Key moments | dated actions from the site's sourced timelines (`moments.ts`), "listed for context, not as causes" | a line chart whose series has a timeline |
-| What this measures | the series definition (`explain.ts`) | no reason and no breakdown |
+| What this measures | the series definition (`explain.ts`) | no reason and no breakdown, or the definition states a release lag or revision (`hasLag`) |
 | Sources | the data source and the pages the reasons came from (news by outlet name, never by headline) | always, last; the link is added to it (X: only with `X_INCLUDE_LINK=true`) |
 
 Every reply is built from something already checked, and `checkReplies` runs the plain rules again on the stored text
@@ -368,7 +368,7 @@ full 1080×1350 images, to save and upload in order. The slides go to the `socia
 | Chart | the draft's chart redrawn for the portrait frame (term band, marks, source) | always |
 | Why it went up | the researched reasons and their sources (`research.ts`, or `why.ts` by hand) | the draft has a why |
 | What drove it | each source's or partner's change, as bars (`breakdown.ts`) | the series has a breakdown |
-| How to read this | what the series measures, from `explain.ts`: plain definitions, no numbers, no causes | the series has an entry, and the draft has neither of the two above |
+| How to read this | what the series measures, from `explain.ts`: plain definitions, no numbers, no causes | the series has an entry, and the draft has neither of the two above, or the entry states a release lag or revision (`hasLag` in `explain.ts`, e.g. EIA's figures arrive two months late) |
 | Key moments | dated actions from the site's sourced timelines (`energy_actions.json`, `tariff_actions.json`) between the chart's first date and the draft, at most 4, then the latest reading; a note says they are listed in order, not as causes | a line chart whose series has a timeline (energy series, news tariff charts) |
 | End | the page, "Link in bio", the source | always |
 
