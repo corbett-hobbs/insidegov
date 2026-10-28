@@ -29,7 +29,6 @@ permissions:
   issues: write
   # Starts the data refresh workflows when an agency's release is newer than our data (news/refresh.ts).
   actions: write
-  actions: write
 
 jobs:
   watch:
