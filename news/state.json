@@ -128,6 +128,12 @@
       ],
       "reason": "Headlines 5 and 6 (BBC) report the same current development, a major hack leaking details of thousands of US immigration agents; the streamer-mocking headlines 1-4 are a commentary-style controversy about a different story. Neither removals nor encounters data measures this story, so no chart.",
       "chart": ""
+    },
+    "c9fdac23dfe0264020fd": {
+      "at": "2026-10-28T23:36:18.993Z",
+      "keep": [],
+      "reason": "No single current development is reported across these headlines; they are political commentary, a candidate's prediction, a snarky opinion piece, and a local Los Angeles story.",
+      "chart": ""
     }
   },
   "dispatched": {}
