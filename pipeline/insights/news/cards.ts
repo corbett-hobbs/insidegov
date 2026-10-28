@@ -13,8 +13,8 @@ import type { PageTopic } from "./topics";
  *      outlets' headlines on it that lack the topic's keywords but share its detail words (addCompanions). The Claude check
  *      (classify.ts checkCandidate) then keeps the ones that are straight news of the same single development; without
  *      it, topics that are not `periodic` keep only headlines that share a detail word with another outlet's.
- *   3. Balance: a card needs a left-of-center and a right-of-center outlet, and shows at most three headlines: the
- *      agency's own data release (else a Center outlet), the left one and the right one (pickHeadlines).
+ *   3. Outlets: a card needs at least MIN_OUTLETS outlets and shows at most three headlines: the agency's own data
+ *      release, then one outlet per side, left, right, center, any outlet filling a side nobody ran (pickHeadlines).
  *   4. The file: earlier cards are kept until STORY_TTL_DAYS old, newest first, at most MAX_STORIES, at most
  *      MAX_PER_CHART per chart (mergeStories). Feeds carry a day or two, so the file is the memory.
  */
@@ -170,26 +170,31 @@ function card(h: Headline, lean: CardLean): CardHeadline {
   return { outletId: h.outletId!, outlet: h.source, lean, title: h.title, url: h.url };
 }
 
+/** A card needs at least this many outlets; the data release does not count, it is the facts, not a framing. */
+export const MIN_OUTLETS = 2;
+
 /**
- * The balance rule: the card's headlines, or null when the story has no left-of-center or no right-of-center outlet.
- * At most three: the data release (else the best Center outlet, else none), the best left and the best right, in the
- * UI's order (Data, then left to right).
+ * The card's headlines, or null when fewer than MIN_OUTLETS outlets ran the story. At most three: the agency's data
+ * release (else one more outlet) and the best outlet on each side, left, right, then center, so a story both sides ran
+ * shows both. When a side is missing (two stories no right-of-center outlet carried), other outlets fill the places,
+ * one headline per outlet. Shown in the UI's order (Data, then left to right).
  */
 export function pickHeadlines(headlines: Headline[], release?: Headline, outlets: Outlet[] = OUTLETS): CardHeadline[] | null {
   const lean = (h: Headline) => outletById.get(h.outletId!)!.lean;
-  const on = (side: string) => headlines.filter((h) => sideOf(lean(h)) === side);
-  // Each side's pick avoids the other's title; whichever order finds both wins (left first).
-  let left = bestOf(on("left"), outlets);
-  let right = left && bestOf(on("right"), outlets, new Set([sameTitle(left.title)]));
-  if (!left || !right) {
-    right = bestOf(on("right"), outlets);
-    left = right && bestOf(on("left"), outlets, new Set([sameTitle(right.title)]));
-  }
-  if (!left || !right) return null;
-  const taken = new Set([sameTitle(left.title), sameTitle(right.title)]);
-  const center = release ? undefined : bestOf(on("center"), outlets, taken);
-  const middle = release ? card(release, "Data") : center && card(center, lean(center));
-  const out = [middle, card(left, lean(left)), card(right, lean(right))].filter((h): h is CardHeadline => Boolean(h));
+  const room = release ? 2 : 3;
+  const picked: Headline[] = [];
+  const taken = new Set<string>();
+  const add = (h: Headline | undefined) => {
+    if (!h) return;
+    picked.push(h);
+    taken.add(sameTitle(h.title));
+  };
+  const unused = () => headlines.filter((h) => !picked.some((p) => p.outletId === h.outletId));
+  // One outlet per side first, then anyone, so the places are filled in order of how different the framings are.
+  for (const side of ["left", "right", "center"]) if (picked.length < room) add(bestOf(unused().filter((h) => sideOf(lean(h)) === side), outlets, taken));
+  while (picked.length < room && unused().some((h) => !taken.has(sameTitle(h.title)))) add(bestOf(unused(), outlets, taken));
+  if (picked.length < MIN_OUTLETS) return null;
+  const out = [...(release ? [card(release, "Data")] : []), ...picked.map((h) => card(h, lean(h)))];
   return out.sort((a, b) => LEAN_ORDER.indexOf(a.lean) - LEAN_ORDER.indexOf(b.lean));
 }
 
@@ -212,7 +217,7 @@ export function releaseFor(c: Candidate, releases: Headline[]): Headline | undef
     .sort((a, b) => Math.abs(Date.parse(a.published) - first) - Math.abs(Date.parse(b.published) - first))[0];
 }
 
-/** A card for a candidate, or null when it fails the balance rule. Its id is the key and the story's first day. */
+/** A card for a candidate, or null when fewer than MIN_OUTLETS outlets ran it. Its id is the key and the story's first day. */
 export function storyFor(c: Candidate, headlines: Headline[], releases: Headline[]): PageStory | null {
   if (!headlines.length) return null;
   const kept = { ...c, headlines };

@@ -2,7 +2,7 @@ import "server-only";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { faqFile, newsFile, type FaqFile, type NewsFile, type NewsPage } from "./news-types";
-import { isBalanced } from "./news-derive";
+import { hasEnoughOutlets } from "./news-derive";
 
 /**
  * Build-time reader for the page-level "In the news" and "FAQ" sections: `news_<page>.json` and `faq_<page>.json` in
@@ -22,8 +22,8 @@ export function getNewsFile(page: NewsPage): NewsFile | null {
   if (raw === null) return null;
   const parsed = newsFile.parse(raw);
   const stories = parsed.stories.filter((s) => {
-    const ok = isBalanced(s.headlines);
-    if (!ok) console.warn(`news_${page}.json: story ${s.id} skipped (needs a left-of-center and a right-of-center headline)`);
+    const ok = hasEnoughOutlets(s.headlines);
+    if (!ok) console.warn(`news_${page}.json: story ${s.id} skipped (needs headlines from at least two outlets)`);
     return ok;
   });
   return stories.length ? { ...parsed, stories } : null;

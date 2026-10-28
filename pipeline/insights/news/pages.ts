@@ -14,7 +14,7 @@ import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_T
 
 /**
  * The page-level "In the news" builder: reads the outlets' and agencies' feeds, groups headlines into stories about one
- * chart each, checks them (Claude API, when a key is set), keeps the balanced ones and writes
+ * chart each, checks them (Claude API, when a key is set), keeps the ones at least two outlets ran and writes
  * pipeline/output/news_<page>.json for the pages' "In the news" row (schema: lib/news-types.ts). Run a few times a day
  * by .github/workflows/news-pages.yml; see pipeline/insights/README.md, "In the news on the pages".
  *
@@ -101,11 +101,11 @@ async function kept(c: Candidate): Promise<Headline[]> {
 
 const fresh = new Map<NewsPage, PageStory[]>(pages.map((p) => [p, []]));
 for (const c of candidates) {
-  // A story one side alone covered can never be shown: no check spent on it.
+  // A story fewer than two outlets ran can never be shown: no check spent on it.
   if (!pickHeadlines(c.headlines)) continue;
   const story = storyFor(c, await kept(c), releases);
   if (story) fresh.get(c.topic.page)!.push(story);
-  else console.log(`  skip  ${c.key} (${c.headlines.length} headlines): not balanced after the check`);
+  else console.log(`  skip  ${c.key} (${c.headlines.length} headlines): fewer than two outlets after the check`);
 }
 
 const used = new Map<string, number>();

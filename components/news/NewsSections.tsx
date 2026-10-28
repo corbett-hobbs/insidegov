@@ -24,7 +24,7 @@ export type NewsChart = { target: string; label: string; value: string; asOf: st
 export type Headline = { outletId: string; outlet: string; lean: Lean; title: string; url: string };
 /**
  * One story as each side headlined it, over the chart it is about: the data release first (the facts), then the outlets
- * from left to right. A story only gets a card when it has a left-of-center and a right-of-center headline, and shows at
+ * from left to right. A story only gets a card when at least two outlets ran it (both sides when both did), and shows at
  * most three (the release, or a center outlet, plus one from each side), each clamped to two lines, so the cards in a row
  * come out close to one height and the sparkline band, not empty space, takes up the difference.
  */

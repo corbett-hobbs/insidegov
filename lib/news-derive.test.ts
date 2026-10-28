@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, isBalanced, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
+import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, hasEnoughOutlets, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
 import { faqFile, newsFile, type Lean, type NewsHeadline, type NewsStory } from "./news-types";
 import { energyFaq } from "../components/energy/energy-news";
 import { tradeFaq } from "../components/trade/trade-news";
@@ -9,20 +9,19 @@ import { tradeFaq } from "../components/trade/trade-news";
 const h = (lean: Lean, outletId = lean.replace(/\s/g, "").toLowerCase()): NewsHeadline => ({ outletId, outlet: outletId, lean, title: `${lean} headline`, url: "https://example.com/a" });
 const story = (id: string, date: string, headlines: NewsHeadline[]): NewsStory => ({ id, date, topic: "Topic", chartId: "chart-gas", headlines });
 
-describe("isBalanced", () => {
-  it("needs a left-of-center and a right-of-center headline", () => {
-    expect(isBalanced([h("Lean Left"), h("Lean Right")])).toBe(true);
-    expect(isBalanced([h("Left"), h("Right")])).toBe(true);
-    expect(isBalanced([h("Left"), h("Lean Left")])).toBe(false);
-    expect(isBalanced([h("Right")])).toBe(false);
+describe("hasEnoughOutlets", () => {
+  it("needs two outlets, of any lean", () => {
+    expect(hasEnoughOutlets([h("Lean Left"), h("Lean Right")])).toBe(true);
+    expect(hasEnoughOutlets([h("Left"), h("Lean Left")])).toBe(true);
+    expect(hasEnoughOutlets([h("Center"), h("Right")])).toBe(true);
+    expect(hasEnoughOutlets([h("Right")])).toBe(false);
   });
-  it("does not count a data release or a center outlet as a side", () => {
-    expect(isBalanced([h("Data"), h("Center"), h("Lean Right")])).toBe(false);
-    expect(isBalanced([h("Data"), h("Left"), h("Right")])).toBe(true);
-    expect(isBalanced([h("Center"), h("Lean Left"), h("Lean Right")])).toBe(true);
+  it("does not count a data release as an outlet", () => {
+    expect(hasEnoughOutlets([h("Data"), h("Lean Right")])).toBe(false);
+    expect(hasEnoughOutlets([h("Data"), h("Left"), h("Right")])).toBe(true);
   });
   it("allows at most three headlines", () => {
-    expect(isBalanced([h("Data"), h("Left"), h("Right"), h("Center")])).toBe(false);
+    expect(hasEnoughOutlets([h("Data"), h("Left"), h("Right"), h("Center")])).toBe(false);
   });
 });
 
@@ -34,10 +33,10 @@ describe("orderHeadlines", () => {
 });
 
 describe("selectStories", () => {
-  it("drops unbalanced stories, sorts newest first and orders each story's headlines", () => {
+  it("drops stories with fewer than two outlets, sorts newest first and orders each story's headlines", () => {
     const out = selectStories([
       story("old", "2026-10-01", [h("Right"), h("Left")]),
-      story("one-sided", "2026-10-30", [h("Left"), h("Lean Left")]),
+      story("one-outlet", "2026-10-30", [h("Data"), h("Lean Left")]),
       story("new", "2026-10-24", [h("Lean Right"), h("Data"), h("Lean Left")]),
     ]);
     expect(out.map((s) => s.id)).toEqual(["new", "old"]);
@@ -94,17 +93,17 @@ describe("outlet icons", () => {
 describe("shipped files", () => {
   const read = (dir: string, f: string) => JSON.parse(readFileSync(join(process.cwd(), dir, f), "utf8"));
   // The pipelines fill these files (an approved FAQ publish, the news watcher), so they may be empty or not; they must parse.
-  it("the shipped files parse, and every shipped story is balanced", () => {
+  it("the shipped files parse, and every shipped story has enough outlets", () => {
     for (const p of ["economy", "immigration"]) {
-      for (const s of newsFile.parse(read("pipeline/output", `news_${p}.json`)).stories) expect(isBalanced(s.headlines)).toBe(true);
+      for (const s of newsFile.parse(read("pipeline/output", `news_${p}.json`)).stories) expect(hasEnoughOutlets(s.headlines)).toBe(true);
       faqFile.parse(read("pipeline/output", `faq_${p}.json`));
     }
   });
-  it("the fixtures parse, and every fixture story is balanced", () => {
+  it("the fixtures parse, and every fixture story has enough outlets", () => {
     for (const p of ["economy", "immigration"]) {
       const news = newsFile.parse(read("pipeline/fixtures", `news_${p}.json`));
       expect(news.stories.length).toBeGreaterThan(0);
-      for (const s of news.stories) expect(isBalanced(s.headlines)).toBe(true);
+      for (const s of news.stories) expect(hasEnoughOutlets(s.headlines)).toBe(true);
       expect(faqFile.parse(read("pipeline/fixtures", `faq_${p}.json`)).groups.length).toBeGreaterThan(0);
     }
   });

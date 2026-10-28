@@ -145,11 +145,17 @@ describe("grouping headlines into stories", () => {
   });
 });
 
-describe("the balance rule", () => {
-  it("needs a left-of-center and a right-of-center outlet", () => {
-    expect(pickHeadlines([h("nytimes", "Jobs report"), h("wsj", "Jobs report")])).toBeNull();
-    expect(pickHeadlines([h("foxnews", "Jobs report"), h("bbc", "Jobs report")])).toBeNull();
+describe("the outlet rule", () => {
+  it("needs two outlets, of any lean, and shows both sides when both ran the story", () => {
+    expect(pickHeadlines([h("nytimes", "Jobs report")])).toBeNull();
+    expect(pickHeadlines([h("nytimes", "Jobs report a"), h("wsj", "Jobs report b")])?.map((x) => x.outletId)).toEqual(["nytimes", "wsj"]);
+    expect(pickHeadlines([h("foxnews", "Jobs report a"), h("bbc", "Jobs report b")])).toHaveLength(2);
     expect(pickHeadlines([h("nytimes", "Jobs report a"), h("foxnews", "Jobs report b")])?.map((x) => x.lean)).toEqual(["Lean Left", "Right"]);
+  });
+
+  it("fills the places with other outlets when a side is missing, one headline per outlet", () => {
+    const hs = [h("nytimes", "Tariffs a"), h("nbcnews", "Tariffs b"), h("nytimes", "Tariffs c"), h("wsj", "Tariffs d")];
+    expect(pickHeadlines(hs)?.map((x) => x.outletId).sort()).toEqual(["nbcnews", "nytimes", "wsj"]);
   });
 
   it("shows at most three: the data release ahead of a Center outlet, then left to right", () => {
@@ -170,7 +176,7 @@ describe("the balance rule", () => {
 
   it("never shows the same wire headline on both sides", () => {
     const wire = "US consumer confidence recovers in October as gas prices eased a bit";
-    expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire)])).toBeNull();
+    expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire)])).toBeNull(); // the same copy twice shows nothing about framing
     expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire), h("foxnews", "Gas prices ease")])?.map((x) => x.outletId)).toEqual(["apnews", "foxnews"]);
   });
 

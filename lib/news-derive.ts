@@ -17,11 +17,11 @@ export const isLeftOfCenter = (lean: Lean) => lean === "Left" || lean === "Lean 
 export const isRightOfCenter = (lean: Lean) => lean === "Lean Right" || lean === "Right";
 
 /**
- * A story is shown only when it has at least one left-of-center and one right-of-center headline (the agency's data
- * release and a center outlet may sit beside them, up to three in all). A story one side headlined is not shown.
+ * A story is shown only when at least two outlets headlined it (the agency's data release sits beside them, up to three
+ * headlines in all). Both sides are shown when both ran it, but a story one side alone ran is shown too.
  */
-export function isBalanced(headlines: readonly NewsHeadline[]): boolean {
-  return headlines.length <= 3 && headlines.some((h) => isLeftOfCenter(h.lean)) && headlines.some((h) => isRightOfCenter(h.lean));
+export function hasEnoughOutlets(headlines: readonly NewsHeadline[]): boolean {
+  return headlines.length <= 3 && headlines.filter((h) => h.lean !== "Data").length >= 2;
 }
 
 /** The data release first (the facts), then outlets from left to right; ties keep the file's order. */
@@ -29,10 +29,10 @@ export function orderHeadlines<T extends { lean: Lean }>(headlines: readonly T[]
   return headlines.map((h, i) => ({ h, i })).sort((a, b) => LEANS.indexOf(a.h.lean) - LEANS.indexOf(b.h.lean) || a.i - b.i).map((x) => x.h);
 }
 
-/** Balanced stories only, newest first, at most `MAX_STORIES`, headlines ordered for display. */
+/** Stories with enough outlets only, newest first, at most `MAX_STORIES`, headlines ordered for display. */
 export function selectStories(stories: readonly NewsStory[]): NewsStory[] {
   return stories
-    .filter((s) => isBalanced(s.headlines))
+    .filter((s) => hasEnoughOutlets(s.headlines))
     .map((s, i) => ({ s, i }))
     .sort((a, b) => (a.s.date < b.s.date ? 1 : a.s.date > b.s.date ? -1 : a.i - b.i))
     .slice(0, MAX_STORIES)

@@ -1,7 +1,7 @@
 name: In the news (page cards)
 
 # The pages' "In the news" row (pipeline/insights/README.md, "In the news on the pages"): four times a day, read the
-# outlets' and agencies' feeds, group headlines into balanced stories (a left-of-center and a right-of-center outlet,
+# outlets' and agencies' feeds, group headlines into stories (at least two outlets, both sides when both ran it,
 # plus the agency's data release or a Center outlet) and rewrite pipeline/output/news_<page>.json. The pipeline moves a
 # file's `asOf` only when its stories change, so an unchanged run changes nothing and opens nothing. A change opens a
 # PR that is merged only after the full CI gate (.github/actions/gate-and-merge), like the data refreshes.
@@ -84,7 +84,7 @@ jobs:
           labels: data-refresh
           body: |
             The news watcher found new or changed stories for the pages' "In the news" row (pipeline/insights/news/pages.ts).
-            Every card has a left-of-center and a right-of-center outlet (AllSides ratings, outlets.ts). The run log lists
+            Every card has at least two outlets, both sides when both ran the story (AllSides ratings, outlets.ts). The run log lists
             each page's cards with their headlines.
 
             Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch

@@ -39,7 +39,7 @@ export const newsStory = z.object({
   /** A plain topic in our words, never a take: "Diesel prices". */
   topic: z.string().min(1),
   chartId: z.string().min(1),
-  /** At most three; see `isBalanced` for what a story needs to be shown. */
+  /** At most three; see `hasEnoughOutlets` for what a story needs to be shown. */
   headlines: z.array(newsHeadline).min(1).max(3),
 });
 export type NewsStory = z.infer<typeof newsStory>;
