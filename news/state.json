@@ -134,6 +134,31 @@
       "keep": [],
       "reason": "No single current development is reported across these headlines; they are political commentary, a candidate's prediction, a snarky opinion piece, and a local Los Angeles story.",
       "chart": ""
+    },
+    "3c8f0c36a725f82d838a": {
+      "at": "2026-10-28T23:42:09.293Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Headlines reporting the Fed's October 28, 2026 decision to hold rates steady; previews, live blogs, explainers, the meeting-schedule change, and Bessent comments were excluded.",
+      "chart": ""
+    },
+    "f939b14970f8830360cb": {
+      "at": "2026-10-28T23:42:09.293Z",
+      "keep": [
+        "https://www.huffpost.com/entry/us-supreme-court-denies-immigration-judges-the-power-to-shelve-deportation-cases_n_6ae0d41ee4b059999c6307d2",
+        "https://www.washingtonexaminer.com/news/supreme-court/4781315/supreme-court-declines-halt-doj-deal-ending-biden-immigration-rule/",
+        "https://www.foxnews.com/politics/trumps-unusual-legal-gambit-against-biden-era-deportation-rule-pays-off-supreme-court"
+      ],
+      "reason": "Headlines 2, 3, and 5 all report the Supreme Court declining to halt the DOJ deal ending the Biden-era immigration rule that let judges shelve deportation cases.",
+      "chart": ""
     }
   },
   "dispatched": {}
