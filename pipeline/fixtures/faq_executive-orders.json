@@ -7,35 +7,7 @@
         {
           "id": "eo-vs-law",
           "q": "What is the difference between an executive order and a law?",
-          "a": "A law is a statute enacted by Congress. An executive order is a written directive in which the President sets policy, and such orders tend to be directed to government officials. To have legal effect, an order must rest on the President's powers under the Constitution or on power Congress has delegated, and it cannot override a statute. A later President can generally revoke or modify an earlier order.",
-          "sources": [
-            {
-              "label": "Congressional Research Service, Executive Orders: An Introduction",
-              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
-            }
-          ],
-          "chartIds": [
-            "executive-orders-signed-per-year-by-topic"
-          ]
-        },
-        {
-          "id": "eo-vs-memorandum",
-          "q": "What is the difference between an executive order and a presidential memorandum?",
-          "a": "Both are written directives the President can issue, and the difference is mostly one of form. A statute requires executive orders to be published in the Federal Register, with exceptions such as orders that apply only to federal agencies or their personnel, while the form of a directive, such as a memorandum, may determine whether it is published there. Apart from the title, there is no clear substantive distinction, and either form has legal effect only if issued under a power from the Constitution or Congress.",
-          "sources": [
-            {
-              "label": "Congressional Research Service, Executive Orders: An Introduction",
-              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
-            }
-          ],
-          "chartIds": [
-            "executive-orders-signed-per-year-by-topic"
-          ]
-        },
-        {
-          "id": "eo-vs-proclamation",
-          "q": "What is the difference between an executive order and a proclamation?",
-          "a": "Executive orders tend to be directed toward government officials, while proclamations tend to be directed at private parties. There is no clear substantive distinction between the two other than how they are titled. Either one must be issued under one of the President's powers to have legal effect, and no general rule requires a particular type of directive for a particular task, though a statute granting power to the President may require one.",
+          "a": "A law is a statute enacted by Congress. An executive order is a written directive in which the President sets policy, and such orders tend to be directed to government officials. To have legal effect, an order must rest on the President's powers under the Constitution or on power Congress has delegated, and it cannot override a statute.",
           "sources": [
             {
               "label": "Congressional Research Service, Executive Orders: An Introduction",
