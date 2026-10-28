@@ -17,7 +17,7 @@
  * under the same /entry/ paths), by the Claude relevance check: `needsCheck` headlines are used only when the check
  * calls them straight news, so without an API key they are left out.
  *
- * Unavailable when tested: Reuters (no RSS), CNN (feeds frozen), the Washington Post and Newsmax (block bots). MS NOW
+ * Unavailable when tested: Reuters (no RSS: every feed URL is dead or needs a login, retested 2026-10-28), CNN (feeds frozen), the Washington Post and Newsmax (block bots). MS NOW
  * left out (its feeds are mostly opinion and show blogs), as are White House press statements (one side's framing).
  */
 
@@ -87,6 +87,12 @@ export const OUTLETS: Outlet[] = [
     opinionUrl: /\/(magazine|playbook|inside-congress|politico-pro|podcasts?)\//i,
   },
   { id: "axios", name: "Axios", lean: "Lean Left", feeds: ["https://api.axios.com/feed/"] },
+  // AllSides Lean Left, read 2026-10-28 (medium confidence). Business and markets beat: the tariff, trade-deficit and Fed stories the news-and-politics feeds miss. Feeds tested 2026-10-28; its stale Finance feed (id 10000664) is not used.
+  {
+    id: "cnbc", name: "CNBC", lean: "Lean Left",
+    feeds: ["https://www.cnbc.com/id/100003114/device/rss/rss.html", "https://www.cnbc.com/id/10000113/device/rss/rss.html", "https://www.cnbc.com/id/20910258/device/rss/rss.html"],
+    opinionUrl: /\/(select|pro|investingclub|make-it|cnbc-pro)\//i,
+  },
   { id: "apnews", name: "Associated Press", lean: "Lean Left", reserve: true, feeds: ["https://flipboard.com/@associatedpress/top-stories-u7govdf1z.rss"] },
   {
     id: "abcnews", name: "ABC News", lean: "Lean Left", reserve: true,
@@ -94,6 +100,8 @@ export const OUTLETS: Outlet[] = [
     opinionUrl: /\/(ThisWeek|GMA|Nightline)\//,
   },
   { id: "npr", name: "NPR", lean: "Lean Left", reserve: true, feeds: ["https://feeds.npr.org/1014/rss.xml", "https://feeds.npr.org/1017/rss.xml"] },
+  // AllSides Lean Left (medium confidence, read 2026-10-28). Reserve: it is a slower, broader newsroom than the roster's.
+  { id: "pbsnewshour", name: "PBS NewsHour", lean: "Lean Left", reserve: true, feeds: ["https://www.pbs.org/newshour/feeds/rss/politics", "https://www.pbs.org/newshour/feeds/rss/economy"] },
   { id: "motherjones", name: "Mother Jones", lean: "Left", reserve: true, needsCheck: true, feeds: ["https://www.motherjones.com/politics/feed/"] },
   // Center
   // WSJ's "social" politics and economy feeds carry social-post blurbs in place of headlines; its U.S. and business
@@ -102,6 +110,8 @@ export const OUTLETS: Outlet[] = [
   { id: "bbc", name: "BBC News", lean: "Center", feeds: ["https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml", "https://feeds.bbci.co.uk/news/business/rss.xml"], opinionUrl: /\/(sport|av|sounds|programmes)\//i },
   { id: "thehill", name: "The Hill", lean: "Center", feeds: ["https://thehill.com/homenews/feed/", "https://thehill.com/policy/feed/", "https://thehill.com/business/feed/", ...["energy-environment", "healthcare", "defense", "technology", "transportation"].map((s) => `https://thehill.com/policy/${s}/feed/`)], opinionUrl: /\/(changing-america|in-the-know|hilltv)\//i },
   { id: "bloomberg", name: "Bloomberg", lean: "Center", feeds: ["https://feeds.bloomberg.com/politics/news.rss", "https://feeds.bloomberg.com/economics/news.rss"] },
+  // AllSides Center, read 2026-10-28 (a Dec 2025 blind survey said Lean Left; the Mar 2026 editorial review kept it Center). Its opinion pages are under /opinion/.
+  { id: "newsweek", name: "Newsweek", lean: "Center", feeds: ["https://www.newsweek.com/rss"] },
   // Lean Right
   {
     id: "washingtonexaminer", name: "Washington Examiner", lean: "Lean Right",
