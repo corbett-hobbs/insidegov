@@ -50,6 +50,16 @@ const EXTRA: Record<string, SocialBuild> = {
     build: { kind: "series", seriesId: "economy.mortgage_rate", years: 10, peak: true },
     weight: 1.2,
   },
+  fed_rates: {
+    lead: () => "The Federal Reserve and interest rates are in the news.",
+    build: { kind: "series", seriesId: "economy.fed_funds", years: 10, peak: true },
+    weight: 1.2,
+  },
+  treasury_yields: {
+    lead: () => "Treasury yields are in the news.",
+    build: { kind: "series", seriesId: "economy.treasury_10y", years: 10, peak: true },
+    weight: 1.0,
+  },
   unemployment: {
     lead: () => "Unemployment is in the news.",
     build: { kind: "series", seriesId: "economy.unemployment", years: 10, peak: true },

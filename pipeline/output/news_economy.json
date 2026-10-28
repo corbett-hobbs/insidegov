@@ -5,6 +5,7 @@
       "id": "fed_rates-2026-10-26",
       "date": "2026-10-26",
       "topic": "Federal Reserve and interest rates",
+      "chartId": "chart-ff",
       "headlines": [
         {
           "outletId": "cbsnews",

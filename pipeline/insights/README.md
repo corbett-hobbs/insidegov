@@ -51,9 +51,9 @@ about them (the news lane charts them like any other):
 
 | Series | Why |
 | --- | --- |
-| Weekly: gas and diesel prices, the Strategic Petroleum Reserve, the 30-year mortgage rate | A new reading every week is not news; a story about gas prices is. |
+| Weekly: gas and diesel prices, the Strategic Petroleum Reserve, the 30-year mortgage rate, the federal funds rate, the ten-year Treasury yield | A new reading every week is not news; a story about gas prices is. |
 | Single electricity sources: coal, natural gas, nuclear, wind, solar | One release would otherwise give a "record" post for each source. The release gets **one** post, for total generation, and its "What drove it" slide shows each source's change. A source posts alone only when a story is about it. |
-| The Economy page's cards: mortgage rate, unemployment, inflation, jobs added, GDP growth, real hourly earnings, household income, the deficit, the debt | Their releases (jobs report, CPI, GDP) are always in the news the same day, so the news lane covers them. Each is computed as its card computes it (`economy.ts`, using the page's `lib/indicator-derive.ts`; deficit and debt merge Treasury's newer figures as the page does), so a post and its card agree. |
+| The Economy page's cards: mortgage rate, federal funds rate, ten-year Treasury yield, unemployment, inflation, jobs added, GDP growth, real hourly earnings, household income, the deficit, the debt | Their releases (jobs report, CPI, GDP) are always in the news the same day, so the news lane covers them. Each is computed as its card computes it (`economy.ts`, using the page's `lib/indicator-derive.ts`; deficit and debt merge Treasury's newer figures as the page does), so a post and its card agree. |
 
 ## Freshness: posts follow releases
 

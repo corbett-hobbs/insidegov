@@ -26,7 +26,7 @@ describe("news-only series", () => {
 
   it("marks every weekly series and every single electricity source news-only", () => {
     const weekly = all.filter((s) => s.frequency === "weekly").map((s) => s.id);
-    expect(weekly.sort()).toEqual(["economy.mortgage_rate", "energy.spr", "gas.diesel", "gas.regular"]);
+    expect(weekly.sort()).toEqual(["economy.fed_funds", "economy.mortgage_rate", "economy.treasury_10y", "energy.spr", "gas.diesel", "gas.regular"]);
     for (const s of all) {
       if (s.frequency === "weekly" || /^energy\.power_(coal|gas|nuclear|wind|solar)$/.test(s.id)) expect(s.newsOnly, s.id).toBe(true);
     }
@@ -72,7 +72,7 @@ describe("the Economy page's cards as series", () => {
   const pts = (id: string) => rows.filter((r) => r.series_id === id).map((r) => ({ date: String(r.date), value: r.value as number })).sort((a, b) => a.date.localeCompare(b.date));
 
   it("has a series for every card but the misery index, all news-only", () => {
-    expect(economy.map((s) => s.id).sort()).toEqual(["economy.debt", "economy.deficit", "economy.gdp_growth", "economy.household_income", "economy.inflation", "economy.jobs_added", "economy.mortgage_rate", "economy.real_earnings", "economy.unemployment"]);
+    expect(economy.map((s) => s.id).sort()).toEqual(["economy.debt", "economy.deficit", "economy.fed_funds", "economy.gdp_growth", "economy.household_income", "economy.inflation", "economy.jobs_added", "economy.mortgage_rate", "economy.real_earnings", "economy.treasury_10y", "economy.unemployment"]);
     for (const s of economy) {
       expect(s.newsOnly, s.id).toBe(true);
       expect(s.anchor, s.id).toMatch(/^#chart-/);
@@ -127,16 +127,15 @@ describe("which stories become posts", () => {
     expect(socialBuild(cand("diesel", []), [])!.build).toMatchObject({ seriesId: "gas.diesel" });
     expect(socialBuild(cand("venezuela_oil", []), [])!).toMatchObject({ build: { seriesId: "energy.petroleum_imports" }, note: expect.stringContaining("not Venezuela alone") });
     expect(socialBuild(cand("tariff", [], "tariff.CAN"), [])!.build.kind).toBe("tariff");
-    expect(socialBuild(cand("fed_rates", []), [])).toBeNull();
     expect(socialBuild(cand("markets", []), [], "chart-mis")).toBeNull();
     expect(couldDraft(topic("diesel"))).toBe(true);
     expect(couldDraft(topic("green_cards"))).toBe(false);
     expect(couldDraft(topic("diesel"))).toBe(true);
     // A chartless story with a chart picked from the page's charts takes that chart, keyed by the chart's topic.
-    expect(socialBuild(cand("fed_rates", []), [], "chart-mort")).toMatchObject({ build: { seriesId: "economy.mortgage_rate" }, key: "mortgage" });
-    expect(socialBuild(cand("fed_rates", []), [], "chart-infl")).toMatchObject({ build: { seriesId: "economy.inflation" }, key: "inflation" });
+    expect(socialBuild(cand("markets", []), [], "chart-mort")).toMatchObject({ build: { seriesId: "economy.mortgage_rate" }, key: "mortgage" });
+    expect(socialBuild(cand("markets", []), [], "chart-infl")).toMatchObject({ build: { seriesId: "economy.inflation" }, key: "inflation" });
     // The Economy page's cards each have one: a jobs-report headline gets the payroll change, not the unemployment rate.
-    const economy: Record<string, string> = { inflation: "economy.inflation", jobs: "economy.jobs_added", gdp: "economy.gdp_growth", wages: "economy.real_earnings", income: "economy.household_income", deficit: "economy.deficit", debt: "economy.debt", unemployment: "economy.unemployment", mortgage: "economy.mortgage_rate" };
+    const economy: Record<string, string> = { inflation: "economy.inflation", jobs: "economy.jobs_added", gdp: "economy.gdp_growth", wages: "economy.real_earnings", income: "economy.household_income", deficit: "economy.deficit", debt: "economy.debt", unemployment: "economy.unemployment", mortgage: "economy.mortgage_rate", fed_rates: "economy.fed_funds", treasury_yields: "economy.treasury_10y" };
     for (const [id, seriesId] of Object.entries(economy)) expect(socialBuild(cand(id, []), [])!.build, id).toMatchObject({ seriesId });
     expect(socialBuild(cand("jobs", []), [])!.lead()).toBe("The jobs report is in the news.");
     expect(topicOf("Economy adds 142,000 jobs as unemployment rate holds at 4.2%", PAGE_TOPICS, PARTNERS)!.topic.id).toBe("jobs");
@@ -164,7 +163,7 @@ describe("which stories become posts", () => {
         { candidate: cand("venezuela_oil", two), headlines: two, reason: "same development" },
         { candidate: cand("diesel", [h("nbcnews", "Diesel prices jump")]), headlines: [h("nbcnews", "Diesel prices jump")] },
         { candidate: cand("gasoline", old), headlines: old },
-        { candidate: cand("fed_rates", two), headlines: two },
+        { candidate: cand("markets", two), headlines: two },
       ],
       NOW,
     );
