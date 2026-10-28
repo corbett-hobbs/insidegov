@@ -128,7 +128,10 @@ export async function checkCandidate(client: Anthropic, c: CandidateInput): Prom
       messages: [{ role: "user", content: candidatePrompt(c) }],
     });
   } catch (err) {
-    if (err instanceof Anthropic.APIError) return null;
+    if (err instanceof Anthropic.APIError) {
+      console.log(`  Claude check error: API ${err.status ?? ""} ${err.message.slice(0, 200)}`);
+      return null;
+    }
     throw err;
   }
   if (res.stop_reason === "refusal") return { keep: [], reason: `check refused (${res.stop_details?.category ?? "no category"})` };

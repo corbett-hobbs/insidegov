@@ -129,7 +129,7 @@ runs:
     - if: steps.issues.outputs.opened == 'true'
       uses: ./.github/actions/notify
       with:
-        subject: ${{ inputs.news == 'true' && 'InsideGov: news draft to approve (expires within a day)' || 'InsideGov: social drafts to review' }}
+        subject: "${{ inputs.news == 'true' && 'InsideGov: news draft to approve (expires within a day)' || 'InsideGov: social drafts to review' }}"
         body: ${{ inputs.news == 'true' && 'A topic the site has data on is in the news. Approve the draft (label social-approved) and it posts within minutes; close it to reject. It expires unposted after a day.' || 'New social post drafts are waiting for approval. Open one and add the social-approved label to queue it (or close it to reject).' }}
         url: ${{ github.server_url }}/${{ github.repository }}/issues?q=is%3Aopen+label%3A${{ inputs.news == 'true' && 'social-news' || 'social-draft' }}
         body-file: ${{ runner.temp }}/social-summary.txt
