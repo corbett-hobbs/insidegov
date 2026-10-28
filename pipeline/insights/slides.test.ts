@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { slidesSection } from "./issue";
-import { FOLDER, driveRoot, folderName, outputRoot, slideUrls } from "./slides";
+import { FOLDER, driveRoot, folderName, outputRoot, pending, slideUrls } from "./slides";
 
 describe("insights:slides", () => {
   it("reads the slide links from an issue body in slide order, once each", () => {
@@ -25,5 +25,24 @@ describe("insights:slides", () => {
     expect(outputRoot({ env: "/e", home: "/h", drive: "/d" })).toEqual({ dir: "/e", fellBack: false });
     expect(outputRoot({ home: "/h", drive: "/d" })).toEqual({ dir: `/d/${FOLDER}`, fellBack: false });
     expect(outputRoot({ home: "/h", drive: null })).toEqual({ dir: `/h/Downloads/${FOLDER}`, fellBack: true });
+  });
+});
+
+describe("insights:slides --approved", () => {
+  const issue = (number: number, labels: string[], updatedAt: string) => ({ number, labels: labels.map((name) => ({ name })), updatedAt });
+  const now = new Date("2026-10-29T12:00:00Z");
+
+  it("picks approved, unexpired, unfetched issues from the last week, oldest first", () => {
+    const issues = [
+      issue(350, ["social-draft", "social-approved"], "2026-10-28T10:00:00Z"),
+      issue(348, ["social-draft", "social-approved", "social-posted"], "2026-10-27T10:00:00Z"),
+      issue(347, ["social-draft", "social-approved"], "2026-10-20T10:00:00Z"),
+      issue(349, ["social-draft", "social-approved", "social-expired"], "2026-10-28T10:00:00Z"),
+      issue(351, ["social-draft"], "2026-10-28T10:00:00Z"),
+      issue(352, ["social-draft", "social-approved"], "2026-10-28T11:00:00Z"),
+    ];
+    expect(pending(issues, [352], now)).toEqual([348, 350]);
+    expect(pending(issues, [], now, 14)).toEqual([347, 348, 350, 352]);
+    expect(pending([], [], now)).toEqual([]);
   });
 });
