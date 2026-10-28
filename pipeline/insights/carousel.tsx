@@ -429,7 +429,7 @@ function introSlide(s: IntroSlide, n: number, total: number, look: Look): ReactN
         {svgImage(svg, W, H)}
         <Header kicker="" ink={look.ink} muted={look.muted} />
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 64, lineHeight: 1.04, letterSpacing: -1.5, marginTop: 92 }}>{s.title}</div>
-        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 26, lineHeight: 1.35, color: look.muted, marginTop: 22 }}>{s.sub}</div>
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 24, lineHeight: 1.35, color: look.muted, marginTop: 22 }}>{s.sub}</div>
         {s.sparks.map((sp, i) => (
           <div key={i} style={{ position: "absolute", left: SIDE, top: rowTop + i * rowH, display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: look.muted }}>
             {sp.label}

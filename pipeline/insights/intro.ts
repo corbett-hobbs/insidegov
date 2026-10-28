@@ -64,7 +64,7 @@ export function introCarousel(): IntroSlide[] {
     {
       kind: "cover",
       title: "The data behind the headlines",
-      sub: "Charts straight from official government records on the presidency, Congress, and the Supreme Court.",
+      sub: "Charts straight from official government records across the presidency, Congress, and the Supreme Court.",
       sparks: coverSparks(),
     },
     {
@@ -72,8 +72,8 @@ export function introCarousel(): IntroSlide[] {
       kicker: "Why it exists",
       title: "News gives you the number, but rarely the context.",
       paragraphs: [
-        "You read that something spiked or dropped, but it’s hard to find how it compares to last year—or to the last administration.",
-        "InsideGov puts the historical chart in one place, so you can see the trend for yourself.",
+        "You read that something spiked or dropped, but it’s tough to see how it compares to last year—or to the last administration.",
+        "InsideGov puts the historical chart in one place, so you can see the trend yourself.",
       ],
     },
     {
