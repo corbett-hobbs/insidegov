@@ -1,6 +1,6 @@
 import { MAX_GRAPHEMES, graphemes } from "./bluesky";
 import { BANNED_WORDS, numberTokens } from "./caption";
-import { explainer } from "./explain";
+import { explainer, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
 import { newsOutlet, signedFact } from "./research";
@@ -16,7 +16,7 @@ import { X_MAX, xLength } from "./x";
  *   why               "Why it went up" (research.ts): the researched paragraphs, packed into posts, text only
  *   breakdown         each block of "What drove it" (breakdown.ts): one line of signed changes and a bar chart
  *   moments           dated actions from the site's sourced timelines (moments.ts), listed in order, not as causes
- *   explainer         what the series measures (explain.ts), only when there is neither a reason nor a breakdown
+ *   explainer         what the series measures (explain.ts), when there is neither a reason nor a breakdown, or when it states a release lag (explain.ts hasLag)
  *   sources           the data source and the pages the reasons came from; the link is added when it posts
  *
  * Every sentence comes from something already checked: the why's paragraphs passed checkWhy, the breakdown line is
@@ -179,7 +179,7 @@ export function planThread(insight: Insight): ThreadPlan | null {
   const sections = [whyReplies(insight), breakdownReplies(insight), momentsReplies(insight)];
   const replies = sections.flatMap((s) => s.replies);
   for (const s of sections) if (s.note) notes.push(s.note);
-  if (!replies.length && !(insight.why && givesReason(insight.why)) && !insight.breakdown) replies.push(...explainerReplies(insight));
+  if ((!replies.length && !(insight.why && givesReason(insight.why)) && !insight.breakdown) || hasLag(insight)) replies.push(...explainerReplies(insight));
   if (!replies.length) return null;
   replies.push(sourcesReply(insight));
   return { replies, notes };

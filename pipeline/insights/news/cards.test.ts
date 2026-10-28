@@ -180,6 +180,18 @@ describe("the outlet rule", () => {
     expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire), h("foxnews", "Gas prices ease")])?.map((x) => x.outletId)).toEqual(["apnews", "foxnews"]);
   });
 
+  it("gives a partner's tariff card only a release that names the partner", () => {
+    const heads = [h("nbcnews", "Trump administration cancels some Canada tariffs", hoursAgo(5)), h("pbsnewshour", "Trump exempts some Canadian imports from his 50% tariffs", hoursAgo(4))];
+    const c = groupCandidates(heads, PAGE_TOPICS, PARTNERS, NOW).find((x) => x.key === "tariff.CAN")!;
+    const turbines = rel("federalregister", "Adjusting Imports of Wind Turbines and Their Parts and Components Into the United States", hoursAgo(6));
+    const canada = rel("federalregister", "Adjusting Imports of Softwood Lumber From Canada", hoursAgo(7));
+    expect(releaseFor(c, [turbines])).toBeUndefined();
+    expect(releaseFor(c, [turbines, canada])).toBe(canada);
+    // A story about tariffs in general still takes the general proclamation.
+    const all = { ...c, key: "tariff.all", country: undefined };
+    expect(releaseFor(all, [turbines])).toBe(turbines);
+  });
+
   it("attaches the agency's release from around the story's dates, and dates the story by its earliest headline", () => {
     const c = cand("inflation", [h("nytimes", "Inflation rises to 3.7%", hoursAgo(5)), h("foxnews", "Inflation rose faster than expected", hoursAgo(4))]);
     const cpi = rel("bls", "CPI for all items increases 0.6% in September", daysAgo(1));

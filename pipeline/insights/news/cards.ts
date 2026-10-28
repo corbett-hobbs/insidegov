@@ -40,7 +40,8 @@ export type Candidate = {
   topic: PageTopic;
   /** "inflation", "tariff.CAN", "tariff.all". */
   key: string;
-  country?: { code: string; name: string };
+  /** `pattern` is the words that name the country in a title (match.ts Partner), so a release can be required to name it. */
+  country?: { code: string; name: string; pattern?: RegExp };
   /** Outlet headlines, oldest first. */
   headlines: Headline[];
 };
@@ -57,7 +58,7 @@ export function topicOf(title: string, topics: PageTopic[], partners: Partner[])
   if (!topic) return null;
   if (topic.param !== "country") return { topic, key: topic.id };
   const named = countriesIn(title, partners);
-  const country = named.length === 1 ? { code: named[0]!.code, name: named[0]!.name } : undefined;
+  const country = named.length === 1 ? { code: named[0]!.code, name: named[0]!.name, pattern: named[0]!.pattern } : undefined;
   return { topic, key: `${topic.id}.${country?.code ?? "all"}`, country };
 }
 
@@ -213,6 +214,8 @@ export function releaseFor(c: Candidate, releases: Headline[]): Headline | undef
   const last = Date.parse(c.headlines.at(-1)!.published);
   return releases
     .filter((h) => h.outletId === r.source && r.match.test(h.title))
+    // A card about one partner takes only a release that names it: a proclamation on wind turbines is not "Tariffs involving Canada".
+    .filter((h) => !c.country?.pattern || c.country.pattern.test(h.title))
     .filter((h) => {
       const t = Date.parse(h.published);
       return t >= first - 2 * DAY && t <= last + (r.lagDays ?? 2) * DAY;
