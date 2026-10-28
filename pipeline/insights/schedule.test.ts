@@ -314,21 +314,24 @@ describe("Instagram carousel", () => {
     expect(errs({ captionLine: "EIA says generation rose due to heat." })).toMatch(/due to/);
     expect(errs({ paragraphs: ["Census says imports rose because of tariffs.", "Census says chips led."] })).toMatch(/causal claim about policy/);
     expect(errs({ paragraphs: ["Census says imports soared.", "Census says chips led."] })).toMatch(/soared/);
+    expect(errs({ paragraphs: ["Census says imports rose.", "The agencies do not give a cause. I found no news reports to corroborate one."] })).toMatch(/not the research/);
   });
 
   it("lets mainstream news corroborate a release, from two outlets, never an opinion page", () => {
     const agency = { name: "BEA release", url: "https://www.bea.gov/news/2026/x" };
-    const reuters = { name: "Reuters", url: "https://www.reuters.com/markets/us/trade-deficit-2026-10-06/" };
+    const reuters = { name: "CNBC", url: "https://www.cnbc.com/2026/10/06/trade-deficit-august-2026.html" };
     const bloomberg = { name: "Bloomberg", url: "https://www.bloomberg.com/news/articles/2026-10-06/trade" };
-    const w = { title: "Why it widened", captionLine: "Reuters and Bloomberg tie it to chip imports for data centers.", paragraphs: ["BEA says imports of capital goods rose.", "Reuters and Bloomberg report the chips went to data centers."], sources: [agency, reuters, bloomberg] };
+    const w = { title: "Why it widened", captionLine: "CNBC and Bloomberg tie it to chip imports for data centers.", paragraphs: ["BEA says imports of capital goods rose.", "CNBC and Bloomberg report the chips went to data centers."], sources: [agency, reuters, bloomberg] };
     const seen = new Set(w.sources.map((s) => s.url));
     expect(checkWhy(w, seen, [])).toEqual([]);
     expect(checkWhy({ ...w, sources: [agency, reuters] }, seen, []).join()).toMatch(/at least two outlets/);
-    const op = { name: "WSJ opinion", url: "https://www.wsj.com/opinion/trade-deficit-x" };
+    expect(checkWhy({ ...w, sources: [agency] }, seen, []).join()).toMatch(/news reports from .* were found/);
+    const op = { name: "Fox Business opinion", url: "https://www.foxbusiness.com/opinion/trade-deficit-x" };
     expect(checkWhy({ ...w, sources: [agency, reuters, op] }, new Set([...seen, op.url]), []).join()).toMatch(/not a news report/);
-    expect(newsOutlet("https://www.reuters.com/world/us/x")).toBe("Reuters");
+    expect(newsOutlet("https://www.cnbc.com/2026/10/06/x.html")).toBe("CNBC");
+    expect(newsOutlet("https://www.reuters.com/world/us/x")).toBeNull();
     expect(newsOutlet("https://www.foxnews.com/politics/x")).toBeNull();
-    expect(newsOutlet("https://www.nytimes.com/2026/10/06/opinion/x.html")).toBeNull();
+    expect(newsOutlet("https://www.npr.org/2026/10/06/opinion/x")).toBeNull();
   });
 
   it("starts research from the agency's own release page", () => {
