@@ -122,8 +122,21 @@ function spark(insight: Insight, w: number, h: number): string {
   return spec.bars.map((b, i) => `<rect x="${i * bw + bw * 0.15}" y="${Math.min(y(b.value), y(0))}" width="${bw * 0.7}" height="${Math.max(2, Math.abs(y(b.value) - y(0)))}" rx="2" fill="${b.emphasis ? ACCENT : NEUTRAL}"/>`).join("");
 }
 
+/** A two-line chart's hook shows both newest values, each named and keyed to its line (the Fed's rate dark, inflation light). */
+function twoValues(insight: Insight): { name: string; value: string; line: string }[] | null {
+  const spec = insight.chart;
+  const second = insight.facts.find((f) => f.id === "compare_value")?.text;
+  const first = headlineValue(insight);
+  if (spec.type !== "line" || !spec.comparison || !second || !first) return null;
+  return [
+    { name: spec.comparison.mainLabel, value: first, line: LINE },
+    { name: spec.comparison.label.split(":")[0]!, value: second, line: NEUTRAL },
+  ];
+}
+
 function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   const value = headlineValue(insight);
+  const pair = twoValues(insight);
   const sparkTop = 560;
   const sparkW = W - 2 * SIDE;
   const sparkH = 170;
@@ -133,7 +146,19 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
       {svgImage(`<g transform="translate(${SIDE},${sparkTop})">${spark(insight, sparkW, sparkH)}</g>`, W, H)}
       <Header {...headerOf(insight)} />
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: SIDE, right: SIDE, bottom: H - sparkTop + 36 }}>
-        {value ? <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value.length > 10 ? 76 : 96, lineHeight: 1, letterSpacing: -2, marginBottom: 22 }}>{value}</div> : null}
+        {pair ? (
+          <div style={{ display: "flex", marginBottom: 22 }}>
+            {pair.map((p, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column", marginRight: 56 }}>
+                <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 88, lineHeight: 1, letterSpacing: -2 }}>{p.value}</div>
+                <div style={{ display: "flex", alignItems: "center", fontSize: 20, color: MUTED, marginTop: 8 }}>
+                  <div style={{ display: "flex", width: 22, height: 5, borderRadius: 3, background: p.line, marginRight: 10 }} />
+                  {p.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : value ? <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value.length > 10 ? 76 : 96, lineHeight: 1, letterSpacing: -2, marginBottom: 22 }}>{value}</div> : null}
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value ? headSize : headSize + 8, lineHeight: 1.15, letterSpacing: -0.4 }}>{insight.title}</div>
       </div>
       <Footer n={n} total={total} left="Swipe for the full chart" />
