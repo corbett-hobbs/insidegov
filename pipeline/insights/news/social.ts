@@ -195,6 +195,16 @@ export function isCurrent(headlines: Pick<Headline, "published">[], now: string)
 }
 
 /**
+ * Whether a story is worth the Claude check: its newest headline is within NEWS_STORY_MAX_AGE_HOURS of `now`. A story that
+ * runs from days-old previews to today's decision (a Fed meeting) must still be checked, since the check drops the
+ * previews; `isCurrent` then judges the headlines it kept.
+ */
+export function hasRecent(headlines: Pick<Headline, "published">[], now: string): boolean {
+  const last = headlines.map((h) => Date.parse(h.published)).sort((a, b) => b - a)[0];
+  return last !== undefined && (Date.parse(now) - last) / 3_600_000 <= NEWS_STORY_MAX_AGE_HOURS;
+}
+
+/**
  * The stories to draft, most notable first. A story needs the page cards' outlet rule (at least two outlets, so the same
  * story the "In the news" row would show), a chart, and a first headline from the last day. One story per chart key:
  * tariffs naming one partner outrank tariffs in general, which would otherwise draft the same chart twice.

@@ -14,7 +14,7 @@ import { checkCandidate } from "./classify";
 import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
 import { NEWS_FRESH_HOURS, NEWS_MAX_PER_RUN, type WatchState, inCooldown, newsId, partnersFor, pruneState } from "./match";
 import { planRefreshes, recordDispatch } from "./refresh";
-import { type SocialStory, coverageLine, couldDraft, isCurrent, postableCharts, socialStories } from "./social";
+import { type SocialStory, coverageLine, couldDraft, hasRecent, postableCharts, socialStories } from "./social";
 import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, PAGE_TOPICS } from "./topics";
 
 /**
@@ -67,7 +67,7 @@ const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASE
 const usable = (h: Headline) => client !== null || !needsCheck(h);
 const candidates = addCompanions(groupCandidates(headlines, PAGE_TOPICS, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
 // Only a story that could be drafted is checked: two outlets, a first headline from the last day, a chart to give it.
-const worth = candidates.filter((c) => couldDraft(c.topic) && pickHeadlines(c.headlines) && isCurrent(c.headlines, now));
+const worth = candidates.filter((c) => couldDraft(c.topic) && pickHeadlines(c.headlines) && hasRecent(c.headlines, now));
 console.log(`insights:news  ${headlines.length} outlet headlines, ${candidates.length} candidate stories, ${worth.length} worth a check: ${worth.map((c) => c.key).join(", ") || "none"}`);
 
 /** The headlines of a candidate that are straight news of one development: the check's answer (reused when the story is unchanged), else the word rule. */

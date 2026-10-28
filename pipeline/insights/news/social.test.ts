@@ -11,7 +11,7 @@ import { slidePlan } from "../carousel";
 import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
 import { outletById } from "./outlets";
-import { coverageLine, couldDraft, isCurrent, postableCharts, powerSource, socialBuild, socialStories } from "./social";
+import { coverageLine, couldDraft, hasRecent, isCurrent, postableCharts, powerSource, socialBuild, socialStories } from "./social";
 import { COUNTRY_ALIASES, NEWS_PAGES, PAGE_CHARTS, PAGE_TOPICS } from "./topics";
 
 const NOW = "2026-10-27T18:00:00.000Z";
@@ -224,6 +224,12 @@ describe("which stories become posts", () => {
     expect(stories.map((s) => s.key)).toEqual(["venezuela_oil"]);
     expect(stories[0]).toMatchObject({ outlets: 2, reason: "same development" });
     expect(isCurrent(old, NOW)).toBe(false);
+    // A story running from days-old previews to today's decision is still worth the check (it drops the previews); one with nothing new is not.
+    const preview = { ...old[0]!, published: "2026-10-25T12:00:00.000Z" };
+    const decision = { ...old[0]!, published: "2026-10-27T17:00:00.000Z" };
+    expect(isCurrent([preview, decision], NOW)).toBe(false);
+    expect(hasRecent([preview, decision], NOW)).toBe(true);
+    expect(hasRecent([preview], NOW)).toBe(false);
 
     // Tariffs naming one partner outrank tariffs in general, and only one of them is drafted.
     const t1 = [h("nbcnews", "Trump raises tariffs on Canada"), h("foxnews", "Canada tariffs take effect")];
