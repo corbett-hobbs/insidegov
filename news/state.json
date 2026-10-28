@@ -159,6 +159,28 @@
       ],
       "reason": "Headlines 2, 3, and 5 all report the Supreme Court declining to halt the DOJ deal ending the Biden-era immigration rule that let judges shelve deportation cases.",
       "chart": ""
+    },
+    "2e25258584683606f277": {
+      "at": "2026-10-28T23:46:56.537Z",
+      "keep": [],
+      "reason": "No single national development: headlines are political analysis, a candidate's prediction, a Trump-vs-Biden comparison, and a local Los Angeles oil drilling story.",
+      "chart": ""
+    },
+    "d3c7669ce64fa34800e9": {
+      "at": "2026-10-28T23:46:56.537Z",
+      "keep": [
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Headlines report the Fed's October 28, 2026 decision to hold rates steady; previews, live blogs, explainers, takeaways, and the separate meeting-schedule and Treasury-yield stories are excluded.",
+      "chart": ""
     }
   },
   "dispatched": {}
