@@ -1,0 +1,93 @@
+{
+  "asOf": "2026-10-28",
+  "groups": [
+    {
+      "row": "How cases reach the Court",
+      "items": [
+        {
+          "id": "who-decides-cases",
+          "q": "Who decides which cases the Supreme Court hears?",
+          "a": "The justices of the Supreme Court decide. A few kinds of case, such as disputes between states, start in the Court itself, but almost all others come up from lower courts, where a party not satisfied with the decision files a petition for a writ of certiorari, a request that the Court review the case. The Court can turn a petition down, and four of the nine justices must vote to take a case. It accepts 100-150 of the more than 7,000 cases it is asked to review each year.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            },
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ],
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ]
+        },
+        {
+          "id": "supreme-court-vs-appeals",
+          "q": "What is the difference between the Supreme Court and a federal court of appeals?",
+          "a": "There are 12 regional courts of appeals, one for each circuit, plus the Federal Circuit. They review district court decisions, usually with a panel of three judges, to check that the proceedings were fair and the law was applied correctly. They routinely handle more than 50K cases each year, and ten percent or fewer of those decisions go on to the Supreme Court, so most are final. The Supreme Court is the single highest court above them, with nine justices.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Courts of Appeals",
+              "url": "https://www.uscourts.gov/about-federal-courts/court-role-and-structure/about-us-courts-appeals"
+            },
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ],
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Opinions and votes",
+      "items": [
+        {
+          "id": "majority-vs-concurring",
+          "q": "What is the difference between a majority opinion and a concurring opinion?",
+          "a": "A majority opinion is the opinion of the Court. A majority of Justices must agree to all of its contents by \"signing onto\" it before it is delivered. A concurring opinion is written by a Justice who agrees with the outcome of the case but not the majority's rationale for it. A dissenting opinion is a separate opinion from a Justice who disagrees with the outcome.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ],
+          "chartIds": [
+            "how-divided-is-the-court"
+          ]
+        },
+        {
+          "id": "who-writes-majority",
+          "q": "Who writes the majority opinion in the Supreme Court?",
+          "a": "After the justices vote at conference, the Chief Justice assigns a justice in the majority to write the opinion of the Court. If the Chief Justice is in the dissent, the most senior justice in the majority makes the assignment. The justice writing must take the comments and concerns of the others in the majority into account, or there may not be enough justices left to keep the majority. When the vote is tied, the decision of the lower court stands.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ],
+          "chartIds": [
+            "how-divided-is-the-court"
+          ]
+        },
+        {
+          "id": "how-many-justices",
+          "q": "Who decides how many justices are on the Supreme Court?",
+          "a": "Congress decides how many justices sit on the Supreme Court. The Constitution lets Congress organize the Court, and Acts of Congress have changed the number of seats over the years, from a low of five to a high of 10. Shortly after the Civil War the number was fixed at nine: one Chief Justice and eight Associate Justices. Justices are appointed by the President, confirmed by the Senate, and typically hold office for life.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ],
+          "chartIds": [
+            "how-divided-is-the-court"
+          ]
+        }
+      ]
+    }
+  ]
+}
