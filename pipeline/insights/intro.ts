@@ -70,7 +70,7 @@ export function introCarousel(): IntroSlide[] {
     {
       kind: "text",
       kicker: "Why it exists",
-      title: "News gives you the number. Rarely the context.",
+      title: "News gives you the number, but rarely the context.",
       paragraphs: [
         "You read that something spiked or dropped, but it’s hard to find how it compares to last year—or to the last administration.",
         "InsideGov puts the historical chart in one place, so you can see the trend for yourself.",
@@ -115,7 +115,7 @@ export function introCarousel(): IntroSlide[] {
       paragraphs: [
         "I studied international politics at Georgetown’s School of Foreign Service and spent time working in a U.S. Senate press office.",
         "Back in 2013, I launched the original InsideGov at Graphiq before Amazon acquired us in 2017. If we crossed paths back then, you’ll likely recognize the name.",
-        "Bringing it back is a labor of love. Good to see you here.",
+        "Bringing it back is a labor of love. It’s good to see you here.",
       ],
       sign: `${site} · link in bio`,
     },
