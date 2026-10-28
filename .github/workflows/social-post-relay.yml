@@ -1,0 +1,69 @@
+name: Social post relay
+
+# GitHub's cron is best-effort: this repo's scheduled runs start a few times a day (the hourly news watcher fires every
+# 5-7 hours), and social-post.yml's every-15-minutes cron skipped a whole morning window. A run that someone starts by
+# hand or from another workflow with GITHUB_TOKEN is not best-effort: workflow_dispatch fires at once. So this relay is
+# the clock. It runs for just under six hours, and during the posting windows (weekdays, 9:00 a.m.-5:00 p.m. Pacific)
+# it starts a social-post.yml run every RELAY_TICK_MINUTES while an approved draft is waiting, then starts the next
+# relay and ends. Two things keep the chain from ever lapsing for long:
+#   - the hourly cron below (and a push to this file) start a relay when none is running; one already running makes
+#     the new one wait (concurrency), and a second waiting one replaces the first, so they never pile up;
+#   - the next relay is started by the one before it, so cron is only the safety net, not the clock.
+# social-post.yml still decides what posts (slot, caps, freshness); the relay only makes sure it gets run. It costs
+# nothing while no draft is waiting beyond an idle runner (public repo: no minutes charged), and stops by itself when
+# the repo variable SOCIAL_POSTING_ENABLED is not "true" (the job's `if`, checked each time a relay starts).
+
+on:
+  schedule:
+    - cron: "27 * * * *"
+  push:
+    branches: [main]
+    paths: [".github/workflows/social-post-relay.yml"]
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+  issues: read
+
+concurrency:
+  group: social-post-relay
+  cancel-in-progress: false
+
+env:
+  RELAY_TICK_MINUTES: 8
+  RELAY_RUN_MINUTES: 345
+
+jobs:
+  relay:
+    if: vars.SOCIAL_POSTING_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - name: Start social-post.yml while a draft is waiting in a window
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          end=$((SECONDS + RELAY_RUN_MINUTES * 60))
+          while [ "$SECONDS" -lt "$end" ]; do
+            # Weekdays, 9:00 a.m. up to 5:00 p.m. Pacific (the two windows in pipeline/insights/schedule.ts SLOTS).
+            day=$(TZ=America/Los_Angeles date +%u)
+            hour=$(TZ=America/Los_Angeles date +%-H)
+            if [ "$day" -le 5 ] && [ "$hour" -ge 9 ] && [ "$hour" -lt 17 ]; then
+              waiting=$(gh issue list --state open --label social-approved --json number --jq length || echo 0)
+              if [ "$waiting" -gt 0 ]; then
+                echo "$(date -u +%H:%M)Z $waiting approved draft(s) waiting: starting social-post.yml"
+                gh workflow run social-post.yml -f slot=auto -f dry_run=false || echo "dispatch failed; trying again next tick"
+              fi
+            fi
+            sleep $((RELAY_TICK_MINUTES * 60))
+          done
+
+      # The next relay waits in the concurrency group until this job ends a few seconds later.
+      - name: Start the next relay
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run social-post-relay.yml

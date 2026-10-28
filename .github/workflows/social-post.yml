@@ -8,6 +8,8 @@ name: Social post (scheduled, disabled)
 #     loaded) across both windows in either daylight-saving season, and post-next.ts --slot auto exits outside them.
 #     Approving a draft (label `social-approved`) also starts a run, so a draft approved inside a window posts within
 #     minutes instead of waiting for a cron run that may never start; approved outside a window, that run exits;
+#   - social-post-relay.yml starts a run here every few minutes inside the windows while a draft is waiting, because
+#     GitHub's cron skips whole windows (it is the real clock; the cron below is a backup);
 #   - at most 2 a day, 8 in any 7 days, 3 hours apart, a topic at most twice a week;
 #   - the intro thread first; nothing past its freshness window (freshness.ts).
 #
