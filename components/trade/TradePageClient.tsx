@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
-import type { TradePageData } from "@/lib/trade-data";
+import type { StoryCountryRates, TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
 import { ALL_PRODUCTS, type ProductPartnersPayload, type TradeProductsPayload } from "@/lib/trade-products";
 import { PRODUCT_USE_START_YEAR } from "@/lib/trade-product-use-entities";
@@ -31,15 +31,15 @@ import { useUrlState } from "@/lib/use-url-state";
 const MEASURE_PARAM = enumParam(["balance", "flows"] as const, "balance");
 
 /** `faqFile` is `faq_trade.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
-export function TradePageClient({ data, faqFile, newsFile }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
+export function TradePageClient({ data, faqFile, newsFile, storyRates }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null; storyRates: StoryCountryRates }) {
   return (
     <TradeStateProvider lastYear={data.lastYear}>
-      <TradePage data={data} faqFile={faqFile} newsFile={newsFile} />
+      <TradePage data={data} faqFile={faqFile} newsFile={newsFile} storyRates={storyRates} />
     </TradeStateProvider>
   );
 }
 
-function TradePage({ data, faqFile, newsFile }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
+function TradePage({ data, faqFile, newsFile, storyRates }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null; storyRates: StoryCountryRates }) {
   const v = useTradeValues();
   const { setRange, clearPin, setCountry, setShowCong, setYear, setMeasure } = useTradeActions();
   const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products, enduse } = data;
@@ -47,7 +47,7 @@ function TradePage({ data, faqFile, newsFile }: { data: TradePageData; faqFile: 
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
   const faq = useMemo(() => tradeFaq(faqFile), [faqFile]);
-  const news = useMemo(() => tradeNews(newsFile), [newsFile]);
+  const news = useMemo(() => tradeNews(newsFile, data.national, storyRates, setCountry), [newsFile, data.national, storyRates, setCountry]);
   const { focus, jump } = useChartJump(news, faq);
   const [years, setYears] = useState<Record<number, TradeYearPayload>>({ [initialYear.year]: initialYear });
   const [yearFailed, setYearFailed] = useState<number | null>(null);

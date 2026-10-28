@@ -80,6 +80,13 @@ export const OUTLETS: Outlet[] = [
     feeds: ["https://www.cbsnews.com/latest/rss/politics", "https://www.cbsnews.com/latest/rss/moneywatch", "https://www.cbsnews.com/latest/rss/us"],
     opinionUrl: /\/(face-the-nation|60-minutes|essentials)\//i,
   },
+  // AllSides rates both Lean Left (read 2026-10-28; Politico's editorial review kept Lean Left over a Center blind survey). Both carry the trade-policy beat the older roster missed (Canada talks, tariff lists).
+  {
+    id: "politico", name: "Politico", lean: "Lean Left",
+    feeds: ["https://rss.politico.com/politics-news.xml", "https://rss.politico.com/economy.xml"],
+    opinionUrl: /\/(magazine|playbook|inside-congress|politico-pro|podcasts?)\//i,
+  },
+  { id: "axios", name: "Axios", lean: "Lean Left", feeds: ["https://api.axios.com/feed/"] },
   { id: "apnews", name: "Associated Press", lean: "Lean Left", reserve: true, feeds: ["https://flipboard.com/@associatedpress/top-stories-u7govdf1z.rss"] },
   {
     id: "abcnews", name: "ABC News", lean: "Lean Left", reserve: true,
