@@ -1,4 +1,6 @@
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { detectEventTermComparison, detectSeries } from "./detect";
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
@@ -123,8 +125,13 @@ describe("renderers", () => {
   it("refuses a draft whose title breaks the rule", async () => {
     const s = loadDataset("gas").series.find((x) => x.id === "economy.inflation")!;
     const good = seriesContext(s, { years: 10, peak: true, lead: "X is in the news.", id: "n:bad" })!;
-    const { drafts, dropped } = await buildDrafts([{ ...good, title: "The monthly change in U.S. nonfarm payroll employment" }], { outDir: "/private/tmp/claude-501/title-guard", useLlm: false, log: () => {} });
-    expect(drafts).toEqual([]);
-    expect(dropped[0]).toMatch(/breaks the title rule.*nonfarm/);
+    const outDir = mkdtempSync(join(tmpdir(), "title-guard-"));
+    try {
+      const { drafts, dropped } = await buildDrafts([{ ...good, title: "The monthly change in U.S. nonfarm payroll employment" }], { outDir, useLlm: false, log: () => {} });
+      expect(drafts).toEqual([]);
+      expect(dropped[0]).toMatch(/breaks the title rule.*nonfarm/);
+    } finally {
+      rmSync(outDir, { recursive: true, force: true });
+    }
   });
 });
