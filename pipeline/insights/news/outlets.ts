@@ -63,7 +63,7 @@ export const OUTLETS: Outlet[] = [
     id: "huffpost", name: "HuffPost", lean: "Left", needsCheck: true,
     feeds: ["https://chaski.huffpost.com/us/auto/vertical/politics", "https://chaski.huffpost.com/us/auto/vertical/us-news"],
   },
-  { id: "guardian", name: "The Guardian", lean: "Left", feeds: ["https://www.theguardian.com/us-news/us-politics/rss"] },
+  { id: "guardian", name: "The Guardian", lean: "Left", feeds: ["https://www.theguardian.com/us-news/us-politics/rss", "https://www.theguardian.com/us-news/us-news/rss", "https://www.theguardian.com/environment/national-parks/rss"] },
   // Lean Left
   {
     id: "nytimes", name: "New York Times", lean: "Lean Left",
