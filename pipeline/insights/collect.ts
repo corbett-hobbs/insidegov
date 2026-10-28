@@ -9,9 +9,9 @@ import type { Administration, EventSet, Insight, Series } from "./types";
  */
 
 /** Monthly totals of an event set: laws cluster at session ends, so months compare with the same calendar month. */
-const EVENT_MONTHLY: Record<string, { name: string; seasonal: boolean; words: Series["words"] }> = {
-  executive_orders: { name: "executive orders signed", seasonal: false, words: { high: "most", low: "fewest", up: "rose", down: "fell" } },
-  laws: { name: "public laws enacted", seasonal: true, words: { high: "most", low: "fewest", up: "rose", down: "fell" } },
+const EVENT_MONTHLY: Record<string, { name: string; title: string; seasonal: boolean; words: Series["words"] }> = {
+  executive_orders: { name: "executive orders signed", title: "Executive orders signed each month", seasonal: false, words: { high: "most", low: "fewest", up: "rose", down: "fell" } },
+  laws: { name: "public laws enacted", title: "Laws passed", seasonal: true, words: { high: "most", low: "fewest", up: "rose", down: "fell" } },
 };
 
 /** The last day of the month before `date`'s month. */
@@ -42,6 +42,8 @@ function withoutRedundantLatest(insights: Insight[]): Insight[] {
 
 /** Insights at each date: the series cut at that date, so each reads as "when this period was the newest". */
 export function seriesInsightsAt(series: Series, admins: Administration[], dates: string[]): Insight[] {
+  // A news-only series (types.ts Series.newsOnly) posts only when the news is about it: nothing from a data refresh.
+  if (series.newsOnly) return [];
   return dates.flatMap((d) => {
     const cut = truncate(series, d);
     if (cut.points.at(-1)?.date !== d) return [];
@@ -62,6 +64,7 @@ export function eventInsightsAt(set: EventSet, admins: Administration[], monthEn
     if (monthly) {
       const series = eventMonthlySeries(cut, addDays(end, 1), {
         id: `${set.id}.monthly`,
+        title: monthly.title,
         name: `the number of ${monthly.name}`,
         seasonal: monthly.seasonal,
         weight: set.weight,

@@ -9,7 +9,7 @@ import type { Headline, Series } from "../types";
 import { CellIndex, verifyInsight } from "../verify";
 import { seriesContext, tariffContext } from "./charts";
 import { decodeEntities, parseRss } from "./feeds";
-import { NEWS_LOOKBACK_HOURS, NEWS_RECHECK_HOURS, countriesIn, findStories, inCooldown, newsId, parseNewsId, partnersFor, pruneState, recentlyRejected } from "./match";
+import { CHECK_KEEP_HOURS, countriesIn, inCooldown, newsId, parseNewsId, partnersFor, pruneState } from "./match";
 import { COUNTRY_ALIASES, NEWS_TOPICS } from "./topics";
 
 const NOW = "2026-10-22T18:00:00.000Z";
@@ -64,50 +64,15 @@ describe("matching headlines to stories", () => {
     expect(countriesIn("A china shop owner on tariffs", PARTNERS)).toEqual([]);
   });
 
-  it("needs two publishers, or one official document", () => {
-    const one = findStories([head("Diesel prices jump", "Reuters")], NEWS_TOPICS, PARTNERS, NOW);
-    expect(one).toEqual([]);
-    const two = findStories([head("Diesel prices jump", "Reuters"), head("Diesel deal announced", "AP")], NEWS_TOPICS, PARTNERS, NOW);
-    expect(two.map((s) => s.key)).toEqual(["diesel"]);
-    const official = findStories([head("Adjusting Imports of Steel Into the United States", "The White House", { feed: "whitehouse" })], NEWS_TOPICS, PARTNERS, NOW);
-    expect(official.map((s) => [s.key, s.official])).toEqual([["tariff.all", true]]);
-  });
-
-  it("ignores old headlines and excluded senses of a word", () => {
-    const old = findStories([head("Diesel prices jump", "Reuters", { published: hoursAgo(NEWS_LOOKBACK_HOURS + 1) }), head("Diesel deal", "AP")], NEWS_TOPICS, PARTNERS, NOW);
-    expect(old).toEqual([]);
-    const utility = findStories([head("Regulators delay electricity tariff case", "KATV"), head("Water tariff increase opposed", "Weekly")], NEWS_TOPICS, PARTNERS, NOW);
-    expect(utility).toEqual([]);
-  });
-
-  it("makes a one-partner tariff story that partner's, and ranks it ahead of tariffs in general", () => {
-    const stories = findStories(
-      [
-        head("U.S. raises tariffs on Canada", "Reuters"),
-        head("Canadian officials respond to tariff hike", "CBC"),
-        ...["A", "B", "C", "D", "E", "F"].map((s) => head(`How tariffs reshape trade, part ${s}`, s)),
-        head("Tariffs on Canada and Mexico", "Bloomberg"),
-      ],
-      NEWS_TOPICS,
-      PARTNERS,
-      NOW,
-    );
-    expect(stories.map((s) => s.key)).toEqual(["tariff.CAN", "tariff.all"]);
-    expect(stories[0]!.country).toEqual({ code: "CAN", name: "Canada" });
-    // The two-partner headline counts toward the all-countries story, not either partner's.
-    expect(stories[1]!.headlines.some((h) => h.title.includes("Canada and Mexico"))).toBe(true);
-  });
-
-  it("drafts a topic at most once in the cooldown, and remembers turned-down stories for a few hours", () => {
+  it("drafts a topic at most once in the cooldown, and remembers the check's answers for two days", () => {
     expect(parseNewsId(newsId("tariff.CAN", "2026-10-20"))).toEqual({ key: "tariff.CAN", day: "2026-10-20" });
     expect(inCooldown("tariff.CAN", [newsId("tariff.CAN", "2026-10-20")], "2026-10-22")).toBe(true);
     expect(inCooldown("tariff.CAN", [newsId("tariff.CAN", "2026-10-19")], "2026-10-22")).toBe(false);
     expect(inCooldown("tariff.CAN", [newsId("tariff.MEX", "2026-10-22")], "2026-10-22")).toBe(false);
-    const state = { rejected: { diesel: { at: hoursAgo(1), official: false, reason: "a recall" } } };
-    expect(recentlyRejected({ key: "diesel", official: false }, state, NOW)).toBe(true);
-    expect(recentlyRejected({ key: "diesel", official: true }, state, NOW)).toBe(false);
-    expect(recentlyRejected({ key: "diesel", official: false }, state, new Date(Date.parse(NOW) + NEWS_RECHECK_HOURS * 3_600_000).toISOString())).toBe(false);
-    expect(pruneState(state, new Date(Date.parse(NOW) + NEWS_RECHECK_HOURS * 3_600_000).toISOString())).toEqual({ rejected: {} });
+    const state = { dispatched: {}, checks: { a: { at: hoursAgo(1), keep: [], reason: "x", chart: "" }, b: { at: hoursAgo(CHECK_KEEP_HOURS + 1), keep: [], reason: "x", chart: "" } } };
+    const full = { ...state, dispatched: { "trade-freshness.yml": { release: "https://x/1", since: hoursAgo(2), at: hoursAgo(1), count: 2 }, "energy-freshness.yml": { release: "https://x/2", since: hoursAgo(CHECK_KEEP_HOURS + 1), at: hoursAgo(CHECK_KEEP_HOURS + 1), count: 1 } } };
+    expect(Object.keys(pruneState(full, NOW).checks)).toEqual(["a"]);
+    expect(Object.keys(pruneState(full, NOW).dispatched)).toEqual(["trade-freshness.yml"]);
   });
 });
 
@@ -139,7 +104,7 @@ describe("news charts", () => {
     const make = (values: number[]) => {
       const rows = values.map((value, i) => ({ series_id: "T", date: addMonths("2016-01-01", i), value }));
       const series: Series = {
-        id: "t", dataset: "gas", name: "the test price", axisLabel: "dollars", unit: { scale: 1, decimals: 2, prefix: "$", suffix: "" },
+        id: "t", dataset: "gas", title: "Test prices", name: "the test price", axisLabel: "dollars", unit: { scale: 1, decimals: 2, prefix: "$", suffix: "" },
         frequency: "monthly", seasonal: false, kind: "level", moveMode: "pct", url: "/x", source: "Test", weight: 1, releaseLagDays: 1,
         points: rows.map((r) => ({ date: r.date, value: r.value, cells: [{ file, key: { series_id: "T", date: r.date }, field: "value" }] })),
       };
@@ -236,5 +201,30 @@ describe("the news lane", () => {
     // A news post minutes before the slot holds it back.
     const justNow: Posted[] = [{ dataset: "gas", kind: "news", postedAt: new Date(Date.parse(at) - 10 * 60_000).toISOString() }];
     expect(pickNext([data("d")], justNow, at, "morning").post).toBeNull();
+  });
+
+  it("stands a data slot down while an approved news draft is waiting, unless the news lane is full for the day", () => {
+    const at = "2026-10-22T16:00:00.000Z";
+    const waiting = pickNext([data("d"), news({ key: "n" })], [], at, "morning");
+    expect(waiting.post).toBeNull();
+    expect(waiting.reason).toMatch(/news posts first/);
+    // Two news posts today: the news lane has no room, so the data post is not held for it.
+    const full: Posted[] = Array.from({ length: NEWS_MAX_PER_DAY }, (_, i) => ({ dataset: `t${i}`, kind: "news", postedAt: new Date(Date.parse(at) - (4 + i) * 3_600_000).toISOString() }));
+    expect(pickNext([data("d"), news({ key: "n" })], full, at, "morning").post?.key).toBe("d");
+    // An expired news draft holds nothing back.
+    expect(pickNext([data("d"), news({ key: "n", expiresAt: hoursAgo(5) })], [], at, "morning").post?.key).toBe("d");
+  });
+
+  it("expires a data draft for a series a news post just charted, but not one with newer data", () => {
+    const at = "2026-10-22T16:00:00.000Z";
+    const charted: Posted[] = [{ dataset: "energy", kind: "news", seriesId: "s.d", period: "2026-09-01", postedAt: new Date(Date.parse(at) - 30 * 3_600_000).toISOString() }];
+    const same = pickNext([data("d")], charted, at, "morning");
+    expect(same.post).toBeNull();
+    expect(same.covered?.map((q) => q.key)).toEqual(["d"]);
+    expect(same.superseded.map((q) => q.key)).toEqual(["d"]);
+    // The release the news chart did not have yet is new information.
+    expect(pickNext([{ ...data("d"), period: "2026-10-01" }], charted, at, "morning").post?.key).toBe("d");
+    // A news post from long ago covers nothing.
+    expect(pickNext([data("d")], [{ ...charted[0]!, postedAt: new Date(Date.parse(at) - 5 * 24 * 3_600_000).toISOString() }], at, "morning").post?.key).toBe("d");
   });
 });

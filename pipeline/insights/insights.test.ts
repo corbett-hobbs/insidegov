@@ -26,6 +26,7 @@ function monthly(values: number[], over: Partial<Series> = {}, start = "2000-01-
   const series: Series = {
     id: "test.series",
     dataset: "energy",
+    title: "Test output",
     name: "test output",
     axisLabel: "units",
     unit: { scale: 1, decimals: 1, suffix: " units" },
@@ -176,7 +177,7 @@ describe("term comparisons", () => {
       rows.push({ id: ++n });
       events.push({ date, cell: { file: FILE, key: { id: n }, field: "__row" } });
     }
-    const set: EventSet = { id: "eo", dataset: "executive_orders", name: "executive orders", verb: "signed", events, coverageStart: "2005-01-01", url: "/x", source: "Federal Register", weight: 1 };
+    const set: EventSet = { id: "eo", dataset: "executive_orders", name: "executive orders", title: "Executive orders signed", verb: "signed", events, coverageStart: "2005-01-01", url: "/x", source: "Federal Register", weight: 1 };
     const [ins] = detectEventTermComparison(set, ADMINS, "2025-04-30");
     // 100 days in: Feb 21, Mar 21, Apr 21 (Jan 21 too) of each term = 4; Bush 2001 left out.
     expect(ins?.chart.type === "bars" && ins.chart.bars.map((b) => [b.label, b.value])).toEqual([
@@ -288,7 +289,7 @@ describe("collect", () => {
   });
 
   it("produces event insights at month ends", () => {
-    const set: EventSet = { id: "laws", dataset: "laws", name: "public laws", verb: "enacted", events: [], coverageStart: "1973-01-03", url: "/congress/laws", source: "Congress.gov", weight: 1 };
+    const set: EventSet = { id: "laws", dataset: "laws", name: "public laws", title: "Laws passed", verb: "enacted", events: [], coverageStart: "1973-01-03", url: "/congress/laws", source: "Congress.gov", weight: 1 };
     expect(eventInsightsAt(set, ADMINS, ["2026-09-30"]).map((i) => i.kind)).toEqual(["term_comparison"]);
   });
 });
@@ -303,6 +304,7 @@ describe("issue and poster", () => {
     kind: ins.kind,
     period: ins.period,
     headline: ins.headline,
+    title: ins.title,
     caption: ins.template,
     caption_source: "template",
     caption_model: null,

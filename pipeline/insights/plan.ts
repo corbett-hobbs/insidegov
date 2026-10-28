@@ -47,7 +47,7 @@ for (const d of DATASETS) {
   for (const s of series) {
     const dates = s.points.filter((p) => p.date >= addMonths(today, -6)).map((p) => p.date);
     ready.push(...seriesInsightsAt(s, admins, dates));
-    if (!s.headline || !s.points.length) continue;
+    if (!s.headline || s.newsOnly || !s.points.length) continue;
     // The next periods after the newest one, while their expected release falls inside the plan.
     for (let i = 1, period = nextPeriod(s, s.points.at(-1)!.date); i <= 60; i++, period = nextPeriod(s, period)) {
       const releasedOn = estimateRelease(s.frequency, period, s.releaseLagDays);

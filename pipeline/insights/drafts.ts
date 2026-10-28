@@ -5,6 +5,7 @@ import { claudeCaption, templateCaption } from "./caption";
 import { renderCarousel } from "./carousel";
 import { researchWhy } from "./research";
 import { SITE_URL, renderChart } from "./chart";
+import { axisProblems, titleProblems } from "./title";
 import type { Insight, NewsTrigger, Release, Why } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
 
@@ -24,6 +25,8 @@ export type Draft = {
   kind: Insight["kind"];
   period: string;
   headline: string;
+  /** The title drawn on the chart (title.ts). */
+  title: string;
   caption: string;
   caption_source: "claude" | "template";
   caption_model: string | null;
@@ -67,6 +70,12 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
   async function worker() {
     while (next < insights.length) {
       let insight = insights[next++]!;
+      // The chart's title and axis label follow the standing rule (title.ts): plain words, method in the data note.
+      const titleErrors = [...titleProblems(insight.title), ...(insight.chart.axisLabel ? axisProblems(insight.chart.axisLabel) : [])];
+      if (titleErrors.length) {
+        dropped.push(`${insight.id}: chart text breaks the title rule (${titleErrors.join("; ")})`);
+        continue;
+      }
       const factErrors = verifyInsight(insight, index);
       if (factErrors.length) {
         dropped.push(`${insight.id}: facts do not trace to the data (${factErrors.join("; ")})`);
@@ -99,6 +108,7 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         kind: insight.kind,
         period: insight.period,
         headline: insight.headline,
+        title: insight.title,
         caption: result.caption,
         caption_source: result.source,
         caption_model: result.model ?? null,

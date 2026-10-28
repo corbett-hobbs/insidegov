@@ -2,10 +2,12 @@
 
 Turns new government data into social posts: one chart image, a one- or two-sentence caption, a link to the page,
 and a 4:5 Instagram carousel posted by hand.
-Because the content is political, **a person approves every post**. Posts follow the data: something is posted because
-data just came out, at a steady pace, never in bursts, **or because a topic the site has data on is in the news**
+Because the content is political, **a person approves every post**. Two things start a post: monthly data just came out
+(one summary post per release, at a steady pace, never in bursts), **or a topic the site has data on is in the news**
 (see "News drafts" below): a chart of diesel prices when diesel is in the headlines, the tariff rate collected on
-Canada when tariffs on Canada are. Bluesky and X are supported; both are off until set up.
+Canada when tariffs on Canada are. **News comes first**: a news post goes out ahead of a waiting data post, and weekly
+series (gas, diesel, the Strategic Petroleum Reserve) and the single electricity sources post *only* when the news is
+about them. Bluesky and X are supported; both are off until set up.
 
 ```
 data refresh (a freshness workflow)                         release day = the day the workflow sees the data
@@ -22,13 +24,15 @@ you: label `social-approved` (queues it) or close (rejects it)
 
 headlines, hourly (.github/workflows/social-news.yml)
   └─ .github/actions/social-drafts (news: true)
-       news/watch.ts      read the feeds                                 news/feeds.ts
-                          find topics in the news (2+ publishers)        news/match.ts, news/topics.ts
-                          is it a real, current story?  (Claude API)     news/classify.ts
-                          context chart from data the site has           news/charts.ts
+       news/watch.ts      the page cards' story detector (news/cards.ts): the outlets' feeds,
+                          one topic per headline, a story over a few days  news/topics.ts PAGE_TOPICS
+                          one development, 2+ outlets, a chart  (Claude)   news/classify.ts
+                          which stories get a chart the site can post      news/social.ts
+                          context chart from data the site has             news/charts.ts
                           verify, caption, render: as above
        open-issues.ts     `social-draft` + `social-news` issue, one email
 you: label `social-approved`  →  posts within minutes (no slot)        post-next.ts --slot news → schedule.ts pickNews
+                              a data slot stands down while a news draft waits
 ```
 
 ## What becomes a post
@@ -40,7 +44,16 @@ Detectors (`detect.ts`, pure, tested) look only at the **newest** observation of
 | New high / low | Highest (lowest) since a value at least that extreme, at least 3 years earlier; or beyond everything in at least 5 years of data ("in data going back to …", never "record"). Seasonal series (electricity, gas production, LNG, laws by month) compare like months. Records in a steadily growing series (solar) are scored down. |
 | Biggest move | The newest one-period change (week, month, fiscal year; year over year for seasonal series) is the largest in its direction in 3 years, and at least 1%. |
 | Same point in term | The current presidential term against every earlier term at the same elapsed time. **Quarterly** (March, June, September, December data), not every refresh. Needs at least three terms; the caption names all earlier terms or none; terms are never coloured by party. |
-| Latest reading | The routine post for each dataset's headline series (gas price, crude output, electricity, trade deficit, southwest border encounters, executive orders and laws per month): the newest value, its change on the period and on the year. Only when the same refresh produced nothing notable for that series, so every update has something to post but nothing posts twice. |
+| Latest reading | The routine post for each dataset's headline series (crude output, total electricity generation, trade deficit, southwest border encounters, executive orders and laws per month): the newest value, its change on the period and on the year. Only when the same refresh produced nothing notable for that series, so every update has something to post but nothing posts twice. |
+
+**News-only series** (`newsOnly` in `datasets.ts`, `Series.newsOnly`) get none of these. They post only when the news is
+about them (the news lane charts them like any other):
+
+| Series | Why |
+| --- | --- |
+| Weekly: gas and diesel prices, the Strategic Petroleum Reserve, the 30-year mortgage rate | A new reading every week is not news; a story about gas prices is. |
+| Single electricity sources: coal, natural gas, nuclear, wind, solar | One release would otherwise give a "record" post for each source. The release gets **one** post, for total generation, and its "What drove it" slide shows each source's change. A source posts alone only when a story is about it. |
+| The Economy page's cards: mortgage rate, unemployment, inflation, jobs added, GDP growth, real hourly earnings, household income, the deficit, the debt | Their releases (jobs report, CPI, GDP) are always in the news the same day, so the news lane covers them. Each is computed as its card computes it (`economy.ts`, using the page's `lib/indicator-derive.ts`; deficit and debt merge Treasury's newer figures as the page does), so a post and its card agree. |
 
 ## Freshness: posts follow releases
 
@@ -66,6 +79,7 @@ two weekday slots and posts at most one draft per slot a day:
 | Caps | 2 a day, 8 in any 7 days, at least 3 hours apart. |
 | Topic mix | A topic (energy, gas, trade, encounters, ICE, executive orders, laws) posts at most twice in 7 days, and one that posted in the last 36 hours waits if anything else is ready. |
 | Order | The intro thread first. Then notability × urgency (closer to going stale = sooner) × rotation (topics not seen for a while first). |
+| News first | A slot stands down while an approved, fresh news draft is waiting and the news lane has room today (it posts within minutes; the data post follows in the same window, 45 minutes later). A data draft for a series a news post charted in the last 3 days, on that period or a later one, is expired as covered (the news chart shows the same newest figure); a newer period still posts. |
 
 **The plan from tomorrow**: `pnpm insights:plan` writes `social-drafts/plan.md`, slot by slot for the next 28 days,
 from the drafts already out and still fresh plus every upcoming release (estimated from each source's usual lag) that
@@ -80,9 +94,9 @@ When each source publishes, which workflow picks it up, and what usually posts:
 
 | Data | Published | Picked up by | Typical posts |
 | --- | --- | --- | --- |
-| Gas and diesel prices (EIA via FRED) | weekly, Monday's survey out Monday afternoon | `indicators-freshness` (Mondays 11:43 UTC, so it posts the previous week's price) | latest reading weekly; new highs/lows and big weekly moves |
-| Strategic Petroleum Reserve (EIA WPSR) | weekly, Wednesdays | `energy-freshness` (Tuesdays) | lows, big weekly draws |
-| EIA monthly energy (oil output and trade, natural gas, LNG, electricity by source) | monthly, late in the month, 2–3 months back | `energy-freshness` | highs/lows for the month, usually with the "newly released" label |
+| Gas and diesel prices (EIA via FRED) | weekly, Monday's survey out Monday afternoon | `indicators-freshness` (Mondays 11:43 UTC) | nothing: news-only (posts when gas or diesel is in the news) |
+| Strategic Petroleum Reserve (EIA WPSR) | weekly, Wednesdays | `energy-freshness` (Tuesdays) | nothing: news-only |
+| EIA monthly energy (oil output and trade, natural gas, LNG, total electricity generation) | monthly, late in the month, 2–3 months back | `energy-freshness` | highs/lows for the month, usually with the "newly released" label; one electricity post for total generation, not one per source |
 | Goods trade (Census) | monthly, about 5 weeks after the month | `trade-freshness` (Wednesdays) | deficit reading or a high/low; term comparison quarterly |
 | CBP border encounters | monthly, mid-month; fiscal year in October | `encounters-freshness` (Wednesdays) | monthly reading or a high/low; fiscal-year totals |
 | Executive orders, laws | continuously | `executive-orders-freshness`, `laws-freshness` (Mondays) | after each month: the month's count (or a new high); quarterly term comparison |
@@ -90,23 +104,45 @@ When each source publishes, which workflow picks it up, and what usually posts:
 
 ## News drafts: posting when a topic is in the news
 
-`news/`. The data calendar decides most posts, but a chart is most useful the day its topic is in the news: tariffs on
-Canada announced, a diesel deal with Russia. The news watcher listens for that and drafts a **context chart** from
-data the site already has. It does not report the news, it gives it background.
+`news/`. News is the stronger signal, so it leads: a chart is most useful the day its topic is in the news (tariffs on
+Canada announced, a diesel deal with Russia, a tanker of Venezuelan crude in Texas). The news watcher listens for that
+and drafts a **context chart** from data the site already has. It does not report the news, it gives it background.
 
-**Topics** (`news/topics.ts`, `NEWS_TOPICS`): only topics the site can chart. Add one there (title pattern, chart, lead).
+**One story detector for the pages and the posts.** The watcher runs the same logic as the pages' "In the news" cards
+(`news/cards.ts`, described under "In the news on the pages" below): the outlets' own feeds, one topic per headline, a
+story over a few days, the Claude check that keeps only the headlines that are straight news of one development, the
+chart pick for a story the page has no chart for, and the two-outlet rule. `news/social.ts` then decides which stories
+become drafts. Hourly, so a story is drafted within an hour of its second outlet running it.
 
-| Topic | Headline mentions | Chart |
-| --- | --- | --- |
-| Tariffs | "tariff(s)" (not utility rates); a big trade partner by name or demonym | the tariff rate collected on that partner against all countries, monthly, 10 years (or all countries alone) |
-| Diesel | "diesel" | weekly diesel price, 10 years, with its high |
-| Gas prices | "gas prices", "price of gasoline", "at the pump" | weekly regular gasoline price, 10 years, with its high |
-| SPR | "Strategic Petroleum Reserve" | weekly SPR level, 15 years, with its high |
-| Oil production | "U.S. oil production/output" | monthly crude production, 10 years, with its high |
-| LNG | "LNG", "liquefied natural gas" | monthly LNG exports, same month each year (the July peak for July data) |
-| Trade deficit | "trade deficit/gap/balance" | monthly goods deficit, 10 years, with its high |
-| Border | "border crossings/encounters/apprehensions" | monthly southwest border encounters, 10 years, with its high |
-| Deportations | "deportation(s)", "deported" | ICE removals by fiscal year |
+**What becomes a draft** (`news/social.ts`, tested in `social.test.ts`):
+
+| Rule | Value |
+| --- | --- |
+| Outlets | at least 2 (the cards' rule), after the check; the issue lists who covered it, left to right |
+| Recency | the story's first kept headline is from the last **24 hours** (`NEWS_STORY_MAX_AGE_HOURS`) |
+| A chart | the site has a series for the story (below); a story with none is not drafted (the pages' cards still show it) |
+| One per chart | one story per chart in a run; a tariff story naming one partner wins over tariffs in general |
+| Volume | at most **2 drafts a run**; the same topic (and partner) at most once in **3 days** (`NEWS_COOLDOWN_DAYS`) |
+| Check | the Claude API (`SOCIAL_NEWS_MODEL`, effort `SOCIAL_NEWS_EFFORT`) keeps the same-development headlines, as for the cards. Its answers are saved by the story's set of URLs for 48 hours (`news/state.json` on the `social-drafts` branch), so an unchanged story is not asked about every hour. Without a key, the word rules (shared detail words between outlets) stand alone and outlets that need the check are left out. |
+
+**Which chart a story gets** (`news/social.ts`; topics in `news/topics.ts`):
+
+| Story about | Chart |
+| --- | --- |
+| Tariffs (a partner by name or demonym, else all countries) | the tariff rate collected on that partner against all countries, monthly, 10 years |
+| Diesel, gas prices | weekly diesel / regular gasoline price, 10 years, with its high |
+| The Strategic Petroleum Reserve | weekly SPR level, 15 years |
+| U.S. oil production, LNG, the trade deficit, border encounters, deportations | the matching series (monthly; ICE removals by fiscal year) |
+| Venezuelan oil | total U.S. petroleum imports. The chart says "All countries, not Venezuela alone" and the caption writer is told not to suggest otherwise |
+| Electricity (prices, demand, data centers) | total electricity generation |
+| Nuclear, coal, solar or wind power | that one source's generation, when most headlines name one source; a mixed story ("renewables", two sources equally) has no single chart |
+| Inflation, the jobs report, unemployment, GDP, wages, household income, mortgage rates, the deficit, the national debt | the Economy card's own measure (`economy.*` series, `economy.ts`): inflation as the year-over-year rate, jobs as the monthly change (5 years, against a year earlier), real hourly earnings in latest-month dollars, deficit and debt in dollars. Rates change in "percentage points"; quarters read "Q2 2026". Jobs and debt read against a year earlier because their peak means little |
+| A story the page has no chart for | the chart the Claude check picks from the page's postable charts, if one directly measures it (the oil card is never offered: it shows imports and exports) |
+
+Green cards, refugees and the misery index are not chartable here yet (the first two live in the immigration files with
+different shapes, the last is a blend no story names). Their stories still appear on the pages' cards. Derived values
+(a rate computed from an index) cite the cell they are read at plus how they are derived (`CellRef.derive` in
+`types.ts`), so `verify.ts` re-runs them from the rows; Treasury's figures are cited as `treasury_fiscal.json#debt`.
 
 **The comparison point** is the peak in the chart's window, and how far back that peak stands in all the data
 ("down from a peak of $6.53 a gallon in September 2026, the highest in data going back to 1994"; for a country's
@@ -114,37 +150,45 @@ tariff rate, "The peak for Canada was 3.8% in September 2025", so it cannot be r
 earlier is the fallback, when the latest value is itself the peak ("up 19% from a year earlier, the highest July in
 data going back to 1997"). Clauses are dropped from the end until the caption fits 240 characters.
 
-**Feeds** (`news/feeds.ts`, `news/outlets.ts`), plain RSS, no keys: the White House's presidential actions feed
-(official, public domain: proclamations and executive orders, such as tariff changes) and the news outlets' own feeds
-(the roster under "In the news on the pages" below; the end reserves are not read here), opinion filtered out. Set the
-repo variable `SOCIAL_NEWS_SOURCES=whitehouse` to use the official feed only (`outlets` for the outlets only; the old
-value `google` means `outlets`). Google News searches were used before (its feed terms limit it to personal,
-non-commercial use) and GDELT's free API before that (it rate-limits GitHub's shared runners).
-
-**What counts as a story** (`news/match.ts`, tested):
-
-| Rule | Value |
-| --- | --- |
-| Recency | headlines from the last **6 hours** (`NEWS_LOOKBACK_HOURS`) |
-| Corroboration | **2+ different outlets** (`NEWS_MIN_SOURCES`), or one official White House document |
-| Tariffs | a headline naming exactly one trade partner importing $2B+ a year is that partner's story; none or several, the all-countries story, which ranks after any partner's |
-| Relevance | with `ANTHROPIC_API_KEY`, the Claude API (`claude-haiku-5-5`, effort `low`; `SOCIAL_NEWS_MODEL` / `SOCIAL_NEWS_EFFORT`) answers yes or no: a current, national development with the topic central, not opinion, local or company news. A "no" is remembered for **6 hours** (`news/state.json` on the `social-drafts` branch) so the same story is not asked about every run. Without a key, the keyword and publisher rules stand alone. |
-| Volume | at most **2 drafts a run**, one per topic; the same topic (and partner) at most once in **3 days** (`NEWS_COOLDOWN_DAYS`) |
+**Feeds** (`news/feeds.ts`, `news/outlets.ts`): the news outlets' own RSS feeds, opinion filtered out (the roster under
+"In the news on the pages" below; the end reserves are not read here). The White House's presidential actions feed is no
+longer a trigger on its own: an official document used to draft a story before any outlet ran it, now the two-outlet rule
+applies like everywhere else. (`SOCIAL_NEWS_SOURCES` is ignored.)
 
 **The link** goes to the chart's own card, with its filter: `/presidency/trade?country=CAN#tariffs` for a country's
 tariffs, `/presidency/economy#gas-price`, `/presidency/energy#spr`. Each series' `anchor` (datasets.ts) names the card;
 data-release drafts use it too. Card ids are the ones the share button gives (the title slugged, components/charts/ChartShare.tsx),
-except the trade balance and tariff cards, which set fixed ids (`trade-balance`, `tariffs`) because their titles
-change with the country. Rename a card and its anchor here must follow.
+except cards that set fixed ids (`trade-balance`, `tariffs`, the Economy `chart-*` cards, Energy's `oil`). Rename a card and its anchor must follow.
 
 **The caption** opens with a fixed sentence written by code ("Diesel is in the news.", "Tariffs involving Canada are
 in the news.") and then says only what the data shows. The caption check rejects a caption that changes the opening,
 and the usual rules apply: every number is a fact from the data (so no rate or figure from a headline can get in),
 no loaded words, no causes. The model is told never to describe the news (who announced what, terms, reactions). The
-headlines are listed in the issue for the reviewer and are never posted. The tariff chart's context note says the
-collected rate is not an announced rate and moves months after a change.
+headlines, with each outlet's AllSides lean, are listed in the issue for the reviewer and are never posted. The tariff
+chart's context note says the collected rate is not an announced rate and moves months after a change.
 
-**Speed.** News goes stale in hours, so news drafts skip the weekday slots:
+**Fresh data: the watcher refreshes it when a release is out** (`news/refresh.ts`, tested in `refresh.test.ts`). A post about
+the jobs report or the trade deficit is only as good as the data behind its chart, and the weekly refresh workflows can
+trail the release by hours or days. Each hour the watcher checks, for the topics whose data a refresh workflow maintains
+(jobs, unemployment, inflation, wages, GDP → `indicators-freshness`; trade deficit → `trade-freshness`; border →
+`encounters-freshness`; oil production, LNG, electricity → `energy-freshness`), whether a release is newer than the data
+file's last change on the default branch. Two signals say a release is out: an agency's own feed item (the ones behind a
+page card's "Data" line) and, because the feeds do not carry every release, a checked news story on the topic. When the
+data is behind:
+
+- the topic's refresh workflow is **dispatched** (`gh workflow run`, needs `actions: write` on the watcher). It is
+  idempotent and merges its own PR after the full CI gate, so nothing needs approving. It is dispatched again each hour (at
+  most every 50 minutes, 8 times per release: FRED trails BLS and BEA by hours) until the data moves;
+- a news story on that topic is **held**, not drafted. An agency release holds it until the data catches up; a story alone
+  holds it 3 hours (it may not be about a new release at all), then posts with the data we have. The story still expires 24
+  hours after it broke;
+- a failed check of the file's age never holds or dispatches anything. A dry run (`--no-dispatch`, or the workflow's dry
+  run) only logs what it would do. State is the `dispatched` map in `news/state.json`.
+
+The refresh's own data draft follows as usual, and the news-first rules (above) expire it if the news post already charted
+that period.
+
+**Speed.** News goes stale in hours, so news drafts skip the weekday slots and go ahead of data posts:
 
 | Rule | Value |
 | --- | --- |
@@ -153,10 +197,11 @@ collected rate is not an announced rate and moves months after a change.
 | Post | approving (label `social-approved`) triggers the news lane at once, and it also runs after every watch: it posts within minutes, any day or hour (a person approved it) |
 | Expiry | **24 hours** after the story was first seen (`NEWS_FRESH_HOURS`); then it is closed as `social-expired` |
 | Caps | **2 news posts a day** (`NEWS_MAX_PER_DAY`), **4 posts a day** with data posts (`MAX_TOTAL_PER_DAY`), **45 minutes** after any post (`NEWS_MIN_MINUTES_BETWEEN`); a held post goes out at the next clear run |
-| Data slots | ignore news drafts; news posts do not use up the data caps, but a data slot waits 45 minutes after a news post, and topic rotation counts them (a diesel news post holds back a gas-price data post for 36 hours) |
+| Data slots | stand down while an approved, fresh news draft is waiting (unless the news lane is full for the day); expire a data draft a news post just covered; news posts do not use up the data caps, but a data slot waits 45 minutes after a news post, and topic rotation counts them (a diesel news post holds back a gas-price data post for 36 hours) |
 
 To try it: Actions → "Social news watcher" → Run workflow (dry run ticked prints the drafts). Locally:
-`pnpm insights:news` (writes `social-drafts/news/`), `-- --no-llm` for keyword rules and template captions.
+`pnpm insights:news` (writes `social-drafts/news`), `-- --no-llm` for word rules and template captions,
+`-- --now ISO` to replay the feeds as of an earlier moment.
 
 ## In the news on the pages
 
@@ -312,6 +357,26 @@ model cannot add one, and X and Bluesky stay hashtag-free. No party, person or c
   link), and whether the caption still passes the check. Editing the issue refreshes it automatically
   (`social-counts.yml`).
 
+## Chart titles and data notes (a standing rule)
+
+Every chart the pipeline draws follows one convention, set in `title.ts` and enforced in three places:
+
+- **The title is what a reader would call the chart**, in plain words, then what it spans: "Inflation, 2016 to 2026",
+  "Jobs added each month, 2021 to 2026", "The federal deficit by fiscal year", "U.S. electricity generation each August",
+  "Tariffs on Canada vs. all countries". Never method: no "nonfarm", "seasonally adjusted", "real", "from a year earlier",
+  "with a surplus shown as negative", no parentheses or colons.
+- **Method and fine print are data notes**, printed beside the source at the bottom left ("Source: Bureau of Labor
+  Statistics, via FRED · Nonfarm payrolls · Seasonally adjusted"). They live in `Series.note` (separate notes joined with
+  " · "). The axis label is the unit and nothing else.
+- **Each series has a plain `title`** (`Series.title`, `EventSet.title`), separate from `name`, which is the caption's
+  noun phrase. `chartTitle()` builds the drawn title from it (a line gets its range, bars what each bar is).
+
+How it is enforced: `Insight.title` is a required field, so a new chart generator does not compile without one;
+`chart.tsx` and `carousel.tsx` draw `title`, never `headline` (the issue's descriptive line); `buildDrafts` drops a draft
+whose title or axis label breaks the rule; and `title.test.ts` runs every generator on the real data (every series, every
+insight kind, the tariff charts) and checks each title, axis label and note. To add a series, give it a `title` and put its
+method in `note`; the tests say what to fix.
+
 ## The chart image
 
 `chart.tsx` draws a 1200 × 675 card with `next/og`, the site's seal (`app/icon.svg`) and wordmark on top. Line charts (the usual card) carry the site's presidential-term band
@@ -353,9 +418,9 @@ You create the accounts and the credentials; the code never signs up for anythin
    would post.
 5. **Turn it on**: repo variable `SOCIAL_POSTING_ENABLED` = `true`. The next weekday slot posts the intro thread; drafts
    follow as data comes out and you approve them. Delete the variable to stop.
-6. **News drafts** (optional): repo variable `SOCIAL_NEWS_ENABLED` = `true` starts the 15-minute news watcher. It only
+6. **News drafts** (optional): repo variable `SOCIAL_NEWS_ENABLED` = `true` starts the hourly news watcher. It only
    drafts; posting still needs `SOCIAL_POSTING_ENABLED` and your approval. `ANTHROPIC_API_KEY` (already a secret for
-   captions) turns on the relevance check.
+   captions) turns on the Claude check.
 
 A platform with no secrets is simply skipped, so you can start with Bluesky alone.
 

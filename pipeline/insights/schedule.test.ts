@@ -52,7 +52,7 @@ describe("freshness", () => {
   it("makes a lagged draft say it is newly released, on the chart and in the caption", () => {
     const values = Array.from({ length: 80 }, (_, i) => 100 + (i % 2 ? 0.2 : -0.2));
     const points = [...values, 150].map((value, i) => ({ date: addMonths("2000-01-01", i), value, cells: [] }));
-    const series = { id: "t", dataset: "energy", name: "test output", axisLabel: "u", unit: { scale: 1, decimals: 1, suffix: " units" }, frequency: "monthly", seasonal: false, kind: "level", moveMode: "pct", points, url: "/x", source: "S", weight: 1, releaseLagDays: 30 } as Series;
+    const series = { id: "t", dataset: "energy", title: "Test output", name: "test output", axisLabel: "u", unit: { scale: 1, decimals: 1, suffix: " units" }, frequency: "monthly", seasonal: false, kind: "level", moveMode: "pct", points, url: "/x", source: "S", weight: 1, releaseLagDays: 30 } as Series;
     const ins = detectExtremes(series)[0]!; // period September 2006
     const late = stampRelease(ins, "2007-01-15", false);
     expect(late.release?.lagged).toBe(true);

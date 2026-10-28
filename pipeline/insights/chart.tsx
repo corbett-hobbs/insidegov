@@ -56,6 +56,11 @@ export const KICKER: Record<DatasetId, string> = {
   laws: "Laws",
 };
 
+/** The card's topic line: the dataset's, except the Economy page's series, which share the `gas` dataset's file but are not gas prices. */
+export function kickerFor(insight: Pick<Insight, "dataset" | "seriesId">): string {
+  return insight.seriesId.startsWith("economy.") ? "Economy" : KICKER[insight.dataset];
+}
+
 export const SITE_URL = (process.env.SOCIAL_SITE_URL ?? "https://insidegov.fyi").replace(/\/$/, "");
 
 /** Tick labels: the series' unit scale and prefix, without the suffix (the axis label carries it). */
@@ -426,7 +431,7 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
   // Lagged data says it is new, so a chart ending months ago does not read as old news (freshness.ts).
   const badge = badgeOf(insight);
   const backdrop = await backdropSrc(insight.url, WIDTH, BACKDROP_H);
-  const headlineSize = insight.headline.length > 96 ? 36 : insight.headline.length > 70 ? 40 : 46;
+  const headlineSize = insight.title.length > 96 ? 36 : insight.title.length > 70 ? 40 : 46;
   const content: ReactNode = (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: "28px 60px 0 60px" }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
@@ -436,10 +441,10 @@ export async function renderChart(insight: Insight): Promise<Buffer> {
         {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
         <img src={sealSrc()} width={42} height={42} alt="" style={{ marginRight: 12 }} />
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 32, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
-        {KICKER[insight.dataset]}
+        {kickerFor(insight)}
         <Badge {...badge} size={19} />
       </div>
-      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headlineSize, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, maxWidth: 1080 }}>{insight.headline}</div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headlineSize, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, maxWidth: 1080 }}>{insight.title}</div>
       <div style={{ position: "absolute", top: CARD.plot.top - 44, left: 60, display: "flex", fontSize: 17, color: MUTED }}>{spec.axisLabel}</div>
       {labels.map((l, i) => (
         <LabelDiv key={i} l={l} />
