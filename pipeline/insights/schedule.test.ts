@@ -309,6 +309,9 @@ describe("Instagram carousel", () => {
     const errs = (w: object, s = seen) => checkWhy({ ...good, ...w }, s, []).join(" | ");
     expect(errs({ sources: [{ name: "Blog", url: "https://www.example.com/a" }] })).toMatch(/not on the allowed source list/);
     expect(errs({}, new Set())).toMatch(/was not opened or found/);
+    // A draft made because a topic is in the news must cite at least two outlets that reported it, not only an agency page.
+    expect(checkWhy(good, seen, [], { requireNews: true }).join(" | ")).toMatch(/story in the news/);
+    expect(checkWhy(good, seen, [])).toEqual([]);
     expect(errs({ paragraphs: ["It rose 6.8% on the year.", "Gas plants led."] })).toMatch(/words only/);
     expect(errs({ captionLine: "Warmer weather lifted use." })).toMatch(/name its source/);
     expect(errs({ captionLine: "EIA says generation rose due to heat." })).toMatch(/due to/);

@@ -180,7 +180,7 @@ const YEARS = /\b(?:19|20)\d\d\b/g;
 const META = /\b(?:I|we|my|our)\b|\b(?:no|not find|found no|could not find)\b[^.]*\b(?:reports?|sources?|coverage|cause)\b|\bdo(?:es)? not (?:give|say|state|explain)\b/i;
 
 /** Every reason the answer fails (none: it passes). `seen` are the URLs the model opened or found in this request. */
-export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["facts"]): string[] {
+export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["facts"], opts: { requireNews?: boolean } = {}): string[] {
   const errors: string[] = [];
   if (!w.captionLine.trim()) errors.push("caption_line is empty");
   if (w.captionLine.length > POST_LINE_MAX) errors.push(`caption_line is ${w.captionLine.length} characters; the limit is ${POST_LINE_MAX}`);
@@ -223,6 +223,8 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
   // The owner's rule: when the news covered it, use what reporters say drove it, not the agency's categories alone.
   const found = new Set([...seen].map(newsOutlet).filter((o): o is string => o !== null));
   if (found.size >= 2 && outlets.size < 2) errors.push(`news reports from ${[...found].join(", ")} were found; say what they report drove the change (corroborated by at least two of them, named) and cite them`);
+  // A draft made because a topic is in the news must read that news: the agency's page alone is not what the story reports.
+  if (opts.requireNews && outlets.size < 2) errors.push("this draft is about a story in the news: open the stories in in_the_news (and search for others) and cite at least two outlets that report what changed and why");
   return errors;
 }
 
@@ -291,7 +293,7 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
       paragraphs: parsed.data.paragraphs.map((p) => p.trim().replace(/\s+/g, " ")).filter(Boolean),
       sources: parsed.data.sources.map((s) => ({ name: s.name.trim(), url: s.url.trim() })),
     };
-    lastErrors = checkWhy(why, seen, insight.facts);
+    lastErrors = checkWhy(why, seen, insight.facts, { requireNews: Boolean(insight.news) });
     if (lastErrors.length === 0) return { why, model: res.model };
     if (process.env.SOCIAL_WHY_DEBUG) console.error(`  [why ${insight.id}] rejected: ${lastErrors.join("; ")}\n    ${JSON.stringify(why)}`);
     attempt++;
