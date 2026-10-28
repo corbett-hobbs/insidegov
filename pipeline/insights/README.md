@@ -274,7 +274,7 @@ re-derives each from the committed files; a draft that does not match is dropped
 The Claude API (`claude-sonnet-5-5`, effort `medium`; `SOCIAL_CAPTION_MODEL` / `SOCIAL_CAPTION_EFFORT` to change)
 rewrites the template caption, and `checkCaption` enforces in code: every number is a fact's text; no spelled-out
 quantities; no partisan or loaded words (`BANNED_WORDS`) or causal claims; no links, hashtags, mentions, emoji, "!"
-or "?"; all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
+or "?"; no colons (a caption is a plain sentence, never "Name: value"; the templates read "X stood at …"); all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
 retried with the reasons (three tries), then dropped. Without an API key the deterministic template is used.
 
 ## Why it moved: every post explains the change
