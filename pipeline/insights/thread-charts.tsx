@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, HEIGHT, INK, KICKER, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, sealSrc, serifFont } from "./chart";
-import { signedFact } from "./research";
+import { rowValue } from "./research";
 import type { Insight } from "./types";
 
 /**
@@ -40,14 +40,14 @@ function Rows({ insight, block }: { insight: Insight; block: Block }) {
               <div style={{ position: "absolute", left: zero, top: 0, width: 1.5, height: ROW_H, background: MUTED, display: "flex" }} />
               <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: 13, width: w, height: 28, borderRadius: 3, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
             </div>
-            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 28, color: INK }}>{signedFact(insight, r.fact)}</div>
+            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 28, color: INK }}>{rowValue(insight, r.fact)}</div>
           </div>
         );
       })}
       {block.total ? (
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 28, color: INK, marginTop: 10, paddingTop: 10, borderTop: `1.5px solid ${NEUTRAL}` }}>
           <div style={{ display: "flex" }}>{block.total.name}</div>
-          <div style={{ display: "flex" }}>{signedFact(insight, block.total.fact)}</div>
+          <div style={{ display: "flex" }}>{rowValue(insight, block.total.fact)}</div>
         </div>
       ) : null}
     </div>
