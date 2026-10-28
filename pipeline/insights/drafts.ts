@@ -5,6 +5,8 @@ import { claudeCaption, templateCaption } from "./caption";
 import { renderCarousel } from "./carousel";
 import { researchWhy } from "./research";
 import { SITE_URL, renderChart } from "./chart";
+import { type Reply, checkReplies, planThread, replyNumbers } from "./thread";
+import { renderBreakdownCharts } from "./thread-charts";
 import { axisProblems, titleProblems } from "./title";
 import type { Insight, NewsTrigger, Release, Why } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
@@ -51,6 +53,12 @@ export type Draft = {
   /** Why the number moved, with its sources (research.ts), or why there is none. */
   why?: Why;
   why_error?: string;
+  /** The long-form thread on X and Bluesky: the replies after the chart post (thread.ts); absent when the draft posts alone. */
+  replies?: Omit<Reply, "chart">[];
+  /** The number tokens the replies were generated with (an edited reply may not add one). */
+  reply_numbers?: string[];
+  /** Parts of the thread left out, and why. */
+  reply_notes?: string[];
 };
 
 export function slugFor(id: string): string {
@@ -100,6 +108,7 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         writeFileSync(join(opts.outDir, file), png);
         return file;
       });
+      const thread = await buildThread(insight, slug, opts.outDir);
       const link = `${SITE_URL}${insight.url}${insight.anchor ?? ""}`;
       const draft: Draft = {
         id: insight.id,
@@ -128,6 +137,8 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         ...(insight.news ? { news: insight.news } : {}),
         ...(insight.why ? { why: insight.why } : {}),
         ...(whyError ? { why_error: whyError } : {}),
+        ...(thread.replies ? { replies: thread.replies, reply_numbers: replyNumbers(thread.replies) } : {}),
+        ...(thread.notes.length ? { reply_notes: thread.notes } : {}),
       };
       writeFileSync(join(opts.outDir, `${slug}.json`), `${JSON.stringify(draft, null, 2)}\n`);
       drafts.push(draft);
@@ -139,6 +150,24 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
   drafts.sort((a, b) => order.get(a.id)! - order.get(b.id)!);
   writeIndex(opts.outDir, drafts, dropped);
   return { drafts, dropped };
+}
+
+/**
+ * The thread's replies for one insight (thread.ts), with each breakdown block drawn as `<slug>-t-<n>.png` (n is the post's
+ * number in the thread). A thread that fails the plain checks is left out whole: the draft then posts alone.
+ */
+async function buildThread(insight: Insight, slug: string, outDir: string): Promise<{ replies?: Omit<Reply, "chart">[]; notes: string[] }> {
+  const plan = planThread(insight);
+  if (!plan) return { notes: [] };
+  const cards = plan.replies.some((r) => r.chart !== undefined) ? await renderBreakdownCharts(insight) : [];
+  const replies = plan.replies.map((r, i) => {
+    if (r.chart === undefined) return { text: r.text };
+    const image = `${slug}-t-${i + 2}.png`;
+    writeFileSync(join(outDir, image), cards[r.chart]!);
+    return { text: r.text, image, alt: r.alt };
+  });
+  const problems = checkReplies(replies, insight.facts, replyNumbers(replies));
+  return problems.length ? { notes: [...plan.notes, `the thread was left out: ${problems.join("; ")}`] } : { replies, notes: plan.notes };
 }
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -159,6 +188,7 @@ export function writeIndex(outDir: string, drafts: Draft[], dropped: string[]): 
       ">",
       `> ${d.link}`,
       "",
+      ...(d.replies?.length ? [`Thread (${d.replies.length} replies):`, "", ...d.replies.flatMap((r, i) => [`${i + 2}. ${r.text.replace(/\n+/g, " / ")}${r.image ? ` ![](${r.image})` : ""}`]), ""] : []),
       `\`${d.id}\` · score ${d.score} · caption: ${d.caption_source}${d.caption_model ? ` (${d.caption_model})` : ""}${d.release ? ` · released ${d.release.releasedOn}${d.release.estimated ? " (est.)" : ""}, fresh until ${d.release.expiresOn}${d.release.lagged ? " · lagged" : ""}` : ""}`,
       "",
     ]),
@@ -173,7 +203,7 @@ article{background:#fff;border-radius:10px;padding:16px;margin:0 0 24px;box-shad
 ${drafts
   .map(
     (d, n) => `<article><div class="meta">${n + 1} · ${esc(d.dataset)} · ${esc(d.kind)} · ${esc(d.period)} · score ${d.score} · caption: ${esc(d.caption_source)}${d.release ? ` · released ${esc(d.release.releasedOn)}${d.release.estimated ? " (est.)" : ""}, fresh until ${esc(d.release.expiresOn)}${d.release.lagged ? " · lagged" : ""}` : ""}</div>
-<img src="${esc(d.image)}" alt="${esc(d.alt)}">${d.slides?.length ? `<div class="slides">${d.slides.map((f) => `<a href="${esc(f)}"><img src="${esc(f)}" alt=""></a>`).join("")}</div>` : ""}<div class="post">${esc(d.caption)}\n\n<a href="${esc(d.link)}">${esc(d.link)}</a></div>
+<img src="${esc(d.image)}" alt="${esc(d.alt)}">${d.slides?.length ? `<div class="slides">${d.slides.map((f) => `<a href="${esc(f)}"><img src="${esc(f)}" alt=""></a>`).join("")}</div>` : ""}<div class="post">${esc(d.caption)}\n\n<a href="${esc(d.link)}">${esc(d.link)}</a></div>${d.replies?.length ? `<div class="post"><b>Thread</b>\n${d.replies.map((r, i) => `${i + 2}. ${esc(r.text)}${r.image ? `\n<img src="${esc(r.image)}" alt="${esc(r.alt ?? "")}">` : ""}`).join("\n\n")}</div>` : ""}
 <details><summary>Facts and template</summary><p><b>Template:</b> ${esc(d.template)}</p><ul>${d.facts.map((f) => `<li><b>${esc(f.text)}</b> <code>${esc(f.id)}</code></li>`).join("")}</ul></details></article>`,
   )
   .join("\n")}

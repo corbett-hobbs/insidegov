@@ -1,7 +1,7 @@
 # pipeline/insights/ — social posts
 
-Turns new government data into social posts: one chart image, a one- or two-sentence caption, a link to the page,
-and a 4:5 Instagram carousel posted by hand.
+Turns new government data into social posts: a chart image with a one- or two-sentence caption, then (on X and Bluesky)
+a thread that says more, and a 4:5 Instagram carousel posted by hand.
 Because the content is political, **a person approves every post**. Two things start a post: monthly data just came out
 (one summary post per release, at a steady pace, never in bursts), **or a topic the site has data on is in the news**
 (see "News drafts" below): a chart of diesel prices when diesel is in the headlines, the tariff rate collected on
@@ -308,6 +308,39 @@ each part's change as bars, every value a verified fact (so captions may cite th
 | Goods trade deficit, imports, exports | the 5 partners whose part changed most: the month against a year earlier, and the year to date against the same months a year earlier (not seasonally adjusted) |
 
 Gas prices, encounters, ICE, executive orders and laws have no breakdown in the data, so they get the why slide only.
+
+## Long-form threads on X and Bluesky
+
+`thread.ts`, `thread-charts.tsx`. A data draft posts as a thread: the caption and chart card first (as before), then
+replies. **Text is text and only charts are images**: the reasons, the key moments and the definition are plain posts, and
+each block of "What drove it" is a chart card. The same texts go to both platforms (written to 280 characters, X's limit).
+News drafts and the intro are not threads; a draft with nothing to add posts as one post.
+
+| Reply | What | When |
+| --- | --- | --- |
+| Why it went up | the researched paragraphs (`research.ts`) packed into posts, kept whole, split between sentences if long | the research found a reason (a "What changed" answer is left out and noted in the issue) |
+| What drove it | one post and one 1200×675 chart card per breakdown block: a line of signed changes, then bars (`breakdown.ts`) | the series has a breakdown (total electricity, goods trade) |
+| Key moments | dated actions from the site's sourced timelines (`moments.ts`), "listed for context, not as causes" | a line chart whose series has a timeline |
+| What this measures | the series definition (`explain.ts`) | no reason and no breakdown |
+| Sources | the data source and the pages the reasons came from (news by outlet name, never by headline) | always, last; the link is added to it (X: only with `X_INCLUDE_LINK=true`) |
+
+Every reply is built from something already checked, and `checkReplies` runs the plain rules again on the stored text
+before posting: at most 280 characters, no links, hashtags, mentions, emoji, "!" or "?", no loaded or partisan words, and
+no number that is not a fact, a year, or one the thread was generated with (`reply_numbers`), so editing a reply cannot add
+a figure. The caption check is unchanged. The issue's Thread section shows each reply and chart, and the Length section
+their lengths on each platform.
+
+**Reviewing and editing.** Approving the issue approves the whole thread. To change a reply, edit `replies` in the hidden
+block (the chart post is still `caption`).
+
+**Posting.** `post-next.ts` posts the parts in order, each a reply to the one before (Bluesky `reply.root`/`parent`, X
+`in_reply_to_tweet_id`). Each part posted is recorded as a hidden comment on the issue (`<!-- social-thread … -->`), so a
+thread that stops halfway resumes at the next slot from the part it was on instead of repeating the earlier ones. Lengths
+(with the link on the last post) are checked before anything is posted. X costs more for a post with a URL, so the thread's
+link is one URL on its last post, the same $0.20 a single post with a link costs; a thread is about five times the
+per-post cost without it (check X's current prices).
+
+Instagram keeps its own text slides (`carousel.tsx`): a slide is the only way to post text there.
 
 ## Instagram (posted by hand)
 
