@@ -136,7 +136,7 @@ describe("a Fed rate decision story", () => {
 
   it("charts the federal funds rate with inflation beside it, traced to the data", () => {
     const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
-    expect(insight.template).toMatch(/federal funds rate: [\d.]+% in the week of .*\. Inflation was [\d.]+% in \w+ \d{4}, (up|down) from [\d.]+% in \w+ \d{4}\.$/);
+    expect(insight.template).toMatch(/federal funds rate: \d\.\d% in the week of .*(unchanged|(up|down) from \d\.\d%) a? ?.*month earlier.*peak of \d\.\d% in .*\. Inflation was \d\.\d% in \w+ \d{4}, (up|down) from \d\.\d%/);
     expect(insight.title).toBe("The federal funds rate and inflation, 2016 to 2026");
     expect(insight.chart.type === "line" && insight.chart.comparison?.points.length).toBeGreaterThan(1);
     expect(verifyInsight(insight, new CellIndex())).toEqual([]);
