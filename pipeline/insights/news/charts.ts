@@ -2,7 +2,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { displayCountryName } from "../../../lib/trade-names";
 import { readOutput } from "../datasets";
 import { capitalize, changeFact, dateFact, linePoints, markDate, pctFact, periodBars, unitFact, usesBars, when, yearEarlier } from "../detect";
-import { addMonths, dateStyleFor, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
+import { addMonths, bareIfSameYear, dateStyleFor, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
 import { CAPTION_MAX_CHARS } from "../caption";
 import { chartTitle } from "../title";
 import type { ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
@@ -43,7 +43,7 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
     isLatest: peak.date === latest.date,
     reach: { text: higher ? `the highest ${which}since ${reachFact.text}` : `the highest ${which}in data going back to ${reachFact.text}`, facts: [reachFact] },
     value: unitFact("peak_value", peak.value, unit, peak.cells),
-    date: dateFact("peak_date", peak.date, monthly),
+    date: dateFact("peak_date", peak.date, bareIfSameYear(monthly, peak.date, latest.date)),
   };
 }
 
@@ -76,7 +76,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   let prev: Clause | null = null;
   if (prevPoint) {
     const prevValue = unitFact("previous_value", prevPoint.value, series.unit, prevPoint.cells);
-    const prevDate = dateFact("previous_date", prevPoint.date, style);
+    const prevDate = dateFact("previous_date", prevPoint.date, bareIfSameYear(style, prevPoint.date, latest.date));
     const dir = latest.value > prevPoint.value ? "up" : latest.value < prevPoint.value ? "down" : "unchanged";
     prev = { text: `, ${dir} from ${prevValue.text} ${when(series, prevDate.text)}`, facts: [prevValue, prevDate] };
   }
@@ -234,7 +234,7 @@ export function tariffContext(country: { code: string; name: string } | undefine
   // Which way the rate moved from the previous month comes first, then the peak (or a year earlier).
   const prevPoint = main.filter((p) => p.date < latest.date).at(-1);
   const prevFact = prevPoint ? unitFact("previous_value", prevPoint.value, RATE, prevPoint.cells) : null;
-  const prevDate = prevPoint ? dateFact("previous_date", prevPoint.date, style) : null;
+  const prevDate = prevPoint ? dateFact("previous_date", prevPoint.date, bareIfSameYear(style, prevPoint.date, latest.date)) : null;
   const prevClause: Clause | null =
     prevPoint && prevFact && prevDate
       ? { text: `. The rate${whose} is ${latest.value > prevPoint.value ? "up" : latest.value < prevPoint.value ? "down" : "unchanged"} from ${prevFact.text} in ${prevDate.text}`, facts: [prevFact, prevDate] }
