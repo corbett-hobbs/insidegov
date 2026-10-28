@@ -17,7 +17,9 @@ import {
   miseryPoints,
   monthlyPoints,
   quarterlyPoints,
+  seriesEnd,
   weeklyPoints,
+  type Cadence,
   type SeriesPoint,
 } from "@/lib/economy-series";
 import type { EconomyData } from "@/lib/indicator-payload";
@@ -47,6 +49,18 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
     case "def": return fiscalBars(d.def).map((b) => ({ day: b.mid, value: b.value }));
     case "debt": return quarterlyPoints(d.tot);
   }
+}
+
+const CADENCE: Record<ChartSpec["key"], Cadence> = {
+  mis: "point", gas: "weekly", mort: "weekly", ff: "weekly", ten: "weekly", jobs: "monthly", gdp: "quarterly",
+  wage: "point", un: "point", infl: "point", inc: "annual", def: "fiscal", debt: "quarterly",
+};
+
+/** The window cut at the end of the chart's own newest reading: the shared axis runs to the newest weekly one, which can be months later than a monthly, quarterly or annual line. */
+export function useChartView(data: EconomyData, key: ChartSpec["key"], view: readonly [number, number]): readonly [number, number] {
+  const [from, to] = view;
+  const end = useMemo(() => seriesEnd(chartPoints(data, key), CADENCE[key]), [data, key]);
+  return useMemo(() => (end === null ? [from, to] : [from, Math.max(from + 1, Math.min(to, end))]) as readonly [number, number], [from, to, end]);
 }
 
 const party = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
@@ -399,7 +413,8 @@ function Overlay({ W, hero, spec, view, showCong, reading, only }: { W: number; 
   );
 }
 
-export function EconomyChart({ data, spec, hero = false, showCong, view, reading, only = null, alt }: Props & { reading: Reading }) {
+export function EconomyChart({ data, spec, hero = false, showCong, view: fullView, reading, only = null, alt }: Props & { reading: Reading }) {
+  const view = useChartView(data, spec.key, fullView);
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const W = measured || (hero ? 1140 : 540);
   const g = geometry(W, hero, spec, view, showCong);
