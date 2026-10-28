@@ -145,11 +145,17 @@ describe("grouping headlines into stories", () => {
   });
 });
 
-describe("the balance rule", () => {
-  it("needs a left-of-center and a right-of-center outlet", () => {
-    expect(pickHeadlines([h("nytimes", "Jobs report"), h("wsj", "Jobs report")])).toBeNull();
-    expect(pickHeadlines([h("foxnews", "Jobs report"), h("bbc", "Jobs report")])).toBeNull();
+describe("the outlet rule", () => {
+  it("needs two outlets, of any lean, and shows both sides when both ran the story", () => {
+    expect(pickHeadlines([h("nytimes", "Jobs report")])).toBeNull();
+    expect(pickHeadlines([h("nytimes", "Jobs report a"), h("wsj", "Jobs report b")])?.map((x) => x.outletId)).toEqual(["nytimes", "wsj"]);
+    expect(pickHeadlines([h("foxnews", "Jobs report a"), h("bbc", "Jobs report b")])).toHaveLength(2);
     expect(pickHeadlines([h("nytimes", "Jobs report a"), h("foxnews", "Jobs report b")])?.map((x) => x.lean)).toEqual(["Lean Left", "Right"]);
+  });
+
+  it("fills the places with other outlets when a side is missing, one headline per outlet", () => {
+    const hs = [h("nytimes", "Tariffs a"), h("nbcnews", "Tariffs b"), h("nytimes", "Tariffs c"), h("wsj", "Tariffs d")];
+    expect(pickHeadlines(hs)?.map((x) => x.outletId).sort()).toEqual(["nbcnews", "nytimes", "wsj"]);
   });
 
   it("shows at most three: the data release ahead of a Center outlet, then left to right", () => {
@@ -170,7 +176,7 @@ describe("the balance rule", () => {
 
   it("never shows the same wire headline on both sides", () => {
     const wire = "US consumer confidence recovers in October as gas prices eased a bit";
-    expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire)])).toBeNull();
+    expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire)])).toBeNull(); // the same copy twice shows nothing about framing
     expect(pickHeadlines([h("apnews", wire), h("washingtontimes", wire), h("foxnews", "Gas prices ease")])?.map((x) => x.outletId)).toEqual(["apnews", "foxnews"]);
   });
 
@@ -188,6 +194,21 @@ describe("the balance rule", () => {
 
 describe("the page file", () => {
   const story = (id: string, date: string, chartId = `chart-${id}`): PageStory => ({ id: `${id}-${date}`, date, topic: id, chartId, headlines: [] });
+
+  it("limits chartless cards per topic, like charted ones per chart", () => {
+    const chartless = (id: string, date: string): PageStory => ({ id: `${id}-${date}`, date, topic: id, headlines: [] });
+    const merged = mergeStories([], [chartless("drilling", "2026-10-27"), chartless("drilling", "2026-10-20"), chartless("drilling", "2026-10-13"), chartless("visas", "2026-10-26")], NOW);
+    expect(merged.map((s) => s.id)).toEqual(["drilling-2026-10-27", "visas-2026-10-26", "drilling-2026-10-20"]);
+  });
+
+  it("gives a chartless topic a card without a chart id", () => {
+    const methane = [h("nbcnews", "Trump says he'll roll back Biden-era methane rules for oil and gas"), h("washingtonexaminer", "Trump unveils plan to loosen methane rules for oil and gas industry")];
+    const c = groupCandidates(methane, PAGE_TOPICS, PARTNERS, NOW)[0]!;
+    expect(c.topic.id).toBe("emissions_rules");
+    const story = storyFor(c, c.headlines, [])!;
+    expect(story.topic).toBe("Emissions rules");
+    expect("chartId" in story).toBe(false);
+  });
 
   it("expires cards after STORY_TTL_DAYS and lists the newest first", () => {
     const merged = mergeStories([story("infl", "2026-10-10"), story("gas", "2026-10-25"), story("mort", "2026-10-13")], [story("jobs", "2026-10-27")], NOW);
@@ -225,7 +246,7 @@ describe("the page file", () => {
     };
     expect(Object.keys(CHARTS)).toEqual([...NEWS_PAGES]);
     for (const t of PAGE_TOPICS) {
-      expect(CHARTS[t.page], t.id).toContain(t.chartId);
+      if (t.chartId) expect(CHARTS[t.page], t.id).toContain(t.chartId);
       if (t.release) expect(DATA_SOURCES.map((d) => d.id)).toContain(t.release.source);
     }
   });

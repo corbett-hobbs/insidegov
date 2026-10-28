@@ -13,8 +13,8 @@ import type { PageTopic } from "./topics";
  *      outlets' headlines on it that lack the topic's keywords but share its detail words (addCompanions). The Claude check
  *      (classify.ts checkCandidate) then keeps the ones that are straight news of the same single development; without
  *      it, topics that are not `periodic` keep only headlines that share a detail word with another outlet's.
- *   3. Balance: a card needs a left-of-center and a right-of-center outlet, and shows at most three headlines: the
- *      agency's own data release (else a Center outlet), the left one and the right one (pickHeadlines).
+ *   3. Outlets: a card needs at least MIN_OUTLETS outlets and shows at most three headlines: the agency's own data
+ *      release, then one outlet per side, left, right, center, any outlet filling a side nobody ran (pickHeadlines).
  *   4. The file: earlier cards are kept until STORY_TTL_DAYS old, newest first, at most MAX_STORIES, at most
  *      MAX_PER_CHART per chart (mergeStories). Feeds carry a day or two, so the file is the memory.
  */
@@ -33,7 +33,7 @@ export const NEWS_TIME_ZONE = "America/New_York";
 export type CardLean = OutletLean | "Data";
 /** The shape of lib/news-types.ts (the UI's zod schema): keep the field names in step. */
 export type CardHeadline = { outletId: string; outlet: string; lean: CardLean; title: string; url: string };
-export type PageStory = { id: string; date: string; topic: string; chartId: string; headlines: CardHeadline[] };
+export type PageStory = { id: string; date: string; topic: string; chartId?: string; headlines: CardHeadline[] };
 export type PageNewsFile = { asOf: string; stories: PageStory[] };
 
 export type Candidate = {
@@ -123,13 +123,13 @@ export const MIN_COMPANION_WORDS = 3;
 
 /**
  * Outlets word the same story differently (that is the point of the cards): "Supreme Court declines to halt DOJ deal
- * ending Biden-era immigration rule" is the deportation story without the word. A headline that matched no topic joins a
+ * ending Biden-era immigration rule" is the deportation story without the word. A headline that matched no chart's topic (a chartless topic's match does not count) joins a
  * candidate when it shares MIN_COMPANION_WORDS detail words with one of its headlines and falls in its window; the
  * check (or sameDevelopment) still has the last word.
  */
 export function addCompanions(candidates: Candidate[], headlines: Headline[], topics: PageTopic[], partners: Partner[], now: string): Candidate[] {
   const t = Date.parse(now);
-  const loose = headlines.filter((h) => h.outletId && outletById.has(h.outletId) && t - Date.parse(h.published) <= STORY_TTL_DAYS * DAY && !topicOf(h.title, topics, partners));
+  const loose = headlines.filter((h) => h.outletId && outletById.has(h.outletId) && t - Date.parse(h.published) <= STORY_TTL_DAYS * DAY && !topicOf(h.title, topics.filter((t) => t.chartId), partners));
   return candidates.map((c) => {
     const first = Date.parse(c.headlines[0]!.published);
     const words = c.headlines.map((h) => detailWords(h.title, c.topic));
@@ -170,26 +170,31 @@ function card(h: Headline, lean: CardLean): CardHeadline {
   return { outletId: h.outletId!, outlet: h.source, lean, title: h.title, url: h.url };
 }
 
+/** A card needs at least this many outlets; the data release does not count, it is the facts, not a framing. */
+export const MIN_OUTLETS = 2;
+
 /**
- * The balance rule: the card's headlines, or null when the story has no left-of-center or no right-of-center outlet.
- * At most three: the data release (else the best Center outlet, else none), the best left and the best right, in the
- * UI's order (Data, then left to right).
+ * The card's headlines, or null when fewer than MIN_OUTLETS outlets ran the story. At most three: the agency's data
+ * release (else one more outlet) and the best outlet on each side, left, right, then center, so a story both sides ran
+ * shows both. When a side is missing (two stories no right-of-center outlet carried), other outlets fill the places,
+ * one headline per outlet. Shown in the UI's order (Data, then left to right).
  */
 export function pickHeadlines(headlines: Headline[], release?: Headline, outlets: Outlet[] = OUTLETS): CardHeadline[] | null {
   const lean = (h: Headline) => outletById.get(h.outletId!)!.lean;
-  const on = (side: string) => headlines.filter((h) => sideOf(lean(h)) === side);
-  // Each side's pick avoids the other's title; whichever order finds both wins (left first).
-  let left = bestOf(on("left"), outlets);
-  let right = left && bestOf(on("right"), outlets, new Set([sameTitle(left.title)]));
-  if (!left || !right) {
-    right = bestOf(on("right"), outlets);
-    left = right && bestOf(on("left"), outlets, new Set([sameTitle(right.title)]));
-  }
-  if (!left || !right) return null;
-  const taken = new Set([sameTitle(left.title), sameTitle(right.title)]);
-  const center = release ? undefined : bestOf(on("center"), outlets, taken);
-  const middle = release ? card(release, "Data") : center && card(center, lean(center));
-  const out = [middle, card(left, lean(left)), card(right, lean(right))].filter((h): h is CardHeadline => Boolean(h));
+  const room = release ? 2 : 3;
+  const picked: Headline[] = [];
+  const taken = new Set<string>();
+  const add = (h: Headline | undefined) => {
+    if (!h) return;
+    picked.push(h);
+    taken.add(sameTitle(h.title));
+  };
+  const unused = () => headlines.filter((h) => !picked.some((p) => p.outletId === h.outletId));
+  // One outlet per side first, then anyone, so the places are filled in order of how different the framings are.
+  for (const side of ["left", "right", "center"]) if (picked.length < room) add(bestOf(unused().filter((h) => sideOf(lean(h)) === side), outlets, taken));
+  while (picked.length < room && unused().some((h) => !taken.has(sameTitle(h.title)))) add(bestOf(unused(), outlets, taken));
+  if (picked.length < MIN_OUTLETS) return null;
+  const out = [...(release ? [card(release, "Data")] : []), ...picked.map((h) => card(h, lean(h)))];
   return out.sort((a, b) => LEAN_ORDER.indexOf(a.lean) - LEAN_ORDER.indexOf(b.lean));
 }
 
@@ -212,7 +217,7 @@ export function releaseFor(c: Candidate, releases: Headline[]): Headline | undef
     .sort((a, b) => Math.abs(Date.parse(a.published) - first) - Math.abs(Date.parse(b.published) - first))[0];
 }
 
-/** A card for a candidate, or null when it fails the balance rule. Its id is the key and the story's first day. */
+/** A card for a candidate, or null when fewer than MIN_OUTLETS outlets ran it. Its id is the key and the story's first day. */
 export function storyFor(c: Candidate, headlines: Headline[], releases: Headline[]): PageStory | null {
   if (!headlines.length) return null;
   const kept = { ...c, headlines };
@@ -221,7 +226,7 @@ export function storyFor(c: Candidate, headlines: Headline[], releases: Headline
   if (!picked) return null;
   const used = [...headlines, ...(release ? [release] : [])].filter((h) => picked.some((p) => p.url === h.url));
   const date = day(used.map((h) => h.published).sort()[0]!);
-  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), chartId: c.topic.chartId, headlines: picked };
+  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), ...(c.topic.chartId ? { chartId: c.topic.chartId } : {}), headlines: picked };
 }
 
 /** "tariff.CAN-2026-10-24" → key and first day. */
@@ -256,9 +261,11 @@ export function mergeStories(previous: PageStory[], fresh: PageStory[], now: str
   return [...byId.values()]
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id))
     .filter((s) => {
-      const n = perChart.get(s.chartId) ?? 0;
+      // Chartless stories are limited per topic (the key in the id), like charted ones per chart.
+      const group = s.chartId ?? parseStoryId(s.id)?.key ?? s.id;
+      const n = perChart.get(group) ?? 0;
       if (n >= MAX_PER_CHART) return false;
-      perChart.set(s.chartId, n + 1);
+      perChart.set(group, n + 1);
       return true;
     })
     .slice(0, MAX_STORIES);

@@ -5,7 +5,7 @@ import { z } from "zod";
  * `pipeline/output/news_<page>.json` and `faq_<page>.json` (page = `economy` | `immigration` | `energy` | `trade` | `foreign-aid` | `troops-abroad` | `executive-orders` | `laws` | `decisions`), which the news and FAQ
  * pipelines write and `lib/news-data.ts` reads. Pure (no `server-only`), so the pipelines' tests and the unit tests can import it.
  *
- * `chartId` / `chartIds` are the DOM id of the card a story or question is about:
+ * `chartId` / `chartIds` are the DOM id of the card a story or question is about (a story may have none):
  *  - Economy: `chart-<key>` for a key of `SPECS` (`chart-gas`, `chart-mort`, `chart-def`, `chart-debt`, `chart-infl`, `chart-un` …),
  *    plus `chart-diesel` for the gas card's diesel line.
  *  - Immigration: `chart-green-cards`, `chart-refugees`, `chart-encounters`, `chart-removals`.
@@ -43,8 +43,9 @@ export const newsStory = z.object({
   date: isoDate,
   /** A plain topic in our words, never a take: "Diesel prices". */
   topic: z.string().min(1),
-  chartId: z.string().min(1),
-  /** At most three; see `isBalanced` for what a story needs to be shown. */
+  /** The chart the story is about; absent for a story the page has no chart for (the card shows headlines over a plain wash). */
+  chartId: z.string().min(1).optional(),
+  /** At most three; see `hasEnoughOutlets` for what a story needs to be shown. */
   headlines: z.array(newsHeadline).min(1).max(3),
 });
 export type NewsStory = z.infer<typeof newsStory>;

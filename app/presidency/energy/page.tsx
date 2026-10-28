@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { EnergyPageClient } from "@/components/energy/EnergyPageClient";
 import { getEnergyPayload } from "@/lib/energy-data";
-import { getFaqFile } from "@/lib/news-data";
+import { getFaqFile, getNewsFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /** /presidency/energy — the Presidency vertical's Energy section: the Strategic Petroleum Reserve, the oil balance, electricity by source and LNG exports. */
@@ -21,7 +21,7 @@ export default function EnergyPage() {
   return (
     <>
       <TopicDatasetLd path="/presidency/energy" />
-      <EnergyPageClient payload={getEnergyPayload()} faqFile={getFaqFile("energy")} />
+      <EnergyPageClient payload={getEnergyPayload()} faqFile={getFaqFile("energy")} newsFile={getNewsFile("energy")} />
     </>
   );
 }

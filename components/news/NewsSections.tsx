@@ -24,11 +24,11 @@ export type NewsChart = { target: string; label: string; value: string; asOf: st
 export type Headline = { outletId: string; outlet: string; lean: Lean; title: string; url: string };
 /**
  * One story as each side headlined it, over the chart it is about: the data release first (the facts), then the outlets
- * from left to right. A story only gets a card when it has a left-of-center and a right-of-center headline, and shows at
+ * from left to right. A story only gets a card when at least two outlets ran it (both sides when both did), and shows at
  * most three (the release, or a center outlet, plus one from each side), each clamped to two lines, so the cards in a row
  * come out close to one height and the sparkline band, not empty space, takes up the difference.
  */
-export type NewsItem = { id: string; date: string; topic: string; chart: NewsChart; headlines: Headline[] };
+export type NewsItem = { id: string; date: string; topic: string; chart?: NewsChart; headlines: Headline[] };
 
 
 /**
@@ -209,6 +209,14 @@ function SparkBand({ chart }: { chart: NewsChart }) {
   );
 }
 
+/**
+ * The band of a story the page has no chart for: the same faded accent wash, with no line, reading or date, so the card
+ * keeps its height and look in the row but shows nothing that could be read as data about the story.
+ */
+function WashBand() {
+  return <div aria-hidden className="-mx-3 -mb-3 mt-1 min-h-[5rem] flex-1 bg-gradient-to-b from-accent/10 to-transparent" />;
+}
+
 /** "See chart ↑" beside the card's title: back up to the chart, which then rings itself (in-page, so ↑, never ↗). */
 function SeeChart({ chart }: { chart: NewsChart }) {
   return (
@@ -326,8 +334,8 @@ export function InTheNews({ items, updated, focus = null }: { items: readonly Ne
         {items.map((item) => (
           <li
             key={item.id}
-            data-news-for={item.chart.target}
-            className={`group/card relative flex w-[86%] shrink-0 snap-start flex-col overflow-hidden rounded-[10px] border bg-surface p-3 transition-colors duration-500 sm:w-[calc((100%-0.75rem)/2.15)] lg:w-[calc((100%-1.5rem)/3.15)] ${lit(focus === item.chart.target)}`}
+            data-news-for={item.chart?.target}
+            className={`group/card relative flex w-[86%] shrink-0 snap-start flex-col overflow-hidden rounded-[10px] border bg-surface p-3 transition-colors duration-500 sm:w-[calc((100%-0.75rem)/2.15)] lg:w-[calc((100%-1.5rem)/3.15)] ${lit(item.chart !== undefined && focus === item.chart.target)}`}
           >
             {/* The story's subject at a glance, in our words (a plain topic, never a take): "Oct 24 · Diesel prices". */}
             <div className="flex items-baseline gap-3 px-1">
@@ -335,7 +343,7 @@ export function InTheNews({ items, updated, focus = null }: { items: readonly Ne
                 <span className="flex-none font-mono text-[0.68rem] font-normal text-ink-muted">{item.date} ·</span>
                 {item.topic}
               </h3>
-              <SeeChart chart={item.chart} />
+              {item.chart && <SeeChart chart={item.chart} />}
             </div>
             <ol className="m-0 mt-1.5 flex list-none flex-col p-0">
               {item.headlines.map((h) => (
@@ -359,11 +367,11 @@ export function InTheNews({ items, updated, focus = null }: { items: readonly Ne
                 </li>
               ))}
             </ol>
-            <SparkBand chart={item.chart} />
+            {item.chart ? <SparkBand chart={item.chart} /> : <WashBand />}
           </li>
         ))}
       </ul>
-      <span className="text-[0.72rem] text-ink-faint">Each story as outlets across the spectrum headlined it, with the agency’s own release first · leans are AllSides Media Bias Ratings{updated ? ` · updated ${updated}` : ""} · sparklines show the last 3 years of weekly and monthly figures and the last 12 years of yearly ones · “See chart ↑” goes to the chart, ↗ opens the article</span>
+      <span className="text-[0.72rem] text-ink-faint">Each story as outlets across the spectrum headlined it, with the agency’s own release first · leans are AllSides Media Bias Ratings{updated ? ` · updated ${updated}` : ""} · sparklines (on stories the page has a chart for) show the last 3 years of weekly and monthly figures and the last 12 years of yearly ones · “See chart ↑” goes to the chart, ↗ opens the article</span>
     </section>
   );
 }

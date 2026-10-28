@@ -14,7 +14,7 @@ import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_T
 
 /**
  * The page-level "In the news" builder: reads the outlets' and agencies' feeds, groups headlines into stories about one
- * chart each, checks them (Claude API, when a key is set), keeps the balanced ones and writes
+ * chart each, checks them (Claude API, when a key is set), keeps the ones at least two outlets ran and writes
  * pipeline/output/news_<page>.json for the pages' "In the news" row (schema: lib/news-types.ts). Run a few times a day
  * by .github/workflows/news-pages.yml; see pipeline/insights/README.md, "In the news on the pages".
  *
@@ -54,7 +54,7 @@ const fileSchema = z.object({
       id: z.string().min(1),
       date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       topic: z.string().min(1),
-      chartId: z.string().min(1),
+      chartId: z.string().min(1).optional(),
       headlines: z.array(z.object({ outletId: z.string().regex(/^[a-z0-9]+$/), outlet: z.string().min(1), lean: z.enum(LEAN_ORDER), title: z.string().min(1), url: z.url() })).min(1).max(3),
     }),
   ),
@@ -100,12 +100,17 @@ async function kept(c: Candidate): Promise<Headline[]> {
 }
 
 const fresh = new Map<NewsPage, PageStory[]>(pages.map((p) => [p, []]));
-for (const c of candidates) {
-  // A story one side alone covered can never be shown: no check spent on it.
-  if (!pickHeadlines(c.headlines)) continue;
-  const story = storyFor(c, await kept(c), releases);
-  if (story) fresh.get(c.topic.page)!.push(story);
-  else console.log(`  skip  ${c.key} (${c.headlines.length} headlines): not balanced after the check`);
+// Charted stories first: a headline on one of their cards is not repeated on a chartless card of the same page.
+const onCards = new Set<string>();
+for (const c of [...candidates].sort((a, b) => Number(!a.topic.chartId) - Number(!b.topic.chartId))) {
+  const own = c.topic.chartId ? c.headlines : c.headlines.filter((h) => !onCards.has(h.url));
+  // A story fewer than two outlets ran can never be shown: no check spent on it.
+  if (!pickHeadlines(own)) continue;
+  const story = storyFor(c, await kept({ ...c, headlines: own }), releases);
+  if (story) {
+    fresh.get(c.topic.page)!.push(story);
+    for (const h of story.headlines) onCards.add(h.url);
+  } else console.log(`  skip  ${c.key} (${c.headlines.length} headlines): fewer than two outlets after the check`);
 }
 
 const used = new Map<string, number>();
@@ -115,7 +120,7 @@ for (const page of pages) {
   const file = fileSchema.parse(pageFile(previous, mergeStories(previous?.stories ?? [], fresh.get(page)!, now), now)) as PageNewsFile;
   console.log(`\n${page}: ${file.stories.length} stories (${fresh.get(page)!.length} from this run's feeds)`);
   for (const s of file.stories) {
-    console.log(`  ${s.date}  ${s.topic}  → ${s.chartId}`);
+    console.log(`  ${s.date}  ${s.topic}  → ${s.chartId ?? "(no chart)"}`);
     for (const h of s.headlines) {
       console.log(`      ${h.lean.padEnd(10)} ${h.outlet}: ${h.title}`);
       used.set(h.outlet, (used.get(h.outlet) ?? 0) + 1);

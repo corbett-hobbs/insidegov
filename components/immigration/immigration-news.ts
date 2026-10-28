@@ -40,6 +40,10 @@ export function immigrationNews(data: ImmigrationPageData, lpr: LprPayload, refu
   };
   const items: NewsItem[] = [];
   for (const story of selectStories(file.stories)) {
+    if (story.chartId === undefined) {
+      items.push({ id: story.id, date: formatStoryDate(story.date), topic: story.topic, headlines: story.headlines });
+      continue;
+    }
     if (!isChart(story.chartId) || series[story.chartId].length === 0) continue;
     const pts = series[story.chartId];
     const last = pts[pts.length - 1];

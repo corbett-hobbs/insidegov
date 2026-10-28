@@ -158,7 +158,7 @@ export type NewsPage = (typeof NEWS_PAGES)[number];
 
 /**
  * The page-level "In the news" catalog (news/pages.ts): which headlines a page's charts give context for. Each topic is
- * one chart on one page, by the card's DOM id (`chartId`: Economy's `chart-<key>`, Immigration's `chart-encounters`,
+ * one chart on one page, by the card's DOM id (`chartId`, absent for a chartless topic, below): Economy's `chart-<key>`, Immigration's `chart-encounters`,
  * Trade's and Energy's section ids). A headline goes to the FIRST topic in this list it matches, so a story is about one
  * chart: put the narrower topic first (diesel before gasoline, the trade deficit before tariffs).
  *
@@ -170,7 +170,8 @@ export type NewsPage = (typeof NEWS_PAGES)[number];
 export type PageTopic = {
   id: string;
   page: NewsPage;
-  chartId: string;
+  /** The chart's card id; absent on a chartless topic, a story the page has no chart for (its card shows a plain wash). */
+  chartId?: string;
   label: (country?: string) => string;
   /** What the chart shows, in words, for the relevance check. */
   chart: string;
@@ -295,5 +296,86 @@ export const PAGE_TOPICS: PageTopic[] = [
     chart: "monthly U.S. electricity generation by source (coal, natural gas, nuclear, wind, solar)",
     match: /\belectricity (prices|demand|generation|bills|rates|use)\b|\bpower (grid|demand|bills|prices)\b|\b(electric|power) grid\b|\bdata centers?\b.{0,40}\b(power|electricity|energy)\b/i,
     release: { source: "eia", match: /\belectricity\b|\bpower (sector|generation)\b/i },
+  },
+
+  // Chartless topics, last so a chart's topic wins a headline both match. The page has no chart for these stories: their
+  // cards show the headlines over a plain wash. `chart` tells the relevance check there is none, so it judges the story
+  // on its own (national, current, the topic central).
+  // Economy
+  {
+    id: "fed_rates", page: "economy", label: fixed("Federal Reserve and interest rates"),
+    chart: "no chart on the page; the Federal Reserve's interest-rate decisions and its chair",
+    match: /\b(Federal Reserve|the Fed)\b.{0,50}\b(rates?|cuts?|hikes?|holds?|meeting|chair|governor)\b|\binterest rates?\b|\bFOMC\b/i,
+  },
+  {
+    id: "markets", page: "economy", label: fixed("Stock market"),
+    chart: "no chart on the page; a move in the U.S. stock market",
+    match: /\bstock market\b|\bS&P 500\b|\bDow (Jones )?(falls?|drops?|jumps?|rises?|closes?|slides?)\b|\bNasdaq\b|\bWall Street\b.{0,30}\b(rall(y|ies)|slump|selloff|sell-off|record)\b/i,
+  },
+  {
+    id: "budget_taxes", page: "economy", label: fixed("Federal budget and taxes"),
+    chart: "no chart on the page; federal spending, taxes and the budget",
+    match: /\b(government shutdown|spending bill|appropriations|budget (deal|bill|fight|proposal|talks)|tax (bill|cuts?|plan|law|credit))\b/i,
+    exclude: /\bproperty tax\b|\bstate tax\b/i,
+  },
+  // Immigration
+  {
+    id: "immigration_courts", page: "immigration", label: fixed("Immigration court rulings"),
+    chart: "no chart on the page; a court ruling on immigration policy",
+    match: /\b(Supreme Court|appeals court|federal judge|judge rules?|justices)\b.{0,80}\b(immigra\w+|deport\w+|asylum|birthright|migrants?|TPS)\b|\b(immigra\w+|deport\w+|asylum|birthright)\b.{0,80}\b(Supreme Court|appeals court|federal judge|justices)\b/i,
+  },
+  {
+    id: "visas", page: "immigration", label: fixed("Visas"),
+    chart: "no chart on the page; U.S. visa policy and fees",
+    match: /\bH-?1B\b|\b(student|work|tourist|travel) visas?\b|\bvisa (fees?|program|ban|restrictions?|bond|lottery|rules?)\b/i,
+  },
+  {
+    id: "enforcement", page: "immigration", label: fixed("Immigration enforcement"),
+    chart: "no chart on the page; ICE and immigration enforcement operations",
+    match: /\bICE\b.{0,50}\b(raids?|arrests?|agents?|detain\w*|operations?|facilit\w+)\b|\bimmigration (raids?|enforcement|agents|crackdown|detention)\b|\bdetention (centers?|facilit\w+)\b|\bnational guard\b.{0,40}\bimmigra\w+/i,
+  },
+  {
+    id: "asylum_status", page: "immigration", label: fixed("Asylum and legal status"),
+    chart: "no chart on the page; asylum, humanitarian parole and temporary legal status",
+    match: /\basylum\b|\bTPS\b|\btemporary protected status\b|\bhumanitarian parole\b|\bbirthright citizenship\b|\bDACA\b/i,
+  },
+  // Trade
+  {
+    id: "trade_deals", page: "trade", label: fixed("Trade deals and talks"),
+    chart: "no chart on the page; U.S. trade agreements, talks and trade restrictions",
+    match: /\btrade (deals?|talks?|war|agreements?|negotiations?|truce|pacts?|partners?|dispute|rules?|demands|relations|policy|chief|representative|negotiators?)\b|\b(Canada|Canadian|China|Chinese|Mexico|Mexican|Japan|Japanese|India|Indian|EU|European Union|Britain|Brazil)\b.{0,30}\btrade\b|\btrade\b.{0,30}\b(Canada|Canadian|China|Chinese|Mexico|Mexican|Japan|Japanese|India|Indian|EU|European Union|Britain|Brazil)\b|\b(export|import) (controls?|curbs|bans?|restrictions?|quotas?)\b|\bUSMCA\b|\bWTO\b|\bcustoms duties\b|\bretaliatory (duties|measures)\b|\bsupply chains?\b|\bsemiconductor (exports?|curbs)\b/i,
+  },
+  {
+    id: "shipping", page: "trade", label: fixed("Ports and shipping"),
+    chart: "no chart on the page; U.S. ports, shipping and cargo",
+    match: /\bports?\b.{0,30}\b(cargo|shipping|congestion|strike|workers?|dockworkers?)\b|\bshipping (costs|rates|delays|lanes)\b|\bdockworkers?\b|\bPanama Canal\b|\bcontainer (ships?|shipping)\b/i,
+  },
+  // Energy
+  {
+    id: "emissions_rules", page: "energy", label: fixed("Emissions rules"),
+    chart: "no chart on the page; federal emissions and environmental rules for energy",
+    match: /\bmethane\b|\bemissions? (rules?|standards?|limits?|regulations?)\b|\bClean Air Act\b|\bEPA\b.{0,50}\b(rules?|rollback|standards?|regulations?)\b/i,
+    release: { source: "federalregister", match: /\bmethane\b|\boil and natural gas\b|\bemissions\b/i, lagDays: 7 },
+  },
+  {
+    id: "venezuela_oil", page: "energy", label: fixed("Venezuelan oil"),
+    chart: "no chart on the page; U.S. imports of Venezuelan crude oil",
+    match: /\bvenezuela\w*\b.{0,50}\b(oil|crude|barrels?|tankers?|petroleum)\b|\b(oil|crude|barrels?|tankers?)\b.{0,50}\bvenezuela\w*\b/i,
+  },
+  {
+    id: "oil_markets", page: "energy", label: fixed("Oil markets"),
+    chart: "no chart on the page; crude oil prices and OPEC",
+    match: /\boil (prices?|futures|market|surges?|jumps?|falls?|slumps?)\b|\bcrude (prices?|futures)\b|\bBrent\b|\bOPEC\+?\b/i,
+  },
+  {
+    id: "power_sources", page: "energy", label: fixed("Nuclear, coal and renewables"),
+    chart: "no chart on the page; nuclear, coal, wind and solar power policy",
+    match: /\bnuclear (plants?|reactors?|power|energy)\b|\bcoal (plants?|power|mines?|miners?)\b|\bsolar (power|panels?|projects?|farms?)\b|\b(offshore )?wind (farms?|power|projects?|turbines?)\b|\boffshore wind\b|\brenewable (energy|power)\b/i,
+  },
+  {
+    id: "drilling", page: "energy", label: fixed("Drilling and pipelines"),
+    chart: "no chart on the page; federal oil and gas leasing, drilling and pipelines",
+    match: /\b(oil|gas|drilling) leases?\b|\boffshore drilling\b|\bdrilling (permits?|plans?|rules?)\b|\bpipelines?\b/i,
+    exclude: /\bpipeline (of|for) (talent|projects)\b/i,
   },
 ];

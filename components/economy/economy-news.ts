@@ -39,6 +39,10 @@ export function economyNews(data: EconomyData, specs: Record<EconomyKey, ChartSp
   const latest = readAll(data, null);
   const items: NewsItem[] = [];
   for (const story of selectStories(file.stories)) {
+    if (story.chartId === undefined) {
+      items.push({ id: story.id, date: formatStoryDate(story.date), topic: story.topic, headlines: story.headlines });
+      continue;
+    }
     const chart = parseChartId(story.chartId);
     if (!chart) continue;
     const all = chart.diesel ? weeklyPoints(data.diesel) : chartPoints(data, chart.k);
