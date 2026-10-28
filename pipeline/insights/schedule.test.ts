@@ -11,7 +11,7 @@ import { fit, lengthSection, refreshCounts } from "./counts";
 import { INSTAGRAM_HASHTAGS, SERIES_HASHTAGS, hashtagsFor, instagramCaption } from "./instagram";
 import { WHY } from "./why";
 import { checkWhy, newsOutlet, releasePages } from "./research";
-import { slidePlan } from "./carousel";
+import { slidePlan, sourceNames } from "./carousel";
 import { EXPLAINERS, explainer } from "./explain";
 import { type DraftBlock, blockComment, parseDraftBlock, slidesSection } from "./issue";
 import { pickMoments } from "./moments";
@@ -303,25 +303,42 @@ describe("Instagram carousel", () => {
   });
 
   it("checks a researched why: allowed and actually read sources, words-only paragraphs, attribution, neutrality", () => {
-    const good = { title: "Why it went up", captionLine: "EIA cites warmer weather.", paragraphs: ["EIA says August was warmer.", "EIA says gas plants supplied most of it."], sources: [{ name: "EIA", url: "https://www.eia.gov/electricity/monthly/update/" }] };
+    const good = { title: "Why it went up", captionLine: "EIA cites warmer weather.", paragraphs: ["August was warmer across most of the country.", "Gas plants supplied most of the extra power."], sources: [{ name: "EIA", url: "https://www.eia.gov/electricity/monthly/update/" }] };
     const seen = new Set(["https://www.eia.gov/electricity/monthly/update"]);
     expect(checkWhy(good, seen, [])).toEqual([]);
     const errs = (w: object, s = seen) => checkWhy({ ...good, ...w }, s, []).join(" | ");
     expect(errs({ sources: [{ name: "Blog", url: "https://www.example.com/a" }] })).toMatch(/not on the allowed source list/);
     expect(errs({}, new Set())).toMatch(/was not opened or found/);
-    expect(errs({ paragraphs: ["EIA says it rose 6.8% on the year.", "EIA says gas led."] })).toMatch(/words only/);
+    expect(errs({ paragraphs: ["It rose 6.8% on the year.", "Gas plants led."] })).toMatch(/words only/);
     expect(errs({ captionLine: "Warmer weather lifted use." })).toMatch(/name its source/);
     expect(errs({ captionLine: "EIA says generation rose due to heat." })).toMatch(/due to/);
-    expect(errs({ paragraphs: ["Census says imports rose because of tariffs.", "Census says chips led."] })).toMatch(/causal claim about policy/);
-    expect(errs({ paragraphs: ["Census says imports soared.", "Census says chips led."] })).toMatch(/soared/);
-    expect(errs({ paragraphs: ["Census says imports rose.", "The agencies do not give a cause. I found no news reports to corroborate one."] })).toMatch(/not the research/);
+    expect(errs({ paragraphs: ["Imports rose because of tariffs.", "Chips led."] })).toMatch(/causal claim about policy/);
+    expect(errs({ paragraphs: ["Imports rose because of chip orders.", "Chips led."] })).toMatch(/in the site's own voice/);
+    expect(errs({ paragraphs: ["EIA says August was warmer.", "Gas plants supplied most of it."] })).toMatch(/names "EIA"/);
+    expect(errs({ paragraphs: ["Bloomberg reports chips led.", "Imports rose."] })).toMatch(/names "Bloomberg"/);
+    expect(errs({ paragraphs: ["One.", "Two.", "Three."] })).toMatch(/write one or two/);
+    expect(errs({ paragraphs: ["x".repeat(200), "y".repeat(200)] })).toMatch(/keep them to 380 together/);
+    expect(errs({ paragraphs: ["Imports soared.", "Chips led."] })).toMatch(/soared/);
+    expect(errs({ paragraphs: ["Imports rose.", "The agencies do not give a cause. I found no news reports to corroborate one."] })).toMatch(/not the research/);
+  });
+
+  it("prints each outlet or agency once in the why slide's footnote", () => {
+    const src = (name: string, url: string) => ({ name, url });
+    expect(
+      sourceNames([
+        src("CNBC, Trade deficit hits a high", "https://www.cnbc.com/2026/10/06/a.html"),
+        src("BEA, U.S. International Trade in Goods and Services, August 2026", "https://www.bea.gov/news/2026/x"),
+        src("CNBC, Imports rise", "https://www.cnbc.com/2026/10/07/b.html"),
+        src("EIA This Week in Petroleum", "https://www.eia.gov/petroleum/weekly/"),
+      ]),
+    ).toEqual(["CNBC", "BEA", "EIA This Week in Petroleum"]);
   });
 
   it("lets mainstream news corroborate a release, from two outlets, never an opinion page", () => {
     const agency = { name: "BEA release", url: "https://www.bea.gov/news/2026/x" };
     const reuters = { name: "CNBC", url: "https://www.cnbc.com/2026/10/06/trade-deficit-august-2026.html" };
     const bloomberg = { name: "Bloomberg", url: "https://www.bloomberg.com/news/articles/2026-10-06/trade" };
-    const w = { title: "Why it widened", captionLine: "CNBC and Bloomberg tie it to chip imports for data centers.", paragraphs: ["BEA says imports of capital goods rose.", "CNBC and Bloomberg report the chips went to data centers."], sources: [agency, reuters, bloomberg] };
+    const w = { title: "Why it widened", captionLine: "CNBC and Bloomberg tie it to chip imports for data centers.", paragraphs: ["Imports of capital goods rose.", "The chips went to data centers."], sources: [agency, reuters, bloomberg] };
     const seen = new Set(w.sources.map((s) => s.url));
     expect(checkWhy(w, seen, [])).toEqual([]);
     expect(checkWhy({ ...w, sources: [agency, reuters] }, seen, []).join()).toMatch(/at least two outlets/);

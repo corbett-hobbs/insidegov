@@ -283,15 +283,18 @@ rates Center, Lean Left or Lean Right; Reuters, AP, WSJ, NYT, MarketWatch, BBC a
 often lag or say little; a reason several outlets report is still a reason. Other sources on the FAQ list
 (`pipeline/faq/sources.ts`: CRS/CBO/GAO, the Federal Reserve, universities) can add a forecast or a longer trend. The
 web tools are limited to those sites. It returns one attributed sentence for the post (`caption_line`: "EIA cites
-warmer weather ...") and two to four paragraphs for a "Why it went up" slide, with every source. Code then checks:
+warmer weather ...") and one or two short paragraphs for a "Why it went up" slide, with every source. The slide text is
+brief (`WHY_MAX` 380 characters) and reads as one connected account: it names no agency or outlet (the post sentence
+does; the slide's footnote lists each source once, "BEA; CNBC; The Hill"), and a reason that comes from reporting is
+worded "amid" or "tied to", not as the site's own conclusion. Code then checks:
 
 - each source is an allowed agency site or a news report from `NEWS_OUTLETS` (never an opinion page), **and** is a page
   the model opened or found in that request (no made-up citations);
-- news is corroborated: a why that cites news cites at least two different outlets, and names them ("Bloomberg and
-  CNBC report ...");
+- news is corroborated: a why that cites news lists at least two different outlets in its sources;
 - the post sentence names its source and uses no causal phrase from `CAUSAL_PHRASES` ("cites", "reports", not "due to");
-- the paragraphs carry no figures but years (the numbers are on the breakdown slide, where they are verified), fit one
-  slide (`WHY_MAX`), and pass the FAQ neutrality rules (`neutralityProblem`: no loaded words, parties or politicians,
+- the paragraphs carry no figures but years (the numbers are on the breakdown slide, where they are verified), name no
+  agency or outlet, say no "because of" or "driven by" in the site's own voice, fit the slide (`WHY_MAX`), and pass the
+  FAQ neutrality rules (`neutralityProblem`: no loaded words, parties or politicians,
   and no sentence pairing a cause word with a policy word).
 
 A failing answer is retried with the reasons; after three tries the draft opens without one and says so in the issue.

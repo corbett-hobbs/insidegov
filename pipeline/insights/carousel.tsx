@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { explainer } from "./explain";
-import { signedFact } from "./research";
+import { newsOutlet, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
 import type { Insight } from "./types";
 
@@ -168,10 +168,16 @@ function explainerSlide(insight: Insight, lines: string[], n: number, total: num
   );
 }
 
+/** The why slide's footnote names each outlet or agency once ("BEA; CNBC; The Hill"); every page's title and link is in the draft issue. */
+export function sourceNames(sources: { name: string; url: string }[]): string[] {
+  return [...new Set(sources.map((s) => newsOutlet(s.url) ?? s.name.split(",")[0]!.trim()))];
+}
+
 function whySlide(insight: Insight, n: number, total: number): ReactNode {
   const why = insight.why!;
   const len = why.paragraphs.join(" ").length;
-  const size = len > 620 ? 21 : len > 480 ? 23 : 25;
+  // The text is short by design (research.ts WHY_MAX), so it is set large.
+  const size = len > 300 ? 29 : 32;
   return (
     <Slide>
       <Header {...headerOf(insight, "The reasons")} />
@@ -181,7 +187,8 @@ function whySlide(insight: Insight, n: number, total: number): ReactNode {
           {t}
         </div>
       ))}
-      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Sources: ${why.sources.map((s) => s.name).join("; ")}.`}</div>
+      {/* Anchored by its bottom edge, so a long list grows upward instead of into the page number. */}
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, bottom: 64, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Sources: ${sourceNames(why.sources).join("; ")}.`}</div>
       <Footer n={n} total={total} />
     </Slide>
   );
