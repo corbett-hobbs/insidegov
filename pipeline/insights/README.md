@@ -237,8 +237,8 @@ browser.
 | Lean | Outlets (feeds) |
 | --- | --- |
 | Left | HuffPost (politics, U.S. news; needs the check), The Guardian (U.S. politics) |
-| Lean Left | New York Times (Politics, Economy, U.S.), NBC News (politics, business, news), CBS News (politics, MoneyWatch, U.S.), Politico (politics, economy; added 2026-10-28, AllSides Lean Left), Axios (added 2026-10-28, AllSides Lean Left); reserves AP (via Flipboard, ~14h lag), ABC News, NPR |
-| Center | Wall Street Journal (U.S. news, U.S. business: its "social" feeds carry post blurbs, not headlines), BBC News, The Hill, Bloomberg |
+| Lean Left | New York Times (Politics, Economy, U.S.), NBC News (politics, business, news), CBS News (politics, MoneyWatch, U.S.), Politico (politics, economy; added 2026-10-28, AllSides Lean Left), Axios (added 2026-10-28, AllSides Lean Left), CNBC (top news, politics, economy; added 2026-10-28, AllSides Lean Left); reserves AP (via Flipboard, ~14h lag), ABC News, NPR, PBS NewsHour (politics, economy; added 2026-10-28, Lean Left) |
+| Center | Wall Street Journal (U.S. news, U.S. business: its "social" feeds carry post blurbs, not headlines), BBC News, The Hill, Bloomberg, Newsweek (added 2026-10-28; AllSides Center after a Mar 2026 review) |
 | Lean Right | Washington Examiner, Washington Times, Fox Business |
 | Right | Fox News (politics, U.S., latest; not its opinion feed), New York Post |
 | End reserves | Mother Jones (Left), Breitbart (Right), both need the check |
