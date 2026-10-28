@@ -13,39 +13,7 @@
           "chartIds": [
             "executive-orders-signed-per-year-by-topic"
           ],
-          "brief": "A law is passed by Congress and signed by the President (or passed over a veto); an executive order is a written directive from the President, mainly to officials in the executive branch, that rests on authority the Constitution or a law gives the President and cannot override a law. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
-          "sources": [
-            {
-              "label": "Congressional Research Service, Executive Orders: An Introduction",
-              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
-            }
-          ]
-        },
-        {
-          "id": "eo-vs-memorandum",
-          "kind": "difference",
-          "q": "What is the difference between an executive order and a presidential memorandum?",
-          "searched": "executive order vs presidential memorandum",
-          "chartIds": [
-            "executive-orders-signed-per-year-by-topic"
-          ],
-          "brief": "Both are written presidential directives and the difference is mostly one of form: executive orders are numbered and must be published in the Federal Register, memoranda need not be; neither has more legal force by its name alone. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
-          "sources": [
-            {
-              "label": "Congressional Research Service, Executive Orders: An Introduction",
-              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
-            }
-          ]
-        },
-        {
-          "id": "eo-vs-proclamation",
-          "kind": "difference",
-          "q": "What is the difference between an executive order and a proclamation?",
-          "searched": "executive order vs presidential proclamation",
-          "chartIds": [
-            "executive-orders-signed-per-year-by-topic"
-          ],
-          "brief": "Orders tend to be directed at government officials and proclamations at private parties (and include ceremonial ones), but there is no strict legal difference in their force. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "brief": "A law is passed by Congress and signed by the President (or passed over a veto); an executive order is a written directive from the President, mainly to officials in the executive branch, that rests on authority the Constitution or a law gives the President and cannot override a law. Do not say who can revoke an order; another answer on the page does. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
           "sources": [
             {
               "label": "Congressional Research Service, Executive Orders: An Introduction",
