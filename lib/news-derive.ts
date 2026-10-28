@@ -83,8 +83,8 @@ export function toQuestionGroups(file: FaqFile | null, resolve: (chartId: string
 }
 
 /** How many questions and stories point at one chart, for its "N questions · N in the news ↓" link. */
-export function countsFor(target: string, stories: readonly { chart: { target: string } }[], groups: readonly QuestionGroup[]) {
+export function countsFor(target: string, stories: readonly { chart?: { target: string } }[], groups: readonly QuestionGroup[]) {
   const questions = groups.flatMap((g) => g.items).filter((it) => it.charts.some((c) => c.target === target)).length;
-  const news = stories.filter((s) => s.chart.target === target).length;
+  const news = stories.filter((s) => s.chart?.target === target).length;
   return { questions, news };
 }

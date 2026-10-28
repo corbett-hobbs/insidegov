@@ -33,7 +33,7 @@ export const NEWS_TIME_ZONE = "America/New_York";
 export type CardLean = OutletLean | "Data";
 /** The shape of lib/news-types.ts (the UI's zod schema): keep the field names in step. */
 export type CardHeadline = { outletId: string; outlet: string; lean: CardLean; title: string; url: string };
-export type PageStory = { id: string; date: string; topic: string; chartId: string; headlines: CardHeadline[] };
+export type PageStory = { id: string; date: string; topic: string; chartId?: string; headlines: CardHeadline[] };
 export type PageNewsFile = { asOf: string; stories: PageStory[] };
 
 export type Candidate = {
@@ -123,13 +123,13 @@ export const MIN_COMPANION_WORDS = 3;
 
 /**
  * Outlets word the same story differently (that is the point of the cards): "Supreme Court declines to halt DOJ deal
- * ending Biden-era immigration rule" is the deportation story without the word. A headline that matched no topic joins a
+ * ending Biden-era immigration rule" is the deportation story without the word. A headline that matched no chart's topic (a chartless topic's match does not count) joins a
  * candidate when it shares MIN_COMPANION_WORDS detail words with one of its headlines and falls in its window; the
  * check (or sameDevelopment) still has the last word.
  */
 export function addCompanions(candidates: Candidate[], headlines: Headline[], topics: PageTopic[], partners: Partner[], now: string): Candidate[] {
   const t = Date.parse(now);
-  const loose = headlines.filter((h) => h.outletId && outletById.has(h.outletId) && t - Date.parse(h.published) <= STORY_TTL_DAYS * DAY && !topicOf(h.title, topics, partners));
+  const loose = headlines.filter((h) => h.outletId && outletById.has(h.outletId) && t - Date.parse(h.published) <= STORY_TTL_DAYS * DAY && !topicOf(h.title, topics.filter((t) => t.chartId), partners));
   return candidates.map((c) => {
     const first = Date.parse(c.headlines[0]!.published);
     const words = c.headlines.map((h) => detailWords(h.title, c.topic));
@@ -226,7 +226,7 @@ export function storyFor(c: Candidate, headlines: Headline[], releases: Headline
   if (!picked) return null;
   const used = [...headlines, ...(release ? [release] : [])].filter((h) => picked.some((p) => p.url === h.url));
   const date = day(used.map((h) => h.published).sort()[0]!);
-  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), chartId: c.topic.chartId, headlines: picked };
+  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), ...(c.topic.chartId ? { chartId: c.topic.chartId } : {}), headlines: picked };
 }
 
 /** "tariff.CAN-2026-10-24" → key and first day. */
@@ -261,9 +261,11 @@ export function mergeStories(previous: PageStory[], fresh: PageStory[], now: str
   return [...byId.values()]
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id))
     .filter((s) => {
-      const n = perChart.get(s.chartId) ?? 0;
+      // Chartless stories are limited per topic (the key in the id), like charted ones per chart.
+      const group = s.chartId ?? parseStoryId(s.id)?.key ?? s.id;
+      const n = perChart.get(group) ?? 0;
       if (n >= MAX_PER_CHART) return false;
-      perChart.set(s.chartId, n + 1);
+      perChart.set(group, n + 1);
       return true;
     })
     .slice(0, MAX_STORIES);

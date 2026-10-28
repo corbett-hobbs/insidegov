@@ -22,23 +22,24 @@ import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeStat
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
 import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
-import type { FaqFile } from "@/lib/news-types";
-import { tradeFaq } from "./trade-news";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
+import { tradeFaq, tradeNews } from "./trade-news";
+import { updatedLabel } from "@/lib/news-derive";
 import { codeParam, enumParam, flagParam, yearsParam } from "@/lib/url-state";
 import { useUrlState } from "@/lib/use-url-state";
 
 const MEASURE_PARAM = enumParam(["balance", "flows"] as const, "balance");
 
 /** `faqFile` is `faq_trade.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
-export function TradePageClient({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | null }) {
+export function TradePageClient({ data, faqFile, newsFile }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
   return (
     <TradeStateProvider lastYear={data.lastYear}>
-      <TradePage data={data} faqFile={faqFile} />
+      <TradePage data={data} faqFile={faqFile} newsFile={newsFile} />
     </TradeStateProvider>
   );
 }
 
-function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | null }) {
+function TradePage({ data, faqFile, newsFile }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
   const v = useTradeValues();
   const { setRange, clearPin, setCountry, setShowCong, setYear, setMeasure } = useTradeActions();
   const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products, enduse } = data;
@@ -46,7 +47,8 @@ function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | 
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
   const faq = useMemo(() => tradeFaq(faqFile), [faqFile]);
-  const { focus, jump } = useChartJump([], faq);
+  const news = useMemo(() => tradeNews(newsFile), [newsFile]);
+  const { focus, jump } = useChartJump(news, faq);
   const [years, setYears] = useState<Record<number, TradeYearPayload>>({ [initialYear.year]: initialYear });
   const [yearFailed, setYearFailed] = useState<number | null>(null);
 
@@ -184,7 +186,7 @@ function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | 
               The tariff line represents calculated duties divided by the total value of imports for consumption, sourced directly from Census Bureau and USITC data. Because these are computed from actual import entries rather than Treasury tax receipts, the effective rate can shift if importers pivot to different product types or partner countries, even without a formal policy change.
             </p>
           </HowToRead>
-          <NewsQuestionsPills news={[]} groups={faq} />
+          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">
@@ -283,7 +285,7 @@ function TradePage({ data, faqFile }: { data: TradePageData; faqFile: FaqFile | 
         {/* Full width: the scatter needs the room for its labels. */}
         <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} jump={jump("did-tariffs-shift-trade")} />
 
-        <NewsFaqBand news={[]} groups={faq} focus={focus} />
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
