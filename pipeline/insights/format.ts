@@ -1,4 +1,4 @@
-import type { DateStyle, UnitFormat } from "./types";
+import type { DateStyle, Frequency, UnitFormat } from "./types";
 
 /**
  * Number and date formatting for insight facts. Every number a caption may use is produced here, and verify.ts
@@ -44,6 +44,7 @@ export function fmtDate(date: string, style: DateStyle): string {
   const [y, m, d] = date.split("-").map(Number) as [number, number, number];
   if (style === "year") return String(y);
   if (style === "fiscal_year") return `fiscal ${y}`;
+  if (style === "quarter") return `Q${Math.floor((m - 1) / 3) + 1} ${y}`;
   if (style === "month") return `${MONTHS[m - 1]} ${y}`;
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
@@ -83,7 +84,7 @@ export function addMonths(date: string, months: number): string {
   return `${yy}-${String(mm + 1).padStart(2, "0")}-01`;
 }
 
-/** The format a series' dates read in: monthly data by month, weekly by day, fiscal years by year. */
-export function dateStyleFor(frequency: "weekly" | "monthly" | "fiscal_year"): DateStyle {
-  return frequency === "weekly" ? "day" : frequency === "monthly" ? "month" : "fiscal_year";
+/** The format a series' dates read in: monthly data by month, weekly by day, quarters as "Q2 2026", fiscal years by year. */
+export function dateStyleFor(frequency: Frequency): DateStyle {
+  return { weekly: "day", monthly: "month", quarterly: "quarter", annual: "year", fiscal_year: "fiscal_year" }[frequency] as DateStyle;
 }

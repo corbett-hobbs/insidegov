@@ -110,7 +110,7 @@ for (const issue of approved) {
 }
 const history: Posted[] = posted.flatMap((i) => {
   const b = parseDraftBlock(i.body);
-  return b && i.closedAt ? [{ dataset: b.dataset, postedAt: i.closedAt, kind: b.kind }] : [];
+  return b && i.closedAt ? [{ dataset: b.dataset, postedAt: i.closedAt, kind: b.kind, seriesId: b.series_id, period: b.period }] : [];
 });
 
 const now = new Date().toISOString();
@@ -119,7 +119,9 @@ console.log(`insights:post  ${slot} slot, ${queue.length} queued, platforms: ${p
 
 if (decision.expired.length + decision.superseded.length) act("create the social-expired label", ["label", "create", EXPIRED_LABEL, "--color", "E4E669", "--description", "Not posted: went stale or was superseded (pipeline/insights)", "--force"]);
 for (const q of [...decision.expired, ...decision.superseded]) {
-  const why = !decision.expired.includes(q)
+  const why = decision.covered?.includes(q)
+    ? "a news post charted this series in the last few days and shows the same newest figure"
+    : !decision.expired.includes(q)
     ? "a newer draft for the same series is approved"
     : q.kind === "news"
       ? "the story it was posted for is no longer fresh (news drafts expire within a day)"

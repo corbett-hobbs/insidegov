@@ -1,10 +1,10 @@
 name: Social news watcher
 
 # The news layer of the social posts (pipeline/insights/README.md, "News drafts"):
-#   - watch: hourly, read the headline feeds (White House presidential actions, the outlets' own RSS feeds), find
-#     topics the site has data on that are in the news, and open a `social-draft` + `social-news` issue with a context
-#     chart (diesel prices for diesel news, the tariff rate on a country for tariff news). One email per run that
-#     opens drafts. Nothing posts without a person adding `social-approved`.
+#   - watch: hourly, find the stories the pages' "In the news" cards would show (the outlets' own RSS feeds, the same
+#     detector as news-pages.yml), and open a `social-draft` + `social-news` issue with a context chart for each one the
+#     site has a series for (diesel prices for diesel news, the tariff rate on a country for tariff news). One email per
+#     run that opens drafts. Nothing posts without a person adding `social-approved`.
 #   - post: the news lane of the scheduler (post-next.ts --slot news). Runs right after each watch and the moment a
 #     news draft is approved, so an approved draft posts within minutes, not at the next weekday slot. Same posting
 #     switch as social-post.yml: nothing posts until the repo variable SOCIAL_POSTING_ENABLED is "true".
@@ -27,6 +27,8 @@ on:
 permissions:
   contents: write
   issues: write
+  # Starts the data refresh workflows when an agency's release is newer than our data (news/refresh.ts).
+  actions: write
 
 jobs:
   watch:
@@ -61,7 +63,6 @@ jobs:
           email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
           slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
         env:
-          SOCIAL_NEWS_SOURCES: ${{ vars.SOCIAL_NEWS_SOURCES }}
           SOCIAL_CAPTION_MODEL: ${{ vars.SOCIAL_CAPTION_MODEL }}
           SOCIAL_CAPTION_EFFORT: ${{ vars.SOCIAL_CAPTION_EFFORT }}
           SOCIAL_WHY_MODEL: ${{ vars.SOCIAL_WHY_MODEL }}

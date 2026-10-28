@@ -2,11 +2,8 @@ import type { Headline } from "../types";
 import { DATA_SOURCES, type DataSource, OUTLETS, type Outlet, isOpinion } from "./outlets";
 
 /**
- * Where headlines come from. Three kinds of feed, all plain RSS, no keys:
+ * Where headlines come from. Two kinds of feed, all plain RSS, no keys:
  *
- *   - `whitehouse`: the White House's presidential actions feed (executive orders, proclamations such as tariff
- *     changes). Official and public domain, so one item is enough to act on. Social drafts only: the page cards never
- *     show White House statements (one side's framing).
  *   - `outlets`: the news outlets' own feeds (outlets.ts), news sections only, opinion filtered out. Each headline
  *     carries its outlet's id; a story needs at least two different outlets (match.ts).
  *   - `data`: the agencies' own release feeds (BLS, BEA, EIA, CBP, USCIS, the Federal Register), for the "Data" line on
@@ -17,10 +14,6 @@ import { DATA_SOURCES, type DataSource, OUTLETS, type Outlet, isOpinion } from "
  * rate-limits GitHub's shared runners).
  */
 
-export type FeedId = "whitehouse" | "outlets";
-export const FEEDS: FeedId[] = ["whitehouse", "outlets"];
-
-export const WHITE_HOUSE_ACTIONS = "https://www.whitehouse.gov/presidential-actions/feed/";
 export const USER_AGENT = "InsideGov news watcher (+https://insidegov.fyi)";
 
 const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
@@ -105,12 +98,4 @@ export function fetchOutletHeadlines({ outlets = OUTLETS, includeReserves = true
 export function fetchDataReleases(sources: DataSource[] = DATA_SOURCES, log: (msg: string) => void = console.log): Promise<Headline[]> {
   const jobs = sources.flatMap((d) => d.feeds.map((url): Job => ({ url, feed: "data", source: d.name, outletId: d.id, keep: d.match ? (h) => d.match!.test(h.title) : undefined })));
   return run(jobs, log);
-}
-
-/** Every headline the enabled feeds carry now, for the social news drafts. */
-export async function fetchHeadlines(feeds: FeedId[], log: (msg: string) => void = console.log): Promise<Headline[]> {
-  const out: Headline[] = [];
-  if (feeds.includes("whitehouse")) out.push(...(await run([{ feed: "whitehouse", url: WHITE_HOUSE_ACTIONS, source: "The White House" }], log)));
-  if (feeds.includes("outlets")) out.push(...(await fetchOutletHeadlines({ includeReserves: false, log })));
-  return out;
 }

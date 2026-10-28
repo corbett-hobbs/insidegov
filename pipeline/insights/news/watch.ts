@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import Anthropic from "@anthropic-ai/sdk";
 import { DATASETS, loadDataset } from "../datasets";
@@ -6,27 +7,34 @@ import { buildDrafts } from "../drafts";
 import { releaseFor } from "../freshness";
 import { NEWS_LABEL } from "../issue";
 import { localDate } from "../schedule";
-import type { Insight, Series } from "../types";
+import type { Headline, Insight, Series } from "../types";
+import { type Candidate, addCompanions, groupCandidates, needsCheck, pickHeadlines, sameDevelopment } from "./cards";
 import { tariffContext, tariffPartners, seriesContext } from "./charts";
-import { classifyStory } from "./classify";
-import { FEEDS, type FeedId, fetchHeadlines } from "./feeds";
-import { NEWS_FRESH_HOURS, NEWS_MAX_PER_RUN, type Story, type WatchState, findStories, inCooldown, newsId, partnersFor, pruneState, recentlyRejected } from "./match";
-import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_TOPICS } from "./topics";
+import { checkCandidate } from "./classify";
+import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
+import { NEWS_FRESH_HOURS, NEWS_MAX_PER_RUN, type WatchState, inCooldown, newsId, partnersFor, pruneState } from "./match";
+import { planRefreshes, recordDispatch } from "./refresh";
+import { type SocialStory, coverageLine, couldDraft, isCurrent, postableCharts, socialStories } from "./social";
+import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, PAGE_TOPICS } from "./topics";
 
 /**
- * The news watcher: reads the headline feeds, finds topics the site has data on that are in the news right now, checks
- * each is a real story (Claude API, when a key is set), and drafts a context chart for it. Run hourly by
+ * The news watcher: finds the stories the pages' "In the news" cards would show (the same detector, news/cards.ts: the
+ * outlets' own feeds, one topic per headline, a story over a few days, the Claude check that keeps one development,
+ * the two-outlet rule), and drafts a context chart for each one the site has a series for (social.ts). Run hourly by
  * .github/workflows/social-news.yml through .github/actions/social-drafts; nothing is posted here. The drafts become
  * `social-draft` + `social-news` issues, and an approved one posts within minutes (schedule.ts pickNews).
  *
  *   pnpm insights:news                         # watch once, write drafts to social-drafts/news
- *   pnpm insights:news -- --no-llm             # keyword rules only, template captions
+ *   pnpm insights:news -- --no-llm             # word rules only, template captions
  *   pnpm insights:news -- --github             # skip stories already drafted (reads issue titles with gh)
  *
  * --out DIR      where drafts go (default social-drafts/news)
- * --feeds LIST   whitehouse,outlets (default: SOCIAL_NEWS_SOURCES, else both; news/feeds.ts)
  * --now ISO      pretend it is this moment (headline recency, freshness)
- * --state FILE   stories the relevance check turned down, read and rewritten (so they are not asked about every run)
+ * --state FILE   the Claude check's answers and the refreshes dispatched, read and rewritten
+ * --no-dispatch  do not start data refresh workflows (a dry run; they are only started with --github anyway)
+ *
+ * It also keeps the data fresh: when an agency's release is newer than the data behind a topic's chart, the topic's
+ * freshness workflow is dispatched and a story on that topic waits for the data (news/refresh.ts).
  */
 
 try {
@@ -38,12 +46,9 @@ try {
 const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
 const outDir = arg("--out") ?? "social-drafts/news";
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
-// "google" was the news searches' name before the outlets' own feeds replaced them; a repo variable may still say it.
-const feeds = (arg("--feeds") || process.env.SOCIAL_NEWS_SOURCES || FEEDS.join(",")).split(",").map((f) => (f.trim() === "google" ? "outlets" : f.trim())) as FeedId[];
-for (const f of feeds) if (!FEEDS.includes(f)) throw new Error(`unknown feed ${f} (one of ${FEEDS.join(", ")})`);
 const now = arg("--now") ?? new Date().toISOString();
 const stateFile = arg("--state");
-const state: WatchState = stateFile && existsSync(stateFile) ? { rejected: {}, ...(JSON.parse(readFileSync(stateFile, "utf8") || "{}") as Partial<WatchState>) } : { rejected: {} };
+const state: WatchState = { checks: {}, dispatched: {}, ...(stateFile && existsSync(stateFile) ? (JSON.parse(readFileSync(stateFile, "utf8") || "{}") as Partial<WatchState>) : {}) };
 const today = localDate(now);
 const output = (line: string) => process.env.GITHUB_OUTPUT && appendFileSync(process.env.GITHUB_OUTPUT, `${line}\n`);
 
@@ -55,20 +60,86 @@ if (process.argv.includes("--github")) {
   earlier = titles.flatMap((t) => t.title.match(/\[(news:[^\]]+)\]$/)?.[1] ?? []);
 }
 
-const headlines = await fetchHeadlines(feeds);
-const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASES);
-const stories = findStories(headlines, NEWS_TOPICS, partners, now);
-console.log(`insights:news  ${headlines.length} headlines from ${feeds.join(", ")}, ${stories.length} stories in the news: ${stories.map((s) => `${s.key} (${s.sources.length} sources${s.official ? ", official" : ""})`).join(", ") || "none"}`);
-
 const client = useLlm ? new Anthropic({ maxRetries: 4 }) : null;
+// The roster outlets only: the end reserves (Mother Jones, Breitbart) back up a page card, they do not start a post.
+const headlines = await fetchOutletHeadlines({ includeReserves: false });
+const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASES);
+const usable = (h: Headline) => client !== null || !needsCheck(h);
+const candidates = addCompanions(groupCandidates(headlines, PAGE_TOPICS, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
+// Only a story that could be drafted is checked: two outlets, a first headline from the last day, a chart to give it.
+const worth = candidates.filter((c) => couldDraft(c.topic) && pickHeadlines(c.headlines) && isCurrent(c.headlines, now));
+console.log(`insights:news  ${headlines.length} outlet headlines, ${candidates.length} candidate stories, ${worth.length} worth a check: ${worth.map((c) => c.key).join(", ") || "none"}`);
+
+/** The headlines of a candidate that are straight news of one development: the check's answer (reused when the story is unchanged), else the word rule. */
+async function kept(c: Candidate): Promise<{ headlines: Headline[]; chart?: string; reason?: string }> {
+  if (!client) return { headlines: sameDevelopment(c) };
+  const key = createHash("sha256").update(c.headlines.map((h) => h.url).sort().join("\n")).digest("hex").slice(0, 20);
+  let check = state.checks[key];
+  if (!check) {
+    const answer = await checkCandidate(client, {
+      topic: c.topic.label(c.country?.name),
+      chart: c.topic.chart,
+      country: c.country?.name,
+      headlines: c.headlines.map((h) => ({ title: h.title, outlet: h.source, published: h.published })),
+      // A chartless story may take one of the page's charts that the site can post.
+      ...(c.topic.chartId ? {} : { pickChart: postableCharts(c.topic.page) }),
+    });
+    if (!answer) {
+      console.log(`  check failed for ${c.key}: word rule instead`);
+      return { headlines: sameDevelopment({ ...c, headlines: c.headlines.filter((h) => !needsCheck(h)) }) };
+    }
+    check = { at: now, keep: answer.keep.map((i) => c.headlines[i]!.url), reason: answer.reason, chart: answer.chart ?? "" };
+    state.checks[key] = check;
+  }
+  return { headlines: c.headlines.filter((h) => check.keep.includes(h.url)), ...(check.chart ? { chart: check.chart } : {}), reason: check.reason };
+}
+
+const checked: { candidate: Candidate; headlines: Headline[]; chart?: string; reason?: string }[] = [];
+for (const c of worth) checked.push({ candidate: c, ...(await kept(c)) });
+const charted = socialStories(checked, now);
+
+// Data first: a release newer than the data behind a chart starts that data's refresh, and a story on it waits.
+const live = process.argv.includes("--github");
+/** When a file last changed on the default branch (null when unknown: nothing is then held or dispatched). */
+function updatedAt(file: string): string | null {
+  if (!live) return null;
+  try {
+    return execFileSync("gh", ["api", `repos/{owner}/{repo}/commits?path=${file}&per_page=1`, "--jq", ".[0].commit.committer.date"], { encoding: "utf8" }).trim() || null;
+  } catch {
+    return null;
+  }
+}
+const storyItems = charted.map((s) => ({ topicId: s.key, title: s.headlines.at(-1)!.title, source: s.headlines.at(-1)!.source, url: s.headlines.at(-1)!.url, published: s.firstSeen }));
+const plan = planRefreshes({ topics: PAGE_TOPICS, releases: live ? await fetchDataReleases() : [], stories: storyItems, now, updatedAt, dispatched: state.dispatched });
+for (const d of plan.dispatch) {
+  const rec = recordDispatch(state.dispatched[d.workflow], d.release, now);
+  if (process.argv.includes("--no-dispatch")) console.log(`  refresh  would dispatch ${d.workflow}: "${d.release.title.slice(0, 80)}" (${d.release.source}) is newer than the data`);
+  else {
+    try {
+      execFileSync("gh", ["workflow", "run", d.workflow], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+      state.dispatched[d.workflow] = rec;
+      console.log(`  refresh  dispatched ${d.workflow} (${rec.count}): ${d.release.kind === "agency" ? "release" : "story"} "${d.release.title.slice(0, 80)}" (${d.release.source}) is newer than the data`);
+    } catch (err) {
+      console.log(`  refresh  could not dispatch ${d.workflow}: ${String((err as Error).message).split("\n")[0]}`);
+    }
+  }
+}
+const stories = charted.filter((s) => {
+  const wait = plan.behind.get(s.key);
+  if (wait) console.log(`  hold  ${s.key}: ${wait.release.kind === "agency" ? `${wait.release.source}'s release` : "the news"} is newer than the data; waiting for ${wait.workflow}`);
+  return !wait;
+});
+if (stateFile) writeFileSync(stateFile, `${JSON.stringify(pruneState(state, now), null, 2)}\n`);
+console.log(`insights:news  ${stories.length} stories to chart: ${stories.map((s) => `${s.key} (${s.outlets} outlets)`).join(", ") || "none"}`);
+
 const seriesById = new Map<string, Series>();
 for (const d of DATASETS) for (const s of loadDataset(d).series) seriesById.set(s.id, s);
 
 /** The context chart for a story, stamped with its news trigger and freshness. */
-function insightFor(story: Story, reason: string): Insight | null {
+function insightFor(story: SocialStory): Insight | null {
   const id = newsId(story.key, today);
-  const lead = story.topic.lead(story.country?.name);
-  const b = story.topic.build;
+  const lead = story.build.lead(story.country?.name);
+  const b = story.build.build;
   let insight: Insight | null;
   if (b.kind === "tariff") insight = tariffContext(story.country, { lead, id });
   else {
@@ -79,39 +150,26 @@ function insightFor(story: Story, reason: string): Insight | null {
   const expiresAt = new Date(Date.parse(now) + NEWS_FRESH_HOURS * 3_600_000).toISOString();
   // The release is when the watcher saw the story; the data's own period is stated in the caption (its date fact).
   const release = { ...releaseFor(insight.frequency, insight.period, today, false), lagged: false, expiresOn: localDate(expiresAt) };
+  const reason = `${story.outlets} outlets, left to right: ${coverageLine(story.headlines)}${story.reason ? `. Claude check: ${story.reason}` : ""}`;
   return {
     ...insight,
+    ...(story.build.note ? { note: [insight.note, story.build.note].filter(Boolean).join("; ") } : {}),
+    context: [...insight.context, ...(story.build.context ? [story.build.context] : [])],
     score: insight.score * story.score,
     release,
     news: { topic: story.topic.id, key: story.key, seenAt: now, expiresAt, headlines: story.headlines.slice(0, 8), reason },
   };
 }
 
-// Most notable first: one story per topic (Canada tariffs and tariffs in general are the same news), none drafted in
-// the last few days, none the check turned down in the last few hours, at most NEWS_MAX_PER_RUN.
+// Most notable first, none drafted in the last few days, at most NEWS_MAX_PER_RUN.
 const picked: Insight[] = [];
 for (const story of stories) {
   if (picked.length >= NEWS_MAX_PER_RUN) break;
-  if (picked.some((p) => p.news!.topic === story.topic.id) || inCooldown(story.key, earlier, today)) continue;
-  if (recentlyRejected(story, state, now)) {
-    console.log(`  skip  ${story.key}: turned down at ${state.rejected[story.key]!.at} (${state.rejected[story.key]!.reason})`);
-    continue;
-  }
-  let reason = story.official ? "an official White House document" : `${story.sources.length} publishers in the last hours: ${story.sources.slice(0, 4).join(", ")}`;
-  if (client) {
-    const d = await classifyStory(client, story);
-    console.log(`  ${d.relevant ? "take" : "skip"}  ${story.key}: ${d.reason}`);
-    if (!d.relevant) {
-      state.rejected[story.key] = { at: now, official: story.official, reason: d.reason };
-      continue;
-    }
-    reason = `${reason}. Relevance check: ${d.reason}`;
-  }
-  const insight = insightFor(story, reason);
+  if (inCooldown(story.key, earlier, today)) continue;
+  const insight = insightFor(story);
   if (insight) picked.push(insight);
   else console.log(`  skip  ${story.key}: no data for its chart`);
 }
-if (stateFile) writeFileSync(stateFile, `${JSON.stringify(pruneState(state, now), null, 2)}\n`);
 
 if (picked.length === 0) {
   console.log("insights:news  nothing to draft");

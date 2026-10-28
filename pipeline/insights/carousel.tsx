@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
-import { ACCENT, Badge, INK, KICKER, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, paleOf, sealSrc, serifFont, svgImage } from "./chart";
+import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { explainer } from "./explain";
 import { signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
@@ -63,7 +63,7 @@ function Slide({ children, color = INK }: { children: ReactNode; color?: string 
 
 /** A draft's header: its dataset and, on the hook and chart, the release or news badge. */
 const headerOf = (insight: Insight, label?: string) => ({
-  kicker: label ?? KICKER[insight.dataset],
+  kicker: label ?? kickerFor(insight),
   badge: label === undefined ? badgeOf(insight) : null,
 });
 
@@ -113,14 +113,14 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   const sparkTop = 560;
   const sparkW = W - 2 * SIDE;
   const sparkH = 170;
-  const headSize = insight.headline.length > 90 ? 32 : insight.headline.length > 60 ? 36 : 40;
+  const headSize = insight.title.length > 90 ? 32 : insight.title.length > 60 ? 36 : 40;
   return (
     <Slide>
       {svgImage(`<g transform="translate(${SIDE},${sparkTop})">${spark(insight, sparkW, sparkH)}</g>`, W, H)}
       <Header {...headerOf(insight)} />
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: SIDE, right: SIDE, bottom: H - sparkTop + 36 }}>
         {value ? <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value.length > 10 ? 76 : 96, lineHeight: 1, letterSpacing: -2, marginBottom: 22 }}>{value}</div> : null}
-        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value ? headSize : headSize + 8, lineHeight: 1.15, letterSpacing: -0.4 }}>{insight.headline}</div>
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value ? headSize : headSize + 8, lineHeight: 1.15, letterSpacing: -0.4 }}>{insight.title}</div>
       </div>
       <Footer n={n} total={total} left="Swipe for the full chart" />
     </Slide>
@@ -129,15 +129,15 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
 
 function chartSlide(insight: Insight, n: number, total: number): ReactNode {
   const spec = insight.chart;
-  const frame = portraitFrame(insight.headline);
+  const frame = portraitFrame(insight.title);
   const { svg, labels } = chartLayer(spec, frame);
-  const headSize = chartHeadSize(insight.headline);
+  const headSize = chartHeadSize(insight.title);
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
   return (
     <Slide>
       {svgImage(svg, W, H)}
       <Header {...headerOf(insight)} />
-      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headSize, lineHeight: 1.12, letterSpacing: -0.4, marginTop: 14 }}>{insight.headline}</div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: headSize, lineHeight: 1.12, letterSpacing: -0.4, marginTop: 14 }}>{insight.title}</div>
       <div style={{ position: "absolute", top: frame.plot.top - 40, left: SIDE, display: "flex", fontSize: 16, color: MUTED }}>{spec.axisLabel}</div>
       {labels.map((l, i) => (
         <LabelDiv key={i} l={l} width={W} />

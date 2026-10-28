@@ -5,8 +5,8 @@ description: >
   against the data), pushes the chart images to the `social-drafts` branch, and opens one `social-draft` issue per
   draft for a human to approve. Never posts. Run it with `continue-on-error: true` so it can never block a data refresh.
   Needs `contents: write` (the image branch) and `issues: write`. With `news: 'true'` it runs the news watcher instead
-  (pipeline/insights/news/watch.ts: context charts for topics in the news), keeping the watcher's memory of turned-down
-  stories in `news/state.json` on the same branch.
+  (pipeline/insights/news/watch.ts: context charts for stories in the news), keeping the Claude check's answers in
+  `news/state.json` on the same branch.
 
 inputs:
   datasets:
@@ -83,13 +83,16 @@ runs:
         SINCE_REF: ${{ inputs.since-ref }}
         SINCE: ${{ inputs.since }}
         NEWS: ${{ inputs.news }}
+        DRY_RUN: ${{ inputs.dry-run }}
         CATCH_UP: ${{ inputs.catch-up }}
         MAX: ${{ inputs.max }}
       run: |
         if [ "$NEWS" = "true" ]; then
           state="$RUNNER_TEMP/news-state.json"
+          # A dry run must not start the data refresh workflows.
+          nodispatch=(); if [ "$DRY_RUN" = "true" ]; then nodispatch=(--no-dispatch); fi
           if git fetch -q --depth 1 origin social-drafts 2>/dev/null && git show FETCH_HEAD:news/state.json > "$state" 2>/dev/null; then :; else echo '{}' > "$state"; fi
-          pnpm exec tsx pipeline/insights/news/watch.ts --github --state "$state" --out "$RUNNER_TEMP/social-drafts"
+          pnpm exec tsx pipeline/insights/news/watch.ts --github "${nodispatch[@]}" --state "$state" --out "$RUNNER_TEMP/social-drafts"
           exit 0
         fi
         if [ -n "$SINCE" ]; then since=(--since "$SINCE"); else since=(--since-ref "$SINCE_REF"); fi
