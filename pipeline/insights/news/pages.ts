@@ -10,7 +10,7 @@ import { checkCandidate } from "./classify";
 import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
 import { partnersFor } from "./match";
 import { ALLSIDES_READ_ON } from "./outlets";
-import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_TOPICS } from "./topics";
+import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_CHARTS, PAGE_TOPICS } from "./topics";
 
 /**
  * The page-level "In the news" builder: reads the outlets' and agencies' feeds, groups headlines into stories about one
@@ -60,7 +60,8 @@ const fileSchema = z.object({
   ),
 });
 
-type Check = { at: string; keep: string[]; reason: string };
+/** `chart` is the chart the check picked for a chartless story ("" when none; absent on an answer given before the pick existed). */
+type Check = { at: string; keep: string[]; reason: string; chart?: string };
 type Cache = { headlines: Headline[]; checks: Record<string, Check> };
 const cache: Cache = { headlines: [], checks: {}, ...(existsSync(cacheFile) ? (JSON.parse(readFileSync(cacheFile, "utf8") || "{}") as Partial<Cache>) : {}) };
 
@@ -77,14 +78,18 @@ const topics = PAGE_TOPICS.filter((t) => pages.includes(t.page));
 const usable = (h: Headline) => client !== null || !needsCheck(h);
 const candidates = addCompanions(groupCandidates(headlines, topics, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
 
-/** The headlines of a candidate that are straight news of one development: the check's answer, else the word rule. */
+/**
+ * The headlines of a candidate that are straight news of one development: the check's answer, else the word rule. For a
+ * chartless candidate also the chart the check picked from the page's charts, when one measures what the story is about.
+ */
 let checksRun = 0;
 let checksReused = 0;
-async function kept(c: Candidate): Promise<Headline[]> {
-  if (!client) return sameDevelopment(c);
+async function kept(c: Candidate): Promise<{ headlines: Headline[]; chart?: string }> {
+  if (!client) return { headlines: sameDevelopment(c) };
   const key = createHash("sha256").update(c.headlines.map((h) => h.url).sort().join("\n")).digest("hex").slice(0, 20);
   let check = cache.checks[key];
-  if (check) checksReused++;
+  // An answer saved before the chart pick existed has no `chart`: a chartless story is asked again.
+  if (check && (c.topic.chartId || check.chart !== undefined)) checksReused++;
   else {
     checksRun++;
     const answer = await checkCandidate(client, {
@@ -92,15 +97,16 @@ async function kept(c: Candidate): Promise<Headline[]> {
       chart: c.topic.chart,
       country: c.country?.name,
       headlines: c.headlines.map((h) => ({ title: h.title, outlet: h.source, published: h.published })),
+      ...(c.topic.chartId ? {} : { pickChart: PAGE_CHARTS[c.topic.page] }),
     });
     if (!answer) {
       console.log(`  check failed for ${c.key}: word rule instead`);
-      return sameDevelopment({ ...c, headlines: c.headlines.filter((h) => !needsCheck(h)) });
+      return { headlines: sameDevelopment({ ...c, headlines: c.headlines.filter((h) => !needsCheck(h)) }) };
     }
-    check = { at: now, keep: answer.keep.map((i) => c.headlines[i]!.url), reason: answer.reason };
+    check = { at: now, keep: answer.keep.map((i) => c.headlines[i]!.url), reason: answer.reason, chart: answer.chart ?? "" };
     cache.checks[key] = check;
   }
-  return c.headlines.filter((h) => check.keep.includes(h.url));
+  return { headlines: c.headlines.filter((h) => check.keep.includes(h.url)), ...(check.chart ? { chart: check.chart } : {}) };
 }
 
 const fresh = new Map<NewsPage, PageStory[]>(pages.map((p) => [p, []]));
@@ -110,7 +116,8 @@ for (const c of [...candidates].sort((a, b) => Number(!a.topic.chartId) - Number
   const own = c.topic.chartId ? c.headlines : c.headlines.filter((h) => !onCards.has(h.url));
   // A story fewer than two outlets ran can never be shown: no check spent on it.
   if (!pickHeadlines(own)) continue;
-  const story = storyFor(c, await kept({ ...c, headlines: own }), releases);
+  const { headlines: keptHeadlines, chart } = await kept({ ...c, headlines: own });
+  const story = storyFor(c, keptHeadlines, releases, chart);
   if (story) {
     fresh.get(c.topic.page)!.push(story);
     for (const h of story.headlines) onCards.add(h.url);

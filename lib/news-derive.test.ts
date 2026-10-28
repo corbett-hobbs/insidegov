@@ -3,8 +3,11 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, hasEnoughOutlets, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
 import { faqFile, newsFile, type Lean, type NewsHeadline, type NewsStory } from "./news-types";
-import { energyFaq, energyNews } from "../components/energy/energy-news";
-import { tradeFaq } from "../components/trade/trade-news";
+import { ENERGY_CHARTS, energyFaq, energyNews } from "../components/energy/energy-news";
+import { TRADE_CHARTS, tradeFaq } from "../components/trade/trade-news";
+import { IMMIGRATION_CHARTS } from "../components/immigration/immigration-news";
+import { SPECS } from "../components/economy/specs";
+import { CHARTS_WITHOUT_TOPIC, PAGE_CHARTS, PAGE_TOPICS } from "../pipeline/insights/news/topics";
 import { foreignAidFaq } from "../components/foreign-aid/foreign-aid-news";
 import { troopsFaq } from "../components/troops/troops-news";
 import { executiveOrdersFaq } from "../components/executive-orders/executive-orders-news";
@@ -137,5 +140,34 @@ describe("energyNews", () => {
     const items = energyNews(file, payload);
     expect(items).toHaveLength(2);
     expect(items.every((i) => i.chart === undefined)).toBe(true);
+  });
+});
+
+describe("the news catalog covers every chart on the page", () => {
+  // The pages' real card ids, from the code that renders them, not a typed copy.
+  const real: Record<string, string[]> = {
+    economy: [...Object.keys(SPECS).map((k) => `chart-${k}`), "chart-diesel"],
+    immigration: Object.keys(IMMIGRATION_CHARTS),
+    trade: Object.keys(TRADE_CHARTS),
+    energy: [...ENERGY_CHARTS],
+  };
+
+  it("lists in PAGE_CHARTS exactly the charts each page has", () => {
+    for (const page of Object.keys(real)) expect(PAGE_CHARTS[page as keyof typeof PAGE_CHARTS].map((c) => c.id).sort(), page).toEqual([...real[page]!].sort());
+  });
+  it("gives every chart a topic, or says in CHARTS_WITHOUT_TOPIC why not", () => {
+    for (const [page, charts] of Object.entries(PAGE_CHARTS)) {
+      for (const c of charts) {
+        const hasTopic = PAGE_TOPICS.some((t) => t.page === page && t.chartId === c.id);
+        expect(hasTopic || c.id in CHARTS_WITHOUT_TOPIC, `${page}/${c.id} has no news topic and is not in CHARTS_WITHOUT_TOPIC`).toBe(true);
+      }
+    }
+  });
+  it("keeps CHARTS_WITHOUT_TOPIC to charts that exist and have no topic", () => {
+    const all = Object.values(PAGE_CHARTS).flat();
+    for (const id of Object.keys(CHARTS_WITHOUT_TOPIC)) {
+      expect(all.some((c) => c.id === id), `${id} is not a chart`).toBe(true);
+      expect(PAGE_TOPICS.some((t) => t.chartId === id), `${id} has a topic now: remove it from CHARTS_WITHOUT_TOPIC`).toBe(false);
+    }
   });
 });
