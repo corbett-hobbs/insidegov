@@ -19,7 +19,7 @@ export type SparkPoint = { x: number; value: number };
 
 /** The one chart a headline points to, the best fit when a story touches several. */
 /** `asOf` is the latest reading's date, worded as the chart's own readout words it ("week of Oct 12, 2026", "FY2025"). */
-export type NewsChart = { target: string; label: string; value: string; asOf: string; pts: SparkPoint[]; bars?: boolean };
+export type NewsChart = { target: string; label: string; value: string; asOf: string; pts: SparkPoint[]; bars?: boolean; /** Runs when "See chart ↑" is pressed, before the scroll (Trade picks the story's country on the chart). */ onSee?: () => void };
 /** One outlet's headline on the story, already in display order. */
 export type Headline = { outletId: string; outlet: string; lean: Lean; title: string; url: string };
 /**
@@ -223,7 +223,10 @@ function SeeChart({ chart }: { chart: NewsChart }) {
     <button
       type="button"
       data-see-chart=""
-      onClick={() => jumpToChart(chart.target)}
+      onClick={() => {
+        chart.onSee?.();
+        jumpToChart(chart.target);
+      }}
       aria-label={`See the ${chart.label} chart, latest ${chart.value}, ${chart.asOf}`}
       className={`flex-none cursor-pointer border-0 bg-transparent p-0 text-[0.75rem] font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent ${FOCUS}`}
     >

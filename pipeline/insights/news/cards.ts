@@ -53,7 +53,7 @@ export const needsCheck = (h: Headline) => Boolean(h.outletId && outletById.get(
 
 /** The topic (and key) a headline belongs to: the first that matches, or none. */
 export function topicOf(title: string, topics: PageTopic[], partners: Partner[]): Omit<Candidate, "headlines"> | null {
-  const topic = topics.find((t) => t.match.test(title) && !t.exclude?.test(title));
+  const topic = topics.find((t) => t.priority?.test(title) && !t.exclude?.test(title)) ?? topics.find((t) => t.match.test(title) && !t.exclude?.test(title));
   if (!topic) return null;
   if (topic.param !== "country") return { topic, key: topic.id };
   const named = countriesIn(title, partners);

@@ -16,7 +16,8 @@ import { monthCount, monthIndex } from "./trade-derive";
 import { displayCountryName } from "./trade-names";
 import { getEraLayers } from "./indicator-data";
 import { getWorldMap } from "./foreign-aid-data";
-import { spanEnd } from "./trade-chart";
+import { ratePercentSeries, spanEnd, storyCountryCode } from "./trade-chart";
+import type { NewsFile } from "./news-types";
 import { monthIndexOfDay } from "./indicator-time";
 import { buildHubTariff, type HubTariff } from "./trade-hub";
 import type { EconomyPayload } from "./indicator-payload";
@@ -97,6 +98,30 @@ export function getTradeCountry(code: string): TradeCountryPayload | null {
   const trade = [...d.trade.values()].flat().filter((r) => r.country_code === code);
   const duties = [...d.duties.values()].flat().filter((r) => r.country_code === code);
   return buildCountryPayload({ country_code: code, name: ref.name }, trade, duties, d.length);
+}
+
+/**
+ * The duty rate (percent) of each partner a "Tariffs involving <country>" story names, for the story's sparkline: the last 36
+ * months up to the country's latest month with a rate, `from` the month index (Jan 1991 = 0) of the first. Read here, on the
+ * server, so the page ships a few dozen numbers per partner instead of fetching the country's file.
+ */
+export type StoryCountryRates = Record<string, { name: string; from: number; rates: (number | null)[] }>;
+
+export function getStoryCountryRates(file: NewsFile | null): StoryCountryRates {
+  const out: StoryCountryRates = {};
+  for (const story of file?.stories ?? []) {
+    const code = story.chartId === "tariffs" ? storyCountryCode(story.id) : null;
+    if (!code || out[code]) continue;
+    const country = getTradeCountry(code);
+    if (!country) continue;
+    const rates = ratePercentSeries(country.duties, country.dutyImports);
+    let last = rates.length - 1;
+    while (last >= 0 && rates[last] === null) last--;
+    if (last < 0) continue;
+    const from = Math.max(0, last - 35);
+    out[code] = { name: country.name, from, rates: rates.slice(from, last + 1).map((v) => (v === null ? null : Math.round(v * 100) / 100)) };
+  }
+  return out;
 }
 
 export function getTradeYear(year: number): TradeYearPayload | null {
