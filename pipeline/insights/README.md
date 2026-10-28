@@ -233,8 +233,8 @@ Every data draft says why its number went up or down, and the Instagram carousel
 **The reasons, researched** (`research.ts`). Before the caption is written, Claude (`claude-sonnet-5-5`, effort `medium`;
 `SOCIAL_WHY_MODEL` / `SOCIAL_WHY_EFFORT`) opens the agency's own release for the period (`RELEASE_PAGES`: EIA's
 Electricity Monthly Update, BEA and Census's trade release, CBP's encounter statistics, ...), then mainstream news
-reporting of the same release (`NEWS_OUTLETS`: Reuters, AP, Bloomberg, WSJ, CNBC and other outlets AllSides rates
-Center, Lean Left or Lean Right) to corroborate it and add reasons the agency's write-up does not give. Agency write-ups
+reporting of the same release (`NEWS_OUTLETS`: Bloomberg, CNBC, NPR, Axios, Fox Business and other outlets AllSides
+rates Center, Lean Left or Lean Right; Reuters, AP, WSJ, NYT, MarketWatch, BBC and Politico block Anthropic's crawler) to corroborate it and add reasons the agency's write-up does not give. Agency write-ups
 often lag or say little; a reason several outlets report is still a reason. Other sources on the FAQ list
 (`pipeline/faq/sources.ts`: CRS/CBO/GAO, the Federal Reserve, universities) can add a forecast or a longer trend. The
 web tools are limited to those sites. It returns one attributed sentence for the post (`caption_line`: "EIA cites
@@ -242,8 +242,8 @@ warmer weather ...") and two to four paragraphs for a "Why it went up" slide, wi
 
 - each source is an allowed agency site or a news report from `NEWS_OUTLETS` (never an opinion page), **and** is a page
   the model opened or found in that request (no made-up citations);
-- news is corroborated: a why that cites news cites at least two different outlets, and names them ("Reuters and
-  Bloomberg report ...");
+- news is corroborated: a why that cites news cites at least two different outlets, and names them ("Bloomberg and
+  CNBC report ...");
 - the post sentence names its source and uses no causal phrase from `CAUSAL_PHRASES` ("cites", "reports", not "due to");
 - the paragraphs carry no figures but years (the numbers are on the breakdown slide, where they are verified), fit one
   slide (`WHY_MAX`), and pass the FAQ neutrality rules (`neutralityProblem`: no loaded words, parties or politicians,

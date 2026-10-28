@@ -52,22 +52,18 @@ export function releasePages(insight: Pick<Insight, "seriesId" | "dataset">): st
  * The owner's rule: agency write-ups can lag or say little, which does not make well-reported reasons untrue. Outlets
  * rated Center, Lean Left or Lean Right by AllSides (read 2026-10-27; CNBC added by the owner), so the reasons do not
  * lean on either end; opinion pages are never sources (OPINION_PATH).
+ *
+ * Reuters, AP, The Wall Street Journal, The New York Times, MarketWatch, BBC and Politico block Anthropic's crawler, and
+ * the API rejects a request whose web tools list any of them (checked 2026-10-27), so they cannot be read here.
  */
 export const NEWS_OUTLETS: Record<string, string> = {
-  "reuters.com": "Reuters",
-  "apnews.com": "AP",
   "bloomberg.com": "Bloomberg",
-  "wsj.com": "The Wall Street Journal",
   "cnbc.com": "CNBC",
-  "marketwatch.com": "MarketWatch",
-  "bbc.com": "BBC",
-  "nytimes.com": "The New York Times",
   "npr.org": "NPR",
   "axios.com": "Axios",
   "abcnews.go.com": "ABC News",
   "cbsnews.com": "CBS News",
   "nbcnews.com": "NBC News",
-  "politico.com": "Politico",
   "thehill.com": "The Hill",
   "foxbusiness.com": "Fox Business",
   "washingtonexaminer.com": "Washington Examiner",
@@ -103,17 +99,19 @@ export const WHY_MAX = 760;
 
 const SYSTEM = `You explain, for InsideGov (a nonpartisan site of U.S. government data), why one number in a new data release moved, so a social post and an Instagram carousel can say so. Always finish by calling the record_why tool.
 
-Research first. Open the release pages you are given and find the agency's own write-up of this period (search the allowed sites when the page has moved or a later edition exists). Then search mainstream news reporting of the same release (Reuters, AP, Bloomberg, The Wall Street Journal, CNBC and the other searchable outlets) to corroborate it and to find the reasons reporters give that the agency's write-up does not, such as what kinds of buyers, projects or events are behind a category. Agency write-ups often lag or say little; a reason that several outlets report is still a reason. Other allowed sources (federal agencies, CRS, CBO, GAO, the Federal Reserve, universities) can add a forecast or a longer trend. Never use opinion pieces, columns, think tanks, advocacy groups or company marketing.
+Research first. Open the release pages you are given and find the agency's own write-up of this period (search the allowed sites when the page has moved or a later edition exists). Then search mainstream news reporting of the same release (Bloomberg, CNBC, NPR, Axios, Fox Business and the other searchable outlets) to corroborate it and to find the reasons reporters give that the agency's write-up does not, such as what kinds of buyers, projects or events are behind a category. Agency write-ups often lag or say little; a reason that several outlets report is still a reason. Other allowed sources (federal agencies, CRS, CBO, GAO, the Federal Reserve, universities) can add a forecast or a longer trend. Never use opinion pieces, columns, think tanks, advocacy groups or company marketing.
 
-Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and is attributed to them by name ("Reuters and Bloomberg report ..."). When the agency and news agree, name the agency.
+Always run at least one news search for this release, outside code (call web_search directly so its results reach the answer), (the topic and month, e.g. "trade deficit August 2026"), and open the most relevant straight-news reports it returns, even when the agency's write-up seems complete: reporters often give the reasons behind a category that the agency leaves out.
+
+Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and is attributed to them by name ("Bloomberg and CNBC report ..."). When the agency and news agree, name the agency.
 
 What to write:
-- caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Reuters and Bloomberg tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
+- caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
 - title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "What changed".
 - paragraphs: 2 to 4 short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they fill one slide) that expand on the reasons: what the agency says moved it, which parts or sources drove it, and any longer trend or outlook the sources give. Words only: no figures, percentages or amounts (years are fine). Name the agency or the outlets in each claim.
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 
-Rules: say only what the sources say. State reasons as the source does ("EIA says", "Census reports"), never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more.`;
+Rules: say only what the sources say. State reasons as the source does ("EIA says", "Census reports"), never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more. Write for the reader, never about your research: no "I", "we", "I found" or "the agencies do not give a cause".`;
 
 const TOOL: Anthropic.Beta.BetaTool = {
   name: "record_why",
@@ -164,13 +162,15 @@ export function whyPrompt(insight: Insight): string {
 
 const normalize = (u: string) => u.replace(/#.*$/, "").replace(/\/$/, "").toLowerCase();
 const YEARS = /\b(?:19|20)\d\d\b/g;
+/** Text about the research rather than the subject ("I found no reports", "the agencies do not give a cause"). */
+const META = /\b(?:I|we|my|our)\b|\b(?:no|not find|found no|could not find)\b[^.]*\b(?:reports?|sources?|coverage|cause)\b|\bdo(?:es)? not (?:give|say|state|explain)\b/i;
 
 /** Every reason the answer fails (none: it passes). `seen` are the URLs the model opened or found in this request. */
 export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["facts"]): string[] {
   const errors: string[] = [];
   if (!w.captionLine.trim()) errors.push("caption_line is empty");
   if (w.captionLine.length > POST_LINE_MAX) errors.push(`caption_line is ${w.captionLine.length} characters; the limit is ${POST_LINE_MAX}`);
-  if (!ATTRIBUTION.test(w.captionLine)) errors.push("caption_line must name its source (EIA, Census, BEA, CBP, Reuters, ...)");
+  if (!ATTRIBUTION.test(w.captionLine)) errors.push("caption_line must name its source (EIA, Census, BEA, CBP, Bloomberg, ...)");
   const causal = CAUSAL_PHRASES.filter((c) => w.captionLine.toLowerCase().includes(c));
   if (causal.length) errors.push(`caption_line: say what the source cites or reports instead of "${causal.join('", "')}"`);
   const allowedNums = new Set(facts.flatMap((f) => f.text.match(/\d[\d,.]*/g) ?? []));
@@ -182,6 +182,7 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
   for (const p of w.paragraphs) {
     if (p.length > PARAGRAPH_MAX) errors.push(`a paragraph is ${p.length} characters; keep each under ${PARAGRAPH_MAX}`);
     if (/\d/.test(p.replace(YEARS, ""))) errors.push(`paragraphs are words only (years apart): "${p.slice(0, 60)}..."`);
+    if (META.test(p)) errors.push(`write about the data, not the research: "${p.slice(0, 80)}..."`);
   }
   const words = new Set([w.captionLine, w.title, ...w.paragraphs].join(" ").toLowerCase().match(/[a-z]+(?:-[a-z]+)*/g) ?? []);
   const banned = BANNED_WORDS.filter((b) => words.has(b) && !["only", "just", "record", "records", "caused"].includes(b));
@@ -201,6 +202,9 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
     if (outlet) outlets.add(outlet);
   }
   if (outlets.size === 1) errors.push(`news cited from ${[...outlets][0]} only; a reason from news needs at least two outlets reporting it`);
+  // The owner's rule: when the news covered it, use what reporters say drove it, not the agency's categories alone.
+  const found = new Set([...seen].map(newsOutlet).filter((o): o is string => o !== null));
+  if (found.size >= 2 && outlets.size < 2) errors.push(`news reports from ${[...found].join(", ")} were found; say what they report drove the change (corroborated by at least two of them, named) and cite them`);
   return errors;
 }
 
@@ -239,11 +243,20 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
         messages,
       });
     } catch (err) {
-      if (err instanceof Anthropic.APIError) return { error: `API ${err.status ?? ""} ${err.message.slice(0, 200)}` };
+      if (err instanceof Anthropic.APIError) return { error: `API ${err.status ?? ""} ${err.message.slice(0, 800)}` };
       throw err;
     }
     if (res.stop_reason === "refusal") return { error: `refused (${res.stop_details?.category ?? "no category"})` };
     for (const u of urlsIn(res.content)) seen.add(u);
+    // SOCIAL_WHY_DEBUG=1: what the research searched and opened, to see why a reason was or was not found.
+    if (process.env.SOCIAL_WHY_DEBUG) {
+      for (const b of res.content) {
+        if (b.type === "server_tool_use") console.error(`  [why ${insight.id}] ${b.name} ${JSON.stringify(b.input)}`);
+        if (b.type === "text" && b.text.trim()) console.error(`  [why ${insight.id}] says: ${b.text.trim().slice(0, 400)}`);
+        if (b.type === "web_search_tool_result" || b.type === "web_fetch_tool_result") console.error(`  [why ${insight.id}] result ${b.type}: ${urlsIn([b]).join(" ") || JSON.stringify(b.content).slice(0, 200)}`);
+        if (!["server_tool_use", "text", "web_search_tool_result", "web_fetch_tool_result", "thinking"].includes(b.type)) console.error(`  [why ${insight.id}] block ${b.type}: ${JSON.stringify(b).slice(0, 300)}`);
+      }
+    }
     messages.push({ role: "assistant", content: res.content });
     // A long research turn pauses; send it back as is to let it continue.
     if (res.stop_reason === "pause_turn") continue;
@@ -262,6 +275,7 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
     };
     lastErrors = checkWhy(why, seen, insight.facts);
     if (lastErrors.length === 0) return { why, model: res.model };
+    if (process.env.SOCIAL_WHY_DEBUG) console.error(`  [why ${insight.id}] rejected: ${lastErrors.join("; ")}\n    ${JSON.stringify(why)}`);
     attempt++;
     messages.push({ role: "user", content: [{ type: "tool_result", tool_use_id: call.id, is_error: true, content: `Rejected: ${lastErrors.join("; ")}. Fix these and call record_why again.` }] });
   }
