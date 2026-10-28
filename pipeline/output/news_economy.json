@@ -8,11 +8,11 @@
       "chartId": "chart-infl",
       "headlines": [
         {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Federal Reserve leaves interest rates unchanged despite rising inflation",
-          "url": "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154"
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Federal Reserve Keeps Rates Unchanged Despite Elevated Inflation, Gives Little Signal Of Its Next Move",
+          "url": "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2"
         },
         {
           "outletId": "thehill",
@@ -27,6 +27,28 @@
           "lean": "Right",
           "title": "Fed Holds Rates Steady Amid Strong Expansion and Elevated Inflation",
           "url": "https://www.breitbart.com/economy/2026/10/28/fed-holds-rates-steady-2/"
+        }
+      ]
+    },
+    {
+      "id": "treasury_yields-2026-10-28",
+      "date": "2026-10-28",
+      "topic": "Treasury yields",
+      "chartId": "chart-ten",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "10-year Treasury yield creeps higher even as Fed keeps rates the same",
+          "url": "https://www.cnbc.com/2026/10/28/us-treasurys-bonds-yields-federal-reserve.html"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Bond yields rise slightly ahead of Fed rates decision",
+          "url": "https://thehill.com/business/6177868-bond-yields-fed-interest-rates-decision/"
         }
       ]
     },
@@ -71,6 +93,28 @@
           "lean": "Lean Right",
           "title": "First Russian diesel tanker heads to New York after Trump's deal with Putin to lower fuel prices",
           "url": "https://www.foxbusiness.com/politics/first-russian-diesel-tanker-heads-new-york-after-trumps-deal-putin-lower-fuel-prices"
+        }
+      ]
+    },
+    {
+      "id": "unemployment-2026-10-22",
+      "date": "2026-10-22",
+      "topic": "Unemployment",
+      "chartId": "chart-un",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Jobless claims near the lowest since the 1960s as low-fire trend continues",
+          "url": "https://www.cnbc.com/2026/10/22/jobless-claims-record-low-weekly.html"
+        },
+        {
+          "outletId": "abcnews",
+          "outlet": "ABC News",
+          "lean": "Lean Left",
+          "title": "US jobless claims fell to 194,000 last week, lowest since July",
+          "url": "https://abcnews.com/US/wireStory/us-jobless-claims-fell-194000-week-lowest-july-137473790"
         }
       ]
     },
