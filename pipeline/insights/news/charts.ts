@@ -4,6 +4,7 @@ import { readOutput } from "../datasets";
 import { capitalize, changeFact, dateFact, linePoints, markDate, pctFact, periodBars, unitFact, usesBars, when, yearEarlier } from "../detect";
 import { addMonths, dateStyleFor, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
 import { CAPTION_MAX_CHARS } from "../caption";
+import { chartTitle } from "../title";
 import type { ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
 
 /**
@@ -61,7 +62,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   const yearAgo = yearEarlier(series, latest);
   let year: { short: Clause; full: Clause } | null = null;
   if (yearAgo) {
-    const change = series.moveMode === "pct" && yearAgo.value > 0 ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.unit);
+    const change = series.moveMode === "pct" && yearAgo.value > 0 ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.changeUnit ?? series.unit);
     const yaValue = unitFact("year_ago_value", yearAgo.value, series.unit, yearAgo.cells);
     const v = change.value as number;
     const short = v === 0 ? ", unchanged from a year earlier" : `, ${v > 0 ? "up" : "down"} ${change.text} from a year earlier`;
@@ -116,6 +117,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     period: latest.date,
     frequency: series.frequency,
     headline: `${capitalize(series.name)}${bars ? "" : `, ${fmtDate(chart.type === "line" ? chart.points[0]!.date : latest.date, "year")} to ${fmtDate(latest.date, "year")}`}`,
+    title: chartTitle(series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
     template,
     lead: opts.lead,
     facts,
@@ -127,6 +129,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     url: series.url,
     ...(series.anchor ? { anchor: series.anchor } : {}),
     source: series.source,
+    note: series.note,
     score: 3 * series.weight,
     alt: `${bars ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${sentence}.`,
   };
@@ -243,6 +246,7 @@ export function tariffContext(country: { code: string; name: string } | undefine
     period: latest.date,
     frequency: "monthly",
     headline: country ? `Tariff rate collected on imports from ${country.name}, against all countries` : "Tariff rate collected on U.S. imports",
+    title: country ? `Tariffs on ${country.name} vs. all countries` : "Tariffs on U.S. imports",
     template,
     lead: opts.lead,
     facts,
@@ -255,7 +259,8 @@ export function tariffContext(country: { code: string; name: string } | undefine
     url: "/presidency/trade",
     // The tariff card, filtered to the country (the trade page keeps its filters in the query string).
     anchor: country ? `?country=${country.code}#tariffs` : "#tariffs",
-    source: "U.S. Census Bureau and USITC (calculated duties ÷ imports for consumption)",
+    source: "U.S. Census Bureau and USITC",
+    note: "Duties collected as a share of the value of imports",
     score: 4.5,
     alt: `Line chart of the average tariff collected on ${subject}${country ? ", with all countries for comparison" : ""}, monthly through ${latestDate.text}. ${template.slice(opts.lead.length + 1)}`,
   };

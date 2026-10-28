@@ -1,4 +1,4 @@
-import { addDays, addMonths, daysBetween, fmtDate } from "./format";
+import { addDays, addMonths, daysBetween, dateStyleFor, fmtDate } from "./format";
 import type { Fact, Frequency, Insight, Release } from "./types";
 
 /**
@@ -14,11 +14,14 @@ import type { Fact, Frequency, Insight, Release } from "./types";
 export const LAG_QUALIFIER_DAYS = 60;
 
 /** Days after release a draft may still post. */
-export const FRESH_DAYS: Record<Frequency, number> = { weekly: 6, monthly: 21, fiscal_year: 45 };
+export const FRESH_DAYS: Record<Frequency, number> = { weekly: 6, monthly: 21, quarterly: 45, annual: 60, fiscal_year: 45 };
 
-/** The last day the period covers: a month's last day, a week's own date, a fiscal year's September 30. */
+/** The last day the period covers: a month's or quarter's last day, a year's December 31, a week's own date, a fiscal year's September 30. */
 export function periodEnd(frequency: Frequency, period: string): string {
-  return frequency === "monthly" ? addDays(addMonths(`${period.slice(0, 7)}-01`, 1), -1) : period;
+  if (frequency === "monthly") return addDays(addMonths(`${period.slice(0, 7)}-01`, 1), -1);
+  if (frequency === "quarterly") return addDays(addMonths(`${period.slice(0, 7)}-01`, 3), -1);
+  if (frequency === "annual") return `${period.slice(0, 4)}-12-31`;
+  return period;
 }
 
 export function estimateRelease(frequency: Frequency, period: string, lagDays: number): string {
@@ -38,7 +41,7 @@ export function isFresh(release: Release, today: string): boolean {
 export function releaseNote(insight: Insight): string | null {
   const r = insight.release;
   if (!r?.lagged) return null;
-  const covers = insight.frequency === "fiscal_year" ? fmtDate(insight.period, "fiscal_year") : fmtDate(insight.period, insight.frequency === "weekly" ? "day" : "month");
+  const covers = fmtDate(insight.period, dateStyleFor(insight.frequency));
   return `New data, released ${fmtDate(r.releasedOn, "month")} · covers ${covers}`;
 }
 

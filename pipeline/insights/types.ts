@@ -10,6 +10,7 @@ export type DatasetId = "energy" | "gas" | "encounters" | "ice" | "trade" | "exe
 
 /** One cell of a committed output file: the row whose fields equal `key`, and the numeric `field` read from it. */
 export type CellRef = {
+  /** A committed output file; `file.json#prop` reads the array at that property of a file that holds an object. */
   file: string;
   key: Record<string, string | number | null>;
   /** The numeric field read, or "__row" for 1 per matching row (counting records such as executive orders). */
@@ -18,12 +19,19 @@ export type CellRef = {
   negate?: boolean;
   /** The field holds an array (one value per month, as in duties_by_country): read this element. */
   index?: number;
+  /**
+   * The cell's value is derived from this cell and another one instead of read as is (a rate computed from an index):
+   * the page's own derivations (lib/indicator-derive.ts), spelled out so verify.ts can re-run them from the rows.
+   * `pct_change`: (this / from - 1) x 100. `diff`: this - from. `deflate`: this x base / by (earnings in latest-month dollars).
+   */
+  derive?: { op: "pct_change" | "diff"; from: CellRef } | { op: "deflate"; by: CellRef; base: CellRef };
 };
 
 /** A value is the sum of its cells (one cell for most series; several for e.g. encounters, which add components). */
 export type Point = { date: string; value: number; cells: CellRef[] };
 
-export type Frequency = "weekly" | "monthly" | "fiscal_year";
+/** `quarterly` dates are the quarter's first day (FRED's dating), `annual` the calendar year's January 1, `fiscal_year` the September 30 it ends. */
+export type Frequency = "weekly" | "monthly" | "quarterly" | "annual" | "fiscal_year";
 
 /** How a series' numbers are written: `prefix + (value * scale).toLocaleString(decimals) + suffix`. */
 export type UnitFormat = { scale: number; decimals: number; prefix?: string; suffix: string };
@@ -31,6 +39,12 @@ export type UnitFormat = { scale: number; decimals: number; prefix?: string; suf
 export type Series = {
   id: string;
   dataset: DatasetId;
+  /**
+   * The chart's title, in plain words a reader would say ("Inflation", "Jobs added each month", "The federal deficit"):
+   * never method or a unit's fine print, which go in `note` (printed beside the source). title.ts builds the drawn
+   * title from this and enforces the rule; `name` is for the caption's sentence.
+   */
+  title: string;
   /** Noun phrase that reads after "U.S." is already in it, e.g. "U.S. crude oil production". */
   name: string;
   /** Short label for the chart's y axis, e.g. "million barrels a day". */
@@ -47,6 +61,8 @@ export type Series = {
   skip?: ("extreme" | "move" | "term")[];
   /** Plain words for "higher" and "lower", e.g. ["more", "fewer"] for counts. */
   words?: { high: string; low: string; up: string; down: string };
+  /** Unit for an absolute change when it differs from `unit` (a rate in %: its change is in percentage points). */
+  changeUnit?: UnitFormat;
   /** Unit for totals over a term (trade sums run to trillions). Defaults to `unit`. */
   totalUnit?: UnitFormat;
   /** Axis label for those totals. Defaults to `axisLabel`. */
@@ -61,12 +77,18 @@ export type Series = {
    */
   anchor?: string;
   source: string;
-  /** A method note printed on the chart after the source ("Not adjusted for inflation"); captions never repeat it. */
+  /** Data notes printed on the chart beside the source, bottom left ("Nonfarm payrolls · Seasonally adjusted"); captions never repeat them. Never in the title or axis label. */
   note?: string;
   /** Ranking weight: how much a reader cares about this series (1 = default). */
   weight: number;
   /** The dataset's headline series gets a routine `latest` post when nothing notable happened (schedule.ts). */
   headline?: boolean;
+  /**
+   * Posts only when the news is about it: no data-release drafts (no highs, lows, moves, term comparisons or routine
+   * readings), but the news lane can still chart it. Weekly series (gas, diesel, the SPR) and the single electricity
+   * sources (a record for solar, then wind, then nuclear would be three posts for one release) are news-only.
+   */
+  newsOnly?: boolean;
   /**
    * Typical days from the end of a period to its publication. Only used to ESTIMATE release dates for the backfill;
    * the freshness workflows know the real one (the day they see the data).
@@ -81,6 +103,8 @@ export type EventSet = {
   dataset: DatasetId;
   /** Plural noun, e.g. "executive orders". */
   name: string;
+  /** The chart's plain title, as `Series.title`: "Executive orders signed". */
+  title: string;
   /** Past-tense verb phrase that follows the count, e.g. "signed". */
   verb: string;
   events: EventRecord[];
@@ -104,7 +128,7 @@ export type Derivation =
   | { op: "date"; date: string; style: DateStyle }
   | { op: "duration"; from: string; to: string; unit: "days" | "months" | "years" };
 
-export type DateStyle = "month" | "day" | "year" | "fiscal_year";
+export type DateStyle = "month" | "day" | "year" | "fiscal_year" | "quarter";
 
 export type Fact = {
   id: string;
@@ -157,8 +181,10 @@ export type Insight = {
   period: string;
   /** How often the data comes out (event roundups count as monthly). */
   frequency: Frequency;
-  /** Chart headline, short and factual. */
+  /** What the draft says it is about, for the issue and the index: short and factual. */
   headline: string;
+  /** The title drawn on the chart and its slides (title.ts chartTitle): plain words, no method; data notes are `note`. */
+  title: string;
   /** Deterministic caption built only from `facts`; used when no API key is set and as the model's reference. */
   template: string;
   facts: Fact[];

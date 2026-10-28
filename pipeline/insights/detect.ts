@@ -14,6 +14,7 @@ import {
   shortMonth,
   yearsBetween,
 } from "./format";
+import { chartTitle, termTitle } from "./title";
 import type { Administration, CellRef, ChartSpec, DateStyle, EventSet, Fact, Insight, Point, Series, UnitFormat } from "./types";
 
 /**
@@ -71,6 +72,8 @@ export function when(series: Series, dateText: string): string {
 
 /** Chart label date: "Jun 2026", or "Jun 19, 2026" for weekly data. */
 export function markDate(series: Series, date: string): string {
+  if (series.frequency === "quarterly") return fmtDate(date, "quarter");
+  if (series.frequency === "annual") return date.slice(0, 4);
   return series.frequency === "weekly" ? `${shortMonth(date).slice(0, 3)} ${Number(date.slice(8, 10))}, ${date.slice(0, 4)}` : shortMonth(date);
 }
 
@@ -109,7 +112,7 @@ export function periodBars(series: Series, latest: Point, from: string, style: D
 }
 
 export function usesBars(series: Series): boolean {
-  return series.seasonal || series.frequency === "fiscal_year";
+  return series.seasonal || series.frequency === "fiscal_year" || series.frequency === "annual";
 }
 
 /** New high or low at the latest observation. */
@@ -167,6 +170,7 @@ export function detectExtremes(series: Series): Insight[] {
       period: latest.date,
       frequency: series.frequency,
       headline,
+      title: chartTitle(series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
       template,
       facts,
       context: series.context ?? [],
@@ -204,7 +208,7 @@ export function changes(series: Series): Change[] {
   return out;
 }
 
-const PERIOD_WORD = { weekly: "one-week", monthly: "one-month", fiscal_year: "one-year" } as const;
+const PERIOD_WORD = { weekly: "one-week", monthly: "one-month", quarterly: "one-quarter", annual: "one-year", fiscal_year: "one-year" } as const;
 
 /** The latest change is the largest in its direction in MIN_YEARS (or ever). */
 export function detectMoves(series: Series): Insight[] {
@@ -267,6 +271,7 @@ export function detectMoves(series: Series): Insight[] {
       period: last.to.date,
       frequency: series.frequency,
       headline,
+      title: chartTitle(series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: last.to.date }),
       template,
       facts,
       context: series.context ?? [],
@@ -429,6 +434,7 @@ export function detectTermComparison(series: Series, admins: Administration[]): 
       period: latest.date,
       frequency: series.frequency,
       headline,
+      title: termTitle(series.title),
       template,
       facts,
       context: [
@@ -478,6 +484,7 @@ export function detectEventTermComparison(set: EventSet, admins: Administration[
       period: asOf,
       frequency: "monthly",
       headline: `${capitalize(set.name)} ${set.verb} in the first ${daysFact.text} days of each term`,
+      title: termTitle(set.title),
       template,
       facts: [...[cur, ...others].flatMap((r) => [r.fact, termYearFact(r.term)]), daysFact, asOfFact, startFact, termsShownFact(rows)],
       context: [
@@ -495,7 +502,7 @@ export function detectEventTermComparison(set: EventSet, admins: Administration[
 }
 
 /** Monthly counts of an event set as a series (full months before `asOf` only), for extremes on monthly totals. */
-export function eventMonthlySeries(set: EventSet, asOf: string, opts: Pick<Series, "id" | "name" | "seasonal" | "weight" | "words" | "headline">): Series {
+export function eventMonthlySeries(set: EventSet, asOf: string, opts: Pick<Series, "id" | "title" | "name" | "seasonal" | "weight" | "words" | "headline">): Series {
   const lastFull = addMonths(asOf.slice(0, 7) + "-01", -1);
   const first = set.coverageStart.slice(0, 7) + "-01";
   const byMonth = new Map<string, CellRef[]>();
@@ -536,7 +543,7 @@ export function truncateEvents(set: EventSet, date: string): EventSet {
 
 /** The point a year before `p`: 12 months for monthly data, 52 weeks (within 3 days) for weekly, the prior fiscal year. */
 export function yearEarlier(series: Series, p: Point): Point | undefined {
-  if (series.frequency === "monthly") return series.points.find((q) => q.date === addMonths(p.date, -12));
+  if (series.frequency === "monthly" || series.frequency === "quarterly" || series.frequency === "annual") return series.points.find((q) => q.date === addMonths(p.date, -12));
   if (series.frequency === "fiscal_year") return series.points.find((q) => q.date === `${Number(p.date.slice(0, 4)) - 1}-09-30`);
   const target = addDays(p.date, -364);
   return series.points.find((q) => Math.abs(daysBetween(q.date, target)) <= 3);
@@ -597,6 +604,7 @@ export function detectLatest(series: Series): Insight[] {
       period: latest.date,
       frequency: series.frequency,
       headline: `${capitalize(series.name)}, ${series.frequency === "weekly" ? "week of " : ""}${latestDate.text}`,
+      title: chartTitle(series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
       template,
       facts,
       context: series.context ?? [],

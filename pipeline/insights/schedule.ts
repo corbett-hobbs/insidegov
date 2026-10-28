@@ -21,8 +21,17 @@ import type { Frequency } from "./types";
  *
  * News drafts (kind "news", pipeline/insights/news) do not wait for a slot: `pickNews` runs every few minutes and
  * whenever a news draft is approved. They have their own caps (NEWS_MAX_PER_DAY, NEWS_MIN_MINUTES_BETWEEN after any
- * post, MAX_TOTAL_PER_DAY with data posts) and expire within hours. Data slots leave them alone, and count them only
- * for spacing and topic rotation, so a news post never uses up a day's data posts but does push back a same-topic one.
+ * post, MAX_TOTAL_PER_DAY with data posts) and expire within hours. They count against a day's data posts only through
+ * the total, and push back a same-topic data post (rotation).
+ *
+ * News beats data when the two meet:
+ *   - A data slot stands down while an approved, fresh news draft is waiting (and the news lane has room today): the
+ *     news post goes out first and the data post follows in the same slot window, after NEWS_MIN_MINUTES_BETWEEN.
+ *   - A data draft for a series a news post already charted (posted in the last NEWS_COVERS_DAYS days, on that data
+ *     period or a later one) is expired as covered: the news post's chart shows the same newest figure. A newer period
+ *     is new information and still posts.
+ * Series that only post when the news is about them (weekly series, single electricity sources) have no data drafts at
+ * all (types.ts Series.newsOnly).
  */
 
 /**
@@ -93,6 +102,8 @@ export const NEWS_MAX_PER_DAY = 2;
 export const NEWS_MIN_MINUTES_BETWEEN = 45;
 /** News and data posts together, per day. */
 export const MAX_TOTAL_PER_DAY = 4;
+/** A data draft is covered when a news post charted its series this recently, on its period or a later one. */
+export const NEWS_COVERS_DAYS = 3;
 
 export type QueueItem = {
   /** Issue number (or any unique key). */
@@ -111,7 +122,7 @@ export type QueueItem = {
 };
 
 /** `kind` tells news posts from data posts (absent on posts from before the news lane: data). */
-export type Posted = { dataset: string; postedAt: string; kind?: string };
+export type Posted = { dataset: string; postedAt: string; kind?: string; seriesId?: string; period?: string };
 
 export type Decision = {
   post: QueueItem | null;
@@ -119,6 +130,8 @@ export type Decision = {
   reason: string;
   expired: QueueItem[];
   superseded: QueueItem[];
+  /** The part of `superseded` that a news post covered (the rest were replaced by a newer draft of the series). */
+  covered?: QueueItem[];
 };
 
 const hoursBetween = (a: string, b: string) => (Date.parse(b) - Date.parse(a)) / 3_600_000;
@@ -134,11 +147,17 @@ export function pickNext(allQueue: QueueItem[], history: Posted[], now: string, 
   const live = queue.filter((q) => q.expiresOn >= today);
   const newest = new Map<string, string>();
   for (const q of live) if (q.period > (newest.get(q.seriesId) ?? "")) newest.set(q.seriesId, q.period);
-  const superseded = live.filter((q) => q.period < newest.get(q.seriesId)!);
-  const eligible = live.filter((q) => q.period === newest.get(q.seriesId) && q.releasedOn <= today);
-  const none = (reason: string): Decision => ({ post: null, reason, expired, superseded });
+  const older = live.filter((q) => q.period < newest.get(q.seriesId)!);
+  // A news post that charted this series on this period (or a later one) already showed what the data draft would.
+  const covered = live.filter((q) => !older.includes(q) && history.some((p) => p.kind === "news" && p.seriesId === q.seriesId && p.period !== undefined && p.period >= q.period && hoursBetween(p.postedAt, now) < NEWS_COVERS_DAYS * 24));
+  const superseded = [...older, ...covered];
+  const eligible = live.filter((q) => !superseded.includes(q) && q.releasedOn <= today);
+  const none = (reason: string): Decision => ({ post: null, reason, expired, superseded, covered });
 
   if (eligible.length === 0) return none("nothing fresh is approved");
+  // News goes first: an approved, fresh news draft the news lane has room to post leaves this run to it.
+  const waiting = allQueue.filter((q) => q.kind === "news" && !newsExpired(q, now));
+  if (waiting.length && !newsLaneFull(history, now)) return none(`${waiting.length} approved news ${waiting.length === 1 ? "draft is" : "drafts are"} waiting; news posts first`);
   const sorted = [...history].sort((a, b) => b.postedAt.localeCompare(a.postedAt));
   const data = sorted.filter((p) => p.kind !== "news");
   if (data.some((p) => localDate(p.postedAt) === today && slotAt(p.postedAt) === slot)) return none(`the ${slot} slot already posted today`);
@@ -172,7 +191,13 @@ export function pickNext(allQueue: QueueItem[], history: Posted[], now: string, 
     return q.score * (1 + urgency) * rotation;
   };
   const best = [...pool].sort((a, b) => priority(b) - priority(a) || a.expiresOn.localeCompare(b.expiresOn) || a.key.localeCompare(b.key))[0]!;
-  return { post: best, reason: `highest priority of ${pool.length} waiting${cooled.length < eligible.length ? ` (${eligible.length - cooled.length} held for topic spacing)` : ""}`, expired, superseded };
+  return { post: best, reason: `highest priority of ${pool.length} waiting${cooled.length < eligible.length ? ` (${eligible.length - cooled.length} held for topic spacing)` : ""}`, expired, superseded, covered };
+}
+
+/** Whether today's news posts (or all of today's posts) have reached their caps, so a waiting news draft cannot go out until tomorrow. */
+function newsLaneFull(history: Posted[], now: string): boolean {
+  const todays = history.filter((p) => localDate(p.postedAt) === localDate(now));
+  return todays.filter((p) => p.kind === "news").length >= NEWS_MAX_PER_DAY || todays.length >= MAX_TOTAL_PER_DAY;
 }
 
 /** Whether a news item is past its moment (`expiresAt`, or the end of `expiresOn` for an item without one). */

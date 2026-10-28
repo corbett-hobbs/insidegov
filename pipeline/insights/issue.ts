@@ -54,7 +54,10 @@ function cellText(c: CellRef): string {
   const key = Object.entries(c.key)
     .map(([k, v]) => `${k}=${v}`)
     .join(", ");
-  return `\`${c.file.replace(/^pipeline\/output\//, "")}\` ${key}${c.field === "__row" ? "" : ` → ${c.negate ? "−" : ""}${c.field}${c.index === undefined ? "" : `[${c.index}]`}`}`;
+  const d = c.derive;
+  // A derived value says how: the cell it is read at, then the one it is compared with (or deflated by).
+  const how = !d ? "" : d.op === "deflate" ? ` × ${cellText(d.base)} ÷ ${cellText(d.by)}` : d.op === "diff" ? ` − ${cellText(d.from)}` : ` ÷ ${cellText(d.from)} − 1, as a percent`;
+  return `\`${c.file.replace(/^pipeline\/output\//, "")}\` ${key}${c.field === "__row" ? "" : ` → ${c.negate ? "−" : ""}${c.field}${c.index === undefined ? "" : `[${c.index}]`}`}${how}`;
 }
 
 function cellsText(cells: CellRef[]): string {
