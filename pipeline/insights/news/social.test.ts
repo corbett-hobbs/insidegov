@@ -115,9 +115,9 @@ describe("the Economy page's cards as series", () => {
   it("writes quarters as Q1 2026, years as 2025, and rate changes in percentage points", () => {
     const text = (id: string, peak = true) => seriesContext(all.find((s) => s.id === id)!, { years: 10, peak, lead: "X is in the news.", id: "n" })!.template;
     expect(text("economy.gdp_growth")).toMatch(/: -?[\d.]+% in Q[1-4] \d{4}/);
-    expect(text("economy.debt", false)).toMatch(/\$[\d.]+T in Q[1-4] \d{4}, (up|down) [\d.]+% from a year earlier/);
+    expect(text("economy.debt", false)).toMatch(/\$[\d.]+T in Q[1-4] \d{4}, (up|down) from \$[\d.]+T in Q[1-4] \d{4} and (up|down) [\d.]+% from a year earlier/);
     expect(text("economy.household_income", false)).toMatch(/\$[\d,]+ in \d{4}/);
-    expect(text("economy.jobs_added", false)).toMatch(/ jobs in \w+ \d{4}, (up|down) [\d,]+ jobs from a year earlier/);
+    expect(text("economy.jobs_added", false)).toMatch(/ jobs in \w+ \d{4}, (up|down) from [\d,-]+ jobs in \w+ \d{4} and (up|down) [\d,]+ jobs from a year earlier/);
     expect(text("economy.inflation", false)).toMatch(/percentage points from a year earlier/);
   });
 });
