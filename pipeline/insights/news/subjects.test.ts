@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type CaseRow, type LawRow, caseTopics, lawName, lawTopics, parties } from "./subjects";
+import { type CaseRow, type LawRow, caseTopics, leadWord, lawName, lawTopics, parties } from "./subjects";
 import { PAGE_TOPICS } from "./topics";
 import { topicOf } from "./cards";
 import { storyFor } from "./cards";
@@ -40,7 +40,7 @@ describe("lawTopics", () => {
     const ts = lawTopics(laws, groupOf, NOW);
     expect(match("Trump signs Chiricahua National Park Act into law", topics(...ts))?.id).toBe("law.119-pub-133");
     expect(match("Chiricahua  National Park gets a new status", topics(...ts))?.id).toBe("law.119-pub-133");
-    expect(match("Visiting Chiricahua National Monument this fall", topics(...ts))?.id).not.toBe("law.119-pub-133");
+    expect(match("Visiting Yellowstone National Park this fall", topics(...ts))?.id).not.toBe("law.119-pub-133");
   });
   it("keeps the newer law where two share a name", () => {
     const ts = lawTopics([law("118-pub-1", "2026-01-05", "Rural Housing Act"), law("119-pub-2", "2026-09-05", "Rural Housing Act")], groupOf, NOW);
@@ -48,6 +48,23 @@ describe("lawTopics", () => {
   });
   it("labels the card with the law's name", () => {
     expect(lawTopics(laws, groupOf, NOW)[0]!.label()).toBe("Chiricahua National Park Act");
+  });
+});
+
+describe("a new law's lead word", () => {
+  it("stands for the law alone while it is new, for a long proper name only", () => {
+    expect(leadWord("Chiricahua National Park")).toBe("Chiricahua");
+    expect(leadWord("Southcentral Foundation Land Transfer")).toBe("Southcentral");
+    expect(leadWord("Enhancing Detection of Human Trafficking")).toBeNull();
+    expect(leadWord("American Music Tourism")).toBeNull();
+    expect(leadWord("Romance Scam Prevention")).toBeNull();
+  });
+  it("matches the Guardian's headline on the new park, but not once the law is old", () => {
+    const headline = "America gets new national park with designation of Chiricahua’s rock spires";
+    const fresh = lawTopics([law("119-pub-133", "2026-10-20", "Chiricahua National Park Act")], groupOf, NOW);
+    expect(match(headline, topics(...fresh))?.id).toBe("law.119-pub-133");
+    const old = lawTopics([law("119-pub-9", "2026-03-01", "Chiricahua National Park Act")], groupOf, NOW);
+    expect(match(headline, topics(...old))?.id).not.toBe("law.119-pub-9");
   });
 });
 

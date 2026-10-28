@@ -12,6 +12,17 @@ import { DECISIONS_COUNT_CHART, LAWS_COUNT_CHART, type PageTopic } from "./topic
 export const LAW_NEWS_DAYS = 365;
 export const CASE_NEWS_DAYS = 270;
 
+/** A law this new is still being reported by its lead word alone ("Chiricahua's rock spires"): the Guardian's headline never says "Chiricahua National Park Act". */
+export const LEAD_WORD_DAYS = 90;
+/** Lead words too ordinary to mean one law, and endings of ordinary English words (a proper name rarely ends so). */
+const COMMON_LEAD = /^(american|americans|continuing|appropriations|authorization|comprehensive|infrastructure|environmental|protecting|improving|enhancing|preventing|strengthening|department|government|community|national|education|international|information|legislative|healthcare|technology|conservation|agriculture|transportation|restoration|settlement)$|(ing|ed|tion|ment|ship|ity|ness|ance|ence)$/i;
+
+/** The name's first word when it alone can stand for the law: a long proper name, not an ordinary word. */
+export function leadWord(name: string): string | null {
+  const w = name.split(/\s+/)[0]!.replace(/['’]s$/, "");
+  return /^[A-Z][a-z]{8,}$/.test(w) && !COMMON_LEAD.test(w) ? w : null;
+}
+
 export type LawRow = { law_id: string; date: string; title: string; area_id: string };
 export type CaseRow = { case_id: string; date: string; name: string; group_id: string | null };
 
@@ -43,6 +54,7 @@ export function lawTopics(laws: readonly LawRow[], groupOf: ReadonlyMap<string, 
   return [...byName.values()].map((l) => {
     const name = lawName(l.title)!;
     const group = groupOf.get(l.area_id);
+    const lead = leadWord(name);
     return {
       id: `law.${l.law_id}`,
       page: "laws",
@@ -50,7 +62,7 @@ export function lawTopics(laws: readonly LawRow[], groupOf: ReadonlyMap<string, 
       ...(group && group !== "not-classified" ? { groupId: group } : {}),
       label: fixed(`${name} Act`),
       chart: `the number of laws Congress enacts each Congress, by topic; the ${name} Act became law on ${l.date}`,
-      match: new RegExp(`\\b${phrase(name)}\\b`, "i"),
+      match: new RegExp(`\\b${phrase(name)}\\b${lead && recent(l.date, now, LEAD_WORD_DAYS) ? `|\\b${lead}\\b` : ""}`, "i"),
     };
   });
 }

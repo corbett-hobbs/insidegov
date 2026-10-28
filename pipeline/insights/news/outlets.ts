@@ -24,7 +24,7 @@
 export const ALLSIDES_READ_ON = "2026-10-27";
 /** AllSides' attribution for online works (allsides.com/trademark-guidelines), to show wherever a lean is shown. */
 export const ALLSIDES_CREDIT = "AllSides Media Bias Ratings™ by AllSides.com are licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.";
-export const FEEDS_TESTED_ON = "2026-10-27";
+export const FEEDS_TESTED_ON = "2026-10-28";
 
 export type OutletLean = "Left" | "Lean Left" | "Center" | "Lean Right" | "Right";
 export type Side = "left" | "center" | "right";
@@ -63,11 +63,11 @@ export const OUTLETS: Outlet[] = [
     id: "huffpost", name: "HuffPost", lean: "Left", needsCheck: true,
     feeds: ["https://chaski.huffpost.com/us/auto/vertical/politics", "https://chaski.huffpost.com/us/auto/vertical/us-news"],
   },
-  { id: "guardian", name: "The Guardian", lean: "Left", feeds: ["https://www.theguardian.com/us-news/us-politics/rss"] },
+  { id: "guardian", name: "The Guardian", lean: "Left", feeds: ["https://www.theguardian.com/us-news/us-politics/rss", "https://www.theguardian.com/us-news/us-news/rss", "https://www.theguardian.com/environment/national-parks/rss", "https://www.theguardian.com/environment/environment/rss"] },
   // Lean Left
   {
     id: "nytimes", name: "New York Times", lean: "Lean Left",
-    feeds: ["https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml", "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml", "https://rss.nytimes.com/services/xml/rss/nyt/US.xml"],
+    feeds: ["https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml", "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml", "https://rss.nytimes.com/services/xml/rss/nyt/US.xml", ...["Climate", "Health", "Education", "Science"].map((s) => `https://rss.nytimes.com/services/xml/rss/nyt/${s}.xml`)],
     opinionUrl: /\/(briefing|athletic|wirecutter|well|style|dealbook)\//i,
   },
   {
@@ -77,13 +77,13 @@ export const OUTLETS: Outlet[] = [
   },
   {
     id: "cbsnews", name: "CBS News", lean: "Lean Left",
-    feeds: ["https://www.cbsnews.com/latest/rss/politics", "https://www.cbsnews.com/latest/rss/moneywatch", "https://www.cbsnews.com/latest/rss/us"],
+    feeds: ["https://www.cbsnews.com/latest/rss/politics", "https://www.cbsnews.com/latest/rss/moneywatch", "https://www.cbsnews.com/latest/rss/us", "https://www.cbsnews.com/latest/rss/health", "https://www.cbsnews.com/latest/rss/science"],
     opinionUrl: /\/(face-the-nation|60-minutes|essentials)\//i,
   },
   // AllSides rates both Lean Left (read 2026-10-28; Politico's editorial review kept Lean Left over a Center blind survey). Both carry the trade-policy beat the older roster missed (Canada talks, tariff lists).
   {
     id: "politico", name: "Politico", lean: "Lean Left",
-    feeds: ["https://rss.politico.com/politics-news.xml", "https://rss.politico.com/economy.xml"],
+    feeds: ["https://rss.politico.com/politics-news.xml", "https://rss.politico.com/economy.xml", "https://rss.politico.com/congress.xml", "https://rss.politico.com/healthcare.xml", "https://rss.politico.com/energy.xml"],
     opinionUrl: /\/(magazine|playbook|inside-congress|politico-pro|podcasts?)\//i,
   },
   { id: "axios", name: "Axios", lean: "Lean Left", feeds: ["https://api.axios.com/feed/"] },
@@ -100,17 +100,17 @@ export const OUTLETS: Outlet[] = [
   // news feeds carry the headlines.
   { id: "wsj", name: "Wall Street Journal", lean: "Center", feeds: ["https://feeds.content.dowjones.io/public/rss/RSSUSnews", "https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness"] },
   { id: "bbc", name: "BBC News", lean: "Center", feeds: ["https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml", "https://feeds.bbci.co.uk/news/business/rss.xml"], opinionUrl: /\/(sport|av|sounds|programmes)\//i },
-  { id: "thehill", name: "The Hill", lean: "Center", feeds: ["https://thehill.com/homenews/feed/", "https://thehill.com/policy/feed/", "https://thehill.com/business/feed/"], opinionUrl: /\/(changing-america|in-the-know|hilltv)\//i },
+  { id: "thehill", name: "The Hill", lean: "Center", feeds: ["https://thehill.com/homenews/feed/", "https://thehill.com/policy/feed/", "https://thehill.com/business/feed/", ...["energy-environment", "healthcare", "defense", "technology", "transportation"].map((s) => `https://thehill.com/policy/${s}/feed/`)], opinionUrl: /\/(changing-america|in-the-know|hilltv)\//i },
   { id: "bloomberg", name: "Bloomberg", lean: "Center", feeds: ["https://feeds.bloomberg.com/politics/news.rss", "https://feeds.bloomberg.com/economics/news.rss"] },
   // Lean Right
   {
     id: "washingtonexaminer", name: "Washington Examiner", lean: "Lean Right",
-    feeds: ["news", "policy", "economy", "immigration", "energy", "white-house"].map((s) => `https://www.washingtonexaminer.com/section/${s}/feed/`),
+    feeds: ["news", "policy", "economy", "immigration", "energy", "white-house", "healthcare", "education"].map((s) => `https://www.washingtonexaminer.com/section/${s}/feed/`),
     opinionUrl: /\/(restoring-america|daily-on-[a-z-]+|beltway-confidential|magazine)\//i,
   },
   {
     id: "washingtontimes", name: "Washington Times", lean: "Lean Right",
-    feeds: ["politics", "business-economy", "national"].map((s) => `https://www.washingtontimes.com/rss/headlines/news/${s}/`),
+    feeds: ["politics", "business-economy", "national", "environment"].map((s) => `https://www.washingtontimes.com/rss/headlines/news/${s}/`),
   },
   // Its feed is mostly commentary with no news/opinion URL signal (tested 2026-10-28): reserve, and the Claude check decides. AllSides rates "National Review (News)" Lean Right.
   { id: "nationalreview", name: "National Review", lean: "Lean Right", reserve: true, needsCheck: true, feeds: ["https://www.nationalreview.com/feed/"] },
