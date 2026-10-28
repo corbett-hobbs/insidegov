@@ -1,4 +1,61 @@
 {
-  "asOf": "2026-10-27",
-  "stories": []
+  "asOf": "2026-10-28",
+  "stories": [
+    {
+      "id": "emissions_rules-2026-10-27",
+      "date": "2026-10-27",
+      "topic": "Emissions rules",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Trump says he’ll roll back Biden-era methane rules for oil and gas companies",
+          "url": "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Trump Moves to Weaken Methane Emissions Rules for Oil and Gas",
+          "url": "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Trump unveils plan to loosen methane rules for oil and gas industry",
+          "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/"
+        }
+      ]
+    },
+    {
+      "id": "venezuela_oil-2026-10-27",
+      "date": "2026-10-27",
+      "topic": "Venezuelan oil",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Trump shows off tanker with ‘1m barrels of oil’ and floats Venezuela as 51st state",
+          "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-oil-tanker-venezuela"
+        },
+        {
+          "outletId": "abcnews",
+          "outlet": "ABC News",
+          "lean": "Lean Left",
+          "title": "Trump and Rubio plan to visit oil tanker carrying Venezuelan crude in Texas",
+          "url": "https://abcnews.com/Politics/wireStory/trump-rubio-plan-visit-oil-tanker-carrying-venezuelan-137592774"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Trump brings 1 million barrels of oil from Venezuela to Texas ahead of rally as part of last push for GOP in midterms",
+          "url": "https://nypost.com/2026/10/27/us-news/trump-rubio-expected-to-greet-first-shipment-of-1-million-barrels-of-venezuelan-oil-arriving-in-texas-post-deal-with-us/"
+        }
+      ]
+    }
+  ]
 }

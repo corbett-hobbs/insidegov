@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-27",
+  "asOf": "2026-10-28",
   "stories": [
     {
       "id": "removals-2026-10-27",
@@ -13,6 +13,13 @@
           "lean": "Left",
           "title": "US Supreme Court Denies Immigration Judges The Power To Shelve Deportation Cases",
           "url": "https://www.huffpost.com/entry/us-supreme-court-denies-immigration-judges-the-power-to-shelve-deportation-cases_n_6ae0d41ee4b059999c6307d2"
+        },
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Supreme Court Allows Texas’ Deal With Justice Dept. on Deportation Proceedings",
+          "url": "https://www.nytimes.com/2026/10/27/us/politics/supreme-court-texas-immigration.html"
         },
         {
           "outletId": "washingtonexaminer",
