@@ -7,6 +7,7 @@ import { energyFaq } from "../components/energy/energy-news";
 import { tradeFaq } from "../components/trade/trade-news";
 import { foreignAidFaq } from "../components/foreign-aid/foreign-aid-news";
 import { troopsFaq } from "../components/troops/troops-news";
+import { executiveOrdersFaq } from "../components/executive-orders/executive-orders-news";
 
 const h = (lean: Lean, outletId = lean.replace(/\s/g, "").toLowerCase()): NewsHeadline => ({ outletId, outlet: outletId, lean, title: `${lean} headline`, url: "https://example.com/a" });
 const story = (id: string, date: string, headlines: NewsHeadline[]): NewsStory => ({ id, date, topic: "Topic", chartId: "chart-gas", headlines });
@@ -111,7 +112,7 @@ describe("shipped files", () => {
     }
   });
   it("the FAQ-only pages' fixtures parse, and every chart id is one of the page's cards", () => {
-    for (const [p, resolve] of [["energy", energyFaq], ["trade", tradeFaq], ["foreign-aid", foreignAidFaq], ["troops-abroad", troopsFaq]] as const) {
+    for (const [p, resolve] of [["energy", energyFaq], ["trade", tradeFaq], ["foreign-aid", foreignAidFaq], ["troops-abroad", troopsFaq], ["executive-orders", executiveOrdersFaq]] as const) {
       const file = faqFile.parse(read("pipeline/fixtures", `faq_${p}.json`));
       const ids = file.groups.flatMap((g) => g.items.flatMap((it) => it.chartIds));
       expect(ids.length).toBeGreaterThan(0);
