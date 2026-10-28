@@ -20,7 +20,7 @@ export const faqDraft = faqFile.extend({
 });
 export type FaqDraft = z.infer<typeof faqDraft>;
 
-const PAGE_NAME: Record<FaqPage, string> = { economy: "Economy", immigration: "Immigration", energy: "Energy", trade: "Trade", "foreign-aid": "Foreign aid", "troops-abroad": "Troops abroad", "executive-orders": "Executive orders" };
+const PAGE_NAME: Record<FaqPage, string> = { economy: "Economy", immigration: "Immigration", energy: "Energy", trade: "Trade", "foreign-aid": "Foreign aid", "troops-abroad": "Troops abroad", "executive-orders": "Executive orders", laws: "Laws" };
 const OPEN = "<!-- faq-draft";
 const CLOSE = "-->";
 

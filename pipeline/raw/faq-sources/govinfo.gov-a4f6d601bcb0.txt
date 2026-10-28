@@ -1,0 +1,289 @@
+# saved 2026-10-28 from https://www.govinfo.gov/help/plaw
+Public and Private Laws | GovInfo
+Skip to main content
+Public and Private Laws
+Last updated on 09-16-2024
+Search About, Features, and Help pages
+Help
+Finding Information
+What's Available
+Tutorials and Handouts
+Other Resources
+Submit Feedback
+Contact
+Public and Private Laws, 104th Congress (1995-1996) to Present
+Search
+Browse
+Jump to: Sample Searches │ Sample URLs │ Metadata Fields and Values │ Laws Citations │ Related Resources
+About Public and Private Laws
+What are Public and Private Laws?
+Public and private laws are also known as slip laws. A slip law is an official publication of the law and is "competent evidence," admissible in all state and Federal courts and tribunals of the United States (1 U.S.C. 113).
+Most laws passed by Congress are public laws . Public laws affect society as a whole. Public laws citations include the abbreviation, Pub.L., the Congress number (e.g. 107), and the number of the law. For example: Pub.L. 107-006.
+Private laws affect an individual, family, or small group, and are enacted to assist citizens that have been injured by government programs or who are appealing an executive agency ruling such as deportation. Private laws citations include the abbreviation, Pvt.L., the Congress number (e.g. 107), and the number of the law. For example: Pvt.L. 107-006.
+After the President signs a bill into law, it is delivered to the Office of the Federal Register (OFR), National Archives and Records Administration (NARA) where it is assigned a law number, legal statutory citation (public laws only), and prepared for publication as a slip law. Private laws receive their legal statutory citations when they are published in the United States Statutes at Large.
+Prior to publication as a slip law, OFR also prepares marginal notes and citations for each law, and a legislative history for public laws only. Until the slip law is published, through the U.S. Government Publishing Office (GPO), the text of the law can be found by accessing the enrolled version of the bill.
+What's Available?
+Public and Private Laws are available on GovInfo back to the 104 th Congress.
+At the end of each session of Congress, the slip laws are compiled into bound volumes called the Statutes at Large , and they are known as "session laws." The Statutes at Large present a chronological arrangement of the laws in the exact order that they have been enacted.
+Every six years, public laws are incorporated into the United States Code , which is a codification of all general and permanent laws of the United States. A supplement to the United States Code is published during each interim year until the next comprehensive volume is published. The U.S. Code is arranged by subject matter, and it shows the present status of laws with amendments already incorporated in the text that have been amended on one or more occasions. It is maintained as a separate collection.
+Public and Private Laws Side Notes
+The Office of the Federal Register (OFR) prepares each law for publication as a slip law (an individual pamphlet print) and then compiles, indexes, and publishes them in the United States Statutes at Large (a permanent bound volume of the laws for each session of Congress).
+Slip laws are presented exactly as they appear in the official printed version. Therefore, all side notes appear in the margins in their original format. Side notes are displayed in different ways in text and PDF files.
+Public and private laws contain the following information in either the header or side notes:
+Public law number
+Date of enactment
+Bill number
+Popular name of the law
+Statutes at Large citation
+U.S. Code citation
+Legislative history (Public laws only)
+Text: Side notes appear in double angle brackets within the body of the text. For example: In the printed version and ASCII text file of Public Law 106-1, "To restore the management and personnel authority of the Mayor of the District of Columbia," the short title appears as "<<NOTE: District of Columbia Management Restoration Act of 1999.>>" immediately following the clause that begins with "Be it enacted." Example
+PDF: Side notes appear exactly the same way that those changes appear in the printed version. For example: In the printed version and PDF file of Public Law 106-1, "To restore the management and personnel authority of the Mayor of the District of Columbia," the short title ("District of Columbia Management Restoration Act of 1999") appears as a side note in the right margin, adjacent to the clause that begins with "Be it enacted." Example
+Searching Public and Private Laws
+You can find and search Public and Private Laws by:
+Using Basic Search for keyword and metadata fielded searches (see Metadata Fields and Values section),
+Using Advanced Search fields specific to laws will display after you select Public and Private Laws in the Refine by Collection column,
+Using Citation Search to retrieve a single bill in PDF format if the law type, Congress number, and law number are known,
+Refining search results by clicking on links in the Refine Your Search panel on the left-hand side of the page (the sections under Refine Your Search correspond to the metadata available for the documents), and
+Browsing on the Public and Private Laws browse page.
+General GovInfo Search Tips
+Search Examples
+Search by Law Number and Congress – For example, law number 318 from the 108th Congress. This is typically displayed as 108-318.
+Using Basic Search, enter: collection:plaw docnumber:318 congress:108
+Using Advanced Search, select Public and Private Laws under Refine by Collection, then under Search In select Law Number in the first box and enter 318 in the second box, click + Additional Criteria, select Congress Number from the resulting box, and enter 108 in the next box
+Search by Law Type (Public or Private) – For example, only private laws.
+Using Basic Search, enter: collection:plaw lawtype:private
+Using Advanced Search, select Public and Private Laws under Refine by Collection, then under Search In Select Law Type in the first box and select Private Law from the next box
+Search by Statutes at Large Citation – For example, laws that reference 80 Stat. 1112.
+Using Basic Search, enter: collection:plaw statutecitation:"80 Stat. 1112"
+Using Advanced Search, select Public and Private Laws under Refine by Collection, then under Search In select Statutes At Large Citation from the first box and enter 80 Stat. 1112 into the next box
+Search by U.S. Code Citation – For example, laws that reference 43 U.S.C. 1337.
+Using Basic Search, enter: collection:plaw uscodecitation:"43 U.S.C. 1337"
+Using Advanced Search, select Public and Private Laws under Refine by Collection, then under Search In select U.S. Code Citation from the first box and enter 43 U.S.C. 1337 into the next box
+Search by Bill Citation – For example, laws with S. 507 as the bill citation.
+Using Basic Search, enter: collection:plaw billscitation:"S. 507"
+Using Advanced Search, select Public and Private Laws under Refine by Collection, then under Search In select Associated Bill Citation from the first box and enter S. 507 into the next box
+Search by Date Range – For example, laws published between April 1, 2008 and May 30, 2008.
+Using Basic Search, enter: collection:plaw publishdate:range(2008-04-01,2008-05-30)
+Using Advanced Search, select Date is Between under Date Range, then select or enter 04/01/2008 in the first box and select or enter 05/30/2008 in the next box, then select Public and Private Laws under Refine by Collection
+Search by Congress Number and Keywords – For example, laws from the 109th congress with fire safety in the full text of the document.
+Using Basic Search, enter: fire safety collection:plaw congress:109
+Using Advanced Search, select Public and Private Laws under Refine by Collection, then under Search In select Congress Number , select 109 from the next box, click + Additional Criteria, and enter fire safety in the empty box
+Sample Public and Private Laws URLs
+GovInfo uses a Package ID to create predictable URLs to public laws, private laws, and Details pages.
+Identifier
+Structure/Metadata Field
+Example
+Package ID
+Public Laws:
+PLAW-{Congress Number}publ{Law Number}
+Private Laws:
+PLAW-{Congress Number}pvtl{Law Number}
+Public Laws:
+PLAW-111publ4
+Private Laws:
+PLAW-111pvtl-2
+Tip: You can also use the link service and API to construct predictable links.
+Details Page for a Law
+Structure: https://www.govinfo.gov/app/details/ {packageId}
+Example: https://www.govinfo.gov/app/details/PLAW-111publ4
+PDF File for a Law
+Structure: https://www.govinfo.gov/content/pkg/ {packageId}/pdf/{packageId}.pdf
+Example: https://www.govinfo.gov/content/pkg/PLAW-111publ4/pdf/PLAW-111publ4.pdf
+HTML File for a Law
+Structure: https://www.govinfo.gov/content/pkg/ {packageId}/html/{packageId}.htm
+Example: https://www.govinfo.gov/content/pkg/PLAW-111publ4/html/PLAW-111publ4.htm
+Public and Private Laws Metadata Fields and Values
+Metadata fields and values can be used to increase the relevancy of your searches. The metadata fields available for Public and Private Laws are listed in the table below. Metadata fields and values are used throughout GovInfo for:
+Refining Your Search,
+Browsing Government Publications,
+Field Operators,
+Advanced Search, and
+Display on Details Pages.
+Metadata fields and values can be entered into the Basic Search box using field operators. The field operators available for the Public and Private Laws are listed in the table below, along with examples for each metadata field. Using Field Operators
+Some of these metadata fields are made available for use in Advanced Search. The metadata values can be entered in the same format for the fields available on the Advanced Search Page. Using Advanced Search
+Metadata Field Display Name
+Metadata Field Definition
+Field Operator
+Field Operator Example
+Collection
+The collection to which the document belongs. Typically the same as the publication or series.
+collection:
+collection:plaw
+"plaw" is used for Public and Private Laws
+Government Author
+The names of the Government organizations responsible for authoring or assembling the document.
+governmentauthor:
+governmentauthor:"national archives and records administration"
+Publication Date
+The date the document was first made available to the public.
+publishdate:
+publishdate:2006-09-30
+Date format is YYYY-MM-DD
+Language
+The language code of the original document, from the ISO639-2b standard.
+language:
+language:eng
+Former Package ID
+The document ID of the "package" as originally specified on www.gpoaccess.gov .
+mods:identifier:(@type:"former package identifier":______)
+mods:identifier:(@type:"former package identifier":"f:publ101.104")
+Ingestion Date
+The date the document was ingested into the preservation repository.
+ingestdate:
+ingestdate:2010-12-29
+Date format is YYYY-MM-DD
+Electronic Location (URL)
+The URL where the document or the document in context (the content detail page) is located.
+url:
+url:"PLAW-108publ347"
+Publisher
+The government organization who publishes the document or publication. Not typically the Government Publishing Office (who serves as the printer and distributor), except in the case of Congressional publications.
+publisher:
+publisher:"u.s. government printing office"
+Branch
+The branch of Government responsible for the document's contents.
+branch:
+branch:legislative
+Possible values: executive, legislative, judicial
+Type of Resource
+The media type for the document, typically "text". Defined as part of the Library of Congress MODS standard.
+typeofresource:
+typeofresource:text
+WAIS Database Name
+The name of the WAIS database to which the document belonged in the former GPO Access system.
+waisdbname:
+waisdbname:108_cong_public_laws
+Record Origin
+How the record was originally generated. Typically "machine generated."
+recordorigin:
+recordorigin:"machine generated"
+Title
+The title of the publication.
+title:
+title:"national defense authorization act"
+Congress Number
+The number of the Congress responsible for the law.
+congress:
+congress:108
+Law Type
+Each document will be either a Public law or a Private law
+lawtype:
+lawtype:public
+Possible values: public, private
+Law Number
+Number for the law. Laws are numbered sequentially per Congress.
+docnumber:
+docnumber:318
+Is Appropriation
+Flag indicates that a law includes the words to make appropriations, making appropriations, making emergency supplemental appropriations, making further continuing appropriations, making continuing appropriations, or to authorize appropriations in its full title.
+isappropriation:
+isappropriation:true
+Possible values: true, false
+Date Approved
+The date the law was approved.
+approveddate:
+approveddate:2006-09-30
+Date format is YYYY-MM-DD
+Legislative History
+Complete textual section of the legislative history printed at the bottom of the law.
+mods:legislativeHistory:
+mods:legislativeHistory:"natural resources"
+Committee
+Congressional committee names listed in the legislative history of public laws.
+committee:
+committee:science
+Citation
+The GPO standard method for searching citation references from the selected publication.
+citation:
+citation:"public law 107-314"
+Bill Number
+Reference to a bill number within the text of the document or the bill number for bills associated with the law.
+billscitation:
+billscitation:"h.r. 4516"
+Congressional Report Citation
+Reference to a congressional report within the text of the document.
+crptcitation:
+crptcitation:108-330
+crptcitation:"H. Rept. 114-669"
+United States Code
+Citations
+Reference to a United States Code citation within the text of the document. This citation may only include the United States Code Title and Section, chapter, or appendix numbers.
+uscodecitation:
+uscodecitation:"43 u.s.c. 1337"
+uscodecitation:"43 U.S.C. 1338a"
+uscodecitation:"50 U.S.C. App. 2078"
+Statutes at Large
+Citation
+Reference to a Statutes at Large citation within the text of the document.
+statutecitation:
+statutecitation:"11 Stat. 401"
+Reference Citation
+Reference to another document within the text of a document.
+refcitation:
+refcitation:"h.r. 1"
+Public and Private Laws Citation Patterns
+These patterns are available when creating searches using Public and Private Laws citations.
+In the Basic Search box, simply use one of the citation patterns listed in the Search Examples column below. If the law number value that you use is available on the website, the document will be returned.
+*all terms in italics are newly accepted search patterns
+Prefix
+Citation Search Example
+P.L.
+P.L. 115-277, P.L.115-277*
+Public Law
+Public Law 115-19
+Pub. L.
+Pub. L. 115-422
+Private Law
+Private Law 115-1
+Pvt. L
+Pvt. L 111-2
+p.l.
+p.l.115-422
+PL
+PL115-19
+Pl
+pl114-222
+[congress]PL
+115PL422
+[congress]pl
+115pl422
+[congress]P.L.
+115P.L.19
+[congress]p.l.
+114p.l.222
+PRIV
+PRIV107-2
+priv
+priv111-2
+[congress]PRIV
+111PRIV2
+[congress]priv
+107priv2
+[congress]pvtl
+111pvtl2
+[congress]PVTL
+111PVTL2
+[congress]PRTL
+107PRTL2
+[congress]prtl
+107prtl2
+Related Resources
+Statutes at Large - The permanent collection of all laws and resolutions enacted during each session of Congress
+How Our Laws Are Made (PDF) - House Document 110-49
+Guide to Law Online - An annotated guide to sources of information on government and law available online prepared by the Law Library of Congress Public Services Division
+Congress.gov - Official website for U.S. Federal legislative information
+Contact your local Federal Depository Library - To access a physical copy of Public and Private Laws.
+Purchase an electronic subscription - From GPO's Online Bookstore
+Not finding a new Public Law? Search for the final enrolled bill - The final official copy of the bill or joint resolution which both the House and the Senate have passed in identical form
+Skip back to top
+var _paq = _paq || [];
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function() {
+var u="/analytics/";
+_paq.push(['setTrackerUrl', u+'track']);
+_paq.push(['setSiteId', 1]);
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+})();

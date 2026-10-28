@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
@@ -36,7 +36,7 @@ const share = (b: readonly number[], k: number): number => {
  * whose entries isolate a band (rule 12c): the pick draws that band alone from zero, switches to the count view and also
  * narrows card 1; going back to Share clears it. Few laws per Congress (a thin area, or major laws only) get a note; the chart is never hidden.
  */
-export function LawsSupportCard() {
+export function LawsSupportCard({ jump }: { jump?: ReactNode }) {
   const { data, groups, major, bands, control, window: win, hover, pin } = useLawsValues();
   const { moveHover, leaveHover, togglePin, pinCongress, clearPin, setBands } = useLawsActions();
   // `iso` is the one band drawn alone (the legend's pick, or the only band ticked in the bar); several ticked bands stack, in the count view.
@@ -77,6 +77,7 @@ export function LawsSupportCard() {
 
   return (
     <ChartCard
+      id="how-broadly-are-laws-supported"
       title={LAWS_TAKEAWAYS.support.title}
       takeaway={LAWS_TAKEAWAYS.support.takeaway}
       action={
@@ -161,6 +162,7 @@ export function LawsSupportCard() {
           head={["Congress", "Opened", "Laws", ...BANDS.map((k) => SUPPORT_SHORT[k]!)]}
           rows={idx.map((ci, i) => [ordinal(data.congresses[ci]!), openYear(data.congresses[ci]!), cells[i]!.reduce((a, b) => a + b, 0), ...BANDS.map((k) => cells[i]![k]!)]).reverse()}
         />
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );
