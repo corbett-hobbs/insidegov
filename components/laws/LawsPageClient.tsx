@@ -16,8 +16,9 @@ import { LawsSupportCard } from "./LawsSupportCard";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
 import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
-import type { FaqFile } from "@/lib/news-types";
-import { lawsFaq } from "./laws-news";
+import { updatedLabel } from "@/lib/news-derive";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
+import { lawsFaq, lawsNews } from "./laws-news";
 
 function ControlToggle() {
   const { control } = useLawsValues();
@@ -34,12 +35,13 @@ function ControlToggle() {
  * /congress/laws. One shared state (`LawsState`): the years window, the ticked policy areas, major laws only, the ticked support bands and
  * the hovered / pinned Congress. The window and the policy areas narrow both cards (rule 4); the bands ticked in the bar or picked on card 2 also
  * narrows card 1. Card 3 compares policy areas (rows over the window, a heatmap by decade) and sets the policy area; the list of every law follows the same filters.
- * `faqFile` is `faq_laws.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links.
+ * `faqFile` is `faq_laws.json` and `newsFile` `news_laws.json`; null (or empty) leaves out that section, its header link and the cards' jump links.
  */
-export function LawsPageClient({ data, faqFile }: { data: LawsPayload; faqFile: FaqFile | null }) {
+export function LawsPageClient({ data, faqFile, newsFile }: { data: LawsPayload; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
   const first = openYear(data.congresses[0]!);
   const faq = useMemo(() => lawsFaq(faqFile), [faqFile]);
-  const { focus, jump } = useChartJump([], faq);
+  const news = useMemo(() => lawsNews(data, newsFile), [data, newsFile]);
+  const { focus, jump } = useChartJump(news, faq);
   return (
     <LawsStateProvider data={data}>
       <LawsFilterBar />
@@ -56,7 +58,7 @@ export function LawsPageClient({ data, faqFile }: { data: LawsPayload; faqFile: 
               </Link>
             </p>
           </PageShortcuts>
-          <NewsQuestionsPills news={[]} groups={faq} />
+          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         {/* Sits with the charts it changes, not among the intro links. */}
@@ -68,7 +70,7 @@ export function LawsPageClient({ data, faqFile }: { data: LawsPayload; faqFile: 
           <LawsListCard />
         </div>
 
-        <NewsFaqBand news={[]} groups={faq} focus={focus} />
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} focus={focus} chartNote="bars show the laws per Congress on the law’s topic, the last ten Congresses, the newest still in progress" />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

@@ -116,11 +116,11 @@ export function useChartJump(news: readonly NewsItem[], groups: readonly Questio
  * The page's whole bottom band: "In the news" and the FAQs in the tinted wrapper, left out entirely when the page has
  * neither. A page with no news row passes `news={[]}`.
  */
-export function NewsFaqBand({ news, updated, groups, focus = null }: { news: readonly NewsItem[]; updated?: string; groups: readonly QuestionGroup[]; focus?: string | null }) {
+export function NewsFaqBand({ news, updated, groups, focus = null, chartNote }: { news: readonly NewsItem[]; updated?: string; groups: readonly QuestionGroup[]; focus?: string | null; chartNote?: string }) {
   if (news.length === 0 && groups.length === 0) return null;
   return (
     <NewsAndFaqBand>
-      <InTheNews items={news} updated={updated} focus={focus} />
+      <InTheNews items={news} updated={updated} focus={focus} chartNote={chartNote} />
       <Questions groups={groups} focus={focus} />
     </NewsAndFaqBand>
   );
@@ -318,7 +318,8 @@ const lit = (on: boolean) => (on ? "bg-accent/10 border-accent" : "border-line")
  * One row that scrolls sideways: three cards (two on a tablet) and a peek of the next, with arrows; a swipe on phones.
  * Hidden when there are none.
  */
-export function InTheNews({ items, updated, focus = null }: { items: readonly NewsItem[]; updated?: string; focus?: string | null }) {
+/** `chartNote` replaces the default sentence about what the sparklines show, for a page whose cards draw something else (bars per Congress). */
+export function InTheNews({ items, updated, focus = null, chartNote = "sparklines (on stories the page has a chart for) show the last 3 years of weekly and monthly figures and the last 12 years of yearly ones" }: { items: readonly NewsItem[]; updated?: string; focus?: string | null; chartNote?: string }) {
   const row = useRef<HTMLUListElement>(null);
   if (!items.length) return null;
   return (
@@ -374,7 +375,7 @@ export function InTheNews({ items, updated, focus = null }: { items: readonly Ne
           </li>
         ))}
       </ul>
-      <span className="text-[0.72rem] text-ink-faint">Each story as outlets across the spectrum headlined it, with the agency’s own release first · leans are AllSides Media Bias Ratings{updated ? ` · updated ${updated}` : ""} · sparklines (on stories the page has a chart for) show the last 3 years of weekly and monthly figures and the last 12 years of yearly ones · “See chart ↑” goes to the chart, ↗ opens the article</span>
+      <span className="text-[0.72rem] text-ink-faint">Each story as outlets across the spectrum headlined it, with the agency’s own release first · leans are AllSides Media Bias Ratings{updated ? ` · updated ${updated}` : ""} · {chartNote} · “See chart ↑” goes to the chart, ↗ opens the article</span>
     </section>
   );
 }

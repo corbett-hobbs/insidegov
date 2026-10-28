@@ -17,18 +17,20 @@ import { SplitCard } from "./SplitCard";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
 import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
-import type { FaqFile } from "@/lib/news-types";
-import { decisionsFaq } from "./decisions-news";
+import { updatedLabel } from "@/lib/news-derive";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
+import { decisionsFaq, decisionsNews } from "./decisions-news";
 
 /**
  * /supreme-court/decisions. One shared state (`DecisionsState`): the years window, the topic and the hovered / pinned
  * term. The window and the topic narrow cards 1 and 2 (rule 4); card 3 compares topics over the same window and sets the topic.
- * `faqFile` is `faq_decisions.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links.
+ * `faqFile` is `faq_decisions.json` and `newsFile` `news_decisions.json`; null (or empty) leaves out that section, its header link and the cards' jump links.
  */
-export function DecisionsPageClient({ data, faqFile }: { data: DecisionsPayload; faqFile: FaqFile | null }) {
+export function DecisionsPageClient({ data, faqFile, newsFile }: { data: DecisionsPayload; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
   const first = data.terms[0];
   const faq = useMemo(() => decisionsFaq(faqFile), [faqFile]);
-  const { focus, jump } = useChartJump([], faq);
+  const news = useMemo(() => decisionsNews(data, newsFile), [data, newsFile]);
+  const { focus, jump } = useChartJump(news, faq);
   const last = data.terms[data.terms.length - 1];
   return (
     <DecisionsStateProvider data={data}>
@@ -59,7 +61,7 @@ export function DecisionsPageClient({ data, faqFile }: { data: DecisionsPayload;
               </Link>
             </p>
           </PageShortcuts>
-          <NewsQuestionsPills news={[]} groups={faq} />
+          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         <CasesCard jump={jump("how-many-cases-does-the-court-decide")} />
@@ -69,7 +71,7 @@ export function DecisionsPageClient({ data, faqFile }: { data: DecisionsPayload;
           <CaseListCard />
         </div>
 
-        <NewsFaqBand news={[]} groups={faq} focus={focus} />
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} focus={focus} chartNote="bars show the cases decided per term on the ruling’s topic, the last twelve terms" />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

@@ -14,8 +14,9 @@ import { z } from "zod";
  *  - Foreign aid (FAQ only): `how-much-the-u-s-spends`, `where-it-goes-and-who-receives-the-most`, `who-s-been-no-1`.
  *  - Troops abroad (FAQ only): `how-many-troops-are-stationed-abroad`, `where-they-are-and-who-hosts-the-most`, `who-s-hosted-the-most`.
  *  - Executive orders (FAQ only): `executive-orders-signed-per-year-by-topic`.
- *  - Laws (FAQ only): `how-many-laws-does-congress-pass`, `how-broadly-are-laws-supported`, `which-kinds-of-laws-pass-and-how`.
- *  - Decisions (FAQ only): `how-many-cases-does-the-court-decide`, `how-divided-is-the-court`, `which-kinds-of-cases-split-the-court`.
+ *  - Laws (stories point at the first): `how-many-laws-does-congress-pass`, `how-broadly-are-laws-supported`, `which-kinds-of-laws-pass-and-how`.
+ *  - Decisions: `how-many-cases-does-the-court-decide`, `how-divided-is-the-court`, `which-kinds-of-cases-split-the-court` (stories point at the first).
+ * Laws and Decisions stories also carry a `groupId` (the law's topic group, the case's topic) that filters their bar chart.
  * An id the page does not know is dropped (the story or the chip), never an error. The sparkline, latest value and its date
  * caption come from the page's own chart data, not from these files.
  */
@@ -45,6 +46,12 @@ export const newsStory = z.object({
   topic: z.string().min(1),
   /** The chart the story is about; absent for a story the page has no chart for (the card shows headlines over a plain wash). */
   chartId: z.string().min(1).optional(),
+  /**
+   * Laws and Decisions: the topic the story's bar chart is filtered to, so a law on public lands shows laws per Congress on
+   * land, water and farming, and an immigration ruling shows cases per term on immigration. A `LawsGroup` id or a Decisions
+   * topic id; absent (or unknown to the page) draws the chart for every topic.
+   */
+  groupId: z.string().min(1).optional(),
   /** At most three; see `hasEnoughOutlets` for what a story needs to be shown. */
   headlines: z.array(newsHeadline).min(1).max(3),
 });

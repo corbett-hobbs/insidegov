@@ -33,7 +33,7 @@ export const NEWS_TIME_ZONE = "America/New_York";
 export type CardLean = OutletLean | "Data";
 /** The shape of lib/news-types.ts (the UI's zod schema): keep the field names in step. */
 export type CardHeadline = { outletId: string; outlet: string; lean: CardLean; title: string; url: string };
-export type PageStory = { id: string; date: string; topic: string; chartId?: string; headlines: CardHeadline[] };
+export type PageStory = { id: string; date: string; topic: string; chartId?: string; groupId?: string; headlines: CardHeadline[] };
 export type PageNewsFile = { asOf: string; stories: PageStory[] };
 
 export type Candidate = {
@@ -97,10 +97,13 @@ const STOP = new Set(
   ("a an and are as at be by for from has have he her his how in is it its new of on or over says said she than that the their them they this to up us u.s. was were what when who why will with after amid about into more most not no out than just could would may might again after before under still now".split(" ")),
 );
 
+const RULING_WORDS = new Set(["supreme", "court", "justices", "justice", "ruling", "rules", "ruled", "rule", "decision", "decides", "decided", "high"]);
+
 /** A title's detail words: lowercase, no stop words, no words of the topic's own pattern, no short words. */
 export function detailWords(title: string, topic: PageTopic): Set<string> {
   const words = title.toLowerCase().replace(/[’']s\b/g, "").match(/[a-z0-9][a-z0-9.-]*[a-z0-9]|[a-z0-9]/g) ?? [];
-  return new Set(words.filter((w) => w.length > 3 && !STOP.has(w) && !topic.match.test(w) && !/^\d+$/.test(w)).map((w) => w.replace(/(ies|es|s)$/, "")));
+  // A Decisions story's headlines all say "Supreme Court rules": those words do not make two rulings one story.
+  return new Set(words.filter((w) => w.length > 3 && !STOP.has(w) && !(topic.page === "decisions" && RULING_WORDS.has(w)) && !topic.match.test(w) && !/^\d+$/.test(w)).map((w) => w.replace(/(ies|es|s)$/, "")));
 }
 
 /** Detail words two headlines need in common to be the same development, without the Claude check. */
@@ -229,7 +232,7 @@ export function storyFor(c: Candidate, headlines: Headline[], releases: Headline
   if (!picked) return null;
   const used = [...headlines, ...(release ? [release] : [])].filter((h) => picked.some((p) => p.url === h.url));
   const date = day(used.map((h) => h.published).sort()[0]!);
-  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), ...((c.topic.chartId ?? pickedChart) ? { chartId: (c.topic.chartId ?? pickedChart)! } : {}), headlines: picked };
+  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), ...((c.topic.chartId ?? pickedChart) ? { chartId: (c.topic.chartId ?? pickedChart)! } : {}), ...(c.topic.groupId ? { groupId: c.topic.groupId } : {}), headlines: picked };
 }
 
 /** "tariff.CAN-2026-10-24" → key and first day. */
@@ -264,8 +267,8 @@ export function mergeStories(previous: PageStory[], fresh: PageStory[], now: str
   return [...byId.values()]
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id))
     .filter((s) => {
-      // Chartless stories are limited per topic (the key in the id), like charted ones per chart.
-      const group = s.chartId ?? parseStoryId(s.id)?.key ?? s.id;
+      // Chartless stories are limited per topic (the key in the id), like charted ones per chart; a story filtered to one law or case is its own topic.
+      const group = (s.groupId ? undefined : s.chartId) ?? parseStoryId(s.id)?.key ?? s.id;
       const n = perChart.get(group) ?? 0;
       if (n >= MAX_PER_CHART) return false;
       perChart.set(group, n + 1);

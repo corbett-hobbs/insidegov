@@ -10,7 +10,8 @@ import { checkCandidate } from "./classify";
 import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
 import { partnersFor } from "./match";
 import { ALLSIDES_READ_ON } from "./outlets";
-import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_CHARTS, PAGE_TOPICS } from "./topics";
+import { type CaseRow, type LawRow, caseTopics, lawTopics } from "./subjects";
+import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_CHARTS, PAGE_TOPICS, type PageTopic } from "./topics";
 
 /**
  * The page-level "In the news" builder: reads the outlets' and agencies' feeds, groups headlines into stories about one
@@ -23,7 +24,9 @@ import { COUNTRY_ALIASES, MIN_PARTNER_IMPORTS, NEWS_PAGES, type NewsPage, PAGE_C
  *   pnpm news:pages -- --no-llm        # keyword and detail-word rules only (outlets that need the check are left out)
  *
  * --out DIR       where the files are (default pipeline/output); the earlier cards are read from there too
- * --pages LIST    economy,immigration,trade,energy (default all)
+ * --pages LIST    economy,immigration,trade,energy,laws,decisions (default all)
+ * --data DIR      where laws.json, laws_meta.json and decisions_cases.json are (default pipeline/output): the laws and
+ *                 rulings on the site that are in the news get a card of their own (news/subjects.ts)
  * --now ISO       pretend it is this moment
  * --cache FILE    what earlier runs saw, read and rewritten (default pipeline/.cache/news_pages.json, git-ignored; the
  *                 workflow keeps it in the Actions cache): topic headlines from the last STORY_TTL_DAYS (feeds carry a
@@ -39,6 +42,7 @@ try {
 
 const arg = (flag: string) => (process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined);
 const outDir = arg("--out") ?? "pipeline/output";
+const dataDir = arg("--data") ?? "pipeline/output";
 const dryRun = process.argv.includes("--dry-run");
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
 const now = arg("--now") ?? new Date().toISOString();
@@ -55,6 +59,7 @@ const fileSchema = z.object({
       date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       topic: z.string().min(1),
       chartId: z.string().min(1).optional(),
+      groupId: z.string().min(1).optional(),
       headlines: z.array(z.object({ outletId: z.string().regex(/^[a-z0-9]+$/), outlet: z.string().min(1), lean: z.enum(LEAN_ORDER), title: z.string().min(1), url: z.url() })).min(1).max(3),
     }),
   ),
@@ -74,9 +79,17 @@ console.log(`news:pages  ${live.length} outlet headlines from ${perOutlet.size} 
 
 const client = useLlm ? new Anthropic({ maxRetries: 4 }) : null;
 const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASES);
-const topics = PAGE_TOPICS.filter((t) => pages.includes(t.page));
+const readData = <T,>(file: string): T => JSON.parse(readFileSync(join(dataDir, file), "utf8")) as T;
+// A law or ruling on the site that is in the news gets its own topic, ahead of the page's general ones (first match wins).
+const subjectTopics: PageTopic[] = [
+  ...(pages.includes("laws") ? lawTopics(readData<LawRow[]>("laws.json"), new Map(readData<{ areas: { id: string; group: string }[] }>("laws_meta.json").areas.map((a) => [a.id, a.group])), now) : []),
+  ...(pages.includes("decisions") ? caseTopics(readData<CaseRow[]>("decisions_cases.json"), now) : []),
+];
+const ALL_TOPICS = [...subjectTopics, ...PAGE_TOPICS];
+console.log(`news:pages  ${subjectTopics.length} laws and rulings on the site recent enough to be in the news`);
+const topics = ALL_TOPICS.filter((t) => pages.includes(t.page));
 const usable = (h: Headline) => client !== null || !needsCheck(h);
-const candidates = addCompanions(groupCandidates(headlines, topics, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
+const candidates = addCompanions(groupCandidates(headlines, topics, partners, now, usable), headlines.filter(usable), ALL_TOPICS, partners, now);
 
 /**
  * The headlines of a candidate that are straight news of one development: the check's answer, else the word rule. For a
@@ -147,7 +160,7 @@ console.log(`\nheadlines on cards by outlet: ${[...used].sort((a, b) => b[1] - a
 if (!dryRun) {
   const cutoff = Date.parse(now) - STORY_TTL_DAYS * 86_400_000;
   cache.checks = Object.fromEntries(Object.entries(cache.checks).filter(([, c]) => Date.parse(c.at) >= cutoff));
-  cache.headlines = headlines.filter((h) => Date.parse(h.published) >= cutoff && topicOf(h.title, PAGE_TOPICS, partners));
+  cache.headlines = headlines.filter((h) => Date.parse(h.published) >= cutoff && topicOf(h.title, ALL_TOPICS, partners));
   mkdirSync(dirname(cacheFile), { recursive: true });
   writeFileSync(cacheFile, `${JSON.stringify(cache, null, 2)}\n`);
 }
