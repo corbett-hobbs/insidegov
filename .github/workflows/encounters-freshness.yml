@@ -105,6 +105,7 @@ jobs:
       # Social post drafts about what this refresh added: one issue per draft, posted only by hand
       # (pipeline/insights/README.md). Runs before the PR step, while HEAD still holds the old data.
       - name: Draft social posts
+        id: drafts
         if: steps.diff.outputs.material == 'true' && steps.build.outputs.transform_ok == 'true'
         continue-on-error: true
         uses: ./.github/actions/social-drafts
@@ -119,6 +120,23 @@ jobs:
           email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
           slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
           dry-run: ${{ github.event.inputs.social_dry_run == 'true' }}
+
+      # The drafting step runs with continue-on-error so it can never block a data refresh, which also hides a failure:
+      # a step that cannot even load shows as green. Say so by email (the drafting action's own email cannot, it is the
+      # thing that failed), and the daily catch-up (social-catchup.yml) drafts what this missed.
+      - name: Email if drafting failed
+        if: always() && steps.drafts.outcome == 'failure'
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: social drafting failed in ${{ github.workflow }}"
+          body: "The data refresh went ahead, but its social drafting step failed, so no drafts were opened from it. The daily catch-up will draft them from the data on main; open the run to see why this step failed."
+          url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
 
       - name: Open pull request
         id: cpr

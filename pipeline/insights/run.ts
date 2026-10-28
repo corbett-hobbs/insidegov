@@ -1,4 +1,4 @@
-import { appendFileSync } from "node:fs";
+import { appendFileSync, readFileSync } from "node:fs";
 import { eventInsightsAt, newDates, newMonthEnds, releaseEstimator, selectInsights, seriesInsightsAt } from "./collect";
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
@@ -16,6 +16,9 @@ import type { DatasetId, Insight, Series } from "./types";
  *
  * --since-ref REF   periods newer than the data at REF are new (the workflow default)
  * --since DATE      periods after DATE are new
+ * --fresh           drop insights already past their freshness window (the scheduler would only expire them)
+ * --exclude-file F  ids (one per line) that already have a draft issue; dropped before picking, so a repeat run
+ *                   neither re-captions them nor lets them crowd out something new (the daily catch-up, social-catchup.yml)
  * --max N           drafts at most (default 3 per dataset)
  * --no-llm          template captions only (also the fallback when ANTHROPIC_API_KEY is unset)
  *
@@ -37,6 +40,21 @@ const since = arg("--since");
 if (!sinceRef && !since) throw new Error("pass --since-ref REF or --since YYYY-MM-DD");
 const outDir = arg("--out") ?? "social-drafts/latest";
 const max = Number(arg("--max") ?? 3 * datasets.length);
+const freshOnly = process.argv.includes("--fresh");
+const excludeFile = arg("--exclude-file");
+const exclude = new Set(excludeFile ? readFileSync(excludeFile, "utf8").split("\n").map((l) => l.trim()).filter(Boolean) : []);
+// An insight's id is `<series>:<kind>:<date>`. A draft for a newer date of the same series and kind supersedes an older
+// one (schedule.ts), so an older insight is not drafted once the newer one has an issue, however it was dealt with.
+const splitId = (id: string) => [id.slice(0, id.lastIndexOf(":")), id.slice(id.lastIndexOf(":") + 1)] as const;
+const newestDrafted = new Map<string, string>();
+for (const id of exclude) {
+  const [key, date] = splitId(id);
+  if (date > (newestDrafted.get(key) ?? "")) newestDrafted.set(key, date);
+}
+const alreadyDrafted = (i: Insight) => {
+  const [key, date] = splitId(i.id);
+  return (newestDrafted.get(key) ?? "") >= date;
+};
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
 
 const admins = loadAdministrations();
@@ -62,9 +80,10 @@ for (const d of datasets) {
 // A freshness workflow sees the data the day it comes out, so today is the release date (freshness.ts). Drafting by
 // date (--since) cannot know it, so it estimates.
 const estimate = releaseEstimator(allSeries);
-const picked = selectInsights(insights, { max, perSeries: 2, perDataset: 3 })
-  .map((i) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true)))
-  .map((i) => withWhy(withBreakdown(i, allSeries)));
+const stamp = (i: Insight) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true));
+const candidates = insights.filter((i) => !alreadyDrafted(i)).map(stamp).filter((i) => !freshOnly || i.release!.expiresOn >= today);
+if (exclude.size || freshOnly) console.log(`insights:draft  ${insights.length - candidates.length} of ${insights.length} set aside (${exclude.size} ids already drafted${freshOnly ? ", stale ones dropped" : ""})`);
+const picked = selectInsights(candidates, { max, perSeries: 2, perDataset: 3 }).map((i) => withWhy(withBreakdown(i, allSeries)));
 console.log(`insights:draft  ${insights.length} insights in ${datasets.join(", ")}, ${picked.length} picked, captions by ${useLlm ? "Claude" : "template"}`);
 const { drafts, dropped } = picked.length ? await buildDrafts(picked, { outDir, useLlm }) : { drafts: [], dropped: [] };
 for (const d of dropped) console.log(`  dropped ${d}`);

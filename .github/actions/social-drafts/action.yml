@@ -32,6 +32,16 @@ inputs:
     description: For Claude captions; without it the deterministic template captions are used
     required: false
     default: ""
+  catch-up:
+    description: >
+      'true' drafts only what is still fresh and has no issue yet (open or closed), so it can run every day without
+      repeating itself. The safety net for a refresh whose drafting step was missed (social-catchup.yml)
+    required: false
+    default: "false"
+  max:
+    description: "Most drafts to write in one run (blank: the default, 3 per dataset)"
+    required: false
+    default: ""
   dry-run:
     description: "'true' prints each issue instead of opening it, and pushes no images"
     required: false
@@ -74,6 +84,8 @@ runs:
         SINCE: ${{ inputs.since }}
         NEWS: ${{ inputs.news }}
         DRY_RUN: ${{ inputs.dry-run }}
+        CATCH_UP: ${{ inputs.catch-up }}
+        MAX: ${{ inputs.max }}
       run: |
         if [ "$NEWS" = "true" ]; then
           state="$RUNNER_TEMP/news-state.json"
@@ -84,7 +96,16 @@ runs:
           exit 0
         fi
         if [ -n "$SINCE" ]; then since=(--since "$SINCE"); else since=(--since-ref "$SINCE_REF"); fi
-        pnpm exec tsx pipeline/insights/run.ts --datasets "$DATASETS" "${since[@]}" --out "$RUNNER_TEMP/social-drafts"
+        extra=()
+        if [ -n "$MAX" ]; then extra+=(--max "$MAX"); fi
+        if [ "$CATCH_UP" = "true" ]; then
+          # Ids of every draft issue ever opened (the title ends in [id]), open or closed: a rejected draft stays rejected.
+          gh issue list --label social-draft --state all --limit 1000 --json title --jq '.[].title' \
+            | sed -n 's/.*\[\([^]]*\)\]$/\1/p' > "$RUNNER_TEMP/drafted-ids.txt"
+          echo "$(wc -l < "$RUNNER_TEMP/drafted-ids.txt") drafts already have an issue"
+          extra+=(--fresh --exclude-file "$RUNNER_TEMP/drafted-ids.txt")
+        fi
+        pnpm exec tsx pipeline/insights/run.ts --datasets "$DATASETS" "${since[@]}" "${extra[@]}" --out "$RUNNER_TEMP/social-drafts"
 
     # Images live on an orphan branch so issues can embed them (raw.githubusercontent.com) without touching main.
     # The news watcher's state goes there too, on every run (it changes even when nothing is drafted).

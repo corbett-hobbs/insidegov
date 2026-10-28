@@ -1,0 +1,88 @@
+name: Social drafts (daily catch-up)
+
+# The safety net under the freshness workflows. They draft social posts once, at the moment a data refresh lands; if
+# that step breaks or is skipped (a failed gate, a merge by hand, a bug in the drafting step) nothing retries it, and
+# the next run finds no new data. This one runs every day from the data already on main: it drafts every insight that
+# is still inside its freshness window (pipeline/insights/freshness.ts) and has no `social-draft` issue yet, open or
+# closed, so it never repeats a draft or revives a rejected one. On a normal day it finds nothing and costs nothing
+# (no Claude calls). Same output as every other drafting run: one issue per draft, one email per run, and nothing
+# posts without `social-approved`.
+#
+# 14:07 UTC is 7:07 a.m. Pacific, after the morning data refreshes have merged and ahead of the 9 a.m. posting slot.
+# A manual run is a dry run by default.
+
+on:
+  schedule:
+    - cron: "7 14 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print the issues instead of opening them"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: social-drafts
+  cancel-in-progress: false
+
+jobs:
+  catch-up:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Insights are looked for in periods after this date; the freshness filter drops what is already stale, so it only
+      # needs to reach back past the longest window (a fiscal year's 45 days after its release).
+      - id: since
+        run: echo "date=$(date -u -d '150 days ago' +%F)" >> "$GITHUB_OUTPUT"
+
+      - id: drafts
+        uses: ./.github/actions/social-drafts
+        with:
+          datasets: energy,gas,encounters,ice,trade,executive_orders,laws
+          since: ${{ steps.since.outputs.date }}
+          catch-up: "true"
+          max: "6"
+          token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        env:
+          SOCIAL_CAPTION_MODEL: ${{ vars.SOCIAL_CAPTION_MODEL }}
+          SOCIAL_CAPTION_EFFORT: ${{ vars.SOCIAL_CAPTION_EFFORT }}
+          SOCIAL_WHY_MODEL: ${{ vars.SOCIAL_WHY_MODEL }}
+          SOCIAL_WHY_EFFORT: ${{ vars.SOCIAL_WHY_EFFORT }}
+
+      # This job has no continue-on-error, so a failure also fails the run (GitHub's own failure email); this adds the
+      # same email channel as the drafts themselves.
+      - if: failure()
+        uses: ./.github/actions/notify
+        with:
+          subject: "InsideGov: the daily social catch-up failed"
+          body: "The daily catch-up that drafts any missed social posts failed, so new data may have no drafts to approve. Open the run for the error."
+          url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}

@@ -451,3 +451,17 @@ HEAD, and the run date is the release date. Each run drafts at most 3 per datase
 `social-drafts` branch and are embedded from raw.githubusercontent.com; an issue is skipped if one already exists for
 the same draft. Tick **social_dry_run** on a manual run to print the issues instead. `social-drafts.yml` drafts from
 main's data after a chosen date (release dates estimated), dry run by default.
+
+**A missed draft is caught the next morning.** The freshness workflows draft once, at the moment a refresh lands; if
+that step breaks, or the refresh is merged by hand after a failed gate, the next run finds nothing new and nothing
+retries. `social-catchup.yml` runs daily at 14:07 UTC (7:07 a.m. Pacific) from the data on main: it drafts every insight
+still inside its freshness window that has no `social-draft` issue yet, open or closed (so a rejected draft stays
+rejected, and nothing older than an already-drafted newer reading of the same series is revived), at most 6 a run, with
+the same issues and one email as any other drafting run. A normal day drafts nothing and makes no Claude calls. Locally:
+`pnpm insights:draft -- --datasets energy --since 2026-06-01 --fresh --exclude-file ids.txt`.
+
+**A broken drafting step is announced.** `continue-on-error` hides a failure, so each freshness workflow has an
+"Email if drafting failed" step (the drafting action's own email cannot send when the action itself failed to load),
+and the catch-up emails if it fails. `pipeline/workflows.test.ts` (run by CI) parses every workflow and action file,
+checks that local actions exist and `steps.<id>` references resolve, and fails if a drafting step that can fail silently
+has no such email step.
