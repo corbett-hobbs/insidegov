@@ -74,6 +74,18 @@ const PAIRS: Record<string, string[]> = {
     "The federal funds rate is the interest rate banks charge each other for overnight loans, shown as a weekly average from the Federal Reserve Board. The Federal Reserve announces a target range and steers the rate into it, so it is not the rate on a home or car loan.",
     "Inflation is how much consumer prices have changed over the past year, measured by the Consumer Price Index for all urban consumers and reported monthly. Both lines are in percent, so they share one scale.",
   ],
+  "economy.mortgage_rate|economy.treasury_10y": [
+    "The mortgage rate is the average rate on a 30-year fixed-rate home loan, from Freddie Mac's weekly survey of lenders. The ten-year Treasury yield is the market rate on ten-year U.S. government debt, set by investors and averaged over the week.",
+    "Both lines are in percent, so they share one scale. The chart shows how far apart the two have been, not why.",
+  ],
+  "economy.treasury_10y|economy.fed_funds": [
+    "The ten-year Treasury yield is the market rate on ten-year U.S. government debt, set by investors and averaged over the week. The federal funds rate is the rate banks charge each other for overnight loans, which the Federal Reserve steers into a target range.",
+    "Both lines are in percent, so they share one scale: one is set by the market over ten years, the other by the Fed overnight.",
+  ],
+  "economy.unemployment|economy.inflation": [
+    "Unemployment is the share of the labor force without a job and looking for one, from the Bureau of Labor Statistics' household survey. Inflation is how much consumer prices have changed over the past year, measured by the Consumer Price Index.",
+    "Both are monthly rates in percent, so they share one scale. Together they are the two figures behind the misery index.",
+  ],
 };
 
 /** Lines that tell the reader the figures arrive late or may be revised: worth a slide or reply even beside a reason. */
