@@ -61,15 +61,15 @@
           "outletId": "nytimes",
           "outlet": "New York Times",
           "lean": "Lean Left",
-          "title": "Democrats Blame Trump After CPI Report Shows Energy Prices Drove Up Inflation",
-          "url": "https://www.nytimes.com/2026/10/14/business/economy/inflation-trump-democrats-midterms-energy.html"
+          "title": "Higher Energy Prices Pushed U.S. Inflation Up to 3.7% Ahead of Midterm Elections",
+          "url": "https://www.nytimes.com/2026/10/14/business/economy/inflation-cpi.html"
         },
         {
-          "outletId": "foxbusiness",
-          "outlet": "Fox Business",
-          "lean": "Lean Right",
-          "title": "Consumer inflation rose faster than expected in September, CPI report shows",
-          "url": "https://www.foxbusiness.com/economy/cpi-inflation-september-2026"
+          "outletId": "npr",
+          "outlet": "NPR",
+          "lean": "Lean Left",
+          "title": "Despite bad inflation report, Trump says economy is doing fine",
+          "url": "https://www.npr.org/2026/10/15/nx-s1-6001707/despite-bad-inflation-report-trump-says-economy-is-doing-fine"
         }
       ]
     }
