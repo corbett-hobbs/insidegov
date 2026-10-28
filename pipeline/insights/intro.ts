@@ -64,27 +64,27 @@ export function introCarousel(): IntroSlide[] {
     {
       kind: "cover",
       title: "The data behind the headlines",
-      sub: "Charts from the government’s own records on the presidency, Congress and the Supreme Court.",
+      sub: "Charts straight from official government records on the presidency, Congress, and the Supreme Court.",
       sparks: coverSparks(),
     },
     {
       kind: "text",
       kicker: "Why it exists",
-      title: "The news runs on numbers",
+      title: "News gives you the number. Rarely the context.",
       paragraphs: [
-        "Gas prices, tariffs, deportations, the deficit, a new law, a Supreme Court ruling. Articles quote the figures, but rarely show them in context.",
-        "You read that something rose or fell without seeing how it compares with last year, or with the last administration. InsideGov puts the chart in one place.",
+        "You read that something spiked or dropped, but it’s hard to find how it compares to last year—or to the last administration.",
+        "InsideGov puts the historical chart in one place, so you can see the trend for yourself.",
       ],
     },
     {
       kind: "list",
       kicker: "What it covers",
-      title: "Questions it helps answer",
+      title: "The questions it answers",
       items: [
-        "How have gas prices, jobs and the deficit moved from one administration to the next?",
-        "What does the U.S. trade, with whom, and how have tariffs changed?",
-        "How many executive orders has each president signed, and on what?",
-        "What has the Supreme Court decided, and how has its middle moved?",
+        "How gas prices, jobs, and the deficit actually moved from one administration to the next.",
+        "Who the U.S. trades with and how tariffs have shifted over time.",
+        "Executive orders signed by each president, broken down by topic.",
+        "Supreme Court rulings and how the ideological center of the bench has moved.",
       ],
     },
     {
@@ -92,20 +92,20 @@ export function introCarousel(): IntroSlide[] {
       kicker: "On this account",
       title: "What you’ll see here",
       items: [
-        "When a topic is in the news, a chart of how it has changed over the years: tariffs, gas prices, oil, the trade deficit, the border, deportations.",
-        "When a monthly release comes out, one post on its headline number (trade, the border, executive orders, laws, electricity, oil output) and a one-line reason it moved, from a named source.",
-        "Every number checked against its source before it goes up, with the full data on the site.",
+        "When a topic hits the news, a look at how it has changed over the years—from trade deficits to border encounters.",
+        "Monthly breakdowns when new data drops, with a quick note on why the numbers moved.",
+        "Every figure checked and linked directly to its primary source.",
       ],
     },
     {
       kind: "list",
       kicker: "How to read it",
-      title: "What the charts do, and don’t",
+      title: "The ground rules",
       items: [
-        "Every number comes from a named public source. The code and data are open.",
-        "Each chart has notes on what it measures and what to be careful about.",
-        "The charts show what the records show. They don’t claim that a president or party caused it.",
-        "Not affiliated with or funded by any agency, party, campaign or advocacy group.",
+        "Every number comes from a named public source. The code and data are fully open.",
+        "Charts include context notes on what is being measured—and what to watch out for.",
+        "The charts show what the records say, not an opinion on who caused it.",
+        "Independent and self-funded. No outside advocacy or institutional backing.",
       ],
     },
     {
@@ -113,20 +113,20 @@ export function introCarousel(): IntroSlide[] {
       kicker: "Who’s behind it",
       title: `Hi, I’m ${FIRST_NAME}`,
       paragraphs: [
-        "I studied international politics at Georgetown’s School of Foreign Service and worked in a U.S. Senate press office.",
-        "In 2013 I launched the original InsideGov.com at Graphiq, which Amazon acquired in 2017. If we worked together back then, you’ll recognize the name.",
-        "Bringing it back has been a passion project. It’s good to see you here.",
+        "I studied international politics at Georgetown’s School of Foreign Service and spent time working in a U.S. Senate press office.",
+        "Back in 2013, I launched the original InsideGov at Graphiq before Amazon acquired us in 2017. If we crossed paths back then, you’ll likely recognize the name.",
+        "Bringing it back is a labor of love. Good to see you here.",
       ],
       sign: `${site} · link in bio`,
     },
   ];
 }
 
-/** The post's caption (Instagram: no clickable links, so it points to the bio). */
+/** The post's caption (Instagram: no clickable links, so it points to the bio). Revised by the owner, 2026-10-28. */
 export const INTRO_INSTAGRAM_CAPTION = [
-  `Hi, I’m ${FIRST_NAME}. Some of you will remember InsideGov from our Graphiq days. I’ve rebuilt it from scratch as a passion project: charts of the data behind the news, straight from the government’s own records.`,
-  "This account posts a chart when a topic like tariffs or gas prices is in the news, and when a monthly release of government data comes out. Every number is checked against its source.",
-  `The full charts, data and sources are at ${site} (link in bio).`,
+  "Back when Graphiq was running, some of you might remember InsideGov. I’ve completely rebuilt it from the ground up as a passion project: just clean charts of the data behind the news, pulled straight from official government records.",
+  "Moving forward, I’ll be posting a chart whenever a major topic like tariffs or gas prices hits the news, or when key monthly numbers drop. Every figure is checked against the primary source.",
+  `Take a look at the full charts and datasets at ${site} (link in bio).`,
   "#govdata #dataviz #publicdata",
 ].join("\n\n");
 
