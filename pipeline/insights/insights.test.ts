@@ -73,7 +73,7 @@ describe("detectExtremes", () => {
     const { series, rows } = monthly(values);
     const [ins] = detectExtremes(series);
     expect(ins?.kind).toBe("extreme_high");
-    expect(ins?.template).toBe("Test output: 125.0 units in January 2010, the highest since May 2003 (130.0 units).");
+    expect(ins?.template).toBe("Test output stood at 125.0 units in January 2010, the highest since May 2003 (130.0 units).");
     expect(verifyInsight(ins!, indexFor(rows))).toEqual([]);
     expect(checkCaption(ins!.template, ins!.facts)).toEqual([]);
   });
@@ -220,6 +220,7 @@ describe("checkCaption", () => {
 
   it("rejects numbers that are not facts, including re-rounded ones", () => {
     expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 40% since January 20, 2025.", facts).join()).toMatch(/numbers not among the facts: 40%/);
+    expect(checkCaption("Regular gas: $4.33 a gallon in the week of October 19, 2026.", facts).join()).toMatch(/colon/);
     expect(checkCaption("Crude oil production hit 13.6 million barrels a day as gas reached $4.33 a gallon.", facts).join()).toMatch(/13.6 million/);
   });
 
@@ -358,7 +359,7 @@ describe("detectLatest", () => {
     const { series, rows } = monthly(values, { headline: true });
     const [ins] = detectLatest(series);
     expect(ins?.kind).toBe("latest");
-    expect(ins?.template).toBe("Test output: 110.0 units in January 2010, up 10% from December 2009 and up 9.8% from a year earlier (100.2 units).");
+    expect(ins?.template).toBe("Test output stood at 110.0 units in January 2010, up 10% from December 2009 and up 9.8% from a year earlier (100.2 units).");
     expect(verifyInsight(ins!, indexFor(rows))).toEqual([]);
     expect(checkCaption(ins!.template, ins!.facts)).toEqual([]);
     expect(detectLatest(monthly(values).series)).toEqual([]);

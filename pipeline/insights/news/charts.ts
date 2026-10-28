@@ -2,10 +2,10 @@ import { existsSync, readdirSync } from "node:fs";
 import { displayCountryName } from "../../../lib/trade-names";
 import { readOutput } from "../datasets";
 import { capitalize, changeFact, dateFact, linePoints, markDate, pctFact, periodBars, unitFact, usesBars, when, yearEarlier } from "../detect";
-import { addMonths, bareIfSameYear, dateStyleFor, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
+import { addMonths, bareIfSameYear, dateStyleFor, daysBetween, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
 import { CAPTION_MAX_CHARS } from "../caption";
 import { chartTitle } from "../title";
-import type { ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
+import type { Breakdown, ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
 
 /**
  * Context charts for news drafts. Unlike the data-release detectors these do not look for anything notable: the news
@@ -47,24 +47,63 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
   };
 }
 
+/**
+ * The carousel's "bigger picture" card for a chart with two lines: each line's highest and lowest reading in the chart's
+ * window beside its latest, as bars on one scale. Every value is a fact traced to its cells; the card says nothing the
+ * data does not.
+ */
+function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from: string, latest: Point, latestFact: Fact): { breakdown: Breakdown; facts: Fact[] } | null {
+  const facts: Fact[] = [];
+  const block = (s: Series, unit: UnitFormat, key: string, label: string, now: Point, nowFact: Fact) => {
+    const win = s.points.filter((p) => p.date >= from && p.date <= now.date);
+    if (win.length < 3) return null;
+    const hi = win.reduce((a, b) => (b.value > a.value ? b : a));
+    const lo = win.reduce((a, b) => (b.value < a.value ? b : a));
+    const row = (name: string, id: string, p: Point) => {
+      const f = unitFact(`trend_${key}_${id}`, p.value, unit, p.cells);
+      facts.push(f);
+      return { name, fact: f.id };
+    };
+    const rows = [row(`Peak, ${hi.date.slice(0, 4)}`, "peak", hi), row(`Low, ${lo.date.slice(0, 4)}`, "low", lo)];
+    facts.push({ ...nowFact, id: `trend_${key}_latest` });
+    return { label, rows: [...rows, { name: "Latest", fact: `trend_${key}_latest` }] };
+  };
+  const a = block(main, mainUnit, "a", capitalize(main.name.replace(/^the /, "")), latest, latestFact);
+  const otherLatest = other.points.at(-1);
+  const b = otherLatest ? block(other, other.unit, "b", capitalize(other.name.replace(/^the /, "")), otherLatest, unitFact("x", otherLatest.value, other.unit, otherLatest.cells)) : null;
+  if (!a || !b) return null;
+  return {
+    facts,
+    breakdown: {
+      title: "Where each stands against the last ten years",
+      kicker: "The bigger picture",
+      levels: true,
+      blocks: [a, b],
+      note: `Highest and lowest readings since ${from.slice(0, 4)}. The federal funds rate is a weekly average; inflation is the change from a year earlier.`,
+    },
+  };
+}
+
 /** A series' latest value against its peak in the window (`peak`), else against a year earlier. */
-export function seriesContext(series: Series, opts: { years: number; peak: boolean; lead: string; id: string }): Insight | null {
+export function seriesContext(series: Series, opts: { years: number; peak: boolean; lead: string; id: string; compare?: Series }): Insight | null {
   const latest = series.points.at(-1);
   if (!latest || series.points.length < 3) return null;
   const style = dateStyleFor(series.frequency);
+  // With a second series the figures are the headline numbers of a status update: one decimal, as inflation reads.
+  const unit = opts.compare ? { ...series.unit, decimals: Math.min(1, series.unit.decimals) } : series.unit;
   const from = addMonths(latest.date, -12 * opts.years);
-  const latestFact = unitFact("latest_value", latest.value, series.unit, latest.cells);
+  const latestFact = unitFact("latest_value", latest.value, unit, latest.cells);
   const latestDate = dateFact("latest_date", latest.date, style);
   const facts: Fact[] = [latestFact, latestDate];
   const bars = usesBars(series);
-  // "Name: value when" reads right whether the name is singular (a price) or plural (encounters, exports).
-  const head = `${capitalize(series.name)}: ${latestFact.text} ${when(series, latestDate.text)}`;
+  // "Name stood at value when" ("was" beside a second series, to fit) reads right whether the name is singular (a price) or plural (encounters, exports).
+  const head = `${capitalize(series.name)} ${opts.compare ? "was" : "stood at"} ${latestFact.text} ${when(series, latestDate.text)}`;
 
   const yearAgo = yearEarlier(series, latest);
   let year: { short: Clause; full: Clause } | null = null;
   if (yearAgo) {
-    const change = series.moveMode === "pct" && yearAgo.value > 0 ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.changeUnit ?? series.unit);
-    const yaValue = unitFact("year_ago_value", yearAgo.value, series.unit, yearAgo.cells);
+    const change = series.moveMode === "pct" && yearAgo.value > 0 ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.changeUnit ?? unit);
+    const yaValue = unitFact("year_ago_value", yearAgo.value, unit, yearAgo.cells);
     const v = change.value as number;
     const short = v === 0 ? ", unchanged from a year earlier" : `, ${v > 0 ? "up" : "down"} ${change.text} from a year earlier`;
     year = { short: { text: short, facts: [change] }, full: { text: v === 0 ? short : `${short} (${yaValue.text})`, facts: [change, yaValue] } };
@@ -72,24 +111,33 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   const join = (...cs: Clause[]): Clause => ({ text: cs.map((c) => c.text).join(""), facts: cs.flatMap((c) => c.facts) });
 
   // The previous reading, ahead of everything else. Not for seasonal series (the last month is not comparable) or fiscal years.
-  const prevPoint = series.seasonal || series.frequency === "fiscal_year" ? undefined : series.points.at(-2);
+  // With a second series the Fed's weekly rate is read against a month earlier: it moves only at decisions, so last week says nothing.
+  const monthAgo = opts.compare ? series.points.find((q) => Math.abs(daysBetween(q.date, addMonths(latest.date, -1))) <= 3) : undefined;
+  const prevPoint = series.seasonal || series.frequency === "fiscal_year" ? undefined : monthAgo ?? series.points.at(-2);
   let prev: Clause | null = null;
   if (prevPoint) {
-    const prevValue = unitFact("previous_value", prevPoint.value, series.unit, prevPoint.cells);
+    const prevValue = unitFact("previous_value", prevPoint.value, unit, prevPoint.cells);
     const prevDate = dateFact("previous_date", prevPoint.date, bareIfSameYear(style, prevPoint.date, latest.date));
-    const dir = latest.value > prevPoint.value ? "up" : latest.value < prevPoint.value ? "down" : "unchanged";
-    prev = { text: `, ${dir} from ${prevValue.text} ${when(series, prevDate.text)}`, facts: [prevValue, prevDate] };
+    // Judged on the figures as printed: 3.9% against 3.9% is unchanged, whatever the hundredths.
+    const dir = prevValue.text === latestFact.text ? "unchanged" : latest.value > prevPoint.value ? "up" : "down";
+    const text =
+      prevPoint === monthAgo
+        ? dir === "unchanged" ? ", unchanged from a month earlier" : `, ${dir} from ${prevValue.text} a month earlier`
+        : `, ${dir} from ${prevValue.text} ${when(series, prevDate.text)}`;
+    prev = { text, facts: [prevValue, prevDate] };
   }
   // "up from 3.4% in August 2026" then ", and down from a peak ..." / ", the highest since ...": the join word follows.
   const withPrev = (c: Clause, joiner: string): Clause[] => (prev ? [{ text: prev.text + (joiner ? `${joiner} ${c.text.replace(/^, /, "")}` : c.text), facts: [...prev.facts, ...c.facts] }, c] : [c]);
 
   let peak: Point | undefined;
+  /** The peak with only its year, for when the month does not fit beside a second series. */
+  let peakYear: Clause | null = null;
   const options: Clause[] = [];
   if (opts.peak) {
     // Seasonal series compare like months (the July peak), as their bar charts do.
     const pool = series.seasonal ? series.points.filter((p) => p.date.slice(5, 7) === latest.date.slice(5, 7)) : series.points;
     const which = series.seasonal ? `${monthName(latest.date)} ` : "";
-    const w = windowPeak(pool, from, latest, series.unit, style, which);
+    const w = windowPeak(pool, from, latest, unit, style, which);
     if (w.isLatest) {
       // The latest value is the peak: say how far back it stands, with the year-earlier change.
       const reach = { text: `, ${w.reach.text}`, facts: w.reach.facts };
@@ -100,6 +148,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
       // One sentence, newest value first and the peak at the end ("…: $6.18 a gallon in the week of October 12, 2026,
       // down from a peak of $6.53 a gallon in September 2026, the highest in data going back to 1994").
       const peakText = `, down from ${series.seasonal ? `the ${which}` : "a "}peak of ${w.value.text} in ${w.date.text}`;
+      peakYear = { text: peakText.replace(` in ${w.date.text}`, ` in ${dateFact("peak_date", w.peak.date, "year").text}`), facts: [w.value, dateFact("peak_date", w.peak.date, "year")] };
       options.push(
         ...withPrev({ text: `${peakText}, ${w.reach.text}`, facts: [w.value, w.date, ...w.reach.facts] }, " and"),
         ...withPrev({ text: peakText, facts: [w.value, w.date] }, " and"),
@@ -108,33 +157,76 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   }
   if (year) options.push(...withPrev(year.full, " and"), ...withPrev(year.short, " and"));
   if (prev) options.push(prev);
-  const clause = firstFitting(opts.lead, head, options);
+  // A second series (inflation beside the Fed's rate): its own sentence with its latest reading and the move on the previous
+  // one, kept ahead of the peak's reach when the caption is too long for both.
+  const cmpLatest = opts.compare?.points.at(-1);
+  const cmpPrev = opts.compare && !opts.compare.seasonal ? opts.compare.points.at(-2) : undefined;
+  let cmpClause: Clause | null = null;
+  let cmpShort: Clause | null = null;
+  let cmpNoDate: Clause | null = null;
+  if (opts.compare && cmpLatest) {
+    const cv = unitFact("compare_value", cmpLatest.value, opts.compare.unit, cmpLatest.cells);
+    const cd = dateFact("compare_date", cmpLatest.date, dateStyleFor(opts.compare.frequency));
+    const cf: Fact[] = [cv, cd];
+    let text = `. ${opts.compare.title} was ${cv.text} ${when(opts.compare, cd.text)}`;
+    cmpShort = { text, facts: [cv, cd] };
+    if (cmpPrev) {
+      const pv = unitFact("compare_previous_value", cmpPrev.value, opts.compare.unit, cmpPrev.cells);
+      const pd = dateFact("compare_previous_date", cmpPrev.date, bareIfSameYear(dateStyleFor(opts.compare.frequency), cmpPrev.date, cmpLatest.date));
+      const dir = cmpLatest.value > cmpPrev.value ? "up" : cmpLatest.value < cmpPrev.value ? "down" : "unchanged";
+      cmpNoDate = { text: `${text}, ${dir} from ${pv.text}`, facts: [cv, cd, pv] };
+      text += `, ${dir} from ${pv.text} ${when(opts.compare, pd.text)}`;
+      cf.push(pv, pd);
+    }
+    cmpClause = { text, facts: cf };
+  }
+  // Richest first: every option with the full sentence, then with only the latest reading, then the sentence alone.
+  // Beside a second series the Fed's "unchanged from a month earlier" and the peak matter most: shorten the peak's date to its
+  // year, then the inflation sentence's previous date, before dropping either.
+  const ladder: Clause[] = [];
+  if (prev && peakYear && cmpClause && cmpShort) {
+    const yp = join(prev, { text: peakYear.text.replace(/^,/, " and"), facts: peakYear.facts });
+    ladder.push(join(yp, cmpClause));
+    if (cmpNoDate) ladder.push(join(yp, cmpNoDate));
+    ladder.push(join(yp, cmpShort));
+  }
+  const withCmp = cmpClause && cmpShort ? [...ladder, ...options.map((c) => join(c, cmpClause!)), ...options.map((c) => join(c, cmpShort!)), cmpClause, cmpShort, ...options] : options;
+  const clause = firstFitting(opts.lead, head, withCmp);
   facts.push(...clause.facts);
   const sentence = head + clause.text;
 
+  const cmpWindow = opts.compare?.points.filter((p) => p.date >= from && p.date <= latest.date).map((p) => ({ date: p.date, value: p.value })) ?? [];
   const chart: ChartSpec = bars
     ? periodBars(series, latest, from, style)
     : {
         type: "line",
-        unit: series.unit,
+        unit: unit,
         axisLabel: series.axisLabel,
         frequency: series.frequency,
         points: linePoints(series, from, latest.date),
         marks: [
-          { date: latest.date, label: `${markDate(series, latest.date)}: ${latestFact.text}`, emphasis: true },
-          ...(peak ? [{ date: peak.date, label: `${markDate(series, peak.date)}: ${fmtUnit(peak.value, series.unit)}`, emphasis: false }] : []),
+          // Two lines are each named at their end ("Federal funds rate, 3.9%"), so the date stays out of the label.
+          { date: latest.date, label: opts.compare ? latestFact.text : `${markDate(series, latest.date)}: ${latestFact.text}`, emphasis: true },
+          ...(peak ? [{ date: peak.date, label: `${markDate(series, peak.date)}: ${fmtUnit(peak.value, unit)}`, emphasis: false }] : []),
         ],
+        ...(opts.compare && cmpLatest && cmpWindow.length > 1
+          ? { comparison: { label: `${capitalize(opts.compare.title.toLowerCase())}: ${fmtUnit(cmpLatest.value, opts.compare.unit)}`, mainLabel: capitalize(series.name.replace(/^the /, "")), points: cmpWindow } }
+          : {}),
       };
   const template = `${opts.lead} ${sentence}.`;
+  const trend = opts.compare && cmpLatest && chart.type === "line" ? whereEachStands(series, unit, opts.compare, from, latest, latestFact) : null;
+  if (trend) facts.push(...trend.facts);
   return {
+    ...(opts.compare ? { alsoSeriesId: opts.compare.id } : {}),
+    ...(trend ? { breakdown: trend.breakdown } : {}),
     id: opts.id,
     dataset: series.dataset,
     seriesId: series.id,
     kind: "news",
     period: latest.date,
     frequency: series.frequency,
-    headline: `${capitalize(series.name)}${bars ? "" : `, ${fmtDate(chart.type === "line" ? chart.points[0]!.date : latest.date, "year")} to ${fmtDate(latest.date, "year")}`}`,
-    title: chartTitle(series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
+    headline: `${capitalize(series.name)}${opts.compare ? ` and ${opts.compare.name}` : ""}${bars ? "" : `, ${fmtDate(chart.type === "line" ? chart.points[0]!.date : latest.date, "year")} to ${fmtDate(latest.date, "year")}`}`,
+    title: chartTitle(opts.compare ? `${series.title} and ${opts.compare.title.toLowerCase()}` : series.title, chart, { frequency: series.frequency, seasonal: series.seasonal, latest: latest.date }),
     template,
     lead: opts.lead,
     facts,
@@ -146,7 +238,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     url: series.url,
     ...(series.anchor ? { anchor: series.anchor } : {}),
     source: series.source,
-    note: series.note,
+    note: opts.compare ? `Weekly average; ${opts.compare.title.toLowerCase()} vs. a year earlier` : series.note,
     score: 3 * series.weight,
     alt: `${bars ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${sentence}.`,
   };

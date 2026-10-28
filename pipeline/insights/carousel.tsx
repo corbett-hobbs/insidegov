@@ -91,6 +91,20 @@ function Footer({ n, total, left, muted = MUTED }: { n: number; total: number; l
 /** A small trend line (or bars) for the hook: the chart's own points, the newest in the accent colour. */
 function spark(insight: Insight, w: number, h: number): string {
   const spec = insight.chart;
+  if (spec.type === "line" && spec.comparison) {
+    // Two lines (the Fed's rate with inflation): one shared scale, placed by date since the two have different frequencies.
+    const t0 = Date.parse(spec.points[0]!.date);
+    const t1 = Date.parse(spec.points.at(-1)!.date);
+    const cmp = spec.comparison.points.filter((p) => Date.parse(p.date) >= t0 && Date.parse(p.date) <= t1);
+    const all = [...spec.points, ...cmp].map((p) => p.value);
+    const lo = Math.min(...all);
+    const hi = Math.max(...all);
+    const x = (date: string) => 6 + ((Date.parse(date) - t0) / (t1 - t0 || 1)) * (w - 12);
+    const y = (v: number) => 6 + (1 - (v - lo) / (hi - lo || 1)) * (h - 12);
+    const path = (pts: { date: string; value: number }[]) => pts.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
+    const last = spec.points.at(-1)!;
+    return `<path d="${path(cmp)}" fill="none" stroke="${NEUTRAL}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="${path(spec.points)}" fill="none" stroke="${LINE}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(last.date)}" cy="${y(last.value)}" r="8" fill="${ACCENT}" stroke="${SURFACE}" stroke-width="3"/>`;
+  }
   if (spec.type === "line") {
     const vals = spec.points.map((p) => p.value);
     const lo = Math.min(...vals);
@@ -108,8 +122,45 @@ function spark(insight: Insight, w: number, h: number): string {
   return spec.bars.map((b, i) => `<rect x="${i * bw + bw * 0.15}" y="${Math.min(y(b.value), y(0))}" width="${bw * 0.7}" height="${Math.max(2, Math.abs(y(b.value) - y(0)))}" rx="2" fill="${b.emphasis ? ACCENT : NEUTRAL}"/>`).join("");
 }
 
+/** A two-line chart's hook shows both newest values, each named and keyed to its line (the Fed's rate dark, inflation light). */
+function twoValues(insight: Insight): { name: string; value: string; line: string }[] | null {
+  const spec = insight.chart;
+  const second = insight.facts.find((f) => f.id === "compare_value")?.text;
+  const first = headlineValue(insight);
+  if (spec.type !== "line" || !spec.comparison || !second || !first) return null;
+  return [
+    { name: spec.comparison.mainLabel, value: first, line: LINE },
+    { name: spec.comparison.label.split(":")[0]!, value: second, line: NEUTRAL },
+  ];
+}
+
+/**
+ * A two-line hook trend line's names, set at the lines' right ends ("Federal funds rate, 3.9%", "Inflation, 3.7%") the way the
+ * chart names them: the higher line's above its end, the lower line's below. Same scale as spark().
+ */
+function sparkLabels(insight: Insight, h: number): { text: string; top: number; bold: boolean }[] {
+  const spec = insight.chart;
+  const pair = twoValues(insight);
+  if (spec.type !== "line" || !spec.comparison || !pair) return [];
+  const t0 = Date.parse(spec.points[0]!.date);
+  const t1 = Date.parse(spec.points.at(-1)!.date);
+  const cmp = spec.comparison.points.filter((p) => Date.parse(p.date) >= t0 && Date.parse(p.date) <= t1);
+  const all = [...spec.points, ...cmp].map((p) => p.value);
+  const lo = Math.min(...all);
+  const hi = Math.max(...all);
+  const y = (v: number) => 6 + (1 - (v - lo) / (hi - lo || 1)) * (h - 12);
+  const my = y(spec.points.at(-1)!.value);
+  const cy = y(cmp.at(-1)!.value);
+  const higher = my <= cy;
+  return [
+    { text: `${pair[0]!.name}, ${pair[0]!.value}`, top: higher ? my - 58 : my + 30, bold: true },
+    { text: `${pair[1]!.name}, ${pair[1]!.value}`, top: higher ? cy + 30 : cy - 58, bold: false },
+  ];
+}
+
 function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   const value = headlineValue(insight);
+  const pair = twoValues(insight);
   const sparkTop = 560;
   const sparkW = W - 2 * SIDE;
   const sparkH = 170;
@@ -117,9 +168,24 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
   return (
     <Slide>
       {svgImage(`<g transform="translate(${SIDE},${sparkTop})">${spark(insight, sparkW, sparkH)}</g>`, W, H)}
+      {sparkLabels(insight, sparkH).map((l, i) => (
+        <div key={i} style={{ position: "absolute", right: SIDE + 14, top: sparkTop + l.top, display: "flex", fontFamily: "Newsreader", fontSize: 21, color: l.bold ? INK : MUTED }}>{l.text}</div>
+      ))}
       <Header {...headerOf(insight)} />
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", left: SIDE, right: SIDE, bottom: H - sparkTop + 36 }}>
-        {value ? <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value.length > 10 ? 76 : 96, lineHeight: 1, letterSpacing: -2, marginBottom: 22 }}>{value}</div> : null}
+        {pair ? (
+          <div style={{ display: "flex", marginBottom: 22 }}>
+            {pair.map((p, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column", marginRight: 56 }}>
+                <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 88, lineHeight: 1, letterSpacing: -2 }}>{p.value}</div>
+                <div style={{ display: "flex", alignItems: "center", fontSize: 20, color: MUTED, marginTop: 8 }}>
+                  <div style={{ display: "flex", width: 22, height: 5, borderRadius: 3, background: p.line, marginRight: 10 }} />
+                  {p.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : value ? <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value.length > 10 ? 76 : 96, lineHeight: 1, letterSpacing: -2, marginBottom: 22 }}>{value}</div> : null}
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: value ? headSize : headSize + 8, lineHeight: 1.15, letterSpacing: -0.4 }}>{insight.title}</div>
       </div>
       <Footer n={n} total={total} left="Swipe for the full chart" />
@@ -199,7 +265,8 @@ const VALUE_W = 124;
 const BAR_W = W - 2 * SIDE - NAME_W - VALUE_W;
 
 /** One block's rows: a bar per row from a shared zero line, the signed value beside it, and the total under them. */
-function BreakdownBlock({ insight, label, rows, total }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }) {
+function BreakdownBlock({ insight, label, rows, total, levels }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string }; levels?: boolean }) {
+  const show = (id: string) => (levels ? insight.facts.find((f) => f.id === id)!.text : signedFact(insight, id));
   const value = (id: string) => insight.facts.find((f) => f.id === id)!.value as number;
   const vals = rows.map((r) => value(r.fact));
   const hi = Math.max(0, ...vals);
@@ -222,7 +289,7 @@ function BreakdownBlock({ insight, label, rows, total }: { insight: Insight; lab
               <div style={{ position: "absolute", left: zero, top: 0, width: 1, height: 34, background: MUTED, display: "flex" }} />
               <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: 9, width: w, height: 16, borderRadius: 2, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
             </div>
-            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 19, color: INK }}>{signedFact(insight, r.fact)}</div>
+            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 19, color: INK }}>{show(r.fact)}</div>
           </div>
         );
       })}
@@ -240,10 +307,10 @@ function breakdownSlide(insight: Insight, n: number, total: number): ReactNode {
   const b = insight.breakdown!;
   return (
     <Slide>
-      <Header {...headerOf(insight, "What drove it")} />
+      <Header {...headerOf(insight, b.kicker ?? "What drove it")} />
       <Title>{b.title}</Title>
       {b.blocks.map((blk, i) => (
-        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} />
+        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} levels={b.levels} />
       ))}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{b.note}</div>
       <Footer n={n} total={total} />
@@ -299,7 +366,8 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
 export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[] }[] {
-  const lines = insight.why || insight.breakdown ? (hasLag(insight) ? explainer(insight) : []) : explainer(insight);
+  // A news chart's own breakdown (where each line stands) does not replace what the series measure.
+  const lines = insight.kind === "news" || !(insight.why || insight.breakdown) || hasLag(insight) ? explainer(insight) : [];
   const moments = keyMoments(insight);
   return [
     { kind: "hook" },

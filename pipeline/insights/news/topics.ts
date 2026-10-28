@@ -9,7 +9,7 @@
 
 export type ChartBuild =
   /** A series from datasets.ts by id: its latest value against its peak in the window (else the change on a year). */
-  | { kind: "series"; seriesId: string; years: number; peak: boolean }
+  | { kind: "series"; seriesId: string; years: number; peak: boolean; compare?: string }
   /** The collected tariff rate: a country against all countries, or all countries alone (news/charts.ts). */
   | { kind: "tariff" };
 
@@ -359,6 +359,8 @@ export const PAGE_TOPICS: PageTopic[] = [
   // Economy
   {
     id: "fed_rates", periodic: true, page: "economy", chartId: "chart-ff", label: fixed("Federal Reserve and interest rates"),
+    // A rate decision reported "amid inflation" is the Fed's story: the decision is the news, inflation its backdrop.
+    priority: /\b(Federal Reserve|Fed)\b.{0,40}\b([Hh]olds?|[Kk]eeps?|[Ll]eaves?|[Cc]uts?|[Rr]aises?|[Hh]ikes?|[Ll]owers?|[Ss]lashes|[Ss]ets?)\b.{0,30}\b[Rr]ates?\b|\bFOMC\b|\bFed (decision|meeting)\b/,
     chart: "the weekly effective federal funds rate, the interest rate the Federal Reserve steers with its decisions",
     match: /\b(Federal Reserve|the Fed)\b.{0,50}\b(rates?|cuts?|hikes?|holds?|meeting|chair|governor)\b|\binterest rates?\b|\bFOMC\b/i,
   },

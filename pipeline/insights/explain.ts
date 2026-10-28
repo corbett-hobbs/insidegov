@@ -68,6 +68,14 @@ export const EXPLAINERS: Record<string, string[]> = {
   laws: ["Laws are bills that passed both houses of Congress and were signed by the president, or enacted over a veto."],
 };
 
+/** Charts with two lines (news/charts.ts compare), explained together as one passage rather than one series after the other. */
+const PAIRS: Record<string, string[]> = {
+  "economy.fed_funds|economy.inflation": [
+    "The federal funds rate is the interest rate banks charge each other for overnight loans, shown as a weekly average from the Federal Reserve Board. The Federal Reserve announces a target range and steers the rate into it, so it is not the rate on a home or car loan.",
+    "Inflation is how much consumer prices have changed over the past year, measured by the Consumer Price Index for all urban consumers and reported monthly. Both lines are in percent, so they share one scale.",
+  ],
+};
+
 /** Lines that tell the reader the figures arrive late or may be revised: worth a slide or reply even beside a reason. */
 const LAGS = new Set([MONTHLY_EIA, TARIFF_LAG, ICE_PRELIM]);
 
@@ -78,8 +86,12 @@ export function hasLag(insight: Pick<Insight, "seriesId" | "kind">): boolean {
 
 const TERMS = "Each term is measured from its inauguration, so every president is compared at the same point.";
 
-export function explainer(insight: Pick<Insight, "seriesId" | "kind">): string[] {
-  const lines = EXPLAINERS[insight.seriesId] ?? EXPLAINERS[insight.seriesId.split(".")[0]!] ?? [];
+export function explainer(insight: Pick<Insight, "seriesId" | "kind"> & { alsoSeriesId?: string }): string[] {
+  const of = (id: string) => EXPLAINERS[id] ?? EXPLAINERS[id.split(".")[0]!] ?? [];
+  // A chart with a second line explains both: the first series in full, the second's definition.
+  const pair = insight.alsoSeriesId ? PAIRS[`${insight.seriesId}|${insight.alsoSeriesId}`] : undefined;
+  if (pair) return pair;
+  const lines = insight.alsoSeriesId ? [...of(insight.seriesId), ...of(insight.alsoSeriesId).slice(0, 1)] : of(insight.seriesId);
   if (!lines.length) return [];
   return insight.kind === "term_comparison" ? [...lines, TERMS] : lines;
 }

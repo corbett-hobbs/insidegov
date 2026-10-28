@@ -89,14 +89,16 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         dropped.push(`${insight.id}: facts do not trace to the data (${factErrors.join("; ")})`);
         continue;
       }
-      // News drafts have their own fixed caption rules (news/), so only data drafts get a researched why.
+      // A researched why for every draft. A news draft keeps its fixed caption rules (news/): its why goes on the carousel's
+      // slide and in the issue for review, never into the post text.
       let whyError: string | undefined;
-      if (client && !insight.why && insight.kind !== "news") {
+      if (client && !insight.why) {
         const found = await researchWhy(client, insight);
         if ("why" in found) insight = { ...insight, why: found.why };
         else whyError = found.error;
       }
-      const result = client ? await claudeCaption(client, insight) : templateCaption(insight);
+      const forCaption = insight.kind === "news" ? { ...insight, why: undefined } : insight;
+      const result = client ? await claudeCaption(client, forCaption) : templateCaption(forCaption);
       if ("error" in result) {
         dropped.push(`${insight.id}: ${result.error}`);
         continue;

@@ -144,7 +144,7 @@ function insightFor(story: SocialStory): Insight | null {
   if (b.kind === "tariff") insight = tariffContext(story.country, { lead, id });
   else {
     const series = seriesById.get(b.seriesId);
-    insight = series ? seriesContext(series, { years: b.years, peak: b.peak, lead, id }) : null;
+    insight = series ? seriesContext(series, { years: b.years, peak: b.peak, lead, id, compare: b.compare ? seriesById.get(b.compare) : undefined }) : null;
   }
   if (!insight) return null;
   const expiresAt = new Date(Date.parse(now) + NEWS_FRESH_HOURS * 3_600_000).toISOString();

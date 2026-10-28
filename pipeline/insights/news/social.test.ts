@@ -7,6 +7,8 @@ import type { Headline } from "../types";
 import { CellIndex, verifyInsight } from "../verify";
 import { type Candidate, topicOf } from "./cards";
 import { seriesContext } from "./charts";
+import { slidePlan } from "../carousel";
+import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
 import { outletById } from "./outlets";
 import { coverageLine, couldDraft, isCurrent, postableCharts, powerSource, socialBuild, socialStories } from "./social";
@@ -114,11 +116,48 @@ describe("the Economy page's cards as series", () => {
 
   it("writes quarters as Q1 2026, years as 2025, and rate changes in percentage points", () => {
     const text = (id: string, peak = true) => seriesContext(all.find((s) => s.id === id)!, { years: 10, peak, lead: "X is in the news.", id: "n" })!.template;
-    expect(text("economy.gdp_growth")).toMatch(/: -?[\d.]+% in Q[1-4] \d{4}/);
+    expect(text("economy.gdp_growth")).toMatch(/ stood at -?[\d.]+% in Q[1-4] \d{4}/);
     expect(text("economy.debt", false)).toMatch(/\$[\d.]+T in Q[1-4] \d{4}, (up|down) from \$[\d.]+T in Q[1-4] \d{4} and (up|down) [\d.]+% from a year earlier/);
     expect(text("economy.household_income", false)).toMatch(/\$[\d,]+ in \d{4}/);
     expect(text("economy.jobs_added", false)).toMatch(/ jobs in \w+ \d{4}, (up|down) from [\d,-]+ jobs in \w+ and (up|down) [\d,]+ jobs from a year earlier/);
     expect(text("economy.inflation", false)).toMatch(/percentage points from a year earlier/);
+  });
+});
+
+describe("a Fed rate decision story", () => {
+  const all = DATASETS.flatMap((d) => loadDataset(d).series);
+  const g = (id: string) => all.find((s) => s.id === id)!;
+  const route = (title: string) => topicOf(title, PAGE_TOPICS, [])?.key;
+
+  it("goes to the Fed topic even when the headline says inflation, while inflation news stays inflation", () => {
+    expect(route("Fed holds interest rates steady even as inflation remains high")).toBe("fed_rates");
+    expect(route("Federal Reserve leaves interest rates unchanged despite rising inflation")).toBe("fed_rates");
+    expect(route("CPI rises 3.7% in September")).toBe("inflation");
+    expect(route("Inflation hits 3.7% as Fed weighs rates")).toBe("inflation");
+  });
+
+  it("charts the federal funds rate with inflation beside it, traced to the data", () => {
+    const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
+    expect(insight.template).toMatch(/federal funds rate was \d\.\d% in the week of .*(unchanged|(up|down) from \d\.\d%) a? ?.*month earlier.*peak of \d\.\d% in .*\. Inflation was \d\.\d% in \w+ \d{4}, (up|down) from \d\.\d%/);
+    expect(insight.title).toBe("The federal funds rate and inflation, 2016 to 2026");
+    expect(insight.chart.type === "line" && insight.chart.comparison?.points.length).toBeGreaterThan(1);
+    expect(verifyInsight(insight, new CellIndex())).toEqual([]);
+    // The carousel's bigger-picture card: each line's peak, low and latest as traced facts, shown as levels.
+    expect(insight.alsoSeriesId).toBe("economy.inflation");
+    expect(insight.breakdown?.levels).toBe(true);
+    expect(insight.breakdown?.blocks.map((b) => b.rows.length)).toEqual([3, 3]);
+    for (const row of insight.breakdown!.blocks.flatMap((b) => b.rows)) expect(insight.facts.some((f) => f.id === row.fact), row.fact).toBe(true);
+  });
+
+  it("is researched like a data release, from the story's headlines, and its why stays out of the caption", () => {
+    const insight = seriesContext(g("economy.fed_funds"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("economy.inflation") })!;
+    const news = { topic: "fed_rates", key: "fed_rates", seenAt: NOW, expiresAt: NOW, reason: "test", headlines: [{ title: "Fed holds rates", source: "CBS News", url: "https://www.cbsnews.com/x", published: NOW, feed: "outlets" as const, outletId: "cbsnews" }] };
+    const prompt = JSON.parse(whyPrompt({ ...insight, news }));
+    expect(prompt.in_the_news[0].url).toBe("https://www.cbsnews.com/x");
+    expect(prompt.release_pages.join(" ")).toMatch(/federalreserve\.gov/);
+    const why = { title: "Why it held", captionLine: "x", paragraphs: ["Words only."], sources: [{ name: "FOMC", url: "https://www.federalreserve.gov/x" }] };
+    const kinds = slidePlan({ ...insight, kind: "news", why }).map((s) => s.kind);
+    expect(kinds).toEqual(expect.arrayContaining(["why", "explainer"]));
   });
 });
 

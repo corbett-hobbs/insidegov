@@ -144,7 +144,7 @@ different shapes, the last is a blend no story names). Their stories still appea
 (a rate computed from an index) cite the cell they are read at plus how they are derived (`CellRef.derive` in
 `types.ts`), so `verify.ts` re-runs them from the rows; Treasury's figures are cited as `treasury_fiscal.json#debt`.
 
-**The previous reading** comes first in every caption ("3.7% in September 2026, up from 3.4% in August"; a date in the same year as the latest reading drops the year; weekly series say "in the week of"; skipped for seasonal series), so the post is a status update and not only a comparison with the past. **The comparison point** is the peak in the chart's window, and how far back that peak stands in all the data
+A Fed rate decision reported "amid inflation" is the Federal Reserve topic (its `priority` pattern), and its chart is the federal funds rate with the inflation rate as a second line and a caption sentence of its own ("Inflation was 3.7% in September 2026, up from 3.4% in August 2026"); inflation posts only for inflation news (CPI). The carousel draws both lines on its hook and chart slides, then a "bigger picture" card (each line's peak, low and latest since the chart began, all traced facts) and a "What this measures" card for both series. News drafts get the same researched "why" as data drafts (the story's headlines are its first leads, and the two-outlet rule applies); it goes on the carousel's slide and in the issue for review, never into the post text. **The previous reading** comes first in every caption ("3.7% in September 2026, up from 3.4% in August"; a date in the same year as the latest reading drops the year; weekly series say "in the week of"; skipped for seasonal series), so the post is a status update and not only a comparison with the past. **The comparison point** is the peak in the chart's window, and how far back that peak stands in all the data
 ("down from a peak of $6.53 a gallon in September 2026, the highest in data going back to 1994"; for a country's
 tariff rate, "The peak for Canada was 3.8% in September 2025", so it cannot be read as the all-countries rate). A year
 earlier is the fallback, when the latest value is itself the peak ("up 19% from a year earlier, the highest July in
@@ -274,7 +274,7 @@ re-derives each from the committed files; a draft that does not match is dropped
 The Claude API (`claude-sonnet-5-5`, effort `medium`; `SOCIAL_CAPTION_MODEL` / `SOCIAL_CAPTION_EFFORT` to change)
 rewrites the template caption, and `checkCaption` enforces in code: every number is a fact's text; no spelled-out
 quantities; no partisan or loaded words (`BANNED_WORDS`) or causal claims; no links, hashtags, mentions, emoji, "!"
-or "?"; all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
+or "?"; no colons (a caption is a plain sentence, never "Name: value"; the templates read "X stood at …"); all earlier terms or none; "released" when the data is lagged; at most 240 characters. A failing caption is
 retried with the reasons (three tries), then dropped. Without an API key the deterministic template is used.
 
 ## Why it moved: every post explains the change

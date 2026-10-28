@@ -148,7 +148,7 @@ export function detectExtremes(series: Series): Insight[] {
       tail = `the ${w}${forMonth} in data going back to ${first.text}`;
     }
     const headline = `${capitalize(series.name)}: ${tail.replace(/ \(.*\)$/, "")}`;
-    const template = `${capitalize(series.name)}: ${latestFact.text} ${when(series, latestDate.text)}, ${tail}.`;
+    const template = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}, ${tail}.`;
     const chart: ChartSpec = usesBars(series)
       ? periodBars(series, latest, prior ? addMonths(prior.date, -24) : pool[0]!.date, style)
       : {
@@ -473,7 +473,7 @@ export function detectEventTermComparison(set: EventSet, admins: Administration[
   const startFact = dateFact("current_term_start", current.start, "day");
   const others = rows.filter((r) => r !== cur);
   const rank = rankPhrase(rows, cur, "most", "fewest");
-  const template = `${capitalize(set.name)} ${set.verb} in the first ${daysFact.text} days of ${current.president}'s term that began ${startFact.text}: ${cur.fact.text}${rank}.`;
+  const template = `${capitalize(set.name)} ${set.verb} in the first ${daysFact.text} days of ${current.president}'s term, which began ${startFact.text}, totaled ${cur.fact.text}${rank}.`;
   const detail = `Same point, earlier terms: ${others.map((r) => `${termLabel(r.term)} ${r.fact.text}`).join("; ")}.`;
   return [
     {
@@ -580,7 +580,7 @@ export function detectLatest(series: Series): Insight[] {
     parts.push(`${dirText(change)} from a year earlier (${yaValue.text})`);
   }
   if (parts.length === 0) return [];
-  const template = `${capitalize(series.name)}: ${latestFact.text} ${when(series, latestDate.text)}, ${parts.join(" and ")}.`;
+  const template = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}, ${parts.join(" and ")}.`;
   const from = addMonths(latest.date, series.frequency === "weekly" ? -12 : series.frequency === "fiscal_year" ? -12 * 12 : -36);
   const chart: ChartSpec = usesBars(series)
     ? periodBars(series, latest, from, style)

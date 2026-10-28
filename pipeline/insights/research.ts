@@ -34,6 +34,8 @@ export const RELEASE_PAGES: Record<string, string[]> = {
   "energy.petroleum": ["https://www.eia.gov/petroleum/weekly/", "https://www.eia.gov/outlooks/steo/report/us_oil.php"],
   "energy.gas_production": ["https://www.eia.gov/naturalgas/weekly/", "https://www.eia.gov/outlooks/steo/report/natgas.php"],
   "energy.lng": ["https://www.eia.gov/naturalgas/weekly/", "https://www.eia.gov/outlooks/steo/report/natgas.php"],
+  "economy.fed_funds": ["https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm", "https://www.federalreserve.gov/newsevents/pressreleases.htm"],
+  "economy.inflation": ["https://www.bls.gov/cpi/", "https://www.bls.gov/news.release/cpi.nr0.htm"],
   gas: ["https://www.eia.gov/petroleum/gasdiesel/", "https://www.eia.gov/petroleum/weekly/", "https://www.eia.gov/outlooks/steo/report/prices.php"],
   trade: ["https://www.bea.gov/data/intl-trade-investment/international-trade-goods-and-services", "https://www.census.gov/foreign-trade/current/index.html"],
   encounters: ["https://www.cbp.gov/newsroom/stats/nationwide-encounters", "https://www.cbp.gov/newsroom/media-releases/all"],
@@ -106,11 +108,13 @@ Research first. Open the release pages you are given and find the agency's own w
 
 Always run at least one news search for this release, outside code (call web_search directly so its results reach the answer), (the topic and month, e.g. "trade deficit August 2026"), and open the most relevant straight-news reports it returns, even when the agency's write-up seems complete: reporters often give the reasons behind a category that the agency leaves out.
 
+If the input has in_the_news, the topic is in the news today and the explanation should answer what those stories report: what changed or did not change, and what the Federal Reserve, the agency and the reporters say is behind it (including why something held steady rather than moved). Open those stories first, and still list only pages you opened. Any chart with two lines (the context notes say so) is explained as one story, never one line after the other.
+
 Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not.
 
 What to write:
 - caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
-- title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "What changed".
+- title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "Why it held", "What changed".
 - paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency or news outlet in the text (they go in sources, which print as the slide's footnote). Words only: no figures, percentages or amounts (years are fine).
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 
@@ -157,6 +161,8 @@ export function whyPrompt(insight: Insight): string {
       breakdown: insight.breakdown?.blocks.map((b) => ({ label: b.label, rows: b.rows.map((r) => `${r.name}: ${signedFact(insight, r.fact)}`) })) ?? null,
       context: insight.context,
       release_pages: releasePages(insight),
+      // A news draft: the stories that made the topic current, as first leads (read them; they are not sources by themselves).
+      in_the_news: insight.news?.headlines.slice(0, 6).map((h) => ({ title: h.title, outlet: h.source, url: h.url })) ?? null,
     },
     null,
     2,
