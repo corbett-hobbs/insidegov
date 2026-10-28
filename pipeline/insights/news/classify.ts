@@ -87,7 +87,9 @@ Return in "keep" the numbers of the headlines that ALL report the same single, c
 - opinion, columns, commentary, analysis, explainers, "what it means for you", personal finance tips, live blogs, newsletters, quizzes, roundups of several stories;
 - local or company news, foreign news with no U.S. policy angle, and headlines where the topic is incidental;
 - headlines about a different development than the one you keep.
-When unsure about a headline, leave it out. Return an empty list when no development qualifies. Your reason is one short sentence for the maintainer; it is never shown.`;
+When unsure about a headline, leave it out. Return an empty list when no development qualifies. Your reason is one short sentence for the maintainer; it is never shown.
+
+When the input has a "pick_chart" list, the page has no chart for this topic. In "chart" return the id of the ONE chart in that list whose data directly measures what the story is about (a story about oil imports and the oil imports chart; not a story about oil that merely touches energy, and not a chart that is only background). Return \"none\" when none does; a wrong link is worse than none. Without a \"pick_chart\" list, return \"none\".`;
 
 const CARD_TOOL: Anthropic.Beta.BetaTool = {
   name: "record_story",
@@ -95,25 +97,32 @@ const CARD_TOOL: Anthropic.Beta.BetaTool = {
   strict: true,
   input_schema: {
     type: "object",
-    properties: { keep: { type: "array", items: { type: "integer" } }, reason: { type: "string" } },
-    required: ["keep", "reason"],
+    properties: { keep: { type: "array", items: { type: "integer" } }, reason: { type: "string" }, chart: { type: "string" } },
+    required: ["keep", "reason", "chart"],
     additionalProperties: false,
   },
 };
-const cardAnswer = z.object({ keep: z.array(z.number().int()), reason: z.string() });
+const cardAnswer = z.object({ keep: z.array(z.number().int()), reason: z.string(), chart: z.string().optional() });
 
-export type CandidateInput = { topic: string; chart: string; country?: string; headlines: { title: string; outlet: string; published: string }[] };
+export type CandidateInput = {
+  topic: string;
+  chart: string;
+  country?: string;
+  headlines: { title: string; outlet: string; published: string }[];
+  /** A chartless story: the page's charts to pick one from, if any measures what the story is about. */
+  pickChart?: { id: string; label: string; about: string }[];
+};
 
 export function candidatePrompt(c: CandidateInput): string {
   return JSON.stringify(
-    { topic: c.topic, country: c.country ?? null, chart: c.chart, headlines: c.headlines.map((h, i) => ({ n: i + 1, outlet: h.outlet, title: h.title, published: h.published })) },
+    { topic: c.topic, country: c.country ?? null, chart: c.chart, ...(c.pickChart ? { pick_chart: c.pickChart } : {}), headlines: c.headlines.map((h, i) => ({ n: i + 1, outlet: h.outlet, title: h.title, published: h.published })) },
     null,
     2,
   );
 }
 
 /** The 0-based indexes of the headlines to keep, or null when the check could not answer (the caller decides then). */
-export async function checkCandidate(client: Anthropic, c: CandidateInput): Promise<{ keep: number[]; reason: string } | null> {
+export async function checkCandidate(client: Anthropic, c: CandidateInput): Promise<{ keep: number[]; reason: string; chart?: string } | null> {
   let res: Anthropic.Beta.BetaMessage;
   try {
     res = await client.beta.messages.create({
@@ -139,5 +148,7 @@ export async function checkCandidate(client: Anthropic, c: CandidateInput): Prom
   const parsed = cardAnswer.safeParse(call?.input);
   if (!parsed.success) return null;
   const keep = [...new Set(parsed.data.keep)].filter((n) => n >= 1 && n <= c.headlines.length).map((n) => n - 1);
-  return { keep, reason: parsed.data.reason };
+  // Only a chart from the offered list counts: anything else (or none) leaves the story without a chart.
+  const chart = c.pickChart?.find((p) => p.id === parsed.data.chart)?.id;
+  return { keep, reason: parsed.data.reason, ...(chart ? { chart } : {}) };
 }

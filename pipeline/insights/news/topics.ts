@@ -350,7 +350,7 @@ export const PAGE_TOPICS: PageTopic[] = [
     chart: "no chart on the page; U.S. ports, shipping and cargo",
     match: /\bports?\b.{0,30}\b(cargo|shipping|congestion|strike|workers?|dockworkers?)\b|\bshipping (costs|rates|delays|lanes)\b|\bdockworkers?\b|\bPanama Canal\b|\bcontainer (ships?|shipping)\b/i,
   },
-  // Energy
+  // Energy (Venezuelan oil has a chart: the oil card's imports)
   {
     id: "emissions_rules", page: "energy", label: fixed("Emissions rules"),
     chart: "no chart on the page; federal emissions and environmental rules for energy",
@@ -358,8 +358,8 @@ export const PAGE_TOPICS: PageTopic[] = [
     release: { source: "federalregister", match: /\bmethane\b|\boil and natural gas\b|\bemissions\b/i, lagDays: 7 },
   },
   {
-    id: "venezuela_oil", page: "energy", label: fixed("Venezuelan oil"),
-    chart: "no chart on the page; U.S. imports of Venezuelan crude oil",
+    id: "venezuela_oil", page: "energy", chartId: "oil", label: fixed("Venezuelan oil"),
+    chart: "monthly U.S. petroleum exports and imports (EIA): the page's oil card shows total imports, not Venezuela alone",
     match: /\bvenezuela\w*\b.{0,50}\b(oil|crude|barrels?|tankers?|petroleum)\b|\b(oil|crude|barrels?|tankers?)\b.{0,50}\bvenezuela\w*\b/i,
   },
   {
@@ -379,3 +379,56 @@ export const PAGE_TOPICS: PageTopic[] = [
     exclude: /\bpipeline (of|for) (talent|projects)\b/i,
   },
 ];
+
+/**
+ * Every chart on each news page, by the card's DOM id, with what it shows in words. The Claude check picks from this list
+ * the chart a chartless story is about (checkCandidate), and `lib/news-derive.test.ts` checks it against the pages' real
+ * card ids, so a chart added to a page fails the test until it is listed here (and has a topic, or is in
+ * CHARTS_WITHOUT_TOPIC). `about` says what the chart measures, plainly, so the check links a story only when the chart
+ * measures what the story is about.
+ */
+export type PageChart = { id: string; label: string; about: string };
+export const PAGE_CHARTS: Record<NewsPage, PageChart[]> = {
+  economy: [
+    { id: "chart-mis", label: "Misery index", about: "the misery index: unemployment plus inflation, monthly" },
+    { id: "chart-gas", label: "Gas price", about: "the weekly U.S. average retail price of regular gasoline" },
+    { id: "chart-diesel", label: "Diesel", about: "the weekly U.S. average retail price of diesel" },
+    { id: "chart-infl", label: "Inflation", about: "the monthly consumer price index, change from a year earlier (BLS)" },
+    { id: "chart-jobs", label: "Jobs added", about: "monthly change in U.S. nonfarm payroll employment (BLS)" },
+    { id: "chart-gdp", label: "GDP growth", about: "quarterly U.S. real GDP growth (BEA)" },
+    { id: "chart-wage", label: "Real hourly earnings", about: "average hourly earnings adjusted for inflation (BLS)" },
+    { id: "chart-un", label: "Unemployment", about: "the monthly U.S. unemployment rate (BLS)" },
+    { id: "chart-mort", label: "Mortgage rate", about: "the weekly average 30-year fixed mortgage rate (Freddie Mac)" },
+    { id: "chart-inc", label: "Household income", about: "real median household income by year (Census)" },
+    { id: "chart-def", label: "Federal deficit", about: "the federal budget deficit by fiscal year (Treasury)" },
+    { id: "chart-debt", label: "Federal debt", about: "federal debt held by the public (Treasury)" },
+  ],
+  immigration: [
+    { id: "chart-green-cards", label: "Green cards", about: "new lawful permanent residents (green cards) by fiscal year" },
+    { id: "chart-refugees", label: "Refugee admissions", about: "refugees admitted to the United States by fiscal year, and the annual ceiling" },
+    { id: "chart-encounters", label: "Border encounters", about: "Border Patrol and port-of-entry encounters at the border, by fiscal year" },
+    { id: "chart-removals", label: "ICE removals", about: "removals (deportations) carried out by ICE, by fiscal year" },
+  ],
+  trade: [
+    { id: "trade-balance", label: "The goods trade balance", about: "the monthly U.S. goods trade deficit, exports minus imports" },
+    { id: "tariffs", label: "Tariffs on imports", about: "the average tariff rate actually collected on imports (duties divided by import value), for a trade partner and all countries" },
+    { id: "who-the-u-s-trades-with", label: "Who the U.S. trades with", about: "U.S. goods trade by partner country: the biggest partners for exports and imports" },
+    { id: "what-the-u-s-trades", label: "What the U.S. trades", about: "U.S. goods trade by product chapter: what is imported and exported" },
+    { id: "did-tariffs-shift-trade", label: "Did tariffs shift trade?", about: "how trade with each country changed against the tariff rate on it" },
+  ],
+  energy: [
+    { id: "electricity", label: "Where U.S. electricity comes from", about: "monthly U.S. electricity generation by source: coal, natural gas, nuclear, wind, solar" },
+    { id: "supply", label: "Oil supply and demand", about: "monthly U.S. crude oil production and petroleum consumption" },
+    { id: "oil", label: "Oil imports and exports", about: "monthly U.S. petroleum exports and imports (total petroleum, all countries), and net exports" },
+    { id: "lng", label: "Liquefied natural gas exports", about: "monthly U.S. liquefied natural gas exports" },
+    { id: "spr", label: "The Strategic Petroleum Reserve", about: "the weekly amount of crude oil in the Strategic Petroleum Reserve" },
+  ],
+};
+
+/** Charts no topic above listens for (the news rarely names them), each with why. Only a chart in PAGE_CHARTS can be here. */
+export const CHARTS_WITHOUT_TOPIC: Record<string, string> = {
+  "chart-mis": "the misery index is a derived series; news rarely names it",
+  "who-the-u-s-trades-with": "a ranking, not a news topic; reached through tariff and trade-deal stories by the chart pick",
+  "what-the-u-s-trades": "a ranking, not a news topic; reached through tariff and trade-deal stories by the chart pick",
+  "did-tariffs-shift-trade": "an analysis card, not a news topic",
+};

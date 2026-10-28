@@ -217,8 +217,11 @@ export function releaseFor(c: Candidate, releases: Headline[]): Headline | undef
     .sort((a, b) => Math.abs(Date.parse(a.published) - first) - Math.abs(Date.parse(b.published) - first))[0];
 }
 
-/** A card for a candidate, or null when fewer than MIN_OUTLETS outlets ran it. Its id is the key and the story's first day. */
-export function storyFor(c: Candidate, headlines: Headline[], releases: Headline[]): PageStory | null {
+/**
+ * A card for a candidate, or null when fewer than MIN_OUTLETS outlets ran it. Its id is the key and the story's first day.
+ * A chartless topic's story takes the chart the Claude check picked (`pickedChart`), if any.
+ */
+export function storyFor(c: Candidate, headlines: Headline[], releases: Headline[], pickedChart?: string): PageStory | null {
   if (!headlines.length) return null;
   const kept = { ...c, headlines };
   const release = releaseFor(kept, releases);
@@ -226,7 +229,7 @@ export function storyFor(c: Candidate, headlines: Headline[], releases: Headline
   if (!picked) return null;
   const used = [...headlines, ...(release ? [release] : [])].filter((h) => picked.some((p) => p.url === h.url));
   const date = day(used.map((h) => h.published).sort()[0]!);
-  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), ...(c.topic.chartId ? { chartId: c.topic.chartId } : {}), headlines: picked };
+  return { id: `${c.key}-${day(headlines[0]!.published)}`, date, topic: c.topic.label(c.country?.name), ...((c.topic.chartId ?? pickedChart) ? { chartId: (c.topic.chartId ?? pickedChart)! } : {}), headlines: picked };
 }
 
 /** "tariff.CAN-2026-10-24" → key and first day. */
