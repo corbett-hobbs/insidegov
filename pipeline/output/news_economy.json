@@ -2,6 +2,35 @@
   "asOf": "2026-10-28",
   "stories": [
     {
+      "id": "inflation-2026-10-28",
+      "date": "2026-10-28",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Federal Reserve leaves interest rates unchanged despite rising inflation",
+          "url": "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Federal Reserve holds interest rates steady in face of persistent inflation",
+          "url": "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/"
+        },
+        {
+          "outletId": "breitbart",
+          "outlet": "Breitbart",
+          "lean": "Right",
+          "title": "Fed Holds Rates Steady Amid Strong Expansion and Elevated Inflation",
+          "url": "https://www.breitbart.com/economy/2026/10/28/fed-holds-rates-steady-2/"
+        }
+      ]
+    },
+    {
       "id": "fed_rates-2026-10-26",
       "date": "2026-10-26",
       "topic": "Federal Reserve and interest rates",

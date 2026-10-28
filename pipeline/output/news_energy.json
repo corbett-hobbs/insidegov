@@ -7,18 +7,18 @@
       "topic": "Emissions rules",
       "headlines": [
         {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Trump says he’ll roll back Biden-era methane rules for oil and gas companies",
-          "url": "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983"
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Trump says government to ‘terminate’ Biden-era methane emissions rules",
+          "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas"
         },
         {
-          "outletId": "wsj",
-          "outlet": "Wall Street Journal",
+          "outletId": "thehill",
+          "outlet": "The Hill",
           "lean": "Center",
-          "title": "Trump Moves to Weaken Methane Emissions Rules for Oil and Gas",
-          "url": "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f"
+          "title": "Trump plans to loosen methane rules for low-producing, high-emitting oil wells",
+          "url": "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/"
         },
         {
           "outletId": "washingtonexaminer",
