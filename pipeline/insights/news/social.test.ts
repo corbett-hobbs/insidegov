@@ -164,7 +164,7 @@ describe("a Fed rate decision story", () => {
     const plan = planThread({ ...insight, kind: "news", why })!;
     const texts = plan.replies.map((r) => r.text);
     expect(texts.some((t) => t.startsWith("Why it held."))).toBe(true);
-    expect(texts.some((t) => /Where each stands/.test(t) && /Peak, \d{4} \d\.\d%/.test(t) && !/\+\d/.test(t))).toBe(true);
+    expect(texts.some((t) => /Where each stands/.test(t) && /peak \d\.\d% in \d{4}/.test(t) && !/\+\d/.test(t))).toBe(true);
     expect(plan.replies.filter((r) => r.chart !== undefined)).toHaveLength(1);
     expect(texts.filter((t) => /federal funds rate is what banks charge/.test(t))).toHaveLength(1);
     expect(plan.replies.length).toBe(4);

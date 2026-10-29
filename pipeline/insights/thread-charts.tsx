@@ -35,7 +35,7 @@ function Rows({ insight, block, rowH = ROW_H }: { insight: Insight; block: Block
         const w = Math.max(3, Math.abs(v) * scale);
         return (
           <div key={i} style={{ display: "flex", alignItems: "center", height: rowH }}>
-            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: rowH < ROW_H ? 28 : 32, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
+            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: rowH < ROW_H ? 30 : 32, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
             <div style={{ display: "flex", position: "relative", width: BAR_W, height: rowH }}>
               <div style={{ position: "absolute", left: zero, top: 0, width: 1.5, height: rowH, background: MUTED, display: "flex" }} />
               <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: Math.round((rowH - 28) / 2), width: w, height: 28, borderRadius: 3, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
@@ -56,7 +56,7 @@ function Rows({ insight, block, rowH = ROW_H }: { insight: Insight; block: Block
 
 function Card({ insight, blocks, backdrop }: { insight: Insight; blocks: Block[]; backdrop: string }): ReactNode {
   // Several blocks on one card (levels) are set tighter.
-  const rowH = blocks.length > 1 ? 40 : ROW_H;
+  const rowH = blocks.length > 1 ? 52 : ROW_H;
   const b = insight.breakdown!;
   return (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `28px ${PAD}px 0 ${PAD}px` }}>
@@ -72,7 +72,7 @@ function Card({ insight, blocks, backdrop }: { insight: Insight; blocks: Block[]
       <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10 }}>{b.title}</div>
       {blocks.map((block, i) => (
         <div key={i} style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 19, letterSpacing: 2.5, textTransform: "uppercase", color: MUTED, marginTop: i === 0 ? 16 : 12, marginBottom: 8 }}>{block.label}</div>
+          <div style={{ display: "flex", fontSize: 19, letterSpacing: 2.5, textTransform: "uppercase", color: MUTED, marginTop: i === 0 ? 22 : 36, marginBottom: 12 }}>{block.label}</div>
           <Rows insight={insight} block={block} rowH={rowH} />
         </div>
       ))}
