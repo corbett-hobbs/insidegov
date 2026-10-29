@@ -170,7 +170,7 @@ export function SiteSectionNav() {
 }
 
 /** Which items of a horizontally scrolling row are cut off, and how to scroll it. Re-measures on resize and scroll. */
-function useScrollHints(deps: unknown) {
+export function useScrollHints(deps: unknown) {
   const ref = useRef<HTMLElement>(null);
   const [hiddenRight, setHiddenRight] = useState(0);
   const [canBack, setCanBack] = useState(false);
@@ -230,7 +230,7 @@ function ScrollRow({ label, children }: { label: string; children: ReactNode }) 
 }
 
 /** The "‹" and "+N ›" buttons over the edge fades of a scrolling row (rule 11). The caller passes the fade gradients so they match the row's background. */
-function OverflowButtons({
+export function OverflowButtons({
   canBack,
   hiddenRight,
   scrollBy,

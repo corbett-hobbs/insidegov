@@ -104,7 +104,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
       </ImmigrationFilterBar>
       <SectionToc items={SECTIONS} extras={extras} active={active} visible={stuck} />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader eyebrow="Presidency · Immigration" title="How Many People Come In and Out of the U.S.?">
+        <PageHeader eyebrow="Presidency · Immigration" updated={newsFile?.asOf} title="How Many People Come In and Out of the U.S.?">
           <p>
             Track green cards, refugee admissions, border encounters, and ICE deportations year by year. These records reveal who enters, who is removed, and how sharply immigration policy shifts from one administration to another.
           </p>

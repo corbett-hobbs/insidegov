@@ -20,6 +20,8 @@
   --ink-faint: #8890a0;
   --line: #d7dce3;
   --line-strong: #b9c1cc;
+  /* "Fresh" dot beside a page's Updated date (PageHeader); validated >= 3:1 on --bg and --surface in both themes. */
+  --ok: #1f7a4d;
   --accent: #5c4b7a;
   --accent-ink: #ffffff;
   /* "One party held all four" on /timeline: fixed, so the page theme can recolour controls without recolouring data. */
@@ -185,6 +187,7 @@
     --ink-faint: #6b7280;
     --line: #2a2e38;
     --line-strong: #3a4050;
+    --ok: #5cc28f;
     --accent: #9b84c7;
     --accent-ink: #14161c;
     --status-all4: #9b84c7;
@@ -307,6 +310,7 @@
   --ink-faint: #6b7280;
   --line: #2a2e38;
   --line-strong: #3a4050;
+  --ok: #5cc28f;
   --accent: #9b84c7;
   --accent-ink: #14161c;
   --status-all4: #9b84c7;
@@ -428,6 +432,7 @@
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-ok: var(--ok);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-dem: var(--dem);

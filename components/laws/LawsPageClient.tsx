@@ -46,7 +46,7 @@ export function LawsPageClient({ data, faqFile, newsFile }: { data: LawsPayload;
     <LawsStateProvider data={data}>
       <LawsFilterBar />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader eyebrow="Congress · Laws" title="What Laws Does Congress Pass?">
+        <PageHeader eyebrow="Congress · Laws" updated={newsFile?.asOf} title="What Laws Does Congress Pass?">
           <p>
             Track federal legislation enacted since {first}, broken down by policy topic and final vote margins. Examining what passes&mdash;and how narrowly&mdash;provides a clear indicator of legislative productivity versus gridlock.
           </p>

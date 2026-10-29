@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, hasEnoughOutlets, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
+import { MAX_STORIES, OUTLET_LOGO_IDS, countsFor, formatStoryDate, formatUpdatedStamp, hasEnoughOutlets, orderHeadlines, outletInitials, selectStories, toQuestionGroups, updatedLabel } from "./news-derive";
 import { faqFile, newsFile, type Lean, type NewsHeadline, type NewsStory } from "./news-types";
 import { ENERGY_CHARTS, energyFaq, energyNews } from "../components/energy/energy-news";
 import { TRADE_CHARTS, tradeFaq } from "../components/trade/trade-news";
@@ -62,6 +62,7 @@ describe("formatting", () => {
   it("words an ISO date as month and day, whatever the time zone", () => {
     expect(formatStoryDate("2026-10-24")).toBe("Oct 24");
     expect(formatStoryDate("2026-01-05")).toBe("Jan 5");
+    expect(formatUpdatedStamp("2026-10-28")).toBe("Oct 28, 2026");
     expect(updatedLabel("2026-10-27")).toBe("Oct 27");
     expect(updatedLabel("")).toBeUndefined();
   });

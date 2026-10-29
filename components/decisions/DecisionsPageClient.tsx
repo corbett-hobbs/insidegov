@@ -36,7 +36,7 @@ export function DecisionsPageClient({ data, faqFile, newsFile }: { data: Decisio
     <DecisionsStateProvider data={data}>
       <DecisionsFilterBar />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader eyebrow="Supreme Court · Decisions" title="How Does the Supreme Court Decide?">
+        <PageHeader eyebrow="Supreme Court · Decisions" updated={newsFile?.asOf} title="How Does the Supreme Court Decide?">
           <p>
             Explore every argued Supreme Court case since {first}, categorized by dissent volume. Tracking unanimity versus razor-thin 5&ndash;4 decisions illustrates the fragility of legal consensus.
           </p>
