@@ -238,6 +238,7 @@ export function OverflowButtons({
   backFade,
   moreFade,
   className = "",
+  plainMore = false,
 }: {
   canBack: boolean;
   hiddenRight: number;
@@ -246,6 +247,8 @@ export function OverflowButtons({
   backFade: string;
   moreFade: string;
   className?: string;
+  /** Show the forward button as a plain "›" circle like the back one, with no "+N" count. */
+  plainMore?: boolean;
 }) {
   const btn =
     "flex h-7 items-center justify-center rounded-full border border-line bg-surface-raised font-mono text-[0.72rem] text-ink shadow-sm transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent md:bg-surface";
@@ -259,14 +262,14 @@ export function OverflowButtons({
         </span>
       )}
       {hiddenRight > 0 && (
-        <span className={`pointer-events-none absolute inset-y-0 right-0 flex w-24 items-center justify-end pr-2 ${moreFade} ${className}`}>
+        <span className={`pointer-events-none absolute inset-y-0 right-0 flex ${plainMore ? "w-11" : "w-24"} items-center justify-end pr-2 ${moreFade} ${className}`}>
           <button
             type="button"
             aria-label={`Show ${hiddenRight} more ${hiddenRight === 1 ? noun : `${noun}s`}`}
             onClick={() => scrollBy(1)}
-            className="pointer-events-auto flex h-8 items-center justify-center gap-1 rounded-full border border-accent bg-accent px-3 font-mono text-[0.78rem] font-semibold text-accent-ink shadow-md transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className={plainMore ? `pointer-events-auto w-7 text-[1rem] ${btn}` : "pointer-events-auto flex h-8 items-center justify-center gap-1 rounded-full border border-accent bg-accent px-3 font-mono text-[0.78rem] font-semibold text-accent-ink shadow-md transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"}
           >
-            +{hiddenRight} <span aria-hidden className="text-[1.1rem] leading-none">›</span>
+            {plainMore ? "›" : <>+{hiddenRight} <span aria-hidden className="text-[1.1rem] leading-none">›</span></>}
           </button>
         </span>
       )}
