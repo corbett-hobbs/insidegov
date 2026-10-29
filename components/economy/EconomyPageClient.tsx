@@ -184,7 +184,7 @@ function EconomyPage({
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader eyebrow="Presidency · Economy" title="What Was the Economy Like?">
+        <PageHeader eyebrow="Presidency · Economy" updated={newsFile?.asOf} title="What Was the Economy Like?">
           <p>
             Track unemployment, inflation, job growth, real wages, gas prices, and the federal deficit since 1991&mdash;lined up directly against who controlled the White House and Congress.
           </p>

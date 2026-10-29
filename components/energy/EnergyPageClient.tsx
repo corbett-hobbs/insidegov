@@ -60,7 +60,7 @@ function EnergyPage({ payload, faqFile, newsFile }: { payload: EnergyPayload; fa
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader eyebrow="Presidency · Energy" title="How Has U.S. Energy Changed?">
+        <PageHeader eyebrow="Presidency · Energy" updated={newsFile?.asOf} title="How Has U.S. Energy Changed?">
           <p>
             Track electricity sources, domestic oil production, LNG exports, and Strategic Petroleum Reserve levels since 1991. Because energy costs ripple through the economy, key regulatory and legislative turning points are marked along the way.
           </p>

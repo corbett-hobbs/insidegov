@@ -17,6 +17,8 @@ import { getTimelinePayload } from "@/lib/timeline-data";
 import { HomeBranchCard } from "@/components/home/HomeBranchCard";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { IntroWords } from "@/components/home/IntroWords";
+import { FastFacts } from "@/components/home/FastFacts";
+import { getFastFacts } from "@/lib/fast-facts-data";
 
 export const metadata: Metadata = pageMetadata({ title: site.homeTitle, description: site.description, path: "/", absolute: true });
 
@@ -56,6 +58,7 @@ export default function Hub() {
   const congress = getViewCurrent("both");
   const court = getCourtPayload();
   const tariff = getHubTariff();
+  const fastFacts = getFastFacts();
 
   // Party gap per Congress, to say how today's divide ranks historically.
   const gaps = trend
@@ -100,6 +103,8 @@ export default function Hub() {
             after=" Every chart tracks historical trends across changing political administrations, while parallel pages let you look up individual lawmakers—from their personal voting records to financial disclosures."
           />
         </p>
+
+        <FastFacts facts={fastFacts.facts} updated={fastFacts.updated} />
 
         <HomeBranchCard
           grow

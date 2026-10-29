@@ -47,6 +47,9 @@ export function formatStoryDate(iso: string): string {
   return `${MONTHS[m - 1]} ${d}`;
 }
 
+/** "2026-10-28" → "Oct 28, 2026", for the stamp under a page title. */
+export const formatUpdatedStamp = (iso: string): string => `${formatStoryDate(iso)}, ${iso.slice(0, 4)}`;
+
 /** The file's `asOf` as "Oct 27" for the footnote; undefined when the file has none. */
 export const updatedLabel = (asOf: string | undefined) => (asOf ? formatStoryDate(asOf) : undefined);
 

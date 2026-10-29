@@ -177,7 +177,7 @@ function TradePage({ data, faqFile, newsFile, storyRates }: { data: TradePageDat
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader eyebrow="Presidency · Trade" title="How Does the U.S. Trade With the World?">
+        <PageHeader eyebrow="Presidency · Trade" updated={newsFile?.asOf} title="How Does the U.S. Trade With the World?">
           <p>
             Track where goods flow and what the U.S. charges in tariffs. Measure import and export balances with global trading partners and see how effective duty rates shift over time&mdash;with major executive, legislative, and court actions marked along the timeline.
           </p>
