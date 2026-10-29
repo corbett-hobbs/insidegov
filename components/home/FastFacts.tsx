@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { OverflowButtons, useScrollHints } from "@/components/SiteNav";
+import { useScrollHints } from "@/components/SiteNav";
 import type { FastFact } from "@/lib/fast-facts";
 import { formatUpdatedStamp } from "@/lib/news-derive";
 
 /**
  * "Latest numbers": six headline figures, each from a different page, under the homepage intro. One tile is one link to
- * its chart. Desktop is a grid (three across, then six); a phone gets one swipe row with an arrow button over each edge. The 1px gaps over a `bg-line` container draw the dividers however the grid wraps.
+ * its chart. Desktop is a grid (three across, then six); a phone gets one swipe row with ‹ › buttons in the heading row, as on the news row. The 1px gaps over a `bg-line` container draw the dividers however the grid wraps.
  */
 export function FastFacts({ facts, updated }: { facts: FastFact[]; updated: string | null }) {
   const { ref, hiddenRight, canBack, measure } = useScrollHints(facts);
+  const arrow =
+    "grid size-7 cursor-pointer place-items-center rounded-full border border-line bg-surface text-[0.95rem] leading-none text-ink hover:border-ink-faint disabled:cursor-default disabled:text-ink-faint disabled:hover:border-line focus-visible:outline-2 focus-visible:outline-accent";
   // One tile per press, so the tile that lands on the left is always whole (the shared 60%-of-width step stops mid-tile).
   const scrollBy = (dir: 1 | -1) => {
     const el = ref.current;
@@ -19,11 +21,15 @@ export function FastFacts({ facts, updated }: { facts: FastFact[]; updated: stri
   };
   return (
     <section aria-labelledby="fast-facts-title" className="flex flex-col gap-2.5">
-      <div className="flex items-baseline justify-between gap-4">
+      <div className="flex items-center gap-3">
         <h2 id="fast-facts-title" className="m-0 font-mono text-[0.68rem] font-medium uppercase tracking-[0.14em] text-accent">
           Latest numbers
         </h2>
-        {updated && <span className="font-mono text-[0.68rem] text-ink-faint">Updated {formatUpdatedStamp(updated)}</span>}
+        <span className="ml-auto font-mono text-[0.68rem] text-ink-faint">{updated && <>Updated {formatUpdatedStamp(updated)}</>}</span>
+        <div className="flex gap-1.5 sm:hidden">
+          <button type="button" aria-label="Earlier numbers" disabled={!canBack} onClick={() => scrollBy(-1)} className={arrow}>‹</button>
+          <button type="button" aria-label="More numbers" disabled={hiddenRight === 0} onClick={() => scrollBy(1)} className={arrow}>›</button>
+        </div>
       </div>
       <div className="relative">
         <ul
@@ -46,17 +52,6 @@ export function FastFacts({ facts, updated }: { facts: FastFact[]; updated: stri
             </li>
           ))}
         </ul>
-        <div className="sm:hidden">
-          <OverflowButtons
-            canBack={canBack}
-            hiddenRight={hiddenRight}
-            scrollBy={scrollBy}
-            noun="number"
-            plainMore
-            backFade=""
-            moreFade=""
-          />
-        </div>
       </div>
     </section>
   );
