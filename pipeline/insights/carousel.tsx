@@ -238,7 +238,10 @@ const VALUE_W = 124;
 const BAR_W = W - 2 * SIDE - NAME_W - VALUE_W;
 
 /** One block's rows: a bar per row from a shared zero line, the signed value beside it, and the total under them. */
-function BreakdownBlock({ insight, label, rows, total }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }) {
+function BreakdownBlock({ insight, label, rows, total, roomy }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string }; roomy?: boolean }) {
+  // A card of levels (where each line stands) has only two short blocks: more room between rows and blocks.
+  const rowH = roomy ? 56 : 34;
+  const barH = roomy ? 26 : 16;
   const show = (id: string) => rowValue(insight, id);
   const value = (id: string) => insight.facts.find((f) => f.id === id)!.value as number;
   const vals = rows.map((r) => value(r.fact));
@@ -250,19 +253,19 @@ function BreakdownBlock({ insight, label, rows, total }: { insight: Insight; lab
   const names = rows.map((r) => r.name.replace(/\s*\(.*\)\s*$/, ""));
   const long = names.some((n) => n.length > 11);
   return (
-    <div style={{ display: "flex", flexDirection: "column", marginBottom: 24 }}>
-      <div style={{ display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>{label}</div>
+    <div style={{ display: "flex", flexDirection: "column", marginBottom: roomy ? 72 : 24 }}>
+      <div style={{ display: "flex", fontSize: roomy ? 17 : 14, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED, marginBottom: roomy ? 18 : 10 }}>{label}</div>
       {rows.map((r, i) => {
         const v = vals[i]!;
         const w = Math.max(2, Math.abs(v) * scale);
         return (
-          <div key={i} style={{ display: "flex", alignItems: "center", height: 34 }}>
-            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: long ? 19 : 23, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
-            <div style={{ display: "flex", position: "relative", width: BAR_W, height: 34 }}>
-              <div style={{ position: "absolute", left: zero, top: 0, width: 1, height: 34, background: MUTED, display: "flex" }} />
-              <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: 9, width: w, height: 16, borderRadius: 2, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
+          <div key={i} style={{ display: "flex", alignItems: "center", height: rowH }}>
+            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: long ? 19 : roomy ? 26 : 23, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
+            <div style={{ display: "flex", position: "relative", width: BAR_W, height: rowH }}>
+              <div style={{ position: "absolute", left: zero, top: 0, width: 1, height: rowH, background: MUTED, display: "flex" }} />
+              <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: Math.round((rowH - barH) / 2), width: w, height: barH, borderRadius: 2, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
             </div>
-            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 19, color: INK }}>{show(r.fact)}</div>
+            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: roomy ? 24 : 19, color: INK }}>{show(r.fact)}</div>
           </div>
         );
       })}
@@ -282,8 +285,9 @@ function breakdownSlide(insight: Insight, n: number, total: number): ReactNode {
     <Slide>
       <Header {...headerOf(insight, b.kicker ?? "What drove it")} />
       <Title>{b.title}</Title>
+      {b.levels ? <div style={{ display: "flex", height: 24 }} /> : null}
       {b.blocks.map((blk, i) => (
-        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} />
+        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} roomy={b.levels} />
       ))}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{b.note}</div>
       <Footer n={n} total={total} />
