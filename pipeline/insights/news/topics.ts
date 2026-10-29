@@ -17,6 +17,8 @@ export type Pair = { id: string; subject: string; note: string; source?: string 
 export type ChartBuild =
   /** A series from datasets.ts by id: its latest value against its peak in the window (else the change on a year). */
   | { kind: "series"; seriesId: string; years: number; peak: boolean; compare?: Pair }
+  /** A balance drawn as its two parts (the trade deficit as imports and exports): the balance's series, then the parts. */
+  | { kind: "balance"; seriesId: string; years: number; peak: boolean; imports: string; exports: string; note: string }
   /** The collected tariff rate: a country against all countries, or all countries alone (news/charts.ts). */
   | { kind: "tariff" };
 
@@ -96,7 +98,7 @@ export const NEWS_TOPICS: NewsTopic[] = [
     chart: "the monthly U.S. goods trade deficit, seasonally adjusted",
     match: /\btrade (deficit|gap|balance)\b/i,
     lead: () => "The trade deficit is in the news.",
-    build: { kind: "series", seriesId: "trade.deficit", years: 10, peak: true },
+    build: { kind: "balance", seriesId: "trade.deficit", years: 10, peak: true, imports: "trade.imports", exports: "trade.exports", note: "Goods only, seasonally adjusted; the deficit is imports minus exports" },
     weight: 1.1,
   },
   {

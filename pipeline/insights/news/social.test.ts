@@ -6,7 +6,7 @@ import { DATASETS, loadAdministrations, loadDataset, readOutput } from "../datas
 import type { Headline } from "../types";
 import { CellIndex, verifyInsight } from "../verify";
 import { type Candidate, topicOf } from "./cards";
-import { seriesContext } from "./charts";
+import { balanceContext, seriesContext } from "./charts";
 import { slidePlan } from "../carousel";
 import { explainer } from "../explain";
 import { planThread } from "../thread";
@@ -194,6 +194,22 @@ describe("two-line charts", () => {
     expect(insight.template).toContain(`${p.compare.subject} was`);
     // A pair has its own passage, not the first series' lines followed by the second's.
     expect(explainer(insight)).toEqual(expect.arrayContaining([expect.stringMatching(/share one scale|share one scale:/)]));
+  });
+});
+
+describe("a balance drawn as its parts", () => {
+  const all = DATASETS.flatMap((d) => loadDataset(d).series);
+  const g = (id: string) => all.find((s) => s.id === id)!;
+
+  it("leads with the trade deficit, says each part, and draws imports and exports", () => {
+    const i = balanceContext(g("trade.deficit"), g("trade.imports"), g("trade.exports"), { years: 10, peak: true, lead: "The trade deficit is in the news.", id: "n", note: "Goods only" })!;
+    expect(i.template).toMatch(/deficit stood at \$[\d.]+B in \w+ \d{4}.*\. Imports were \$[\d.]+B.*exports were \$[\d.]+B/);
+    expect(i.template.length).toBeLessThanOrEqual(240);
+    expect(verifyInsight(i, new CellIndex())).toEqual([]);
+    expect(i.chart.type === "line" && i.chart.comparison?.mainLabel).toBe("Imports");
+    expect(i.title).toBe("U.S. imports and exports, 2016 to 2026");
+    expect(i.breakdown?.levels).toBe(true);
+    expect(explainer(i)[0]).toMatch(/gap between the two lines/);
   });
 });
 
