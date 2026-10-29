@@ -52,6 +52,7 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
  * window beside its latest, as bars on one scale. Every value is a fact traced to its cells; the card says nothing the
  * data does not.
  */
+const oneDec = (u: UnitFormat): UnitFormat => (u.suffix.includes("%") ? { ...u, decimals: Math.min(1, u.decimals) } : u);
 function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from: string, latest: Point, latestFact: Fact, pairNote: string, years: number): { breakdown: Breakdown; facts: Fact[] } | null {
   const facts: Fact[] = [];
   const block = (s: Series, unit: UnitFormat, key: string, label: string, now: Point, nowFact: Fact) => {
@@ -70,7 +71,7 @@ function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from
   };
   const a = block(main, mainUnit, "a", capitalize(main.name.replace(/^the /, "")), latest, latestFact);
   const otherLatest = other.points.at(-1);
-  const b = otherLatest ? block(other, { ...other.unit, decimals: Math.min(1, other.unit.decimals) }, "b", capitalize(other.name.replace(/^the /, "")), otherLatest, unitFact("x", otherLatest.value, { ...other.unit, decimals: Math.min(1, other.unit.decimals) }, otherLatest.cells)) : null;
+  const b = otherLatest ? block(other, oneDec(other.unit), "b", capitalize(other.name.replace(/^the /, "")), otherLatest, unitFact("x", otherLatest.value, oneDec(other.unit), otherLatest.cells)) : null;
   if (!a || !b) return null;
   return {
     facts,
@@ -90,8 +91,9 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   if (!latest || series.points.length < 3) return null;
   const style = dateStyleFor(series.frequency);
   // With a second series the figures are the headline numbers of a status update: one decimal, as inflation reads.
-  const unit = opts.compare ? { ...series.unit, decimals: Math.min(1, series.unit.decimals) } : series.unit;
-  const cunit = opts.compare ? { ...opts.compare.unit, decimals: Math.min(1, opts.compare.unit.decimals) } : undefined;
+  // Rates read at one decimal beside a second line (3.9%); prices keep their cents (oneDec).
+  const unit = opts.compare ? oneDec(series.unit) : series.unit;
+  const cunit = opts.compare ? oneDec(opts.compare.unit) : undefined;
   const from = addMonths(latest.date, -12 * opts.years);
   const latestFact = unitFact("latest_value", latest.value, unit, latest.cells);
   const latestDate = dateFact("latest_date", latest.date, style);
@@ -161,7 +163,9 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   // A second series (inflation beside the Fed's rate): its own sentence with its latest reading and the move on the previous
   // one, kept ahead of the peak's reach when the caption is too long for both.
   const cmpLatest = opts.compare?.points.at(-1);
-  const cmpPrev = opts.compare && !opts.compare.seasonal ? opts.compare.points.at(-2) : undefined;
+  // A weekly second line is read against a month earlier, like the main line (a week says nothing).
+  const cmpMonthAgo = opts.compare?.frequency === "weekly" && cmpLatest ? opts.compare.points.find((q) => Math.abs(daysBetween(q.date, addMonths(cmpLatest.date, -1))) <= 3) : undefined;
+  const cmpPrev = opts.compare && !opts.compare.seasonal ? cmpMonthAgo ?? opts.compare.points.at(-2) : undefined;
   let cmpClause: Clause | null = null;
   let cmpShort: Clause | null = null;
   let cmpNoDate: Clause | null = null;
@@ -169,14 +173,16 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     const cv = unitFact("compare_value", cmpLatest.value, cunit!, cmpLatest.cells);
     const cd = dateFact("compare_date", cmpLatest.date, dateStyleFor(opts.compare.frequency));
     const cf: Fact[] = [cv, cd];
-    let text = `. ${opts.pair?.subject ?? opts.compare.title} was ${cv.text} ${when(opts.compare, cd.text)}`;
+    // Two weekly lines read at the same date: say the date once.
+    const sameDate = cmpLatest.date === latest.date;
+    let text = `. ${opts.pair?.subject ?? opts.compare.title} was ${cv.text}${sameDate ? "" : ` ${when(opts.compare, cd.text)}`}`;
     cmpShort = { text, facts: [cv, cd] };
     if (cmpPrev) {
       const pv = unitFact("compare_previous_value", cmpPrev.value, cunit!, cmpPrev.cells);
       const pd = dateFact("compare_previous_date", cmpPrev.date, bareIfSameYear(dateStyleFor(opts.compare.frequency), cmpPrev.date, cmpLatest.date));
       const dir = cmpLatest.value > cmpPrev.value ? "up" : cmpLatest.value < cmpPrev.value ? "down" : "unchanged";
-      cmpNoDate = { text: `${text}, ${dir} from ${pv.text}`, facts: [cv, cd, pv] };
-      text += `, ${dir} from ${pv.text} ${when(opts.compare, pd.text)}`;
+      cmpNoDate = { text: `${text}, ${dir} from ${pv.text}${cmpMonthAgo ? " a month earlier" : ""}`, facts: [cv, cd, pv] };
+      text += cmpMonthAgo ? `, ${dir} from ${pv.text} a month earlier` : `, ${dir} from ${pv.text} ${when(opts.compare, pd.text)}`;
       cf.push(pv, pd);
     }
     cmpClause = { text, facts: cf };

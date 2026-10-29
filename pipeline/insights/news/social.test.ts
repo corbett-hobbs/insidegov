@@ -181,8 +181,8 @@ describe("two-line charts", () => {
     return sb && sb.build.kind === "series" && sb.build.compare ? [{ topic: t.id, lead: sb.lead(), build: sb.build, compare: sb.build.compare }] : [];
   });
 
-  it("covers the Fed, mortgage, Treasury and unemployment stories", () => {
-    expect(pairs.map((p) => p.topic).sort()).toEqual(["fed_rates", "mortgage", "treasury_yields", "unemployment"]);
+  it("covers the Fed, gas, diesel, mortgage, Treasury and unemployment stories", () => {
+    expect(pairs.map((p) => p.topic).sort()).toEqual(["diesel", "fed_rates", "gasoline", "mortgage", "treasury_yields", "unemployment"]);
   });
 
   it.each(pairs.map((p) => [p.topic, p] as const))("%s: traced facts, a second line, one decimal, and one explainer for both", (_t, p) => {
@@ -266,6 +266,19 @@ describe("which stories become posts", () => {
     expect(isCurrent([preview, decision], NOW)).toBe(false);
     expect(hasRecent([preview, decision], NOW)).toBe(true);
     expect(hasRecent([preview], NOW)).toBe(false);
+
+    // Gas and diesel share one two-line chart, so stories about both draft it once.
+    const both = [h("nbcnews", "Diesel prices jump"), h("foxnews", "Diesel prices climb")];
+    const gas = [h("nbcnews", "Gas prices at the pump rise"), h("foxnews", "Gas prices climb at the pump"), h("wsj", "Prices at the pump up")];
+    const fuels = socialStories(
+      [
+        { candidate: cand("diesel", both), headlines: both },
+        { candidate: cand("gasoline", gas), headlines: gas },
+      ],
+      NOW,
+    );
+    expect(fuels).toHaveLength(1);
+    expect(fuels[0]!.key).toBe("gasoline");
 
     // Tariffs naming one partner outrank tariffs in general, and only one of them is drafted.
     const t1 = [h("nbcnews", "Trump raises tariffs on Canada"), h("foxnews", "Canada tariffs take effect")];

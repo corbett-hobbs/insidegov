@@ -74,6 +74,14 @@ const PAIRS: Record<string, string[]> = {
     "The federal funds rate is the interest rate banks charge each other for overnight loans, shown as a weekly average from the Federal Reserve Board. The Federal Reserve announces a target range and steers the rate into it, so it is not the rate on a home or car loan.",
     "Inflation is how much consumer prices have changed over the past year, measured by the Consumer Price Index for all urban consumers and reported monthly. Both lines are in percent, so they share one scale.",
   ],
+  "gas.regular|gas.diesel": [
+    "Regular gasoline and diesel prices are the U.S. average retail price per gallon at the pump, from a weekly survey by the Energy Information Administration. Neither is adjusted for inflation.",
+    "Both lines are in dollars a gallon, so they share one scale. Diesel is the fuel for trucks, trains and farm equipment; gasoline is mostly for cars.",
+  ],
+  "gas.diesel|gas.regular": [
+    "Regular gasoline and diesel prices are the U.S. average retail price per gallon at the pump, from a weekly survey by the Energy Information Administration. Neither is adjusted for inflation.",
+    "Both lines are in dollars a gallon, so they share one scale. Diesel is the fuel for trucks, trains and farm equipment; gasoline is mostly for cars.",
+  ],
   "economy.mortgage_rate|economy.treasury_10y": [
     "The mortgage rate is the average rate on a 30-year fixed-rate home loan, from Freddie Mac's weekly survey of lenders. The ten-year Treasury yield is the market rate on ten-year U.S. government debt, set by investors and averaged over the week.",
     "Both lines are in percent, so they share one scale. The chart shows how far apart the two have been, not why.",
@@ -99,6 +107,8 @@ export function hasLag(insight: Pick<Insight, "seriesId" | "kind">): boolean {
 /** The same pairs in one thread post (at most about 250 characters, with its heading). */
 const PAIRS_SHORT: Record<string, string> = {
   "economy.fed_funds|economy.inflation": "The federal funds rate is what banks charge each other for overnight loans, steered by the Fed into a target range. Inflation is the yearly change in consumer prices (CPI). Both are in percent, on one scale.",
+  "gas.regular|gas.diesel": "Both are the U.S. average retail price per gallon at the pump, from a weekly Energy Information Administration survey, not adjusted for inflation. They share one scale in dollars a gallon.",
+  "gas.diesel|gas.regular": "Both are the U.S. average retail price per gallon at the pump, from a weekly Energy Information Administration survey, not adjusted for inflation. They share one scale in dollars a gallon.",
   "economy.mortgage_rate|economy.treasury_10y": "The mortgage rate is the average on a 30-year fixed home loan (Freddie Mac). The Treasury yield is the market rate on ten-year government debt. Both are weekly averages in percent, on one scale.",
   "economy.treasury_10y|economy.fed_funds": "The ten-year Treasury yield is set by investors; the federal funds rate is what banks charge each other overnight, steered by the Fed. Both are weekly averages in percent, on one scale.",
   "economy.unemployment|economy.inflation": "Unemployment is the share of the labor force without a job and looking for one. Inflation is the yearly change in consumer prices (CPI). Both are monthly, in percent, on one scale.",
