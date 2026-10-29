@@ -297,7 +297,85 @@
       "keep": [],
       "reason": "The only substantive development is a DHS employee data breach, which is not about border encounters or ICE removals; the Piker story is a streamer's remarks, not a government action.",
       "chart": ""
+    },
+    "b263f0a635d45306dd00": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Multiple outlets reported the Oct 28, 2026 Fed decision to hold rates steady; previews, live streams, explainers, and the ECB and other Fed news were excluded.",
+      "chart": ""
+    },
+    "a14af312479188b122bd": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [],
+      "reason": "No single current development is reported by multiple outlets: headlines 1-3 are political commentary or analysis, and headline 4 is about an inflation gauge with gas prices only as a cause.",
+      "chart": ""
+    },
+    "e2c73490c122bb628093": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Four outlets report the same late-October release of September inflation data (PCE, the Fed's gauge) alongside Q3 GDP; the chart tracks CPI, so the match is on the inflation topic rather than the exact index. Excluded the NYT October PCE headline (different period), and the opinion, foreign and forward-looking pieces.",
+      "chart": ""
+    },
+    "95599932b7ff3408100f": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4783405/economy-gdp-growth-rate-third-quarter-underlying-strength/",
+        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html",
+        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/"
+      ],
+      "reason": "Headlines 2, 3 and 4 all report the same new BEA figure: U.S. third-quarter GDP grew 3.4%. Headline 1 covers South Africa's debt ratio and is excluded.",
+      "chart": ""
+    },
+    "588a6bd31dd5d913de01": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [],
+      "reason": "Only one outlet (NYT, duplicated) covers a U.S. restriction on a single Chinese company, which reads as company-specific news; the WSJ drone-explosives piece is unrelated to trade policy. Neither chart measures this story.",
+      "chart": ""
+    },
+    "c96bfbcc97da5fac5273": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a congressional demand for donor records and a company-specific Audi factory tariff-relief deal. Neither reports a national tariff development where the average tariff rate collected is central, and they don't match each other.",
+      "chart": ""
+    },
+    "cda202b033792e04e8a6": {
+      "at": "2026-10-29T16:00:30.385Z",
+      "keep": [
+        "https://www.bbc.co.uk/news/articles/cq8jzkpjr28vo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/cq8jzkpjr28vo?at_medium=RSS&at_campaign=rss",
+        "https://www.cnbc.com/2026/10/29/dhs-data-breach-ice-cdp-deportations.html",
+        "https://www.foxnews.com/us/dhs-investigates-massive-data-breach-exposing-40000-employees-including-ice-border-patrol-agents",
+        "https://www.foxnews.com/us/dhs-investigates-massive-data-breach-exposing-40000-employees-including-ice-border-patrol-agents"
+      ],
+      "reason": "Five headlines from four outlets report the same current development: a data breach exposing DHS, ICE and Border Patrol employee details, with DHS investigating. The NY Post detainer report (6-7) is a different story from one outlet, so it is excluded.",
+      "chart": ""
     }
   },
-  "dispatched": {}
+  "dispatched": {
+    "indicators-freshness.yml": {
+      "release": "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+      "since": "2026-10-29T16:00:30.385Z",
+      "at": "2026-10-29T16:00:30.385Z",
+      "count": 1
+    },
+    "energy-freshness.yml": {
+      "release": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
+      "since": "2026-10-29T16:00:30.385Z",
+      "at": "2026-10-29T16:00:30.385Z",
+      "count": 1
+    }
+  }
 }
