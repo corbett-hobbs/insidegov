@@ -114,7 +114,10 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
   const replies: Reply[] = [];
   // Levels (where each line stands): one post and one card for both blocks, when they fit.
   if (b.levels) {
-    const text = `${b.title}\n\n${b.blocks.map((blk) => `${blk.label} ${rowsText(insight, blk.rows)}.`).join(" ")}`;
+    // "Federal funds rate: peak 5.3% in 2023, low 0.0% in 2020, latest 3.9%."
+    const line = (blk: (typeof b.blocks)[number]) =>
+      `${blk.label}: ${blk.rows.map((r) => `${r.name.replace(/^(\w+), (\d{4})$/, (_m, k: string, y: string) => k.toLowerCase()).toLowerCase()} ${rowValue(insight, r.fact)}${/^(\w+), (\d{4})$/.test(r.name) ? ` in ${r.name.slice(-4)}` : ""}`).join(", ")}.`;
+    const text = `${b.title}\n\n${b.blocks.map(line).join(" ")}`;
     if (text.length <= REPLY_MAX) return { replies: [{ text, chart: 0, alt: text.replace(/\n+/g, " ").slice(0, 1000) }] };
   }
   for (const [i, blk] of b.blocks.entries()) {
