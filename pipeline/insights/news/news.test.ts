@@ -124,7 +124,7 @@ describe("news charts", () => {
   it("links every news topic's chart to its card on the page", () => {
     const all = (["gas", "energy", "trade", "encounters", "ice"] as const).flatMap((d) => loadDataset(d).series);
     for (const t of NEWS_TOPICS) {
-      if (t.build.kind !== "series") continue;
+      if (t.build.kind === "tariff") continue;
       const id = t.build.seriesId;
       expect(all.find((s) => s.id === id)?.anchor, id).toMatch(/^#[a-z-]+$/);
     }

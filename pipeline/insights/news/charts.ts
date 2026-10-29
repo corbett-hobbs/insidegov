@@ -22,8 +22,8 @@ import type { Breakdown, ChartSpec, DateStyle, Fact, Insight, Point, Series, Uni
 type Clause = { text: string; facts: Fact[] };
 
 /** The first clause that fits the caption limit after `lead` and `head`, else none. */
-function firstFitting(lead: string, head: string, options: Clause[]): Clause {
-  return options.find((c) => `${lead} ${head}${c.text}.`.length <= CAPTION_MAX_CHARS) ?? { text: "", facts: [] };
+function firstFitting(lead: string, head: string, options: Clause[], reserve = 0): Clause {
+  return options.find((c) => `${lead} ${head}${c.text}.`.length + reserve <= CAPTION_MAX_CHARS) ?? { text: "", facts: [] };
 }
 
 /**
@@ -86,7 +86,7 @@ function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from
 }
 
 /** A series' latest value against its peak in the window (`peak`), else against a year earlier. */
-export function seriesContext(series: Series, opts: { years: number; peak: boolean; lead: string; id: string; compare?: Series; pair?: { subject: string; note: string; source?: string } }): Insight | null {
+export function seriesContext(series: Series, opts: { years: number; peak: boolean; lead: string; id: string; compare?: Series; pair?: { subject: string; note: string; source?: string }; reserve?: number }): Insight | null {
   const latest = series.points.at(-1);
   if (!latest || series.points.length < 3) return null;
   const style = dateStyleFor(series.frequency);
@@ -198,7 +198,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     ladder.push(join(yp, cmpShort));
   }
   const withCmp = cmpClause && cmpShort ? [...ladder, ...options.map((c) => join(c, cmpClause!)), ...options.map((c) => join(c, cmpShort!)), cmpClause, cmpShort, ...options] : options;
-  const clause = firstFitting(opts.lead, head, withCmp);
+  const clause = firstFitting(opts.lead, head, withCmp, opts.reserve);
   facts.push(...clause.facts);
   const sentence = head + clause.text;
 
@@ -250,6 +250,67 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
     note: opts.compare ? (opts.pair?.note ?? series.note) : series.note,
     score: 3 * series.weight,
     alt: `${bars ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${sentence}.`,
+  };
+}
+
+/**
+ * A balance (the trade deficit) drawn as its two parts: the caption leads with the balance as any news chart does, then
+ * says each part's latest reading and move, and the chart draws the parts as two lines on one axis (the balance is the
+ * gap between them). The carousel's cover shows the two parts; its bigger-picture card is their peaks, lows and latest.
+ */
+export function balanceContext(balance: Series, imports: Series, exports: Series, opts: { years: number; peak: boolean; lead: string; id: string; note: string }): Insight | null {
+  const iL = imports.points.at(-1);
+  const eL = exports.points.at(-1);
+  const iP = imports.points.at(-2);
+  const eP = exports.points.at(-2);
+  if (!iL || !eL || !iP || !eP || iL.date !== eL.date) return null;
+  const dir = (a: number, b: number) => (a > b ? "up" : a < b ? "down" : "unchanged");
+  const iv = unitFact("line_main_value", iL.value, imports.unit, iL.cells);
+  const ev = unitFact("compare_value", eL.value, exports.unit, eL.cells);
+  const ip = unitFact("line_main_previous", iP.value, imports.unit, iP.cells);
+  const ep = unitFact("compare_previous_value", eP.value, exports.unit, eP.cells);
+  const full: Clause = { text: `. Imports were ${iv.text}, ${dir(iL.value, iP.value)} from ${ip.text}, and exports were ${ev.text}, ${dir(eL.value, eP.value)} from ${ep.text}`, facts: [iv, ip, ev, ep] };
+  const short: Clause = { text: `. Imports were ${iv.text} and exports were ${ev.text}`, facts: [iv, ev] };
+  // The balance's own sentence takes what the parts' sentence leaves of the caption limit; if even its shortest option cannot, the parts only draw.
+  let clause: Clause | null = null;
+  let base: Insight | null = null;
+  for (const c of [full, short]) {
+    base = seriesContext(balance, { years: opts.years, peak: opts.peak, lead: opts.lead, id: opts.id, reserve: c.text.length });
+    if (base && base.template.length + c.text.length <= CAPTION_MAX_CHARS) {
+      clause = c;
+      break;
+    }
+  }
+  base ??= seriesContext(balance, { years: opts.years, peak: opts.peak, lead: opts.lead, id: opts.id });
+  if (!base) return null;
+  const latest = base.period;
+  const from = addMonths(latest, -12 * opts.years);
+  const template = clause ? `${base.template.replace(/\.$/, "")}${clause.text}.` : base.template;
+  const facts = clause ? [...base.facts, ...clause.facts] : base.facts;
+  const chart: ChartSpec = {
+    type: "line",
+    unit: imports.unit,
+    axisLabel: imports.axisLabel,
+    frequency: "monthly",
+    points: linePoints(imports, from, latest),
+    marks: [{ date: latest, label: iv.text, emphasis: true }],
+    comparison: { label: `Exports: ${exports.points.at(-1) ? fmtUnit(eL.value, exports.unit) : ""}`, mainLabel: "Imports", points: linePoints(exports, from, latest) },
+  };
+  const stands = whereEachStands(imports, imports.unit, exports, from, iL, iv, opts.note, opts.years);
+  const extra = clause ? [] : [iv, ev];
+  return {
+    ...base,
+    id: opts.id,
+    headline: `${capitalize(imports.name)} and exports`,
+    title: chartTitle("U.S. imports and exports", chart, { frequency: "monthly", seasonal: false, latest }),
+    template,
+    facts: [...facts, ...extra, ...(stands ? stands.facts : [])],
+    chart,
+    alsoSeriesId: imports.id,
+    ...(stands ? { breakdown: stands.breakdown } : {}),
+    note: opts.note,
+    context: [...base.context, "The chart draws imports and exports (the deficit is the gap between them), not the deficit itself; the caption leads with the deficit and then gives each line's latest reading. It must not say either causes or answers the other."],
+    alt: `Line chart of U.S. goods imports and exports (${imports.axisLabel}) through ${fmtDate(latest, "month")}. ${template.slice(opts.lead.length + 1)}`,
   };
 }
 

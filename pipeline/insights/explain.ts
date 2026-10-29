@@ -82,6 +82,10 @@ const PAIRS: Record<string, string[]> = {
     "Regular gasoline and diesel prices are the U.S. average retail price per gallon at the pump, from a weekly survey by the Energy Information Administration. Neither is adjusted for inflation.",
     "Both lines are in dollars a gallon, so they share one scale. Diesel is the fuel for trucks, trains and farm equipment; gasoline is mostly for cars.",
   ],
+  "trade.deficit|trade.imports": [
+    "Imports are the value of goods the United States buys from other countries, and exports the value of goods it sells to them. The trade deficit is imports minus exports, so it is the gap between the two lines.",
+    "Both are monthly, seasonally adjusted and in dollars, not adjusted for inflation. Services are not included.",
+  ],
   "economy.mortgage_rate|economy.treasury_10y": [
     "The mortgage rate is the average rate on a 30-year fixed-rate home loan, from Freddie Mac's weekly survey of lenders. The ten-year Treasury yield is the market rate on ten-year U.S. government debt, set by investors and averaged over the week.",
     "Both lines are in percent, so they share one scale. The chart shows how far apart the two have been, not why.",
@@ -109,6 +113,7 @@ const PAIRS_SHORT: Record<string, string> = {
   "economy.fed_funds|economy.inflation": "The federal funds rate is what banks charge each other for overnight loans, steered by the Fed into a target range. Inflation is the yearly change in consumer prices (CPI). Both are in percent, on one scale.",
   "gas.regular|gas.diesel": "Both are the U.S. average retail price per gallon at the pump, from a weekly Energy Information Administration survey, not adjusted for inflation. They share one scale in dollars a gallon.",
   "gas.diesel|gas.regular": "Both are the U.S. average retail price per gallon at the pump, from a weekly Energy Information Administration survey, not adjusted for inflation. They share one scale in dollars a gallon.",
+  "trade.deficit|trade.imports": "Imports are goods the U.S. buys from other countries, exports are goods it sells to them, in dollars and seasonally adjusted. The trade deficit is imports minus exports: the gap between the lines. Services are not included.",
   "economy.mortgage_rate|economy.treasury_10y": "The mortgage rate is the average on a 30-year fixed home loan (Freddie Mac). The Treasury yield is the market rate on ten-year government debt. Both are weekly averages in percent, on one scale.",
   "economy.treasury_10y|economy.fed_funds": "The ten-year Treasury yield is set by investors; the federal funds rate is what banks charge each other overnight, steered by the Fed. Both are weekly averages in percent, on one scale.",
   "economy.unemployment|economy.inflation": "Unemployment is the share of the labor force without a job and looking for one. Inflation is the yearly change in consumer prices (CPI). Both are monthly, in percent, on one scale.",

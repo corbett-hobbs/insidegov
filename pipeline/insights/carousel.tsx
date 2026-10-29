@@ -126,7 +126,8 @@ function spark(insight: Insight, w: number, h: number): string {
 function twoValues(insight: Insight): { name: string; value: string; line: string }[] | null {
   const spec = insight.chart;
   const second = insight.facts.find((f) => f.id === "compare_value")?.text;
-  const first = headlineValue(insight);
+  // A balance drawn as its parts (trade) shows the first part, not the balance, beside the second.
+  const first = insight.facts.find((f) => f.id === "line_main_value")?.text ?? headlineValue(insight);
   if (spec.type !== "line" || !spec.comparison || !second || !first) return null;
   return [
     { name: spec.comparison.mainLabel, value: first, line: LINE },
@@ -150,7 +151,7 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
           <div style={{ display: "flex", marginBottom: 22 }}>
             {pair.map((p, i) => (
               <div key={i} style={{ display: "flex", flexDirection: "column", marginRight: 56 }}>
-                <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 88, lineHeight: 1, letterSpacing: -2 }}>{p.value}</div>
+                <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: pair.some((q) => q.value.length > 6) ? 62 : 88, lineHeight: 1, letterSpacing: -2 }}>{p.value}</div>
                 <div style={{ display: "flex", alignItems: "center", fontSize: 20, color: MUTED, marginTop: 8 }}>
                   <div style={{ display: "flex", width: 22, height: 5, borderRadius: 3, background: p.line, marginRight: 10 }} />
                   {p.name}

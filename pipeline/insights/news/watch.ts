@@ -9,7 +9,7 @@ import { NEWS_LABEL } from "../issue";
 import { localDate } from "../schedule";
 import type { Headline, Insight, Series } from "../types";
 import { type Candidate, addCompanions, groupCandidates, needsCheck, pickHeadlines, sameDevelopment } from "./cards";
-import { tariffContext, tariffPartners, seriesContext } from "./charts";
+import { balanceContext, tariffContext, tariffPartners, seriesContext } from "./charts";
 import { checkCandidate } from "./classify";
 import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
 import { NEWS_FRESH_HOURS, NEWS_MAX_PER_RUN, type WatchState, inCooldown, newsId, partnersFor, pruneState } from "./match";
@@ -142,6 +142,10 @@ function insightFor(story: SocialStory): Insight | null {
   const b = story.build.build;
   let insight: Insight | null;
   if (b.kind === "tariff") insight = tariffContext(story.country, { lead, id });
+  else if (b.kind === "balance") {
+    const [bal, imp, exp] = [seriesById.get(b.seriesId), seriesById.get(b.imports), seriesById.get(b.exports)];
+    insight = bal && imp && exp ? balanceContext(bal, imp, exp, { years: b.years, peak: b.peak, lead, id, note: b.note }) : null;
+  }
   else {
     const series = seriesById.get(b.seriesId);
     insight = series ? seriesContext(series, { years: b.years, peak: b.peak, lead, id, compare: b.compare ? seriesById.get(b.compare.id) : undefined, pair: b.compare }) : null;

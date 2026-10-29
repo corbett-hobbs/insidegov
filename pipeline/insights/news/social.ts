@@ -230,7 +230,7 @@ export function socialStories(kept: { candidate: Candidate; headlines: Headline[
       reason,
     };
     // A pair is one chart whichever of its two series a story is about (gas and diesel stories share it).
-    const chartKey = build.build.kind === "tariff" ? "tariff" : [build.build.seriesId, build.build.compare?.id ?? ""].sort().join("+");
+    const chartKey = build.build.kind === "tariff" ? "tariff" : [build.build.seriesId, ("compare" in build.build ? build.build.compare?.id : build.build.kind === "balance" ? "balance" : "") ?? ""].sort().join("+");
     // Tariffs: a story naming one partner is the specific one and wins over tariffs in general, whatever the outlet count.
     const prior = out.get(chartKey);
     if (!prior || (Boolean(story.country) !== Boolean(prior.country) ? Boolean(story.country) : story.score > prior.score)) out.set(chartKey, story);
