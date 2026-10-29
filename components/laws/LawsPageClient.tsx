@@ -48,17 +48,12 @@ export function LawsPageClient({ data, faqFile, newsFile }: { data: LawsPayload;
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Laws" updated={newsFile?.asOf} title="What Laws Does Congress Pass?">
           <p>
-            Track federal legislation enacted since {first}, broken down by policy topic and final vote margins. Examining what passes&mdash;and how narrowly&mdash;provides a clear indicator of legislative productivity versus gridlock.
+            Track federal legislation enacted since {first}, broken down by policy topic and final vote margins. Examining what passes&mdash;and how narrowly&mdash;provides a clear indicator of legislative productivity versus gridlock. See who held power in each era on the <Link href="/timeline" className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Timeline</Link>.
           </p>
           <PageShortcuts>
             <JumpToLaws />
-            <p>
-              <Link href="/timeline" className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
-                See who held power, 1933&ndash;now →
-              </Link>
-            </p>
+            <NewsQuestionsPills news={news} groups={faq} />
           </PageShortcuts>
-          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         {/* Sits with the charts it changes, not among the intro links. */}
