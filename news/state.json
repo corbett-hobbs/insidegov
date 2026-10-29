@@ -362,14 +362,57 @@
       ],
       "reason": "Five headlines from four outlets report the same current development: a data breach exposing DHS, ICE and Border Patrol employee details, with DHS investigating. The NY Post detainer report (6-7) is a different story from one outlet, so it is excluded.",
       "chart": ""
+    },
+    "0c18c83af013d1c6375a": {
+      "at": "2026-10-29T21:00:36.299Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets: the headlines are political analysis, an opinion piece, a political feature, and one inflation-gauge story that covers a different development.",
+      "chart": ""
+    },
+    "857c6dc47cb4aac8c903": {
+      "at": "2026-10-29T21:00:36.299Z",
+      "keep": [
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Six outlets report the same completed development: the Fed held its benchmark rate steady at its October 28, 2026 meeting. Previews, live blogs, explainers, and takeaway roundups were excluded.",
+      "chart": ""
+    },
+    "ce950453a2d4a6cd3113": {
+      "at": "2026-10-29T21:00:36.299Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Same October 29 release (Q3 GDP and September PCE inflation data) is reported as the single current development; excluded analysis (8, 10) and foreign central-bank or policy stories (1, 5, 7).",
+      "chart": ""
+    },
+    "98b8864da28f24e68043": {
+      "at": "2026-10-29T21:00:36.299Z",
+      "keep": [],
+      "reason": "Only two headlines, about different developments: a company production story (Shell) and a shipping report of Russian diesel tankers; no single shared U.S. development.",
+      "chart": ""
+    },
+    "84b44c31b111325c8271": {
+      "at": "2026-10-29T21:00:36.299Z",
+      "keep": [],
+      "reason": "No single national development is reported by several outlets: GM listing move and Weil law firm wind-down are company news, the Nasdaq suit is a fraud case, and the Amazon stock drop is one outlet's earnings story.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
       "since": "2026-10-29T16:00:30.385Z",
-      "at": "2026-10-29T16:00:30.385Z",
-      "count": 1
+      "at": "2026-10-29T21:00:36.299Z",
+      "count": 2
     },
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
