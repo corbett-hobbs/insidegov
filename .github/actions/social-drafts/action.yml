@@ -123,11 +123,13 @@ runs:
           git worktree add --orphan -b social-drafts "$dir"
         fi
         mkdir -p "$dir/images"
+        # This branch holds only images and state, no app: keep Vercel from trying (and failing) to build it.
+        echo '{"git":{"deploymentEnabled":false},"ignoreCommand":"exit 0"}' > "$dir/vercel.json"
         cp "$RUNNER_TEMP"/social-drafts/*.png "$dir/images/" 2>/dev/null || true
         if [ "$NEWS" = "true" ]; then mkdir -p "$dir/news" && cp "$RUNNER_TEMP/news-state.json" "$dir/news/state.json"; fi
         echo "base=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/social-drafts/images" >> "$GITHUB_OUTPUT"
         cd "$dir"
-        git add -A images news 2>/dev/null || git add -A images
+        git add -A vercel.json images news 2>/dev/null || git add -A vercel.json images
         if git diff --cached --quiet; then exit 0; fi
         git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
           commit -q -m "Social drafts from $GITHUB_WORKFLOW run $GITHUB_RUN_ID"
