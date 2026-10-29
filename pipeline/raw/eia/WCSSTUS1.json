@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-21T17:54:23.033Z","series":{"id":"WCSSTUS1","title":"U.S. Ending Stocks of Crude Oil in SPR (Thousand Barrels)","units":"MBBL","route":"petroleum/stoc/wstk","query":"frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCSSTUS1&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":2299}},
+  "head": {"fetched_at":"2026-10-29T16:03:00.198Z","series":{"id":"WCSSTUS1","title":"U.S. Ending Stocks of Crude Oil in SPR (Thousand Barrels)","units":"MBBL","route":"petroleum/stoc/wstk","query":"frequency=weekly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=WCSSTUS1&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":2300}},
   "observations": [
     ["1982-08-20","270455"],
     ["1982-08-27","272603"],
@@ -2299,6 +2299,7 @@
     ["2026-09-25","283767"],
     ["2026-10-02","282983"],
     ["2026-10-09","282983"],
-    ["2026-10-16","282683"]
+    ["2026-10-16","282683"],
+    ["2026-10-23","282583"]
   ]
 }
