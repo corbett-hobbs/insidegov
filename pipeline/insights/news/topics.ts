@@ -55,7 +55,7 @@ export const NEWS_TOPICS: NewsTopic[] = [
     chart: "the weekly U.S. average retail price of diesel over the last ten years",
     match: /\bdiesel\b/i,
     lead: () => "Diesel is in the news.",
-    build: { kind: "series", seriesId: "gas.diesel", years: 10, peak: true },
+    build: { kind: "series", seriesId: "gas.diesel", years: 10, peak: true, compare: { id: "gas.regular", subject: "Regular gasoline", note: "Weekly averages; not adjusted for inflation", source: "U.S. Energy Information Administration" } },
     weight: 1.2,
   },
   {
@@ -63,7 +63,7 @@ export const NEWS_TOPICS: NewsTopic[] = [
     chart: "the weekly U.S. average retail price of regular gasoline over the last ten years",
     match: /\b(gas|gasoline) prices?\b|\bprices? (of|for) (gas|gasoline)\b|\bprices? at the pump\b/i,
     lead: () => "Gas prices are in the news.",
-    build: { kind: "series", seriesId: "gas.regular", years: 10, peak: true },
+    build: { kind: "series", seriesId: "gas.regular", years: 10, peak: true, compare: { id: "gas.diesel", subject: "Diesel", note: "Weekly averages; not adjusted for inflation", source: "U.S. Energy Information Administration" } },
     weight: 1.3,
   },
   {
