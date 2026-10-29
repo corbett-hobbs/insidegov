@@ -92,7 +92,7 @@ export function introCarousel(): IntroSlide[] {
       title: "News gives you the number, but rarely the context.",
       paragraphs: [
         "You read that something spiked or dropped, but it’s tough to see how it compares to last year—or to the last administration.",
-        "InsideGov puts the historical chart in one place, so you can see the trend yourself.",
+        "InsideGov puts the historical chart in one place so you can see the trend yourself.",
       ],
       chart: { insight: sampleInsight(), label: "Gas prices, weekly" },
     },
