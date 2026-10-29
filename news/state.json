@@ -237,6 +237,66 @@
       ],
       "reason": "Most outlets reported the Fed's October 28, 2026 decision to hold the federal funds rate steady; previews, explainers, live blogs, the FOMC schedule change, and Treasury yield or Bessent stories were left out.",
       "chart": ""
+    },
+    "ede46a4d0cabb4e8be64": {
+      "at": "2026-10-29T08:22:07.729Z",
+      "keep": [],
+      "reason": "No headline reports a single national development such as a government action, ruling, or official figure on gas prices; they are political commentary and campaign coverage.",
+      "chart": ""
+    },
+    "6b03a7cc903da275722e": {
+      "at": "2026-10-29T08:22:07.729Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Most outlets reported the same development: the Fed holding its policy rate steady on Oct 28, 2026; previews, live blogs, explainers, meeting-schedule, Treasury yield, and Bessent stories were excluded.",
+      "chart": ""
+    },
+    "a52a12a5b9e09a5536ab": {
+      "at": "2026-10-29T08:22:07.729Z",
+      "keep": [
+        "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/",
+        "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/",
+        "https://thehill.com/policy/energy-environment/6176058-trump-texas-rally-methane-regulations-loosened/",
+        "https://thehill.com/policy/energy-environment/6176058-trump-texas-rally-methane-regulations-loosened/",
+        "https://www.nytimes.com/2026/10/27/climate/trump-methane-rules-epa-greenhouse-gas.html",
+        "https://www.nytimes.com/2026/10/27/climate/trump-methane-rules-epa-greenhouse-gas.html",
+        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
+        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
+        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
+        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
+        "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313",
+        "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313",
+        "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas",
+        "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas",
+        "https://www.cnbc.com/2026/10/29/trump-methane-rollback-oil-prices-epa.html",
+        "https://www.cnbc.com/2026/10/29/trump-methane-rollback-oil-prices-epa.html"
+      ],
+      "reason": "All headlines report the same current development: the Trump administration's move to roll back or terminate the Biden-era methane rules for oil and gas operations (CNBC's piece is about the same rollback, framed by market impact).",
+      "chart": ""
+    },
+    "640a07dfd7dbcdb4d972": {
+      "at": "2026-10-29T08:22:07.729Z",
+      "keep": [
+        "https://www.axios.com/2026/10/26/democrats-trump-diesel-deal",
+        "https://thehill.com/policy/energy-environment/6172712-tillis-russia-diesel-deal/",
+        "https://www.politico.com/news/2026/10/26/raskin-warns-oil-industry-trumps-russian-diesel-deal-01135380",
+        "https://thehill.com/homenews/house/6173911-raskin-warns-oil-companies-diesel/"
+      ],
+      "reason": "Four outlets cover Trump's Russian diesel import deal and Democratic responses to it; the chart tracks U.S. retail diesel prices, which the deal relates to. Headline 2 concerns Hegseth, and 6 and 7 are unrelated.",
+      "chart": ""
+    },
+    "cf49ff9eb24332e1535b": {
+      "at": "2026-10-29T08:22:07.729Z",
+      "keep": [],
+      "reason": "The only substantive development is a DHS employee data breach, which is not about border encounters or ICE removals; the Piker story is a streamer's remarks, not a government action.",
+      "chart": ""
     }
   },
   "dispatched": {}
