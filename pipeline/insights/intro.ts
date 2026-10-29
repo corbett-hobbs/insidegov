@@ -8,6 +8,7 @@ import { SITE_URL } from "./chart";
 import { lengthSection } from "./counts";
 import { loadDataset } from "./datasets";
 import { APPROVED_LABEL, DRAFT_LABEL, INTRO_LABEL, type DraftBlock, blockComment } from "./issue";
+import { seriesContext } from "./news/charts";
 
 /**
  * The first thing each account posts: a short thread introducing InsideGov and what the account will post, pinned on
@@ -42,9 +43,10 @@ export const INTRO_THREAD = {
 };
 
 /**
- * The Instagram intro: a carousel instead of a thread, drawn from the About page (app/about/page.tsx) and ending on a
- * personal note, since the account's first followers include people who worked on the original InsideGov at Graphiq.
- * Keep it in step with the About page when either changes.
+ * The Instagram intro: a carousel instead of a thread, drawn from the About page (app/about/page.tsx). A cover, then why
+ * it exists with a compact real chart under it (so a stranger sees what the account posts), then the personal note up
+ * front (the account's first followers include people who worked on the original InsideGov at Graphiq, and a stranger
+ * decides on who is behind it). Keep it in step with the About page when either changes.
  */
 /** What the owner goes by on Instagram (the site's builder name is "Corbett Hobbs"). */
 const FIRST_NAME = "Corby";
@@ -59,12 +61,29 @@ function coverSparks(): { label: string; points: number[] }[] {
   return [pick("gas", "gas.regular", "Gas prices, weekly"), pick("energy", "energy.spr", "Strategic Petroleum Reserve"), pick("trade", "trade.deficit", "Goods trade deficit, monthly")];
 }
 
+/**
+ * The chart under the premise: gas prices from January 2009, the start of the Obama term, drawn by the same code as a
+ * post's chart. Gas is the chart a stranger reads at a glance; four terms (Obama, Trump, Biden, Trump) keep the band
+ * legible at this size and no one party owns it. Its latest label names its own date, so the slide never reads as out of
+ * date. No peak is marked: the peak's ring came out without its label beside the latest one, a mark nothing explains.
+ * The window is counted back from the newest week, so it starts in the weeks of January 2009 and moves with the data.
+ */
+function sampleInsight() {
+  const gas = loadDataset("gas").series.find((x) => x.id === "gas.regular")!;
+  const latest = gas.points.at(-1)!.date;
+  const months = (Number(latest.slice(0, 4)) - 2009) * 12 + Number(latest.slice(5, 7)) - 1;
+  const insight = seriesContext(gas, { years: months / 12, peak: false, lead: "Gas prices are in the news.", id: "intro-sample" });
+  if (!insight) throw new Error("intro: no gas price data for the sample slide");
+  return insight;
+}
+
 export function introCarousel(): IntroSlide[] {
   return [
     {
       kind: "cover",
       title: "The data behind the headlines",
       sub: "Charts straight from official government records across the presidency, Congress, and the Supreme Court.",
+      byline: `By ${FIRST_NAME} Hobbs · launched the original InsideGov in 2013`,
       sparks: coverSparks(),
     },
     {
@@ -75,16 +94,18 @@ export function introCarousel(): IntroSlide[] {
         "You read that something spiked or dropped, but it’s tough to see how it compares to last year—or to the last administration.",
         "InsideGov puts the historical chart in one place, so you can see the trend yourself.",
       ],
+      chart: { insight: sampleInsight(), label: "Gas prices, weekly" },
     },
     {
-      kind: "list",
-      kicker: "What it covers",
-      title: "The questions it answers",
-      items: [
-        "How gas prices, jobs, and the deficit actually moved from one administration to the next.",
-        "Who the U.S. trades with and how tariffs have shifted over time.",
-        "Executive orders signed by each president, broken down by topic.",
-        "Supreme Court rulings and how the ideological center of the bench has moved.",
+      kind: "text",
+      kicker: "Who’s behind it",
+      title: `Hi, I’m ${FIRST_NAME}`,
+      photo: "pipeline/insights/assets/corby.jpg",
+      // The original order: "it" in the last line is the InsideGov of the paragraph just before it.
+      paragraphs: [
+        "I studied international politics at Georgetown’s School of Foreign Service and spent time working in a U.S. Senate press office.",
+        "Back in 2013, I launched the original InsideGov at Graphiq before Amazon acquired us in 2017. If we crossed paths back then, you’ll likely recognize the name.",
+        "Bringing it back is a labor of love.",
       ],
     },
     {
@@ -92,9 +113,9 @@ export function introCarousel(): IntroSlide[] {
       kicker: "On this account",
       title: "What you’ll see here",
       items: [
-        "When a topic hits the news, a look at how it has changed over the years—from trade deficits to border encounters.",
+        "When a topic hits the news, a look at how it has changed over the years—from gas prices and tariffs to inflation and interest rates.",
         "Monthly breakdowns when new data drops, with a quick note on why the numbers moved.",
-        "Every figure checked and linked directly to its primary source.",
+        "Mostly the economy, energy, and trade, plus immigration, executive orders, and new laws.",
       ],
     },
     {
@@ -106,16 +127,6 @@ export function introCarousel(): IntroSlide[] {
         "Charts include context notes on what is being measured—and what to watch out for.",
         "The charts show what the records say, not an opinion on who caused it.",
         "Independent and self-funded. No outside advocacy or institutional backing.",
-      ],
-    },
-    {
-      kind: "text",
-      kicker: "Who’s behind it",
-      title: `Hi, I’m ${FIRST_NAME}`,
-      paragraphs: [
-        "I studied international politics at Georgetown’s School of Foreign Service and spent time working in a U.S. Senate press office.",
-        "Back in 2013, I launched the original InsideGov at Graphiq before Amazon acquired us in 2017. If we crossed paths back then, you’ll likely recognize the name.",
-        "Bringing it back is a labor of love. It’s good to see you here.",
       ],
       sign: `${site} · link in bio`,
     },

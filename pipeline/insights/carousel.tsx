@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
@@ -182,7 +184,8 @@ function chartSlide(insight: Insight, n: number, total: number): ReactNode {
       {labels.map((l, i) => (
         <LabelDiv key={i} l={l} width={W} />
       ))}
-      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 74, display: "flex", fontSize: 15, color: MUTED }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
+      {/* Anchored by its bottom edge: a source and note too long for one line grow upward instead of into the link below. */}
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, bottom: 55, display: "flex", fontSize: 15, color: MUTED }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
       <Footer n={n} total={total} left={path} />
     </Slide>
   );
@@ -408,12 +411,23 @@ async function renderSlides(bodies: ReactNode[], backdrops?: Backdrop | Backdrop
 
 /**
  * The account's intro carousel (intro.ts holds the words): a cover with small trend lines from real series, then text
- * and list slides. Same canvas, header and footer as a draft's slides.
+ * and list slides, one of them with a compact real chart under its text. Same canvas, header and footer as a draft's
+ * slides.
  */
 export type IntroSlide =
-  | { kind: "cover"; title: string; sub: string; sparks: { label: string; points: number[] }[] }
-  | { kind: "text"; kicker: string; title: string; paragraphs: string[]; sign?: string }
-  | { kind: "list"; kicker: string; title: string; items: string[] };
+  | { kind: "cover"; title: string; sub: string; byline?: string; sparks: { label: string; points: number[] }[] }
+  | {
+      kind: "text";
+      kicker: string;
+      title: string;
+      paragraphs: string[];
+      sign?: string;
+      /** A photo beside the title, a path from the repo root. */
+      photo?: string;
+      /** A compact chart under the text: a real insight's line and term band, named by `label`. */
+      chart?: { insight: Insight; label: string };
+    }
+  | { kind: "list"; kicker: string; title: string; items: string[]; sign?: string };
 
 /** The intro cycles through the three branches, so each slide differs from its neighbours (presidency, Supreme Court, Congress). */
 export const INTRO_BRANCHES: Branch[] = ["presidency", "supreme-court", "congress"];
@@ -470,6 +484,32 @@ function sparkPath(vals: number[], w: number, h: number, line = LINE, dot = ACCE
   return `<path d="${d}" fill="none" stroke="${line}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${x(vals.length - 1)}" cy="${y(vals.at(-1)!)}" r="7" fill="${dot}" stroke="${ring}" stroke-width="3"/>`;
 }
 
+const photos = new Map<string, string>();
+
+/** An intro photo as a data URI (cached by path). */
+function photoSrc(path: string): string {
+  if (!photos.has(path)) photos.set(path, `data:image/jpeg;base64,${readFileSync(join(process.cwd(), path)).toString("base64")}`);
+  return photos.get(path)!;
+}
+
+/** Where a slide's round photo sits (the row under the header), and its diameter. */
+const PHOTO_TOP = 103;
+const PHOTO_SIZE = 250;
+
+/**
+ * The photo cropped to a circle with a ring, drawn in the slide's SVG layer like the chart marks. Neither an <img> with a
+ * border radius nor a CSS background came out right under the renderer's scale (the first left the photo small in its
+ * circle, the second tiled it).
+ */
+function photoSvg(path: string, ring: string): string {
+  const r = PHOTO_SIZE / 2;
+  const [cx, cy] = [SIDE + r, PHOTO_TOP + r];
+  return `<defs><clipPath id="photo"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs><image href="${photoSrc(path)}" x="${SIDE}" y="${PHOTO_TOP}" width="${PHOTO_SIZE}" height="${PHOTO_SIZE}" preserveAspectRatio="xMidYMid slice" clip-path="url(#photo)"/><circle cx="${cx}" cy="${cy}" r="${r - 1.5}" fill="none" stroke="${ring}" stroke-width="3"/>`;
+}
+
+/** The frame of the compact chart under a text slide's paragraphs: the plot's axis line and the term band beneath it. */
+const MINI_FRAME: Frame = { width: W, height: H, plot: { left: 104, right: W - SIDE, top: 542, bottom: 705 }, bandedBottom: 705 };
+
 function introSlide(s: IntroSlide, n: number, total: number, look: Look): ReactNode {
   if (s.kind === "cover") {
     const rowTop = 470;
@@ -483,6 +523,7 @@ function introSlide(s: IntroSlide, n: number, total: number, look: Look): ReactN
         <Header kicker="" ink={look.ink} muted={look.muted} />
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 64, lineHeight: 1.04, letterSpacing: -1.5, marginTop: 92 }}>{s.title}</div>
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 24, lineHeight: 1.35, color: look.muted, marginTop: 22 }}>{s.sub}</div>
+        {s.byline ? <div style={{ display: "flex", fontSize: 18, letterSpacing: 0.4, color: look.accent, marginTop: 20 }}>{s.byline}</div> : null}
         {s.sparks.map((sp, i) => (
           <div key={i} style={{ position: "absolute", left: SIDE, top: rowTop + i * rowH, display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: look.muted }}>
             {sp.label}
@@ -507,12 +548,33 @@ function introSlide(s: IntroSlide, n: number, total: number, look: Look): ReactN
         </div>
       ))
     );
+  const mini = s.kind === "text" && s.chart ? { ...chartLayer(s.chart.insight.chart, MINI_FRAME), label: s.chart.label, source: [s.chart.insight.source, s.chart.insight.note].filter(Boolean).join(" · ") } : null;
   return (
     <Slide color={look.ink}>
+      {mini ? svgImage(mini.svg, W, H) : null}
+      {s.kind === "text" && s.photo ? svgImage(photoSvg(s.photo, look.accent), W, H) : null}
       <Header kicker={s.kicker} ink={look.ink} muted={look.muted} />
-      <Title>{s.title}</Title>
+      {s.kind === "text" && s.photo ? (
+        <div style={{ display: "flex", alignItems: "center", height: PHOTO_SIZE, marginTop: PHOTO_TOP - 62, marginBottom: 32 }}>
+          {/* The photo itself is in the SVG layer; this row keeps its place. */}
+          <div style={{ display: "flex", width: PHOTO_SIZE, marginRight: 30, flexShrink: 0 }} />
+          <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.08, letterSpacing: -0.6 }}>{s.title}</div>
+        </div>
+      ) : (
+        <Title>{s.title}</Title>
+      )}
       {body}
-      {s.kind === "text" && s.sign ? (
+      {mini ? (
+        // One positioned box, not a fragment: a fragment is laid out as a row in the flow, and the labels land in the text.
+        <div style={{ display: "flex", position: "absolute", left: 0, top: 0, width: W, height: H }}>
+          <div style={{ position: "absolute", left: SIDE, top: MINI_FRAME.plot.top - 44, display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: look.muted }}>{mini.label}</div>
+          {mini.labels.map((l, i) => (
+            <LabelDiv key={i} l={l} width={W} />
+          ))}
+          <div style={{ position: "absolute", left: SIDE, right: SIDE, bottom: 55, display: "flex", fontSize: 15, color: look.muted }}>{`Source: ${mini.source}`}</div>
+        </div>
+      ) : null}
+      {s.sign ? (
         <div style={{ display: "flex", fontSize: 20, color: look.accent, marginTop: 10, paddingTop: 20, borderTop: `2px solid ${NEUTRAL}` }}>{s.sign}</div>
       ) : null}
       <Footer n={n} total={total} muted={look.muted} />
