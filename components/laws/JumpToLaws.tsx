@@ -28,7 +28,7 @@ export function JumpToLaws() {
       <a
         href={`#${LAW_LIST_ID}`}
         onClick={jump}
-        className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        className="text-[0.85rem] font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
       >
         {n === null ? "Browse every law" : filtered ? `Browse the ${fmtInt(n)} law${n === 1 ? "" : "s"} that match` : `Browse all ${fmtInt(n)} laws`} ↓
       </a>

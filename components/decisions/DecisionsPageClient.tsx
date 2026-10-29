@@ -38,7 +38,7 @@ export function DecisionsPageClient({ data, faqFile, newsFile }: { data: Decisio
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Supreme Court · Decisions" updated={newsFile?.asOf} title="How Does the Supreme Court Decide?">
           <p>
-            Explore every argued Supreme Court case since {first}, categorized by dissent volume. Tracking unanimity versus razor-thin 5&ndash;4 decisions illustrates the fragility of legal consensus.
+            Explore every argued Supreme Court case since {first}, categorized by dissent volume. Tracking unanimity versus razor-thin 5&ndash;4 decisions illustrates the fragility of legal consensus. See who held power in each era on the <Link href="/timeline" className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Timeline</Link>.
           </p>
           <HowToRead>
             <p>
@@ -55,13 +55,8 @@ export function DecisionsPageClient({ data, faqFile, newsFile }: { data: Decisio
           </HowToRead>
           <PageShortcuts>
             <JumpToCases />
-            <p>
-              <Link href="/timeline" className="font-medium text-accent underline decoration-line-strong underline-offset-2 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
-                See who held power, 1933&ndash;now →
-              </Link>
-            </p>
+            <NewsQuestionsPills news={news} groups={faq} />
           </PageShortcuts>
-          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         <CasesCard jump={jump("how-many-cases-does-the-court-decide")} />
