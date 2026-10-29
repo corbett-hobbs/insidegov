@@ -1,6 +1,35 @@
 {
-  "asOf": "2026-10-28",
+  "asOf": "2026-10-29",
   "stories": [
+    {
+      "id": "gdp-2026-10-29",
+      "date": "2026-10-29",
+      "topic": "Economic growth",
+      "chartId": "chart-gdp",
+      "headlines": [
+        {
+          "outletId": "bea",
+          "outlet": "Bureau of Economic Analysis",
+          "lean": "Data",
+          "title": "GDP (Advance Estimate), 3rd Quarter 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026"
+        },
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "U.S. GDP Increased 3.4% in Third Quarter",
+          "url": "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Economy expanded at 3.4% rate in third quarter in sign of underlying strength",
+          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4783405/economy-gdp-growth-rate-third-quarter-underlying-strength/"
+        }
+      ]
+    },
     {
       "id": "inflation-2026-10-28",
       "date": "2026-10-28",
@@ -115,35 +144,6 @@
           "lean": "Lean Left",
           "title": "US jobless claims fell to 194,000 last week, lowest since July",
           "url": "https://abcnews.com/US/wireStory/us-jobless-claims-fell-194000-week-lowest-july-137473790"
-        }
-      ]
-    },
-    {
-      "id": "inflation-2026-10-14",
-      "date": "2026-10-14",
-      "topic": "Inflation",
-      "chartId": "chart-infl",
-      "headlines": [
-        {
-          "outletId": "bls",
-          "outlet": "Bureau of Labor Statistics",
-          "lean": "Data",
-          "title": "CPI for all items increases 0.6% in September; gasoline rises",
-          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm"
-        },
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Higher Energy Prices Pushed U.S. Inflation Up to 3.7% Ahead of Midterm Elections",
-          "url": "https://www.nytimes.com/2026/10/14/business/economy/inflation-cpi.html"
-        },
-        {
-          "outletId": "npr",
-          "outlet": "NPR",
-          "lean": "Lean Left",
-          "title": "Despite bad inflation report, Trump says economy is doing fine",
-          "url": "https://www.npr.org/2026/10/15/nx-s1-6001707/despite-bad-inflation-report-trump-says-economy-is-doing-fine"
         }
       ]
     }
