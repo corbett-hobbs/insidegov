@@ -53,7 +53,7 @@ function windowPeak(all: Point[], from: string, latest: Point, unit: UnitFormat,
  * data does not.
  */
 const oneDec = (u: UnitFormat): UnitFormat => (u.suffix.includes("%") ? { ...u, decimals: Math.min(1, u.decimals) } : u);
-function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from: string, latest: Point, latestFact: Fact, pairNote: string, years: number): { breakdown: Breakdown; facts: Fact[] } | null {
+export function whereEachStands(main: Series, mainUnit: UnitFormat, other: Series, from: string, latest: Point, latestFact: Fact, pairNote: string, years: number): { breakdown: Breakdown; facts: Fact[] } | null {
   const facts: Fact[] = [];
   const block = (s: Series, unit: UnitFormat, key: string, label: string, now: Point, nowFact: Fact) => {
     const win = s.points.filter((p) => p.date >= from && p.date <= now.date);

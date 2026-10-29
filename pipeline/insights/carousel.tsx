@@ -2,9 +2,9 @@ import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { explainer, hasLag } from "./explain";
-import { newsOutlet, rowValue, signedFact } from "./research";
+import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
-import type { Insight } from "./types";
+import type { Breakdown, Insight } from "./types";
 
 /**
  * The Instagram carousel for one insight: 4:5 slides, posted by hand. Each slide is laid out on a 720x900 canvas and
@@ -280,8 +280,7 @@ function BreakdownBlock({ insight, label, rows, total, roomy }: { insight: Insig
   );
 }
 
-function breakdownSlide(insight: Insight, n: number, total: number): ReactNode {
-  const b = insight.breakdown!;
+function breakdownSlide(insight: Insight, b: Breakdown, n: number, total: number): ReactNode {
   return (
     <Slide>
       <Header {...headerOf(insight, b.kicker ?? "What drove it")} />
@@ -343,15 +342,15 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 }
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
-export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[] }[] {
+export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown }[] {
   // A chart with two lines keeps its explainer beside a reason: a reader needs both definitions to read it.
-  const lines = !(insight.why || insight.breakdown) || hasLag(insight) || insight.alsoSeriesId ? explainer(insight) : [];
+  const lines = !(insight.why || breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId ? explainer(insight) : [];
   const moments = keyMoments(insight);
   return [
     { kind: "hook" },
     { kind: "chart" },
     ...(insight.why ? [{ kind: "why" as const }] : []),
-    ...(insight.breakdown ? [{ kind: "breakdown" as const }] : []),
+    ...breakdownsOf(insight).map((b) => ({ kind: "breakdown" as const, breakdown: b })),
     ...(lines.length ? [{ kind: "explainer" as const, lines }] : []),
     ...(moments.length ? [{ kind: "moments" as const, moments }] : []),
     { kind: "end" },
@@ -370,7 +369,7 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
           : s.kind === "why"
             ? whySlide(insight, n, plan.length)
             : s.kind === "breakdown"
-              ? breakdownSlide(insight, n, plan.length)
+              ? breakdownSlide(insight, s.breakdown!, n, plan.length)
               : s.kind === "explainer"
             ? explainerSlide(insight, s.lines!, n, plan.length)
             : s.kind === "moments"

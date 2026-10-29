@@ -3,7 +3,7 @@ import { z } from "zod";
 import { neutralityProblem } from "../faq/check";
 import { sourceNotAllowed } from "../faq/sources";
 import { BANNED_WORDS, CAUSAL_PHRASES } from "./caption";
-import type { Insight, Why } from "./types";
+import type { Breakdown, Insight, Why } from "./types";
 
 /**
  * Why a number moved, researched for every data draft: Claude reads the agency's own release for the period (and other
@@ -153,8 +153,8 @@ export function signedFact(insight: Pick<Insight, "facts">, id: string): string 
 }
 
 /** A breakdown row as printed: a signed change, or the level itself when the breakdown shows levels (a peak, a low, today). */
-export function rowValue(insight: Pick<Insight, "facts" | "breakdown">, id: string): string {
-  return insight.breakdown?.levels ? (insight.facts.find((x) => x.id === id)?.text ?? "") : signedFact(insight, id);
+export function rowValue(insight: Pick<Insight, "facts" | "breakdown" | "bigger">, id: string): string {
+  return breakdownsOf(insight).some((b) => b.levels && b.blocks.some((blk) => blk.rows.some((r) => r.fact === id))) ? (insight.facts.find((x) => x.id === id)?.text ?? "") : signedFact(insight, id);
 }
 
 export function whyPrompt(insight: Insight): string {
@@ -303,4 +303,9 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
     messages.push({ role: "user", content: [{ type: "tool_result", tool_use_id: call.id, is_error: true, content: `Rejected: ${lastErrors.join("; ")}. Fix these and call record_why again.` }] });
   }
   return { error: `no sourced explanation passed the checks (${lastErrors.join("; ") || "no answer"})` };
+}
+
+/** The breakdown cards a post carries, in order: where each line stands (two-line charts), then what drove the change. */
+export function breakdownsOf(insight: Pick<Insight, "breakdown" | "bigger">): Breakdown[] {
+  return [insight.bigger, insight.breakdown].filter((b): b is Breakdown => !!b);
 }

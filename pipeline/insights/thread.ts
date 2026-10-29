@@ -3,7 +3,7 @@ import { BANNED_WORDS, numberTokens } from "./caption";
 import { explainer, explainerShort, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
-import { newsOutlet, rowValue, signedFact } from "./research";
+import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
 import type { Insight } from "./types";
 import { X_MAX, xLength } from "./x";
 
@@ -108,9 +108,21 @@ function rowsText(insight: Insight, rows: { name: string; fact: string }[]): str
   return rows.map((r) => `${r.name.replace(/\s*\(.*\)\s*$/, "")} ${rowValue(insight, r.fact)}`).join(", ");
 }
 
+/** Every breakdown's replies in order (the bigger picture, then what drove it); `chart` counts the cards across all of them. */
 function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string } {
-  const b = insight.breakdown;
-  if (!b) return { replies: [] };
+  const replies: Reply[] = [];
+  let note: string | undefined;
+  let cards = 0;
+  for (const b of breakdownsOf(insight)) {
+    const one = oneBreakdownReplies(insight, b, cards);
+    replies.push(...one.replies);
+    note ??= one.note;
+    cards += b.levels ? 1 : b.blocks.length;
+  }
+  return { replies, ...(note ? { note } : {}) };
+}
+
+function oneBreakdownReplies(insight: Insight, b: NonNullable<Insight["breakdown"]>, first: number): { replies: Reply[]; note?: string } {
   const replies: Reply[] = [];
   // Levels (where each line stands): one post and one card for both blocks, when they fit.
   if (b.levels) {
@@ -118,7 +130,7 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
     const line = (blk: (typeof b.blocks)[number]) =>
       `${blk.label}: ${blk.rows.map((r) => `${r.name.replace(/^(\w+), (\d{4})$/, (_m, k: string, y: string) => k.toLowerCase()).toLowerCase()} ${rowValue(insight, r.fact)}${/^(\w+), (\d{4})$/.test(r.name) ? ` in ${r.name.slice(-4)}` : ""}`).join(", ")}.`;
     const text = `${b.title}\n\n${b.blocks.map(line).join(" ")}`;
-    if (text.length <= REPLY_MAX) return { replies: [{ text, chart: 0, alt: text.replace(/\n+/g, " ").slice(0, 1000) }] };
+    if (text.length <= REPLY_MAX) return { replies: [{ text, chart: first, alt: text.replace(/\n+/g, " ").slice(0, 1000) }] };
   }
   for (const [i, blk] of b.blocks.entries()) {
     const total = blk.total ? ` ${blk.total.name} ${rowValue(insight, blk.total.fact)}.` : "";
@@ -131,7 +143,7 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
       text = `${head}${blk.label}: ${rowsText(insight, rows)}.${total}`;
     }
     if (text.length > REPLY_MAX) return { replies, note: "a breakdown line is too long for one post" };
-    replies.push({ text, chart: i, alt: `${b.title}. ${blk.label}: ${rowsText(insight, blk.rows)}.${total}`.slice(0, 1000) });
+    replies.push({ text, chart: b.levels ? first : first + i, alt: `${b.title}. ${blk.label}: ${rowsText(insight, blk.rows)}.${total}`.slice(0, 1000) });
   }
   return { replies };
 }
@@ -188,7 +200,7 @@ export function planThread(insight: Insight): ThreadPlan | null {
   const sections = [whyReplies(insight), breakdownReplies(insight), momentsReplies(insight)];
   const replies = sections.flatMap((s) => s.replies);
   for (const s of sections) if (s.note) notes.push(s.note);
-  if ((!replies.length && !(insight.why && givesReason(insight.why)) && !insight.breakdown) || hasLag(insight) || insight.alsoSeriesId) replies.push(...explainerReplies(insight));
+  if ((!replies.length && !(insight.why && givesReason(insight.why)) && !breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId) replies.push(...explainerReplies(insight));
   if (!replies.length) return null;
   replies.push(sourcesReply(insight));
   return { replies, notes };

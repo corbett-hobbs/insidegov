@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, HEIGHT, INK, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, kickerFor, sealSrc, serifFont } from "./chart";
-import { rowValue } from "./research";
-import type { Insight } from "./types";
+import { breakdownsOf, rowValue } from "./research";
+import type { Breakdown, Insight } from "./types";
 
 /**
  * The charts in an X and Bluesky thread (thread.ts) that are not the draft's own chart: one 1200x675 card per
@@ -54,10 +54,9 @@ function Rows({ insight, block, rowH = ROW_H }: { insight: Insight; block: Block
   );
 }
 
-function Card({ insight, blocks, backdrop }: { insight: Insight; blocks: Block[]; backdrop: string }): ReactNode {
+function Card({ insight, b, blocks, backdrop }: { insight: Insight; b: Breakdown; blocks: Block[]; backdrop: string }): ReactNode {
   // Several blocks on one card (levels) are set tighter.
   const rowH = blocks.length > 1 ? 52 : ROW_H;
-  const b = insight.breakdown!;
   return (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `28px ${PAD}px 0 ${PAD}px` }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
@@ -84,15 +83,17 @@ function Card({ insight, blocks, backdrop }: { insight: Insight; blocks: Block[]
 
 /** One PNG per breakdown block, in the block order (the replies' `chart` index). */
 export async function renderBreakdownCharts(insight: Insight): Promise<Buffer[]> {
-  const b = insight.breakdown;
-  if (!b) return [];
+  const all = breakdownsOf(insight);
+  if (!all.length) return [];
   const serif = serifFont();
   const backdrop = await backdropSrc(insight.url, WIDTH, BACKDROP_H);
   const out: Buffer[] = [];
   // Levels are one card for every block; a change breakdown is one card per block.
-  for (const blocks of b.levels ? [b.blocks] : b.blocks.map((blk) => [blk])) {
-    const res = new ImageResponse(<Card insight={insight} blocks={blocks} backdrop={backdrop} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serif, weight: 500, style: "normal" }] });
-    out.push(Buffer.from(await res.arrayBuffer()));
+  for (const b of all) {
+    for (const blocks of b.levels ? [b.blocks] : b.blocks.map((blk) => [blk])) {
+      const res = new ImageResponse(<Card insight={insight} b={b} blocks={blocks} backdrop={backdrop} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serif, weight: 500, style: "normal" }] });
+      out.push(Buffer.from(await res.arrayBuffer()));
+    }
   }
   return out;
 }
