@@ -422,6 +422,27 @@ describe("companion lines on a data release", () => {
     expect(Math.max(...cards)).toBeGreaterThanOrEqual(1);
   });
 
+  it("draws oil imports with exports (and the reverse), adding only the other line's sentence", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withCompanion } = await import("./companion");
+    const { explainer } = await import("./explain");
+    const energy = loadDataset("energy").series;
+    for (const [id, other, label] of [["energy.petroleum_imports", "energy.petroleum_exports", "Imports"], ["energy.petroleum_exports", "energy.petroleum_imports", "Exports"]] as const) {
+      const latest = energy.find((s) => s.id === id)!.points.at(-1)!.date;
+      const base = {
+        id: "o", dataset: "energy", seriesId: id, kind: "move_up", period: latest, frequency: "monthly", headline: "Oil", title: "t", template: "U.S. oil moved.", facts: [], context: [], url: "/energy", source: "S", score: 1, alt: "a",
+        chart: { type: "line", unit: null, axisLabel: "", frequency: "monthly", points: [{ date: addMonths(latest, -36), value: 1 }], marks: [] },
+      } as never as Insight;
+      const out = withCompanion(base, energy);
+      expect(out.alsoSeriesId).toBe(other);
+      expect(out.chart.type === "line" && out.chart.comparison?.mainLabel).toBe(label);
+      expect(out.template).toMatch(/\. (Exports|Imports) were /);
+      expect(out.bigger?.levels).toBe(true);
+      expect(verifyInsight(out, new CellIndex())).toEqual([]);
+      expect(explainer(out).join(" ")).toMatch(/barrels a day/);
+    }
+  });
+
   it("leaves other series, bar charts and months with no reading alone", async () => {
     const { loadDataset } = await import("./datasets");
     const { withCompanion } = await import("./companion");
