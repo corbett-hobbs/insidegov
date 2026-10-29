@@ -7,11 +7,16 @@ import { formatUpdatedStamp } from "@/lib/news-derive";
 
 /**
  * "Latest numbers": six headline figures, each from a different page, under the homepage intro. One tile is one link to
- * its chart. Desktop is a grid (three across, then six); a phone gets one swipe row with the "+N ›" overflow button of
- * layout rule 11. The 1px gaps over a `bg-line` container draw the dividers however the grid wraps.
+ * its chart. Desktop is a grid (three across, then six); a phone gets one swipe row with an arrow button over each edge. The 1px gaps over a `bg-line` container draw the dividers however the grid wraps.
  */
 export function FastFacts({ facts, updated }: { facts: FastFact[]; updated: string | null }) {
-  const { ref, hiddenRight, canBack, measure, scrollBy } = useScrollHints(facts);
+  const { ref, hiddenRight, canBack, measure } = useScrollHints(facts);
+  // One tile per press, so the tile that lands on the left is always whole (the shared 60%-of-width step stops mid-tile).
+  const scrollBy = (dir: 1 | -1) => {
+    const el = ref.current;
+    const tile = el?.children[0] as HTMLElement | undefined;
+    if (el && tile) el.scrollBy({ left: dir * (tile.offsetWidth + 1), behavior: "smooth" });
+  };
   return (
     <section aria-labelledby="fast-facts-title" className="flex flex-col gap-2.5">
       <div className="flex items-baseline justify-between gap-4">
@@ -47,8 +52,9 @@ export function FastFacts({ facts, updated }: { facts: FastFact[]; updated: stri
             hiddenRight={hiddenRight}
             scrollBy={scrollBy}
             noun="number"
-            backFade="bg-gradient-to-r from-surface from-50% to-transparent"
-            moreFade="bg-gradient-to-l from-surface from-55% to-transparent"
+            plainMore
+            backFade=""
+            moreFade=""
           />
         </div>
       </div>
