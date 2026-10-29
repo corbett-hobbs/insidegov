@@ -165,8 +165,10 @@ describe("a Fed rate decision story", () => {
     const texts = plan.replies.map((r) => r.text);
     expect(texts.some((t) => t.startsWith("Why it held."))).toBe(true);
     expect(texts.some((t) => /Where each stands/.test(t) && /Peak, \d{4} \d\.\d%/.test(t) && !/\+\d/.test(t))).toBe(true);
-    expect(plan.replies.filter((r) => r.chart !== undefined)).toHaveLength(2);
-    expect(texts.some((t) => /federal funds rate is the interest rate/.test(t)) && texts.some((t) => /^Inflation is how much/.test(t))).toBe(true);
+    expect(plan.replies.filter((r) => r.chart !== undefined)).toHaveLength(1);
+    expect(texts.filter((t) => /federal funds rate is what banks charge/.test(t))).toHaveLength(1);
+    expect(plan.replies.length).toBe(4);
+    expect(texts.some((t) => /federal funds rate is what banks charge/.test(t))).toBe(true);
     expect(texts.at(-1)).toMatch(/^Data: /);
   });
 });

@@ -1,6 +1,6 @@
 import { MAX_GRAPHEMES, graphemes } from "./bluesky";
 import { BANNED_WORDS, numberTokens } from "./caption";
-import { explainer, hasLag } from "./explain";
+import { explainer, explainerShort, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
 import { newsOutlet, rowValue, signedFact } from "./research";
@@ -112,6 +112,11 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
   const b = insight.breakdown;
   if (!b) return { replies: [] };
   const replies: Reply[] = [];
+  // Levels (where each line stands): one post and one card for both blocks, when they fit.
+  if (b.levels) {
+    const text = `${b.title}\n\n${b.blocks.map((blk) => `${blk.label} ${rowsText(insight, blk.rows)}.`).join(" ")}`;
+    if (text.length <= REPLY_MAX) return { replies: [{ text, chart: 0, alt: text.replace(/\n+/g, " ").slice(0, 1000) }] };
+  }
   for (const [i, blk] of b.blocks.entries()) {
     const total = blk.total ? ` ${blk.total.name} ${rowValue(insight, blk.total.fact)}.` : "";
     const head = i === 0 ? `${b.title}\n\n` : "";
@@ -151,6 +156,8 @@ function momentsReplies(insight: Insight): { replies: Reply[]; note?: string } {
 }
 
 function explainerReplies(insight: Insight): Reply[] {
+  const short = explainerShort(insight);
+  if (short && `What this measures.\n\n${short}`.length <= REPLY_MAX) return [{ text: `What this measures.\n\n${short}` }];
   const lines = explainer(insight);
   const packed = lines.length ? packParagraphs(lines, REPLY_MAX, "What this measures.") : null;
   return (packed ?? []).map((text) => ({ text }));

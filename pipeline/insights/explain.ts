@@ -96,6 +96,19 @@ export function hasLag(insight: Pick<Insight, "seriesId" | "kind">): boolean {
   return explainer(insight).some((l) => LAGS.has(l));
 }
 
+/** The same pairs in one thread post (at most about 250 characters, with its heading). */
+const PAIRS_SHORT: Record<string, string> = {
+  "economy.fed_funds|economy.inflation": "The federal funds rate is what banks charge each other for overnight loans, steered by the Fed into a target range. Inflation is the yearly change in consumer prices (CPI). Both are in percent, on one scale.",
+  "economy.mortgage_rate|economy.treasury_10y": "The mortgage rate is the average on a 30-year fixed home loan (Freddie Mac). The Treasury yield is the market rate on ten-year government debt. Both are weekly averages in percent, on one scale.",
+  "economy.treasury_10y|economy.fed_funds": "The ten-year Treasury yield is set by investors; the federal funds rate is what banks charge each other overnight, steered by the Fed. Both are weekly averages in percent, on one scale.",
+  "economy.unemployment|economy.inflation": "Unemployment is the share of the labor force without a job and looking for one. Inflation is the yearly change in consumer prices (CPI). Both are monthly, in percent, on one scale.",
+};
+
+/** A two-line chart's explainer as one thread post, when it has a short form. */
+export function explainerShort(insight: Pick<Insight, "seriesId" | "alsoSeriesId">): string | undefined {
+  return insight.alsoSeriesId ? PAIRS_SHORT[`${insight.seriesId}|${insight.alsoSeriesId}`] : undefined;
+}
+
 const TERMS = "Each term is measured from its inauguration, so every president is compared at the same point.";
 
 export function explainer(insight: Pick<Insight, "seriesId" | "kind"> & { alsoSeriesId?: string }): string[] {

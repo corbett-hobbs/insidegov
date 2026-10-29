@@ -101,8 +101,10 @@ const POST_LINE_MAX = 130;
 const PARAGRAPH_MAX = 220;
 /** The carousel slide's paragraphs together: about what one 4:5 slide holds at a readable size. */
 export const WHY_MAX = 380;
+/** A news draft's why is one thread post with its heading ("Why it held." and a blank line), so it is shorter. */
+export const WHY_MAX_NEWS = 240;
 
-const SYSTEM = `You explain, for InsideGov (a nonpartisan site of U.S. government data), why one number in a new data release moved, so a social post and an Instagram carousel can say so. Always finish by calling the record_why tool.
+const systemFor = (max: number) => `You explain, for InsideGov (a nonpartisan site of U.S. government data), why one number in a new data release moved, so a social post and an Instagram carousel can say so. Always finish by calling the record_why tool.
 
 Research first. Open the release pages you are given and find the agency's own write-up of this period (search the allowed sites when the page has moved or a later edition exists). Then search mainstream news reporting of the same release (Bloomberg, CNBC, NPR, Axios, Fox Business and the other searchable outlets) to corroborate it and to find the reasons reporters give that the agency's write-up does not, such as what kinds of buyers, projects or events are behind a category. Agency write-ups often lag or say little; a reason that several outlets report is still a reason. Other allowed sources (federal agencies, CRS, CBO, GAO, the Federal Reserve, universities) can add a forecast or a longer trend. Never use opinion pieces, columns, think tanks, advocacy groups or company marketing.
 
@@ -115,7 +117,7 @@ Sourcing rules: take figures and categories from the agency. A reason that comes
 What to write:
 - caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
 - title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "Why it held", "Why it rose, then held"; use "What changed" only when the sources give no reason, never when they do.
-- paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${WHY_MAX} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency or news outlet in the text (they go in sources, which print as the slide's footnote). Words only: no figures, percentages or amounts (years are fine).
+- paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${max} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency or news outlet in the text (they go in sources, which print as the slide's footnote). Words only: no figures, percentages or amounts (years are fine).
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 
 Rules: say only what the sources say. A reason that comes from reporting rather than a measured figure is worded as what the change came "amid" or is "tied to", never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more. Write for the reader, never about your research: no "I", "we", "I found" or "the agencies do not give a cause".`;
@@ -180,7 +182,7 @@ const YEARS = /\b(?:19|20)\d\d\b/g;
 const META = /\b(?:I|we|my|our)\b|\b(?:no|not find|found no|could not find)\b[^.]*\b(?:reports?|sources?|coverage|cause)\b|\bdo(?:es)? not (?:give|say|state|explain)\b/i;
 
 /** Every reason the answer fails (none: it passes). `seen` are the URLs the model opened or found in this request. */
-export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["facts"], opts: { requireNews?: boolean } = {}): string[] {
+export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["facts"], opts: { requireNews?: boolean; max?: number } = {}): string[] {
   const errors: string[] = [];
   if (!w.captionLine.trim()) errors.push("caption_line is empty");
   if (w.captionLine.length > POST_LINE_MAX) errors.push(`caption_line is ${w.captionLine.length} characters; the limit is ${POST_LINE_MAX}`);
@@ -192,7 +194,8 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
   if (strayNums.length) errors.push(`caption_line uses numbers that are not facts: ${strayNums.join(", ")}`);
   if (w.paragraphs.length < 1 || w.paragraphs.length > 2) errors.push(`${w.paragraphs.length} paragraphs; write one or two`);
   const len = w.paragraphs.join(" ").length;
-  if (len > WHY_MAX) errors.push(`the paragraphs run to ${len} characters; keep them to ${WHY_MAX} together so they fit one slide`);
+  const max = opts.max ?? WHY_MAX;
+  if (len > max) errors.push(`the paragraphs run to ${len} characters; keep them to ${max} together so they fit one slide`);
   for (const p of w.paragraphs) {
     if (p.length > PARAGRAPH_MAX) errors.push(`a paragraph is ${p.length} characters; keep each under ${PARAGRAPH_MAX}`);
     if (/\d/.test(p.replace(YEARS, ""))) errors.push(`paragraphs are words only (years apart): "${p.slice(0, 60)}..."`);
@@ -253,7 +256,7 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
         betas: ["server-side-fallback-2026-07-01"],
         fallbacks: "default",
         output_config: { effort: EFFORT },
-        system: SYSTEM,
+        system: systemFor(insight.news ? WHY_MAX_NEWS : WHY_MAX),
         tools: [
           { type: "web_fetch_20260209", name: "web_fetch", allowed_domains: WEB_DOMAINS, max_uses: 6 },
           { type: "web_search_20260209", name: "web_search", allowed_domains: WEB_DOMAINS, max_uses: 4 },
@@ -293,7 +296,7 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
       paragraphs: parsed.data.paragraphs.map((p) => p.trim().replace(/\s+/g, " ")).filter(Boolean),
       sources: parsed.data.sources.map((s) => ({ name: s.name.trim(), url: s.url.trim() })),
     };
-    lastErrors = checkWhy(why, seen, insight.facts, { requireNews: Boolean(insight.news) });
+    lastErrors = checkWhy(why, seen, insight.facts, { requireNews: Boolean(insight.news), max: insight.news ? WHY_MAX_NEWS : WHY_MAX });
     if (lastErrors.length === 0) return { why, model: res.model };
     if (process.env.SOCIAL_WHY_DEBUG) console.error(`  [why ${insight.id}] rejected: ${lastErrors.join("; ")}\n    ${JSON.stringify(why)}`);
     attempt++;
