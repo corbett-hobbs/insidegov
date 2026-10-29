@@ -416,7 +416,7 @@ describe("companion lines on a data release", () => {
     expect(verifyInsight(insight, new CellIndex())).toEqual([]);
     // The bigger picture comes first, then what drove it; the carousel and the thread agree.
     expect(slidePlan(insight).filter((s) => s.kind === "breakdown").map((s) => s.breakdown?.levels ?? false)).toEqual([true, false]);
-    const cards = planThread(insight)!.replies.filter((r) => r.chart !== undefined).map((r) => r.chart);
+    const cards = planThread(insight)!.replies.flatMap((r) => (r.chart === undefined ? [] : [r.chart]));
     expect(cards[0]).toBe(0);
     expect(new Set(cards).size).toBe(cards.length);
     expect(Math.max(...cards)).toBeGreaterThanOrEqual(1);
