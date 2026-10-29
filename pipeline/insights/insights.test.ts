@@ -391,3 +391,66 @@ describe("breakdowns", () => {
     expect(withBreakdown({ ...base, id: "g", dataset: "gas", seriesId: "gas.regular", period: lastTrade }, []).breakdown).toBeUndefined();
   });
 });
+
+describe("companion lines on a data release", () => {
+  it("draws the trade deficit's imports and exports, with a bigger-picture card beside the partner breakdown", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withBreakdown } = await import("./breakdown");
+    const { withCompanion } = await import("./companion");
+    const { planThread } = await import("./thread");
+    const { slidePlan } = await import("./carousel");
+    const trade = loadDataset("trade").series;
+    const latest = trade.find((s) => s.id === "trade.deficit")!.points.at(-1)!.date;
+    const base = {
+      id: "t", dataset: "trade", seriesId: "trade.deficit", kind: "move_up", period: latest, frequency: "monthly", headline: "Trade deficit", title: "t",
+      template: "The U.S. trade deficit grew.", facts: [], context: [], url: "/trade", source: "S", score: 1, alt: "a",
+      chart: { type: "line", unit: null, axisLabel: "", frequency: "monthly", points: [{ date: addMonths(latest, -60), value: 1 }], marks: [] },
+    } as never as Insight;
+    const insight = withBreakdown(withCompanion(base, trade), trade);
+    expect(insight.alsoSeriesId).toBe("trade.imports");
+    expect(insight.chart.type === "line" && insight.chart.comparison?.mainLabel).toBe("Imports");
+    expect(insight.template).toMatch(/Imports were .* and exports were /);
+    expect(insight.template.length).toBeLessThanOrEqual(240);
+    expect(insight.bigger?.levels).toBe(true);
+    expect(insight.breakdown?.levels).toBeFalsy();
+    expect(verifyInsight(insight, new CellIndex())).toEqual([]);
+    // The bigger picture comes first, then what drove it; the carousel and the thread agree.
+    expect(slidePlan(insight).filter((s) => s.kind === "breakdown").map((s) => s.breakdown?.levels ?? false)).toEqual([true, false]);
+    const cards = planThread(insight)!.replies.flatMap((r) => (r.chart === undefined ? [] : [r.chart]));
+    expect(cards[0]).toBe(0);
+    expect(new Set(cards).size).toBe(cards.length);
+    expect(Math.max(...cards)).toBeGreaterThanOrEqual(1);
+  });
+
+  it("draws oil imports with exports (and the reverse), adding only the other line's sentence", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withCompanion } = await import("./companion");
+    const { explainer } = await import("./explain");
+    const energy = loadDataset("energy").series;
+    for (const [id, other, label] of [["energy.petroleum_imports", "energy.petroleum_exports", "Imports"], ["energy.petroleum_exports", "energy.petroleum_imports", "Exports"]] as const) {
+      const latest = energy.find((s) => s.id === id)!.points.at(-1)!.date;
+      const base = {
+        id: "o", dataset: "energy", seriesId: id, kind: "move_up", period: latest, frequency: "monthly", headline: "Oil", title: "t", template: "U.S. oil moved.", facts: [], context: [], url: "/energy", source: "S", score: 1, alt: "a",
+        chart: { type: "line", unit: null, axisLabel: "", frequency: "monthly", points: [{ date: addMonths(latest, -36), value: 1 }], marks: [] },
+      } as never as Insight;
+      const out = withCompanion(base, energy);
+      expect(out.alsoSeriesId).toBe(other);
+      expect(out.chart.type === "line" && out.chart.comparison?.mainLabel).toBe(label);
+      expect(out.template).toMatch(/\. (Exports|Imports) were /);
+      expect(out.bigger?.levels).toBe(true);
+      expect(verifyInsight(out, new CellIndex())).toEqual([]);
+      expect(explainer(out).join(" ")).toMatch(/barrels a day/);
+    }
+  });
+
+  it("leaves other series, bar charts and months with no reading alone", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withCompanion } = await import("./companion");
+    const trade = loadDataset("trade").series;
+    const latest = trade.find((s) => s.id === "trade.deficit")!.points.at(-1)!.date;
+    const base = { id: "t", kind: "move_up", seriesId: "trade.deficit", frequency: "monthly", period: latest, template: "x.", facts: [], context: [], chart: { type: "bars", bars: [] } } as never as Insight;
+    expect(withCompanion(base, trade)).toBe(base);
+    expect(withCompanion({ ...base, seriesId: "gas.regular", chart: { type: "line", points: [], marks: [] } } as never as Insight, trade).alsoSeriesId).toBeUndefined();
+    expect(withCompanion({ ...base, period: "1901-01-01", chart: { type: "line", points: [], marks: [] } } as never as Insight, trade).alsoSeriesId).toBeUndefined();
+  });
+});

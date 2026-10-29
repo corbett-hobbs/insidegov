@@ -323,6 +323,8 @@ Gas prices, encounters, ICE, executive orders and laws have no breakdown in the 
 `thread.ts`, `thread-charts.tsx`. A data draft posts as a thread: the caption and chart card first (as before), then
 replies. **Text is text and only charts are images**: the reasons, the key moments and the definition are plain posts, and
 each block of "What drove it" is a chart card. The same texts go to both platforms (written to 280 characters, X's limit).
+**Data releases take a companion too** (`companion.ts`, run after the data lane picks its drafts): a trade deficit post on a line chart draws imports and exports as the two lines (the deficit is the gap), adds each part's reading and move after its own sentence when the 240 characters allow (the short form, then none), and carries a "bigger picture" card (`Insight.bigger`: each line's peak, low and latest over the chart's window) beside the partner breakdown. The thread and carousel list the cards in order, the bigger picture first, then what drove it (`breakdownsOf`). A bar chart (a term comparison) and a series with no companion keep their charts; Oil imports and exports pair the same way (each post's own sentence gives its series, so the added sentence is the other one's). `COMPANIONS` in `companion.ts` is the config, and adding another is one entry plus its `explain.ts` pair passage (`PAIRS` and `PAIRS_SHORT`, both directions).
+
 News drafts are threads in the same format as data drafts (the same researched why, breakdown, explainer and sources replies; a chart with two lines always gets its explainer, so a reader has both definitions); the intro is not a thread. A draft with nothing to add posts as one post.
 
 | Reply | What | When |

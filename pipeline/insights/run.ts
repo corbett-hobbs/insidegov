@@ -4,6 +4,7 @@ import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { stampRelease } from "./freshness";
 import { withBreakdown } from "./breakdown";
+import { withCompanion } from "./companion";
 import { withWhy } from "./why";
 import type { DatasetId, Insight, Series } from "./types";
 
@@ -83,7 +84,7 @@ const estimate = releaseEstimator(allSeries);
 const stamp = (i: Insight) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true));
 const candidates = insights.filter((i) => !alreadyDrafted(i)).map(stamp).filter((i) => !freshOnly || i.release!.expiresOn >= today);
 if (exclude.size || freshOnly) console.log(`insights:draft  ${insights.length - candidates.length} of ${insights.length} set aside (${exclude.size} ids already drafted${freshOnly ? ", stale ones dropped" : ""})`);
-const picked = selectInsights(candidates, { max, perSeries: 2, perDataset: 3 }).map((i) => withWhy(withBreakdown(i, allSeries)));
+const picked = selectInsights(candidates, { max, perSeries: 2, perDataset: 3 }).map((i) => withWhy(withBreakdown(withCompanion(i, allSeries), allSeries)));
 console.log(`insights:draft  ${insights.length} insights in ${datasets.join(", ")}, ${picked.length} picked, captions by ${useLlm ? "Claude" : "template"}`);
 const { drafts, dropped } = picked.length ? await buildDrafts(picked, { outDir, useLlm }) : { drafts: [], dropped: [] };
 for (const d of dropped) console.log(`  dropped ${d}`);

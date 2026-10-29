@@ -201,6 +201,8 @@ export type Insight = {
   note?: string;
   /** What drove the change, as verified facts (breakdown.ts): each source's or partner's part, for the carousel. */
   breakdown?: Breakdown;
+  /** Where each of a two-line chart's lines stands against its window (a levels card; companion.ts, news/charts.ts), beside `breakdown` when a post has both. */
+  bigger?: Breakdown;
   /** A news chart's second line (the inflation rate beside the Fed's): its series id, for the explainer slide. */
   alsoSeriesId?: string;
   /** Why the number moved, from named sources (research.ts, or why.ts by hand), for the caption and the carousel. */
