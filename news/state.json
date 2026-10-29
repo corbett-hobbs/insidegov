@@ -213,6 +213,30 @@
       ],
       "reason": "Nine headlines report the same Oct 28, 2026 Fed decision to hold rates steady; previews, live blogs, explainers, takeaways, and the meeting-schedule and Bessent stories are excluded.",
       "chart": ""
+    },
+    "1312b097b3fd54570c22": {
+      "at": "2026-10-29T01:43:40.850Z",
+      "keep": [],
+      "reason": "No single national development is shared: the headlines are political commentary, a candidate's prediction, a local Los Angeles drilling action, and an unrelated Michigan race story.",
+      "chart": ""
+    },
+    "82f3fd03d6e679019bc7": {
+      "at": "2026-10-29T01:43:40.850Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.bbc.co.uk/news/articles/cr15jxzv4w24o?at_medium=RSS&at_campaign=rss",
+        "https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Most outlets reported the Fed's October 28, 2026 decision to hold the federal funds rate steady; previews, explainers, live blogs, the FOMC schedule change, and Treasury yield or Bessent stories were left out.",
+      "chart": ""
     }
   },
   "dispatched": {}
