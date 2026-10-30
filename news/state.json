@@ -405,14 +405,66 @@
       "keep": [],
       "reason": "No single national development is reported by several outlets: GM listing move and Weil law firm wind-down are company news, the Nasdaq suit is a fraud case, and the Amazon stock drop is one outlet's earnings story.",
       "chart": ""
+    },
+    "955af43236272bb7be43": {
+      "at": "2026-10-30T00:48:41.800Z",
+      "keep": [],
+      "reason": "No headline reports a single current government action, ruling, agreement, or official figure on gas prices; they are political analysis, opinion, and voter-sentiment pieces.",
+      "chart": ""
+    },
+    "bf98f351819edc390cf7": {
+      "at": "2026-10-30T00:48:41.800Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Headlines report the Fed's October 28 decision to hold rates steady; previews, livestreams, explainers, and other developments are excluded.",
+      "chart": ""
+    },
+    "6de6bc46e54917c39438": {
+      "at": "2026-10-30T00:48:41.800Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Same development: the late-October release of third-quarter GDP alongside the September Fed-preferred inflation gauge (PCE), which rose; NYT item 5 is left out because it says October and its measure is unclear.",
+      "chart": ""
+    },
+    "6cda574ff1969d019ee2": {
+      "at": "2026-10-30T00:48:41.800Z",
+      "keep": [
+        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
+        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
+      ],
+      "reason": "The Hill and NYT both report the same current U.S. development: Q3 GDP grew 3.4%. The South Africa headline is a foreign story and is excluded.",
+      "chart": ""
+    },
+    "ce07590216337c7c9d56": {
+      "at": "2026-10-30T00:48:41.800Z",
+      "keep": [],
+      "reason": "Two headlines cover different developments (DHS deportation fleet flights and a House Judiciary report on NYC DAs), and no two outlets report the same story.",
+      "chart": ""
+    },
+    "a1c035a9254162245678": {
+      "at": "2026-10-30T00:48:41.800Z",
+      "keep": [],
+      "reason": "Headlines 1, 2, and 5 cover a DHS data breach, which is a cybersecurity story rather than border encounters or ICE removals. Headlines 3 and 4 cover a report on California sanctuary cities and ICE detainers, which is a state-level report and does not match either chart's data.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
       "since": "2026-10-29T16:00:30.385Z",
-      "at": "2026-10-29T21:00:36.299Z",
-      "count": 2
+      "at": "2026-10-30T00:48:41.800Z",
+      "count": 3
     },
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
