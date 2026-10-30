@@ -1,38 +1,5 @@
 {
   "checks": {
-    "b2bb80eab5917fe874c1": {
-      "at": "2026-10-28T16:34:16.371Z",
-      "keep": [],
-      "reason": "Headlines are previews of an upcoming Fed decision (hold expected, or whether it will raise) and explainers on how it affects borrowing; no completed government action is reported, and the outlets disagree on direction. No chart measures the Fed's rate decisions, so no chart link.",
-      "chart": ""
-    },
-    "bb17672826b3a7f5af30": {
-      "at": "2026-10-28T16:34:16.371Z",
-      "keep": [],
-      "reason": "Headlines 1, 3 and 4 cover an expected Fed rate hold, a monetary decision where the CPI chart is not central (inflation appears only as a voter concern, and only in headline 3); headline 2 is about Canada trade, a different development.",
-      "chart": ""
-    },
-    "920b9b850352eaf711e0": {
-      "at": "2026-10-28T16:34:16.371Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/",
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/",
-        "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f",
-        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
-        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
-        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
-        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings"
-      ],
-      "reason": "All eight headlines report the same development: Trump's announced rollback of Biden-era methane rules for oil and gas companies. No pick_chart option measures methane or emissions, so no chart link is made.",
-      "chart": ""
-    },
-    "8d8bfb70be48a69dcd65": {
-      "at": "2026-10-28T16:34:16.371Z",
-      "keep": [],
-      "reason": "Headlines 1-2 cover reported ICE arrest increases in California, a regional matter that neither chart measures; headlines 3-4 concern a streamer's remarks, not a government action.",
-      "chart": ""
-    },
     "cd4d5d4367c620dd60d4": {
       "at": "2026-10-28T21:37:33.161Z",
       "keep": [
@@ -550,14 +517,76 @@
       "keep": [],
       "reason": "The headlines report a DHS employee data breach, a cybersecurity story that does not centrally concern immigration enforcement operations, border encounters, or ICE removals, so no chart fits.",
       "chart": ""
+    },
+    "5d414fe497642c5b82ba": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [],
+      "reason": "The most-covered development is a Texas grand jury indicting one ICE officer, which is a local criminal case rather than a national development; the DHS data breach is not about enforcement volumes; neither matches the removals or encounters charts.",
+      "chart": ""
+    },
+    "038f5df72b43191fc074": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [],
+      "reason": "All three headlines cover oil companies' Q3 earnings, which is company news, and gas prices are only background, not the central development.",
+      "chart": ""
+    },
+    "03256ab1eef8ce2e2321": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Five outlets report the same Oct. 29 government release of September PCE inflation alongside Q3 GDP; the chart is CPI, a closely related inflation measure, so this is a loose match. Excluded the Fed analysis column and the non-U.S. Bloomberg stories.",
+      "chart": ""
+    },
+    "356a000c6db82fb75463": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [
+        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
+        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
+      ],
+      "reason": "The Hill and NYT both report the same U.S. Q3 GDP growth release of 3.4%; Bloomberg's headline concerns South Africa and is excluded.",
+      "chart": ""
+    },
+    "e76c4cdb160fa5610138": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [],
+      "reason": "The most-reported story (NBC and CNBC) is about Exxon and Chevron earnings, which is company news and excluded; the Iran diplomacy oil-price story comes from one outlet only, and no listed chart measures oil prices.",
+      "chart": ""
+    },
+    "dc42ce01a81955de2bd1": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [],
+      "reason": "All three headlines cover Chevron and Exxon quarterly profits, which is company news rather than a national government action, ruling, agreement, or official figure about diesel prices.",
+      "chart": ""
+    },
+    "fe78b00d0459f296bd32": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [
+        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
+        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
+        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/",
+        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
+      ],
+      "reason": "All four headlines report the same single-day Nasdaq selloff of about 3% on AI fears, a notable U.S. market move.",
+      "chart": ""
+    },
+    "c75e3d01ee07b49ab86a": {
+      "at": "2026-10-30T19:10:50.001Z",
+      "keep": [],
+      "reason": "The three headlines cover different items (a congressional demand for donor records, an Audi factory deal, and a local woodworker feature), with no single development shared by multiple outlets.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
       "since": "2026-10-30T13:59:44.836Z",
-      "at": "2026-10-30T13:59:44.836Z",
-      "count": 1
+      "at": "2026-10-30T19:10:50.001Z",
+      "count": 2
     },
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
