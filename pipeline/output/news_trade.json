@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-28",
+  "asOf": "2026-10-30",
   "stories": [
     {
       "id": "tariff.CAN-2026-10-23",
@@ -7,6 +7,13 @@
       "topic": "Tariffs involving Canada",
       "chartId": "tariffs",
       "headlines": [
+        {
+          "outletId": "federalregister",
+          "outlet": "Federal Register",
+          "lean": "Data",
+          "title": "Further Modifying the Scope of Products of Canada Subject to the Additional Duties Imposed To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Motor Vehicles",
+          "url": "https://www.federalregister.gov/documents/2026/10/30/2026-22292/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset"
+        },
         {
           "outletId": "nbcnews",
           "outlet": "NBC News",

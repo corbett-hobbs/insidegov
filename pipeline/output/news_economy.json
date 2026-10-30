@@ -1,6 +1,27 @@
 {
-  "asOf": "2026-10-29",
+  "asOf": "2026-10-30",
   "stories": [
+    {
+      "id": "markets-2026-10-30",
+      "date": "2026-10-30",
+      "topic": "Stock market",
+      "headlines": [
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "Tech stocks crushed as Nasdaq tumbles more than 600 points",
+          "url": "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Nasdaq plummets 2% as Amazon, Intel and Reddit become latest victims of AI fears",
+          "url": "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/"
+        }
+      ]
+    },
     {
       "id": "gdp-2026-10-29",
       "date": "2026-10-29",
@@ -122,28 +143,6 @@
           "lean": "Lean Right",
           "title": "First Russian diesel tanker heads to New York after Trump's deal with Putin to lower fuel prices",
           "url": "https://www.foxbusiness.com/politics/first-russian-diesel-tanker-heads-new-york-after-trumps-deal-putin-lower-fuel-prices"
-        }
-      ]
-    },
-    {
-      "id": "unemployment-2026-10-22",
-      "date": "2026-10-22",
-      "topic": "Unemployment",
-      "chartId": "chart-un",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Jobless claims near the lowest since the 1960s as low-fire trend continues",
-          "url": "https://www.cnbc.com/2026/10/22/jobless-claims-record-low-weekly.html"
-        },
-        {
-          "outletId": "abcnews",
-          "outlet": "ABC News",
-          "lean": "Lean Left",
-          "title": "US jobless claims fell to 194,000 last week, lowest since July",
-          "url": "https://abcnews.com/US/wireStory/us-jobless-claims-fell-194000-week-lowest-july-137473790"
         }
       ]
     }
