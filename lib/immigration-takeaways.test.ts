@@ -7,6 +7,7 @@ import { buildEncountersPayload } from "./encounters-derive";
 import { encountersNoteRow, encountersSeriesRow } from "./encounters-entities";
 import { enforcementNote, enforcementReport, enforcementRow, iceCatalog } from "./enforcement-entities";
 import { administration } from "./executive-orders-entities";
+import { compactNumber, UNCOMPACT_FIGURE } from "./format-number";
 import { buildImmigrationData } from "./immigration-derive";
 import { buildLprPayload, rankLprCountries } from "./lpr-derive";
 import { lprCountryRow, lprNoteRow, lprRegionRow, lprSeriesRow } from "./lpr-entities";
@@ -67,33 +68,38 @@ const convictedShare = (fy: number, view: "all" | "ice") => {
 
 const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check: () => void }> = {
   greenCards: {
-    says: ["1.8M in FY1991", "From FY2001 through FY2025", "703.5k in FY2003", "1.4M in FY2024", "immediate relatives of U.S. citizens were the largest class every year"],
+    says: ["rose from 707.4K in FY2020 to 1.4M in FY2024", "the most of any year after the FY1991 peak of 1.8M", "Immediate relatives of U.S. citizens were the largest class every year from FY1999 through FY2025"],
     check: () => {
       expect(lpr.lastFy).toBe(2025);
       const peak = argmax(lprYears, (y) => y.lpr);
-      expect([peak.fy, millions(peak.lpr, 1)]).toEqual([1991, "1.8"]);
-      const recent = between(lprYears, 2001, 2025);
-      expect(argmin(recent, (y) => y.lpr)).toMatchObject({ fy: 2003, lpr: 703_542 });
-      const hi = argmax(recent, (y) => y.lpr);
-      expect([hi.fy, millions(hi.lpr, 1)]).toEqual([2024, "1.4"]);
+      expect([peak.fy, compactNumber(peak.lpr)]).toEqual([1991, "1.8M"]);
+      // FY2020 is the low of the dip the line starts from, below the years either side of it.
+      expect(compactNumber(at(lprYears, 2020).lpr)).toBe("707.4K");
+      expect(at(lprYears, 2020).lpr).toBeLessThan(Math.min(at(lprYears, 2019).lpr, at(lprYears, 2021).lpr));
+      expect(compactNumber(at(lprYears, 2024).lpr)).toBe("1.4M");
+      // "The most since FY1991": every year after FY1991 is below FY2024.
+      expect(argmax(between(lprYears, 1992, 2025), (y) => y.lpr).fy).toBe(2024);
       // Every year with class detail (FY1999 on), so every year of FY2001–FY2025.
       for (const y of between(lprYears, 1999, 2025)) expect(argmax(LPR_CLASS_STACK, (c) => y.classes![c]), `FY${y.fy}`).toBe("immediate_relatives");
     },
   },
   naturalizations: {
-    says: ["passed 1M in two years, FY1996 and FY2008", "low of 141k in FY1982", "From FY2009 through FY2025", "619.9k in FY2010", "969.4k in FY2022"],
+    says: ["rose from 628.3K in FY2020 to 969.4K in FY2022, the most of any year after FY2008", "FY1996 and FY2008 were the only years above 1M", "the low was 141K, in FY1982"],
     check: () => {
       const nat = lprYears.map((y) => ({ fy: y.fy, v: y.naturalizations! }));
       expect(nat.every((y) => y.v !== null)).toBe(true);
       expect(nat.filter((y) => y.v > 1_000_000).map((y) => y.fy)).toEqual([1996, 2008]);
       expect(argmin(nat, (y) => y.v)).toEqual({ fy: 1982, v: 141_000 });
-      const recent = between(nat, 2009, 2025);
-      expect(argmin(recent, (y) => y.v)).toEqual({ fy: 2010, v: 619_910 });
-      expect(argmax(recent, (y) => y.v)).toEqual({ fy: 2022, v: 969_380 });
+      expect(compactNumber(141_000)).toBe("141K");
+      // FY2020 is the low of the dip the line starts from, below the years either side of it.
+      expect(compactNumber(at(nat, 2020).v)).toBe("628.3K");
+      expect(at(nat, 2020).v).toBeLessThan(Math.min(at(nat, 2019).v, at(nat, 2021).v));
+      expect(compactNumber(at(nat, 2022).v)).toBe("969.4K");
+      expect(argmax(between(nat, 2009, 2025), (y) => y.v).fy).toBe(2022);
     },
   },
   greenCardCountries: {
-    says: ["Mexico led every year from FY1999 through FY2025", "13% to 23% of each year’s green cards", "In FY2024 Cuba was second with 184k", "more than twice its count in any earlier year"],
+    says: ["Mexico led every year from FY1999 through FY2025", "13% to 23% of each year’s green cards", "In FY2024 Cuba was second with 184K", "more than twice its count in any earlier year"],
     check: () => {
       const ys = lprTop("lpr");
       expect([ys[0].fy, ys.at(-1)!.fy]).toEqual([1999, 2025]);
@@ -102,12 +108,13 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
       expect([Math.min(...shares), Math.max(...shares)]).toEqual([13, 23]);
       const fy24 = at(ys, 2024);
       expect(fy24.ranked[1]).toMatchObject({ name: "Cuba", value: 184_040 });
+      expect(compactNumber(184_040)).toBe("184K");
       const cubaBefore = between(ys, 1999, 2023).map((y) => y.ranked.find((r) => r.name === "Cuba")?.value ?? 0);
       expect(184_040).toBeGreaterThan(2 * Math.max(...cubaBefore));
     },
   },
   naturalizationCountries: {
-    says: ["Mexico led every year from FY1999 through FY2025", "11% to 25% of each year’s new citizens", "231.8k in FY2008", "the most from any one country in any year"],
+    says: ["Mexico led every year from FY1999 through FY2025", "11% to 25% of each year’s new citizens", "231.8K in FY2008", "the most from any one country in any year"],
     check: () => {
       const ys = lprTop("naturalizations");
       expect([ys[0].fy, ys.at(-1)!.fy]).toEqual([1999, 2025]);
@@ -115,17 +122,21 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
       const shares = ys.map((y) => pct(y.ranked[0].value, y.total));
       expect([Math.min(...shares), Math.max(...shares)]).toEqual([11, 25]);
       const best = argmax(ys, (y) => y.ranked[0].value);
-      expect([best.fy, best.ranked[0].name, best.ranked[0].value]).toEqual([2008, "Mexico", 231_815]);
+      expect([best.fy, best.ranked[0].name, compactNumber(best.ranked[0].value)]).toEqual([2008, "Mexico", "231.8K"]);
     },
   },
   refugeeCeiling: {
-    says: ["peaked at 207.1k in FY1980", "low of 11.4k in FY2021", "FY2024’s 100k arrivals", "the most of any year after FY1994", "ceiling of 125k"],
+    says: ["fell to 11.4K in FY2021, the fewest of any year from FY1980", "then rose to 100K in FY2024, the most of any year after FY1994", "The peak was 207.1K, in FY1980", "FY2024’s ceiling was 125K"],
     check: () => {
       const ys = refugees.years;
       expect(ys[0].fy).toBe(PAGE_FIRST);
       expect(argmax(ys, (y) => y.admissions)).toMatchObject({ fy: 1980, admissions: 207_116 });
+      expect(compactNumber(207_116)).toBe("207.1K");
       expect(argmin(ys, (y) => y.admissions)).toMatchObject({ fy: 2021, admissions: 11_411 });
+      expect(compactNumber(11_411)).toBe("11.4K");
       expect(at(ys, 2024)).toMatchObject({ admissions: 100_034, ceiling: 125_000, preliminary: false });
+      expect([compactNumber(100_034), compactNumber(125_000)]).toEqual(["100K", "125K"]);
+      for (let fy = 2022; fy <= 2024; fy++) expect(at(ys, fy).admissions, `FY${fy}`).toBeGreaterThan(at(ys, fy - 1).admissions);
       expect(argmax(between(ys, 1995, refugees.lastFy), (y) => y.admissions).fy).toBe(2024);
       expect(at(ys, 1994).admissions).toBeGreaterThan(100_034);
     },
@@ -160,25 +171,26 @@ const cases: Record<keyof typeof IMMIGRATION_TAKEAWAYS, { says: string[]; check:
     },
   },
   encounters: {
-    says: ["From FY1980 through FY2020", "0.5M to 1.7M border encounters a year", "topped 2.7M in each of FY2022–FY2024", "peaking at 3.2M in FY2023", "0.7M in FY2025"],
+    says: ["Border encounters topped 2.7M in each of FY2022–FY2024", "peaking at 3.2M in FY2023", "from FY1980 through FY2020 they ranged from 526.9K to 1.7M a year", "FY2025 had 691.9K"],
     check: () => {
       expect(encounters.firstFy).toBe(PAGE_FIRST);
-      const early = between(enc, 1980, 2020).map((y) => y.total);
-      expect([millions(Math.min(...early), 1), millions(Math.max(...early), 1)]).toEqual(["0.5", "1.7"]);
       expect(Math.min(...between(enc, 2022, 2024).map((y) => y.total))).toBeGreaterThan(2_700_000);
       const peak = argmax(enc, (y) => y.total);
-      expect([peak.fy, millions(peak.total, 1)]).toEqual([2023, "3.2"]);
+      expect([peak.fy, compactNumber(peak.total)]).toEqual([2023, "3.2M"]);
+      const early = between(enc, 1980, 2020).map((y) => y.total);
+      expect([compactNumber(Math.min(...early)), compactNumber(Math.max(...early))]).toEqual(["526.9K", "1.7M"]);
       expect(at(encounters.years, 2025).preliminary).toBe(false);
-      expect(millions(at(enc, 2025).total, 1)).toBe("0.7");
+      expect(compactNumber(at(enc, 2025).total)).toBe("691.9K");
     },
   },
   removals: {
-    says: ["peaked at 409.8k in FY2012", "fell to 59k in FY2021", "the fewest of any ICE year (FY2003 on)", "FY2025’s preliminary 442.6k", "the most of any year on the chart, which starts in FY1980"],
+    says: ["peaked at 409.8K in FY2012", "fell to 59K in FY2021", "the fewest of any ICE year (FY2003 on)", "FY2025’s preliminary 442.6K", "the most of any year on the chart, which starts in FY1980"],
     check: () => {
       expect([ice.historyFirstFy, ice.firstFy, ice.lastFy]).toEqual([1980, 2003, 2025]);
       const final = removals.filter((y) => y.status === "final");
       expect(argmax(final, (y) => y.value)).toMatchObject({ fy: 2012, value: 409_849 });
       expect(argmin(ice.years, (y) => y.value)).toMatchObject({ fy: 2021, value: 59_011 });
+      expect([compactNumber(409_849), compactNumber(59_011), compactNumber(442_637)]).toEqual(["409.8K", "59K", "442.6K"]);
       expect(at(removals, 2025)).toMatchObject({ value: 442_637, status: "preliminary" });
       expect(argmax(removals, (y) => y.value).fy).toBe(2025);
       // FY2012 is the peak before the preliminary year.
@@ -261,7 +273,7 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
     },
   },
   refugeeCeiling: {
-    says: ["The FY2021 low came under a ceiling first set at 15k (October 2020) and raised to 62.5k (May 2021)", "Executive Order 14163 suspended refugee entry from January 27, 2025", "37.6k of FY2025’s 38.1k refugees arrived before February"],
+    says: ["The FY2021 low came under a ceiling first set at 15K (October 2020) and raised to 62.5K (May 2021)", "Executive Order 14163 suspended refugee entry from January 27, 2025", "37.6K of FY2025’s 38.1K refugees arrived before February"],
     check: () => {
       expect(argmin(refugees.years, (y) => y.admissions).fy).toBe(2021);
       expect(at(refugees.years, 2021)).toMatchObject({ ceilingInitial: 15_000, ceiling: 62_500, revised: true });
@@ -275,7 +287,7 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
     },
   },
   refugeeCountries: {
-    says: ["Executive Order 14204 (February 7, 2025)", "The FY2026 determination allocates its 7.5k admissions primarily to them", "a May 2026 determination added 10k more for Afrikaners alone"],
+    says: ["Executive Order 14204 (February 7, 2025)", "The FY2026 determination allocates its 7,500 admissions primarily to them", "a May 2026 determination added 10K more for Afrikaners alone"],
     check: () => {
       expect(refugees.markers.some((m) => m.title.includes("Afrikaners") && m.date === "2025-02-07")).toBe(true);
       const fy26 = determinations.filter((d) => d.fy === 2026);
@@ -325,7 +337,7 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
     says: [
       "CBP said Title 42 expulsions (from March 2020) added repeat crossings",
       "27% of July 2021’s southwest encounters, against 14% in FY2014–FY2019",
-      "In the drop to FY2025’s 0.7M",
+      "In the drop to FY2025’s 691.9K",
       "Border Patrol’s monthly count at least halved within two months of each entry proclamation (June 2024, January 2025)",
     ],
     check: () => {
@@ -336,7 +348,7 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
       // Proclamation 10773 took effect June 5, 2024; Proclamation 10888 was signed January 20, 2025.
       expect(bp("2024-07") / bp("2024-05")).toBeLessThanOrEqual(0.5);
       expect(bp("2025-02") / bp("2024-12")).toBeLessThanOrEqual(0.5);
-      expect(millions(at(enc, 2025).total, 1)).toBe("0.7");
+      expect(compactNumber(at(enc, 2025).total)).toBe("691.9K");
       expect(at(enc, 2025).total).toBeLessThan(at(enc, 2024).total);
     },
   },
@@ -344,7 +356,7 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
     says: [
       "ICE says its work shifted to expulsions under the CDC’s Title 42 order (March 2020–May 2023), cutting removals to the FY2021 low",
       "CBP counted 1.1M expulsions in both FY2021 and FY2022",
-      "After it ended, removals rose to 271.5k in FY2024, 82% after Border Patrol arrests",
+      "After it ended, removals rose to 271.5K in FY2024, 82% after Border Patrol arrests",
     ],
     check: () => {
       // ICE's September 6, 2023 Senate testimony: "ICE resources and operations shifted to expulsions of noncitizens under
@@ -353,7 +365,7 @@ const contextCases: Record<keyof typeof IMMIGRATION_CONTEXT, { says: string[]; c
       expect(argmin(ice.years, (y) => y.value).fy).toBe(2021);
       for (const fy of [2021, 2022]) expect(millions(at(encounters.years, fy).nationwide.title42!, 1), `FY${fy}`).toBe("1.1");
       const y = at(removals, 2024);
-      expect((y.value / 1000).toFixed(1)).toBe("271.5");
+      expect(compactNumber(y.value)).toBe("271.5K");
       expect(pct(y.agency!.cbp, y.value)).toBe(82);
       expect(argmax(between(removals, 2020, 2024), (r) => r.value).fy).toBe(2024);
     },
@@ -381,8 +393,8 @@ describe("Immigration card takeaways", () => {
       const sentences = s.takeaway.replace(/U\.S\./g, "US").split(/(?<=\.)\s+(?=[A-Z])/);
       expect(sentences.length, s.title).toBeLessThanOrEqual(2);
       expect(s.takeaway.split(/\s+/).length, s.title).toBeLessThanOrEqual(45);
-      // Counts are abbreviated (207.1k, 1.8M), never printed in full.
-      expect(s.takeaway, s.title).not.toMatch(/\d,\d{3}/);
+      // Counts are abbreviated (207.1K, 1.8M; lib/format-number.ts), never printed in full.
+      expect(s.takeaway, s.title).not.toMatch(UNCOMPACT_FIGURE);
     }
   });
 
@@ -419,7 +431,7 @@ describe("Immigration card takeaways", () => {
     for (const [key, line] of Object.entries(IMMIGRATION_CONTEXT)) {
       expect(line.text.replace(/U\.S\./g, "US").split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
-      expect(line.text, key).not.toMatch(/\d,\d{3}/);
+      expect(line.text, key).not.toMatch(UNCOMPACT_FIGURE);
       // A cause is only ever the agency's own ("DHS attributes"), never the page's.
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged)\b/i);
     }

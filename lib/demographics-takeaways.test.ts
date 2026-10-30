@@ -83,10 +83,9 @@ const cases: Record<keyof typeof DEMO_TAKEAWAYS, Record<ChamberView, View>> = {
   },
   women: {
     both: {
-      says: ["never had more than 33 women from the 73rd through the 102nd (1933–1992)", "the 103rd (1993–1994) had 54", "the 113th (2013–2014) was the first with over 100", "from the 100th through the 119th"],
+      says: ["The 113th Congress (2013–2014) was the first with over 100 women", "up from 54 in the 103rd (1993–1994), the first with more than 33", "from the 100th through the 119th"],
       check: () => {
         expect(extreme("both", womenAll, "max", between("both", 73, 102)).value).toBe(33);
-        expect(at("both", 102).year + 1).toBe(1992);
         expect(womenAll(at("both", 103))).toBe(54);
         expect(firstWhere("both", (r) => womenAll(r) > 100)).toBe(113);
         expect(span("both", 113)).toBe("2013–2014");
@@ -95,7 +94,7 @@ const cases: Record<keyof typeof DEMO_TAKEAWAYS, Record<ChamberView, View>> = {
       },
     },
     house: {
-      says: ["never had more than 29 women from the 73rd through the 102nd Congress (1933–1992)", "the 103rd (1993–1994) had 47", "the 116th (2019–2020) was the first with over 100", "from the 89th through the 119th"],
+      says: ["The 116th Congress (2019–2020) was the first with over 100 women in the House", "up from 47 in the 103rd (1993–1994), the first with more than 29", "from the 89th through the 119th"],
       check: () => {
         expect(extreme("house", womenAll, "max", between("house", 73, 102)).value).toBe(29);
         expect(womenAll(at("house", 103))).toBe(47);
@@ -106,7 +105,7 @@ const cases: Record<keyof typeof DEMO_TAKEAWAYS, Record<ChamberView, View>> = {
       },
     },
     senate: {
-      says: ["never had more than 3 women from the 73rd through the 101st Congress (1933–1990)", "the 103rd (1993–1994) had 7", "the 113th (2013–2014) was the first with 20", "from the 102nd through the 119th"],
+      says: ["The 113th Congress (2013–2014) was the first with 20 women senators", "up from 7 in the 103rd (1993–1994) and no more than 3 in any Congress through 1990", "from the 102nd through the 119th"],
       check: () => {
         expect(extreme("senate", womenAll, "max", between("senate", 73, 101)).value).toBe(3);
         expect(at("senate", 101).year + 1).toBe(1990);
@@ -120,7 +119,7 @@ const cases: Record<keyof typeof DEMO_TAKEAWAYS, Record<ChamberView, View>> = {
   },
   tenure: {
     both: {
-      says: ["over 20 years in Congress were 6.2% of the 73rd Congress (1933–1934)", "peaked at 20% in the 115th (2017–2018)", "up to 2 years were 33% of the 73rd", "no more than 23% from the 79th through the 119th"],
+      says: ["over 20 years in Congress peaked at 20% in the 115th (2017–2018)", "up from 6.2% of the 73rd Congress (1933–1934)", "no more than 23% from the 79th through the 119th", "against 33% of the 73rd"],
       check: () => {
         expect(fmtShare(band(3)(at("both", 73)))).toBe("6.2%");
         expect(span("both", 73)).toBe("1933–1934");
@@ -131,7 +130,7 @@ const cases: Record<keyof typeof DEMO_TAKEAWAYS, Record<ChamberView, View>> = {
       },
     },
     house: {
-      says: ["over 20 years in Congress were 4% of the 73rd Congress (1933–1934)", "peaked at 17% in the 115th (2017–2018)", "up to 2 years were 36% of the 73rd", "no more than 26% from the 79th through the 119th"],
+      says: ["over 20 years in Congress peaked at 17% in the 115th (2017–2018)", "up from 4% of the 73rd Congress (1933–1934)", "no more than 26% from the 79th through the 119th", "against 36% of the 73rd"],
       check: () => {
         expect(fmtShare(band(3)(at("house", 73)))).toBe("4%");
         const peak = extreme("house", band(3), "max");
@@ -141,7 +140,7 @@ const cases: Record<keyof typeof DEMO_TAKEAWAYS, Record<ChamberView, View>> = {
       },
     },
     senate: {
-      says: ["over 20 years in Congress were 8.6% of the 82nd Congress (1951–1952), the low", "43% of the 110th (2007–2008), the peak", "under 10% in every Congress from the 98th through the 119th but the 111th"],
+      says: ["over 20 years in Congress peaked at 43% of the 110th (2007–2008)", "up from a low of 8.6% in the 82nd (1951–1952)", "under 10% in every Congress from the 98th through the 119th but the 111th"],
       check: () => {
         const low = extreme("senate", band(3), "min");
         expect([low.congress, fmtShare(low.value)]).toEqual([82, "8.6%"]);

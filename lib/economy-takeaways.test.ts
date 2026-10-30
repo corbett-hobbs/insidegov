@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { compactNumber, UNCOMPACT_FIGURE } from "./format-number";
 import { describe, expect, it } from "vitest";
 import { ECONOMY_CONTEXT, SPECS, USD_SPECS } from "../components/economy/specs";
 import { SOURCE_LINKS } from "./source-links";
@@ -84,10 +85,10 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
     },
   },
   jobs: {
-    says: ["lost 20.5 million jobs in April 2020", "pre-pandemic total by June 2022", "took until May 2014"],
+    says: ["lost 20.5M jobs in April 2020", "pre-pandemic total by June 2022", "took until May 2014"],
     check: () => {
       expect(min(jobs).date).toBe("2020-04-01");
-      expect(Math.round(min(jobs).value / 100) / 10).toBe(-20.5);
+      expect(compactNumber(min(jobs).value * 1000)).toBe("−20.5M");
       expect(firstAfter(payroll, "2020-04-01", (v) => v > at(payroll, "2020-02-01")).date).toBe("2022-06-01");
       const peak2008 = max(within(payroll, "2007-01-01", "2009-01-01"));
       expect(firstAfter(payroll, peak2008.date, (v) => v > peak2008.value).date).toBe("2014-05-01");
@@ -103,8 +104,10 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
     },
   },
   wage: {
-    says: ["flat in the early 1990s", "about a quarter since its 1995 low", "back to its early-2020 level"],
+    says: ["jumped to the chart’s high in April 2020", "back to about its February 2020 level by June 2022", "rose about 5% through December 2025", "about a quarter above its 1995 low after a flat early 1990s"],
     check: () => {
+      expect(max(wage).date).toBe("2020-04-01");
+      expect(Math.round((at(wage, "2025-12-01") / at(wage, "2022-06-01") - 1) * 100)).toBe(5);
       const low = min(within(wage, "1991", "2000"));
       expect(low.date.slice(0, 4)).toBe("1995");
       expect(Math.abs(low.value / at(wage, "1991-01-01") - 1)).toBeLessThan(0.03);
@@ -217,8 +220,9 @@ const usdCases: Record<keyof typeof USD_SPECS, { says: string[]; check: () => vo
     },
   },
   debt: {
-    says: ["more than elevenfold", "$3.5 trillion to $40.2 trillion in 2026", "$10 trillion in 2008", "$20 trillion in 2017", "$30 trillion in 2022"],
+    says: ["passed $30 trillion in 2022", "reached $40.2 trillion by mid-2026", "more than eleven times its $3.5 trillion in 1991", "It passed $10 trillion in 2008 and $20 trillion in 2017"],
     check: () => {
+      expect(debtUsd[0].date.slice(0, 4)).toBe("1991");
       expect(Math.round(debtUsd[0].value / 1e5) / 10).toBe(3.5);
       expect(debtUsd.at(-1)!.value / debtUsd[0].value).toBeGreaterThan(11);
       expect(debtUsd.at(-1)!.date).toBe("2026-07-01");
@@ -347,7 +351,7 @@ describe("Economy card takeaways", () => {
     for (const [key, line] of Object.entries(ECONOMY_CONTEXT)) {
       expect(line.text.split(/(?<=\.)\s+(?=[A-Z])/).length, key).toBeLessThanOrEqual(2);
       expect(line.text.split(/\s+/).length, key).toBeLessThanOrEqual(45);
-      expect(line.text, key).not.toMatch(/\d,\d{3}/);
+      expect(line.text, key).not.toMatch(UNCOMPACT_FIGURE);
       expect(line.text, key).not.toMatch(/\b(because|due to|caused|led to|drove|thanks to|soared|plunged|president|administration|Democrat|Republican)\b/i);
     }
   });

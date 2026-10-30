@@ -18,12 +18,12 @@ export const TRADE_TAKEAWAYS = {
   balance: {
     title: "The goods trade balance",
     takeaway:
-      "The U.S. imported more goods than it exported in every month from January 1991 through August 2026. The monthly deficit reached $76 billion in July 2008, shrank to $35 billion in May 2009, and hit a record $158.7 billion in March 2025.",
+      "The U.S. ran a goods deficit every month from January 1991 through August 2026. The monthly deficit hit a record $158.7B in March 2025 and narrowed to $61.4B in October 2025, after $76B in July 2008 and $35.4B in May 2009.",
   },
   tariff: {
     title: "Tariffs on imports",
     takeaway:
-      "Calculated duties fell from 4.7% of imports in February 1994 to 1.1% in March 2008, then rose to 3.2% by September 2019. In 2025 they reached a record 10.8% in October, more than double the 1994 high.",
+      "In 2025 calculated duties reached a record 10.8% of imports in October, more than double their February 1994 high of 4.7%. They had fallen to 1.1% in March 2008 and rose to 3.2% by September 2019.",
   },
   partners: {
     title: "Who the U.S. trades with",

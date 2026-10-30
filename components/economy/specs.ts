@@ -78,7 +78,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     key: "jobs",
     title: "Jobs added",
     takeaway:
-      "The economy lost 20.5 million jobs in April 2020, the largest one-month loss on record, yet regained its pre-pandemic total by June 2022. After the 2008 recession, getting back to the old peak took until May 2014.",
+      "The economy lost 20.5M jobs in April 2020, the largest one-month loss on record, yet regained its pre-pandemic total by June 2022. After the 2008 recession, getting back to the old peak took until May 2014.",
     kind: "jobs",
     domain: [-JOBS_CAP, JOBS_CAP],
     ticks: [-1000, -500, 0, 500, 1000],
@@ -105,7 +105,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     key: "wage",
     title: "Real hourly earnings",
     takeaway:
-      "After inflation, hourly pay was flat in the early 1990s and has risen about a quarter since its 1995 low. The 2020 spike came from lower-paid workers losing jobs; by mid-2022, inflation had pulled pay back to its early-2020 level.",
+      "After inflation, hourly pay jumped to the chart’s high in April 2020 and was back to about its February 2020 level by June 2022. It then rose about 5% through December 2025, to about a quarter above its 1995 low after a flat early 1990s.",
     kind: "line",
     domain: [24.5, 33.5],
     ticks: [26, 28, 30, 32],
@@ -237,7 +237,7 @@ export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
     key: "debt",
     title: "Federal debt",
     takeaway:
-      "Total federal debt has grown more than elevenfold since 1991, from $3.5 trillion to $40.2 trillion in 2026. It passed $10 trillion in 2008, $20 trillion in 2017 and $30 trillion in 2022.",
+      "Total federal debt passed $30 trillion in 2022 and reached $40.2 trillion by mid-2026, more than eleven times its $3.5 trillion in 1991. It passed $10 trillion in 2008 and $20 trillion in 2017.",
     kind: "debt",
     label1: "Total",
     label2: "Held by the public",

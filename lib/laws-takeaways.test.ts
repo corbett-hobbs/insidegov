@@ -52,7 +52,7 @@ function groupBands(group: string | null): number[] {
 
 const cases: Record<keyof typeof LAWS_TAKEAWAYS, { says: string[]; check: () => void }> = {
   count: {
-    says: ["From 1973 through 2024", "the most laws in 1987–88 (713)", "the fewest in 2023–24 (274)", "Commemorations peaked at 40% of laws in 1985–86", "without them, the most was 596, in 1973–74"],
+    says: ["Congress enacted 274 laws in 2023–24, the fewest of any Congress from 1973 through 2024", "the most was 713, in 1987–88", "Commemorations peaked at 40% of laws in 1985–86", "without them, the most was 596, in 1973–74"],
     check: () => {
       expect(openYear(complete[0]!)).toBe(1973);
       expect(openYear(complete[complete.length - 1]!) + 1).toBe(2024);
