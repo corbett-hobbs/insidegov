@@ -108,7 +108,8 @@ export default function AboutPage() {
 
         <Section title="Who’s behind it">
           <p>
-            InsideGov is built and maintained by {builderName}. I studied international politics at Georgetown’s
+            InsideGov is built and maintained by{" "}
+            <a href="https://corbetthobbs.com" className={LINK}>{builderName}</a>. I studied international politics at Georgetown’s
             School of Foreign Service and worked in a U.S. Senate press office. In 2013 I launched the original
             InsideGov.com at Graphiq, a company that turned large public datasets into charts anyone could browse or
             embed. Amazon acquired Graphiq in 2017 to help power Alexa’s answers.
