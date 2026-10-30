@@ -1,107 +1,5 @@
 {
   "checks": {
-    "cd4d5d4367c620dd60d4": {
-      "at": "2026-10-28T21:37:33.161Z",
-      "keep": [
-        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
-        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
-        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
-        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
-      ],
-      "reason": "Four outlets report the same Oct 28 Fed decision to hold rates steady amid high inflation; the previews (1, 2) and Bloomberg's takeaways explainer (3) are excluded.",
-      "chart": ""
-    },
-    "e6bd56b51c8ccaab2be8": {
-      "at": "2026-10-28T21:37:33.161Z",
-      "keep": [],
-      "reason": "All headlines cover a streamer's mocking remarks about injuries to ICE agents and the backlash, not a government action, ruling, or official figure; no pick_chart option measures this.",
-      "chart": ""
-    },
-    "bff1905de9db5010c67a": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [
-        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
-        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
-        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
-        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
-        "https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html",
-        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
-      ],
-      "reason": "Headlines report the Fed's October 28 decision to hold rates steady, the single development most outlets covered, and the chart's policy rate is central to it.",
-      "chart": ""
-    },
-    "169b88c0408718a005f3": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [],
-      "reason": "Headlines are political commentary and campaign remarks about gas prices, not a single current government action, ruling, agreement, or official figure.",
-      "chart": ""
-    },
-    "481937340fe9efc9bbf2": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [
-        "https://www.huffpost.com/entry/us-supreme-court-denies-immigration-judges-the-power-to-shelve-deportation-cases_n_6ae0d41ee4b059999c6307d2",
-        "https://www.washingtonexaminer.com/news/supreme-court/4781315/supreme-court-declines-halt-doj-deal-ending-biden-immigration-rule/",
-        "https://www.foxnews.com/politics/trumps-unusual-legal-gambit-against-biden-era-deportation-rule-pays-off-supreme-court"
-      ],
-      "reason": "Three outlets report the same Supreme Court action letting DOJ's deal ending a Biden-era rule on immigration judges shelving deportation cases stand.",
-      "chart": ""
-    },
-    "c02c2c59513cc547f6a1": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [
-        "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/",
-        "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/",
-        "https://thehill.com/policy/energy-environment/6176058-trump-texas-rally-methane-regulations-loosened/",
-        "https://thehill.com/policy/energy-environment/6176058-trump-texas-rally-methane-regulations-loosened/",
-        "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f",
-        "https://www.nytimes.com/2026/10/27/climate/trump-methane-rules-epa-greenhouse-gas.html",
-        "https://www.nytimes.com/2026/10/27/climate/trump-methane-rules-epa-greenhouse-gas.html",
-        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
-        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
-        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
-        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
-        "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313",
-        "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313",
-        "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas",
-        "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas"
-      ],
-      "reason": "All headlines report the same Trump administration action: rolling back Biden-era methane emissions rules for oil and gas. None of the pick_chart charts measures emissions rules, so no chart is linked.",
-      "chart": ""
-    },
-    "6365cefaf0addb1bdee8": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [
-        "https://www.axios.com/2026/10/26/democrats-trump-diesel-deal",
-        "https://thehill.com/policy/energy-environment/6172712-tillis-russia-diesel-deal/",
-        "https://www.politico.com/news/2026/10/26/raskin-warns-oil-industry-trumps-russian-diesel-deal-01135380",
-        "https://thehill.com/homenews/house/6173911-raskin-warns-oil-companies-diesel/"
-      ],
-      "reason": "Headlines 1, 3, 4 and 5 all cover the same development, Trump's Russian diesel import deal and the Democratic response to it. Headlines 2 and 6 are about other matters.",
-      "chart": ""
-    },
-    "45b65f6ab5c57c0f82f5": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments (a congressional demand for donor records and a tariff delay), and no single development is reported by more than one outlet.",
-      "chart": ""
-    },
-    "04c53e0d23d3090421ef": {
-      "at": "2026-10-28T23:10:47.368Z",
-      "keep": [
-        "https://www.bbc.co.uk/news/articles/cq8jzkpjr28vo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/cq8jzkpjr28vo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Headlines 5 and 6 (BBC) report the same current development, a major hack leaking details of thousands of US immigration agents; the streamer-mocking headlines 1-4 are a commentary-style controversy about a different story. Neither removals nor encounters data measures this story, so no chart.",
-      "chart": ""
-    },
-    "c9fdac23dfe0264020fd": {
-      "at": "2026-10-28T23:36:18.993Z",
-      "keep": [],
-      "reason": "No single current development is reported across these headlines; they are political commentary, a candidate's prediction, a snarky opinion piece, and a local Los Angeles story.",
-      "chart": ""
-    },
     "3c8f0c36a725f82d838a": {
       "at": "2026-10-28T23:42:09.293Z",
       "keep": [
@@ -578,6 +476,43 @@
       "at": "2026-10-30T19:10:50.001Z",
       "keep": [],
       "reason": "The three headlines cover different items (a congressional demand for donor records, an Audi factory deal, and a local woodworker feature), with no single development shared by multiple outlets.",
+      "chart": ""
+    },
+    "69a6ce7e0132a6cc9f83": {
+      "at": "2026-10-30T23:37:54.874Z",
+      "keep": [
+        "https://www.theguardian.com/us-news/2026/oct/30/texas-ice-agent-suv-charged",
+        "https://www.theguardian.com/us-news/2026/oct/30/texas-ice-agent-suv-charged",
+        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
+        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
+        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
+        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
+        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
+        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Five outlets report the same Texas grand jury indictment of an ICE agent for ramming a man with an SUV; no chart measures prosecutions of agents, so no chart link.",
+      "chart": ""
+    },
+    "f3f431c216fcf05a770b": {
+      "at": "2026-10-30T23:37:54.874Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Headlines 1-5 all report the same Oct 29 release of third-quarter GDP and the September Fed-preferred PCE inflation gauge; inflation is central to each, though the chart measures CPI rather than PCE.",
+      "chart": ""
+    },
+    "641ddf36912d314135db": {
+      "at": "2026-10-30T23:37:54.874Z",
+      "keep": [
+        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
+        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
+      ],
+      "reason": "The Hill and NYT both report the official BEA figure that U.S. GDP grew 3.4% in Q3; South Africa and federal debt headlines are different stories.",
       "chart": ""
     }
   },
