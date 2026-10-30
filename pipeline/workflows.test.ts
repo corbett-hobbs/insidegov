@@ -63,4 +63,12 @@ describe("workflow and action files", () => {
     }
     expect(unguarded).toEqual([]);
   });
+
+  it("every caller of gate-and-merge passes the key that lets it refresh takeaway figures", () => {
+    const missing = workflows.filter((rel) => {
+      const steps = jobsOf(rel).flatMap(([, job]) => job.steps ?? []).filter((s) => s.uses?.endsWith("/gate-and-merge"));
+      return steps.some((s) => !s.with?.["anthropic-api-key"]);
+    });
+    expect(missing).toEqual([]);
+  });
 });

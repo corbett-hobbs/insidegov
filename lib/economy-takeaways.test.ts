@@ -7,7 +7,9 @@ import { monthlyChange, realHourlyEarnings, yearOverYearPercent, type Point } fr
 /**
  * Every figure an Economy card's takeaway cites, checked against the committed
  * pipeline output. A data refresh or revision that makes a sentence untrue fails
- * here: rewrite the takeaway in components/economy/specs.ts, then this check.
+ * here. A moved number is fixed automatically in the data-refresh gate (pipeline/maintenance/refresh-takeaways.ts,
+ * numerals only); a sentence whose wording is no longer true needs a human: rewrite it in components/economy/specs.ts,
+ * then this check.
  * Facts from before the chart's 1991 start ("since 1948", "since 1981") are not
  * in this data and are not checked.
  */

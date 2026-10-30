@@ -179,6 +179,7 @@ jobs:
           branch: ${{ steps.cpr.outputs.pull-request-branch }}
           head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
           token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Notify (needs curation)
         if: steps.build.outputs.transform_ok == 'false' && steps.cpr.outputs.pull-request-operation == 'created'
