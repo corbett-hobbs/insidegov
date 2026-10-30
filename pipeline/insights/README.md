@@ -374,11 +374,14 @@ full 1080×1350 images, to save and upload in order. The slides go to the `socia
 | Key moments | dated actions from the site's sourced timelines (`energy_actions.json`, `tariff_actions.json`) between the chart's first date and the draft, at most 4, then the latest reading; a note says they are listed in order, not as causes | a line chart whose series has a timeline (energy series, news tariff charts) |
 | End | the page, "Link in bio", the source | always |
 
-**The intro.** `pnpm insights:intro -- --instagram DIR` writes the account's first post: six slides drawn from the
-About page (cover with ten-year trend lines from real series, why it exists, questions it answers, what the account
-posts, what the charts do and don't, and a personal "Who's behind it" slide for people who knew the original
-InsideGov at Graphiq) and `intro-caption.txt`. The words are in `introCarousel()` in `intro.ts`; keep them in step with
-`app/about/page.tsx`.
+**The intro.** `pnpm insights:intro -- --instagram DIR` writes the account's first post: five slides drawn from the
+About page and `intro-caption.txt`. The order puts the proof first: a cover (ten-year trend lines from real series, and
+a byline naming who is behind it); "Why it exists" with a **compact real chart** under its text (gas prices from January
+2009, the start of the Obama term, drawn by the same `chartLayer` as a post's chart in a small frame: axis, term band,
+its latest label with its own date, a source line); the personal "Hi, I'm Corby" slide with a round headshot
+(`pipeline/insights/assets/corby.jpg`, a head-and-shoulders crop; replace the file to change it); what the account
+posts; and the ground rules, ending on the link in bio. The words are in `introCarousel()` in `intro.ts`; keep them in
+step with `app/about/page.tsx`.
 
 Slides are laid out on a 720×900 canvas and scaled 1.5× in the renderer, so the chart code's label sizes read at
 phone size. `chart.tsx` draws in a `Frame` (the card's 1200×675 or the slide's portrait frame); the card is unchanged.
