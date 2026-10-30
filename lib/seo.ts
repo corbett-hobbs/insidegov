@@ -82,14 +82,17 @@ export function pageMetadata(opts: {
   absolute?: boolean;
   /** A topic page's data share card (`topicOg` in `lib/site.ts`, e.g. "presidency/economy") instead of the site-wide image. */
   topic?: string;
+  /** A chart's own share image (`lib/og-charts.ts`), with its alt text, instead of the topic or site-wide card. */
+  image?: { url: string; alt: string };
 }): Metadata {
   const description = clampDescription(opts.description);
   const social = opts.socialDescription ? clampDescription(opts.socialDescription) : description;
   const fits = !opts.absolute && opts.title.length <= TITLE_BUDGET;
   const socialTitle = fits ? `${opts.title}${TITLE_SUFFIX}` : opts.title;
   const { images: siteImages, ...og } = ogDefaults;
-  const images = opts.topic ? topicOg(opts.topic).images : siteImages;
-  const twitterImages = opts.topic ? { images: topicTwitter(opts.topic).images } : twitterDefaults;
+  const own = opts.image ? [{ ...opts.image, width: 1200, height: 630 }] : null;
+  const images = own ?? (opts.topic ? topicOg(opts.topic).images : siteImages);
+  const twitterImages = own ? { images: own } : opts.topic ? { images: topicTwitter(opts.topic).images } : twitterDefaults;
   return {
     title: fits ? opts.title : { absolute: truncateWords(opts.title, TITLE_MAX) },
     description,

@@ -46,6 +46,7 @@
     "classify:eos:auto": "tsx pipeline/classification/executive-orders-auto.ts",
     "summarize:cases": "tsx pipeline/classification/case-summaries-auto.ts",
     "summarize:eos": "tsx pipeline/classification/eo-summaries-auto.ts",
+    "og:charts": "tsx scripts/og-charts.ts",
     "insights:draft": "tsx pipeline/insights/run.ts",
     "insights:backfill": "tsx pipeline/insights/backfill.ts",
     "insights:plan": "tsx pipeline/insights/plan.ts",

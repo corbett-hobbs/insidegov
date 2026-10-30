@@ -1,0 +1,75 @@
+name: Chart link previews
+
+# Every chart's link-preview image is a screenshot of the chart on the built site (scripts/og-charts.ts,
+# lib/og-charts.ts), so it goes stale when a data refresh changes the chart. Weekly, after the Tuesday and
+# Wednesday data refreshes: build the site, re-take the screenshots, and open a PR only if an image or the chart
+# list changed. Auto-merged only after the full CI gate passes (.github/actions/gate-and-merge).
+#
+# Needs: Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+# Note: the PR branch is pushed with GITHUB_TOKEN, so it does NOT trigger the CI workflow (the gate runs the same checks).
+
+on:
+  schedule:
+    - cron: "43 14 * * 4" # Thursdays 14:43 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: og-charts
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm build
+
+      - name: Re-take the chart screenshots
+        run: pnpm og:charts
+
+      - name: Open pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: |
+            public/og-charts
+            lib/og-charts.json
+          branch: data/og-charts-refresh
+          base: main
+          delete-branch: true
+          commit-message: "chore(pipeline): refresh chart link previews"
+          title: "Chart link previews refresh"
+          labels: data-refresh
+          body: |
+            The weekly screenshot run changed at least one chart's link-preview image, or the list of charts on a page
+            (`pnpm og:charts`, `scripts/og-charts.ts`). Open a few images under `public/og-charts` to check them.
+
+            Merged automatically only if typecheck, lint, tests, `pnpm pipeline:check` and the build all pass on this branch
+            (.github/actions/gate-and-merge). If you are reading this on an open PR, that gate failed: see the run log.
+
+      - name: Gate and merge
+        if: contains(fromJSON('["created","updated"]'), steps.cpr.outputs.pull-request-operation)
+        uses: ./.github/actions/gate-and-merge
+        with:
+          pr-number: ${{ steps.cpr.outputs.pull-request-number }}
+          branch: ${{ steps.cpr.outputs.pull-request-branch }}
+          head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          token: ${{ github.token }}

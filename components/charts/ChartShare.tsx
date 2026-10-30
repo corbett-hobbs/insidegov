@@ -6,6 +6,7 @@ import { cardPng, pngName, savePng, slugify, warmCardPng } from "@/lib/chart-png
 import { embedSnippet, embedUrl, type EmbedTheme } from "@/lib/embed";
 import { site } from "@/lib/site";
 import { shareLinks } from "@/lib/chart-share";
+import { chartSharePath } from "@/lib/og-charts";
 
 /**
  * The share icon after a chart card's title (ARCHITECTURE_MAP rule 7e). `ChartNotesRow` renders
@@ -132,7 +133,8 @@ function ShareMenu({ target, at, onClose, returnFocus }: { target: Target; at: D
   const menu = useRef<HTMLDivElement>(null);
   const [note, setNote] = useState<string | null>(null);
   const [view, setView] = useState<"menu" | "embed">("menu");
-  const url = `${location.origin}${location.pathname}${location.search}#${target.card.id}`;
+  // A chart with its own link-preview card shares through its chart route (`lib/og-charts.ts`).
+  const url = `${location.origin}${chartSharePath(location.pathname, target.card.id)}${location.search}#${target.card.id}`;
   const text = `${target.title} · ${site.name}`;
   const links = shareLinks(url, text);
   // A phone or tablet with a share sheet; a desktop browser's sheet only repeats Copy link and Download.
