@@ -497,14 +497,67 @@
       "keep": [],
       "reason": "Neither headline reports a single current development; they are political analysis and voter-sentiment features about gas prices.",
       "chart": ""
+    },
+    "f937153b5bb80d51bc3d": {
+      "at": "2026-10-30T13:59:44.836Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
+        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
+        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
+        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
+        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
+        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
+        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
+      ],
+      "reason": "Headlines report the Fed's October 28 decision to hold rates steady, the single current development the federal funds rate chart is central to; previews, live streams, explainers, roundups, and other developments are excluded.",
+      "chart": ""
+    },
+    "8ea186f121f61c5a9582": {
+      "at": "2026-10-30T13:59:44.836Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Five outlets report the same Oct 29 federal release of September PCE inflation alongside Q3 GDP; inflation is central, though the chart measures CPI rather than PCE.",
+      "chart": ""
+    },
+    "2bfebcb00f2672831443": {
+      "at": "2026-10-30T13:59:44.836Z",
+      "keep": [
+        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
+        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
+      ],
+      "reason": "Headlines 1 and 2 both report the BEA's Q3 U.S. GDP growth of 3.4%, matching the quarterly real GDP chart; headline 3 is about Coinbase earnings.",
+      "chart": ""
+    },
+    "64f9188424927405f53c": {
+      "at": "2026-10-30T13:59:44.836Z",
+      "keep": [],
+      "reason": "The headlines are company news (GM exchange listing move, Weil Gotshal wind-down, a fraud lawsuit), not a U.S. stock market move, and none matches a listed chart.",
+      "chart": ""
+    },
+    "1a936b2cf01bc8312124": {
+      "at": "2026-10-30T13:59:44.836Z",
+      "keep": [],
+      "reason": "The headlines are about company news (Chevron, Exxon, Shell earnings and production), not a government action, court ruling, agreement, official figure, or market-wide move, so none qualify.",
+      "chart": ""
+    },
+    "7437d9bf56a46935a702": {
+      "at": "2026-10-30T13:59:44.836Z",
+      "keep": [],
+      "reason": "The headlines report a DHS employee data breach, a cybersecurity story that does not centrally concern immigration enforcement operations, border encounters, or ICE removals, so no chart fits.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
-      "release": "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-      "since": "2026-10-29T16:00:30.385Z",
-      "at": "2026-10-30T06:59:21.516Z",
-      "count": 4
+      "release": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
+      "since": "2026-10-30T13:59:44.836Z",
+      "at": "2026-10-30T13:59:44.836Z",
+      "count": 1
     },
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
