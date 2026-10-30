@@ -50,7 +50,7 @@ describe("Instagram intro", () => {
     if (bio!.kind !== "text") throw new Error("not a text slide");
     expect(bio.paragraphs[0]).toMatch(/Georgetown/);
     expect(bio.paragraphs[1]).toMatch(/original InsideGov at Graphiq/);
-    expect(bio.paragraphs[2]).toBe("Bringing it back is a labor of love.");
+    expect(bio.paragraphs[2]).toMatch(/^Bringing it back is a labor of love/);
     expect(bio.photo && existsSync(bio.photo)).toBe(true);
   });
 

@@ -105,7 +105,7 @@ export function introCarousel(): IntroSlide[] {
       paragraphs: [
         "I studied international politics at Georgetown’s School of Foreign Service and spent time working in a U.S. Senate press office.",
         "Back in 2013, I launched the original InsideGov at Graphiq before Amazon acquired us in 2017. If we crossed paths back then, you’ll likely recognize the name.",
-        "Bringing it back is a labor of love.",
+        "Bringing it back is a labor of love, and I’m excited to share it with you.",
       ],
     },
     {
