@@ -1,0 +1,248 @@
+{
+  "pages": {
+    "/congress/demographics": [
+      {
+        "id": "is-congress-getting-older",
+        "title": "Is Congress getting older?"
+      },
+      {
+        "id": "how-many-members-are-women",
+        "title": "How many members are women?"
+      },
+      {
+        "id": "how-long-have-members-been-in-congress",
+        "title": "How long have members been in Congress?"
+      }
+    ],
+    "/congress/laws": [
+      {
+        "id": "how-many-laws-does-congress-pass",
+        "title": "How many laws does Congress pass?"
+      },
+      {
+        "id": "how-broadly-are-laws-supported",
+        "title": "How broadly are laws supported?"
+      },
+      {
+        "id": "which-kinds-of-laws-pass-and-how",
+        "title": "Which kinds of laws pass, and how?"
+      }
+    ],
+    "/congress/wealth": [
+      {
+        "id": "where-they-started-where-they-are-now",
+        "title": "Where they started, where they are now"
+      }
+    ],
+    "/presidency/economy": [
+      {
+        "id": "chart-mis",
+        "title": "Misery index"
+      },
+      {
+        "id": "chart-un",
+        "title": "Unemployment"
+      },
+      {
+        "id": "chart-infl",
+        "title": "Inflation"
+      },
+      {
+        "id": "chart-gas",
+        "title": "Gas price"
+      },
+      {
+        "id": "chart-mort",
+        "title": "Mortgage rate"
+      },
+      {
+        "id": "chart-wage",
+        "title": "Real hourly earnings"
+      },
+      {
+        "id": "chart-inc",
+        "title": "Household income"
+      },
+      {
+        "id": "chart-def",
+        "title": "Federal deficit"
+      },
+      {
+        "id": "chart-debt",
+        "title": "Federal debt"
+      },
+      {
+        "id": "chart-ff",
+        "title": "Federal funds rate"
+      },
+      {
+        "id": "chart-ten",
+        "title": "10-year Treasury yield"
+      },
+      {
+        "id": "chart-jobs",
+        "title": "Jobs added"
+      },
+      {
+        "id": "chart-gdp",
+        "title": "GDP growth"
+      }
+    ],
+    "/presidency/energy": [
+      {
+        "id": "electricity",
+        "title": "Where U.S. electricity comes from"
+      },
+      {
+        "id": "supply",
+        "title": "Oil supply and demand"
+      },
+      {
+        "id": "oil",
+        "title": "Oil imports and exports"
+      },
+      {
+        "id": "lng",
+        "title": "Liquefied natural gas exports"
+      },
+      {
+        "id": "spr",
+        "title": "The Strategic Petroleum Reserve"
+      }
+    ],
+    "/presidency/executive-orders": [
+      {
+        "id": "executive-orders-signed-per-year-by-topic",
+        "title": "Executive orders signed per year, by topic"
+      }
+    ],
+    "/presidency/foreign-aid": [
+      {
+        "id": "how-much-the-u-s-spends",
+        "title": "How much the U.S. spends"
+      },
+      {
+        "id": "where-it-goes-and-who-receives-the-most",
+        "title": "Where it goes, and who receives the most"
+      },
+      {
+        "id": "who-s-been-no-1",
+        "title": "Who\u2019s been No. 1"
+      }
+    ],
+    "/presidency/immigration": [
+      {
+        "id": "green-cards-and-citizenships-by-fiscal-year",
+        "title": "Green cards and citizenships by fiscal year"
+      },
+      {
+        "id": "where-new-permanent-residents-come-from",
+        "title": "Where new permanent residents come from"
+      },
+      {
+        "id": "refugee-ceiling-and-admissions-by-fiscal-year",
+        "title": "Refugee ceiling and admissions by fiscal year"
+      },
+      {
+        "id": "where-refugees-came-from",
+        "title": "Where refugees came from"
+      },
+      {
+        "id": "who-s-sent-the-most-refugees",
+        "title": "Who\u2019s sent the most refugees"
+      },
+      {
+        "id": "border-encounters-by-fiscal-year",
+        "title": "Border encounters by fiscal year"
+      },
+      {
+        "id": "removals-returns-and-detention-by-fiscal-year",
+        "title": "Removals, returns and detention by fiscal year"
+      },
+      {
+        "id": "criminal-history-of-those-removed",
+        "title": "Criminal history of those removed"
+      },
+      {
+        "id": "who-gets-removed",
+        "title": "Who gets removed"
+      }
+    ],
+    "/presidency/trade": [
+      {
+        "id": "trade-balance",
+        "title": "The goods trade balance"
+      },
+      {
+        "id": "tariffs",
+        "title": "Tariffs on imports"
+      },
+      {
+        "id": "who-the-u-s-trades-with",
+        "title": "Who the U.S. trades with"
+      },
+      {
+        "id": "what-the-u-s-trades",
+        "title": "What the U.S. trades"
+      },
+      {
+        "id": "did-tariffs-shift-trade",
+        "title": "Did tariffs shift trade?"
+      }
+    ],
+    "/presidency/troops-abroad": [
+      {
+        "id": "how-many-troops-are-stationed-abroad",
+        "title": "How many troops are stationed abroad"
+      },
+      {
+        "id": "where-they-are-and-who-hosts-the-most",
+        "title": "Where they are, and who hosts the most"
+      },
+      {
+        "id": "who-s-hosted-the-most",
+        "title": "Who\u2019s hosted the most"
+      }
+    ],
+    "/supreme-court/decisions": [
+      {
+        "id": "how-many-cases-does-the-court-decide",
+        "title": "How many cases does the Court decide?"
+      },
+      {
+        "id": "how-divided-is-the-court",
+        "title": "How divided is the Court?"
+      },
+      {
+        "id": "which-kinds-of-cases-split-the-court",
+        "title": "Which kinds of cases split the Court?"
+      }
+    ],
+    "/supreme-court/ideology": [
+      {
+        "id": "where-the-justices-stand",
+        "title": "Where the justices stand"
+      },
+      {
+        "id": "who-each-president-appointed",
+        "title": "Who each president appointed"
+      },
+      {
+        "id": "how-each-justice-moved",
+        "title": "How each justice moved"
+      }
+    ],
+    "/supreme-court/justices": [
+      {
+        "id": "how-long-each-justice-served",
+        "title": "How long each justice served"
+      }
+    ],
+    "/timeline": [
+      {
+        "id": "who-held-each-branch",
+        "title": "Who held each branch"
+      }
+    ]
+  }
+}
