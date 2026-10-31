@@ -1,65 +1,5 @@
 {
   "checks": {
-    "ede46a4d0cabb4e8be64": {
-      "at": "2026-10-29T08:22:07.729Z",
-      "keep": [],
-      "reason": "No headline reports a single national development such as a government action, ruling, or official figure on gas prices; they are political commentary and campaign coverage.",
-      "chart": ""
-    },
-    "6b03a7cc903da275722e": {
-      "at": "2026-10-29T08:22:07.729Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
-        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
-        "https://nypost.com/2026/10/28/business/fed-holds-interest-rates-steady-but-investors-bet-on-december-rate-hike/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4782688/fed-interest-rates-highly-anticipated-election-meeting/",
-        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
-        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
-        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
-      ],
-      "reason": "Most outlets reported the same development: the Fed holding its policy rate steady on Oct 28, 2026; previews, live blogs, explainers, meeting-schedule, Treasury yield, and Bessent stories were excluded.",
-      "chart": ""
-    },
-    "a52a12a5b9e09a5536ab": {
-      "at": "2026-10-29T08:22:07.729Z",
-      "keep": [
-        "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/",
-        "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/",
-        "https://thehill.com/policy/energy-environment/6176058-trump-texas-rally-methane-regulations-loosened/",
-        "https://thehill.com/policy/energy-environment/6176058-trump-texas-rally-methane-regulations-loosened/",
-        "https://www.nytimes.com/2026/10/27/climate/trump-methane-rules-epa-greenhouse-gas.html",
-        "https://www.nytimes.com/2026/10/27/climate/trump-methane-rules-epa-greenhouse-gas.html",
-        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
-        "https://www.nbcnews.com/science/climate-change/trump-methane-rules-leaks-emissions-oil-gas-rcna605983",
-        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
-        "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings",
-        "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313",
-        "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313",
-        "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas",
-        "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas",
-        "https://www.cnbc.com/2026/10/29/trump-methane-rollback-oil-prices-epa.html",
-        "https://www.cnbc.com/2026/10/29/trump-methane-rollback-oil-prices-epa.html"
-      ],
-      "reason": "All headlines report the same current development: the Trump administration's move to roll back or terminate the Biden-era methane rules for oil and gas operations (CNBC's piece is about the same rollback, framed by market impact).",
-      "chart": ""
-    },
-    "640a07dfd7dbcdb4d972": {
-      "at": "2026-10-29T08:22:07.729Z",
-      "keep": [
-        "https://www.axios.com/2026/10/26/democrats-trump-diesel-deal",
-        "https://thehill.com/policy/energy-environment/6172712-tillis-russia-diesel-deal/",
-        "https://www.politico.com/news/2026/10/26/raskin-warns-oil-industry-trumps-russian-diesel-deal-01135380",
-        "https://thehill.com/homenews/house/6173911-raskin-warns-oil-companies-diesel/"
-      ],
-      "reason": "Four outlets cover Trump's Russian diesel import deal and Democratic responses to it; the chart tracks U.S. retail diesel prices, which the deal relates to. Headline 2 concerns Hegseth, and 6 and 7 are unrelated.",
-      "chart": ""
-    },
-    "cf49ff9eb24332e1535b": {
-      "at": "2026-10-29T08:22:07.729Z",
-      "keep": [],
-      "reason": "The only substantive development is a DHS employee data breach, which is not about border encounters or ICE removals; the Piker story is a streamer's remarks, not a government action.",
-      "chart": ""
-    },
     "b263f0a635d45306dd00": {
       "at": "2026-10-29T16:00:30.385Z",
       "keep": [
@@ -435,6 +375,48 @@
         "https://www.nytimes.com/2026/10/30/us/politics/children-asylum-fast-track-deport.html"
       ],
       "reason": "A federal judge's ruling blocking expedited asylum cases for migrant children is a court action on asylum policy; the NY Post headlines cover a media segment instead.",
+      "chart": ""
+    },
+    "b86543f6abeefcf0e40b": {
+      "at": "2026-10-31T12:11:12.279Z",
+      "keep": [
+        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
+        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
+        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
+        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
+        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
+        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Five outlets (Axios, CBS, NYT, BBC) report the same Texas grand jury indictment of an ICE agent over the SUV ramming; the story is a court action, but neither pick_chart option measures prosecutions of agents, so no chart matches.",
+      "chart": ""
+    },
+    "3634a4266a9f8fc925bb": {
+      "at": "2026-10-31T12:11:12.279Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Same development: the Q3 GDP release with the September Fed inflation gauge (PCE), which most outlets reported; the chart tracks CPI, a related but different inflation measure. Headline 4 left out because its October/September wording is ambiguous.",
+      "chart": ""
+    },
+    "7cd134022ce2d5da1f36": {
+      "at": "2026-10-31T12:11:12.279Z",
+      "keep": [],
+      "reason": "The two headlines cover different stories: a feature on battery makers and the U.S. grid, and a foreign Ukraine-Russia strike story with no U.S. policy angle.",
+      "chart": ""
+    },
+    "eda8f583aa18f63eb3c2": {
+      "at": "2026-10-31T12:11:12.279Z",
+      "keep": [
+        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
+        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
+        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/",
+        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
+      ],
+      "reason": "Headlines 1-4 report the same Oct 30 Nasdaq tech sell-off, a notable U.S. market move; the Anthropic headlines (5-6) are a different, IPO-focused item.",
       "chart": ""
     }
   },
