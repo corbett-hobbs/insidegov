@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-30",
+  "asOf": "2026-10-31",
   "stories": [
     {
       "id": "markets-2026-10-30",
@@ -10,14 +10,14 @@
           "outletId": "cbsnews",
           "outlet": "CBS News",
           "lean": "Lean Left",
-          "title": "Tech stocks crushed as Nasdaq tumbles more than 600 points",
+          "title": "Nasdaq sheds more than 700 points as tech stocks slump",
           "url": "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
         },
         {
           "outletId": "nypost",
           "outlet": "New York Post",
           "lean": "Right",
-          "title": "Nasdaq plummets 2% as Amazon, Intel and Reddit become latest victims of AI fears",
+          "title": "Nasdaq plummets 3% as Amazon, Intel and Reddit become latest victims of AI fears",
           "url": "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/"
         }
       ]
