@@ -1,48 +1,5 @@
 {
   "checks": {
-    "0c18c83af013d1c6375a": {
-      "at": "2026-10-29T21:00:36.299Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple outlets: the headlines are political analysis, an opinion piece, a political feature, and one inflation-gauge story that covers a different development.",
-      "chart": ""
-    },
-    "857c6dc47cb4aac8c903": {
-      "at": "2026-10-29T21:00:36.299Z",
-      "keep": [
-        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
-        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
-        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
-        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
-        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
-        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
-      ],
-      "reason": "Six outlets report the same completed development: the Fed held its benchmark rate steady at its October 28, 2026 meeting. Previews, live blogs, explainers, and takeaway roundups were excluded.",
-      "chart": ""
-    },
-    "ce950453a2d4a6cd3113": {
-      "at": "2026-10-29T21:00:36.299Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Same October 29 release (Q3 GDP and September PCE inflation data) is reported as the single current development; excluded analysis (8, 10) and foreign central-bank or policy stories (1, 5, 7).",
-      "chart": ""
-    },
-    "98b8864da28f24e68043": {
-      "at": "2026-10-29T21:00:36.299Z",
-      "keep": [],
-      "reason": "Only two headlines, about different developments: a company production story (Shell) and a shipping report of Russian diesel tankers; no single shared U.S. development.",
-      "chart": ""
-    },
-    "84b44c31b111325c8271": {
-      "at": "2026-10-29T21:00:36.299Z",
-      "keep": [],
-      "reason": "No single national development is reported by several outlets: GM listing move and Weil law firm wind-down are company news, the Nasdaq suit is a fraud case, and the Amazon stock drop is one outlet's earnings story.",
-      "chart": ""
-    },
     "955af43236272bb7be43": {
       "at": "2026-10-30T00:48:41.800Z",
       "keep": [],
@@ -400,6 +357,30 @@
       "at": "2026-10-31T17:38:37.568Z",
       "keep": [],
       "reason": "Headlines 1 and 2 cover Chevron and Exxon earnings, which is company news, and headline 3 is analysis of price increases rather than a single qualifying development, so none qualifies.",
+      "chart": ""
+    },
+    "a4c7894b7aa05447098d": {
+      "at": "2026-10-31T21:24:53.687Z",
+      "keep": [
+        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
+        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
+        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
+        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Five outlets report the same development: a Texas grand jury indictment or charge of an ICE agent over a vehicle incident. The Guardian feature on a detention facility is a different, non-news piece and is excluded.",
+      "chart": ""
+    },
+    "453d02b0a303b10aff89": {
+      "at": "2026-10-31T21:24:53.687Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Headlines 1-5 all report the same October 29 release of the government's GDP and PCE inflation data for September, a new official figure central to inflation; the chart is CPI, a related inflation measure. Excluded the Fed analysis (6) and the Iran Treasury stories (7-8) as a different development, and the Europe protests (9) as foreign news.",
       "chart": ""
     }
   },
