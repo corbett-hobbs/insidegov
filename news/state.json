@@ -1,45 +1,5 @@
 {
   "checks": {
-    "39171aa83ae9d51908e2": {
-      "at": "2026-10-30T06:59:21.516Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/federal-reserve-interest-rate-decision-october-28-2026",
-        "https://www.nbcnews.com/business/economy/fed-rates-inflation-warsh-midterms-rcna606154",
-        "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/",
-        "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2",
-        "https://www.theguardian.com/business/2026/oct/28/fed-interest-rates-midterms",
-        "https://www.nytimes.com/2026/10/28/business/economy/warsh-interest-rates-fed.html",
-        "https://www.cbsnews.com/news/federal-reserve-holds-interest-rates-steady-inflation/"
-      ],
-      "reason": "Most outlets reported the Fed's Oct 28 decision to hold rates steady; previews, live streams, explainers, and other developments were excluded.",
-      "chart": ""
-    },
-    "317d19503bb577fc64e8": {
-      "at": "2026-10-30T06:59:21.516Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Four outlets report the same Oct. 29 release: third-quarter GDP plus September inflation (PCE gauge). The chart tracks CPI, so the match is close but not exact. NYT #4 refers to October PCE, which conflicts with the others, so it is left out.",
-      "chart": ""
-    },
-    "99b8e0c3494f40ea6bc5": {
-      "at": "2026-10-30T06:59:21.516Z",
-      "keep": [
-        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
-        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-      ],
-      "reason": "Both headlines report the same new BEA figure: U.S. GDP grew 3.4% in Q3, directly matching the quarterly real GDP growth chart.",
-      "chart": ""
-    },
-    "e3f0e81f68b90e50c14c": {
-      "at": "2026-10-30T06:59:21.516Z",
-      "keep": [],
-      "reason": "Neither headline reports a single current development; they are political analysis and voter-sentiment features about gas prices.",
-      "chart": ""
-    },
     "f937153b5bb80d51bc3d": {
       "at": "2026-10-30T13:59:44.836Z",
       "keep": [
@@ -335,6 +295,33 @@
       "at": "2026-11-01T00:59:10.219Z",
       "keep": [],
       "reason": "Two developments tie (a U.S. restriction on a Chinese genomics firm and Carney's comments on Canada-U.S. trade talks), each covered by one outlet's duplicated headline, so no single story qualifies; neither matches the trade balance or tariff-rate chart.",
+      "chart": ""
+    },
+    "9ac39848cf98ddda39e4": {
+      "at": "2026-11-01T07:23:20.374Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
+        "https://thehill.com/business/6179737-september-pce-inflation-data/",
+        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
+        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
+      ],
+      "reason": "Five outlets report the same Oct 29 release of the September PCE inflation gauge alongside third-quarter GDP; the Iran, protest, and Fed-analysis headlines are different developments or opinion.",
+      "chart": ""
+    },
+    "8fdbfe4c713a6a7deb87": {
+      "at": "2026-11-01T07:23:20.374Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-10-31/carney-says-no-hurry-on-trade-deal-if-us-won-t-offer-good-terms",
+        "https://www.bloomberg.com/news/articles/2026-10-31/carney-says-no-hurry-on-trade-deal-if-us-won-t-offer-good-terms"
+      ],
+      "reason": "Canadian PM Carney's statement on the state of U.S.-Canada trade-deal talks is the only headline set on a U.S. trade-talks development; the NYT export-restriction story, WSJ feature, and sports trade story don't fit, and neither chart measures trade talks directly.",
+      "chart": ""
+    },
+    "8c73882e14bae52c57bc": {
+      "at": "2026-11-01T07:23:20.374Z",
+      "keep": [],
+      "reason": "Headline 1 is political commentary on the GOP midterms, and headline 2 covers a China-Peru trade deal with no U.S. policy angle, so no shared U.S. tariff development qualifies.",
       "chart": ""
     }
   },
