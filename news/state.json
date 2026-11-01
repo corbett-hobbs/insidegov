@@ -1,67 +1,5 @@
 {
   "checks": {
-    "5d414fe497642c5b82ba": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [],
-      "reason": "The most-covered development is a Texas grand jury indicting one ICE officer, which is a local criminal case rather than a national development; the DHS data breach is not about enforcement volumes; neither matches the removals or encounters charts.",
-      "chart": ""
-    },
-    "038f5df72b43191fc074": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [],
-      "reason": "All three headlines cover oil companies' Q3 earnings, which is company news, and gas prices are only background, not the central development.",
-      "chart": ""
-    },
-    "03256ab1eef8ce2e2321": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Five outlets report the same Oct. 29 government release of September PCE inflation alongside Q3 GDP; the chart is CPI, a closely related inflation measure, so this is a loose match. Excluded the Fed analysis column and the non-U.S. Bloomberg stories.",
-      "chart": ""
-    },
-    "356a000c6db82fb75463": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [
-        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
-        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-      ],
-      "reason": "The Hill and NYT both report the same U.S. Q3 GDP growth release of 3.4%; Bloomberg's headline concerns South Africa and is excluded.",
-      "chart": ""
-    },
-    "e76c4cdb160fa5610138": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [],
-      "reason": "The most-reported story (NBC and CNBC) is about Exxon and Chevron earnings, which is company news and excluded; the Iran diplomacy oil-price story comes from one outlet only, and no listed chart measures oil prices.",
-      "chart": ""
-    },
-    "dc42ce01a81955de2bd1": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [],
-      "reason": "All three headlines cover Chevron and Exxon quarterly profits, which is company news rather than a national government action, ruling, agreement, or official figure about diesel prices.",
-      "chart": ""
-    },
-    "fe78b00d0459f296bd32": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [
-        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
-        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
-        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/",
-        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
-      ],
-      "reason": "All four headlines report the same single-day Nasdaq selloff of about 3% on AI fears, a notable U.S. market move.",
-      "chart": ""
-    },
-    "c75e3d01ee07b49ab86a": {
-      "at": "2026-10-30T19:10:50.001Z",
-      "keep": [],
-      "reason": "The three headlines cover different items (a congressional demand for donor records, an Audi factory deal, and a local woodworker feature), with no single development shared by multiple outlets.",
-      "chart": ""
-    },
     "69a6ce7e0132a6cc9f83": {
       "at": "2026-10-30T23:37:54.874Z",
       "keep": [
@@ -291,14 +229,19 @@
       "keep": [],
       "reason": "No development is reported by multiple qualifying headlines: #1 is opinion, #2 is foreign news with no U.S. policy angle, #3 covers a Democratic plan rather than a completed action, and #4 is off-topic.",
       "chart": ""
+    },
+    "6fe0a7e870a846dd47ab": {
+      "at": "2026-11-01T19:31:49.357Z",
+      "keep": [],
+      "reason": "No qualifying single U.S. development: the most-reported item is an OPEC+ output decision with no U.S. policy angle, and no pick_chart entry directly measures OPEC or global oil prices.",
+      "chart": ""
+    },
+    "9610df3f2d328420c7a1": {
+      "at": "2026-11-01T19:31:49.357Z",
+      "keep": [],
+      "reason": "No single current U.S. development is reported by multiple headlines: the rest are a local human-interest story, opinion, a foreign China-Peru deal, or unrelated political news.",
+      "chart": ""
     }
   },
-  "dispatched": {
-    "indicators-freshness.yml": {
-      "release": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
-      "since": "2026-10-30T13:59:44.836Z",
-      "at": "2026-10-30T19:10:50.001Z",
-      "count": 2
-    }
-  }
+  "dispatched": {}
 }
