@@ -1,47 +1,5 @@
 {
   "checks": {
-    "b86543f6abeefcf0e40b": {
-      "at": "2026-10-31T12:11:12.279Z",
-      "keep": [
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
-        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
-        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Five outlets (Axios, CBS, NYT, BBC) report the same Texas grand jury indictment of an ICE agent over the SUV ramming; the story is a court action, but neither pick_chart option measures prosecutions of agents, so no chart matches.",
-      "chart": ""
-    },
-    "3634a4266a9f8fc925bb": {
-      "at": "2026-10-31T12:11:12.279Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Same development: the Q3 GDP release with the September Fed inflation gauge (PCE), which most outlets reported; the chart tracks CPI, a related but different inflation measure. Headline 4 left out because its October/September wording is ambiguous.",
-      "chart": ""
-    },
-    "7cd134022ce2d5da1f36": {
-      "at": "2026-10-31T12:11:12.279Z",
-      "keep": [],
-      "reason": "The two headlines cover different stories: a feature on battery makers and the U.S. grid, and a foreign Ukraine-Russia strike story with no U.S. policy angle.",
-      "chart": ""
-    },
-    "eda8f583aa18f63eb3c2": {
-      "at": "2026-10-31T12:11:12.279Z",
-      "keep": [
-        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
-        "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/",
-        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/",
-        "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
-      ],
-      "reason": "Headlines 1-4 report the same Oct 30 Nasdaq tech sell-off, a notable U.S. market move; the Anthropic headlines (5-6) are a different, IPO-focused item.",
-      "chart": ""
-    },
     "2b71d4c7f218c98c9ab1": {
       "at": "2026-10-31T17:38:37.568Z",
       "keep": [
@@ -196,6 +154,47 @@
       "at": "2026-11-02T05:49:05.606Z",
       "keep": [],
       "reason": "No shared development: headline 1 is a local business anecdote, 2 is opinion on GOP politics, and 3 is a Democratic strategy plan rather than a government action on tariffs.",
+      "chart": ""
+    },
+    "6f31a17d41d9ea07ebdf": {
+      "at": "2026-11-02T15:34:51.673Z",
+      "keep": [],
+      "reason": "Headline 1 covers Pakistan inflation, which is foreign news with no U.S. angle; headline 2 is a reader-concerns roundup, not a single U.S. development.",
+      "chart": ""
+    },
+    "e4e428889ce0f0440dbd": {
+      "at": "2026-11-02T15:34:51.673Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets: the ICE indictment and dentist-arrest ruling are single-outlet local or state matters, the Mamdani demand is local, and the NYT pieces are midterm analysis. None directly measures border encounters or ICE removals, so no chart is linked.",
+      "chart": ""
+    },
+    "f9888abd61f8d116d470": {
+      "at": "2026-11-02T15:34:51.673Z",
+      "keep": [],
+      "reason": "No qualifying U.S. development: the Florida mosquito-control tax story is local and incidental, and the Belgian budget story is foreign with no U.S. policy angle.",
+      "chart": ""
+    },
+    "66f804b436a3a96313c2": {
+      "at": "2026-11-02T15:34:51.673Z",
+      "keep": [],
+      "reason": "The most-covered development is OPEC+ keeping output steady, which is foreign news without a U.S. policy angle; the other items are an earnings story and an oil-futures move, and none is measured by the offered U.S. charts.",
+      "chart": ""
+    },
+    "6ee759daea5df25ee2a9": {
+      "at": "2026-11-02T15:34:51.673Z",
+      "keep": [
+        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/world/middle-east/oil-prices-fall-more-than-3-as-iran-peace-talks-ease-supply-fears-e2b47ca0?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/world/middle-east/oil-prices-fall-more-than-3-as-iran-peace-talks-ease-supply-fears-e2b47ca0?mod=pls_whats_news_us_business_f",
+        "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html"
+      ],
+      "reason": "Four outlets report the same single market move: oil prices fell on hopes of Iran/Middle East peace talks; the housing headline is unrelated.",
+      "chart": ""
+    },
+    "37964a6f9a63162f26e6": {
+      "at": "2026-11-02T15:34:51.673Z",
+      "keep": [],
+      "reason": "No single shared national development: headline 1 is a local business story, 2 is opinion on midterm politics, 3 is a congressional strategy plan, and 4 concerns DOJ voting lawsuits.",
       "chart": ""
     }
   },
