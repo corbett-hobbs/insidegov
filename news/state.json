@@ -1,77 +1,5 @@
 {
   "checks": {
-    "2b71d4c7f218c98c9ab1": {
-      "at": "2026-10-31T17:38:37.568Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Five outlets report the same government release: the September PCE inflation gauge alongside the third-quarter GDP report. Inflation is central, though the chart measures CPI rather than PCE. Excluded the Fed analysis piece (6) and the Iran Treasury stories (7, 8), which concern a foreign economy's inflation.",
-      "chart": ""
-    },
-    "777f08fae7903f2a04c3": {
-      "at": "2026-10-31T17:38:37.568Z",
-      "keep": [
-        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
-        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-      ],
-      "reason": "Headlines 1 and 2 both report the same official BEA third-quarter GDP figure of 3.4%; headline 3 concerns federal debt versus GDP, a different development.",
-      "chart": ""
-    },
-    "f4c9d80d324403605c43": {
-      "at": "2026-10-31T17:38:37.568Z",
-      "keep": [
-        "https://www.nytimes.com/2026/10/28/business/us-china-biotech-trade-ban.html",
-        "https://www.nytimes.com/2026/10/28/business/us-china-biotech-trade-ban.html"
-      ],
-      "reason": "A U.S. government action restricting trade with a Chinese genomics company; no chart on the page measures it, and neither pick_chart option (monthly trade balance, average tariff rate) directly covers an entity-specific restriction.",
-      "chart": ""
-    },
-    "db37d21d9b0fdf908f3b": {
-      "at": "2026-10-31T17:38:37.568Z",
-      "keep": [
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Five headlines from Axios, CBS News and BBC News report the same development: a Texas grand jury indicted an ICE agent over an alleged vehicle assault. Neither chart measures indictments or charges, so no chart is linked.",
-      "chart": ""
-    },
-    "4cc548228f65c025f1b4": {
-      "at": "2026-10-31T17:38:37.568Z",
-      "keep": [],
-      "reason": "Headlines 1 and 2 cover Chevron and Exxon earnings, which is company news, and headline 3 is analysis of price increases rather than a single qualifying development, so none qualifies.",
-      "chart": ""
-    },
-    "a4c7894b7aa05447098d": {
-      "at": "2026-10-31T21:24:53.687Z",
-      "keep": [
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Five outlets report the same development: a Texas grand jury indictment or charge of an ICE agent over a vehicle incident. The Guardian feature on a detention facility is a different, non-news piece and is excluded.",
-      "chart": ""
-    },
-    "453d02b0a303b10aff89": {
-      "at": "2026-10-31T21:24:53.687Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Headlines 1-5 all report the same October 29 release of the government's GDP and PCE inflation data for September, a new official figure central to inflation; the chart is CPI, a related inflation measure. Excluded the Fed analysis (6) and the Iran Treasury stories (7-8) as a different development, and the Europe protests (9) as foreign news.",
-      "chart": ""
-    },
     "7ba3eae659a84f367e88": {
       "at": "2026-11-01T00:59:10.219Z",
       "keep": [],
@@ -195,6 +123,45 @@
       "at": "2026-11-02T15:34:51.673Z",
       "keep": [],
       "reason": "No single shared national development: headline 1 is a local business story, 2 is opinion on midterm politics, 3 is a congressional strategy plan, and 4 concerns DOJ voting lawsuits.",
+      "chart": ""
+    },
+    "45ad95f814fd51d5f181": {
+      "at": "2026-11-02T23:25:34.796Z",
+      "keep": [],
+      "reason": "No single U.S. inflation development is reported by multiple outlets; the remaining headlines are foreign, analysis, a roundup, or a different topic.",
+      "chart": ""
+    },
+    "35e110c2520643d2e0c4": {
+      "at": "2026-11-02T23:25:34.796Z",
+      "keep": [],
+      "reason": "Each headline appears only as a duplicate from one outlet; the Florida mosquito-control tax story is local and the FIFA/Infantino tax report is a private company matter, so no qualifying national development is shared.",
+      "chart": ""
+    },
+    "d4a183aa358f52744b9e": {
+      "at": "2026-11-02T23:25:34.796Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
+        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
+        "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html",
+        "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html",
+        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
+        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
+        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107"
+      ],
+      "reason": "Most outlets reported the same development: oil prices sold off sharply on hopes of Iran peace talks; the Trump-touting headlines (9,10,13,14) are framed around his remarks, so they were left out.",
+      "chart": ""
+    },
+    "c0f13dc463b07ac5b0c0": {
+      "at": "2026-11-02T23:25:34.796Z",
+      "keep": [],
+      "reason": "Only two headlines: a BBC feature on a threatened Canadian town (local/foreign, not a U.S. development) and a single outlet's report of Trump remarks on a possible trade deal, so no shared current development qualifies.",
+      "chart": ""
+    },
+    "146190afad000d87c40a": {
+      "at": "2026-11-02T23:25:34.796Z",
+      "keep": [],
+      "reason": "Two different stock-market stories, each appearing only from one outlet (CBS on a Nasdaq slump, NY Post on oil and a US-Iran peace deal), so no single development is reported by multiple outlets; no pick_chart measures stock prices.",
       "chart": ""
     }
   },
