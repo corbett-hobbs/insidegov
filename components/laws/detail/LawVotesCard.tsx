@@ -171,8 +171,7 @@ export function LawVotesCard({ chambers, congressLabel, unrecorded = [] }: { cha
           {chambers.length === 1 &&
             unrecorded.map((u) => (
               <Fragment key={u.chamber}>
-                <br />
-                {`The ${u.chamber} ${u.method === "Unanimous consent" ? "passed it by unanimous consent" : u.method === "Voice vote" ? "passed it by voice vote" : u.method === "Recorded vote" ? "held a recorded vote that is not matched yet" : "vote method is not stated"}, so it has no member list.`}
+                <span className="mt-2 block">{`The ${u.chamber} ${u.method === "Unanimous consent" ? "passed it by unanimous consent" : u.method === "Voice vote" ? "passed it by voice vote" : u.method === "Recorded vote" ? "held a recorded vote that is not matched yet" : "vote method is not stated"}, so it has no member list.`}</span>
               </Fragment>
             ))}
         </>
