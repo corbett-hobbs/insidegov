@@ -1,67 +1,5 @@
 {
   "checks": {
-    "69a6ce7e0132a6cc9f83": {
-      "at": "2026-10-30T23:37:54.874Z",
-      "keep": [
-        "https://www.theguardian.com/us-news/2026/oct/30/texas-ice-agent-suv-charged",
-        "https://www.theguardian.com/us-news/2026/oct/30/texas-ice-agent-suv-charged",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
-        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
-        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Five outlets report the same Texas grand jury indictment of an ICE agent for ramming a man with an SUV; no chart measures prosecutions of agents, so no chart link.",
-      "chart": ""
-    },
-    "f3f431c216fcf05a770b": {
-      "at": "2026-10-30T23:37:54.874Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Headlines 1-5 all report the same Oct 29 release of third-quarter GDP and the September Fed-preferred PCE inflation gauge; inflation is central to each, though the chart measures CPI rather than PCE.",
-      "chart": ""
-    },
-    "641ddf36912d314135db": {
-      "at": "2026-10-30T23:37:54.874Z",
-      "keep": [
-        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
-        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-      ],
-      "reason": "The Hill and NYT both report the official BEA figure that U.S. GDP grew 3.4% in Q3; South Africa and federal debt headlines are different stories.",
-      "chart": ""
-    },
-    "ba0732d2f57fa9a09999": {
-      "at": "2026-10-31T05:22:24.335Z",
-      "keep": [
-        "https://www.theguardian.com/us-news/2026/oct/30/texas-ice-agent-suv-charged",
-        "https://www.theguardian.com/us-news/2026/oct/30/texas-ice-agent-suv-charged",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.axios.com/2026/10/30/ice-agent-indicted-mario-morales-houston",
-        "https://www.cbsnews.com/news/ice-officer-indicted-felony-texas-hit-man-vehicle/",
-        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
-        "https://www.nytimes.com/2026/10/30/us/houston-ice-agent-charged-ramming.html",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/ckjwep125v3eo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Nine headlines from five outlets report the same development: a Texas grand jury indicting an ICE agent over an SUV ramming incident. Headline 6 (detainee miscarriage data demand) is a different story and is excluded.",
-      "chart": ""
-    },
-    "90997d1a254bedf9160b": {
-      "at": "2026-10-31T05:22:24.335Z",
-      "keep": [
-        "https://www.nytimes.com/2026/10/30/us/politics/children-asylum-fast-track-deport.html",
-        "https://www.nytimes.com/2026/10/30/us/politics/children-asylum-fast-track-deport.html"
-      ],
-      "reason": "A federal judge's ruling blocking expedited asylum cases for migrant children is a court action on asylum policy; the NY Post headlines cover a media segment instead.",
-      "chart": ""
-    },
     "b86543f6abeefcf0e40b": {
       "at": "2026-10-31T12:11:12.279Z",
       "keep": [
@@ -246,6 +184,18 @@
       "at": "2026-11-01T23:30:32.399Z",
       "keep": [],
       "reason": "Only two headlines and they cover different items: a BBC local feature about one town, and a Bloomberg report that Trump says a deal is close, which is not a completed agreement and has no other outlet matching it.",
+      "chart": ""
+    },
+    "9dfa461ba66860c2f8a6": {
+      "at": "2026-11-02T05:49:05.606Z",
+      "keep": [],
+      "reason": "The only development covered by several outlets is OPEC+ keeping output steady, which is foreign news with no U.S. policy angle; the Exxon/Chevron earnings story is company news from one outlet, and no chart directly measures OPEC output.",
+      "chart": ""
+    },
+    "94fa0fd4276b523b0a81": {
+      "at": "2026-11-02T05:49:05.606Z",
+      "keep": [],
+      "reason": "No shared development: headline 1 is a local business anecdote, 2 is opinion on GOP politics, and 3 is a Democratic strategy plan rather than a government action on tariffs.",
       "chart": ""
     }
   },
