@@ -87,6 +87,12 @@ describe("pickNext", () => {
     expect(d.post?.key).toBe("sep");
   });
 
+  it("drops a routine reading when a notable draft covers the same series and period", () => {
+    const d = pickNext([item({ key: "routine", seriesId: "s.x", kind: "latest", score: 2 }), item({ key: "notable", seriesId: "s.x", kind: "extreme_high", score: 5 })], [], now, "morning");
+    expect(d.superseded.map((q) => q.key)).toEqual(["routine"]);
+    expect(d.post?.key).toBe("notable");
+  });
+
   it("holds posts not yet released", () => {
     expect(pickNext([item({ key: "a", releasedOn: "2026-10-22" })], [], now, "morning").post).toBeNull();
   });

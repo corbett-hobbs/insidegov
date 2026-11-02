@@ -44,6 +44,18 @@ if (!dryRun) {
   existing = JSON.parse(gh(["issue", "list", "--label", DRAFT_LABEL, "--state", "all", "--limit", "500", "--json", "title"])).map((i: { title: string }) => i.title);
 }
 
+// A notable draft replaces the routine `latest` one for the same series and period (the month was read again once its
+// data filled in): close that one if it is still waiting for review. An approved one is left to the scheduler.
+function retireLatest(d: Draft) {
+  const id = `${d.series_id}:latest:${d.period}`;
+  const open = JSON.parse(gh(["issue", "list", "--label", DRAFT_LABEL, "--state", "open", "--limit", "500", "--json", "number,title,labels"])) as { number: number; title: string; labels: { name: string }[] }[];
+  for (const i of open) {
+    if (!i.title.endsWith(`[${id}]`) || i.labels.some((l) => l.name === APPROVED_LABEL)) continue;
+    gh(["issue", "close", String(i.number), "--comment", `Superseded: the same period now has a notable draft (${d.id}), so the routine reading is not posted.`]);
+    console.log(`  closed   #${i.number} ${id}`);
+  }
+}
+
 let opened = 0;
 const summary: string[] = [];
 for (const d of drafts) {
@@ -62,6 +74,7 @@ for (const d of drafts) {
     // Assigned so GitHub emails the owner; a bot-opened issue notifies nobody otherwise.
     const url = gh(["issue", "create", "--title", title, "--label", labels, "--assignee", "corbett-hobbs", "--body-file", bodyFile]);
     console.log(`  opened   ${url}`);
+    if (d.kind !== "latest") retireLatest(d);
     const by = d.news ? ` (in the news: ${d.news.headlines[0]?.title ?? d.news.key}; approve by ${slotLabel(d.news.expiresAt)})` : d.release ? ` (queue by ${d.release.expiresOn})` : "";
     summary.push(`- ${d.headline}${by}\n  ${url}`);
   }

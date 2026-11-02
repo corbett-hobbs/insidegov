@@ -205,6 +205,12 @@ export type Insight = {
   bigger?: Breakdown;
   /** A news chart's second line (the inflation rate beside the Fed's): its series id, for the explainer slide. */
   alsoSeriesId?: string;
+  /**
+   * Set when the year-earlier reading was itself a record for its series on the opposite side (detect.ts
+   * outlierBaseline): most of the year-over-year jump is that earlier reading's doing. A sentence for the research
+   * (research.ts), which is asked to explain it.
+   */
+  outlierBaseline?: string;
   /** Why the number moved, from named sources (research.ts, or why.ts by hand), for the caption and the carousel. */
   why?: Why;
   /** Higher is more notable; used to rank and pick drafts. */

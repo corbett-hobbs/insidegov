@@ -148,7 +148,11 @@ export function detectExtremes(series: Series): Insight[] {
       tail = `the ${w}${forMonth} in data going back to ${first.text}`;
     }
     const headline = `${capitalize(series.name)}: ${tail.replace(/ \(.*\)$/, "")}`;
-    const template = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}, ${tail}.`;
+    // A year-earlier reading that was itself a record on the other side is part of the story: its facts ride along.
+    const yearAgo = yearEarlier(series, latest);
+    const baseline = yearAgo ? outlierBaseline(series, yearAgo, latest) : null;
+    if (yearAgo && baseline) facts.push(...yearAgoFacts(series, yearAgo, latest, style));
+    const template = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}, ${tail}.${baseline ? ` A year earlier it was ${facts.find((f) => f.id === "year_ago_value")!.text}, itself ${baseline.phrase}.` : ""}`;
     const chart: ChartSpec = usesBars(series)
       ? periodBars(series, latest, prior ? addMonths(prior.date, -24) : pool[0]!.date, style)
       : {
@@ -178,6 +182,7 @@ export function detectExtremes(series: Series): Insight[] {
       url: series.url,
       source: series.source,
       note: series.note,
+      ...(baseline ? { outlierBaseline: baseline.note } : {}),
       score: (Math.min(years, 30) + (prior ? 0 : 5)) * series.weight * (!prior && isStreak(pool, dir) ? 0.3 : 1),
       alt: `${usesBars(series) ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) ending ${latestDate.text}, when it was ${latestFact.text}: ${tail}.`,
     });
@@ -550,6 +555,29 @@ export function yearEarlier(series: Series, p: Point): Point | undefined {
 }
 
 /**
+ * A year-over-year comparison whose baseline was itself an outlier: the year-earlier reading was a record for its series
+ * (the most or fewest in at least MIN_YEARS, or ever, as detectExtremes saw it when it was new), on the opposite side
+ * from where the latest reading stands. Most of the jump is then the baseline's doing (a shutdown month with no laws),
+ * so the post says so and the research explains that earlier reading. Null when there is no such baseline.
+ */
+export function outlierBaseline(series: Series, yearAgo: Point, latest: Point): { phrase: string; note: string } | null {
+  const towards = latest.value > yearAgo.value ? "low" : latest.value < yearAgo.value ? "high" : null;
+  if (!towards) return null;
+  const record = detectExtremes(truncate(series, yearAgo.date)).find((i) => i.kind === `extreme_${towards}`);
+  if (!record) return null;
+  const since = record.facts.find((f) => f.id === "prior_date")?.text;
+  const phrase = `the ${words(series)[towards]}${series.seasonal ? ` for any ${monthName(yearAgo.date)}` : ""} ${since ? `since ${since}` : "on record"}`;
+  const style = dateStyleFor(series.frequency);
+  return { phrase, note: `${dateFact("d", yearAgo.date, style).text} (${unitFact("v", yearAgo.value, series.unit, yearAgo.cells).text}) was itself ${phrase}` };
+}
+
+/** The change on a year earlier, with the year-earlier value and date. */
+function yearAgoFacts(series: Series, yearAgo: Point, latest: Point, style: DateStyle): Fact[] {
+  const change = series.moveMode === "pct" && yearAgo.value > 0 ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.unit);
+  return [change, unitFact("year_ago_value", yearAgo.value, series.unit, yearAgo.cells), dateFact("year_ago_date", yearAgo.date, style)];
+}
+
+/**
  * The routine reading for a dataset's headline series: the newest value, its change on the period (not for seasonal
  * series) and on the year. Scored below anything notable, so it posts only when a refresh brought nothing else.
  */
@@ -574,12 +602,12 @@ export function detectLatest(series: Series): Insight[] {
     parts.push(`${dirText(change)} from ${series.frequency === "weekly" ? "the week of " : ""}${prevDate.text}`);
   }
   if (yearAgo) {
-    const change = pctOk(yearAgo) ? pctFact("change_year", yearAgo, latest) : changeFact("change_year", yearAgo, latest, series.unit);
-    const yaValue = unitFact("year_ago_value", yearAgo.value, series.unit, yearAgo.cells);
-    facts.push(change, yaValue, dateFact("year_ago_date", yearAgo.date, style));
-    parts.push(`${dirText(change)} from a year earlier (${yaValue.text})`);
+    const [change, yaValue, yaDate] = yearAgoFacts(series, yearAgo, latest, style);
+    facts.push(change!, yaValue!, yaDate!);
+    parts.push(`${dirText(change!)} from a year earlier (${yaValue!.text})`);
   }
   if (parts.length === 0) return [];
+  const baseline = yearAgo ? outlierBaseline(series, yearAgo, latest) : null;
   const template = `${capitalize(series.name)} stood at ${latestFact.text} ${when(series, latestDate.text)}, ${parts.join(" and ")}.`;
   const from = addMonths(latest.date, series.frequency === "weekly" ? -12 : series.frequency === "fiscal_year" ? -12 * 12 : -36);
   const chart: ChartSpec = usesBars(series)
@@ -612,6 +640,7 @@ export function detectLatest(series: Series): Insight[] {
       url: series.url,
       source: series.source,
       note: series.note,
+      ...(baseline ? { outlierBaseline: baseline.note } : {}),
       score: 2 * series.weight,
       alt: `${usesBars(series) ? "Bar" : "Line"} chart of ${series.name} (${series.axisLabel}) through ${latestDate.text}. ${template}`,
     },

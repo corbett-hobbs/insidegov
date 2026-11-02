@@ -106,6 +106,22 @@ describe("detectExtremes", () => {
     const jump = monthly([...flat(99), 150]).series;
     expect(detectExtremes(growing)[0]!.score).toBeLessThan(detectExtremes(jump)[0]!.score);
   });
+
+  it("flags a year-earlier reading that was itself a record on the other side, and carries its facts", () => {
+    // 70 ordinary months, a month at zero (a record low), 11 ordinary ones, then a new high exactly a year after the zero.
+    const { series } = monthly([...flat(70), 0, ...flat(11), 150]);
+    const [ins] = detectExtremes(series);
+    expect(ins?.kind).toBe("extreme_high");
+    expect(ins?.outlierBaseline).toContain("was itself the lowest on record");
+    expect(ins?.facts.map((f) => f.id)).toEqual(expect.arrayContaining(["year_ago_value", "year_ago_date", "change_year"]));
+    expect(ins?.template).toContain("itself the lowest on record");
+  });
+
+  it("does not flag an ordinary year-earlier reading", () => {
+    const { series } = monthly([...flat(82), 150]);
+    expect(detectExtremes(series)[0]!.outlierBaseline).toBeUndefined();
+    expect(detectLatest(series)[0]?.outlierBaseline).toBeUndefined();
+  });
 });
 
 describe("detectMoves", () => {
