@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { ScatterPlot } from "@/components/charts/ScatterPlot";
@@ -165,7 +165,18 @@ export function LawVotesCard({ chambers, congressLabel, unrecorded = [] }: { cha
   return (
     <ChartCard
       title="Who voted for it"
-      lede={`Every ${view.chamber === "House" ? "House member" : "senator"} of the ${congressLabel} Congress on the ideology compass. Highlighted: the ${shown.length} ${SHOW_PHRASE[show]} on final passage. Faded: everyone else${show === "yea" ? ", including those who voted nay, did not vote, or had not yet taken office" : show === "nay" ? ", including those who voted yea, did not vote, or had not yet taken office" : ", including those who voted yea or nay or had not yet taken office"}.${chambers.length === 1 ? unrecorded.map((u) => ` The ${u.chamber} ${u.method === "Unanimous consent" ? "passed it by unanimous consent" : u.method === "Voice vote" ? "passed it by voice vote" : u.method === "Recorded vote" ? "held a recorded vote that is not matched yet" : "vote method is not stated"}, so it has no member list.`).join("") : ""}`}
+      lede={
+        <>
+          {`Every ${view.chamber === "House" ? "House member" : "senator"} of the ${congressLabel} Congress on the ideology compass. Highlighted: the ${shown.length} ${SHOW_PHRASE[show]} on final passage. Faded: everyone else${show === "yea" ? ", including those who voted nay, did not vote, or had not yet taken office" : show === "nay" ? ", including those who voted yea, did not vote, or had not yet taken office" : ", including those who voted yea or nay or had not yet taken office"}.`}
+          {chambers.length === 1 &&
+            unrecorded.map((u) => (
+              <Fragment key={u.chamber}>
+                <br />
+                {`The ${u.chamber} ${u.method === "Unanimous consent" ? "passed it by unanimous consent" : u.method === "Voice vote" ? "passed it by voice vote" : u.method === "Recorded vote" ? "held a recorded vote that is not matched yet" : "vote method is not stated"}, so it has no member list.`}
+              </Fragment>
+            ))}
+        </>
+      }
       action={
         chambers.length > 1 ? (
           <PillGroup ariaLabel="Chamber" value={which} onChange={setWhich} options={chambers.map((c) => ({ value: c.chamber, label: c.chamber }))} />
