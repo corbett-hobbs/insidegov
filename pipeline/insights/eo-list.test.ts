@@ -32,7 +32,10 @@ describe("executive order list", () => {
     expect(insightOrders({ seriesId: "gas.regular", period: "2026-10-01" })).toEqual([]);
     // The quarterly term comparison is about the term, not the month: no list.
     expect(insightOrders({ seriesId: "executive_orders", period: "2026-09-30" })).toEqual([]);
-    expect(insightOrders({ seriesId: "executive_orders.monthly", period: "2026-10-01" }).map((o) => o.number)).toEqual([14437, 14436, 14435]);
+    // The month's orders as the file has them (the data keeps growing, so compare with the file, not a fixed list).
+    const october = insightOrders({ seriesId: "executive_orders.monthly", period: "2026-10-01" });
+    expect(october.map((o) => o.number)).toEqual(expect.arrayContaining([14437, 14436, 14435]));
+    expect(october.every((o) => o.date.startsWith("2026-10"))).toBe(true);
     const orders = insightOrders({ seriesId: "executive_orders.monthly", period: "2026-09-01" });
     expect(orders.length).toBeGreaterThan(3);
     expect(orders.every((o) => o.date.startsWith("2026-09"))).toBe(true);
@@ -64,9 +67,9 @@ describe("executive order list", () => {
     const slides = slidePlan(insight!, insightOrders(insight!));
     expect(slides.map((s) => s.kind).slice(-2)).toEqual(["orders", "end"]);
     const listed = slides.find((s) => s.kind === "orders")!;
-    // October's three all fit; September's eleven do not, so its slide says where to see the rest.
-    expect(listed.orders).toHaveLength(3);
-    expect(listed.more).toBe(false);
+    // The slide says where to see the rest exactly when some of the month's orders were left out.
+    expect(listed.more).toBe(listed.orders!.length < insightOrders(insight!).length);
+    // September's eleven do not all fit.
     const sept = { ...insight!, period: "2026-09-01" };
     const crowded = slidePlan(sept, insightOrders(sept)).find((s) => s.kind === "orders")!;
     expect(crowded.orders!.length).toBeLessThan(insightOrders(sept).length);
