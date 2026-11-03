@@ -497,10 +497,10 @@
   {
     "bioguide_id": "B001325",
     "title": "Sheri Biggs",
-    "extract": "Sheryl Lynn Biggs is an American politician from South Carolina. A Republican, she represents South Carolina's 3rd congressional district in the United States House of Representatives.",
+    "extract": "Sheryl Scott Biggs is an American politician from South Carolina. A Republican, she represents South Carolina's 3rd congressional district in the United States House of Representatives.",
     "url": "https://en.wikipedia.org/wiki/Sheri_Biggs",
-    "revision": "1364202261",
-    "fetched_at": "2026-09-29",
+    "revision": "1383337304",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
@@ -569,10 +569,10 @@
   {
     "bioguide_id": "C001035",
     "title": "Susan Collins",
-    "extract": "Susan Margaret Collins is an American politician serving as the senior United States senator for Maine since 1997. A member of the Republican Party, she is Maine's longest-serving member of Congress and the longest-serving Republican woman in the Senate.",
+    "extract": "Susan Margaret Collins is an American politician serving as the senior United States senator for Maine, a seat she has held since 1997. A member of the Republican Party, she is Maine's longest-serving member of Congress and the longest-serving Republican woman in the Senate.",
     "url": "https://en.wikipedia.org/wiki/Susan_Collins",
-    "revision": "1377455347",
-    "fetched_at": "2026-09-29",
+    "revision": "1383397043",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
@@ -1622,10 +1622,10 @@
   {
     "bioguide_id": "G000583",
     "title": "Josh Gottheimer",
-    "extract": "Joshua S. Gottheimer is an American politician, attorney, writer, and public policy adviser serving as the U.S. representative for New Jersey's 5th congressional district since 2017.",
+    "extract": "Joshua S. Gottheimer is an American politician serving as the U.S. representative for New Jersey's 5th congressional district since 2017.",
     "url": "https://en.wikipedia.org/wiki/Josh_Gottheimer",
-    "revision": "1377270773",
-    "fetched_at": "2026-09-29",
+    "revision": "1383112790",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
@@ -2306,10 +2306,10 @@
   {
     "bioguide_id": "K000383",
     "title": "Angus King",
-    "extract": "Angus Stanley King Jr. is an American lawyer and politician who has served since 2013 as the junior United States senator from Maine. A political independent who caucuses with the Democratic Party, he served from 1995 to 2003 as the 72nd governor of Maine.",
+    "extract": "Angus Stanley King Jr. is an American lawyer and politician serving as the junior United States senator from Maine, a seat he has held since 2013. A political independent who caucuses with the Democratic Party, he served from 1995 to 2003 as the 72nd governor of Maine.",
     "url": "https://en.wikipedia.org/wiki/Angus_King",
-    "revision": "1375018276",
-    "fetched_at": "2026-09-29",
+    "revision": "1383173693",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
@@ -2918,10 +2918,10 @@
   {
     "bioguide_id": "M001198",
     "title": "Roger Marshall",
-    "extract": "Roger Wayne Marshall is an American politician, physician, and former military officer serving as the junior United States senator from Kansas since 2021. A member of the Republican Party, he was the U.S. representative for Kansas's 1st congressional district from 2017 until 2021.",
+    "extract": "Roger Wayne Marshall is an American politician and physician serving as the junior United States senator from Kansas since 2021. A member of the Republican Party, he was the U.S. representative for Kansas's 1st congressional district from 2017 until 2021.",
     "url": "https://en.wikipedia.org/wiki/Roger_Marshall",
-    "revision": "1380948336",
-    "fetched_at": "2026-10-19",
+    "revision": "1383354134",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
@@ -3764,19 +3764,19 @@
   {
     "bioguide_id": "R000617",
     "title": "Delia Ramirez",
-    "extract": "Delia Catalina Ramirez is a Guatemalan-American serving as the U.S. representative for Illinois's 3rd congressional district since 2023. She is a member of the Democratic Party.",
+    "extract": "Delia Catalina Ramirez is an American politician serving as the U.S. representative for Illinois's 3rd congressional district since 2023. She is a member of the Democratic Party.",
     "url": "https://en.wikipedia.org/wiki/Delia_Ramirez",
-    "revision": "1379454293",
-    "fetched_at": "2026-10-12",
+    "revision": "1383324236",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
     "bioguide_id": "R000618",
     "title": "Pete Ricketts",
-    "extract": "John Peter Ricketts is an American businessman and politician serving as the junior United States senator from Nebraska since 2023. A member of the Republican Party, he served as the 40th governor of Nebraska from 2015 to 2023.",
+    "extract": "John Peter Ricketts is an American businessman and politician serving as the junior United States senator from Nebraska since 2023.",
     "url": "https://en.wikipedia.org/wiki/Pete_Ricketts",
-    "revision": "1377517309",
-    "fetched_at": "2026-09-29",
+    "revision": "1383427346",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {
@@ -4151,10 +4151,10 @@
   {
     "bioguide_id": "S001215",
     "title": "Haley Stevens",
-    "extract": "Haley Maria Stevens is an American politician serving as the U.S. representative from Michigan's 11th congressional district since 2019. A member of the Democratic Party, Stevens represents most of urbanized Oakland County, including many of Detroit's northern suburbs.",
+    "extract": "Haley Maria Stevens is an American politician serving as the U.S. representative from Michigan's 11th congressional district since 2019. Elected as a member of the Democratic Party, Stevens represents most of urbanized Oakland County, including many of Detroit's northern suburbs.",
     "url": "https://en.wikipedia.org/wiki/Haley_Stevens",
-    "revision": "1377065685",
-    "fetched_at": "2026-09-29",
+    "revision": "1383443390",
+    "fetched_at": "2026-11-02",
     "needs_review": false
   },
   {

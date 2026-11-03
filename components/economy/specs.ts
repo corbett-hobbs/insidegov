@@ -171,7 +171,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     key: "debt",
     title: "Federal debt",
     takeaway:
-      "Total debt fell to 54% of GDP in 2001, then more than doubled to a peak of 133% in mid-2020. It eased to 116% in early 2023 and was back at 123% by early 2026.",
+      "Total debt fell to 54% of GDP in 2001, then more than doubled to a peak of 133% in mid-2020. It eased to 115% in early 2023 and was back at 122% by early 2026.",
     kind: "debt",
     label1: "Total",
     label2: "Held by the public",
