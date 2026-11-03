@@ -1,6 +1,35 @@
 {
-  "asOf": "2026-11-02",
+  "asOf": "2026-11-03",
   "stories": [
+    {
+      "id": "gasoline-2026-11-03",
+      "date": "2026-11-03",
+      "topic": "Gas prices",
+      "chartId": "chart-gas",
+      "headlines": [
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Gas prices reach record high for an Election Day",
+          "url": "https://thehill.com/homenews/campaign/6193013-election-day-record-gas-prices/"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "US Gas Prices Rise Above $4 for the First Time on Election Day",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-03/us-voters-hit-the-polls-with-gas-above-4-for-first-time"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Gas prices in Trump’s second term hit record high for any presidency",
+          "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/"
+        }
+      ]
+    },
     {
       "id": "markets-2026-10-30",
       "date": "2026-10-30",
@@ -121,28 +150,6 @@
           "lean": "Lean Right",
           "title": "Federal Reserve expected to hold interest rates steady in last decision before midterm elections",
           "url": "https://www.foxbusiness.com/economy/federal-reserve-expected-hold-interest-rates-steady-midterm-elections-week-away"
-        }
-      ]
-    },
-    {
-      "id": "diesel-2026-10-23",
-      "date": "2026-10-23",
-      "topic": "Diesel prices",
-      "chartId": "chart-diesel",
-      "headlines": [
-        {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Russian diesel tanker heads to the U.S., the first since Trump’s deal with Putin",
-          "url": "https://www.nbcnews.com/business/energy/russian-diesel-tanker-heads-us-trump-deal-putin-ukraine-war-rcna605187"
-        },
-        {
-          "outletId": "foxbusiness",
-          "outlet": "Fox Business",
-          "lean": "Lean Right",
-          "title": "First Russian diesel tanker heads to New York after Trump's deal with Putin to lower fuel prices",
-          "url": "https://www.foxbusiness.com/politics/first-russian-diesel-tanker-heads-new-york-after-trumps-deal-putin-lower-fuel-prices"
         }
       ]
     }
