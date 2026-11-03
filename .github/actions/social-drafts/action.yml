@@ -95,6 +95,9 @@ runs:
           pnpm exec tsx pipeline/insights/news/watch.ts --github "${nodispatch[@]}" --state "$state" --out "$RUNNER_TEMP/social-drafts"
           exit 0
         fi
+        # The news watcher's record of which laws the headlines named, so a monthly laws post lists the most-covered first (news/law-news.ts).
+        lawnews="$RUNNER_TEMP/news-state.json"
+        if git fetch -q --depth 1 origin social-drafts 2>/dev/null && git show FETCH_HEAD:news/state.json > "$lawnews" 2>/dev/null; then export LAW_NEWS_STATE="$lawnews"; fi
         if [ -n "$SINCE" ]; then since=(--since "$SINCE"); else since=(--since-ref "$SINCE_REF"); fi
         extra=()
         if [ -n "$MAX" ]; then extra+=(--max "$MAX"); fi

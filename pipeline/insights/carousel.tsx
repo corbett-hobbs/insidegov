@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
-import { SLIDE_ORDERS, type ListedOrder, fitOrders, insightOrders, moreNote, orderDate, ordersHeading } from "./eo-list";
+import { SLIDE_ORDERS, type ListedOrder, fitOrders, insightOrders, listFootnote, listKind, moreNote, orderDate, ordersHeading } from "./eo-list";
 import { explainer, hasLag } from "./explain";
 import { monthName } from "./format";
 import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
@@ -331,10 +331,11 @@ function momentsSlide(insight: Insight, moments: Moment[], n: number, total: num
 /** The month's executive orders: as many rows as fit (eo-list.ts fitOrders), each a date and topic line, the title and its summary; `more` when some were left out. */
 function ordersSlide(insight: Insight, orders: ListedOrder[], more: boolean, n: number, total: number): ReactNode {
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
+  const kind = listKind(insight) ?? "orders";
   return (
     <Slide>
       <Header {...headerOf(insight, `Signed in ${monthName(insight.period)}`)} />
-      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 34, lineHeight: 1.1, letterSpacing: -0.6, marginTop: 30, marginBottom: 22 }}>{ordersHeading(insight.period)}</div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 34, lineHeight: 1.1, letterSpacing: -0.6, marginTop: 30, marginBottom: 22 }}>{ordersHeading(insight.period, kind)}</div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {orders.map((o, i) => (
           <div key={i} style={{ display: "flex", flexDirection: "column", marginBottom: SLIDE_ORDERS.gap, paddingLeft: 18, borderLeft: `3px solid ${i === 0 ? ACCENT : NEUTRAL}` }}>
@@ -344,9 +345,9 @@ function ordersSlide(insight: Insight, orders: ListedOrder[], more: boolean, n: 
           </div>
         ))}
       </div>
-      {more ? <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 136, display: "flex", fontFamily: "Newsreader", fontSize: 19, lineHeight: 1.3, color: INK }}>{moreNote(insight.period, path)}</div> : null}
+      {more ? <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 136, display: "flex", fontFamily: "Newsreader", fontSize: 19, lineHeight: 1.3, color: INK }}>{moreNote(insight.period, path, kind)}</div> : null}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 84, display: "flex", fontSize: 14, lineHeight: 1.4, color: MUTED }}>
-        {"Newest first, by signing date. Summaries are AI-written from each order's text in the Federal Register."}
+        {listFootnote(orders, kind)}
       </div>
       <Footer n={n} total={total} />
     </Slide>

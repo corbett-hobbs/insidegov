@@ -1,6 +1,6 @@
 import { MAX_GRAPHEMES, graphemes } from "./bluesky";
 import { BANNED_WORDS, numberTokens } from "./caption";
-import { CARD_ORDERS, fitOrders, insightOrders, ordersAlt, ordersHeading } from "./eo-list";
+import { CARD_ORDERS, fitOrders, insightOrders, listKind, orderingNote, ordersAlt, ordersHeading } from "./eo-list";
 import { explainer, explainerShort, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
@@ -181,7 +181,8 @@ export function breakdownCardCount(insight: Insight): number {
 function ordersReplies(insight: Insight): Reply[] {
   const orders = fitOrders(insightOrders(insight), CARD_ORDERS);
   if (!orders.length) return [];
-  return [{ text: `${ordersHeading(insight.period)}, newest first, with the date each was signed, its topic and a short summary.`, chart: breakdownCardCount(insight), alt: ordersAlt(orders, insight.period) }];
+  const kind = listKind(insight) ?? "orders";
+  return [{ text: `${ordersHeading(insight.period, kind)}. ${orderingNote(orders, kind)}, with the date each was signed, its topic and a short summary.`, chart: breakdownCardCount(insight), alt: ordersAlt(orders, insight.period, kind) }];
 }
 
 function explainerReplies(insight: Insight): Reply[] {

@@ -18,6 +18,21 @@ export const WHY: Record<string, Why> = {
       { name: "EIA Short-Term Energy Outlook, September 2026", url: "https://www.eia.gov/pressroom/releases/press592.php" },
     ],
   },
+  // The researched answer for the October 2026 laws post, kept word for word when the draft is regenerated.
+  "laws.monthly:latest:2026-10-01": {
+    title: "Why it rose from zero",
+    captionLine: "NPR and CBS News tie the October 2025 figure to a shutdown and a House that stayed out.",
+    paragraphs: [
+      "Last October no public laws were enacted. That month fell during a government shutdown, when the House had not voted in weeks and funding bills did not clear the Senate.",
+      "This October, the President signed a series of bills, mostly narrow ones such as land transfers, park designations and agency reporting requirements.",
+    ],
+    sources: [
+      { name: "NPR, shutdown talks in Congress, October 17, 2025", url: "https://www.npr.org/2025/10/17/nx-s1-5577136/government-shutdown-congress-trump" },
+      { name: "CBS News, Senate votes fail again as shutdown drags on, October 2025", url: "https://www.cbsnews.com/live-updates/government-shutdown-latest-senate-votes-day-8/" },
+      { name: "White House, bills signed into law October 20, 2026", url: "https://www.whitehouse.gov/briefings-statements/2026/10/congressional-bills-h-r-227-h-r-837-h-r-1721-h-r-2388-h-r-2481-h-r-3620-h-r-4307-h-r-4467-h-r-6380-and-h-r-7831-signed-into-law/" },
+      { name: "White House, bills signed into law October 22, 2026", url: "https://www.whitehouse.gov/briefings-statements/2026/10/congressional-bills-h-r-952-and-h-r-7022-signed-into-law/" },
+    ],
+  },
 };
 
 export function withWhy(insight: Insight): Insight {

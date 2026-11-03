@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, HEIGHT, INK, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, kickerFor, sealSrc, serifFont } from "./chart";
-import { CARD_ORDERS, type ListedOrder, fitOrders, insightOrders, moreNote, orderDate, ordersHeading } from "./eo-list";
+import { CARD_ORDERS, type ListedOrder, fitOrders, insightOrders, listFootnote, listKind, moreNote, orderDate, ordersHeading } from "./eo-list";
 import { monthName } from "./format";
 import { breakdownsOf, rowValue } from "./research";
 import type { Breakdown, Insight } from "./types";
@@ -88,6 +88,7 @@ function Card({ insight, b, blocks, backdrop }: { insight: Insight; b: Breakdown
 /** The newest executive orders, newest first: the date and topic in a column, then the title and its summary. */
 function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; orders: ListedOrder[]; more: boolean; backdrop: string }): ReactNode {
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
+  const kind = listKind(insight) ?? "orders";
   return (
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `28px ${PAD}px 0 ${PAD}px` }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
@@ -98,7 +99,7 @@ function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; ord
         <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 32, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
         {`Signed in ${monthName(insight.period)}`}
       </div>
-      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, marginBottom: 22 }}>{ordersHeading(insight.period)}</div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, marginBottom: 22 }}>{ordersHeading(insight.period, kind)}</div>
       {orders.map((o, i) => (
         <div key={i} style={{ display: "flex", marginBottom: CARD_ORDERS.gap }}>
           <div style={{ display: "flex", flexDirection: "column", width: 200, flexShrink: 0, paddingRight: 16, borderRight: `3px solid ${i === 0 ? ACCENT : NEUTRAL}`, marginRight: 24 }}>
@@ -111,8 +112,8 @@ function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; ord
           </div>
         </div>
       ))}
-      {more ? <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 98, display: "flex", fontFamily: "Newsreader", fontSize: 22, color: INK }}>{moreNote(insight.period, path)}</div> : null}
-      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 62, display: "flex", fontSize: 16, lineHeight: 1.35, color: MUTED }}>{"Newest first, by signing date. Summaries are AI-written from each order's text in the Federal Register."}</div>
+      {more ? <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 98, display: "flex", fontFamily: "Newsreader", fontSize: 22, color: INK }}>{moreNote(insight.period, path, kind)}</div> : null}
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 62, display: "flex", fontSize: 16, lineHeight: 1.35, color: MUTED }}>{listFootnote(orders, kind)}</div>
       <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 32, display: "flex", justifyContent: "flex-end", fontSize: 18, color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
     </div>
   );

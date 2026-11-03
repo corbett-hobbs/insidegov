@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { EO_TOPIC_LABELS, type EoTopic } from "../../lib/executive-orders-entities";
 import { monthName } from "./format";
+import { monthLaws } from "./laws-list";
 import type { Insight } from "./types";
 
 /**
@@ -15,7 +16,8 @@ import type { Insight } from "./types";
 
 const FILE = "pipeline/output/executive_orders.json";
 
-export type ListedOrder = { number: number; title: string; date: string; topic: string; summary: string | null };
+/** `id` and `score` are a law's (laws-list.ts): its law id, and how widely the news covered it (0 = no coverage on record). */
+export type ListedOrder = { id?: string; score?: number; number: number; title: string; date: string; topic: string; summary: string | null };
 
 type Row = { eo_number: number; title: string; signing_date: string; topic?: string; summary?: string | null };
 
@@ -45,27 +47,47 @@ export function ordersInMonth(all: ListedOrder[], date: string, limit: number): 
   return all.filter((o) => o.date.startsWith(month)).slice(0, limit);
 }
 
-/** The monthly executive-order series' id: the monthly post is the one that lists the month's orders (a term comparison does not). */
-const MONTHLY = "executive_orders.monthly";
+/** The monthly series that list the month's items (a term comparison lists none): executive orders, and laws (laws-list.ts). */
+export type ListKind = "orders" | "laws";
+const MONTHLY: Record<string, ListKind> = { "executive_orders.monthly": "orders", "laws.monthly": "laws" };
+const NOUN: Record<ListKind, string> = { orders: "executive orders", laws: "laws" };
 
-/** The orders a monthly executive-order insight lists (none for any other insight): every one signed in its period's month. */
+/** Which list a post carries: its month's executive orders or laws, null for any other insight. */
+export function listKind(insight: Pick<Insight, "seriesId">): ListKind | null {
+  return MONTHLY[insight.seriesId] ?? null;
+}
+
+/** The orders or laws a monthly insight lists (none for any other insight): every one signed in its period's month. Laws come most-covered-by-the-news first, then newest. */
 export function insightOrders(insight: Pick<Insight, "seriesId" | "period">, limit = 200): ListedOrder[] {
-  if (insight.seriesId !== MONTHLY) return [];
+  const kind = listKind(insight);
+  if (!kind) return [];
   try {
-    return ordersInMonth(readOrders(), insight.period, limit);
+    return kind === "laws" ? monthLaws(insight.period, limit) : ordersInMonth(readOrders(), insight.period, limit);
   } catch {
     return [];
   }
 }
 
-/** The slide's and card's title: "Executive orders signed in October". */
-export function ordersHeading(period: string): string {
-  return `Executive orders signed in ${monthName(period)}`;
+/** The slide's and card's title: "Executive orders signed in October", "Laws signed in October". */
+export function ordersHeading(period: string, kind: ListKind = "orders"): string {
+  return `${kind === "laws" ? "Laws" : "Executive orders"} signed in ${monthName(period)}`;
 }
 
-/** Said when the month has more orders than fit: where to see them all. */
-export function moreNote(period: string, path: string): string {
-  return `To see all of ${monthName(period)}'s executive orders, visit ${path}.`;
+/** Said when the month has more than fit: where to see them all. */
+export function moreNote(period: string, path: string, kind: ListKind = "orders"): string {
+  return `To see all of ${monthName(period)}'s ${NOUN[kind]}, visit ${path}.`;
+}
+
+/** How the rows are ordered, as the slide and reply say it: laws the news covered come first, only when some row was. */
+export function orderingNote(orders: readonly ListedOrder[], kind: ListKind = "orders"): string {
+  return kind === "laws" && orders.some((o) => (o.score ?? 0) > 0) ? "Laws that more outlets covered come first, then the newest" : "Newest first";
+}
+
+/** The fine print under the rows: the order, and where each summary comes from. */
+export function listFootnote(orders: readonly ListedOrder[], kind: ListKind = "orders"): string {
+  return kind === "laws"
+    ? `${orderingNote(orders, kind)}, by signing date. Summaries are the Congressional Research Service's, from Congress.gov.`
+    : "Newest first, by signing date. Summaries are AI-written from each order's text in the Federal Register.";
 }
 
 /** "Oct 19, 2026". */
@@ -115,6 +137,6 @@ export const SLIDE_ORDERS: OrderLayout = { titleChars: 48, titleLine: 29, summar
 export const CARD_ORDERS: OrderLayout = { titleChars: 50, titleLine: 33, summaryChars: 80, summaryLine: 25, metaH: 50, stacked: false, gap: 20, budget: 452, reserve: 30 };
 
 /** What the card says, for its alt text and the reply under it. */
-export function ordersAlt(orders: ListedOrder[], period: string): string {
-  return `${ordersHeading(period)}, newest first. ${orders.map((o) => `${o.title}, signed ${orderDate(o.date)}, ${o.topic || "no topic"}${o.summary ? `: ${o.summary}` : ""}`).join(" ")}`.slice(0, 1000);
+export function ordersAlt(orders: ListedOrder[], period: string, kind: ListKind = "orders"): string {
+  return `${ordersHeading(period, kind)}, ${orderingNote(orders, kind).toLowerCase()}.${orders.map((o) => `${o.title}, signed ${orderDate(o.date)}, ${o.topic || "no topic"}${o.summary ? `: ${o.summary}` : ""}`).join(" ")}`.slice(0, 1000);
 }
