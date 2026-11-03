@@ -1,53 +1,5 @@
 {
   "checks": {
-    "9ac39848cf98ddda39e4": {
-      "at": "2026-11-01T07:23:20.374Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/september-2026-pce-inflation",
-        "https://thehill.com/business/6179737-september-pce-inflation-data/",
-        "https://www.theguardian.com/business/2026/oct/29/economy-growth-third-quarter",
-        "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-        "https://www.cnbc.com/2026/10/29/pce-inflation-report-september-2026-.html"
-      ],
-      "reason": "Five outlets report the same Oct 29 release of the September PCE inflation gauge alongside third-quarter GDP; the Iran, protest, and Fed-analysis headlines are different developments or opinion.",
-      "chart": ""
-    },
-    "8fdbfe4c713a6a7deb87": {
-      "at": "2026-11-01T07:23:20.374Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-10-31/carney-says-no-hurry-on-trade-deal-if-us-won-t-offer-good-terms",
-        "https://www.bloomberg.com/news/articles/2026-10-31/carney-says-no-hurry-on-trade-deal-if-us-won-t-offer-good-terms"
-      ],
-      "reason": "Canadian PM Carney's statement on the state of U.S.-Canada trade-deal talks is the only headline set on a U.S. trade-talks development; the NYT export-restriction story, WSJ feature, and sports trade story don't fit, and neither chart measures trade talks directly.",
-      "chart": ""
-    },
-    "8c73882e14bae52c57bc": {
-      "at": "2026-11-01T07:23:20.374Z",
-      "keep": [],
-      "reason": "Headline 1 is political commentary on the GOP midterms, and headline 2 covers a China-Peru trade deal with no U.S. policy angle, so no shared U.S. tariff development qualifies.",
-      "chart": ""
-    },
-    "04b578ee271138c2af78": {
-      "at": "2026-11-01T14:58:04.365Z",
-      "keep": [
-        "https://thehill.com/policy/technology/6180673-us-gdp-growth-ai-investment/",
-        "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-      ],
-      "reason": "Both headlines report the same new BEA figure: U.S. third-quarter GDP grew 3.4%, which the quarterly real GDP growth chart directly measures.",
-      "chart": ""
-    },
-    "a96d8643f5f51984d252": {
-      "at": "2026-11-01T14:58:04.365Z",
-      "keep": [],
-      "reason": "Three different oil developments (Iran diplomacy, Exxon/Chevron profits, OPEC output), each covered by only one outlet, so no single story has majority coverage; no pick_chart item directly measures oil prices or OPEC output.",
-      "chart": ""
-    },
-    "e59acfa4af80556ee208": {
-      "at": "2026-11-01T14:58:04.365Z",
-      "keep": [],
-      "reason": "No development is reported by multiple qualifying headlines: #1 is opinion, #2 is foreign news with no U.S. policy angle, #3 covers a Democratic plan rather than a completed action, and #4 is off-topic.",
-      "chart": ""
-    },
     "6fe0a7e870a846dd47ab": {
       "at": "2026-11-01T19:31:49.357Z",
       "keep": [],
@@ -197,6 +149,45 @@
       "at": "2026-11-03T06:31:46.561Z",
       "keep": [],
       "reason": "No qualifying shared U.S. development: the Blackstone/LNG Canada item is company and foreign news, the oil price story is about crude, and the IEA global LNG forecast is an international agency report, not a U.S. action.",
+      "chart": ""
+    },
+    "dd185b8dbdde26cb8225": {
+      "at": "2026-11-03T14:59:37.748Z",
+      "keep": [],
+      "reason": "No single U.S. inflation development is reported across these headlines; the inflation stories are foreign central-bank or CPI news, and the U.S. items are midterm voter-concern pieces rather than a new official figure or government action.",
+      "chart": ""
+    },
+    "888501219dcf4c3b2cf4": {
+      "at": "2026-11-03T14:59:37.748Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets: the headlines are a midterm-backlash analysis piece, a city lawsuit threat, and a judge's remarks, and the duplicates are from the same outlet.",
+      "chart": ""
+    },
+    "fca098a90da599a862e1": {
+      "at": "2026-11-03T14:59:37.748Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
+        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
+        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
+        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
+        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
+        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
+        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/",
+        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
+      ],
+      "reason": "Most outlets reported the same November 2 U.S. crude oil price drop on hopes for Iran talks; the November 3 rebound and second-day fall stories are different market moves and are excluded.",
+      "chart": ""
+    },
+    "13e8433fc3b1d5722ef1": {
+      "at": "2026-11-03T14:59:37.748Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: NBC reports a crude oil price slide tied to Iran talks, while Newsweek reports a weekly drop in U.S. retail gas prices, so they do not share one story.",
+      "chart": ""
+    },
+    "45f0cfa74db720b019d9": {
+      "at": "2026-11-03T14:59:37.748Z",
+      "keep": [],
+      "reason": "No headlines report the same single U.S. development: the El Niño piece is a feature/analysis, the Brookfield item is a UK company project, and the jet-engine piece is a feature on a different topic.",
       "chart": ""
     }
   },
