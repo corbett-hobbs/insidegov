@@ -1,6 +1,34 @@
 {
-  "asOf": "2026-10-28",
+  "asOf": "2026-11-02",
   "stories": [
+    {
+      "id": "oil_markets-2026-11-02",
+      "date": "2026-11-02",
+      "topic": "Oil markets",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Oil price falls amid hope of a breakthrough to end Iran war",
+          "url": "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Crude oil prices sell off more than 7% on Iran peace talk hopes ahead of U.S. midterms",
+          "url": "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Oil Prices Fall More Than 6% as Iran Peace Talks Ease Supply Fears",
+          "url": "https://www.wsj.com/world/middle-east/oil-prices-fall-more-than-3-as-iran-peace-talks-ease-supply-fears-e2b47ca0?mod=pls_whats_news_us_business_f"
+        }
+      ]
+    },
     {
       "id": "emissions_rules-2026-10-27",
       "date": "2026-10-27",

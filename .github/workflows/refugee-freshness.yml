@@ -122,6 +122,7 @@ jobs:
           branch: ${{ steps.cpr.outputs.pull-request-branch }}
           head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
           token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 
       # A needs-curation PR never reaches the merge gate, and a failed gate leaves a PR open: either way a person
       # has to act, so push a notification (email, then Slack) when the PR is first opened or the gate fails.

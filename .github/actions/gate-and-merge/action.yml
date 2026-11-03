@@ -24,6 +24,13 @@ inputs:
     description: Token with contents and pull-requests write (github.token)
     required: true
 
+  anthropic-api-key:
+    description: >
+      Optional. When the only failing tests are the *-takeaways.test.ts checks, pipeline/maintenance/refresh-takeaways.ts
+      uses it to update the figures a page's hand-written takeaway cites (numerals only). Without it those failures stop the merge.
+    required: false
+    default: ""
+
 runs:
   using: composite
   steps:
@@ -55,6 +62,35 @@ runs:
           echo "pipeline/output already matches the raw data."
         fi
 
+    # A refresh can move a number a page's takeaway sentence cites (FRED restating a debt ratio by a point). The takeaway
+    # tests then fail on a figure, not a bug. refresh-takeaways.ts rewrites numerals only and re-runs those tests; anything
+    # else failing, or a claim whose wording is no longer true, still fails this step and leaves the PR to a human.
+    - name: Run the tests (refreshing takeaway figures if only they fail)
+      shell: bash
+      env:
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        SUMMARY: ${{ runner.temp }}/takeaway-refresh.md
+      run: |
+        if ! pnpm test; then
+          [ -n "$ANTHROPIC_API_KEY" ] || { echo "Tests failed and no ANTHROPIC_API_KEY to refresh takeaway figures."; exit 1; }
+          pnpm exec tsx pipeline/maintenance/refresh-takeaways.ts --summary "$SUMMARY"
+          pnpm test
+        fi
+
+    - name: Commit refreshed takeaway figures to the PR branch (if any)
+      shell: bash
+      env:
+        BRANCH: ${{ inputs.branch }}
+      run: |
+        if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: update takeaway figures to the refreshed data"
+          git push origin "HEAD:refs/heads/$BRANCH"
+        else
+          echo "No takeaway figures needed updating."
+        fi
+
     - name: Run the CI checks
       shell: bash
       env:
@@ -62,9 +98,16 @@ runs:
       run: |
         pnpm typecheck
         pnpm lint
-        pnpm test
         pnpm pipeline:check
         pnpm build
+
+    - name: Say what the gate changed
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        PR: ${{ inputs.pr-number }}
+        SUMMARY: ${{ runner.temp }}/takeaway-refresh.md
+      run: '[ ! -f "$SUMMARY" ] || gh pr comment "$PR" --body-file "$SUMMARY"'
 
     - name: Merge
       shell: bash
