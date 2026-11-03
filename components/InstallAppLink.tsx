@@ -1,11 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 type InstallPrompt = Event & { prompt: () => Promise<void> };
 
 const LINK =
   "cursor-pointer border-0 bg-transparent px-0 py-1.5 text-left sm:py-1 font-[inherit] text-ink-muted underline-offset-2 hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
+const subscribeNever = () => () => {};
+
+function isStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (navigator as Navigator & { standalone?: boolean }).standalone === true
+  );
+}
 
 /**
  * Footer "Add to home screen" link. Chrome and Edge fire `beforeinstallprompt`, so one tap
@@ -14,15 +23,16 @@ const LINK =
  */
 export function InstallAppLink() {
   const [prompt, setPrompt] = useState<InstallPrompt | null>(null);
-  const [ios, setIos] = useState(false);
   const [hint, setHint] = useState(false);
+  const standalone = useSyncExternalStore(subscribeNever, isStandalone, () => true);
+  const ios = useSyncExternalStore(
+    subscribeNever,
+    () => /iPhone|iPad|iPod/.test(navigator.userAgent),
+    () => false,
+  );
 
   useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true;
     if (standalone) return;
-    setIos(/iPhone|iPad|iPod/.test(navigator.userAgent));
     const onPrompt = (e: Event) => {
       e.preventDefault();
       setPrompt(e as InstallPrompt);
@@ -34,8 +44,9 @@ export function InstallAppLink() {
       window.removeEventListener("beforeinstallprompt", onPrompt);
       window.removeEventListener("appinstalled", onInstalled);
     };
-  }, []);
+  }, [standalone]);
 
+  if (standalone) return null;
   if (prompt) {
     return (
       <button type="button" className={LINK} onClick={() => void prompt.prompt()}>
