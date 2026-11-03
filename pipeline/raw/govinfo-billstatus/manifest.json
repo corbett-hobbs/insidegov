@@ -312,29 +312,29 @@
     {
       "congress": 119,
       "type": "hjres",
-      "bytes": 678522,
-      "last_modified": "Fri, 23 Oct 2026 16:21:53 GMT",
+      "bytes": 679965,
+      "last_modified": "Sat, 31 Oct 2026 04:39:57 GMT",
       "public_law_bills": 19
     },
     {
       "congress": 119,
       "type": "hr",
-      "bytes": 32946774,
-      "last_modified": "Sat, 24 Oct 2026 16:22:15 GMT",
-      "public_law_bills": 63
+      "bytes": 33092917,
+      "last_modified": "Mon, 02 Nov 2026 16:28:24 GMT",
+      "public_law_bills": 65
     },
     {
       "congress": 119,
       "type": "s",
-      "bytes": 13486438,
-      "last_modified": "Sat, 24 Oct 2026 12:26:18 GMT",
+      "bytes": 13514277,
+      "last_modified": "Mon, 02 Nov 2026 16:19:26 GMT",
       "public_law_bills": 47
     },
     {
       "congress": 119,
       "type": "sjres",
-      "bytes": 541204,
-      "last_modified": "Fri, 23 Oct 2026 04:24:03 GMT",
+      "bytes": 541794,
+      "last_modified": "Sat, 31 Oct 2026 20:21:31 GMT",
       "public_law_bills": 6
     }
   ]
