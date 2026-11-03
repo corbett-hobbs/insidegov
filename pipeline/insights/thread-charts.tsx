@@ -90,25 +90,25 @@ function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; ord
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
   const kind = listKind(insight) ?? "orders";
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `28px ${PAD}px 0 ${PAD}px` }}>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `22px ${PAD}px 0 ${PAD}px` }}>
       {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
       <img src={backdrop} width={WIDTH} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
       <div style={{ display: "flex", alignItems: "center", fontSize: 18, letterSpacing: 3, color: MUTED, textTransform: "uppercase" }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
-        <img src={sealSrc()} width={42} height={42} alt="" style={{ marginRight: 12 }} />
-        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 32, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
+        <img src={sealSrc()} width={38} height={38} alt="" style={{ marginRight: 12 }} />
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 30, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
         {`Signed in ${monthName(insight.period)}`}
       </div>
-      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, marginBottom: 22 }}>{ordersHeading(insight.period, kind)}</div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 40, lineHeight: 1.1, letterSpacing: -0.5, marginTop: 6, marginBottom: 14 }}>{ordersHeading(insight.period, kind)}</div>
       {orders.map((o, i) => (
         <div key={i} style={{ display: "flex", marginBottom: CARD_ORDERS.gap }}>
           <div style={{ display: "flex", flexDirection: "column", width: 200, flexShrink: 0, paddingRight: 16, borderRight: `3px solid ${i === 0 ? ACCENT : NEUTRAL}`, marginRight: 24 }}>
-            <div style={{ display: "flex", fontSize: 21, color: i === 0 ? ACCENT : INK }}>{orderDate(o.date)}</div>
-            <div style={{ display: "flex", fontSize: 16, lineHeight: 1.25, color: MUTED, marginTop: 4 }}>{o.topic}</div>
+            <div style={{ display: "flex", fontSize: 20, color: i === 0 ? ACCENT : INK }}>{orderDate(o.date)}</div>
+            <div style={{ display: "flex", fontSize: 15, lineHeight: 1.2, color: MUTED, marginTop: 2 }}>{o.topic}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: 840 }}>
-            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 28, lineHeight: 1.17 }}>{o.title}</div>
-            {o.summary ? <div style={{ display: "flex", fontSize: 19, lineHeight: 1.28, color: INK, marginTop: 4 }}>{o.summary}</div> : null}
+            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 26, lineHeight: 1.15 }}>{o.title}</div>
+            {o.summary ? <div style={{ display: "flex", fontSize: 18, lineHeight: 1.25, color: INK, marginTop: 2 }}>{o.summary}</div> : null}
           </div>
         </div>
       ))}

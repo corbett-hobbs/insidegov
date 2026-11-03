@@ -137,7 +137,7 @@ export function fitOrders(orders: ListedOrder[], l: OrderLayout): ListedOrder[] 
 export const SLIDE_ORDERS: OrderLayout = { titleChars: 48, titleLine: 29, summaryChars: 74, summaryLine: 22, metaH: 22, stacked: true, gap: 24, budget: 640, reserve: 34 };
 
 /** The thread card's rows (thread-charts.tsx): date and topic in a column beside the title and summary. */
-export const CARD_ORDERS: OrderLayout = { titleChars: 50, titleLine: 33, summaryChars: 80, summaryLine: 25, metaH: 50, stacked: false, gap: 20, budget: 452, reserve: 30 };
+export const CARD_ORDERS: OrderLayout = { titleChars: 54, titleLine: 30, summaryChars: 85, summaryLine: 23, metaH: 46, stacked: false, gap: 14, budget: 470, reserve: 30 };
 
 /** What the card says, for its alt text and the reply under it. */
 export function ordersAlt(orders: ListedOrder[], period: string, kind: ListKind = "orders"): string {
