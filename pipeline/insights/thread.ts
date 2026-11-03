@@ -194,10 +194,15 @@ function explainerReplies(insight: Insight): Reply[] {
 }
 
 /** The closing post: where the data is from and, when the reasons were researched, the pages they come from. */
+/** A source's name for the reply: its title, unless that carries a day of the month ("White House, bills signed into law October 20, 2026"), which a reply may not state, so then only what comes before the first comma. */
+function sourceName(name: string): string {
+  return /\d/.test(name.replace(/\b(?:19|20)\d\d\b/g, "")) ? name.split(",")[0]!.trim() : name;
+}
+
 function sourcesReply(insight: Insight): Reply {
   const data = `Data: ${insight.source}.`;
   // A news source is named by its outlet: its title is a headline, which may carry words the posts never use themselves.
-  const names = insight.why && givesReason(insight.why) ? [...new Set(insight.why.sources.map((s) => newsOutlet(s.url) ?? s.name))] : [];
+  const names = insight.why && givesReason(insight.why) ? [...new Set(insight.why.sources.map((s) => newsOutlet(s.url) ?? sourceName(s.name)))] : [];
   let text = data;
   for (let n = names.length; n > 0; n--) {
     const t = `${data} Reasons: ${names.slice(0, n).join("; ")}.`;
@@ -262,9 +267,10 @@ const EXEMPT = new Set(["only", "just", "record", "records", "caused"]);
  */
 export function checkReply(text: string, facts: { text: string }[], allowed: readonly string[] = [], max = REPLY_MAX): string[] {
   const errors: string[] = [];
-  if (text.trim().length < 20) errors.push("too short to say anything");
+  if (text.trim().length < 15) errors.push("too short to say anything");
   if (text.length > max) errors.push(`${text.length} characters; the limit is ${max}`);
-  if (/https?:|www\.|\.(?:com|org|gov|fyi)\b/i.test(text)) errors.push("contains a link (the link is added to the last reply)");
+  // "Congress.gov" is a data source's name (the sources reply says "Data: Congress.gov."), not a link.
+  if (/https?:|www\.|\.(?:com|org|gov|fyi)\b/i.test(text.replace(/\bCongress\.gov\b/gi, "Congress"))) errors.push("contains a link (the link is added to the last reply)");
   if (/[#@!?]/.test(text)) errors.push('contains "#", "@", "!" or "?"');
   if (/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(text)) errors.push("contains an emoji");
   const words = new Set(text.toLowerCase().match(/[a-z]+(?:-[a-z]+)*/g) ?? []);

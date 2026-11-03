@@ -6,7 +6,7 @@ import { type ListedOrder, insightOrders, listFootnote, moreNote, orderingNote, 
 import { lawsInMonth, readLaws } from "./laws-list";
 import { type LawNews, newsScore, pruneLawNews, recordLawNews } from "./news/law-news";
 import { lawTopics } from "./news/subjects";
-import { planThread } from "./thread";
+import { checkReplies, planThread } from "./thread";
 import type { Headline } from "./types";
 
 const law = (id: string, date: string, number: number): ListedOrder => ({ id, number, title: `Law ${number}`, date, topic: "Energy", summary: "Does a thing." });
@@ -106,5 +106,25 @@ describe("pinned why", () => {
     expect(withIt.why?.sources).toHaveLength(4);
     // The new-high post is the one a month drafts for laws, so it carries the same text.
     expect(withWhy({ ...insight!, id: "laws.monthly:extreme_high:2026-10-01" }).why).toBe(withIt.why);
+  });
+});
+
+describe("laws thread", () => {
+  it("keeps the thread when its sources reply names Congress.gov, but not a real link", async () => {
+    const { checkReply } = await import("./thread");
+    expect(checkReply("Data: Congress.gov. Reasons: NPR; CBS News.", [])).toEqual([]);
+    expect(checkReply("Data: Congress.gov. More at example.com today.", []).join(" ")).toMatch(/contains a link/);
+    expect(checkReply("Data: Congress.gov. See https://congress.gov/x for more.", []).join(" ")).toMatch(/contains a link/);
+  });
+
+  it("gives the October laws post a thread: reasons, the laws list card and sources", async () => {
+    const [insight] = eventInsightsAt(loadLaws(), loadAdministrations(), ["2026-10-31"]).filter((i) => i.seriesId === "laws.monthly");
+    const { withWhy } = await import("./why");
+    const plan = planThread(withWhy({ ...insight!, id: "laws.monthly:extreme_high:2026-10-01" }));
+    expect(plan).not.toBeNull();
+    expect(plan!.replies.some((r) => r.chart !== undefined)).toBe(true);
+    // A source named with a day ("White House, bills signed ... October 20, 2026") is shortened so the reply states no stray number.
+    expect(plan!.replies.at(-1)!.text).toBe("Data: Congress.gov. Reasons: NPR; CBS News; White House.");
+    expect(checkReplies(plan!.replies, insight!.facts, [])).toEqual([]);
   });
 });
