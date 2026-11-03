@@ -1,3 +1,4 @@
+import { type LawNews, pruneLawNews } from "./law-news";
 import type { DispatchRecord } from "./refresh";
 
 /**
@@ -53,7 +54,13 @@ export function inCooldown(key: string, earlierIds: string[], today: string): bo
 export type StoredCheck = { at: string; keep: string[]; reason: string; chart: string };
 
 /** What the watcher remembers between runs (kept on the social-drafts branch): the check's answers, by the story's set of URLs. */
-export type WatchState = { checks: Record<string, StoredCheck>; /** The refresh workflows the watcher dispatched, by workflow file (refresh.ts). */ dispatched: Record<string, DispatchRecord> };
+export type WatchState = {
+  checks: Record<string, StoredCheck>;
+  /** The refresh workflows the watcher dispatched, by workflow file (refresh.ts). */
+  dispatched: Record<string, DispatchRecord>;
+  /** How widely the news covered each recent law, by law id (law-news.ts): the monthly laws post lists the most-covered first. */
+  laws?: Record<string, LawNews>;
+};
 
 /** An answer is kept this long (the feeds carry a day or two, so a story is not asked about again after that). */
 export const CHECK_KEEP_HOURS = 48;
@@ -64,5 +71,6 @@ export function pruneState(state: WatchState, now: string): WatchState {
   return {
     checks: Object.fromEntries(Object.entries(state.checks).filter(([, c]) => fresh(c.at))),
     dispatched: Object.fromEntries(Object.entries(state.dispatched).filter(([, d]) => fresh(d.at))),
+    laws: pruneLawNews(state.laws, now),
   };
 }

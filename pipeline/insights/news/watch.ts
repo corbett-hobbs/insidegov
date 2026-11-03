@@ -12,6 +12,8 @@ import { type Candidate, addCompanions, groupCandidates, needsCheck, pickHeadlin
 import { balanceContext, tariffContext, tariffPartners, seriesContext } from "./charts";
 import { checkCandidate } from "./classify";
 import { fetchDataReleases, fetchOutletHeadlines } from "./feeds";
+import { recordLawNews } from "./law-news";
+import { type LawRow, lawTopics } from "./subjects";
 import { NEWS_FRESH_HOURS, NEWS_MAX_PER_RUN, type WatchState, inCooldown, newsId, partnersFor, pruneState } from "./match";
 import { planRefreshes, recordDispatch } from "./refresh";
 import { type SocialStory, coverageLine, couldDraft, hasRecent, postableCharts, socialStories } from "./social";
@@ -63,6 +65,14 @@ if (process.argv.includes("--github")) {
 const client = useLlm ? new Anthropic({ maxRetries: 4 }) : null;
 // The roster outlets only: the end reserves (Mother Jones, Breitbart) back up a page card, they do not start a post.
 const headlines = await fetchOutletHeadlines({ includeReserves: false });
+// Which recent laws the headlines name: added to what earlier runs saw, since the feeds forget after a day or two.
+{
+  const readData = <T,>(file: string): T => JSON.parse(readFileSync(`pipeline/output/${file}`, "utf8")) as T;
+  const groups = new Map(readData<{ areas: { id: string; group: string }[] }>("laws_meta.json").areas.map((a) => [a.id, a.group]));
+  const lawsNow = recordLawNews(state.laws ?? {}, lawTopics(readData<LawRow[]>("laws.json"), groups, now), headlines, now);
+  console.log(`insights:news  ${Object.keys(lawsNow).length} laws with headlines on record`);
+  state.laws = lawsNow;
+}
 const partners = partnersFor(tariffPartners(MIN_PARTNER_IMPORTS), COUNTRY_ALIASES);
 const usable = (h: Headline) => client !== null || !needsCheck(h);
 const candidates = addCompanions(groupCandidates(headlines, PAGE_TOPICS, partners, now, usable), headlines.filter(usable), PAGE_TOPICS, partners, now);
