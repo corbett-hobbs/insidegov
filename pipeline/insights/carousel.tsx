@@ -345,7 +345,7 @@ function ordersSlide(insight: Insight, orders: ListedOrder[], more: boolean, n: 
           </div>
         ))}
       </div>
-      {more ? <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 136, display: "flex", fontFamily: "Newsreader", fontSize: 19, lineHeight: 1.3, color: INK }}>{moreNote(insight.period, path, kind)}</div> : null}
+      {more ? <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 136, display: "flex", fontFamily: "Newsreader", fontSize: 19, lineHeight: 1.3, color: INK }}>{moreNote(insight.period, path, kind, insightOrders(insight).length)}</div> : null}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 84, display: "flex", fontSize: 14, lineHeight: 1.4, color: MUTED }}>
         {listFootnote(orders, kind)}
       </div>

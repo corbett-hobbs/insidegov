@@ -112,7 +112,7 @@ function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; ord
           </div>
         </div>
       ))}
-      {more ? <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 98, display: "flex", fontFamily: "Newsreader", fontSize: 22, color: INK }}>{moreNote(insight.period, path, kind)}</div> : null}
+      {more ? <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 98, display: "flex", fontFamily: "Newsreader", fontSize: 22, color: INK }}>{moreNote(insight.period, path, kind, insightOrders(insight).length)}</div> : null}
       <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 62, display: "flex", fontSize: 16, lineHeight: 1.35, color: MUTED }}>{listFootnote(orders, kind)}</div>
       <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 32, display: "flex", justifyContent: "flex-end", fontSize: 18, color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
     </div>

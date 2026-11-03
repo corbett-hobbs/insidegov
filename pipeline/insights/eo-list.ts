@@ -73,9 +73,12 @@ export function ordersHeading(period: string, kind: ListKind = "orders"): string
   return `${kind === "laws" ? "Laws" : "Executive orders"} signed in ${monthName(period)}`;
 }
 
-/** Said when the month has more than fit: where to see them all. */
-export function moreNote(period: string, path: string, kind: ListKind = "orders"): string {
-  return `To see all of ${monthName(period)}'s ${NOUN[kind]}, visit ${path}.`;
+const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+
+/** Said when the month has more than fit: where to see them all, with the full count ("all four", "all 12") to compare with the rows shown. */
+export function moreNote(period: string, path: string, kind: ListKind = "orders", count?: number): string {
+  const all = count === undefined ? "all" : `all ${WORDS[count] ?? count}`;
+  return `To see ${all} of ${monthName(period)}'s ${NOUN[kind]}, visit ${path}.`;
 }
 
 /** How the rows are ordered, as the slide and reply say it: laws the news covered come first, only when some row was. */
