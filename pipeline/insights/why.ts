@@ -6,11 +6,11 @@ import type { Insight, Why } from "./types";
  * that name no agency or outlet (the sources are the footnote), words only apart from years, no verdicts on whether a policy worked. Most drafts need no entry here.
  */
 const OCTOBER_2026_LAWS: Why = {
-  title: "Why it rose from zero",
+  title: "Why it rose, and what passed",
   captionLine: "NPR and CBS News tie the October 2025 figure to a shutdown and a House that stayed out.",
   paragraphs: [
-    "Last October no public laws were enacted. That month fell during a government shutdown, when the House had not voted in weeks and funding bills did not clear the Senate.",
-    "This October, the President signed a series of bills, mostly narrow ones such as land transfers, park designations and agency reporting requirements.",
+    "Last October no public laws were enacted. That month fell during a government shutdown, when the House held no votes and funding bills did not clear the Senate.",
+    "In October 2026 the President signed a series of bills, mostly narrow ones: public land transfers and park designations, tribal land and water measures, and agency reporting requirements.",
   ],
   sources: [
     { name: "NPR, shutdown talks in Congress, October 17, 2025", url: "https://www.npr.org/2025/10/17/nx-s1-5577136/government-shutdown-congress-trump" },

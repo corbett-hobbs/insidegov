@@ -305,7 +305,7 @@ worded "amid" or "tied to", not as the site's own conclusion. Code then checks:
 
 A failing answer is retried with the reasons; after three tries the draft opens without one and says so in the issue.
 The caption writer then puts the why second, after the data sentence, still under 240 characters and still checked by
-`checkCaption`. Each draft issue shows the why and links every source, to check before approving. `why.ts` holds
+`checkCaption`. A monthly executive-order or laws post's why has two parts: the reason for any outlier (a shutdown month, a year-earlier record), then one sentence on the main subjects of that month's items, written from the month's own list and topic counts (`research.ts` `monthItems`, never from news). Supreme Court decisions are not a social dataset yet; when they are, they take the same two parts. Each draft issue shows the why and links every source, to check before approving. `why.ts` holds
 hand-written reasons that replace the research for a given draft. News drafts keep their own caption rules and get none.
 
 **The drivers, from the data** (`breakdown.ts`). Where the data splits the change into parts, a breakdown slide shows

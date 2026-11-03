@@ -73,9 +73,12 @@ export function ordersHeading(period: string, kind: ListKind = "orders"): string
   return `${kind === "laws" ? "Laws" : "Executive orders"} signed in ${monthName(period)}`;
 }
 
-/** Said when the month has more than fit: where to see them all. */
-export function moreNote(period: string, path: string, kind: ListKind = "orders"): string {
-  return `To see all of ${monthName(period)}'s ${NOUN[kind]}, visit ${path}.`;
+const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+
+/** Said when the month has more than fit: where to see them all, with the full count ("all four", "all 12") to compare with the rows shown. */
+export function moreNote(period: string, path: string, kind: ListKind = "orders", count?: number): string {
+  const all = count === undefined ? "all" : `all ${WORDS[count] ?? count}`;
+  return `To see ${all} of ${monthName(period)}'s ${NOUN[kind]}, visit ${path}.`;
 }
 
 /** How the rows are ordered, as the slide and reply say it: laws the news covered come first, only when some row was. */
@@ -134,7 +137,7 @@ export function fitOrders(orders: ListedOrder[], l: OrderLayout): ListedOrder[] 
 export const SLIDE_ORDERS: OrderLayout = { titleChars: 48, titleLine: 29, summaryChars: 74, summaryLine: 22, metaH: 22, stacked: true, gap: 24, budget: 640, reserve: 34 };
 
 /** The thread card's rows (thread-charts.tsx): date and topic in a column beside the title and summary. */
-export const CARD_ORDERS: OrderLayout = { titleChars: 50, titleLine: 33, summaryChars: 80, summaryLine: 25, metaH: 50, stacked: false, gap: 20, budget: 452, reserve: 30 };
+export const CARD_ORDERS: OrderLayout = { titleChars: 54, titleLine: 30, summaryChars: 85, summaryLine: 23, metaH: 46, stacked: false, gap: 14, budget: 470, reserve: 30 };
 
 /** What the card says, for its alt text and the reply under it. */
 export function ordersAlt(orders: ListedOrder[], period: string, kind: ListKind = "orders"): string {

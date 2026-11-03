@@ -3,6 +3,7 @@ import { z } from "zod";
 import { neutralityProblem } from "../faq/check";
 import { sourceNotAllowed } from "../faq/sources";
 import { BANNED_WORDS, CAUSAL_PHRASES } from "./caption";
+import { insightOrders } from "./eo-list";
 import type { Breakdown, Insight, Why } from "./types";
 
 /**
@@ -114,6 +115,8 @@ If the input has outlier_baseline, the year-earlier reading was itself a record,
 
 If the input has in_the_news, the topic is in the news today and the explanation should answer what those stories report: what changed or did not change, and what the Federal Reserve, the agency and the reporters say is behind it (including why something held steady rather than moved). Open those stories first, and still list only pages you opened. Any chart with two lines (the context notes say so) is explained as one story, never one line after the other.
 
+If the input has month_items (executive orders or laws signed that month, with their topics, and month_topics with how many fall under each), the slide has two parts: first the reason for any outlier, as above, kept to one short paragraph (when there is no outlier, say in a sentence what the month's count follows from, never a guess); then one sentence, the last paragraph, on the main subjects of that month's items. Take that sentence only from month_items, never from news: name the two to four subjects the most items fall under, most first, in plain words ("public land transfers and park designations, tribal land and water measures, and agency reporting requirements"), and call the items "mostly narrow" only if most are. Use no number in that sentence apart from the year.
+
 Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not.
 
 What to write:
@@ -159,6 +162,25 @@ export function rowValue(insight: Pick<Insight, "facts" | "breakdown" | "bigger"
   return breakdownsOf(insight).some((b) => b.levels && b.blocks.some((blk) => blk.rows.some((r) => r.fact === id))) ? (insight.facts.find((x) => x.id === id)?.text ?? "") : signedFact(insight, id);
 }
 
+/** How many of a month's items the prompt lists: enough to see the subjects, not a whole busy month. */
+const MONTH_ITEMS_MAX = 40;
+
+/**
+ * A monthly executive-order or laws post: the month's items (title and topic, newest first or most covered first) and how many
+ * fall under each topic, so the slide can end on the main subjects of the month from the data itself (see the system prompt).
+ * Nothing for any other post.
+ */
+export function monthItems(insight: Pick<Insight, "seriesId" | "period">): { month_items?: { title: string; topic: string }[]; month_topics?: { topic: string; count: number }[] } {
+  const items = insightOrders(insight);
+  if (!items.length) return {};
+  const counts = new Map<string, number>();
+  for (const o of items) counts.set(o.topic || "No topic", (counts.get(o.topic || "No topic") ?? 0) + 1);
+  return {
+    month_items: items.slice(0, MONTH_ITEMS_MAX).map((o) => ({ title: o.title, topic: o.topic })),
+    month_topics: [...counts].sort((a, b) => b[1] - a[1]).map(([topic, count]) => ({ topic, count })),
+  };
+}
+
 export function whyPrompt(insight: Insight): string {
   return JSON.stringify(
     {
@@ -170,6 +192,7 @@ export function whyPrompt(insight: Insight): string {
       breakdown: insight.breakdown?.blocks.map((b) => ({ label: b.label, rows: b.rows.map((r) => `${r.name}: ${signedFact(insight, r.fact)}`) })) ?? null,
       context: insight.context,
       outlier_baseline: insight.outlierBaseline ?? null,
+      ...monthItems(insight),
       release_pages: releasePages(insight),
       // A news draft: the stories that made the topic current, as first leads (read them; they are not sources by themselves).
       in_the_news: insight.news?.headlines.slice(0, 6).map((h) => ({ title: h.title, outlet: h.source, url: h.url })) ?? null,
