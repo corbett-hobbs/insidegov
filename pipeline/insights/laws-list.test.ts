@@ -91,5 +91,7 @@ describe("pinned why", () => {
     const withIt = withWhy({ ...insight!, id: "laws.monthly:latest:2026-10-01" });
     expect(withIt.why?.title).toBe("Why it rose from zero");
     expect(withIt.why?.sources).toHaveLength(4);
+    // The new-high post is the one a month drafts for laws, so it carries the same text.
+    expect(withWhy({ ...insight!, id: "laws.monthly:extreme_high:2026-10-01" }).why).toBe(withIt.why);
   });
 });
