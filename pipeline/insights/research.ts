@@ -110,6 +110,8 @@ Research first. Open the release pages you are given and find the agency's own w
 
 Always run at least one news search for this release, outside code (call web_search directly so its results reach the answer), (the topic and month, e.g. "trade deficit August 2026"), and open the most relevant straight-news reports it returns, even when the agency's write-up seems complete: reporters often give the reasons behind a category that the agency leaves out.
 
+If the input has outlier_baseline, the year-earlier reading was itself a record, so most of the change from a year ago is that earlier reading's doing. Explain what drove that earlier period (the events of that month, found in news from then) as the main reason, and the new reading only briefly if the sources say anything about it. Search for that earlier month, not only the latest one. The same sourcing rules apply: at least two outlets for a reason from news.
+
 If the input has in_the_news, the topic is in the news today and the explanation should answer what those stories report: what changed or did not change, and what the Federal Reserve, the agency and the reporters say is behind it (including why something held steady rather than moved). Open those stories first, and still list only pages you opened. Any chart with two lines (the context notes say so) is explained as one story, never one line after the other.
 
 Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not.
@@ -167,6 +169,7 @@ export function whyPrompt(insight: Insight): string {
       facts: insight.facts.map((f) => ({ id: f.id, text: f.text })),
       breakdown: insight.breakdown?.blocks.map((b) => ({ label: b.label, rows: b.rows.map((r) => `${r.name}: ${signedFact(insight, r.fact)}`) })) ?? null,
       context: insight.context,
+      outlier_baseline: insight.outlierBaseline ?? null,
       release_pages: releasePages(insight),
       // A news draft: the stories that made the topic current, as first leads (read them; they are not sources by themselves).
       in_the_news: insight.news?.headlines.slice(0, 6).map((h) => ({ title: h.title, outlet: h.source, url: h.url })) ?? null,

@@ -525,6 +525,19 @@ rejected, and nothing older than an already-drafted newer reading of the same se
 the same issues and one email as any other drafting run. A normal day drafts nothing and makes no Claude calls. Locally:
 `pnpm insights:draft -- --datasets energy --since 2026-06-01 --fresh --exclude-file ids.txt`.
 
+**One post per series and period.** A month can be read twice: early, from data still being filled in (a routine `latest`
+draft), and again once it is complete, when it may turn out notable (say `extreme_high`). The routine draft is not
+opened once any draft exists for that series and period (`run.ts`), and when a notable one opens, a routine one still
+awaiting review is closed (`open-issues.ts`) or, if already approved, expired by the scheduler (`schedule.ts`).
+
+**An outlier baseline is named and explained.** When the year-earlier reading was itself a record for its series on the
+opposite side (October 2025's zero laws, the fewest for any October on record, during a shutdown), most of the
+year-over-year jump is the baseline's doing. `detect.ts` `outlierBaseline` flags it on `extreme_*` and `latest`
+insights (the same record test as `detectExtremes`, run on the series as it stood a year earlier), carries
+`year_ago_value`/`year_ago_date`/`change_year` as facts so the caption can say "up from 0 in October 2025", and passes a
+note to the research (`outlier_baseline`), which explains that earlier month from at least two outlets rather than
+only the new reading.
+
 **A broken drafting step is announced.** `continue-on-error` hides a failure, so each freshness workflow has an
 "Email if drafting failed" step (the drafting action's own email cannot send when the action itself failed to load),
 and the catch-up emails if it fails. `pipeline/workflows.test.ts` (run by CI) parses every workflow and action file,

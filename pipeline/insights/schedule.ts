@@ -150,7 +150,10 @@ export function pickNext(allQueue: QueueItem[], history: Posted[], now: string, 
   const older = live.filter((q) => q.period < newest.get(q.seriesId)!);
   // A news post that charted this series on this period (or a later one) already showed what the data draft would.
   const covered = live.filter((q) => !older.includes(q) && history.some((p) => p.kind === "news" && p.seriesId === q.seriesId && p.period !== undefined && p.period >= q.period && hoursBetween(p.postedAt, now) < NEWS_COVERS_DAYS * 24));
-  const superseded = [...older, ...covered];
+  // A routine `latest` reading yields to a notable draft of the same series and period (the month was read again once
+  // its data filled in, and now has a story).
+  const replaced = live.filter((q) => q.kind === "latest" && !older.includes(q) && live.some((o) => o.kind !== "latest" && o.seriesId === q.seriesId && o.period === q.period));
+  const superseded = [...older, ...replaced, ...covered];
   const eligible = live.filter((q) => !superseded.includes(q) && q.releasedOn <= today);
   const none = (reason: string): Decision => ({ post: null, reason, expired, superseded, covered });
 

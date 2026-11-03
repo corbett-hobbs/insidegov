@@ -52,9 +52,12 @@ for (const id of exclude) {
   const [key, date] = splitId(id);
   if (date > (newestDrafted.get(key) ?? "")) newestDrafted.set(key, date);
 }
+// The routine `latest` reading is not drafted for a series and period that already has a draft of any kind: the
+// notable one came first, or the same month was read earlier from data that has since been filled in.
+const draftedPeriods = new Set([...exclude].map((id) => splitId(id)).map(([key, date]) => `${key.slice(0, key.lastIndexOf(":"))}|${date}`));
 const alreadyDrafted = (i: Insight) => {
   const [key, date] = splitId(i.id);
-  return (newestDrafted.get(key) ?? "") >= date;
+  return (newestDrafted.get(key) ?? "") >= date || (i.kind === "latest" && draftedPeriods.has(`${i.seriesId}|${i.period}`));
 };
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
 
