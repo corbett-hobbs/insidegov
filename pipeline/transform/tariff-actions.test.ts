@@ -11,7 +11,7 @@ const eos = read("pipeline/output/executive_orders.json") as { eo_number: number
 const ctx: ValidationContext = {
   countryCodes: new Set(countries.filter((c) => !c.is_aggregate).map((c) => c.country_code)),
   eoNumbers: new Set(eos.map((e) => e.eo_number)),
-  today: "2026-10-01",
+  today: "2026-11-02",
 };
 type Row = Record<string, unknown> & { action_id: string; date: string; sources: { kind: string }[] };
 const clone = () => JSON.parse(JSON.stringify(reference)) as { last_reviewed: string; actions: Row[] };
@@ -44,7 +44,7 @@ describe("the curated file", () => {
 
 describe("validation fails loudly", () => {
   it("duplicate action_id", () => bad((f) => (f.actions[1].action_id = f.actions[0].action_id), /duplicate action_id/));
-  it("a date in the future", () => bad((f) => (f.actions[f.actions.length - 1].date = "2026-10-02"), /in the future|must start with/));
+  it("a date in the future", () => bad((f) => (f.actions[f.actions.length - 1].date = "2026-11-03"), /in the future|must start with/));
   it("a date that does not exist", () => bad((f) => { f.actions[0].date = "2018-02-30"; f.actions[0].action_id = "2018-02-30-x"; }, /not a real date/));
   it("an unknown country code", () => bad((f) => (f.actions.find((a) => a.countries !== "all")!.countries = ["ZZZ"]), /not a non-aggregate code/));
   it("an aggregate country code", () => bad((f) => (f.actions.find((a) => a.countries !== "all")!.countries = ["AGG_0003"]), /not a non-aggregate code/));
@@ -58,7 +58,7 @@ describe("validation fails loudly", () => {
   it("a malformed Federal Register document number", () => bad((f) => (f.actions[0].federal_register_documents = ["2018-5478"]), /schema/));
   it("announced after effective", () => bad((f) => (f.actions[0].announced_date = "2030-01-01"), /after the effective date|in the future/));
   it("an unknown field", () => bad((f) => (f.actions[0].computed_rate = 12), /schema/));
-  it("a review date in the future", () => bad((f) => (f.last_reviewed = "2026-10-02"), /in the future/));
+  it("a review date in the future", () => bad((f) => (f.last_reviewed = "2026-11-03"), /in the future/));
 });
 
 describe("staleness", () => {
