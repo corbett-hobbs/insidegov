@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InstallAppLink } from "@/components/InstallAppLink";
 import { siteInfo, socialLinks } from "@/lib/site-info";
 
 const LINK =
@@ -27,6 +28,7 @@ export function GlobalFooter() {
           <FooterGroup title="Project">
             <li><Link href="/about" className={LINK}>About</Link></li>
             <li><Link href="/contact" className={LINK}>Contact</Link></li>
+            <li className="empty:hidden"><InstallAppLink /></li>
           </FooterGroup>
           <FooterGroup title="Data">
             <li><Link href="/methodology" className={LINK}>Methodology</Link></li>
