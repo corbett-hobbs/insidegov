@@ -55,6 +55,8 @@ export type Series = {
   seasonal: boolean;
   /** `flow` values add up over a term (encounters, a trade deficit); `level` values are compared start to end (a price). */
   kind: "level" | "flow";
+  /** Counts of events per month (executive orders signed): drawn as one bar per month, not a line. */
+  bars?: boolean;
   /** Moves as a percent change, or as an absolute change (for series that cross or sit near zero, like a balance). */
   moveMode: "pct" | "abs";
   /** Skip moves (e.g. a weekly stock whose moves are policy releases, not news), extremes, or term comparisons. */

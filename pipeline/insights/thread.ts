@@ -1,5 +1,6 @@
 import { MAX_GRAPHEMES, graphemes } from "./bluesky";
 import { BANNED_WORDS, numberTokens } from "./caption";
+import { CARD_ORDERS, fitOrders, insightOrders, ordersAlt, ordersHeading } from "./eo-list";
 import { explainer, explainerShort, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
@@ -16,6 +17,7 @@ import { X_MAX, xLength } from "./x";
  *   why               "Why it went up" (research.ts): the researched paragraphs, packed into posts, text only
  *   breakdown         each block of "What drove it" (breakdown.ts): one line of signed changes and a bar chart
  *   moments           dated actions from the site's sourced timelines (moments.ts), listed in order, not as causes
+ *   orders            monthly executive-order posts: the month's orders, newest first, as a card (eo-list.ts); the reply's words state no figure
  *   explainer         what the series measures (explain.ts), when there is neither a reason nor a breakdown, when it states a release lag (explain.ts hasLag), or when the chart has two lines
  *   sources           the data source and the pages the reasons came from; the link is added when it posts
  *
@@ -170,6 +172,18 @@ function momentsReplies(insight: Insight): { replies: Reply[]; note?: string } {
   return { replies: posts.map((text) => ({ text })) };
 }
 
+/** How many cards the breakdown replies draw (`chart` indexes them in order), so the orders card comes after them. */
+export function breakdownCardCount(insight: Insight): number {
+  return breakdownsOf(insight).reduce((n, b) => n + (b.levels ? 1 : b.blocks.length), 0);
+}
+
+/** Monthly executive-order posts: one reply with a card listing the month's orders, as many as fit it. */
+function ordersReplies(insight: Insight): Reply[] {
+  const orders = fitOrders(insightOrders(insight), CARD_ORDERS);
+  if (!orders.length) return [];
+  return [{ text: `${ordersHeading(insight.period)}, newest first, with the date each was signed, its topic and a short summary.`, chart: breakdownCardCount(insight), alt: ordersAlt(orders, insight.period) }];
+}
+
 function explainerReplies(insight: Insight): Reply[] {
   const short = explainerShort(insight);
   if (short && `What this measures.\n\n${short}`.length <= REPLY_MAX) return [{ text: `What this measures.\n\n${short}` }];
@@ -200,7 +214,10 @@ export function planThread(insight: Insight): ThreadPlan | null {
   const sections = [whyReplies(insight), breakdownReplies(insight), momentsReplies(insight)];
   const replies = sections.flatMap((s) => s.replies);
   for (const s of sections) if (s.note) notes.push(s.note);
-  if ((!replies.length && !(insight.why && givesReason(insight.why)) && !breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId) replies.push(...explainerReplies(insight));
+  // The orders card is a list, not an explanation: it does not stand in for the explainer.
+  const explain = (!replies.length && !(insight.why && givesReason(insight.why)) && !breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId;
+  replies.push(...ordersReplies(insight));
+  if (explain) replies.push(...explainerReplies(insight));
   if (!replies.length) return null;
   replies.push(sourcesReply(insight));
   return { replies, notes };

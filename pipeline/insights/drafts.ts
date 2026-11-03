@@ -6,7 +6,7 @@ import { renderCarousel } from "./carousel";
 import { researchWhy } from "./research";
 import { SITE_URL, renderChart } from "./chart";
 import { type Reply, checkReplies, planThread, replyNumbers } from "./thread";
-import { renderBreakdownCharts } from "./thread-charts";
+import { renderThreadCards } from "./thread-charts";
 import { axisProblems, titleProblems } from "./title";
 import type { Insight, NewsTrigger, Release, Why } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
@@ -155,13 +155,13 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
 }
 
 /**
- * The thread's replies for one insight (thread.ts), with each breakdown block drawn as `<slug>-t-<n>.png` (n is the post's
+ * The thread's replies for one insight (thread.ts), with each breakdown block (and an executive-order post's list of orders) drawn as `<slug>-t-<n>.png` (n is the post's
  * number in the thread). A thread that fails the plain checks is left out whole: the draft then posts alone.
  */
 async function buildThread(insight: Insight, slug: string, outDir: string): Promise<{ replies?: Omit<Reply, "chart">[]; notes: string[] }> {
   const plan = planThread(insight);
   if (!plan) return { notes: [] };
-  const cards = plan.replies.some((r) => r.chart !== undefined) ? await renderBreakdownCharts(insight) : [];
+  const cards = plan.replies.some((r) => r.chart !== undefined) ? await renderThreadCards(insight) : [];
   const replies = plan.replies.map((r, i) => {
     if (r.chart === undefined) return { text: r.text };
     const image = `${slug}-t-${i + 2}.png`;

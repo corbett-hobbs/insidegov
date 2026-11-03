@@ -316,7 +316,7 @@ each part's change as bars, every value a verified fact (so captions may cite th
 | Total electricity generation | each source (gas, solar, wind, nuclear, coal): the month against a year earlier, and 12 months against the 12 before |
 | Goods trade deficit, imports, exports | the 5 partners whose part changed most: the month against a year earlier, and the year to date against the same months a year earlier (not seasonally adjusted) |
 
-Gas prices, encounters, ICE, executive orders and laws have no breakdown in the data, so they get the why slide only.
+Gas prices, encounters, ICE, executive orders and laws have no breakdown in the data, so they get the why slide only. The executive orders' monthly count is a tally, so it is drawn as one bar per month (`Series.bars`, the last 16 months; laws, which compare like months, keep a bar per year), and its monthly post adds an "Executive orders signed in October" slide and thread card listing that month's orders.
 
 ## Long-form threads on X and Bluesky
 
@@ -372,6 +372,7 @@ full 1080×1350 images, to save and upload in order. The slides go to the `socia
 | What drove it | each source's or partner's change, as bars (`breakdown.ts`) | the series has a breakdown |
 | How to read this | what the series measures, from `explain.ts`: plain definitions, no numbers, no causes | the series has an entry, and the draft has neither of the two above, or the entry states a release lag or revision (`hasLag` in `explain.ts`, e.g. EIA's figures arrive two months late) |
 | Key moments | dated actions from the site's sourced timelines (`energy_actions.json`, `tariff_actions.json`) between the chart's first date and the draft, at most 4, then the latest reading; a note says they are listed in order, not as causes | a line chart whose series has a timeline (energy series, news tariff charts) |
+| Orders signed | monthly executive-order posts: "Executive orders signed in October", the orders signed that month (only those: three orders list three), newest first, as many as fit: title, signing date, topic and the AI-written summary the Executive Orders page shows, with its disclosure; a month with more than fit says to visit the page for the rest (`eo-list.ts`; also a thread reply with a 1200×675 card) | the monthly executive-order post (not the term comparison) |
 | End | the page, "Link in bio", the source | always |
 
 **The intro.** `pnpm insights:intro -- --instagram DIR` writes the account's first post: five slides drawn from the

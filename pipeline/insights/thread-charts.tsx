@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, HEIGHT, INK, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, kickerFor, sealSrc, serifFont } from "./chart";
+import { CARD_ORDERS, type ListedOrder, fitOrders, insightOrders, moreNote, orderDate, ordersHeading } from "./eo-list";
+import { monthName } from "./format";
 import { breakdownsOf, rowValue } from "./research";
 import type { Breakdown, Insight } from "./types";
 
@@ -9,6 +11,8 @@ import type { Breakdown, Insight } from "./types";
  * breakdown block ("What drove it"), drawn in the same frame as the chart card (header, backdrop, source line) so the
  * images sit together in a timeline. The carousel's breakdown slide (carousel.tsx) shows both blocks in one portrait
  * slide; a thread gives each block its own post. Every value is a verified fact (breakdown.ts).
+ *
+ * A monthly executive-order post's thread also gets one card listing the month's orders (eo-list.ts), after the breakdown cards.
  */
 
 const PAD = 60;
@@ -79,6 +83,50 @@ function Card({ insight, b, blocks, backdrop }: { insight: Insight; b: Breakdown
       <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 32, display: "flex", justifyContent: "flex-end", fontSize: 18, color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
     </div>
   );
+}
+
+/** The newest executive orders, newest first: the date and topic in a column, then the title and its summary. */
+function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; orders: ListedOrder[]; more: boolean; backdrop: string }): ReactNode {
+  const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
+  return (
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `28px ${PAD}px 0 ${PAD}px` }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+      <img src={backdrop} width={WIDTH} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
+      <div style={{ display: "flex", alignItems: "center", fontSize: 18, letterSpacing: 3, color: MUTED, textTransform: "uppercase" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+        <img src={sealSrc()} width={42} height={42} alt="" style={{ marginRight: 12 }} />
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 32, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
+        {`Signed in ${monthName(insight.period)}`}
+      </div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10, marginBottom: 22 }}>{ordersHeading(insight.period)}</div>
+      {orders.map((o, i) => (
+        <div key={i} style={{ display: "flex", marginBottom: CARD_ORDERS.gap }}>
+          <div style={{ display: "flex", flexDirection: "column", width: 200, flexShrink: 0, paddingRight: 16, borderRight: `3px solid ${i === 0 ? ACCENT : NEUTRAL}`, marginRight: 24 }}>
+            <div style={{ display: "flex", fontSize: 21, color: i === 0 ? ACCENT : INK }}>{orderDate(o.date)}</div>
+            <div style={{ display: "flex", fontSize: 16, lineHeight: 1.25, color: MUTED, marginTop: 4 }}>{o.topic}</div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: 840 }}>
+            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 28, lineHeight: 1.17 }}>{o.title}</div>
+            {o.summary ? <div style={{ display: "flex", fontSize: 19, lineHeight: 1.28, color: INK, marginTop: 4 }}>{o.summary}</div> : null}
+          </div>
+        </div>
+      ))}
+      {more ? <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 98, display: "flex", fontFamily: "Newsreader", fontSize: 22, color: INK }}>{moreNote(insight.period, path)}</div> : null}
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 62, display: "flex", fontSize: 16, lineHeight: 1.35, color: MUTED }}>{"Newest first, by signing date. Summaries are AI-written from each order's text in the Federal Register."}</div>
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 32, display: "flex", justifyContent: "flex-end", fontSize: 18, color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
+    </div>
+  );
+}
+
+/** The thread's cards in the replies' `chart` order: one per breakdown block, then the executive orders card when the post has one. */
+export async function renderThreadCards(insight: Insight): Promise<Buffer[]> {
+  const out = await renderBreakdownCharts(insight);
+  const all = insightOrders(insight);
+  const orders = fitOrders(all, CARD_ORDERS);
+  if (!orders.length) return out;
+  const res = new ImageResponse(<OrdersCard insight={insight} orders={orders} more={orders.length < all.length} backdrop={await backdropSrc(insight.url, WIDTH, BACKDROP_H)} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serifFont(), weight: 500, style: "normal" }] });
+  out.push(Buffer.from(await res.arrayBuffer()));
+  return out;
 }
 
 /** One PNG per breakdown block, in the block order (the replies' `chart` index). */
