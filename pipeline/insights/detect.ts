@@ -99,7 +99,14 @@ function lineWindow(series: Series, latest: Point, comparison: string | null, mi
   return s < first ? first : s;
 }
 
-/** Same-calendar-month bars (seasonal) or one bar per fiscal year, ending at the latest point. */
+/** A bar's label: the fiscal year ("FY26"), the year, or for one bar per month the month and year ("Oct ’25"). */
+function barLabel(series: Series, p: Point, style: DateStyle): string {
+  if (style === "fiscal_year") return `FY${p.date.slice(2, 4)}`;
+  if (series.bars && !series.seasonal) return `${shortMonth(p.date).slice(0, 3)} ’${p.date.slice(2, 4)}`;
+  return p.date.slice(0, 4);
+}
+
+/** Same-calendar-month bars (seasonal), one bar per month (counts), or one bar per fiscal year, ending at the latest point. */
 export function periodBars(series: Series, latest: Point, from: string, style: DateStyle): ChartSpec {
   const pts = series.points.filter((p) => p.date >= from && p.date <= latest.date && (!series.seasonal || sameMonth(p.date, latest.date)));
   return {
@@ -107,12 +114,12 @@ export function periodBars(series: Series, latest: Point, from: string, style: D
     unit: series.unit,
     axisLabel: series.axisLabel,
     orientation: "vertical",
-    bars: pts.slice(-16).map((p) => ({ label: style === "fiscal_year" ? `FY${p.date.slice(2, 4)}` : p.date.slice(0, 4), value: p.value, emphasis: p.date === latest.date })),
+    bars: pts.slice(-16).map((p) => ({ label: barLabel(series, p, style), value: p.value, emphasis: p.date === latest.date })),
   };
 }
 
 export function usesBars(series: Series): boolean {
-  return series.seasonal || series.frequency === "fiscal_year" || series.frequency === "annual";
+  return series.seasonal || series.bars === true || series.frequency === "fiscal_year" || series.frequency === "annual";
 }
 
 /** New high or low at the latest observation. */
@@ -523,6 +530,8 @@ export function eventMonthlySeries(set: EventSet, asOf: string, opts: Pick<Serie
     unit: { scale: 1, decimals: 0, suffix: "" },
     frequency: "monthly",
     kind: "flow",
+    // A count per month reads as bars: each month is a tally, not a point on a continuous line.
+    bars: true,
     moveMode: "abs",
     skip: ["move", "term"],
     releaseLagDays: 1,

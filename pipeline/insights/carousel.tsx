@@ -1,7 +1,9 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
+import { SLIDE_ORDERS, type ListedOrder, fitOrders, insightOrders, moreNote, orderDate, ordersHeading } from "./eo-list";
 import { explainer, hasLag } from "./explain";
+import { monthName } from "./format";
 import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
 import type { Breakdown, Insight } from "./types";
@@ -17,7 +19,8 @@ import type { Breakdown, Insight } from "./types";
  *   4. breakdown  "What drove it" (breakdown.ts): each source's or partner's part of the change, as bars
  *   5. explainer  "How to read this" (explain.ts): what the series measures and when the figures come out, when there is no why or breakdown slide, or when it states a release lag
  *   6. moments    "Key moments" (moments.ts): dated actions from the site's sourced timelines, and the latest reading
- *   7. end        where the full chart and data are, and the source
+ *   7. orders     monthly executive-order posts: "Executive orders signed in October", the month's orders newest first as many as fit, each with its signing date, topic and short summary, and where to see the rest (eo-list.ts)
+ *   8. end        where the full chart and data are, and the source
  *
  * Every number on a slide is one the chart or the verified facts already carry; the why and explainer slides have none.
  */
@@ -45,7 +48,7 @@ export function portraitFrame(headline: string): Frame {
   return { width: W, height: H, plot: { left: 104, right: W - SIDE, top, bottom: 760 }, bandedBottom: 730 };
 }
 
-export type SlideKind = "hook" | "chart" | "why" | "breakdown" | "explainer" | "moments" | "end";
+export type SlideKind = "hook" | "chart" | "why" | "breakdown" | "explainer" | "moments" | "orders" | "end";
 
 /**
  * The newest value, as written in the caption: the fact a hook shows large. A term comparison shows the level too, not
@@ -322,6 +325,31 @@ function momentsSlide(insight: Insight, moments: Moment[], n: number, total: num
   );
 }
 
+/** The month's executive orders: as many rows as fit (eo-list.ts fitOrders), each a date and topic line, the title and its summary; `more` when some were left out. */
+function ordersSlide(insight: Insight, orders: ListedOrder[], more: boolean, n: number, total: number): ReactNode {
+  const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
+  return (
+    <Slide>
+      <Header {...headerOf(insight, `Signed in ${monthName(insight.period)}`)} />
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 34, lineHeight: 1.1, letterSpacing: -0.6, marginTop: 30, marginBottom: 22 }}>{ordersHeading(insight.period)}</div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {orders.map((o, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", marginBottom: SLIDE_ORDERS.gap, paddingLeft: 18, borderLeft: `3px solid ${i === 0 ? ACCENT : NEUTRAL}` }}>
+            <div style={{ display: "flex", fontSize: 14, letterSpacing: 1.5, textTransform: "uppercase", color: i === 0 ? ACCENT : MUTED, marginBottom: 4 }}>{`${orderDate(o.date)}${o.topic ? ` · ${o.topic}` : ""}`}</div>
+            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 25, lineHeight: 1.16, color: INK }}>{o.title}</div>
+            {o.summary ? <div style={{ display: "flex", fontSize: 16, lineHeight: 1.4, color: INK, marginTop: 6 }}>{o.summary}</div> : null}
+          </div>
+        ))}
+      </div>
+      {more ? <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 136, display: "flex", fontFamily: "Newsreader", fontSize: 19, lineHeight: 1.3, color: INK }}>{moreNote(insight.period, path)}</div> : null}
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 84, display: "flex", fontSize: 14, lineHeight: 1.4, color: MUTED }}>
+        {"Newest first, by signing date. Summaries are AI-written from each order's text in the Federal Register."}
+      </div>
+      <Footer n={n} total={total} />
+    </Slide>
+  );
+}
+
 function endSlide(insight: Insight, n: number, total: number): ReactNode {
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
   return (
@@ -342,7 +370,7 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 }
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
-export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown }[] {
+export function slidePlan(insight: Insight, orders: ListedOrder[] = []): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown; orders?: ListedOrder[]; more?: boolean }[] {
   // A chart with two lines keeps its explainer beside a reason: a reader needs both definitions to read it.
   const lines = !(insight.why || breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId ? explainer(insight) : [];
   const moments = keyMoments(insight);
@@ -353,12 +381,13 @@ export function slidePlan(insight: Insight): { kind: SlideKind; lines?: string[]
     ...breakdownsOf(insight).map((b) => ({ kind: "breakdown" as const, breakdown: b })),
     ...(lines.length ? [{ kind: "explainer" as const, lines }] : []),
     ...(moments.length ? [{ kind: "moments" as const, moments }] : []),
+    ...(orders.length ? [{ kind: "orders" as const, orders: fitOrders(orders, SLIDE_ORDERS), more: fitOrders(orders, SLIDE_ORDERS).length < orders.length }] : []),
     { kind: "end" },
   ];
 }
 
 export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
-  const plan = slidePlan(insight);
+  const plan = slidePlan(insight, insightOrders(insight));
   return renderSlides(
     plan.map((s, i) => {
       const n = i + 1;
@@ -374,7 +403,9 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
             ? explainerSlide(insight, s.lines!, n, plan.length)
             : s.kind === "moments"
               ? momentsSlide(insight, s.moments!, n, plan.length)
-              : endSlide(insight, n, plan.length);
+              : s.kind === "orders"
+                ? ordersSlide(insight, s.orders!, s.more === true, n, plan.length)
+                : endSlide(insight, n, plan.length);
     }),
     { src: await backdropSrc(insight.url, SLIDE_W, BACKDROP_H), height: BACKDROP_H },
   );
