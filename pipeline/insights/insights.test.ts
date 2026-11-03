@@ -470,3 +470,45 @@ describe("companion lines on a data release", () => {
     expect(withCompanion({ ...base, period: "1901-01-01", chart: { type: "line", points: [], marks: [] } } as never as Insight, trade).alsoSeriesId).toBeUndefined();
   });
 });
+
+describe("issue layout by platform", () => {
+  const draft = {
+    id: "energy.power_total:latest:2026-07-01",
+    kind: "latest",
+    dataset: "energy",
+    period: "2026-07-01",
+    headline: "Electricity",
+    caption: "Generation was high in July 2026.",
+    caption_source: "template",
+    caption_model: null,
+    link: "https://insidegov.fyi/presidency/energy",
+    post_text: "Generation was high in July 2026.\n\nhttps://insidegov.fyi/presidency/energy",
+    image: "x.png",
+    alt: "Chart",
+    source: "EIA",
+    score: 1,
+    facts: [],
+    template: "t",
+    series_id: "energy.power_total",
+    frequency: "monthly",
+    release: null,
+    reply_notes: [],
+    slides: ["x-ig-1.png"],
+    why: { title: "Why it rose", captionLine: "EIA cites heat.", paragraphs: ["Hot weather."], sources: [{ name: "EIA", url: "https://eia.gov/x" }] },
+  } as never as Parameters<typeof issueBody>[0];
+
+  it("keeps Bluesky and X together, then Instagram together, and rewrites both halves on an edit", async () => {
+    const { refreshCounts } = await import("./counts");
+    const body = issueBody(draft, "https://example.org/x.png");
+    const at = (s: string) => body.indexOf(s);
+    const order = ["## Bluesky and X", "**Post text**", "**Bluesky**", "**Why it moved**", "## Instagram", "**Instagram text**", "**Instagram slides**", 'Carousel slide "Why it rose"'].map(at);
+    expect(order.every((n) => n >= 0)).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    // Nothing for Bluesky or X comes after the Instagram heading.
+    expect(body.slice(at("## Instagram"))).not.toMatch(/\*\*Bluesky\*\*|\*\*Thread\*\*|\*\*Why it moved\*\*/);
+    const block = parseDraftBlock(body)!;
+    const next = refreshCounts(body, { ...block, caption: `${block.caption} More.` });
+    expect(next).toContain("Generation was high in July 2026. More.");
+    expect(next.indexOf("**Instagram text**")).toBeGreaterThan(next.indexOf("## Instagram"));
+  });
+});

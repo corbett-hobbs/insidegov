@@ -1,4 +1,4 @@
-import { lengthSection } from "./counts";
+import { blueskyXSection, instagramSection } from "./counts";
 import type { Draft } from "./drafts";
 import { slotLabel } from "./schedule";
 import type { CellRef, Derivation, Frequency, InsightKind, NewsTrigger, Release } from "./types";
@@ -117,17 +117,24 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
   return [
     `![${draft.alt.replace(/[[\]]/g, "")}](${imageUrl})`,
     "",
+    "## Bluesky and X",
+    "",
     "**Post text**",
     "",
     "```text",
     draft.post_text,
     "```",
     "",
-    lengthSection(block),
+    blueskyXSection(block),
     "",
     ...threadSection(block, draft.reply_notes),
-    ...whySection(draft),
+    ...whyReasonSection(draft),
+    "## Instagram",
+    "",
+    instagramSection(block),
+    "",
     ...slidesSection(draft, imageUrl),
+    ...carouselWhySection(draft),
     `Dataset \`${draft.dataset}\` · ${draft.kind.replace("_", " ")} · period ${draft.period} · caption by ${draft.caption_source}${draft.caption_model ? ` (${draft.caption_model})` : ""}${extra.dataPr ? ` · data PR ${extra.dataPr}` : ""}${extra.runUrl ? ` · [run](${extra.runUrl})` : ""}`,
     "",
     "<details><summary>Every number the caption may use, traced to the data</summary>",
@@ -214,15 +221,20 @@ export function parseDraftBlock(body: string): DraftBlock | null {
 }
 
 /**
- * Why the number moved (research.ts), for review: the post's sentence, the carousel's paragraphs and every source, linked,
- * so the reasons can be checked against what the agency said before approving. Or why there is none.
+ * Why the number moved (research.ts), for review, in two parts that sit with the platform they are for. The reason the post
+ * sentence gives (Bluesky and X; Instagram's caption repeats it), checked against the sources before approving; or why there is none.
  */
-export function whySection(draft: Pick<Draft, "why" | "why_error">): string[] {
+export function whyReasonSection(draft: Pick<Draft, "why" | "why_error">): string[] {
   const w = draft.why;
   if (!w) return draft.why_error ? [`**Why it moved:** none found (${draft.why_error}). The carousel explains the measure instead; add a reason by hand in \`pipeline/insights/why.ts\` if one is needed.`, ""] : [];
+  return [`**Why it moved** (check it against the sources before approving): ${w.captionLine}`, ""];
+}
+
+/** The carousel's reasons slide (Instagram): its paragraphs and every source, linked. */
+export function carouselWhySection(draft: Pick<Draft, "why">): string[] {
+  const w = draft.why;
+  if (!w) return [];
   return [
-    `**Why it moved** (check it against the sources before approving): ${w.captionLine}`,
-    "",
     `<details><summary>Carousel slide "${w.title}" and its sources</summary>`,
     "",
     ...w.paragraphs.flatMap((p) => [`> ${p}`, ">"]).slice(0, -1),
