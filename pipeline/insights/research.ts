@@ -95,9 +95,13 @@ const WEB_DOMAINS = [...AGENCY_SEARCH, ...Object.keys(NEWS_OUTLETS)];
 const ATTRIBUTION = new RegExp(
   `\\b(EIA|Energy Information Administration|Energy Department|Census|Census Bureau|BEA|Bureau of Economic Analysis|Commerce Department|Commerce data|CBP|Customs and Border Protection|ICE|DHS|Homeland Security|BLS|Labor Department|Treasury|the Fed|Federal Reserve|CBO|CRS|GAO|Federal Register|Congress\\.gov|USDA|Agriculture Department|Associated Press|Wall Street Journal|WSJ|New York Times|${Object.values(NEWS_OUTLETS).map((n) => n.replace(/^The /, "")).join("|")})\\b`,
 );
-/** Agency and outlet names: the post sentence names its source, but the carousel text leaves names to the footnote. */
-const NAMED_SOURCES = [...Object.values(NEWS_OUTLETS), "EIA", "BEA", "Census Bureau", "Census", "CBP", "BLS", "DOE", "Energy Department", "Commerce Department", "Federal Reserve", "CBO", "GAO", "CRS", "Energy Information Administration", "Bureau of Economic Analysis"];
+/** Agency names: the post sentence names its source, but the carousel text leaves agencies to the footnote. News outlets may be named in the text (see UNNAMED_OUTLETS). */
+const NAMED_SOURCES = ["EIA","BEA", "Census Bureau", "Census", "CBP", "BLS", "DOE", "Energy Department", "Commerce Department", "Federal Reserve", "CBO", "GAO", "CRS", "Energy Information Administration", "Bureau of Economic Analysis"];
 const NAMED_SOURCE = new RegExp(`\\b(?:${NAMED_SOURCES.map((n) => n.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")).join("|")})\\b`);
+/** An outlet named in the text ("CNBC", "The Hill"). */
+const OUTLET_NAME = new RegExp(`\\b(?:${Object.values(NEWS_OUTLETS).map((n) => n.replace(/^The /, "").replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")).join("|")})\\b`);
+/** A reference to outlets the reader has not been told about ("both outlets", "the two outlets", "both reports"). */
+const UNNAMED_OUTLETS = /\b(?:both|the two|these two|those two|the)\s+(?:news\s+)?(?:outlets|publications|news organi[sz]ations)\b|\bboth\s+(?:news\s+)?(?:reports|sources|stories|articles)\b/i;
 const POST_LINE_MAX = 130;
 const PARAGRAPH_MAX = 220;
 /** The carousel slide's paragraphs together: about what one 4:5 slide holds at a readable size. */
@@ -117,12 +121,12 @@ If the input has in_the_news, the topic is in the news today and the explanation
 
 If the input has month_items (executive orders or laws signed that month, with their topics, and month_topics with how many fall under each), the slide has two parts: first the reason for any outlier, as above, kept to one short paragraph (when there is no outlier, say in a sentence what the month's count follows from, never a guess); then one sentence, the last paragraph, on the main subjects of that month's items. Take that sentence only from month_items, never from news: name the two to four subjects the most items fall under, most first, in plain words ("public land transfers and park designations, tribal land and water measures, and agency reporting requirements"), and call the items "mostly narrow" only if most are. Use no number in that sentence apart from the year.
 
-Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not.
+Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source. In the paragraphs, name a news outlet where you first refer to it ("CNBC and Fox Business tie this to ..."); never write "both outlets", "the outlets" or "both reports" for outlets the text has not named, because the reader cannot see which ones you mean.
 
 What to write:
 - caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
 - title: 3 to 6 words for the carousel slide, such as "Why it went up", "Why it fell", "Why it held", "Why it rose, then held"; use "What changed" only when the sources give no reason, never when they do.
-- paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${max} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency or news outlet in the text (they go in sources, which print as the slide's footnote). Words only: no figures, percentages or amounts (years are fine).
+- paragraphs: one or two short paragraphs (each under ${PARAGRAPH_MAX} characters, ${max} together: they are most of one slide, so keep it brief) that tell one connected story: what moved, and what the sources say is behind it. Write it as plain, flowing prose, each sentence following from the last, not a list of who said what. Do not name any agency in the text (agencies go in sources, which print as the slide's footnote); a news outlet may be named, and must be before the text refers back to it as "both" or "the outlets". Words only: no figures, percentages or amounts (years are fine).
 - sources: every page you used, with a short name ("EIA Electricity Monthly Update, October 2026") and its exact URL as you opened it.
 
 Rules: say only what the sources say. A reason that comes from reporting rather than a measured figure is worded as what the change came "amid" or is "tied to", never as your own conclusion. No adjectives that judge or dramatize, no party or politician names, and no verdicts on whether a policy worked or what a policy caused; if a source ties a change to a policy, describe the timing ("after the tariff took effect"), not the effect. If the sources give no reason, say what they do report (which parts changed) and nothing more. Write for the reader, never about your research: no "I", "we", "I found" or "the agencies do not give a cause".`;
@@ -231,6 +235,10 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
     const causal = CAUSAL_PHRASES.filter((c) => p.toLowerCase().includes(c));
     if (causal.length) errors.push(`a paragraph says "${causal.join('", "')}" in the site's own voice; word it as "amid" or "tied to": "${p.slice(0, 60)}..."`);
   }
+  // "Both outlets tie this to ..." means nothing until the outlets are named: name them first, or do not refer to them.
+  const text = w.paragraphs.join(" ");
+  const unnamed = UNNAMED_OUTLETS.exec(text);
+  if (unnamed && !OUTLET_NAME.test(text.slice(0, unnamed.index))) errors.push(`the text says "${unnamed[0]}" before naming the outlets: name them where you first refer to them ("CNBC and Fox Business tie this to ...")`);
   const words = new Set([w.captionLine, w.title, ...w.paragraphs].join(" ").toLowerCase().match(/[a-z]+(?:-[a-z]+)*/g) ?? []);
   const banned = BANNED_WORDS.filter((b) => words.has(b) && !["only", "just", "record", "records", "caused"].includes(b));
   if (banned.length) errors.push(`uses loaded or partisan words: ${banned.join(", ")}`);

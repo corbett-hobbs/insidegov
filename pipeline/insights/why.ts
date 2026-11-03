@@ -3,7 +3,7 @@ import type { Insight, Why } from "./types";
 /**
  * Why a number moved, written by hand for a draft, keyed by insight id. It takes the place of the researched answer
  * (research.ts) for that draft and follows the same rules: the agency's own release first, one or two short paragraphs
- * that name no agency or outlet (the sources are the footnote), words only apart from years, no verdicts on whether a policy worked. Most drafts need no entry here.
+ * that name no agency (the sources are the footnote; an outlet may be named, and is before any "both outlets"), words only apart from years, no verdicts on whether a policy worked. Most drafts need no entry here.
  */
 const OCTOBER_2026_LAWS: Why = {
   title: "Why it rose, and what passed",
