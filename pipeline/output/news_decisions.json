@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-02",
+  "asOf": "2026-11-03",
   "stories": [
     {
       "id": "ruling_elections-2026-11-02",
@@ -9,6 +9,13 @@
       "groupId": "elections",
       "headlines": [
         {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Supreme Court Rejects Trump Admin Request To Set Aside Thousands Of California Ballots",
+          "url": "https://www.huffpost.com/entry/supreme-court-california-noncitizen-voting_n_6ae8bc4ae4b0b1f508d594a4"
+        },
+        {
           "outletId": "guardian",
           "outlet": "The Guardian",
           "lean": "Left",
@@ -16,18 +23,11 @@
           "url": "https://www.theguardian.com/us-news/2026/nov/02/supreme-court-trump-california-ballots"
         },
         {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Supreme Court rejects Trump administration's bid to set aside 20,000 California ballots",
-          "url": "https://thehill.com/regulation/court-battles/6190525-supreme-court-trump-administration-california-ballots/"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Supreme Court rejects DOJ bid to set aside 20,000 California ballots from suspected noncitizens",
-          "url": "https://www.washingtonexaminer.com/news/supreme-court/4788867/supreme-court-rejects-doj-bid-set-aside-california-ballots/"
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "Supreme Court rejects Trump's request in California mail ballots dispute",
+          "url": "https://www.cbsnews.com/news/supreme-court-rejects-trump-california-mail-ballots-alleged-noncitizens/"
         }
       ]
     }
