@@ -157,16 +157,16 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
     },
   },
   debt: {
-    says: ["54% of GDP in 2001", "133% in mid-2020", "116% in early 2023", "123% by early 2026"],
+    says: ["54% of GDP in 2001", "133% in mid-2020", "115% in early 2023", "122% by early 2026"],
     check: () => {
       expect(min(debt).date.slice(0, 4)).toBe("2001");
       expect(Math.round(min(debt).value)).toBe(54);
       expect(max(debt).date).toBe("2020-04-01");
       expect(Math.round(max(debt).value)).toBe(133);
       expect(min(debt).value * 2).toBeLessThan(max(debt).value);
-      expect(Math.round(min(within(debt, "2020-07", "2027")).value)).toBe(116);
+      expect(Math.round(min(within(debt, "2020-07", "2027")).value)).toBe(115);
       expect(min(within(debt, "2020-07", "2027")).date.slice(0, 4)).toBe("2023");
-      expect(Math.round(at(debt, "2026-01-01"))).toBe(123);
+      expect(Math.round(at(debt, "2026-01-01"))).toBe(122);
     },
   },
   ff: {
