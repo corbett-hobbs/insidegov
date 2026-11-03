@@ -1,4 +1,35 @@
 {
-  "asOf": "2026-10-28",
-  "stories": []
+  "asOf": "2026-11-02",
+  "stories": [
+    {
+      "id": "ruling_elections-2026-11-02",
+      "date": "2026-11-02",
+      "topic": "Supreme Court rulings on elections",
+      "chartId": "how-many-cases-does-the-court-decide",
+      "groupId": "elections",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Supreme court rules against Trump over bid to force California to set aside ballots",
+          "url": "https://www.theguardian.com/us-news/2026/nov/02/supreme-court-trump-california-ballots"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Supreme Court rejects Trump administration's bid to set aside 20,000 California ballots",
+          "url": "https://thehill.com/regulation/court-battles/6190525-supreme-court-trump-administration-california-ballots/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Supreme Court rejects DOJ bid to set aside 20,000 California ballots from suspected noncitizens",
+          "url": "https://www.washingtonexaminer.com/news/supreme-court/4788867/supreme-court-rejects-doj-bid-set-aside-california-ballots/"
+        }
+      ]
+    }
+  ]
 }

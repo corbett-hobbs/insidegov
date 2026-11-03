@@ -14,18 +14,18 @@
           "url": "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war"
         },
         {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
           "lean": "Lean Left",
-          "title": "Crude oil prices sell off more than 7% on Iran peace talk hopes ahead of U.S. midterms",
-          "url": "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html"
+          "title": "Oil prices slide in biggest drop since July on hope for more Iran talks",
+          "url": "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107"
         },
         {
           "outletId": "wsj",
           "outlet": "Wall Street Journal",
           "lean": "Center",
-          "title": "Oil Prices Fall More Than 6% as Iran Peace Talks Ease Supply Fears",
-          "url": "https://www.wsj.com/world/middle-east/oil-prices-fall-more-than-3-as-iran-peace-talks-ease-supply-fears-e2b47ca0?mod=pls_whats_news_us_business_f"
+          "title": "Oil Futures Sell Off on Middle East Diplomatic Progress",
+          "url": "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f"
         }
       ]
     },
