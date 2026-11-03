@@ -84,6 +84,19 @@ describe("laws list", () => {
   });
 });
 
+describe("month's subjects for the why slide", () => {
+  it("gives a monthly laws or orders post the month's items and topic counts, and no other post", async () => {
+    const { monthItems } = await import("./research");
+    const laws = monthItems({ seriesId: "laws.monthly", period: "2026-10-01" });
+    expect(laws.month_items!.length).toBeGreaterThan(10);
+    expect(laws.month_topics![0]!.count).toBeGreaterThanOrEqual(laws.month_topics!.at(-1)!.count);
+    expect(laws.month_topics!.reduce((n, t) => n + t.count, 0)).toBe(insightOrders({ seriesId: "laws.monthly", period: "2026-10-01" }).length);
+    expect(monthItems({ seriesId: "executive_orders.monthly", period: "2026-09-01" }).month_items!.length).toBeGreaterThan(3);
+    expect(monthItems({ seriesId: "gas.regular", period: "2026-10-01" })).toEqual({});
+    expect(monthItems({ seriesId: "laws", period: "2026-09-30" })).toEqual({});
+  });
+});
+
 describe("pinned why", () => {
   it("keeps October 2026's researched why when its draft is regenerated", async () => {
     const { withWhy } = await import("./why");
