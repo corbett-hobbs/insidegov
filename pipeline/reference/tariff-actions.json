@@ -1,5 +1,5 @@
 {
- "last_reviewed": "2026-10-01",
+ "last_reviewed": "2026-11-02",
  "actions": [
   {
    "action_id": "2018-03-23-section-232-steel-aluminum",
@@ -693,7 +693,7 @@
    "kind": "struck_down",
    "countries": "all",
    "legal_status": "stayed",
-   "status_note": "Secondary reports say the Federal Circuit granted a stay pending appeal on June 11, 2026 (Nos. 2026-1804 and 2026-1805). Appeal outcome not reviewed.",
+   "status_note": "Secondary reports say the Federal Circuit granted a stay pending appeal on June 11, 2026 (Nos. 2026-1804 and 2026-1805). No decision on the appeal was found as of November 2, 2026.",
    "flag_priority": 2,
    "is_cutover": false,
    "court_case": {
@@ -848,7 +848,7 @@
    ],
    "scope_note": "60 economies: the 27 European Union member states count as one economy.",
    "legal_status": "in_effect_under_challenge",
-   "status_note": "Challenged in the Court of International Trade (State of Oregon v. Trump, Court No. 26-03467, and Burlap and Barrel, Inc. v. Greer). The court heard arguments on September 30, 2026 and had not ruled as of October 1, 2026.",
+   "status_note": "Challenged in the Court of International Trade (State of Oregon v. Trump, Court No. 26-03467, and Burlap and Barrel, Inc. v. Greer). The court heard arguments on September 30, 2026 and had not ruled as of November 2, 2026.",
    "rate_note": "10 percent or 12.5 percent ad valorem, depending on the economy, with exemptions",
    "flag_priority": 1,
    "is_cutover": false,
@@ -922,7 +922,7 @@
     "CAN"
    ],
    "legal_status": "in_effect",
-   "status_note": "Proclamations of September 8, 2026 modify the products covered (effective September 15) and exclude certain alcoholic beverages from importation (effective September 29).",
+   "status_note": "Proclamations of September 8, 2026 modify the products covered (effective September 15) and exclude certain alcoholic beverages from importation (effective September 29). A proclamation of October 23, 2026 further modifies the motor vehicle products covered (effective October 30).",
    "rate_note": "50 percent ad valorem on the products listed in each proclamation",
    "flag_priority": 2,
    "is_cutover": false,
