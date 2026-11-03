@@ -1,10 +1,10 @@
 {
-  "laws": 12634,
+  "laws": 12636,
   "congresses": "93-119",
   "partial_congresses": [
     119
   ],
-  "data_through": "2026-10-20",
+  "data_through": "2026-10-22",
   "sources": [
     {
       "source": "congress-gov",
@@ -378,13 +378,13 @@
     {
       "congress": 119,
       "source": "govinfo-billstatus",
-      "laws": 134,
-      "highest_number": 134,
+      "laws": 136,
+      "highest_number": 136,
       "list_rows": null,
       "list_rows_beyond_laws": null,
       "independent_count": null,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-26",
+      "fetched": "2026-11-02",
       "source_corrections": [
         "119-pub-120: Bill Status also lists it on HR 766, which has no signing action; kept S 766"
       ],
@@ -415,7 +415,7 @@
   "policy_areas": {
     "by_name": {
       "Government Operations and Politics": 1825,
-      "Public Lands and Natural Resources": 1350,
+      "Public Lands and Natural Resources": 1351,
       "Commemorations": 1146,
       "Armed Forces and National Security": 905,
       "Economics and Public Finance": 679,
@@ -431,7 +431,7 @@
       "Education": 235,
       "Water Resources Development": 220,
       "Environmental Protection": 214,
-      "Science, Technology, Communications": 213,
+      "Science, Technology, Communications": 214,
       "Law": 200,
       "Foreign Trade and International Finance": 197,
       "Congress": 180,
@@ -1045,14 +1045,14 @@
         "check_minor": 3
       },
       "2020s": {
-        "laws": 770,
-        "chamber_votes": 1540,
+        "laws": 772,
+        "chamber_votes": 1544,
         "roll": 420,
         "tally_from_text": 420,
         "check_exact": 418,
         "join_clerk": 420,
-        "consent": 600,
-        "voice": 483,
+        "consent": 602,
+        "voice": 485,
         "unstated": 37,
         "check_minor": 2,
         "nonroll_with_a_voteview_vote_on_the_bill_that_day": 1
@@ -1095,7 +1095,7 @@
         388
       ],
       "2020s": [
-        438,
+        440,
         51,
         20,
         48,
@@ -1286,7 +1286,7 @@
         62
       ],
       "119": [
-        71,
+        73,
         29,
         6,
         5,
@@ -1417,8 +1417,8 @@
         "fill": "67%"
       },
       "2020s": {
-        "laws": 770,
-        "with_sentence": 711,
+        "laws": 772,
+        "with_sentence": 713,
         "too-long": 58,
         "empty": 1,
         "fill": "92%"
@@ -1497,7 +1497,7 @@
       "117": 13,
       "118": 8
     },
-    "laws_not_yet_assessed": 134
+    "laws_not_yet_assessed": 136
   },
   "veto_overrides": [
     "93-pub-148 1973-11-07",
@@ -1553,13 +1553,13 @@
       "111-pub-139"
     ],
     "not_in_legislators": [],
-    "resolved": 12619
+    "resolved": 12621
   },
   "cosponsors": {
-    "laws_with_cosponsors": 9421
+    "laws_with_cosponsors": 9422
   },
   "committees": {
-    "laws_with_a_committee": 12165,
+    "laws_with_a_committee": 12167,
     "distinct_ids": 386,
     "ids_with_a_page": 156,
     "share_of_committee_links_with_a_page_by_decade": {
@@ -1568,7 +1568,7 @@
       "1990s": "92% of 3815",
       "2000s": "100% of 3760",
       "2010s": "100% of 2983",
-      "2020s": "100% of 1166"
+      "2020s": "100% of 1170"
     },
     "ids_with_more_than_one_name": [
       "HSED: Education and Workforce Committee / Education and the Workforce Committee",
