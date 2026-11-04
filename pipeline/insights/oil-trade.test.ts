@@ -170,14 +170,18 @@ describe("the oil trade card", () => {
   });
 
   it("says what the bars mostly are, whichever way they fall", () => {
-    // Scaled crude readings keep their cells, so only the wording is checked (the facts would not verify against the rows).
-    // A fixed month: the newest one moves with each EIA refresh, and tripling its crude exports can pass their total.
-    const scaled = (id: string, k: number) => energy.map((s) => (s.id === id ? { ...s, points: s.points.map((p) => ({ ...p, value: p.value * k })) } : s));
-    const words = (all: Series[]) => oilTradeCard(all, "2026-08-01", "EIA")!.breakdown.stacked!.words;
-    expect(words(energy)).toMatch(/^Most of what the U\.S\. imports is crude oil \(83%\), while most of what it exports is refined products such as gasoline, diesel and jet fuel \(68%\)\./);
-    expect(words(scaled(OIL_SERIES.exportsCrude, 3))).toMatch(/^Most U\.S\. oil imports and exports are crude oil \(83% and \d+%\)\./);
-    expect(words(scaled(OIL_SERIES.importsCrude, 0.1))).toMatch(/^Most U\.S\. oil imports and exports are refined products such as gasoline, diesel and jet fuel \(\d+% and 68%\)\./);
-    const reversed = scaled(OIL_SERIES.importsCrude, 0.1).map((s) => (s.id === OIL_SERIES.exportsCrude ? { ...s, points: s.points.map((p) => ({ ...p, value: p.value * 3 })) } : s));
+    // Crude readings are set to a share of their total, whatever the data says, and keep their cells, so only the wording is checked (the facts would not verify against the rows).
+    const toShare = (all: Series[], id: string, totalId: string, share: number) => {
+      const totals = new Map(all.find((s) => s.id === totalId)!.points.map((p) => [p.date, p.value]));
+      return all.map((s) => (s.id === id ? { ...s, points: s.points.map((p) => ({ ...p, value: (totals.get(p.date) ?? p.value) * share })) } : s));
+    };
+    const words = (all: Series[]) => oilTradeCard(all, latest, "EIA")!.breakdown.stacked!.words;
+    const mostlyCrudeOut = toShare(energy, OIL_SERIES.exportsCrude, OIL_SERIES.exportsTotal, 0.8);
+    const mostlyRefinedIn = toShare(energy, OIL_SERIES.importsCrude, OIL_SERIES.importsTotal, 0.1);
+    expect(words(energy)).toMatch(/^Most of what the U\.S\. imports is crude oil \(\d+%\), while most of what it exports is refined products such as gasoline, diesel and jet fuel \(\d+%\)\./);
+    expect(words(mostlyCrudeOut)).toMatch(/^Most U\.S\. oil imports and exports are crude oil \(\d+% and \d+%\)\./);
+    expect(words(mostlyRefinedIn)).toMatch(/^Most U\.S\. oil imports and exports are refined products such as gasoline, diesel and jet fuel \(\d+% and \d+%\)\./);
+    const reversed = toShare(mostlyRefinedIn, OIL_SERIES.exportsCrude, OIL_SERIES.exportsTotal, 0.8);
     expect(words(reversed)).toMatch(/^Most of what the U\.S\. imports is refined products such as gasoline, diesel and jet fuel \(\d+%\), while most of what it exports is crude oil \(\d+%\)\./);
   });
 });
