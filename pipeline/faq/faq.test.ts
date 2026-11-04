@@ -150,7 +150,8 @@ describe("question lists", () => {
     const list = readQuestionList(page);
     const qs = list.groups.flatMap((g) => g.questions);
     expect(qs.length).toBeGreaterThanOrEqual(5);
-    expect(qs.length).toBeLessThanOrEqual(8);
+    // Executive actions has two sections sharing one band: 5-8 for each.
+    expect(qs.length).toBeLessThanOrEqual(page === "executive-orders" ? 12 : 8);
     for (const s of qs.flatMap((q) => q.sources)) expect(sourceNotAllowed(s.url), s.url).toBeNull();
   });
 

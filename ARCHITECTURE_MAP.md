@@ -606,6 +606,10 @@ Decisions (recorded so they aren't re-litigated):
   - **`LprCountryCard`** ("Where new permanent residents come from"): the refugee country card's layout with the same Green cards / Naturalizations toggle; it reuses `RefugeeMap` (now takes `bins` and `words`) and `StackedRows`. Fixed absolute bins per measure (`LPR_BINS`). Years are by country of **birth**; FY2025 (quarterly report only) is by **nationality**, so it shows a note and no change column instead of comparing the two bases. The "all other", unknown and withheld buckets are not listed.
   - Copy never mixes green cards with visas, entries, refugee or ICE counts; no per-president averages.
 
+### Executive actions page (`components/executive-orders/`, `components/clemency/`, `lib/clemency-*.ts`, `/presidency/executive-actions`)
+
+Scope and settled decisions: `docs/EXECUTIVE_ACTIONS_PARDONS_SCOPE.md`; data rules: `docs/CLEMENCY_METHODOLOGY.md`. One scrolling page, section 1 orders and section 2 pardons, with one fiscal-year window from 1993. Orders count by calendar year from 1994; a window that is exactly a run of terms keeps only those presidents' orders in the edge years. Topic, Type and Offense sit in section rows (rule 5h). The list loads on demand from `/data/clemency/grants`. Biden's group warrants are group rows with no OCR names, and the list says so. Marker notes use `StackedBars`' `overlay`. Takeaways are checked in `lib/clemency-takeaways.test.ts`.
+
 ### Troops abroad page (`components/troops/`, `lib/troops-*.ts`, `/presidency/troops-abroad`)
 
 Data: `pipeline/output/troops_location{,_meta,_report}.json` (DMDC location reports, Sep 2008-; see `docs/TROOPS_METHODOLOGY.md`) -> `lib/troops-data.ts` (server-only, Zod-parses via `lib/troops-entities.ts`) -> `lib/troops-derive.ts` (pure, unit-tested over the real files: dense payload, `stackByRegion`, `periodView`, `changeVsPrior`, ticks, map bins) -> `TroopsPayload` (`lib/troops-types.ts`). Regions are the fixed ISO3 map in `lib/troops-regions.ts`.

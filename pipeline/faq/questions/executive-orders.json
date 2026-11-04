@@ -1,6 +1,8 @@
 {
   "page": "executive-orders",
-  "dataFiles": [],
+  "dataFiles": [
+    "pipeline/output/clemency_years.json"
+  ],
   "groups": [
     {
       "row": "What an executive order is",
@@ -40,7 +42,7 @@
       ]
     },
     {
-      "row": "Limits and reach",
+      "row": "Executive orders: limits and reach",
       "questions": [
         {
           "id": "who-can-overturn-eo",
@@ -77,7 +79,7 @@
       ]
     },
     {
-      "row": "Counts",
+      "row": "Executive orders: counts",
       "questions": [
         {
           "id": "who-signed-most-eos",
@@ -96,6 +98,138 @@
               "label": "The American Presidency Project (UC Santa Barbara), Executive Orders",
               "url": "https://www.presidency.ucsb.edu/statistics/data/executive-orders"
             }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardons and commutations",
+      "questions": [
+        {
+          "id": "pardon-commutation-group",
+          "kind": "difference",
+          "q": "What is the difference between a pardon, a commutation and a group grant?",
+          "searched": "difference between pardon and commutation",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "A pardon is the President's forgiveness for a federal offense; it does not signify innocence. A commutation reduces a sentence being served, in full or in part, and leaves the conviction in place. Say plainly that \"group grant\" is this page's own label, not a legal term: one warrant or proclamation covering many people at once, such as the commutation of 1,499 people on December 12, 2024 or the January 6, 2021 proclamation. Do not say which kinds a group grant can be. Never write a proclamation number.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            },
+            {
+              "label": "U.S. Department of Justice, Commutations Granted by President Biden",
+              "url": "https://www.justice.gov/pardon/commutations-granted-president-joseph-biden-2021-2025"
+            },
+            {
+              "label": "Federal Register, Proclamation 10887",
+              "url": "https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-01950.htm"
+            }
+          ],
+          "allowNames": [
+            "Biden",
+            "Trump"
+          ]
+        },
+        {
+          "id": "pardon-vs-expungement",
+          "kind": "difference",
+          "q": "What is the difference between a pardon and an expungement?",
+          "searched": "does a pardon erase a conviction",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "A pardon does not erase a conviction: the Justice Department says it does not signify innocence and the pardoned offense stays on the record. Expungement is a separate remedy that courts rarely grant.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        },
+        {
+          "id": "who-pardoned-before-conviction",
+          "kind": "matters",
+          "q": "Who can be pardoned before being convicted?",
+          "searched": "can someone be pardoned before being convicted",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "The Justice Department says the President can pardon people who have not yet been convicted.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardon limits and process",
+      "questions": [
+        {
+          "id": "who-pardons-state-crimes",
+          "kind": "matters",
+          "q": "Who can pardon a state crime?",
+          "searched": "can a president pardon state crimes",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "Not the President: the Constitution gives the power over offenses against the United States, except in cases of impeachment. State convictions go to the authorities of that state.",
+          "sources": [
+            {
+              "label": "National Archives, The Constitution, Article II, Section 2",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        },
+        {
+          "id": "who-decides-clemency",
+          "kind": "matters",
+          "q": "Who decides a clemency application?",
+          "searched": "does the president have to follow the pardon attorney",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "The President decides, apart from certain administrative closures. The Justice Department's clemency rules are advisory, for the internal guidance of its staff, and give applicants no enforceable rights.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardon counts",
+      "questions": [
+        {
+          "id": "who-most-clemency",
+          "kind": "matters",
+          "q": "Who has granted the most clemency?",
+          "searched": "which president granted the most pardons",
+          "chartIds": [
+            "grants-by-president"
+          ],
+          "brief": "Lead with the name: among presidents since 1993, Joe Biden has granted the most in the Justice Department's figures, 80 pardons and 4,165 commutations. Then say no president in its table, back to 1900, shows a larger number of grants.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Clemency Statistics",
+              "url": "https://www.justice.gov/pardon/clemency-statistics"
+            }
+          ],
+          "allowNames": [
+            "Biden",
+            "Joe Biden",
+            "Clinton"
           ]
         }
       ]
