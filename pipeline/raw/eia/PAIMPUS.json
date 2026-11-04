@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:32:15.976Z","series":{"id":"PAIMPUS","title":"Total Petroleum Imports in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PAIMPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-03T19:30:35.949Z","series":{"id":"PAIMPUS","title":"Total Petroleum Imports in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PAIMPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","5857.097"],
     ["1973-02","6507.286"],
@@ -643,7 +643,8 @@
     ["2026-04","7894.9"],
     ["2026-05","7611.387"],
     ["2026-06","7674.267"],
-    ["2026-07","7363.17"],
-    ["2026-08","8106.747"]
+    ["2026-07","7802.194"],
+    ["2026-08","8106.747"],
+    ["2026-09","7888.649"]
   ]
 }

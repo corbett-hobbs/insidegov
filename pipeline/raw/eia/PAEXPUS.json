@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:32:22.687Z","series":{"id":"PAEXPUS","title":"Total Petroleum Exports in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PAEXPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-03T19:30:42.394Z","series":{"id":"PAEXPUS","title":"Total Petroleum Exports in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PAEXPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","210.613"],
     ["1973-02","260.964"],
@@ -643,7 +643,8 @@
     ["2026-04","13610.02"],
     ["2026-05","13539.668"],
     ["2026-06","12539.625"],
-    ["2026-07","11097.613"],
-    ["2026-08","11890.613"]
+    ["2026-07","11410.373"],
+    ["2026-08","11890.613"],
+    ["2026-09","11829.833"]
   ]
 }

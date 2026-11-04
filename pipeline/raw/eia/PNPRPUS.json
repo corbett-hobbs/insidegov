@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:32:03.401Z","series":{"id":"PNPRPUS","title":"Total Petroleum Field Production in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PNPRPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-03T19:30:22.854Z","series":{"id":"PNPRPUS","title":"Total Petroleum Field Production in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PNPRPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","10855.968"],
     ["1973-02","11140.107"],
@@ -641,9 +641,10 @@
     ["2026-02","21364.187"],
     ["2026-03","21589.925"],
     ["2026-04","21883.911"],
-    ["2026-05","21742.141"],
-    ["2026-06","21677.04"],
-    ["2026-07","21580"],
-    ["2026-08","21722.631"]
+    ["2026-05","21797.633"],
+    ["2026-06","21728.946"],
+    ["2026-07","21931.713"],
+    ["2026-08","21722.631"],
+    ["2026-09","21914.352"]
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:32:55.025Z","series":{"id":"N9133US2","title":"Liquefied U.S. Natural Gas Exports (MMcf)","units":"MMCF","route":"natural-gas/move/expc","query":"frequency=monthly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=N9133US2&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":355}},
+  "head": {"fetched_at":"2026-11-03T19:31:15.884Z","series":{"id":"N9133US2","title":"Liquefied U.S. Natural Gas Exports (MMcf)","units":"MMCF","route":"natural-gas/move/expc","query":"frequency=monthly&data%5B0%5D=value&facets%5Bseries%5D%5B%5D=N9133US2&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":356}},
   "observations": [
     ["1997-01","5604"],
     ["1997-02","5596"],
@@ -355,6 +355,7 @@
     ["2026-04","537936"],
     ["2026-05","502812"],
     ["2026-06","521059"],
-    ["2026-07","518777"]
+    ["2026-07","518608"],
+    ["2026-08","514617"]
   ]
 }
