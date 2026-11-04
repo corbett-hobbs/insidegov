@@ -17,7 +17,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/wealth", destination: "/congress/wealth", permanent: true },
-      { source: "/executive-orders", destination: "/presidency/executive-orders", permanent: true },
+      { source: "/executive-orders", destination: "/presidency/executive-actions", permanent: true },
+      { source: "/presidency/executive-orders", destination: "/presidency/executive-actions", permanent: true },
+      { source: "/presidency/executive-orders/chart/:chart", destination: "/presidency/executive-actions/chart/:chart", permanent: true },
       { source: "/presidency/national-security", destination: "/presidency/troops-abroad", permanent: true },
       ...verticalRedirects().map((r) => ({ ...r, permanent: true })),
       ...["chamber", "state", "show"].map((key) => ({

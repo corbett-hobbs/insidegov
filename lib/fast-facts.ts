@@ -107,7 +107,7 @@ export function executiveOrdersFact(thisYear: number, year: number, lastYear: nu
     label: "Executive orders",
     figure: thisYear.toLocaleString("en-US"),
     caption: `signed so far in ${year}, after ${lastYear.toLocaleString("en-US")} in ${year - 1}`,
-    href: "/presidency/executive-orders",
+    href: "/presidency/executive-actions",
     linkText: "Executive orders",
     asOf: `through ${dayLabel(throughDate)}`,
   };

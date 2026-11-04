@@ -11,7 +11,10 @@ import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import { StackedBars, type StackBand, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
 import { PageHeader } from "@/components/PageHeader";
-import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import { SectionPills, SectionStrip, SectionToc, useSectionScroll, type SectionNavItem } from "@/components/SectionNav";
+import { SectionFilterRow, usePinnedBarHeight } from "@/components/charts/SectionFilterRow";
+import { SectionHeading } from "@/components/immigration/SectionHeading";
+import { EXTRA_NAV, NewsFaqBand, QUESTIONS_ID, useChartJump } from "@/components/news/NewsSections";
 import type { FaqFile } from "@/lib/news-types";
 import { executiveOrdersFaq } from "./executive-orders-news";
 import {
@@ -36,6 +39,9 @@ import { EO_TAKEAWAYS } from "./takeaways";
 import { UpNext } from "@/components/UpNext";
 
 type Mode = "count" | "share";
+
+/** The page's numbered sections; their numbers run through the pills, the headings and the strip. */
+const SECTIONS: readonly SectionNavItem[] = [{ id: "executive-orders", label: "Executive orders" }];
 
 const MODES = [
   { value: "count", label: "Count" },
@@ -73,6 +79,10 @@ function termBands(admins: readonly EoAdmin[], firstYear: number, columns: numbe
 export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; faqFile: FaqFile | null }) {
   const faq = useMemo(() => executiveOrdersFaq(faqFile), [faqFile]);
   const { focus, jump } = useChartJump([], faq);
+  const extras = useMemo(() => EXTRA_NAV.filter((it) => it.id === QUESTIONS_ID && faq.length > 0), [faq]);
+  const allNav = useMemo(() => [...SECTIONS, ...extras], [extras]);
+  const { pillsRef, stuck, active } = useSectionScroll(allNav);
+  const barRef = usePinnedBarHeight();
   const [mode, setMode] = useState<Mode>("count");
   // Ticked topics (null = all). The chart draws only these; Share of year then reads "share of the year's orders".
   const [topics, setTopics] = useState<Picked<EoTopic>>(null);
@@ -129,13 +139,8 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
 
   return (
     <>
-      <div className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-[1180px] flex-col px-4 py-2.5 sm:flex-row sm:items-center sm:px-6">
-          {/* Phones: Topic alone on its row, so its label sits beside it (rule 5a); the slider and term band below. */}
-          <div className="flex min-w-0 items-center gap-2">
-            <FilterCaption phone>Topic</FilterCaption>
-            <MultiSelectFilter label="Topic" noun="topics" options={topicOptions} value={topics} onChange={setTopics} className="flex-1 sm:w-[13rem] sm:flex-none" />
-          </div>
+      <div ref={barRef} className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 backdrop-blur">
+        <div className="mx-auto w-full max-w-[1180px] px-4 py-2.5 sm:px-6">
           <RangeSelector
             min={first}
             max={lastYear}
@@ -145,17 +150,29 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
             ariaLabel="Years shown"
             below={<TermBand terms={bandTerms} min={first} max={lastYear} value={[from, to]} onChange={setWindow} />}
             action={<RangeReset show={!sameRange([from, to], full)} onReset={() => setRange(null)} className="mt-0.5 font-sans leading-none" />}
-            className="mt-1.5 min-w-0 flex-1 sm:ml-5 sm:mt-0 sm:min-w-[240px]"
+            className="min-w-0"
           />
+          {stuck && <SectionStrip items={SECTIONS} extras={extras} active={active} />}
         </div>
       </div>
+      <SectionToc items={SECTIONS} extras={extras} active={active} visible={stuck} />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
-        <PageHeader eyebrow="Presidency · Executive orders" title="How Many Executive Orders Does Each President Sign?">
+        <PageHeader eyebrow="Presidency · Executive actions" title="How Do Presidents Use Executive Power?">
           <p>
             Browse every executive order signed since 1994 by topic and volume to track how commanders-in-chief direct federal policy without passing new legislation.
           </p>
-          <NewsQuestionsPills news={[]} groups={faq} />
+          <SectionPills items={SECTIONS} extras={extras} pillsRef={pillsRef} />
         </PageHeader>
+
+        {/* The heading, its filter row and its card share a wrapper: the row stays pinned only while this section is on screen. */}
+        <div className="flex flex-col gap-3">
+        <SectionHeading id="executive-orders" number={1} title="How Many Executive Orders Does Each President Sign?" />
+        <SectionFilterRow>
+          <div className="flex min-w-0 items-center gap-2">
+            <FilterCaption phone>Topic</FilterCaption>
+            <MultiSelectFilter label="Topic" noun="topics" options={topicOptions} value={topics} onChange={setTopics} className="flex-1 sm:w-[13rem] sm:flex-none" />
+          </div>
+        </SectionFilterRow>
 
         <ChartCard
           id="executive-orders-signed-per-year-by-topic"
@@ -202,6 +219,7 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
             {jump("executive-orders-signed-per-year-by-topic")}
           </ChartNotesRow>
         </ChartCard>
+        </div>
 
         <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
