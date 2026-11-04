@@ -33,6 +33,18 @@ export const WHY: Record<string, Why> = {
       { name: "EIA Short-Term Energy Outlook, September 2026", url: "https://www.eia.gov/pressroom/releases/press592.php" },
     ],
   },
+  // The gasoline and diesel news draft of November 3, 2026, whose research found no reason twice in a row. Worded as
+  // "reports" so the text names no outlet and never says "both outlets"; the sources are the footnote. Drafts that day only.
+  "news:gasoline:2026-11-03": {
+    title: "Why it rose",
+    captionLine: "CNBC and Fox Business tie it to the U.S.-Iran war and disrupted Hormuz shipping.",
+    paragraphs: ["Gasoline and diesel are well above a year ago. Reports tie this to the U.S.-Iran war, which has disrupted oil shipping through the Strait of Hormuz, and crude oil rose again in October."],
+    sources: [
+      { name: "EIA Gasoline and Diesel Fuel Update, October 27, 2026", url: "https://www.eia.gov/petroleum/gasdiesel/" },
+      { name: "CNBC, October 31, 2026", url: "https://www.cnbc.com/2026/10/31/trump-gas-diesel-price-midterm-election.html" },
+      { name: "Fox Business, diesel record", url: "https://www.foxbusiness.com/politics/diesel-tops-6-fuel-shock-threatens-truckers-farmers-consumers" },
+    ],
+  },
   // The researched answer for the October 2026 laws post, kept word for word when the draft is regenerated. A month drafts
   // one post per series, and the new-high post outranks the latest-reading one, so both ids carry it.
   "laws.monthly:latest:2026-10-01": OCTOBER_2026_LAWS,
