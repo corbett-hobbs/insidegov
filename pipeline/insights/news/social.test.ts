@@ -9,6 +9,7 @@ import { type Candidate, topicOf } from "./cards";
 import { balanceContext, seriesContext } from "./charts";
 import { slidePlan } from "../carousel";
 import { explainer } from "../explain";
+import { monthEarlier } from "../format";
 import { checkReplies, levelsSentence, planThread, replyNumbers } from "../thread";
 import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
@@ -204,6 +205,16 @@ describe("two-line charts", () => {
 describe("the levels post's plain sentences", () => {
   const all = DATASETS.flatMap((d) => loadDataset(d).series);
   const g = (id: string) => all.find((s) => s.id === id)!;
+
+  it("reads a weekly price against the week a month earlier, not the start of the month before", () => {
+    const upTo = (s: ReturnType<typeof g>) => ({ ...s, points: s.points.filter((p) => p.date <= "2026-10-26") });
+    const gas = upTo(g("gas.regular"));
+    const insight = seriesContext(gas, { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: upTo(g("gas.diesel")) })!;
+    const monthAgo = gas.points.find((p) => p.date === "2026-09-28")!;
+    expect(gas.points.at(-1)!.value).toBeLessThan(monthAgo.value);
+    expect(insight.template).toContain(`down from $${monthAgo.value.toFixed(2)}/gal a month earlier`);
+    expect(["2026-10-26", "2026-10-31", "2026-03-31", "2026-01-15"].map(monthEarlier)).toEqual(["2026-09-26", "2026-09-30", "2026-02-28", "2025-12-15"]);
+  });
 
   it("says where gasoline and diesel stand without stating a figure, and passes the reply checks", () => {
     const insight = seriesContext(g("gas.regular"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("gas.diesel") })!;
