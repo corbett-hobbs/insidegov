@@ -79,6 +79,8 @@ export function derivationText(d: Derivation): string {
       return cellsText(d.cells);
     case "pct_change":
       return `% change from ${cellsText(d.from)} to ${cellsText(d.to)}`;
+    case "share":
+      return `${d.remainder ? "share of the whole that is not the part" : "share of the whole"}: part ${cellsText(d.part)}; whole ${cellsText(d.whole)}`;
     case "change":
       return `change from ${cellsText(d.from)} to ${cellsText(d.to)}`;
     case "date":

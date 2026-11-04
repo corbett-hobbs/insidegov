@@ -2,6 +2,7 @@ import { CAPTION_MAX_CHARS } from "./caption";
 import { linePoints, unitFact } from "./detect";
 import { daysBetween, fmtDate, fmtUnit } from "./format";
 import { whereEachStands } from "./news/charts";
+import { oilTradeCard } from "./oil-trade";
 import { chartTitle } from "./title";
 import type { ChartSpec, Fact, Insight, Series } from "./types";
 
@@ -11,11 +12,12 @@ type Clause = { text: string; facts: Fact[] };
 /**
  * A data release that has a natural companion draws it. The chart shows both series as lines on one axis, the caption
  * says the companion's latest reading and move after the post's own sentence, and a "bigger picture" card
- * (`Insight.bigger`: each line's peak, low and latest over the chart's window) sits beside any partner breakdown.
+ * (`Insight.bigger`: each line's peak, low and latest over the chart's window) sits beside any partner breakdown, and oil's second card (the crude and refined split, `Insight.breakdown`).
  *
  *   trade deficit       the gap between imports and exports, so the lines are the two parts and the sentence gives both
  *   oil imports/exports the two flows beside each other; each post's own sentence already gives its series, so the
- *                       added sentence is the other one's
+ *                       added sentence is the other one's. A second card, "What the U.S. buys
+ *                       and sells abroad", splits each flow into crude oil and refined products (oil-trade.ts)
  *
  * Only a line chart is swapped: a bar chart (a term comparison) keeps what it has, and so does a series with no
  * companion in the data (or one whose parts have no reading for the post's month).
@@ -32,12 +34,14 @@ type Spec = {
   names: [main: string, other: string];
   title: string;
   note: string;
+  /** The post also carries the oil trade card (crude and refined products in each flow; oil-trade.ts) as its second card. */
+  oilCard?: boolean;
 };
 
 const TRADE: Spec = { main: "trade.imports", other: "trade.exports", mainLabel: "Imports", otherLabel: "Exports", both: true, names: ["U.S. goods imports", "U.S. goods exports"], title: "U.S. imports and exports", note: "Goods only, seasonally adjusted; the deficit is imports minus exports" };
 const OIL_NOTE = "Crude oil plus refined products";
-const OIL: Spec = { main: "energy.petroleum_imports", other: "energy.petroleum_exports", mainLabel: "Imports", otherLabel: "Exports", both: false, names: ["U.S. oil imports", "U.S. oil exports"], title: "U.S. oil imports and exports", note: OIL_NOTE };
-const OIL_EXPORTS: Spec = { main: "energy.petroleum_exports", other: "energy.petroleum_imports", mainLabel: "Exports", otherLabel: "Imports", both: false, names: ["U.S. oil exports", "U.S. oil imports"], title: "U.S. oil imports and exports", note: OIL_NOTE };
+const OIL: Spec = { main: "energy.petroleum_imports", other: "energy.petroleum_exports", mainLabel: "Imports", otherLabel: "Exports", both: false, names: ["U.S. oil imports", "U.S. oil exports"], title: "U.S. oil imports and exports", note: OIL_NOTE, oilCard: true };
+const OIL_EXPORTS: Spec = { main: "energy.petroleum_exports", other: "energy.petroleum_imports", mainLabel: "Exports", otherLabel: "Imports", both: false, names: ["U.S. oil exports", "U.S. oil imports"], title: "U.S. oil imports and exports", note: OIL_NOTE, oilCard: true };
 
 /** The series ids whose posts take a companion, and how. */
 const COMPANIONS: Record<string, Spec> = { "trade.deficit": TRADE, "energy.petroleum_imports": OIL, "energy.petroleum_exports": OIL_EXPORTS };
@@ -88,9 +92,11 @@ export function withCompanion(insight: Insight, all: Series[]): Insight {
   };
   const years = Math.max(1, Math.round(daysBetween(from, mL.date) / 365.25));
   const stands = whereEachStands(main, main.unit, other, from, mL, mv, spec.note, years);
+  // Oil adds a second card, after the peak and low one: crude oil and refined products in each flow. With a reading missing it is left out.
+  const oil = spec.oilCard ? oilTradeCard(all, mL.date, insight.source) : null;
   const template = clause ? `${stem}${clause.text}.` : insight.template;
   // The chart's labels are facts too, so they stay in the draft even when the caption has no room for the sentence.
-  const added = [mv, ov, ...(clause ? clause.facts : []), ...(stands ? stands.facts : [])];
+  const added = [mv, ov, ...(clause ? clause.facts : []), ...(stands ? stands.facts : []), ...(oil ? oil.facts : [])];
   const have = new Set(insight.facts.map((f) => f.id));
   return {
     ...insight,
@@ -100,6 +106,7 @@ export function withCompanion(insight: Insight, all: Series[]): Insight {
     chart,
     alsoSeriesId: insight.seriesId === "trade.deficit" ? main.id : other.id,
     ...(stands ? { bigger: stands.breakdown } : {}),
+    ...(oil ? { breakdown: oil.breakdown } : {}),
     note: spec.note,
     context: [...insight.context, `The chart draws ${spec.mainLabel.toLowerCase()} and ${spec.otherLabel.toLowerCase()} together on one axis${insight.seriesId === "trade.deficit" ? "; the caption leads with the deficit, the gap between them, and then gives each line's latest reading" : ""}. The caption must not say either causes or answers the other.`],
     alt: `Line chart of ${spec.title.replace(/^U\.S\. /, "")} (${main.axisLabel}) through ${fmtDate(mL.date, "month")}. ${template}`,

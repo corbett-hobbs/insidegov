@@ -87,8 +87,9 @@ export type Series = {
   headline?: boolean;
   /**
    * Posts only when the news is about it: no data-release drafts (no highs, lows, moves, term comparisons or routine
-   * readings), but the news lane can still chart it. Weekly series (gas, diesel, the SPR) and the single electricity
-   * sources (a record for solar, then wind, then nuclear would be three posts for one release) are news-only.
+   * readings), but the news lane can still chart it. Weekly series (gas, diesel, the SPR), the single electricity
+   * sources (a record for solar, then wind, then nuclear would be three posts for one release) and the oil and gas
+   * output series (crude and gas production, LNG and crude oil exports: the oil trade post covers the release) are news-only.
    */
   newsOnly?: boolean;
   /**
@@ -126,6 +127,8 @@ export type Administration = { term_id: string; president: string; start: string
 export type Derivation =
   | { op: "value"; cells: CellRef[] }
   | { op: "pct_change"; from: CellRef[]; to: CellRef[] }
+  /** `part` as a percent of `whole`; with `remainder`, the rest of the whole (whole minus `part`) as a percent of it. */
+  | { op: "share"; part: CellRef[]; whole: CellRef[]; remainder?: boolean }
   | { op: "change"; from: CellRef[]; to: CellRef[] }
   | { op: "date"; date: string; style: DateStyle }
   | { op: "duration"; from: string; to: string; unit: "days" | "months" | "years" };
@@ -276,6 +279,20 @@ export type Breakdown = {
   kicker?: string;
   /** The rows are levels (a peak, a low, today), shown as they are, not as signed changes. */
   levels?: boolean;
+  /**
+   * One card of stacked bars on a shared scale, instead of rows (oil trade: crude and refined products in imports and
+   * exports; oil-trade.ts). Every id is a fact; `blocks` is empty. It is always one card.
+   */
+  stacked?: StackedBars;
+};
+
+/** The stacked-bars card: each bar's total split into parts with their shares, and a closing line about the gap between the bars. */
+export type StackedBars = {
+  bars: { label: string; total: string; parts: { name: string; fact: string; share: string }[] }[];
+  /** "The U.S. sent out" + the fact + "more than it took in". */
+  net: { lead: string; fact: string; tail: string };
+  /** One or two plain sentences saying what the bars show, for the thread reply; every figure in it is a fact's text. */
+  words: string;
 };
 
 /**

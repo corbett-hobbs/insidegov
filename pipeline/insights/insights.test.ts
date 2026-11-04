@@ -453,7 +453,9 @@ describe("companion lines on a data release", () => {
       expect(out.alsoSeriesId).toBe(other);
       expect(out.chart.type === "line" && out.chart.comparison?.mainLabel).toBe(label);
       expect(out.template).toMatch(/\. (Exports|Imports) were /);
+      // Each line's peak, low and latest, then the crude and refined split (oil-trade.ts).
       expect(out.bigger?.levels).toBe(true);
+      expect(out.breakdown?.stacked).toBeDefined();
       expect(verifyInsight(out, new CellIndex())).toEqual([]);
       expect(explainer(out).join(" ")).toMatch(/barrels a day/);
     }

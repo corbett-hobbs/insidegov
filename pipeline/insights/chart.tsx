@@ -31,6 +31,8 @@ export const GRID = "#e3e7ec";
 export const LINE = "#3d4a63";
 export const NEUTRAL = "#b9c1cc";
 export const ACCENT = "#5c4b7a";
+/** The light purple beside ACCENT: the second part of a two-part bar (refined products beside crude oil). */
+export const ACCENT_LIGHT = "#bfb2d9";
 export const SURFACE = "#ffffff";
 // The site's --dem / --rep (app/globals.css) and the tint its bands use, color-mix(in oklab, <party> 20%, white), as hex.
 const PARTY = { D: { rule: "#3a66c2", tint: "#d5e0f5" }, R: { rule: "#c24a3a", tint: "#f7dbd6" } } as const;

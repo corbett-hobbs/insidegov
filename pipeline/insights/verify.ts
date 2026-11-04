@@ -91,6 +91,12 @@ export function verifyFact(fact: Fact, index: CellIndex): string | null {
       case "change":
         value = index.sum(d.to) - index.sum(d.from);
         break;
+      case "share": {
+        const whole = index.sum(d.whole);
+        const part = index.sum(d.part);
+        value = (((d.remainder ? whole - part : part)) / whole) * 100;
+        break;
+      }
       case "date":
         value = d.date;
         break;

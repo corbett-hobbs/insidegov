@@ -27,6 +27,7 @@ export const EXPLAINERS: Record<string, string[]> = {
   "energy.crude_production": ["Crude oil pumped from U.S. wells, onshore and offshore, in barrels a day averaged over the month.", MONTHLY_EIA],
   "energy.petroleum_exports": [PETROLEUM, MONTHLY_EIA],
   "energy.petroleum_imports": [PETROLEUM, MONTHLY_EIA],
+  "energy.crude_imports": ["Crude oil brought into the United States from other countries, in barrels a day averaged over the month.", MONTHLY_EIA],
   "energy.crude_exports": ["Crude oil shipped from the United States to other countries, in barrels a day averaged over the month.", MONTHLY_EIA],
   "energy.gas_production": ["Dry natural gas: gas ready for pipelines and customers, after liquids are taken out.", MONTHLY_EIA, LIKE_MONTHS],
   "energy.lng_exports": ["Liquefied natural gas is natural gas cooled into a liquid so it can be shipped by tanker.", MONTHLY_EIA, LIKE_MONTHS],

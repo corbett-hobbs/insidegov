@@ -1,5 +1,5 @@
 import { appendFileSync, readFileSync } from "node:fs";
-import { eventInsightsAt, newDates, newMonthEnds, releaseEstimator, selectInsights, seriesInsightsAt } from "./collect";
+import { eventInsightsAt, newDates, newMonthEnds, postGroup, releaseEstimator, selectInsights, seriesInsightsAt } from "./collect";
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { stampRelease } from "./freshness";
@@ -55,9 +55,13 @@ for (const id of exclude) {
 // The routine `latest` reading is not drafted for a series and period that already has a draft of any kind: the
 // notable one came first, or the same month was read earlier from data that has since been filled in.
 const draftedPeriods = new Set([...exclude].map((id) => splitId(id)).map(([key, date]) => `${key.slice(0, key.lastIndexOf(":"))}|${date}`));
+// Series that share one post per period (collect.ts ONE_POST_PER_PERIOD): a draft of any of them for a period, of any
+// kind, covers the others, so the daily catch-up never opens oil exports for a month oil imports already has.
+const draftedGroups = new Set([...draftedPeriods].flatMap((k) => { const [series, date] = k.split("|") as [string, string]; const g = postGroup(series); return g ? [`${g}|${date}`] : []; }));
 const alreadyDrafted = (i: Insight) => {
   const [key, date] = splitId(i.id);
-  return (newestDrafted.get(key) ?? "") >= date || (i.kind === "latest" && draftedPeriods.has(`${i.seriesId}|${i.period}`));
+  const group = postGroup(i.seriesId);
+  return (newestDrafted.get(key) ?? "") >= date || (i.kind === "latest" && draftedPeriods.has(`${i.seriesId}|${i.period}`)) || (!!group && draftedGroups.has(`${group}|${i.period}`));
 };
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
 
