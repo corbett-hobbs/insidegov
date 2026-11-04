@@ -124,15 +124,43 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
   return { replies, ...(note ? { note } : {}) };
 }
 
+/**
+ * Where a levels block's line stands, in words: "Regular gasoline is still below its 2022 high." The card beside the post
+ * already prints every peak, low and latest figure, so the post says what the bars show side by side and states no
+ * number (only a year). Null when the block is not a peak, low and latest (the post then lists them).
+ */
+export function levelsSentence(insight: Pick<Insight, "facts">, blk: { label: string; rows: { name: string; fact: string }[] }): string | null {
+  const [hi, lo, now] = blk.rows;
+  const peak = hi?.name.match(/^Peak, (\d{4})$/);
+  const low = lo?.name.match(/^Low, (\d{4})$/);
+  const value = (id: string | undefined) => {
+    const v = insight.facts.find((f) => f.id === id)?.value;
+    return typeof v === "number" ? v : null;
+  };
+  const [p, l, n] = [value(hi?.fact), value(lo?.fact), value(now?.fact)];
+  if (!peak || !low || now?.name !== "Latest" || p === null || l === null || n === null || p <= l) return null;
+  const subject = blk.label.replace(/^U\.S\. average price of /i, "");
+  const name = subject.charAt(0).toUpperCase() + subject.slice(1);
+  const plural = /[^s]s$/i.test(name);
+  const [high, lowYear] = [`${plural ? "their" : "its"} ${peak[1]} high`, `${plural ? "their" : "its"} ${low[1]} low`];
+  // Where the latest reading sits between the window's low (0) and high (1).
+  const at = (n - l) / (p - l);
+  const how = at >= 1 ? `at ${high}` : at <= 0 ? `at ${lowYear}` : at >= 0.9 ? `close to ${high}` : at >= 0.6 ? `still below ${high}` : at > 0.4 ? `about halfway between ${lowYear} and ${high}` : at > 0.1 ? `well below ${high}` : `close to ${lowYear}`;
+  return `${name} ${plural ? "are" : "is"} ${how}.`;
+}
+
 function oneBreakdownReplies(insight: Insight, b: NonNullable<Insight["breakdown"]>, first: number): { replies: Reply[]; note?: string } {
   const replies: Reply[] = [];
   // Levels (where each line stands): one post and one card for both blocks, when they fit.
   if (b.levels) {
-    // "Federal funds rate: peak 5.3% in 2023, low 0.0% in 2020, latest 3.9%."
+    // "Federal funds rate: peak 5.3% in 2023, low 0.0% in 2020, latest 3.9%." The card shows these; the alt text keeps them.
     const line = (blk: (typeof b.blocks)[number]) =>
       `${blk.label}: ${blk.rows.map((r) => `${r.name.replace(/^(\w+), (\d{4})$/, (_m, k: string, y: string) => k.toLowerCase()).toLowerCase()} ${rowValue(insight, r.fact)}${/^(\w+), (\d{4})$/.test(r.name) ? ` in ${r.name.slice(-4)}` : ""}`).join(", ")}.`;
-    const text = `${b.title}\n\n${b.blocks.map(line).join(" ")}`;
-    if (text.length <= REPLY_MAX) return { replies: [{ text, chart: first, alt: text.replace(/\n+/g, " ").slice(0, 1000) }] };
+    const figures = `${b.title}\n\n${b.blocks.map(line).join(" ")}`;
+    const alt = figures.replace(/\n+/g, " ").slice(0, 1000);
+    const sentences = b.blocks.map((blk) => levelsSentence(insight, blk));
+    const text = sentences.every((s) => s !== null) ? `${b.title}\n\n${sentences.join(" ")}` : figures;
+    if (text.length <= REPLY_MAX) return { replies: [{ text, chart: first, alt }] };
   }
   for (const [i, blk] of b.blocks.entries()) {
     const total = blk.total ? ` ${blk.total.name} ${rowValue(insight, blk.total.fact)}.` : "";
