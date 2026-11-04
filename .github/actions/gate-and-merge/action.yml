@@ -99,7 +99,9 @@ runs:
         pnpm typecheck
         pnpm lint
         pnpm pipeline:check
-        pnpm build
+        # next/font fetches Google Fonts at build time; a network blip there fails the build with "next/font/google
+        # queries have exactly one entry". Retry once so a transient fetch error does not leave a data PR open.
+        pnpm build || { echo "Build failed; retrying once in case the Google Fonts fetch was a blip."; pnpm build; }
 
     - name: Say what the gate changed
       shell: bash
