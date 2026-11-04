@@ -71,9 +71,23 @@ describe("other generation", () => {
 });
 
 describe("preliminary boundaries", () => {
+  // The boundary moves every time EIA finalises another month (and on 1 January for the calendar-year series), so these
+  // assertions are about the shape of the data, never a specific month. A pinned date here broke the weekly refresh gate.
   it("follows the status field, per series", () => {
-    expect(firstPreliminary(by.get("PNPRPUS"))).toBe(monthOfDay(dayOfIso("2025-09-01")));
-    expect(firstPreliminary(by.get("CLETPUS"))).toBe(monthOfDay(dayOfIso("2025-01-01")));
+    for (const id of ["PNPRPUS", "CLETPUS"]) {
+      const series = by.get(id)!;
+      const boundary = series.find((r) => r.status === "preliminary" && r.date >= "1991-01-01")!;
+      expect(boundary, `${id} has preliminary rows`).toBeDefined();
+      expect(firstPreliminary(series)).toBe(monthOfDay(dayOfIso(boundary.date)));
+      // One boundary: everything before it is final, everything from it on is preliminary.
+      for (const r of series.filter((o) => o.date >= "1991-01-01")) {
+        expect(r.status, `${id} ${r.date}`).toBe(r.date < boundary.date ? "final" : "preliminary");
+      }
+      // The preliminary tail is the recent end of the series: never more than two calendar years.
+      const lastYear = Number(series.at(-1)!.date.slice(0, 4));
+      expect(Number(boundary.date.slice(0, 4))).toBeGreaterThanOrEqual(lastYear - 1);
+    }
+    // The weekly SPR series is never revised, so it has no preliminary boundary.
     expect(firstPreliminary(by.get("WCSSTUS1"))).toBeUndefined();
   });
   it("marks months at and after the boundary only", () => {
