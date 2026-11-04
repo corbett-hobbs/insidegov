@@ -9,7 +9,7 @@ import { type Candidate, topicOf } from "./cards";
 import { balanceContext, seriesContext } from "./charts";
 import { slidePlan } from "../carousel";
 import { explainer } from "../explain";
-import { planThread } from "../thread";
+import { checkReplies, levelsSentence, planThread, replyNumbers } from "../thread";
 import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
 import { outletById } from "./outlets";
@@ -164,7 +164,11 @@ describe("a Fed rate decision story", () => {
     const plan = planThread({ ...insight, kind: "news", why })!;
     const texts = plan.replies.map((r) => r.text);
     expect(texts.some((t) => t.startsWith("Why it held."))).toBe(true);
-    expect(texts.some((t) => /Where each stands/.test(t) && /peak \d\.\d% in \d{4}/.test(t) && !/\+\d/.test(t))).toBe(true);
+    // The levels post says where each line stands in words (the card prints the figures; the alt text keeps them).
+    const levels = plan.replies.find((r) => /^Where each stands/.test(r.text))!;
+    expect(levels.text).toMatch(/^Where each stands against the last ten years\n\nFederal funds rate is .*\. U\.S\. inflation rate is .*\.$/);
+    expect(levels.text).not.toMatch(/\d\.\d/);
+    expect(levels.alt).toMatch(/peak \d\.\d% in \d{4}/);
     expect(plan.replies.filter((r) => r.chart !== undefined)).toHaveLength(1);
     expect(texts.filter((t) => /federal funds rate is what banks charge/.test(t))).toHaveLength(1);
     expect(plan.replies.length).toBe(4);
@@ -194,6 +198,36 @@ describe("two-line charts", () => {
     expect(insight.template).toContain(`${p.compare.subject} was`);
     // A pair has its own passage, not the first series' lines followed by the second's.
     expect(explainer(insight)).toEqual(expect.arrayContaining([expect.stringMatching(/share one scale|share one scale:/)]));
+  });
+});
+
+describe("the levels post's plain sentences", () => {
+  const all = DATASETS.flatMap((d) => loadDataset(d).series);
+  const g = (id: string) => all.find((s) => s.id === id)!;
+
+  it("says where gasoline and diesel stand without stating a figure, and passes the reply checks", () => {
+    const insight = seriesContext(g("gas.regular"), { years: 10, peak: true, lead: "X is in the news.", id: "n", compare: g("gas.diesel") })!;
+    const plan = planThread({ ...insight, kind: "news" })!;
+    const levels = plan.replies.find((r) => /^Where each stands/.test(r.text))!;
+    expect(levels.text).toMatch(/^Where each stands against the last ten years\n\n(Regular gasoline|Gasoline) is [^.]*\b\d{4} (high|low)[^.]*\. Diesel is [^.]*\b\d{4} (high|low)[^.]*\.$/);
+    expect(levels.text).not.toMatch(/\$|\d\.\d/);
+    expect(levels.alt).toMatch(/\$\d\.\d\d\/gal/);
+    expect(checkReplies(plan.replies, insight.facts, replyNumbers(plan.replies))).toEqual([]);
+  });
+
+  it("picks the phrase from where the latest reading sits between the low and the high", () => {
+    const facts = [{ id: "p", value: 10 }, { id: "l", value: 0 }, ...[10, 9.5, 7, 5, 2, 0.5, 0].map((v, i) => ({ id: `n${i}`, value: v }))] as never;
+    const block = (i: number) => ({ label: "U.S. average price of diesel", rows: [{ name: "Peak, 2022", fact: "p" }, { name: "Low, 2020", fact: "l" }, { name: "Latest", fact: `n${i}` }] });
+    expect([0, 1, 2, 3, 4, 5, 6].map((i) => levelsSentence({ facts }, block(i)))).toEqual([
+      "Diesel is at its 2022 high.",
+      "Diesel is close to its 2022 high.",
+      "Diesel is still below its 2022 high.",
+      "Diesel is about halfway between its 2020 low and its 2022 high.",
+      "Diesel is well below its 2022 high.",
+      "Diesel is close to its 2020 low.",
+      "Diesel is at its 2020 low.",
+    ]);
+    expect(levelsSentence({ facts }, { label: "U.S. goods imports", rows: block(2).rows })).toBe("U.S. goods imports are still below their 2022 high.");
   });
 });
 
