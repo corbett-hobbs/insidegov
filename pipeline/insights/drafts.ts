@@ -10,6 +10,7 @@ import { renderThreadCards } from "./thread-charts";
 import { axisProblems, titleProblems } from "./title";
 import type { Insight, NewsTrigger, Release, Why } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
+import { withWhy } from "./why";
 
 /**
  * Turns insights into drafts on disk: verify every fact against the data, research why the number moved (research.ts;
@@ -92,6 +93,7 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
       // A researched why for every draft. A news draft keeps its fixed caption rules (news/): its why goes on the carousel's
       // slide and in the issue for review, never into the post text.
       let whyError: string | undefined;
+      insight = withWhy(insight); // a hand-written why (why.ts) stands in for the research, news drafts included
       if (client && !insight.why) {
         const found = await researchWhy(client, insight);
         if ("why" in found) insight = { ...insight, why: found.why };

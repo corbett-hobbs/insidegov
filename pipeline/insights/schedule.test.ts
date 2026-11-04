@@ -9,8 +9,8 @@ import { BACKLOG_THRESHOLD, MAX_PER_DATASET_WEEK, MAX_PER_DAY, type Posted, type
 import type { Series } from "./types";
 import { fit, lengthSection, refreshCounts } from "./counts";
 import { INSTAGRAM_HASHTAGS, SERIES_HASHTAGS, hashtagsFor, instagramCaption } from "./instagram";
-import { WHY } from "./why";
-import { checkWhy, newsOutlet, releasePages } from "./research";
+import { WHY, withWhy } from "./why";
+import { WHY_MAX_NEWS, checkWhy, newsOutlet, releasePages } from "./research";
 import { slidePlan, sourceNames } from "./carousel";
 import { EXPLAINERS, explainer } from "./explain";
 import { type DraftBlock, blockComment, parseDraftBlock, slidesSection } from "./issue";
@@ -306,6 +306,15 @@ describe("Instagram carousel", () => {
 
   it("holds the hand-written whys to the researched ones' rules", () => {
     for (const w of Object.values(WHY)) expect(checkWhy(w, new Set(w.sources.map((s) => s.url)), [])).toEqual([]);
+  });
+
+  it("attaches the hand-written gasoline news why, which says \"reports\" and fits a news thread post", () => {
+    const base = { id: "news:gasoline:2026-11-03" } as Parameters<typeof withWhy>[0];
+    const why = withWhy(base).why;
+    expect(why).toBeDefined();
+    expect(why!.paragraphs.join(" ")).toMatch(/^Gasoline and diesel .* Reports tie this to the U\.S\.-Iran war/);
+    expect(why!.paragraphs.join(" ").length).toBeLessThanOrEqual(WHY_MAX_NEWS);
+    expect(withWhy({ id: "news:other:2026-11-03" } as typeof base).why).toBeUndefined();
   });
 
   it("checks a researched why: allowed and actually read sources, words-only paragraphs, attribution, neutrality", () => {
