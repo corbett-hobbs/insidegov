@@ -2,7 +2,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { displayCountryName } from "../../../lib/trade-names";
 import { readOutput } from "../datasets";
 import { capitalize, changeFact, dateFact, linePoints, markDate, pctFact, periodBars, unitFact, usesBars, when, yearEarlier } from "../detect";
-import { addMonths, bareIfSameYear, dateStyleFor, daysBetween, fmtDate, fmtUnit, monthName, shortMonth } from "../format";
+import { addMonths, bareIfSameYear, dateStyleFor, daysBetween, fmtDate, fmtUnit, monthEarlier, monthName, shortMonth } from "../format";
 import { CAPTION_MAX_CHARS } from "../caption";
 import { chartTitle } from "../title";
 import type { Breakdown, ChartSpec, DateStyle, Fact, Insight, Point, Series, UnitFormat } from "../types";
@@ -115,7 +115,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
 
   // The previous reading, ahead of everything else. Not for seasonal series (the last month is not comparable) or fiscal years.
   // With a second series the Fed's weekly rate is read against a month earlier: it moves only at decisions, so last week says nothing.
-  const monthAgo = opts.compare ? series.points.find((q) => Math.abs(daysBetween(q.date, addMonths(latest.date, -1))) <= 3) : undefined;
+  const monthAgo = opts.compare ? series.points.find((q) => Math.abs(daysBetween(q.date, monthEarlier(latest.date))) <= 3) : undefined;
   const prevPoint = series.seasonal || series.frequency === "fiscal_year" ? undefined : monthAgo ?? series.points.at(-2);
   let prev: Clause | null = null;
   if (prevPoint) {
@@ -164,7 +164,7 @@ export function seriesContext(series: Series, opts: { years: number; peak: boole
   // one, kept ahead of the peak's reach when the caption is too long for both.
   const cmpLatest = opts.compare?.points.at(-1);
   // A weekly second line is read against a month earlier, like the main line (a week says nothing).
-  const cmpMonthAgo = opts.compare?.frequency === "weekly" && cmpLatest ? opts.compare.points.find((q) => Math.abs(daysBetween(q.date, addMonths(cmpLatest.date, -1))) <= 3) : undefined;
+  const cmpMonthAgo = opts.compare?.frequency === "weekly" && cmpLatest ? opts.compare.points.find((q) => Math.abs(daysBetween(q.date, monthEarlier(cmpLatest.date))) <= 3) : undefined;
   const cmpPrev = opts.compare && !opts.compare.seasonal ? cmpMonthAgo ?? opts.compare.points.at(-2) : undefined;
   let cmpClause: Clause | null = null;
   let cmpShort: Clause | null = null;
