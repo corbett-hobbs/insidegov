@@ -98,6 +98,8 @@ const ATTRIBUTION = new RegExp(
 /** Agency and outlet names: the post sentence names its source, but the carousel text leaves names to the footnote. */
 const NAMED_SOURCES = [...Object.values(NEWS_OUTLETS), "EIA", "BEA", "Census Bureau", "Census", "CBP", "BLS", "DOE", "Energy Department", "Commerce Department", "Federal Reserve", "CBO", "GAO", "CRS", "Energy Information Administration", "Bureau of Economic Analysis"];
 const NAMED_SOURCE = new RegExp(`\\b(?:${NAMED_SOURCES.map((n) => n.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")).join("|")})\\b`);
+/** A reference to outlets the text never names ("both outlets", "the two outlets", "both reports"): it begs which ones. "Reports tie this to ..." is fine. */
+const OUTLET_REFERENCE = /\b(?:both|the two|these two|those two|the|two)\s+(?:news\s+)?(?:outlets|publications|news organi[sz]ations)\b|\b(?:both|the two|these two|those two)\s+(?:news\s+)?(?:reports|sources|stories|articles)\b/i;
 const POST_LINE_MAX = 130;
 const PARAGRAPH_MAX = 220;
 /** The carousel slide's paragraphs together: about what one 4:5 slide holds at a readable size. */
@@ -117,7 +119,7 @@ If the input has in_the_news, the topic is in the news today and the explanation
 
 If the input has month_items (executive orders or laws signed that month, with their topics, and month_topics with how many fall under each), the slide has two parts: first the reason for any outlier, as above, kept to one short paragraph (when there is no outlier, say in a sentence what the month's count follows from, never a guess); then one sentence, the last paragraph, on the main subjects of that month's items. Take that sentence only from month_items, never from news: name the two to four subjects the most items fall under, most first, in plain words ("public land transfers and park designations, tribal land and water measures, and agency reporting requirements"), and call the items "mostly narrow" only if most are. Use no number in that sentence apart from the year.
 
-Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not.
+Sourcing rules: take figures and categories from the agency. A reason that comes from news must be reported by at least two different outlets, and both are listed in sources. The post sentence (caption_line) names its source; the carousel text does not. When the reason comes from news, say "reports" in the text ("Reports tie this to ...", "Reports say ..."), never "both outlets", "the outlets" or "both reports": naming no outlet leaves the reader asking which ones.
 
 What to write:
 - caption_line: one sentence of at most ${POST_LINE_MAX} characters for the post, naming its source ("EIA cites warmer weather and ...", "Bloomberg and CNBC tie it to chips for data centers"). It follows a sentence that already gives the number, so do not repeat the number. Use a figure only if it is one of the facts' texts, exactly as written.
@@ -231,6 +233,9 @@ export function checkWhy(w: Why, seen: ReadonlySet<string>, facts: Insight["fact
     const causal = CAUSAL_PHRASES.filter((c) => p.toLowerCase().includes(c));
     if (causal.length) errors.push(`a paragraph says "${causal.join('", "')}" in the site's own voice; word it as "amid" or "tied to": "${p.slice(0, 60)}..."`);
   }
+  // The text names no outlet, so "both outlets" begs which ones and nothing answers it: say "reports" instead.
+  const reference = OUTLET_REFERENCE.exec(w.paragraphs.join(" "));
+  if (reference) errors.push(`the text says "${reference[0]}" but names no outlet: say "reports" ("Reports tie this to ...") and leave the outlets to the sources footnote`);
   const words = new Set([w.captionLine, w.title, ...w.paragraphs].join(" ").toLowerCase().match(/[a-z]+(?:-[a-z]+)*/g) ?? []);
   const banned = BANNED_WORDS.filter((b) => words.has(b) && !["only", "just", "record", "records", "caused"].includes(b));
   if (banned.length) errors.push(`uses loaded or partisan words: ${banned.join(", ")}`);

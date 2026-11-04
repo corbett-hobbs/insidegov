@@ -325,6 +325,11 @@ describe("Instagram carousel", () => {
     expect(errs({ paragraphs: ["Imports rose because of chip orders.", "Chips led."] })).toMatch(/in the site's own voice/);
     expect(errs({ paragraphs: ["EIA says August was warmer.", "Gas plants supplied most of it."] })).toMatch(/names "EIA"/);
     expect(errs({ paragraphs: ["Bloomberg reports chips led.", "Imports rose."] })).toMatch(/names "Bloomberg"/);
+    // "Both outlets" begs which outlets; "reports" is the generic way to say it.
+    expect(errs({ paragraphs: ["Both outlets tie this to chips.", "Imports rose."] })).toMatch(/names no outlet/);
+    expect(errs({ paragraphs: ["Imports rose.", "The outlets say chips led."] })).toMatch(/names no outlet/);
+    expect(errs({ paragraphs: ["Both reports tie this to chips.", "Imports rose."] })).toMatch(/names no outlet/);
+    expect(errs({ paragraphs: ["Reports tie this to chips.", "Imports rose."] })).toBe("");
     expect(errs({ paragraphs: ["One.", "Two.", "Three."] })).toMatch(/write one or two/);
     expect(errs({ paragraphs: ["x".repeat(200), "y".repeat(200)] })).toMatch(/keep them to 380 together/);
     expect(errs({ paragraphs: ["Imports soared.", "Chips led."] })).toMatch(/soared/);
