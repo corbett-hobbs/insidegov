@@ -1,6 +1,57 @@
 {
-  "asOf": "2026-11-03",
+  "asOf": "2026-11-04",
   "stories": [
+    {
+      "id": "debt-2026-11-04",
+      "date": "2026-11-04",
+      "topic": "National debt",
+      "chartId": "chart-debt",
+      "headlines": [
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Trump's loss limits powers at home, but it will likely be different abroad",
+          "url": "https://www.bbc.co.uk/news/articles/crkg7wj8g201o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Debt Limit, Tariffs Top List of Likely Deals in Trump’s New Era",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-04/debt-limit-tariffs-top-list-of-likely-deals-in-trump-s-new-era"
+        }
+      ]
+    },
+    {
+      "id": "treasury_yields-2026-11-04",
+      "date": "2026-11-04",
+      "topic": "Treasury yields",
+      "chartId": "chart-ten",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Democrats warn Trump officials to keep records or risk criminal penalties after midterm victories",
+          "url": "https://www.theguardian.com/us-news/2026/nov/04/democrats-warn-trump-officials-preserve-records"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "U.S. midterm elections in pictures: Democrats' sweeping victories deliver rebuke to Trump",
+          "url": "https://www.cnbc.com/2026/11/04/us-midterm-elections-in-pictures-democrats-republicans-trump.html"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Stocks rally after Democrats march to midterm victories",
+          "url": "https://thehill.com/business/6197256-stocks-rally-democrats-midterm-victory/"
+        }
+      ]
+    },
     {
       "id": "gasoline-2026-11-03",
       "date": "2026-11-03",
@@ -31,125 +82,82 @@
       ]
     },
     {
-      "id": "markets-2026-10-30",
-      "date": "2026-10-30",
-      "topic": "Stock market",
-      "headlines": [
-        {
-          "outletId": "cbsnews",
-          "outlet": "CBS News",
-          "lean": "Lean Left",
-          "title": "Nasdaq sheds more than 700 points as tech stocks slump",
-          "url": "https://www.cbsnews.com/news/nasdaq-futures-tumble-tech-earnings-ai/"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Nasdaq plummets 2% as Amazon, Intel and Reddit become latest victims of AI fears",
-          "url": "https://nypost.com/2026/10/30/business/nasdaq-plummets-2-as-amazon-intel-and-reddit-latest-victims-of-ai-fears/"
-        }
-      ]
-    },
-    {
-      "id": "gdp-2026-10-29",
-      "date": "2026-10-29",
-      "topic": "Economic growth",
-      "chartId": "chart-gdp",
-      "headlines": [
-        {
-          "outletId": "bea",
-          "outlet": "Bureau of Economic Analysis",
-          "lean": "Data",
-          "title": "GDP (Advance Estimate), 3rd Quarter 2026",
-          "url": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026"
-        },
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "U.S. GDP Increased 3.4% in Third Quarter",
-          "url": "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Economy expanded at 3.4% rate in third quarter in sign of underlying strength",
-          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4783405/economy-gdp-growth-rate-third-quarter-underlying-strength/"
-        }
-      ]
-    },
-    {
-      "id": "inflation-2026-10-28",
-      "date": "2026-10-28",
-      "topic": "Inflation",
-      "chartId": "chart-infl",
-      "headlines": [
-        {
-          "outletId": "huffpost",
-          "outlet": "HuffPost",
-          "lean": "Left",
-          "title": "Federal Reserve Keeps Rates Unchanged Despite Elevated Inflation, Gives Little Signal Of Its Next Move",
-          "url": "https://www.huffpost.com/entry/federal-reserve-keeps-rates-unchanged-despite-elevated-inflation-gives-little-signal-of-its-next-move_n_6ae239b3e4b09cd24b6b4bd2"
-        },
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Federal Reserve holds interest rates steady in face of persistent inflation",
-          "url": "https://thehill.com/business/6174753-fed-interest-rates-decision-inflation/"
-        },
-        {
-          "outletId": "breitbart",
-          "outlet": "Breitbart",
-          "lean": "Right",
-          "title": "Fed Holds Rates Steady Amid Strong Expansion and Elevated Inflation",
-          "url": "https://www.breitbart.com/economy/2026/10/28/fed-holds-rates-steady-2/"
-        }
-      ]
-    },
-    {
-      "id": "treasury_yields-2026-10-28",
-      "date": "2026-10-28",
-      "topic": "Treasury yields",
-      "chartId": "chart-ten",
+      "id": "jobs-2026-11-03",
+      "date": "2026-11-03",
+      "topic": "Jobs report",
+      "chartId": "chart-jobs",
       "headlines": [
         {
           "outletId": "cnbc",
           "outlet": "CNBC",
           "lean": "Lean Left",
-          "title": "10-year Treasury yield creeps higher even as Fed keeps rates the same",
-          "url": "https://www.cnbc.com/2026/10/28/us-treasurys-bonds-yields-federal-reserve.html"
+          "title": "Job openings posted big September gain in positive sign for labor market ahead of payrolls report",
+          "url": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html"
         },
         {
-          "outletId": "thehill",
-          "outlet": "The Hill",
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
           "lean": "Center",
-          "title": "Bond yields rise slightly ahead of Fed rates decision",
-          "url": "https://thehill.com/business/6177868-bond-yields-fed-interest-rates-decision/"
-        }
-      ]
-    },
-    {
-      "id": "fed_rates-2026-10-26",
-      "date": "2026-10-26",
-      "topic": "Federal Reserve and interest rates",
-      "chartId": "chart-ff",
-      "headlines": [
-        {
-          "outletId": "cbsnews",
-          "outlet": "CBS News",
-          "lean": "Lean Left",
-          "title": "Is the Federal Reserve likely to raise interest rates this week?",
-          "url": "https://www.cbsnews.com/news/federal-reserve-interest-rates-october-meeting/"
+          "title": "US Companies Added 86,000 Jobs in October, ADP Data Show",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-04/us-companies-add-86-000-jobs-more-than-forecast-adp-data-show"
         },
         {
           "outletId": "foxbusiness",
           "outlet": "Fox Business",
           "lean": "Lean Right",
-          "title": "Federal Reserve expected to hold interest rates steady in last decision before midterm elections",
-          "url": "https://www.foxbusiness.com/economy/federal-reserve-expected-hold-interest-rates-steady-midterm-elections-week-away"
+          "title": "Private sector added 86,000 jobs in October, above expectations, ADP says",
+          "url": "https://www.foxbusiness.com/economy/private-sector-added-86000-jobs-october-above-expectations-adp-says"
+        }
+      ]
+    },
+    {
+      "id": "fed_rates-2026-11-02",
+      "date": "2026-11-02",
+      "topic": "Federal Reserve and interest rates",
+      "chartId": "chart-ff",
+      "headlines": [
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "RBA Raises Interest Rates: Live Updates, Analysis",
+          "url": "https://www.bloomberg.com/news/live-blog/2026-11-03/reserve-bank-of-australia-rate-decision"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "What's happening to UK interest rates and what does it mean for mortgages?",
+          "url": "https://www.bbc.co.uk/news/articles/c3dky111m40o?at_medium=RSS&at_campaign=rss"
+        }
+      ]
+    },
+    {
+      "id": "inflation-2026-11-02",
+      "date": "2026-11-02",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Democrats warn Trump officials to keep records or risk criminal penalties after midterm victories",
+          "url": "https://www.theguardian.com/us-news/2026/nov/04/democrats-warn-trump-officials-preserve-records"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Australia hikes rates to 18-year high to fight inflation",
+          "url": "https://www.cnbc.com/2026/11/03/australia-hikes-rates-18-year-high-finflation.html"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Pakistan Inflation Stays Elevated as Risks Cloud Outlook",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-02/pakistan-inflation-cools-as-energy-risks-cloud-outlook"
         }
       ]
     }

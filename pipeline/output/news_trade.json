@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-02",
+  "asOf": "2026-11-04",
   "stories": [
+    {
+      "id": "tariff.all-2026-11-04",
+      "date": "2026-11-04",
+      "topic": "Tariffs",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "‘Thrilled, scared but hopeful’: readers react to historic Democratic victory in US midterms",
+          "url": "https://www.theguardian.com/us-news/2026/nov/04/reactions-midterm-election-results-democrats"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "US midterm results a 'victory' for Canadians hopeful of tariff relief",
+          "url": "https://www.bbc.co.uk/news/articles/cqev3mw3e0kdo?at_medium=RSS&at_campaign=rss"
+        }
+      ]
+    },
     {
       "id": "tariff.CAN-2026-11-01",
       "date": "2026-11-01",
@@ -20,35 +42,6 @@
           "lean": "Center",
           "title": "Trump says aides have 'concept' of Canada trade deal",
           "url": "https://thehill.com/homenews/administration/6188730-trump-canada-trade-deal-concept/"
-        }
-      ]
-    },
-    {
-      "id": "tariff.CAN-2026-10-23",
-      "date": "2026-10-23",
-      "topic": "Tariffs involving Canada",
-      "chartId": "tariffs",
-      "headlines": [
-        {
-          "outletId": "federalregister",
-          "outlet": "Federal Register",
-          "lean": "Data",
-          "title": "Further Modifying the Scope of Products of Canada Subject to the Additional Duties Imposed To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Motor Vehicles",
-          "url": "https://www.federalregister.gov/documents/2026/10/30/2026-22292/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset"
-        },
-        {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Trump administration cancels some Canada tariffs amid close midterm races",
-          "url": "https://www.nbcnews.com/business/economy/trump-cancels-canada-tariffs-susan-collins-rcna605270"
-        },
-        {
-          "outletId": "pbsnewshour",
-          "outlet": "PBS NewsHour",
-          "lean": "Lean Left",
-          "title": "Seeking to help Collins in Maine, Trump exempts some Canadian imports from his 50% tariffs",
-          "url": "https://www.pbs.org/newshour/politics/seeking-to-help-collins-in-maine-trump-exempts-some-canadian-imports-from-his-50-tariffs"
         }
       ]
     }
