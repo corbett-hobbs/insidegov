@@ -1,46 +1,5 @@
 {
   "checks": {
-    "6f31a17d41d9ea07ebdf": {
-      "at": "2026-11-02T15:34:51.673Z",
-      "keep": [],
-      "reason": "Headline 1 covers Pakistan inflation, which is foreign news with no U.S. angle; headline 2 is a reader-concerns roundup, not a single U.S. development.",
-      "chart": ""
-    },
-    "e4e428889ce0f0440dbd": {
-      "at": "2026-11-02T15:34:51.673Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple outlets: the ICE indictment and dentist-arrest ruling are single-outlet local or state matters, the Mamdani demand is local, and the NYT pieces are midterm analysis. None directly measures border encounters or ICE removals, so no chart is linked.",
-      "chart": ""
-    },
-    "f9888abd61f8d116d470": {
-      "at": "2026-11-02T15:34:51.673Z",
-      "keep": [],
-      "reason": "No qualifying U.S. development: the Florida mosquito-control tax story is local and incidental, and the Belgian budget story is foreign with no U.S. policy angle.",
-      "chart": ""
-    },
-    "66f804b436a3a96313c2": {
-      "at": "2026-11-02T15:34:51.673Z",
-      "keep": [],
-      "reason": "The most-covered development is OPEC+ keeping output steady, which is foreign news without a U.S. policy angle; the other items are an earnings story and an oil-futures move, and none is measured by the offered U.S. charts.",
-      "chart": ""
-    },
-    "6ee759daea5df25ee2a9": {
-      "at": "2026-11-02T15:34:51.673Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/world/middle-east/oil-prices-fall-more-than-3-as-iran-peace-talks-ease-supply-fears-e2b47ca0?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/world/middle-east/oil-prices-fall-more-than-3-as-iran-peace-talks-ease-supply-fears-e2b47ca0?mod=pls_whats_news_us_business_f",
-        "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html"
-      ],
-      "reason": "Four outlets report the same single market move: oil prices fell on hopes of Iran/Middle East peace talks; the housing headline is unrelated.",
-      "chart": ""
-    },
-    "37964a6f9a63162f26e6": {
-      "at": "2026-11-02T15:34:51.673Z",
-      "keep": [],
-      "reason": "No single shared national development: headline 1 is a local business story, 2 is opinion on midterm politics, 3 is a congressional strategy plan, and 4 concerns DOJ voting lawsuits.",
-      "chart": ""
-    },
     "45ad95f814fd51d5f181": {
       "at": "2026-11-02T23:25:34.796Z",
       "keep": [],
@@ -289,7 +248,20 @@
       "chart": ""
     }
   },
-  "dispatched": {},
+  "dispatched": {
+    "indicators-freshness.yml": {
+      "release": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html",
+      "since": "2026-11-04T17:05:16.381Z",
+      "at": "2026-11-04T17:05:16.381Z",
+      "count": 1
+    },
+    "trade-freshness.yml": {
+      "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
+      "since": "2026-11-04T17:05:16.381Z",
+      "at": "2026-11-04T17:05:16.381Z",
+      "count": 1
+    }
+  },
   "laws": {
     "119-pub-133": {
       "outlets": [
