@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-03",
+  "asOf": "2026-11-04",
   "stories": [
     {
       "id": "ruling_elections-2026-11-02",
@@ -9,13 +9,6 @@
       "groupId": "elections",
       "headlines": [
         {
-          "outletId": "huffpost",
-          "outlet": "HuffPost",
-          "lean": "Left",
-          "title": "Supreme Court Rejects Trump Admin Request To Set Aside Thousands Of California Ballots",
-          "url": "https://www.huffpost.com/entry/supreme-court-california-noncitizen-voting_n_6ae8bc4ae4b0b1f508d594a4"
-        },
-        {
           "outletId": "guardian",
           "outlet": "The Guardian",
           "lean": "Left",
@@ -23,11 +16,18 @@
           "url": "https://www.theguardian.com/us-news/2026/nov/02/supreme-court-trump-california-ballots"
         },
         {
-          "outletId": "cbsnews",
-          "outlet": "CBS News",
+          "outletId": "axios",
+          "outlet": "Axios",
           "lean": "Lean Left",
-          "title": "Supreme Court rejects Trump's request in California mail ballots dispute",
-          "url": "https://www.cbsnews.com/news/supreme-court-rejects-trump-california-mail-ballots-alleged-noncitizens/"
+          "title": "Trump administration turns to SCOTUS in California ballot case",
+          "url": "https://www.axios.com/2026/11/02/trump-supreme-court-california-ballots-case"
+        },
+        {
+          "outletId": "apnews",
+          "outlet": "Associated Press",
+          "lean": "Lean Left",
+          "title": "Supreme Court rejects Trump administration push to set aside thousands of California ballots",
+          "url": "https://apnews.com/article/midterm-elections-immigration-voter-fraud-trump-48998968a23a4af2f59eaea3dba4d2f3?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
         }
       ]
     }

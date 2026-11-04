@@ -1,6 +1,34 @@
 {
-  "asOf": "2026-11-02",
+  "asOf": "2026-11-04",
   "stories": [
+    {
+      "id": "enforcement-2026-11-01",
+      "date": "2026-11-02",
+      "topic": "Immigration enforcement",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Trump’s Immigration Crackdown Backlash Poses Challenge for Republicans in the Midterms",
+          "url": "https://www.nytimes.com/2026/11/02/us/politics/trump-immigration-crackdown-backlash-republicans.html"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "'This is a disaster': Angry Republicans blame Trump for midterms defeat",
+          "url": "https://www.bbc.co.uk/news/articles/c6x29rr8djy3o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Mamdani threatens to sue Trump admin over ICE's use of city-owned lots for immigration enforcement",
+          "url": "https://www.foxnews.com/politics/mamdani-threatens-sue-trump-admin-ices-use-city-owned-lots-immigration-enforcement"
+        }
+      ]
+    },
     {
       "id": "enforcement-2026-10-28",
       "date": "2026-10-28",
