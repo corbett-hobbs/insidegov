@@ -1882,6 +1882,7 @@
 {"series_id":"GASREGW","date":"2026-10-12","value":4.331},
 {"series_id":"GASREGW","date":"2026-10-19","value":4.284},
 {"series_id":"GASREGW","date":"2026-10-26","value":4.269},
+{"series_id":"GASREGW","date":"2026-11-02","value":4.153},
 {"series_id":"GASDESW","date":"1994-03-21","value":1.106},
 {"series_id":"GASDESW","date":"1994-03-28","value":1.107},
 {"series_id":"GASDESW","date":"1994-04-04","value":1.109},
@@ -3584,6 +3585,7 @@
 {"series_id":"GASDESW","date":"2026-10-12","value":6.179},
 {"series_id":"GASDESW","date":"2026-10-19","value":6.276},
 {"series_id":"GASDESW","date":"2026-10-26","value":6.352},
+{"series_id":"GASDESW","date":"2026-11-02","value":6.292},
 {"series_id":"MORTGAGE30US","date":"1971-04-02","value":7.33},
 {"series_id":"MORTGAGE30US","date":"1971-04-09","value":7.31},
 {"series_id":"MORTGAGE30US","date":"1971-04-16","value":7.31},
@@ -13641,6 +13643,7 @@
 {"series_id":"WGS10YR","date":"2026-10-09","value":5.26},
 {"series_id":"WGS10YR","date":"2026-10-16","value":5.15},
 {"series_id":"WGS10YR","date":"2026-10-23","value":5.07},
+{"series_id":"WGS10YR","date":"2026-10-30","value":4.99},
 {"series_id":"PAYEMS","date":"1939-01-01","value":29923},
 {"series_id":"PAYEMS","date":"1939-02-01","value":30100},
 {"series_id":"PAYEMS","date":"1939-03-01","value":30280},
@@ -21242,5 +21245,6 @@
 {"series_id":"USREC","date":"2026-06-01","value":0},
 {"series_id":"USREC","date":"2026-07-01","value":0},
 {"series_id":"USREC","date":"2026-08-01","value":0},
-{"series_id":"USREC","date":"2026-09-01","value":0}
+{"series_id":"USREC","date":"2026-09-01","value":0},
+{"series_id":"USREC","date":"2026-10-01","value":0}
 ]
