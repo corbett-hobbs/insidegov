@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-28",
+  "asOf": "2026-11-04",
   "groups": [
     {
       "row": "What an executive order is",
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "row": "Limits and reach",
+      "row": "Executive orders: limits and reach",
       "items": [
         {
           "id": "who-can-overturn-eo",
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "row": "Counts",
+      "row": "Executive orders: counts",
       "items": [
         {
           "id": "who-signed-most-eos",
@@ -82,6 +82,117 @@
           ],
           "chartIds": [
             "executive-orders-signed-per-year-by-topic"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardons and commutations",
+      "items": [
+        {
+          "id": "pardon-commutation-group",
+          "q": "What is the difference between a pardon, a commutation and a group grant?",
+          "a": "A pardon is the President's forgiveness for a federal offense, and it does not signify innocence. A commutation reduces a sentence being served, in full or in part, and leaves the conviction in place. \"Group grant\" is this page's own label, not a legal term, for one warrant or proclamation covering many people at once, such as the commutation of 1,499 people on December 12, 2024, or the January 20, 2025 proclamation on offenses tied to the events at the U.S. Capitol on January 6, 2021.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            },
+            {
+              "label": "U.S. Department of Justice, Commutations Granted by President Biden",
+              "url": "https://www.justice.gov/pardon/commutations-granted-president-joseph-biden-2021-2025"
+            },
+            {
+              "label": "Federal Register, Proclamation 10887",
+              "url": "https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-01950.htm"
+            }
+          ],
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ]
+        },
+        {
+          "id": "pardon-vs-expungement",
+          "q": "What is the difference between a pardon and an expungement?",
+          "a": "A pardon forgives a federal offense but does not erase it. It does not signify innocence, and both the conviction and the pardon would appear on the person's criminal record. A pardon does remove civil disabilities that came with the conviction and should lessen the stigma. Expungement is a separate judicial remedy that courts rarely grant and that neither the Department of Justice nor the President can grant.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ],
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ]
+        },
+        {
+          "id": "pardon-before-conviction",
+          "q": "Can a president pardon someone before they are convicted?",
+          "a": "Yes. The President can pardon people who have not yet been convicted, as well as people who have not started serving a sentence or have not finished one. The power comes from Article II, Section 2 of the Constitution and covers offenses against the United States, except in cases of impeachment. It reaches federal offenses and offenses prosecuted by the U.S. Attorney for the District of Columbia in D.C. Superior Court, but not state offenses.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ],
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardon limits and process",
+      "items": [
+        {
+          "id": "pardon-state-crimes",
+          "q": "Can a president pardon state crimes?",
+          "a": "No. Article II, Section 2 of the Constitution gives the President power to grant reprieves and pardons for \"Offences against the United States, except in Cases of Impeachment.\" An offense that violates a state law is not an offense against the United States. A person seeking a pardon or commutation for a state conviction should contact the authorities of the state where the conviction occurred, typically the governor or a state board of pardons or paroles.",
+          "sources": [
+            {
+              "label": "National Archives, The Constitution, Article II, Section 2",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ],
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ]
+        },
+        {
+          "id": "pardon-against-doj-advice",
+          "q": "Can a president pardon someone against the Justice Department's advice?",
+          "a": "Yes. The Justice Department's clemency regulations (28 CFR §§ 1.1 thru 1.11) are advisory only and are for the internal guidance of Department personnel. They create no enforceable rights for people applying for clemency, and they do not restrict the authority the Constitution gives the President in Article II, Section 2. Apart from a few cases where an application is closed administratively, such as when an applicant withdraws or dies, every clemency application sent to the Pardon Attorney is decided by the President.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ],
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardon counts",
+      "items": [
+        {
+          "id": "who-most-clemency",
+          "q": "Who has granted the most clemency?",
+          "a": "Joe Biden has granted the most clemency in the Justice Department's figures: 80 pardons and 4,165 commutations over a 48-month term, as of the department's January 2025 update. No other president in the department's table, which goes back to 1900, shows a larger number of grants.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Clemency Statistics",
+              "url": "https://www.justice.gov/pardon/clemency-statistics"
+            }
+          ],
+          "chartIds": [
+            "grants-by-president"
           ]
         }
       ]
