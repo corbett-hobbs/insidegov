@@ -150,14 +150,14 @@
           ]
         },
         {
-          "id": "who-pardoned-before-conviction",
-          "kind": "matters",
-          "q": "Who can be pardoned before being convicted?",
+          "id": "pardon-before-conviction",
+          "kind": "power",
+          "q": "Can a president pardon someone before they are convicted?",
           "searched": "can someone be pardoned before being convicted",
           "chartIds": [
             "clemency-grants-per-fiscal-year"
           ],
-          "brief": "The Justice Department says the President can pardon people who have not yet been convicted.",
+          "brief": "Yes: the Justice Department says the President can pardon people who have not yet been convicted. Keep to that power and its reach; do not cover how to apply.",
           "sources": [
             {
               "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
@@ -171,14 +171,14 @@
       "row": "Pardon limits and process",
       "questions": [
         {
-          "id": "who-pardons-state-crimes",
-          "kind": "matters",
-          "q": "Who can pardon a state crime?",
+          "id": "pardon-state-crimes",
+          "kind": "power",
+          "q": "Can a president pardon state crimes?",
           "searched": "can a president pardon state crimes",
           "chartIds": [
             "clemency-grants-per-fiscal-year"
           ],
-          "brief": "Not the President: the Constitution gives the power over offenses against the United States, except in cases of impeachment. State convictions go to the authorities of that state.",
+          "brief": "No: the Constitution gives the power over offenses against the United States, except in cases of impeachment. State convictions go to the authorities of that state.",
           "sources": [
             {
               "label": "National Archives, The Constitution, Article II, Section 2",
@@ -191,14 +191,14 @@
           ]
         },
         {
-          "id": "who-decides-clemency",
-          "kind": "matters",
-          "q": "Who decides a clemency application?",
+          "id": "pardon-against-doj-advice",
+          "kind": "power",
+          "q": "Can a president pardon someone against the Justice Department's advice?",
           "searched": "does the president have to follow the pardon attorney",
           "chartIds": [
             "clemency-grants-per-fiscal-year"
           ],
-          "brief": "The President decides, apart from certain administrative closures. The Justice Department's clemency rules are advisory, for the internal guidance of its staff, and give applicants no enforceable rights.",
+          "brief": "Yes: the Justice Department's clemency rules are advisory, for the internal guidance of its staff, give applicants no enforceable rights and do not restrict the President's constitutional authority. The President decides applications, apart from certain administrative closures.",
           "sources": [
             {
               "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
