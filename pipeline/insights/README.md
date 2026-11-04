@@ -290,9 +290,9 @@ often lag or say little; a reason several outlets report is still a reason. Othe
 (`pipeline/faq/sources.ts`: CRS/CBO/GAO, the Federal Reserve, universities) can add a forecast or a longer trend. The
 web tools are limited to those sites. It returns one attributed sentence for the post (`caption_line`: "EIA cites
 warmer weather ...") and one or two short paragraphs for a "Why it went up" slide, with every source. The slide text is
-brief (`WHY_MAX` 380 characters) and reads as one connected account: it names no agency (the post sentence
-does; the slide's footnote lists each source once, "BEA; CNBC; The Hill"). It may name a news outlet, and must before
-it says "both outlets" or "both reports" ("CNBC and Fox Business tie this to ...", never an unnamed "both outlets"), and a reason that comes from reporting is
+brief (`WHY_MAX` 380 characters) and reads as one connected account: it names no agency or outlet (the post sentence
+does; the slide's footnote lists each source once, "BEA; CNBC; The Hill"). Where the reason comes from news it says
+"reports" ("Reports tie this to ..."), never "both outlets" or "both reports", which beg which ones. A reason that comes from reporting is
 worded "amid" or "tied to", not as the site's own conclusion. Code then checks:
 
 - each source is an allowed agency site or a news report from `NEWS_OUTLETS` (never an opinion page), **and** is a page
@@ -300,7 +300,7 @@ worded "amid" or "tied to", not as the site's own conclusion. Code then checks:
 - news is corroborated: a why that cites news lists at least two different outlets in its sources;
 - the post sentence names its source and uses no causal phrase from `CAUSAL_PHRASES` ("cites", "reports", not "due to");
 - the paragraphs carry no figures but years (the numbers are on the breakdown slide, where they are verified), name no
-  agency, refer to "both outlets" or "both reports" only after naming the outlets, say no "because of" or "driven by" in the site's own voice, fit the slide (`WHY_MAX`), and pass the
+  agency or outlet (nor refer to "both outlets": they say "reports"), say no "because of" or "driven by" in the site's own voice, fit the slide (`WHY_MAX`), and pass the
   FAQ neutrality rules (`neutralityProblem`: no loaded words, parties or politicians,
   and no sentence pairing a cause word with a policy word).
 
