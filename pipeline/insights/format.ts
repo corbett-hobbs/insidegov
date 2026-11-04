@@ -92,6 +92,13 @@ export function addMonths(date: string, months: number): string {
   return `${yy}-${String(mm + 1).padStart(2, "0")}-01`;
 }
 
+/** The same day of the previous month ("2026-10-26" -> "2026-09-26"), the last day when it has fewer ("2026-10-31" -> "2026-09-30"). addMonths snaps to the 1st, which is right for monthly data and eight weeks wrong for weekly. */
+export function monthEarlier(date: string): string {
+  const start = addMonths(date, -1);
+  const lastDay = new Date(Date.UTC(Number(start.slice(0, 4)), Number(start.slice(5, 7)), 0)).getUTCDate();
+  return `${start.slice(0, 8)}${String(Math.min(Number(date.slice(8, 10)), lastDay)).padStart(2, "0")}`;
+}
+
 /** The format a series' dates read in: monthly data by month, weekly by day, quarters as "Q2 2026", fiscal years by year. */
 export function dateStyleFor(frequency: Frequency): DateStyle {
   return { weekly: "day", monthly: "month", quarterly: "quarter", annual: "year", fiscal_year: "fiscal_year" }[frequency] as DateStyle;
