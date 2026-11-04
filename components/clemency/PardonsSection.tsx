@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
@@ -143,6 +143,24 @@ export function PardonsSection({ data, range, onRange, heading }: { data: Clemen
   const [perYear, setPerYear] = useState<"total" | "rate">("total");
   const [query, setQuery] = useState("");
   const [note, setNote] = useState<{ x: number; y: number; data: ClemencyProclamation & { n: number } } | null>(null);
+  // A marker's note stays open until a tap elsewhere, Esc or a scroll (rule 6).
+  const noteOpen = note != null;
+  useEffect(() => {
+    if (!noteOpen) return;
+    const close = () => setNote(null);
+    const away = (e: PointerEvent) => {
+      if (!(e.target instanceof Element) || !e.target.closest("[data-note-hit], .chart-tooltip")) close();
+    };
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && close();
+    document.addEventListener("pointerdown", away);
+    document.addEventListener("keydown", esc);
+    window.addEventListener("scroll", close, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", away);
+      document.removeEventListener("keydown", esc);
+      window.removeEventListener("scroll", close);
+    };
+  }, [noteOpen]);
   const [from, to] = range;
   const min = data.firstFy, max = data.lastFy;
   const pres = data.presidents;
@@ -245,7 +263,7 @@ export function PardonsSection({ data, range, onRange, heading }: { data: Clemen
               });
             }}
           />
-          <Tooltip state={note} onActivate={() => setNote(null)}>
+          <Tooltip state={note}>
             {(d: ClemencyProclamation & { n: number }) => (
               <div className="max-w-[17rem]">
                 <TipCard title={d.title} sub={`Proclamation ${d.number}, ${new Date(`${d.date}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}`} />
