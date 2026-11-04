@@ -318,7 +318,7 @@ export function loadExecutiveOrders(ref?: string): EventSet {
     events: rows
       .map((r) => ({ date: String(r.signing_date), cell: { file: EOS, key: { eo_number: r.eo_number as number }, field: "__row" } }))
       .sort((a, b) => a.date.localeCompare(b.date)),
-    url: "/presidency/executive-orders",
+    url: "/presidency/executive-actions",
     source: "Federal Register",
     weight: 1.3,
   };

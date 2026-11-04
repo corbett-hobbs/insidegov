@@ -17,7 +17,7 @@ import type { SearchEntry } from "./site-search";
 /** Extra words people type for a page, keyed by `/<vertical>/<section>`. */
 const PAGE_ALIASES: Record<string, string> = {
   "/presidency/presidents": "president list directory white house administrations",
-  "/presidency/executive-orders": "eo orders president",
+  "/presidency/executive-actions": "eo orders president",
   "/presidency/economy": "jobs unemployment inflation gdp gas prices",
   "/presidency/energy": "oil electricity lng spr petroleum reserve",
   "/presidency/immigration": "ice deportation removals green card refugees",

@@ -44,7 +44,7 @@ describe("executive order list", () => {
 
   it("names the month, and says where to see the rest only when orders are left out", () => {
     expect(ordersHeading("2026-10-01")).toBe("Executive orders signed in October");
-    expect(moreNote("2026-09-01", "insidegov.fyi/presidency/executive-orders")).toBe("To see all of September's executive orders, visit insidegov.fyi/presidency/executive-orders.");
+    expect(moreNote("2026-09-01", "insidegov.fyi/presidency/executive-actions")).toBe("To see all of September's executive orders, visit insidegov.fyi/presidency/executive-actions.");
     // With the full count, so a reader can compare it with the rows shown.
     expect(moreNote("2026-10-01", "insidegov.fyi/x", "orders", 4)).toBe("To see all four of October's executive orders, visit insidegov.fyi/x.");
     expect(moreNote("2026-09-01", "insidegov.fyi/x", "orders", 11)).toBe("To see all 11 of September's executive orders, visit insidegov.fyi/x.");

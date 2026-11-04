@@ -59,7 +59,7 @@ export const TOPIC_PATHS = [
   "presidency/immigration",
   "presidency/foreign-aid",
   "presidency/troops-abroad",
-  "presidency/executive-orders",
+  "presidency/executive-actions",
   "congress/ideology",
   "congress/laws",
   "congress/wealth",
@@ -163,14 +163,14 @@ const BUILDERS: Record<TopicPath, () => TopicCard> = {
       to: String(p.years[last.yi]!.fy),
     };
   },
-  "presidency/executive-orders": () => {
+  "presidency/executive-actions": () => {
     const d = getExecutiveOrdersData();
     const last = d.years[d.years.length - 1]!;
     const done = d.years.filter((y) => !y.partial);
     return {
       branch: "presidency",
-      eyebrow: "Presidency · Executive orders",
-      title: "How many executive orders does each president sign?",
+      eyebrow: "Presidency · Executive actions",
+      title: "How do presidents use executive power?",
       figure: compactNumber(last.total),
       caption: last.partial ? `Executive orders signed so far in ${last.year} (through ${fmtIso(d.throughDate).replace(/, \d{4}$/, "")})` : `Executive orders signed in ${last.year}`,
       series: done.map((y) => y.total),

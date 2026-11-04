@@ -18,7 +18,7 @@ export const CHART_PAGES = [
   "/congress/wealth",
   "/presidency/economy",
   "/presidency/energy",
-  "/presidency/executive-orders",
+  "/presidency/executive-actions",
   "/presidency/foreign-aid",
   "/presidency/immigration",
   "/presidency/trade",

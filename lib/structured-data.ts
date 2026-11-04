@@ -62,7 +62,7 @@ const TOPICS: Record<string, TopicDataset> = {
   "/presidency/trade": { name: "U.S. trade by country, product and use", entries: ["trade"], from: "1991-01" },
   "/presidency/foreign-aid": { name: "U.S. foreign assistance disbursements by country", entries: ["foreign-aid"], from: "2001" },
   "/presidency/troops-abroad": { name: "U.S. military personnel and bases abroad", entries: ["troops-abroad"], from: "1950", license: "https://www.gnu.org/licenses/gpl-3.0.html" },
-  "/presidency/executive-orders": { name: "U.S. executive orders by topic", entries: ["executive-orders"], from: "1994-01-15" },
+  "/presidency/executive-actions": { name: "U.S. executive orders by topic", entries: ["executive-orders"], from: "1994-01-15" },
   "/congress/ideology": { name: "DW-NOMINATE ideology scores for members of Congress", entries: ["ideology"], from: "1789", license: "https://voteview.com/about" },
   "/congress/laws": { name: "Public laws enacted by Congress", entries: ["laws"], from: "1973" },
   "/congress/demographics": { name: "Demographics of members of Congress", entries: ["demographics"], from: ".." },

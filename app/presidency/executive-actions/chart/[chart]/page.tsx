@@ -1,8 +1,8 @@
 import * as page from "../../page";
 import { chartMetadata, chartParams } from "@/lib/og-chart-route";
 
-/** `/presidency/executive-orders/chart/<card id>`: this page under one chart's own link preview (`lib/og-charts.ts`). */
-const PAGE = "/presidency/executive-orders";
+/** `/presidency/executive-actions/chart/<card id>`: this page under one chart's own link preview (`lib/og-charts.ts`). */
+const PAGE = "/presidency/executive-actions";
 
 export const dynamicParams = false;
 

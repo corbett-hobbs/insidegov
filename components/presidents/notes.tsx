@@ -87,7 +87,7 @@ export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos
   congress: { href: "/timeline", label: "Timeline" },
   justices: { href: "/supreme-court/justices", label: "Supreme Court" },
   laws: { href: "/congress/laws", label: "All laws" },
-  eos: { href: "/presidency/executive-orders", label: "All executive orders" },
+  eos: { href: "/presidency/executive-actions", label: "All executive orders" },
   major: { href: "/congress/laws", label: "Laws page" },
   misery: { href: "/presidency/economy", label: "Economy" },
   fiscal: { href: "/presidency/economy", label: "Economy" },
