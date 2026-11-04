@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 
 export interface SectionNavItem {
   /** The `id` of the section's `SectionHeading`, which is the jump target. */
@@ -125,9 +125,26 @@ export function SectionStrip({ items, extras = [], active }: { items: readonly S
     if (left < row.scrollLeft) row.scrollTo({ left, behavior: "smooth" });
     else if (right > row.scrollLeft + row.clientWidth) row.scrollTo({ left: right - row.clientWidth, behavior: "smooth" });
   }, [active]);
+  // The strip hangs below the pinned bar (absolute, out of flow) so mounting it never changes the bar's height. In flow it pushed
+  // the whole page down ~30px mid-scroll, which flipped `stuck` back off and made the strip flash in and out. Its height is
+  // published as `--pinned-strip-h` for a SectionFilterRow that pins beneath it.
+  const navRef = useCallback((el: HTMLElement | null) => {
+    if (!el) {
+      document.documentElement.style.removeProperty("--pinned-strip-h");
+      return;
+    }
+    const set = () => document.documentElement.style.setProperty("--pinned-strip-h", `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      document.documentElement.style.removeProperty("--pinned-strip-h");
+    };
+  }, []);
   return (
-    <nav aria-label="Jump to section" className="min-[1420px]:hidden">
-      <div ref={rowRef} className="neighbor-chip-row -mx-4 flex gap-1.5 overflow-x-auto border-t border-line px-4 pb-1.5 pt-1.5 sm:mx-0 sm:px-0">
+    <nav ref={navRef} aria-label="Jump to section" className="absolute inset-x-0 top-full border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur min-[1420px]:hidden">
+      <div ref={rowRef} className="neighbor-chip-row mx-auto flex w-full max-w-[1180px] gap-1.5 overflow-x-auto border-t border-line px-4 pb-1.5 pt-1.5 sm:px-6">
         {items.map((it, i) => {
           const on = it.id === active;
           return (
