@@ -78,11 +78,11 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
         <div className={LEGEND_ROW}>
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("D") }} />
-            Democratic · Court median leans liberal
+            Democratic · majority or lean (bar down)
           </span>
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("R") }} />
-            Republican · Court median leans conservative
+            Republican · majority or lean (bar up)
           </span>
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyTint("D", 30) }} />
