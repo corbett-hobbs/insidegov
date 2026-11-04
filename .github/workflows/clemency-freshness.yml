@@ -1,0 +1,91 @@
+name: Clemency freshness
+
+# Automate the check and the acceptance; the gate is the full CI run (.github/actions/gate-and-merge).
+#
+# Weekly: re-fetch the Office of the Pardon Attorney's pages (only the current term's list should still change). On a change,
+# classify new offense texts (needs the ANTHROPIC_API_KEY secret), rebuild, and open a PR, merged only after the full CI gate. If the
+# transform fails, or a DOJ page stops reconciling (pipeline/transform/clemency.test.ts), the PR stays open for a person.
+# New proclamations are hand-added to pipeline/reference/clemency-proclamations.json (docs/CLEMENCY_METHODOLOGY.md).
+
+on:
+  schedule:
+    - cron: "37 12 * * 2" # Tuesdays 12:37 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: clemency-freshness
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Re-fetch DOJ's clemency pages
+        run: pnpm fetch:clemency
+
+      - name: Did a page change?
+        id: diff
+        run: |
+          if [ -n "$(git status --porcelain -- pipeline/raw/clemency)" ]; then
+            echo "material=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "material=false" >> "$GITHUB_OUTPUT"
+            echo "No change."
+          fi
+
+      - name: Classify and rebuild
+        id: build
+        if: steps.diff.outputs.material == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          set +e
+          pnpm classify:clemency > classify.log 2>&1
+          pnpm exec tsx pipeline/transform/clemency-run.ts > transform.log 2>&1
+          code=$?
+          cat classify.log transform.log
+          echo "transform_ok=$([ "$code" -eq 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          rm -f classify.log transform.log
+          exit 0
+
+      - name: Open pull request
+        id: cpr
+        if: steps.diff.outputs.material == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: |
+            pipeline/raw/clemency
+            pipeline/classification/clemency_offenses.json
+            pipeline/output/clemency_*.json
+          branch: data/clemency-refresh
+          base: main
+          delete-branch: true
+          commit-message: "chore(pipeline): refresh clemency"
+          title: "Clemency refresh${{ steps.build.outputs.transform_ok != 'true' && ' (needs curation)' || '' }}"
+          labels: ${{ steps.build.outputs.transform_ok == 'true' && 'data-refresh' || 'data-refresh,needs-curation' }}
+          body: |
+            The weekly check found a change on the Office of the Pardon Attorney's pages.
+
+            **Transform succeeded:** `${{ steps.build.outputs.transform_ok }}`
+
+      - name: Gate and merge
+        if: steps.build.outputs.transform_ok == 'true' && contains(fromJSON('["created","updated"]'), steps.cpr.outputs.pull-request-operation)
+        uses: ./.github/actions/gate-and-merge
+        with:
+          pr-number: ${{ steps.cpr.outputs.pull-request-number }}
+          branch: ${{ steps.cpr.outputs.pull-request-branch }}
+          head-sha: ${{ steps.cpr.outputs.pull-request-head-sha }}
+          token: ${{ github.token }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}

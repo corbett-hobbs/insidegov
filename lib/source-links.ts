@@ -48,6 +48,12 @@ export const SOURCE_LINKS = {
   // The Members directory's "Most looked up" order (pipeline/wikipedia/pageviews.ts).
   "wikimedia-pageviews": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/reference/page-views.html",
   // The presidency
+  "doj-clemency-statistics": "https://www.justice.gov/pardon/clemency-statistics",
+  "doj-clemency-recipients": "https://www.justice.gov/pardon/clemency-recipients",
+  "doj-clemency-past": "https://www.justice.gov/pardon/past-clemency-action-and-statistics",
+  "doj-clemency-trump-2025": "https://www.justice.gov/pardon/clemency-grants-president-donald-j-trump-2025-present",
+  "doj-biden-commutations": "https://www.justice.gov/pardon/commutations-granted-president-joseph-biden-2021-2025",
+  "fr-proclamation-10887": "https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-01950.htm",
   "federal-register-eo": "https://www.federalregister.gov/presidential-documents/executive-orders",
   // Federal Register search for the Presidential Determinations on refugee
   // admissions (document type "determination"); the pipeline reads each one
