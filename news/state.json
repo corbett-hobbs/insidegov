@@ -1,17 +1,5 @@
 {
   "checks": {
-    "9dfa461ba66860c2f8a6": {
-      "at": "2026-11-02T05:49:05.606Z",
-      "keep": [],
-      "reason": "The only development covered by several outlets is OPEC+ keeping output steady, which is foreign news with no U.S. policy angle; the Exxon/Chevron earnings story is company news from one outlet, and no chart directly measures OPEC output.",
-      "chart": ""
-    },
-    "94fa0fd4276b523b0a81": {
-      "at": "2026-11-02T05:49:05.606Z",
-      "keep": [],
-      "reason": "No shared development: headline 1 is a local business anecdote, 2 is opinion on GOP politics, and 3 is a Democratic strategy plan rather than a government action on tariffs.",
-      "chart": ""
-    },
     "6f31a17d41d9ea07ebdf": {
       "at": "2026-11-02T15:34:51.673Z",
       "keep": [],
@@ -259,6 +247,45 @@
         "https://thehill.com/policy/energy-environment/6193013-election-day-record-gas-prices/"
       ],
       "reason": "Headlines 2 and 3 both report that gas prices hit a record high around Election Day 2026, the chart's topic; headlines 1 and 4 cover different developments.",
+      "chart": ""
+    },
+    "0829e37c16d1d48934da": {
+      "at": "2026-11-04T08:58:48.095Z",
+      "keep": [],
+      "reason": "The U.S. headlines are about midterm election results, with inflation only incidental; the inflation headlines are foreign (Australia, Brazil, UK) with no U.S. policy angle, so no single qualifying U.S. CPI development.",
+      "chart": ""
+    },
+    "fe29af6ad634e9ae2329": {
+      "at": "2026-11-04T08:58:48.095Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
+        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
+        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
+        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
+        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
+        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
+        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/",
+        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
+      ],
+      "reason": "Four outlets reported the same November 2 oil price drop on hopes of Iran talks; the chart pages have no crude price or OPEC data, so no chart fits.",
+      "chart": ""
+    },
+    "8e076651516327736af6": {
+      "at": "2026-11-04T08:58:48.095Z",
+      "keep": [
+        "https://www.cnbc.com/2026/11/03/midterm-election-stock-market.html",
+        "https://www.foxbusiness.com/markets/us-stock-futures-tumble-democrats-score-key-midterm-election-wins"
+      ],
+      "reason": "Headlines 6 and 7 both report the current development of Democrats winning midterm congressional control and its market reaction; the other headlines are previews, historical analysis, or unrelated election coverage.",
+      "chart": ""
+    },
+    "ea2deeea3f318e1bfbf0": {
+      "at": "2026-11-04T08:58:48.095Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/",
+        "https://thehill.com/policy/energy-environment/6193013-election-day-record-gas-prices/"
+      ],
+      "reason": "Both headlines report that U.S. gas prices hit a record high around Election Day, the same current price development the weekly gasoline chart tracks; headline 1 covers a different claim about oil prices and Iran.",
       "chart": ""
     }
   },
