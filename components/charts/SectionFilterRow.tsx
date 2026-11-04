@@ -32,7 +32,7 @@ export function usePinnedBarHeight() {
  */
 export function SectionFilterRow({ children }: { children: ReactNode }) {
   return (
-    <div className="sticky top-[var(--pinned-bar-h,64px)] z-30 -mx-4 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1.5 bg-bg px-4 py-1.5 sm:-mx-6 sm:px-6">
+    <div className="sticky top-[calc(var(--pinned-bar-h,64px)+var(--pinned-strip-h,0px))] z-30 -mx-4 flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1.5 bg-bg px-4 py-1.5 sm:-mx-6 sm:px-6">
       {children}
     </div>
   );
