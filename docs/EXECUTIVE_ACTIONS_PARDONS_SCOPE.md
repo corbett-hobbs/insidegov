@@ -1,6 +1,6 @@
 # Executive actions: pardons section, scope
 
-Status: scoped and approved to build, nothing built. Mockup: `docs/mockups/executive-actions-pardons.html` (real data, pulled Nov 3, 2026; `mockups` launch config, port 3300). Its parsing scripts were throwaway; the build writes a proper fetch and transform.
+Status: phases 1 to 3 built; phase 4 not started. Mockup: `docs/mockups/executive-actions-pardons.html` (real data, pulled Nov 3, 2026; `mockups` launch config, port 3300). Its parsing scripts were throwaway; the build writes a proper fetch and transform.
 
 ## The page
 

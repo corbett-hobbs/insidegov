@@ -17,6 +17,7 @@ on:
       - pipeline/output/foreign_assistance_meta.json
       - pipeline/output/troops_location.json
       - pipeline/output/troops_location_meta.json
+      - pipeline/output/clemency_years.json
       - pipeline/output/faq_*.json
       - pipeline/faq/**
   schedule:

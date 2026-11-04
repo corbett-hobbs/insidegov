@@ -6,8 +6,8 @@ summaries (`pnpm summarize:eos`, `checkEoSummary`) and the social-drafts approva
 1. **Questions** — `questions/<page>.json`, edited by hand and reviewed like code. 5-8 per page, grouped under the page's chart rows
    or sections, each with the search phrase it came from (Google autocomplete: `suggestqueries.google.com/complete/search?client=firefox&q=...`;
    Google's results page shows a bot check to scripts, so "People also ask" is gathered by hand if at all), its chart ids, its
-   sources and an optional brief. Two kinds only: `matters` ("Who…?" / "Why does … matter…?") and `difference` ("What is the
-   difference between X and Y?"). A source with `facts` also gets the site's own figures (`facts.ts`); `fetch` reads a PDF or
+   sources and an optional brief. Three kinds only: `matters` ("Who…?" / "Why does … matter…?"), `difference` ("What is the
+   difference between X and Y?") and `power` ("Can a president…?", for what the office can do). A source with `facts` also gets the site's own figures (`facts.ts`); `fetch` reads a PDF or
    API behind a page.
 2. **Draft** — `pnpm faq:draft -- --page economy` fetches every source (`sources.ts`: HTML main text, PDFs via `pdftotext`), asks
    Claude to answer from them only, and keeps an answer only if `checkFaqAnswer` (`check.ts`) passes; three tries, then dropped.

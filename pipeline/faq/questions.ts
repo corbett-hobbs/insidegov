@@ -4,8 +4,8 @@ import { z } from "zod";
 /**
  * The reviewed question lists, one per page (`pipeline/faq/questions/<page>.json`): what the FAQ section may answer, grouped
  * under the page's chart rows (Economy `CARD_ROWS` labels) or sections (Immigration), with the sources each answer must come
- * from. The questions start from what people search for (Google autocomplete, `searched` records the phrase) and come in two
- * kinds only: who something matters to, and the difference between two things. Never why a number moved (that is a context
+ * from. The questions start from what people search for (Google autocomplete, `searched` records the phrase) and come in three
+ * kinds only: who something matters to, the difference between two things, and what a president can do. Never why a number moved (that is a context
  * line) or how it is measured (that is the chart's Data notes). Edited by hand and reviewed like code.
  */
 
@@ -30,7 +30,7 @@ export type QuestionSource = z.infer<typeof questionSource>;
 export const question = z.strictObject({
   /** Stable id: the published answer keeps it, and the re-check finds the question's sources by it. */
   id: z.string().regex(/^[a-z0-9-]+$/),
-  kind: z.enum(["matters", "difference"]),
+  kind: z.enum(["matters", "difference", "power"]),
   q: z.string().min(1),
   /** The search phrase the question came from, as Google's autocomplete gave it. */
   searched: z.string().min(1),
@@ -52,7 +52,7 @@ export const questionList = z.strictObject({
 });
 export type QuestionList = z.infer<typeof questionList>;
 
-/** Why a question is outside the two kinds, or null. */
+/** Why a question is outside the three kinds, or null. */
 export function checkQuestion(q: Question): string | null {
   if (!/\?$/.test(q.q)) return "a question ends with a question mark";
   if (/\bhow (is|are|do|does)\b.*\b(measured|calculated|counted|defined)\b/i.test(q.q)) return "how a figure is measured belongs in the chart's Data notes";
@@ -60,6 +60,7 @@ export function checkQuestion(q: Question): string | null {
     return "why a number moved belongs in a context line";
   if (q.kind === "difference" && !/\bdifference between\b/i.test(q.q)) return 'a "difference" question asks "What is the difference between X and Y?"';
   if (q.kind === "matters" && !/^(who|why)\b/i.test(q.q)) return 'a "matters" question asks who something matters to, or why it matters';
+  if (q.kind === "power" && !/^can a president\b/i.test(q.q)) return 'a "power" question asks "Can a president…?"';
   return null;
 }
 

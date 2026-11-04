@@ -1,5 +1,6 @@
 import { toQuestionGroups } from "../../lib/news-derive";
 import type { FaqFile } from "../../lib/news-types";
+import { CLEMENCY_TAKEAWAYS } from "../clemency/takeaways";
 import { EO_TAKEAWAYS } from "./takeaways";
 
 /**
@@ -10,4 +11,10 @@ import { EO_TAKEAWAYS } from "./takeaways";
 
 export const EO_CHART = "executive-orders-signed-per-year-by-topic";
 
-export const executiveOrdersFaq = (file: FaqFile | null) => toQuestionGroups(file, (id) => (id === EO_CHART ? { target: id, label: EO_TAKEAWAYS.perYear.title } : null));
+const CARD_LABEL: Record<string, string> = {
+  [EO_CHART]: EO_TAKEAWAYS.perYear.title,
+  "clemency-grants-per-fiscal-year": CLEMENCY_TAKEAWAYS.hero.title,
+  "grants-by-president": CLEMENCY_TAKEAWAYS.presidents.title,
+};
+
+export const executiveOrdersFaq = (file: FaqFile | null) => toQuestionGroups(file, (id) => (CARD_LABEL[id] ? { target: id, label: CARD_LABEL[id] } : null));

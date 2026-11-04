@@ -12,6 +12,20 @@
 --------------------------------------------------------------------------- */
 
 :root {
+  --clem-pardon: #1c8fd1;
+  --clem-commutation: #e2641b;
+  --clem-group: #4a40b4;
+  --clem-denied: #8890a0;
+  --clem-closed: #c6ccd6;
+  --offense-drugs: #3e9886;
+  --offense-fraud: #c28a2c;
+  --offense-corruption: #7b4f87;
+  --offense-violent: #d0627f;
+  --offense-firearms: #4a4a4a;
+  --offense-property: #8a5a3c;
+  --offense-immigration: #6f9a3c;
+  --offense-regulatory: #5f7fa8;
+  --offense-other: #b3b9c4;
   --bg: #eef1f5;
   --surface: #ffffff;
   --surface-raised: #f7f8fa;
@@ -179,6 +193,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --clem-pardon: #2f9bd8;
+    --clem-commutation: #dc6a24;
+    --clem-group: #7c78e8;
+    --clem-denied: #7c8493;
+    --clem-closed: #3f4553;
+    --offense-drugs: #4fb7a2;
+    --offense-fraud: #e0b04e;
+    --offense-corruption: #b58ac4;
+    --offense-violent: #e88ca4;
+    --offense-firearms: #c1c1c1;
+    --offense-property: #c08a62;
+    --offense-immigration: #98c460;
+    --offense-regulatory: #8fb0d8;
+    --offense-other: #5b6270;
     --bg: #14161c;
     --surface: #1b1e26;
     --surface-raised: #20242e;
@@ -302,6 +330,20 @@
 }
 
 :root[data-theme="dark"] {
+  --clem-pardon: #2f9bd8;
+  --clem-commutation: #dc6a24;
+  --clem-group: #7c78e8;
+  --clem-denied: #7c8493;
+  --clem-closed: #3f4553;
+  --offense-drugs: #4fb7a2;
+  --offense-fraud: #e0b04e;
+  --offense-corruption: #b58ac4;
+  --offense-violent: #e88ca4;
+  --offense-firearms: #c1c1c1;
+  --offense-property: #c08a62;
+  --offense-immigration: #98c460;
+  --offense-regulatory: #8fb0d8;
+  --offense-other: #5b6270;
   --bg: #14161c;
   --surface: #1b1e26;
   --surface-raised: #20242e;

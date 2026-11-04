@@ -28,7 +28,7 @@ import {
   type EoYear,
 } from "@/lib/executive-orders-types";
 import { isOnly, isPicked, pickLabel, toggleOnly, type Picked } from "@/lib/multi-select";
-import { sameRange, termYearRange, type YearRange } from "@/lib/year-range";
+import { sameRange, type YearRange } from "@/lib/year-range";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { TopicSwatch } from "./TopicSwatch";
@@ -37,11 +37,18 @@ import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
 import { SourceLink } from "@/components/SourceLink";
 import { EO_TAKEAWAYS } from "./takeaways";
 import { UpNext } from "@/components/UpNext";
+import { PardonsSection } from "@/components/clemency/PardonsSection";
+import { CLEMENCY_TERMS, type ClemencyPayload } from "@/lib/clemency-types";
+import { yearsParam } from "@/lib/url-state";
+import { useUrlState } from "@/lib/use-url-state";
 
 type Mode = "count" | "share";
 
 /** The page's numbered sections; their numbers run through the pills, the headings and the strip. */
-const SECTIONS: readonly SectionNavItem[] = [{ id: "executive-orders", label: "Executive orders" }];
+const SECTIONS: readonly SectionNavItem[] = [
+  { id: "executive-orders", label: "Executive orders" },
+  { id: "pardons", label: "Pardons" },
+];
 
 const MODES = [
   { value: "count", label: "Count" },
@@ -54,6 +61,8 @@ const SERIES: StackSeries[] = EO_TOPICS.map((t) => ({ id: t, label: EO_TOPIC_LAB
 const fmtDate = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 const lastName = (name: string) => name.split(" ").pop() ?? name;
+/** A clemency term's id to the orders data's term id (the inauguration date). */
+const CLEMENCY_TERM_ID = Object.fromEntries(CLEMENCY_TERMS.map((t) => [t.id, t.termId])) as Record<string, string>;
 const pct = (n: number, d: number) => `${Math.round((n / (d || 1)) * 100)}%`;
 
 /** A date as a column index: whole years from the first column plus the fraction of that year elapsed. */
@@ -76,7 +85,7 @@ function termBands(admins: readonly EoAdmin[], firstYear: number, columns: numbe
 }
 
 /** `faqFile` is `faq_executive-orders.json`; null (or empty) leaves out the FAQ section, its header link and the card's jump link. */
-export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; faqFile: FaqFile | null }) {
+export function ExecutiveOrdersPageClient({ data, clemency, faqFile }: { data: EoPayload; clemency: ClemencyPayload; faqFile: FaqFile | null }) {
   const faq = useMemo(() => executiveOrdersFaq(faqFile), [faqFile]);
   const { focus, jump } = useChartJump([], faq);
   const extras = useMemo(() => EXTRA_NAV.filter((it) => it.id === QUESTIONS_ID && faq.length > 0), [faq]);
@@ -102,31 +111,50 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
       })),
     [data.years],
   );
+  // The one window runs on the slider's years, from fiscal 1993; orders count by calendar year from 1994 and clemency by fiscal year.
   const [range, setRange] = useState<YearRange | null>(null);
   const lastYear = data.years[data.years.length - 1].year;
-  const full: YearRange = [first, lastYear];
-  const [from, to] = range ?? full;
-  const termRange = (a: EoAdmin) => termYearRange(Number(a.start.slice(0, 4)), a.end ? Number(a.end.slice(0, 4)) : null, first, lastYear);
-  // The window reads as a president only when it is exactly their years (YearList's "clear" chip).
-  const president = data.administrations.find((a) => sameRange(termRange(a), [from, to]))?.termId ?? null;
-  const setWindow = (r: YearRange) => setRange(sameRange(r, full) ? null : r);
+  const fullFy: YearRange = [clemency.firstFy, clemency.lastFy];
+  const win = range ?? fullFy;
+  const setWindow = (r: YearRange) => setRange(sameRange(r, fullFy) ? null : r);
+  useUrlState({ years: yearsParam.format(win, fullFy[0], fullFy[1]) }, (q) => {
+    const r = yearsParam.parse(q.get("years"), fullFy[0], fullFy[1]);
+    if (r) setWindow(r);
+  });
+  const from = Math.max(win[0], first);
+  const to = Math.min(win[1], lastYear);
+  const ordersShown = win[1] >= first;
+  // A window that is exactly a run of terms sets the orders by the terms' dates: Obama's years run through fiscal 2017, but Trump's first
+  // orders of calendar 2017 aren't Obama's, so each edge year keeps only the selected presidents' orders.
+  const runTerms = useMemo(() => {
+    const ps = clemency.presidents;
+    const a = ps.findIndex((p) => p.firstFy === win[0]);
+    const b = ps.findLastIndex((p) => Math.min(p.lastFy, clemency.lastFy) === win[1]);
+    if (a < 0 || b < a || (a === 0 && b === ps.length - 1)) return null;
+    return new Set(ps.slice(a, b + 1).map((p) => CLEMENCY_TERM_ID[p.term]));
+  }, [clemency.presidents, clemency.lastFy, win]);
+  const president = runTerms?.size === 1 ? [...runTerms][0]! : null;
   const bandTerms = useMemo<BandTerm[]>(
     () =>
-      data.administrations.map((a) => {
-        const [tf, tt] = termRange(a);
-        return { id: a.termId, label: `${a.president}, ${a.start.slice(0, 4)}–${a.end ? a.end.slice(0, 4) : "present"}`, last: lastName(a.president), initials: a.president.split(" ").map((w) => w[0]).join(""), party: a.party === "Democratic" ? "D" : "R", from: tf, to: tt };
+      clemency.presidents.map((p) => {
+        const end = Math.min(p.lastFy, clemency.lastFy);
+        return { id: p.term, label: `${p.president}, FY${p.firstFy}–FY${end}`, last: p.label.replace(/ \(.*/, ""), initials: p.president.split(" ").map((w) => w[0]).join(""), party: p.party, from: p.firstFy, to: end };
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data.administrations, first, lastYear],
+    [clemency.presidents, clemency.lastFy],
   );
-  const extentById = useMemo(() => new Map(bandTerms.map((t) => [t.id, [t.from, t.to] as const])), [bandTerms]);
+  const extentById = useMemo(() => new Map(data.administrations.map((a) => { const p = clemency.presidents.find((x) => CLEMENCY_TERM_ID[x.term] === a.termId); return [a.termId, p ? ([p.firstFy, Math.min(p.lastFy, clemency.lastFy)] as const) : ([Number(a.start.slice(0, 4)), first] as const)]; })), [data.administrations, clemency.presidents, clemency.lastFy, first]);
   const series = useMemo(() => SERIES.filter((s) => isPicked(topics, s.id as EoTopic)), [topics]);
   const visible = useMemo(
     () =>
       columns
         .filter((c) => c.year.year >= from && c.year.year <= to)
-        .map((c) => ({ ...c, total: EO_TOPICS.reduce((n, t) => n + (isPicked(topics, t) ? c.year.counts[t] : 0), 0), denom: c.year.total })),
-    [columns, from, to, topics],
+        .map((c) => {
+          if (!runTerms) return { ...c, total: EO_TOPICS.reduce((n, t) => n + (isPicked(topics, t) ? c.year.counts[t] : 0), 0), denom: c.year.total };
+          const items = c.year.items.filter((i) => runTerms.has(i.termId));
+          const values = Object.fromEntries(EO_TOPICS.map((t) => [t, items.filter((i) => i.topic === t).length])) as Record<EoTopic, number>;
+          return { ...c, values, total: EO_TOPICS.reduce((n, t) => n + (isPicked(topics, t) ? values[t] : 0), 0), denom: items.length };
+        }),
+    [columns, from, to, topics, runTerms],
   );
   // The control's rows: orders per topic in the years shown, so each row says what ticking it would add.
   const topicOptions = useMemo<MultiOption<EoTopic>[]>(
@@ -142,14 +170,14 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
       <div ref={barRef} className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 backdrop-blur">
         <div className="mx-auto w-full max-w-[1180px] px-4 py-2.5 sm:px-6">
           <RangeSelector
-            min={first}
-            max={lastYear}
-            value={[from, to]}
+            min={fullFy[0]}
+            max={fullFy[1]}
+            value={win}
             onChange={setWindow}
             format={String}
             ariaLabel="Years shown"
-            below={<TermBand terms={bandTerms} min={first} max={lastYear} value={[from, to]} onChange={setWindow} />}
-            action={<RangeReset show={!sameRange([from, to], full)} onReset={() => setRange(null)} className="mt-0.5 font-sans leading-none" />}
+            below={<TermBand terms={bandTerms} min={fullFy[0]} max={fullFy[1]} value={win} onChange={setWindow} />}
+            action={<RangeReset show={!sameRange(win, fullFy)} onReset={() => setRange(null)} className="mt-0.5 font-sans leading-none" />}
             className="min-w-0"
           />
           {stuck && <SectionStrip items={SECTIONS} extras={extras} active={active} />}
@@ -159,7 +187,7 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-6 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Executive actions" title="How Do Presidents Use Executive Power?">
           <p>
-            Browse every executive order signed since 1994 by topic and volume to track how commanders-in-chief direct federal policy without passing new legislation.
+            Presidents can act without Congress. Browse every executive order signed since 1994 by topic and every pardon and commutation since Bill Clinton, and search each person granted one.
           </p>
           <SectionPills items={SECTIONS} extras={extras} pillsRef={pillsRef} />
         </PageHeader>
@@ -174,7 +202,10 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
           </div>
         </SectionFilterRow>
 
-        <ChartCard
+        {!ordersShown && (
+          <p className="m-0 rounded-[10px] border border-line bg-surface px-5 py-4 text-[0.9rem] text-ink-muted">The executive orders here begin in {first}.</p>
+        )}
+        {ordersShown && <ChartCard
           id="executive-orders-signed-per-year-by-topic"
           title={EO_TAKEAWAYS.perYear.title}
           takeaway={EO_TAKEAWAYS.perYear.takeaway}
@@ -198,18 +229,18 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
             selectedKey={selected}
             onSelect={setSelected}
             bands={bands}
-            bandSelect={{ min: first, max: lastYear, value: [from, to], onChange: setWindow, extent: (id) => extentById.get(id) }}
+            bandSelect={{ min: fullFy[0], max: fullFy[1], value: win, onChange: setWindow, extent: (id) => extentById.get(id) }}
             yAxisLabel={mode === "share" ? "SHARE OF YEAR’S ORDERS" : "EXECUTIVE ORDERS"}
             ariaLabel={`Stacked columns of executive orders signed per year, ${from} to ${to}, by topic. Select a column to list that year's orders.`}
             renderTooltip={(c) => <YearTooltip col={c} admins={adminById} mode={mode} topics={topics} throughDate={data.throughDate} />}
           />
 
-          <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setRange(null)} topics={topics} admins={adminById} onClearTopics={() => setTopics(null)} throughDate={data.throughDate} />
+          <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setRange(null)} runTerms={runTerms} topics={topics} admins={adminById} onClearTopics={() => setTopics(null)} throughDate={data.throughDate} />
 
           <ChartNotesRow>
             <MethodologyNote>
               <p>
-                {data.total.toLocaleString("en-US")} orders signed {first}&ndash;{last.year}; {last.year} is year to date, through {fmtDate(data.throughDate)}. Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were.
+                {data.total.toLocaleString("en-US")} orders signed {first}&ndash;{last.year}; {last.year} is year to date, through {fmtDate(data.throughDate)}. Orders are counted in the year signed, each with one primary topic, so a year&rsquo;s columns sum to its total; in a transition year, orders before and after Inauguration Day go to the outgoing and incoming president. Topics are classifier-assisted: a language model read each title and issuing agencies, and orders that only amend or revoke another take its topic. A person checked a random sample of 100 and confirmed all of them; the rest are unreviewed. Counts show how many orders touched a subject, not how significant they were. The slider&rsquo;s years are calendar years here and fiscal years for clemency below, so they line up to within three months. The orders here start in {first}, so Clinton&rsquo;s 1993 orders aren&rsquo;t shown.
               </p>
               <p>
                 The sentence under each order signed since January 2009 says what the order does (earlier orders have none yet). Claude (an AI model) wrote it from the order&rsquo;s full text in the <SourceLink id="federal-register-eo">Federal Register</SourceLink>, leading with the order&rsquo;s operative provisions (what it directs, establishes, amends or revokes) rather than its stated reasons. Each one is kept only if Claude also quoted, word for word, the clause of the order it rests on, every number in it appears in the order, and most of its words are the order&rsquo;s own. They are not reviewed by a person; the order itself, linked from its title, is the authority.
@@ -218,18 +249,33 @@ export function ExecutiveOrdersPageClient({ data, faqFile }: { data: EoPayload; 
             <TableFallback years={data.years} />
             {jump("executive-orders-signed-per-year-by-topic")}
           </ChartNotesRow>
-        </ChartCard>
+        </ChartCard>}
         </div>
+
+        <PardonsSection
+          data={clemency}
+          range={win}
+          onRange={setWindow}
+          heading={
+            <SectionHeading id="pardons" number={2} title="How Many Pardons Does Each President Grant?">
+              <p>Presidents can forgive a federal crime or shorten a sentence on their own. See what the offenses were and when in a term the grants came.</p>
+            </SectionHeading>
+          }
+        />
 
         <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
-        <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">
-            Source:{" "}
-            <SourceLink id="federal-register-eo">Federal Register</SourceLink>{" "}
-            (federalregister.gov API), executive orders signed {first} to present. Each order links to its
-            Federal Register page.
-        </p>
+        <div className="flex flex-col gap-1.5 text-[0.8rem] leading-[1.6] text-ink-muted [&>p]:m-0">
+          <p>
+            <span className="mr-1.5 font-mono font-medium text-accent">1</span>
+            Source: <SourceLink id="federal-register-eo">Federal Register</SourceLink> (federalregister.gov API), executive orders signed {first} to present. Each order links to its Federal Register page.
+          </p>
+          <p>
+            <span className="mr-1.5 font-mono font-medium text-accent">2</span>
+            Source: <SourceLink id="doj-clemency-statistics">Office of the Pardon Attorney</SourceLink>, U.S. Department of Justice, clemency statistics and <SourceLink id="doj-clemency-recipients">recipient lists</SourceLink>, current through {fmtDate(clemency.updated)}; proclamations from the Federal Register and the American Presidency Project. The two DOJ sources differ slightly.
+          </p>
+        </div>
       </main>
     </>
   );
@@ -285,6 +331,7 @@ function YearList({
   range,
   president,
   onClearPresident,
+  runTerms,
   topics,
   admins,
   onClearTopics,
@@ -296,6 +343,7 @@ function YearList({
   range: readonly [number, number];
   president: string | null;
   onClearPresident: () => void;
+  runTerms: ReadonlySet<string> | null;
   topics: Picked<EoTopic>;
   admins: Map<string, EoAdmin>;
   onClearTopics: () => void;
@@ -327,7 +375,7 @@ function YearList({
   }
   if (!year && topics) {
     // A topic with no year selected: every order on that topic in the years the chart shows, newest first.
-    const items = years.filter((y) => y.year >= range[0] && y.year <= range[1]).flatMap((y) => y.items).filter((i) => isPicked(topics, i.topic)).sort((a, b) => b.n - a.n);
+    const items = years.filter((y) => y.year >= range[0] && y.year <= range[1]).flatMap((y) => y.items).filter((i) => isPicked(topics, i.topic) && (!runTerms || runTerms.has(i.termId))).sort((a, b) => b.n - a.n);
     return (
       <section aria-live="polite" aria-label={`Executive orders on ${topicText}`} className="mt-4 overflow-hidden rounded-lg border border-line">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-5 py-3">
@@ -345,7 +393,7 @@ function YearList({
   }
   if (!year) {
     // Nothing selected: every order in the years the chart shows, newest first.
-    const items = years.filter((y) => y.year >= range[0] && y.year <= range[1]).flatMap((y) => y.items).sort((a, b) => b.n - a.n);
+    const items = years.filter((y) => y.year >= range[0] && y.year <= range[1]).flatMap((y) => y.items).filter((i) => !runTerms || runTerms.has(i.termId)).sort((a, b) => b.n - a.n);
     return (
       <section aria-live="polite" aria-label="Executive orders in the years shown" className="mt-4 overflow-hidden rounded-lg border border-line">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-5 py-3">

@@ -137,20 +137,24 @@ describe("facts", () => {
 describe("question lists", () => {
   const base: Question = { id: "x", kind: "difference", q: "What is the difference between a refugee and an asylum seeker?", searched: "x", chartIds: ["chart-x"], sources: [{ label: "x", url: "https://www.uscis.gov/" }] };
 
-  it("keeps to the two kinds of question", () => {
+  it("keeps to the three kinds of question", () => {
     expect(checkQuestion(base)).toBeNull();
     expect(checkQuestion({ ...base, kind: "matters", q: "Who feels diesel prices the most?" })).toBeNull();
     expect(checkQuestion({ ...base, kind: "matters", q: "Why did diesel prices go up in 2022?" })).toMatch(/context line/);
     expect(checkQuestion({ ...base, kind: "matters", q: "Why are diesel prices so high?" })).toMatch(/context line/);
     expect(checkQuestion({ ...base, q: "How is unemployment measured?" })).toMatch(/Data notes/);
     expect(checkQuestion({ ...base, q: "Is a refugee an asylum seeker?" })).toMatch(/difference between/);
+    expect(checkQuestion({ ...base, kind: "power", q: "Can a president pardon state crimes?" })).toBeNull();
+    expect(checkQuestion({ ...base, kind: "power", q: "Who can pardon a state crime?" })).toMatch(/Can a president/);
+    expect(checkQuestion({ ...base, kind: "matters", q: "Can a president pardon state crimes?" })).toMatch(/who something matters to/);
   });
 
   it.each(FAQ_PAGES)("%s: valid, 5-8 questions, sources on the allowed list", (page) => {
     const list = readQuestionList(page);
     const qs = list.groups.flatMap((g) => g.questions);
     expect(qs.length).toBeGreaterThanOrEqual(5);
-    expect(qs.length).toBeLessThanOrEqual(8);
+    // Executive actions has two sections sharing one band: 5-8 for each.
+    expect(qs.length).toBeLessThanOrEqual(page === "executive-orders" ? 12 : 8);
     for (const s of qs.flatMap((q) => q.sources)) expect(sourceNotAllowed(s.url), s.url).toBeNull();
   });
 
