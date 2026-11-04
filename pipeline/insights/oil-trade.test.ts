@@ -171,8 +171,9 @@ describe("the oil trade card", () => {
 
   it("says what the bars mostly are, whichever way they fall", () => {
     // Scaled crude readings keep their cells, so only the wording is checked (the facts would not verify against the rows).
+    // A fixed month: the newest one moves with each EIA refresh, and tripling its crude exports can pass their total.
     const scaled = (id: string, k: number) => energy.map((s) => (s.id === id ? { ...s, points: s.points.map((p) => ({ ...p, value: p.value * k })) } : s));
-    const words = (all: Series[]) => oilTradeCard(all, latest, "EIA")!.breakdown.stacked!.words;
+    const words = (all: Series[]) => oilTradeCard(all, "2026-08-01", "EIA")!.breakdown.stacked!.words;
     expect(words(energy)).toMatch(/^Most of what the U\.S\. imports is crude oil \(83%\), while most of what it exports is refined products such as gasoline, diesel and jet fuel \(68%\)\./);
     expect(words(scaled(OIL_SERIES.exportsCrude, 3))).toMatch(/^Most U\.S\. oil imports and exports are crude oil \(83% and \d+%\)\./);
     expect(words(scaled(OIL_SERIES.importsCrude, 0.1))).toMatch(/^Most U\.S\. oil imports and exports are refined products such as gasoline, diesel and jet fuel \(\d+% and 68%\)\./);
