@@ -68,6 +68,18 @@ export const METHODOLOGY: MethodGroup[] = [
         updates: "Checked weekly.",
       },
       {
+        id: "clemency",
+        vertical: "presidency",
+        title: "Pardons and commutations",
+        description:
+          "Clemency grants since Bill Clinton took office: yearly counts from the Justice Department's statistics, then its list of current grants, with each listed offense assigned one of nine categories by a language model that must quote the text it relies on.",
+        sources: [
+          { name: "Office of the Pardon Attorney, U.S. Department of Justice", url: "https://www.justice.gov/pardon/clemency-statistics" },
+          { name: "Federal Register", url: "https://www.federalregister.gov/" },
+        ],
+        updates: "Checked weekly.",
+      },
+      {
         id: "economy",
         vertical: "presidency",
         title: "Economy",
