@@ -336,6 +336,11 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
   return { error: `no sourced explanation passed the checks (${lastErrors.join("; ") || "no answer"})` };
 }
 
+/** How many cards a breakdown draws: one for levels and for stacked bars, else one per block. */
+export function cardCount(b: Breakdown): number {
+  return b.levels || b.stacked ? 1 : b.blocks.length;
+}
+
 /** The breakdown cards a post carries, in order: where each line stands (two-line charts), then what drove the change. */
 export function breakdownsOf(insight: Pick<Insight, "breakdown" | "bigger">): Breakdown[] {
   return [insight.bigger, insight.breakdown].filter((b): b is Breakdown => !!b);

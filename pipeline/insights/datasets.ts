@@ -51,10 +51,13 @@ type SeriesConfig = Omit<Series, "points" | "dataset" | "url" | "source" | "freq
 
 const EIA = "U.S. Energy Information Administration";
 const ENERGY: (SeriesConfig & { series_id: string })[] = [
-  { series_id: "PAPRPUS", anchor: "#supply", id: "energy.crude_production", title: "U.S. oil production", name: "U.S. crude oil production", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 1.3 , note: "Crude oil, monthly average", releaseLagDays: 60, headline: true },
+  { series_id: "PAPRPUS", anchor: "#supply", id: "energy.crude_production", title: "U.S. oil production", name: "U.S. crude oil production", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 1.3 , note: "Crude oil, monthly average", newsOnly: true, releaseLagDays: 60 },
   { series_id: "PAEXPUS", anchor: "#oil", id: "energy.petroleum_exports", title: "U.S. oil exports", name: "U.S. petroleum exports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , note: "Crude oil plus refined products", releaseLagDays: 60 },
-  { series_id: "PAIMPUS", anchor: "#oil", id: "energy.petroleum_imports", title: "U.S. oil imports", name: "U.S. petroleum imports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , note: "Crude oil plus refined products", releaseLagDays: 60 },
-  { series_id: "COEXPUS", anchor: "#oil", id: "energy.crude_exports", title: "U.S. crude oil exports", name: "U.S. crude oil exports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , releaseLagDays: 60 },
+  { series_id: "PAIMPUS", anchor: "#oil", id: "energy.petroleum_imports", title: "U.S. oil imports", name: "U.S. petroleum imports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , note: "Crude oil plus refined products", releaseLagDays: 60, headline: true },
+  // The crude parts of the oil pair: the oil trade post's card splits each flow into crude oil and refined products (oil-trade.ts).
+  // News-only, so a release gives one oil post (imports or exports), not a third for crude alone.
+  { series_id: "COEXPUS", anchor: "#oil", id: "energy.crude_exports", title: "U.S. crude oil exports", name: "U.S. crude oil exports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , newsOnly: true, releaseLagDays: 60 },
+  { series_id: "COIMPUS", anchor: "#oil", id: "energy.crude_imports", title: "U.S. crude oil imports", name: "U.S. crude oil imports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , newsOnly: true, releaseLagDays: 60 },
   {
     series_id: "WCSSTUS1", anchor: "#spr",
     id: "energy.spr", title: "The Strategic Petroleum Reserve",
@@ -70,8 +73,8 @@ const ENERGY: (SeriesConfig & { series_id: string })[] = [
     releaseLagDays: 5,
   },
   // Monthly totals vary with the number of days in a month, so these compare like months.
-  { series_id: "NGPRPUS", id: "energy.gas_production", title: "U.S. natural gas production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: "B cu ft" }, seasonal: true, weight: 0.9 , note: "Dry natural gas", releaseLagDays: 60 },
-  { series_id: "N9133US2", anchor: "#lng", id: "energy.lng_exports", title: "U.S. LNG exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: "B cu ft" }, seasonal: true, weight: 1.1 , note: "Liquefied natural gas", releaseLagDays: 60 },
+  { series_id: "NGPRPUS", id: "energy.gas_production", title: "U.S. natural gas production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: "B cu ft" }, seasonal: true, weight: 0.9 , note: "Dry natural gas", newsOnly: true, releaseLagDays: 60 },
+  { series_id: "N9133US2", anchor: "#lng", id: "energy.lng_exports", title: "U.S. LNG exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: "B cu ft" }, seasonal: true, weight: 1.1 , note: "Liquefied natural gas", newsOnly: true, releaseLagDays: 60 },
   { series_id: "ELETPUS", anchor: "#electricity", id: "energy.power_total", title: "U.S. electricity generation", name: "U.S. electricity generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , releaseLagDays: 55, headline: true },
   { series_id: "CLETPUS", anchor: "#electricity", id: "energy.power_coal", title: "Electricity from coal", name: "U.S. electricity generation from coal", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , newsOnly: true, releaseLagDays: 55 },
   { series_id: "NGETPUS", anchor: "#electricity", id: "energy.power_gas", title: "Electricity from natural gas", name: "U.S. electricity generation from natural gas", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , newsOnly: true, releaseLagDays: 55 },

@@ -4,7 +4,8 @@ import { CARD_ORDERS, fitOrders, insightOrders, listKind, orderingNote, ordersAl
 import { explainer, explainerShort, hasLag } from "./explain";
 import type { DraftBlock } from "./issue";
 import { keyMoments } from "./moments";
-import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
+import { stackedAlt } from "./oil-trade";
+import { breakdownsOf, cardCount, newsOutlet, rowValue, signedFact } from "./research";
 import type { Insight } from "./types";
 import { X_MAX, xLength } from "./x";
 
@@ -119,13 +120,19 @@ function breakdownReplies(insight: Insight): { replies: Reply[]; note?: string }
     const one = oneBreakdownReplies(insight, b, cards);
     replies.push(...one.replies);
     note ??= one.note;
-    cards += b.levels ? 1 : b.blocks.length;
+    cards += cardCount(b);
   }
   return { replies, ...(note ? { note } : {}) };
 }
 
 function oneBreakdownReplies(insight: Insight, b: NonNullable<Insight["breakdown"]>, first: number): { replies: Reply[]; note?: string } {
   const replies: Reply[] = [];
+  // Stacked bars (the oil trade card): its own plain words, one post and one card.
+  if (b.stacked) {
+    const text = `${b.title}\n\n${b.stacked.words}`;
+    if (text.length > REPLY_MAX) return { replies, note: "the oil trade card's words are too long for one post" };
+    return { replies: [{ text, chart: first, alt: stackedAlt(insight, b).slice(0, 1000) }] };
+  }
   // Levels (where each line stands): one post and one card for both blocks, when they fit.
   if (b.levels) {
     // "Federal funds rate: peak 5.3% in 2023, low 0.0% in 2020, latest 3.9%."
@@ -174,7 +181,7 @@ function momentsReplies(insight: Insight): { replies: Reply[]; note?: string } {
 
 /** How many cards the breakdown replies draw (`chart` indexes them in order), so the orders card comes after them. */
 export function breakdownCardCount(insight: Insight): number {
-  return breakdownsOf(insight).reduce((n, b) => n + (b.levels ? 1 : b.blocks.length), 0);
+  return breakdownsOf(insight).reduce((n, b) => n + cardCount(b), 0);
 }
 
 /** Monthly executive-order posts: one reply with a card listing the month's orders, as many as fit it. */

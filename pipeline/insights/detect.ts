@@ -56,6 +56,12 @@ export function pctFact(id: string, from: Point, to: Point): Fact {
   return { id, text: fmtPct(value, decimals), value, format: { kind: "pct", decimals }, derivation: { op: "pct_change", from: from.cells, to: to.cells } };
 }
 
+/** `part` as a percent of `whole` (or, with `remainder`, the rest of the whole): a share, traced to the cells of both. */
+export function shareFact(id: string, part: Point, whole: Point, decimals: number, remainder = false): Fact {
+  const value = ((remainder ? whole.value - part.value : part.value) / whole.value) * 100;
+  return { id, text: fmtPct(value, decimals), value, format: { kind: "pct", decimals }, derivation: { op: "share", part: part.cells, whole: whole.cells, ...(remainder ? { remainder } : {}) } };
+}
+
 export function changeFact(id: string, from: Point, to: Point, unit: UnitFormat): Fact {
   const value = to.value - from.value;
   return { id, text: fmtUnitAbs(value, unit), value, format: { kind: "unit_abs", unit }, derivation: { op: "change", from: from.cells, to: to.cells } };

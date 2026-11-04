@@ -2,12 +2,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
-import { ACCENT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
+import { ACCENT, ACCENT_LIGHT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { SLIDE_ORDERS, type ListedOrder, fitOrders, insightOrders, listFootnote, listKind, moreNote, orderDate, ordersHeading } from "./eo-list";
 import { explainer, hasLag } from "./explain";
 import { monthName } from "./format";
 import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
+import { netLine, stackedRows } from "./oil-trade";
 import type { Breakdown, Insight } from "./types";
 
 /**
@@ -286,7 +287,52 @@ function BreakdownBlock({ insight, label, rows, total, roomy }: { insight: Insig
   );
 }
 
+/** The oil trade card on a slide: two stacked bars on one scale, the split and its shares under each, then the gap. */
+function StackedSlideBody({ insight, b }: { insight: Insight; b: Breakdown }): ReactNode {
+  const rows = stackedRows(insight, b.stacked!);
+  const barW = W - 2 * SIDE;
+  const scale = barW / Math.max(...rows.map((r) => r.total));
+  const colours = [ACCENT, ACCENT_LIGHT];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", marginTop: 24 }}>
+      {rows.map((r, i) => (
+        <div key={i} style={{ display: "flex", flexDirection: "column", marginBottom: 56 }}>
+          <div style={{ display: "flex", alignItems: "baseline", marginBottom: 14 }}>
+            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 34, marginRight: 16 }}>{r.label}</div>
+            <div style={{ display: "flex", fontSize: 24 }}>{r.totalText}</div>
+          </div>
+          <div style={{ display: "flex", height: 52 }}>
+            {r.parts.map((p, j) => (
+              <div key={j} style={{ display: "flex", width: Math.max(2, p.value * scale), height: 52, background: colours[j], marginRight: j === 0 ? 3 : 0, borderRadius: j === 0 ? "4px 0 0 4px" : "0 4px 4px 0" }} />
+            ))}
+          </div>
+          <div style={{ display: "flex", marginTop: 14 }}>
+            {r.parts.map((p, j) => (
+              <div key={j} style={{ display: "flex", alignItems: "center", fontSize: 22, marginRight: 28 }}>
+                <div style={{ display: "flex", width: 18, height: 18, borderRadius: 3, background: colours[j], marginRight: 10 }} />
+                {`${p.name} ${p.share}`}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 30, lineHeight: 1.25 }}>{netLine(insight, b.stacked!)}</div>
+    </div>
+  );
+}
+
 function breakdownSlide(insight: Insight, b: Breakdown, n: number, total: number): ReactNode {
+  if (b.stacked) {
+    return (
+      <Slide>
+        <Header {...headerOf(insight, b.kicker ?? "What drove it")} />
+        <Title>{b.title}</Title>
+        <StackedSlideBody insight={insight} b={b} />
+        <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{b.note}</div>
+        <Footer n={n} total={total} />
+      </Slide>
+    );
+  }
   return (
     <Slide>
       <Header {...headerOf(insight, b.kicker ?? "What drove it")} />

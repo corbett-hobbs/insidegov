@@ -95,12 +95,25 @@ export function newMonthEnds(after: string, latest: string): string[] {
   return out;
 }
 
+/**
+ * Series that share one post per period: a release posts the best of them, not one each. Oil imports and exports come
+ * out together and draw the same two-line chart and the same oil trade card (companion.ts), so a notable reading of
+ * each would open two near-identical drafts. The first id names the group.
+ */
+export const ONE_POST_PER_PERIOD: string[][] = [["energy.petroleum_imports", "energy.petroleum_exports"]];
+
+/** The group a series' posts share (its first id), or undefined for a series that posts on its own. */
+export function postGroup(seriesId: string): string | undefined {
+  return ONE_POST_PER_PERIOD.find((g) => g.includes(seriesId))?.[0];
+}
+
 export type SelectOptions = { max: number; perSeries: number; perDataset: number };
 
 /**
  * The most notable insights, highest score first: one per series and kind (the newest term comparison, the best-scoring
- * of any other kind, so three straight weekly lows make one draft), at most `perSeries` per series and `perDataset` per
- * dataset.
+ * of any other kind, so three straight weekly lows make one draft), one per period for series that share a post
+ * (`ONE_POST_PER_PERIOD`: the higher-scoring of oil imports and exports), at most `perSeries` per series and
+ * `perDataset` per dataset.
  */
 export function selectInsights(insights: Insight[], opts: SelectOptions): Insight[] {
   const best = new Map<string, Insight>();
@@ -114,9 +127,13 @@ export function selectInsights(insights: Insight[], opts: SelectOptions): Insigh
   const perSeries = new Map<string, number>();
   const perDataset = new Map<string, number>();
   const out: Insight[] = [];
+  const grouped = new Set<string>();
   for (const i of pool) {
     if (out.length >= opts.max) break;
+    const group = postGroup(i.seriesId);
+    if (group && grouped.has(`${group}|${i.period}`)) continue;
     if ((perSeries.get(i.seriesId) ?? 0) >= opts.perSeries || (perDataset.get(i.dataset) ?? 0) >= opts.perDataset) continue;
+    if (group) grouped.add(`${group}|${i.period}`);
     perSeries.set(i.seriesId, (perSeries.get(i.seriesId) ?? 0) + 1);
     perDataset.set(i.dataset, (perDataset.get(i.dataset) ?? 0) + 1);
     out.push(i);
