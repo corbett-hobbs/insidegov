@@ -68,7 +68,10 @@ function Rows({ insight, block, rowH = ROW_H }: { insight: Insight; block: Block
   const vals = block.rows.map((r) => value(r.fact));
   const hi = Math.max(0, ...vals);
   const lo = Math.min(0, ...vals);
-  const scale = BAR_W / (hi - lo || 1);
+  // A long value ("13.61M barrels/day") gets a wider column and stays on one line, so it never wraps over the next row.
+  const valueW = Math.max(VALUE_W, ...block.rows.map((r) => rowValue(insight, r.fact).length * 15 + 10));
+  const barW = BAR_W + VALUE_W - valueW;
+  const scale = barW / (hi - lo || 1);
   const zero = -lo * scale;
   const names = block.rows.map((r) => r.name.replace(/\s*\(.*\)\s*$/, ""));
   return (
@@ -79,11 +82,11 @@ function Rows({ insight, block, rowH = ROW_H }: { insight: Insight; block: Block
         return (
           <div key={i} style={{ display: "flex", alignItems: "center", height: rowH }}>
             <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: rowH < ROW_H ? 30 : 32, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
-            <div style={{ display: "flex", position: "relative", width: BAR_W, height: rowH }}>
+            <div style={{ display: "flex", position: "relative", width: barW, height: rowH }}>
               <div style={{ position: "absolute", left: zero, top: 0, width: 1.5, height: rowH, background: MUTED, display: "flex" }} />
               <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: Math.round((rowH - 28) / 2), width: w, height: 28, borderRadius: 3, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
             </div>
-            <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 28, color: INK }}>{rowValue(insight, r.fact)}</div>
+            <div style={{ display: "flex", width: valueW, justifyContent: "flex-end", fontSize: 28, color: INK, whiteSpace: "nowrap" }}>{rowValue(insight, r.fact)}</div>
           </div>
         );
       })}

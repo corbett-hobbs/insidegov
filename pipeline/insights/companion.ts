@@ -12,12 +12,12 @@ type Clause = { text: string; facts: Fact[] };
 /**
  * A data release that has a natural companion draws it. The chart shows both series as lines on one axis, the caption
  * says the companion's latest reading and move after the post's own sentence, and a "bigger picture" card
- * (`Insight.bigger`: each line's peak, low and latest over the chart's window, or for oil the crude and refined split) sits beside any partner breakdown.
+ * (`Insight.bigger`: each line's peak, low and latest over the chart's window) sits beside any partner breakdown, and oil's second card (the crude and refined split, `Insight.breakdown`).
  *
  *   trade deficit       the gap between imports and exports, so the lines are the two parts and the sentence gives both
  *   oil imports/exports the two flows beside each other; each post's own sentence already gives its series, so the
- *                       added sentence is the other one's. The card is "What the U.S. buys and sells abroad": crude oil
- *                       and refined products in each flow (oil-trade.ts), not each line's peak and low
+ *                       added sentence is the other one's. A second card, "What the U.S. buys
+ *                       and sells abroad", splits each flow into crude oil and refined products (oil-trade.ts)
  *
  * Only a line chart is swapped: a bar chart (a term comparison) keeps what it has, and so does a series with no
  * companion in the data (or one whose parts have no reading for the post's month).
@@ -34,7 +34,7 @@ type Spec = {
   names: [main: string, other: string];
   title: string;
   note: string;
-  /** The card beside the chart is the oil trade card (crude and refined products in each flow; oil-trade.ts) rather than each line's peak, low and latest. */
+  /** The post also carries the oil trade card (crude and refined products in each flow; oil-trade.ts) as its second card. */
   oilCard?: boolean;
 };
 
@@ -91,11 +91,12 @@ export function withCompanion(insight: Insight, all: Series[]): Insight {
     comparison: { label: `${spec.otherLabel}: ${fmtUnit(oL.value, other.unit)}`, mainLabel: spec.mainLabel, points: linePoints(other, from, mL.date) },
   };
   const years = Math.max(1, Math.round(daysBetween(from, mL.date) / 365.25));
-  // Oil: the card splits each flow into crude oil and refined products; with a reading missing, the peak, low and latest card stands in.
-  const stands = (spec.oilCard ? oilTradeCard(all, mL.date, insight.source) : null) ?? whereEachStands(main, main.unit, other, from, mL, mv, spec.note, years);
+  const stands = whereEachStands(main, main.unit, other, from, mL, mv, spec.note, years);
+  // Oil adds a second card, after the peak and low one: crude oil and refined products in each flow. With a reading missing it is left out.
+  const oil = spec.oilCard ? oilTradeCard(all, mL.date, insight.source) : null;
   const template = clause ? `${stem}${clause.text}.` : insight.template;
   // The chart's labels are facts too, so they stay in the draft even when the caption has no room for the sentence.
-  const added = [mv, ov, ...(clause ? clause.facts : []), ...(stands ? stands.facts : [])];
+  const added = [mv, ov, ...(clause ? clause.facts : []), ...(stands ? stands.facts : []), ...(oil ? oil.facts : [])];
   const have = new Set(insight.facts.map((f) => f.id));
   return {
     ...insight,
@@ -105,6 +106,7 @@ export function withCompanion(insight: Insight, all: Series[]): Insight {
     chart,
     alsoSeriesId: insight.seriesId === "trade.deficit" ? main.id : other.id,
     ...(stands ? { bigger: stands.breakdown } : {}),
+    ...(oil ? { breakdown: oil.breakdown } : {}),
     note: spec.note,
     context: [...insight.context, `The chart draws ${spec.mainLabel.toLowerCase()} and ${spec.otherLabel.toLowerCase()} together on one axis${insight.seriesId === "trade.deficit" ? "; the caption leads with the deficit, the gap between them, and then gives each line's latest reading" : ""}. The caption must not say either causes or answers the other.`],
     alt: `Line chart of ${spec.title.replace(/^U\.S\. /, "")} (${main.axisLabel}) through ${fmtDate(mL.date, "month")}. ${template}`,

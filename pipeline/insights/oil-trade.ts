@@ -3,7 +3,7 @@ import { fmtDate } from "./format";
 import type { Breakdown, Fact, Insight, Point, Series, StackedBars, UnitFormat } from "./types";
 
 /**
- * The oil trade post's card (replacing the peak, low and latest card for oil imports and exports): "What the U.S. buys
+ * The oil trade post's second card (after the peak, low and latest card, for oil imports and exports): "What the U.S. buys
  * and sells abroad". Two stacked bars on one scale, imports and exports in million barrels a day, each split into crude
  * oil and refined products with the shares printed under it, and a closing line on the gap between them.
  *

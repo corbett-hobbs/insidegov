@@ -7,7 +7,7 @@ import { addMonths } from "./format";
 import { seriesContext } from "./news/charts";
 import { OIL_SERIES, oilTradeCard, stackedAlt, stackedRows } from "./oil-trade";
 import { breakdownsOf } from "./research";
-import { checkReplies, planThread } from "./thread";
+import { checkReplies, planThread, replyNumbers } from "./thread";
 import type { Insight, Series } from "./types";
 import { CellIndex, verifyInsight } from "./verify";
 
@@ -145,25 +145,27 @@ describe("the oil trade card", () => {
     expect(oilTradeCard(broken, latest, "EIA")).toBeNull();
   });
 
-  it("replaces the levels card for oil imports and for exports, in the thread, the alt text and the carousel", () => {
+  it("comes after the peak and low card for oil imports and for exports, in the thread, the alt text and the carousel", () => {
     for (const id of [OIL_SERIES.importsTotal, OIL_SERIES.exportsTotal]) {
       const out = withCompanion(oilInsight(id, latest), energy);
-      expect(out.bigger?.stacked).toBeDefined();
-      expect(out.bigger?.levels).toBeUndefined();
+      expect(out.bigger?.levels).toBe(true);
+      expect(out.breakdown?.stacked).toBeDefined();
       expect(verifyInsight(out, new CellIndex())).toEqual([]);
-      expect(breakdownsOf(out)).toHaveLength(1);
+      expect(breakdownsOf(out)).toHaveLength(2);
 
       const plan = planThread(out)!;
       const cards = plan.replies.filter((r) => r.chart !== undefined);
-      expect(cards).toHaveLength(1);
-      expect(cards[0]!.chart).toBe(0);
-      expect(cards[0]!.text).toMatch(/^What the U\.S\. buys and sells abroad\n\n/);
-      expect(cards[0]!.text.length).toBeLessThanOrEqual(280);
+      // The peak and low card first, the crude and refined card second, one image each.
+      expect(cards.map((c) => c.chart)).toEqual([0, 1]);
+      expect(cards[0]!.text).toMatch(/^Where each stands/);
+      expect(cards[1]!.text).toMatch(/^What the U\.S\. buys and sells abroad\n\n/);
+      expect(cards.every((c) => c.text.length <= 280)).toBe(true);
       // Plain words and figures that are facts: the same checks the poster runs.
-      expect(checkReplies(plan.replies, out.facts)).toEqual([]);
-      expect(cards[0]!.alt).toBe(stackedAlt(out, out.bigger!).slice(0, 1000));
+      // (The levels card's title says how many years its window covers, as it always has.)
+      expect(checkReplies(plan.replies, out.facts, replyNumbers([{ text: out.bigger!.title }]))).toEqual([]);
+      expect(cards[1]!.alt).toBe(stackedAlt(out, out.breakdown!).slice(0, 1000));
 
-      expect(slidePlan(out).filter((s) => s.kind === "breakdown").map((s) => !!s.breakdown?.stacked)).toEqual([true]);
+      expect(slidePlan(out).filter((s) => s.kind === "breakdown").map((s) => !!s.breakdown?.stacked)).toEqual([false, true]);
     }
   });
 
