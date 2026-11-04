@@ -172,11 +172,11 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
           <div className={`${LEGEND_ROW} mt-1.5`}>
             <span className={LEGEND_ITEM}>
               <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("D") }} />
-              {mode === "lean" ? "Democratic · Court median leans liberal (bar down)" : "Democratic"}
+              {mode === "lean" ? "Democratic · majority or lean (bar down)" : "Democratic · majority (bar down)"}
             </span>
             <span className={LEGEND_ITEM}>
               <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("R") }} />
-              {mode === "lean" ? "Republican · Court median leans conservative (bar up)" : "Republican"}
+              {mode === "lean" ? "Republican · majority or lean (bar up)" : "Republican · majority (bar up)"}
             </span>
             <span className={LEGEND_ITEM}>
               <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("T") }} />
@@ -198,7 +198,7 @@ export function TimelinePageClient({ data }: { data: TimelinePayload }) {
           <ChartNotesRow>
             <MethodologyNote>
               <p>
-                Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
+                A chamber&rsquo;s bar is the party that held its majority, as tall as the majority&rsquo;s margin (its seats minus the other party&rsquo;s, as a share of all seats; a bar full to the edge is a margin of 35% or more). Seats are each party&rsquo;s count at the start of each Congress, from the{" "}
                 <SourceLink id="house-party-division">House historian</SourceLink> and the{" "}
                 <SourceLink id="senate-party-division">Senate Historical Office</SourceLink>; senators who caucused with a party count with it, and
                 the tied Senates of 2001 and 2021 follow the vice president&rsquo;s vote. A justice counts with the party of the president who first

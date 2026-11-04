@@ -22,7 +22,7 @@ import {
   type PowerState,
   type Span,
 } from "@/lib/timeline-derive";
-import type { TimelinePayload, TlEvent, TlPresident } from "@/lib/timeline-types";
+import type { Side, TimelinePayload, TlEvent, TlPresident } from "@/lib/timeline-types";
 import { useElementWidth } from "@/lib/use-element-width";
 import { TipCard } from "../charts/TipCard";
 import { Tooltip, useStickyTooltip } from "../charts/Tooltip";
@@ -52,8 +52,8 @@ const noop = () => {};
 const ROWS = [
   ["one", 9, 6],
   ["P", 24, 4],
-  ["S", 30, 4],
-  ["H", 30, 4],
+  ["S", 34, 4],
+  ["H", 34, 4],
   ["C", 38, 12],
   ["law", 40, 4],
   ["case", 40, 4],
@@ -380,12 +380,12 @@ export function PowerChart({
             <ShareRow
               r={R.S}
               cells={data.congresses.flatMap((c) =>
-                c.senateMaj.map(([from], i) => ({ key: `${c.n}-${i}`, from, to: c.senateMaj[i + 1]?.[0] ?? end(c.end), seats: c.senate })),
+                c.senateMaj.map(([from, side], i) => ({ key: `${c.n}-${i}`, from, to: c.senateMaj[i + 1]?.[0] ?? end(c.end), seats: c.senate, side })),
               )}
               clipX={clipX}
               inWin={inWin}
             />
-            <ShareRow r={R.H} cells={data.congresses.map((c) => ({ key: String(c.n), from: c.start, to: end(c.end), seats: c.house }))} clipX={clipX} inWin={inWin} />
+            <ShareRow r={R.H} cells={data.congresses.map((c) => ({ key: String(c.n), from: c.start, to: end(c.end), seats: c.house, side: c.houseMaj }))} clipX={clipX} inWin={inWin} />
 
             {compact ? null : mode === "appt" ? (
               <ApptRow r={R.C} spans={spans} clipX={clipX} inWin={inWin} />
@@ -393,9 +393,12 @@ export function PowerChart({
               <LeanRow r={R.C} data={data} X={X} LG={LG} pw={pw} v0={v0} v1={v1} />
             )}
           </g>
-          {/* Half-way lines and frames sit over the clipped rows. */}
+          {/* The frame and the half-way lines sit over the clipped rows. */}
           <rect x={LG} y={R.one.y} width={pw} height={R.one.h} fill="none" stroke="var(--line)" />
-          {(["S", "H", ...(mode === "appt" && !compact ? (["C"] as const) : [])] as const).map((k) => (
+          {(["S", "H"] as const).map((k) => (
+            <line key={k} x1={LG} x2={LG + pw} y1={R[k].y + R[k].h / 2} y2={R[k].y + R[k].h / 2} stroke="var(--ink-faint)" />
+          ))}
+          {(mode === "appt" && !compact ? (["C"] as const) : []).map((k) => (
             <line key={k} x1={LG} x2={LG + pw} y1={R[k].y + R[k].h / 2} y2={R[k].y + R[k].h / 2} stroke="var(--surface)" strokeDasharray="3 3" opacity={0.8} />
           ))}
           {mode === "lean" && !compact && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
@@ -517,6 +520,14 @@ function PresCard({
   );
 }
 
+/** Margin (majority minus minority, as a share of all seats) at which a chamber's bar fills its half of the row. */
+const FULL_MARGIN = 0.35;
+
+/**
+ * A chamber, one bar per Congress off the half-way line, drawn like the Court's lean row: up for a Republican majority, down for a
+ * Democratic one, in that party's colour, as tall as the majority's margin (a Senate that changed hands mid-Congress is two bars).
+ * A tied chamber keeps a stub on the side of the party that held it. The seat split is in the tooltip.
+ */
 function ShareRow({
   r,
   cells,
@@ -524,33 +535,21 @@ function ShareRow({
   inWin,
 }: {
   r: { y: number; h: number };
-  cells: { key: string; from: string; to: string; seats: [number, number, number] }[];
+  cells: { key: string; from: string; to: string; seats: [number, number, number]; side: Side }[];
   clipX: (iso: string) => number;
   inWin: (a: string, b: string) => boolean;
 }) {
+  const mid = r.y + r.h / 2;
   return (
     <>
-      {cells.map(({ key, from, to, seats }) => {
+      <rect x={0} y={r.y} width="100%" height={r.h} fill="var(--surface-raised)" />
+      {cells.map(({ key, from, to, seats, side }) => {
         if (!inWin(from, to)) return null;
         const a = clipX(from);
         const w = Math.max(0, clipX(to) - a - 1);
         const [d, rr, o] = seats;
-        const tot = d + rr + o;
-        const hd = (r.h * d) / tot;
-        const hr = (r.h * rr) / tot;
-        const label = seatsLabel(seats);
-        return (
-          <g key={key}>
-            <rect x={a + 0.5} y={r.y} width={w} height={r.h} fill="var(--oth)" />
-            <rect x={a + 0.5} y={r.y + r.h - hd} width={w} height={hd} fill="var(--dem)" />
-            <rect x={a + 0.5} y={r.y} width={w} height={hr} fill="var(--rep)" />
-            {w >= label.length * CELL_CHAR_W + 6 && (
-              <text x={a + 0.5 + w / 2} y={r.y + r.h / 2 + 3.5} textAnchor="middle" className="pointer-events-none fill-white font-mono text-[9.5px] font-medium">
-                {label}
-              </text>
-            )}
-          </g>
-        );
+        const h = Math.max(2, Math.min(1, Math.abs(d - rr) / (d + rr + o) / FULL_MARGIN) * (r.h / 2));
+        return <rect key={key} x={a + 0.5} y={side === "R" ? mid - h : mid} width={w} height={h} fill={partyColor(side)} />;
       })}
     </>
   );
