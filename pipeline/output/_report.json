@@ -27,8 +27,8 @@
     },
     {
       "path": "pipeline/raw/congress-legislators/committee-membership-current.yaml",
-      "bytes": 292419,
-      "sha256": "f07d5156772ec91bcd6b8c4d36580589aedbcf7eea3249019776ad46c81e9c98"
+      "bytes": 294147,
+      "sha256": "713dd1782423f7a892406cceba8821728509e4348676416db2a7ceda865bd08f"
     }
   ],
   "capCongress": 119,
@@ -128,13 +128,13 @@
       "senate": 21,
       "joint": 5
     },
-    "membershipRows": 1340,
+    "membershipRows": 1345,
     "duplicateSeats": 0,
     "committeesWithoutRoster": []
   },
   "subcommittees": {
     "total": 181,
-    "membershipRows": 2555,
+    "membershipRows": 2574,
     "duplicateSeats": 0,
     "subcommitteesWithoutRoster": []
   },
