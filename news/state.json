@@ -1,46 +1,5 @@
 {
   "checks": {
-    "6c250cc7db2040c27b55": {
-      "at": "2026-11-03T06:31:46.561Z",
-      "keep": [],
-      "reason": "No single U.S. inflation development is reported by multiple qualifying headlines; the remaining items are a Fed study on El Niño, an analytical Bloomberg piece, foreign inflation news, or midterm politics.",
-      "chart": ""
-    },
-    "91defe0ec28fc51c2776": {
-      "at": "2026-11-03T06:31:46.561Z",
-      "keep": [],
-      "reason": "No qualifying single national development: headlines 1-2 are midterm political analysis, 3 is a Trump midterm pitch unrelated to immigration, and 4-5 are one outlet's duplicate report of a local NYC lawsuit threat, not a national chart-relevant development.",
-      "chart": ""
-    },
-    "c5b1bc41b383eaed8b15": {
-      "at": "2026-11-03T06:31:46.561Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
-      ],
-      "reason": "Multiple outlets report the same development: oil prices fell on hopes of Iran war talks and a diplomatic breakthrough. Rubio's headline and the Fox News headline are excluded as off-topic for oil prices.",
-      "chart": ""
-    },
-    "9edeb09af5374cba170c": {
-      "at": "2026-11-03T06:31:46.561Z",
-      "keep": [],
-      "reason": "No qualifying stock market development: headlines 1-3 are analysis or explainers about midterms and stocks, and 4 is about a California election, not the market.",
-      "chart": ""
-    },
-    "5b05289d816fa118e869": {
-      "at": "2026-11-03T06:31:46.561Z",
-      "keep": [],
-      "reason": "No qualifying shared U.S. development: the Blackstone/LNG Canada item is company and foreign news, the oil price story is about crude, and the IEA global LNG forecast is an international agency report, not a U.S. action.",
-      "chart": ""
-    },
     "dd185b8dbdde26cb8225": {
       "at": "2026-11-03T14:59:37.748Z",
       "keep": [],
@@ -219,8 +178,8 @@
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
       "since": "2026-11-04T17:05:16.381Z",
-      "at": "2026-11-05T03:25:48.499Z",
-      "count": 3
+      "at": "2026-11-05T12:09:57.211Z",
+      "count": 4
     }
   },
   "laws": {
