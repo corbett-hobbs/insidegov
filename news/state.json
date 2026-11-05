@@ -1,44 +1,5 @@
 {
   "checks": {
-    "45ad95f814fd51d5f181": {
-      "at": "2026-11-02T23:25:34.796Z",
-      "keep": [],
-      "reason": "No single U.S. inflation development is reported by multiple outlets; the remaining headlines are foreign, analysis, a roundup, or a different topic.",
-      "chart": ""
-    },
-    "35e110c2520643d2e0c4": {
-      "at": "2026-11-02T23:25:34.796Z",
-      "keep": [],
-      "reason": "Each headline appears only as a duplicate from one outlet; the Florida mosquito-control tax story is local and the FIFA/Infantino tax report is a private company matter, so no qualifying national development is shared.",
-      "chart": ""
-    },
-    "d4a183aa358f52744b9e": {
-      "at": "2026-11-02T23:25:34.796Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html",
-        "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html",
-        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107"
-      ],
-      "reason": "Most outlets reported the same development: oil prices sold off sharply on hopes of Iran peace talks; the Trump-touting headlines (9,10,13,14) are framed around his remarks, so they were left out.",
-      "chart": ""
-    },
-    "c0f13dc463b07ac5b0c0": {
-      "at": "2026-11-02T23:25:34.796Z",
-      "keep": [],
-      "reason": "Only two headlines: a BBC feature on a threatened Canadian town (local/foreign, not a U.S. development) and a single outlet's report of Trump remarks on a possible trade deal, so no shared current development qualifies.",
-      "chart": ""
-    },
-    "146190afad000d87c40a": {
-      "at": "2026-11-02T23:25:34.796Z",
-      "keep": [],
-      "reason": "Two different stock-market stories, each appearing only from one outlet (CBS on a Nasdaq slump, NY Post on oil and a US-Iran peace deal), so no single development is reported by multiple outlets; no pick_chart measures stock prices.",
-      "chart": ""
-    },
     "6c250cc7db2040c27b55": {
       "at": "2026-11-03T06:31:46.561Z",
       "keep": [],
@@ -258,8 +219,8 @@
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
       "since": "2026-11-04T17:05:16.381Z",
-      "at": "2026-11-04T22:34:14.602Z",
-      "count": 2
+      "at": "2026-11-05T03:25:48.499Z",
+      "count": 3
     }
   },
   "laws": {
@@ -268,7 +229,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-04"
+      "last": "2026-11-05"
     }
   }
 }
