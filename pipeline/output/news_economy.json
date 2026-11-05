@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-04",
+  "asOf": "2026-11-05",
   "stories": [
     {
       "id": "debt-2026-11-04",
@@ -33,8 +33,8 @@
           "outletId": "guardian",
           "outlet": "The Guardian",
           "lean": "Left",
-          "title": "Democrats warn Trump officials to keep records or risk criminal penalties after midterm victories",
-          "url": "https://www.theguardian.com/us-news/2026/nov/04/democrats-warn-trump-officials-preserve-records"
+          "title": "Progressives hail ‘blue wave’ victories in US midterm elections as top Democrats push for unity",
+          "url": "https://www.theguardian.com/us-news/2026/nov/05/progressives-democrats-midterm-elections"
         },
         {
           "outletId": "cnbc",
@@ -117,11 +117,11 @@
       "chartId": "chart-ff",
       "headlines": [
         {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "RBA Raises Interest Rates: Live Updates, Analysis",
-          "url": "https://www.bloomberg.com/news/live-blog/2026-11-03/reserve-bank-of-australia-rate-decision"
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Barkin sees interest rate hikes ahead, but at a gradual pace",
+          "url": "https://www.cnbc.com/2026/11/05/barkin-sees-interest-rate-hikes-ahead-but-at-a-gradual-pace.html"
         },
         {
           "outletId": "bbc",
@@ -129,6 +129,13 @@
           "lean": "Center",
           "title": "What's happening to UK interest rates and what does it mean for mortgages?",
           "url": "https://www.bbc.co.uk/news/articles/c3dky111m40o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "RBA Raises Interest Rates: Live Updates, Analysis",
+          "url": "https://www.bloomberg.com/news/live-blog/2026-11-03/reserve-bank-of-australia-rate-decision"
         }
       ]
     },
@@ -138,13 +145,6 @@
       "topic": "Inflation",
       "chartId": "chart-infl",
       "headlines": [
-        {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Democrats warn Trump officials to keep records or risk criminal penalties after midterm victories",
-          "url": "https://www.theguardian.com/us-news/2026/nov/04/democrats-warn-trump-officials-preserve-records"
-        },
         {
           "outletId": "cnbc",
           "outlet": "CNBC",
@@ -158,6 +158,13 @@
           "lean": "Center",
           "title": "Pakistan Inflation Stays Elevated as Risks Cloud Outlook",
           "url": "https://www.bloomberg.com/news/articles/2026-11-02/pakistan-inflation-cools-as-energy-risks-cloud-outlook"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Ted Cruz calls midterm election results a ‘Watergate-level repudiation’ of the GOP, warns ‘Americans will be hurt’ by radical Dems",
+          "url": "https://nypost.com/2026/11/05/us-news/ted-cruz-calls-midterm-election-results-a-watergate-level-repudiation-of-the-gop-warns-americans-will-be-hurt-by-radical-dems/"
         }
       ]
     }

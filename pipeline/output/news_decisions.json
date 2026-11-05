@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-04",
+  "asOf": "2026-11-05",
   "stories": [
     {
       "id": "ruling_elections-2026-11-02",
@@ -9,13 +9,6 @@
       "groupId": "elections",
       "headlines": [
         {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Supreme court rules against Trump over bid to force California to set aside ballots",
-          "url": "https://www.theguardian.com/us-news/2026/nov/02/supreme-court-trump-california-ballots"
-        },
-        {
           "outletId": "axios",
           "outlet": "Axios",
           "lean": "Lean Left",
@@ -23,11 +16,18 @@
           "url": "https://www.axios.com/2026/11/02/trump-supreme-court-california-ballots-case"
         },
         {
-          "outletId": "apnews",
-          "outlet": "Associated Press",
-          "lean": "Lean Left",
-          "title": "Supreme Court rejects Trump administration push to set aside thousands of California ballots",
-          "url": "https://apnews.com/article/midterm-elections-immigration-voter-fraud-trump-48998968a23a4af2f59eaea3dba4d2f3?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Democrat leads by just over 1,000 votes in surprisingly tight Mississippi Senate race",
+          "url": "https://www.bbc.co.uk/news/articles/c6n9rwxlx992o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "GOP pins hopes in Mississippi Senate race on late-arriving ballots it asked Supreme Court to strike down",
+          "url": "https://www.washingtonexaminer.com/news/campaigns/congressional/4794101/gop-pins-hopes-mississippi-senate-race-mail-in-ballots/"
         }
       ]
     }
