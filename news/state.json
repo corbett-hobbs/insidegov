@@ -1,44 +1,5 @@
 {
   "checks": {
-    "dd185b8dbdde26cb8225": {
-      "at": "2026-11-03T14:59:37.748Z",
-      "keep": [],
-      "reason": "No single U.S. inflation development is reported across these headlines; the inflation stories are foreign central-bank or CPI news, and the U.S. items are midterm voter-concern pieces rather than a new official figure or government action.",
-      "chart": ""
-    },
-    "888501219dcf4c3b2cf4": {
-      "at": "2026-11-03T14:59:37.748Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple outlets: the headlines are a midterm-backlash analysis piece, a city lawsuit threat, and a judge's remarks, and the duplicates are from the same outlet.",
-      "chart": ""
-    },
-    "fca098a90da599a862e1": {
-      "at": "2026-11-03T14:59:37.748Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
-      ],
-      "reason": "Most outlets reported the same November 2 U.S. crude oil price drop on hopes for Iran talks; the November 3 rebound and second-day fall stories are different market moves and are excluded.",
-      "chart": ""
-    },
-    "13e8433fc3b1d5722ef1": {
-      "at": "2026-11-03T14:59:37.748Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments: NBC reports a crude oil price slide tied to Iran talks, while Newsweek reports a weekly drop in U.S. retail gas prices, so they do not share one story.",
-      "chart": ""
-    },
-    "45f0cfa74db720b019d9": {
-      "at": "2026-11-03T14:59:37.748Z",
-      "keep": [],
-      "reason": "No headlines report the same single U.S. development: the El Niño piece is a feature/analysis, the Brookfield item is a UK company project, and the jet-engine piece is a feature on a different topic.",
-      "chart": ""
-    },
     "7a0cad53bfab243b85e7": {
       "at": "2026-11-03T20:55:40.076Z",
       "keep": [],
@@ -178,8 +139,8 @@
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
       "since": "2026-11-04T17:05:16.381Z",
-      "at": "2026-11-05T12:09:57.211Z",
-      "count": 4
+      "at": "2026-11-05T20:36:07.844Z",
+      "count": 5
     }
   },
   "laws": {
