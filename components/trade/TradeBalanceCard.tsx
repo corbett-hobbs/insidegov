@@ -90,6 +90,7 @@ const DataTable = memo(function DataTable({ series, era, caption }: { series: Fl
  */
 export function TradeBalanceCard({
   series,
+  lastPeriod,
   countryName,
   adjusted,
   era,
@@ -98,6 +99,8 @@ export function TradeBalanceCard({
   error,
   jump,
 }: {
+  /** The national series' last month ("2026-09"), named in the takeaway. */
+  lastPeriod: string;
   series: FlowSeries | null;
   countryName: string | null;
   adjusted: boolean;
@@ -133,7 +136,7 @@ export function TradeBalanceCard({
     <section id="trade-balance" className="min-w-0 scroll-mt-32 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">{title}</h2>
       {/* The takeaway is about all countries, so a country view goes without one. */}
-      {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{TRADE_TAKEAWAYS.balance.takeaway}</p>}
+      {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{TRADE_TAKEAWAYS.balance.takeaway(`${MONTH_NAMES[Number(lastPeriod.slice(5)) - 1]} ${lastPeriod.slice(0, 4)}`)}</p>}
       {/* The measure toggle with the headline number to its right; the small readout line is not repeated. */}
       <ToggleReadout
         toggle={<PillGroup options={MEASURES} value={measure} onChange={(m) => setMeasure(m as Measure)} ariaLabel="Measure" />}

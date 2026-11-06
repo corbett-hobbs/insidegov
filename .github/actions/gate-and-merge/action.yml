@@ -27,7 +27,7 @@ inputs:
   anthropic-api-key:
     description: >
       Optional. When the only failing tests are the *-takeaways.test.ts checks, pipeline/maintenance/refresh-takeaways.ts
-      uses it to update the figures a page's hand-written takeaway cites (numerals only). Without it those failures stop the merge.
+      uses it to update the figures a page's hand-written takeaway cites (figures and month names only). Without it those failures stop the merge.
     required: false
     default: ""
 
@@ -117,3 +117,15 @@ runs:
         GH_TOKEN: ${{ inputs.token }}
         PR: ${{ inputs.pr-number }}
       run: gh pr merge "$PR" --squash --delete-branch
+
+    # A red run only emails; the PR itself looked fine (only Vercel checks) and sat open unexplained. Say on the PR that the
+    # gate stopped it and where to look, so an open data PR is never a mystery. Best effort: never masks the real failure.
+    - name: Explain on the PR why it did not merge
+      if: failure()
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        PR: ${{ inputs.pr-number }}
+        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: |
+        gh pr comment "$PR" --body "The merge gate failed, so this PR was not merged. Failing step and test names are in the run log: $RUN_URL. Fix the cause on main (usually a test that pins the previous latest data), then re-run this workflow." || true

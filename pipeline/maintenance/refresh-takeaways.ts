@@ -6,7 +6,7 @@
  *
  * It exits 1 (leaving the tree untouched) unless every failing test is in a `*-takeaways.test.ts` file. Otherwise it gives
  * Claude the failure output plus the test file and the local files it imports, and applies the edits it proposes, but only
- * edits that change numerals and nothing else (takeaway-refresh.ts). A claim whose wording is no longer true is therefore
+ * edits that change figures and month names and nothing else (takeaway-refresh.ts). A claim whose wording is no longer true is therefore
  * never rewritten; it stays a failure for a human. Up to three rounds; the takeaway tests must pass at the end.
  */
 import { execFileSync, spawnSync } from "node:child_process";
@@ -48,7 +48,7 @@ function candidates(testFile: string): string[] {
 
 const SYSTEM = `A data refresh changed numbers that a page's hand-written takeaway sentences cite. Each failing test compares a figure computed from the data with a figure typed in the test; the takeaway sentences and the test's "says" phrases and expected values must be updated to the new figures.
 Rules:
-- Propose edits that change numerals only: digits, decimals, years. Do not change a single other character (words, months, signs, punctuation, order).
+- Propose edits that change figures and month names only: digits, decimals, years, and a month name moving to the newer month ("October" to "November") when the data now ends later. Do not change a single other character (other words, signs, punctuation, order). A "2026-10" style date in a test counts as digits.
 - Take every new value from the failure output ("Received"), never guess. Where the failure output stops at the first failing assertion, reason about the other figures in the same sentence from what the failure implies, and include them only if you can derive them; the tests are re-run and any still failing means a human looks.
 - Each "old" string must be copied exactly and occur exactly once in its file; make it long enough to be unique.
 - Always answer by calling apply_edits.
@@ -62,7 +62,7 @@ async function propose(fails: ReturnType<typeof failures>, files: Record<string,
     tools: [
       {
         name: "apply_edits",
-        description: "Numeral-only edits that make the sentences and tests match the refreshed data. Empty when the wording is no longer true.",
+        description: "Figure-and-month-only edits that make the sentences and tests match the refreshed data. Empty when the wording is no longer true.",
         input_schema: {
           type: "object",
           properties: { edits: { type: "array", items: { type: "object", properties: { file: { type: "string" }, old: { type: "string" }, new: { type: "string" } }, required: ["file", "old", "new"] } } },
@@ -132,7 +132,7 @@ async function main() {
     throw err;
   }
   if (summaryOut) {
-    writeFileSync(summaryOut, `The gate refreshed takeaway figures that this data refresh had moved (numerals only, wording untouched):\n\n${log.join("\n")}\n`);
+    writeFileSync(summaryOut, `The gate refreshed takeaway figures that this data refresh had moved (figures and month names only, wording untouched):\n\n${log.join("\n")}\n`);
   }
 }
 
