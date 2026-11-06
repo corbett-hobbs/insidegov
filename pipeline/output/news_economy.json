@@ -2,6 +2,34 @@
   "asOf": "2026-11-05",
   "stories": [
     {
+      "id": "markets-2026-11-04",
+      "date": "2026-11-05",
+      "topic": "Stock market",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Voters say the economy drove them to the polls — and blame Trump for their troubles",
+          "url": "https://www.cnbc.com/2026/11/04/2026-midterms-trump-economy-iran-war.html"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Global tech stocks plunge as US midterms add to AI slowdown fears",
+          "url": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Stocks plunge as Dem midterm sweep fuels AI regulatory concerns",
+          "url": "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
+        }
+      ]
+    },
+    {
       "id": "debt-2026-11-04",
       "date": "2026-11-04",
       "topic": "National debt",
@@ -30,13 +58,6 @@
       "chartId": "chart-ten",
       "headlines": [
         {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Progressives hail ‘blue wave’ victories in US midterm elections as top Democrats push for unity",
-          "url": "https://www.theguardian.com/us-news/2026/nov/05/progressives-democrats-midterm-elections"
-        },
-        {
           "outletId": "cnbc",
           "outlet": "CNBC",
           "lean": "Lean Left",
@@ -49,6 +70,35 @@
           "lean": "Center",
           "title": "Stocks rally after Democrats march to midterm victories",
           "url": "https://thehill.com/business/6197256-stocks-rally-democrats-midterm-victory/"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Trump blames Democrats for stock market plunge after sweeping midterm victories",
+          "url": "https://www.foxbusiness.com/politics/trump-blames-democrats-stock-market-plunge-after-sweeping-midterm-victories"
+        }
+      ]
+    },
+    {
+      "id": "diesel-2026-11-03",
+      "date": "2026-11-03",
+      "topic": "Diesel prices",
+      "chartId": "chart-diesel",
+      "headlines": [
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "New Jersey's governor warns ports against accepting Russian diesel",
+          "url": "https://www.cbsnews.com/news/new-jerseys-governor-warns-ports-against-accepting-russian-diesel/"
+        },
+        {
+          "outletId": "pbsnewshour",
+          "outlet": "PBS NewsHour",
+          "lean": "Lean Left",
+          "title": "Tankers carrying Russian diesel change course, raising doubts about shipments to U.S.",
+          "url": "https://www.pbs.org/newshour/world/tankers-carrying-russian-diesel-change-course-raising-doubts-about-shipments-to-u-s"
         }
       ]
     },
@@ -107,64 +157,6 @@
           "lean": "Lean Right",
           "title": "Private sector added 86,000 jobs in October, above expectations, ADP says",
           "url": "https://www.foxbusiness.com/economy/private-sector-added-86000-jobs-october-above-expectations-adp-says"
-        }
-      ]
-    },
-    {
-      "id": "fed_rates-2026-11-02",
-      "date": "2026-11-02",
-      "topic": "Federal Reserve and interest rates",
-      "chartId": "chart-ff",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Barkin sees interest rate hikes ahead, but at a gradual pace",
-          "url": "https://www.cnbc.com/2026/11/05/barkin-sees-interest-rate-hikes-ahead-but-at-a-gradual-pace.html"
-        },
-        {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "What's happening to UK interest rates and what does it mean for mortgages?",
-          "url": "https://www.bbc.co.uk/news/articles/c3dky111m40o?at_medium=RSS&at_campaign=rss"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "RBA Raises Interest Rates: Live Updates, Analysis",
-          "url": "https://www.bloomberg.com/news/live-blog/2026-11-03/reserve-bank-of-australia-rate-decision"
-        }
-      ]
-    },
-    {
-      "id": "inflation-2026-11-02",
-      "date": "2026-11-02",
-      "topic": "Inflation",
-      "chartId": "chart-infl",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Australia hikes rates to 18-year high to fight inflation",
-          "url": "https://www.cnbc.com/2026/11/03/australia-hikes-rates-18-year-high-finflation.html"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Pakistan Inflation Stays Elevated as Risks Cloud Outlook",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-02/pakistan-inflation-cools-as-energy-risks-cloud-outlook"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Ted Cruz calls midterm election results a ‘Watergate-level repudiation’ of the GOP, warns ‘Americans will be hurt’ by radical Dems",
-          "url": "https://nypost.com/2026/11/05/us-news/ted-cruz-calls-midterm-election-results-a-watergate-level-repudiation-of-the-gop-warns-americans-will-be-hurt-by-radical-dems/"
         }
       ]
     }

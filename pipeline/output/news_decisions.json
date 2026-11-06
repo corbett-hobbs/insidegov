@@ -2,6 +2,29 @@
   "asOf": "2026-11-05",
   "stories": [
     {
+      "id": "ruling_crime-policing-2026-11-05",
+      "date": "2026-11-05",
+      "topic": "Supreme Court rulings on crime and policing",
+      "chartId": "how-many-cases-does-the-court-decide",
+      "groupId": "crime-policing",
+      "headlines": [
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "DOJ launches criminal probe into Supreme Court leak that exposed ruling overturning Roe v Wade",
+          "url": "https://www.foxnews.com/politics/doj-launches-criminal-probe-supreme-court-leak-exposed-ruling-overturning-roe-v-wade"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Justice Department conducting criminal probe into leak of Dobbs abortion decision",
+          "url": "https://nypost.com/2026/11/05/us-news/justice-department-conducting-criminal-probe-into-leak-of-dobbs-abortion-decision/"
+        }
+      ]
+    },
+    {
       "id": "ruling_elections-2026-11-02",
       "date": "2026-11-02",
       "topic": "Supreme Court rulings on elections",
@@ -16,11 +39,11 @@
           "url": "https://www.axios.com/2026/11/02/trump-supreme-court-california-ballots-case"
         },
         {
-          "outletId": "bbc",
-          "outlet": "BBC News",
+          "outletId": "thehill",
+          "outlet": "The Hill",
           "lean": "Center",
-          "title": "Democrat leads by just over 1,000 votes in surprisingly tight Mississippi Senate race",
-          "url": "https://www.bbc.co.uk/news/articles/c6n9rwxlx992o?at_medium=RSS&at_campaign=rss"
+          "title": "Senate GOP's campaign arm demands Mississippi election officials preserve affidavit ballots",
+          "url": "https://thehill.com/homenews/campaign/6202795-nrsc-demands-mississippi-ballot-preservation/"
         },
         {
           "outletId": "washingtonexaminer",
