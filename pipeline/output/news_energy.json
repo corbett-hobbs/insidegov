@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-03",
+  "asOf": "2026-11-05",
   "stories": [
+    {
+      "id": "electricity-2026-11-05",
+      "date": "2026-11-05",
+      "topic": "Electricity",
+      "chartId": "electricity",
+      "headlines": [
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Hinojosa vows to protect Texas citizens from data centers",
+          "url": "https://thehill.com/homenews/state-watch/6203045-texas-hinojosa-data-centers/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Supreme Court urged to protect homeowners’ property rights in data center power fight",
+          "url": "https://www.washingtonexaminer.com/news/supreme-court/4793859/supreme-court-urged-protect-homeowners-property-rights-in-data-center-power-fight/"
+        }
+      ]
+    },
     {
       "id": "oil_markets-2026-11-02",
       "date": "2026-11-02",
