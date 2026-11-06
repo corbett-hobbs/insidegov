@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import type { Insight } from "./types";
+import { recordUsage } from "../llm-usage";
 
 /**
  * Captions for insight drafts. The Claude API rewrites an insight's template into one or two plain sentences; then
@@ -183,6 +184,7 @@ export async function claudeCaption(client: Anthropic, insight: Insight): Promis
       if (err instanceof Anthropic.APIError) return { error: `API ${err.status ?? ""} ${err.message.slice(0, 200)}` };
       throw err;
     }
+    recordUsage("social-caption", res.model, res.usage);
     if (res.stop_reason === "refusal") return { error: `refused (${res.stop_details?.category ?? "no category"})` };
     const call = res.content.find((c): c is Anthropic.Beta.BetaToolUseBlock => c.type === "tool_use");
     const parsed = answer.safeParse(call?.input);

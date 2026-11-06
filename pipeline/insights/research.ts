@@ -5,6 +5,7 @@ import { sourceNotAllowed } from "../faq/sources";
 import { BANNED_WORDS, CAUSAL_PHRASES } from "./caption";
 import { insightOrders } from "./eo-list";
 import type { Breakdown, Insight, Why } from "./types";
+import { recordUsage } from "../llm-usage";
 
 /**
  * Why a number moved, researched for every data draft: Claude reads the agency's own release for the period (and other
@@ -300,6 +301,7 @@ export async function researchWhy(client: Anthropic, insight: Insight): Promise<
       if (err instanceof Anthropic.APIError) return { error: `API ${err.status ?? ""} ${err.message.slice(0, 800)}` };
       throw err;
     }
+    recordUsage("social-why-research", res.model, res.usage);
     if (res.stop_reason === "refusal") return { error: `refused (${res.stop_details?.category ?? "no category"})` };
     for (const u of urlsIn(res.content)) seen.add(u);
     // SOCIAL_WHY_DEBUG=1: what the research searched and opened, to see why a reason was or was not found.

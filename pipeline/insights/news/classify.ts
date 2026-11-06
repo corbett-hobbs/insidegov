@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+import { recordUsage } from "../../llm-usage";
 
 /**
  * The Claude check for the page cards and the social news lane (one detector for both): which headlines of a candidate
@@ -76,6 +77,7 @@ export async function checkCandidate(client: Anthropic, c: CandidateInput): Prom
     }
     throw err;
   }
+  recordUsage("news-check", res.model, res.usage);
   if (res.stop_reason === "refusal") return { keep: [], reason: `check refused (${res.stop_details?.category ?? "no category"})` };
   const call = res.content.find((x): x is Anthropic.Beta.BetaToolUseBlock => x.type === "tool_use");
   const parsed = cardAnswer.safeParse(call?.input);

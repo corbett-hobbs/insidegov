@@ -74,6 +74,15 @@ outputs:
 runs:
   using: composite
   steps:
+    # The researched "why it moved" answers (pipeline/insights/why-cache.ts, kept 3 days) and the token-usage log live in
+    # pipeline/.cache. A new entry each run (entries are immutable), restored from the latest, so a draft dropped by the
+    # caption check and tried again next run does not pay for the web research twice.
+    - uses: actions/cache@v4
+      with:
+        path: pipeline/.cache
+        key: social-why-${{ github.run_id }}
+        restore-keys: social-why-
+
     - id: draft
       shell: bash
       env:

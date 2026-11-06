@@ -4,15 +4,16 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { OFFENSE_CATEGORIES, offenseCategory } from "../../lib/clemency-entities";
 import { OFFENSE_CACHE, buildGrants, offenseKey } from "../transform/clemency-run";
+import { recordUsage } from "../llm-usage";
 
 /**
- * One offense category per distinct offense text on DOJ's recipient lists, by the Claude API (Sonnet 5.5, xhigh). The category goes
+ * One offense category per distinct offense text on DOJ's recipient lists, by the Claude API (Haiku 5.5, low effort; each answer's quote is checked, so a weak answer is asked again, not saved). The category goes
  * by the first offense listed, and the model must quote the words it rests on; an answer whose quote isn't in the text is asked again.
  * Answers are stored in `pipeline/classification/clemency_offenses.json` and never overwritten. `pnpm classify:clemency`; needs
  * ANTHROPIC_API_KEY. `--limit N` tries a few. Run by .github/workflows/clemency-freshness.yml for new grants.
  */
-const MODEL = "claude-sonnet-5-5";
-const EFFORT = "xhigh" as const;
+const MODEL = process.env.CLEMENCY_MODEL ?? "claude-haiku-5-5";
+const EFFORT = (process.env.CLEMENCY_EFFORT ?? "low") as "low" | "medium" | "high" | "xhigh" | "max";
 const BATCH = 40;
 const PARALLEL = Number(process.env.CLEMENCY_PARALLEL ?? 6);
 try {
@@ -66,6 +67,7 @@ async function askBatch(texts: string[]): Promise<Entry[]> {
       tool_choice: { type: "auto" },
       messages: [{ role: "user", content: todo.map(([t, n]) => `${n}. ${t}`).join("\n") }],
     } as Anthropic.Beta.MessageCreateParamsNonStreaming);
+    recordUsage("clemency-offenses", res.model, res.usage);
     const call = res.content.find((c): c is Anthropic.Beta.BetaToolUseBlock => c.type === "tool_use");
     const a = answer.safeParse(call?.input);
     if (!a.success) continue;
