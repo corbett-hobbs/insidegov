@@ -2,9 +2,9 @@
   "checks": {},
   "dispatched": {
     "indicators-freshness.yml": {
-      "release": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html",
-      "since": "2026-11-04T17:05:16.381Z",
-      "at": "2026-11-04T17:05:16.381Z",
+      "release": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+      "since": "2026-11-06T17:24:38.524Z",
+      "at": "2026-11-06T17:24:38.524Z",
       "count": 1
     },
     "trade-freshness.yml": {
