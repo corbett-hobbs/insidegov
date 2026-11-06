@@ -1,45 +1,5 @@
 {
-  "checks": {
-    "0829e37c16d1d48934da": {
-      "at": "2026-11-04T08:58:48.095Z",
-      "keep": [],
-      "reason": "The U.S. headlines are about midterm election results, with inflation only incidental; the inflation headlines are foreign (Australia, Brazil, UK) with no U.S. policy angle, so no single qualifying U.S. CPI development.",
-      "chart": ""
-    },
-    "fe29af6ad634e9ae2329": {
-      "at": "2026-11-04T08:58:48.095Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
-      ],
-      "reason": "Four outlets reported the same November 2 oil price drop on hopes of Iran talks; the chart pages have no crude price or OPEC data, so no chart fits.",
-      "chart": ""
-    },
-    "8e076651516327736af6": {
-      "at": "2026-11-04T08:58:48.095Z",
-      "keep": [
-        "https://www.cnbc.com/2026/11/03/midterm-election-stock-market.html",
-        "https://www.foxbusiness.com/markets/us-stock-futures-tumble-democrats-score-key-midterm-election-wins"
-      ],
-      "reason": "Headlines 6 and 7 both report the current development of Democrats winning midterm congressional control and its market reaction; the other headlines are previews, historical analysis, or unrelated election coverage.",
-      "chart": ""
-    },
-    "ea2deeea3f318e1bfbf0": {
-      "at": "2026-11-04T08:58:48.095Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/",
-        "https://thehill.com/policy/energy-environment/6193013-election-day-record-gas-prices/"
-      ],
-      "reason": "Both headlines report that U.S. gas prices hit a record high around Election Day, the same current price development the weekly gasoline chart tracks; headline 1 covers a different claim about oil prices and Iran.",
-      "chart": ""
-    }
-  },
+  "checks": {},
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html",
@@ -52,6 +12,12 @@
       "since": "2026-11-04T17:05:16.381Z",
       "at": "2026-11-06T01:29:05.055Z",
       "count": 6
+    },
+    "energy-freshness.yml": {
+      "release": "https://www.washingtonexaminer.com/news/supreme-court/4793859/supreme-court-urged-protect-homeowners-property-rights-in-data-center-power-fight/",
+      "since": "2026-11-06T09:15:35.780Z",
+      "at": "2026-11-06T09:15:35.780Z",
+      "count": 1
     }
   },
   "laws": {
