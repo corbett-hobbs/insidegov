@@ -1,11 +1,75 @@
 {
-  "checks": {},
+  "checks": {
+    "2e3586d1e3dc50f6c02c": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [],
+      "reason": "The dominant story is Stephen Miller's appointment as White House chief of staff, where immigration enforcement is at most background. The ICE items are a single-outlet feature (Fox NYC raids) and a local arrest story (Wisconsin trooper), and neither is one shared national development.",
+      "chart": ""
+    },
+    "e4bf0d0d7205869cefa2": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [],
+      "reason": "No single shared U.S. Fed development: the BBC rate-hike headlines concern a UK rate rise, and the CNBC and NYT pieces are analysis of different points.",
+      "chart": ""
+    },
+    "17311ef45e6cd36a8b59": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [],
+      "reason": "No shared U.S. development: Chile and BOJ headlines are foreign news, and the lone Fed headline is an official's remark covered by only one outlet.",
+      "chart": ""
+    },
+    "b31f97ca886d40971e8f": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.foxbusiness.com/markets/stocks-nov-5-2026",
+        "https://www.theguardian.com/business/2026/nov/05/nasdaq-heading-for-worst-day-in-18-months-as-wall-street-sustains-widespread-losses",
+        "https://www.theguardian.com/business/2026/nov/05/nasdaq-heading-for-worst-day-in-18-months-as-wall-street-sustains-widespread-losses",
+        "https://www.cnbc.com/2026/11/05/nasdaq-drops-into-correction-territory-heres-what-typically-happens-next.html",
+        "https://www.cnbc.com/2026/11/05/nasdaq-drops-into-correction-territory-heres-what-typically-happens-next.html",
+        "https://www.cbsnews.com/news/stocks-tech-sell-off-nasdaq-correction-dow/",
+        "https://www.cbsnews.com/news/stocks-tech-sell-off-nasdaq-correction-dow/"
+      ],
+      "reason": "Most outlets reported the same November 2026 tech/AI-driven U.S. stock sell-off that pushed the Nasdaq into correction; excluded Trump-reaction, personal-finance, rally, and foreign-market headlines.",
+      "chart": ""
+    },
+    "6ec6f633a02c0c05f71e": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/us-jobs-report-october-2026",
+        "https://www.bloomberg.com/news/articles/2026-11-06/us-adds-165-000-jobs-above-all-forecasts-as-unemployment-falls",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4794797/economy-october-jobs-trump-labor-market/",
+        "https://www.nbcnews.com/business/economy/us-added-jobs-october-risks-stagnation-rcna607812",
+        "https://thehill.com/business/6201764-us-jobs-report-october/",
+        "https://www.theguardian.com/business/2026/nov/06/us-job-growth-october",
+        "https://www.cbsnews.com/news/october-jobs-report-us-labor-market-2026/",
+        "https://www.cnbc.com/2026/11/06/jobs-report-october-2026.html"
+      ],
+      "reason": "These headlines all report the official BLS October jobs report showing 165,000 nonfarm jobs added; excluded ADP, previews, live blogs, and analysis.",
+      "chart": ""
+    },
+    "7ae004ef33967c0aed88": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [],
+      "reason": "The headlines cover different developments (Trump touting an oil price drop, a record Election Day gas price high, and an expert forecast about prices falling below $4), and no single development is reported by most outlets.",
+      "chart": ""
+    },
+    "38287b1a1a18471580e9": {
+      "at": "2026-11-06T23:00:17.120Z",
+      "keep": [
+        "https://nypost.com/2026/11/06/business/us-employers-add-165k-jobs-in-strong-october-unemployment-dips/"
+      ],
+      "reason": "Only headline 2 covers a U.S. development (October jobs report showing unemployment dipping); headline 1 is about Canada's unemployment, with no U.S. angle.",
+      "chart": ""
+    }
+  },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
       "since": "2026-11-06T17:24:38.524Z",
-      "at": "2026-11-06T17:24:38.524Z",
-      "count": 1
+      "at": "2026-11-06T23:00:17.120Z",
+      "count": 2
     },
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
