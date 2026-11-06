@@ -1,94 +1,5 @@
 {
   "checks": {
-    "7a0cad53bfab243b85e7": {
-      "at": "2026-11-03T20:55:40.076Z",
-      "keep": [],
-      "reason": "None of the headlines report a U.S. inflation development; they cover Australia, Turkey, Switzerland, the ECB, Brazil, and Senegal.",
-      "chart": ""
-    },
-    "940ca9f121517b712c1f": {
-      "at": "2026-11-03T20:55:40.076Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107"
-      ],
-      "reason": "Most outlets on Nov 2 reported the same development: oil prices fell on hopes of Iran diplomacy. Guardian and NBC cover it as the main story; the rest are stock-market, Trump-remark, or next-day pieces.",
-      "chart": ""
-    },
-    "5942cd727e0cdd7629d8": {
-      "at": "2026-11-03T20:55:40.076Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/",
-        "https://thehill.com/policy/energy-environment/6193013-election-day-record-gas-prices/"
-      ],
-      "reason": "Two outlets report the same development: gas prices hitting a record high around Election Day 2026, which the weekly retail gasoline price chart directly measures. Headline 2 frames prices as easing above $4, a different angle, so it is left out.",
-      "chart": ""
-    },
-    "227a464d36844a0dbc40": {
-      "at": "2026-11-03T20:55:40.076Z",
-      "keep": [],
-      "reason": "Headlines cover a New York City mayor's threatened lawsuit over city lots and an appeals court argument on lawmakers' access to ICE facilities; neither is a national ruling or action, and neither is about border encounters or removals.",
-      "chart": ""
-    },
-    "94fd6cffa1ba64c37457": {
-      "at": "2026-11-04T00:39:50.977Z",
-      "keep": [],
-      "reason": "No headline reports a U.S. development; they cover Australia, Switzerland, the ECB, and Brazil, and none is about U.S. inflation.",
-      "chart": ""
-    },
-    "1c3aad70e095786182a2": {
-      "at": "2026-11-04T00:39:50.977Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://thehill.com/policy/energy-environment/6190118-midterms-oil-prices-fall/",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.nbcnews.com/business/energy/oil-prices-slide-trump-hope-iran-talks-rcna607107",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/",
-        "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
-      ],
-      "reason": "Most outlets (Guardian, The Hill, NBC, Washington Examiner) report the same November 2 oil price drop on hopes for an Iran war deal; the Rubio, exit-poll, and November 3 headlines are other stories or different days.",
-      "chart": ""
-    },
-    "1933de2ce432894c3d6a": {
-      "at": "2026-11-04T00:39:50.977Z",
-      "keep": [],
-      "reason": "Only one headline concerns LNG (an IEA report on global supply), and no second outlet reports the same development; the oil-price headline is a different story.",
-      "chart": ""
-    },
-    "f47238eb0c96b16e0dd0": {
-      "at": "2026-11-04T00:39:50.977Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/",
-        "https://thehill.com/policy/energy-environment/6193013-election-day-record-gas-prices/"
-      ],
-      "reason": "Two outlets report the same current development: gas prices hitting a record high around Election Day 2026, which the weekly gasoline price chart directly measures.",
-      "chart": ""
-    },
-    "3e3abdd70734bb907452": {
-      "at": "2026-11-04T01:13:21.155Z",
-      "keep": [],
-      "reason": "All three headlines are about foreign inflation or rates (Australia, euro area, Brazil) with no U.S. policy angle, so none qualifies for the U.S. CPI chart.",
-      "chart": ""
-    },
-    "a161d177fc628afb2eb0": {
-      "at": "2026-11-04T01:13:21.155Z",
-      "keep": [],
-      "reason": "Headlines are midterm-election previews and analysis or commentary (Ackman opinion), not a single current development; no listed chart directly measures the stock market.",
-      "chart": ""
-    },
-    "b96f35333c63b3ab7bb3": {
-      "at": "2026-11-04T01:13:21.155Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/",
-        "https://thehill.com/policy/energy-environment/6193013-election-day-record-gas-prices/"
-      ],
-      "reason": "Headlines 2 and 3 both report that gas prices hit a record high around Election Day 2026, the chart's topic; headlines 1 and 4 cover different developments.",
-      "chart": ""
-    },
     "0829e37c16d1d48934da": {
       "at": "2026-11-04T08:58:48.095Z",
       "keep": [],
@@ -139,8 +50,8 @@
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
       "since": "2026-11-04T17:05:16.381Z",
-      "at": "2026-11-05T20:36:07.844Z",
-      "count": 5
+      "at": "2026-11-06T01:29:05.055Z",
+      "count": 6
     }
   },
   "laws": {
@@ -149,7 +60,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-05"
+      "last": "2026-11-06"
     }
   }
 }
