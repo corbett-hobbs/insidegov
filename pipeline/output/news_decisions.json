@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-05",
+  "asOf": "2026-11-06",
   "stories": [
     {
       "id": "ruling_crime-policing-2026-11-05",
@@ -32,18 +32,18 @@
       "groupId": "elections",
       "headlines": [
         {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Supreme court rules against Trump over bid to force California to set aside ballots",
+          "url": "https://www.theguardian.com/us-news/2026/nov/02/supreme-court-trump-california-ballots"
+        },
+        {
           "outletId": "axios",
           "outlet": "Axios",
           "lean": "Lean Left",
           "title": "Trump administration turns to SCOTUS in California ballot case",
           "url": "https://www.axios.com/2026/11/02/trump-supreme-court-california-ballots-case"
-        },
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Senate GOP's campaign arm demands Mississippi election officials preserve affidavit ballots",
-          "url": "https://thehill.com/homenews/campaign/6202795-nrsc-demands-mississippi-ballot-preservation/"
         },
         {
           "outletId": "washingtonexaminer",

@@ -1,6 +1,64 @@
 {
-  "asOf": "2026-11-05",
+  "asOf": "2026-11-06",
   "stories": [
+    {
+      "id": "fed_rates-2026-11-06",
+      "date": "2026-11-06",
+      "topic": "Federal Reserve and interest rates",
+      "chartId": "chart-ff",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Stable Labor Market Keeps Fed on Track to Raise Rates Gradually",
+          "url": "https://www.nytimes.com/2026/11/06/business/economy/stable-labor-market-to-keep-fed-on-track-to-raise-rates-gradually.html"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Democratic sweep gives markets a reason to rethink path of interest rates",
+          "url": "https://www.cnbc.com/2026/11/06/oil-prices-interest-rates-midterms.html"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Fed’s New FOMC Schedule Turns Back the Clock for ‘Strategy’ Sessions",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-06/fed-s-new-fomc-schedule-turns-back-the-clock-for-strategy-sessions"
+        }
+      ]
+    },
+    {
+      "id": "unemployment-2026-11-06",
+      "date": "2026-11-06",
+      "topic": "Unemployment",
+      "chartId": "chart-un",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "Payroll employment rises by 165,000 in October; unemployment rate changes little at 4.1%",
+          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Traders Trim Canada Rate-Hike Bets as Unemployment Rises to 6.7%",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-06/canada-jobless-rate-rises-to-6-7-amid-small-employment-decline"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "US employers surprisingly add 165K jobs in strong October, unemployment dips",
+          "url": "https://nypost.com/2026/11/06/business/us-employers-add-165k-jobs-in-strong-october-unemployment-dips/"
+        }
+      ]
+    },
     {
       "id": "markets-2026-11-04",
       "date": "2026-11-05",
@@ -14,11 +72,11 @@
           "url": "https://www.cnbc.com/2026/11/04/2026-midterms-trump-economy-iran-war.html"
         },
         {
-          "outletId": "bbc",
-          "outlet": "BBC News",
+          "outletId": "thehill",
+          "outlet": "The Hill",
           "lean": "Center",
-          "title": "Global tech stocks plunge as US midterms add to AI slowdown fears",
-          "url": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo?at_medium=RSS&at_campaign=rss"
+          "title": "Trump on stock market losses: 'You only have yourselves to blame'",
+          "url": "https://thehill.com/homenews/administration/6203425-donald-trump-stock-market-losses-2026-midterms-economy/"
         },
         {
           "outletId": "foxbusiness",
@@ -65,11 +123,11 @@
           "url": "https://www.cnbc.com/2026/11/04/us-midterm-elections-in-pictures-democrats-republicans-trump.html"
         },
         {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Stocks rally after Democrats march to midterm victories",
-          "url": "https://thehill.com/business/6197256-stocks-rally-democrats-midterm-victory/"
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Oil prices drop below $100 as midterms fuel hope for an end to the Iran war",
+          "url": "https://www.nbcnews.com/business/energy/oil-prices-iran-war-midterms-rcna607448"
         },
         {
           "outletId": "foxbusiness",
@@ -99,64 +157,6 @@
           "lean": "Lean Left",
           "title": "Tankers carrying Russian diesel change course, raising doubts about shipments to U.S.",
           "url": "https://www.pbs.org/newshour/world/tankers-carrying-russian-diesel-change-course-raising-doubts-about-shipments-to-u-s"
-        }
-      ]
-    },
-    {
-      "id": "gasoline-2026-11-03",
-      "date": "2026-11-03",
-      "topic": "Gas prices",
-      "chartId": "chart-gas",
-      "headlines": [
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Gas prices reach record high for an Election Day",
-          "url": "https://thehill.com/homenews/campaign/6193013-election-day-record-gas-prices/"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "US Gas Prices Rise Above $4 for the First Time on Election Day",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-03/us-voters-hit-the-polls-with-gas-above-4-for-first-time"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Gas prices in Trump’s second term hit record high for any presidency",
-          "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4788298/gas-prices-trump-second-term-hit-record-high-for-any-presidency/"
-        }
-      ]
-    },
-    {
-      "id": "jobs-2026-11-03",
-      "date": "2026-11-03",
-      "topic": "Jobs report",
-      "chartId": "chart-jobs",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Job openings posted big September gain in positive sign for labor market ahead of payrolls report",
-          "url": "https://www.cnbc.com/2026/11/03/job-openings-posted-big-september-gain-in-positive-sign-for-labor-market-ahead-of-payrolls-report.html"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "US Companies Added 86,000 Jobs in October, ADP Data Show",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-04/us-companies-add-86-000-jobs-more-than-forecast-adp-data-show"
-        },
-        {
-          "outletId": "foxbusiness",
-          "outlet": "Fox Business",
-          "lean": "Lean Right",
-          "title": "Private sector added 86,000 jobs in October, above expectations, ADP says",
-          "url": "https://www.foxbusiness.com/economy/private-sector-added-86000-jobs-october-above-expectations-adp-says"
         }
       ]
     }
