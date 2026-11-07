@@ -46,13 +46,24 @@ Detectors (`detect.ts`, pure, tested) look only at the **newest** observation of
 | Same point in term | The current presidential term against every earlier term at the same elapsed time. **Quarterly** (March, June, September, December data), not every refresh. Needs at least three terms; the caption names all earlier terms or none; terms are never coloured by party. |
 | Latest reading | The routine post for each dataset's headline series (oil imports, total electricity generation, trade deficit, southwest border encounters, executive orders and laws per month): the newest value, its change on the period and on the year. Only when the same refresh produced nothing notable for that series, so every update has something to post but nothing posts twice. |
 
+**One post per data update** (`collect.ts` `selectInsights`, owner's rule; see "Social posts for a data update" in
+`ARCHITECTURE_MAP.md`). The readings above are *candidates*: a refresh that produces several (imports at a high, the
+deficit against earlier terms, imports against earlier terms) still opens one draft, the dataset's highest-scoring
+candidate for its newest period. A **whole** outranks its **parts** (`FOLDS`: the trade deficit over imports and
+exports): when the whole has a notable reading, its parts' notable line charts fold into its post (at most 2; a part's
+term comparison is dropped). The reading with a **superlative** leads the post on every platform, with the superlative as
+its title: a high or a low, or a term comparison whose current term tops or bottoms every earlier one ("The U.S. goods trade
+deficit is the highest of 6 terms at the same point"). The whole leads when it has one; otherwise a part's high or low leads.
+The others follow as an extra Instagram slide and an extra thread reply each (`Insight.folded`). The daily catch-up (`coveredByDraft`) treats a draft of any series in the dataset
+for that period or a newer one as covering the whole update. A pair of a total and its components is one entry in `FOLDS`.
+
 **News-only series** (`newsOnly` in `datasets.ts`, `Series.newsOnly`) get none of these. They post only when the news is
 about them (the news lane charts them like any other):
 
 | Series | Why |
 | --- | --- |
 | Weekly: gas and diesel prices, the Strategic Petroleum Reserve, the 30-year mortgage rate, the federal funds rate, the ten-year Treasury yield | A new reading every week is not news; a story about gas prices is. |
-| Oil and gas output and trade except the oil trade pair: crude oil production, dry gas production, LNG exports, crude oil exports and imports | Crude production is on a rising trend (a "highest August" has been true four years running, and the term comparison is about what a president does not set), gas production likewise, and LNG is jargon most readers do not know. A release gets **one** oil post, oil imports and exports (see "Data releases take a companion too"); the crude series are its parts, drawn on its card. A story about U.S. oil production or LNG still charts them (the LNG story carries the line saying what liquefied natural gas is). |
+| Oil and gas output and trade except the oil trade pair: crude oil production, dry gas production, LNG exports, crude oil exports and imports | Crude production is on a rising trend (a "highest August" has been true four years running, and the term comparison is about what a president does not set), gas production likewise, and LNG is jargon most readers do not know. A release gets at most **one** oil post, oil imports and exports (see "Data releases take a companion too"), and with the rest of the energy release one post in all; the crude series are its parts, drawn on its card. A story about U.S. oil production or LNG still charts them (the LNG story carries the line saying what liquefied natural gas is). |
 | Single electricity sources: coal, natural gas, nuclear, wind, solar | One release would otherwise give a "record" post for each source. The release gets **one** post, for total generation, and its "What drove it" slide shows each source's change. A source posts alone only when a story is about it. |
 | The Economy page's cards: mortgage rate, federal funds rate, ten-year Treasury yield, unemployment, inflation, jobs added, GDP growth, real hourly earnings, household income, the deficit, the debt | Their releases (jobs report, CPI, GDP) are always in the news the same day, so the news lane covers them. Each is computed as its card computes it (`economy.ts`, using the page's `lib/indicator-derive.ts`; deficit and debt merge Treasury's newer figures as the page does), so a post and its card agree. |
 
@@ -97,7 +108,7 @@ When each source publishes, which workflow picks it up, and what usually posts:
 | --- | --- | --- | --- |
 | Gas and diesel prices (EIA via FRED) | weekly, Monday's survey out Monday afternoon | `indicators-freshness` (Mondays 11:43 UTC) | nothing: news-only (posts when gas or diesel is in the news) |
 | Strategic Petroleum Reserve (EIA WPSR) | weekly, Wednesdays | `energy-freshness` (Tuesdays) | nothing: news-only |
-| EIA monthly energy (oil output and trade, natural gas, LNG, total electricity generation) | monthly, late in the month, 2–3 months back | `energy-freshness` | **one oil post**: U.S. oil imports and exports, a notable high, low or move in either, else imports' routine reading, with the crude-and-refined card (never one each, `ONE_POST_PER_PERIOD`); one electricity post for total generation, not one per source. Crude and gas production and LNG exports post only when they are in the news |
+| EIA monthly energy (oil output and trade, natural gas, LNG, total electricity generation) | monthly, late in the month, 2–3 months back | `energy-freshness` | **one post for the release** (one data update, one post): the higher-scoring of the oil post (U.S. oil imports and exports, a notable high, low or move in either, else imports' routine reading, with the crude-and-refined card, never one each) and total electricity generation, not one per source. Crude and gas production and LNG exports post only when they are in the news |
 | Goods trade (Census) | monthly, about 5 weeks after the month | `trade-freshness` (Wednesdays) | deficit reading or a high/low; term comparison quarterly |
 | CBP border encounters | monthly, mid-month; fiscal year in October | `encounters-freshness` (Wednesdays) | monthly reading or a high/low; fiscal-year totals |
 | Executive orders, laws | continuously | `executive-orders-freshness`, `laws-freshness` (Mondays) | after each month: the month's count (or a new high); quarterly term comparison |
@@ -514,7 +525,7 @@ pnpm news:pages -- --dry-run                 # the pages' In the news cards, pri
 
 The six freshness workflows run `.github/actions/social-drafts` after their transform and before opening the data PR
 (`continue-on-error`, so it can never block a refresh). HEAD still holds the old data then, so "new" means newer than
-HEAD, and the run date is the release date. Each run drafts at most 3 per dataset. Images go to the orphan
+HEAD, and the run date is the release date. Each run drafts one post per dataset (a data update gets one post, see "What becomes a post"). Images go to the orphan
 `social-drafts` branch and are embedded from raw.githubusercontent.com; an issue is skipped if one already exists for
 the same draft. Tick **social_dry_run** on a manual run to print the issues instead. `social-drafts.yml` drafts from
 main's data after a chosen date (release dates estimated), dry run by default.

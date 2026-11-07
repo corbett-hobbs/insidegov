@@ -1,5 +1,5 @@
 import { appendFileSync, readFileSync } from "node:fs";
-import { eventInsightsAt, newDates, newMonthEnds, postGroup, releaseEstimator, selectInsights, seriesInsightsAt } from "./collect";
+import { coveredByDraft, eventInsightsAt, newDates, newMonthEnds, releaseEstimator, selectInsights, seriesInsightsAt } from "./collect";
 import { DATASETS, loadAdministrations, loadDataset } from "./datasets";
 import { buildDrafts } from "./drafts";
 import { stampRelease } from "./freshness";
@@ -20,7 +20,7 @@ import type { DatasetId, Insight, Series } from "./types";
  * --fresh           drop insights already past their freshness window (the scheduler would only expire them)
  * --exclude-file F  ids (one per line) that already have a draft issue; dropped before picking, so a repeat run
  *                   neither re-captions them nor lets them crowd out something new (the daily catch-up, social-catchup.yml)
- * --max N           drafts at most (default 3 per dataset)
+ * --max N           drafts at most (default one per dataset: a data update gets one post, collect.ts selectInsights)
  * --no-llm          template captions only (also the fallback when ANTHROPIC_API_KEY is unset)
  *
  * Writes drafts to --out (default social-drafts/latest) and, under GitHub Actions, `count=<n>` to $GITHUB_OUTPUT.
@@ -40,7 +40,7 @@ const sinceRef = arg("--since-ref");
 const since = arg("--since");
 if (!sinceRef && !since) throw new Error("pass --since-ref REF or --since YYYY-MM-DD");
 const outDir = arg("--out") ?? "social-drafts/latest";
-const max = Number(arg("--max") ?? 3 * datasets.length);
+const max = Number(arg("--max") ?? datasets.length);
 const freshOnly = process.argv.includes("--fresh");
 const excludeFile = arg("--exclude-file");
 const exclude = new Set(excludeFile ? readFileSync(excludeFile, "utf8").split("\n").map((l) => l.trim()).filter(Boolean) : []);
@@ -55,13 +55,11 @@ for (const id of exclude) {
 // The routine `latest` reading is not drafted for a series and period that already has a draft of any kind: the
 // notable one came first, or the same month was read earlier from data that has since been filled in.
 const draftedPeriods = new Set([...exclude].map((id) => splitId(id)).map(([key, date]) => `${key.slice(0, key.lastIndexOf(":"))}|${date}`));
-// Series that share one post per period (collect.ts ONE_POST_PER_PERIOD): a draft of any of them for a period, of any
-// kind, covers the others, so the daily catch-up never opens oil exports for a month oil imports already has.
-const draftedGroups = new Set([...draftedPeriods].flatMap((k) => { const [series, date] = k.split("|") as [string, string]; const g = postGroup(series); return g ? [`${g}|${date}`] : []; }));
+// One post per data update (collect.ts selectInsights): a draft of any series in the dataset for this period or a newer
+// one covers the whole update, so the daily catch-up never opens a second post for a release (coveredByDraft).
 const alreadyDrafted = (i: Insight) => {
   const [key, date] = splitId(i.id);
-  const group = postGroup(i.seriesId);
-  return (newestDrafted.get(key) ?? "") >= date || (i.kind === "latest" && draftedPeriods.has(`${i.seriesId}|${i.period}`)) || (!!group && draftedGroups.has(`${group}|${i.period}`));
+  return (newestDrafted.get(key) ?? "") >= date || (i.kind === "latest" && draftedPeriods.has(`${i.seriesId}|${i.period}`)) || coveredByDraft(i, exclude);
 };
 const useLlm = !process.argv.includes("--no-llm") && Boolean(process.env.ANTHROPIC_API_KEY);
 
@@ -91,7 +89,7 @@ const estimate = releaseEstimator(allSeries);
 const stamp = (i: Insight) => (sinceRef ? stampRelease(i, today, false) : stampRelease(i, estimate(i), true));
 const candidates = insights.filter((i) => !alreadyDrafted(i)).map(stamp).filter((i) => !freshOnly || i.release!.expiresOn >= today);
 if (exclude.size || freshOnly) console.log(`insights:draft  ${insights.length - candidates.length} of ${insights.length} set aside (${exclude.size} ids already drafted${freshOnly ? ", stale ones dropped" : ""})`);
-const picked = selectInsights(candidates, { max, perSeries: 2, perDataset: 3 }).map((i) => withWhy(withBreakdown(withCompanion(i, allSeries), allSeries)));
+const picked = selectInsights(candidates, { max }).map((i) => withWhy(withBreakdown(withCompanion(i, allSeries), allSeries)));
 console.log(`insights:draft  ${insights.length} insights in ${datasets.join(", ")}, ${picked.length} picked, captions by ${useLlm ? "Claude" : "template"}`);
 const { drafts, dropped } = picked.length ? await buildDrafts(picked, { outDir, useLlm }) : { drafts: [], dropped: [] };
 for (const d of dropped) console.log(`  dropped ${d}`);

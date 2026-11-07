@@ -119,6 +119,7 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
   return [
     `![${draft.alt.replace(/[[\]]/g, "")}](${imageUrl})`,
     "",
+    ...(draft.folded?.length ? [`**Also in this post** (the same data update, folded in so a release gets one post): ${draft.folded.map((f) => `${f.headline} (\`${f.id}\`)`).join("; ")}. Each follows the post's own as one more Instagram slide and one more thread reply; the caption is about the chart at the top.`, ""] : []),
     "## Bluesky and X",
     "",
     "**Post text**",

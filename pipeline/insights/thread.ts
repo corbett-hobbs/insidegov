@@ -220,6 +220,26 @@ function ordersReplies(insight: Insight): Reply[] {
   return [{ text: `${ordersHeading(insight.period, kind)}. ${orderingNote(orders, kind)}, with the date each was signed, its topic and a short summary.`, chart: breakdownCardCount(insight), alt: ordersAlt(orders, insight.period, kind) }];
 }
 
+/** Index of the first folded reading's card among the thread's cards: after the breakdown cards and the orders card (thread-charts.tsx renderThreadCards). */
+export function foldedCardStart(insight: Insight): number {
+  return breakdownCardCount(insight) + (fitOrders(insightOrders(insight), CARD_ORDERS).length ? 1 : 0);
+}
+
+/**
+ * One reply and one chart card for each reading folded into this post (collect.ts FOLDS): the reading's own checked
+ * sentence (its template, built from its facts) and its chart. It is the same data update, so it says so.
+ */
+function foldedReplies(insight: Insight): { replies: Reply[]; note?: string } {
+  const replies: Reply[] = [];
+  const notes: string[] = [];
+  for (const [i, f] of (insight.folded ?? []).entries()) {
+    const text = `Also in this release.\n\n${f.template}`;
+    if (text.length > REPLY_MAX) notes.push(`the sentence for ${f.headline} is too long for one post`);
+    else replies.push({ text, chart: foldedCardStart(insight) + i, alt: f.alt.slice(0, 1000) });
+  }
+  return { replies, ...(notes.length ? { note: notes.join("; ") } : {}) };
+}
+
 function explainerReplies(insight: Insight): Reply[] {
   const short = explainerShort(insight);
   if (short && `What this measures.\n\n${short}`.length <= REPLY_MAX) return [{ text: `What this measures.\n\n${short}` }];
@@ -252,11 +272,13 @@ function sourcesReply(insight: Insight): Reply {
 /** The replies after the chart post, or null when there is nothing to add (the draft then posts as a single post). */
 export function planThread(insight: Insight): ThreadPlan | null {
   const notes: string[] = [];
-  const sections = [whyReplies(insight), breakdownReplies(insight), momentsReplies(insight)];
+  const why = whyReplies(insight);
+  const folded = foldedReplies(insight);
+  const sections = [why, breakdownReplies(insight), folded, momentsReplies(insight)];
   const replies = sections.flatMap((s) => s.replies);
   for (const s of sections) if (s.note) notes.push(s.note);
-  // The orders card is a list, not an explanation: it does not stand in for the explainer.
-  const explain = (!replies.length && !(insight.why && givesReason(insight.why)) && !breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId;
+  // The orders card is a list, not an explanation: it does not stand in for the explainer. Nor is a folded reading.
+  const explain = (replies.length === folded.replies.length && !(insight.why && givesReason(insight.why)) && !breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId;
   replies.push(...ordersReplies(insight));
   if (explain) replies.push(...explainerReplies(insight));
   if (!replies.length) return null;

@@ -231,6 +231,13 @@ export type Insight = {
   lead?: string;
   /** Set on news drafts: the story that triggered it. */
   news?: NewsTrigger;
+  /**
+   * Other notable readings from the same data update, folded into this post instead of posting on their own (collect.ts
+   * FOLDS, `selectInsights`): imports at a high beside the deficit. Each is one more Instagram slide (its chart) and one more
+   * thread reply (its sentence and chart card); the caption stays about this insight. Their facts count for the replies
+   * (`foldedFacts`), never for the caption.
+   */
+  folded?: Insight[];
 };
 
 /** A headline as the watcher saw it (news/feeds.ts). */

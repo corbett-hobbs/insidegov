@@ -289,7 +289,7 @@ describe("collect", () => {
     expect(newMonthEnds("2026-09-30", "2026-10-20")).toEqual([]);
   });
 
-  it("keeps one insight per series and kind and caps per series and dataset", () => {
+  it("keeps one insight per series and kind, and one post per dataset: the newest period's best", () => {
     const mk = (id: string, seriesId: string, kind: Insight["kind"], period: string, score: number): Insight => ({
       ...detectExtremes(monthly([...flat(80), 150]).series)[0]!,
       id,
@@ -300,9 +300,9 @@ describe("collect", () => {
     });
     const picked = selectInsights(
       [mk("a1", "a", "extreme_low", "2026-01-01", 5), mk("a2", "a", "extreme_low", "2026-02-01", 9), mk("a3", "a", "term_comparison", "2026-01-01", 20), mk("a4", "a", "term_comparison", "2026-02-01", 6), mk("b1", "b", "move_up", "2026-01-01", 1)],
-      { max: 10, perSeries: 5, perDataset: 2 },
+      { max: 10 },
     );
-    expect(picked.map((i) => i.id)).toEqual(["a2", "a4"]);
+    expect(picked.map((i) => i.id)).toEqual(["a2"]);
   });
 
   it("produces event insights at month ends", () => {

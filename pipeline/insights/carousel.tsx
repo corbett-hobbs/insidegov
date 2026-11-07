@@ -51,7 +51,7 @@ export function portraitFrame(headline: string): Frame {
   return { width: W, height: H, plot: { left: 104, right: W - SIDE, top, bottom: 760 }, bandedBottom: 730 };
 }
 
-export type SlideKind = "hook" | "chart" | "why" | "breakdown" | "explainer" | "moments" | "orders" | "end";
+export type SlideKind = "hook" | "chart" | "why" | "folded" | "breakdown" | "explainer" | "moments" | "orders" | "end";
 
 /**
  * The newest value, as written in the caption: the fact a hook shows large. A term comparison shows the level too, not
@@ -420,7 +420,7 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
 }
 
 /** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
-export function slidePlan(insight: Insight, orders: ListedOrder[] = []): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown; orders?: ListedOrder[]; more?: boolean }[] {
+export function slidePlan(insight: Insight, orders: ListedOrder[] = []): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown; orders?: ListedOrder[]; more?: boolean; folded?: Insight }[] {
   // A chart with two lines keeps its explainer beside a reason: a reader needs both definitions to read it.
   const lines = !(insight.why || breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId ? explainer(insight) : [];
   const moments = keyMoments(insight);
@@ -429,6 +429,8 @@ export function slidePlan(insight: Insight, orders: ListedOrder[] = []): { kind:
     { kind: "chart" },
     ...(insight.why ? [{ kind: "why" as const }] : []),
     ...breakdownsOf(insight).map((b) => ({ kind: "breakdown" as const, breakdown: b })),
+    // The other readings of the same data update (collect.ts FOLDS) follow the post's own: each its chart, a slide of its own.
+    ...(insight.folded ?? []).map((f) => ({ kind: "folded" as const, folded: f })),
     ...(lines.length ? [{ kind: "explainer" as const, lines }] : []),
     ...(moments.length ? [{ kind: "moments" as const, moments }] : []),
     ...(orders.length ? [{ kind: "orders" as const, orders: fitOrders(orders, SLIDE_ORDERS), more: fitOrders(orders, SLIDE_ORDERS).length < orders.length }] : []),
@@ -447,7 +449,9 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
           ? chartSlide(insight, n, plan.length)
           : s.kind === "why"
             ? whySlide(insight, n, plan.length)
-            : s.kind === "breakdown"
+            : s.kind === "folded"
+              ? chartSlide(s.folded!, n, plan.length)
+              : s.kind === "breakdown"
               ? breakdownSlide(insight, s.breakdown!, n, plan.length)
               : s.kind === "explainer"
             ? explainerSlide(insight, s.lines!, n, plan.length)

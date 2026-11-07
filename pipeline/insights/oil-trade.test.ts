@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { slidePlan } from "./carousel";
-import { ONE_POST_PER_PERIOD, postGroup, selectInsights, seriesInsightsAt } from "./collect";
+import { selectInsights, seriesInsightsAt } from "./collect";
 import { withCompanion } from "./companion";
 import { loadAdministrations, loadDataset } from "./datasets";
 import { addMonths } from "./format";
@@ -55,7 +55,10 @@ describe("energy series that post only when the news is about them", () => {
     // Imports carry the routine reading, so a month with nothing notable still has one oil post.
     expect(byId(OIL_SERIES.importsTotal).headline).toBe(true);
     expect(byId(OIL_SERIES.exportsTotal).headline).toBeUndefined();
-    expect(selectInsights(energy.flatMap((s) => seriesInsightsAt(s, admins, [latest])), { max: 9, perSeries: 2, perDataset: 9 }).filter((i) => /petroleum/.test(i.seriesId)).length).toBe(1);
+    // The pair gives one post, and the release as a whole (oil and electricity are one EIA update) gives one.
+    const release = energy.flatMap((s) => seriesInsightsAt(s, admins, [latest]));
+    expect(selectInsights(release.filter((i) => /petroleum/.test(i.seriesId)), { max: 9 }).length).toBe(1);
+    expect(selectInsights(release, { max: 9 }).length).toBe(1);
   });
 
   it("can still be charted for a story, and an LNG story carries what LNG is", () => {
@@ -71,14 +74,8 @@ describe("energy series that post only when the news is about them", () => {
   });
 });
 
-describe("one oil post per period", () => {
-  const pick = (insights: Insight[]) => selectInsights(insights, { max: 9, perSeries: 2, perDataset: 9 });
-
-  it("names the pair as one group", () => {
-    expect(ONE_POST_PER_PERIOD).toContainEqual([OIL_SERIES.importsTotal, OIL_SERIES.exportsTotal]);
-    expect(postGroup(OIL_SERIES.exportsTotal)).toBe(postGroup(OIL_SERIES.importsTotal));
-    expect(postGroup("trade.deficit")).toBeUndefined();
-  });
+describe("one oil post per release", () => {
+  const pick = (insights: Insight[]) => selectInsights(insights, { max: 9 });
 
   it("keeps the higher-scoring of a notable imports and a notable exports reading in the same month", () => {
     const imports = oilInsight(OIL_SERIES.importsTotal, "2026-08-01", { score: 12 });
@@ -87,12 +84,11 @@ describe("one oil post per period", () => {
     expect(pick([exports, imports]).map((i) => i.id)).toEqual([exports.id]);
   });
 
-  it("keeps one oil post when the same series has two notable readings, and lets other series and other months through", () => {
+  it("keeps one post when the same series has two notable readings, and when another series has one too (one data update, one post)", () => {
     const a = oilInsight(OIL_SERIES.importsTotal, "2026-08-01", { score: 12, kind: "extreme_high" });
     const b = oilInsight(OIL_SERIES.importsTotal, "2026-08-01", { score: 9, kind: "move_up" });
     const other = oilInsight("energy.power_total", "2026-08-01", { score: 5 });
-    const later = oilInsight(OIL_SERIES.exportsTotal, "2026-09-01", { score: 4 });
-    expect(pick([a, b, other, later]).map((i) => i.id).sort()).toEqual([a.id, other.id, later.id].sort());
+    expect(pick([a, b, other]).map((i) => i.id)).toEqual([a.id]);
   });
 
   it("falls back to the routine reading only when neither flow is notable", () => {
