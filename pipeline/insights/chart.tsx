@@ -7,6 +7,7 @@ import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
 import { BUSH_41 } from "../../lib/economy-presidents";
 import { fitTermLabel, initialsOf } from "../../lib/term-label";
+import { HISTORICAL_ADMINISTRATIONS } from "../../lib/troops-presidents";
 import { fmtNumber, fmtUnit } from "./format";
 import { releaseNote } from "./freshness";
 import type { Administration, ChartSpec, DatasetId, Insight, UnitFormat } from "./types";
@@ -74,7 +75,7 @@ function tickText(v: number, unit: UnitFormat | null, step: number): string {
 }
 
 /** A bar's value: the series format, keeping only a scale word of the suffix ("$1.87 trillion", "56.3"); the axis label has the unit. */
-function barValueText(v: number, unit: UnitFormat | null): string {
+export function barValueText(v: number, unit: UnitFormat | null): string {
   if (!unit) return `${v >= 0 ? "+" : "-"}${fmtNumber(Math.abs(v), Math.abs(v) < 10 ? 1 : 0)}%`;
   return fmtUnit(v, { ...unit, suffix: unit.suffix.match(/^(?: (?:thousand|million|billion|trillion)\b|[KMBT](?![a-z]))/)?.[0] ?? "" });
 }
@@ -101,11 +102,14 @@ type Term = { last: string; initials: string; label: string; party: "D" | "R"; s
 
 let termCache: Term[] | null = null;
 
-/** Presidential terms, oldest first: administrations.json plus Bush 41, who the file leaves out (the same table the Economy page uses). */
+/**
+ * Presidential terms, oldest first: administrations.json (1993 on) plus the presidents before it, Roosevelt through Bush 41
+ * (lib/troops-presidents.ts, the table the demographics and troops pages use), so a chart reaching back before 1993 has a full band.
+ */
 function loadTerms(): Term[] {
   if (termCache) return termCache;
   const rows = JSON.parse(readFileSync(join(process.cwd(), "pipeline/output/administrations.json"), "utf8")) as (Administration & { party: string })[];
-  const all = [BUSH_41, ...rows.filter((a) => a.term_id !== BUSH_41.term_id)].sort((a, b) => a.start.localeCompare(b.start));
+  const all = [...HISTORICAL_ADMINISTRATIONS, ...rows].filter((a, i, l) => l.findIndex((b) => b.term_id === a.term_id) === i).sort((a, b) => a.start.localeCompare(b.start));
   // "Bush 41" / "Bush 43" is the preferred label where room allows (lib/term-label.ts); the only two repeated surnames.
   termCache = all.map((a) => {
     const last = a.president.split(" ").pop() ?? a.president;
