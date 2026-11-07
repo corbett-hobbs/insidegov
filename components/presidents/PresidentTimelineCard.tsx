@@ -74,15 +74,16 @@ export function PresidentTimelineCard({ p, timeline }: { p: PresidentRef; timeli
           onJump={jump}
           startIso={from}
           endIso={to}
+          labelled
         />
         <div className={LEGEND_ROW}>
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("D") }} />
-            Democratic · majority or lean (bar down)
+            Democratic · majority or lean
           </span>
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyColor("R") }} />
-            Republican · majority or lean (bar up)
+            Republican · majority or lean
           </span>
           <span className={LEGEND_ITEM}>
             <i aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: partyTint("D", 30) }} />

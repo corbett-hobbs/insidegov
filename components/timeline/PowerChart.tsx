@@ -101,6 +101,7 @@ export function PowerChart({
   byId = NO_NOTES,
   onJump = noop,
   compact = false,
+  labelled = false,
   startIso = TIMELINE_START,
   endIso,
   presCard,
@@ -124,6 +125,8 @@ export function PowerChart({
   onJump?: (no: number) => void;
   /** The directory's version: no marker rows, a tap on a president opens `presCard`. */
   compact?: boolean;
+  /** A short window (a president's years): the Senate, House and Court rows are solid bands in the holding party's colour with the seat split or lean written on them, not margin bars. */
+  labelled?: boolean;
   /** The first day of the window (default: the timeline's start). */
   startIso?: string;
   /** The last day of the window (default: the end of the last year in `range`, or today). A president's snapshot ends on their last day in office. */
@@ -151,13 +154,14 @@ export function PowerChart({
     let y = 0;
     for (const [k, h, gap] of ROWS) {
       if (compact && (k === "law" || k === "case" || k === "C")) continue;
-      r[k] = { y, h };
-      y += h + gap;
+      const tall = labelled && (k === "S" || k === "H" || k === "C");
+      r[k] = { y, h: tall ? 26 : h };
+      y += (tall ? 26 : h) + gap;
     }
     // Without the marker rows the axis sits straight under the Court row.
     if (compact) y = r.H.y + r.H.h + 6;
     return { r, axis: y, H: y + 18, last: compact ? r.H : r.C };
-  }, [compact]);
+  }, [compact, labelled]);
   const R = rows.r;
 
   // Markers, per row, laid out for this width and window.
@@ -384,24 +388,25 @@ export function PowerChart({
               )}
               clipX={clipX}
               inWin={inWin}
+              labelled={labelled}
             />
-            <ShareRow r={R.H} cells={data.congresses.map((c) => ({ key: String(c.n), from: c.start, to: end(c.end), seats: c.house, side: c.houseMaj }))} clipX={clipX} inWin={inWin} />
+            <ShareRow r={R.H} cells={data.congresses.map((c) => ({ key: String(c.n), from: c.start, to: end(c.end), seats: c.house, side: c.houseMaj }))} clipX={clipX} inWin={inWin} labelled={labelled} />
 
             {compact ? null : mode === "appt" ? (
               <ApptRow r={R.C} spans={spans} clipX={clipX} inWin={inWin} />
             ) : (
-              <LeanRow r={R.C} data={data} X={X} LG={LG} pw={pw} v0={v0} v1={v1} />
+              <LeanRow r={R.C} data={data} X={X} LG={LG} pw={pw} v0={v0} v1={v1} labelled={labelled} />
             )}
           </g>
           {/* The frame and the half-way lines sit over the clipped rows. */}
           <rect x={LG} y={R.one.y} width={pw} height={R.one.h} fill="none" stroke="var(--line)" />
-          {(["S", "H"] as const).map((k) => (
+          {(labelled ? [] : (["S", "H"] as const)).map((k) => (
             <line key={k} x1={LG} x2={LG + pw} y1={R[k].y + R[k].h / 2} y2={R[k].y + R[k].h / 2} stroke="var(--ink-faint)" />
           ))}
           {(mode === "appt" && !compact ? (["C"] as const) : []).map((k) => (
             <line key={k} x1={LG} x2={LG + pw} y1={R[k].y + R[k].h / 2} y2={R[k].y + R[k].h / 2} stroke="var(--surface)" strokeDasharray="3 3" opacity={0.8} />
           ))}
-          {mode === "lean" && !compact && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
+          {mode === "lean" && !compact && !labelled && <line x1={LG} x2={LG + pw} y1={R.C.y + R.C.h / 2} y2={R.C.y + R.C.h / 2} stroke="var(--ink-faint)" />}
 
           {/* Event markers, merged where they would touch: "22+4" is event 22 and four more. */}
           <g clipPath={`url(#tl-plot-${uid})`}>
@@ -533,11 +538,13 @@ function ShareRow({
   cells,
   clipX,
   inWin,
+  labelled,
 }: {
   r: { y: number; h: number };
   cells: { key: string; from: string; to: string; seats: [number, number, number]; side: Side }[];
   clipX: (iso: string) => number;
   inWin: (a: string, b: string) => boolean;
+  labelled: boolean;
 }) {
   const mid = r.y + r.h / 2;
   return (
@@ -548,6 +555,22 @@ function ShareRow({
         const a = clipX(from);
         const w = Math.max(0, clipX(to) - a - 1);
         const [d, rr, o] = seats;
+        if (labelled) {
+          // A short window has the room to say it: a solid band for the majority party, the split written on it.
+          const split = seatsLabel(seats);
+          const full = `${side === "D" ? "Dem." : "Rep."} ${split}`;
+          const text = w >= full.length * CELL_CHAR_W + 8 ? full : w >= split.length * CELL_CHAR_W + 8 ? split : "";
+          return (
+            <g key={key}>
+              <rect x={a + 0.5} y={r.y} width={w} height={r.h} fill={partyColor(side)} />
+              {text && (
+                <text x={a + 0.5 + w / 2} y={mid + 3.5} textAnchor="middle" className="pointer-events-none fill-white font-mono text-[10.5px] font-medium">
+                  {text}
+                </text>
+              )}
+            </g>
+          );
+        }
         const h = Math.max(2, Math.min(1, Math.abs(d - rr) / (d + rr + o) / FULL_MARGIN) * (r.h / 2));
         return <rect key={key} x={a + 0.5} y={side === "R" ? mid - h : mid} width={w} height={h} fill={partyColor(side)} />;
       })}
@@ -594,7 +617,7 @@ function ApptRow({ r, spans, clipX, inWin }: { r: { y: number; h: number }; span
 }
 
 /** The Court by its median justice's Martin-Quinn score, one bar a term: down for liberal, up for conservative, grey near the centre. */
-function LeanRow({ r, data, X, LG, pw, v0, v1 }: { r: { y: number; h: number }; data: TimelinePayload; X: (day: number) => number; LG: number; pw: number; v0: number; v1: number }) {
+function LeanRow({ r, data, X, LG, pw, v0, v1, labelled }: { r: { y: number; h: number }; data: TimelinePayload; X: (day: number) => number; LG: number; pw: number; v0: number; v1: number; labelled: boolean }) {
   const mid = r.y + r.h / 2;
   // Median scores run about -1.1 to +1.1, so the bar's full height is +-1.15 (the old +-1.6 left every bar short in a tall, empty strip).
   const sc = (v: number) => mid - (Math.max(-1.15, Math.min(1.15, v)) / 1.15) * (r.h / 2);
@@ -614,6 +637,24 @@ function LeanRow({ r, data, X, LG, pw, v0, v1 }: { r: { y: number; h: number }; 
         const b = dayOf(l[0] + 1, 9, 1);
         if (b <= v0 || a >= v1) return null;
         const xa = cx(a);
+        if (labelled) {
+          // A full-height band a term (October to October), named for the way the median justice leaned.
+          const side = leanSide(l);
+          const w = Math.max(0, cx(b) - xa - 1);
+          const full = { D: "Liberal", R: "Conservative", T: "Centre", N: "" }[side];
+          const short = { D: "Lib.", R: "Cons.", T: "Mid", N: "" }[side];
+          const text = w >= full.length * CELL_CHAR_W + 8 ? full : w >= short.length * CELL_CHAR_W + 8 ? short : "";
+          return (
+            <g key={l[0]}>
+              <rect x={xa} y={r.y} width={w} height={r.h} fill={partyColor(side)} />
+              {text && (
+                <text x={xa + w / 2} y={mid + 3.5} textAnchor="middle" className="pointer-events-none fill-white font-mono text-[10.5px] font-medium">
+                  {text}
+                </text>
+              )}
+            </g>
+          );
+        }
         return <rect key={l[0]} x={xa} y={Math.min(mid, sc(l[1]))} width={Math.max(0, cx(b) - xa - 0.5)} height={Math.abs(sc(l[1]) - mid)} fill={partyColor(leanSide(l))} />;
       })}
     </>
