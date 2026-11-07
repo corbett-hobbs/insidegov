@@ -1,6 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { datasetOfId } from "./collect";
 import type { Draft } from "./drafts";
 import { APPROVED_LABEL, DRAFT_LABEL, NEWS_LABEL, issueBody, issueTitle } from "./issue";
 import { slotLabel } from "./schedule";
@@ -44,14 +45,15 @@ if (!dryRun) {
   existing = JSON.parse(gh(["issue", "list", "--label", DRAFT_LABEL, "--state", "all", "--limit", "500", "--json", "title"])).map((i: { title: string }) => i.title);
 }
 
-// A notable draft replaces the routine `latest` one for the same series and period (the month was read again once its
-// data filled in): close that one if it is still waiting for review. An approved one is left to the scheduler.
+// A notable draft replaces the routine `latest` one for the same data update (the month was read again once its data
+// filled in): close any routine draft of the dataset and period that is still waiting for review, so the update keeps one
+// post. An approved one is left to the scheduler.
 function retireLatest(d: Draft) {
-  const id = `${d.series_id}:latest:${d.period}`;
   const open = JSON.parse(gh(["issue", "list", "--label", DRAFT_LABEL, "--state", "open", "--limit", "500", "--json", "number,title,labels"])) as { number: number; title: string; labels: { name: string }[] }[];
   for (const i of open) {
-    if (!i.title.endsWith(`[${id}]`) || i.labels.some((l) => l.name === APPROVED_LABEL)) continue;
-    gh(["issue", "close", String(i.number), "--comment", `Superseded: the same period now has a notable draft (${d.id}), so the routine reading is not posted.`]);
+    const id = i.title.match(/\[([^\]]+)\]$/)?.[1];
+    if (!id || id === d.id || !id.endsWith(`:latest:${d.period}`) || datasetOfId(id) !== d.dataset || i.labels.some((l) => l.name === APPROVED_LABEL)) continue;
+    gh(["issue", "close", String(i.number), "--comment", `Superseded: the same data update now has a notable draft (${d.id}), so the routine reading is not posted.`]);
     console.log(`  closed   #${i.number} ${id}`);
   }
 }

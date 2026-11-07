@@ -39,7 +39,7 @@ inputs:
     required: false
     default: "false"
   max:
-    description: "Most drafts to write in one run (blank: the default, 3 per dataset)"
+    description: "Most drafts to write in one run (blank: the default, one per dataset: a data update gets one post)"
     required: false
     default: ""
   dry-run:

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
-import { ACCENT, ACCENT_LIGHT, Badge, HEIGHT, INK, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, kickerFor, sealSrc, serifFont } from "./chart";
+import { ACCENT, ACCENT_LIGHT, Badge, HEIGHT, INK, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, kickerFor, renderChart, sealSrc, serifFont } from "./chart";
 import { CARD_ORDERS, type ListedOrder, fitOrders, insightOrders, listFootnote, listKind, moreNote, orderDate, ordersHeading } from "./eo-list";
 import { monthName } from "./format";
 import { netLine, stackedRows } from "./oil-trade";
@@ -167,9 +167,12 @@ export async function renderThreadCards(insight: Insight): Promise<Buffer[]> {
   const out = await renderBreakdownCharts(insight);
   const all = insightOrders(insight);
   const orders = fitOrders(all, CARD_ORDERS);
-  if (!orders.length) return out;
-  const res = new ImageResponse(<OrdersCard insight={insight} orders={orders} more={orders.length < all.length} backdrop={await backdropSrc(insight.url, WIDTH, BACKDROP_H)} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serifFont(), weight: 500, style: "normal" }] });
-  out.push(Buffer.from(await res.arrayBuffer()));
+  if (orders.length) {
+    const res = new ImageResponse(<OrdersCard insight={insight} orders={orders} more={orders.length < all.length} backdrop={await backdropSrc(insight.url, WIDTH, BACKDROP_H)} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serifFont(), weight: 500, style: "normal" }] });
+    out.push(Buffer.from(await res.arrayBuffer()));
+  }
+  // A reading folded into the post (collect.ts FOLDS) is drawn as its own chart, after the other cards (thread.ts foldedCardStart).
+  for (const f of insight.folded ?? []) out.push(await renderChart(f));
   return out;
 }
 

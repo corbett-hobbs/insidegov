@@ -6,7 +6,7 @@ Every top-level page's `<h1>` + intro copy goes through `components/PageHeader.t
 
 ## Social chart images
 
-Every chart `pipeline/insights` draws takes a plain, human title (`Series.title`: "Inflation, 2016 to 2026") and puts method and fine print in the data note beside the source at the bottom left (`Series.note`); the axis label is the unit only. `pipeline/insights/title.ts` builds and enforces it, and `title.test.ts` checks every generator on the real data. Follow it for any new chart type; see "Chart titles and data notes" in `pipeline/insights/README.md`.
+Every chart `pipeline/insights` draws takes a plain, human title (`Series.title`: "Inflation, 2016 to 2026") and puts method and fine print in the data note beside the source at the bottom left (`Series.note`); the axis label is the unit only. `pipeline/insights/title.ts` builds and enforces it, and `title.test.ts` checks every generator on the real data. Follow it for any new chart type; see "Chart titles and data notes" in `pipeline/insights/README.md`. A data update gets **one** social post (never one per notable reading): see "Social posts for a data update" in `ARCHITECTURE_MAP.md`.
 
 ## Architecture map
 

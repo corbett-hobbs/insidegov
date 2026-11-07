@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 import { claudeCaption, templateCaption } from "./caption";
+import { foldedFacts } from "./collect";
 import { renderCarousel } from "./carousel";
 import { researchWhy } from "./research";
 import { SITE_URL, renderChart } from "./chart";
@@ -49,6 +50,8 @@ export type Draft = {
   frequency: Insight["frequency"];
   /** When the data came out, whether the draft must say so, and when it goes stale (freshness.ts). */
   release: Release | null;
+  /** Other readings from the same data update folded into this post (collect.ts FOLDS): one more slide and thread reply each. */
+  folded?: { id: string; headline: string }[];
   /** News drafts: the caption's fixed opening sentence, and the story behind the draft. */
   lead?: string;
   news?: NewsTrigger;
@@ -90,6 +93,15 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
       if (factErrors.length) {
         dropped.push(`${insight.id}: facts do not trace to the data (${factErrors.join("; ")})`);
         continue;
+      }
+      // A reading folded in (collect.ts FOLDS) is held to the same rules as the post: plain chart text and facts that trace to the data. One that fails is left out and the post goes on without it.
+      if (insight.folded?.length) {
+        const ok = insight.folded.filter((f) => {
+          const problems = [...titleProblems(f.title), ...(f.chart.axisLabel ? axisProblems(f.chart.axisLabel) : []), ...verifyInsight(f, index)];
+          if (problems.length) log(`  folded reading ${f.id} left out of ${insight.id}: ${problems.join("; ")}`);
+          return !problems.length;
+        });
+        insight = { ...insight, folded: ok };
       }
       // A researched why for every draft. A news draft keeps its fixed caption rules (news/): its why goes on the carousel's
       // slide and in the issue for review, never into the post text.
@@ -136,11 +148,12 @@ export async function buildDrafts(insights: Insight[], opts: BuildOptions): Prom
         alt: insight.alt,
         source: insight.source,
         score: Math.round(insight.score * 10) / 10,
-        facts: insight.facts.map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}), derivation: f.derivation })),
+        facts: allFacts(insight).map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}), derivation: f.derivation })),
         template: insight.template,
         series_id: insight.seriesId,
         frequency: insight.frequency,
         release: insight.release ?? null,
+        ...(insight.folded?.length ? { folded: insight.folded.map((f) => ({ id: f.id, headline: f.headline })) } : {}),
         ...(insight.lead ? { lead: insight.lead } : {}),
         ...(insight.news ? { news: insight.news } : {}),
         ...(insight.why ? { why: insight.why } : {}),
@@ -174,9 +187,12 @@ async function buildThread(insight: Insight, slug: string, outDir: string): Prom
     writeFileSync(join(outDir, image), cards[r.chart]!);
     return { text: r.text, image, alt: r.alt };
   });
-  const problems = checkReplies(replies, insight.facts, replyNumbers(replies));
+  const problems = checkReplies(replies, allFacts(insight), replyNumbers(replies));
   return problems.length ? { notes: [...plan.notes, `the thread was left out: ${problems.join("; ")}`] } : { replies, notes: plan.notes };
 }
+
+/** The post's facts plus those of the readings folded into it (ids prefixed, collect.ts foldedFacts): what the thread's replies may state. */
+const allFacts = (insight: Insight) => [...insight.facts, ...(insight.folded ?? []).flatMap(foldedFacts)];
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 

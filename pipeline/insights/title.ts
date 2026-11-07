@@ -62,3 +62,34 @@ export function chartTitle(subject: string, chart: ChartSpec, opts: { frequency:
 export function termTitle(subject: string): string {
   return `${subject} at the same point in each presidential term`;
 }
+
+/** Whether the current term's bar is above (or below) every earlier term's in a term comparison (at least three terms), so the comparison has a superlative. */
+export function termExtreme(insight: { kind: string; chart: ChartSpec }): "highest" | "lowest" | null {
+  if (insight.kind !== "term_comparison" || insight.chart.type !== "bars") return null;
+  const bars = insight.chart.bars;
+  const now = bars.filter((b) => b.emphasis);
+  if (bars.length < 3 || now.length !== 1) return null;
+  const others = bars.filter((b) => !b.emphasis).map((b) => b.value);
+  return now[0]!.value > Math.max(...others) ? "highest" : now[0]!.value < Math.min(...others) ? "lowest" : null;
+}
+
+/**
+ * The title of a post's lead when it has a superlative: the finding itself, not a description of the chart. A high or a low
+ * reads "U.S. goods imports are the highest in data going back to January 1991" (built from its headline's subject and
+ * tail); a term comparison whose current term tops (or bottoms) every earlier one reads "The U.S. goods trade deficit is the
+ * highest of 6 terms at the same point". Held to the title rule above; null for any other reading, or a sentence that fails
+ * the rule, which then keeps its plain title.
+ */
+export function superlativeTitle(insight: { kind: string; headline: string; chart: ChartSpec }): string | null {
+  const plural = (subject: string) => (/[^s]s$/i.test(subject) ? "are" : "is");
+  let title: string | null = null;
+  const term = termExtreme(insight);
+  if (term && insight.chart.type === "bars") {
+    const m = insight.headline.match(/^(.+?) at the same point in each presidential term$/);
+    if (m) title = `${m[1]} ${plural(m[1]!)} the ${term} of ${insight.chart.bars.length} terms at the same point`;
+  } else if (insight.kind === "extreme_high" || insight.kind === "extreme_low") {
+    const m = insight.headline.match(/^(.+?): (the (?:highest|lowest|largest|smallest|most|fewest) .+)$/);
+    if (m) title = `${m[1]} ${plural(m[1]!)} ${m[2]}`;
+  }
+  return title && !titleProblems(title).length ? title : null;
+}
