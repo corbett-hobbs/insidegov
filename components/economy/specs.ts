@@ -187,7 +187,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     key: "ff",
     title: "Federal funds rate",
     takeaway:
-      "The Fed held its rate near zero from December 2008 to December 2015 and again from March 2020 to March 2022, then raised it to 5.33% by August 2023, the highest since 2001. By October 2026 it was back down to 3.88%.",
+      "The Fed held its rate near zero from December 2008 to December 2015 and again from March 2020 to March 2022, then raised it to 5.33% by August 2023, the highest since 2001. By November 2026 it was back down to 3.88%.",
     kind: "line",
     domain: [0, 9],
     ticks: [0, 2, 4, 6, 8],
