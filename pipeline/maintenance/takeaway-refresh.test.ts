@@ -7,11 +7,15 @@ describe("numeralsOnly", () => {
     expect(numeralsOnly("$5.01 a gallon", "$5.1 a gallon")).toBe(true);
     expect(numeralsOnly("7,790 jobs", "12,345,678 jobs")).toBe(true);
   });
+  it("allows a month name to move with the data", () => {
+    expect(numeralsOnly("By October 2026 it was back down to 3.88%", "By November 2026 it was back down to 3.9%")).toBe(true);
+    expect(numeralsOnly("in March 2023", "in April 2023")).toBe(true);
+  });
   it("rejects any change to words, signs or punctuation", () => {
     expect(numeralsOnly("fell to 54%", "rose to 54%")).toBe(false);
     expect(numeralsOnly("(−7.4%)", "(+7.4%)")).toBe(false);
     expect(numeralsOnly("in 2023.", "in 2023")).toBe(false);
-    expect(numeralsOnly("in March 2023", "in April 2023")).toBe(false);
+    expect(numeralsOnly("in March 2023", "in 2023")).toBe(false);
     expect(numeralsOnly("up 3%", "up 3 and 4%")).toBe(false);
   });
   it("rejects a no-op", () => {

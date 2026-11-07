@@ -9,7 +9,7 @@ import { type Candidate, topicOf } from "./cards";
 import { balanceContext, seriesContext } from "./charts";
 import { slidePlan } from "../carousel";
 import { explainer } from "../explain";
-import { monthEarlier } from "../format";
+import { addMonths, monthEarlier } from "../format";
 import { checkReplies, levelsSentence, planThread, replyNumbers } from "../thread";
 import { whyPrompt } from "../research";
 import { partnersFor } from "./match";
@@ -63,8 +63,11 @@ describe("news-only series", () => {
 
   it("writes a rate's change in percentage points, never as a percent", () => {
     const series = loadDataset("gas").series.find((s) => s.id === "economy.unemployment")!;
-    // Trim to a rising series so the latest value is the peak and the year-earlier clause is used.
-    const rising = { ...series, points: series.points.slice(-60).map((p, i) => ({ ...p, value: 3 + i * 0.05 })) };
+    // A rising series so the latest value is the peak and the year-earlier clause is used. It gets its own unbroken
+    // monthly dates ending where the real series ends: the real one has gaps (no October 2025 reading), and whether a
+    // gap lands a year before the latest month must not decide this test.
+    const end = series.points.at(-1)!.date;
+    const rising = { ...series, points: series.points.slice(-60).map((p, i, all) => ({ ...p, date: addMonths(end, i - (all.length - 1)), value: 3 + i * 0.05 })) };
     const text = seriesContext(rising, { years: 10, peak: true, lead: "Unemployment is in the news.", id: "news:u" })!.template;
     expect(text).toMatch(/up [\d.]+ percentage points from a year earlier/);
   });

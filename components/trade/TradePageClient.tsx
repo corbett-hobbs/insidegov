@@ -201,6 +201,7 @@ function TradePage({ data, faqFile, newsFile, storyRates }: { data: TradePageDat
 
         <TradeBalanceCard
           series={series}
+          lastPeriod={national.lastPeriod}
           countryName={countryRef?.name ?? null}
           adjusted={!v.country}
           era={era}

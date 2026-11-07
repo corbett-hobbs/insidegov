@@ -10,15 +10,15 @@ import type { ContextEntry } from "@/lib/chart-context";
  * country redraws them for that country, and these sentences are not about it. The
  * partners and scatter cards keep theirs, since the Country filter only highlights. The products
  * card, like the balance card, draws its takeaway only for all countries.
- * Two take their dates from the data: the partners card shows the latest year so far
+ * Three take their dates from the data: the balance card names its latest month, the partners card shows the latest year so far
  * (`through` is its last month's name), and the scatter compares two moving
  * windows (`windowText` of each).
  */
 export const TRADE_TAKEAWAYS = {
   balance: {
     title: "The goods trade balance",
-    takeaway:
-      "The U.S. imported more goods than it exported in every month from January 1991 through August 2026. The monthly deficit reached $76 billion in July 2008, shrank to $35 billion in May 2009, and hit a record $158.7 billion in March 2025.",
+    takeaway: (through: string) =>
+      `The U.S. imported more goods than it exported in every month from January 1991 through ${through}. The monthly deficit reached $76 billion in July 2008, shrank to $35 billion in May 2009, and hit a record $158.7 billion in March 2025.`,
   },
   tariff: {
     title: "Tariffs on imports",
@@ -59,9 +59,8 @@ export const TRADE_CONTEXT = {
     ],
   },
   scatter: {
-    text: "Between the two windows, USTR raised Section 301 duties on some Chinese goods (September 2024), a 10% Section 122 surcharge began (February 2026), and Section 301 tariffs began on 60 economies, China among them (July 2026). China's duty rate went from 11.3% to 22.2%.",
+    text: "Between the two windows, a 10% Section 122 surcharge began (February 2026) and Section 301 tariffs began on 60 economies, China among them (July 2026). China's duty rate went from 11.3% to 22.2%.",
     sources: [
-      { id: "fr-301-china-2024", label: "USTR, 2024" },
       { id: "fr-section-122-2026", label: "Proclamation 11012" },
       { id: "fr-301-forced-labor-2026", label: "USTR, 2026" },
     ],
