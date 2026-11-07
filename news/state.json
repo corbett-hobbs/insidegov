@@ -62,14 +62,58 @@
       ],
       "reason": "Only headline 2 covers a U.S. development (October jobs report showing unemployment dipping); headline 1 is about Canada's unemployment, with no U.S. angle.",
       "chart": ""
+    },
+    "4941114ff3880336cc6b": {
+      "at": "2026-11-07T02:41:19.540Z",
+      "keep": [
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.foxbusiness.com/markets/stocks-nov-5-2026",
+        "https://www.theguardian.com/business/2026/nov/05/nasdaq-heading-for-worst-day-in-18-months-as-wall-street-sustains-widespread-losses",
+        "https://www.theguardian.com/business/2026/nov/05/nasdaq-heading-for-worst-day-in-18-months-as-wall-street-sustains-widespread-losses"
+      ],
+      "reason": "Five outlets reported the November 5 AI-led tech stock sell-off that sent the S&P 500 and Nasdaq sharply lower; excluded explainers, opinion, and the later rebound and Trump-blame stories.",
+      "chart": ""
+    },
+    "eabf2949356ab9eadd08": {
+      "at": "2026-11-07T02:41:19.540Z",
+      "keep": [],
+      "reason": "The dominant development is Stephen Miller's appointment as chief of staff, where immigration enforcement is not central; the remaining ICE stories are single-outlet, local, or feature-style, so none qualifies.",
+      "chart": ""
+    },
+    "25eed665da3771b42e9c": {
+      "at": "2026-11-07T02:41:19.540Z",
+      "keep": [],
+      "reason": "The BBC headlines concern a UK rate rise (pounds, mortgages), not the Federal Reserve, and the CNBC and NYT pieces are analysis from different angles, so no single U.S. development is reported by multiple outlets.",
+      "chart": ""
+    },
+    "286bf5fba774a83b184d": {
+      "at": "2026-11-07T02:41:19.540Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/us-jobs-report-october-2026",
+        "https://www.bloomberg.com/news/articles/2026-11-06/us-adds-165-000-jobs-above-all-forecasts-as-unemployment-falls",
+        "https://www.nbcnews.com/business/economy/us-added-jobs-october-risks-stagnation-rcna607812",
+        "https://thehill.com/business/6201764-us-jobs-report-october/",
+        "https://www.theguardian.com/business/2026/nov/06/us-job-growth-october",
+        "https://www.cbsnews.com/news/october-jobs-report-us-labor-market-2026/",
+        "https://www.cnbc.com/2026/11/06/jobs-report-october-2026.html"
+      ],
+      "reason": "All report the BLS October 2026 payroll figure of 165,000 jobs, the central subject of the monthly nonfarm payroll chart; excluded previews, ADP private estimates, live blogs, takeaways roundups, and opinion.",
+      "chart": ""
+    },
+    "98241c8e1798e179ee19": {
+      "at": "2026-11-07T02:41:19.540Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets with Canada tariffs central; the Canada-related headlines are a Carney budget story where tariffs are incidental and one NY Post report on Democrats' plans.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
       "since": "2026-11-06T17:24:38.524Z",
-      "at": "2026-11-06T23:00:17.120Z",
-      "count": 2
+      "at": "2026-11-07T02:41:19.540Z",
+      "count": 3
     },
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
@@ -90,7 +134,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-06"
+      "last": "2026-11-07"
     }
   }
 }
