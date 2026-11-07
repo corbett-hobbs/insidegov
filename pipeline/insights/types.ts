@@ -210,6 +210,17 @@ export type Insight = {
   bigger?: Breakdown;
   /** A news chart's second line (the inflation rate beside the Fed's): its series id, for the explainer slide. */
   alsoSeriesId?: string;
+  /** A list of people for the carousel's people slide, after the chart (a one-off post's incoming senators). */
+  people?: PeopleList;
+  /**
+   * Draws a horizontal bar chart on the carousel's chart slide as a card, in the same style as a levels card (a large
+   * title, a small label, names at the left, values at the right edge) instead of the plot with an axis: for a few bars.
+   */
+  barCard?: { label: string };
+  /** Small print for the carousel's end slide: photo credits for a people slide, as their licenses require. */
+  credits?: string;
+  /** A second chart for the carousel's history slide, after the breakdown cards: the same measure over a longer span (a one-off post's Senate and House ages since 1933). */
+  history?: { title: string; chart: ChartSpec; source: string; note?: string };
   /**
    * Set when the year-earlier reading was itself a record for its series on the opposite side (detect.ts
    * outlierBaseline): most of the year-over-year jump is that earlier reading's doing. A sentence for the research
@@ -278,6 +289,19 @@ export type Release = {
  * A carousel breakdown slide: one or two blocks of rows (each a fact id, so every number is verified), with a total.
  * Row facts are signed changes or levels in the series' unit.
  */
+/**
+ * People shown as a two-column list on a slide, styled like the site's member lists: photo, name, a detail line
+ * ("D · TX") and one figure at the right. `photo` is a path under `public/` (a member portrait); without one the
+ * site's placeholder is drawn. Every figure must be one the post already states or traces.
+ */
+export type PeopleList = {
+  title: string;
+  /** The slide's header label. */
+  kicker: string;
+  rows: { name: string; detail: string; value: string; photo?: string }[];
+  note: string;
+};
+
 export type Breakdown = {
   title: string;
   blocks: { label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string } }[];

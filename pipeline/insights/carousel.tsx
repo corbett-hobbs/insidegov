@@ -2,14 +2,14 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import type { ReactNode } from "react";
-import { ACCENT, ACCENT_LIGHT, Badge, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
+import { ACCENT, ACCENT_LIGHT, Badge, barValueText, INK, LINE, LabelDiv, MUTED, NEUTRAL, SITE_URL, SURFACE, type Branch, BRANCHES, type Frame, backdropFor, backdropSrc, badgeOf, chartLayer, kickerFor, paleOf, sealSrc, serifFont, svgImage } from "./chart";
 import { SLIDE_ORDERS, type ListedOrder, fitOrders, insightOrders, listFootnote, listKind, moreNote, orderDate, ordersHeading } from "./eo-list";
 import { explainer, hasLag } from "./explain";
 import { monthName } from "./format";
 import { breakdownsOf, newsOutlet, rowValue, signedFact } from "./research";
 import { type Moment, keyMoments } from "./moments";
 import { netLine, stackedRows } from "./oil-trade";
-import type { Breakdown, Insight } from "./types";
+import type { Breakdown, Insight, PeopleList } from "./types";
 
 /**
  * The Instagram carousel for one insight: 4:5 slides, posted by hand. Each slide is laid out on a 720x900 canvas and
@@ -23,7 +23,9 @@ import type { Breakdown, Insight } from "./types";
  *   5. explainer  "How to read this" (explain.ts): what the series measures and when the figures come out, when there is no why or breakdown slide, or when it states a release lag
  *   6. moments    "Key moments" (moments.ts): dated actions from the site's sourced timelines, and the latest reading
  *   7. orders     monthly executive-order posts: "Executive orders signed in October", the month's orders newest first as many as fit, each with its signing date, topic and short summary, and where to see the rest (eo-list.ts)
- *   8. end        where the full chart and data are, and the source
+ *   8. people     a list of people (Insight.people): photo, name, detail and one figure, in two columns, right after the chart
+ *   9. history    a second chart (Insight.history), after the breakdown cards: the same measure over a longer span
+ *  10. end        where the full chart and data are, the source, and any small-print credits (Insight.credits)
  *
  * Every number on a slide is one the chart or the verified facts already carry; the why and explainer slides have none.
  */
@@ -36,6 +38,10 @@ const SCALE = SLIDE_W / W;
 const SIDE = 44;
 
 const HEADER_H = 76;
+
+/** One bar thickness and one gap between bars for the portrait slides, so the bar chart and the levels card read as a pair. */
+const BAR_THICK = 60;
+const BAR_GAP = 60;
 
 /** The chart slide's headline size, by length. */
 const chartHeadSize = (headline: string) => (headline.length > 90 ? 27 : headline.length > 60 ? 30 : 33);
@@ -51,7 +57,7 @@ export function portraitFrame(headline: string): Frame {
   return { width: W, height: H, plot: { left: 104, right: W - SIDE, top, bottom: 760 }, bandedBottom: 730 };
 }
 
-export type SlideKind = "hook" | "chart" | "why" | "folded" | "breakdown" | "explainer" | "moments" | "orders" | "end";
+export type SlideKind = "hook" | "chart" | "people" | "why" | "breakdown" | "folded" | "history" | "explainer" | "moments" | "orders" | "end";
 
 /**
  * The newest value, as written in the caption: the fact a hook shows large. A term comparison shows the level too, not
@@ -175,6 +181,7 @@ function hookSlide(insight: Insight, n: number, total: number): ReactNode {
 
 function chartSlide(insight: Insight, n: number, total: number): ReactNode {
   const spec = insight.chart;
+  if (insight.barCard && spec.type === "bars" && spec.orientation === "horizontal") return barCardSlide(insight, spec, insight.barCard.label, n, total);
   const frame = portraitFrame(insight.title);
   const { svg, labels } = chartLayer(spec, frame);
   const headSize = chartHeadSize(insight.title);
@@ -190,6 +197,44 @@ function chartSlide(insight: Insight, n: number, total: number): ReactNode {
       ))}
       {/* Anchored by its bottom edge: a source and note too long for one line grow upward instead of into the link below. */}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, bottom: 55, display: "flex", fontSize: 15, color: MUTED }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
+      <Footer n={n} total={total} left={path} />
+    </Slide>
+  );
+}
+
+/**
+ * A few horizontal bars drawn like a levels card (BreakdownBlock): the large title, a small label, a name, a bar and its
+ * value on each row, the same bar thickness and gap, and the source where that card prints its note.
+ */
+function barCardSlide(insight: Insight, spec: Extract<Insight["chart"], { type: "bars" }>, label: string, n: number, total: number): ReactNode {
+  const hi = Math.max(0, ...spec.bars.map((b) => b.value));
+  const lo = Math.min(0, ...spec.bars.map((b) => b.value));
+  const scale = BAR_W / (hi - lo || 1);
+  const zero = -lo * scale;
+  const rowH = BAR_THICK + BAR_GAP;
+  const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
+  return (
+    <Slide>
+      <Header {...headerOf(insight)} />
+      <Title>{insight.title}</Title>
+      <div style={{ display: "flex", height: 24 }} />
+      <div style={{ display: "flex", flexDirection: "column", marginBottom: 72 }}>
+        <div style={{ display: "flex", fontSize: 17, letterSpacing: 1.5, textTransform: "uppercase", color: MUTED, marginBottom: 18 }}>{label}</div>
+        {spec.bars.map((b, i) => {
+          const w = Math.max(2, Math.abs(b.value) * scale);
+          return (
+            <div key={i} style={{ display: "flex", alignItems: "center", height: rowH }}>
+              <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: 26, whiteSpace: "nowrap", overflow: "hidden" }}>{b.label}</div>
+              <div style={{ display: "flex", position: "relative", width: BAR_W, height: rowH }}>
+                <div style={{ position: "absolute", left: zero, top: 0, width: 1, height: rowH, background: MUTED, display: "flex" }} />
+                <div style={{ position: "absolute", left: b.value < 0 ? zero - w : zero, top: Math.round((rowH - BAR_THICK) / 2), width: w, height: BAR_THICK, borderRadius: 2, background: b.emphasis ? ACCENT : NEUTRAL, display: "flex" }} />
+              </div>
+              <div style={{ display: "flex", width: VALUE_W, justifyContent: "flex-end", fontSize: 24, color: INK }}>{barValueText(b.value, spec.unit)}</div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{`Source: ${insight.source}${insight.note ? ` · ${insight.note}` : ""}`}</div>
       <Footer n={n} total={total} left={path} />
     </Slide>
   );
@@ -246,10 +291,11 @@ const VALUE_W = 124;
 const BAR_W = W - 2 * SIDE - NAME_W - VALUE_W;
 
 /** One block's rows: a bar per row from a shared zero line, the signed value beside it, and the total under them. */
-function BreakdownBlock({ insight, label, rows, total, roomy }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string }; roomy?: boolean }) {
+function BreakdownBlock({ insight, label, rows, total, roomy, rowH: rowHeight }: { insight: Insight; label: string; rows: { name: string; fact: string }[]; total?: { name: string; fact: string }; roomy?: boolean; rowH?: number }) {
   // A card of levels (where each line stands) has only two short blocks: more room between rows and blocks.
-  const rowH = roomy ? 56 : 34;
-  const barH = roomy ? 26 : 16;
+  const rowH = rowHeight ?? (roomy ? 56 : 34);
+  // With room to spare (few rows on the card) the bars grow to the chart slides' thickness; a crowded card keeps its thin bars.
+  const barH = roomy ? (rowH >= 76 ? BAR_THICK : 26) : 16;
   const show = (id: string) => rowValue(insight, id);
   const value = (id: string) => insight.facts.find((f) => f.id === id)!.value as number;
   const vals = rows.map((r) => value(r.fact));
@@ -321,6 +367,12 @@ function StackedSlideBody({ insight, b }: { insight: Insight; b: Breakdown }): R
   );
 }
 
+/** A levels card's row height: 56 as before when it is full (two blocks of three), up to a bar plus the shared gap when a few rows have the slide to themselves. */
+function levelsRowH(b: Breakdown): number {
+  const rows = b.blocks.reduce((n, blk) => n + blk.rows.length, 0);
+  return Math.max(56, Math.min(BAR_THICK + BAR_GAP, Math.floor((540 - b.blocks.length * 107) / Math.max(1, rows))));
+}
+
 function breakdownSlide(insight: Insight, b: Breakdown, n: number, total: number): ReactNode {
   if (b.stacked) {
     return (
@@ -339,7 +391,7 @@ function breakdownSlide(insight: Insight, b: Breakdown, n: number, total: number
       <Title>{b.title}</Title>
       {b.levels ? <div style={{ display: "flex", height: 24 }} /> : null}
       {b.blocks.map((blk, i) => (
-        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} roomy={b.levels} />
+        <BreakdownBlock key={i} insight={insight} label={blk.label} rows={blk.rows} total={blk.total} roomy={b.levels} rowH={b.levels ? levelsRowH(b) : undefined} />
       ))}
       <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{b.note}</div>
       <Footer n={n} total={total} />
@@ -400,6 +452,52 @@ function ordersSlide(insight: Insight, orders: ListedOrder[], more: boolean, n: 
   );
 }
 
+/** A portrait as a data URI: a file under public/ (or beside it, "../dir/file"), JPEG or PNG; the site's placeholder when there is none. */
+function faceSrc(photo: string | undefined): string {
+  const pub = join(process.cwd(), "public");
+  try {
+    if (photo) return `data:image/${photo.endsWith(".png") ? "png" : "jpeg"};base64,${readFileSync(join(pub, photo)).toString("base64")}`;
+  } catch {
+    // Missing file: fall through to the placeholder.
+  }
+  return `data:image/svg+xml;base64,${readFileSync(join(pub, "images/member-placeholder.svg")).toString("base64")}`;
+}
+
+/** Up to 20 people in two columns, filled down the left column first, each row a face, a name over its detail, and the figure. */
+function peopleSlide(insight: Insight, list: PeopleList, n: number, total: number): ReactNode {
+  const half = Math.ceil(list.rows.length / 2);
+  const cols = [list.rows.slice(0, half), list.rows.slice(half)];
+  const colW = (W - 2 * SIDE - 20) / 2;
+  const rowH = Math.min(64, Math.floor(560 / half));
+  const faceH = rowH - 8;
+  const faceW = Math.round(faceH * 0.8);
+  return (
+    <Slide>
+      <Header {...headerOf(insight, list.kicker)} />
+      <Title>{list.title}</Title>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        {cols.map((col, c) => (
+          <div key={c} style={{ display: "flex", flexDirection: "column", width: colW, borderTop: `1px solid ${NEUTRAL}` }}>
+            {col.map((r, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", height: rowH, borderBottom: `1px solid ${NEUTRAL}` }}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+                <img src={faceSrc(r.photo)} width={faceW} height={faceH} alt="" style={{ borderRadius: 4, objectFit: "cover", objectPosition: "50% 20%", marginRight: 10, flexShrink: 0 }} />
+                <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", fontSize: 22, lineHeight: 1.1, color: INK, whiteSpace: "nowrap" }}>{r.name}</div>
+                  <div style={{ display: "flex", fontSize: 15, color: MUTED, marginTop: 3 }}>{r.detail}</div>
+                </div>
+                <div style={{ display: "flex", flexShrink: 0, fontSize: 26, color: INK, marginLeft: 6 }}>{r.value}</div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div style={{ position: "absolute", left: SIDE, right: SIDE, top: H - 104, display: "flex", fontSize: 15, lineHeight: 1.4, color: MUTED }}>{list.note}</div>
+      <Footer n={n} total={total} />
+    </Slide>
+  );
+}
+
 function endSlide(insight: Insight, n: number, total: number): ReactNode {
   const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
   return (
@@ -414,23 +512,29 @@ function endSlide(insight: Insight, n: number, total: number): ReactNode {
           New charts when new government data comes out.
         </div>
       </div>
+      {insight.credits ? <div style={{ position: "absolute", left: SIDE, right: SIDE, bottom: 64, display: "flex", fontSize: 13, lineHeight: 1.4, color: MUTED }}>{insight.credits}</div> : null}
       <Footer n={n} total={total} />
     </Slide>
   );
 }
 
-/** Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content). */
-export function slidePlan(insight: Insight, orders: ListedOrder[] = []): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown; orders?: ListedOrder[]; more?: boolean; folded?: Insight }[] {
+/**
+ * Which slides an insight gets, in order (pure: the hook, chart and end always; the others when they have content).
+ * `hook: false` opens on the chart instead, for a one-off post whose chart title already carries the headline number.
+ */
+export function slidePlan(insight: Insight, orders: ListedOrder[] = [], opts: { hook?: boolean } = {}): { kind: SlideKind; lines?: string[]; moments?: Moment[]; breakdown?: Breakdown; orders?: ListedOrder[]; more?: boolean; folded?: Insight }[] {
   // A chart with two lines keeps its explainer beside a reason: a reader needs both definitions to read it.
   const lines = !(insight.why || breakdownsOf(insight).length) || hasLag(insight) || insight.alsoSeriesId ? explainer(insight) : [];
   const moments = keyMoments(insight);
   return [
-    { kind: "hook" },
+    ...(opts.hook === false ? [] : [{ kind: "hook" as const }]),
     { kind: "chart" },
+    ...(insight.people?.rows.length ? [{ kind: "people" as const }] : []),
     ...(insight.why ? [{ kind: "why" as const }] : []),
     ...breakdownsOf(insight).map((b) => ({ kind: "breakdown" as const, breakdown: b })),
     // The other readings of the same data update (collect.ts FOLDS) follow the post's own: each its chart, a slide of its own.
     ...(insight.folded ?? []).map((f) => ({ kind: "folded" as const, folded: f })),
+    ...(insight.history ? [{ kind: "history" as const }] : []),
     ...(lines.length ? [{ kind: "explainer" as const, lines }] : []),
     ...(moments.length ? [{ kind: "moments" as const, moments }] : []),
     ...(orders.length ? [{ kind: "orders" as const, orders: fitOrders(orders, SLIDE_ORDERS), more: fitOrders(orders, SLIDE_ORDERS).length < orders.length }] : []),
@@ -438,8 +542,8 @@ export function slidePlan(insight: Insight, orders: ListedOrder[] = []): { kind:
   ];
 }
 
-export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
-  const plan = slidePlan(insight, insightOrders(insight));
+export async function renderCarousel(insight: Insight, opts: { hook?: boolean } = {}): Promise<Buffer[]> {
+  const plan = slidePlan(insight, insightOrders(insight), opts);
   return renderSlides(
     plan.map((s, i) => {
       const n = i + 1;
@@ -447,12 +551,16 @@ export async function renderCarousel(insight: Insight): Promise<Buffer[]> {
         ? hookSlide(insight, n, plan.length)
         : s.kind === "chart"
           ? chartSlide(insight, n, plan.length)
+          : s.kind === "people"
+            ? peopleSlide(insight, insight.people!, n, plan.length)
           : s.kind === "why"
             ? whySlide(insight, n, plan.length)
             : s.kind === "folded"
               ? chartSlide(s.folded!, n, plan.length)
               : s.kind === "breakdown"
               ? breakdownSlide(insight, s.breakdown!, n, plan.length)
+              : s.kind === "history"
+              ? chartSlide({ ...insight, title: insight.history!.title, chart: insight.history!.chart, source: insight.history!.source, note: insight.history!.note }, n, plan.length)
               : s.kind === "explainer"
             ? explainerSlide(insight, s.lines!, n, plan.length)
             : s.kind === "moments"
