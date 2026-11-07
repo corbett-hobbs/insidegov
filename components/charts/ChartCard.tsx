@@ -1,4 +1,5 @@
 import { forwardRef, type CSSProperties, type ReactNode } from "react";
+import { CardMoreLink } from "./CardMoreLink";
 
 interface ChartCardProps {
   title: ReactNode;
@@ -7,6 +8,10 @@ interface ChartCardProps {
   /** What the chart shows, in one or two sentences, in ink (ARCHITECTURE_MAP rule 7c). Use instead of `lede`. */
   takeaway?: ReactNode;
   action?: ReactNode;
+  /** A quiet link to the page this card summarises, at the foot of the card. */
+  more?: { href: string; label: string };
+  /** The card's DOM id, for links and jump links that must not depend on the title (rule 7e otherwise derives one). */
+  id?: string;
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -24,6 +29,8 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
   lede,
   takeaway,
   action,
+  more,
+  id,
   className,
   style,
   children,
@@ -31,12 +38,14 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
   return (
     <section
       ref={ref}
+      id={id}
       style={style}
       className={`flex flex-col rounded-[10px] border border-line bg-surface p-[1.35rem_1.35rem_1.1rem] ${className ?? ""}`}
     >
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <h2 className="font-serif text-[1.05rem] font-medium">{title}</h2>
-        {action}
+      {/* Phones: the title runs inline and the action floats right after it, so when the share icon wraps to a second line the action rides up beside it. */}
+      <div className="flow-root sm:flex sm:flex-wrap sm:items-start sm:justify-between sm:gap-3">
+        <h2 className="inline font-serif text-[1.05rem] font-medium sm:block">{title}</h2>
+        {action ? <div className="float-right ml-3 sm:float-none sm:ml-0">{action}</div> : null}
       </div>
       {takeaway ? (
         <p className="mb-2 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{takeaway}</p>
@@ -46,6 +55,7 @@ export const ChartCard = forwardRef<HTMLElement, ChartCardProps>(function ChartC
         </p>
       )}
       {children}
+      {more && <CardMoreLink href={more.href} label={more.label} />}
     </section>
   );
 });

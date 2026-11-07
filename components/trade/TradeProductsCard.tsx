@@ -289,6 +289,7 @@ export function TradeProductsCard({
   chapterUse,
   chapterUseState,
   onWantChapterUse,
+  jump,
 }: {
   year: number;
   onYear: (y: number) => void;
@@ -305,6 +306,8 @@ export function TradeProductsCard({
   chapterUse: ChapterUsePayload | null;
   chapterUseState: "idle" | "loading" | "error" | "ok";
   onWantChapterUse: () => void;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const [flow, setFlow] = useState<ProductsFlow>("exports");
   const [open, setOpen] = useState<Open | null>(null);
@@ -390,11 +393,12 @@ export function TradeProductsCard({
     { kind: "chapter" as const, head: "By chapter", what: "what it is", lines: chapterView?.chapters ?? [], empty: emptyFor(chapters, "chapter", chapterView), aria: `U.S. goods ${flow} by HS chapter, ${where}, ${year}, largest first` },
     { kind: "use" as const, head: "By use", what: "what it’s for", lines: useView?.categories ?? [], empty: emptyFor(uses, "use", useView), aria: `U.S. goods ${flow} by end-use category, ${where}, ${year}, largest first` },
   ];
-  const notes = [chapterView && specialNote(chapterView, "chapters"), useView && specialNote(useView, "uses")].filter((n): n is string => !!n);
+  const note = specialNote(chapterView, useView);
   const anyData = chapters.hasData || uses.hasData;
 
   return (
     <ChartCard
+      id="what-the-u-s-trades"
       className="min-w-0"
       title={title}
       takeaway={countryName ? undefined : TRADE_TAKEAWAYS.products.takeaway(through)}
@@ -454,11 +458,7 @@ export function TradeProductsCard({
               );
             })}
           </div>
-          {notes.map((n) => (
-            <p key={n} className="m-0 mt-2 px-2 text-[0.78rem] leading-[1.5] text-ink-muted first-of-type:mt-3">
-              {n}
-            </p>
-          ))}
+          {note && <p className="m-0 mt-3 px-2 text-[0.78rem] leading-[1.5] text-ink-muted">{note}</p>}
           <div className={`${LEGEND_ROW} mt-2 px-2`}>
             <span className={LEGEND_ITEM}>
               <svg width="10" height="10" aria-hidden>
@@ -474,7 +474,7 @@ export function TradeProductsCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade two ways, 2010 on, in dollars: total exports and general imports, the same totals as the cards above. By chapter: the 96 product groups of the Harmonized System, the tariff schedule’s own groups. By use: Census’s end-use categories (what goods are for, about 140 kinds from soybeans to semiconductors). Exports publish civilian aircraft, engines and parts as one use; imports split them into three, so add those up to compare. The duty rate is calculated duties over imports for consumption. Special entries (chapters 98 and 99: returned American goods, repairs, estimated low-value shipments; and the matching end-use entries such as minimum-value shipments) are not kinds of goods, so neither list ranks them; the lines under the lists sum them. Opening a line splits it the other way (all countries only), from every ten-digit import or export line, each filed under one chapter and, through Census’s concordance, one use; special entries are their own part when they are 0.5% of the line or more. A chapter’s split adds up to its total above; a use’s can differ from its published total by a few percent, because the concordance does not quite match Census’s own category totals. The line also names the five countries with the most of it, each with its own duty rate on imports.
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade two ways, 2010 on, in dollars: total exports and general imports, the same totals as the cards above. By chapter: the 96 product groups of the Harmonized System, the tariff schedule’s own groups. By use: Census’s end-use categories (what goods are for, about 140 kinds from soybeans to semiconductors). Exports publish civilian aircraft, engines and parts as one use; imports split them into three, so add those up to compare. The duty rate is calculated duties over imports for consumption. Special entries (chapters 98 and 99: returned American goods, repairs, estimated low-value shipments; and the matching end-use entries such as minimum-value shipments) are not kinds of goods, so neither list ranks them; the note under the lists sums them. Opening a line splits it the other way (all countries only), from every ten-digit import or export line, each filed under one chapter and, through Census’s concordance, one use; special entries are their own part when they are 0.5% of the line or more. A chapter’s split adds up to its total above; a use’s can differ from its published total by a few percent, because the concordance does not quite match Census’s own category totals. The line also names the five countries with the most of it, each with its own duty rate on imports.
             {partial && view ? ` ${view.year} covers January to ${MONTH_NAMES[view.months - 1]}.` : ""}
             {lagNotes.map((l) => lagText(l)).join("")}
           </p>
@@ -490,6 +490,7 @@ export function TradeProductsCard({
             ]}
           />
         )}
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

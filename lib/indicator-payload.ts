@@ -31,6 +31,10 @@ export interface EconomyPayload {
   /** Retail diesel; starts 1994-03-28, so it begins later than `gas`. */
   diesel: Weekly;
   mort: Weekly;
+  /** The effective federal funds rate, weekly (Wednesdays). */
+  ff: Weekly;
+  /** The 10-year Treasury yield, weekly (Fridays). */
+  ten: Weekly;
   jobs: (number | null)[];
   un: (number | null)[];
   infl: (number | null)[];

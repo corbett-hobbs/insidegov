@@ -126,6 +126,9 @@ export function ratePercentSeries(duties: Monthly, imports: Monthly): Monthly {
   });
 }
 
+/** The trade partner a news story's id names ("tariff.CAN-2026-10-27" → "CAN"); null for all countries and other topics. */
+export const storyCountryCode = (id: string): string | null => id.match(/^tariff\.([A-Z]{3})-\d{4}-\d{2}-\d{2}$/)?.[1] ?? null;
+
 /** First month with a usable value, or -1. */
 export const firstIndexWithValue = (s: Monthly) => s.findIndex((v) => v !== null);
 

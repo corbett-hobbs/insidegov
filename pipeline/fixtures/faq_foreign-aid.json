@@ -1,0 +1,131 @@
+{
+  "asOf": "2026-10-28",
+  "groups": [
+    {
+      "row": "Spending",
+      "items": [
+        {
+          "id": "who-decides-aid",
+          "q": "Who decides how much foreign aid the U.S. gives?",
+          "a": "Congress decides, mainly through the annual appropriations process. It sets funding for most aid accounts in the State, Foreign Operations appropriations bill, with food aid in the Agriculture bill and some military aid in the Defense bill, under standing laws such as the Foreign Assistance Act of 1961. Executive agencies then carry out the programs. USAID stopped implementing foreign aid on July 1, 2025, and some of its work moved to the State Department.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            },
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ]
+        },
+        {
+          "id": "economic-vs-military-aid",
+          "q": "What is the difference between economic aid and military aid?",
+          "a": "Economic aid pays for development, health, humanitarian and economic support abroad, while military aid provides defense equipment, training and related services to foreign security forces. The State Department and, until July 1, 2025, USAID ran economic aid; State administers military aid programs that the Department of Defense implements. In fiscal 2025, $6.3 billion of the $47.8 billion disbursed (13%) was military assistance.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            },
+            {
+              "label": "ForeignAssistance.gov, U.S. foreign assistance disbursements",
+              "url": "https://foreignassistance.gov/data"
+            },
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-much-the-u-s-spends",
+            "where-it-goes-and-who-receives-the-most"
+          ]
+        },
+        {
+          "id": "humanitarian-vs-development",
+          "q": "What is the difference between humanitarian aid and development aid?",
+          "a": "Humanitarian aid is devoted largely to the immediate relief of human suffering caused by natural disasters and by human-induced disasters, including conflict. Development aid has long-term aims, such as improving economic growth, welfare and governance in poor countries. Humanitarian examples include emergency food aid, help for refugees and displaced people, and search and rescue. Development examples include programs against HIV/AIDS, malaria and tuberculosis, education, agriculture, and support for the rule of law.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ]
+        },
+        {
+          "id": "bilateral-vs-multilateral",
+          "q": "What is the difference between bilateral and multilateral aid?",
+          "a": "Bilateral aid is U.S. assistance that U.S. agencies administer directly for a recipient country. Multilateral aid combines U.S. funds with contributions from other donors through international organizations and multilateral development banks such as the World Bank. The multilateral approach gives the United States less control over how funds are used, but it shares costs and gives the United States a voice. U.S. dues to bodies such as the United Nations are separate and are not counted as foreign assistance.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ]
+        },
+        {
+          "id": "usaid-vs-state",
+          "q": "What is the difference between USAID and the State Department?",
+          "a": "USAID was the lead U.S. international humanitarian and development agency, established in 1961. By law its Administrator reports to and is under the direct authority and foreign policy guidance of the Secretary of State. As of July 1, 2025, USAID ceased to implement foreign assistance, according to an announcement by the Secretary of State. Some of its former functions have moved to the State Department, which is to administer the programs that remain.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Recipients",
+      "items": [
+        {
+          "id": "who-receives-most",
+          "q": "Who receives the most U.S. foreign aid?",
+          "a": "In fiscal 2025, the largest country recipients were Ukraine ($6.8B), Israel ($3.3B), Jordan ($1.7B), Ethiopia ($920M) and the Democratic Republic of the Congo ($750M). Global and regional programs received 34% of that year's $47.8B in aid, rather than any one country. Fiscal 2026 is only partly reported. So far, the largest recipients are Jordan ($1.2B), West Bank and Gaza ($520M) and Ukraine ($483M).",
+          "sources": [
+            {
+              "label": "ForeignAssistance.gov, U.S. foreign assistance disbursements",
+              "url": "https://foreignassistance.gov/data"
+            }
+          ],
+          "chartIds": [
+            "where-it-goes-and-who-receives-the-most",
+            "who-s-been-no-1"
+          ]
+        },
+        {
+          "id": "who-receives-military-aid",
+          "q": "Who receives U.S. military aid?",
+          "a": "Israel received the most U.S. military assistance in fiscal 2025, at $3.3 billion (53% of the $6.3 billion total), followed by Ukraine at $1.0 billion (16%) and Jordan at $429 million (7%). Military assistance provides defense equipment, military training and other defense-related services to the security forces of U.S. allies and partners. One main program is Foreign Military Financing, which mainly gives grants to foreign governments to buy U.S. defense equipment and military training.",
+          "sources": [
+            {
+              "label": "ForeignAssistance.gov, U.S. foreign assistance disbursements",
+              "url": "https://foreignassistance.gov/data"
+            },
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            }
+          ],
+          "chartIds": [
+            "where-it-goes-and-who-receives-the-most"
+          ]
+        }
+      ]
+    }
+  ]
+}

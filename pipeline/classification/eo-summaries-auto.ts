@@ -5,6 +5,7 @@ import { z } from "zod";
 import { executiveOrder } from "../../lib/executive-orders-entities";
 import { readEoTexts } from "../fetch/executive-order-texts";
 import { EO_SUMMARIES, EO_SUMMARY_TARGET_CHARS, checkEoSummary, eoSummaryCache, type EoSummaryEntry } from "../transform/eo-summaries";
+import { recordUsage } from "../llm-usage";
 
 /**
  * One- or two-sentence summaries of what each executive order does, written by the Claude API from the order's full text
@@ -89,6 +90,7 @@ async function ask(eo: number, text: string): Promise<{ entry: EoSummaryEntry } 
       if (err instanceof Anthropic.APIError) return { error: `API ${err.status ?? ""} ${err.message.slice(0, 200)}` };
       throw err;
     }
+    recordUsage("eo-summaries", res.model, res.usage);
     usage.input += res.usage.input_tokens;
     usage.output += res.usage.output_tokens;
     if (res.stop_reason === "refusal") return { error: `refused (${res.stop_details?.category ?? "no category"})` };

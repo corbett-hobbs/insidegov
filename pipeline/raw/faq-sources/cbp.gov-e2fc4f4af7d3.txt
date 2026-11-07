@@ -1,0 +1,228 @@
+# saved 2026-10-27 from https://www.cbp.gov/newsroom/stats/nationwide-encounters
+Home
+Newsroom
+Stats and Summaries
+Nationwide Encounters
+Skip to body content
+Newsroom
+Accountability and Transparency
+Stats and Summaries
+CBP Public Data Portal
+Trade Statistics
+Drug Seizure Statistics
+Agriculture Enforcement Statistics
+Border Rescues and Mortality Data
+CBP Enforcement Statistics
+Currency & Other Monetary Instrument Seizures
+Custody and Transfer Statistics
+CBP Drugs Dosage Value and Weight
+Intellectual Property Rights (IPR) Seizures
+Migrant Protection Protocols
+Nationwide Encounters
+On a Typical Day
+Southwest Land Border Encounters
+Travel Statistics
+Weapons and Ammunition Seizures
+Web Performance, Search & Customer Satisfaction Metrics
+Media Releases
+Documents Library
+Social Media Directory
+Press Officers
+Legal Notices
+Multimedia Libraries
+Frontline Digital Magazine
+Announcements
+Publications Catalog
+Spotlights
+CBP LIVE
+Newsroom
+Skip to body content
+Accountability and Transparency
+Stats and Summaries
+CBP Public Data Portal
+Trade Statistics
+Drug Seizure Statistics
+Agriculture Enforcement Statistics
+Border Rescues and Mortality Data
+CBP Enforcement Statistics
+Currency & Other Monetary Instrument Seizures
+Custody and Transfer Statistics
+CBP Drugs Dosage Value and Weight
+Intellectual Property Rights (IPR) Seizures
+Migrant Protection Protocols
+Nationwide Encounters
+On a Typical Day
+Southwest Land Border Encounters
+Travel Statistics
+Weapons and Ammunition Seizures
+Web Performance, Search & Customer Satisfaction Metrics
+Media Releases
+Documents Library
+Social Media Directory
+Press Officers
+Legal Notices
+Multimedia Libraries
+Frontline Digital Magazine
+Announcements
+Publications Catalog
+Spotlights
+CBP LIVE
+Nationwide Encounters
+Encounter data includes U.S. Border Patrol (USBP) Title 8 Apprehensions, Office of Field Operations (OFO) Title 8 Inadmissibles, and Title 42 Expulsions. Data is available for the Northern Land Border, Southwest Land Border, and Nationwide (i.e., air, land, and sea modes of transportation) encounters.
+Title 8 Enforcement Actions refers to apprehensions or inadmissibles processed under CBP’s immigration authority. Inadmissibles refers to individuals encountered at ports of entry (POEs) by OFO who are seeking lawful admission into the United States (U.S.) but are determined to be inadmissible, individuals presenting themselves to seek humanitarian protection under our laws, and individuals who withdraw an application for admission and return to their countries of origin within a short timeframe. Apprehensions refers to the physical control or temporary detainment of a person by USBP between POEs who is not lawfully in the U.S. which may or may not result in an arrest.
+Title 42 Expulsions refers to individuals encountered by USBP and OFO and expelled to the country of last transit or home country in the interest of public health under Title 42 U.S.C. 265 from March 21, 2020 to May 11, 2023.
+Demographics for USBP and OFO include:
+Accompanied Minors (AM)
+Individuals in a Family Unit (FMUA)
+Single Adults
+Unaccompanied Alien Children (UAC) / Single Minors
+To access the data used to build these dashboards, please visit the CBP Data Portal .
+Data is extracted from live CBP systems and data sources. Statistical information is subject to change due to corrections, systems changes, change in data definition, additional information, or encounters pending final review. Final statistics are available at the conclusion of each fiscal year.
+Fiscal Year 2026 runs from October 1, 2025 to September 30, 2026.
+U.S. Border Patrol At Large and U.S. Border Patrol at Entry Apprehensions
+Monthly Totals
+Oct-25
+Nov-25
+Dec-25
+Jan-26
+Feb-26
+Mar-26
+Apr-26
+May-26
+Jun-26
+Jul-26
+Aug-26
+Sep-26
+Nationwide Total Apprehensions
+9,947
+9,294
+8,122
+7,921
+8,278
+10,118
+10,867
+11,924
+11,408
+11,300
+10,939
+-
+At Large
+3,280
+3,224
+2,857
+2,920
+2,652
+2,931
+3,078
+3,115
+2,742
+3,026
+3,197
+-
+At Entry
+6,667
+6,070
+5,265
+5,001
+5,626
+7,187
+7,789
+8,809
+8,666
+8,274
+7,742
+-
+Southwest Border Total Apprehensions
+7,988
+7,353
+6,476
+6,076
+6,599
+8,270
+8,966
+10,011
+9,855
+9,296
+8,870
+-
+At Large
+1,400
+1,359
+1,262
+1,105
+1,033
+1,165
+1,321
+1,408
+1,347
+1,231
+1,246
+-
+At Entry
+6,588
+5,994
+5,214
+4,971
+5,566
+7,105
+7,645
+8,603
+8,508
+8,065
+7,624
+-
+Northern Border Total Apprehensions
+645
+567
+439
+491
+580
+514
+450
+526
+494
+586
+563
+-
+At Large
+570
+497
+388
+469
+540
+440
+376
+407
+362
+434
+468
+-
+At Entry
+75
+70
+51
+22
+40
+74
+74
+119
+132
+152
+95
+-
+At Entry: Refers to an alien who has entered the United States without admission and has not yet reached his/her destination, regardless of the amount of time since entry.
+At Large: Refers to an alien who has illegally entered the United States, has already reached their destination, and is encountered or who was legally admitted and has since overstayed their permitted time, illegally remaining in the U.S.
+U.S. Border Patrol and Office of Field Operations Encounters by Area of Responsibility and Component
+Note: Internet Explorer has problems displaying the following charts. Please use another browser (Chrome, Safari, Firefox, Edge) to view. When using a mobile device, the charts are best displayed in landscape mode.
+U.S. Border Patrol and Office of Field Operations Encounters by State
+Note: Nationwide encounters are the sum of CBP encounters across all areas of responsibility including Northern Land Border, Southwest Land Border, OFO non-land border ports of entry (e.g., airports, seaports), and USBP sectors that do not share a land border with Canada or Mexico (e.g., Miami Sector). This data is available for further review and download on the Nationwide Encounters Public Data Portal page.
+U.S. Border Patrol and Office of Field Operations Encounters
+To ensure that law enforcement sensitive statistics are not publicly released, modifications to data filters have been made that may alter the format of data previously obtained from this dashboard.
+For additional years of Southwest Land Border encounter data, visit the Southwest Land Border Encounters webpage.
+Related Resources
+Close all
+Open all
+Previous Year Statistics
+FY 2025
+FY 2024
+Last Modified: Sep 16, 2026

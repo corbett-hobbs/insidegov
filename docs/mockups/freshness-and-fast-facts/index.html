@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Freshness stamp and fast facts (mock)</title>
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--raised:#f7f8fa;--ink:#1a2233;--muted:#5b6472;--faint:#8890a0;--line:#d7dce3;--strong:#b9c1cc;--accent:#5c4b7a;--ok:#1f7a4d}
+@media (prefers-color-scheme:dark){:root{--bg:#10141c;--surface:#171c26;--raised:#1e2430;--ink:#e8ebf0;--muted:#a3abb8;--faint:#7c8594;--line:#2c3442;--strong:#3d4757;--accent:#a998cc;--ok:#5cc28f}}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto}
+h3.label{font:600 .8rem system-ui;margin:36px 0 8px;color:var(--muted)}
+h3.label:first-child{margin-top:0}
+.frame{background:var(--bg);border:1px dashed var(--strong);border-radius:10px;padding:28px 24px}
+.mono{font-family:ui-monospace,Menlo,monospace}
+
+/* ---- Mock A: stamp under the page header ---- */
+.eyebrow{font:500 .68rem ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:500 clamp(1.7rem,3.6vw,2.35rem)/1.1 Georgia,serif;letter-spacing:-.01em;margin:.5rem 0 .75rem}
+.intro{margin:0;color:var(--muted);font-size:.92rem;line-height:1.65}
+.stamp{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem .5rem;margin-top:.9rem;font:500 .7rem ui-monospace,Menlo,monospace;color:var(--muted)}
+.stamp .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--ok)}
+.stamp .sep{color:var(--strong)}
+.stamp b{color:var(--ink);font-weight:500}
+.stamp a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.stamp.stale .dot{background:#b57800}
+.opts{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.opt{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 18px 16px}
+.opt small{display:block;color:var(--faint);font-size:.72rem;margin-bottom:.6rem}
+.fakebar{height:28px;border:1px solid var(--line);border-radius:6px;background:var(--raised);margin-top:14px;font:.68rem ui-monospace,Menlo,monospace;color:var(--faint);display:flex;align-items:center;padding:0 10px}
+
+/* ---- Mock B: fast facts on the homepage ---- */
+.home h2{font:500 .68rem ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 .6rem}
+.intro-serif{font:clamp(1.15rem,2.2vw,1.5rem)/1.35 Georgia,serif;letter-spacing:-.01em;margin:0 0 1.25rem}
+.ff-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin:0 0 .6rem}
+.ff-head .t{font:500 .68rem ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.ff-head .u{font:.68rem ui-monospace,Menlo,monospace;color:var(--faint)}
+.ff{display:grid;grid-template-columns:repeat(6,1fr);gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ff a{display:flex;flex-direction:column;gap:.15rem;padding:.9rem 1rem 1rem;color:inherit;text-decoration:none;border-left:1px solid var(--line);position:relative}
+.ff a:first-child{border-left:0}
+.ff a:hover{background:var(--raised)}
+.ff .k{font:500 .62rem ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.ff .n{font:500 1.9rem/1.05 Georgia,serif;letter-spacing:-.02em;color:var(--accent);margin-top:.2rem}
+.ff .c{font-size:.78rem;line-height:1.35;color:var(--muted)}
+.ff .d{font:.62rem ui-monospace,Menlo,monospace;color:var(--faint);margin-top:auto;padding-top:.5rem}
+.ff .go{color:var(--accent);font-size:.72rem;text-decoration:underline;text-underline-offset:2px;margin-top:.15rem}
+.card-stub{height:110px;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-top:18px;display:flex;align-items:center;justify-content:center;color:var(--faint);font:.72rem ui-monospace,Menlo,monospace}
+@media (max-width:1000px){.ff{grid-template-columns:repeat(3,1fr)}.ff a:nth-child(4){border-left:0}.ff a:nth-child(n+4){border-top:1px solid var(--line)}}
+
+/* phone */
+.phone{max-width:360px;margin:0 auto}
+.phone .ff{grid-template-columns:repeat(2,1fr)}
+.phone .ff a{border-left:0;border-top:1px solid var(--line)}
+.phone .ff a:nth-child(-n+2){border-top:0}
+.phone .ff a:nth-child(even){border-left:1px solid var(--line)}
+.scroller{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.scroller a{flex:0 0 62%;scroll-snap-align:start;display:flex;flex-direction:column;gap:.15rem;padding:.9rem 1rem 1rem;color:inherit;text-decoration:none;border-left:1px solid var(--line)}
+.scroller a:first-child{border-left:0}
+.scroller .k{font:500 .62rem ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.scroller .n{font:500 1.9rem/1.05 Georgia,serif;color:var(--accent)}
+.scroller .c{font-size:.78rem;color:var(--muted)}
+.scroller .d{font:.62rem ui-monospace,Menlo,monospace;color:var(--faint);padding-top:.4rem}
+.note{max-width:760px;margin:10px 0 0;font-size:.78rem;color:var(--muted)}
+.hintwrap{position:relative}
+.hintwrap::after{content:"";position:absolute;top:1px;right:1px;bottom:1px;width:56px;border-radius:0 10px 10px 0;background:linear-gradient(90deg,transparent,var(--surface) 70%);pointer-events:none}
+.more{position:absolute;z-index:2;top:50%;right:8px;transform:translateY(-50%);background:var(--accent);color:var(--surface);font:600 .66rem ui-monospace,Menlo,monospace;border:0;border-radius:999px;padding:.35rem .6rem}
+.scroller .go{color:var(--accent);font-size:.72rem;text-decoration:underline;text-underline-offset:2px;margin-top:.15rem}
+.ff a .src{display:block;font:.62rem ui-monospace,Menlo,monospace;color:var(--faint)}
+</style><body><div class="wrap">
+
+<h3 class="label">A1. Freshness stamp under the page header, on three different pages. The date comes from each page's own data.</h3>
+<div class="opts">
+  <div class="opt"><small>Economy</small>
+    <div class="eyebrow">Presidency · Economy</div><h1>The Economy by Presidency</h1>
+    <p class="intro">Jobs, inflation, gas prices, mortgage rates and the deficit, charted against each presidential term.</p>
+    <div class="stamp"><span class="dot" aria-hidden="true"></span><span>Updated <b>Oct 28, 2026</b></span><span class="sep">·</span><span>Refreshed weekly</span></div>
+    <div class="fakebar">pinned filter bar</div></div>
+  <div class="opt"><small>Trade</small>
+    <div class="eyebrow">Presidency · Trade</div><h1>U.S. Trade by Presidency</h1>
+    <p class="intro">What the U.S. buys and sells, from whom, and how tariffs have changed.</p>
+    <div class="stamp"><span class="dot" aria-hidden="true"></span><span>Updated <b>Oct 28, 2026</b></span><span class="sep">·</span><span>Refreshed weekly</span></div>
+    <div class="fakebar">pinned filter bar</div></div>
+  <div class="opt"><small>Laws (phone width)</small>
+    <div class="phone" style="max-width:340px;margin:0">
+    <div class="eyebrow">Congress · Laws</div><h1>Laws Congress Has Passed</h1>
+    <p class="intro">Every public law since 1973, and how broadly each was supported.</p>
+    <div class="stamp"><span class="dot" aria-hidden="true"></span><span>Updated <b>Oct 20, 2026</b></span><span class="sep">·</span><span>Refreshed weekly</span></div></div></div>
+</div>
+<p class="note">An optional <span class="mono">updated</span> prop on <span class="mono">PageHeader</span>, so it spans the full width with the rest of the header. Each page passes the date its data last changed (for Laws, <span class="mono">data_through</span> in <span class="mono">laws_meta.json</span>), not the build time.</p>
+
+<h3 class="label">B. Fast facts on the homepage, between the intro sentence and the first branch card (desktop). Six numbers from six different pages.</h3>
+<div class="frame home">
+  <h2>The Data Behind the Headlines</h2>
+  <p class="intro-serif">When a number makes headlines, three questions immediately follow: Is it unusually high, has it happened before, and on whose watch did it change?</p>
+  <div class="ff-head"><span class="t">Latest numbers</span><span class="u">Updated Oct 28, 2026</span></div>
+  <div class="ff"><a href="#"><span class="k">Gas</span><span class="n">$4.28</span><span class="c">a gallon of regular, up from $3.02 a year ago</span><span class="go">Economy</span><span class="d">week of Oct 19</span></a><a href="#"><span class="k">Tariffs</span><span class="n">6.9%</span><span class="c">average tariff on imports, down from 10.5% a year earlier</span><span class="go">Trade</span><span class="d">Aug 2026</span></a><a href="#"><span class="k">Oil reserve</span><span class="n">283M</span><span class="c">barrels in the Strategic Petroleum Reserve, down from 409M a year ago</span><span class="go">Energy</span><span class="d">week of Oct 16</span></a><a href="#"><span class="k">Laws</span><span class="n">134</span><span class="c">laws enacted so far this Congress; the last one was signed Oct 20</span><span class="go">Laws</span><span class="d">Oct 20, 2026</span></a><a href="#"><span class="k">Executive orders</span><span class="n">66</span><span class="c">signed so far in 2026, after 238 in 2025</span><span class="go">Executive orders</span><span class="d">Oct 19, 2026</span></a><a href="#"><span class="k">Border</span><span class="n">349K</span><span class="c">border encounters since October (preliminary), about 11% of FY2023&rsquo;s 3.2M peak</span><span class="go">Immigration</span><span class="d">Oct to Aug</span></a></div>
+  <div class="card-stub">Presidency branch card, as today</div>
+</div>
+<p class="note">Each tile links to its chart, so the link label is the page it opens. All six values are the latest rows in the repo today: <span class="mono">indicator_observations.json</span> (gas), <span class="mono">duties_national.json</span> (tariff), <span class="mono">energy_observations.json</span> (oil reserve), <span class="mono">laws.json</span> (119th Congress count), <span class="mono">executive_orders.json</span> (2026 so far and 2025) and <span class="mono">encounters_monthly.json</span> (nationwide, FY2026 since October as a share of FY2023&rsquo;s full-year 3.2M, preliminary). Derived at build time, so a tile can never disagree with the page it links to.</p>
+
+<h3 class="label">B3. Phone: one swipe row, with the "+N ›" overflow button from layout rule 11</h3>
+<div class="frame home">
+  <div class="phone">
+    <div class="ff-head"><span class="t">Latest numbers</span><span class="u">Oct 28</span></div>
+    <div class="hintwrap"><div class="scroller"><a href="#"><span class="k">Gas</span><span class="n">$4.28</span><span class="c">a gallon of regular, up from $3.02 a year ago</span><span class="go">Economy</span><span class="d">week of Oct 19</span></a><a href="#"><span class="k">Tariffs</span><span class="n">6.9%</span><span class="c">average tariff on imports, down from 10.5% a year earlier</span><span class="go">Trade</span><span class="d">Aug 2026</span></a><a href="#"><span class="k">Oil reserve</span><span class="n">283M</span><span class="c">barrels in the Strategic Petroleum Reserve, down from 409M a year ago</span><span class="go">Energy</span><span class="d">week of Oct 16</span></a><a href="#"><span class="k">Laws</span><span class="n">134</span><span class="c">laws enacted so far this Congress; the last one was signed Oct 20</span><span class="go">Laws</span><span class="d">Oct 20, 2026</span></a><a href="#"><span class="k">Executive orders</span><span class="n">66</span><span class="c">signed so far in 2026, after 238 in 2025</span><span class="go">Executive orders</span><span class="d">Oct 19, 2026</span></a><a href="#"><span class="k">Border</span><span class="n">349K</span><span class="c">border encounters since October (preliminary), about 11% of FY2023&rsquo;s 3.2M peak</span><span class="go">Immigration</span><span class="d">Oct to Aug</span></a></div><span class="more">+4 ›</span></div>
+  </div>
+</div>
+
+</div></body></html>

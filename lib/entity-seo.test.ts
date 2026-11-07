@@ -7,9 +7,13 @@ describe("memberSeo", () => {
     expect(memberSeo(schumer).title).toBe("Sen. Chuck Schumer (D-NY): Ideology, Laws and Net Worth");
   });
   it("leads with where the member sits in their caucus, then the record", () => {
-    expect(memberSeo(schumer).description).toBe("Chuck Schumer votes near the middle of Senate Democrats. See where Schumer has stood since 1999, the 33 laws Schumer sponsored and an estimated $2.7M net worth.");
+    expect(memberSeo(schumer).description).toBe("Chuck Schumer votes near the middle of Senate Democrats. Explore Schumer's voting record since 1999, committee seats and estimated $2.7M net worth.");
     expect(memberSeo({ ...schumer, peers: { toward: 13, away: 33, of: 47 } }).description).toMatch(/^Chuck Schumer votes more liberally than 72% of Senate Democrats\./);
     expect(memberSeo({ ...schumer, peers: { toward: 41, away: 5, of: 47 } }).description).toMatch(/^Chuck Schumer votes more conservatively than 89% of Senate Democrats\./);
+  });
+  it("fits Deluzio's record, committee seats and net worth", () => {
+    const deluzio = { ...schumer, name: "Chris Deluzio", lastName: "Deluzio", chamber: "house" as const, district: 17, firstTermYear: 2023, peers: { toward: 40, away: 120, of: 214 }, lawsSponsored: 0, netWorth: 1_800_000 };
+    expect(memberSeo(deluzio).description).toBe("Chris Deluzio votes near the middle of House Democrats. Explore Deluzio's voting record since 2023, committee seats and estimated $1.8M net worth.");
   });
   it("ranks a member near either end of the caucus", () => {
     const murkowski = { ...schumer, name: "Lisa Murkowski", lastName: "Murkowski", party: "Republican", caucus: "Republican", partyAbbr: "R", peers: { toward: 53, away: 1, of: 55 } };
@@ -19,7 +23,7 @@ describe("memberSeo", () => {
   });
   it("joins the record with 'and' and words a negative net worth", () => {
     const aoc = { ...schumer, name: "Alexandria Ocasio-Cortez", lastName: "Ocasio-Cortez", chamber: "house" as const, district: 14, firstTermYear: 2019, peers: { toward: 63, away: 157, of: 221 }, lawsSponsored: 0, netWorth: -145_000 };
-    expect(memberSeo(aoc).description).toBe("Alexandria Ocasio-Cortez votes more liberally than 71% of House Democrats. See where Ocasio-Cortez has stood since 2019 and an estimated net worth below zero.");
+    expect(memberSeo(aoc).description).toBe("Alexandria Ocasio-Cortez votes more liberally than 71% of House Democrats. Explore Ocasio-Cortez's voting record since 2019 and estimated net worth below zero.");
   });
   it("falls back to the plain description for a member with no score yet", () => {
     const s = memberSeo({ ...schumer, peers: null });

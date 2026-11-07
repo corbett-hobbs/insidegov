@@ -28,7 +28,7 @@ export const NOTES: Record<SeriesCardId | "congress" | "justices" | "major" | "t
   timeline: (
     <>
       <p>
-        The Timeline page&rsquo;s chart cut to this president&rsquo;s years in office, with the hand-picked landmark laws and Supreme Court cases of those years: a short editorial list, not a count. The president&rsquo;s own count of major laws is the card below. The White House row is the president, the Senate and House rows each party&rsquo;s share of seats at the start of each Congress, and the Court row which way its median justice leaned each term (<SourceLink id="martin-quinn">Martin-Quinn scores</SourceLink>, from October 1937). A marker is the day the law was signed or the case decided; tap it for the vote and who held power that day. The Timeline page also has the Court measure by appointing president and the year zoom.
+        The Timeline page&rsquo;s chart cut to this president&rsquo;s years in office, with the hand-picked landmark laws and Supreme Court cases of those years: a short editorial list, not a count. The president&rsquo;s own count of major laws is the card below. The White House row is the president, the Senate and House rows a bar per Congress for the party that held each chamber (up for Republicans, down for Democrats, taller the bigger its margin of seats at the start of the Congress), and the Court row which way its median justice leaned each term (<SourceLink id="martin-quinn">Martin-Quinn scores</SourceLink>, from October 1937). A marker is the day the law was signed or the case decided; tap it for the vote and who held power that day. The Timeline page also has the Court measure by appointing president and the year zoom.
       </p>
       <p>
         A law&rsquo;s votes are each chamber&rsquo;s final roll call, from <SourceLink id="voteview">Voteview</SourceLink>: matched to the law through Congress.gov from 1973, and by hand before then (the last recorded vote approving the bill: its passage, a conference report or agreeing to the other chamber&rsquo;s version). &ldquo;No roll call&rdquo; means that chamber passed it by voice vote or without a recorded vote. Case votes are from the <SourceLink id="scdb">Supreme Court Database</SourceLink> (from 1946; earlier ones typed in by hand). The &ldquo;Conservative outcome&rdquo; or &ldquo;Liberal outcome&rdquo; tag on a case is the database&rsquo;s coding of who prevailed, not a statement about the justices&rsquo; own leanings, and is left off cases before 1946 and where none is coded.
@@ -87,7 +87,7 @@ export const MORE: Record<SeriesCardId | "congress" | "justices" | "laws" | "eos
   congress: { href: "/timeline", label: "Timeline" },
   justices: { href: "/supreme-court/justices", label: "Supreme Court" },
   laws: { href: "/congress/laws", label: "All laws" },
-  eos: { href: "/presidency/executive-orders", label: "All executive orders" },
+  eos: { href: "/presidency/executive-actions", label: "All executive orders" },
   major: { href: "/congress/laws", label: "Laws page" },
   misery: { href: "/presidency/economy", label: "Economy" },
   fiscal: { href: "/presidency/economy", label: "Economy" },

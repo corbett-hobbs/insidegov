@@ -92,7 +92,7 @@ describe("quarterly debt", () => {
     expect(readDebt(tot, held, d(1991, 8, 1)).caption).toBe("Q3 1991 not yet reported");
     expect(readDebt(tot, held, d(1992, 1, 1)).caption).toBe("Q1 1992 not yet reported");
   });
-  it("latest skips trailing nulls", () => expect(readDebt(tot, held, null).caption).toBe("total debt, Q2 1991"));
+  it("latest skips trailing nulls", () => expect(readDebt(tot, held, null).caption).toBe("Q2 1991"));
 });
 
 describe("dayFromFraction", () => {

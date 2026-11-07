@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { hubDescription } from "@/lib/hub-seo";
 import { TradePageClient } from "@/components/trade/TradePageClient";
-import { getTradePageData } from "@/lib/trade-data";
+import { getStoryCountryRates, getTradePageData } from "@/lib/trade-data";
+import { getFaqFile, getNewsFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
 /**
@@ -14,17 +15,18 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Trade and Tariffs by Country",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/trade", "U.S. imports, exports and trade balance with every country since 1991, and the tariffs collected on imports, by president. Census Bureau and USITC data."),
+    description: hubDescription("/presidency/trade", "U.S. imports, exports and tariffs with every country since 1991, with major executive, legislative and court actions marked. Census and USITC data."),
     path: "/presidency/trade",
     topic: "presidency/trade",
   });
 }
 
 export default function TradePage() {
+  const newsFile = getNewsFile("trade");
   return (
     <>
       <TopicDatasetLd path="/presidency/trade" />
-      <TradePageClient data={getTradePageData()} />
+      <TradePageClient data={getTradePageData()} faqFile={getFaqFile("trade")} newsFile={newsFile} storyRates={getStoryCountryRates(newsFile)} />
     </>
   );
 }

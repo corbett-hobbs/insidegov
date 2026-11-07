@@ -1,0 +1,90 @@
+{
+  "asOf": "2026-11-04",
+  "stories": [
+    {
+      "id": "enforcement-2026-11-01",
+      "date": "2026-11-02",
+      "topic": "Immigration enforcement",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Trump’s Immigration Crackdown Backlash Poses Challenge for Republicans in the Midterms",
+          "url": "https://www.nytimes.com/2026/11/02/us/politics/trump-immigration-crackdown-backlash-republicans.html"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "'This is a disaster': Angry Republicans blame Trump for midterms defeat",
+          "url": "https://www.bbc.co.uk/news/articles/c6x29rr8djy3o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Mamdani threatens to sue Trump admin over ICE's use of city-owned lots for immigration enforcement",
+          "url": "https://www.foxnews.com/politics/mamdani-threatens-sue-trump-admin-ices-use-city-owned-lots-immigration-enforcement"
+        }
+      ]
+    },
+    {
+      "id": "enforcement-2026-10-28",
+      "date": "2026-10-28",
+      "topic": "Immigration enforcement",
+      "headlines": [
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Details of thousands of US immigration agents leaked in major hack",
+          "url": "https://www.bbc.co.uk/news/articles/cq8jzkpjr28vo?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "DHS investigates massive data breach exposing 40,000 employees, including ICE and Border Patrol agents",
+          "url": "https://www.foxnews.com/us/dhs-investigates-massive-data-breach-exposing-40000-employees-including-ice-border-patrol-agents"
+        },
+        {
+          "outletId": "breitbart",
+          "outlet": "Breitbart",
+          "lean": "Right",
+          "title": "Hacker Leaks Data of 40,000+ Homeland Security Employees Including ICE Agents",
+          "url": "https://www.breitbart.com/tech/2026/10/29/hacker-leaks-data-of-40000-homeland-security-employees-including-ice-agents/"
+        }
+      ]
+    },
+    {
+      "id": "removals-2026-10-27",
+      "date": "2026-10-27",
+      "topic": "Deportations",
+      "chartId": "chart-removals",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "US Supreme Court Denies Immigration Judges The Power To Shelve Deportation Cases",
+          "url": "https://www.huffpost.com/entry/us-supreme-court-denies-immigration-judges-the-power-to-shelve-deportation-cases_n_6ae0d41ee4b059999c6307d2"
+        },
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Supreme Court Allows Texas’ Deal With Justice Dept. on Deportation Proceedings",
+          "url": "https://www.nytimes.com/2026/10/27/us/politics/supreme-court-texas-immigration.html"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Supreme Court declines to halt DOJ deal ending Biden-era immigration rule",
+          "url": "https://www.washingtonexaminer.com/news/supreme-court/4781315/supreme-court-declines-halt-doj-deal-ending-biden-immigration-rule/"
+        }
+      ]
+    }
+  ]
+}

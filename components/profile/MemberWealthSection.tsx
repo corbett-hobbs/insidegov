@@ -9,6 +9,7 @@ import { MemberNetWorthChart } from "@/components/wealth/MemberNetWorthChart";
 import { HowToReadNotes } from "@/components/wealth/HowToReadNotes";
 import { MemberWealthItemsPanel } from "@/components/wealth/MemberWealthItemsPanel";
 import { SourceLink } from "@/components/SourceLink";
+import { CardMoreLink } from "@/components/charts/CardMoreLink";
 
 interface Props {
   profile: MemberProfile;
@@ -109,6 +110,7 @@ export function MemberWealthSection({ profile, wealthProfile }: Props) {
         shows the full reported range. Source:{" "}
         {chamberLabel(profile.chamber) === "House" ? <SourceLink id="house-clerk-disclosures">House Clerk</SourceLink> : <SourceLink id="senate-efd">Senate eFD</SourceLink>}.
       </p>
+      <CardMoreLink href="/congress/wealth" label="Net worth page" />
     </section>
   );
 }

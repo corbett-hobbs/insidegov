@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { buildPostRecord, graphemes } from "./bluesky";
 import { checkCaption, numberTokens, templateCaption } from "./caption";
-import { eventInsightsAt, newMonthEnds, selectInsights, seriesInsightsAt } from "./collect";
-import { MIN_YEARS, changes, detectEventTermComparison, detectExtremes, detectMoves, detectTermComparison, termLabel, truncate } from "./detect";
+import { eventInsightsAt, newMonthEnds, selectInsights, seriesInsightsAt, termComparisonDue } from "./collect";
+import { MIN_YEARS, changes, detectEventTermComparison, detectExtremes, detectLatest, detectMoves, detectTermComparison, termLabel, truncate } from "./detect";
 import type { Draft } from "./drafts";
 import { addMonths, fmtDate, fmtPct, fmtUnit } from "./format";
 import { issueBody, issueTitle, parseDraftBlock } from "./issue";
@@ -26,6 +26,7 @@ function monthly(values: number[], over: Partial<Series> = {}, start = "2000-01-
   const series: Series = {
     id: "test.series",
     dataset: "energy",
+    title: "Test output",
     name: "test output",
     axisLabel: "units",
     unit: { scale: 1, decimals: 1, suffix: " units" },
@@ -37,6 +38,7 @@ function monthly(values: number[], over: Partial<Series> = {}, start = "2000-01-
     url: "/presidency/energy",
     source: "Test agency",
     weight: 1,
+    releaseLagDays: 30,
     ...over,
   };
   return { series, rows };
@@ -71,7 +73,7 @@ describe("detectExtremes", () => {
     const { series, rows } = monthly(values);
     const [ins] = detectExtremes(series);
     expect(ins?.kind).toBe("extreme_high");
-    expect(ins?.template).toBe("Test output: 125.0 units in January 2010, the highest since May 2003 (130.0 units).");
+    expect(ins?.template).toBe("Test output stood at 125.0 units in January 2010, the highest since May 2003 (130.0 units).");
     expect(verifyInsight(ins!, indexFor(rows))).toEqual([]);
     expect(checkCaption(ins!.template, ins!.facts)).toEqual([]);
   });
@@ -103,6 +105,22 @@ describe("detectExtremes", () => {
     const growing = monthly(Array.from({ length: 100 }, (_, i) => 10 + i)).series;
     const jump = monthly([...flat(99), 150]).series;
     expect(detectExtremes(growing)[0]!.score).toBeLessThan(detectExtremes(jump)[0]!.score);
+  });
+
+  it("flags a year-earlier reading that was itself a record on the other side, and carries its facts", () => {
+    // 70 ordinary months, a month at zero (a record low), 11 ordinary ones, then a new high exactly a year after the zero.
+    const { series } = monthly([...flat(70), 0, ...flat(11), 150]);
+    const [ins] = detectExtremes(series);
+    expect(ins?.kind).toBe("extreme_high");
+    expect(ins?.outlierBaseline).toContain("was itself the lowest on record");
+    expect(ins?.facts.map((f) => f.id)).toEqual(expect.arrayContaining(["year_ago_value", "year_ago_date", "change_year"]));
+    expect(ins?.template).toContain("itself the lowest on record");
+  });
+
+  it("does not flag an ordinary year-earlier reading", () => {
+    const { series } = monthly([...flat(82), 150]);
+    expect(detectExtremes(series)[0]!.outlierBaseline).toBeUndefined();
+    expect(detectLatest(series)[0]?.outlierBaseline).toBeUndefined();
   });
 });
 
@@ -175,7 +193,7 @@ describe("term comparisons", () => {
       rows.push({ id: ++n });
       events.push({ date, cell: { file: FILE, key: { id: n }, field: "__row" } });
     }
-    const set: EventSet = { id: "eo", dataset: "executive_orders", name: "executive orders", verb: "signed", events, coverageStart: "2005-01-01", url: "/x", source: "Federal Register", weight: 1 };
+    const set: EventSet = { id: "eo", dataset: "executive_orders", name: "executive orders", title: "Executive orders signed", verb: "signed", events, coverageStart: "2005-01-01", url: "/x", source: "Federal Register", weight: 1 };
     const [ins] = detectEventTermComparison(set, ADMINS, "2025-04-30");
     // 100 days in: Feb 21, Mar 21, Apr 21 (Jan 21 too) of each term = 4; Bush 2001 left out.
     expect(ins?.chart.type === "bars" && ins.chart.bars.map((b) => [b.label, b.value])).toEqual([
@@ -211,8 +229,14 @@ describe("checkCaption", () => {
     expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 39% since January 20, 2025.", facts)).toEqual([]);
   });
 
+  it("leaves method notes to the chart", () => {
+    expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 39% since January 20, 2025, in seasonally adjusted Census data.", facts).join()).toMatch(/method note/);
+    expect(checkCaption("The average price of regular gas was $4.33 a gallon, not adjusted for inflation.", facts).join()).toMatch(/method note/);
+  });
+
   it("rejects numbers that are not facts, including re-rounded ones", () => {
     expect(checkCaption("The average price of regular gas was $4.33 a gallon, up 40% since January 20, 2025.", facts).join()).toMatch(/numbers not among the facts: 40%/);
+    expect(checkCaption("Regular gas: $4.33 a gallon in the week of October 19, 2026.", facts).join()).toMatch(/colon/);
     expect(checkCaption("Crude oil production hit 13.6 million barrels a day as gas reached $4.33 a gallon.", facts).join()).toMatch(/13.6 million/);
   });
 
@@ -242,18 +266,22 @@ describe("checkCaption", () => {
 });
 
 describe("collect", () => {
-  it("finds insights at each new date and respects the weekly term-comparison cadence", () => {
-    // Weekly from Monday 2000-01-03, rising steadily.
-    const n = 1400;
-    const points = Array.from({ length: n }, (_, i) => {
-      const date = new Date(Date.UTC(2000, 0, 3 + 7 * i)).toISOString().slice(0, 10);
-      return { date, value: 100 + i, cells: [] };
-    });
-    const weekly: Series = { ...monthly([1]).series, frequency: "weekly", points };
-    const firstOfMonth = points.findLast((p, i) => i > 0 && p.date.slice(0, 7) !== points[i - 1]!.date.slice(0, 7))!.date;
-    const next = points[points.findIndex((p) => p.date === firstOfMonth) + 1]!.date;
-    const periods = seriesInsightsAt(weekly, ADMINS, [firstOfMonth, next]).filter((i) => i.kind === "term_comparison").map((i) => i.period);
-    expect(periods).toEqual([firstOfMonth]);
+  it("runs term comparisons quarterly: quarter-end months, and only the first week of one for weekly data", () => {
+    expect(termComparisonDue("monthly", "2026-09-01", "2026-08-01")).toBe(true);
+    expect(termComparisonDue("monthly", "2026-08-01", "2026-07-01")).toBe(false);
+    expect(termComparisonDue("weekly", "2026-09-07", "2026-08-31")).toBe(true);
+    expect(termComparisonDue("weekly", "2026-09-14", "2026-09-07")).toBe(false);
+    const { series } = monthly(Array.from({ length: 12 * 26 + 8 }, (_, i) => 100 + i));
+    const kinds = (d: string) => seriesInsightsAt(series, ADMINS, [d]).map((i) => i.kind);
+    expect(kinds("2026-06-01")).toContain("term_comparison");
+    expect(kinds("2026-07-01")).not.toContain("term_comparison");
+  });
+
+  it("keeps the routine latest reading only when nothing else came out of that series and period", () => {
+    const { series } = monthly([...flat(120), 100.1], { headline: true });
+    expect(seriesInsightsAt(series, ADMINS, ["2010-01-01"]).map((i) => i.kind)).toEqual(["latest"]);
+    const jump = monthly([...flat(120), 150], { headline: true }).series;
+    expect(seriesInsightsAt(jump, ADMINS, ["2010-01-01"]).map((i) => i.kind)).not.toContain("latest");
   });
 
   it("lists month ends after a date up to the last full month", () => {
@@ -278,7 +306,7 @@ describe("collect", () => {
   });
 
   it("produces event insights at month ends", () => {
-    const set: EventSet = { id: "laws", dataset: "laws", name: "public laws", verb: "enacted", events: [], coverageStart: "1973-01-03", url: "/congress/laws", source: "Congress.gov", weight: 1 };
+    const set: EventSet = { id: "laws", dataset: "laws", name: "public laws", title: "Laws passed", verb: "enacted", events: [], coverageStart: "1973-01-03", url: "/congress/laws", source: "Congress.gov", weight: 1 };
     expect(eventInsightsAt(set, ADMINS, ["2026-09-30"]).map((i) => i.kind)).toEqual(["term_comparison"]);
   });
 });
@@ -293,6 +321,7 @@ describe("issue and poster", () => {
     kind: ins.kind,
     period: ins.period,
     headline: ins.headline,
+    title: ins.title,
     caption: ins.template,
     caption_source: "template",
     caption_model: null,
@@ -304,6 +333,9 @@ describe("issue and poster", () => {
     score: 1,
     facts: ins.facts.map((f) => ({ id: f.id, text: f.text, derivation: f.derivation })),
     template: ins.template,
+    series_id: ins.seriesId,
+    frequency: ins.frequency,
+    release: null,
   };
 
   it("round-trips the hidden draft block, even with -- in the text", () => {
@@ -334,5 +366,151 @@ describe("truncate", () => {
   it("cuts a series at a date", () => {
     const { series } = monthly(flat(24));
     expect(truncate(series, "2000-06-01").points.at(-1)?.date).toBe("2000-06-01");
+  });
+});
+
+describe("detectLatest", () => {
+  it("gives the newest value with its change on the period and on the year, for headline series only", () => {
+    const values = [...flat(119), 100, 110];
+    const { series, rows } = monthly(values, { headline: true });
+    const [ins] = detectLatest(series);
+    expect(ins?.kind).toBe("latest");
+    expect(ins?.template).toBe("Test output stood at 110.0 units in January 2010, up 10% from December 2009 and up 9.8% from a year earlier (100.2 units).");
+    expect(verifyInsight(ins!, indexFor(rows))).toEqual([]);
+    expect(checkCaption(ins!.template, ins!.facts)).toEqual([]);
+    expect(detectLatest(monthly(values).series)).toEqual([]);
+  });
+
+  it("leaves out the period change for seasonal series", () => {
+    const [ins] = detectLatest(monthly([...flat(119), 100, 110], { headline: true, seasonal: true }).series);
+    expect(ins?.template).not.toMatch(/December 2009/);
+  });
+});
+
+describe("breakdowns", () => {
+  it("traces every electricity and trade breakdown number to the data", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withBreakdown } = await import("./breakdown");
+    const energy = loadDataset("energy").series;
+    const trade = loadDataset("trade").series;
+    const index = new CellIndex();
+    const base = { kind: "latest", frequency: "monthly", facts: [], source: "S", chart: { type: "line", points: [], marks: [] } } as never as Insight;
+    const lastPower = energy.find((s) => s.id === "energy.power_total")!.points.at(-1)!.date;
+    const power = withBreakdown({ ...base, id: "p", dataset: "energy", seriesId: "energy.power_total", period: lastPower }, energy);
+    expect(power.breakdown?.blocks).toHaveLength(2);
+    expect(power.breakdown?.blocks[0]!.rows.map((r) => r.name)).toContain("Natural gas");
+    expect(verifyInsight(power, index)).toEqual([]);
+    const lastTrade = trade.find((s) => s.id === "trade.deficit")!.points.at(-1)!.date;
+    const deficit = withBreakdown({ ...base, id: "t", dataset: "trade", seriesId: "trade.deficit", period: lastTrade }, trade);
+    expect(deficit.breakdown?.blocks[0]!.rows).toHaveLength(5);
+    expect(verifyInsight(deficit, index)).toEqual([]);
+    expect(withBreakdown({ ...base, id: "g", dataset: "gas", seriesId: "gas.regular", period: lastTrade }, []).breakdown).toBeUndefined();
+  });
+});
+
+describe("companion lines on a data release", () => {
+  it("draws the trade deficit's imports and exports, with a bigger-picture card beside the partner breakdown", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withBreakdown } = await import("./breakdown");
+    const { withCompanion } = await import("./companion");
+    const { planThread } = await import("./thread");
+    const { slidePlan } = await import("./carousel");
+    const trade = loadDataset("trade").series;
+    const latest = trade.find((s) => s.id === "trade.deficit")!.points.at(-1)!.date;
+    const base = {
+      id: "t", dataset: "trade", seriesId: "trade.deficit", kind: "move_up", period: latest, frequency: "monthly", headline: "Trade deficit", title: "t",
+      template: "The U.S. trade deficit grew.", facts: [], context: [], url: "/trade", source: "S", score: 1, alt: "a",
+      chart: { type: "line", unit: null, axisLabel: "", frequency: "monthly", points: [{ date: addMonths(latest, -60), value: 1 }], marks: [] },
+    } as never as Insight;
+    const insight = withBreakdown(withCompanion(base, trade), trade);
+    expect(insight.alsoSeriesId).toBe("trade.imports");
+    expect(insight.chart.type === "line" && insight.chart.comparison?.mainLabel).toBe("Imports");
+    expect(insight.template).toMatch(/Imports were .* and exports were /);
+    expect(insight.template.length).toBeLessThanOrEqual(240);
+    expect(insight.bigger?.levels).toBe(true);
+    expect(insight.breakdown?.levels).toBeFalsy();
+    expect(verifyInsight(insight, new CellIndex())).toEqual([]);
+    // The bigger picture comes first, then what drove it; the carousel and the thread agree.
+    expect(slidePlan(insight).filter((s) => s.kind === "breakdown").map((s) => s.breakdown?.levels ?? false)).toEqual([true, false]);
+    const cards = planThread(insight)!.replies.flatMap((r) => (r.chart === undefined ? [] : [r.chart]));
+    expect(cards[0]).toBe(0);
+    expect(new Set(cards).size).toBe(cards.length);
+    expect(Math.max(...cards)).toBeGreaterThanOrEqual(1);
+  });
+
+  it("draws oil imports with exports (and the reverse), adding only the other line's sentence", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withCompanion } = await import("./companion");
+    const { explainer } = await import("./explain");
+    const energy = loadDataset("energy").series;
+    for (const [id, other, label] of [["energy.petroleum_imports", "energy.petroleum_exports", "Imports"], ["energy.petroleum_exports", "energy.petroleum_imports", "Exports"]] as const) {
+      const latest = energy.find((s) => s.id === id)!.points.at(-1)!.date;
+      const base = {
+        id: "o", dataset: "energy", seriesId: id, kind: "move_up", period: latest, frequency: "monthly", headline: "Oil", title: "t", template: "U.S. oil moved.", facts: [], context: [], url: "/energy", source: "S", score: 1, alt: "a",
+        chart: { type: "line", unit: null, axisLabel: "", frequency: "monthly", points: [{ date: addMonths(latest, -36), value: 1 }], marks: [] },
+      } as never as Insight;
+      const out = withCompanion(base, energy);
+      expect(out.alsoSeriesId).toBe(other);
+      expect(out.chart.type === "line" && out.chart.comparison?.mainLabel).toBe(label);
+      expect(out.template).toMatch(/\. (Exports|Imports) were /);
+      // Each line's peak, low and latest, then the crude and refined split (oil-trade.ts).
+      expect(out.bigger?.levels).toBe(true);
+      expect(out.breakdown?.stacked).toBeDefined();
+      expect(verifyInsight(out, new CellIndex())).toEqual([]);
+      expect(explainer(out).join(" ")).toMatch(/barrels a day/);
+    }
+  });
+
+  it("leaves other series, bar charts and months with no reading alone", async () => {
+    const { loadDataset } = await import("./datasets");
+    const { withCompanion } = await import("./companion");
+    const trade = loadDataset("trade").series;
+    const latest = trade.find((s) => s.id === "trade.deficit")!.points.at(-1)!.date;
+    const base = { id: "t", kind: "move_up", seriesId: "trade.deficit", frequency: "monthly", period: latest, template: "x.", facts: [], context: [], chart: { type: "bars", bars: [] } } as never as Insight;
+    expect(withCompanion(base, trade)).toBe(base);
+    expect(withCompanion({ ...base, seriesId: "gas.regular", chart: { type: "line", points: [], marks: [] } } as never as Insight, trade).alsoSeriesId).toBeUndefined();
+    expect(withCompanion({ ...base, period: "1901-01-01", chart: { type: "line", points: [], marks: [] } } as never as Insight, trade).alsoSeriesId).toBeUndefined();
+  });
+});
+
+describe("issue layout by platform", () => {
+  const draft = {
+    id: "energy.power_total:latest:2026-07-01",
+    kind: "latest",
+    dataset: "energy",
+    period: "2026-07-01",
+    headline: "Electricity",
+    caption: "Generation was high in July 2026.",
+    caption_source: "template",
+    caption_model: null,
+    link: "https://insidegov.fyi/presidency/energy",
+    post_text: "Generation was high in July 2026.\n\nhttps://insidegov.fyi/presidency/energy",
+    image: "x.png",
+    alt: "Chart",
+    source: "EIA",
+    score: 1,
+    facts: [],
+    template: "t",
+    series_id: "energy.power_total",
+    frequency: "monthly",
+    release: null,
+    reply_notes: [],
+    slides: ["x-ig-1.png"],
+    why: { title: "Why it rose", captionLine: "EIA cites heat.", paragraphs: ["Hot weather."], sources: [{ name: "EIA", url: "https://eia.gov/x" }] },
+  } as never as Parameters<typeof issueBody>[0];
+
+  it("keeps Bluesky and X together, then Instagram together, and rewrites both halves on an edit", async () => {
+    const { refreshCounts } = await import("./counts");
+    const body = issueBody(draft, "https://example.org/x.png");
+    const at = (s: string) => body.indexOf(s);
+    const order = ["## Bluesky and X", "**Post text**", "**Bluesky**", "**Why it moved**", "## Instagram", "**Instagram text**", "**Instagram slides**", 'Carousel slide "Why it rose"'].map(at);
+    expect(order.every((n) => n >= 0)).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    // Nothing for Bluesky or X comes after the Instagram heading.
+    expect(body.slice(at("## Instagram"))).not.toMatch(/\*\*Bluesky\*\*|\*\*Thread\*\*|\*\*Why it moved\*\*/);
+    const block = parseDraftBlock(body)!;
+    const next = refreshCounts(body, { ...block, caption: `${block.caption} More.` });
+    expect(next).toContain("Generation was high in July 2026. More.");
+    expect(next.indexOf("**Instagram text**")).toBeGreaterThan(next.indexOf("## Instagram"));
   });
 });

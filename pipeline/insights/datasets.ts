@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { economySeries, type TreasuryFiscal } from "./economy";
 import type { Administration, CellRef, DatasetId, EventSet, Point, Series, UnitFormat } from "./types";
 
 /**
@@ -40,62 +41,80 @@ export const DATASET_FILES: Record<DatasetId, string[]> = {
 
 export const DATASETS = Object.keys(DATASET_FILES) as DatasetId[];
 
-const MBD: UnitFormat = { scale: 0.001, decimals: 2, suffix: " million barrels a day" };
-const BKWH: UnitFormat = { scale: 0.001, decimals: 1, suffix: " billion kilowatthours" };
+const MBD: UnitFormat = { scale: 0.001, decimals: 2, suffix: "M barrels/day" };
+const BKWH: UnitFormat = { scale: 0.001, decimals: 1, suffix: "B kWh" };
 const COUNT: UnitFormat = { scale: 1, decimals: 0, suffix: "" };
-const USD_BN: UnitFormat = { scale: 0.001, decimals: 1, prefix: "$", suffix: " billion" };
+const USD_BN: UnitFormat = { scale: 0.001, decimals: 1, prefix: "$", suffix: "B" };
 
 type SeriesConfig = Omit<Series, "points" | "dataset" | "url" | "source" | "frequency" | "kind" | "moveMode"> &
   Partial<Pick<Series, "frequency" | "kind" | "moveMode">>;
 
 const EIA = "U.S. Energy Information Administration";
 const ENERGY: (SeriesConfig & { series_id: string })[] = [
-  { series_id: "PAPRPUS", id: "energy.crude_production", name: "U.S. crude oil production", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 1.3 },
-  { series_id: "PAEXPUS", id: "energy.petroleum_exports", name: "U.S. petroleum exports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 },
-  { series_id: "PAIMPUS", id: "energy.petroleum_imports", name: "U.S. petroleum imports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 },
-  { series_id: "COEXPUS", id: "energy.crude_exports", name: "U.S. crude oil exports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 },
+  { series_id: "PAPRPUS", anchor: "#supply", id: "energy.crude_production", title: "U.S. oil production", name: "U.S. crude oil production", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 1.3 , note: "Crude oil, monthly average", newsOnly: true, releaseLagDays: 60 },
+  { series_id: "PAEXPUS", anchor: "#oil", id: "energy.petroleum_exports", title: "U.S. oil exports", name: "U.S. petroleum exports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , note: "Crude oil plus refined products", releaseLagDays: 60 },
+  { series_id: "PAIMPUS", anchor: "#oil", id: "energy.petroleum_imports", title: "U.S. oil imports", name: "U.S. petroleum imports (crude oil plus products)", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , note: "Crude oil plus refined products", releaseLagDays: 60, headline: true },
+  // The crude parts of the oil pair: the oil trade post's card splits each flow into crude oil and refined products (oil-trade.ts).
+  // News-only, so a release gives one oil post (imports or exports), not a third for crude alone.
+  { series_id: "COEXPUS", anchor: "#oil", id: "energy.crude_exports", title: "U.S. crude oil exports", name: "U.S. crude oil exports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , newsOnly: true, releaseLagDays: 60 },
+  { series_id: "COIMPUS", anchor: "#oil", id: "energy.crude_imports", title: "U.S. crude oil imports", name: "U.S. crude oil imports", axisLabel: "million barrels a day", unit: MBD, seasonal: false, weight: 0.9 , newsOnly: true, releaseLagDays: 60 },
   {
-    series_id: "WCSSTUS1",
-    id: "energy.spr",
+    series_id: "WCSSTUS1", anchor: "#spr",
+    id: "energy.spr", title: "The Strategic Petroleum Reserve",
     name: "crude oil in the Strategic Petroleum Reserve",
     axisLabel: "million barrels",
-    unit: { scale: 0.001, decimals: 1, suffix: " million barrels" },
+    unit: { scale: 0.001, decimals: 1, suffix: "M barrels" },
     seasonal: false,
     frequency: "weekly",
     weight: 1.2,
+    // Weekly series post only when the news is about them (types.ts Series.newsOnly).
+    newsOnly: true,
+    // Weekly Petroleum Status Report: the week ending Friday is out the next Wednesday.
+    releaseLagDays: 5,
   },
   // Monthly totals vary with the number of days in a month, so these compare like months.
-  { series_id: "NGPRPUS", id: "energy.gas_production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: " billion cubic feet" }, seasonal: true, weight: 0.9 },
-  { series_id: "N9133US2", id: "energy.lng_exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: " billion cubic feet" }, seasonal: true, weight: 1.1 },
-  { series_id: "ELETPUS", id: "energy.power_total", name: "U.S. electricity generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 },
-  { series_id: "CLETPUS", id: "energy.power_coal", name: "U.S. electricity generation from coal", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 },
-  { series_id: "NGETPUS", id: "energy.power_gas", name: "U.S. electricity generation from natural gas", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 },
-  { series_id: "NUETPUS", id: "energy.power_nuclear", name: "U.S. electricity generation from nuclear plants", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.8 },
-  { series_id: "WYETPUS", id: "energy.power_wind", name: "U.S. electricity generation from wind", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 },
-  { series_id: "SOETPUS", id: "energy.power_solar", name: "U.S. utility-scale solar generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 },
+  { series_id: "NGPRPUS", id: "energy.gas_production", title: "U.S. natural gas production", name: "U.S. dry natural gas production", axisLabel: "billion cubic feet", unit: { scale: 1, decimals: 0, suffix: "B cu ft" }, seasonal: true, weight: 0.9 , note: "Dry natural gas", newsOnly: true, releaseLagDays: 60 },
+  { series_id: "N9133US2", anchor: "#lng", id: "energy.lng_exports", title: "U.S. LNG exports", name: "U.S. liquefied natural gas exports", axisLabel: "billion cubic feet", unit: { scale: 0.001, decimals: 1, suffix: "B cu ft" }, seasonal: true, weight: 1.1 , note: "Liquefied natural gas", newsOnly: true, releaseLagDays: 60 },
+  { series_id: "ELETPUS", anchor: "#electricity", id: "energy.power_total", title: "U.S. electricity generation", name: "U.S. electricity generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , releaseLagDays: 55, headline: true },
+  { series_id: "CLETPUS", anchor: "#electricity", id: "energy.power_coal", title: "Electricity from coal", name: "U.S. electricity generation from coal", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 1.0 , newsOnly: true, releaseLagDays: 55 },
+  { series_id: "NGETPUS", anchor: "#electricity", id: "energy.power_gas", title: "Electricity from natural gas", name: "U.S. electricity generation from natural gas", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , newsOnly: true, releaseLagDays: 55 },
+  { series_id: "NUETPUS", anchor: "#electricity", id: "energy.power_nuclear", title: "Electricity from nuclear power", name: "U.S. electricity generation from nuclear plants", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.8 , newsOnly: true, releaseLagDays: 55 },
+  { series_id: "WYETPUS", anchor: "#electricity", id: "energy.power_wind", title: "Electricity from wind", name: "U.S. electricity generation from wind", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , newsOnly: true, releaseLagDays: 55 },
+  { series_id: "SOETPUS", anchor: "#electricity", id: "energy.power_solar", title: "Electricity from solar", name: "U.S. utility-scale solar generation", axisLabel: "billion kilowatthours", unit: BKWH, seasonal: true, weight: 0.9 , newsOnly: true, note: "Utility-scale plants only", releaseLagDays: 55 },
 ];
+
+/** Insight series id to EIA series id ("energy.spr" -> "WCSSTUS1"), the key energy_actions.json flags its actions with. */
+export const EIA_SERIES: Record<string, string> = Object.fromEntries(ENERGY.map((c) => [c.id, c.series_id]));
 
 const GAS: (SeriesConfig & { series_id: string })[] = [
   {
-    series_id: "GASREGW",
-    id: "gas.regular",
+    series_id: "GASREGW", anchor: "#gas-price",
+    id: "gas.regular", title: "Gas prices",
     name: "the U.S. average price of regular gasoline",
     axisLabel: "dollars a gallon",
-    unit: { scale: 1, decimals: 2, prefix: "$", suffix: " a gallon" },
+    unit: { scale: 1, decimals: 2, prefix: "$", suffix: "/gal" },
     seasonal: false,
     frequency: "weekly",
     context: ["Weekly retail price averaged over all U.S. stations, in nominal dollars (not adjusted for inflation)."],
     weight: 1.5,
+    note: "Regular gasoline · Not adjusted for inflation",
+    // Weekly: posts only when gas prices are in the news (types.ts Series.newsOnly).
+    newsOnly: true,
+    // EIA surveys stations on Monday and publishes that afternoon or Tuesday.
+    releaseLagDays: 1,
   },
   {
-    series_id: "GASDESW",
-    id: "gas.diesel",
+    series_id: "GASDESW", anchor: "#gas-price",
+    id: "gas.diesel", title: "Diesel prices",
     name: "the U.S. average price of diesel",
     axisLabel: "dollars a gallon",
-    unit: { scale: 1, decimals: 2, prefix: "$", suffix: " a gallon" },
+    unit: { scale: 1, decimals: 2, prefix: "$", suffix: "/gal" },
     seasonal: false,
     frequency: "weekly",
     weight: 1.1,
+    note: "Not adjusted for inflation",
+    newsOnly: true,
+    releaseLagDays: 1,
   },
 ];
 
@@ -115,9 +134,17 @@ export function loadEnergy(ref?: string): Series[] {
   return ENERGY.map((c) => observationSeries(rows, ENERGY_OBS, c, { dataset: "energy", url: "/presidency/energy", source: EIA }));
 }
 
+/** The Economy page's other cards as news-only series (economy.ts): from the indicator rows and Treasury's newer figures. */
+function loadEconomy(rows: Row[], ref?: string): Series[] {
+  return economySeries(rows, readOutput<TreasuryFiscal>(`${OUT}/treasury_fiscal.json`, ref));
+}
+
 export function loadGas(ref?: string): Series[] {
   const rows = readOutput(INDICATOR_OBS, ref);
-  return GAS.map((c) => observationSeries(rows, INDICATOR_OBS, c, { dataset: "gas", url: "/presidency/economy", source: `${EIA}, via FRED` }));
+  return [
+    ...GAS.map((c) => observationSeries(rows, INDICATOR_OBS, c, { dataset: "gas", url: "/presidency/economy", source: `${EIA}, via FRED` })),
+    ...loadEconomy(rows, ref),
+  ];
 }
 
 /** CBP encounters: Border Patrol apprehensions plus port-of-entry inadmissibles, Title 8 and Title 42 added together. */
@@ -135,6 +162,8 @@ export function loadEncounters(ref?: string): Series[] {
     return {
       id: `encounters.${scope}`,
       dataset: "encounters" as const,
+      title: scope === "southwest" ? "Southwest border encounters" : "Border encounters nationwide",
+      note: "Border Patrol and port-of-entry encounters",
       name: scope === "southwest" ? "CBP encounters at the southwest border" : "CBP encounters nationwide",
       axisLabel: "encounters per month",
       totalAxisLabel: "encounters",
@@ -149,8 +178,12 @@ export function loadEncounters(ref?: string): Series[] {
       ],
       points: [...byMonth.values()].sort((a, b) => a.date.localeCompare(b.date)),
       url: "/presidency/immigration",
+      anchor: "#border-encounters-by-fiscal-year",
       source: "U.S. Customs and Border Protection",
       weight: scope === "southwest" ? 1.5 : 1.1,
+      headline: scope === "southwest",
+      // CBP posts a month's figures in the middle of the next month.
+      releaseLagDays: 18,
     };
   });
   return [...monthly, loadEncountersFiscal(ref)];
@@ -173,6 +206,8 @@ function loadEncountersFiscal(ref?: string): Series {
   return {
     id: "encounters.southwest_fy",
     dataset: "encounters",
+    title: "Southwest border encounters",
+    note: "Border Patrol and port-of-entry encounters",
     name: "CBP encounters at the southwest border",
     axisLabel: "encounters per fiscal year",
     unit: COUNT,
@@ -186,8 +221,10 @@ function loadEncountersFiscal(ref?: string): Series {
     ],
     points: [...byYear.values()].filter((p) => p.complete).map((p) => ({ date: p.date, value: p.value, cells: p.cells })).sort((a, b) => a.date.localeCompare(b.date)),
     url: "/presidency/immigration",
+    anchor: "#border-encounters-by-fiscal-year",
     source: "U.S. Customs and Border Protection",
     weight: 1.5,
+    releaseLagDays: 18,
   };
 }
 
@@ -195,12 +232,14 @@ function loadEncountersFiscal(ref?: string): Series {
 export function loadIce(ref?: string): Series[] {
   const rows = readOutput(ENFORCEMENT, ref);
   const metrics = [
-    { metric: "removals", id: "ice.removals", name: "ICE removals", axisLabel: "removals per fiscal year", weight: 1.4 },
-    { metric: "detention_adp", id: "ice.detention", name: "the average daily population in ICE detention", axisLabel: "people, daily average", weight: 1.2 },
+    { metric: "removals", id: "ice.removals", title: "Deportations", note: "ICE removals", name: "ICE removals", axisLabel: "removals per fiscal year", weight: 1.4 },
+    { metric: "detention_adp", id: "ice.detention", title: "People in ICE detention", note: "Daily average", name: "the average daily population in ICE detention", axisLabel: "people, daily average", weight: 1.2 },
   ];
   return metrics.map((m) => ({
     id: m.id,
     dataset: "ice" as const,
+    title: m.title,
+    note: m.note,
     name: m.name,
     axisLabel: m.axisLabel,
     unit: COUNT,
@@ -218,8 +257,11 @@ export function loadIce(ref?: string): Series[] {
       .sort((a, b) => a.date.localeCompare(b.date)),
     context: ["ICE fiscal years run October to September; the newest year's figure is preliminary until ICE's annual report."],
     url: "/presidency/immigration",
+    anchor: "#removals-returns-and-detention-by-fiscal-year",
     source: "U.S. Immigration and Customs Enforcement",
     weight: m.weight,
+    // ICE's annual report comes out months after the fiscal year ends.
+    releaseLagDays: 90,
   }));
 }
 
@@ -227,15 +269,16 @@ export function loadIce(ref?: string): Series[] {
 export function loadTrade(ref?: string): Series[] {
   const rows = readOutput(TRADE, ref).filter((r) => r.frequency === "monthly" && r.basis === "census" && r.scope === "goods" && r.adjustment === "sa");
   const defs = [
-    { field: "balance", id: "trade.deficit", name: "the U.S. goods trade deficit", negate: true, weight: 1.4, words: { high: "largest", low: "smallest", up: "widened", down: "narrowed" } },
-    { field: "exports", id: "trade.exports", name: "U.S. goods exports", negate: false, weight: 1.0, words: undefined },
-    { field: "imports", id: "trade.imports", name: "U.S. goods imports", negate: false, weight: 1.1, words: undefined },
+    { field: "balance", id: "trade.deficit", title: "The U.S. trade deficit", name: "the U.S. goods trade deficit", negate: true, weight: 1.4, words: { high: "largest", low: "smallest", up: "widened", down: "narrowed" } },
+    { field: "exports", id: "trade.exports", title: "U.S. exports", name: "U.S. goods exports", negate: false, weight: 1.0, words: undefined },
+    { field: "imports", id: "trade.imports", title: "U.S. imports", name: "U.S. goods imports", negate: false, weight: 1.1, words: undefined },
   ];
   return defs.map((d) => ({
     id: d.id,
     dataset: "trade" as const,
+    title: d.title,
     name: d.name,
-    axisLabel: "billions of dollars a month, seasonally adjusted",
+    axisLabel: "billions of dollars a month",
     unit: USD_BN,
     frequency: "monthly" as const,
     seasonal: false,
@@ -248,12 +291,17 @@ export function loadTrade(ref?: string): Series[] {
         return { date: monthDate(String(r.period)), value: (d.negate ? -1 : 1) * (r[d.field] as number), cells: [cell] };
       })
       .sort((a, b) => a.date.localeCompare(b.date)),
-    totalUnit: { scale: 0.000001, decimals: 2, prefix: "$", suffix: " trillion" },
-    totalAxisLabel: "trillions of dollars, not adjusted for inflation",
+    totalUnit: { scale: 0.000001, decimals: 2, prefix: "$", suffix: "T" },
+    totalAxisLabel: "trillions of dollars",
     context: ["Dollar figures are nominal: not adjusted for inflation.", "Monthly figures are seasonally adjusted (the Census headline basis)."],
+    note: "Goods only · Seasonally adjusted · Not adjusted for inflation",
     url: "/presidency/trade",
+    anchor: "#trade-balance",
     source: "U.S. Census Bureau",
     weight: d.weight,
+    headline: d.id === "trade.deficit",
+    // The Census/BEA trade release comes about five weeks after the month ends.
+    releaseLagDays: 36,
   }));
 }
 
@@ -263,13 +311,14 @@ export function loadExecutiveOrders(ref?: string): EventSet {
     id: "executive_orders",
     dataset: "executive_orders",
     name: "executive orders",
+    title: "Executive orders signed",
     verb: "signed",
     // The Federal Register's executive-order data starts in 1994, a year into Clinton's first term.
     coverageStart: "1994-01-01",
     events: rows
       .map((r) => ({ date: String(r.signing_date), cell: { file: EOS, key: { eo_number: r.eo_number as number }, field: "__row" } }))
       .sort((a, b) => a.date.localeCompare(b.date)),
-    url: "/presidency/executive-orders",
+    url: "/presidency/executive-actions",
     source: "Federal Register",
     weight: 1.3,
   };
@@ -281,6 +330,7 @@ export function loadLaws(ref?: string): EventSet {
     id: "laws",
     dataset: "laws",
     name: "public laws",
+    title: "Laws passed",
     verb: "enacted",
     coverageStart: "1973-01-03",
     events: rows

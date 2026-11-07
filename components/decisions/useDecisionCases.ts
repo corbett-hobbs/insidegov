@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { DecisionCase } from "@/lib/decisions-types";
 
 /** Fields per row in the current shape (see `DecisionCase`). An older cached copy has fewer, and would silently lack the outcome tag. */
-const ROW_FIELDS = 15;
+const ROW_FIELDS = 16;
 
 let cached: Promise<DecisionCase[]> | null = null;
 

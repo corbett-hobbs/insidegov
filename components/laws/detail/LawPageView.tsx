@@ -249,7 +249,7 @@ export function LawPageView({ law }: { law: LawPageData }) {
         </div>
       </PageHeader>
       <Summary law={law} />
-      {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} />}
+      {law.votes.length > 0 && <LawVotesCard chambers={law.votes} congressLabel={ordinal(law.congress)} unrecorded={(["House", "Senate"] as const).filter((c) => !law.votes.some((v) => v.chamber === c)).map((chamber) => ({ chamber, method: methodText(law.passage[chamber === "House" ? "house" : "senate"]) }))} />}
       <div className={`grid grid-cols-1 gap-6 ${law.full ? "lg:grid-cols-2" : ""}`}>
         <Committees law={law} />
         {law.full && <Related law={law} />}

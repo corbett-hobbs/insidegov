@@ -250,10 +250,10 @@ shows, and why:
   special entries) to the partner's total in the cards above.
 - *Collected rate per chapter (imports):* calculated duty / imports for consumption (tuple index 3 / index 2). Never
   over general imports, which include goods entering bonded warehouses and trade zones that owe no duty yet.
-- *Special entries are a footnote:* chapters 98-99 are summed into one line under the lists, naming the two
-  largest special headings by their `SPECIAL_HEADINGS` label ("Plus $109B in special entries, not ranked as
-  chapters: returned American goods $73.6B, low-value shipments (estimated) $25.0B, other $10.7B", all countries,
-  imports, 2026 through August).
+- *Special entries are a footnote:* chapters 98-99 are summed into one note under the lists, naming the two
+  largest special headings by their `SPECIAL_HEADINGS` label ("Neither list includes $109B of special entries,
+  shipments recorded by how they were handled rather than what they are. Largest: returned American goods $73.6B,
+  low-value shipments (estimated) $25.0B.", all countries, imports, 2026 through August).
 - *Heading names:* none are needed any more. The hand-written names table (`lib/trade-hs-headings.ts`, 1,233 headings)
   went with the "Top products" list; it is in git history if a heading level ever returns.
 - *Year in progress:* labelled "so far" with its months. Where a partner's year-to-date product total trails the
@@ -377,9 +377,8 @@ needed to start over.
 Country filter and Exports / Imports toggle; dollars, with each category's collected rate on imports, as for chapters.
 Served per partner (and `all`, from `trade_enduse_national.json`) by the static route `/data/trade/enduse/[code]`
 (`lib/trade-enduse-data.ts`, category codes only: the names are `lib/trade-enduse-labels.ts`, small enough for the
-client). Every category with trade is ranked (special entries never: "Plus $107B in special entries, not ranked as
-uses: U.S. goods returned & reimports $73.6B, minimum-value shipments $25.0B, other $8.8B", all countries, imports, 2026
-through August). With all countries showing a line opens to its chapters (below) and its top five countries
+client). Every category with trade is ranked (special entries never; the one note under both lists sums them, and
+adds the use tally only when it prints differently from the chapter tally). With all countries showing a line opens to its chapters (below) and its top five countries
 (`/data/trade/enduse-partners/[year]`, from `trade_enduse_partners.json`); with one country picked rows do not open.
 The Data notes name the 2010 start, the source and the civilian-aircraft asymmetry (exports one line, imports three).
 The partner lag note is shared with the chapters: the end-use and HS files agree to the dollar. `next.config.ts` keeps

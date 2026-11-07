@@ -62,3 +62,15 @@ describe("buildHubTariff", () => {
     expect(fmtRate(6.872)).toBe("6.9%");
   });
 });
+
+describe("buildHubTariff peak", () => {
+  it("names the highest month when it is not the newest", () => {
+    const spike = (i: number) => (i === monthIndex("2025-10") ? 10.8 : before("2025-01")(i) ? 2.4 : 7);
+    const d = Array.from({ length: N }, (_, i) => (before("1993-01")(i) ? null : spike(i)));
+    expect(buildHubTariff(d, imports, TERMS).peak).toEqual({ label: "October 2025", rate: 10.8 });
+  });
+
+  it("is null when the newest month is the highest", () => {
+    expect(buildHubTariff(duties, imports, TERMS).peak).toBeNull();
+  });
+});

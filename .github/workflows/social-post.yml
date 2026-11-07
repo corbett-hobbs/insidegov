@@ -1,33 +1,57 @@
-name: Social post (disabled)
+name: Social post (scheduled, disabled)
 
-# Posts an approved social draft to Bluesky. DISABLED: the job runs only when the repository variable
-# SOCIAL_POSTING_ENABLED is "true" (Settings > Secrets and variables > Actions > Variables), and it is unset.
+# The posting scheduler. Approving a `social-draft` issue (label `social-approved`) only QUEUES it; at each slot this
+# runs pipeline/insights/post-next.ts, which expires stale drafts and posts at most one (rules: pipeline/insights/schedule.ts):
+#   - weekdays from 9:00 a.m. Pacific (noon Eastern), and from 1:00 p.m. Pacific (4:00 p.m. Eastern) only when 3+
+#     drafts are waiting. Each slot is a window (9-1 and 1-5 Pacific) with at most one post: GitHub starts scheduled
+#     runs hours late or drops them, so the cron fires every 15 minutes (off the quarter hours, when GitHub is least
+#     loaded) across both windows in either daylight-saving season, and post-next.ts --slot auto exits outside them.
+#     Approving a draft (label `social-approved`) also starts a run, so a draft approved inside a window posts within
+#     minutes instead of waiting for a cron run that may never start; approved outside a window, that run exits;
+#   - social-post-relay.yml starts a run here every few minutes inside the windows while a draft is waiting, because
+#     GitHub's cron skips whole windows (it is the real clock; the cron below is a backup);
+#   - at most 2 a day, 8 in any 7 days, 3 hours apart, a topic at most twice a week;
+#   - the intro thread first; nothing past its freshness window (freshness.ts).
 #
-# To enable (see pipeline/insights/README.md, "Turning posting on"):
-#   1. create a Bluesky app password (Settings > Privacy and security > App passwords) for the InsideGov account;
-#   2. add repo secrets BLUESKY_HANDLE and BLUESKY_APP_PASSWORD;
-#   3. set the repo variable SOCIAL_POSTING_ENABLED to true.
-# Then adding the `social-approved` label to a `social-draft` issue posts exactly its caption, link and image, comments
-# the post URL, labels it `social-posted` and closes it. The poster re-checks the caption against the draft's facts.
+# DISABLED: scheduled runs do nothing until the repo variable SOCIAL_POSTING_ENABLED is "true". A manual run without
+# it is a dry run that prints the decision. Each platform posts once its secrets are set:
+#   Bluesky: BLUESKY_HANDLE, BLUESKY_APP_PASSWORD
+#   X:       X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET (repo variable X_INCLUDE_LINK=true adds links)
+# Setup: pipeline/insights/README.md, "Setting up the accounts".
 
 on:
+  schedule:
+    # 9 a.m.-5 p.m. Pacific is 16:00-00:00 UTC in summer, 17:00-01:00 in winter; the 0-1 UTC runs are the evening
+    # before in Pacific, hence Tue-Sat.
+    - cron: "7,22,37,52 16-23 * * 1-5"
+    - cron: "7,22,37,52 0,1 * * 2-6"
+  # Approving a draft starts a run (the job below ignores every other label). It runs the same rules as a cron run, so
+  # one extra trigger can never post twice or past a cap.
   issues:
     types: [labeled]
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Which slot to run (auto: whichever it is now, Pacific time)"
+        type: choice
+        options: [morning, afternoon, auto]
+        default: morning
+      dry_run:
+        description: "Print the decision, post nothing"
+        type: boolean
+        default: true
 
 permissions:
   contents: read
   issues: write
 
 concurrency:
-  group: social-post-${{ github.event.issue.number }}
+  group: social-post
   cancel-in-progress: false
 
 jobs:
   post:
-    if: >-
-      vars.SOCIAL_POSTING_ENABLED == 'true' &&
-      github.event.label.name == 'social-approved' &&
-      contains(github.event.issue.labels.*.name, 'social-draft')
+    if: (vars.SOCIAL_POSTING_ENABLED == 'true' || github.event_name == 'workflow_dispatch') && (github.event_name != 'issues' || github.event.label.name == 'social-approved')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -41,10 +65,34 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Post to Bluesky
+      - name: Post the next draft
+        id: post
         env:
           GH_TOKEN: ${{ github.token }}
           SOCIAL_POSTING_ENABLED: ${{ vars.SOCIAL_POSTING_ENABLED }}
+          X_INCLUDE_LINK: ${{ vars.X_INCLUDE_LINK }}
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
-        run: pnpm insights:post -- --issue ${{ github.event.issue.number }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          SLOT: ${{ inputs.slot || 'auto' }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+        run: pnpm exec tsx pipeline/insights/post-next.ts --slot "$SLOT" $DRY_RUN
+
+      # One email when something posted, a post failed or a draft expired unposted. Never fails the job.
+      - name: Notify
+        if: steps.post.outputs.notify == 'true'
+        uses: ./.github/actions/notify
+        with:
+          subject: ${{ steps.post.outputs.subject }}
+          body: "Social post scheduler, ${{ github.run_id }}. Details below; the draft issues have the full record."
+          url: ${{ github.server_url }}/${{ github.repository }}/issues?q=label%3Asocial-draft
+          body-file: ${{ runner.temp }}/social-post-summary.txt
+          smtp-server: ${{ secrets.NOTIFY_SMTP_SERVER }}
+          smtp-port: ${{ secrets.NOTIFY_SMTP_PORT }}
+          smtp-user: ${{ secrets.NOTIFY_SMTP_USER }}
+          smtp-password: ${{ secrets.NOTIFY_SMTP_PASSWORD }}
+          email-to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          slack-webhook: ${{ secrets.NOTIFY_SLACK_WEBHOOK }}

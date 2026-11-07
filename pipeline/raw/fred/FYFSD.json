@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-16T21:34:24.036Z","series":{"id":"FYFSD","title":"Federal Surplus or Deficit [-]","units":"Millions of Dollars","frequency":"Annual, Fiscal Year","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1901-06-30","observation_end":"2025-09-30","last_updated":"2026-04-03 12:02:11-05","notes":"Dates represent the end of the fiscal year. Fiscal year series are updated with official OMB figures in January or February. In October, the latest fiscal year is updated with figures from the Treasury Department (September figures from the Treasury's fiscal year to date series)."}},
+  "head": {"fetched_at":"2026-10-30T19:12:00.631Z","series":{"id":"FYFSD","title":"Federal Surplus or Deficit [-]","units":"Millions of Dollars","frequency":"Annual, Fiscal Year","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1901-06-30","observation_end":"2026-09-30","last_updated":"2026-10-28 19:17:26-05","notes":"Dates represent the end of the fiscal year. Fiscal year series are updated with official OMB figures in January or February. In October, the latest fiscal year is updated with figures from the Treasury Department (September figures from the Treasury's fiscal year to date series)."}},
   "observations": [
     ["1901-06-30","63"],
     ["1902-06-30","77"],
@@ -115,16 +115,17 @@
     ["2012-09-30","-1076573.0"],
     ["2013-09-30","-679775.0"],
     ["2014-09-30","-484793.0"],
-    ["2015-09-30","-441960.0"],
-    ["2016-09-30","-584650.0"],
-    ["2017-09-30","-665450.0"],
-    ["2018-09-30","-779074.0"],
-    ["2019-09-30","-983588.0"],
-    ["2020-09-30","-3095653.0"],
-    ["2021-09-30","-2773594.0"],
-    ["2022-09-30","-1374171.0"],
-    ["2023-09-30","-1687467.0"],
-    ["2024-09-30","-1815377.0"],
-    ["2025-09-30","-1774684.0"]
+    ["2015-09-30","-438898.85812271"],
+    ["2016-09-30","-587411.7696363"],
+    ["2017-09-30","-665711.51306226"],
+    ["2018-09-30","-778996.25186611"],
+    ["2019-09-30","-984388.02633138"],
+    ["2020-09-30","-3131917.2488882998"],
+    ["2021-09-30","-2772178.7882894198"],
+    ["2022-09-30","-1375388.552955"],
+    ["2023-09-30","-1695148.3005307701"],
+    ["2024-09-30","-1832815.98907404"],
+    ["2025-09-30","-1775357.2807338701"],
+    ["2026-09-30","-1992473.2243524201"]
   ]
 }

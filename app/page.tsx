@@ -17,6 +17,8 @@ import { getTimelinePayload } from "@/lib/timeline-data";
 import { HomeBranchCard } from "@/components/home/HomeBranchCard";
 import { HomeMotion } from "@/components/home/HomeMotion";
 import { IntroWords } from "@/components/home/IntroWords";
+import { FastFacts } from "@/components/home/FastFacts";
+import { getFastFacts } from "@/lib/fast-facts-data";
 
 export const metadata: Metadata = pageMetadata({ title: site.homeTitle, description: site.description, path: "/", absolute: true });
 
@@ -24,7 +26,7 @@ const BLURBS: Record<string, string> = {
   congress:
     "Every member\u2019s votes as a two-dimensional ideology score, the laws Congress enacts and how broadly they are supported, estimated net worth from financial disclosures, and who serves by age, gender and tenure.",
   "supreme-court":
-    "Where the justices sit over time, based on their ideology, and how many cases the Court decides and how often it splits.",
+    "Where the justices sit over time based on their ideology, how many cases the Court decides, and how often it splits.",
   presidency:
     "The economy, trade, immigration, energy, foreign aid, troops abroad and executive orders, laid out against each presidential term, from gas prices and tariffs to deportations.",
 };
@@ -56,6 +58,7 @@ export default function Hub() {
   const congress = getViewCurrent("both");
   const court = getCourtPayload();
   const tariff = getHubTariff();
+  const fastFacts = getFastFacts();
 
   // Party gap per Congress, to say how today's divide ranks historically.
   const gaps = trend
@@ -84,11 +87,7 @@ export default function Hub() {
         }
         intro={
           <p>
-            The news runs on numbers: gas prices, mortgage rates, tariffs,
-            deportations, the deficit, the vote on a new law, a 6&ndash;3 ruling.
-            The stories rarely come with the charts. InsideGov is where
-            you find them, drawn from the government&rsquo;s own records so you
-            can see the data behind the headlines for yourself.
+            The headlines give you the numbers&mdash;gas prices, tariffs, court rulings, national debt&mdash;but rarely show you the full context. InsideGov pulls straight from official public records, putting the historical data behind the news directly in your hands.
           </p>
         }
         startHref={href(presidency)}
@@ -96,13 +95,16 @@ export default function Hub() {
       />
 
       <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 sm:px-6">
-        <p className="home-intro pb-3 pt-12 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
+        <h2 className="-mb-3 pt-12 font-mono text-[0.68rem] font-medium uppercase tracking-[0.14em] text-accent">The Data Behind the Headlines</h2>
+        <p className="home-intro pb-3 font-serif text-[clamp(1.35rem,2.6vw,1.9rem)] leading-snug tracking-tight">
           <IntroWords
-            before="When a number makes the news, the same questions follow: is it high, has it happened before, and on whose watch did it change? Every chart here runs up to the latest figures and back through "
-            highlight="who held power"
-            after=". That includes the officeholders themselves, from how they vote to what they’re worth."
+            before="When a number makes headlines, three questions immediately follow: Is it unusually high, has it happened before, and "
+            highlight="on whose watch did it change?"
+            after=" Every chart tracks historical trends across changing political administrations, while parallel pages let you look up individual lawmakers—from their personal voting records to financial disclosures."
           />
         </p>
+
+        <FastFacts facts={fastFacts.facts} updated={fastFacts.updated} />
 
         <HomeBranchCard
           grow
@@ -119,8 +121,8 @@ export default function Hub() {
                 Average tariff on imports · {tariff.first.slice(0, 4)}&ndash;{tariff.latest.label.slice(-4)}
               </span>
               <Link
-                href={href(presidency)}
-                aria-label={`${presidency.label}: open the first page`}
+                href={`${presidency.href}/trade#tariffs`}
+                aria-label="Presidency: open the trade page"
                 className="flex flex-1"
               >
                 <HubTariffChart data={tariff} stretch />
@@ -153,6 +155,7 @@ export default function Hub() {
             <Stat figure={fmtRate(tariff.latest.rate)}>
               average tariff on U.S. imports in {tariff.latest.label}
               {tariff.baseline && <>, up from {fmtRate(tariff.baseline.rate)} in {tariff.baseline.year}</>}
+              {tariff.peak && <>{tariff.baseline ? ", but" : ","} down from {fmtRate(tariff.peak.rate)} in {tariff.peak.label}</>}
             </Stat>
           }
         />
@@ -164,8 +167,8 @@ export default function Hub() {
           blurb={BLURBS.congress}
           viz={
             <Link
-              href={href(congressBranch)}
-              aria-label={`${congressBranch.label}: open the first page`}
+              href={`${congressBranch.href}/ideology`}
+              aria-label="Congress: open the ideology page"
               className="block"
             >
               <HubCompass members={congress.plottable} />
@@ -189,8 +192,8 @@ export default function Hub() {
           blurb={BLURBS["supreme-court"]}
           viz={
             <Link
-              href={href(courtBranch)}
-              aria-label={`${courtBranch.label}: open the first page`}
+              href={`${courtBranch.href}/ideology`}
+              aria-label="Supreme Court: open the ideology page"
               className="block"
             >
               <CourtHubStrip data={court} compact />

@@ -1,0 +1,192 @@
+import { ImageResponse } from "next/og";
+import type { ReactNode } from "react";
+import { ACCENT, ACCENT_LIGHT, Badge, HEIGHT, INK, MUTED, NEUTRAL, SITE_URL, SURFACE, WIDTH, backdropSrc, badgeOf, kickerFor, sealSrc, serifFont } from "./chart";
+import { CARD_ORDERS, type ListedOrder, fitOrders, insightOrders, listFootnote, listKind, moreNote, orderDate, ordersHeading } from "./eo-list";
+import { monthName } from "./format";
+import { netLine, stackedRows } from "./oil-trade";
+import { breakdownsOf, rowValue } from "./research";
+import type { Breakdown, Insight } from "./types";
+
+/**
+ * The charts in an X and Bluesky thread (thread.ts) that are not the draft's own chart: one 1200x675 card per
+ * breakdown block ("What drove it"), drawn in the same frame as the chart card (header, backdrop, source line) so the
+ * images sit together in a timeline. The carousel's breakdown slide (carousel.tsx) shows both blocks in one portrait
+ * slide; a thread gives each block its own post. Every value is a verified fact (breakdown.ts).
+ *
+ * A monthly executive-order post's thread also gets one card listing the month's orders (eo-list.ts), after the breakdown cards.
+ */
+
+const PAD = 60;
+const NAME_W = 250;
+const VALUE_W = 190;
+const BAR_W = WIDTH - 2 * PAD - NAME_W - VALUE_W;
+const ROW_H = 54;
+const BACKDROP_H = 270;
+
+type Block = NonNullable<Insight["breakdown"]>["blocks"][number];
+
+const STACK_NAME_W = 190;
+const STACK_W = WIDTH - 2 * PAD - STACK_NAME_W;
+
+/** Two stacked bars on one scale (the oil trade card): each bar's total beside its name, the split under it with the shares, then the gap. */
+function Stacked({ insight, b }: { insight: Insight; b: Breakdown }): ReactNode {
+  const rows = stackedRows(insight, b.stacked!);
+  const scale = STACK_W / Math.max(...rows.map((r) => r.total));
+  const colours = [ACCENT, ACCENT_LIGHT];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", marginTop: 38 }}>
+      {rows.map((r, i) => (
+        <div key={i} style={{ display: "flex", marginBottom: 40 }}>
+          <div style={{ display: "flex", flexDirection: "column", width: STACK_NAME_W }}>
+            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 34 }}>{r.label}</div>
+            <div style={{ display: "flex", fontSize: 24, color: INK, marginTop: 2 }}>{r.totalText}</div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", height: 68 }}>
+              {r.parts.map((p, j) => (
+                <div key={j} style={{ display: "flex", width: Math.max(2, p.value * scale), height: 68, background: colours[j], marginRight: j === 0 ? 3 : 0, borderRadius: j === 0 ? "4px 0 0 4px" : "0 4px 4px 0" }} />
+              ))}
+            </div>
+            <div style={{ display: "flex", marginTop: 12, fontSize: 25, color: INK }}>
+              {r.parts.map((p, j) => (
+                <div key={j} style={{ display: "flex", alignItems: "center", marginRight: 34 }}>
+                  <div style={{ display: "flex", width: 18, height: 18, borderRadius: 3, background: colours[j], marginRight: 9 }} />
+                  {`${p.name} ${p.share}`}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 38, marginTop: 8 }}>{netLine(insight, b.stacked!)}</div>
+    </div>
+  );
+}
+
+function Rows({ insight, block, rowH = ROW_H }: { insight: Insight; block: Block; rowH?: number }) {
+  const value = (id: string) => insight.facts.find((f) => f.id === id)!.value as number;
+  const vals = block.rows.map((r) => value(r.fact));
+  const hi = Math.max(0, ...vals);
+  const lo = Math.min(0, ...vals);
+  // A long value ("13.61M barrels/day") gets a wider column and stays on one line, so it never wraps over the next row.
+  const valueW = Math.max(VALUE_W, ...block.rows.map((r) => rowValue(insight, r.fact).length * 15 + 10));
+  const barW = BAR_W + VALUE_W - valueW;
+  const scale = barW / (hi - lo || 1);
+  const zero = -lo * scale;
+  const names = block.rows.map((r) => r.name.replace(/\s*\(.*\)\s*$/, ""));
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {block.rows.map((r, i) => {
+        const v = vals[i]!;
+        const w = Math.max(3, Math.abs(v) * scale);
+        return (
+          <div key={i} style={{ display: "flex", alignItems: "center", height: rowH }}>
+            <div style={{ display: "flex", width: NAME_W, fontFamily: "Newsreader", fontSize: rowH < ROW_H ? 30 : 32, whiteSpace: "nowrap", overflow: "hidden" }}>{names[i]}</div>
+            <div style={{ display: "flex", position: "relative", width: barW, height: rowH }}>
+              <div style={{ position: "absolute", left: zero, top: 0, width: 1.5, height: rowH, background: MUTED, display: "flex" }} />
+              <div style={{ position: "absolute", left: v < 0 ? zero - w : zero, top: Math.round((rowH - 28) / 2), width: w, height: 28, borderRadius: 3, background: v < 0 ? NEUTRAL : ACCENT, display: "flex" }} />
+            </div>
+            <div style={{ display: "flex", width: valueW, justifyContent: "flex-end", fontSize: 28, color: INK, whiteSpace: "nowrap" }}>{rowValue(insight, r.fact)}</div>
+          </div>
+        );
+      })}
+      {block.total ? (
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 28, color: INK, marginTop: 10, paddingTop: 10, borderTop: `1.5px solid ${NEUTRAL}` }}>
+          <div style={{ display: "flex" }}>{block.total.name}</div>
+          <div style={{ display: "flex" }}>{rowValue(insight, block.total.fact)}</div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function Card({ insight, b, blocks, backdrop }: { insight: Insight; b: Breakdown; blocks: Block[]; backdrop: string }): ReactNode {
+  // Several blocks on one card (levels) are set tighter.
+  const rowH = blocks.length > 1 ? 52 : ROW_H;
+  return (
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `28px ${PAD}px 0 ${PAD}px` }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+      <img src={backdrop} width={WIDTH} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
+      <div style={{ display: "flex", alignItems: "center", fontSize: 18, letterSpacing: 3, color: MUTED, textTransform: "uppercase" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+        <img src={sealSrc()} width={42} height={42} alt="" style={{ marginRight: 12 }} />
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 32, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
+        {b.stacked ? (b.kicker ?? kickerFor(insight)) : kickerFor(insight)}
+        <Badge {...badgeOf(insight)} size={19} />
+      </div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 46, lineHeight: 1.12, letterSpacing: -0.5, marginTop: 10 }}>{b.title}</div>
+      {b.stacked ? <Stacked insight={insight} b={b} /> : null}
+      {(b.stacked ? [] : blocks).map((block, i) => (
+        <div key={i} style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", fontSize: 19, letterSpacing: 2.5, textTransform: "uppercase", color: MUTED, marginTop: i === 0 ? 22 : 36, marginBottom: 12 }}>{block.label}</div>
+          <Rows insight={insight} block={block} rowH={rowH} />
+        </div>
+      ))}
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 76, display: "flex", fontSize: 16, lineHeight: 1.35, color: MUTED }}>{b.note}</div>
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 32, display: "flex", justifyContent: "flex-end", fontSize: 18, color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
+    </div>
+  );
+}
+
+/** The newest executive orders, newest first: the date and topic in a column, then the title and its summary. */
+function OrdersCard({ insight, orders, more, backdrop }: { insight: Insight; orders: ListedOrder[]; more: boolean; backdrop: string }): ReactNode {
+  const path = `${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`;
+  const kind = listKind(insight) ?? "orders";
+  return (
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", background: SURFACE, color: INK, padding: `22px ${PAD}px 0 ${PAD}px` }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+      <img src={backdrop} width={WIDTH} height={BACKDROP_H} alt="" style={{ position: "absolute", top: 0, left: 0 }} />
+      <div style={{ display: "flex", alignItems: "center", fontSize: 18, letterSpacing: 3, color: MUTED, textTransform: "uppercase" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse, not a page */}
+        <img src={sealSrc()} width={38} height={38} alt="" style={{ marginRight: 12 }} />
+        <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 30, letterSpacing: -0.5, color: INK, textTransform: "none", marginRight: 18 }}>InsideGov</div>
+        {`Signed in ${monthName(insight.period)}`}
+      </div>
+      <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 40, lineHeight: 1.1, letterSpacing: -0.5, marginTop: 6, marginBottom: 14 }}>{ordersHeading(insight.period, kind)}</div>
+      {orders.map((o, i) => (
+        <div key={i} style={{ display: "flex", marginBottom: CARD_ORDERS.gap }}>
+          <div style={{ display: "flex", flexDirection: "column", width: 200, flexShrink: 0, paddingRight: 16, borderRight: `3px solid ${i === 0 ? ACCENT : NEUTRAL}`, marginRight: 24 }}>
+            <div style={{ display: "flex", fontSize: 20, color: i === 0 ? ACCENT : INK }}>{orderDate(o.date)}</div>
+            <div style={{ display: "flex", fontSize: 15, lineHeight: 1.2, color: MUTED, marginTop: 2 }}>{o.topic}</div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: 840 }}>
+            <div style={{ display: "flex", fontFamily: "Newsreader", fontSize: 26, lineHeight: 1.15 }}>{o.title}</div>
+            {o.summary ? <div style={{ display: "flex", fontSize: 18, lineHeight: 1.25, color: INK, marginTop: 2 }}>{o.summary}</div> : null}
+          </div>
+        </div>
+      ))}
+      {more ? <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 98, display: "flex", fontFamily: "Newsreader", fontSize: 22, color: INK }}>{moreNote(insight.period, path, kind, insightOrders(insight).length)}</div> : null}
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 62, display: "flex", fontSize: 16, lineHeight: 1.35, color: MUTED }}>{listFootnote(orders, kind)}</div>
+      <div style={{ position: "absolute", left: PAD, right: PAD, top: HEIGHT - 32, display: "flex", justifyContent: "flex-end", fontSize: 18, color: INK }}>{`${SITE_URL.replace(/^https?:\/\//, "")}${insight.url}`}</div>
+    </div>
+  );
+}
+
+/** The thread's cards in the replies' `chart` order: one per breakdown block, then the executive orders card when the post has one. */
+export async function renderThreadCards(insight: Insight): Promise<Buffer[]> {
+  const out = await renderBreakdownCharts(insight);
+  const all = insightOrders(insight);
+  const orders = fitOrders(all, CARD_ORDERS);
+  if (!orders.length) return out;
+  const res = new ImageResponse(<OrdersCard insight={insight} orders={orders} more={orders.length < all.length} backdrop={await backdropSrc(insight.url, WIDTH, BACKDROP_H)} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serifFont(), weight: 500, style: "normal" }] });
+  out.push(Buffer.from(await res.arrayBuffer()));
+  return out;
+}
+
+/** One PNG per breakdown block, in the block order (the replies' `chart` index). */
+export async function renderBreakdownCharts(insight: Insight): Promise<Buffer[]> {
+  const all = breakdownsOf(insight);
+  if (!all.length) return [];
+  const serif = serifFont();
+  const backdrop = await backdropSrc(insight.url, WIDTH, BACKDROP_H);
+  const out: Buffer[] = [];
+  // Levels are one card for every block; a change breakdown is one card per block.
+  for (const b of all) {
+    // Levels and stacked bars are one card each; a change breakdown is one card per block.
+    for (const blocks of b.levels ? [b.blocks] : b.stacked ? [[]] : b.blocks.map((blk) => [blk])) {
+      const res = new ImageResponse(<Card insight={insight} b={b} blocks={blocks} backdrop={backdrop} />, { width: WIDTH, height: HEIGHT, fonts: [{ name: "Newsreader", data: serif, weight: 500, style: "normal" }] });
+      out.push(Buffer.from(await res.arrayBuffer()));
+    }
+  }
+  return out;
+}

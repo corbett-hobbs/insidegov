@@ -1,0 +1,93 @@
+# saved 2026-10-27 from https://www.energy.gov/hgeo/opr/spr-faqs
+SPR FAQs
+Frequently Asked Questions (FAQs)
+Why is there a Strategic Petroleum Reserve?
+What are exchanges of oil? How does an exchange differ from a sale?
+How long does an exchange agreement take? What about a sale?
+When can the reserve be used?
+Why is crude oil stored in salt domes and not in tanks?
+How are caverns created?
+What does a typical salt dome with caverns look like?
+How is the salt able to contain the oil?
+What is the relationship between the United States and the International Energy Agency (IEA)?
+How fast can oil be reserved from the SPR?
+What type of oil is stored in the SPR?
+Why is only crude oil stored in the SPR?
+What is the ratio of sweet and sour crudes in the SPR? How was the ratio determined?
+Why are the SPR sites located in the US Gulf region?
+How are days of import protection determined?
+How many people work at the SPR?
+What is a management and operating (M&O) contract?
+—————————————————————————————————
+• Why is there a Strategic Petroleum Reserve?
+Established in the aftermath of the 1973-74 oil embargo, the SPR was established to counter a disruption in commercial oil supplies which could threaten the U.S. economy. It is also the critical component for the United States to meet its International Energy Agency obligation to maintain emergency oil stocks.
+Back to FAQs
+• What are exchanges of oil? How does an exchange differ from a sale?
+Crude oil exchanges are authorized as a means of acquiring oil for the SPR at no cost to the SPR. "Loans" are a form of time exchange generally used after a disruption to commercial oil supplies has occurred that resulted from an event outside the control of the company, such as a hurricane in the Gulf or a ship channel closing. The event must be of sufficient scope and duration that DOE determines it would be in the public interest to make the loan. Loans are initiated at the request of the company.
+Exchange authority requires that oil of a similar quality be repaid to the SPR, along with premium barrels (similar to interest), within a specified time. The amount of the premium barrels and the repayment date are determined through contract negotiations. Additionally, the costs to the SPR for drawdown and transportation of the crude oil are included in the value of the premium to be paid.
+Broad authority for exchange contracts is found in Section 159 of the Energy Policy and Conservation Act, P.L. 94-163. EPCA provides that the Secretary may acquire oil for the SPR by "purchase, exchange or otherwise." There also exists special authority for the Secretary to conduct a test sale or exchange.
+Back to FAQs
+• How long does an exchange agreement take? What about a sale?
+It is possible for exchange agreements to be completed within a few days of the receipt of a request from a company. Movement of the oil can occur when the contractor has made arrangements for the transportation of the oil -- usually within 24 hours of contract award. A sale and drawdown from the SPR is conducted online competitively. Deliveries of the crude oil can begin as early as 13 days after announcement of the sale, depending upon the scheduling and transportation arrangements made by the contractor for receipt of the oil. Broad authority for exchange contracts is found in Section 159 of the Energy Policy and Conservation Act, P.L. 94-163. EPCA provides that the Secretary may acquire oil for the SPR by "purchase, exchange or otherwise." There also exists special authority for the Secretary to conduct a test sale or exchange.
+Back to FAQs
+• When can the Reserve be used?
+The circumstances that might require the use of the Strategic Petroleum Reserve are defined in the Energy Policy and Conservation Act (EPCA). Generally, there are three possible types of drawdowns envisioned in the Act:
+Full drawdown: The President can order a full drawdown of the Reserve to counter a "severe energy supply interruption." EPCA defines this as "a national energy supply shortage which the President determines -
+(A) is, or is likely to be, of significant scope and duration, and of an emergency nature;
+(B) may cause major adverse impact on national safety or the national economy; and
+(C) results, or is likely to result, from (i) an interruption in the supply of imported petroleum products, (ii) an interruption in the supply of domestic petroleum products, or (iii) sabotage or an act of God.
+EPCA also states that a severe energy supply interruption "shall be deemed to exist if the President determines that -
+(A) an emergency situation exists and there is a significant reduction in supply which is of significant scope and duration;
+(B) a severe increase in the price of petroleum products has resulted from such emergency situation; and
+(C) such price increase is likely to cause a major adverse impact on the national economy."
+Limited drawdown: If the President finds that -
+(A) a circumstance, other than those described [above] exists that constitutes, or is likely to become, a domestic or international energy supply shortage of significant scope or duration; and
+(B) action taken....would assist directly and significantly in preventing or reducing the adverse impact of such shortage"
+then the Secretary may drawdown and distribute the Strategic Petroleum Reserve, although in no case:
+"(1) in excess of an aggregate of 30,000,000 barrels....
+(2) for more than 60 days....
+(3) if there are fewer than 252,400,000 barrels....stored in the Reserve."
+Test Sale or Exchange: The Secretary of Energy is authorized to carry out test drawdowns and distribution of crude oil from the Reserve. If any such test drawdown includes the sale or exchange of crude oil, "then the aggregate quantity of crude oil withdrawn from the Reserve may not exceed 5,000,000 barrels during any such test drawdown or distribution."
+Exchanges have been used in the past to replace less suitable grades of crude oil with higher-quality crudes and for limited, short-duration actions to assist petroleum companies in resolving oil delivery problems. Short-term, discrete time exchanges are sometimes referred to as loans.
+In 2000, crude oil from the Reserve was exchanged for storage capacity and stocks to create the Northeast Home Heating Oil Reserve. During fall 2005, an exchange was conducted at the request of refineries in the Gulf Coast Region when Hurricane Katrina caused disruptions to scheduled deliveries. During 2006, small exchanges occurred in January and June when accidents in shipping channels disrupted marine deliveries to refiners. In 2008, test exchange authority was used to provide crude oil to industry after Hurricanes Gustav and Ike shut down Gulf Coast production and marine deliveries along the Gulf Coast.
+Back to FAQs
+• Why is crude oil stored in salt domes and not in tanks?
+Salt domes storage has advantages in cost, security, environmental risk, and maintenance. Salt formations offer the lowest cost, most environmentally secure way to store crude oil for long periods of time. Stockpiling oil in artificially-created caverns deep within the rock-hard salt costs historically about $3.50 per barrel in capital costs. Storing oil in above ground tanks, by comparison, can cost $15 to $18 per barrel - or at least five times the expense. Also, because the salt caverns are 2,000-4,000 feet below the surface, geologic pressures will seal any crack that develops in the salt formation, assuring that no crude oil leaks from the cavern. An added benefit is the natural temperature differential between the top of the caverns and the bottom - a distance of around 2,000 feet; the temperature differential keeps the crude oil continuously circulating in the caverns, giving the oil a consistent quality.
+Back to FAQs
+• How are caverns created?
+Salt caverns are created in naturally occurring out of underground salt domes by a controlled process called "solution mining." Essentially, this process involves drilling a well into a salt formation, then injecting massive amounts of fresh water. The water dissolves the salt. In creating the SPR caverns, then injecting massive amounts of fresh water which dissolves the salt. In creating the SPR caverns, the dissolved salt was removed as brine and either reinjected into disposal wells or more commonly, piped several miles offshore onto process, salt caverns of very precise dimensions can be created.
+Back to FAQs
+• What does a typical salt dome with caverns look like?
+Click here to see what a typical salt dome with caverns look like!
+Back to FAQs
+• How is the salt able to contain the oil without leaking?
+Rock salt has a combination of physical characteristics that makes it highly attractive for cavern construction and petroleum storage. If relatively pure and not interbedded with significant quantities of other types of minerals; it is generally impervious to liquid and gas and inert to petroleum; it has a compression strength comparable to concrete under the weight of the overlying and surrounding rock; moves like plastic to seal incipient fractures; and it can be mined easily by dissolving (leaching) with fresh water.
+Back to FAQs
+• What is the relationship between the United States and the International Energy Agency (IEA)?
+The United States is a founding member of the IEA. The organization was created in 1974 following the Arab oil embargo. Enactment of the Energy Policy and Conservation Act of 1975 (Pub.L. 94-163) authorized U.S. participation in the International Energy Program. United States representatives to the IEA are provided by DOE and the State Department. Today the IEA has 29 member countries that are committed to (1) take common effective measures to meet oil supply emergencies, and (2) reduce dependence on oil in the long-term. Members are required to hold strategic stocks equal to no less than 90 days of petroleum imports based on the previous year's net imports.
+IEA member countries coordinate their energy policies, share energy information, and cooperate in the development of national energy programs. A formal process for coordinated emergency response measures is used to assess and determine whether and in what way IEA members will respond to petroleum supply issues.
+Back to FAQs
+• How fast can oil be released from the Reserve?
+Should the President order an emergency sale of Strategic Petroleum Reserve oil, DOE can conduct a competitive sale, select offers, award contracts, and be prepared to begin deliveries of oil into the marketplace within 13 days. Oil can be pumped from the Reserve at a maximum rate of 4.4 million barrels per day for up to 90 days, then the drawdown rate begins to decline as storage caverns are emptied. At 1 million barrels per day, the Reserve can release oil into the market continuously for nearly a year-and-a-half.
+Back to FAQs
+• What type of crude oil is stored in the Reserve?
+During the years that the Strategic Petroleum Reserve has existed, crude oil has been acquired from 25 countries. The oil is categorized as either "sweet" (with a sulfur content not exceeding 0.5 percent by weight) or "sour" (with a sulfur content greater than 0.5 percent but less than 2.0 percent). The SPR accepts only crude oil that meets its quality specifications and it is co-mingled in caverns designated as either sweet or sour.
+Back to FAQs
+• Why is only crude oil stored in the Reserve?
+The SPR is authorized by law to store both refined products and crude oil. However, in preparing the 1977 SPR Plan for development of the Reserve, an analysis of the U.S. refining industry indicated that the industry was robust and had the refining capacity to satisfy the major portion of the nation's demand for petroleum products. This continues to be true today--over 30 years later. The U.S. petroleum import dependency is overwhelmingly crude oil, not refined products. In addition, crude oil is cheaper to acquire, store and transport than refined products. Crude oil quality does not degrade over time as do refined products and crude oil provides flexibility in responding to fluctuations in refined product market needs; whereas, refined products are expensive to maintain and are subject to changes in specifications mandated by environmental legislation.
+Back to FAQs
+• What is the ratio of sweet and sour crudes in the SPR? How was the ratio determined?
+Crude oil stored in the SPR is about 40 percent sweet and 60 percent sour. The ratio was established to meet the needs of the U.S. refining industry most likely to take SPR crude in the event of a drawdown, particularly those in the Gulf Coast area. Sweet crude oil can be processed by nearly all refiners; the same is not true for sour crude.
+Back to FAQs
+• Why are the SPR sites located in the U.S. Gulf region?
+The largest concentration of U.S. refineries are located along the Gulf Coast. Tankers bringing imported oil to the U.S. off-load their cargos there and the crude oil is delivered to the refineries for processing. With ample salt dome storage available, access to marine terminals, distribution pipelines, and refineries, the SPR can safely store, drawdown, and quickly deliver emergency crude oil to refineries in the event of a supply interruption.
+Back to FAQs
+• How is days of import protection determined?
+The number of days of import protection are calculated by dividing the SPR's inventory level by the Energy Information Administration's (EIA) reported net petroleum imports per day.
+Back to FAQs
+• How many people work at the Strategic Reserve?
+Currently (December 2025), SPR staffing includes 111 Federal employees, a combined total between the Project Management Office in New Orleans and the Program Office in Washington D.C and 887 major contractors and subcontractors who provide services that support the SPR's program, as it relates to overall management and operations, security, design, construction management, and technical and business management activities.
+Back to FAQs
+• What is a management and operating (M&O) contract?
+M&O contracts are agreements under which the Government contracts for the operation, maintenance, or support, on its behalf, of a Government-owned or -controlled facility wholly or principally devoted to one or more major programs of the contracting Federal agency. Following Federal Acquisition Regulations, M&O contracts are awarded competitively.
+Back to FAQs

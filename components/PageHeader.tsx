@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { formatUpdatedStamp } from "@/lib/news-derive";
 
 interface PageHeaderProps {
   title: ReactNode;
@@ -8,6 +9,8 @@ interface PageHeaderProps {
   children?: ReactNode;
   /** `display` is the homepage banner scale; `hero` is a smaller homepage scale; `page` is for explorers and dashboards. */
   size?: "display" | "hero" | "page";
+  /** ISO date the page's data was last refreshed; prints "Updated Oct 28, 2026 · Refreshed weekly" under the intro. Omit where there is none. */
+  updated?: string | null;
 }
 
 const TITLE: Record<NonNullable<PageHeaderProps["size"]>, string> = {
@@ -34,6 +37,7 @@ export function PageHeader({
   title,
   children,
   size = "page",
+  updated,
 }: PageHeaderProps) {
   return (
     <div className="flex w-full flex-col gap-3">
@@ -47,6 +51,16 @@ export function PageHeader({
         >
           {children}
         </div>
+      )}
+      {updated && (
+        <p className="m-0 flex flex-wrap items-center gap-x-2 font-mono text-[0.7rem] font-medium text-ink-muted">
+          <span aria-hidden="true" className="size-2 rounded-full bg-ok" />
+          <span>
+            Updated <b className="font-medium text-ink">{formatUpdatedStamp(updated)}</b>
+          </span>
+          <span aria-hidden="true" className="text-line-strong">·</span>
+          <span>Refreshed weekly</span>
+        </p>
       )}
     </div>
   );

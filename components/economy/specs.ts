@@ -1,7 +1,7 @@
 import type { ContextEntry } from "@/lib/chart-context";
 import type { EconomyKey } from "@/lib/indicator-lookup";
 
-/** Presentation config for the eleven economy charts. Domains were checked against the 1991-onward data. */
+/** Presentation config for the thirteen economy charts. Domains were checked against the 1991-onward data. */
 export interface ChartSpec {
   key: EconomyKey;
   title: string;
@@ -16,6 +16,8 @@ export interface ChartSpec {
   aria: string;
   /** Unit label for the table fallback. */
   unit: string;
+  /** Names of the two lines of a gas or debt card ("Regular" / "Diesel"), as the header and tooltip print them side by side. */
+  label1?: string;
   /** Name of the second series (shown in the tooltip and readout) when the chart has one. */
   label2?: string;
   /** Values are a share of GDP, so a tooltip names the base ("of GDP"). */
@@ -49,6 +51,7 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     title: "Gas price",
     takeaway:
       "Regular gas peaked at $5.01 a gallon in June 2022, above its 2008 high of $4.11. In 2026 it climbed from $2.78 in January to $4.50 in May, and diesel hit a record $6.53 in September.",
+    label1: "Regular",
     label2: "Diesel",
     kind: "line",
     domain: [0.5, 6.7],
@@ -168,8 +171,9 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     key: "debt",
     title: "Federal debt",
     takeaway:
-      "Total debt fell to 54% of GDP in 2001, then more than doubled to a peak of 133% in mid-2020. It eased to 116% in early 2023 and was back at 123% by early 2026.",
+      "Total debt fell to 54% of GDP in 2001, then more than doubled to a peak of 133% in mid-2020. It eased to 115% in early 2023 and was back at 122% by early 2026.",
     kind: "debt",
+    label1: "Total",
     label2: "Held by the public",
     domain: [20, 140],
     ticks: [40, 80, 120],
@@ -178,6 +182,32 @@ export const SPECS: Record<EconomyKey, ChartSpec> = {
     aria: "Line chart of federal debt as a percent of GDP, quarterly since 1991, showing total public debt and the part held by the public",
     unit: "% of GDP",
     share: true,
+  },
+  ff: {
+    key: "ff",
+    title: "Federal funds rate",
+    takeaway:
+      "The Fed held its rate near zero from December 2008 to December 2015 and again from March 2020 to March 2022, then raised it to 5.33% by August 2023, the highest since 2001. By October 2026 it was back down to 3.88%.",
+    kind: "line",
+    domain: [0, 9],
+    ticks: [0, 2, 4, 6, 8],
+    tick: (v) => `${v}%`,
+    head: (v) => `${fx(v, 2)}%`,
+    aria: "Line chart of the weekly effective federal funds rate since 1991",
+    unit: "%",
+  },
+  ten: {
+    key: "ten",
+    title: "10-year Treasury yield",
+    takeaway:
+      "From 8.3% in July 1991 the 10-year yield fell to 0.55% in August 2020, then climbed to 5.26% in October 2026, the highest since 2002.",
+    kind: "line",
+    domain: [0, 9],
+    ticks: [0, 2, 4, 6, 8],
+    tick: (v) => `${v}%`,
+    head: (v) => `${fx(v, 2)}%`,
+    aria: "Line chart of the weekly 10-year U.S. Treasury yield since 1991",
+    unit: "%",
   },
 };
 
@@ -209,6 +239,7 @@ export const USD_SPECS: Pick<Record<EconomyKey, ChartSpec>, "def" | "debt"> = {
     takeaway:
       "Total federal debt passed $30 trillion in 2022 and reached $40.2 trillion by mid-2026, more than eleven times its $3.5 trillion in 1991. It passed $10 trillion in 2008 and $20 trillion in 2017.",
     kind: "debt",
+    label1: "Total",
     label2: "Held by the public",
     domain: [0, 42000],
     ticks: [10000, 20000, 30000, 40000],
@@ -225,6 +256,7 @@ export const CARD_ROWS: { label: string; cards: [EconomyKey, EconomyKey] }[] = [
   { label: "Everyday costs", cards: ["gas", "mort"] },
   { label: "What people earn", cards: ["wage", "inc"] },
   { label: "Federal finances", cards: ["def", "debt"] },
+  { label: "Interest rates", cards: ["ff", "ten"] },
   { label: "Jobs and output", cards: ["jobs", "gdp"] },
 ];
 

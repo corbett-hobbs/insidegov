@@ -54,6 +54,7 @@ export function MemberCompassCard({
   return (
     <ProfilePanel
       className="flex h-full flex-col"
+      more={{ href: "/congress/ideology", label: "Ideology page" }}
       label={`In the ${ordinal(latestCongress)} Congress`}
       action={
         canToggle ? (

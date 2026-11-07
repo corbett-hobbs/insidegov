@@ -8,9 +8,11 @@ import {
   type ChiefSpan,
   type DecisionCaseRow,
   type DecisionCountRow,
+  type DecisionGroupEntry,
   type DecisionsMeta,
   type IssueAreaCatalogEntry,
   type ScdbCaseRow,
+  type ScdbCodebook,
 } from "../../lib/decisions-entities";
 import { versionLabel } from "../fetch/scdb-lib";
 import { prettyCaseName } from "./case-names";
@@ -56,6 +58,59 @@ export function issueAreaId(code: number | null, catalog: readonly IssueAreaCata
   return hit.id;
 }
 
+/**
+ * A case's topic (`pipeline/reference/decision-groups.json`): a hand-picked caseId first, then the first topic in catalog order
+ * whose `issues` hold the case's SCDB issue code or whose `law_supp` holds its legal provision, then the topic that holds its
+ * issue area. Null exactly when SCDB codes no issue area.
+ */
+export function groupId(c: ScdbCaseRow, areas: readonly IssueAreaCatalogEntry[], groups: readonly DecisionGroupEntry[]): string | null {
+  const area = issueAreaId(c.issueArea, areas);
+  if (area === null) return null;
+  const picked = groups.find((g) => g.cases && c.caseId in g.cases);
+  if (picked) return picked.id;
+  const coded = groups.find((g) => (c.issue !== null && g.issues.includes(c.issue)) || (c.lawSupp !== null && g.law_supp.includes(c.lawSupp)));
+  if (coded) return coded.id;
+  const fallback = groups.find((g) => g.issue_areas?.includes(area));
+  if (!fallback) throw new DecisionsDataError(`issue area ${area} is in no topic's issue_areas; add it to pipeline/reference/decision-groups.json`);
+  return fallback.id;
+}
+
+/**
+ * The topic catalog against the issue-area catalog, the codebook and the cases in scope: unique ids, every issue area in exactly
+ * one topic's fallback, every code a codebook code held by one topic only, every hand-picked case on the page and in one topic.
+ */
+export function checkGroups(groups: readonly DecisionGroupEntry[], areas: readonly IssueAreaCatalogEntry[], codebook: ScdbCodebook, scope: ReadonlySet<string>): void {
+  const fail = (m: string): never => {
+    throw new DecisionsDataError(`decision-groups.json: ${m}`);
+  };
+  if (new Set(groups.map((g) => g.id)).size !== groups.length) fail("duplicate topic id");
+  for (const a of areas) {
+    const holders = groups.filter((g) => g.issue_areas?.includes(a.id));
+    if (holders.length !== 1) fail(`issue area ${a.id} is in ${holders.length} topics' issue_areas (must be exactly one)`);
+  }
+  for (const g of groups) for (const id of g.issue_areas ?? []) if (!areas.some((a) => a.id === id)) fail(`${g.id}: unknown issue area ${id}`);
+  const once = (kind: "issues" | "law_supp", labels: Record<string, string>) => {
+    const seen = new Map<number, string>();
+    for (const g of groups) {
+      for (const code of g[kind]) {
+        if (!(String(code) in labels)) fail(`${g.id}: ${kind} code ${code} is not in the SCDB codebook`);
+        if (seen.has(code)) fail(`${kind} code ${code} is in both ${seen.get(code)} and ${g.id}`);
+        seen.set(code, g.id);
+      }
+    }
+  };
+  once("issues", codebook.vars.issue);
+  once("law_supp", codebook.vars.lawSupp);
+  const picked = new Map<string, string>();
+  for (const g of groups) {
+    for (const id of Object.keys(g.cases ?? {})) {
+      if (!scope.has(id)) fail(`${g.id}: case ${id} is not a case on the page`);
+      if (picked.has(id)) fail(`case ${id} is hand-picked for both ${picked.get(id)} and ${g.id}`);
+      picked.set(id, g.id);
+    }
+  }
+}
+
 export interface Selection {
   cases: ScdbCaseRow[];
   exclusions: { summary_dispositions: number; decrees: number; unclear_votes: number };
@@ -76,22 +131,22 @@ export function selectCases(rows: readonly ScdbCaseRow[]): Selection {
   };
 }
 
-/** One row per (term, issue area) with at least one case, ordered by term then catalog order (null last). */
-export function buildCounts(cases: readonly ScdbCaseRow[], catalog: readonly IssueAreaCatalogEntry[]): DecisionCountRow[] {
+/** One row per (term, topic) with at least one case, ordered by term then catalog order (null last). */
+export function buildCounts(cases: readonly ScdbCaseRow[], areas: readonly IssueAreaCatalogEntry[], groups: readonly DecisionGroupEntry[]): DecisionCountRow[] {
   const map = new Map<string, DecisionCountRow>();
   for (const c of cases) {
-    const id = issueAreaId(c.issueArea, catalog);
+    const id = groupId(c, areas, groups);
     const key = `${c.term}|${id ?? ""}`;
     let row = map.get(key);
     if (!row) {
-      row = { term: c.term, issue_area_id: id, n: 0, d0: 0, d1: 0, d2: 0, d3: 0, d4: 0 };
+      row = { term: c.term, group_id: id, n: 0, d0: 0, d1: 0, d2: 0, d3: 0, d4: 0 };
       map.set(key, row);
     }
     row.n += 1;
     row[DISSENT_KEYS[dissentBucket(c.minVotes)]] += 1;
   }
-  const order = (id: string | null) => (id === null ? catalog.length : catalog.findIndex((a) => a.id === id));
-  return [...map.values()].sort((a, b) => a.term - b.term || order(a.issue_area_id) - order(b.issue_area_id));
+  const order = (id: string | null) => (id === null ? groups.length : groups.findIndex((g) => g.id === id));
+  return [...map.values()].sort((a, b) => a.term - b.term || order(a.group_id) - order(b.group_id));
 }
 
 const isoDate = (us: string): string => {
@@ -101,7 +156,7 @@ const isoDate = (us: string): string => {
 };
 
 /** One row per case in scope, oldest first (the page reverses it). */
-export function buildCaseRows(cases: readonly ScdbCaseRow[], catalog: readonly IssueAreaCatalogEntry[]): DecisionCaseRow[] {
+export function buildCaseRows(cases: readonly ScdbCaseRow[], catalog: readonly IssueAreaCatalogEntry[], groups: readonly DecisionGroupEntry[]): DecisionCaseRow[] {
   return cases
     .map((c) => ({
       case_id: c.caseId,
@@ -109,6 +164,7 @@ export function buildCaseRows(cases: readonly ScdbCaseRow[], catalog: readonly I
       date: isoDate(c.dateDecision),
       name: prettyCaseName(c.caseName),
       cite: [c.usCite, c.sctCite, c.ledCite, c.lexisCite].map((x) => x.trim()).find((x) => x) ?? "",
+      group_id: groupId(c, catalog, groups),
       issue_area_id: issueAreaId(c.issueArea, catalog),
       band: dissentBucket(c.minVotes),
       maj: c.majVotes,
@@ -253,7 +309,7 @@ export function runGates({ version, counts, caseRows, meta, recount }: GateInput
   const d4PerTerm = new Map<number, number>();
   for (const r of counts) {
     const dsum = r.d0 + r.d1 + r.d2 + r.d3 + r.d4;
-    if (dsum !== r.n) fail(`term ${r.term} area ${r.issue_area_id}: buckets sum ${dsum} != n ${r.n} (a case must have exactly one bucket)`);
+    if (dsum !== r.n) fail(`term ${r.term} topic ${r.group_id}: buckets sum ${dsum} != n ${r.n} (a case must have exactly one bucket)`);
     perTerm.set(r.term, (perTerm.get(r.term) ?? 0) + dsum);
     d4PerTerm.set(r.term, (d4PerTerm.get(r.term) ?? 0) + r.d4);
   }
@@ -264,7 +320,7 @@ export function runGates({ version, counts, caseRows, meta, recount }: GateInput
   }
   if ([...perTerm.keys()].some((t) => t < DECISIONS_FIRST_TERM || t > meta.data_through_term)) fail("output has a term outside the covered span");
 
-  const unclassified = counts.filter((r) => r.issue_area_id === null).reduce((s, r) => s + r.n, 0);
+  const unclassified = counts.filter((r) => r.group_id === null).reduce((s, r) => s + r.n, 0);
   if (unclassified !== recount.unclassified || meta.unclassified_count !== unclassified) fail(`unclassified ${unclassified} (meta ${meta.unclassified_count}) != recount ${recount.unclassified}`);
 
   const ex = meta.exclusions;
@@ -285,18 +341,23 @@ export function runGates({ version, counts, caseRows, meta, recount }: GateInput
     // The list and the counts must be the same cases: aggregate the list and compare cell by cell.
     if (caseRows.length !== total) fail(`case list has ${caseRows.length} rows, counts total ${total}`);
     if (new Set(caseRows.map((r) => r.case_id)).size !== caseRows.length) fail("case list has a duplicate case_id");
+    const mismatched = caseRows.find((r) => (r.group_id === null) !== (r.issue_area_id === null));
+    if (mismatched) fail(`case ${mismatched.case_id}: a topic must be null exactly when the issue area is`);
     const agg = new Map<string, number[]>();
     for (const r of caseRows) {
-      const k = `${r.term}|${r.issue_area_id ?? ""}`;
+      const k = `${r.term}|${r.group_id ?? ""}`;
       const a = agg.get(k) ?? [0, 0, 0, 0, 0];
       a[r.band]! += 1;
       agg.set(k, a);
     }
     for (const r of counts) {
-      const a = agg.get(`${r.term}|${r.issue_area_id ?? ""}`);
-      if (!a || a.join() !== [r.d0, r.d1, r.d2, r.d3, r.d4].join()) fail(`case list disagrees with counts for term ${r.term} area ${r.issue_area_id}`);
+      const a = agg.get(`${r.term}|${r.group_id ?? ""}`);
+      if (!a || a.join() !== [r.d0, r.d1, r.d2, r.d3, r.d4].join()) fail(`case list disagrees with counts for term ${r.term} topic ${r.group_id}`);
     }
-    if (agg.size !== counts.length) fail("case list has a (term, area) cell the counts lack");
+    if (agg.size !== counts.length) fail("case list has a (term, topic) cell the counts lack");
+    const used = new Set(caseRows.map((r) => r.group_id));
+    const empty = meta.groups.find((g) => !used.has(g.id));
+    if (empty) fail(`topic ${empty.id} has no cases`);
   }
 
   const spans = meta.chief_spans;
@@ -312,9 +373,10 @@ export function buildMeta(args: {
   cases: readonly ScdbCaseRow[];
   selection: Selection;
   catalog: readonly IssueAreaCatalogEntry[];
+  groups: readonly DecisionGroupEntry[];
   spans: ChiefSpan[];
 }): Omit<DecisionsMeta, "landmarks"> {
-  const { version, cases, selection, catalog, spans, sourceFile } = args;
+  const { version, cases, selection, catalog, groups, spans, sourceFile } = args;
   const [year, rel] = version.split("_");
   const terms = cases.map((c) => c.term);
   return {
@@ -330,5 +392,6 @@ export function buildMeta(args: {
     license: "Creative Commons Attribution-NonCommercial 3.0 United States (CC BY-NC 3.0 US)",
     chief_spans: spans,
     issue_areas: catalog.map((a) => ({ id: a.id, label: a.label })),
+    groups: groups.map((g) => ({ id: g.id, label: g.label, description: g.description })),
   };
 }

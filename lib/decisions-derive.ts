@@ -9,7 +9,7 @@ import type { YearRange } from "./year-range";
 
 /**
  * Pure shaping for /supreme-court/decisions (no file I/O; `lib/decisions-data.ts` reads the files). Unit-tested over the
- * real pipeline outputs in `decisions-derive.test.ts`. Area index -1 means "All issue areas" (unclassified cases included).
+ * real pipeline outputs in `decisions-derive.test.ts`. Area index -1 means "All topics" (unclassified cases included).
  */
 
 export const sumBucket = (b: readonly number[]): number => b[0] + b[1] + b[2] + b[3] + b[4];
@@ -25,8 +25,8 @@ export const SMALL_SAMPLE_MEDIAN = 15;
 export function countCaseRows(rows: readonly DecisionCaseRow[]): DecisionCountRow[] {
   const map = new Map<string, DecisionCountRow>();
   for (const r of rows) {
-    const key = `${r.term}|${r.issue_area_id ?? ""}`;
-    const row = map.get(key) ?? { term: r.term, issue_area_id: r.issue_area_id, n: 0, d0: 0, d1: 0, d2: 0, d3: 0, d4: 0 };
+    const key = `${r.term}|${r.group_id ?? ""}`;
+    const row = map.get(key) ?? { term: r.term, group_id: r.group_id, n: 0, d0: 0, d1: 0, d2: 0, d3: 0, d4: 0 };
     row.n += 1;
     row[(["d0", "d1", "d2", "d3", "d4"] as const)[r.band]] += 1;
     map.set(key, row);
@@ -34,7 +34,7 @@ export function countCaseRows(rows: readonly DecisionCaseRow[]): DecisionCountRo
   return [...map.values()];
 }
 
-/** Per-term arrays for a set of count rows: every case, each area, and "Other areas" (everything outside `topAreas`, unclassified included). */
+/** Per-term arrays for a set of count rows: every case, each area, and "other" (everything outside `topAreas`: with every topic in it, the cases with no issue area). */
 function shapeCounts(counts: readonly DecisionCountRow[], terms: readonly number[], areaIds: readonly string[], topAreas: readonly number[]): LandmarkCells {
   const termIndex = new Map(terms.map((t, i) => [t, i]));
   const areaIndex = new Map(areaIds.map((id, i) => [id, i]));
@@ -45,13 +45,13 @@ function shapeCounts(counts: readonly DecisionCountRow[], terms: readonly number
     if (ti === undefined) throw new Error(`decisions: count row for term ${r.term} outside ${terms[0]}-${terms[terms.length - 1]}`);
     const b: Bucket = [r.d0, r.d1, r.d2, r.d3, r.d4];
     addInto(all[ti], b);
-    if (r.issue_area_id !== null) {
-      const ai = areaIndex.get(r.issue_area_id);
-      if (ai === undefined) throw new Error(`decisions: unknown issue area ${r.issue_area_id}`);
+    if (r.group_id !== null) {
+      const ai = areaIndex.get(r.group_id);
+      if (ai === undefined) throw new Error(`decisions: unknown topic ${r.group_id}`);
       addInto(by[ai][ti], b);
     }
   }
-  // "Other areas" = everything outside the six biggest, cases with no issue area included, so the series always add up to All.
+  // "other" = everything outside `topAreas` (the cases with no issue area once every topic is in it), so the series always add up to All.
   const other = terms.map((_, ti) => {
     const o: Bucket = [...all[ti]];
     for (const ai of topAreas) for (let k = 0; k < 5; k++) o[k] -= by[ai][ti][k];
@@ -69,11 +69,11 @@ const EMPTY_OUTCOME: OutcomeCounts = { 1: { all: [], landmark: [] }, 2: { all: [
 export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta: DecisionsMeta, landmarkCounts: readonly DecisionCountRow[] = [], admins: readonly Administration[] = [], outcomeCounts: OutcomeCounts = EMPTY_OUTCOME): DecisionsPayload {
   const terms: number[] = [];
   for (let t = meta.first_term; t <= meta.data_through_term; t++) terms.push(t);
-  const areaIds = meta.issue_areas.map((a) => a.id);
-  // The six biggest areas are fixed by the whole docket, so colours and series stay put when the landmark filter is on.
+  const areaIds = meta.groups.map((a) => a.id);
+  // Card 1's stack order (every topic, largest first) is fixed by the whole docket, so series stay put when the landmark filter is on.
   const full = shapeCounts(counts, terms, areaIds, []);
   const totals = full.by.map((rows) => rows.reduce((t, b) => t + sumBucket(b), 0));
-  const topAreas = totals.map((n, i) => ({ n, i })).sort((a, b) => b.n - a.n || a.i - b.i).slice(0, TOP_AREAS).map((x) => x.i);
+  const topAreas = totals.map((n, i) => ({ n, i })).sort((a, b) => b.n - a.n || a.i - b.i).map((x) => x.i);
   const { all, by, other } = shapeCounts(counts, terms, areaIds, topAreas);
   const landmark = shapeCounts(landmarkCounts, terms, areaIds, topAreas);
   const outcome = {
@@ -91,7 +91,8 @@ export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta:
   }));
   return {
     terms,
-    areas: meta.issue_areas.map((a) => ({ id: a.id, label: a.label })),
+    areas: meta.groups.map((a) => ({ id: a.id, label: a.label, description: a.description })),
+    scdbAreas: meta.issue_areas.map((a) => ({ id: a.id, label: a.label })),
     all,
     by,
     other,
@@ -113,11 +114,8 @@ export function buildDecisionsPayload(counts: readonly DecisionCountRow[], meta:
   };
 }
 
-/** How many issue areas get their own series in card 1; the rest are "Other areas". */
-export const TOP_AREAS = 6;
-
 /**
- * An area filter. The page's own value is the set of ticked issue-area indexes (`null` = all); one row's value is a single
+ * An area filter. The page's own value is the set of ticked topic indexes (`null` = all); one row's value is a single
  * number: an index, `ALL_AREAS` or `OTHER_AREAS`. An empty set is nothing ticked yet, and counts no cases.
  */
 export type AreaSel = number | ReadonlySet<number> | null;
@@ -142,7 +140,7 @@ export const viewOf = (d: DecisionsPayload, landmarkOnly: boolean, direction: De
 
 export const cellAt = (d: DecisionsPayload, area: AreaSel, ti: number): Bucket => areaCells(d, area)[ti];
 
-/** Does issue-area index `index` (-1 = none coded) fall inside the area filter? */
+/** Does topic index `index` (-1 = none coded) fall inside the area filter? */
 export function inAreaFilter(d: DecisionsPayload, area: AreaSel, index: number): boolean {
   if (area === null || area === ALL_AREAS) return true;
   if (typeof area !== "number") return area.has(index);
@@ -150,20 +148,32 @@ export function inAreaFilter(d: DecisionsPayload, area: AreaSel, index: number):
 }
 
 export function areaFilterLabel(d: DecisionsPayload, area: AreaSel): string {
-  if (area === null || area === ALL_AREAS) return "All issue areas";
-  if (typeof area !== "number") return pickLabel(area, areaOptions(d), "issue areas");
+  if (area === null || area === ALL_AREAS) return "All topics";
+  if (typeof area !== "number") return pickLabel(area, areaOptions(d), "topics");
   return area === OTHER_AREAS ? OTHER_LABEL(d) : d.areas[area].label;
 }
 
-/** Every issue area as a control option (id = index into `areas`), in catalog order. */
-export const areaOptions = (d: DecisionsPayload): { id: number; label: string }[] => d.areas.map((a, id) => ({ id, label: a.label }));
-export const OTHER_LABEL = (d: DecisionsPayload): string => `Other areas (${d.areas.length - TOP_AREAS})`;
+/** A case's topic label for its row ("No topic" when SCDB codes no issue area). */
+export const caseTopic = (areas: readonly { label: string }[], c: DecisionCase): string => (c[4] >= 0 ? (areas[c[4]]?.label ?? "No topic") : "No topic");
+/** A case's SCDB issue-area id, which its outcome-direction note is coded under (null = none). */
+export const caseScdbArea = (scdbAreas: readonly { id: string }[], c: DecisionCase): string | null => (c[15] >= 0 ? (scdbAreas[c[15]]?.id ?? null) : null);
 
-/** Card 1's series, in stack order: the six biggest areas, then Other. `area` is the single filter value that picks the series; `areas` are the area indexes it covers. */
+/** What a topic holds (its description), or undefined for "all" and unknown ids: the rows' and heatmap's tooltips. */
+export const topicTitle = (d: DecisionsPayload, id: string): string | undefined => {
+  const a = d.areas.find((x) => x.id === id);
+  return a ? `${a.label}: ${a.description}` : undefined;
+};
+
+/** Every topic as a control option (id = index into `areas`), in catalog order. */
+export const areaOptions = (d: DecisionsPayload): { id: number; label: string }[] => d.areas.map((a, id) => ({ id, label: a.label }));
+/** Every topic has its own series, so what is outside them is only the cases SCDB codes no issue area for. */
+export const OTHER_LABEL = (_d: DecisionsPayload): string => "No issue area";
+
+/** Card 1's series, in stack order: every topic, largest first, then the cases with no issue area. `area` is the single filter value that picks the series; `areas` are the topic indexes it covers (none for the last). */
 export function areaSeries(d: DecisionsPayload): { id: string; label: string; area: number; short: string; areas: number[] }[] {
   return [
     ...d.topAreas.map((i) => ({ id: d.areas[i].id, label: d.areas[i].label, short: d.areas[i].label, area: i, areas: [i] })),
-    { id: "other", label: OTHER_LABEL(d), short: "Other areas", area: OTHER_AREAS, areas: d.areas.map((_, i) => i).filter((i) => !d.topAreas.includes(i)) },
+    { id: "other", label: OTHER_LABEL(d), short: OTHER_LABEL(d), area: OTHER_AREAS, areas: d.areas.map((_, i) => i).filter((i) => !d.topAreas.includes(i)) },
   ];
 }
 
@@ -198,7 +208,7 @@ export function median(values: readonly number[]): number {
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 }
 
-/** Few cases per term in this selection (a thin issue area, or the landmark filter): shares from single years are rough. */
+/** Few cases per term in this selection (a thin topic, or the landmark filter): shares from single years are rough. */
 export function isSmallSample(d: DecisionsPayload, area: AreaSel, range: YearRange): boolean {
   return median(casesPerTerm(windowCells(d, area, range).cells)) < SMALL_SAMPLE_MEDIAN;
 }
@@ -242,7 +252,7 @@ export function niceStep(max: number): number {
 }
 
 export interface AreaRow {
-  /** -1 = All issue areas. */
+  /** -1 = All topics. */
   index: number;
   id: string;
   label: string;
@@ -250,9 +260,9 @@ export interface AreaRow {
   total: number;
 }
 
-export const ALL_AREAS_LABEL = "All issue areas";
+export const ALL_AREAS_LABEL = "All topics";
 
-/** "All issue areas" first (pinned, never sorted), then each issue area with at least one case in the window, sorted. */
+/** "All topics" first (pinned, never sorted), then each topic with at least one case in the window, sorted. */
 export function areaRows(d: DecisionsPayload, range: YearRange, sort: AreaSort): AreaRow[] {
   const rows: AreaRow[] = d.areas
     .map((a, index) => ({ index, id: a.id, label: a.label, bucket: windowSum(d, index, range) }))
@@ -355,7 +365,7 @@ export function decadeCells(d: DecisionsPayload, area: number): DecadeCell[] {
 export const heatCount = (c: DecadeCell, band: number | null): number => (band === null ? c.total : c.bucket[band]);
 
 /**
- * The top of the colour scale for the counts a cell shows: the busiest decade of any one issue area. "All issue areas" has
+ * The top of the colour scale for the counts a cell shows: the busiest decade of any one topic. "All topics" has
  * several times any area's count, so its row is shaded on its own scale (its own busiest decade).
  */
 export function heatCountMax(d: DecisionsPayload, area: number, band: number | null): number {
@@ -398,7 +408,7 @@ export function binByDecade(terms: readonly number[], cells: readonly Bucket[]):
 
 /**
  * Which grain "How divided is the Court?" draws: per term while a term holds enough cases to read a share from (the whole
- * docket, a big issue area), per decade once the selection is thin (landmarks, a small issue area), unless the window has
+ * docket, a big topic), per decade once the selection is thin (landmarks, a small topic), unless the window has
  * fewer than two decades, where there is nothing to group. There is no manual override: per term on a thin selection is
  * the spiky view the grouping exists to avoid.
  */
@@ -412,7 +422,7 @@ export function splitGrain(d: DecisionsPayload, area: AreaSel, range: YearRange)
 
 export interface CaseFilter {
   range: YearRange;
-  /** The ticked issue areas (null = all); a single legacy value (an index, `ALL_AREAS`, `OTHER_AREAS`) also works. */
+  /** The ticked topics (null = all); a single legacy value (an index, `ALL_AREAS`, `OTHER_AREAS`) also works. */
   area: AreaSel;
   /** Ticked dissent bands 0-4, or null for any vote. */
   band: Picked<number>;

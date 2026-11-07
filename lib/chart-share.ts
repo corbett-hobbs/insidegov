@@ -13,7 +13,5 @@ export function shareLinks(url: string, text: string): ShareLink[] {
   return [
     { label: "Post on X", href: `https://x.com/intent/post?text=${t}&url=${u}` },
     { label: "Post on Bluesky", href: `https://bsky.app/intent/compose?text=${encodeURIComponent(`${text} ${url}`)}` },
-    { label: "Share on LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
-    { label: "Email", href: `mailto:?subject=${t}&body=${u}` },
   ];
 }

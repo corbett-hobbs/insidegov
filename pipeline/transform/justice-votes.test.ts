@@ -3,7 +3,7 @@ import { scdbCaseRow, scdbJusticeRow, type ScdbCaseRow, type ScdbJusticeRow } fr
 import { buildJusticeVotes } from "./justice-votes";
 
 const kase = (caseId: string, majVotes: number, minVotes: number, writer: string): ScdbCaseRow =>
-  scdbCaseRow.parse({ caseId, term: "1990", decisionType: "1", majVotes, minVotes, voteUnclear: "", issueArea: "1", chief: "X", majOpinWriter: writer, decisionDirection: "", dateDecision: "1/1/1990", caseName: "A v. B", docket: "1", usCite: "", sctCite: "", ledCite: "", lexisCite: "" });
+  scdbCaseRow.parse({ caseId, term: "1990", decisionType: "1", majVotes, minVotes, voteUnclear: "", issueArea: "1", issue: "", lawSupp: "", chief: "X", majOpinWriter: writer, decisionDirection: "", dateDecision: "1/1/1990", caseName: "A v. B", docket: "1", usCite: "", sctCite: "", ledCite: "", lexisCite: "" });
 const row = (caseId: string, justice: number, vote: string, opinion: string, majority: string): ScdbJusticeRow => scdbJusticeRow.parse({ caseId, justice, vote, opinion, majority });
 
 describe("buildJusticeVotes", () => {

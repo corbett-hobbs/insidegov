@@ -5,7 +5,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { legislationJsonLd } from "@/lib/structured-data";
 import { LawPageView } from "@/components/laws/detail/LawPageView";
-import { getLawPage, getLawRef, getLawRefs } from "@/lib/law-details-data";
+import { getLawPage, getLawRef, getPrebuiltLawRefs } from "@/lib/law-details-data";
 import { lawPath, lawSlug } from "@/lib/law-url";
 import { ordinal } from "@/lib/laws-entities";
 
@@ -19,9 +19,7 @@ interface RouteParams {
  * and are then cached (`dynamicParams`), the way the member and justice pages handle a stale or unlisted URL.
  */
 export function generateStaticParams(): RouteParams[] {
-  const refs = getLawRefs();
-  const newest = new Set([...new Set(refs.map((r) => r.congress))].sort((a, b) => b - a).slice(0, 2));
-  return refs.filter((r) => newest.has(r.congress) || r.major === true).map((r) => ({ law_id: r.lawId, name_slug: lawSlug(r.title) }));
+  return getPrebuiltLawRefs().map((r) => ({ law_id: r.lawId, name_slug: lawSlug(r.title) }));
 }
 
 // A valid id with a stale slug is not pre-built: keep dynamicParams on so the request reaches the page, which redirects to

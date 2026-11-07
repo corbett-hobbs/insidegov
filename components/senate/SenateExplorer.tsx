@@ -39,7 +39,6 @@ import { CommitteeSearch } from "@/components/committee/CommitteeSearch";
 import { CommitteeChamberLegend } from "@/components/committee/CommitteeChamberLegend";
 import { ordinal } from "./format";
 import { ChartCard as Card } from "@/components/charts/ChartCard";
-import { HowToRead } from "@/components/HowToRead";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { IDEOLOGY_TAKEAWAYS, contextFor } from "./takeaways";
@@ -50,7 +49,7 @@ const PLAY_INTERVAL_MS = 450;
 const PRELOAD_DELAY_MS = 1500;
 
 const INTRO =
-  "Every member of Congress since 1789, placed on a left–right map by how they actually vote. The distance between the parties decides what can pass, and this map shows that gap opening and closing, Congress by Congress.";
+  "Using Keith Poole and Howard Rosenthal’s DW-NOMINATE model, every roll-call vote is analyzed to map lawmakers spatially. The horizontal axis plots the core economic left–right spectrum, while the vertical axis captures shifting historical alignments. Select any state to see if its delegation moves as a unified bloc or splits down the middle.";
 
 interface ExplorerProps {
   senate: ChamberCurrent;
@@ -282,11 +281,6 @@ export function SenateExplorer({
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Ideology" title="How Does Congress Vote?">
           <p>{INTRO}</p>
-          <HowToRead>
-            <p>
-              Political scientists Keith Poole and Howard Rosenthal built DW-NOMINATE to measure ideology from behavior. It looks at every yes-or-no vote a member has cast and finds the position that best explains their whole record, so members who vote alike land close together. The horizontal position (dimension 1) is the familiar economic left&ndash;right spectrum and explains most of how members differ; the vertical position (dimension 2) captures a secondary pattern whose meaning has shifted across history (tap the &ldquo;i&rdquo; by the vertical axis). Picking a state shows whether its delegation votes as a bloc or splits.
-            </p>
-          </HowToRead>
         </PageHeader>
 
         {/*

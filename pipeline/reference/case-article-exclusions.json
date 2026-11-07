@@ -1,0 +1,18 @@
+{
+  "_note": "Cases whose Wikipedia link (from the volume and term lists) is an article about something else: a person, a place or a lower-court case of the same name. The link is dropped as if the list showed a red link, so no lead, summary or landmark badge is built from it. Reviewed 2026-10-22 against each article's opening; concept articles that cover the case (a clause, a compact) are kept.",
+  "cases": {
+    "1947-005": "Priebe & Sons: article is the Federal Surplus Commodities Corporation",
+    "1947-033": "Bob-Lo Excursion Co.: article is the Boblo Island amusement park",
+    "1947-057": "United States v. Evans: article is a 2006 federal trial",
+    "1948-013": "McDonald v. United States: article is the 1962 D.C. Circuit case",
+    "1958-094": "Vitarelli v. Seaton: article is William Vitarelli, the person",
+    "1959-025": "United States v. Price (1959): article is the Mississippi Burning trial (the 1965 case is 1965-084)",
+    "1962-026": "Paul v. United States: article is a 1990 Claims Court case",
+    "1968-065": "Hadnott v. Amos: article is Sallie Mae Hadnott, the person",
+    "1970-064": "United States v. Randall: article is Robert C. Randall, the person",
+    "1979-042": "United States v. Clark: article is an Eighth Circuit identity-theft case",
+    "1981-028": "United States v. Clark: article is an Eighth Circuit identity-theft case",
+    "1981-123": "Mills v. Rogers: article is Rogers v. Okin, the First Circuit decision",
+    "1983-016": "Silkwood v. Kerr-McGee: article is Karen Silkwood, the person"
+  }
+}

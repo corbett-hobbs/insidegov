@@ -1,0 +1,169 @@
+{
+  "page": "laws",
+  "dataFiles": [],
+  "groups": [
+    {
+      "row": "How a bill becomes law",
+      "questions": [
+        {
+          "id": "bill-vs-law",
+          "kind": "difference",
+          "q": "What is the difference between a bill and a law?",
+          "searched": "difference between a bill and a law",
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ],
+          "brief": "A bill is a proposal introduced in the House or Senate; it becomes a law only after both chambers pass it in identical form and the President signs it, lets it become law without signing, or Congress overrides a veto. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            },
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            }
+          ]
+        },
+        {
+          "id": "resolution-vs-bill",
+          "kind": "difference",
+          "q": "What is the difference between a resolution and a bill?",
+          "searched": "resolution vs bill congress",
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ],
+          "brief": "Bills and joint resolutions go to the President and can become law; simple and concurrent resolutions deal with one chamber's or both chambers' own business and do not. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-can-introduce-bill",
+          "kind": "matters",
+          "q": "Who can introduce a bill in Congress?",
+          "searched": "who can introduce a bill to congress",
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ],
+          "brief": "Only a Member of the House or a Senator can introduce a bill, though the idea or text may come from elsewhere (the executive branch, constituents, groups); bills raising revenue must start in the House. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            },
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            }
+          ]
+        },
+        {
+          "id": "who-decides-house-votes",
+          "kind": "matters",
+          "q": "Who decides which bills get a vote in the House?",
+          "searched": "who decides what bills get voted on by the house",
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ],
+          "brief": "The role of committees, which report bills; the majority-party leadership and the Speaker, who schedule floor business; the Rules Committee's special rules; and the ways around them the source names (such as suspension of the rules or a discharge petition). Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Votes and vetoes",
+      "questions": [
+        {
+          "id": "filibuster-vs-cloture",
+          "kind": "difference",
+          "q": "What is the difference between a filibuster and cloture?",
+          "searched": "filibuster and cloture",
+          "chartIds": [
+            "how-broadly-are-laws-supported"
+          ],
+          "brief": "A filibuster is using extended debate or other tactics to delay or block a Senate vote; cloture is the procedure that ends debate, needing three-fifths of Senators (60 when there are no vacancies) for most measures. No view on whether the rule is good or bad. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Filibusters and Cloture in the Senate",
+              "url": "https://www.congress.gov/crs_external_products/RL/PDF/RL30360/RL30360.22.pdf"
+            },
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ]
+        },
+        {
+          "id": "veto-vs-pocket-veto",
+          "kind": "difference",
+          "q": "What is the difference between a veto and a pocket veto?",
+          "searched": "veto vs pocket veto",
+          "chartIds": [
+            "how-broadly-are-laws-supported"
+          ],
+          "brief": "A regular veto returns the bill to Congress with objections within ten days (Sundays excepted), and Congress can override it; a pocket veto happens when Congress has adjourned and its adjournment prevents the bill's return, so the bill does not become law and there is nothing to override. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-can-override-veto",
+          "kind": "matters",
+          "q": "Who can override a presidential veto?",
+          "searched": "who can override a presidential veto",
+          "chartIds": [
+            "how-broadly-are-laws-supported"
+          ],
+          "brief": "Congress, by a two-thirds vote in each chamber, starting with the chamber where the bill began; then the bill becomes law without the President's signature. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Kinds of laws",
+      "questions": [
+        {
+          "id": "public-vs-private-law",
+          "kind": "difference",
+          "q": "What is the difference between a public law and a private law?",
+          "searched": "public law vs private law",
+          "chartIds": [
+            "which-kinds-of-laws-pass-and-how"
+          ],
+          "brief": "Public laws apply to society as a whole and most laws are public; private laws affect a single person, family or small group (for example, immigration or claims against the government); both are numbered by Congress. Offices and chambers, not people or parties.",
+          "sources": [
+            {
+              "label": "GovInfo, Public and Private Laws",
+              "url": "https://www.govinfo.gov/help/plaw"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

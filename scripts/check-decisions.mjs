@@ -118,18 +118,18 @@ for (const [w, h] of [[1280, 900], [1024, 800], [768, 900], [390, 844]]) {
   check(/index\.php\?search=.*go=Go/.test(plainLink ?? ""), `${tag}: another case links to a Wikipedia go-search (${(plainLink ?? "").slice(0, 70)})`);
 
   // Legend of card 1 is an issue-area filter for the whole page
-  await c1.locator("button[aria-pressed]", { hasText: "Criminal procedure" }).click();
+  await c1.locator("button[aria-pressed]", { hasText: "Crime, police & punishment" }).click();
   await settle(page);
   check((await page.locator("select[aria-label='Issue area'] option:checked").innerText()) === "Criminal procedure", `${tag}: card 1 legend sets the issue area`);
   check((await listCount()) === "1,760 cases", `${tag}: list follows the legend (${await listCount()})`);
-  check((await c1.locator("svg.chart-svg path, svg.chart-svg rect[style*='fill']").count()) > 0 && (await c1.locator("button[aria-pressed=true]", { hasText: "Criminal procedure" }).count()) === 1, `${tag}: legend entry marked active`);
-  await c4.locator("button[aria-label='Clear the issue area filter']").click();
+  check((await c1.locator("svg.chart-svg path, svg.chart-svg rect[style*='fill']").count()) > 0 && (await c1.locator("button[aria-pressed=true]", { hasText: "Crime, police & punishment" }).count()) === 1, `${tag}: legend entry marked active`);
+  await c4.locator("button[aria-label='Clear the topic filter']").click();
   await settle(page);
   check((await listCount()) === "8,251 cases", `${tag}: the chip clears the issue area`);
-  await c1.locator("button[aria-pressed]", { hasText: "Other areas" }).click();
+  await c1.locator("button[aria-pressed]", { hasText: "Immigration" }).click();
   await settle(page);
   check((await listCount()) === "1,696 cases".replace("1,696", await listCount().then((t) => t.split(" ")[0])) && (await page.locator("select[aria-label='Issue area'] option:checked").innerText()).startsWith("Other areas"), `${tag}: Other areas filters too (${await listCount()})`);
-  await c1.locator("button[aria-pressed=true]", { hasText: "Other areas" }).click();
+  await c1.locator("button[aria-pressed=true]", { hasText: "Immigration" }).click();
   await settle(page);
 
   // Landmark cases checkbox in the pinned bar narrows everything
@@ -170,13 +170,13 @@ for (const [w, h] of [[1280, 900], [1024, 800], [768, 900], [390, 844]]) {
   check((await page.locator("select[aria-label='Issue area']").inputValue()) !== "-1", `${tag}: area survived the window change`);
 
   // Card 3 row click sets the dropdown; another click on the same row clears
-  const row = c3.locator("button", { hasText: "Privacy" }).first();
+  const row = c3.locator("button", { hasText: "Immigration" }).first();
   await row.scrollIntoViewIfNeeded();
   await row.click();
   await settle(page);
   check((await page.locator("select[aria-label='Issue area'] option:checked").innerText()) === "Privacy", `${tag}: row click sets the dropdown (Privacy)`);
   check((await c3.locator("button[aria-pressed=true]").count()) >= 1, `${tag}: selected row is marked`);
-  await c3.locator("button", { hasText: "Privacy" }).first().click();
+  await c3.locator("button", { hasText: "Immigration" }).first().click();
   await settle(page);
   check((await page.locator("select[aria-label='Issue area']").inputValue()) === "-1", `${tag}: clicking the selected row clears the area`);
 
@@ -200,7 +200,7 @@ for (const [w, h] of [[1280, 900], [1024, 800], [768, 900], [390, 844]]) {
   await page.locator("button[aria-label^='Reset years']:visible").click();
 
   // Card 3: phones scroll the rows inside a fixed-height box; from lg every row shows (no scroll)
-  const box = c3.locator("[aria-label='Issue areas, one row each']");
+  const box = c3.locator("[aria-label='Topics, one row each']");
   const dims = await box.evaluate((el) => ({ sh: el.scrollHeight, ch: el.clientHeight, oy: getComputedStyle(el).overflowY }));
   if (w >= 1024) check(dims.sh <= dims.ch + 1 && dims.oy === "visible", `${tag}: card 3 shows the full spread, no scroll box (${dims.sh} vs ${dims.ch}, overflow ${dims.oy})`);
   else check(dims.sh > dims.ch && dims.oy === "auto", `${tag}: card 3 rows scroll inside a fixed-height box (${dims.sh} > ${dims.ch})`);
@@ -223,11 +223,11 @@ for (const [w, h] of [[1280, 900], [1024, 800], [768, 900], [390, 844]]) {
   // The decade heatmap beside/above the rows
   const heat = c3.locator("[role=grid]");
   check((await heat.locator("[role=gridcell]").count()) === 15 * 9, `${tag}: heatmap has 15 rows x 9 decades`);
-  const sideBySide = await heat.evaluate((el, rowsBox) => { const a = el.getBoundingClientRect(), b = document.querySelector(rowsBox).getBoundingClientRect(); return a.right <= b.left + 1; }, "[aria-label='Issue areas, one row each']");
+  const sideBySide = await heat.evaluate((el, rowsBox) => { const a = el.getBoundingClientRect(), b = document.querySelector(rowsBox).getBoundingClientRect(); return a.right <= b.left + 1; }, "[aria-label='Topics, one row each']");
   check(sideBySide === (w >= 1024), `${tag}: heatmap is ${w >= 1024 ? "left of" : "above"} the rows`);
   check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${tag}: no horizontal overflow with the heatmap`);
   const firstShade = () => heat.locator("[role=gridcell]").first().evaluate((e) => e.getAttribute("title") + "|" + e.style.background);
-    const toggle = c3.locator("[aria-label='Sort issue areas']");
+    const toggle = c3.locator("[aria-label='Sort topics']");
   check((await toggle.locator("button").allInnerTexts()).map((t) => t.replace(/[^A-Za-z0-9–]/g, "")).join(",") === "Cases,5–4,Unanimous", `${tag}: one toggle, in the order Cases, 5–4, Unanimous`);
   check((await c3.locator("button", { hasText: "Unanimous share" }).count()) === 0, `${tag}: the heatmap has no toggle of its own`);
   const cellText = () => heat.locator("[role=gridcell]").nth(9).innerText();

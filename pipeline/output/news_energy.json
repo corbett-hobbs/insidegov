@@ -1,0 +1,112 @@
+{
+  "asOf": "2026-11-05",
+  "stories": [
+    {
+      "id": "electricity-2026-11-05",
+      "date": "2026-11-05",
+      "topic": "Electricity",
+      "chartId": "electricity",
+      "headlines": [
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Hinojosa vows to protect Texas citizens from data centers",
+          "url": "https://thehill.com/homenews/state-watch/6203045-texas-hinojosa-data-centers/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Supreme Court urged to protect homeowners’ property rights in data center power fight",
+          "url": "https://www.washingtonexaminer.com/news/supreme-court/4793859/supreme-court-urged-protect-homeowners-property-rights-in-data-center-power-fight/"
+        }
+      ]
+    },
+    {
+      "id": "oil_markets-2026-11-02",
+      "date": "2026-11-02",
+      "topic": "Oil markets",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Crude oil prices sell off more than 7% on Iran peace talk hopes ahead of U.S. midterms",
+          "url": "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Oil Futures Sell Off on Middle East Diplomatic Progress",
+          "url": "https://www.wsj.com/business/energy-oil/oil-drops-amid-diplomatic-efforts-to-revive-mideast-peace-talks-964fc4d6?mod=pls_whats_news_us_business_f"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Trump touts ‘record’ drop in oil prices on election eve, says Iran ‘wants a settlement’",
+          "url": "https://www.washingtonexaminer.com/news/white-house/4788730/trump-not-hurried-end-iran-war-oil-prices-midterms-when-president-indicates-peace-talks-may-end/"
+        }
+      ]
+    },
+    {
+      "id": "emissions_rules-2026-10-27",
+      "date": "2026-10-27",
+      "topic": "Emissions rules",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Trump says government to ‘terminate’ Biden-era methane emissions rules",
+          "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Trump plans to loosen methane rules for low-producing, high-emitting oil wells",
+          "url": "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Trump unveils plan to loosen methane rules for oil and gas industry",
+          "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/"
+        }
+      ]
+    },
+    {
+      "id": "venezuela_oil-2026-10-27",
+      "date": "2026-10-27",
+      "topic": "Venezuelan oil",
+      "chartId": "oil",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Trump shows off tanker with ‘1m barrels of oil’ and floats Venezuela as 51st state",
+          "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-oil-tanker-venezuela"
+        },
+        {
+          "outletId": "abcnews",
+          "outlet": "ABC News",
+          "lean": "Lean Left",
+          "title": "Trump and Rubio plan to visit oil tanker carrying Venezuelan crude in Texas",
+          "url": "https://abcnews.com/Politics/wireStory/trump-rubio-plan-visit-oil-tanker-carrying-venezuelan-137592774"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Trump brings 1 million barrels of oil from Venezuela to Texas ahead of rally as part of last push for GOP in midterms",
+          "url": "https://nypost.com/2026/10/27/us-news/trump-rubio-expected-to-greet-first-shipment-of-1-million-barrels-of-venezuelan-oil-arriving-in-texas-post-deal-with-us/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "asOf": "2026-11-06",
+  "stories": [
+    {
+      "id": "ruling_crime-policing-2026-11-05",
+      "date": "2026-11-05",
+      "topic": "Supreme Court rulings on crime and policing",
+      "chartId": "how-many-cases-does-the-court-decide",
+      "groupId": "crime-policing",
+      "headlines": [
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "DOJ launches criminal probe into Supreme Court leak that exposed ruling overturning Roe v Wade",
+          "url": "https://www.foxnews.com/politics/doj-launches-criminal-probe-supreme-court-leak-exposed-ruling-overturning-roe-v-wade"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Justice Department conducting criminal probe into leak of Dobbs abortion decision",
+          "url": "https://nypost.com/2026/11/05/us-news/justice-department-conducting-criminal-probe-into-leak-of-dobbs-abortion-decision/"
+        }
+      ]
+    },
+    {
+      "id": "ruling_elections-2026-11-02",
+      "date": "2026-11-02",
+      "topic": "Supreme Court rulings on elections",
+      "chartId": "how-many-cases-does-the-court-decide",
+      "groupId": "elections",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Supreme court rules against Trump over bid to force California to set aside ballots",
+          "url": "https://www.theguardian.com/us-news/2026/nov/02/supreme-court-trump-california-ballots"
+        },
+        {
+          "outletId": "axios",
+          "outlet": "Axios",
+          "lean": "Lean Left",
+          "title": "SCOTUS rejects Trump's bid over disputed California ballots",
+          "url": "https://www.axios.com/2026/11/02/supreme-court-california-voter-rolls-doj"
+        },
+        {
+          "outletId": "apnews",
+          "outlet": "Associated Press",
+          "lean": "Lean Left",
+          "title": "Supreme Court rejects Trump administration push to set aside thousands of California ballots",
+          "url": "https://apnews.com/article/midterm-elections-immigration-voter-fraud-trump-48998968a23a4af2f59eaea3dba4d2f3?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+        }
+      ]
+    }
+  ]
+}

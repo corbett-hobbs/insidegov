@@ -1,0 +1,50 @@
+{
+  "asOf": "2026-10-27",
+  "stories": [
+    {
+      "id": "case.2025-059-2026-06-30",
+      "date": "2026-06-30",
+      "topic": "Trump v. Barbara",
+      "chartId": "how-many-cases-does-the-court-decide",
+      "groupId": "immigration",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "The New York Times",
+          "lean": "Lean Left",
+          "title": "Supreme Court rules in Trump v. Barbara (sample headline)",
+          "url": "https://www.nytimes.com/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Supreme Court decides Trump v. Barbara (sample headline)",
+          "url": "https://www.foxnews.com/"
+        }
+      ]
+    },
+    {
+      "id": "ruling-2026-06-29",
+      "date": "2026-06-29",
+      "topic": "Supreme Court rulings",
+      "chartId": "how-many-cases-does-the-court-decide",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Supreme Court rules on a major case (sample headline)",
+          "url": "https://www.nbcnews.com/"
+        },
+        {
+          "outletId": "washingtontimes",
+          "outlet": "The Washington Times",
+          "lean": "Lean Right",
+          "title": "Supreme Court decision announced (sample headline)",
+          "url": "https://www.washingtontimes.com/"
+        }
+      ]
+    }
+  ]
+}

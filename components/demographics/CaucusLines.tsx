@@ -168,7 +168,7 @@ export function CaucusLines({
         <Tooltip state={tip.state}>
           {(r) => (
             <TooltipCard title={congressSpan(r)} sub={by.get(r.termId)?.president}>
-              {lines.map((l) => (
+              {shown.map((l) => (
                 <div key={l.k} className="whitespace-nowrap">
                   <span style={{ color: l.color }}>●</span> {l.label}: {fmt(val(r, l.k))} {detail && <span className="text-ink-muted">{detail(r, l.k)}</span>}
                 </div>

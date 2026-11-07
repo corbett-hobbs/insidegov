@@ -8,7 +8,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { fmtDate } from "@/components/decisions/CaseListCard";
 import { fmtInt } from "@/lib/decisions-derive";
 import { SUPPORT_COLORS, SUPPORT_LABELS, SUPPORT_ORDER, SUPPORT_SHORT, filterLabel, filterLaws, matchLaws, tallyText } from "@/lib/laws-derive";
-import type { LawListRow, LawsArea, LawsList } from "@/lib/laws-types";
+import type { LawListRow, LawsArea, LawsGroup, LawsList } from "@/lib/laws-types";
 import { lawId, lawPath } from "@/lib/law-url";
 import { isPicked, normalizePick } from "@/lib/multi-select";
 import { ordinal } from "@/lib/demographics-chart";
@@ -176,9 +176,11 @@ export const pubLaw = (r: LawListRow): string => `Pub. L. ${r[0]}–${r[1]}`;
  * right; then the sponsor line, the policy area and the badges. From `sm`: date, title (badges inline), policy area and vote in
  * four columns, with the bill and sponsor line and the CRS sentence under the title.
  */
-export function LawRow({ r, data, list, extraBadge }: { r: LawListRow; data: { areas: LawsArea[] }; list: LawsList; /** A badge the member pages add (the member's part in the law). */ extraBadge?: ReactNode }) {
+export function LawRow({ r, data, list, extraBadge }: { r: LawListRow; data: { areas: LawsArea[]; /** Given where the policy-area filter is (the Laws page), the row names the filter's topic group, so it matches what ticking a box shows; the CRS policy area is its tooltip. */ groups?: LawsGroup[] }; list: LawsList; /** A badge the member pages add (the member's part in the law). */ extraBadge?: ReactNode }) {
   const area = data.areas[r[4]]!;
-  const areaLabel = area.name ?? "Not classified";
+  const crsLabel = area.name ?? "Not classified";
+  const groupLabel = data.groups?.find((g) => g.id === area.group)?.label;
+  const areaLabel = groupLabel ?? crsLabel;
   const sponsor = r[8] >= 0 ? list.sponsors[r[8]]! : null;
   const signer = list.signers[r[13]]!;
   const votes = r[5] === 0 && r[6][0] === 3 && r[7][0] === 3 ? "No method stated in either chamber" : `${tallyText("House", r[6])}, ${tallyText("Senate", r[7])}`;
@@ -207,7 +209,7 @@ export function LawRow({ r, data, list, extraBadge }: { r: LawListRow; data: { a
     </Link>
   );
   return (
-    <li className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 border-b border-line px-3 py-2.5 text-[0.82rem] last:border-b-0 sm:grid-cols-[6.5rem_minmax(0,1fr)_9.5rem_9rem] sm:items-baseline sm:gap-y-0.5 sm:py-2">
+    <li className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 border-b border-line px-3 py-2.5 text-[0.82rem] last:border-b-0 sm:grid-cols-[6.5rem_minmax(0,1fr)_13rem_9rem] sm:items-baseline sm:gap-y-0.5 sm:py-2">
       <span className="col-span-2 min-w-0 break-words sm:col-span-1 sm:col-start-2 sm:row-start-1">
         {title}
         {hasBadge && <span className="ml-2 inline-flex flex-wrap gap-1 max-sm:hidden">{badges}</span>}
@@ -217,7 +219,7 @@ export function LawRow({ r, data, list, extraBadge }: { r: LawListRow; data: { a
         {fmtDate(r[2])}
         <span className="text-ink-faint sm:hidden">{` · ${pubLaw(r)}`}</span>
       </span>
-      <span className="col-start-1 row-start-3 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[0.75rem] text-ink-muted sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={areaLabel}>
+      <span className="col-start-1 row-start-3 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-[0.75rem] text-ink-muted sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={groupLabel && groupLabel !== crsLabel ? `${groupLabel}: ${crsLabel} (Congress.gov policy area)` : areaLabel}>
         {areaLabel}
         {hasBadge && <span className="inline-flex flex-wrap gap-1 sm:hidden">{badges}</span>}
       </span>

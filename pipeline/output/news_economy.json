@@ -1,0 +1,171 @@
+{
+  "asOf": "2026-11-06",
+  "stories": [
+    {
+      "id": "fed_rates-2026-11-06",
+      "date": "2026-11-06",
+      "topic": "Federal Reserve and interest rates",
+      "chartId": "chart-ff",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Stable Labor Market Keeps Fed on Track to Raise Rates Gradually",
+          "url": "https://www.nytimes.com/2026/11/06/business/economy/stable-labor-market-to-keep-fed-on-track-to-raise-rates-gradually.html"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Democratic sweep gives markets a reason to rethink path of interest rates",
+          "url": "https://www.cnbc.com/2026/11/06/oil-prices-interest-rates-midterms.html"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Fed’s New FOMC Schedule Turns Back the Clock for ‘Strategy’ Sessions",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-06/fed-s-new-fomc-schedule-turns-back-the-clock-for-strategy-sessions"
+        }
+      ]
+    },
+    {
+      "id": "jobs-2026-11-06",
+      "date": "2026-11-06",
+      "topic": "Jobs report",
+      "chartId": "chart-jobs",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "Payroll employment rises by 165,000 in October; unemployment rate changes little at 4.1%",
+          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm"
+        },
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "U.S. Employers Added A Surprising 165,000 Jobs In October; Unemployment Rate Dipped To 4.1%",
+          "url": "https://www.huffpost.com/entry/us-economy-jobs-report_n_6aeddca6e4b037ca10339122"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Economy added 165,000 jobs in October, showing strength of expansion",
+          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4794797/economy-october-jobs-trump-labor-market/"
+        }
+      ]
+    },
+    {
+      "id": "unemployment-2026-11-06",
+      "date": "2026-11-06",
+      "topic": "Unemployment",
+      "chartId": "chart-un",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "Payroll employment rises by 165,000 in October; unemployment rate changes little at 4.1%",
+          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Traders Trim Canada Rate-Hike Bets as Unemployment Rises to 6.7%",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-06/canada-jobless-rate-rises-to-6-7-amid-small-employment-decline"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "US employers surprisingly add 165K jobs in strong October, unemployment dips",
+          "url": "https://nypost.com/2026/11/06/business/us-employers-add-165k-jobs-in-strong-october-unemployment-dips/"
+        }
+      ]
+    },
+    {
+      "id": "markets-2026-11-04",
+      "date": "2026-11-05",
+      "topic": "Stock market",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Voters say the economy drove them to the polls — and blame Trump for their troubles",
+          "url": "https://www.cnbc.com/2026/11/04/2026-midterms-trump-economy-iran-war.html"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Trump on stock market losses: 'You only have yourselves to blame'",
+          "url": "https://thehill.com/homenews/administration/6203425-donald-trump-stock-market-losses-2026-midterms-economy/"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Stocks plunge as Dem midterm sweep fuels AI regulatory concerns",
+          "url": "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
+        }
+      ]
+    },
+    {
+      "id": "debt-2026-11-04",
+      "date": "2026-11-04",
+      "topic": "National debt",
+      "chartId": "chart-debt",
+      "headlines": [
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Trump's loss limits powers at home, but it will likely be different abroad",
+          "url": "https://www.bbc.co.uk/news/articles/crkg7wj8g201o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Debt Limit, Tariffs Top List of Likely Deals in Trump’s New Era",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-04/debt-limit-tariffs-top-list-of-likely-deals-in-trump-s-new-era"
+        }
+      ]
+    },
+    {
+      "id": "treasury_yields-2026-11-04",
+      "date": "2026-11-04",
+      "topic": "Treasury yields",
+      "chartId": "chart-ten",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "U.S. midterm elections in pictures: Democrats' sweeping victories deliver rebuke to Trump",
+          "url": "https://www.cnbc.com/2026/11/04/us-midterm-elections-in-pictures-democrats-republicans-trump.html"
+        },
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Oil prices drop below $100 as midterms fuel hope for an end to the Iran war",
+          "url": "https://www.nbcnews.com/business/energy/oil-prices-iran-war-midterms-rcna607448"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Trump blames Democrats for stock market plunge after sweeping midterm victories",
+          "url": "https://www.foxbusiness.com/politics/trump-blames-democrats-stock-market-plunge-after-sweeping-midterm-victories"
+        }
+      ]
+    }
+  ]
+}

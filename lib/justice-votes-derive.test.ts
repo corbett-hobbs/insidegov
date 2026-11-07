@@ -3,7 +3,7 @@ import type { JusticeVote } from "./decisions-entities";
 import type { DecisionCase } from "./decisions-types";
 import { joinVotes, matchesVote, pct, voteStats } from "./justice-votes-derive";
 
-const kase = (id: string, band: number): DecisionCase => [2000, "2000-01-01", id, "1 U.S. 1", 0, band, 5, 4, "", "", "", "", 0, 0, id];
+const kase = (id: string, band: number): DecisionCase => [2000, "2000-01-01", id, "1 U.S. 1", 0, band, 5, 4, "", "", "", "", 0, 0, id, -1];
 const cases = [kase("c3", 4), kase("c2", 0), kase("c1", 4), kase("c0", 1)];
 const votes: JusticeVote[] = [
   ["c1", 1, 0],

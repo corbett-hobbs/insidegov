@@ -1,0 +1,51 @@
+{
+  "asOf": "2026-10-27",
+  "stories": [
+    {
+      "id": "law.119-pub-133-2026-10-21",
+      "date": "2026-10-21",
+      "topic": "Chiricahua National Park Act",
+      "chartId": "how-many-laws-does-congress-pass",
+      "groupId": "land-water-farming",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Chiricahua National Park Act becomes law (sample headline)",
+          "url": "https://www.nbcnews.com/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Right",
+          "title": "Trump signs Chiricahua National Park Act (sample headline)",
+          "url": "https://www.washingtonexaminer.com/"
+        }
+      ]
+    },
+    {
+      "id": "law.119-pub-134-2026-10-22",
+      "date": "2026-10-22",
+      "topic": "License to Drill Act",
+      "chartId": "how-many-laws-does-congress-pass",
+      "groupId": "energy-environment",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "License to Drill Act signed into law (sample headline)",
+          "url": "https://www.theguardian.com/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Trump signs License to Drill Act (sample headline)",
+          "url": "https://www.foxnews.com/"
+        }
+      ]
+    }
+  ]
+}

@@ -106,7 +106,18 @@ FORCED_PAIRS.push(...ENCOUNTER_KEYS.flatMap((a, i) => ENCOUNTER_KEYS.slice(i + 1
 // President-page row hues (lib/president-data.ts): bar and line colour of the Economy, Immigration, world and security rows. One hue per
 // row, never stacked together or on a party chart, so only the absolute contrast check applies.
 const PREZ_KEYS = ["prez-econ", "prez-immig", "prez-world", "prez-security"];
-const NEW_KEYS = ["committee-house", "committee-senate", "committee-joint", ...SECTOR_KEYS, ...FUEL_KEYS, ...TENURE_KEYS, ...STAGE_KEYS, ...SPLIT_KEYS, ...PREZ_KEYS];
+// Supreme Court decision topics (components/decisions): twelve stacked on card 1 by size, largest first, which is also the
+// Topic menu's order. Twelve hues cannot all be pairwise separable, so only the pairs that touch in that order are forced;
+// the order is read from the committed report, so a refresh that reorders the topics re-checks the new neighbours.
+const TOPIC_ORDER = Object.entries(
+  JSON.parse(fs.readFileSync(path.join(DIR, "pipeline/output/decisions_report.json"), "utf8")).cases_by_topic,
+)
+  .filter(([id]) => !id.startsWith("("))
+  .sort((a, b) => b[1] - a[1])
+  .map(([id]) => `court-topic-${id}`);
+PALETTE_KEYS.push(...TOPIC_ORDER);
+FORCED_PAIRS.push(...TOPIC_ORDER.slice(1).map((k, i) => [TOPIC_ORDER[i], k]));
+const NEW_KEYS = ["committee-house", "committee-senate", "committee-joint", ...SECTOR_KEYS, ...FUEL_KEYS, ...TENURE_KEYS, ...STAGE_KEYS, ...SPLIT_KEYS, ...PREZ_KEYS, ...TOPIC_ORDER];
 
 // ---- CLI overrides -------------------------------------------------------
 const override = { light: {}, dark: {} };

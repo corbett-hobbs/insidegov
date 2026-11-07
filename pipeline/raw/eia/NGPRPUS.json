@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:32:54.706Z","series":{"id":"NGPRPUS","title":"Natural Gas Production (Dry) in Billion Cubic Feet","units":"Billion Cubic Feet","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NGPRPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":642}},
+  "head": {"fetched_at":"2026-11-03T19:31:15.496Z","series":{"id":"NGPRPUS","title":"Natural Gas Production (Dry) in Billion Cubic Feet","units":"Billion Cubic Feet","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NGPRPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":643}},
   "observations": [
     ["1973-01","1869"],
     ["1973-02","1883"],
@@ -641,7 +641,8 @@
     ["2026-02","3098.632"],
     ["2026-03","3432.813"],
     ["2026-04","3330.684"],
-    ["2026-05","3425.339"],
-    ["2026-06","3369.502"]
+    ["2026-05","3424.309"],
+    ["2026-06","3369.876"],
+    ["2026-07","3524.896"]
   ]
 }

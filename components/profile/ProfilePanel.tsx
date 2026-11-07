@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CardMoreLink } from "@/components/charts/CardMoreLink";
 
 /**
  * The card chrome shared by every panel on a member profile page — a bordered
@@ -9,11 +10,13 @@ import type { ReactNode } from "react";
 export function ProfilePanel({
   label,
   action,
+  more,
   children,
   className,
 }: {
   label: string;
   action?: ReactNode;
+  more?: { href: string; label: string };
   children: ReactNode;
   className?: string;
 }) {
@@ -28,6 +31,7 @@ export function ProfilePanel({
         {action}
       </div>
       {children}
+      {more && <CardMoreLink href={more.href} label={more.label} />}
     </section>
   );
 }

@@ -53,7 +53,7 @@ describe("enduseView", () => {
     expect(v.rate).toBe(0.1);
     expect(v.special.map((s) => s.code)).toEqual(["50020", "50030"]);
     expect(v.specialTotal).toBe(200);
-    expect(specialNote(v, "uses")).toBe("Plus $200 in special entries, not ranked as uses: U.S. goods returned & reimports $150, minimum-value shipments $50.");
+    expect(specialNote(null, v)).toBe("The use list leaves out $200 of special entries, shipments recorded by how they were handled rather than what they are. Largest: U.S. goods returned & reimports $150, minimum-value shipments $50.");
     expect(enduseView(payload, 2025, "exports")).toBeNull();
   });
 

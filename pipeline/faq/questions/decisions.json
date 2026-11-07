@@ -1,0 +1,104 @@
+{
+  "page": "decisions",
+  "dataFiles": [],
+  "groups": [
+    {
+      "row": "How cases reach the Court",
+      "questions": [
+        {
+          "id": "who-decides-cases",
+          "kind": "matters",
+          "q": "Who decides which cases the Supreme Court hears?",
+          "searched": "who decides which cases the supreme court hears",
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ],
+          "brief": "One answer that walks the path once, in plain words. The justices decide. A few kinds of case, such as suits between states, can start in the Supreme Court itself. Almost every other case comes up from a lower court: the losing side files a petition for a writ of certiorari (say what that is in plain words: a request that the Court review the case), and the Court can turn it down; four of the nine justices must vote to take a case. Then how many it takes of how many it is asked to review each year. Call the request a petition, never an appeal, and do not use the words original or appellate jurisdiction. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            },
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ]
+        },
+        {
+          "id": "supreme-court-vs-appeals",
+          "kind": "difference",
+          "q": "What is the difference between the Supreme Court and a federal court of appeals?",
+          "searched": "supreme court vs court of appeals",
+          "chartIds": [
+            "how-many-cases-does-the-court-decide"
+          ],
+          "brief": "Focus on the courts of appeals, since the Supreme Court's own process is answered elsewhere on the page: how many there are (12 regional circuits plus the Federal Circuit), that they review district court decisions with panels of three judges to check the proceedings were fair and the law applied correctly, how many cases they handle a year, and that ten percent or fewer of their decisions go on to the Supreme Court, so most are final. Then one short clause on the Supreme Court as the single court above them with nine justices. Do not give how many petitions the Supreme Court takes or say that it chooses its cases. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Courts of Appeals",
+              "url": "https://www.uscourts.gov/about-federal-courts/court-role-and-structure/about-us-courts-appeals"
+            },
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Opinions and votes",
+      "questions": [
+        {
+          "id": "majority-vs-concurring",
+          "kind": "difference",
+          "q": "What is the difference between a majority opinion and a concurring opinion?",
+          "searched": "majority opinion vs concurring opinion",
+          "chartIds": [
+            "how-divided-is-the-court"
+          ],
+          "brief": "The majority opinion is the opinion of the Court, which a majority of justices must sign onto; a concurring opinion is written by a justice who agrees with the outcome but not the majority's reasoning; a dissenting opinion disagrees with the outcome. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ]
+        },
+        {
+          "id": "who-writes-majority",
+          "kind": "matters",
+          "q": "Who writes the majority opinion in the Supreme Court?",
+          "searched": "who writes the majority opinion in supreme court",
+          "chartIds": [
+            "how-divided-is-the-court"
+          ],
+          "brief": "After the justices vote in conference, the Chief Justice, or the most senior justice in the majority if the Chief Justice dissents, assigns a justice in the majority to write it; that justice has to keep the majority together through drafts. Then what happens on a tie vote. Do not repeat that a majority must sign onto the opinion; another answer says it. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "sources": [
+            {
+              "label": "U.S. Courts, Supreme Court Procedures",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/supreme-court-procedures"
+            }
+          ]
+        },
+        {
+          "id": "how-many-justices",
+          "kind": "matters",
+          "q": "Who decides how many justices are on the Supreme Court?",
+          "searched": "who decides how many justices are on the supreme court",
+          "chartIds": [
+            "how-divided-is-the-court"
+          ],
+          "brief": "Congress sets the number by law and has changed it over time (the range the source gives); it has been nine since shortly after the Civil War: a Chief Justice and eight Associate Justices. Justices are appointed by the President and confirmed by the Senate, and typically serve for life. The Court and its offices (\"the Chief Justice\"), not named justices or presidents.",
+          "sources": [
+            {
+              "label": "U.S. Courts, About the Supreme Court",
+              "url": "https://www.uscourts.gov/about-federal-courts/educational-resources/about-educational-outreach/activity-resources/about"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

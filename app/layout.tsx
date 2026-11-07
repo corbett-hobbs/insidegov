@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { site, siteUrl } from "@/lib/site";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -8,27 +8,39 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { BackLinkProvider } from "@/components/BackLinkContext";
 import { OutboundLinkTracker } from "@/components/OutboundLinkTracker";
 import { JsonLd } from "@/components/JsonLd";
+import { EmbedMode } from "@/components/charts/EmbedMode";
+import { EMBED_BOOT } from "@/lib/embed";
 import { siteJsonLd } from "@/lib/structured-data";
 import "./globals.css";
 
-const newsreader = Newsreader({
+// Self-hosted (app/fonts, from Fontsource; SIL OFL) rather than next/font/google: the Google fetch at build time
+// failed intermittently on Vercel and took the whole deployment down with it.
+const newsreader = localFont({
   variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+  src: [
+    { path: "./fonts/newsreader-latin-wght-normal.woff2", style: "normal", weight: "200 800" },
+    { path: "./fonts/newsreader-latin-wght-italic.woff2", style: "italic", weight: "200 800" },
+  ],
   display: "swap",
 });
 
-const plexSans = IBM_Plex_Sans({
+const plexSans = localFont({
   variable: "--font-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  src: [
+    { path: "./fonts/ibm-plex-sans-latin-400-normal.woff2", style: "normal", weight: "400" },
+    { path: "./fonts/ibm-plex-sans-latin-500-normal.woff2", style: "normal", weight: "500" },
+    { path: "./fonts/ibm-plex-sans-latin-600-normal.woff2", style: "normal", weight: "600" },
+  ],
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
+const plexMono = localFont({
   variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  src: [
+    { path: "./fonts/ibm-plex-mono-latin-400-normal.woff2", style: "normal", weight: "400" },
+    { path: "./fonts/ibm-plex-mono-latin-500-normal.woff2", style: "normal", weight: "500" },
+    { path: "./fonts/ibm-plex-mono-latin-600-normal.woff2", style: "normal", weight: "600" },
+  ],
   display: "swap",
 });
 
@@ -61,7 +73,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* An embedded chart (?embed=): hide the page before first paint and pick the theme (lib/embed.ts). */}
+        <script dangerouslySetInnerHTML={{ __html: EMBED_BOOT }} />
+      </head>
       <body className="min-h-full flex flex-col bg-bg text-ink">
         <JsonLd data={siteJsonLd()} />
         <BackLinkProvider>
@@ -69,6 +86,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader />
           {children}
           <GlobalFooter />
+          <EmbedMode />
           <OutboundLinkTracker />
           <Analytics />
         </BackLinkProvider>

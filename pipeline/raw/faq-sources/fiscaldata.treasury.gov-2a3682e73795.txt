@@ -1,0 +1,130 @@
+# saved 2026-10-27 from https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/
+What is the national debt?
+The national debt ($--) is the total amount of outstanding borrowing by the U.S. Federal Government accumulated over the nation’s history.
+Updated daily from the Debt to the Penny dataset.
+Share this page
+Facebook
+X (Twitter)
+LinkedIn
+Reddit
+Email
+Key Takeaways
+The national debt is composed of distinct types of debt, similar to an individual whose debt may consist of a mortgage, car loan, and credit cards. The different types of debt include non-marketable or marketable securities and whether it is debt held by the public or debt held by the government itself (known as intragovernmental).
+The U.S. has carried debt since its inception. Debts incurred during the American Revolutionary War amounted to $75 million, primarily borrowed from domestic investors and the French Government for war materials.
+The national debt enables the federal government to pay for important programs and services for the American public.
+The National Debt Explained
+The national debt is the amount of money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. In a given fiscal year (FY) , when spending (ex. money for roadways) exceeds revenue (ex. money from federal income tax), a budget deficit results. To pay for this deficit, the federal government borrows money by selling marketable securities such as Treasury bonds , bills , notes , floating rate notes , and Treasury inflation-protected securities (TIPS) . The national debt is the accumulation of this borrowing along with associated interest owed to the investors who purchased these securities. As the federal government experiences reoccurring deficits, which is common, the national debt grows.
+Simply put, the national debt is similar to a person using a credit card for purchases and not paying off the full balance each month. The cost of purchases exceeding the amount paid off represents a deficit , while accumulated deficits over time represents a person’s overall debt.
+The U.S. Treasury uses the terms “national debt,” “federal debt,” and “public debt” interchangeably.
+Revenue
+Spending
+Deficit
+Year 1
+$400
+$500
+-$100
+Year 2
+$600
+$800
+-$200
+-$300
+Debt
+Funding Programs and Services
+The federal government needs to borrow money to pay its bills when its ongoing spending activities and investments cannot be funded by federal revenues alone. Decreases in federal revenue are largely due to either a decrease in tax rates or individuals or corporations making less money. The national debt enables the federal government to pay for important programs and services even if it does not have funds immediately available, often due to a decrease in revenue. Decreases in federal revenue coupled with increased government spending further increases the deficit .
+Consistent with the purpose of the federal government established by the U.S. Constitution, money is spent on programs and services to ensure the well-being of U.S. residents. The Constitution’s preamble states that the purpose of the federal government is “…to establish Justice, insure domestic Tranquility, provide for the common defense, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity.” Uninterrupted funding of programs and services is critical to residents’ health, welfare, and security.
+What are some of the major spending categories?
+toggle contents
+In accordance with the 2014 DATA Act, federal agencies are required to submit financial data on a quarterly and/or monthly basis to USAspending.gov . Anyone can visit USAspending for a breakdown of what the federal government spends each year and how it spends that money. Visitors can follow the money from the Congressional appropriations to the federal agencies and down to local communities and businesses.
+The Growing National Debt
+The U.S. has carried debt almost continuously since its inception. Debts incurred during the Revolutionary War amounted to over $75 million by January 1, 1791. Over the next 45 years, the debt continued to grow until 1835 when it was briefly eliminated due to the sale of federally-owned lands and cuts to the federal budget. Shortly thereafter, additional wars caused the debt to increase again. The debt grew over 4,000% through the course of the American Civil War, increasing from $65 million in 1860 to $1 billion in 1863 and almost $3 billion shortly after the conclusion of the war in 1865. The debt grew steadily into the 20th century and was roughly $22 billion after the country financed its involvement in World War I.
+Notable recent events triggering large spikes in the debt include the Afghanistan and Iraq Wars, the 2008 Great Recession, and the COVID-19 pandemic. From FY 2019 to FY 2021, spending increased by about 50%, largely due to the COVID-19 pandemic. Tax cuts, stimulus programs, increased government spending, and decreased tax revenue caused by widespread unemployment generally account for sharp rises in the national debt.
+Comparing a country’s debt to its gross domestic product (GDP) reveals the country’s ability to pay down its debt. This ratio is considered a better indicator of a country’s fiscal situation than just the national debt number because it shows the burden of debt relative to the country’s total economic output and therefore its ability to repay it. The U.S. debt to GDP ratio surpassed 100% in 2013 when both debt and GDP were approximately 16.7 trillion.
+Visualizing the debt - How much is $-- trillion dollars?
+toggle contents
+Breaking Down the Debt
+The national debt is composed of distinct types of debt, similar to an individual whose debt consists of a mortgage, car loan, and credit cards. The national debt can be broken down by whether it is non-marketable or marketable and whether it is debt held by the public or debt held by the government itself (known as intragovernmental ). The national debt does not include debts carried by state and local governments, such as debt used to pay state-funded programs; nor does it include debts carried by individuals, such as personal credit card debt or mortgages.
+The visual below comparing calendar year -- and -- displays the difference in growth between debt held by the public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by different amounts in the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of programs and services during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed of debt owed on agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social Security Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
+Intragovernmental Holdings and Debt Held by the Public, CY -- and CY --
+Loading...
+Visit the U.S. Treasury Monthly Statement of the Public Debt (MSPD) to explore and download this data. Last Updated: --
+There are two major categories for federal debt: debt held by the public and intragovernmental holdings.
+The debt held by the public has increased by -- % since -- . Intragovernmental holdings increased by -- % since -- .
+Maintaining the National Debt
+The federal government is charged interest for the use of lenders’ money, in the same way that lenders charge an individual interest for a car loan or mortgage. How much the government pays in interest depends on the total national debt and the various securities’ interest rates .
+As of -- -- it costs $ -- billion to maintain the debt, which is --% of the total federal spending in fiscal year -- .
+The national debt has increased every year over the past ten years. Interest expenses during this period have remained fairly stable due to low interest rates and investors’ judgement that the U.S. Government has a very low risk of default. However, recent increases in interest rates and inflation are now resulting in an increase in interest expense.
+Interest Rate and Total Debt, -- – --
+-- Fiscal Year
+--% Average Interest Rate
+$-- Total Debt
+Loading...
+Average Interest Rate
+Total Debt
+Visit the Average Interest Rates on U.S. Treasury Securities and U.S. Treasury Monthly Statement of the Public Debt (MSPD) datasets to explore and download this data.
+Last Updated: September 30, --
+As interest rates increase, the cost of maintaining the national debt also increases. These impacts grow as the debt also increases. To view the relationship with interest rates and interest expense, check out this Interest Expense Insight .
+Why can't the government just print more money?
+toggle contents
+The Debt Ceiling
+The debt ceiling, or debt limit, is a restriction imposed by Congress on the amount of outstanding national debt that the federal government can have. The debt ceiling is the amount that the Treasury can borrow to pay the bills that have become due and pay for future investments. Once the debt ceiling is reached, the federal government cannot increase the amount of outstanding debt, losing the ability to pay bills and fund programs and services. However, the Treasury can use extraordinary measures authorized by Congress to temporarily suspend certain intragovernmental debt allowing it to borrow to fund programs or services for a limited amount of time after it has reached the ceiling.
+Since the United States has never defaulted on its obligations, the scope of the negative repercussions related to a default are unknown but would likely have catastrophic repercussions in the United States and in markets across the globe.
+How is the debt ceiling different from a government shutdown?
+toggle contents
+Tracking the Debt
+Created in 2012 and operating under the Department of the Treasury, the Bureau of the Fiscal Service manages all federal payments and collections and provides government-wide accounting and reporting services. A primary function of the Fiscal Service is to account for and report the national debt, as dictated by the U.S. Constitution, which states that “regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
+Dive Deeper into the Debt
+For more information about the national debt, please explore more of Fiscal Data and check out the extensive resources listed below.
+The most recent U.S. Government Financial Report
+https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2024.pdf
+America’s Fiscal Future: Federal Debt
+https://www.gao.gov/americas-fiscal-future
+Federal Net Interest Costs: A Primer
+https://www.cbo.gov/publication/56910
+Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?
+https://www.federalreserve.gov/faqs/money_12853.htm
+Options for Reducing Deficit
+https://www.cbo.gov/publication/56783
+Treasury Bulletin
+https://fiscal.treasury.gov/reports-statements/treasury-bulletin/
+USAspending
+https://www.usaspending.gov
+“Rather go to bed without dinner than to rise in debt.”
+Benjamin Franklin, statesman, civic leader, and diplomat
+“The necessity for borrowing in particular emergencies cannot be doubted, so on the other, it is equally evident that, to be able to borrow upon good terms, it is essential that the credit of the nation should be well established.”
+Alexander Hamilton, 1st U.S. Treasury Secretary
+Data Sources & Methodologies
+toggle contents
+Table of Contents
+See the datasets that relate to the national debt
+Debt to the Penny
+Date Range
+04/01/1993 - 10/23/2026
+Last Updated
+10/26/2026
+Release Frequency
+Daily
+1 Data Table
+Historical Debt Outstanding
+Date Range
+01/01/1790 - 09/30/2026
+Last Updated
+10/02/2026
+Release Frequency
+Annually
+1 Data Table
+U.S. Treasury Monthly Statement of the Public Debt (MSPD)
+Date Range
+01/31/2001 - 09/30/2026
+Last Updated
+10/06/2026
+Release Frequency
+Monthly
+7 Data Tables
+Average Interest Rates on U.S. Treasury Securities
+Date Range
+01/31/2001 - 09/30/2026
+Last Updated
+10/06/2026
+Release Frequency
+Monthly
+1 Data Table

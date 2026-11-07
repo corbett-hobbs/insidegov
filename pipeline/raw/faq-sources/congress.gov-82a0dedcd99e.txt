@@ -1,0 +1,2004 @@
+# saved 2026-10-28 from https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf
+Foreign Assistance: An Introduction to U.S.
+Programs and Policy
+
+Updated January 10, 2022
+
+
+
+
+                                Congressional Research Service
+                                 https://crsreports.congress.gov
+                                                        R40213
+                                                                                                             SUMMARY
+
+                                                                                                         R40213
+Foreign Assistance: An Introduction to U.S.
+                                                                                                         January 10, 2022
+Programs and Policy                                                                                      Emily M. Morgenstern
+Foreign assistance is the largest component of the international affairs budget and is viewed by         Analyst in Foreign
+many Members of Congress as an essential instrument of U.S. foreign policy. On the basis of              Assistance and Foreign
+national security, commercial, and humanitarian rationales, U.S. assistance flows through many           Policy
+federal agencies and supports myriad objectives. These objectives include promoting economic
+growth, reducing poverty, improving governance, expanding access to health care and education,           Nick M. Brown
+promoting stability in conflict regions, countering terrorism, promoting human rights,                   Analyst in Foreign
+strengthening allies, and curbing illicit drug production and trafficking. Since the terrorist attacks   Assistance and Foreign
+of September 11, 2001, foreign aid has increasingly been associated with national security policy.       Policy
+At the same time, some Americans and Members of Congress view foreign aid as an expense that
+the United States cannot afford given current budget deficits and competing budget priorities.
+
+In FY2019, U.S. foreign assistance, defined broadly, totaled an estimated $48.18 billion, or 1%
+of total federal budget authority. About 41% of this assistance was for bilateral economic development programs, including
+strategic economic assistance; 35% for military and nonmilitary security assistance; 20% for humanitarian activities; and 4%
+to support the work of multilateral institutions. Assistance can take the form of cash transfers, equipment and commodities,
+infrastructure, education and training, or technical assistance, and, in recent decades, is provided almost exclusively on a
+grant rather than loan basis. Most U.S. aid is implemented by nongovernmental organizations rather than foreign
+governments. The United States is the largest foreign aid donor in the world, accounting for nearly 23% of total official
+development assistance from major donor governments in 2019 (the latest year for which these data are available).
+
+Key foreign assistance trends since 2001 include growth in development aid, particularly global health programs; increased
+security assistance directed toward U.S. allies for anti-terrorism efforts; and high levels of humanitarian assistance to address
+a range of crises. Adjusted for inflation, annual foreign assistance funding since FY2003 has been higher than in any period
+since the Marshall Plan was implemented in the years immediately following World War II. In FY2019, Afghanistan, Israel,
+Jordan, Egypt, and Iraq received the largest amounts of U.S. assistance, reflecting long-standing commitments to Israel and
+Egypt, the strategic significance of Afghanistan and Iraq, and the strategic and humanitarian importance of Jordan as the
+crisis in neighboring Syria continues. Sub-Saharan Africa and the Middle East and North Africa regions each received 25%
+of assistance allocated by country or region in FY2019, followed by South and Central Asia, at 14%.
+
+This report provides an overview of U.S. foreign assistance by answering frequently asked questions on the subject. It is
+intended to provide a broad view of foreign assistance over time, and will be updated periodically. For more current
+information on foreign aid funding levels, see CRS Report R46935, Department of State, Foreign Operations, and Related
+Programs: FY2022 Budget and Appropriations, by Cory R. Gill, Marian L. Lawson, and Emily M. Morgenstern.
+
+
+
+
+Congressional Research Service
+                                                          Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Contents
+Foreign Assistance: An Introduction to U.S. Programs and Policy ................................................. 1
+   How Is “U.S. Foreign Assistance” Defined and Counted? ....................................................... 1
+Foreign Aid Purposes and Priorities ................................................................................................ 3
+   What Are the Rationales and Objectives of U.S. Foreign Assistance? ..................................... 3
+       Rationales for Foreign Aid .................................................................................................. 3
+       Objectives of Foreign Aid ................................................................................................... 4
+   What Are the Major Foreign Aid Funding Categories and Accounts? ...................................... 5
+       Bilateral Development Assistance ...................................................................................... 6
+       Multilateral Development Assistance ................................................................................. 7
+       Humanitarian Assistance..................................................................................................... 7
+       Strategic Economic Assistance ........................................................................................... 8
+       Security Assistance ............................................................................................................. 9
+Delivery of Foreign Assistance ...................................................................................................... 11
+   What Executive Branch Agencies Implement Foreign Assistance Programs? ........................ 11
+       U.S. Agency for International Development ..................................................................... 12
+       U.S. Department of Defense ............................................................................................. 12
+       U.S. Department of State .................................................................................................. 13
+       U.S. Department of the Treasury ...................................................................................... 13
+       U.S. Department of Health and Human Services.............................................................. 14
+       Millennium Challenge Corporation .................................................................................. 14
+       Other Agencies .................................................................................................................. 14
+   What Are the Different Forms in Which U.S. Assistance Is Provided? .................................. 15
+       Expertise ........................................................................................................................... 15
+       Training ............................................................................................................................. 16
+       Grants ................................................................................................................................ 16
+       In-Kind Goods .................................................................................................................. 16
+       Economic Infrastructure.................................................................................................... 16
+       Direct Budget Support ...................................................................................................... 17
+   How Much Assistance Is Provided as Loans and How Much as Grants? What Are
+     Some Types of Loans? Have Loans Been Repaid? Why Is Repayment of Some
+     Loans Forgiven? ................................................................................................................... 17
+       Loan/Grant Composition .................................................................................................. 17
+       Development Finance ....................................................................................................... 18
+       Debt Forgiveness .............................................................................................................. 18
+   Does the Private Sector Have a Role in Foreign Assistance? ................................................. 19
+   Which Countries Receive U.S. Foreign Assistance?............................................................... 19
+Foreign Aid Spending .................................................................................................................... 21
+   How Large Is the U.S. Foreign Assistance Budget? ............................................................... 21
+   What Does Overseas Contingency Operations (OCO) Mean?................................................ 23
+   How Much Foreign Assistance Is Spent on U.S. Goods and Services? .................................. 24
+   How Does the United States Rank as a Donor of Foreign Aid?.............................................. 26
+Congress and Foreign Assistance .................................................................................................. 28
+   What Congressional Committees Oversee Foreign Aid Programs? ........................................ 28
+   What Are the Major Foreign Aid Legislative Vehicles? .......................................................... 28
+
+
+
+
+Congressional Research Service
+                                                           Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Figures
+Figure 1. FY2019 Aid Program Composition ................................................................................. 6
+Figure 2. Foreign Assistance Implementing Agencies, FY2019 .................................................... 11
+Figure 3. Assistance by Type, FY2019 Obligations ...................................................................... 15
+Figure 4. Regional Distribution of Assistance, FY1999, FY2009, and FY2019 ........................... 21
+Figure 5. Aid as a Percentage of the Federal Budget and GDP, FY1976-FY2019 ........................ 22
+Figure 6. Foreign Assistance Funding Trends, FY1976-FY2019 .................................................. 23
+Figure 7. Overseas Contingency Operations, FY2012-FY2021.................................................... 24
+Figure 8. Top 15 Bilateral Donors of Official Development Assistance, 2019 ............................. 27
+
+
+Tables
+Table 1. U.S. Foreign Assistance from All Sources, by Objective and Program Area:
+  FY2019 ......................................................................................................................................... 4
+Table 2. Top Recipients of U.S. Foreign Assistance from All Sources,
+  FY1999, FY2009, and FY2019 .................................................................................................. 20
+
+
+Table A-1. Foreign Aid Funding Trends (Obligations).................................................................. 30
+
+
+Appendixes
+Appendix A. Data Table ................................................................................................................ 30
+Appendix B. Common Foreign Assistance Abbreviations ............................................................ 33
+
+
+Contacts
+Author Information........................................................................................................................ 34
+
+
+
+
+Congressional Research Service
+                                                Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Foreign Assistance: An Introduction to U.S.
+Programs and Policy
+U.S. foreign assistance (also commonly called foreign aid—the two terms are used
+interchangeably in this report) is the largest component of the international affairs budget, for
+decades viewed by many Members of Congress as an essential instrument of U.S. foreign policy.1
+Since the European Recovery Program (better known as the Marshall Plan) helped rebuild Europe
+after World War II in an effort to bolster the economy of postwar Europe, prevent the expansion
+of communism, and jumpstart world trade, U.S. foreign assistance programs have continually
+evolved to reflect changing foreign policy strategy, global challenges, and U.S. domestic
+priorities.2 The Cold War emphasis on containing communism was replaced by regional
+development priorities and a focus on counter-narcotics assistance in the 1990s. After the terrorist
+attacks of September 11, 2001, a large portion of U.S. assistance focused on counterterrorism
+programs and efforts related to U.S. military interventions in Iraq and Afghanistan. At the same
+time, global health assistance expanded significantly to address the global HIV/AIDS epidemic.
+More recently, foreign assistance policy has focused on strategic competition with China and
+Russia and addressing protracted global humanitarian crises. Each year, Congress considers the
+size, composition, and purpose of foreign assistance programs, primarily through the
+appropriations process.
+This report addresses a number of the more frequently asked questions regarding U.S. foreign
+assistance; its objectives, costs, and organization; the role of Congress; and how it compares to
+those of other aid donors. The report attempts not only to present a current snapshot of U.S.
+foreign assistance, but also to illustrate the extent to which this instrument of U.S. foreign policy
+has evolved over time.
+Data presented in the report are the most current, consistent, and reliable figures available,
+generally updated through FY2019. Dollar amounts come from a variety of sources, including
+ForeignAssistance.gov and annual Department of State, Foreign Operations, and Related
+Programs (SFOPS) appropriations acts. The report will be revised as new data are obtained or
+additional issues and questions arise.
+Foreign assistance abbreviations used in this report are listed in Appendix B.
+
+How Is “U.S. Foreign Assistance” Defined and Counted?
+In its broadest sense, U.S. foreign assistance, or foreign aid, is defined under the Foreign
+Assistance Act of 1961 (P.L. 87-195, as amended, FAA), the primary legislative basis of these
+programs, as
+
+
+1 Other tools of U.S. foreign policy are the U.S. defense establishment, the diplomatic corps, public diplomacy, and
+
+trade policy. American defense capabilities, even if not employed, stand as a potential stick that can be wielded to
+obtain specific objectives. The State Department diplomatic corps are the eyes, ears, and often the negotiating voice of
+the U.S. government abroad. Public diplomacy programs, such as the Fulbright program and Voice of America, project
+an image of the United States that may influence foreign views. U.S. trade policy—through free trade agreements and
+Export-Import Bank financing, for example—may directly affect the economies of other nations. Foreign aid is a
+particularly flexible tool—it can act as both carrot and stick, and is a means of influencing events, solving specific
+problems, and projecting U.S. values.
+2 For more information on the Marshall Plan, see CRS Report R45079, The Marshall Plan: Design, Accomplishments,
+
+and Significance.
+
+
+
+
+Congressional Research Service                                                                                         1
+                                                Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+          any tangible or intangible item provided by the United States Government [including “by
+          means of gift, loan, sale, credit, or guaranty”] to a foreign country or international
+          organization under this or any other Act, including but not limited to any training, service,
+          or technical advice, any item of real, personal, or mixed property, any agricultural
+          commodity, United States dollars, and any currencies of any foreign country which are
+          owned by the United States Government.... (§634(b))
+For many decades, nearly all assistance annually requested by the executive branch and debated
+and authorized by Congress was ultimately encompassed in the foreign operations appropriations
+measure (currently within the Department of State, Foreign Operations and Related Programs
+[SFOPS] appropriations measure) and the international food aid title of the Agriculture
+appropriations measure.3 In the U.S. federal budget, the 150 (international affairs) budget
+function has subsumed these traditional foreign assistance accounts.4 The SFOPS bill and
+Function 150 budget also include State Department diplomatic and related programs, which are
+not considered foreign assistance.
+By the 1990s, it became increasingly apparent that the scope of U.S. foreign assistance was not
+fully accounted for by the total of the foreign operations and international food aid
+appropriations. Many U.S. departments and agencies had adopted their own assistance programs,
+funded out of their respective budgets and commonly in the form of professional exchanges with
+counterpart agencies abroad. These assistance efforts, conducted outside the purview of the
+traditional foreign aid authorization and appropriations committees, grew more substantial and
+varied in the mid-1990s. The Department of Defense (DOD) Nunn-Lugar effort provided billions
+in aid to secure and eliminate nuclear and other weapons, as did Department of Energy activities
+to control and protect nuclear materials—both aimed largely at the former Soviet Union. Growing
+participation by DOD in health and humanitarian efforts and expansion of health programs in
+developing countries by the National Institutes of Health and Centers for Disease Control and
+Prevention, especially in response to the HIV/AIDS epidemic, followed. In the wake of the
+September 11, 2001 terrorist attacks on the United States, and the subsequent U.S. invasions of
+Iraq and Afghanistan, DOD-funded and implemented aid programs in Iraq and Afghanistan to
+train and equip foreign forces, complemented by development efforts to “win hearts and minds”
+of local populations, have at times been considerably larger than other military and development
+assistance programs provided under the foreign operations appropriations measure.
+While the executive branch requests and Congress debates most foreign aid within the parameters
+of the SFOPS appropriations measure, both branches of government have sought to ascertain a
+fuller picture of assistance programs through improved data collection and reporting. Significant
+discrepancies remain between data available for different types of aid and, therefore, the level of
+analysis applied to each. (See text box, “A Note on Numbers and Sources,” below.) Nevertheless,
+to the extent possible, this report tries to capture the broadest definition of aid.
+
+
+
+
+3 Congress currently appropriates most foreign affairs funding through the annual SFOPS appropriations bill. Prior to
+
+FY2008, Congress provided funding for the Department of State, international broadcasting, and related programs
+within the Commerce, Justice, State, the Judiciary, and Related Agencies appropriations and separately appropriated
+funding for the U.S. Agency for International Development (USAID) and foreign aid within the Foreign Operations,
+Export Financing, and Related Programs appropriations. For more information, see CRS Report R44637, Department
+of State and Foreign Operations Appropriations: History of Legislation and Funding in Brief, by Emily M.
+Morgenstern.
+4 The President’s budget and the congressional budget resolution classify federal budgetary activities into functional
+
+and subfunctional categories that represent the major purposes of the federal government.
+
+
+
+Congressional Research Service                                                                                           2
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+                                       A Note on Data and Sources
+ Foreign assistance data are available from a variety of sources, each with limitations. This report uses data from
+ two sources:
+        The State Department’s ForeignAssistance.gov database, which uses the FAA definition of aid and includes
+         reporting from 30 agencies, including the Departments of Defense, Energy, Health and Human Services,
+         among others. Stretching back to 1946, with program sector breakdowns from 2001 forward, this is
+         currently the most comprehensive source of U.S. foreign aid data.5
+     Official Development Assistance (ODA), reported by the Organization for Economic Cooperation and
+      Development (OECD, an international organization with 36 members, including the United States), differs
+      from the FAA assistance definition primarily in that it excludes all military assistance and aid to developed
+      countries. This is the most comprehensive source of aid data that includes all major donor countries and
+      allows for comparison across donors.
+ The choice of these sources reflects an effort to ensure consistency in calculations, but disparities between these
+ sources exist due to differing definitions of foreign assistance, as noted above, and to reporting timeframes.
+ ForeignAssistance.gov reports funds by fiscal year, while ODA figures are reported by calendar year. To minimize
+ confusion, this report uses aid obligation data from ForeignAssistance.gov wherever possible. ODA data are used
+ only in the section comparing U.S. assistance levels to those of other donor countries.
+ Agencies and donor countries report assistance after it has been obligated or disbursed, not appropriated. For this
+ reason, there is a lag in data reporting such that at the start of FY2022, the most recent comprehensive data in
+ ForeignAssistance.gov is from FY2019 and the OECD’s ODA data are updated through calendar year 2019.
+ Agency reporting practices may also be inconsistent or incomplete. Many Defense Department security
+ cooperation program expenditures, for example, are made confidential in the interests of national security, and
+ others may be classified as joint military cooperation, rather than assistance.
+ For more recent data on foreign aid funded through the SFOPS appropriation—including FY2021 enacted
+ funding—see CRS Report R46935, Department of State, Foreign Operations, and Related Programs: FY2022 Budget and
+ Appropriations, by Cory R. Gill, Marian L. Lawson, and Emily M. Morgenstern.
+
+
+
+Foreign Aid Purposes and Priorities
+What Are the Rationales and Objectives of U.S. Foreign Assistance?
+Foreign assistance is predicated on several rationales and supports many objectives. The
+importance and emphasis of various rationales and objectives have changed over time.
+
+Rationales for Foreign Aid
+Throughout the past 70 years, there have been three key rationales for foreign assistance:
+           National Security. The predominant theme of U.S. assistance programs has been
+            national security. While rebuilding Europe after World War II under the Marshall
+            Plan (1948-1951) and throughout the Cold War, policymakers viewed U.S. aid
+            programs as a way to prevent the incursion of communist influence and secure
+            U.S. base rights or other support in the anti-Soviet struggle. More recently, after
+            the September 11, 2001, terrorist attacks in the United States, policymakers
+            frequently cast foreign assistance as a tool in U.S. counterterrorism strategy. The
+            national security rationale is sometimes interpreted broadly, to include not only
+            military threats against the United States but physical threats to Americans’
+            welfare—including pandemics and illicit narcotics.
+
+
+5 Greenbook data, now available as part of ForeignAssistance.gov, provides aid obligation data by broad accounts from
+
+1946 to 2013 and program sector breakdowns from 2001 to 2013.
+
+
+
+Congressional Research Service                                                                                         3
+                                                Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+         Commercial Interests. Foreign assistance has long been defended as a way to
+          either promote U.S. exports by creating new customers for U.S. goods and
+          services or by improving the global economic environment in which U.S.
+          companies compete. Among the objectives of the aforementioned Marshall Plan
+          was to reestablish the capacity of European countries to trade with the United
+          States.
+         Humanitarian Concerns. Humanitarian concerns drive both short-term
+          assistance in response to crises and disasters as well as long-term development
+          assistance aimed at reducing poverty, fighting disease, and other forms of human
+          suffering brought on by more systemic problems. Humanitarian concern has
+          generally been the aid rationale most broadly supported by the American public
+          and policymakers alike. Generally, agencies define “humanitarian assistance” as
+          responding to short-term crises, while “development assistance” refers to long-
+          term development aims.
+
+Objectives of Foreign Aid
+In 2006, in an effort to rationalize the assistance program more clearly, the State Department
+developed a framework that organizes U.S. foreign aid around five strategic objectives, each of
+which includes a number of program elements, also known as sectors. The five objectives are
+Peace and Security, Investing in People, Governing Justly and Democratically, Economic
+Growth, and Humanitarian Assistance. Generally, these objectives and their sectors do not
+correspond to any one particular budget account in appropriations bills.6 Annually, the
+Department of State and USAID develop their foreign operations budget request within this
+framework, allowing for an objective and program-oriented viewpoint for those who seek it. The
+foreign aid tracking database (Foreignassistance.gov) currently provides a more complete picture
+of funds obligated for each objective from all parts of the U.S. government (see Table 1).
+
+  Table 1. U.S. Foreign Assistance from All Sources, by Objective and Program Area:
+                                       FY2019
+                                  (obligations in millions of current U.S. dollars)
+   Aid Objectives and Program Areas              FY2019          Aid Objectives and Program Areas            FY2019
+
+ Peace and Security                              16,109.0        Investing in People                         9,273.16
+                                                        9
+ Counterterrorism                                  507.63        Health                                       8,317.53
+ Combating Weapons of Mass Destruction              727.68       Education                                     934.20
+ Stabilization/Security Sector Reform            11,937.29       Social Services and Assistance                  21.43
+ Counternarcotics                                    48.66
+ Transnational Crime                                165.59       Governing Justly & Democratically           3,000.16
+ Conflict Mitigation                                488.76       Rule of Law & Human Rights                   1,635.55
+ Peace and Security - General                     2,233.48       Good Governance                               719.07
+
+
+
+6 Most of these objectives are funded through several appropriations accounts. For instance, the objective of Governing
+
+Justly and Democratically and each of its individual sectoral elements (see Table 1) are funded through portions of the
+Development Assistance, Assistance to Europe, Eurasia, and Central Asia (AEECA), Economic Support Fund (ESF),
+International Narcotics Control and Law Enforcement (INCLE), and Democracy Fund accounts, as well as by various
+programs run through other agencies (i.e., those outside of the Department of State, USAID, and the Department of
+Defense).
+
+
+
+Congressional Research Service                                                                                           4
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+   Aid Objectives and Program Areas              FY2019          Aid Objectives and Program Areas             FY2019
+
+                                                                 Political Competition                          216.10
+ Promoting Economic Growth                       4,224.83        Civil Society                                  347.31
+ Macroeconomic Growth                             1,096.35       Democracy and Governance - General                7.68
+ Trade & Investment                                 146.69       Policies, Regulations, and Systems               74.47
+ Financial Sector                                    69.65
+ Infrastructure                                     942.69       Humanitarian Assistance                      9,369.58
+ Agriculture                                      1,118.69       Protection, Assistance & Solutions            8,904.09
+ Private Sector Competitiveness                     371.79       Disaster Readiness                             215.21
+ Economic Opportunity                                  92
+                                                     34.49       Humanitarian Assistance - General              250.28
+ Environment                                        372.84
+ Labor, Mining, Manufacturing                        71.65       International Contributions                    377.29
+                                                                 Program Management                           3,285.81
+                                                                 Multi-Sector                                 1,634.54
+
+    Source: Foreignassistance.gov and CRS calculations.
+    Note: Figures represent net obligations, including de-obligated funds. A similar framework table is included in
+    annual SFOPS congressional budget justifications, and includes only funding in the international affairs (function
+    150) budget.
+
+Characterizing aid in this way may provide an incomplete picture, as there is considerable overlap
+among aid categories and purposes. A health project directed at alleviating the effects of
+HIV/AIDS by feeding orphan children, for example, may also stimulate grassroots democracy
+and civil society through support of local NGOs. Microcredit programs that support small
+business development may at the same time enable client entrepreneurs to provide food and
+education to their children. Water and sanitation improvements may both mitigate health threats
+and stimulate economic growth by saving time previously devoted to water collection, raising
+school attendance for girls, and facilitating tourism, among other effects. This framework also
+does not capture “cross-cutting” priorities, such as gender equality, youth empowerment,
+resilience to future threats, and use of science and technology.
+
+What Are the Major Foreign Aid Funding Categories and Accounts?
+The framework used by the Department of State since 2006 organizes assistance by strategic
+objective and sector. But there are many other ways to categorize foreign aid, one of which is
+according to the types of activities foreign aid accounts are expected to support, using broad
+categories including bilateral development, multilateral development, humanitarian assistance,
+strategic economic support, and security and military activities. Such broad categories are used,
+with some variation, in the title structure of SFOPS appropriations legislation, and can be applied
+to the international food aid title of the Agriculture appropriations as well as to DOD and other
+government agency assistance programs. Figure 1 shows total FY2019 (the most recent year for
+which complete data are available) foreign assistance obligations from all government agencies
+categorized this way.
+
+
+
+
+Congressional Research Service                                                                                            5
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Bilateral Development Assistance
+                                                         Figure 1. FY2019 Aid Program
+For FY2019, U.S. government departments                             Composition
+and agencies obligated about $14.6 billion for
+bilateral development assistance (31% of total
+foreign aid), which is generally intended to
+improve the economic development and
+welfare of poor countries. USAID and the
+State Department jointly administer the
+majority of bilateral development assistance
+accounts, including the Development
+Assistance (DA) and Global Health Programs
+(GHP) accounts and USAID’s Operating
+Expenses account. Other bilateral
+development assistance accounts support the           Source: Foreignassistance.gov and CRS calculations.
+development efforts of distinct agencies, such as the Peace Corps, Inter-American Foundation
+(IAF), Millennium Challenge Corporation (MCC), and the U.S. International Development
+Finance Corporation (DFC), among others. The Secretary of State supervises all bilateral foreign
+assistance funding under SFOPS appropriations, though the mechanism differs by agency: either
+through direct programming (Democracy Fund; Global Health-State); supervision of the agency’s
+leadership (USAID); membership in agency leadership (MCC; DFC); and overall guidance of
+U.S. foreign policy (Peace Corps).
+By far the largest portion of bilateral development assistance is devoted to global health. These
+programs support objectives such as improving maternal and child health, increasing access to
+family planning and reproductive health services, and strengthening the government health
+systems that provide care. Since March 2020, addressing the Coronavirus Disease 2019 (COVID-
+19) pandemic in developing countries has become a global health priority. The largest share of
+global health funding, however, is directed toward treating and combatting the spread of
+HIV/AIDS, malaria, and tuberculosis. These funds are largely directed through the State
+Department’s Office of the Global AIDS Coordinator to other agencies, including USAID and the
+Centers for Disease Control and Prevention. The latter agency and the National Institutes for
+Health also conduct programs funded by Labor-Health and Human Services (HHS)
+appropriations.7
+Bilateral development assistance programs also aim to foster sustainable broad-based economic
+growth, social stability, and effective governance in developing countries. USAID largely
+manages this aid to fund long-term projects in a wide range of areas:
+        Agriculture programs focus on reducing poverty and hunger, promoting trade
+         opportunities for farmers, enabling economic growth, and encouraging sound
+         environmental practices for sustainable agriculture. This includes Food for Peace
+         Act (FFPA) funds used to provide nonemergency food commodities for
+         development-oriented purposes and send hundreds of U.S. volunteers as
+         technical advisors to train farm and food-related groups throughout the world.8
+
+
+7 For more information on global health assistance, see CRS Report R43115, U.S. Global Health Appropriations:
+
+FY2001-FY2019, by Tiaji Salaam-Blyther, and CRS In Focus IF11758, U.S. Global Health Funding: FY2017-FY2022
+Request, by Tiaji Salaam-Blyther.
+8 For more information on international food aid programs, see CRS Report R45422, U.S. International Food
+
+Assistance: An Overview, by Alyssa R. Casey and Emily M. Morgenstern.
+
+
+
+Congressional Research Service                                                                                  6
+                                                 Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+         Private sector development programs, including support for business
+          associations; micro, small, and medium enterprises; and economic policymaking.
+         Programs for managing natural resources and protecting the global environment,
+          with a focus on conserving biodiversity; improving the management of land,
+          water, and forests; encouraging clean and efficient energy production and use;
+          and reducing, mitigating, and adapting to the threat of global climate change.
+         Programs with the objective of “governing justly and democratically,” which
+          include support for promoting rule of law and human rights, good governance,
+          political competition, and civil society.
+         Programs with the objective of “investing in people,” including support for basic,
+          secondary, and higher education; improving government ability to provide social
+          services; water and sanitation; and health care.
+
+Multilateral Development Assistance
+A share of U.S. foreign assistance—4% ($1.8 billion) in FY2019—is provided to finance
+multilateral development efforts. Multilateral development assistance often supports programs
+and objectives similar to those funded through bilateral development assistance, but is channeled
+through organizations and mechanisms that combine U.S. funds with contributions from other
+donor nations to share the costs of development activities, drawing on a wider range of
+development experience and perspectives. Multilateral aid is funded largely through the
+International Organizations and Programs (IO&P) account and individual accounts for each of the
+Multilateral Development Banks (MDBs) within the SFOPS appropriation.9 MDBs are
+international institutions that provide loans, grants, and technical assistance to developing
+countries to aid their economic and social development.
+The multilateral approach to aid gives the United States less control over how assistance funds
+are used compared to bilateral economic assistance, though it also affords the United States a
+voice in such multilateral efforts. In determining U.S. contributions to the various multilateral
+institutions, the United States faces the challenge of finding the right balance between the benefits
+of burden sharing and the constraints of shared control. Policymakers may also consider the
+strategic implications of U.S. funding levels relative to those of other donors, as funding may be
+commensurate with influence in some multilateral fora.
+In FY2019, the United States contributed to the United Nations Children’s Fund (UNICEF), the
+United Nations Development Program (UNDP), and MDBs, such as the World Bank, among
+other multilateral organizations and initiatives.10 The U.S. share of donor contributions to each of
+these entities varies widely.
+
+Humanitarian Assistance
+Unlike development assistance programs, which are often viewed as long-term efforts,
+humanitarian assistance programs are devoted largely to the immediate alleviation of human
+suffering caused by both natural and human-induced disasters, including conflict associated with
+failed or failing states. For FY2019, obligations for humanitarian assistance programs amounted
+
+9 This aid is distinct from U.S. dues (assessed contributions) paid to multilateral organizations such as the United
+
+Nations, which are not considered foreign assistance. It is also distinct from bilateral assistance that may be
+implemented by multilateral agencies under a contract or cooperative agreement with a U.S. agency.
+10 For more information on the MDBs, see CRS Report R41170, Multilateral Development Banks: Overview and Issues
+
+for Congress, by Rebecca M. Nelson.
+
+
+
+Congressional Research Service                                                                                         7
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+to $9.6 billion, or 20% of total foreign assistance. USAID manages the largest portion of
+humanitarian assistance through the International Disaster Assistance (IDA) account, which
+provides relief and rehabilitation to victims of human-induced and natural disasters. Recent
+responses have addressed needs arising from the economic and social dislocations resulting from
+the ongoing crises in Syria, Yemen, and Venezuela, as well as immediate humanitarian needs
+stemming from the COVID-19 pandemic. A portion of IDA is used for food assistance through
+the Emergency Food Security Program.
+Additional humanitarian assistance is administered by the State Department and funded under the
+Migration and Refugee Assistance (MRA) and the Emergency Refugee and Migration Assistance
+(ERMA) accounts, aimed at addressing the needs of migrants, refugees, and internally displaced
+persons. These accounts support a number of refugee relief organizations, including the U.N.
+High Commission for Refugees and the International Committee of the Red Cross. The
+Department of Defense also provides disaster relief under the Overseas Humanitarian, Disaster,
+and Civic Assistance (OHDACA) account of the DOD appropriations.11 Such relief may include
+logistics support and transportation for humanitarian supplies, addressing hazards to humanitarian
+delivery such as landmines and other unexploded explosive ordnance, and search and rescue
+operations, among others.
+Approximately 83% of FFPA Title II Agriculture appropriations—nearly $1.5 billion in
+obligations in FY2019—are used by USAID to address emergency humanitarian needs, mostly to
+purchase U.S. agricultural commodities to supplement both refugee and disaster assistance
+programs.12
+
+Strategic Economic Assistance
+A few accounts provide economic assistance intended to support U.S. political and strategic
+interests rather than development or humanitarian goals. Programs funded through the Economic
+Support Fund (ESF) account may be indistinguishable from those funded through other
+development assistance accounts, but are implemented in countries of strategic significance to the
+United States, and often intended to promote the political and economic stability of U.S. allies.13
+ESF also provides direct budget support to foreign governments and to support sovereign loan
+guarantees. For FY2019, USAID and the State Department obligated $4.1 billion, nearly 9% of
+total foreign assistance, through this account.
+For many years, following the 1979 Camp David accords, most ESF funds went to support the
+Middle East Peace Process—in FY1999, for example, 85% of ESF went to Israel, Egypt, the West
+Bank, and Jordan. Those proportions have been significantly lower in recent decades. In FY2009,
+28% of ESF funding went to these countries and, in FY2019, 26%. Since the September 2001
+terrorist attacks, ESF has largely supported countries key to U.S. global counterterrorism efforts
+such as Iraq and Afghanistan. In FY2009, for example, activities in Iraq and Afghanistan received
+46% of ESF funding; that level fell to 24% in FY2019, in line with decreased U.S. military
+presence.
+
+
+11 For further information on humanitarian programs, see CRS In Focus IF10568, Overview of the Global
+
+Humanitarian and Displacement Crisis, by Rhoda Margesson.
+12 Until FY1998, food provided commercially under long-term, low-interest loan terms (Title I of the Food for Peace
+
+Act [sometimes referred to as P.L. 480]) was also included in the foreign assistance account. Because of its export
+focus, it is no longer considered foreign aid. For more information on food aid programs, see CRS Report R45422, U.S.
+International Food Assistance: An Overview, by Alyssa R. Casey and Emily M. Morgenstern. For more information on
+the distribution of FFPA Title II funds for FY2019, see USAID’s International Food Assistance Report for FY2019.
+13 USAID estimates that over 90% of ESF funds are implemented by USAID for development purposes.
+
+
+
+
+Congressional Research Service                                                                                      8
+                                                Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Over the years, Congress has established other accounts to meet specific strategic interests (some
+have since been dissolved or reorganized once the need was met). One example is the Assistance
+to Europe, Eurasia, and Central Asia (AEECA) account, established in FY2009 to combine two
+aid programs that arose from the demise of the Soviet empire to help Central Europe and the
+newly independent states of the former Soviet Union achieve democratic systems and free market
+economies. Congress briefly retired the account before reestablishing it in the wake of Russian
+incursions in the independent states. USAID’s Transition Initiatives account also focuses largely
+on strategic goals, supporting civil society, free media, and inclusive governance in countries and
+communities in political transition. Certain entities funded through SFOPS, such as the National
+Endowment for Democracy, also align with strategic aims through promoting U.S. values.
+Similarly, the State Department’s Democracy Fund is driven in part by efforts to advance U.S.
+foreign policy goals. Additionally, recent SFOPS legislation has directed funds from several
+development and security assistance accounts to address specific strategic priorities, including the
+Countering Russian Influence Fund, the Countering Chinese Influence Fund, and the Indo-Pacific
+Strategy.
+In the recent past, several DOD-funded aid programs directed at Afghanistan also provided
+economic assistance with largely strategic objectives. The Afghanistan Infrastructure Fund and
+the Business Task Force wound down as the U.S. military presence in that country declined; the
+Commander’s Emergency Response Program (CERP) still existed until the U.S. withdrawal from
+the country. The latter two programs had earlier iterations as well in Iraq.
+
+Security Assistance
+In addition to development aid, certain U.S. foreign assistance accounts seek to advance specific
+U.S. national security aims, including strengthening military and law enforcement capacities of
+U.S. partners, countering the flows of illicit products such as nuclear materials and narcotics, and
+supporting peacekeeping operations in fragile states.
+
+Nonmilitary Security Assistance
+Several U.S. assistance accounts support programs to address global concerns that are considered
+threats to U.S. security and well-being, such as terrorism, illicit narcotics, crime, and weapons
+proliferation, by bolstering the law enforcement capabilities of foreign partners. In the past two
+decades, policymakers have increased support for these programs. In FY2019, these programs
+amounted to $2.8 billion, or 6% of total assistance. Nonmilitary bilateral security assistance
+includes two major objectives: strengthening the justice sector in developing countries, including
+countering narcotics production and trade, and mitigating the spread of certain weapons.
+The State Department is the main administrator of nonmilitary counternarcotics programs.14 The
+State-managed International Narcotics Control and Law Enforcement (INCLE) account supports
+counternarcotics activities, most notably in Afghanistan, Pakistan, Peru, and Colombia. Programs
+funded under INCLE also help develop the judicial systems—assisting judges, lawyers, and legal
+institutions—of many developing countries. DOD and USAID also support counternarcotics
+activities, the former largely by providing training and equipment, the latter by offering
+
+
+
+
+14 DOD also funds counternarcotics programs to support foreign militaries involved in counternarcotics efforts, but the
+
+State Department is designated to oversee counternarcotics support to civilian law enforcement entities.
+
+
+
+
+Congressional Research Service                                                                                            9
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+alternative crop and employment programs (which generally are considered bilateral development
+assistance).15
+Since the mid-1990s, three U.S. agencies—State, DOD, and Energy—have provided funding,
+technical assistance, and equipment to counter the proliferation of chemical, biological,
+radiological, and nuclear weapons, and land mines. Originally aimed at the former Soviet Union
+under the rubric of cooperative threat reduction (CTR), these programs sought to secure such
+weapons and prevent their spread to rogue nations or terrorist groups.16 While CTR is provided
+through Defense appropriations, the State Department manages the Nonproliferation, Anti-
+Terrorism, Demining and Related Programs (NADR) account, which provides for
+nonproliferation efforts and encompasses civilian anti-terrorism efforts such as detecting and
+dismantling terrorist financial networks, establishing watch-list systems at border controls, and
+building partner country anti-terrorism capacities. NADR also funds humanitarian demining
+programs.
+
+Military Assistance
+U.S. military assistance provides defense articles and equipment, military training, and other
+defense-related services to the national-level security forces of U.S. allies and partners. At $13.9
+billion, military assistance accounted for about 29% of total U.S. foreign aid in FY2019. The
+Department of State administers three accounts that fund programs implemented by DOD’s
+Defense Security Cooperation Administration: Foreign Military Financing (FMF), International
+Military Education and Training (IMET), and Peacekeeping Operations (PKO). Other military
+assistance is funded and implemented directly by DOD.
+The bulk of military assistance is used to train and equip foreign militaries. FMF, by far the
+largest of these three State-managed military assistance accounts, provides primarily grant
+assistance to foreign governments for the purchase of U.S. defense equipment and military
+training under the Foreign Military Sales program.17 FMF supports U.S. foreign policy and the
+U.S. defense industry, while helping ensure the interoperability of weapons systems among allies
+and partners. In FY2019, FMF assistance primarily supported the security needs of Israel, Egypt,
+Jordan, and Pakistan. Since 2002, DOD appropriations have also supported FMF-like programs,
+training and equipping security forces in Afghanistan and Iraq. These programs and the accounts
+that fund them are called the Afghanistan Security Forces Fund (ASFF) and, through FY2012, the
+Iraq Security Forces Fund (ISFF). Beginning in FY2015, similar support was provided Iraq under
+the Iraq Train and Equip Fund. DOD also funds train and equip efforts under a global capacity-
+building program.18
+PKO funds are used to support voluntary peacekeeping, humanitarian, and counterterrorism
+operations, including those not sponsored by the United Nations. PKO also funds capacity-
+building of U.S. allies and partners in stabilization, conflict resolution, and counterterrorism.
+
+
+15 For more information on counternarcotics efforts, see CRS Report RL34543, International Drug Control Policy:
+
+Background and U.S. Responses, by Liana W. Rosen.
+16 For further information on nonproliferation efforts, see CRS Report R43143, The Evolution of Cooperative Threat
+
+Reduction: Issues for Congress, by Mary Beth D. Nikitin and Amy F. Woolf.
+17 In the past, FMF has also been provided as loans. While reverting to lending has been proposed, Congress has not
+
+adopted such a change. For more information on the Foreign Military Sales program, see CRS In Focus IF11437,
+Transfer of Defense Articles: Foreign Military Sales (FMS), by Nathan J. Lucas and Michael J. Vassalotti.
+18 For further information on DOD security cooperation, see CRS In Focus IF11677, Defense Primer: DOD “Title 10”
+
+Security Cooperation, by Christina L. Arabia.
+
+
+
+
+Congressional Research Service                                                                                    10
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+PKO supports both regional initiatives, such as training for an African crisis response force, and
+individual peacekeeping forces such as those in South Sudan and Central African Republic.19
+IMET funds the attendance of mid-to-senior level foreign military personnel, as well as select
+civilian personnel, in U.S. professional military courses at DOD institutions. While relatively
+small in dollar terms, the IMET program aids more countries than any other aid account,
+involving more than 100 countries every year.20
+
+
+Delivery of Foreign Assistance
+How and in what form assistance reaches an aid recipient can vary widely, depending on the type
+of aid program, the objective of the assistance, and the agency responsible for providing the aid.
+
+What Executive Branch Agencies Implement Foreign
+Assistance Programs?
+Federal agencies may implement foreign assistance programs using funds appropriated directly to
+them or funds transferred to them from another agency. For example, significant funding
+appropriated through State Department and Department of Agriculture accounts is implemented
+by USAID, and most military aid funded through the State Department is implemented by DOD
+(see Figure 2). The funding data in this section reflect the agency that implemented the aid, not
+necessarily the agency to which Congress appropriated the funds originally.
+
+                Figure 2. Foreign Assistance Implementing Agencies, FY2019
+                                      (in millions of obligated U.S. dollars)
+
+
+
+
+    Source: Foreignassistance.gov and CRS calculations. See footnote 22.
+    Notes: USAID = U.S. Agency for International Development; DOD = Department of Defense; Treas. =
+    Department of the Treasury; MCC = Millennium Challenge Corporation; HHS = Department of Health and
+
+
+19 For further information on peacekeeping operations, see CRS Report R45930, U.N. Peacekeeping Operations in
+
+Africa, by Luisa Blanchfield, Alexis Arieff, and Lauren Ploch Blanchard, and CRS In Focus IF10597, United Nations
+Issues: U.S. Funding of U.N. Peacekeeping, by Luisa Blanchfield.
+20 State Department, SFOPS Congressional Budget Justification FY2022: Supplementary Tables, May 2021.
+
+
+
+
+Congressional Research Service                                                                                  11
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+    Human Services. “Other” agencies that implemented foreign assistance in FY2019 include the Department of
+    Energy, Department of Agriculture, Peace Corps, Department of the Interior, Department of the Army,
+    Department of the Air Force, Department of Labor, Inter-American Foundation, African Development
+    Foundation, Trade and Development Agency, Department of the Navy, and the Department of Justice, among
+    others. The Export-Import Bank and the U.S. International Development Finance Corporation are not reflected
+    in the figure because their receipts generally exceed their appropriations, resulting in a net gain in budget terms.
+
+
+U.S. Agency for International Development
+For 60 years, USAID has implemented the bulk of the U.S. bilateral development and
+humanitarian assistance. It directly implements the Development Assistance, International
+Disaster Assistance, and Transition Initiatives accounts, as well as a USAID-designated portion of
+the Global Health Programs account. Jointly with the State Department, USAID co-manages ESF,
+AEECA, and Democracy Fund programs, which frequently support development activities as a
+means of supporting U.S. strategic interests.21 Based on historical averages, according to USAID,
+the agency implements more than 90% of ESF, 70% of AEECA, 40% of the Democracy Fund,
+and about 60% of the Global HIV/AIDS funding appropriated to the State Department. USAID
+also implements all Food for Peace Act Title II food assistance funded through agriculture
+appropriations.
+The agency’s staff in 2019 totaled 9,688, of which about 67% were working overseas. USAID
+staff do not typically implement programs directly, but rather plan and oversee the
+implementation of hundreds of projects undertaken by thousands of private sector contractors,
+consultants, and nongovernmental organizations.22
+USAID obligated an estimated $21.2 billion to implement foreign assistance programs and
+activities in FY2019.23
+
+U.S. Department of Defense
+DOD, through the Defense Security Cooperation Agency, implements all SFOPS-funded military
+assistance programs—FMF, IMET, and PKO. DOD also carries out an array of assistance
+activities, funded through defense appropriations legislation, which typically involve training,
+equipping, and other support to partner or coalition military operations. DOD uses the term
+“security cooperation” to refer broadly to DOD-implemented activities with foreign security
+establishments. While some of these activities fit the FAA definition of foreign assistance, not all
+security cooperation activities do. These programs are primarily authorized by Title 10, U.S.C.
+such as DOD’s main train and equip authority, Section 333 Building Partner Capacity.24 In
+addition to programs codified under Title 10, DOD security cooperation includes temporary,
+country-specific authorities that require annual renewal in annual defense authorization acts such
+as the Counter-ISIS Train and Equip Fund (CTEF) for Iraq and Syria, the Afghanistan Security
+Forces Fund (ASFF), and the Ukraine Security Assistance Initiative (USAI). Other programs such
+as CTR, authorized under Title 50, U.S.C., address bioweapons and nuclear nonproliferation in
+eligible countries, among other activities.
+In FY2019, DOD implemented an estimated $14.1 billion in foreign assistance programs.25
+
+21 The State Department determines the distribution of funds from these accounts.
+
+22 This total includes employees from the USAID Office of Inspector General, but does not include institutional support
+
+contractors. USAID Agency Financial Report, FY2019.
+23 See Foreignassistance.gov.
+
+24 10 U.S.C. §§301-386.
+
+25 Foreignassistance.gov.
+
+
+
+
+Congressional Research Service                                                                                        12
+                                       Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+U.S. Department of State
+The Department of State manages and co-manages a wide range of assistance programs. It is the
+lead U.S. civilian agency on security and refugee related assistance, with sole responsibility for
+administering the International Narcotics Control and Law Enforcement (INCLE) and
+Nonproliferation, Antiterrorism, Demining and Related Programs (NADR) accounts, and the two
+Migration and Refugee accounts (MRA and ERMA). State is also home to the Office of the
+Global AIDS Coordinator (OGAC), which manages the State Department’s portion of Global
+Health Programs funding in support of HIV/AIDS programs, though many of these funds are
+transferred to and implemented by USAID, the National Institutes of Health, and the Centers for
+Disease Control and Prevention. The State Department also channels much of the assistance it
+manages to international organizations, including the Office of the U.N. High Commissioner for
+Refugees (UNHCR) and the Global Fund to Fight HIV, Tuberculosis and Malaria (Global Fund).
+In conjunction with USAID, the State Department manages the Economic Support Fund (ESF),
+AEECA assistance to the former communist states, and Democracy Fund accounts. For these
+accounts, the State Department largely sets the overall policy and direction of funds, while
+USAID implements many programs. In addition, the State Department, through its Bureau of
+Political-Military Affairs, has policy authority over FMF, IMET, PKO, and, while it was active,
+the Pakistan Counterinsurgency Capability Fund (PCCF), meaning it allocates countries’
+assistance levels and determines the equipment that is permitted for transfer. DOD implements
+these programs. Police training programs have traditionally been the responsibility of the
+International Narcotics and Law Enforcement (INL) Office in the State Department, though DOD
+also ran programs in Iraq and Afghanistan for several years.
+State is also the organizational home to the Office of U.S. Foreign Assistance Resources
+(formerly the Office of the Director of Foreign Assistance), which was created in 2006 to
+coordinate U.S. foreign assistance programs. The office establishes standard program structures
+and definitions, as well as performance indicators, and collects and reports data on State
+Department and USAID aid programs.
+The State Department implemented about $7.0 billion in foreign assistance funding in FY2019,
+though it has policy authority over a much broader range of assistance funds.26
+
+U.S. Department of the Treasury
+The Department of the Treasury’s Under Secretary for International Affairs administers U.S.
+contributions to, and participation in, the World Bank and other multilateral development
+institutions under the International Organizations and Programs (IO&P) account. Presidentially
+appointed U.S. executive directors at each of the banks represent the United States’ point of view.
+Treasury also deals with foreign debt reduction issues and programs, including U.S. participation
+in the Highly Indebted Poor Countries (HIPC) initiative and emergency financing from the
+International Monetary Fund (IMF). The agency manages the distribution of funds and negotiates
+program structure, but does not implement programs. Treasury, however, does directly implement
+a bilateral technical assistance program offering temporary financial advisors to countries
+implementing major economic reforms and combating terrorist finance activity.
+In FY2019, the Department of the Treasury managed foreign assistance valued at about $1.6
+billion.27
+
+
+26 Ibid.
+
+27 Ibid.
+
+
+
+
+Congressional Research Service                                                                     13
+                                             Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+U.S. Department of Health and Human Services
+The U.S. Department of Health and Human Services implements a range of global health
+programs through its various component institutions. As an implementing partner in the
+President’s Emergency Plan for AIDS Relief (PEPFAR), a large portion of HHS foreign
+assistance activities are related to HIV prevention and treatment, including technical support and
+preventing mother to child transmission of HIV/AIDS. The Centers for Disease Control and
+Prevention (CDC) participates in a broad range of global disease control activity, including rapid
+outbreak response, global research and surveillance, information technology assistance, and field
+epidemiology and laboratory training. The National Institutes of Health (NIH) also conduct
+international health research that is reported as assistance.
+In FY2019, HHS institutions implemented $1.4 billion in foreign assistance activities.28
+
+Millennium Challenge Corporation
+Created in 2004, the Millennium Challenge Corporation (MCC) provides large direct grants to a
+few low- and lower-middle-income countries that have demonstrated a strong commitment to
+effective governance relative to other developing countries. A significant feature of MCC grants
+is that recipient countries formulate, propose, and implement mutually agreed five-year U.S.-
+funded grants, known as compacts. Compacts in the 29 recipient countries selected to date have
+emphasized infrastructure projects. The MCC is a U.S. government corporation, headed by a
+chief executive officer who reports to a board of directors chaired by the Secretary of State. The
+Corporation maintains a relatively small staff of about 300.
+The MCC obligated about $646.5 million in FY2019.29
+
+Other Agencies
+A number of other government agencies play a role in implementing foreign aid programs.
+          The Peace Corps, an autonomous agency with FY2019 obligations of $458.6
+           million,30 sends volunteers to 64 countries.31 Peace Corps volunteers work on a
+           wide range of educational, health, and community development projects.32
+          The Trade and Development Agency (TDA), which obligated $30.3 million in
+           FY2019, funds project preparation assistance, such as feasibility studies, and
+           partnership building activities, such as trade missions, likely to generate U.S.
+           exports for overseas infrastructure and other projects.33
+          The U.S. International Development Finance Corporation (DFC), which became
+           operational in December 2019, provides loans, loan guarantees, political risk
+           insurance, equity investments, and technical assistance to enable private
+
+28 Ibid.
+
+29 Ibid. For more information on MCC, see CRS Report RL32427, Millennium Challenge Corporation: Overview and
+
+Issues, by Nick M. Brown.
+30 Ibid.
+
+31 The Peace Corps, Agency Financial Report, FY2021, Washington, DC.
+
+32 For more information on these agencies, see CRS Report RS21168, The Peace Corps: Overview and Issues, by Nick
+
+M. Brown.
+33 USAID Explorer. For more information on TDA, see CRS In Focus IF10673, U.S. Trade and Development Agency
+
+(TDA), by Shayerah Ilias Akhtar.
+
+
+
+
+Congressional Research Service                                                                                14
+                                             Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+         investment in developing countries.34 DFC credit activities generate substantial
+         returns and, with fees, often exceed outlays, requiring little to no appropriations
+         as a result.35
+        The Export-Import (Ex-Im) Bank provides financing and insurance to facilitate
+         the export of U.S. goods and services when the private sector is unwilling or
+         unable to do so and/or to counter foreign export credit financing. Ex-Im Bank
+         receives an annual appropriation for administrative expenses, but its revenues
+         from interest and other fees charged for its support often exceed its appropriation,
+         creating a net gain to the Treasury.
+        The Inter-American Foundation and the African Development Foundation
+         obligated $28.7 million and $22.5 million, respectively, in FY2019,36 in direct
+         grants to small-scale enterprises and grassroots self-help entities.
+
+What Are the Different Forms in Which U.S. Assistance Is
+Provided?
+Most U.S. assistance is now provided as a
+grant rather than a loan, so as not to increase             Figure 3. Assistance by Type, FY2019
+the debt burden carried by many developing                               Obligations
+countries. However, the forms a grant may
+take are diverse. The most common type of
+U.S. development aid is project-based
+assistance (77% in FY2019), in which aid is
+channeled through an implementing partner,
+most often a contractor, multilateral
+organization, or nongovernmental
+organization, to complete a specific project.
+Aid is also provided in the form of core
+contributions to international organizations
+such as the United Nations, technical
+assistance, and direct budget support (cash
+transfer) to governments. Some assistance
+funds are also spent on administrative costs
+(see Figure 3). Within these categories, aid
+may take many forms, as described below.                Source: Foreignassistance.gov and CRS calculations.
+
+Expertise
+Many assistance programs provide expert advice to government and private sector organizations.
+For example, the Department of the Treasury, USAID, and U.S.-funded multilateral banks all
+place specialists in host government ministries to make recommendations on policy reforms in a
+wide variety of sectors. USAID has often placed experts in private sector business and civic
+
+34 For more information on the BUILD Act and DFC, see CRS Report R45461, BUILD Act: Frequently Asked
+
+Questions About the New U.S. International Development Finance Corporation, by Shayerah Ilias Akhtar and Marian
+L. Lawson, and CRS In Focus IF11436, U.S. International Development Finance Corporation (DFC), by Shayerah
+Ilias Akhtar and Nick M. Brown.
+35 For more information, see CRS In Focus IF11436, U.S. International Development Finance Corporation (DFC), by
+
+Shayerah I. Akhtar and Nick M. Brown.
+36 ForeignAssistance.gov.
+
+
+
+
+Congressional Research Service                                                                                15
+                                        Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+organizations to help strengthen them in their formative years or while indigenous staff are being
+trained. Such expert advice may come from U.S. nationals, but may also include country
+nationals employed by USAID projects to offer policy options to that government or otherwise
+coordinate project efforts.
+
+Training
+Knowledge and skill transfer is a significant part of most assistance programs. The International
+Military Education and Training Program (IMET), for example, provides training to officers of
+the armed forces of allied and friendly nations. Tens of thousands of citizens of aid recipient
+countries receive technical training annually under USAID programs. Similarly, more than one-
+quarter of Peace Corps volunteers are English, math, and science teachers. Other aid programs
+provide law enforcement personnel with anti-narcotics or anti-terrorism training.
+
+Grants
+USAID, the Inter-American Foundation, and the African Development Foundation often provide
+aid in the form of grants directly to local organizations to foster economic and social development
+and to encourage civic engagement in their communities. Grants are sometimes provided to credit
+institutions, such as village-level women’s savings groups, which in turn provide loans to
+microentrepreneurs. Small grants may also address specific community needs. Recent IAF grants,
+for example, have supported organizations that help resettle Salvadoran migrants deported from
+the United States and youth programs in Central America aimed at gang prevention. Large grants
+are often provided directly by USAID, but small-scale grants are most frequently administered
+under an implementing partner contract.
+
+In-Kind Goods
+Assistance may be provided in the form of food commodities, weapons systems, or equipment
+such as generators or computers. Food aid may be provided directly to meet humanitarian needs
+or to encourage attendance at a maternal/child health care program. Technical assistance may
+accompany goods provided, such as training for use of weapons supplied as military assistance.
+Under development assistance, equipment and commodities provided are usually integrated with
+other forms of aid to meet objectives in a particular social or economic sector. For instance,
+textbooks have been provided in both Afghanistan and Iraq alongside a broader teacher training
+and educational reform effort. Computers may be offered in conjunction with training and
+expertise to fledgling microcredit institutions. Since PEPFAR was first authorized in 2004,
+antiretroviral drugs (ARVs) provided to individuals living with HIV/AIDS have been a significant
+component of global health assistance.
+
+Economic Infrastructure
+Although once a significant portion of U.S. assistance programs, direct construction of economic
+infrastructure—roads, irrigation systems, electric power facilities, etc.—has been a relatively
+small component of aid efforts since the 1970s. Because of the substantial expense of these
+projects, they were to be found only in large bilateral assistance programs, such as that for Egypt
+in the 1980s and 1990s, where the United States constructed major urban water and sanitation
+systems. The aid programs implemented in support of post-U.S. invasion reconstruction in Iraq
+and Afghanistan were an exception, supporting the building of schools, health clinics, roads,
+power plants, and irrigation systems. In Iraq alone, more than $10 billion went to economic
+infrastructure. The Millennium Challenge Corporation funds much of the direct construction of
+
+
+
+Congressional Research Service                                                                      16
+                                                 Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+economic infrastructure supported by U.S. assistance, using a competitive selection process to
+direct such programs toward well-governed countries in which these investments may be more
+sustainable. MDBs also continue to support infrastructure projects in developing countries,
+mostly by providing large-scale loans. With the growth of private direct investment in developing
+countries, U.S. efforts have shifted toward facilitation of private investments in infrastructure
+investments, including through the Power Africa initiative, the U.S. International Development
+Finance Corporation, and the International Transaction Advisory Network, among others.
+
+Direct Budget Support
+Although it is the exception rather than the rule, some countries receive aid in the form of a cash
+grant to the government. Dollars provided in this way support a government’s balance-of-
+payments situation, enabling it to purchase more U.S. goods, service its debt, or devote more
+domestic revenues to developmental or other purposes. Cash transfers have been made as a
+reward to countries that have supported U.S. counterterrorism operations (Turkey and Jordan in
+FY2004), to provide political and strategic support (both Egypt and Israel annually for decades
+after the 1979 Camp David Peace Accord), and in exchange for undertaking difficult political and
+economic reforms. In FY2019, the Government of Jordan was the only reported recipient of such
+assistance.
+
+How Much Assistance Is Provided as Loans and How Much as
+Grants? What Are Some Types of Loans? Have Loans Been Repaid?
+Why Is Repayment of Some Loans Forgiven?
+Under the Foreign Assistance Act of 1961, the President may determine the terms and conditions
+under which most forms of assistance are provided, though Congress included provisions
+encouraging the use of grants over loans in some instances, such as development assistance to the
+least developed countries. In general, the financial condition of a country—its ability to meet
+repayment obligations—has been an important criterion of the decision to provide a loan or grant.
+Some programs, such as humanitarian and disaster relief programs, were designed from the
+beginning to be entirely grant activities.
+Between 1946 and 2018, the United States loaned $116.6 billion in economic and military aid to
+foreign governments, and $11.2 billion of loan funds remained outstanding at the end of
+FY2019.37
+
+Loan/Grant Composition
+During the past two decades, nearly all foreign aid—military as well as economic—has been
+provided in grant form. While loans represented 32% of total military and economic assistance
+between 1962 and 1988, this figure declined substantially beginning in the mid-1980s, until by
+FY2001, loans represented less than 1% of total aid appropriations. The de-emphasis on loan
+programs came largely in response to the debt problems of developing countries, some of which
+were attributable to aid loans. Both Congress and the executive branch have generally taken the
+
+37 U.S. Overseas Loans and Grants: Obligations and Loan Authorizations, July 1, 1945-September 30, 2019
+
+(Greenbook), CONG-R-0105. For nearly three decades, Section 620q of the Foreign Assistance Act (the Brooke
+amendment) has prohibited new assistance to the government of any country that falls more than one year past due in
+servicing its debt obligations to the United States, though the President may waive application of this prohibition if he
+determines it is in the national interest.
+
+
+
+
+Congressional Research Service                                                                                          17
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+view that foreign aid should not add to the already existing debt burden carried by these
+countries. The Trump Administration sought to shift that approach to some degree, but Congress
+continued its emphasis on grants.38
+
+Development Finance
+Although a small proportion of total current aid, U.S. government-issued financial products to
+advance development, known broadly as “development finance,” have remained a component of
+U.S. assistance efforts. Now largely consolidated in the DFC, such projects involve either directly
+issued loans or loan guarantees, meaning the U.S. government agrees to pay a portion of the
+amount owed in the case of a default on a loan. For instance, DFC may partially guarantee a
+mortgage portfolio of a developing country bank, sharing risk with it in order to expand credit
+access for poor mortgage holders.
+The United States also guarantees sovereign loans of certain governments in order to improve the
+terms or amounts of financing from international capital markets. Debt guarantees have been used
+recently to assist Ukraine, Iraq, and Jordan. In these cases, assistance funds representing a
+fraction of the guarantee amount are set aside to cover possible default.39 Previously, under the
+Israeli Loan Guarantee Program, the United States guaranteed repayment of loans made by
+commercial sources to support the costs of immigrants settling in Israel from other countries and
+could issue guarantees to support economic recovery.40
+
+Debt Forgiveness
+The United States has also forgiven some debts owed by foreign governments and encouraged,
+with mixed success, other foreign aid donors and international financial institutions to do
+likewise. In some cases, the decision to forgive foreign aid debts has been based largely on
+economic grounds as another means to support development efforts by heavily indebted, but
+reform-minded, countries. The United States has been one of the strongest supporters of the
+Heavily Indebted Poor Country (HIPC) Initiative and the Multilateral Debt Relief Initiative
+(MDRI). These initiatives, which began in the late 1990s, include participation of the World
+Bank, the International Monetary Fund, and other international financial institutions in a
+comprehensive debt workout framework for the world’s poorest and most debt-strapped nations.41
+USAID and the Department of the Treasury have also implemented “debt-for-nature” swaps, in
+which foreign debt is purchased, sometimes at discounted rates, and restructured into local
+currency that can be implemented as environmental conservation programs.42
+The largest and most hotly debated debt forgiveness actions have been implemented for much
+broader foreign policy reasons with a more strategic purpose. Examples include Poland, during its
+transition from a communist system and centrally planned economy (1990—$2.46 billion);
+Egypt, for making peace with Israel and helping maintain the Arab coalition during the Persian
+
+38 The Trump Administration both proposed shifting FMF from primarily grants to include some lending, and sought to
+
+expand development finance through the U.S. International Development Finance Corporation while proposing cuts to
+grant assistance accounts.
+39 The assistance provided to guarantee the loan varies depending on the risk. For example, the Obama Administration
+
+requested $275 million in ESF-OCO funds in FY2016 to support a $1 billion loan guarantee for Ukraine.
+40 Israel has not drawn on any loan guarantees since FY2004.
+
+41 For more information on these programs, see CRS Report RS21482, The Paris Club and International Debt Relief,
+
+by Martin A. Weiss.
+42 CRS Report RL31286, Debt-for-Nature Initiatives and the Tropical Forest Conservation Act (TFCA): Status and
+
+Implementation, by Pervaze A. Sheikh.
+
+
+
+Congressional Research Service                                                                                    18
+                                                Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Gulf War (1990—$7 billion); and Jordan, after signing a peace accord with Israel (1994—$700
+million). Similarly, the United States forgave about $4.1 billion in outstanding Saddam Hussein-
+era Iraqi debt in November 2004 and helped negotiate an 80% reduction in Iraq’s debt to creditor
+nations later that month.
+
+Does the Private Sector Have a Role in Foreign Assistance?
+Most development and humanitarian assistance activities are not directly implemented by U.S.
+government personnel but by private sector entities, such as individual personal service
+contractors, consulting firms, universities, private voluntary organizations (PVOs), or public
+international organizations (PIOs). Generally speaking, U.S. government foreign service and civil
+servants determine the direction and priorities of the aid program, allocate funds in accordance
+with legislative requirements, ensure that appropriate projects are in place to meet aid objectives,
+select implementers, and monitor the implementation of those projects for effectiveness and
+financial accountability. Both USAID and the State Department have promoted the use of public-
+private partnerships, in which private entities such as corporations and foundations contribute as
+joint funders, not paid implementers, in situations where partners’ interests and U.S. objectives
+coincide.43 As foreign direct investment in developing countries has increased significantly in
+recent decades, far exceeding foreign assistance from governments in many countries, agencies
+have sought partnerships and other means of channeling those investments in support of U.S.
+priorities.
+In addition to serving as implementing partners, the U.S. private sector also sometimes provides
+goods and services for assistance programs. For example, a portion of U.S. international food aid
+is sourced from U.S. farmers and then shipped overseas on privately-owned U.S. flag cargo ships.
+FMF funding, as another example, primarily contracts with U.S. defense contractors. Most
+USAID procurement is restricted to the United States, the recipient, and other developing
+countries.44
+
+Which Countries Receive U.S. Foreign Assistance?
+In FY2019, the United States provided some form of bilateral foreign assistance to more than 180
+countries.45 Aid is concentrated heavily in certain countries, but country allocations shift over
+time due to changing priorities and interests of U.S. foreign policy. Table 2 identifies the top 15
+recipients of U.S. foreign assistance for FY1999, FY2009, and FY2019, reflecting these shifts.
+
+
+
+
+43 For more on the use of public-private partnerships in foreign assistance, see CRS Report R41880, Foreign
+
+Assistance: Public-Private Partnerships (PPPs), by Marian L. Lawson.
+44 22 C.F.R. §228.
+
+45 Generally, USAID and other agencies funnel development assistance, in various forms, to a country’s private sector,
+
+nongovernmental organizations, local communities, individual entrepreneurs, and other entities. Assistance is provided
+directly to the government of a country where the intention is to bring about policy reforms, improve governance, or
+work with a sector in which the government is the predominant element, such as in health care where the Ministry of
+Health would play a determinative role. Often, in cases where a government is believed to be taking action contrary to
+U.S. interests, Congress has specified that assistance to that government be prohibited or limited, while not affecting
+overall assistance to the country.
+
+
+
+Congressional Research Service                                                                                       19
+                                             Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+              Table 2. Top Recipients of U.S. Foreign Assistance from All Sources,
+                                 FY1999, FY2009, and FY2019
+                                    (in millions of current U.S. dollars)
+               FY1999                                FY2009                               FY2019
+
+ Israel                   3,030.4     Afghanistan               8,964.4     Afghanistan             4,893.4
+ Egypt                    2,214.0     Iraq                      5,694.4     Israel                  3,308.5
+ Russia                   1,601.8     Israel                    2,423.3     Jordan                  1,723.3
+ Jordan                     381.9     Egypt                     1,989.9     Egypt                   1,467.0
+ Colombia                   325.5     Pakistan                  1,174.2     Iraq                     959.3
+ Ukraine                    287.8     Sudan                     1,156.8     Ethiopia                 922.8
+ Indonesia                  256.7     West Bank and Gaza        1,040.3     Yemen                    809.8
+ Peru                       231.3     Ethiopia                   865.1      Colombia                 800.7
+ Bangladesh                 229.7     Colombia                   863.6      Nigeria                  794.0
+ Bosnia and
+ Herzegovina                220.6     Jordan                     828.3      Lebanon                  791.0
+ Serbia and
+ Montenegro                 190.2     Kenya                      770.1      DRC                      781.1
+ India                      186.7     Georgia                    621.9      Kenya                    758.9
+ Dem. Rep. of Korea         176.5     South Africa               591.2      Uganda                   753.9
+ Ethiopia                   144.7     Russia                     535.9      Pakistan                 684.8
+ Bolivia                    139.6     Burkina Faso               503.9      South Sudan              675.5
+
+    Source: Foreignassistance.gov.
+    Note: DRC = Democratic Republic of the Congo.
+
+As shown in the table above, there are both similarities and sharp differences among country aid
+recipients for the three periods. The most consistent thread connecting the top aid recipients over
+the past two decades has been continuing U.S. strategic interests in the Middle East, with large
+programs maintained for Israel and Egypt as well as for Iraq, following the 2003 invasion. Two
+key countries for U.S. counterterrorism strategy, Afghanistan and Pakistan, rose to the top of the
+aid recipient list in FY2002.
+Since 2000, U.S. assistance has shifted considerably, as some poor or fragile regions have
+prospered and others remain impoverished. In FY1999, one sub-Saharan African country
+appeared among the top 15 aid recipients; in FY2019, there were six. Many are focus countries
+under the PEPFAR initiative to address the HIV/AIDS epidemic; newer initiatives such as Power
+Africa, Feed the Future, and Prosper Africa have also driven funds to that region. In FY1999, four
+countries from Eastern Europe and the former Soviet Union made the list, as many from the
+region had for much of the 1990s due to efforts to transform the former communist nations to
+democratic societies and market-oriented economies. None of those countries appear in the
+FY2019 list. In FY1999, three Latin American countries made the list; Colombia is the only
+country from the region that remained on the list for FY2019.
+On a regional basis, the Middle East/North Africa (MENA) region received the largest share of
+U.S. foreign assistance for several decades. Although economic aid to the region’s top two
+recipients, Israel and Egypt, began to decline in the late 1990s, the dominant share of bilateral
+
+
+
+Congressional Research Service                                                                            20
+                                           Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+U.S. assistance consumed by the MENA region was maintained in the 2000s by the war in Iraq.
+Its share continued to slip substantially in FY2019.
+
+      Figure 4. Regional Distribution of Assistance, FY1999, FY2009, and FY2019
+
+
+
+
+    Source: USAID Explorer and CRS calculations. Percentages may not add up to 100% due to rounding.
+    Note: World = Unallocated by Country/Region.
+
+U.S. strategic imperatives have also driven periodic growth and decline of aid. After September
+11, 2001, South and Central Asia emerged as a significant target of U.S. assistance. The region
+rose from a roughly 4% share 20 years ago to 23% in FY2009 before retreating to 14% in
+FY2019, largely tracking U.S. national security priorities in Afghanistan and Pakistan. Similarly,
+the share flowing to African nations increased from 9% in FY1999 to 20% in FY2009, and
+reached 25% in FY2019, largely due to the HIV/AIDS initiative that funnels resources mostly to
+African countries and to a range of other efforts to address the region’s development challenges.
+Meanwhile, the share of aid to Europe/Eurasia, which greatly surpassed that of Africa in FY1999,
+has declined significantly in the past decade, to about 4% in FY2019, with the graduation of
+many East European aid recipients and the termination of programs in Russia. The share of aid
+allocated to East Asia/Pacific has remained at a low level during the past two decades, while the
+Western Hemisphere’s share has risen and fallen based on U.S. interest in Colombia and Central
+American countries, and disasters such as the 2010 earthquake in Haiti (see Figure 4).
+
+
+Foreign Aid Spending
+How Large Is the U.S. Foreign Assistance Budget?
+There are several methods commonly used for measuring the amount of federal spending on
+foreign assistance. Amounts can be expressed in terms of budget authority (funds appropriated by
+Congress), obligations (amounts contractually committed), and outlays or disbursements (money
+actually spent). Assistance levels are also sometimes measured as a percentage of the total federal
+budget, as a percentage of total discretionary budget authority (excluding mandatory and
+entitlement programs), or as a percentage of the gross domestic product (GDP, for an indication
+of the national wealth allocated to foreign aid). By nearly all of these measures, foreign aid
+resources fell gradually on average over several decades from the historical high levels of the late
+
+
+
+Congressional Research Service                                                                         21
+                                            Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+1940s and early 1950s (see Appendix A). This downward trend was sporadically interrupted,
+largely due to major foreign policy initiatives such as the Alliance for Progress for Latin America
+beginning in 1961, the Vietnam War in the 1960s and 1970s, the infusion of funds to implement
+the Camp David Middle East Peace Accords in 1979, and an increase in military assistance to
+Egypt, Turkey, Greece and others in the mid-1980s. The lowest point in U.S. foreign aid spending
+since World War II came in FY1997, when foreign assistance obligations fell to about $20 billion
+(in 2019 dollar terms).
+While foreign aid consistently represented just over 1% of U.S. GDP in the decade following
+World War II, it fell gradually to between 0.2% and 0.4% for most years over the past three
+decades. Foreign assistance spending has comprised, on average, around 3% of discretionary
+budget authority and just over 1% of total budget authority each year since FY1977, though the
+percentages have sometimes varied considerably from year to year. Foreign aid dropped from 5%
+of discretionary budget authority in FY1979 to 2.4% in FY2001, before rising sharply in
+conjunction with U.S. activities in Afghanistan and Iraq starting in FY2003, as well as the launch
+of a global HIV/AIDS response effort (see Figure 5; Appendix A).
+
+               Figure 5. Aid as a Percentage of the Federal Budget and GDP,
+                                       FY1976-FY2019
+
+
+
+
+    Sources: OMB Historic Budget Tables FY2021; Foreignassistance.gov; CRS calculations.
+
+As previously discussed, since the September 11, 2001, terrorist attacks, foreign aid funding has
+been closely tied to U.S. counterterrorism strategy, particularly in Iraq, Afghanistan, and Pakistan.
+Global health initiatives, the creation of the Millennium Challenge Corporation, and growth in
+counter-narcotics activities have driven funding increases over the same period. The Budget
+Control Act of 2011, and the drawdown of U.S. military forces in Iraq, and to some degree
+Afghanistan, led to a notable dip in aid obligations in FY2013, but aid levels rose again in
+FY2015 with efforts to address the crisis in Syria, counter ISIS activities, and provide for
+humanitarian efforts. The use of the Overseas Contingency Operations (OCO, discussed below)
+designation has enabled this growth. Figure 6 shows how trends in foreign aid funding in recent
+decades track specific foreign policy events and presidential initiatives.
+
+
+
+
+Congressional Research Service                                                                          22
+                                            Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+               Figure 6. Foreign Assistance Funding Trends, FY1976-FY2019
+                                 (in billions of constant FY2019 U.S. dollars)
+
+
+
+
+    Source: Foreignassistance.gov.
+    Notes: MCC = Millennium Challenge Corporation; PEPFAR = President’s Emergency Plan for AIDS Relief; GHI
+    = Global Health Initiative; BCA = Budget Control Act; Human. = humanitarian.
+
+
+What Does Overseas Contingency Operations (OCO) Mean?
+Prior to FY2012, the President typically submitted to Congress requests for additional funding as
+needed (after initial annual budget requests), referred to as emergency supplementals. These
+funding packages historically were approved to address emergency, war-related, or otherwise off-
+cycle budget needs. The Obama Administration took a different approach in its FY2012
+international affairs budget, distinguishing between enduring (also referred to as base, regular, or
+ongoing), emergency supplemental, and Overseas Contingency Operations (OCO) funds, all in
+the same request, and describing the OCO designated funds as short-term, temporary, war-related
+funding for the frontline states of Iraq, Afghanistan, and Pakistan. The OCO designation had
+previously been applied to war-related Department of Defense (DOD) costs but had not been used
+outside that scope.
+Funds designated as emergency or OCO are not subject to procedural limits on discretionary
+spending in congressional budget resolutions, or the statutory discretionary spending limits
+provided by the Budget Control Act of 2011 for FY2011-FY2021 (BCA, P.L. 112-25). As a result,
+the OCO designation became a critical tool for compliance with the BCA spending caps.
+Congress not only adopted the OCO designation in the FY2012 SFOPS appropriations
+legislation, but expanded it to include funding for additional accounts and countries. Between
+FY2012 and FY2018, Congress appropriated more OCO-designated funding than was requested
+by the Administration; since then, Congress has appropriated OCO funds each year despite
+Administration requests for no SFOPS OCO funds (see Figure 7).
+
+
+
+
+Congressional Research Service                                                                            23
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+                Figure 7. Overseas Contingency Operations, FY2012-FY2021
+                                        (in billions of current U.S. dollars)
+
+
+
+
+    Sources: SFOPS Congressional Budget Justifications; annual SFOPS appropriations.
+
+As the use of OCO expanded, the Administration requested and Congress enacted fewer
+emergency supplementals. However, there have been a handful of foreign assistance
+supplementals since FY2012 to address unanticipated emergency situations. These include
+supplementals for the Ebola response in West Africa in FY2015, the Zika response in FY2016,
+and counter-ISIS activities in FY2017. Most recently, Congress enacted supplemental funds to
+combat the COVID-19 pandemic, provide assistance to Sudan, and address humanitarian needs in
+Afghanistan and for Afghan refugees.
+The BCA expired at the end of FY2021, and the House-passed and Senate-introduced SFOPS
+bills for FY2022 (H.R. 4373 and S. 3075, respectively) do not include OCO funds.46
+
+How Much Foreign Assistance Is Spent on U.S. Goods
+and Services?
+Congress historically sought to enhance the domestic benefits of foreign aid by requiring that
+most U.S. foreign aid be used to procure U.S. goods and services.47 The conditioning of aid on
+
+46 For more information on foreign affairs OCO funding, see CRS In Focus IF10143, Foreign Affairs Overseas
+
+Contingency Operations (OCO) Funding: Background and Current Status, by Emily M. Morgenstern. For broader
+OCO trends, including those related to DOD, see CRS Report R44519, Overseas Contingency Operations Funding:
+Background and Status, by Brendan W. McGarry and Emily M. Morgenstern.
+47 The “Buy America” provision of the Foreign Assistance Act of 1961 (P.L. 87-195, §604), originally required that aid
+
+procurement be made within the United States unless a detailed determination of the need to procure elsewhere was
+made by the President. In FY1993, Congress amended this section to allow for procurement in the United States, the
+recipient country, or any developing country, but in developed countries only if necessary.
+
+
+
+
+Congressional Research Service                                                                                      24
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+the procurement of goods and services from the donor-country is sometimes called “tied aid,” and
+while quite common for much of the history of modern foreign assistance, it has become
+increasingly disfavored in the international community.48 Studies have shown that tying aid
+increases the costs of goods and services by 15%-30% on average, and up to 40% for food aid,
+reducing the purchasing power of aid flows.49 The United States joined other donor nations in
+committing to reduce tied aid in the Paris Declaration on Aid Effectiveness in March 2005, and
+the portion of tied aid from all donors fell from 70% of total bilateral development assistance in
+1985 to about 20% in 2018. However, an estimated 40% of U.S. bilateral development assistance
+was tied in 2018, the highest percentage among major donors, perhaps reflecting the perception of
+policymakers that maintaining public and political support for foreign aid programs requires
+ensuring direct economic benefit to the United States.50 About 67% of U.S. foreign assistance
+funds in FY2018 were obligated to U.S.-based entities.51
+A considerable amount of U.S. foreign assistance funding remains in the United States, through
+domestic procurement or the use of U.S. implementers, but the portion differs by program and is
+hard to identify with any accuracy. For some types of aid, the legislative requirements or program
+design make it relatively easy to determine how much aid is spent on U.S. goods or services,
+while for others, this is more difficult to determine.
+        USAID. Most USAID funding is implemented through contracts, grants, and
+         cooperative agreements with implementing partners. While many implementing
+         partner organizations are based in the United States and employ U.S. citizens,
+         there is little information available about what portion of the funds used for
+         program implementation are spent in the United States compared to the recipient
+         country. Procurement reform efforts initiated by USAID in 2010 have aimed to
+         accurately report and expand implementation by host country entities as a means
+         to enhance country ownership, local capacity, and sustainability, including by
+         expanding procurement preferences, previously restricted to the United States, to
+         also allow purchase from firms in most developing countries.
+        Food assistance commodities, until recently, were purchased wholly in the
+         United States, and generally required by law to be shipped by U.S. carriers,52
+         suggesting that the vast majority of food aid expenditures are made in the United
+         States. Starting in FY2009, Congress authorized a small portion of food
+         assistance to be purchased locally and regionally to meet urgent food needs more
+         quickly. Successive Administrations and several Members of Congress have
+         proposed greater flexibility in the food aid program, potentially increasing aid
+         efficiency but reducing the portion of funds flowing to U.S. farmers and shippers.
+         To date, these proposals have not been enacted.53
+
+
+48 Overseas Development Institute, The Developmental Effectiveness of Untied Aid, available at http://oecd.org/dac/
+
+evaluation/dcdndep/41537529.pdf.
+49 Ibid.
+
+50 Data available at http://www.oecd.org/dac/financing-sustainable-development/development-finance-data/
+
+statisticsonresourceflowstodevelopingcountries.htm, Table 23.
+51 USAID Explorer. Entities include government agencies, nongovernmental and faith-based organizations, enterprises,
+
+and universities.
+52 The Cargo Preference Act, P.L. 83-644, August 26, 1954.
+
+53 For more information on food aid programs and authorities, see CRS Report R45422, U.S. International Food
+
+Assistance: An Overview, by Alyssa R. Casey.
+
+
+
+
+Congressional Research Service                                                                                        25
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+        Foreign Military Financing, with the exception of certain assistance allocated to
+         Israel, is used exclusively to procure U.S. military equipment and training.54
+        The Millennium Challenge Corporation (MCC) bases its procurement
+         regulations on those established by the World Bank, which calls for an open and
+         competitive process, with no preference given to donor country suppliers.
+         Between FY2011 and FY2020, the MCC awarded roughly 10% of the value of
+         partner country contracts to U.S. firms.
+        Multilateral development aid is mixed with funds from other nations and the
+         bulk of the programs are financed with borrowed funds rather than direct
+         government contributions. Information on the U.S. share of procurement
+         financed by MDBs is not publicly unavailable.
+In addition to the direct benefits derived from aid dollars used for American goods and services,
+many argue that the foreign aid program brings significant indirect financial benefits to the
+United States. For example, analysts maintain that provision of U.S. military equipment and food
+commodities helps to develop future, strictly commercial, markets for those products. More
+broadly, as countries develop economically, they are in a position to purchase more goods from
+abroad and the United States benefits as a trade partner. Since an increasing majority of global
+consumers are outside of the United States, some business leaders assert that establishing strong
+economic and trade ties in the developing world, using foreign assistance as a tool, is key to U.S.
+economic and job growth.55
+
+How Does the United States Rank as a Donor of Foreign Aid?
+Since World War II, with the exception of several years between 1989 and 2001, during which
+Japan ranked first among aid donors, the United States has led developed countries in net
+disbursements of economic aid, or “Official Development Assistance (ODA)” as defined by the
+Organization for Economic Cooperation and Development’s (OECD’s) Development Assistance
+Committee (DAC).56 In 2019, the most recent year for which comprehensive data are available,
+the United States disbursed $32.98 billion in ODA, or about 22.5% of the $146.52 billion in total
+net ODA disbursements by all donors that year, as reported to the OECD, ranking first among
+donors (see Figure 8). While the top five donors have not varied for more than a decade, there
+have been shifts lower down the rankings, with some previous aid recipients becoming donors.
+For example, Poland, Ireland, and Korea, each substantial recipients of U.S. aid in the past, have
+become prominent ODA donors in recent years.57
+
+
+
+
+54 For the research, development and procurement of advanced weapons systems, not less than $805.3 million of aid to
+
+Israel in FY2021 could be used for offshore procurement (about 13% of total Foreign Military Finance for that year).
+55 See, for example, “Foreign Assistance Promotes U.S. Economic Prosperity,” U.S. Global Leadership Coalition, at
+
+https://www.usglc.org/resources/foreign-assistance-economic-prosperity-key-facts/.
+56 The OECD Glossary of Statistical Terms defines ODA as “flows of official financing administered with the
+
+promotion of economic development and welfare of developing countries as the main objective, and which are
+concessional in character with a grant element of at least 25%. By convention, ODA flows comprise contributions of
+donor government agencies, at all levels, to developing countries and to multilateral institutions.” ODA does not
+include military assistance or aid to developed countries, such as Israel and Russia.
+57 OECD data are available at http://www.oecd.org/dac/financing-sustainable-development/development-finance-data/
+
+statisticsonresourceflowstodevelopingcountries.htm. Each country’s contribution exceeded 0.1% of GNI in FY2017,
+the last year for which such data are provided.
+
+
+
+Congressional Research Service                                                                                     26
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+       Figure 8.Top 15 Bilateral Donors of Official Development Assistance, 2019
+                                           (in billions of U.S. dollars)
+
+
+
+
+    Source: OECD/DAC, data available at http://www.oecd.org/dac/financing-sustainable-development/
+    development-finance-data/statisticsonresourceflowstodevelopingcountries.htm.
+
+Although it leads in dollar amounts of aid flows to developing countries, the United States often
+ranks low when aid is calculated as a percentage of gross national income (GNI).58 This
+calculation is often cited in the context of international donor forums, as the U.N. General
+Assembly set a target for donors of 0.7% of GNI in 1970, which also became an aim of the 2000
+U.N. Millennium Development Goals. In 2019, the United States ranked at the bottom among
+long-standing donors in terms of aid as a portion of GNI, at 0.15%. Turkey, Luxembourg,
+Norway, and Sweden ranked first among donors, each at about 1% of GNI.
+China is not an OECD member and does not regularly report ODA disbursements. Nevertheless,
+the OECD estimates that China’s international development co-operation reached $4.8 billion in
+2019, up from $4.5 billion in 2018, including $1.6 billion in multilateral assistance.59 While
+estimated Chinese ODA is still relatively small compared to that of major donor countries,
+policymakers are paying increasing attention to growing Chinese investments and financing in
+developing countries that do not meet the ODA definition. China has touted its “Belt and Road”
+Initiative as an effort to boost economic development and connectivity from China across regions
+to create “strategic propellers” for its own development.60 China has provided little official
+
+58 Gross National Income (GNI) comprises GDP together with income received from other countries (notably interest
+
+and dividends), less similar payments made to other countries.
+59 From “Other official providers not reporting to the OECD” report on the OECD website at https://www.oecd-
+
+ilibrary.org/sites/18b00a44-en/index.html?itemId=/content/component/5e331623-en&_csp_=
+b14d4f60505d057b456dd1730d8fcea3&itemIGO=oecd&itemContentType=chapter#section-d1e19813. See also CRS
+In Focus IF11735, China’s “One Belt, One Road” Initiative: Economic Issues, by Karen M. Sutter, Andres B.
+Schwarzenberg, and Michael D. Sutherland.
+60 National Development and Reform Commission (NDRC), Ministry of Foreign Affairs, and Ministry of Commerce of
+
+the People’s Republic of China (PRC), “Vision and Actions on Jointly Building Silk Road Economic Belt and 21 st-
+Century Maritime Silk Road,” First Edition, March 2015, http://en.ndrc.gov.cn/newsrelease/201503/
+t20150330_669367.html.
+
+
+
+
+Congressional Research Service                                                                                      27
+                                              Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+aggregate information on the initiative, including on the number of projects, the amounts and
+terms of financing, and metrics for success, but some entities have taken efforts to estimate such
+data themselves.61
+
+
+Congress and Foreign Assistance
+What Congressional Committees Oversee Foreign Aid Programs?
+Numerous congressional authorizing committees and appropriations subcommittees maintain
+responsibility for U.S. foreign assistance. Several committees have responsibility for authorizing
+legislation establishing programs and policy and for conducting oversight of foreign aid
+programs. In the Senate, the Committee on Foreign Relations, and in the House, the Committee
+on Foreign Affairs, have primary jurisdiction over bilateral development assistance, strategic and
+other economic security assistance, military assistance, and international organizations.
+Responsibility over food aid, which primarily lies with the Agriculture Committees in both
+bodies, is periodically shared with the House Foreign Affairs and Senate Foreign Relations
+Committees. U.S. contributions to multilateral development banks are within the jurisdiction of
+the Senate Foreign Relations Committee and the House Financial Services Committee. Aid
+programs funded by DOD, such as Nunn-Lugar Cooperative Threat Reduction programs and the
+military aid programs in Afghanistan and Ukraine, generally come under the jurisdiction of the
+Armed Services Committees. Some global health assistance, such as research and other activities
+done by the Centers for Disease Control and Prevention, may fall under the jurisdiction of the
+House Energy and Commerce and Senate Health, Education, Labor and Pensions (HELP)
+committees.
+Most foreign aid appropriations fall under the jurisdiction of the SFOPS Subcommittees, with
+food assistance appropriated by the Agriculture Subcommittees. As noted earlier, however, certain
+military, global health, and other activities that have been reported as foreign aid have been
+appropriated through other subcommittees in recent years, including the Defense and the Labor,
+Health and Human Services, Education and Related Agencies subcommittees. For current
+information on SFOPS Appropriations legislation, see CRS Report R46935, Department of State,
+Foreign Operations, and Related Programs: FY2022 Budget and Appropriations, by Cory R.
+Gill, Marian L. Lawson, and Emily M. Morgenstern.
+
+What Are the Major Foreign Aid Legislative Vehicles?
+The most significant permanent foreign aid authorization laws include
+        the Foreign Assistance Act of 1961, as amended, covering most bilateral
+         economic and security assistance programs (P.L. 87-195; 22 U.S.C. 2151);
+        the Arms Export Control Act (1976), authorizing military sales and financing
+         (P.L. 90-629; 22 U.S.C. 2751);
+
+
+
+61 See, for example, Boston University, “Global China Initiative,” https://www.bu.edu/gdp/research/gci/; Andrew
+
+Chatzky and James McBride, “China’s Massive Belt and Road Initiative,” Council on Foreign Relations, at
+https://www.cfr.org/backgrounder/chinas-massive-belt-and-road-initiative; AidData, AidData’s Global Chinese
+Development Finance Dataset, Version 2.0, https://www.aiddata.org/data/aiddatas-global-chinese-development-
+finance-dataset-version-2-0.
+
+
+
+
+Congressional Research Service                                                                                    28
+                                                Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+         the Agricultural Trade Development and Assistance Act of 1954 (P.L. 480),
+          covering food aid (P.L. 83-480; 7 U.S.C. 1691); and
+         the Bretton Woods Agreement Act (1945), authorizing U.S. participation in
+          multilateral development banks (P.L. 79-171; 22 U.S.C. 286).62
+In the past, Congress usually scheduled debates every two years on omnibus foreign aid
+legislation that amended these permanent authorization measures. Congress has not enacted into
+law a comprehensive foreign assistance authorization measure since 1985, although foreign aid
+authorizing bills have passed the House or Senate, or both, on numerous occasions. Foreign aid
+bills have frequently stalled at some point in the debate because of controversial issues, a tight
+legislative calendar, or executive-legislative foreign policy disputes.63 In contrast, DOD
+assistance is authorized in annual National Defense Authorization legislation.
+In lieu of approving comprehensive foreign assistance authorization bills on a regular basis,
+Congress has on occasion authorized major foreign assistance initiatives for specific regions,
+countries, or aid sectors in stand-alone legislation or within an appropriation bill, often involving
+amendments to the Foreign Assistance Act of 1961 to authorize a new initiative. Among these are
+the following:
+         the SEED Act of 1989 (P.L. 101-179; 22 U.S.C. 5401);
+         the FREEDOM Support Act of 1992 (P.L. 102-511; 22 U.S.C. 5801);
+         the United States Leadership Against HIV/AIDS, Tuberculosis, and Malaria Act
+          of 2003 (P.L. 108-25; 22 U.S.C. 7601);
+         the Tom Lantos and Henry J. Hyde United States Global Leadership Against
+          HIV/AIDS, Tuberculosis, and Malaria Reauthorization Act of 2008 (P.L. 110-
+          293);
+         the Millennium Challenge Act of 2003 (Division D, Title VI of P.L. 108-199);
+         the Enhanced Partnership With Pakistan Act of 2009 (P.L. 111-73; 22 U.S.C.
+          8401);
+         the Global Food Security Act of 2016 (P.L. 114-195; 22 U.S.C. 9306); and
+         the Better Utilizing Results Leading to Development Act of 2018 (P.L. 115-254).
+In the absence of regular enactment of foreign aid authorization bills, appropriation measures
+considered annually within the SFOPS spending bill have assumed greater significance for
+Congress in influencing U.S. foreign aid policy. Not only do appropriations bills set spending
+levels each year for nearly every foreign assistance account, SFOPS appropriations also
+incorporate new policy initiatives that would otherwise be debated and enacted as part of
+authorizing legislation.
+
+
+
+
+62 Separate permanent authorizations exist for other specific foreign aid programs such as the Peace Corps, the
+
+Millennium Challenge Corporation, the Inter-American Foundation, and the African Development Foundation.
+63 A few foreign aid programs that are authorized in other legislation have received more regular legislative review.
+
+Authorizing legislation for voluntary contributions to international organizations and refugee programs, for example,
+are usually contained in omnibus Foreign Relations Authorization measures that also address State Department and
+public diplomacy issues. Food aid and amendments to the Food for Peace Act (P.L.480) are usually considered in the
+omnibus “farm bill” that Congress reauthorizes every five years. The most recent farm bill was signed into law as P.L.
+115-334 on December 20, 2018.
+
+
+
+Congressional Research Service                                                                                       29
+                                         Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Appendix A. Data Table
+                     Table A-1. Foreign Aid Funding Trends (Obligations)
+                                                      As %                               As % of
+ Fiscal                            Constant 2019       of       As % of total         discretionary
+ Year         Current U.S. $          U.S. $          GDP     budget authoritya     budget authoritya
+
+1946               3,075,702,000     33,099,851,370    1.3%                   —                      —
+1947               6,708,001,000     65,089,024,366    2.8%                   —                      —
+1948               3,179,504,000     28,177,070,122    1.2%                   —                      —
+1949               8,300,704,000     71,150,699,078    3.0%                   —                      —
+1950               5,971,296,000     51,895,822,882    2.1%                   —                      —
+1951               7,612,560,000     62,810,601,440    2.3%                   —                      —
+1952               6,813,953,000     54,040,702,008    1.9%                   —                      —
+1953               4,979,870,000     38,783,668,999    1.3%                   —                      —
+1954               4,767,778,000     36,699,816,125    1.2%                   —                      —
+1955               4,097,382,000     31,303,775,797    1.0%                   —                      —
+1956               4,847,691,000     36,104,061,584    1.1%                   —                      —
+1957               4,871,415,000     34,983,354,460    1.1%                   —                      —
+1958               4,014,661,000     27,990,624,675    0.8%                   —                      —
+1959               5,074,241,000     34,838,165,027    1.0%                   —                      —
+1960               5,218,274,000     35,330,950,867    1.0%                   —                      —
+1961               5,480,911,000     36,624,079,103    1.0%                   —                      —
+1962               6,532,295,000     43,213,052,667    1.1%                   —                      —
+1963               6,384,723,000     41,745,694,662    1.0%                   —                      —
+1964               5,265,148,000     33,990,731,586    0.8%                   —                      —
+1965               5,420,680,000     34,402,351,746    0.8%                   —                      —
+1966               6,904,358,000     42,898,569,108    0.9%                   —                      —
+1967               6,339,162,000     38,225,316,812    0.8%                   —                      —
+1968               6,757,250,000     39,374,110,636    0.8%                   —                      —
+1969               6,639,256,000     36,999,540,622    0.7%                   —                      —
+1970               6,513,214,000     34,453,247,727    0.6%                   —                      —
+1971               7,792,876,000     39,229,491,286    0.7%                   —                      —
+1972               8,986,908,000     43,190,926,227    0.7%                   —                      —
+1973               9,428,685,000     43,421,372,425    0.7%                   —                      —
+1974               8,479,202,000     36,451,493,025    0.6%                   —                      —
+1975               6,886,787,000     26,836,038,330    0.4%                   —                      —
+1976b              9,609,495,000     34,730,230,239    0.4%                 1.9%                   4.0%
+1977               7,756,101,000     26,351,997,532    0.4%                 1.7%                   3.1%
+1978               8,999,414,000     28,646,309,035    0.4%                 1.8%                   3.5%
+
+
+
+Congressional Research Service                                                                       30
+                                         Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+                                                      As %                               As % of
+ Fiscal                            Constant 2019       of       As % of total         discretionary
+ Year         Current U.S. $          U.S. $          GDP     budget authoritya     budget authoritya
+
+1979              13,837,318,000     40,758,113,729    0.5%                 2.5%                   5.0%
+1980               9,681,780,000     26,230,136,798    0.3%                 1.4%                   3.1%
+1981              10,517,411,000     25,944,023,720    0.3%                 1.4%                   3.1%
+1982              12,166,665,000     28,061,180,178    0.4%                 1.5%                   3.4%
+1983              13,836,455,000     30,576,689,508    0.4%                 1.6%                   3.6%
+1984              14,864,489,000     31,714,293,921    0.4%                 1.6%                   3.5%
+1985              18,106,876,000     37,383,867,730    0.4%                 1.8%                   4.0%
+1986              15,815,716,000     31,938,147,269    0.3%                 1.6%                   3.6%
+1987              13,872,898,000     27,399,826,282    0.3%                 1.3%                   3.1%
+1988              13,963,153,000     26,714,804,123    0.3%                 1.3%                   3.1%
+1989              14,443,414,000     26,558,311,624    0.3%                 1.2%                   3.1%
+1990              16,002,892,763     28,386,203,806    0.3%                 1.2%                   3.2%
+1991              16,959,737,549     29,048,006,169    0.3%                 1.2%                   3.1%
+1992              15,725,968,425     26,278,490,491    0.2%                 1.1%                   3.0%
+1993              16,549,513,930     27,020,301,072    0.2%                 1.1%                   3.2%
+1994              16,202,682,387     25,890,219,669    0.2%                 1.1%                   3.2%
+1995              15,555,497,616     24,337,385,401    0.2%                 1.0%                   3.1%
+1996              14,457,039,252     22,201,811,164    0.2%                 0.9%                   2.9%
+1997              13,909,513,423     20,988,378,927    0.2%                 0.8%                   2.7%
+1998              14,922,848,713     22,239,909,449    0.2%                 0.9%                   2.8%
+1999              18,323,182,974     26,960,946,715    0.2%                 1.0%                   3.1%
+2000              17,111,919,619     24,671,877,844    0.2%                 0.9%                   2.9%
+2001              16,029,347,098     22,578,411,366    0.2%                 0.8%                   2.4%
+2002              19,068,690,900     26,435,712,033    0.2%                 0.9%                   2.6%
+2003              29,463,736,976     40,114,913,392    0.3%                 1.3%                   3.5%
+2004              32,576,160,434     43,314,199,501    0.3%                 1.4%                   3.6%
+2005              35,460,524,384     45,753,677,744    0.3%                 1.4%                   3.6%
+2006              37,254,519,368     46,577,468,252    0.3%                 1.3%                   3.7%
+2007              39,726,329,764     48,350,898,537    0.3%                 1.4%                   3.7%
+2008              46,744,551,536     55,740,560,339    0.3%                 1.4%                   4.0%
+2009              46,640,784,747     54,981,368,596    0.3%                 1.1%                   3.1%
+2010              48,356,761,555     56,518,409,447    0.3%                 1.4%                   3.8%
+2011              49,144,626,860     56,315,515,507    0.3%                 1.4%                   4.0%
+2012              50,501,695,641     56,794,206,454    0.3%                 1.4%                   4.2%
+2013              46,064,921,577     50,868,627,072    0.3%                 1.3%                   4.0%
+2014              43,948,624,773     47,615,243,264    0.3%                 1.2%                   3.9%
+
+
+
+
+Congressional Research Service                                                                       31
+                                            Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+                                                         As %                                   As % of
+ Fiscal                             Constant 2019         of         As % of total           discretionary
+ Year         Current U.S. $           U.S. $            GDP       budget authoritya       budget authoritya
+
+2015              49,951,706,109       53,500,655,202      0.3%                   1.3%                      4.5%
+2016              49,472,834,845       52,522,561,183      0.3%                   1.2%                      4.2%
+2017              48,120,378,957       50,195,879,533      0.2%                   1.2%                      3.9%
+2018              47,973,217,559       48,903,807,469      0.2%                   1.1%                      3.4%
+2019              48,181,426,929       48,181,426,929      0.2%                   1.0%                      3.5%
+
+    Sources: Foreignassistance.gov; Office of Management and Budget Historic Budget Tables, FY2022; CRS
+    calculations.
+    Notes: Budget authority data by function are not available prior to FY1976.
+    a. Budget authority data is from the historic budget tables included in the President’s annual budget
+         submission, and is only available back to FY1976.
+    b. FY1976 includes both regular FY1976 and transition quarter (TQ) funding, and the GDP calculation is based
+         on the average FY1976 and TQ GDP.
+
+
+
+
+Congressional Research Service                                                                                32
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+Appendix B. Common Foreign Assistance
+Abbreviations
+   AEECA             Assistance to Europe, Eurasia, and Central Asia
+   CDC               Centers for Disease Control and Prevention
+   CERP              Commanders Emergency Response Program
+   DA                Development Assistance
+   DAC               Development Assistance Committee of the OECD
+   DFC               U.S. International Development Finance Corporation
+   DOD               Department of Defense
+   ERMA              Emergency Refugee and Migration Assistance
+   ESF               Economic Support Fund
+   FAA               Foreign Assistance Act of 1961
+   FFPA              Food for Peace Act (also may be referred to as P.L. 480)
+   FMF               Foreign Military Financing
+   FSA               FREEDOM (Freedom for Russia and Emerging Eurasian Democracies and Open Markets)
+                     Support Act of 1992
+   GDP               Gross Domestic Product
+   GNI               Gross National Income
+   HHS               Department of Health and Human Services
+   HIPC              Heavily Indebted Poor Country
+   IBRD              World Bank, International Bank for Reconstruction and Development
+   IDA               World Bank, International Development Association
+   IDA               International Disaster Assistance
+   IMET              International Military Education and Training
+   IMF               International Monetary Fund
+   INCLE             International Narcotics Control and Law Enforcement
+   INL               Department of State, Office of International Narcotics and Law Enforcement
+   IO&P              International Organizations and Programs
+   MCC               Millennium Challenge Corporation
+   MDBs              Multilateral Development Banks
+   MDRI              Multilateral Debt Relief Initiative
+   MRA               Migration and Refugee Assistance
+   NADR              Nonproliferation, Anti-terrorism, Demining, and Related programs
+   NED               National Endowment for Democracy
+   NGO               Nongovernmental Organization
+   OCO               Overseas Contingency Operations
+   ODA               Official Development Assistance
+
+
+
+
+Congressional Research Service                                                                             33
+                                               Foreign Assistance: An Introduction to U.S. Programs and Policy
+
+
+
+
+   OECD              Organization for Economic Cooperation and Development
+   OFDA              Office of Foreign Disaster Assistance
+   OGAC              Office of the Global AIDS Coordinator
+   OHDACA            DOD’s Overseas Humanitarian, Disaster and Civic Assistance account
+   OMB               Office of Management and Budget
+   OPIC              Overseas Private Investment Corporation
+   OTI               Office of Transition Initiatives
+   PEPFAR            President’s Emergency Plan for AIDS Relief
+   PKO               Peacekeeping Operations
+   PVO               Private Voluntary Organization
+   SEED              Support for East European Democracy Act of 1989
+   TDA               U.S. Trade and Development Agency
+   UNDP              United Nations Development Program
+   UNICEF            United Nations Children’s Fund
+   USAID             U.S. Agency for International Development
+
+
+
+
+Author Information
+
+Emily M. Morgenstern                                         Nick M. Brown
+Analyst in Foreign Assistance and Foreign Policy             Analyst in Foreign Assistance and Foreign Policy
+
+
+
+
+Acknowledgments
+This report was originally coauthored by retired CRS Specialist in Foreign Policy Curt Tarnoff.
+
+
+
+Disclaimer
+This document was prepared by the Congressional Research Service (CRS). CRS serves as nonpartisan
+shared staff to congressional committees and Members of Congress. It operates solely at the behest of and
+under the direction of Congress. Information in a CRS Report should not be relied upon for purposes other
+than public understanding of information that has been provided by CRS to Members of Congress in
+connection with CRS’s institutional role. CRS Reports, as a work of the United States Government, are not
+subject to copyright protection in the United States. Any CRS Report may be reproduced and distributed in
+its entirety without permission from CRS. However, as a CRS Report may include copyrighted images or
+material from a third party, you may need to obtain the permission of the copyright holder if you wish to
+copy or otherwise use copyrighted material.
+
+
+
+
+Congressional Research Service             R40213 · VERSION 32 · UPDATED                                        34
+

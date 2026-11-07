@@ -1,5 +1,7 @@
+import { blueskyXSection, instagramSection } from "./counts";
 import type { Draft } from "./drafts";
-import type { CellRef, Derivation } from "./types";
+import { slotLabel } from "./schedule";
+import type { CellRef, Derivation, Frequency, InsightKind, NewsTrigger, Release } from "./types";
 
 /**
  * The GitHub issue for one draft: image, the exact post text, every fact traced to its data cells, and a hidden
@@ -10,8 +12,42 @@ export const DRAFT_LABEL = "social-draft";
 export const APPROVED_LABEL = "social-approved";
 export const POSTED_LABEL = "social-posted";
 
-/** What the poster needs, stored in the issue body as an HTML comment. */
-export type DraftBlock = { id: string; caption: string; link: string; image_url: string; alt: string; facts: { id: string; text: string; president?: string }[] };
+export const INTRO_LABEL = "social-intro";
+/** News drafts (pipeline/insights/news): approving one posts it within minutes instead of at the next slot. */
+export const NEWS_LABEL = "social-news";
+export const EXPIRED_LABEL = "social-expired";
+
+/** What the scheduler and posters need, stored in the issue body as an HTML comment. */
+export type DraftBlock = {
+  id: string;
+  kind: InsightKind | "intro";
+  dataset: string;
+  series_id: string;
+  period: string;
+  /** How often the data comes out (sets the freshness window); absent on the intro. */
+  frequency?: Frequency;
+  score: number;
+  caption: string;
+  link: string;
+  /** Null for the text-only intro thread. */
+  image_url: string | null;
+  alt: string;
+  facts: { id: string; text: string; president?: string }[];
+  release: Release | null;
+  /** The intro only: the whole thread per platform (posts in order, each a reply to the one before). */
+  thread?: { bluesky: string[]; x: string[] };
+  /** News drafts: the caption must start with this (checked again before posting). */
+  lead?: string;
+  /** News drafts: the story, and when the draft stops being postable. */
+  news?: NewsTrigger;
+  /**
+   * A data draft's long-form thread: the replies after the chart post, in order (thread.ts), each a reply to the one
+   * before; a reply with an image is a chart. The last reply gets the link when it posts. Absent: the draft is one post.
+   */
+  replies?: { text: string; image_url?: string; alt?: string }[];
+  /** The number tokens the replies were generated with; an edited reply may not add another. */
+  reply_numbers?: string[];
+};
 
 const OPEN = "<!-- social-draft";
 const CLOSE = "-->";
@@ -25,7 +61,10 @@ function cellText(c: CellRef): string {
   const key = Object.entries(c.key)
     .map(([k, v]) => `${k}=${v}`)
     .join(", ");
-  return `\`${c.file.replace(/^pipeline\/output\//, "")}\` ${key}${c.field === "__row" ? "" : ` → ${c.negate ? "−" : ""}${c.field}`}`;
+  const d = c.derive;
+  // A derived value says how: the cell it is read at, then the one it is compared with (or deflated by).
+  const how = !d ? "" : d.op === "deflate" ? ` × ${cellText(d.base)} ÷ ${cellText(d.by)}` : d.op === "diff" ? ` − ${cellText(d.from)}` : ` ÷ ${cellText(d.from)} − 1, as a percent`;
+  return `\`${c.file.replace(/^pipeline\/output\//, "")}\` ${key}${c.field === "__row" ? "" : ` → ${c.negate ? "−" : ""}${c.field}${c.index === undefined ? "" : `[${c.index}]`}`}${how}`;
 }
 
 function cellsText(cells: CellRef[]): string {
@@ -40,6 +79,8 @@ export function derivationText(d: Derivation): string {
       return cellsText(d.cells);
     case "pct_change":
       return `% change from ${cellsText(d.from)} to ${cellsText(d.to)}`;
+    case "share":
+      return `${d.remainder ? "share of the whole that is not the part" : "share of the whole"}: part ${cellsText(d.part)}; whole ${cellsText(d.whole)}`;
     case "change":
       return `change from ${cellsText(d.from)} to ${cellsText(d.to)}`;
     case "date":
@@ -50,11 +91,35 @@ export function derivationText(d: Derivation): string {
 }
 
 export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: string; runUrl?: string } = {}): string {
-  const block: DraftBlock = { id: draft.id, caption: draft.caption, link: draft.link, image_url: imageUrl, alt: draft.alt, facts: draft.facts.map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}) })) };
-  // "--" cannot appear inside an HTML comment; JSON lets us escape it.
-  const json = JSON.stringify(block, null, 2).replace(/--/g, "-\\u002d");
+  const block: DraftBlock = {
+    id: draft.id,
+    kind: draft.kind,
+    dataset: draft.dataset,
+    series_id: draft.series_id,
+    period: draft.period,
+    frequency: draft.frequency,
+    score: draft.score,
+    caption: draft.caption,
+    link: draft.link,
+    image_url: imageUrl,
+    alt: draft.alt,
+    facts: draft.facts.map((f) => ({ id: f.id, text: f.text, ...(f.president ? { president: f.president } : {}) })),
+    release: draft.release,
+    ...(draft.lead ? { lead: draft.lead } : {}),
+    ...(draft.news ? { news: draft.news } : {}),
+    ...(draft.replies?.length
+      ? {
+          replies: draft.replies.map((r) => ({ text: r.text, ...(r.image ? { image_url: `${imageUrl.slice(0, imageUrl.length - draft.image.length)}${r.image}`, alt: r.alt } : {}) })),
+          reply_numbers: draft.reply_numbers ?? [],
+        }
+      : {}),
+  };
+  const r = draft.release;
+  const n = draft.news;
   return [
     `![${draft.alt.replace(/[[\]]/g, "")}](${imageUrl})`,
+    "",
+    "## Bluesky and X",
     "",
     "**Post text**",
     "",
@@ -62,6 +127,16 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     draft.post_text,
     "```",
     "",
+    blueskyXSection(block),
+    "",
+    ...threadSection(block, draft.reply_notes),
+    ...whyReasonSection(draft),
+    "## Instagram",
+    "",
+    instagramSection(block),
+    "",
+    ...slidesSection(draft, imageUrl),
+    ...carouselWhySection(draft),
     `Dataset \`${draft.dataset}\` · ${draft.kind.replace("_", " ")} · period ${draft.period} · caption by ${draft.caption_source}${draft.caption_model ? ` (${draft.caption_model})` : ""}${extra.dataPr ? ` · data PR ${extra.dataPr}` : ""}${extra.runUrl ? ` · [run](${extra.runUrl})` : ""}`,
     "",
     "<details><summary>Every number the caption may use, traced to the data</summary>",
@@ -74,11 +149,63 @@ export function issueBody(draft: Draft, imageUrl: string, extra: { dataPr?: stri
     "",
     "</details>",
     "",
-    "**To approve:** add the `" + APPROVED_LABEL + "` label. **To reject:** close the issue. Nothing is posted automatically: Bluesky posting is disabled until the repo variable `SOCIAL_POSTING_ENABLED` is `true` (see `pipeline/insights/README.md`). To change the caption, edit `caption` in the block below; the poster re-checks it against the facts before posting.",
-    "",
-    `${OPEN}\n${json}\n${CLOSE}`,
+    ...(n
+      ? [
+          `**In the news** (${n.reason}):`,
+          "",
+          ...n.headlines.slice(0, 8).map((h) => `- ${h.feed === "whitehouse" ? "**Official:** " : ""}[${h.title.replace(/[[\]]/g, "")}](${h.url}) · ${h.source} · ${h.published.slice(0, 16).replace("T", " ")} UTC`),
+          "",
+          `**Freshness:** news drafts go stale fast. Approve by **${slotLabel(n.expiresAt)}** or it expires unposted. The caption opens with the fixed sentence "${draft.lead}" and does not describe the news; the headlines above are for you, not the post.`,
+          "",
+          "**To approve:** add the `" + APPROVED_LABEL + "` label. A news draft does not wait for a slot: it posts within a few minutes (or as soon as the spacing rules allow, see `pipeline/insights/README.md`). **To reject:** close the issue. Nothing posts while the repo variable `SOCIAL_POSTING_ENABLED` is unset. To change the caption, edit `caption` in the block below (keep the opening sentence); the poster re-checks it before posting.",
+          "",
+        ]
+      : []),
+    ...(r && !n
+      ? [
+          `**Freshness:** data released ${r.releasedOn}${r.estimated ? " (estimated)" : ""}; queue it by **${r.expiresOn}** or it expires unposted.${r.lagged ? " The data covers a period that ended " + r.periodEnd + ", so the chart and caption say it is newly released." : ""}`,
+          "",
+        ]
+      : []),
+    ...(n ? [] : ["**To approve:** add the `" + APPROVED_LABEL + "` label. That queues it; the scheduler posts it at the next open slot (one or two a weekday, see `pipeline/insights/README.md`). **To reject:** close the issue. Nothing posts while the repo variable `SOCIAL_POSTING_ENABLED` is unset. To change the caption, edit `caption` in the block below; the poster re-checks it against the facts before posting.", ""]),
+    blockComment(block),
     "",
   ].join("\n");
+}
+
+/**
+ * The thread's replies for review: each one's text and, for a chart, its image. They post in this order after the chart,
+ * on X and Bluesky; the link goes on the last. Editing a reply means editing `replies` in the block below.
+ */
+export function threadSection(block: Pick<DraftBlock, "replies">, notes?: string[]): string[] {
+  const replies = block.replies;
+  if (!replies?.length) return notes?.length ? [`**Thread:** none (${notes.join("; ")}). This posts as a single post.`, ""] : [];
+  return [
+    `**Thread** (${replies.length} replies after the chart post, on X and Bluesky; text only except the charts; to change a reply, edit \`replies\` in the block below):`,
+    "",
+    ...replies.flatMap((r, i) => [`${i + 2}. ${r.text.replace(/\n/g, "\n   ")}`, ...(r.image_url ? ["", `   ![${(r.alt ?? "").replace(/[[\]]/g, "")}](${r.image_url})`] : []), ""]),
+    ...(notes?.length ? [`Left out: ${notes.join("; ")}.`, ""] : []),
+  ];
+}
+
+/**
+ * The Instagram carousel (carousel.tsx), posted by hand: each slide as a thumbnail linking to the full 1080x1350 image,
+ * in order. The slides sit next to the chart image, so their URLs share its folder.
+ */
+export function slidesSection(draft: Pick<Draft, "image" | "slides">, imageUrl: string): string[] {
+  if (!draft.slides?.length) return [];
+  const base = imageUrl.slice(0, imageUrl.length - draft.image.length);
+  return [
+    `**Instagram slides** (${draft.slides.length}, 1080×1350): open each, save it, and upload them in this order with the Instagram text above.`,
+    "",
+    draft.slides.map((f, i) => `<a href="${base}${f}"><img src="${base}${f}" width="150" alt="Slide ${i + 1}"></a>`).join(" "),
+    "",
+  ];
+}
+
+/** The block as an HTML comment. "--" cannot appear inside one; JSON lets us escape it. */
+export function blockComment(block: DraftBlock): string {
+  return `${OPEN}\n${JSON.stringify(block, null, 2).replace(/--/g, "-\\u002d")}\n${CLOSE}`;
 }
 
 /** The hidden block from an issue body, or null when there is none or it does not parse. */
@@ -89,8 +216,34 @@ export function parseDraftBlock(body: string): DraftBlock | null {
   if (end < 0) return null;
   try {
     const v = JSON.parse(body.slice(start + OPEN.length, end)) as DraftBlock;
-    return typeof v.caption === "string" && typeof v.link === "string" && typeof v.image_url === "string" && Array.isArray(v.facts) ? v : null;
+    return typeof v.caption === "string" && typeof v.link === "string" && (typeof v.image_url === "string" || v.image_url === null) && Array.isArray(v.facts) ? v : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Why the number moved (research.ts), for review, in two parts that sit with the platform they are for. The reason the post
+ * sentence gives (Bluesky and X; Instagram's caption repeats it), checked against the sources before approving; or why there is none.
+ */
+export function whyReasonSection(draft: Pick<Draft, "why" | "why_error">): string[] {
+  const w = draft.why;
+  if (!w) return draft.why_error ? [`**Why it moved:** none found (${draft.why_error}). The carousel explains the measure instead; add a reason by hand in \`pipeline/insights/why.ts\` if one is needed.`, ""] : [];
+  return [`**Why it moved** (check it against the sources before approving): ${w.captionLine}`, ""];
+}
+
+/** The carousel's reasons slide (Instagram): its paragraphs and every source, linked. */
+export function carouselWhySection(draft: Pick<Draft, "why">): string[] {
+  const w = draft.why;
+  if (!w) return [];
+  return [
+    `<details><summary>Carousel slide "${w.title}" and its sources</summary>`,
+    "",
+    ...w.paragraphs.flatMap((p) => [`> ${p}`, ">"]).slice(0, -1),
+    "",
+    ...w.sources.map((s) => `- [${s.name.replace(/[[\]]/g, "")}](${s.url})`),
+    "",
+    "</details>",
+    "",
+  ];
 }

@@ -1,0 +1,206 @@
+# saved 2026-10-27 from https://www.bls.gov/news.release/cesan.nr0.htm
+Consumer Expenditures--2024 - 2024 A01 Results
+Economic News Release
+SHARE ON:
+-->
+PRINT:
+CE
+Consumer Expenditure Survey
+&times;
+CE Homepage
+CE FAQs
+Contact CE
+Close
+Consumer Expenditures--2024
+For release 10:00 a.m. (ET) Friday, December 19, 2025 USDL-25-1586
+Technical information: (202) 691-6900 * CEXInfo@bls.gov * www.bls.gov/cex
+Media contact: (202) 691-5902 * PressOffice@bls.gov
+Consumer Expenditures--2024
+Average annual expenditures for all consumer units in 2024 were $78,535, the U.S. Bureau of Labor Statistics
+reported today. Average annual expenditures for all consumer units in 2023 were $77,158. (See table A.) Average
+income before taxes was $104,207 in 2024 and was $101,805 in 2023.
+Table B shows average annual expenditure shares for the 14 major components of total expenditures.
+Table A shows the average annual expenditures and associated percent changes by components of total expenditures.
+Among the major components of total expenditures, the only statistically significant increase was found in housing.
+Average annual expenditures on housing increased 3.3 percent in 2024, after a 4.7-percent increase in 2023. Within
+this category, expenditures on owned dwellings and rented dwellings both increased in 2024, by 7.0 percent and 5.4
+percent, respectively.
+Table C provides the average annual expenditures by income quintile. In 2024, average annual expenditures ranged from
+$35,046 for consumer units in the lowest income quintile to $150,342 for consumer units in the highest income quintile.
+(For information about how income quintiles are constructed, see the methodology section.)
+Table A. Average income and expenditures of all consumer units, Consumer Expenditure Surveys, 2022-24
+__________________________________________________________________________________________________________________
+Percent change
+Item 2022 2023 2024 2022-23 2023-24
+------------------------------------------------------------------------------------------------------------------
+Number of consumer units (in thousands)(a) 134,090 134,556 135,760 0.3 0.9
+Average income before taxes $94,003 $101,805 $104,207 8.3* 2.4
+Average annual expenditures $72,973(b) $77,158(b) $78,535 5.7* 1.8
+Food 9,343 9,985 10,169 6.9* 1.8
+Food at home 5,703 6,053 6,224 6.1* 2.8
+Cereals and bakery products 712 830 779 16.6* -6.1*
+Meats, poultry, fish, and eggs 1,216 1,164 1,414 -4.3 21.5*
+Dairy products 532 602 631 13.2* 4.8*
+Fruits and vegetables 1,099 988 953 -10.1* -3.5
+Other food at home 2,144 2,469 2,447 15.2* -0.9
+Food away from home 3,639 3,933 3,945 8.1* 0.3
+Alcoholic beverages 583 637 643 9.3* 0.9
+Housing 24,298 25,436 26,266 4.7* 3.3*
+Owned dwellings 8,230 8,699 9,310 5.7* 7.0*
+Rented dwellings 4,990 5,370 5,660 7.6* 5.4*
+Other lodging 1,287 1,430 1,347 11.1 -5.8
+Apparel and services 1,945 2,041 2,001 4.9 -2.0
+Transportation 12,295 13,174 13,318 7.1* 1.1
+Vehicle purchases (net outlay) 4,496 5,539 5,337 23.2* -3.6
+Gasoline 2,805 2,449 2,411 -12.7* -1.6
+Other vehicle expenses 3,834 3,845 4,206 0.3 9.4*
+Vehicle insurance 1,592 1,775 1,993 11.5* 12.3*
+Public and other transportation 845 1,096 1,131 29.7* 3.2
+Healthcare 5,856(b) 6,159 6,197 5.2* 0.6
+Health insurance 3,848(b) 4,049 4,055 5.2* 0.1
+Medical services 1,184 1,252 1,252 5.7 0.0
+Drugs 615 591 658 -3.9 11.3
+Medical supplies 209 267 233 27.8* -12.7
+Entertainment 3,458 3,635 3,609 5.1 -0.7
+Personal care products and services 866 950 978 9.7* 2.9
+Reading 117 117 125 0.0 6.8
+Education 1,335 1,535(b) 1,569 15.0 2.2
+Tobacco products and smoking supplies 371 370 352 -0.3 -4.9
+Miscellaneous 1,009 1,184 1,218 17.3* 2.9
+Cash contributions 2,755 2,378 2,292 -13.7 -3.6
+Personal insurance and pensions 8,742 9,556 9,797 9.3* 2.5
+Life and other personal insurance 519 546 575 5.2 5.3
+Retirement, pensions, and Social Security 8,223 9,011 9,222 9.6* 2.3
+Contributions to retirement plans 1,699 1,925 1,991 13.3* 3.4
+Deductions for Social Security 6,009 6,508 6,684 8.3* 2.7*
+Note: Only selected subcategories are shown; as a result, some subcategories do not sum to their respective major item category.
+a Change over time in number of consumer units is not evaluated for statistical significance.
+b Estimates differ from those published in previous annual news releases, due to corrections that occurred post-publication. These
+corrections did not meet the BLS Consumer Expenditure Surveys program's threshold for republication.
+* The differences in the means associated with the percent change are significant at the 95 percent confidence level. See methodology
+section for more information.
+_________________________________________________________________________________________________________________________________________
+Table B. Percent distribution of total annual expenditures by major components for all consumer units, Consumer Expenditure Surveys, 2024
+_________________________________________________
+Spending Category 2024
+-------------------------------------------------
+Average annual expenditures 100.0
+Food 12.9
+Alcoholic beverages 0.8
+Housing 33.4
+Apparel and services 2.5
+Transportation 17.0
+Healthcare 7.9
+Entertainment 4.6
+Personal care products and services 1.2
+Reading 0.2
+Education 2.0
+Tobacco products and smoking supplies 0.4
+Miscellaneous 1.6
+Cash contributions 2.9
+Personal insurance and pensions 12.5
+Note: Percentages do not add to 100.0 due to rounding.
+_________________________________________________________________________________________________________________________________________
+Table C. Average annual expenditures by income quintile, Consumer Expenditure Surveys, 2024
+______________________________________________________________________________________________________________
+Item All Lowest Second Third Fourth Highest
+consumer Quintile Quintile Quintile Quintile Quintile
+units
+--------------------------------------------------------------------------------------------------------------
+Average annual expenditures $78,535 $35,046 $50,054 $66,900 $89,972 $150,342
+______________________________________________________________________________________________________________
+Additional Information
+Data Products
+In addition to expenditures, the BLS Consumer Expenditure Surveys (CE) program also collects data on income, demographics, assets,
+and liabilities. Tables with more expenditure detail than are presented here are available at www.bls.gov/cex/tables.htm. Published
+tables provide 2024 CE data by standard classifications that include income quintile, income decile, income range, age of reference
+person, generation of reference person, size of consumer unit, number of earners, composition of consumer unit, region of residence,
+Census division of residence, housing tenure, race, Hispanic origin, occupation, highest education level of any member, and type of
+area (urban or rural). These tables include expenditure means, shares of total expenditures, standard errors, and relative standard
+errors. Tables showing annual aggregate expenditures (total dollars spent in the economy) for various items by these demographic
+groups are also available. Expenditure tables by age, region, family size, or sex cross-tabulated by income before taxes and other
+demographic variables can also be found on the CE website. Furthermore, a table showing results for all consumer units including the
+most detailed breakdown of expenditures is available at www.bls.gov/cex/tables/top-line-means.htm. Historical published tables for
+data dating back to 1984 and for selected metropolitan area tabulations are also available. Unpublished, but releasable, tables of
+detailed expenditures by demographic characteristic can be obtained by sending a request to cexinfo@bls.gov.
+The CE LABSTAT database provides tools to access CE estimates and can be found at www.bls.gov/cex/data.htm. Documentation on how to
+use the CE LABSTAT database is available at www.bls.gov/cex/labstat/ce-labstat-getting-started-guide.htm. This year, the LABSTAT
+database includes estimates on relative standard errors and percent reporting from 2010-24, and a more detailed breakout of aggregate
+and shares of aggregate expenditures from 2011-24. Annual means, standard errors, and shares of total expenditures, including detailed
+level estimates, are also available for 17 different demographic characteristics, and for all consumer units for 2010-24.
+Additionally, CE public use microdata (PUMD) for 1980 through 2024 are available at www.bls.gov/cex/pumd_data.htm. The PUMD includes
+Interview Survey files, Diary Survey files, and paradata (information about the data collection process). The Interview Survey files
+contain expenditure data in three different formats: MTBI files that present monthly values in an item-coding framework based on the
+CPI-U pricing scheme; FMLI files that present user-friendly summary expenditure variables (e.g., total expenditures on all goods and
+services, total expenditures on food, etc.); and detailed data files that organize expenditures by the section of the Interview Survey
+questionnaire in which they are collected. Expenditure values in detailed data files cover different time periods depending on the
+specific questions asked, and the files also contain relevant non-expenditure information not found in the MTBI files, such as for
+health insurance, policy type, and number of persons covered. The Diary Survey files contain expenditure data in two different formats:
+EXPD files that present weekly values in the same item-coding framework based on the CPI-U pricing scheme, and FMLD files that present
+user-friendly summary expenditure variables (e.g., food at home, cereal and bakery products, beef, etc.). Documentation of the CE PUMD,
+its conventions, files, sample code, and methodology can be found at www.bls.gov/cex/pumd-getting-started-guide.htm.
+BLS prepares special tabulations for other federal agencies based on the CE data. Users can obtain these historical tabulations by
+sending a request to cexinfo@bls.gov.
+Publications
+BLS publishes additional information on the CE related to survey data, trends, analysis, and methods. These publications are available
+at www.bls.gov/cex/csxreport.htm. Additional CE program publications, documents, and presentations are available via the CE Library at
+www.bls.gov/cex/research_papers/research-paper-catalog.htm. Information on the methodology used to calculate and collect CE data is
+available at www.bls.gov/opub/hom/cex/home.htm.
+The 2024 Data Quality Profile, which reports quality metrics and indicators for the Interview and Diary Surveys regarding measurement,
+nonresponse, and processing error, will be available at www.bls.gov/cex/cecomparison.htm shortly after publication of this release.
+The 2024 Annual Report, which includes more detailed information on spending patterns, is planned for publication in 2026.
+(See www.bls.gov/cex/csxreport.htm#annual). The 2023 Annual Report, published December 2024, is available at
+www.bls.gov/opub/reports/consumer-expenditures/2023/home.htm.
+Methodology
+Significance Testing. Significance tests for differences in means shown in Table A were performed using t-tests. Differences denoted
+with an asterisk are statistically significant due to their t-values being 1.96 or greater, while differences without an asterisk are
+not statistically significant due to their t-values being less than 1.96. While the asterisks in Table A are shown next to percent
+changes, it is the differences in dollar amounts that were tested for statistical significance. The standard errors used in the t-tests
+were computed using the method of balanced repeated replication.
+Components of Income Before Taxes. Income before taxes in the CE includes the following components: Wages and salaries; self-employment
+income; Social Security; private and government retirement; interest and dividends; rental and other property income; unemployment,
+workers' compensation, and veterans' benefits; public assistance, supplemental security income, and food stamps; regular contributions
+for support; and other income. Not included in these estimates are government subsidies for businesses, as these are out of scope for
+the CE.
+CE Instrument Redesign. Over the years, the CE have faced declining response rates, measurement error due to underreporting, and an
+evolving consumer environment. In July 2013, BLS approved a redesign proposal, outlining the future direction of the CE. BLS focused
+on the phased implementation of an online Diary Survey in 2022, and a streamlined Interview Survey questionnaire that began implementation
+in 2023. The latest phase of the streamlined Interview Questionnaire was implemented as part of the 2024 data collection effort. Updates
+implemented as part of this phase focused mainly on housing and medical expenditure sections of the Interview Survey. Specific changes
+were made to data collection on rental and owned properties, utilities and fuels, vehicle expenses on out-of-town trips, and medical
+expenses. For more information on how the BLS is maintaining data quality in the face of declining response rates, please visit
+www.bls.gov/blog/2023/what-is-bls-doing-to-maintain-data-quality-as-response-rates-decline.htm.
+Flagging Estimates to Identify High Relative Standard Errors. Beginning with the release of the 2024 publication tables in December 2025,
+BLS is including mean estimates that have relative standard errors (RSEs), which are defined as the ratio of the standard error (SE) to
+the mean, that equal or exceed 25 percent and were previously suppressed. The BLS CE program considers mean estimates with RSEs of 25
+percent or more to be unreliable. Instead of being suppressed, as they were from 2022 to 2023, these estimates are now flagged to inform
+data users of their high RSE and that they should be used with caution. In these cases, the mean expenditure, share of total expenditures,
+SE, and RSE will have an associated footnote identifying the high RSE. Several factors influence the RSE. For example, RSEs tend to be
+smaller for the nationwide estimates than for individual demographic groups. This is primarily due to their different sample sizes as, in
+general, RSEs decrease as the sample size increases. In addition, RSEs often decrease as the frequency of purchases increases. That is,
+infrequently purchased items are more susceptible to large RSEs while frequently purchased items tend to have smaller RSEs. For more
+information on variance estimation see the Tables Getting Started Guide at www.bls.gov/cex/tables-getting-started-guide.htm#section5.
+BLS has also updated the 2022 and 2023 data via the CE LABSTAT database to include estimates that are flagged due to high RSEs.
+Income After Taxes. The provider of the external tax estimation model that BLS uses to generate estimates of federal and state tax liabilities
+and after-tax income did not update the model for the 2024 tax year. Therefore, BLS is unable to produce federal tax estimates, state tax
+estimates, and estimates of after-tax income in the 2024 tables, LABSTAT database, or public use microdata. For additional information see FAQ
+#41 at www.bls.gov/cex/csxfaqs.htm.
+Terminology. For more information on how terms used in this release are defined (such as consumer units, reference person, owned dwellings,
+etc.), see www.bls.gov/cex/csxgloss.htm.
+Income Quintiles. Income quintiles are constructed by sorting consumer units in the sample from lowest to highest income before taxes.
+The population weight (i.e., the number of consumer units within the population that each sampled unit represents) associated with each
+consumer unit is summed with those of the consumer units preceding it in the sorted set, resulting in its cumulative frequency count.
+The first quintile includes all consumer units for which the cumulative frequency count is less than or equal to 20 percent of the number
+of consumer units in the population. The second quintile includes all those consumer units for which the cumulative frequency count is
+greater than 20 percent, but less than or equal to 40 percent of the population, and so forth. Because there were approximately 136
+million consumer units in the population in 2024, each quintile includes about 27 million consumer units. In 2024, the lower income bounds
+for each quintile were: $29,932 for the second quintile; $57,452 for the third quintile; $94,511 for the fourth quintile; and $155,925
+for the highest quintile. This and other definitions of CE terms are in the CE glossary at www.bls.gov/cex/csxgloss.htm.
+Contact Information
+For further information, contact the Division of Consumer Expenditure Surveys, Office of Prices and Living Conditions
+at (202) 691-6900 or by email at cexinfo@bls.gov. If you are deaf, hard of hearing, or have a speech disability, please
+dial 7-1-1 to access telecommunications relay services.
+HTML version of the entire news release
+The PDF version of the news release
+Table of Contents
+Last Modified Date: December 19, 2025

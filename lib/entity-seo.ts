@@ -95,17 +95,14 @@ export function memberSeo(m: MemberSeoInput): { title: string; description: stri
     return { title, jobDescription, description: firstFit([`${m.name}, ${adj} U.S. ${role} ${senate ? "from" : "for"} ${district}${since}. ${tail}`, `${m.name}, ${adj} ${role} from ${m.stateName}${since}. ${tail}`]) };
   }
 
-  const where = `where ${m.lastName} has stood${since}`;
-  const n = m.lawsSponsored.toLocaleString("en-US");
-  const laws = m.lawsSponsored > 0 ? `the ${n} ${m.lawsSponsored === 1 ? "law" : "laws"} ${m.lastName} sponsored` : null;
-  const lawsShort = m.lawsSponsored > 0 ? `${n} ${m.lawsSponsored === 1 ? "law" : "laws"} sponsored` : null;
-  const worth = m.netWorth != null ? (m.netWorth < 0 ? "an estimated net worth below zero" : `an estimated ${moneyWords(m.netWorth)} net worth`) : null;
-  const worthShort = m.netWorth != null ? (m.netWorth < 0 ? "a net worth below zero" : `a ${moneyWords(m.netWorth)} net worth`) : null;
+  const record = `${m.lastName}'s voting record${since}`;
+  const lawsShort = m.lawsSponsored > 0 ? `${m.lawsSponsored.toLocaleString("en-US")} ${m.lawsSponsored === 1 ? "law" : "laws"} sponsored` : null;
+  const worth = m.netWorth != null ? (m.netWorth < 0 ? "estimated net worth below zero" : `estimated ${moneyWords(m.netWorth)} net worth`) : null;
   const list = (parts: (string | null)[]) => {
     const p = parts.filter((x): x is string => !!x);
     return p.length <= 2 ? p.join(" and ") : `${p.slice(0, -1).join(", ")} and ${p[p.length - 1]}`;
   };
-  const tails = [` See ${list([where, laws, worth])}.`, ` See ${list([where, lawsShort, worthShort])}.`, ` See ${list([where, lawsShort ?? worthShort])}.`, ` See ${where}.`, ""];
+  const tails = [` Explore ${list([record, "committee seats", lawsShort, worth])}.`, ` Explore ${list([record, "committee seats", worth])}.`, ` Explore ${list([record, worth])}.`, ` Explore ${list([record, "committee seats"])}.`, ""];
   return { title, jobDescription, description: firstFit(tails.map((t) => `${m.name} ${peer}.${t}`)) };
 }
 

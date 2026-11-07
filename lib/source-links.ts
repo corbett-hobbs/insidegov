@@ -48,6 +48,12 @@ export const SOURCE_LINKS = {
   // The Members directory's "Most looked up" order (pipeline/wikipedia/pageviews.ts).
   "wikimedia-pageviews": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/reference/page-views.html",
   // The presidency
+  "doj-clemency-statistics": "https://www.justice.gov/pardon/clemency-statistics",
+  "doj-clemency-recipients": "https://www.justice.gov/pardon/clemency-recipients",
+  "doj-clemency-past": "https://www.justice.gov/pardon/past-clemency-action-and-statistics",
+  "doj-clemency-trump-2025": "https://www.justice.gov/pardon/clemency-grants-president-donald-j-trump-2025-present",
+  "doj-biden-commutations": "https://www.justice.gov/pardon/commutations-granted-president-joseph-biden-2021-2025",
+  "fr-proclamation-10887": "https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-01950.htm",
   "federal-register-eo": "https://www.federalregister.gov/presidential-documents/executive-orders",
   // Federal Register search for the Presidential Determinations on refugee
   // admissions (document type "determination"); the pipeline reads each one
@@ -134,6 +140,9 @@ export const SOURCE_LINKS = {
   "fred-deficit-usd": "https://fred.stlouisfed.org/series/FYFSD",
   "fred-debt-usd": "https://fred.stlouisfed.org/series/FYGFDPUN",
   "freddie-mac-pmms": "https://www.freddiemac.com/pmms",
+  "fred-fed-funds": "https://fred.stlouisfed.org/series/FF",
+  "fred-treasury-10y": "https://fred.stlouisfed.org/series/WGS10YR",
+  "federal-reserve-h15": "https://www.federalreserve.gov/releases/h15/",
   nber: "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions",
   // Economy context lines (rule 7d), added with them: the Fed's FOMC statements and CBO's CARES Act estimate (April 16, 2020).
   "fomc-statements": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",

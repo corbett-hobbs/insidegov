@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-06T21:32:41.110Z","series":{"id":"COIMPUS","title":"Crude Oil Imports, Total in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=COIMPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-03T19:31:02.713Z","series":{"id":"COIMPUS","title":"Crude Oil Imports, Total in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=COIMPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","2732.032"],
     ["1973-02","2872.607"],
@@ -643,7 +643,8 @@
     ["2026-04","6256.833"],
     ["2026-05","5953.226"],
     ["2026-06","6043.7"],
-    ["2026-07","5878.614"],
-    ["2026-08","6708.995"]
+    ["2026-07","6224.097"],
+    ["2026-08","6708.995"],
+    ["2026-09","6397.993"]
   ]
 }

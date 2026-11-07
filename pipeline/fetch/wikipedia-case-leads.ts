@@ -11,7 +11,9 @@ import type { WikiCaseEntry } from "./wikipedia-cases-lib";
  *   pnpm fetch:wikipedia-case-leads          # only titles not fetched before
  *   pnpm fetch:wikipedia-case-leads -- --all # every title again (picks up edits to the articles)
  *
- * The titles are the lists' own links and where their redirects land (the matcher hands back either).
+ * The titles are the lists' own links and where their redirects land (the matcher hands back either), plus every title the
+ * last transform linked in `decisions_articles.json`: a landmark keeps the landmark list's own link ("Citizens United v.
+ * Federal Election Commission"), which the volume and term lists may spell differently ("Citizens United v. FEC").
  *
  * `transform/wikipedia-case-summaries.ts` picks one sentence from each lead; the site shows that sentence with a link back to
  * the article. Wikipedia text is CC BY-SA 4.0.
@@ -54,7 +56,8 @@ async function getBatch(titles: readonly string[]): Promise<Reply> {
 async function main() {
   const articles = JSON.parse(await readFile(`${DIR}/articles.json`, "utf8")) as { entries: WikiCaseEntry[]; redirects: Record<string, string> };
   // The matcher hands back a list's own title or where its redirect lands, so keep a lead under both.
-  const all = [...new Set([...articles.entries.flatMap((e) => (e.title ? [e.title] : [])), ...Object.values(articles.redirects)])].sort();
+  const linked = (await readFile("pipeline/output/decisions_articles.json", "utf8").then(JSON.parse).catch(() => [])) as { title: string | null }[];
+  const all = [...new Set([...articles.entries.flatMap((e) => (e.title ? [e.title] : [])), ...Object.values(articles.redirects), ...linked.flatMap((a) => (a.title ? [a.title] : []))])].sort();
   const prior = process.argv.includes("--all") ? null : ((await readFile(`${DIR}/leads.json`, "utf8").then(JSON.parse).catch(() => null)) as { leads: Record<string, string>; none?: string[] } | null);
   const leads: Record<string, string> = { ...(prior?.leads ?? {}) };
   const none = new Set(prior?.none ?? []);

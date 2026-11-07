@@ -1,0 +1,156 @@
+{
+  "page": "foreign-aid",
+  "dataFiles": [
+    "pipeline/output/foreign_assistance.json",
+    "pipeline/output/foreign_assistance_meta.json"
+  ],
+  "groups": [
+    {
+      "row": "Spending",
+      "questions": [
+        {
+          "id": "who-decides-aid",
+          "kind": "matters",
+          "q": "Who decides how much foreign aid the U.S. gives?",
+          "searched": "who controls foreign aid spending",
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ],
+          "brief": "Congress sets nearly every aid account's funding each year in the State, Foreign Operations appropriations bill (food aid in the Agriculture bill, some military aid in Defense), under standing laws such as the Foreign Assistance Act of 1961; executive agencies then carry the programs out. Offices and committees, not people. Give no dollar figures from the CRS report, which is dated 2022. USAID stopped implementing foreign aid on July 1, 2025, and some of its work moved to the State Department: never name USAID as an agency that runs aid now (the past tense is fine).",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            },
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ]
+        },
+        {
+          "id": "economic-vs-military-aid",
+          "kind": "difference",
+          "q": "What is the difference between economic aid and military aid?",
+          "searched": "economic vs military aid",
+          "chartIds": [
+            "how-much-the-u-s-spends",
+            "where-it-goes-and-who-receives-the-most"
+          ],
+          "brief": "What each pays for (development, health, humanitarian and economic support; equipment, training and financing for foreign militaries), which departments run them, and what share of fiscal 2025 disbursements was military assistance. Figures only from the site's data, not from the CRS report, which is dated 2022. USAID stopped implementing foreign aid on July 1, 2025, and some of its work moved to the State Department: never name USAID as an agency that runs aid now (the past tense is fine).",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            },
+            {
+              "label": "ForeignAssistance.gov, U.S. foreign assistance disbursements",
+              "url": "https://foreignassistance.gov/data",
+              "facts": "aid"
+            },
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ]
+        },
+        {
+          "id": "humanitarian-vs-development",
+          "kind": "difference",
+          "q": "What is the difference between humanitarian aid and development aid?",
+          "searched": "difference between humanitarian aid and development aid",
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ],
+          "brief": "Immediate relief after disasters and conflict against long-term work on health, growth, governance and education; examples of each. No dollar figures from the CRS report, which is dated 2022.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            }
+          ]
+        },
+        {
+          "id": "bilateral-vs-multilateral",
+          "kind": "difference",
+          "q": "What is the difference between bilateral and multilateral aid?",
+          "searched": "bilateral vs multilateral aid",
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ],
+          "brief": "Aid the U.S. gives and runs itself for a country or region, against U.S. money pooled with other donors through international organizations and the multilateral development banks; the trade-off in control. Not the same as U.S. dues to the United Nations. No dollar figures from the CRS report, which is dated 2022. USAID stopped implementing foreign aid on July 1, 2025, and some of its work moved to the State Department: never name USAID as an agency that runs aid now (the past tense is fine).",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            },
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ]
+        },
+        {
+          "id": "usaid-vs-state",
+          "kind": "difference",
+          "q": "What is the difference between USAID and the State Department?",
+          "searched": "usaid and state department",
+          "chartIds": [
+            "how-much-the-u-s-spends"
+          ],
+          "brief": "USAID was the lead development and humanitarian agency, set up in 1961 and reporting to the Secretary of State; the State Department runs diplomacy and supervises foreign aid. Then what changed in 2025: as of July 1, 2025, USAID stopped implementing foreign aid and some of its work moved to State. The offices, not the people holding them; plain dates and facts, no judgement.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Agency for International Development: An Overview",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Recipients",
+      "questions": [
+        {
+          "id": "who-receives-most",
+          "kind": "matters",
+          "q": "Who receives the most U.S. foreign aid?",
+          "searched": "who receives the most us foreign aid",
+          "chartIds": [
+            "where-it-goes-and-who-receives-the-most",
+            "who-s-been-no-1"
+          ],
+          "brief": "The largest country recipients in fiscal 2025 with their amounts, and the share of that year's aid that went to global and regional programs rather than one country. Then, briefly, the largest so far in fiscal 2026, saying the year is only partly reported. Never say why a country got more.",
+          "sources": [
+            {
+              "label": "ForeignAssistance.gov, U.S. foreign assistance disbursements",
+              "url": "https://foreignassistance.gov/data",
+              "facts": "aid"
+            }
+          ]
+        },
+        {
+          "id": "who-receives-military-aid",
+          "kind": "matters",
+          "q": "Who receives U.S. military aid?",
+          "searched": "countries that receive us military aid",
+          "chartIds": [
+            "where-it-goes-and-who-receives-the-most"
+          ],
+          "brief": "The largest recipients of military assistance in fiscal 2025 with their amounts and shares, and what military aid consists of (Foreign Military Financing and training, for example). Fiscal 2025 only; figures from the site's data, not the CRS report, which is dated 2022.",
+          "sources": [
+            {
+              "label": "ForeignAssistance.gov, U.S. foreign assistance disbursements",
+              "url": "https://foreignassistance.gov/data",
+              "facts": "aid"
+            },
+            {
+              "label": "Congressional Research Service, Foreign Assistance: An Introduction to U.S. Programs and Policy",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R40213/R40213.32.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

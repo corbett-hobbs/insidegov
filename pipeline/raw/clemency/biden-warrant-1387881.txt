@@ -1,0 +1,566 @@
+                                                                                                                                     Privileged & Confidential/ Predecisional/Deliberative/DRAFT
+                                BOP
+Last              First         Reg        FBI                                     Date of               Docket         Date  Original 1st case           2nd case         3rd case                4th case           5th case          6th case        7th case        8th case   9th case   10th case   11th case 12th case 13th case 14th case
+Name              Name          Number     Number                 SSN               Birth       District Number    Sentenced Sentence statute             statute          statute                 statute            statute           statute         statute         statute    statute    statute     statute   statute   statute   statute
+ABNEY             JOHN          59761-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 1500092    08/30/2016      335 21 USC 846          18 USC 924C1A 21 USC 841B1A              18 USC 924C1AI
+ALEXANDER         REGINAL       28519-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1400604   10/05/2016      262 21 USC 846          21 USC 841A1 21 USC 841B1B
+ALI               NEKHENT       34432-057 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCM 1800180      04/16/2019      223 21 USC 841A1        21 USC 841B1C
+ALLEN             BURNELL       33006-034 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      LAE 1200138    08/12/2015      LIFE 21 USC 846
+ALVIN             RANDOLPH      18035-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       FLS 1920137   09/13/2019      188 21 USC 846
+ANDERSON          HERB          19119-078 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXE 1100166    02/13/2014      262 21 USC 846          21 USC 841B1A
+ANDREWS           DERWIN        55918-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MIE 2220114    07/17/2024        75 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C             18 USC 2
+ARDOIN            KODY          26348-078 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXE 1500119    08/24/2017      324 21 USC 846
+ARMSTRONG         DONTAY        35349-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCW 2000447      08/05/2021      240 21 USC 841A1        18 USC 922G1     21 USC 841B1A           21 USC 841B1B      18 USC 924A2      21 USC 841
+ARMSTRONG         DURANDELL     10972-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCW 2200119      11/08/2023        46 21 USC 846         21 USC 841A1     21 USC 841B1C
+ARRINGTON         ADRIAN        73982-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYW 2100156      01/09/2024        70 21 USC 841A1       18 USC 922G1     21 USC 841B1B           18 USC 924A2
+BADLEY            ANDRE         35563-060 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     OHN 2100361     08/30/2022      188 21 USC 841A1        18 USC 922G1     21 USC 841B1B           21 USC 841B1C      18 USC 924A2
+BAKER             BEVERLY       55561-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 1100237    12/11/2012      LIFE 21 USC 846         21 USC 841A1     18 USC 2
+BANKS             MONTA         39104-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAW 1800152     06/15/2021      150 21 USC 846
+BARBEE            HAROLD        20893-009 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ARE 1500302    04/27/2017      240 21 USC 846          21 USC 841B1A
+BARKER            DAVID         26141-039 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MIE 2020434    07/22/2021      262 21 USC 841A1
+BARNHILL-THOMAS   KYIEEM        46163-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        VT 2300004   12/02/2024        34 21 USC 846         21 USC 841B1C
+BARTLEY           MARX          38011-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MOE 2100563      08/21/2024        70 21 USC 841A1       21 USC 841B1C 21 USC 846
+BARTON            WILLIAM       01469-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAM 2000081     10/26/2021      180 21 USC 846          21 USC 841
+BATTLE            QUENTIN       56325-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 1200181    03/21/2013      420 21 USC 846          18 USC 1956
+BATTLE            DONA          64999-060 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     OHN 1700333     04/13/2018      210 21 USC 846
+BEDGOOD           JOHNNY        21971-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLN 1200071    09/26/2013      360 21 USC 841A1        18 USC 924C1AI 18 USC 922G               21 USC 841B1BIII   18 USC 2          18 USC 924E     21 USC 841B1C
+BELL              CHRISTOPHER   31356-009 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ARE 1700116    07/19/2018      144 21 USC 846          21 USC 841A1 21 USC 841B1B
+BELLAMY           COY           25305-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       FLS 2114002   08/17/2021        96 21 USC 841A1       21 USC 841B1BII 21 USC 846
+BENNETT           ORNANDES      17969-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       IAS 2000188   10/01/2021      169 21 USC 841A1        21 USC 841B1B 21 USC 846
+BIVINS            GEORGE        02723-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       FLS 1380034   04/11/2014      360 21 USC 846          21 USC 841A1
+BLACKSHEAR        GUY           92920-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     GAN 2200091     09/26/2023        60 21 USC 846         21 USC 841A1 21 USC 841B1B
+BOBO              MARCO         51150-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TNE 1600006    11/21/2016      292 21 USC 846          21 USC 841A1 21 USC 841B1A
+BONILLA           LUIS          63522-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 1700041    01/10/2018      168 21 USC 841A1        18 USC 924C1A 21 USC 841B1B              18 USC 924C1AI     21 USC 846
+BOREN             DAYZHONNA     32322-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TNM 2200354      11/26/2024        80 21 USC 841A1       18 USC 922G1 18 USC 924C
+BOYCE             ELIZABETH     54501-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TNE 1900046    03/19/2020      135 21 USC 841A1        21 USC 841B1A
+BOYCE             HAROLD        54143-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TNE 1900046    10/19/2021      188 21 USC 841A1        18 USC 924C1A 21 USC 841B1A
+BOYD              DAMON         05889-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAW 1200125     08/07/2014      360 21 USC 846          21 USC 841A1 21 USC 841B1BIII
+BOYD              KEVAUNDRE     18179-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXN 2000151    05/20/2021      210 21 USC 841A1        21 USC 841B1C
+BRADLEY           RAMELUS       28061-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MOW 1504054      05/31/2018      240 21 USC 841A1        18 USC 922G1 21 USC 841B1C               21 USC 841B1B      18 USC 924A2      21 USC 841
+BRANDON           JOHN          30336-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILN 1000257   10/22/2013      246 21 USC 841A1        18 USC 924C1A 21 USC 841B
+BRANTLEY          GREGORY       22189-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 2000196    07/27/2021      123 21 USC 841A1        18 USC 924C     18 USC 922G1             21 USC 841B1C      18 USC 924C1AI 18 USC 924A2
+BRITT             JAI           50584-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       NH 1900103    02/19/2020      120 21 USC 841A1        21 USC 841B1C 21 USC 841B1BIII
+BROOKS            TARIK         62353-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MD 1600429     04/07/2017      151 21 USC 841B1A       21 USC 846
+BROWN             JASON         07175-088 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      KYE 1300026    12/09/2014      288 21 USC 841A1
+BROWN             CHESTER       26825-077 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXN 1500226    08/19/2016      262 21 USC 846          21 USC 841A1 21 USC 841B1C
+BROWN             QUINTON       27574-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCW 1800158      09/24/2018      210 21 USC 846          21 USC 841A1 21 USC 841B1A
+BROWN             CHRISTOPHER   32313-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1700350   05/31/2019      262 21 USC 841A1        21 USC 841B1C
+BROWN             MORRIS        28504-078 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       IAS 1900004   02/26/2020      240 21 USC 841A1        21 USC 841B1C 21 USC 841B1AIII
+BROWN             ALONZO        97883-071 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1801134   03/04/2021        84 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C
+BROWN             RICHARD       13440-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       IAS 2000222   06/23/2022      264 21 USC 841A1        21 USC 841B1C 21 USC 841
+BROWN             ANTWAN        55660-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 2200096    05/18/2023      100 21 USC 841A1        21 USC 841B1B
+BROWN             CEDRIC        58171-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TNE 1900191    10/23/2023      357 21 USC 841A1        18 USC 922G1 18 USC 924C1C               21 USC 841B1C      18 USC 924A2
+BROWN             LARRY         18276-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     FLM 2200224     05/20/2024      111 21 USC 846          21 USC 841B1BII 21 USC 841B1BIII
+BROWN             LAWRENCE      00185-511 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXS 2400012    10/08/2024      120 21 USC 846          21 USC 841A1 21 USC 841B1A
+BRUMFIELD         RUDOLPH       05142-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYW 2006168      09/21/2022      210 21 USC 841A1        18 USC 922G1 21 USC 841B1A               18 USC 924A2       21 USC 841B1C
+BRUTON            JARED         22160-057 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCM 0100263      03/18/2005      420 21 USC 841A1        18 USC 924C1 21 USC 846                  21 USC 841B1A
+BRYANT            SPENCER       66044-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 1900113    12/12/2019      210 21 USC 841          21 USC 841A1 21 USC 841B1A               21 USC 841B1C
+BRYANT            CHARLES       60334-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXN 2000023    02/11/2021      210 21 USC 841A1        21 USC 841B1C
+BRYANT            TYSKI         50771-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 2100240   03/15/2022      180 21 USC 846          18 USC 924C1A 21 USC 841A1               21 USC 841B1A
+BRYANT            MAURICE       46311-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      CAE 2100104    10/17/2024      168 21 USC 846          21 USC 841A1
+BULLARD           JERRY         63220-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      VAE 1700079    07/21/2017      180 18 USC 924C1AI      21 USC 841A1 21 USC 846
+BUNKLEY           LEBRON        54382-060 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     OHN 1600267     03/08/2017      360 21 USC 841A1        18 USC 922G1 21 USC 841B1BI              21 USC 841B1C      21 USC 841B1BII 18 USC 924A2
+BURGOS            JONATHAN      87762-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NYS 2000182    12/07/2021        90 21 USC 846         21 USC 841A1 18 USC 2
+BURRELL           JUMOND        43944-279 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXW 1900100     11/12/2019      300 21 USC 846          21 USC 841A1 21 USC 841B1A               21 USC 841B1C      21 USC 841B1B
+BYERS             TEYREL        92194-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NYS 2300656    10/11/2024        42 21 USC 841B1C
+BYRD              THOMAS        28397-057 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCM 1100203      09/11/2012      322 21 USC 846          18 USC 924C1AI
+CADE              AUNDRE        29326-064 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OKW 1500093      06/01/2016      240 21 USC 841A1        18 USC 2
+CAMPBELL          ALSTON        17193-029 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAN 1702045    01/03/2019      262 21 USC 841A1        21 USC 841B1A 21 USC 841B1C              21 USC 846
+CAMPBELL          WILLIAM       17194-029 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAN 1702045    04/10/2019      360 21 USC 841A1        21 USC 841B1A 21 USC 841B1C              21 USC 846         21 USC 841
+CANADY            GERSHOM       56345-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      VAE 1700025    09/07/2017      188 21 USC 846          21 USC 841A1 21 USC 841B1B
+CANNADY           RODNEY        16940-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 0800258    03/25/2009      384 21 USC 841A1
+CARLO-ACOSTA      STEVEN        52199-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        PR 1800659   08/29/2019      108 18 USC 924C1A       21 USC 841A1 21 USC 841B1BIII
+CARR              TONY          42130-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      CAC 2100066    09/30/2022      188 21 USC 846          18 USC 922G     21 USC 841B1AIII         18 USC 924A2       21 USC 841B1BII
+CARTER            NATHANIEL     06238-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MD 2000095     02/23/2022        96 21 USC 846         18 USC 924C     18 USC 2
+CATLETT           DARNELL       16529-016 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        DC 1800059   08/09/2019      192 21 USC 841A1        21 USC 841B1AII 21 USC 841B1C
+CEASAR            KERMIT        01572-049 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       NH 2100184    07/27/2022      108 21 USC 841A1        21 USC 841B1C
+CHANDLER          CLARENCE      03580-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 2000466   09/06/2022      103 21 USC 841A1        18 USC 1349     18 USC 922G1             21 USC 841B1B      18 USC 2          18 USC 924A2    21 USC 846
+CHISOLM           ELIJAH        06838-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLN 0800022    04/15/2009      LIFE 21 USC 841A1       21 USC 841B1AII 21 USC 841B1BIII         21 USC 841B1C      21 USC 846
+CLARK             LARRY         26126-009 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ARE 1800357    02/03/2021      225 21 USC 846          21 USC 841A1
+CLARK             ROLONDO       22758-040 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MIW 1900280      03/29/2021      300 21 USC 841          21 USC 841B1BII 21 USC 841B1C
+COBB              DEXTER        03054-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     GAN 2200026     11/12/2024      110 21 USC 841B1BII     21 USC 841B1B 21 USC 846                 21 USC 841A1       18 USC 2
+COBY              RODNEY        63939-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MD 1800292     04/13/2022      480 21 USC 846          21 USC 841A1 18 USC 924C                 18 USC 922G1       21 USC 841B1BII 21 USC 841B1C 21 USC 841B1BV 18 USC 2
+COLE              JUSTIN        09926-029 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAN 2202062    03/11/2024      195 21 USC 841A1        181343          21 USC 846               21 USC 841
+COLEMAN           CYDRIC        37473-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TXN 1000038    02/10/2011      480 21 USC 846          18 USC 924C1AI 18 USC 924C1CI
+COLEMAN           QUBID         18271-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILC 1240031   05/29/2014      324 21 USC 846
+COLLINS           DERRICK       45215-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXW 2100144     11/30/2021      248 21 USC 841A1        18 USC 924C1 21 USC 841B1C
+COLSON            ERIC          64460-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        VT 2200012   11/03/2023        68 21 USC 846         18 USC 924C1AI 21 USC 856A2              21 USC 841A1       21 USC 856B       21 USC 841B1B
+COMBS             LARRY         21584-032 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      KYE 1700020    03/22/2018      138 21 USC 846
+COMMANDER         TONY          55574-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 1100031    09/06/2012      360 21 USC 846
+CONSTANT          TYSON         47643-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      TNE 1400069    06/11/2015      262 21 USC 841A1        21 USC 841B1C
+COPPEDGE          AARON         51805-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NCE 0900064    05/13/2010      LIFE 21 USC 846         21 USC 841A1 18 USC 2
+COSEY             EDDIE           11097-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 0700584    01/16/2009   400 21 USC 841B1A    21 USC 841
+COURTNEY          DERRICK         60332-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 2000023     04/15/2021   210 21 USC 846
+COWAN             MAURIOSANTANA   11299-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1000044    05/17/2013   300 21 USC 846       21 USC 841B1A 21 USC 841
+CRAIG             ARMISTEAD       03682-087 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WVN 1900017       09/13/2021   240 21 USC 841A1     21 USC 841B1C
+CRAWFORD          JOHN            55206-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      INS 2100232    03/31/2022   120 21 USC 841A1     18 USC 924C1
+CRUZ-ARROYO       JONIEL          50168-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        PR 1700191   04/15/2021   132 21 USC 841A1     18 USC 924C1A 21 USC 841B1C
+CRY               PATRICK         56363-039 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MIE 1820539     02/19/2019   144 21 USC 846
+CURREN            CHARLES         31658-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILS 2030165   01/11/2022   120 21 USC 841A1     18 USC 924C1A 21 USC 841B1C       21 USC 841B1B
+CURRY             FREDDIE         15498-071 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 0800729   03/30/2010   360 21 USC 846       21 USC 841A1 21 USC 841B1B        21 USC 841B1C       21 USC 841B1D
+DAILEY            ERNEST          58739-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1400072     03/11/2015   262 21 USC 841A1     18 USC 924C    21 USC 841B1B      18 USC 924C1AI
+DALE              CURTIS          11165-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1600033    02/27/2017   300 21 USC 841A1     18 USC 922G1 21 USC 841B1B        18 USC 924A2        21 USC 841
+DANDRIDGE         CHAMARE         22910-040 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 2000088       02/11/2021     96 21 USC 841A1    18 USC 924C1AI 21 USC 841B1C
+DANIELS           LAWRENCE        08036-025 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILS 0830185   05/11/2009   370 21 USC 841A1     18 USC 922G1 18 USC 924C1A        21 USC 841B1C       21 USC 841B1B 18 USC 9240
+DANIELS           HOLLIS          30298-424 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILN 0950041    10/04/2010   520 21 USC 846
+DANIELS           GREGORY         04795-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2000355     04/29/2022   264 21 USC 841A1     21 USC 846    21 USC 841B1C       21 USC 841B1A
+DANIELS           CARLOS          36526-086 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WAW 2100069       10/06/2022     96 18 USC 922G1    21 USC 841A1 18 USC 924C          21 USC 841B1C
+DANIELS           KUNTA           22992-084 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   VAW 2000016       11/08/2022   156 21 USC 841A1     21 USC 841B1C 21 USC 841B1B       21 USC 841
+DARBY             ORVILLE         13121-087 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WVN 1900065       02/09/2022   235 21 USC 841A1     21 USC 841B1C 21 USC 846
+DAVIDSON          RICHARD         32365-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TNE 0800169     07/19/2010   378 21 USC 841A1     18 USC 924C   21 USC 841B1C       21 USC 841B1B
+DAVIS             ELEKE           11881-042 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MSN 0300144      05/27/2004   LIFE 21 USC 841A     21 USC 841B1A
+DAVIS             LESTER          20415-001 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALN 0800302     07/29/2009   480 21 USC 841A1     18 USC 924C1D 18 USC 922G1        18 USC 924C1AI
+DAVIS             MALEEK          12204-028 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      INS 1400003    01/04/2018   216 21 USC 841A1     18 USC 924C   21 USC 846
+DAVIS             CHRISTOPHER     22787-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 1700230       05/22/2018   262 21 USC 846       18 USC 922G1 21 USC 841A1         18 USC 9240         21 USC 841B1A
+DAVIS             RONALD          08008-032 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     KYE 1900049     12/17/2019   235 21 USC 841A1
+DAVIS             TRISTAN         19376-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1900129    01/28/2022   280 21 USC 841A1     21 USC 841B1B 21 USC 846
+DAVIS             MARQUIES        50186-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 2100100       03/09/2022   120 21 USC 841A1     18 USC 924C1AI 21 USC 841B1BIII   18 USC 2
+DAVIS             SHARIF          72603-050 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        NJ 2000625   06/28/2022     72 21 USC 841A1    21 USC 846     21 USC 841B1C
+DAVIS             RANDY           28198-044 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 2100473       01/19/2023     60 21 USC 841B1B   21 USC 846
+DAVIS             DESHAUN         77569-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 1900636     12/03/2024   192 21 USC 846       21 USC 843B    18 USC 924C1A      21 USC 841B1A       21 USC 843D      18 USC 2
+DAWSON            CRAIG           01732-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2200031     10/18/2022   150 21 USC 841A1     21 USC 841B1C
+DEJESUS           LUIS            86957-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2400059     10/10/2024     48 18 USC 922G1    21 USC 812     21 USC 841A1       21 USC 841B1C
+DENNARD           RICCI           66632-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 2100026       09/22/2022   180 21 USC 841A1     21 USC 841B1C
+DIAZ              JOSE            72076-050 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        NJ 1900901   04/28/2022   140 21 USC 846       21 USC 841A1 21 USC 841B1A
+DICKENS           TERENCE         56360-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1200026     10/02/2012   480 21 USC 846
+DICKERSON         JEFFERY         17380-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILC 1020091   10/06/2011   511 21 USC 841A1     18 USC 924C1BII 18 USC 922G1      21 USC 841B1BIII    18 USC 924C1AI
+DIXON             MICHAEL         73227-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAW 2300131      05/21/2024     60 21 USC 841A1    18 USC 922G1 21 USC 841B1C
+DOBBS             JAMES           65808-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 2300112      05/15/2024     84 21 USC 841A1    21 USC 841B1C
+DOMINGUEZ-ORTIZ   ELIEZER         52316-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        PR 1900014   12/04/2020     84 18 USC 924C1A   21 USC 841B1C
+DOUGLAS           MICHAEL         60340-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OHN 2100557      11/28/2022   180 21 USC 841A1     18 USC 924C1AI 21 USC 841B1A
+DOUGLASS          RAY-SHON        10871-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MIE 2020520     03/08/2022     63 21 USC 841A1    18 USC 924C
+DRAPER            ANTHONY         66802-380 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 1600042      07/13/2016   262 21 USC 846       21 USC 841B1A
+DRONE             EARNEST         58870-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1900090     07/16/2020   188 21 USC 841A1     21 USC 841B1C
+DUGAN             GERALD          34533-077 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXE 1200143     03/04/2014   262 21 USC 846       21 USC 841B1A
+EDMOND            ALPHONSO        19379-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1900129    01/12/2022   180 21 USC 841A1     21 USC 841B1A 21 USC 841B1B
+EDMONDS           CURTIS          51441-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 0800368     08/03/2010   LIFE 21 USC 846      21 USC 841A1 18 USC 2
+EDWARDS           JASON           83005-080 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 1400257      03/19/2015   188 21 USC 841A1     21 USC 841B1B
+ELLINGTON         LEBRUCE         07746-032 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     KYE 1100141     12/11/2019   420 21 USC 841A1     21 USC 846      21 USC 841
+ELLISON           ZONTA           27066-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 1100404       01/14/2014   262 21 USC 841A1     21 USC 841      21 USC 841
+EPPINGER          SYLVESTER       35509-060 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OHN 2000718      12/06/2021   147 21 USC 846       21 USC 841A1 18 USC 922G1         18 USC 924C1AI      21 USC 841B1B 21 USC 841B1C 18 USC 924A2
+ERVIN             TABATHA         32479-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 2200283      05/05/2023   135 21 USC 841A1     21 USC 841B1C
+EVANS             WILLIE          15091-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1400064    07/15/2015   188 21 USC 841A1     21 USC 841B1B 21 USC 846
+EVANS             DEREK           94432-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 2200252   10/27/2022   120 21 USC 841A1     18 USC 924C1 21 USC 841B1B        21 USC 841B1C
+EVANS             TRAY            10045-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2200140     09/21/2023   210 21 USC 846       21 USC 841A1 18 USC 922G1         21 USC 841B1A       21 USC 841B1C 18 USC 924A2
+FARMER            JOSAND          54617-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1000271     09/26/2011   360 21 USC 846       21 USC 841A1 18 USC 2
+FARRIS            GARLIN          34131-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 1800099       01/30/2020   288 21 USC 841A1     21 USC 841B1A 21 USC 841B1C       21 USC 846
+FERGUSON          ANTHONY         65246-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1900463      05/10/2021     72 21 USC 846
+FISHER            ALLAN           29196-080 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 0600166      06/27/2007   360 21 USC 841A1     21 USC 841B1BII
+FLEMING           MARJUAN         15605-040 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 1000301       08/26/2011   276 21 USC 841A1     21 USC 841B1BII 21 USC 841B1C
+FLOYD             DEMETRIUS       56305-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 0600065      09/19/2012   360 21 USC 841A1     21 USC 841B1B
+FORD              TONY            42800-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 0500044      11/04/2005   LIFE 21 USC 846      21 USC 841A1 18 USC 922G          21 USC 841B1A       21 USC 841B1C 21 USC 841B1B 21 USC 841B1AII
+FORDE             NICHOLE         11058-029 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAN 1000049     12/10/2010   327 21 USC 841A1     21 USC 846      21 USC 841B1C     21 USC 841B1B       21 USC 841
+FOULKS            ROMOND          15259-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILC 0940081   12/17/2010   LIFE 21 USC 846      21 USC 841A1 21 USC 841B1A
+FOWLER            OSCAR           39409-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 2300386      04/04/2024   150 18 USC 922G1     21 USC 841A1 18 USC 924A8         21 USC 841B1C
+FOX               CAMERON         77024-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2100427     04/18/2023     96 21 USC 841A1
+GAINER            RONTERREAL      20965-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     FLN 1100016     12/07/2011   420 21 USC 841A1     18 USC 924C1AI 18 USC 922G1       21 USC 841B1C       18 USC 924E
+GAINES            RAYMOND         00413-138 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MA 2110348     02/10/2022     90 18 USC 922G1    21 USC 841A1 18 USC 924C1A
+GARCIA            WALDEMAR        72097-050 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        NJ 1900722   03/01/2022   115 21 USC 846       21 USC 841A1 21 USC 841B1B
+GARRETT           MARVIN          06051-088 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    WVS 1200030      01/31/2014   262 21 USC 841A1
+GARTH             CURTIS          65278-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALN 2200414     03/13/2024   131 21 USC 841A1     21 USC 841B1C 21 USC 841B1B       21 USC 841
+GENTRY            WILLIE          02822-506 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXS 2200250     12/18/2023   100 21 USC 841A1     21 USC 841B1AII
+GIBSON            LAMAR           20057-001 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALN 0800309     03/14/2013   360 21 USC 846       21 USC 841A1 21 USC 841B1B
+GILLEY            JAMES           08077-055 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYW 0406152       03/20/2006   420 21 USC 841B1C    18 USC 924C1A1 21 USC 841         18 USC 924C1D2
+GOFFIGAN          BRIAN           89898-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 1600068     10/31/2016   200 21 USC 841A1     21 USC 841B1C 18 USC 2
+GONZALEZ          JASON           51538-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2100412     08/10/2022     96 21 USC 846      21 USC 841B1B
+GONZALEZ-NEGRON   JESUS           48676-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        PR 1600140   03/07/2017   132 21 USC 841A1     18 USC 924C1AI
+GOODWIN           EDDIE           17219-021 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     GAS 1100348     07/16/2012   262 21 USC 841A1     21 USC 841
+GOSTON            CHAUNCEY        34724-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOW 2000033       06/23/2021   135 21 USC 841A1     18 USC 924C1AI 21 USC 841B1C
+GOULD             CHARLES         17083-027 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     INN 1700047     05/13/2021   168 21 USC 846
+GRAHAM            LAIRON          61683-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYW 2100195       01/05/2024   264 21 USC 846       18 USC 1591A1 21 USC 841A1        18 USC 1591B1       21 USC 841B1A
+GRAY              ANTWAN          83280-004 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1020410    03/30/2012   444 21 USC 846       18 USC 924C1AI 18 USC 922G1       18 USC 1028A3       18 USC 1028AA1
+GREEN             JAMEY           31767-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1600804   10/11/2017   188 21 USC 841A1     21 USC 841B1C
+GREEN             JACKIE          24940-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OHN 2000828      02/08/2023   280 21 USC 841A1     21 USC 846     18 USC 922G1       21 USC 841B1C       18 USC 924A2
+GREY              BYRON           37808-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 0800462      01/31/2011   300 21 USC 846       18 USC 924C
+GRIER             SHAUN           56411-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1300243      01/02/2014   350 21 USC 841       18 USC 922G    18 USC 924C
+GUILLORY          GARLAND         37329-034 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     LAE 1700242     01/21/2021   188 21 USC 846
+GUNTHER           TALEAF          66487-050 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        NJ 1700488   03/30/2022   360 21 USC 846       21 USC 841A1 18 USC 1512B1        18 USC 922G1        21 USC 841B1C 21 USC 843B    21 USC 841B1AII
+GUTIERREZ         MICHAEL         05288-380 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 1200944      02/26/2014   248 18 USC 924C1     21 USC 841A1 18 USC 2             21 USC 841B1BVIII
+HALE              WILLIAM         25309-052 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYN 1800012      11/20/2018   180 21 USC 841A1     21 USC 841B1B 21 USC 841
+HALL              DONTARIUS       33869-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 1700272       01/24/2019   324 21 USC 846       21 USC 841A1 18 USC 924C1AI       18 USC 922G1        21 USC 841B1B 18 USC 924G1   18 USC 924A2      21 USC 841B1C 21 USC 841B1A 18 USC 2
+HALL              DEREK           26523-001 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALN 1800524     09/26/2019   480 21 USC 841A1     18 USC 924C1AI 18 USC 922G1
+HAMILTON          ALVIN           17282-021 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     GAS 1200001     12/05/2012   225 21 USC 846
+HARRINGTON   PERRY         15789-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1210118    09/02/2014    360 21 USC 841A1        21 USC 841B1C     21 USC 841B1B
+HARRIS       CORY          78217-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 1100097     11/23/2011    600 21 USC 846          21 USC 841A1      18 USC 924C      18 USC 922G1
+HARRIS       YAHTZEE       06032-027 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     INN 1700047     03/01/2021    228 21 USC 846          18 USC 924C
+HARRIS       JAMARCUS      18158-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 2000151     09/09/2021    108 21 USC 841A1        21 USC 841B1C
+HARRIS       GARVIN        23385-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2000335       02/17/2022    168 21 USC 841A1        21 USC 841B1A     21 USC 841B1B    21 USC 841B1C      21 USC 846
+HARRISON     EDDIE         51875-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 2100240   10/24/2022      72 21 USC 846         21 USC 841A1      21 USC 841B1C
+HART         ANTHONY       62359-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1600429      05/04/2017    168 21 USC 841B1B
+HARTH        QUENTIN       28068-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1400430   03/16/2016    262 21 USC 846          21 USC 841A1      21 USC 841B1B
+HATCH        LIONEL        02589-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2000044      06/06/2022    151 21 USC 841A1        21 USC 841B1B     21 USC 841B1C    21 USC 846
+HATCHELL     ANTWONE       99600-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2400011      11/13/2024    108 21 USC 841A1        18 USC 924C       21 USC 841B1C    18 USC 924C1AI
+HATCHER      DANIEL        12754-002 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    ALM 0900081      08/08/2012    300 21 USC 846          21 USC 841A1      18 USC 2
+HAYES        KEYNOD        38781-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2100130      01/28/2022      97 21 USC 841A1       18 USC 924C1A     21 USC 841B1C    18 USC 924C1AII
+HAYLOCK      IAN           87582-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 1900846     09/06/2022      84 21 USC 846         18 USC 924C1A     21 USC 841B1C
+HAYNES       COTEY         50794-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 2100240   11/03/2022    120 21 USC 846
+HEARD        ALONZO        54508-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    GAN 2100277      12/15/2022    120 21 USC 846          21 USC 841B1B 21 USC 841
+HENDERSON    MAURICE       11974-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1200255      08/27/2014    300 21 USC 846          21 USC 841A1
+HENDRIX      ZACHARY       22607-075 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TNM 1400161       01/10/2017    131 21 USC 841A1        18 USC 924C
+HERMAN       TERRION       14995-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1020003    01/23/2012    LIFE 21 USC 841B1AIII   21 USC 841A1
+HEWETT       SHAWN         16287-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2000162      11/04/2021    240 21 USC 846          21 USC 841A1 18 USC 924C1A         21 USC 841B1A      21 USC 841B1C 18 USC 924C1AI 18 USC 2
+HICKMAN      SHONTA        60215-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 2000015     07/30/2020    130 21 USC 846
+HICKSON      LORENZO       96716-020 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 1300024       05/20/2014    295 21 USC 841A1        21 USC 841B1AII
+HIGGINS      THADDEUS      31367-009 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ARE 1700113     07/26/2019    180 21 USC 846          21 USC 841B1A
+HIGHSMITH    BILLY         57911-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1300270      07/07/2014    234 21 USC 841A1
+HILL         FORTUNE       60941-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 1400179      01/20/2015    180 21 USC 841A1        21 USC 841B1BII 18 USC 2
+HILL         GEARY         13745-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2000161      12/18/2023    108 21 USC 841A1        21 USC 841B1C
+HOGG         DEHAVEN       45889-039 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MIE 1120220     05/23/2012    262 21 USC 841A1        21 USC 841B1C 21 USC 841
+HOLBERT      KHYRE         18121-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       NE 1700189    11/30/2018    240 21 USC 841A1        18 USC 924C1A 18 USC 922G1         21 USC 841B1       18 USC 924A2
+HOLDER       NEEDHAM       11558-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2000416      01/06/2022    195 21 USC 841A1        21 USC 841B1C 18 USC 2
+HOLIMAN      CLIFF         29343-009 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ARE 1500242     09/18/2017    235 21 USC 846          21 USC 841A1 21 USC 841B1B
+HOLLAND      ANTHONY       55401-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 1500066     06/13/2016    204 21 USC 846          21 USC 841B1B 21 USC 841A1
+HOLLIS       SHEDRICK      13763-002 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    ALM 1200017      08/06/2013    420 21 USC 841A1        18 USC 924C1A 18 USC 922G1         18 USC 924E
+HOLMES       OZIE          17651-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1820700    04/12/2019    180 21 USC 846          18 USC 922G1 18 USC 9240
+HOOD         TORRIE        24478-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2100115      03/22/2022    126 21 USC 841A1        18 USC 922G1 21 USC 841B1B         21 USC 841B1C      18 USC 924A2
+HOOKER       CALEB         62035-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2000445     03/22/2022      63 21 USC 846         21 USC 841B1B
+HOPKINS      SIMEON        20331-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 2000070      10/22/2021      72 18 USC 924C1AI     21 USC 841A1 21 USC 841B1C
+HORTON       CARLOUS       22997-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOW 1103021       10/18/2012    LIFE 21 USC 841A1       18 USC 922G1 18 USC 1956A1BI       18 USC 1957        21 USC 841B1A 21 USC 841B1C 18 USC 924A2    21 USC 846   21 USC 841   18 USC 9240
+HOWARD       DAMIEN        08767-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 0800095    07/02/2009    LIFE 21 USC 841B1A      21 USC 846      21 USC 841
+HOWARD       CHARLES       16102-089 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     WIE 1700077     10/31/2018    168 21 USC 846          21 USC 841B1A 18 USC 2
+HOWARD       REUBEN        73520-050 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        NJ 2100642   05/12/2022      81 21 USC 841A1       21 USC 846      21 USC 841B1B
+HOWARD       MICHAEL       73057-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2100124     06/13/2022    112 21 USC 841A1        21 USC 841B1C
+HOWARD       TASHAWN       88454-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYE 2200076     07/10/2024    130 21 USC 841A1        21 USC 841B1AV 21 USC 846
+HOWELL       KASHARD       92004-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2300331      10/25/2024      87 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C
+HUBBERT      RANDY         22461-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1820018    10/26/2020    188 21 USC 841A1        21 USC 841B1C 21 USC 841B1B        18 USC 2
+HUDSON       DANA          57571-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MIE 2220267     04/02/2024      60 21 USC 846
+HUGHES       TONY          55764-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 0400016     11/29/2004   2616 21 USC 941A1        21 USC 841A1 18 USC 924C1          21 USC 941B1B      21 USC 841B1A 21 USC 841B1C 21 USC 841B1B
+HUGHES       RANDALL       55364-039 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MIE 1720108     03/03/2022      84 21 USC 841A1       18 USC 924C
+HUGHES       CALVIN        56293-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2100021      05/06/2022      72 18 USC 924C1AI     21 USC 841A1 21 USC 841B1C
+HUGHES       OTIS          29619-044 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 2100563       05/16/2024    188 21 USC 846          21 USC 841A1 21 USC 841B1C
+HUNTER       DAVION        44652-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MSN 2100035      05/17/2022    117 18 USC 924C1A       21 USC 841A1 18 USC 2              21 USC 841B1C
+HUNTER       LASHANA       99508-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2200006       02/13/2023      60 21 USC 841A1       21 USC 841B1A 21 USC 841B1C        21 USC 846
+HURN         MARK          10599-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAN 1603002     06/26/2017    160 21 USC 841A1        21 USC 841B1B
+HYMES        RODNEY        13324-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TNE 1700043     09/19/2018    188 21 USC 841A1        21 USC 841B1C 21 USC 841
+HYPPOLITE    JOPHANEY      55556-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 1100097      01/22/2013    LIFE 21 USC 841A1       21 USC 841B1AII 21 USC 841B1C      21 USC 841
+IBARRA       ROLANDO       04282-511 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXS 2400313     10/29/2024      70 21 USC 846         21 USC 841A1 21 USC 841B1B
+INGRAM       CORTEZ        86763-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 2200004       03/07/2023    123 21 USC 841A1        21 USC 841B1C
+IZARD        PHALEN        87482-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2300053       10/24/2024      70 21 USC 841A1       21 USC 841B1C 18 USC 922G1         18 USC 924A8
+JACKSON      JONTAE        21574-040 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 1700035       10/06/2017    188 21 USC 841A1        18 USC 922G1 21 USC 841B1BIII      18 USC 924A2
+JACKSON      ANTONIO       89068-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2200134       01/12/2023    151 21 USC 841A1        18 USC 922G1 21 USC 841B1C         18 USC 924A2
+JACKSON      JOSEPH        59095-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1900351     10/10/2024      62 21 USC 846
+JACQUES      MARC          75560-004 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 0614023    10/23/2006    LIFE 21 USC 841A1       21 USC 841B1A
+JAMES        QUINCY        48378-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TNE 1500025     10/20/2015    180 21 USC 841A1        21 USC 841B1B
+JAMES        JOEL          08829-003 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALS 1800184     12/16/2020    188 21 USC 841A1
+JEFFERSON    SHON          39426-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 0900199     04/22/2010    420 18 USC 922G1        21 USC 841A1      18 USC 924C1AI   21 USC 841B1A
+JENKINS      LADARRIUS     66107-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1900163      12/21/2021    200 21 USC 841A1        21 USC 841B1A     18 USC 2
+JENKINS      RONALD        83140-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2200012     10/21/2022      96 21 USC 841A1       18 USC 924C1A     21 USC 841B1C
+JOHNSON      DAVID         26503-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 0600029      06/21/2007    LIFE 21 USC 841A1       21 USC 846        21 USC 841B1A
+JOHNSON      THELISMA      81042-004 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 0820108    12/16/2008    LIFE 21 USC 846
+JOHNSON      CALVIN        21507-052 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYN 1400391      10/21/2015    LIFE 21 USC 846         18 USC 922G1      21 USC 841A1     21 USC 841
+JOHNSON      ADE           17903-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1820972    07/19/2019    120 21 USC 846
+JOHNSON      DANNY         62134-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WVN 2200025       01/09/2023      84 21 USC 841A1       18 USC 924C1A     21 USC 841B1C
+JOHNSON      ANDRA         40076-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 2120018    03/06/2023      48 21 USC 846         21 USC 841A1      21 USC 841B1B
+JOHNSON      ALPHONSE      52358-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 2100265       01/03/2024    108 21 USC 846          21 USC 841
+JOHNSON      HARVEY        44729-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 2300073       12/09/2024    144 21 USC 841A1        18 USC 924C       21 USC 841B1C    18 USC 924C1AI
+JONES        TIMOTHY       24825-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 0400324      02/07/2006    LIFE 21 USC 841A1       21 USC 846        21 USC 841B1A
+JONES        LEONARD       05248-036 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ME 0900068     07/21/2010    LIFE 21 USC 841A1       21 USC 841B1A     21 USC 846
+JONES        WILLIE        02460-095 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    LAM 0800108      04/21/2011    327 21 USC 846          18 USC 1952A      21 USC 843B
+JONES        DONZELL       68798-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1720307    02/28/2018    188 21 USC 846
+JONES        DOUGLAS       27420-180 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 1800027      06/28/2018    262 21 USC 841A1        21 USC 841B1B 21 USC 841
+JONES        THYRONE       87864-020 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 1800042       07/09/2019    240 21 USC 841A1        21 USC 841A    21 USC 841B1C       21 USC 841B1BIII
+JONES        JIMMY         94183-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2000014     03/08/2021    215 21 USC 841A1        18 USC 924C1AI 21 USC 841B1A       21 USC 841B1BIII   21 USC 846     18 USC 2
+JONES        PRENTISS      13361-006 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       AK 1900018    03/09/2021    132 21 USC 841A1        21 USC 841B1A
+JONES        SHELLY        94190-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2000014     04/05/2021    180 21 USC 846          21 USC 841A1 21 USC 841B1A
+JONES        SMITH         36477-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXS 2100005     09/17/2024    144 21 USC 841A1        21 USC 846     21 USC 841B1A
+JONES        DENZEN        21775-511 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WIW 2400037       10/08/2024      84 21 USC 841A1       18 USC 922G1 21 USC 841B1C         18 USC 924A8
+JONES        QUINTRAL      93403-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   OKW 2300528       11/19/2024    120 21 USC 841A1        18 USC 924C1A 21 USC 841B1C        18 USC 924C1AI
+KEEL         JAMES         02536-025 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILS 1730195   05/12/2020    210 21 USC 841A1        18 USC 922G1 21 USC 841B1BIII      18 USC 924A2       21 USC 841
+KELLEY       CHRISTOPHER   83159-080 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 1700262      11/15/2018    188 21 USC 846          21 USC 841B1B 21 USC 841
+KELLEY       KEVIN         35052-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOW 2000246       06/30/2021      90 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C
+KELLEY       DAVID         39081-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WAW 2100053       04/08/2022      78 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C       18 USC 2           21 USC 846
+KEMP         DEXTER        83049-004 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1020410    02/13/2012    420 21 USC 846          21 USC 841A1 18 USC 924C1AI        18 USC 922G1
+KENNEY       KEVEN         46886-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       VT 2300004    08/09/2024      63 21 USC 846         21 USC 841A    21 USC 841B1C
+KEY                VENCE       34460-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 1800319      08/06/2019    180 21 USC 846       18 USC 924C    21 USC 841B1A      21 USC 841A1
+KING               KOZIE       32188-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1700175   04/19/2018    188 21 USC 841A1     21 USC 841B1C
+KNIGHT             ROBERT      30743-057 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCM 1500107      09/22/2015    188 21 USC 841A1     18 USC 922G1 21 USC 841B1B        21 USC 841B1C    18 USC 924A2
+KNOWLES            DALE        09434-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 2000035      11/09/2022    108 21 USC 841A1     18 USC 924C1AI 21 USC 841B1C      21 USC 841B1D    18 USC 2
+KUC                ELIZABETH   71371-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 1800190     01/24/2020    360 21 USC 846       21 USC 841A1 21 USC 841B1C        18 USC 2
+LARINK             ERIC        69797-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 2300090      05/15/2024      78 21 USC 841A1    21 USC 841B1C
+LARRY              ORLANDO     08452-090 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WIW 1300130      09/26/2014    240 21 USC 841A1
+LASTER             JACKIE      29098-064 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   OKW 1400332      10/14/2015    188 21 USC 846       21 USC 841B1B
+LEE                CASEY       56586-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2300095      11/21/2024      96 21 USC 841A1    21 USC 841B1B   18 USC 2
+LERMA              JOSE        79102-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXS 2300587    11/07/2024    126 21 USC 846       21 USC 841A1    21 USC 841B1B
+LETTERLOUGH        NYREE       76722-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAM 1900043      08/29/2022    111 21 USC 841A1     18 USC 924C1A   18 USC 922J
+LEVINGSTON         RONALD      57969-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXN 1800573     02/23/2021    215 21 USC 841A1     21 USC 841B1C
+LEWIS              KAREEM      34513-057 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCM 1800316      05/01/2019    130 21 USC 841A1     21 USC 841B1C
+LEWIS              MARK        92279-071 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 2200737   09/06/2024    110 21 USC 841A1     21 USC 841B1C
+LIGGINS            CLOVIS      16490-078 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXE 0900087    05/02/2012    LIFE 21 USC 846      21 USC 841
+LIGHTY             RICHARD     10799-084 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   VAW 0400072      06/27/2005    LIFE 21 USC 846      18 USC 924C1    21 USC 841B1A
+LIND               MICHAEL     54813-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 0600275     12/02/2011    372 21 USC 841A1     18 USC 924C     21 USC 841B1C
+LIPPETT            TAYVON      76519-007 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      DC 2400027    10/08/2024      66 21 USC 841A1    18 USC 922G1    21 USC 841B1BVI   21 USC 846
+LIPSCOMB           ARICO       70113-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 1800034     10/24/2019    235 21 USC 841A1     21 USC 841B1C   21 USC 841
+LOGAN              DWIGHT      55022-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 2100016      05/08/2024    144 21 USC 846       21 USC 841A1    21 USC 841B1BVI   21 USC 841B1C
+PIERRE-LOUIS       EVENS       02713-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     FLS 1380034    11/25/2013    240 21 USC 841A1     21 USC 846
+LOWE               IVAN        60960-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TXW 2100395      02/21/2024    140 21 USC 846       21 USC 841A1    21 USC 841B1B
+LUGO               LUCIS       70258-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXN 2300280     10/22/2024      57 21 USC 841A1    21 USC 841B1C   18 USC 2
+LYMONS             LEROY       21317-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLN 1100037     06/12/2012    LIFE 21 USC 846      21 USC 841A1    21 USC 841B1AII
+MABRY              TERRENCE    65648-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1800485     08/24/2022    335 21 USC 841A1     18 USC 922G1    21 USC 841B1B     21 USC 841B1C    18 USC 924A2 18 USC 2
+MADDOX             SUNNAH      21329-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TNE 0900045     09/26/2011    LIFE 21 USC 841B1A   21 USC 841A1    21 USC 846        18 USC 2         18 USC 1956A1A 18 USC 922G1    18 USC 1513B2 18 USC 1512B1 18 USC 371   21 USC 841B1B 21 USC 841
+MALLARD            CEDRIC      66278-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXN 2300201     04/02/2024    105 21 USC 841A1     21 USC 841B1C
+MANTEY             DAVID       47382-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TNE 1400025     10/06/2014    180 21 USC 841A1     18 USC 922G1    21 USC 841B1C     18 USC 924E
+MARTIN             VETO        34936-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 1900048      02/03/2020    168 21 USC 841A1
+MARTIN             JOHN        20859-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLN 2300034     05/16/2024    144 21 USC 841A1     21 USC 841B1C 21 USC 841
+MARTINEZ           VICTOR      87957-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYS 2000213     07/26/2021      72 21 USC 846      21 USC 841B1B
+MATIAS             LENNY       68269-053 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYE 1600586     10/11/2017    235 21 USC 841A1     21 USC 841B1BII 21 USC 841B1C
+MAYNARD            DAWAN       70475-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAM 1200268      02/12/2014    300 21 USC 846       21 USC 841A1
+MAYNOR             FRANKIE     79123-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2300109     05/23/2024      84 21 USC 846      21 USC 841A1 18 USC 924C          21 USC 841B1B    18 USC 2
+MAYS               HERBERT     72900-050 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       NJ 1900804   07/20/2022    120 21 USC 846
+MCCOTTER           JEFFREY     25935-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 0900075     04/04/2011    480 21 USC 846
+MCCRAE             KEITH       63163-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 2100365      10/13/2022    188 21 USC 841A1     21 USC 841B1BII 21 USC 841B1C
+MCCRAY             TAKARIA     75003-004 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     FLS 2114002    08/25/2021    188 21 USC 841A1     21 USC 841B1BII 21 USC 846
+MCCULLOUGH         DARRELL     12182-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 2200176      07/26/2023    144 21 USC 841A1     18 USC 922G1 21 USC 841B1BII
+MCCUTCHEON         MARQUES     25021-111 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    CAN 1800303     03/27/2019    120 21 USC 841A1     21 USC 841B1B
+MCFADDEN           HOWARD      39529-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 1900162      08/18/2021    262 21 USC 846
+MCGEE              CHARLES     21211-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WVN 2100018      01/08/2024    200 21 USC 841A1     21 USC 841B1C
+MCGLOTHIN          JEROME      66820-060 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   OHN 1900378      09/15/2020    140 21 USC 841A1     18 USC 922G1 21 USC 841B1C
+MCKINNON           LARON       02604-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 2000133      11/17/2021      84 21 USC 841A1    18 USC 924C1AI 18 USC 922G1       21 USC 841B1C
+MCKOY              ANTONIO     58528-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1400087     03/11/2015    188 21 USC 846       21 USC 841B1B
+MCKOY              ROBERT      66163-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1900067     04/22/2022    188 21 USC 841A1     21 USC 841B1
+MCNAIR             JEMARE      07179-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1900195     02/14/2022    210 21 USC 841A1     21 USC 841B1B
+MCNEAL             ROBERT      07108-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2000388     06/24/2024    240 21 USC 846       21 USC 841A1 21 USC 841B1A        18 USC 2
+MCNEIL             GEORGE      27467-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1400454   06/16/2015    262 21 USC 841A1     21 USC 841B1A 21 USC 846
+MCNEIL             HENRY       24556-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2000207     11/15/2022    120 21 USC 846       21 USC 841A1 18 USC 924C          21 USC 841B1B    21 USC 841B1C 18 USC 924C1AI
+MCNEILL            LAWRENCE    56593-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1200269     05/16/2014    222 21 USC 846       21 USC 841B1A
+MEDINA             GERARDO     20800-078 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXE 1200274    09/04/2014    262 21 USC 846       21 USC 841B1A
+MEEKS              DOUGLAS     08765-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAS 0800086    09/15/2009    LIFE 21 USC 841A1    21 USC 841B1B 21 USC 841
+MEEKS              LLOYD       41038-424 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAS 0800086    09/15/2009    LIFE 21 USC 841B1A   21 USC 841B1B 21 USC 841
+MELENDEZ           EDDIE       96524-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      VT 2400011    10/29/2024      68 21 USC 846      21 USC 841A    21 USC 841B1C
+MIDDLEBROOKS       JONDELL     25874-052 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYN 2200390      03/29/2023    192 21 USC 841A1     21 USC 841B1C
+MILLER             HARRY       21009-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYE 2200285     10/02/2024      60 21 USC 846      21 USC 841B1BV 21 USC 841B1AIII
+MILTON             KENNETH     14125-179 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TXW 1800133      10/05/2018    262 21 USC 841A1     21 USC 841B1B 18 USC 2
+MIMS               JAMON       73371-380 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TXW 1600128      02/09/2017    188 21 USC 846       21 USC 841A1 21 USC 841B1A
+MITCHELL           CALVIN      56533-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1200270     07/19/2013    360 21 USC 846       21 USC 841B1C 18 USC 2
+MITCHELL           JEROMEY     57356-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1300023     02/10/2014    264 21 USC 846       21 USC 841A1 21 USC 841B1A
+MITCHELL           TYRONE      45464-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAE 1200172     01/09/2017   1020 21 USC 846       21 USC 841A1 21 USC 856A2         18 USC 924C1     18 USC 922G1    21 USC 841B1B 21 USC 841B1C 21 USC 856B    18 USC 2
+MITCHELL           JEREMIE     39652-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 1900302      08/09/2023    120 21 USC 841A1     21 USC 841B1C
+MITCHELL           AVERY       66312-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2300038     08/14/2024    144 21 USC 846       21 USC 841A1 18 USC 924A8         21 USC 841B1C    21 USC 841B1B
+MITCHELL           RUSSELL     71710-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      VT 2300014    11/04/2024      54 21 USC 846      21 USC 841A    21 USC 841B1C
+MONDS              SAMORY      14401-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAS 1700170    09/12/2018    292 21 USC 841A1     21 USC 841B1C 21 USC 841
+MONROE             TREVON      58873-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXN 1900091     06/25/2020    168 21 USC 846
+MONTGOMERY         TERRANCE    48033-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXN 1400093     10/27/2014    360 21 USC 846       21 USC 841B1C 21 USC 841A1
+MONTGOMERY         KELVIN      06954-379 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXS 2200005    12/01/2022    136 21 USC 841A1     21 USC 841B1B
+MOODY              ANDREW      63901-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYS 1900112     10/06/2021    180 21 USC 846       21 USC 841B1A
+MOORE              ANTHONY     07327-025 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILS 0640063   12/18/2008    LIFE 21 USC 846      18 USC 922G1 18 USC 924A2
+MOORE              MARLON      85296-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    VAE 1500001     06/02/2015    240 21 USC 846       18 USC 1952A3 18 USC 2
+MOORE              TAMRA       39059-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAW 1800152      01/07/2021    144 21 USC 846
+MOORE              JOSHUA      55074-424 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ILN 2000332    12/15/2023      48 21 USC 841A1
+MOORE              DEREK       43763-013 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      CO 2300399    09/13/2024      46 21 USC 841A1    18 USC 922G1 21 USC 841B1C
+MORALES            HECTOR      18802-052 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYN 1000595      02/03/2015    360 21 USC 841A1     21 USC 841B1A 21 USC 846
+MORRIS             MICHAEL     08136-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAM 1200268      09/12/2013    262 21 USC 846       21 USC 841A1
+MORRIS             CARLOS      13306-062 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TNW 1010016      06/06/2018    188 21 USC 841A1
+MOULTRIE           JOSEPH      95151-071 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1701138   12/17/2019    120 21 USC 841A1     21 USC 841B1C
+MURPHY             TIMOTHY     24086-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 0400241     07/19/2005    LIFE 21 USC 846      21 USC 841B1A
+MURPHY             PHILLIP     85904-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    VAE 1500103     01/06/2016    300 21 USC 846       18 USC 924C1A 21 USC 841A1        21 USC 841B1AI
+MURPHY             PATRICK     91937-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    VAE 1700123     05/18/2018    216 21 USC 846       18 USC 924C1A 21 USC 841A1        21 USC 841B1A
+MURPHY             WILLIE      15703-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLN 2000031     06/29/2021    240 21 USC 841A1     21 USC 841B1BII 21 USC 841B1C
+MURPHY             BERNARD     52190-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAN 2100432      12/16/2022    117 21 USC 841A1     18 USC 924C1AI 18 USC 922G1       21 USC 841B1C
+MUSE               SHAUN       08269-084 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   VAW 2100010      07/05/2023      84 21 USC 846      21 USC 841A1 21 USC 841B1B        21 USC 841B1C
+MYLES              ANTOINE     23728-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 1500172     06/20/2018    LIFE 21 USC 846      21 USC 841A1 18 USC 1956H         18 USC 1957B1    21 USC 841B1A 21 USC 841B1C 18 USC 1956A1 18 USC 1957      21 USC 841   21 USC 841
+NEAL               TROY        17380-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 2000330     10/26/2021      96 21 USC 846      21 USC 841A1 21 USC 841B1C        18 USC 2
+NELSON-SMITH       GIBRAN      43292-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1900136     10/22/2021    228 21 USC 846       18 USC 2
+NIXON              RONALD      87583-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYS 1900846     06/28/2022    200 21 USC 846       18 USC 924C1AI 21 USC 841B1B      18 USC 2
+NORTHERTON         LINCOLN     69544-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   OKW 2100300      10/26/2023      70 21 USC 841A1    18 USC 922G1 21 USC 841B1C        18 USC 924A2
+O'BRIAN KENDRICK   CALEB       35187-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2000387      03/10/2022    188 21 USC 841A1     18 USC 922G1 21 USC 841B1A        21 USC 841B1C    18 USC 924A2
+ODOM                 CHARLES       13613-029 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAN 1400061    03/04/2015   252 21 USC 841A1       21 USC 841B1B   21 USC 846
+OLINEY               REANOLD       09258-095 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    LAM 1900130     02/08/2021   120 21 USC 841A1       18 USC 922G1
+OLIVER               MARLON        15973-040 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 1100081      03/26/2012   360 21 USC 846         21 USC 841A1    21 USC 841B1C     21 USC 841B1BII    21 USC 841
+OLIVER               QUENDELL      76607-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1800351     08/13/2019   235 21 USC 841A1       18 USC 922G1    21 USC 841A1
+OLIVER-DELGADO       RAFAEL        51701-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 1800035   03/31/2022   133 18 USC 924C1AI     21 USC 841A1    21 USC 841B1C
+ORANGE               RUDOLPH       17052-021 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     GAS 1100007    10/29/2012   324 21 USC 841
+ORR                  MYRON         08678-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 0800016   11/12/2009   LIFE 21 USC 846        21 USC 841A1 18 USC 922G1         21 USC 841B1A      21 USC 841B1C 21 USC 841B1B 18 USC 924A2
+ORTIZ-RODRIGUEZ      JOSE          53318-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 1900036   01/14/2020     96 21 USC 846        18 USC 924C1A 21 USC 841A1
+OUSLEY               ANTHONY       15996-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1010044   07/29/2011   LIFE 21 USC 841A1      18 USC 924C1AI 18 USC 924E        21 USC 841B1A      18 USC 922G1
+OUTLAW               DWAN          55246-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    GAN 0300736     10/17/2005   LIFE 21 USC 846        18 USC 922G    18 USC 924C1A      18 USC 922G1       18 USC 924C1C 21 USC 841B1C 21 USC 841
+OWENS                MARTELL       05245-511 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAN 2400017    10/30/2024     37 21 USC 841A1      21 USC 841B1C 21 USC 841
+OZEN                 PAUL          22793-078 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXE 1400118    05/13/2015   190 21 USC 846
+PADGETT              KARL          17594-003 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALS 1900123    01/30/2020   144 21 USC 846
+PALMER               JOHNNY        90384-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAW 2200051     10/03/2024     51 21 USC 846
+PARKER               WESLEY        68488-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 1700040     09/27/2017   180 21 USC 841A1       21 USC 841B1C
+PARKER               KENYATTA      02153-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2000024    02/11/2021   144 21 USC 841A1       21 USC 841B1C 21 USC 841
+PARKER               TERESA        01951-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2000199    07/15/2021   109 21 USC 846         21 USC 841A1 21 USC 841B1A        21 USC 841B1C
+PARRISH              ROBERT        31435-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       NJ 2400241   11/21/2024     24 21 USC 841A1      21 USC 841B1C
+PAYTON               MICHAEL       08702-087 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WVN 1900018      05/10/2022   188 21 USC 841A1       21 USC 841B1B 18 USC 2
+PEARSON              DENVER        76733-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1900031     07/08/2021   144 21 USC 841A1       21 USC 841B1C
+PEREZ                JONATHAN      78179-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 1600656    11/29/2017   223 21 USC 846         18 USC 924C1AI 21 USC 841B1B
+PEREZ                JOHNNY        59322-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2100499    11/02/2022     96 21 USC 846        21 USC 841B1B
+PERRY                ANTONIO       73972-007 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 2100256     10/13/2022     72 21 USC 841A1      18 USC 924C    21 USC 841B1C
+PETERS               TERRENCE      34602-183 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 0800186    05/28/2009   LIFE 21 USC 846        18 USC 924O    21 USC 841A1
+PETERSON             SHANE         15748-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 2200110   02/23/2023   120 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C
+PETERSON             WILLIE        12615-002 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    ALM 2100437     08/02/2023     75 21 USC 846
+PETRIE               JOHN          08534-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     LAE 2200150    02/07/2024   188 21 USC 846         18 USC 922G1    21 USC 841A1      18 USC 924A8       21 USC 841B1B 21 USC 841B1D
+PHIFER               JAWAUN        16339-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OHN 2000677     09/16/2021   210 21 USC 841A1       21 USC 856A1    18 USC 922G1      21 USC 841B1C      21 USC 841B1B 21 USC 856B   18 USC 924A2
+PHILLIPS             MARCUS        91586-280 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 1700837     02/12/2020   180 21 USC 841A1       18 USC 922G1    18 USC 924C       21 USC 841B1B
+PHYFIER              CYRUS         17322-002 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    ALM 1700482     12/05/2019   360 21 USC 846         21 USC 841A1    18 USC 922G1      18 USC 924C1A      18 USC 9240
+PIERRE               ESPERE        04829-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1420104   11/18/2015   264 21 USC 846         21 USC 841A1    18 USC 924C1A     18 USC 1349        18 USC 1028AA1
+PINSON               DARRELL       54522-060 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OHN 2100220     09/29/2021   120 21 USC 841A1       18 USC 922A1    18 USC 924C1A     21 USC 841B1B      21 USC 841B1C 18 USC 924A2
+POLLOCK              WILLIAM       65078-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1800079    10/10/2018   120 21 USC 841A1       21 USC 841B1B
+PORTER               BRYANT        17847-027 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     INN 1900016    07/08/2020   168 21 USC 841A1       18 USC 924C1A
+POSEY                VANESSA       28448-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     INN 2200083    06/13/2024     46 21 USC 841A1
+POTTER               JEROME        08381-094 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       VI 1100016   07/26/2013   292 21 USC 841B1BIII   21 USC 843B     21 USC 841A1      21 USC 841B1C
+PRINCE               MICHEAL       34829-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1900986   04/04/2023   216 21 USC 846
+PRUITT               TERRY         27197-001 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALN 2200048    09/19/2022   180 21 USC 841A1
+PUGH                 BRUSHEY       22871-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1940063   10/29/2020   108 21 USC 841A1       18 USC 922G1    21 USC 841B1B     18 USC 924A2
+RANDOLPH             ANTHONY       22356-052 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYN 1700015     06/22/2017   240 21 USC 841         18 USC 922G1    21 USC 846        21 USC 841
+REED                 ESHAWN        05623-090 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   WIW 2200005      09/01/2022   108 21 USC 841A1       18 USC 924C     21 USC 841B1C     18 USC 924C1AI
+REED                 DONALD        07544-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       AZ 2200725   11/07/2024     31 21 USC 846        21 USC 841A1    21 USC 841B1C
+REMBERT              JAMES         22576-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 2200129      05/25/2023     63 21 USC 841A1      21 USC 841B1C
+REYES-VAZQUEZ        JOHN          42809-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 2100155   02/27/2023   100 21 USC 841A1       18 USC 924C1A   21 USC 841B1C
+REYNOLDS             ANNETTE       79825-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ME 2100056    07/20/2022     60 21 USC 841A1      21 USC 841B1C
+RHODES               JERRY         96007-071 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1400607   03/13/2017   244 21 USC 846         21 USC 841A1    21 USC 841B1C
+RICHMOND             DOSSIE        34421-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOW 1904067      11/17/2021   120 21 USC 841A1       21 USC 841B1B
+RIVERA               ALEXANDER     66424-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 1000716    04/03/2012   LIFE 21 USC 846        21 USC 841A1    18 USC 924C1      21 USC 841B1C      21 USC 841B1B 18 USC 2
+RIVERA               RAYMOND       22477-014 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       VT 2200128   06/20/2023     66 21 USC 841A1      21 USC 841B1C
+ROBERTS              ERNEST        32256-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1700178   03/15/2018   180 21 USC 841A1       21 USC 841B1C   21 USC 841
+ROBERTSON            KEVIN         43603-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 2300317     11/25/2024     48 21 USC 846        21 USC 841      18 USC 2
+ROBINSON             KENDALL       13074-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1100082   11/30/2012   360 21 USC 841A1       18 USC 924C     18 USC 922G1      21 USC 841B1A      18 USC 924E   21 USC 841B1C
+ROBINSON             KENNETH       54063-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1100521     05/23/2013   240 21 USC 841A        18 USC 2
+ROBINSON             KENYATTA      08321-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAW 1400064     09/14/2015   360 21 USC 841A1       21 USC 841B1AII 21 USC 841B1C
+ROBINSON             ALEX          54019-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TNE 1900015    01/13/2020   180 21 USC 846         21 USC 841A1 21 USC 841B1A
+ROBINSON             RODNA         91356-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2200045    01/19/2023     52 21 USC 841A1      18 USC 924C1A 21 USC 841B1C       18 USC 924C1AI
+ROBINSON             JAVAN         74011-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     LAE 2300183    10/01/2024   280 21 USC 841A1       18 USC 924C1A 18 USC 922G1        21 USC 841B1C      18 USC 9240   21 USC 846
+RODRIGUEZ            JONATHAN      94968-479 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXS 1900656    08/03/2022   300 21 USC 846         21 USC 841A1 18 USC 924C1AI       21 USC 841B1B      21 USC 841B1A
+ROMAN-SANTIAGO       NOEL          46365-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 2100193   07/14/2022     66 18 USC 924C1AI    21 USC 841A1 21 USC 841B1C
+ROSE                 MICHAEL       39612-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAW 1900162     08/13/2020   102 21 USC 846         18 USC 922G1 21 USC 841B1C        21 USC 841B1BIII   18 USC 924A2
+ROSEBY               DOUGLAS       44223-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 0900178     01/08/2010   420 21 USC 841A1       18 USC 924C     18 USC 922G1      21 USC 841B1B      21 USC 841B1C 18 USC 2
+ROSS                 DWAYNE        17677-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 0900714   01/26/2010   344 21 USC 846
+ROSS                 BRIAN         37183-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OHN 2100360     01/25/2022     93 21 USC 841A1      18 USC 922G1    18 USC 924C1AII   21 USC 841B1C      21 USC 841B1B 18 USC 924A2
+ROYSTON              MARCUS        15041-041 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ND 0900155    08/30/2010   LIFE 21 USC 846        21 USC 841A1    18 USC 2
+RUBIN                MARTIN        47283-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 2100029     11/08/2021     70 21 USC 846        21 USC 841A1    18 USC 924C1AI    21 USC 841B1C
+RUDOLPH              DAVID         58439-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1400569     03/16/2015   288 21 USC 841A1       18 USC 922G1    21 USC 841B1A
+RUFF                 KENTER        26825-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2200074      06/25/2024   180 21 USC 841A1       21 USC 841B1C
+RUIZ                 DANIEL        91007-038 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       VT 2200035   05/17/2023   140 21 USC 841A1       21 USC 841B1C   21 USC 846
+RUSSELL              JAMES         18434-027 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     INN 2000048    01/14/2022     84 21 USC 841A1
+RUSSELL              CHRISTOPHER   55107-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       UT 2200364   11/26/2024     96 21 USC 841A1      18 USC 924C
+RYAN                 TSAMARTE      59206-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1900184    01/29/2021   135 21 USC 846
+SANDERS              DARRELL       34896-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1900985   08/15/2023   157 21 USC 846         18 USC 924C     21 USC 841A1      21 USC 841B1B
+SANTIAGO             ADRIAN        52377-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 1900100   08/04/2022     96 18 USC 924C       21 USC 841A1    21 USC 841B1C
+SANTIAGO-RODRIGUEZ   AIRON         50151-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 1700172   08/21/2018   144 18 USC 924C1A      21 USC 841A1    21 USC 841B1D
+SANTOS               THOMAS        09746-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2000481    07/28/2022     84 21 USC 846
+SAUNDERS             RUBY          42816-018 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLM 1900240     01/20/2021   120 21 USC 846         21 USC 841B1BII
+SCOTT                ADAM          61781-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 1000677    08/08/2013   300 21 USC 846         21 USC 841A1 18 USC 924C1         18 USC 922G1       21 USC 841B1B 21 USC 841B1C
+SCOTT                ROBERT        64994-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ME 2100201    05/31/2022   120 21 USC 841A1       21 USC 841B1C 21 USC 841
+SCOTT                JEVONTE       89082-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 2200031      08/17/2022   108 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C
+SEALY                BRIAN         27815-057 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCM 2100102      11/12/2021   147 18 USC 924C1AI     21 USC 841A1 21 USC 841B1B
+SHAKIR               AARON         13939-032 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     KYE 1600091    08/31/2017   420 21 USC 846         21 USC 841A1 18 USC 924C1A        21 USC 841
+SHEPPARD             MARQUAY       06875-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2000201      11/15/2021   188 21 USC 841A1       18 USC 922G1 21 USC 841B1B        18 USC 924A2
+SHERRILL             LARICCO       19710-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2200160      09/14/2023   204 21 USC 841A1       21 USC 841B1A
+SHINE                VALENTINO     14298-055 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYW 1700028      01/16/2020   360 21 USC 846         21 USC 856A1 21 USC 841A1         18 USC 1591A       21 USC 841B1C 18 USC 1591B1 21 USC 841B1B 21 USC 841   18 USC 2   181594C
+SIMMONS              ARTHUR        46362-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    ALM 2300049     04/11/2024   240 18 USC 922G1       21 USC 841A1 21 USC 856A1
+SIMS                 DANNY         97210-020 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 2100039      11/07/2023   108 21 USC 841A1       21 USC 841B1C
+SISTRUNK             ANTHONY       72326-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1400070     06/28/2018   360 18 USC 1962D       21 USC 846      21 USC 841A1
+SMALL                HERBERT       99102-038 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      MA 2310311    08/28/2024     24 18 USC 922G1      21 USC 841A1
+SMITH                ERIC          27689-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SC 1400736   08/11/2015   360 21 USC 846         7 USC 2156B     21 USC 841B1A     18 USC 2           18 USC 49
+SMITH                THEODORE      62357-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1600429     08/15/2017   180 21 USC 841B1B
+SMITH                JEFF          75509-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1600327     04/18/2018   168 21 USC 846
+SMITH                CHARLES       17322-273 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       SD 1740100    03/25/2019   262 21 USC 841A1
+SMITH                ANTHONY       64750-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1800016     07/09/2019   360 21 USC 846         21 USC 841A1 21 USC 841B1A
+SMITH                WILLIAM       01589-120 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 1900058       09/23/2022   180 21 USC 841A1       21 USC 841B1BII
+SMITH                JERMAINE      34818-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1900986   03/07/2023   300 21 USC 846         21 USC 841A1 21 USC 841B1A
+SMITH                FRANK         29463-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 2100441     03/14/2023     60 21 USC 841A1      18 USC 922G1 18 USC 924C1A          21 USC 841B1B
+SMITH                NICHIREN      54278-004 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 2314038    04/23/2024   121 21 USC 841A1       21 USC 841B1C 21 USC 841B1BII
+SNOW                 MICHAEL       17198-029 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAN 1702051     11/20/2018   197 21 USC 841A1       21 USC 846      21 USC 841
+SPIRES               AMBROSE       08796-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 0800113    11/12/2009   LIFE 21 USC 841B1A     21 USC 841
+STARK                AARON         59319-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2100499     11/03/2022     72 21 USC 846        21 USC 841B1B
+STATEN               CHARLES       12561-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1000179      05/21/2013   LIFE 21 USC 841A1      21 USC 846
+STEEPLE              LEONARDO      69906-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    GAN 2300029      03/08/2024   108 21 USC 841B1B      18 USC 922G1 21 USC 841A1
+STEGEMANN            JOSHUA        20552-052 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NYN 1300357      07/20/2016   300 21 USC 841A1       18 USC 924C1A 18 USC 922G1          21 USC 841B1B      21 USC 841
+STEPHENS             RAYMONE       22640-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1810064    01/09/2020   200 21 USC 846         21 USC 841A1 21 USC 841B1C          21 USC 841B1B      21 USC 841B1A
+STEVENSON            GARY          26267-044 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILS 0730178   09/04/2009   LIFE 21 USC 841A1      21 USC 846
+STIGGER              JERMARRIEO    85236-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 1500013     09/22/2015   420 21 USC 846         18 USC 924C1A 21 USC 841B1A
+STOGLIN              ADRIAN        12169-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXW 2000319      03/08/2021   180 21 USC 846         18 USC 924C     21 USC 841A1        21 USC 841B1B
+STOKES-JOHNSON       RAHSHEED      40309-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       VT 2300004    06/20/2024     30 21 USC 846        21 USC 841A1 21 USC 841B1C
+STUCKEY              DAVID         22609-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1100417   12/04/2012   360 21 USC 846
+STUDIVANT-BARNES     SHANNON       40283-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       VT 2300004    08/22/2024     30 21 USC 846        21 USC 841B1C
+SWANSON              ANTHONY       43992-048 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NV 0900222     12/14/2010   420 18 USC 922G1       21 USC 841A1 18 USC 924C1A          18 USC 924A2       21 USC 841B1BII
+SYKES                TERRANCE      14552-055 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYW 0506057       02/12/2007   LIFE 21 USC 841B1A     21844A          18 USC 922G1
+SYKES                CALVIN        21692-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2200146     04/18/2023   105 21 USC 841A1       21 USC 841B1C
+TARVER               ANTONIO       57460-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 1400032       08/03/2015   360 21 USC 841A1       21 USC 841B1BII 21 USC 841B1C       18 USC 2
+TAYLOR               ANTONIO       24308-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOW 1200242       07/31/2014   720 21 USC 841A1       18 USC 924C1A 18 USC 922G1          21 USC 841B1C      18 USC 924A2      21 USC 841B1B
+TAYLOR               JOSEPH        58872-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1900091     07/28/2020   360 21 USC 846         21 USC 841A1 21 USC 841B1BIII
+TAYLOR               JEFFERY       33329-045 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOW 1804075       02/02/2021   240 21 USC 841A1       21 USC 841B1C
+TAYLOR               ANTHONY       44151-007 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MD 1900515      05/13/2021     84 21 USC 841A1      18 USC 924C1AI 21 USC 841B1C
+TERRY                OLDEN         56278-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1200036     02/07/2013   295 18 USC 924C        21 USC 841A1
+TERRY                DAVID         57536-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     MIE 2220267     01/17/2024     57 21 USC 846
+THOMAS               KENNETH       17699-104 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 1820683    03/14/2019   168 21 USC 846         21 USC 841A1
+THOMAS               EIAN          13159-026 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 1910036    04/09/2021   160 21 USC 841A1       21 USC 841B1C
+THOMAS               TIMOTHY       57714-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1800460     07/19/2021   240 21 USC 846         21 USC 841A1 21 USC 841B1C          18 USC 2
+THOMAS               DANNY         09960-042 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MSN 1900111      02/11/2022   110 21 USC 841A1       18 USC 924C1AI 21 USC 841B1C
+THOMAS               TIDAS         42997-424 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 2110037    03/13/2023   120 21 USC 841A1       18 USC 924C    18 USC 922G1         21 USC 841B1B      18 USC 924A2
+THOMPSON             RONALD        25933-034 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     LAE 1700225     07/11/2018   262 21 USC 841A1       21 USC 841B1C
+THOMPSON             FREDDIE       77066-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 2300639   12/04/2024   170 21 USC 841A1       21 USC 841B1C 21 USC 841B1D
+THORNTON             ERNEST        08480-068 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAW 2000142      09/07/2023     94 21 USC 841A1      21 USC 846     21 USC 841B1C
+THURMAN              CARLOS        60471-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     KYE 2100036     01/04/2024   210 21 USC 846         21 USC 841
+TOLBERT              MCFERRY       13903-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 1300006    11/06/2013   240 21 USC 841A1       21 USC 841B1A 21 USC 846
+TOOMBS               DONTERIUS     97073-020 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 1300051       05/13/2015   240 21 USC 846         21 USC 841B1A 21 USC 841
+TRENT                JAMAL         19827-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2000626     04/20/2022   108 21 USC 841B1B      21 USC 846
+TURNER               ANTONIO       38911-044 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 1100103       07/11/2013   LIFE 21 USC 846        21 USC 841A1
+TURNER               COREY         28354-044 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 1100103       07/11/2013   LIFE 21 USC 846        21 USC 841A1 18 USC 2
+TURNER               CORY          12763-030 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      IAS 2000188    10/14/2021   204 21 USC 846         21 USC 841A1 21 USC 841B1B          21 USC 841B1A
+UPCHURCH             TYRIK         73452-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 1700208     10/14/2020   223 21 USC 846         21 USC 841A1 21 USC 841B1C
+VELAZQUEZ-CASANOVA   ERNEST        24106-069 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       PR 2000134    03/23/2021     78 18 USC 924C1A     21 USC 841A1 21 USC 841B1D
+VOSKANYAN            PAUL          94078-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 1900170     11/10/2020   144 21 USC 841A1       21 USC 841B1A
+WALKER               DAVID         87368-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        NJ 2200497   12/12/2022     60 21 USC 841A1      21 USC 846     21 USC 841B1C
+WALKER               JEREMY        57971-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted       ILS 2330034   04/29/2024     51 21 USC 841A1      18 USC 922G1 21 USC 841B1C          18 USC 924A2
+WALLER               DARRELL       66290-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    LAM 2000098      06/09/2022     74 18 USC 924C1A     21 USC 841A1
+WALTERS              MARIO         13335-062 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OKN 1300028      08/11/2016   240 21 USC 846         21 USC 841B1A
+WALTERS              DONALD        09442-062 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    OKN 1300028      04/03/2017   240 21 USC 846         21 USC 848A    18 USC 371           21 USC 841A1       21 USC 841
+WALTON               ANTONIO       07529-027 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     INN 1700047     03/11/2021   360 21 USC 846
+WARNER               JEREMY        49563-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1500150     10/19/2015   300 21 USC 841A1       21 USC 841B1B
+WASHINGTON           DAVID         44353-053 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1800051      09/23/2020   288 21 USC 841A1       18 USC 924C1A 21 USC 841B1C
+WEATHERALL           PATRICK       39772-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1000038     11/04/2010   300 21 USC 846
+WEAVER               PALLIS        12427-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     FLN 1000022     09/22/2011   LIFE 21 USC 841A1      21 USC 841B1C 21 USC 841B1A         21 USC 841B1AIII
+WEBB                 SIRRI         03083-511 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 2400066     11/01/2024   180 21 USC 841A1       18 USC 924C1A 21 USC 841B1BII
+WEITERS              BERNARD       18672-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 0900987   02/28/2011   LIFE 18 USC 924G1      21 USC 841B1A 18 USC 924C1          18 USC 924A2       21 USC 841    18 USC 924E
+WELLS                CHRIS         37175-034 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     LAE 1700104     10/04/2018   240 21 USC 841A1       18 USC 922G1 18 USC 924C1A          21 USC 841B1B      21 USC 841B1C 18 USC 924A2        18 USC 2        21 USC 846
+WELLS                JOVONTI       71990-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      ILC 2040044    07/06/2022     90 21 USC 841A1      21 USC 841B1B
+WHEELER              LAMONT        23502-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted        SC 1102343   04/07/2014   300 21 USC 841A1       18 USC 922G1 18 USC 924C1           21 USC 841B1A      21 USC 841B1C 18 USC 924A2        21 USC 846
+WHITE                RODERICK      44889-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 2120268    12/21/2021   130 21 USC 846         21 USC 841A1 18 USC 924C1AI
+WHITE                WINSTON       43651-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2100420     04/26/2022     97 21 USC 846        18 USC 924C1A 21 USC 841B1C
+WHITMORE             VAN           87635-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 1900846     06/28/2022   210 21 USC 846         18 USC 924C1A 21 USC 841B1B
+WHITTED              GENESIS       61101-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1500372     03/06/2018   420 21 USC 846         21 USC 841A1 18 USC 924C1           21 USC 841B1C      21 USC 841B1B 18 USC 2
+WIGFALL              ANTHONY       41386-074 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TNE 2200036     09/20/2024     36 21 USC 846        21 USC 841A1 21 USC 841
+WILDER               RENALD        06513-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      FLS 2220031    02/07/2023     72 21 USC 841A       18 USC 924C
+WILKES               DARYL         55522-083 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     VAE 0300161     06/16/2004   952 18 USC 2           21 USC 846      21 USC 841A1        18 USC 924C1       21 USC 841B1AII 21 USC 841B1BII 21 USC 841B1AII
+WILKINS              BRANDON       14654-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2100424     09/20/2023     60 21 USC 846        21 USC 841B1C
+WILLARD              DEQUAN        54862-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 1600060     03/24/2017   168 21 USC 846         18 USC 924C     18 USC 2
+WILLARD              CLARENCE      18191-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     TXN 2000151     07/29/2021   262 21 USC 841A1       21 USC 841B1BII
+WILLIAMS             JULIUS        83048-054 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 0000237     11/26/2002   600 18 USC 1962D       21 USC 846      21 USC 841B1C
+WILLIAMS             CHRISTOPHER   56305-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 0200172     04/29/2004   LIFE 21 USC 841A1      18 USC 924C1 21 USC 841B1A
+WILLIAMS             ALLEN         07775-073 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     IAN 1004083     05/27/2011   360 21 USC 841A1       21 USC 846      21 USC 841B1BVIII   21 USC 841B1C
+WILLIAMS             CLINTON       21324-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     FLN 1200010     01/08/2013   LIFE 21 USC 841B1AII   21 USC 841A1 21 USC 846             21 USC 841B1BII
+WILLIAMS             STEPHON       97072-020 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   GAM 1300051       05/13/2015   240 21 USC 846         21 USC 841B1A 21 USC 841
+WILLIAMS             ANTHONY       22258-021 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     GAS 1700099     02/13/2018   188 21 USC 841A1       21 USC 841B1B
+WILLIAMS             DAQONE        21750-040 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 1700140       03/28/2018   140 21 USC 841A1       21 USC 841B1C 21 USC 841B1BIII
+WILLIAMS             RODNEY        64660-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 1800014     11/15/2018   204 21 USC 846         21 USC 841B1A
+WILLIAMS             BRADLEY       05255-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2000055     03/15/2021     84 21 USC 841A1      18 USC 924C1A 21 USC 841B1D         21 USC 841B1C      18 USC 924C1AI
+WILLIAMS             JAMES         69751-066 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     PAE 1700645     05/12/2021   162 21 USC 841A1       18 USC 922G1 21 USC 841B1C
+WILLIAMS             DALE          05253-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2000083     09/03/2021     78 21 USC 841A1      18 USC 924C1A 21 USC 841B1C         18 USC 924C1AI
+WILLIAMS             TYRUN         57543-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MIW 2100120       04/14/2022   120 21 USC 841A1       18 USC 924C1AI 21 USC 841B1BIII     21 USC 841B1C
+WILLIAMS             BARRY         57659-019 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 1900846     06/16/2022   210 21 USC 846         21 USC 841B1A
+WILLIAMS             RAMON         75679-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    PAM 1900089      07/06/2022   137 18 USC 924C        21 USC 841A1
+WILLIAMS             KEWAANNE      51589-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NYS 2100412     08/09/2022     90 21 USC 846        21 USC 841
+WILLIAMS             GARY          08128-007 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      DC 2200213     09/27/2022   120 21 USC 841A1       18 USC 924C1 21 USC 841B1BIV
+WILLIAMS             DARRELL       73459-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ALS 2100165     02/17/2023   648 21 USC 846         21 USC 841A1
+WILLIAMS             CHRISTOPHER   67263-056 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     NCE 2000043     06/24/2024   240 21 USC 846         21 USC 841A1 21 USC 841B1C          21 USC 841B1B
+WILLIAMS             JOHNNY        00698-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYW 2100195       10/04/2024   168 21 USC 846         21 USC 841A1 21 USC 841B1A
+WILLIS     DERRICK       39002-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TNM 2100143     12/19/2022     62 18 USC 922G1   21 USC 841A1    18 USC 924C1A
+WILSON     CHRISTOPHER   18729-380 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TXW 1300138     04/30/2014   360 21 USC 846      21 USC 841A1    18 USC 924C1AI   21 USC 841B1C      21 USC 841B1AII 21 USC 841B1AII
+WILSON     CORNELIUS     18730-380 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TXW 1300138     04/30/2014   360 21 USC 846      21 USC 841A1    21 USC 841B1C    21 USC 841B1AIII   21 USC 841B1AII
+WILSON     SALEEM        12819-067 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   PAM 2000048     03/08/2021   156 21 USC 841A1    21 USC 841B1B   21 USC 841B1D
+WILSON     SHANEEKA      35080-058 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NCW 2000336     10/19/2021     84 21 USC 841A1   21 USC 841B1B   21 USC 846
+WILSON     ANTONIO       34836-171 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      SC 1900986   06/22/2022   175 21 USC 846
+WILSON     EDDIE         10840-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   NYW 2106137     09/26/2022   138 21 USC 841A1    18 USC 924C1AI 21 USC 841B1C
+WILSON     JOSEPH        11078-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2200040    01/19/2023   108 21 USC 841A1    21 USC 841B1C
+WILSON     ERIC          42615-037 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    MD 2100286     04/04/2023     72 21 USC 846     21 USC 841A1
+WILSON     TAJUAN        29592-044 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   MOE 2100563     02/22/2024   135 21 USC 841A1    21 USC 846     21 USC 841B1C
+WITCHER    RODRIQUEZ     13082-084 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   VAW 1600007     06/08/2017   162 21 USC 846      21 USC 841B1C
+WOODEARS   PERCY         22493-076 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted   TNW 2120010     06/02/2022   135 21 USC 841A1    21 USC 846     18 USC 2
+WOOTEN     CORTEZ        04430-025 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ILS 1030088   07/08/2011   LIFE 21 USC 841A1   21 USC 841
+WOOTEN     TASHON        24603-509 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted      NJ 2100045   04/10/2023     61 21 USC 841A1   18 USC 924C1AI 21 USC 841B1C
+WORTHY     HASAN         06806-036 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted     ME 1200135    06/19/2013   300 21 USC 841A1    21 USC 841B1A 21 USC 841B1C      21 USC 843D        21 USC 841
+WRIGHT     JONATHAN      26448-009 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    ARE 1100168    12/12/2012   LIFE 21 USC 841A1   21 USC 841B1A
+WRIGHT     SYLVESTER     06570-017 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    FLN 1300076    04/17/2014   210 21 USC 841A1    21 USC 841B1C
+WRIGHT     RASUAN        06287-510 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    NCE 2200140    10/03/2024   204 21 USC 846      21 USC 841B1C 21 USC 841A1
+WYATT      LATASHA       41285-177 (b)(6) redacted   (b)(6) redacted   (b)(6) redacted    TXN 1000006    11/23/2010   360 18 USC 2        21 USC 841A1 21 USC 841B1A
+

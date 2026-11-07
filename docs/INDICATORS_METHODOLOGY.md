@@ -23,6 +23,8 @@ observation; counts exclude `.` rows):
 | Regular gas price | `GASREGW` | weekly (Mon) | 1990-08-20 | 2026-09-28 | 1,879 | $/gal, NSA. EIA. 6 missing weeks 1990-12-10..1991-01-14. |
 | Diesel price | `GASDESW` | weekly (Mon) | 1994-03-28 | 2026-10-05 | 1,699 | $/gal, NSA. EIA, all types. Begins after the display window, so coverage is checked from its own first week (`late_start`). |
 | 30-year mortgage rate | `MORTGAGE30US` | weekly (Thu) | 1971-04-02 | 2026-09-24 | 2,896 | %. Freddie Mac; methodology break 2022-11-17. **Copyrighted.** |
+| Federal funds rate | `FF` | weekly (Wed) | 1954-07-07 | 2026-10-21 | 3,773 | %. Effective rate, weekly average. Board of Governors (H.15). |
+| 10-year Treasury yield | `WGS10YR` | weekly (Fri) | 1962-01-05 | 2026-10-23 | 3,382 | %. Constant maturity, weekly average. Board of Governors (H.15). |
 | Nonfarm payrolls | `PAYEMS` | monthly | 1939-01-01 | 2026-08-01 | 1,052 | Thousands of persons, SA. A level. |
 | Unemployment rate | `UNRATE` | monthly | 1948-01-01 | 2026-08-01 | 943 | %, SA. 2025-10 missing. |
 | Consumer prices | `CPIAUCSL` | monthly | 1947-01-01 | 2026-08-01 | 955 | Index 1982-84=100, SA. 2025-10 missing. |
@@ -44,7 +46,7 @@ observation; counts exclude `.` rows):
 
 ## How FRED dates each frequency (verified, not assumed)
 
-- **Weekly:** the week-ending day (Monday for gas, Thursday for mortgage).
+- **Weekly:** the week-ending day (Monday for gas, Thursday for mortgage, Wednesday for the federal funds rate, Friday for the 10-year yield).
 - **Monthly and quarterly:** the **first day** of the period (`2026-08-01` =
   August; `2026-01-01` = Q1).
 - **Annual (calendar year):** January 1 of the year the income was earned.

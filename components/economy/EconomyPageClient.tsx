@@ -1,6 +1,5 @@
 "use client";
 
-import { HowToRead } from "@/components/HowToRead";
 import { SourceLink } from "@/components/SourceLink";
 import { useMemo, useState } from "react";
 import { EconomyStateProvider, activeDay, useEconomyActions, useEconomyValues } from "./EconomyState";
@@ -16,13 +15,15 @@ import { EconomyFilterBar } from "./EconomyFilterBar";
 import { CARD_ROWS, SPECS, USD_SPECS, type ChartSpec } from "./specs";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
 import { UpNext } from "@/components/UpNext";
+import { updatedLabel } from "@/lib/news-derive";
+import { cardId, economyFaq, economyNews } from "./economy-news";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
 import { enumParam, flagParam, yearsParam } from "@/lib/url-state";
 import { useUrlState } from "@/lib/use-url-state";
 
 const UNIT_PARAM = enumParam<FiscalUnit>(["usd", "pct"], "usd");
 
-const longDate = (iso: string) =>
-  new Date(`${iso.slice(0, 10)}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
 function Swatch({ color, border }: { color: string; border?: boolean }) {
   return <span aria-hidden className="inline-block size-3" style={{ background: color, border: border ? "1px solid var(--line)" : undefined }} />;
@@ -40,6 +41,9 @@ interface PageProps {
   payload: EconomyPayload;
   fredNotice: string;
   mortgageAttribution: string;
+  /** `news_economy.json` and `faq_economy.json`; null (or empty) when a file is missing, which leaves out the sections, their links and the cards' jump links. */
+  newsFile: NewsFile | null;
+  faqFile: FaqFile | null;
 }
 
 /** "March 2009, Obama (D)" for an axis day. */
@@ -53,6 +57,8 @@ function EconomyPage({
   payload,
   fredNotice,
   mortgageAttribution,
+  newsFile,
+  faqFile,
 }: PageProps) {
   const data = useMemo(() => fromEconomyPayload(payload), [payload]);
   const values = useEconomyValues();
@@ -64,6 +70,9 @@ function EconomyPage({
   const fiscal = useMemo(() => withFiscalUnit(data, unit), [data, unit]);
   const fiscalAlt = useMemo(() => withFiscalUnit(data, other), [data, other]);
   const specs = useMemo<Record<keyof typeof SPECS, ChartSpec>>(() => ({ ...SPECS, ...(unit === "usd" ? USD_SPECS : {}) }), [unit]);
+  const news = useMemo(() => economyNews(fiscal, specs, newsFile), [fiscal, specs, newsFile]);
+  const faq = useMemo(() => economyFaq(faqFile, specs), [faqFile, specs]);
+  const { focus, jump } = useChartJump(news, faq);
   const altSpecs = useMemo(() => (unit === "usd" ? SPECS : USD_SPECS), [unit]);
   const day = activeDay(values);
   // Hero and cards read the same date, from the same lookup module.
@@ -118,6 +127,8 @@ function EconomyPage({
     gas: <>Weekly national average retail price per gallon from the <SourceLink id="fred-gas">Energy Information Administration</SourceLink>, taxes included. Prices are not adjusted for inflation, so a dollar in 1991 buys more than a dollar today. Diesel is the dashed line and is plotted from March 1994, when the EIA series starts. Use the legend to show either line alone.</>,
     mort: <><SourceLink id="freddie-mac-pmms">Freddie Mac</SourceLink>’s weekly survey of the average 30-year fixed mortgage rate. It is an average, not the rate every borrower gets, and it is not adjusted for inflation. Freddie Mac changed how it collects the rate in November 2022, to rely on lender applications, so comparisons across that line aren’t exact. The dashed vertical line marks the change. Source: <SourceLink id="fred-mortgage">Freddie Mac</SourceLink>.</>,
     def: <>Budget receipts minus outlays, from the <SourceLink id="fred-deficit-usd">Office of Management and Budget</SourceLink>, in dollars or as a <SourceLink id="fred-deficit">share of GDP</SourceLink>. Dollars are not adjusted for inflation, so later years look larger partly because prices and the economy grew; the share of GDP corrects for that. Bars are fiscal years, which run October to September and are named for the year they end. Fiscal {lastFy + 1} isn’t reported yet. Negative is a deficit; positive is a surplus. The newest year can come from <SourceLink id="treasury-fiscal-data">Treasury Fiscal Data</SourceLink> before the other sources publish it.</>,
+    ff: <>The effective federal funds rate from the <SourceLink id="federal-reserve-h15">Federal Reserve Board</SourceLink>: what banks actually charged each other for overnight loans, averaged by week. The Federal Open Market Committee announces a target range and steers the rate into it, so the line moves in steps at its decisions (<SourceLink id="fomc-statements">FOMC statements</SourceLink>). It is not a rate households pay, but it shapes the ones they do, such as credit cards and, more loosely, mortgages. Not adjusted for inflation. Source: <SourceLink id="fred-fed-funds">Federal Reserve Board</SourceLink>.</>,
+    ten: <>The yield on 10-year U.S. Treasury notes from the <SourceLink id="federal-reserve-h15">Federal Reserve Board</SourceLink>, averaged by week: what investors earn for lending to the government for ten years. The market sets it, not the Fed, though expectations about the Fed’s rate move it. Mortgage rates tend to follow it, and it gauges what the government pays to borrow. Not adjusted for inflation. Source: <SourceLink id="fred-treasury-10y">Federal Reserve Board</SourceLink>.</>,
     debt: <>Total public debt, the figure the news reports, counts what the government owes itself, such as to the Social Security trust funds. The dashed line is debt held by the public, owed to investors outside government. Dollars are not adjusted for inflation, so the line climbs with prices and the economy; as a <SourceLink id="fred-debt">share of GDP</SourceLink> the ratio can fall when the economy grows faster than debt does. Sources: <SourceLink id="fred-debt-usd">Office of Management and Budget</SourceLink> and the <SourceLink id="fred">St. Louis Fed</SourceLink>; the newest dollar figures come from <SourceLink id="treasury-fiscal-data">Treasury Fiscal Data</SourceLink>.</>,
   };
   const key = (c: string, label: string) => (
@@ -173,19 +184,11 @@ function EconomyPage({
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader eyebrow="Presidency · Economy" title="What Was the Economy Like?">
+        <PageHeader eyebrow="Presidency · Economy" updated={newsFile?.asOf} title="What Was the Economy Like?">
           <p>
-            Unemployment, inflation, jobs, growth, pay, gas prices, mortgage rates and the federal budget, since 1991. These
-            are the numbers households feel first, lined up against who held the White House and Congress at the time.
+            Track unemployment, inflation, job growth, real wages, gas prices, and the federal deficit since 1991&mdash;lined up directly against who controlled the White House and Congress.
           </p>
-          <HowToRead>
-            <p>
-              The colored bar under each chart shows who was president, and the gray columns mark recessions. These are conditions during each term, not a score of what any one official caused.
-            </p>
-            <p>
-              The bands show who held office, not who controlled the number: the Federal Reserve sets short-term rates on its own, and recessions, oil prices and older laws all move these figures. Congress bands show each chamber&rsquo;s majority party, with the Senate&rsquo;s mid-Congress changes (2001, 2002, 2021) on their dates. Values are the latest revised numbers as of {longDate(payload.fetchedAt)}; jobs and income figures are routinely revised.
-            </p>
-          </HowToRead>
+          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">
@@ -244,6 +247,7 @@ function EconomyPage({
                   reading={latest[k]}
                   takeaway={specs[k].takeaway}
                   notes={<p>{notes[k]}</p>}
+                  jump={jump(cardId(k))}
                   legend={
                     k === "gas" || k === "debt"
                       ? ({ only, isolate }) => (
@@ -266,11 +270,13 @@ function EconomyPage({
           </section>
         ))}
 
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} focus={focus} />
+
         <UpNext />
         <div className="flex flex-col gap-2.5 text-[0.8rem] leading-[1.6] text-ink-muted">
           <p className="m-0">
             Source: U.S. Bureau of Labor Statistics, U.S. Bureau of Economic Analysis, U.S. Energy Information Administration, U.S. Census Bureau, U.S.
-            Office of Management and Budget and the <SourceLink id="nber">National Bureau of Economic Research</SourceLink>, via <SourceLink id="fred">Federal Reserve Bank of St.
+            Office of Management and Budget, the Board of Governors of the Federal Reserve System and the <SourceLink id="nber">National Bureau of Economic Research</SourceLink>, via <SourceLink id="fred">Federal Reserve Bank of St.
             Louis, FRED®</SourceLink>. Mortgage rates: {mortgageAttribution}. Chamber majorities: <SourceLink id="senate-party-division">U.S. Senate</SourceLink> and <SourceLink id="house-party-division">U.S. House
             historians’ party-division tables</SourceLink>.
           </p>

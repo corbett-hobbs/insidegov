@@ -1,0 +1,38 @@
+name: Social draft lengths
+
+# Keeps the "Length" section of a social-draft issue current when someone edits it (changing the caption or the intro
+# thread): characters used against Bluesky's 300 and X's 280, and whether the caption still passes the check.
+# The edit is made with GITHUB_TOKEN, which does not trigger this workflow again.
+
+on:
+  issues:
+    types: [edited]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: social-counts-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  counts:
+    if: contains(github.event.issue.labels.*.name, 'social-draft') && github.event.sender.type != 'Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Update the lengths
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm exec tsx pipeline/insights/update-counts.ts --issue ${{ github.event.issue.number }}

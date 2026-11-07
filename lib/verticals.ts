@@ -113,8 +113,8 @@ const DEFS: readonly BranchDef[] = [
           "Where active-duty U.S. troops are stationed, by country, region and branch.",
       },
       {
-        id: "executive-orders",
-        label: "Executive orders",
+        id: "executive-actions",
+        label: "Executive actions",
         status: "live",
         blurb:
           "Every executive order since 1994, by year and topic, set against each presidential term.",

@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-01T04:52:39.500Z","series":{"id":"FYFSGDA188S","title":"Federal Surplus or Deficit [-] as Percent of Gross Domestic Product","units":"Percent of GDP","frequency":"Annual","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1929-01-01","observation_end":"2025-01-01","last_updated":"2026-04-09 08:07:35-05","notes":"Federal Surplus or Deficit [-] as Percent of Gross Domestic Product (FYFSGDA188S) (https://fred.stlouisfed.org/series/FYFSGDA188S) was first constructed by the Federal Reserve Bank of St. Louis in October 2012. It is calculated using Federal Surplus or Deficit [-] (FYFSD) (https://fred.stlouisfed.org/series/FYFSD) and Gross Domestic Product (GDPA) (https://fred.stlouisfed.org/series/GDPA): FYFSGDA188S = ((FYFSD/1000)/GDPA)*100 FYFSD/1000 transforms FYFSD from millions of dollars to billions of dollars."}},
+  "head": {"fetched_at":"2026-10-30T19:11:58.517Z","series":{"id":"FYFSGDA188S","title":"Federal Surplus or Deficit [-] as Percent of Gross Domestic Product","units":"Percent of GDP","frequency":"Annual","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1929-01-01","observation_end":"2025-01-01","last_updated":"2026-10-28 19:22:23-05","notes":"Federal Surplus or Deficit [-] as Percent of Gross Domestic Product (FYFSGDA188S) (https://fred.stlouisfed.org/series/FYFSGDA188S) was first constructed by the Federal Reserve Bank of St. Louis in October 2012. It is calculated using Federal Surplus or Deficit [-] (FYFSD) (https://fred.stlouisfed.org/series/FYFSD) and Gross Domestic Product (GDPA) (https://fred.stlouisfed.org/series/GDPA): FYFSGDA188S = ((FYFSD/1000)/GDPA)*100 FYFSD/1000 transforms FYFSD from millions of dollars to billions of dollars."}},
   "observations": [
     ["1929-01-01","0.70202"],
     ["1930-01-01","0.80078"],
@@ -87,16 +87,16 @@
     ["2012-01-01","-6.62345"],
     ["2013-01-01","-4.02694"],
     ["2014-01-01","-2.75323"],
-    ["2015-01-01","-2.41574"],
-    ["2016-01-01","-3.10903"],
-    ["2017-01-01","-3.39306"],
-    ["2018-01-01","-3.77157"],
-    ["2019-01-01","-4.56634"],
-    ["2020-01-01","-14.4824"],
-    ["2021-01-01","-11.69028"],
-    ["2022-01-01","-5.27419"],
-    ["2023-01-01","-6.06751"],
-    ["2024-01-01","-6.19625"],
-    ["2025-01-01","-5.76906"]
+    ["2015-01-01","-2.39901"],
+    ["2016-01-01","-3.12371"],
+    ["2017-01-01","-3.39439"],
+    ["2018-01-01","-3.77119"],
+    ["2019-01-01","-4.57005"],
+    ["2020-01-01","-14.65205"],
+    ["2021-01-01","-11.67437"],
+    ["2022-01-01","-5.27784"],
+    ["2023-01-01","-6.09198"],
+    ["2024-01-01","-6.2381"],
+    ["2025-01-01","-5.7527"]
   ]
 }

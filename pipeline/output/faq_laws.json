@@ -1,0 +1,144 @@
+{
+  "asOf": "2026-10-28",
+  "groups": [
+    {
+      "row": "How a bill becomes law",
+      "items": [
+        {
+          "id": "bill-vs-law",
+          "q": "What is the difference between a bill and a law?",
+          "a": "A bill is a proposal introduced in the House or the Senate; a law is a bill that has completed enactment. A bill becomes law only after both chambers agree to it in the same form and it is presented to the President. The President can sign it, or take no action within 10 days, excluding Sundays, and it becomes law without a signature (unless Congress has adjourned). If the President vetoes it, it becomes law only if two-thirds of those voting in each chamber vote to override.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ]
+        },
+        {
+          "id": "resolution-vs-bill",
+          "q": "What is the difference between a resolution and a bill?",
+          "a": "Bills and joint resolutions can become law, while simple and concurrent resolutions cannot. A chamber uses a simple resolution, or both chambers use a concurrent resolution, to express sentiments or handle internal tasks such as setting their rules. A simple resolution is never sent to the other chamber or the President, and a concurrent resolution is not presented to the President. A joint resolution that proposes a constitutional amendment is also not presented to the President.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ]
+        },
+        {
+          "id": "who-can-introduce-bill",
+          "q": "Who can introduce a bill in Congress?",
+          "a": "Only a Member of the House of Representatives or a Senator can introduce a bill. A Member sometimes introduces legislation by request of the President, who often suggests legislation, but the bill is still introduced by a Member. Under the Constitution, bills for raising revenue must originate in the House of Representatives, though the Senate may propose or concur with amendments.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            },
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            }
+          ],
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ]
+        },
+        {
+          "id": "who-decides-house-votes",
+          "q": "Who decides which bills get a vote in the House?",
+          "a": "In the House, majority party leadership generally decides which bills get floor consideration. Bills usually go through a committee first, where the chair chooses which bills get formal attention and a majority vote is needed to report a bill, but being reported does not guarantee a floor vote. Leadership then schedules a bill under suspension of the rules (40 minutes of debate, no floor amendments, two-thirds of Members voting to agree) or asks the Rules Committee to report a special rule, which the House votes to adopt before it considers the bill.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-many-laws-does-congress-pass"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Votes and vetoes",
+      "items": [
+        {
+          "id": "filibuster-vs-cloture",
+          "q": "What is the difference between a filibuster and cloture?",
+          "a": "A filibuster is the use of extended debate or other delaying tactics to block a Senate measure from coming to a vote. Cloture, under Senate Rule XXII, is the procedure that can end a filibuster by limiting further debate, usually to 30 additional hours. Invoking cloture on most measures takes three-fifths of all Senators, normally 60 votes. Cloture on nominations takes a majority of Senators voting.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Filibusters and Cloture in the Senate",
+              "url": "https://www.congress.gov/crs_external_products/RL/PDF/RL30360/RL30360.22.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-broadly-are-laws-supported"
+          ]
+        },
+        {
+          "id": "veto-vs-pocket-veto",
+          "q": "What is the difference between a veto and a pocket veto?",
+          "a": "A regular veto is when the President returns a bill, with objections, to the chamber where it started within 10 days (Sundays excepted) of receiving it. Congress can then override the veto if two-thirds of each chamber vote to do so. A pocket veto applies when Congress's adjournment prevents the bill from being returned. In that case the bill does not become law, and no returned bill exists for Congress to override.",
+          "sources": [
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-broadly-are-laws-supported"
+          ]
+        },
+        {
+          "id": "who-can-override-veto",
+          "q": "Who can override a presidential veto?",
+          "a": "Congress can override a presidential veto. The chamber where the bill began votes first, and the override needs two-thirds of those voting. The bill then goes to the other chamber, which also needs two-thirds of those voting to agree. If both chambers vote to override, the bill becomes law without the President's signature.",
+          "sources": [
+            {
+              "label": "U.S. Constitution, Article I, Section 7 (National Archives)",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "Congressional Research Service, Introduction to the Legislative Process in the U.S. Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R42843/R42843.21.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-broadly-are-laws-supported"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Kinds of laws",
+      "items": [
+        {
+          "id": "public-vs-private-law",
+          "q": "What is the difference between a public law and a private law?",
+          "a": "Public laws affect society as a whole, and most laws passed by Congress are public laws. Private laws affect an individual, family or small group. They are enacted to assist people who have been injured by government programs or who are appealing an executive agency ruling such as deportation. Both types are numbered in sequence within each Congress, and each citation includes the Congress number and the law number.",
+          "sources": [
+            {
+              "label": "GovInfo, Public and Private Laws",
+              "url": "https://www.govinfo.gov/help/plaw"
+            }
+          ],
+          "chartIds": [
+            "which-kinds-of-laws-pass-and-how"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -45,8 +45,8 @@ import { ALL_AREAS, OTHER_AREAS, type DecisionCase } from "./decisions-types";
 const read = <T>(f: string): T => JSON.parse(readFileSync(`pipeline/output/${f}`, "utf8")) as T;
 const counts = read<DecisionCountRow[]>("decisions_counts.json");
 const meta = read<DecisionsMeta>("decisions_meta.json");
-const report = read<{ cases: number; bucket_totals: Record<string, number>; cases_by_issue_area: Record<string, number>; terms: string }>("decisions_report.json");
-const caseRows = read<{ case_id: string; term: number; date: string; name: string; cite: string; issue_area_id: string | null; band: number; maj: number; min: number; direction: "liberal" | "conservative" | null }[]>("decisions_cases.json");
+const report = read<{ cases: number; bucket_totals: Record<string, number>; cases_by_topic: Record<string, number>; terms: string }>("decisions_report.json");
+const caseRows = read<{ case_id: string; term: number; date: string; name: string; cite: string; group_id: string | null; issue_area_id: string | null; band: number; maj: number; min: number; direction: "liberal" | "conservative" | null }[]>("decisions_cases.json");
 const landmarkRows = read<{ case_id: string; title: string; topics: string[] }[]>("decisions_landmarks.json");
 const landmarkIds = new Set(landmarkRows.map((r) => r.case_id));
 const admins = [...HISTORICAL_ADMINISTRATIONS, ...read<unknown[]>("administrations.json").map((r) => administration.parse(r))];
@@ -56,7 +56,7 @@ const byOutcome = (dir: "liberal" | "conservative") => {
 };
 const d = buildDecisionsPayload(counts, meta, countCaseRows(caseRows.filter((r) => landmarkIds.has(r.case_id))), admins, { 1: byOutcome("conservative"), 2: byOutcome("liberal") });
 const cases: DecisionCase[] = caseRows
-  .map((r): DecisionCase => [r.term, r.date, r.name, r.cite, r.issue_area_id === null ? -1 : d.areas.findIndex((a) => a.id === r.issue_area_id), r.band, r.maj, r.min, landmarkIds.has(r.case_id) ? "Landmark" : "", "", "", "", 0, r.direction === "conservative" ? 1 : r.direction === "liberal" ? 2 : 0, r.case_id])
+  .map((r): DecisionCase => [r.term, r.date, r.name, r.cite, r.group_id === null ? -1 : d.areas.findIndex((a) => a.id === r.group_id), r.band, r.maj, r.min, landmarkIds.has(r.case_id) ? "Landmark" : "", "", "", "", 0, r.direction === "conservative" ? 1 : r.direction === "liberal" ? 2 : 0, r.case_id, r.issue_area_id === null ? -1 : d.scdbAreas.findIndex((a) => a.id === r.issue_area_id)])
   .reverse();
 const FULL: [number, number] = [d.terms[0], d.terms[d.terms.length - 1]];
 
@@ -70,7 +70,7 @@ describe("payload", () => {
   });
   it("per-area totals match the report; unclassified cases are in All only", () => {
     d.areas.forEach((a, i) => {
-      expect(d.by[i].reduce((s, b) => s + sumBucket(b), 0), a.id).toBe(report.cases_by_issue_area[a.id]);
+      expect(d.by[i].reduce((s, b) => s + sumBucket(b), 0), a.id).toBe(report.cases_by_topic[a.id]);
     });
     const inAreas = d.by.reduce((s, rows) => s + rows.reduce((t, b) => t + sumBucket(b), 0), 0);
     expect(sumBucket(windowSum(d, -1, FULL)) - inAreas).toBe(d.unclassified);
@@ -178,31 +178,33 @@ describe("issue-area rows", () => {
 });
 
 describe("small-sample test", () => {
-  it("is on for a thin issue area and never for All", () => {
-    const privacy = d.areas.findIndex((a) => a.id === "private-action");
+  it("is on for a thin topic and never for All", () => {
+    const privacy = d.areas.findIndex((a) => a.id === "abortion-privacy-lgbtq");
     expect(isSmallSample(d, privacy, FULL)).toBe(true);
     expect(isSmallSample(d, -1, FULL)).toBe(false); // the whole docket is ~100 cases a term
-    const crim = d.areas.findIndex((a) => a.id === "criminal-procedure");
+    const crim = d.areas.findIndex((a) => a.id === "crime-policing");
     expect(isSmallSample(d, crim, [1960, 1980])).toBe(false);
     expect(median([5, 1, 3])).toBe(3);
     expect(median([1, 2, 3, 4])).toBe(2.5);
   });
 });
 
-describe("Other areas and card 1's series", () => {
-  it("six biggest areas plus Other add up to All, every term and band", () => {
-    expect(d.topAreas).toHaveLength(6);
+describe("card 1's series", () => {
+  it("every topic plus the cases with no issue area add up to All, every term and band", () => {
+    expect([...d.topAreas].sort((a, b) => a - b)).toEqual(d.areas.map((_, i) => i));
     const series = areaSeries(d);
-    expect(series).toHaveLength(7);
-    expect(series[6]).toMatchObject({ id: "other", area: OTHER_AREAS });
+    expect(series).toHaveLength(13);
+    expect(series[12]).toMatchObject({ id: "other", label: "No issue area", area: OTHER_AREAS, areas: [] });
+    expect(sumBucket(windowSum(d, OTHER_AREAS, FULL))).toBe(d.unclassified);
     d.terms.forEach((_, ti) => {
       for (let k = 0; k < 5; k++) {
         const sum = series.reduce((t, s) => t + areaCells(d, s.area)[ti][k], 0);
         expect(sum).toBe(d.all[ti][k]);
       }
     });
-    // Ranked by size: criminal procedure and economic activity lead the real data.
-    expect(d.areas[d.topAreas[0]].id).toBe("criminal-procedure");
+    // Ranked by size: business and crime lead the real data.
+    expect(d.areas[d.topAreas[0]].id).toBe("business-taxes");
+    expect(d.areas[d.topAreas[1]].id).toBe("crime-policing");
   });
   it("the area filter picks what the series say", () => {
     expect(inAreaFilter(d, ALL_AREAS, -1)).toBe(true);
@@ -222,10 +224,10 @@ describe("Other areas and card 1's series", () => {
     // Every area ticked is the whole docket less the cases with no area coded.
     const every = new Set(d.areas.map((_, i) => i));
     expect(sumBucket(windowSum(d, every, FULL))).toBe(d.caseCount - d.unclassified);
-    expect(areaFilterLabel(d, null)).toBe("All issue areas");
+    expect(areaFilterLabel(d, null)).toBe("All topics");
     expect(areaFilterLabel(d, new Set([2]))).toBe(d.areas[2].label);
     expect(areaFilterLabel(d, new Set(d.areas.map((_, i) => i).filter((i) => i !== 2)))).toBe(`All but ${d.areas[2].label}`);
-    expect(areaFilterLabel(d, new Set([1, 2, 3]))).toBe("3 of 14 issue areas");
+    expect(areaFilterLabel(d, new Set([1, 2, 3]))).toBe("3 of 12 topics");
   });
   it("the list lists what the charts count for a ticked set", () => {
     const sets = [new Set([0, 7]), new Set(d.areas.map((_, i) => i).filter((i) => i !== d.topAreas[0])), new Set<number>()];
@@ -267,21 +269,21 @@ describe("case list", () => {
     expect(f()).toHaveLength(cases.length);
   });
   it("links a case to its Wikipedia article when the lists give one, to nothing when they say there is none, else to a search", () => {
-    const joined: DecisionCase = [1969, "1969-06-02", "Pung v. Isabella County, Michigan", "", 1, 0, 9, 0, "", "", "Pung v. Isabella County", "", 0, 0, ""];
+    const joined: DecisionCase = [1969, "1969-06-02", "Pung v. Isabella County, Michigan", "", 1, 0, 9, 0, "", "", "Pung v. Isabella County", "", 0, 0, "", -1];
     expect(wikiCaseUrl(joined)).toBe("https://en.wikipedia.org/wiki/Pung_v._Isabella_County");
-    expect(wikiCaseUrl([1960, "x", "Obscure v. Order", "350 U.S. 1", 1, 0, 9, 0, "", "", null, "", 0, 0, ""])).toBeNull();
+    expect(wikiCaseUrl([1960, "x", "Obscure v. Order", "350 U.S. 1", 1, 0, 9, 0, "", "", null, "", 0, 0, "", -1])).toBeNull();
   });
   it("links a landmark to its article and any other case to a Wikipedia search, never to Justia", () => {
-    const lm: DecisionCase = [1954, "1954-05-17", "Brown v. Board of Education", "347 U.S. 483", 1, 0, 9, 0, "Brown v. Board of Education", "Race", "Brown v. Board of Education", "", 0, 0, ""];
+    const lm: DecisionCase = [1954, "1954-05-17", "Brown v. Board of Education", "347 U.S. 483", 1, 0, 9, 0, "Brown v. Board of Education", "Race", "Brown v. Board of Education", "", 0, 0, "", -1];
     expect(wikiCaseUrl(lm)).toBe("https://en.wikipedia.org/wiki/Brown_v._Board_of_Education");
     expect(wikiArticleUrl("Dobbs v. Jackson Women's Health Organization")).toBe("https://en.wikipedia.org/wiki/Dobbs_v._Jackson_Women's_Health_Organization");
-    const plain: DecisionCase = [1962, "1962-01-01", "Smith & Co. v. Jones", "369 U.S. 1", 1, 0, 9, 0, "", "", "", "", 0, 0, ""];
+    const plain: DecisionCase = [1962, "1962-01-01", "Smith & Co. v. Jones", "369 U.S. 1", 1, 0, 9, 0, "", "", "", "", 0, 0, "", -1];
     const u = new URL(wikiCaseUrl(plain)!);
     expect(u.host).toBe("en.wikipedia.org");
     expect(u.searchParams.get("search")).toBe("Smith & Co. v. Jones");
     expect(u.searchParams.get("go")).toBe("Go");
     expect(wikiCaseUrl(plain)).not.toMatch(/justia/);
-    expect(new URL(wikiCaseUrl([1962, "x", "Graham et al. v. John Deere Co. et al.", "", -1, 0, 9, 0, "", "", "", "", 0, 0, ""])!).searchParams.get("search")).toBe("Graham v. John Deere Co.");
+    expect(new URL(wikiCaseUrl([1962, "x", "Graham et al. v. John Deere Co. et al.", "", -1, 0, 9, 0, "", "", "", "", 0, 0, "", -1])!).searchParams.get("search")).toBe("Graham v. John Deere Co.");
   });
 });
 
@@ -379,7 +381,7 @@ describe("grouping by decade", () => {
     const lm = viewOf(d, true);
     expect(splitGrain(lm, ALL_AREAS, FULL)).toBe("decade");
     expect(splitGrain(lm, ALL_AREAS, [1972, 1977])).toBe("term"); // one decade: nothing to group
-    const thin = d.areas.findIndex((a) => a.id === "private-action");
+    const thin = d.areas.findIndex((a) => a.id === "abortion-privacy-lgbtq");
     expect(splitGrain(d, thin, FULL)).toBe("decade");
   });
 });

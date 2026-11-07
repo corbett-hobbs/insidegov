@@ -1,15 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { line } from "d3-shape";
 import { PillGroup } from "@/components/charts/PillGroup";
 import { flagsForCard, fmtMbd, fmtMbdShort, isPreliminary, monthLabel, monthOfDay, monthlyAt, termAtDay } from "@/lib/energy-derive";
 import { monthStartDay, termLabel } from "@/lib/trade-chart";
 import type { EnergyPayload, MonthlyKey } from "@/lib/energy-types";
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
+import { readoutRows, rowValues, type ReadoutLine } from "@/lib/line-readout";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
-import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText } from "./shared";
+import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, useViewThrough, statusText } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
@@ -35,7 +36,7 @@ const signed = (v: number) => (v > 0 ? "+" : "") + fmtMbdShort(v);
  * exports as a thin dashed line in the flows view, where the 2015 repeal of the export restriction shows. Total
  * petroleum throughout, except that one labelled crude series.
  */
-export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function OilTradeCard({ payload, view: fullView, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const [mode, setMode] = useState<Mode>("balance");
@@ -46,6 +47,7 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
   const prelim = useMemo(() => prelimBand(payload, KEYS), [payload]);
   const netExp = useMemo(() => flip(m.net), [m.net]);
   const last = Math.max(...KEYS.map((k) => lastIndexOf(m[k])));
+  const view = useViewThrough(fullView, last);
 
   const panels = useMemo<Panel[]>(() => {
     const inView = (a: readonly (number | null)[]) => a.filter((_, i) => monthMidDay(i) >= view[0] && monthMidDay(i) < view[1]);
@@ -95,7 +97,15 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
   const f = (k: MonthlyKey) => (m[k][month] == null ? "—" : fmtMbdShort(m[k][month] as number));
   const ne = netExp[month];
   const mil = (k: MonthlyKey) => (m[k][month] == null ? "—" : `${((m[k][month] as number) / 1000).toFixed(1)}M`);
-  const readout = { values: mode === "balance" ? [`Net exports ${ne == null ? "—" : signed(ne)}`] : [`Exports ${f("exp")}`, `Imports ${f("imp")}`], headline: mode === "balance" ? (ne == null ? "—" : signed(ne)) : `${mil("exp")} / ${mil("imp")}`, date: `${monthLabel(month)}${isPreliminary(payload, "net", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  // Exports and imports are equal peers in the readout; the crude-only subset joins it only when isolated, and an isolated line stands alone.
+  const flowRows = readoutRows<ReadoutLine<MonthlyKey>>(
+    FLOWS.filter((l) => l.key !== "cexp" || only === "cexp").map((l) => ({ key: l.key, label: l.short, value: f(l.key) })),
+    only,
+  );
+  const flowValues = rowValues(flowRows);
+  // Both showing: the unlabelled "exports / imports" pair as before; an isolated line is labelled alone.
+  const flowHeadline = only === null ? `${mil("exp")} / ${mil("imp")}` : flowRows.map((r) => `${r.label} ${mil(r.key as MonthlyKey)}`).join(" · ");
+  const readout = { values: mode === "balance" ? [`Net exports ${ne == null ? "—" : signed(ne)}`] : flowValues, headline: mode === "balance" ? (ne == null ? "—" : signed(ne)) : flowHeadline, date: `${monthLabel(month)}${isPreliminary(payload, "net", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell
@@ -148,6 +158,7 @@ export function OilTradeCard({ payload, view }: { payload: EnergyPayload; view: 
           />
         </>
       }
+      jump={jump}
       notes={
         <p>
           <SourceLink id="eia-mer">Energy Information Administration, Monthly Energy Review</SourceLink>: what the U.S. brings in and sends out, monthly, as the balance between them or each flow on its own. Imports, exports and net exports are <em>total petroleum</em> (crude oil plus natural gas liquids and the refined products made from it). Net exports are exports minus imports, the sign EIA&rsquo;s net-imports series flipped, so a rise means the U.S. depends less on foreign oil. Above zero means the U.S. exported more than it imported, first true for a full year in 2020. The dashed line is the one crude-only series: crude exports rose from about 0.5 million barrels a day in 2015 to about 3 million in 2019, but the 2015 repeal flag marks an act that enabled the change, not one that caused it.

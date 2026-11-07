@@ -150,7 +150,7 @@ const BUILDERS: Record<string, () => string[]> = {
       `${int(last.total)} U.S. troops are stationed abroad, ${dir} from ${int(base.total)} in ${baseYear}. See where they serve, by country and branch.`,
     ];
   },
-  "/presidency/executive-orders": () => {
+  "/presidency/executive-actions": () => {
     const d = getExecutiveOrdersData();
     const names = new Map(d.administrations.map((a) => [a.termId, presidentDisplay(a.president)]));
     // Each president's slice of each finished year: a transition year (2025: Biden, then Trump) has two, and the snippet

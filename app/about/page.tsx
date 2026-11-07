@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
-import { siteInfo } from "@/lib/site-info";
+import { SocialLinkList } from "@/components/SocialLinkList";
+import { siteInfo, socialLinks } from "@/lib/site-info";
 
 const DESCRIPTION =
   "InsideGov charts the data behind the news, from gas prices and tariffs to new laws and Supreme Court rulings, drawn straight from public government records.";
@@ -14,15 +15,14 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const QUESTIONS = [
+  "How have jobs, inflation, gas prices, mortgage rates and the deficit moved from one administration to the next?",
+  "What does the U.S. trade, with whom, and how have tariffs changed?",
+  "How many people are removed, get green cards, become citizens or arrive as refugees each year?",
+  "Where do U.S. troops and foreign aid go, and how has that changed?",
   "How many executive orders has each president signed, and on what topics?",
   "How divided is Congress, and does my state’s delegation vote as a bloc?",
   "Which laws has Congress passed, and who voted for them?",
-  "How wealthy are members of Congress, and how has their net worth changed?",
-  "How have gas prices, mortgage rates, tariffs, jobs and the deficit moved from one administration to the next?",
-  "How many people are removed, get green cards, become citizens or arrive as refugees each year?",
-  "Where do U.S. troops and foreign aid go, and how has that changed?",
   "What has the Supreme Court decided, and how has its middle moved over time?",
-  "Who held the White House, Congress and the Court when a landmark law passed or a big case was decided?",
 ];
 
 const LINK =
@@ -88,6 +88,17 @@ export default function AboutPage() {
           </p>
         </Section>
 
+        {socialLinks().length > 0 && (
+          <Section title="Follow along">
+            <p>
+              A chart is posted on <SocialLinkList className={LINK} /> whenever new government data comes out. When
+              something like tariffs or gas prices is in the news, a chart showing how it has changed over the years
+              is posted too. Every number is checked against the source before it goes up, and the full data is here on the
+              site.
+            </p>
+          </Section>
+        )}
+
         <Section title="Independence">
           <p>
             InsideGov is not affiliated with, endorsed by, or funded by any government agency, party, campaign or
@@ -97,7 +108,8 @@ export default function AboutPage() {
 
         <Section title="Who’s behind it">
           <p>
-            InsideGov is built and maintained by {builderName}. I studied international politics at Georgetown’s
+            InsideGov is built and maintained by{" "}
+            <a href="https://corbetthobbs.com" className={LINK}>{builderName}</a>. I studied international politics at Georgetown’s
             School of Foreign Service and worked in a U.S. Senate press office. In 2013 I launched the original
             InsideGov.com at Graphiq, a company that turned large public datasets into charts anyone could browse or
             embed. Amazon acquired Graphiq in 2017 to help power Alexa’s answers.

@@ -1,6 +1,6 @@
 "use client";
 
-import { HowToRead } from "@/components/HowToRead";
+import { useMemo } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import type { BasesPayload } from "@/lib/bases-types";
 import type { WorldMapFile } from "@/lib/foreign-aid-entities";
@@ -12,41 +12,37 @@ import { TroopsFilterBar } from "./TroopsFilterBar";
 import { TroopsStateProvider } from "./TroopsState";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile } from "@/lib/news-types";
+import { troopsFaq } from "./troops-news";
 
 const dateLabel = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-export function TroopsPageClient({ payload, map, bases }: { payload: TroopsPayload; map: WorldMapFile; bases: BasesPayload }) {
+/** `faqFile` is `faq_troops-abroad.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
+export function TroopsPageClient({ payload, map, bases, faqFile }: { payload: TroopsPayload; map: WorldMapFile; bases: BasesPayload; faqFile: FaqFile | null }) {
   const first = payload.years[0];
   const last = payload.years[payload.years.length - 1];
+  const faq = useMemo(() => troopsFaq(faqFile), [faqFile]);
+  const { focus, jump } = useChartJump([], faq);
   return (
     <TroopsStateProvider payload={payload}>
       <TroopsFilterBar />
       <main className="mx-auto flex w-full max-w-[1180px] flex-col gap-5 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Presidency · Troops abroad" title="Where Are U.S. Troops Stationed Abroad?">
           <p>
-            Where U.S. active-duty troops are stationed abroad, country by country, from {first.fy} through {last.fy}. That
-            footprint shows where America has committed itself, and how it has grown, shrunk and shifted from one
-            president to the next.
+            Explore active-duty military deployments country by country, from {first.fy} through {last.fy}, to see how U.S. overseas commitments have expanded or contracted from one administration to the next.
           </p>
-          <HowToRead>
-            <p>
-              <b className="font-semibold text-ink">Each bar is one year&rsquo;s table</b>: the September 30 report (June 30 for 1953&ndash;56). Three sources count a little differently: DMDC&rsquo;s location tables from 2008, its country tables for 1996 and 1998&ndash;2005, and a research compilation for the rest. Only the DMDC tables include personnel afloat or unassigned, so a jump where the source changes is not a change in troops and no percent change is shown across one.
-            </p>
-            <p>
-              <b className="font-semibold text-ink">The series changes meaning after 2017.</b> Through the September 2017 table, counts include personnel deployed for contingency operations; from December 2017 they count only those permanently assigned. A drop across that line is a change in what is counted, not a withdrawal.
-            </p>
-            <p>
-              <b className="font-semibold text-ink">&ldquo;Not reported&rdquo; is not zero.</b> Hosts a table leaves blank add nothing to the totals. <b className="font-semibold text-ink">Abroad</b> means active-duty personnel at a foreign host plus &ldquo;afloat and unassigned&rdquo; rows where the source has them; U.S. territories are left out. Regions are fixed groupings of today&rsquo;s countries (Turkey and Greenland count as Europe, Egypt as the Middle East, North Africa and Djibouti as Africa); South Vietnam is shown as Vietnam.
-            </p>
-          </HowToRead>
+          <NewsQuestionsPills news={[]} groups={faq} />
         </PageHeader>
 
-        <TroopsChartCard />
+        <TroopsChartCard jump={jump("how-many-troops-are-stationed-abroad")} />
 
-        <MapCard map={map} bases={bases} />
+        <MapCard map={map} bases={bases} jump={jump("where-they-are-and-who-hosts-the-most")} />
 
-        <TroopsFirstPlaceCard />
+        <TroopsFirstPlaceCard jump={jump("who-s-hosted-the-most")} />
+
+        <NewsFaqBand news={[]} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

@@ -1,0 +1,159 @@
+# saved 2026-10-28 from https://www.congress.gov/crs_external_products/IF/PDF/IF10261/IF10261.20.pdf
+                                                                                                  Updated September 5, 2025
+U.S. Agency for International Development: An Overview
+Background                                                     Bank-determined low- and lower-middle-income countries
+The U.S. Agency for International Development (USAID)          received USAID assistance in FY2024 (Figure 1).
+served as the lead international humanitarian and
+                                                               Beginning in the early 1990s, health became the largest
+development arm of the U.S. government. It was
+established in 1961, pursuant to Executive Order (E.O.)        USAID sector by funding, bolstered since 2004 by more
+10973, to implement components of the Foreign Assistance       than $120 billion dollars to date for the President’s
+                                                               Emergency Plan for AIDS Relief (PEPFAR) and since 2020
+Act of 1961 (FAA). Congress codified USAID in statute in
+Section 1413 of the Foreign Affairs Reform and                 by emergency assistance to combat COVID-19. In FY2022,
+Restructuring Act of 1998 (Division G of P.L. 105-277;         humanitarian assistance surpassed health as the largest
+                                                               USAID sector. This followed year-over-year increases in
+22 U.S.C. 6563). Section 1522 of that law states, “The
+Administrator of the Agency for International                  humanitarian assistance in response to natural and human-
+Development, appointed pursuant to section 624(a) of the       induced humanitarian crises. (See CRS In Focus IF10568,
+                                                               Overview of the Global Humanitarian and Displacement
+Foreign Assistance Act of 1961 (22 U.S.C. 2384(a)), shall
+report to and be under the direct authority and foreign        Crisis.) For FY2023, governance was the highest funded
+policy guidance of the Secretary of State.” Secretary of       sector, a result of U.S. direct financial support for the
+                                                               Government of Ukraine. (See CRS In Focus IF12305, U.S.
+State Marco Rubio announced on July 1, 2025, that “as of
+July 1st, USAID will officially cease to implement foreign     Direct Financial Support for Ukraine.) Humanitarian
+assistance.” According to the statement, “Foreign assistance   assistance returned to the top of the list in FY2024.
+programs that align with administration policies—and           Figure 1. USAID-Managed Program Funding, by
+which advance American interests—will be administered          Sector and Region: FY2024 Obligations Estimate
+by the State Department.”
+In FY2024 (the most recent year for which complete data
+are available), USAID managed more than $35 billion in
+combined appropriations, representing more than one-third
+of the funds provided in the FY2024 Department of State,
+Foreign Operations, and Related Programs (SFOPS)
+appropriations and international food aid provided in the
+Agriculture appropriations. Some USAID appropriations
+accounts had been co-managed with the Department of
+State (State), making many calculations of USAID’s exact
+budget imprecise. (For more on SFOPS, see CRS Report
+R48231, Department of State, Foreign Operations, and
+Related Programs: FY2025 Budget and Appropriations.)
+According to the FY2023 Agency Financial Report (the
+most recent report CRS was able to access), USAID’s
+workforce totaled more than 10,000 at the end of FY2023,
+with approximately two-thirds serving overseas (not
+including institutional support contractors). The agency
+maintained more than 60 country and regional missions that
+designed and managed a range of projects, most intended to
+meet specific development objectives as outlined in a          Source: ForeignAssistance.gov, accessed on February 26, 2025, and
+Country Development Cooperation Strategy. Most projects        CRS calculations.
+were implemented—through a grant, cooperative                  Trump Administration Actions Affecting USAID
+agreement, or contract—by one (or more) of thousands of        The Trump Administration has ended USAID’s role in
+foreign and U.S. development partners, including nonprofit     administering foreign assistance and has transferred some
+organizations, for-profit contractors, universities,           of USAID’s former functions to the Department of State.
+international organizations, and foreign governments.          On March 28, 2025, USAID personnel reportedly received
+In FY2024, USAID provided assistance to about 130              notice of a reduction-in-force that would separate most
+countries. The top 10 recipients of USAID-managed funds        employees from the agency by July 1, 2025, and remaining
+were, in descending order, Ukraine, Democratic Republic        personnel by September 2, 2025. At the same time, it was
+of Congo, Jordan, Ethiopia, West Bank and Gaza, Sudan,         reported that the State Department aimed to bring on 308
+Nigeria, Yemen, Afghanistan, and South Sudan. Reflecting       direct-hire staff, 370 locally employed staff, and 40
+USAID’s poverty reduction mandate, 69 of the 77 World          personal services contractors. Such positions would be open
+                                                               to former USAID personnel; as of this writing, it is not
+
+                                              https://crsreports.congress.gov
+                                                                    U.S. Agency for International Development: An Overview
+
+clear how many positions have been filled and, if so,           measure apportions such funds directly to the Department
+whether any were filled by former USAID personnel.              of State. The Senate Appropriations Committee intends to
+                                                                release a draft SFOPS bill for FY2026 in September.
+USAID was dismantled in the context of the Trump
+Administration’s review and restructuring of foreign            Assistance Program Administration and Oversight. In
+assistance that began on January 20, 2025 with E.O. 14169,      May 2025, USAID’s Office of Inspector General issued a
+“Reevaluating and Realigning United States Foreign Aid.”        letter offering considerations for Congress as State assumes
+The order sought to “pause” all U.S. foreign assistance for     selected USAID functions. These included concerns about
+90 days “pending reviews of such programs for                   the administration and oversight of foreign aid, including in
+programmatic efficiency and consistency with United States      the context of the loss of specialized expertise, and potential
+foreign policy.” On March 10, Secretary Rubio announced         data loss or corruption as certain USAID data management
+the cancellation of 83% of USAID-managed foreign aid            systems are transferred to State. Congress may seek more
+programs. According to the statement, remaining programs        information from State on its processes, if any, for bringing
+would be shifted to State. Since that announcement, the         on personnel with specialized expertise to administer and
+status of the review pursuant to E.O. 14169 is unclear. In      oversee foreign assistance, as well as the systems in place
+April, the Administration reportedly extended the review by     to protect sensitive data during the transition.
+30 days; as of this writing, no official statements have been
+issued signaling the review’s completion.                       USAID in Legislation. Congress has enacted legislation
+                                                                authorizing USAID or USAID’s Administrator to perform
+Congressional Action                                            certain responsibilities. For example, Section 135(a) of the
+Some Members of the 119th Congress have sought to               FAA finds that USAID “should be the primary [U.S.]
+engage with the Administration on its actions related to        Government agency responsible for identifying and
+USAID and foreign assistance. Some Members have                 assisting orphans and other vulnerable children in
+introduced legislation that would seemingly align with the      developing countries.” The Global Malnutrition Prevention
+Trump Administration’s dismantlement of USAID or parts          and Treatment Act of 2021 (P.L. 117-214, in effect through
+of it, and/or consolidate the agency within the Department      October 2029) “authorize[s] and encourage[s]” the USAID
+of State or other entities. For example, H.R. 1029 and H.R.     Administrator to “support efforts to prevent and treat
+1123 each would abolish USAID, while H.R. 1207 and S.           malnutrition globally.” The law also authorizes the
+525 would transfer the administration of the Food for Peace     Administrator to establish a Nutrition Leadership Council
+program from USAID to the Department of Agriculture.            within USAID that, if established, shall include members
+Some Members have introduced legislation seeking to             from selected USAID bureaus and offices. Congress may
+prevent the Administration from abolishing USAID, such as       seek to understand how the Administration may fulfill
+H.R. 1196, which would prohibit the use of federal funding      statutory functions currently assigned to USAID or its
+to eliminate the agency. With respect to foreign assistance     Administrator. Some Members may also pursue changes to
+more broadly, Congress approved FY2025 funding for most         legislation to shift USAID-assigned responsibilities to other
+SFOPS accounts at FY2024 funding levels in March 2025           entities; others may cite such laws as grounds for rebuilding
+(P.L. 119-4), then rescinded $7.9 billion of enacted FY2024     USAID in some form to perform such functions.
+and FY2025 SFOPS funding in July (P.L. 119-28), the
+majority of which would have previously funded USAID-           U.S. Role in the World. Some reports have raised the
+administered foreign assistance programs. On August 29,         possibility that other donors, such as China, may fill gaps
+                                                                created by the Trump Administration’s reduction of foreign
+the Administration transmitted to Congress a rescission
+proposal for $4.9 billion of previously appropriated SFOPS      assistance and dismantlement of USAID. Secretary Rubio
+funds from across multiple fiscal years; it remains unclear     described the Administration’s “progress in making the
+                                                                [United Nations], other allies, and private funds pay a
+whether or not Congress may take action in response to the
+proposal.                                                       greater share of projects around the world” and noted that
+                                                                the new aid model will “place us in a stronger position to
+                                                                counter China’s exploitative aid model and further our
+Some Members have sought to engage on these issues
+during congressional hearings and through statements;           strategic interests in key regions around the world.” Some
+some also have written letters to the Administration,           may see this development positively, as burdensharing in
+                                                                foreign assistance has been a priority for some Members
+expressing views and requesting additional information.
+Such actions may also be occurring alongside informal           and Administrations. Others have expressed concern that
+communications with the Administration.                         some donors employ tactics that do not align with U.S.
+                                                                interests. Some note that scaling back aid may reduce U.S.
+Issues for Congress                                             global influence. Members may debate the benefits and
+Appropriations. In considering FY2026 appropriations,           downsides to decreasing U.S. foreign assistance globally
+Members may seek a more detailed understanding of how           and consider how, if at all, other U.S. foreign affairs tools
+the State Department plans to administer funds previously       and institutions may be options to advance congressional
+appropriated to, or administered by, USAID. The House           foreign policy priorities.
+Appropriations Committee advanced its National Security,
+                                                                For more on U.S. foreign assistance, see CRS In Focus
+Department of State, and Related Programs (NSRP, as the
+House Appropriations Committee renamed the former               IF10183, U.S. Foreign Assistance.
+SFOPS subcommittee in the 119th Congress) appropriations        Emily M. McCabe, Specialist in Foreign Assistance and
+bill for FY2026 (H.R. 4779); the reported bill does not
+                                                                Foreign Policy
+mention USAID. For appropriations accounts previously
+administered (either fully or partially) by USAID, the                                                                IF10261
+
+                                               https://crsreports.congress.gov
+                                                                  U.S. Agency for International Development: An Overview
+
+
+
+
+Disclaimer
+This document was prepared by the Congressional Research Service (CRS). CRS serves as nonpartisan shared staff to
+congressional committees and Members of Congress. It operates solely at the behest of and under the direction of Congress.
+Information in a CRS Report should not be relied upon for purposes other than public understanding of information that has
+been provided by CRS to Members of Congress in connection with CRS’s institutional role. CRS Reports, as a work of the
+United States Government, are not subject to copyright protection in the United States. Any CRS Report may be
+reproduced and distributed in its entirety without permission from CRS. However, as a CRS Report may include
+copyrighted images or material from a third party, you may need to obtain the permission of the copyright holder if you
+wish to copy or otherwise use copyrighted material.
+
+
+
+
+                           https://crsreports.congress.gov | IF10261 · VERSION 20 · UPDATED
+

@@ -92,7 +92,9 @@ describe("validateEnergy", () => {
 
 describe("committed output spot checks (independent EIA figures, fetched 2026-10-06)", () => {
   it("matches the MER CSV and the weekly bulk file", () => {
-    expect(val("PAPRPUS", "2026-08-01")).toBe(13850.419);
+    // A final month: EIA never restates it, so it survives refreshes. Don't pin the newest (preliminary) month here;
+    // every weekly refresh may revise it and the auto-merge gate would stop on this test.
+    expect(val("PAPRPUS", "2024-01-01")).toBe(12550.957);
     expect(val("WCSSTUS1", "2026-09-25")).toBe(283767);
     expect(val("N9133US2", "2016-02-01")).toBe(3309);
   });

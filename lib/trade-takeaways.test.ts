@@ -37,6 +37,7 @@ const duties = shards<DutiesByCountryRow>("duties_by_country");
 const national = buildNationalPayload(read<TradeNationalRow>("trade_national.json"), read<DutiesNationalRow>("duties_national.json"));
 const lastYear = Number(national.lastPeriod.slice(0, 4));
 const through = MONTH_NAMES[Number(national.lastPeriod.slice(5)) - 1];
+const throughYear = `${through} ${lastYear}`; // "September 2026": the data's last month, which moves with every refresh
 
 // Chart 1 (all countries): the seasonally adjusted monthly balance, $ millions.
 const bal = national.sa.exports.map((e, i) => (e === null || national.sa.imports[i] === null ? null : e - national.sa.imports[i]!));
@@ -93,11 +94,11 @@ const scatterText = TRADE_TAKEAWAYS.scatter.takeaway(windowText(windows.baseline
 const cases: { title: string; text: string; says: string[]; check: () => void }[] = [
   {
     title: TRADE_TAKEAWAYS.balance.title,
-    text: TRADE_TAKEAWAYS.balance.takeaway,
-    says: ["ran a goods deficit every month from January 1991 through August 2026", "hit a record $158.7B in March 2025", "narrowed to $61.4B in October 2025", "after $76B in July 2008 and $35.4B in May 2009"],
+    text: TRADE_TAKEAWAYS.balance.takeaway(throughYear),
+    says: [`ran a goods deficit every month from January 1991 through ${throughYear}`, "hit a record $158.7B in March 2025", "narrowed to $61.4B in October 2025", "after $76B in July 2008 and $35.4B in May 2009"],
     check: () => {
       expect(bal[0]).not.toBeNull(); // the series starts January 1991
-      const span = balIn("1991-01", "2026-08");
+      const span = balIn("1991-01", national.lastPeriod);
       expect(span.every((x) => x !== null && x < 0)).toBe(true);
       const record = deepest("1991-01", national.lastPeriod);
       expect([compactDollars(-record.v * 1e6), record.at]).toEqual(["$158.7B", monthIndex("2025-03")]);
@@ -143,7 +144,7 @@ const cases: { title: string; text: string; says: string[]; check: () => void }[
   {
     title: TRADE_TAKEAWAYS.products.title,
     text: productsText,
-    says: ["Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021", "led each year through August 2026", "computers became the largest goods import in 2026 through August", "passing pharmaceuticals"],
+    says: ["Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021", `led each year through ${throughYear}`, `computers became the largest goods import in 2026 through ${through}`, "passing pharmaceuticals"],
     check: () => {
       expect(lastYear).toBe(2026);
       expect(productsIn(2026, "exports").months).toBe(Number(national.lastPeriod.slice(5)));
@@ -206,20 +207,17 @@ const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: 
     },
   },
   scatter: {
-    says: ["Between the two windows", "Section 301 duties on some Chinese goods (September 2024)", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's duty rate went from 11.3% to 22.2%"],
+    says: ["Between the two windows", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's duty rate went from 11.3% to 22.2%"],
     check: () => {
-      const review = action("2024-09-27-section-301-china-four-year-review");
-      expect([review.date, review.description]).toEqual(["2024-09-27", expect.stringContaining("increases Section 301 duties on selected products of China")]);
       const s122 = action("2026-02-24-ieepa-ends-section-122-begins");
       expect(s122.rate_note).toMatch(/^Section 122 surcharge: 10 percent/);
       const fl = action("2026-07-24-section-301-forced-labor") as Action & { countries: string[] };
       expect([fl.date, fl.rate_note?.startsWith("10 percent or 12.5 percent"), fl.scope_note?.startsWith("60 economies"), fl.countries.includes("CHN")]).toEqual(["2026-07-24", true, true, true]);
       // Every action named falls between the scatter's baseline and the end of its latest window.
-      for (const d of ["2024-09", "2026-02", "2026-07"]) expect(d > windows.baseline.to && d <= windows.latest.to, d).toBe(true);
+      for (const d of ["2026-02", "2026-07"]) expect(d > windows.baseline.to && d <= windows.latest.to, d).toBe(true);
       // What the scatter shows for China across those windows.
       const china = scatter.find((r) => r.code === "CHN")!;
       expect([(china.baseRate! * 100).toFixed(1), (china.latestRate! * 100).toFixed(1)]).toEqual(["11.3", "22.2"]);
-      cites("2024-09-27-section-301-china-four-year-review", "fr-301-china-2024");
       cites("2026-02-24-ieepa-ends-section-122-begins", "fr-section-122-2026");
       cites("2026-07-24-section-301-forced-labor", "fr-301-forced-labor-2026");
     },

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { SearchThumb } from "@/components/SearchResultRow";
 import { KIND_LABELS, KIND_ORDER, searchEntries, type SearchEntry } from "@/lib/site-search";
 
 /**
@@ -157,11 +158,12 @@ export function SiteSearch() {
                         href={r.u}
                         onClick={() => setOpen(false)}
                         onMouseEnter={() => setActive(i)}
-                        className={`flex items-baseline justify-between gap-3 rounded px-2.5 py-1.5 text-[0.85rem] ${
+                        className={`flex items-center gap-2.5 rounded px-2.5 py-1.5 text-[0.85rem] ${
                           i === active ? "bg-accent/10 text-ink" : "text-ink"
                         }`}
                       >
-                        <span className="min-w-0 truncate">{r.n}</span>
+                        <SearchThumb kind={r.k} image={r.i} />
+                        <span className="min-w-0 flex-1 truncate">{r.n}</span>
                         <span className="flex-none text-[0.72rem] text-ink-muted">{r.s}</span>
                       </Link>
                     );

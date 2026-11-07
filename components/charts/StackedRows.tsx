@@ -16,6 +16,8 @@ export interface StackedRowData {
   id: string;
   rank?: number;
   label: string;
+  /** Hover text for the label when it says more than the label itself (Decisions: what the issue area holds). */
+  labelTitle?: string;
   segments: { value: number; color: string; title?: string }[];
   total: string;
   /** Right-hand text, e.g. "+$3.5B" or "−1,204" (a plus or minus, "0" for no change). Leave it empty in every row to drop the column. */
@@ -93,7 +95,7 @@ export function StackedRows({
           >
             {hasRank && <span className="text-right font-mono text-[0.7rem] tabular-nums text-ink-faint">{r.rank ?? ""}</span>}
             <span
-              title={r.label}
+              title={r.labelTitle ?? r.label}
               className={`truncate text-[0.82rem] ${hasCap ? "@max-[560px]:whitespace-normal @max-[560px]:text-[0.85rem] @max-[560px]:leading-tight" : "@max-[400px]:whitespace-normal @max-[400px]:text-[0.85rem] @max-[400px]:leading-tight"} ${r.selected ? "font-semibold" : ""}`}
             >
               {r.label}

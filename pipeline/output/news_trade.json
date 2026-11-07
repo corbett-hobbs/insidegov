@@ -1,0 +1,49 @@
+{
+  "asOf": "2026-11-04",
+  "stories": [
+    {
+      "id": "tariff.all-2026-11-04",
+      "date": "2026-11-04",
+      "topic": "Tariffs",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "‘Thrilled, scared but hopeful’: readers react to historic Democratic victory in US midterms",
+          "url": "https://www.theguardian.com/us-news/2026/nov/04/reactions-midterm-election-results-democrats"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "US midterm results a 'victory' for Canadians hopeful of tariff relief",
+          "url": "https://www.bbc.co.uk/news/articles/cqev3mw3e0kdo?at_medium=RSS&at_campaign=rss"
+        }
+      ]
+    },
+    {
+      "id": "tariff.CAN-2026-11-01",
+      "date": "2026-11-01",
+      "topic": "Tariffs involving Canada",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "pbsnewshour",
+          "outlet": "PBS NewsHour",
+          "lean": "Lean Left",
+          "title": "Canada's Carney reports progress in trade talks with U.S. and Trump talks up 'concept' of a deal",
+          "url": "https://www.pbs.org/newshour/world/canadian-prime-minister-carney-reports-progress-in-trade-talks-with-trump-days-before-u-s-midterms"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Trump says aides have 'concept' of Canada trade deal",
+          "url": "https://thehill.com/homenews/administration/6188730-trump-canada-trade-deal-concept/"
+        }
+      ]
+    }
+  ]
+}

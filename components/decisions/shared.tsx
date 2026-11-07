@@ -65,11 +65,9 @@ export function chiefLine(d: DecisionsPayload, term: number): string | undefined
 }
 
 /**
- * One colour per series of card 1 (the six biggest issue areas, then Other), in stack order. The pinned bar's Issue area control and
- * card 1's bars and legend read this, so an area wears the same colour in both; every area outside the six wears Other's.
+ * A topic's own colour (`--court-topic-<id>` in globals.css), the same in the pinned bar's Topic menu and card 1's bars and
+ * legend. It follows the topic, never its rank, so a filter never repaints one; the cases with no issue area are neutral grey.
  */
-export const AREA_FILLS = ["var(--fuel-coal)", "var(--fuel-gas)", "var(--fuel-nuclear)", "var(--fuel-hydro)", "var(--fuel-wind)", "var(--fuel-solar)", "var(--fuel-other)"];
-export const areaFill = (d: DecisionsPayload, areaIndex: number): string => {
-  const pos = d.topAreas.indexOf(areaIndex);
-  return AREA_FILLS[pos >= 0 ? pos : AREA_FILLS.length - 1];
-};
+export const NO_TOPIC_FILL = "var(--sector-other)";
+export const topicFill = (id: string): string => (id === "other" ? NO_TOPIC_FILL : `var(--court-topic-${id})`);
+export const areaFill = (d: DecisionsPayload, areaIndex: number): string => topicFill(d.areas[areaIndex].id);

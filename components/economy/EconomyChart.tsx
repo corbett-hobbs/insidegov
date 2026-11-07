@@ -8,6 +8,8 @@ import { ExampleMarks, pickExample } from "@/components/charts/ExampleMarks";
 import { ExtremeMarks, type ExtremeMark } from "@/components/charts/ExtremeMarks";
 import { findExtremes } from "@/lib/chart-extremes";
 import { Tooltip, useTooltip } from "@/components/charts/Tooltip";
+import { TipReadout, type ReadoutRow } from "@/components/charts/LineReadout";
+import { isShown, readoutRows } from "@/lib/line-readout";
 import { useElementWidth } from "@/lib/use-element-width";
 import {
   fiscalBars,
@@ -15,7 +17,9 @@ import {
   miseryPoints,
   monthlyPoints,
   quarterlyPoints,
+  seriesEnd,
   weeklyPoints,
+  type Cadence,
   type SeriesPoint,
 } from "@/lib/economy-series";
 import type { EconomyData } from "@/lib/indicator-payload";
@@ -34,6 +38,8 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
     case "mis": return miseryPoints(d);
     case "gas": return weeklyPoints(d.gas);
     case "mort": return weeklyPoints(d.mort);
+    case "ff": return weeklyPoints(d.ff);
+    case "ten": return weeklyPoints(d.ten);
     case "jobs": return monthlyPoints(d.jobs);
     case "gdp": return quarterlyPoints(d.gdp);
     case "wage": return monthlyPoints(d.wage);
@@ -45,12 +51,40 @@ export function chartPoints(d: EconomyData, key: ChartSpec["key"]): SeriesPoint[
   }
 }
 
+const CADENCE: Record<ChartSpec["key"], Cadence> = {
+  mis: "point", gas: "weekly", mort: "weekly", ff: "weekly", ten: "weekly", jobs: "monthly", gdp: "quarterly",
+  wage: "point", un: "point", infl: "point", inc: "annual", def: "fiscal", debt: "quarterly",
+};
+
+/** The window cut at the end of the chart's own newest reading: the shared axis runs to the newest weekly one, which can be months later than a monthly, quarterly or annual line. */
+export function useChartView(data: EconomyData, key: ChartSpec["key"], view: readonly [number, number]): readonly [number, number] {
+  const [from, to] = view;
+  const end = useMemo(() => seriesEnd(chartPoints(data, key), CADENCE[key]), [data, key]);
+  return useMemo(() => (end === null ? [from, to] : [from, Math.max(from + 1, Math.min(to, end))]) as readonly [number, number], [from, to, end]);
+}
+
 const party = (p: "D" | "R") => (p === "D" ? "var(--dem)" : "var(--rep)");
 const MUTED = "var(--ink-muted)";
 const EST_CHAR_W = 6.4;
 
 /** The two lines of a comparison chart: the card's own series and the dashed one beside it. */
 export type LineId = "main" | "second";
+
+/** Gas (regular and diesel) and debt (total and held by the public) are the cards with a second, dashed line. */
+export const hasSecondLine = (spec: ChartSpec) => spec.key === "gas" || spec.key === "debt";
+
+/**
+ * The rows a two-line card prints for one date, in the header and the tooltip alike: both lines as equal peers, or just
+ * the isolated one. `notes` carries each line's muted extra text (the same figure in the other unit).
+ */
+export function lineRows(spec: ChartSpec, r: Reading, only: LineId | null, notes: readonly [string | null, string | null] = [null, null]): ReadoutRow<LineId>[] {
+  const fmt = (v: number | null) => (v === null ? null : spec.head(v));
+  const rows: ReadoutRow<LineId>[] = [
+    { key: "main", label: spec.label1 ?? "", value: fmt(r.value), color: "var(--ink)", sub: r.value === null ? null : notes[0] },
+    { key: "second", label: spec.label2 ?? "", value: fmt(r.value2), color: "var(--ink-faint)", dash: true, optional: true, sub: r.value2 === null ? null : notes[1] },
+  ];
+  return readoutRows(rows, only);
+}
 
 interface Props {
   data: EconomyData;
@@ -73,6 +107,9 @@ export interface AltView {
 
 /** "5.8% of GDP" for a share-of-GDP spec, "$1.8T" for a dollar one. */
 export const altText = (alt: AltView, v: number) => `${alt.spec.head(v)}${alt.spec.share ? " of GDP" : ""}`;
+
+/** `altText` for a value that may be missing, or a card with no other unit. */
+export const altNote = (alt: AltView | undefined, v: number | null | undefined): string | null => (alt && v !== null && v !== undefined ? altText(alt, v) : null);
 
 function termText(t: EconomyTerm, width: number, hero: boolean): string | null {
   return termBandText(t, width, EST_CHAR_W, hero && t.last === "Bush" ? [t.label] : []);
@@ -354,7 +391,7 @@ const dotPos = (reading: Reading, spec: ChartSpec, g: ReturnType<typeof geometry
 };
 
 /** Crosshair and dots for the active date: the only layer that re-renders on hover. */
-function Overlay({ W, hero, spec, view, showCong, reading }: { W: number; hero: boolean; spec: ChartSpec; view: readonly [number, number]; showCong: boolean; reading: Reading }) {
+function Overlay({ W, hero, spec, view, showCong, reading, only }: { W: number; hero: boolean; spec: ChartSpec; view: readonly [number, number]; showCong: boolean; reading: Reading; only: LineId | null }) {
   const v = useEconomyValues();
   const day = activeDay(v);
   const pinInView = v.pin !== null && v.pin >= view[0] && v.pin < view[1];
@@ -363,8 +400,8 @@ function Overlay({ W, hero, spec, view, showCong, reading }: { W: number; hero: 
   const pinX = pinInView && v.hover !== null && v.hover !== v.pin ? g.X(v.pin!) : null;
   if (day === null || day < view[0] || day >= view[1])
     return <g pointerEvents="none"><line x1={g.X(v.pin!)} x2={g.X(v.pin!)} y1={g.mt} y2={g.axisY} stroke="var(--accent)" strokeWidth={1.5} /></g>;
-  const dot = dotPos(reading, spec, g);
-  const dot2 = spec.kind !== "growth" && reading.value2 !== null && reading.snap !== null ? { x: g.X(reading.snap), y: g.Y(reading.value2) } : null;
+  const dot = isShown(only, "main") ? dotPos(reading, spec, g) : null;
+  const dot2 = spec.kind !== "growth" && isShown(only, "second") && reading.value2 !== null && reading.snap !== null ? { x: g.X(reading.snap), y: g.Y(reading.value2) } : null;
   const x = g.X(day);
   return (
     <g pointerEvents="none">
@@ -376,7 +413,8 @@ function Overlay({ W, hero, spec, view, showCong, reading }: { W: number; hero: 
   );
 }
 
-export function EconomyChart({ data, spec, hero = false, showCong, view, reading, only = null, alt }: Props & { reading: Reading }) {
+export function EconomyChart({ data, spec, hero = false, showCong, view: fullView, reading, only = null, alt }: Props & { reading: Reading }) {
+  const view = useChartView(data, spec.key, fullView);
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const W = measured || (hero ? 1140 : 540);
   const g = geometry(W, hero, spec, view, showCong);
@@ -423,7 +461,7 @@ export function EconomyChart({ data, spec, hero = false, showCong, view, reading
           <>
             <StaticLayer data={data} spec={spec} hero={hero} showCong={showCong} view={view} W={W} only={only} />
             <Marks data={data} spec={spec} hero={hero} showCong={showCong} view={view} W={W} only={only} />
-            <Overlay W={W} hero={hero} spec={spec} view={view} showCong={showCong} reading={reading} />
+            <Overlay W={W} hero={hero} spec={spec} view={view} showCong={showCong} reading={reading} only={only} />
           </>
         )}
       </ChartFrame>
@@ -431,9 +469,19 @@ export function EconomyChart({ data, spec, hero = false, showCong, view, reading
         {(day) => {
           const r = readAll(data, day)[spec.key]; // computed from the pointer's own date, not the rAF-throttled shared state
           const a = alt ? readAll(alt.data, day)[spec.key] : null;
+          // One line isolated: only its labelled row. Both showing: the main value with the second under it.
+          if (hasSecondLine(spec) && only !== null) {
+            const rows = lineRows(spec, r, only, [altNote(alt, a?.value), altNote(alt, a?.value2)]);
+            return (
+              <div className="flex min-w-[10rem] flex-col gap-0.5 text-[0.78rem]">
+                <div className="opacity-75">{r.caption}</div>
+                <TipReadout rows={rows} />
+              </div>
+            );
+          }
           return (
           <div className="flex min-w-[8rem] flex-col gap-0.5 text-[0.78rem]">
-            <div className="opacity-75">{r.caption}</div>
+            <div className="opacity-75">{spec.key === "debt" ? `total debt, ${r.caption}` : r.caption}</div>
             <div className="font-mono text-[0.95rem] font-medium">{r.value === null ? "\u2014" : spec.head(r.value)}</div>
             {r.value2 !== null && <div className="opacity-75">{`${spec.label2 ?? "Total"} ${spec.head(r.value2)}`}</div>}
             {alt && a && a.value !== null && <div className="opacity-75">{altText(alt, a.value)}</div>}

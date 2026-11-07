@@ -1,0 +1,612 @@
+# saved 2026-10-27 from https://www.eia.gov/totalenergy/data/monthly/
+Total Energy Monthly Data - U.S. Energy Information Administration (EIA)
+Total Energy
+Skip to page content
+Overview
+Browse Data
+Monthly
+Annual
+Search by Tag
+Major Topics
+Find by
+Most popular
+Annual
+Monthly
+Forecasts/projections
+States
+All reports
+Alphabetical
+Recurring
+Tag Cloud
+Glossary
+FAQS
+Monthly Energy Review
+September 2026 PDF
+| previous editions
+Release Date:
+September 29, 2026
+Next Release Date:
+October 2026
+Download all tables ZIP
+A publication of recent and historical U.S. energy statistics. This publication includes total energy production, consumption, stocks, and trade; energy prices; overviews of petroleum, natural gas, coal, electricity, nuclear energy, renewable energy, and carbon dioxide emissions; and data unit conversions values.
+Each month, most MER tables and figures present data for a new month. These data are usually preliminary (and sometimes estimated or forecasted) and likely to be revised the following month. The first dissemination of most annual data is also preliminary. It is often based on monthly estimates and is likely to be revised later that year after final data are published from sources, according to source data revision policies and publication schedules. In addition, EIA may revise historical data when a major revision in a source publication is needed, when new data sources become available, or when estimation methodologies are improved. A record of current and historical changes to MER data is available on the What's New in the Monthly Energy Review—Content Changes webpage.
+-->
+Data categories
+Expand all
+Collapse all
+Energy overview
+Topic
+Available formats: PDF (entire section)
+1.1 Primary energy overview
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.2 Primary energy production by source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.3 Primary energy consumption by source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.4a Primary energy imports by source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.4b Primary energy exports by source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.4c Primary energy net imports by source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.5 Merchandise trade value
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.6 Cost of fuels to end users in real (1982–1984) dollars
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.7 Primary energy consumption, energy expenditures, and carbon dioxide emissions indicators
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.8 Motor vehicle mileage, fuel consumption, and fuel economy
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+1.9 Light-duty vehicle average miles travel by technology type
+Available formats: PDF XLS CSV | Interactive
+1.10 Electric and fuel cell electric light-duty vehicles overview
+Available formats: PDF XLS CSV | Interactive
+1.11 Heating degree-days by census division
+Available formats: PDF XLS CSV | Interactive
+1.12 Cooling degree-days by census division
+Available formats: PDF XLS CSV | Interactive
+1.13a Non-combustion use of fossil fuels in physical units
+Available formats: PDF XLS CSV | Interactive
+1.13b Heat content of non-combustion use of fossil fuels
+Available formats: PDF XLS CSV | Interactive
+Section notes
+Available formats: PDF
+Energy consumption by sector
+Topic
+Available formats: PDF (entire section)
+2.1a Energy consumption: Residential, commercial, and industrial sectors
+Available formats: PDF XLS CSV PDF (graph)
+| Interactive
+2.1b Energy consumption: Transportation sector, total end-use sectors, and electric power sector
+Available formats: PDF XLS CSV PDF (graph)
+| Interactive
+2.2 Residential sector energy consumption
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+2.3 Commercial sector energy consumption
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+2.4 Industrial sector energy consumption
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+2.5 Transportation sector energy consumption
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+2.6 Electric power sector energy consumption
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+2.7 U.S. government energy consumption by agency, fiscal years
+Available formats: PDF XLS CSV | Interactive
+2.8 U.S. government energy consumption by source, fiscal years
+Available formats: PDF XLS CSV | Interactive
+Section notes
+Available formats: PDF
+Petroleum
+Topic
+Available formats: PDF (entire section
+)
+3.1 Overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+3.2 Refinery and blender net inputs and net production
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.3 Trade
+3.3a Overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+3.3b Imports by type
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.3c Imports from OPEC countries
+Available formats: PDF XLS CSV
+PDF (graph) -->
+| Interactive
+3.3d Imports from non-OPEC countries
+Available formats: PDF XLS CSV
+PDF (graph) -->
+| Interactive
+3.3e Exports by type
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+3.3f Exports by country of destination
+Available formats: PDF XLS CSV
+PDF (graph) -->
+| Interactive
+3.4 Stocks
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+3.5 Products supplied by type
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.6 Heat content of petroleum products supplied by type
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.7 Petroleum consumption by sector:
+3.7a Residential and commercial sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.7b Industrial sector
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+3.7c Transportation and electric power sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.8 Heat content of petroleum consumption by sector:
+3.8a Residential and commercial sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+3.8b Industrial sector
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+3.8c Transportation and electric power sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+Section notes
+Available formats: PDF
+Natural gas
+Topic
+Available formats: PDF (entire section
+)
+4.1 Overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+4.2a Imports by country
+Available formats: PDF XLS CSV | Interactive
+4.2b Exports by country
+Available formats: PDF XLS CSV | Interactive
+4.3 Consumption by sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+4.4 Underground storage
+Available formats: PDF XLS CSV | Interactive
+Section notes
+Available formats: PDF
+Crude oil and natural gas resource development
+Topic
+Available formats: PDF (entire section
+)
+5.1 Drilling activity measurements
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+5.2 Wells and footage drilled
+Available formats: PDF XLS
+CSV -->
+CSV PDF (graph) | Interactive
+Section notes
+Available formats: PDF
+Coal
+Topic
+Available formats: PDF (entire section
+)
+6.1 Overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+6.2 Consumption by sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+6.3 Stocks by sector
+Available formats: PDF XLS CSV | Interactive
+Section notes
+Available formats: PDF
+Electricity
+Topic
+Available formats: PDF (entire
+section)
+7.1 Overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+7.2 Electricity net generation:
+7.2a Total (all sectors)
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.2b Electric power sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.2c Commercial and industrial sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.3 Consumption of combustible fuels for electricity generation:
+7.3a Total (all sectors)
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.3b Electric power sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.3c Commercial and industrial sectors (selected fuels)
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.4 Consumption of combustible fuels for electricity generation and
+useful thermal output:
+7.4a Total (all sectors)
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.4b Electric power sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.4c Commercial and industrial sectors (selected fuels)
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.5 Stocks of coal and petroleum: electric power sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+7.6 Electricity end use and electric vehicle use
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+7.7 Electric net summer capacity:
+7.7a Total (all sectors)
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.7b Electric power sector
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.7c Commercial sector
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.7d Industrial sector
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.8 Capacity factors and usage factors at electric generators:
+7.8a Total (all sectors)
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.8b Electric power sector
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.8c Commercial sector
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+7.8d Industrial sector
+Available formats: PDF XLS CSV
+PDF (graph) --> | Interactive
+Section notes
+Available formats: PDF
+Other notes:
+Estimates of electric vehicle use
+Available formats: PDF
+Notes on estimated monthly data (1989–2000)
+Available formats: PDF
+Estimating power sector fuel use
+Available formats: PDF
+Allocating municipal solid waste to biogenic and nonbiogenic energy
+Available formats: PDF
+Nuclear energy
+Topic
+Available formats: PDF (entire
+section)
+8.1 Nuclear energy overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+8.2 Uranium overview
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+Section notes
+Available formats: PDF
+Energy prices
+Topic
+Available formats: PDF (entire
+section)
+9.1 Crude oil price summary
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+9.2 F.O.B. costs of crude oil imports from selected countries
+Available formats: PDF XLS CSV | Interactive
+9.3 Landed costs of crude oil imports from selected countries
+Available formats: PDF XLS CSV | Interactive
+9.4 Retail motor gasoline and on-highway diesel fuel prices
+Available formats: PDF XLS CSV | Interactive
+9.5 Refiner prices of residual fuel oil
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+9.6 Refiner prices of petroleum products for resale
+Available formats: PDF XLS CSV | Interactive
+9.7 Refiner prices of petroleum products to end users
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+9.8 Average prices of electricity to ultimate customers
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+9.9 Cost of fossil-fuel receipts at electric generating plants
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+9.10 Natural gas prices
+Available formats: PDF XLS CSV PDF
+(graph) | Interactive
+Section notes
+Available formats: PDF
+Renewable energy
+Topic
+Available formats: PDF (entire
+section)
+10.1 Production and consumption by source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+10.2a Consumption: residential and commercial sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+10.2b Consumption: industrial sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+10.2c Consumption: transportation and electric power sectors
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+10.3 Fuel ethanol overview
+Available formats: PDF XLS CSV | Interactive
+10.4a Biodiesel overview
+Available formats: PDF XLS CSV | Interactive
+10.4b Renewable diesel fuel overview
+Available formats: PDF XLS CSV | Interactive
+10.4c Other biofuels overview
+Available formats: PDF XLS CSV | Interactive
+10.5 Solar energy consumption
+Available formats: PDF XLS CSV | Interactive
+10.6 Solar electricity net generation
+Available formats: PDF XLS CSV | Interactive
+Notes:
+Section notes
+Available formats: PDF
+Allocating municipal solid waste to biogenic and non-biogenic energy
+Available formats: PDF
+Environment
+Topic
+Available formats: PDF (entire
+section)
+Carbon dioxide emissions from energy consumption:
+11.1 By source
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+11.2 Residential sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+11.3 Commercial sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+11.4 Industrial sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+11.5 Transportation sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+11.6 Electric power sector
+Available formats: PDF XLS CSV PDF (graph) | Interactive
+11.7 Biomass
+Available formats: PDF XLS CSV | Interactive
+Section notes
+Available formats: PDF
+Appendices (heat rates, conversion factors, and more)
+Topic
+Available formats: PDF (entire
+section)
+Appendix A
+Available formats: PDF
+Approximate heat content of:
+A1 Petroleum and biofuels
+Available formats: PDF
+A2 Petroleum production, imports, and exports
+Available formats: PDF XLS CSV | Interactive
+A3 Petroleum consumption and fuel ethanol
+Available formats: PDF XLS CSV | Interactive
+A4 Natural gas
+Available formats: PDF XLS CSV Interactive
+A5 Coal and coal coke
+Available formats: PDF XLS CSV | Interactive
+A6 Approximate heat rates for electricity, and heat content of
+electricity
+Available formats: PDF XLS CSV | Interactive
+Appendix A documentation
+Available formats: PDF
+Appendix B
+Available formats: PDF
+B1 Metric conversion factors
+Available formats: PDF
+B2 Metric prefixes
+Available formats: PDF
+B3 Other physical conversion factors
+Available formats: PDF
+Appendix C
+Available formats: PDF
+C1 Population, U.S. gross domestic product, and U.S. gross output
+Available formats: PDF XLS CSV | Interactive
+Appendix D
+Available formats: PDF
+D1 Estimated primary energy consumption in the United States, selected
+years, 1635–1945
+Available formats: PDF XLS
+Appendix D section notes
+Available formats: PDF
+Appendix E
+Available formats: PDF
+E1 Primary Energy Overview, Fossil Fuel Equivalency Approach
+Available formats: PDF XLS CSV | Interactive
+E2 Primary Energy Production by Source, Fossil Fuel Equivalency Approach
+Available formats: PDF XLS CSV | Interactive
+E3 Primary Energy Consumption by Source, Fossil Fuel Equivalency Approach
+Available formats: PDF XLS CSV | Interactive
+E4 Renewable Energy Production and Consumption by Source, Fossil Fuel Equivalency Approach
+Available formats: PDF XLS CSV | Interactive
+Appendix E documentation
+Available formats: PDF
+Appendix F
+Available formats: PDF
+F1 Electric Vehicle Charging Infrastructure
+Available formats: PDF XLS CSV | Interactive
+Appendix F microdata file
+Available formats: ZIP
+Appendix F monthly state file
+Available formats: XLS
+Appendix F documentation
+Available formats: PDF
+Glossary
+Glossary
+Available formats: PDF
+Total Energy Experts
+Upcoming changes
+Beginning with the September 2023 Monthly Energy Review (MER), we are calculating
+consumption of noncombustible renewable energy for electricity generation using the
+captured energy approach .
+-->
+Changes this month
+Data updates
+See list of previous changes
+-->
+We have revised our petroleum statistics in coordination with our Petroleum Supply Annual 2025 .
+Revisions affect data series in Energy overview ,
+Energy consumption by sector ,
+Petroleum ,
+Energy prices ,
+Renewable energy ,
+Environment ,
+Appendix A ,
+and Appendix E .
+Data updates
+See list of previous changes
+Diagrams
+Energy flows 2025
+Total energy
+Petroleum
+Natural gas
+Coal
+Electricity
+Energy consumption by source and sector 2025
+Total
+energy
+Total
+energy Sankey -->
+Fossil
+fuels
+Petroleum
+products
+Renewable energy
+CO 2
+emissions
+Archive of energy flow and consumption
+diagrams
+Related analysis
+EIA-EPA energy-related CO 2 emissions harmonization
+Statistics
+Analysis
+Tools
+Education
+News
+Petroleum & Other Liquids
+Crude oil, gasoline, heating oil, diesel, propane, and other liquids including biofuels and natural gas liquids.
+Natural Gas
+Exploration and reserves, storage, imports and exports, production, prices, sales.
+Electricity
+Sales, revenue and prices, power plants, fuel use, stocks, generation, trade, demand & emissions.
+Coal
+Reserves, production, prices, employment and productivity, distribution, stocks, imports and exports.
+Nuclear & Uranium
+Uranium fuel, nuclear reactors, generation, spent fuel.
+Renewable & Alternative Fuels
+Includes hydropower, solar, wind, geothermal, biomass and ethanol.
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Total Energy
+Comprehensive data summaries, comparisons, analysis, and projections integrated across all energy sources.
+Monthly Energy Review
+Annual Energy Review
+Consumption & Efficiency
+Energy use in homes, commercial buildings, manufacturing, and transportation.
+Residential Energy Consumption Survey (RECS)
+Commercial Buildings Energy Consumption Survey (CBECS)
+Manufacturing Energy Consumption Survey (MECS)
+U.S. States
+State energy information, including overviews, rankings, data, and analyses.
+State Energy Data System (SEDS)
+International
+International energy information, including overviews, rankings, data, and analyses.
+International Energy Statistics
+Environment
+Greenhouse gas data, voluntary reporting, electric power plant emissions.
+U.S. Energy-Related Carbon Dioxide Emissions
+Energy-Related Carbon Dioxide Emissions at the State Level, 2005-2016
+Energy-Related Carbon Dioxide Emissions at the State Level
+Analysis and Projections
+Monthly and yearly energy forecasts, analysis of energy topics, financial analysis, congressional reports.
+Short-Term Energy Outlook
+Annual Energy Outlook
+Special Reports
+Special market analysis and/or data requests.
+EIA-112 Residential Utility Disconnections
+SHIP Act
+Energy & Financial Markets: What Drives Crude Oil Prices?
+International
+International energy analyses.
+Regional Analysis Briefs
+Country Analysis Briefs
+World Oil Transit Chokepoints
+OPEC Revenue
+Global Energy Security Data
+Glossary
+Data Tools, Apps, & Maps
+Tools to customize searches, view specific data sets, study detailed documentation, and access time-series data.
+Open Data
+EIA's free and open data available as API, Excel add-in, bulk files, and widgets
+EIA Beta
+Come test out some of the products still in development and let us know what you think!
+Open Source Code
+EIA's open source code, available on GitHub.
+All Reports & Products
+EIA Survey Forms
+Forms EIA uses to collect energy data including descriptions, links to survey instructions, and additional information.
+Email Updates
+Sign up for email subscriptions to receive messages about specific EIA products
+RSS Feeds
+Subscribe to feeds for updates on EIA products including Today in Energy and What's New.
+Follow us. . .
+A-Z Index
+A |
+B |
+C |
+D |
+E |
+F |
+G |
+H |
+I |
+J |
+K |
+L |
+M |
+N |
+O |
+P |
+Q |
+R |
+S |
+T |
+U |
+V |
+W |
+XYZ
+Today in Energy
+Short, timely articles with graphics on energy, facts, issues, and trends.
+Energy Explained
+What is Energy?
+Units & Calculators
+U.S. Energy Facts
+Use of Energy
+Energy & Environment
+Petroleum
+Hydrocarbon Gas Liquids
+Natural Gas
+Coal
+Nuclear
+Electricity
+Hydrogen
+Hydropower
+Biofuels
+Biomass
+Wind
+Geothermal
+Solar
+For Teachers
+Lesson plans, science fair experiments, field trips, teacher guide, and career corner.
+Glossary
+FAQs
+Coal
+Conversion & Equivalents
+Oil/Petroleum
+Diesel
+Electricity
+Environment
+Gasoline
+General Energy
+Natural Gas
+Nuclear
+Prices
+Renewables
+What's New?
+Electric Power Monthly
+Oct 23, 2026
+Electric Power Annual 2025
+Oct 21, 2026
+Wholesale Electricity Market Data
+Oct 15, 2026
+Press Room
+Press Releases
+Congressional Testimony
+Presentations
+Events

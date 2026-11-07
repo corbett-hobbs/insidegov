@@ -1,0 +1,158 @@
+# saved 2026-10-28 from https://www.congress.gov/crs_external_products/IF/PDF/IF10540/IF10540.24.pdf
+                                                                                                       Updated February 19, 2026
+Defense Primer: Reserve Forces
+The term reserve component (RC) refers collectively to the        exclusively federal organizations. There are 54 separate
+seven individual reserve components of the Armed Forces:          National Guard organizations: one for each state, and one
+(1) the Army National Guard; (2) the Army Reserve; (3) the        each for Puerto Rico, Guam, the U.S. Virgin Islands, and
+Navy Reserve; (4) the Marine Corps Reserve; (5) the Air           the District of Columbia (DC). While the DC National
+National Guard (6) the Air Force Reserve; and (7) the Coast       Guard is an exclusively federal organization and operates
+Guard Reserve. The Space Force, under the Department of           under federal control at all times, the other 53 National
+the Air Force, does not have a reserve component (10              Guards operate as state or territorial organizations most of
+U.S.C. §20001).                                                   the time. In this capacity, each of these organizations is
+                                                                  identified by its state or territorial name (e.g., the California
+The purpose of these seven reserve components, per 10
+                                                                  National Guard or the Puerto Rico National Guard) and is
+U.S.C. §10102, is to “provide trained units and qualified         controlled by its respective governor. National Guard units
+persons available for active duty in the armed forces, in
+                                                                  and personnel can be ordered into federal service. When
+time of war or national emergency, and at such other times
+                                                                  this happens, control of the affected units and personnel
+as the national security may require, to fill the needs of the    passes from the state governor to the President of the
+armed forces whenever more units and persons are needed
+                                                                  United States.
+than are in the regular components.” The Army and Air
+National Guards also have an important role under state           Reserve Categories
+authority, responding to various emergencies such as
+disasters and civil disorders.                                    Ready Reserve
+                                                                  The Ready Reserve is the primary manpower pool of the
+Reserve Component Roles                                           reserve components. Members of the Ready Reserve are
+Military policy describes the reserve components as an            typically called to active duty before members of the
+“operational force,” elaborating that                             Standby Reserve or the Retired Reserve. The Ready
+                                                                  Reserve is made up of three subcomponents:
+    The RCs provide operational capabilities and
+                                                                  The Selected Reserve contains those units and individuals
+    strategic depth to meet U.S. defense requirements
+                                                                  within the Ready Reserve designated as “so essential to
+    across the full spectrum of conflict... In their
+                                                                  initial wartime missions that they have priority over all
+    operational roles, RCs participate in a full range of         other Reserves.” (see Table 1).
+    missions according to their Services’ force
+    generation plans. Units and individuals participate           Table 1. Selected Reserve Personnel Strength
+    in missions in an established cyclic or periodic
+    manner that provides predictability for the                                                                        Selected
+    combatant commands, the Services, Service                                  Reserve Component                       Reserve
+    members, their families, and employers. In their
+                                                                    Army National Guard                                 328,870
+    strategic roles, RC units and individuals train or are
+    available for missions in accordance with the                   Army Reserve                                        169,519
+    national defense strategy. As such, the RCs provide
+                                                                    Navy Reserve                                         58,165
+    strategic depth and are available to transition to
+    operational roles as needed.                                    Marine Corps Reserve                                 33,071
+The use of the RC increased after 1991. From 1986 to 1990,          Air National Guard                                  105,120
+the reserve components contributed approximately 3,000
+                                                                    Air Force Reserve                                    65,465
+person-years of active service. This increased to an annual
+average of 35,000 person-years from 1996-2001. From                 Total                                              760,210
+2002 to 2010 (including part of the conflicts in Iraq and
+                                                                  Source: Department of Defense, Defense Manpower Data
+Afghanistan, along with domestic and foreign
+                                                                  Center, Selected Reserve Personnel by Reserve Component and
+counterterrorism actions), the RC contributed an annual
+                                                                  Rank/Grade, September 2025.
+average of 146,000 person-years domestically and globally.
+CRS has not found person-year figures for years after 2010.       Notes: These figures reflect the number of personnel in each of the
+                                                                  reserve components as of September 30, 2025.
+
+Difference between Federal Reserves                               Members of the Selected Reserve are generally required to
+and National Guard                                                perform one weekend of training each month and two
+The Army Reserve, Navy Reserve, Marine Corps Reserve,             weeks of training each year, although some may train more
+Air Force Reserve, and Coast Guard Reserve are
+                                                 https://crsreports.congress.gov
+                                                                                               Defense Primer: Reserve Forces
+
+than this. When reservists are activated, they most               Title 32 status in reference to the part of the United States
+frequently come from this category.                               Code that governs this duty status.
+
+The Individual Ready Reserve (IRR) is a manpower pool             Pay, Benefits, and Duty Status
+of individuals who have already received military training,
+either in the Active Component or in the Selected Reserve.        Reservists’ pay and benefits may vary significantly based
+They are not normally required to perform training, but can       on the type of duty performed. Some key variables in
+be ordered to active duty under certain circumstances. The        determining the compensation provided include (1) whether
+Inactive National Guard (ING) is, for practical purposes,         an individual is performing active duty or inactive duty;
+the National Guard equivalent of the IRR. There is                (2) if on active duty, the statutory authority under which the
+currently no ING for the Air National Guard.                      individual is activated, the duration of the duty, and
+                                                                  whether the duty performed is in support of a contingency
+Standby Reserve                                                   operation; and (3) for the National Guard, whether the duty
+The Standby Reserve contains those individuals who have a         is in a state status or federal status.
+temporary disability or hardship and those who hold key
+positions in their civilian jobs. They are not required to        Issues for Congress
+participate in military training and may only be ordered to
+active duty in limited circumstances.
+                                                                  • Congress may consider whether the reserves’ structure,
+                                                                     resourcing, doctrines, and legislative authorities enable
+Retired Reserve                                                      them to fulfil both operational and strategic roles.
+The Retired Reserve includes Reserve personnel who are               Congress might also consider how the balance of
+qualified for reserve retirement. Members of the Retired             capabilities between the RC and the active component
+Reserve may be ordered to active duty only in limited                underpins those roles.
+circumstances.
+                                                                  • Congress may consider changes to the RC duty status
+                                                                     system, such as those proposed in an August 2025
+Full-Time Support                                                    RAND Corporation report and the Duty Status Reform
+Reserve units are primarily filled by traditional reservists:        Act (H.R. 6976).
+members of the Selected Reserve who are usually required
+to work one weekend a month and two weeks a year.                 • Congress may consider the role of the reserve
+However, many reserve units are also staffed by one or               components (and the Armed Forces in general) in
+more full-time civilian and/or military employees. These             domestic security activities.
+employees, known as full-time support (FTS) personnel, are
+“assigned to organize; administer; instruct; recruit and train;   • Congress may assess the RC’s operational and personnel
+maintain supplies, equipment, and aircraft; and perform              tempo (OPTEMPO and PERSTEMPO) in both federal
+other functions required on a daily basis in the execution of        and state mobilizations and the potential impact on
+operational missions and readiness preparation.” (DOD                servicemember wellbeing and readiness.
+Instruction 1205.18)
+                                                                  • Congress may consider whether RC pay and benefits are
+Activations                                                          adequate to meet recruiting and retention targets.
+There are four statutory provisions by which members of
+the National Guard and Reserve can be involuntarily                                  Relevant Statutes
+ordered to federal active duty for a year or more.                 Title 10, U.S. Code, Subtitle E (Reserve Components)
+These are commonly referred to as Full Mobilization (10            Title 32, U.S. Code (National Guard)
+U.S.C. §12301(a)), Partial Mobilization (10 U.S.C.
+§12302), and Presidential Reserve Call-up (10 U.S.C.
+§12304), and activation in support of pre-planned missions
+for the Combatant Commands (10 U.S.C. §12304b). These                                   CRS Products
+provisions differ from each other in terms of the statutory        CRS Report RL30802, Reserve Component Personnel Issues:
+requirements for utilization, the number and category of           Questions and Answers
+reservists authorized for call up, and the duration of the call    CRS Report R43808, Army Active Component (AC)/Reserve
+up. Another authority added in 2011, provides for                  Component (RC) Force Mix: Considerations and Options for
+involuntarily activating members of the Army Reserve,              Congress
+Navy Reserve, Marine Corps Reserve, and Air Force
+Reserve to respond to major disasters or emergencies, for
+periods of up to 120 days (10 U.S.C. §12304a).
+
+In addition to activations under federal authority, members       Nicholas M. Munves, Analyst in U.S. Defense Policy
+of the National Guard can also be activated by their              Carly A. Miller, Senior Research Librarian
+governors for full-time duty (i.e., state active duty) owing to   Ebrima M'Bai, U.S. Army Fellow
+their unique state/federal status. They can also be activated                                                             IF10540
+under state control but with pay and benefits provided by
+the federal government. This is sometimes referred to as
+                                                 https://crsreports.congress.gov
+                                                                                          Defense Primer: Reserve Forces
+
+
+
+
+Disclaimer
+This document was prepared by the Congressional Research Service (CRS). CRS serves as nonpartisan shared staff to
+congressional committees and Members of Congress. It operates solely at the behest of and under the direction of Congress.
+Information in a CRS Report should not be relied upon for purposes other than public understanding of information that has
+been provided by CRS to Members of Congress in connection with CRS’s institutional role. CRS Reports, as a work of the
+United States Government, are not subject to copyright protection in the United States. Any CRS Report may be
+reproduced and distributed in its entirety without permission from CRS. However, as a CRS Report may include
+copyrighted images or material from a third party, you may need to obtain the permission of the copyright holder if you
+wish to copy or otherwise use copyrighted material.
+
+
+
+
+                           https://crsreports.congress.gov | IF10540 · VERSION 24 · UPDATED
+

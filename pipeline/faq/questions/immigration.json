@@ -1,0 +1,93 @@
+{
+  "page": "immigration",
+  "dataFiles": ["pipeline/output/encounters_series.json"],
+  "groups": [
+    {
+      "row": "Green cards",
+      "questions": [
+        {
+          "id": "green-card-vs-citizenship",
+          "kind": "difference",
+          "q": "What is the difference between a green card and citizenship?",
+          "searched": "difference between green card and citizenship",
+          "chartIds": ["chart-green-cards"],
+          "brief": "What a permanent resident can and cannot do compared with a citizen, and when a permanent resident can apply to naturalize.",
+          "sources": [
+            { "label": "U.S. Citizenship and Immigration Services, Rights and responsibilities of a green card holder", "url": "https://www.uscis.gov/green-card/after-we-grant-your-green-card/rights-and-responsibilities-of-a-green-card-holder-permanent-resident" },
+            { "label": "U.S. Citizenship and Immigration Services, Citizenship and naturalization", "url": "https://www.uscis.gov/citizenship/learn-about-citizenship/citizenship-and-naturalization" },
+            { "label": "U.S. Citizenship and Immigration Services, Naturalization for spouses of U.S. citizens", "url": "https://www.uscis.gov/citizenship/learn-about-citizenship/citizenship-and-naturalization/i-am-married-to-a-us-citizen" }
+          ]
+        },
+        {
+          "id": "green-card-vs-visa",
+          "kind": "difference",
+          "q": "What is the difference between a green card and a visa?",
+          "searched": "difference between green card and visa",
+          "chartIds": ["chart-green-cards"],
+          "brief": "Permanent residence versus temporary (nonimmigrant) stays, and how someone already in the U.S. on a visa can get a green card.",
+          "sources": [
+            { "label": "U.S. Citizenship and Immigration Services, Glossary", "url": "https://www.uscis.gov/tools/glossary" },
+            { "label": "U.S. Citizenship and Immigration Services, Adjustment of status", "url": "https://www.uscis.gov/green-card/green-card-processes-and-procedures/adjustment-of-status" }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Refugees",
+      "questions": [
+        {
+          "id": "refugee-vs-asylum",
+          "kind": "difference",
+          "q": "What is the difference between a refugee and an asylum seeker?",
+          "searched": "difference between refugee and asylum seeker",
+          "chartIds": ["chart-refugees"],
+          "brief": "Where each applies from, and which of the two the yearly refugee ceiling counts.",
+          "sources": [
+            { "label": "U.S. Citizenship and Immigration Services, Refugees", "url": "https://www.uscis.gov/humanitarian/refugees-and-asylum/refugees" },
+            { "label": "U.S. Citizenship and Immigration Services, Asylum", "url": "https://www.uscis.gov/humanitarian/refugees-and-asylum/asylum" },
+            { "label": "Immigration and Nationality Act, section 207 (8 U.S.C. 1157)", "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title8/html/USCODE-2023-title8-chap12-subchapII-partI-sec1157.htm" }
+          ]
+        },
+        {
+          "id": "refugee-ceiling-who",
+          "kind": "matters",
+          "q": "Who decides how many refugees the U.S. admits?",
+          "searched": "refugee cap 2027",
+          "chartIds": ["chart-refugees"],
+          "brief": "Who sets the yearly ceiling, when, after consulting whom, and whether it can change during the year. The office, not the person holding it.",
+          "sources": [
+            { "label": "Immigration and Nationality Act, section 207 (8 U.S.C. 1157)", "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title8/html/USCODE-2023-title8-chap12-subchapII-partI-sec1157.htm" }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Border & removals",
+      "questions": [
+        {
+          "id": "removal-vs-return",
+          "kind": "difference",
+          "q": "What is the difference between a removal and a return?",
+          "searched": "deportation vs voluntary departure",
+          "chartIds": ["chart-removals"],
+          "sources": [
+            { "label": "DHS Office of Homeland Security Statistics, Glossary", "url": "https://ohss.dhs.gov/glossary0" }
+          ]
+        },
+        {
+          "id": "ports-vs-between",
+          "kind": "difference",
+          "q": "What is the difference between encounters at ports of entry and Border Patrol apprehensions?",
+          "searched": "border encounters by year",
+          "chartIds": ["chart-encounters"],
+          "brief": "Which part of CBP makes each kind, where, and the latest fiscal year's split between them and how much of each is on the southwest border.",
+          "sources": [
+            { "label": "U.S. Customs and Border Protection, Nationwide Encounters", "url": "https://www.cbp.gov/newsroom/stats/nationwide-encounters", "facts": "encounters" },
+            { "label": "U.S. Customs and Border Protection, Field Operations", "url": "https://www.cbp.gov/border-security/ports-entry/field-operations" },
+            { "label": "U.S. Customs and Border Protection, Border Patrol overview", "url": "https://www.cbp.gov/border-security/along-us-borders/overview" }
+          ]
+        }
+      ]
+    }
+  ]
+}

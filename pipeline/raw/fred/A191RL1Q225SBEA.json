@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-10-15T17:18:03.449Z","series":{"id":"A191RL1Q225SBEA","title":"Real Gross Domestic Product","units":"Percent Change from Preceding Period","frequency":"Quarterly","seasonal_adjustment":"Seasonally Adjusted Annual Rate","observation_start":"1947-04-01","observation_end":"2026-04-01","last_updated":"2026-09-30 07:59:38-05","notes":"BEA Account Code: A191RL Gross domestic product (GDP) is the value of the goods and services produced by the nation's economy less the value of the goods and services used up in production. GDP is also equal to the sum of personal consumption expenditures, gross private domestic investment, net exports of goods and services, and government consumption expenditures and gross investment. Real values are inflation-adjusted estimates—that is, estimates that exclude the effects of price changes. For more information about this series, please visit the Bureau of Economic Analysis (http://www.bea.gov/national/)."}},
+  "head": {"fetched_at":"2026-10-30T19:11:56.951Z","series":{"id":"A191RL1Q225SBEA","title":"Real Gross Domestic Product","units":"Percent Change from Preceding Period","frequency":"Quarterly","seasonal_adjustment":"Seasonally Adjusted Annual Rate","observation_start":"1947-04-01","observation_end":"2026-07-01","last_updated":"2026-10-29 08:01:39-05","notes":"BEA Account Code: A191RL Gross domestic product (GDP) is the value of the goods and services produced by the nation's economy less the value of the goods and services used up in production. GDP is also equal to the sum of personal consumption expenditures, gross private domestic investment, net exports of goods and services, and government consumption expenditures and gross investment. Real values are inflation-adjusted estimates—that is, estimates that exclude the effects of price changes. For more information about this series, please visit the Bureau of Economic Analysis (http://www.bea.gov/national/)."}},
   "observations": [
     ["1947-04-01","-1.0"],
     ["1947-07-01","-0.8"],
@@ -317,6 +317,7 @@
     ["2025-07-01","3.9"],
     ["2025-10-01","0.2"],
     ["2026-01-01","2.5"],
-    ["2026-04-01","2.2"]
+    ["2026-04-01","2.2"],
+    ["2026-07-01","3.4"]
   ]
 }

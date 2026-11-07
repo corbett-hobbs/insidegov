@@ -2,7 +2,7 @@
 
 import { Y_GUTTER } from "@/lib/chart-bars";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
-import { memo, useId, useMemo, useRef, useState } from "react";
+import { memo, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { scaleLinear, scaleSymlog } from "d3-scale";
 import { Axis } from "@/components/charts/Axis";
 import { ChartFrame } from "@/components/charts/ChartFrame";
@@ -107,6 +107,7 @@ export function TradeScatterCard({
   onPickCountry,
   topCodes,
   totals,
+  jump,
 }: {
   rows: ScatterRow[];
   windows: ScatterWindows;
@@ -116,6 +117,8 @@ export function TradeScatterCard({
   topCodes: readonly string[];
   /** Latest-year total trade ($M) by partner code; sizes the dots. */
   totals: Readonly<Record<string, number>>;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
   const [query, setQuery] = useState("");
@@ -218,7 +221,7 @@ export function TradeScatterCard({
   const aria = `Scatter plot of ${plotted} countries. Across: change in calculated duties as a share of imports, in percentage points, from ${windowText(windows.baseline)} to ${windowText(windows.latest)}. Up: change in imports over the same months, on a symmetric log scale capped at plus ${Y_CAP_PCT} percent. ${higher} of ${plotted} saw a higher duty rate. The same data is in the table below.`;
 
   return (
-    <section className="min-w-0 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
+    <section id="did-tariffs-shift-trade" className="min-w-0 scroll-mt-32 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">Did tariffs shift trade?</h2>
         <div className="relative w-full sm:w-44 sm:flex-none">
@@ -412,6 +415,7 @@ export function TradeScatterCard({
           </p>
         </MethodologyNote>
         <DataTable rows={rows} windows={windows} />
+        {jump}
       </ChartNotesRow>
     </section>
   );

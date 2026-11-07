@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
@@ -12,7 +12,7 @@ import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { AID_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** "How much the U.S. spends": the stacked-bar time series and everything that explains it. */
-export function SpendingCard() {
+export function SpendingCard({ jump }: { jump?: ReactNode }) {
   const { data, year, range, country, secs, sole, isPartial } = useAidState();
   const sectorLabel = useSectorLabel();
   const rows = useMemo(() => spendingByYear(data, range[0], range[1], country, secs), [data, range, country, secs]);
@@ -34,6 +34,7 @@ export function SpendingCard() {
   const { takeaway, panel } = useTakeawayContext(AID_TAKEAWAYS.spending, contextFor("spending"));
   return (
     <ChartCard
+      id="how-much-the-u-s-spends"
       title="How much the U.S. spends"
       takeaway={takeaway}
       action={showing.length > 0 ? <span className="rounded-md border border-line-strong bg-surface-raised px-2 py-0.5 text-[0.75rem] text-ink">Showing {showing.join(" · ")}</span> : undefined}
@@ -69,6 +70,7 @@ export function SpendingCard() {
             ))}
           </tbody>
         </TableView>
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

@@ -1,0 +1,116 @@
+{
+  "page": "economy",
+  "dataFiles": ["pipeline/output/treasury_fiscal.json"],
+  "groups": [
+    {
+      "row": "Behind the misery index",
+      "questions": [
+        {
+          "id": "inflation-who",
+          "kind": "matters",
+          "q": "Who is hit hardest when inflation rises?",
+          "searched": "who is hurt most by inflation",
+          "chartIds": ["chart-infl"],
+          "brief": "Which households spend the largest share of their budget on necessities such as housing and food, by income group, using the report's own shares.",
+          "sources": [
+            { "label": "Bureau of Labor Statistics, Consumer Expenditures in 2024", "url": "https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm" },
+            { "label": "Bureau of Labor Statistics, Consumer Expenditures 2024 (news release)", "url": "https://www.bls.gov/news.release/cesan.nr0.htm" }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Everyday costs",
+      "questions": [
+        {
+          "id": "diesel-why",
+          "kind": "matters",
+          "q": "Why do diesel prices matter if I don't drive a diesel?",
+          "searched": "why does diesel cost more",
+          "chartIds": ["chart-diesel"],
+          "brief": "What diesel moves and powers, so its price reaches people who never buy it.",
+          "sources": [
+            { "label": "Energy Information Administration, Use of diesel", "url": "https://www.eia.gov/energyexplained/diesel-fuel/use-of-diesel.php" }
+          ]
+        },
+        {
+          "id": "diesel-who",
+          "kind": "matters",
+          "q": "Who feels diesel prices the most?",
+          "searched": "what is affecting diesel prices",
+          "chartIds": ["chart-diesel"],
+          "brief": "Trucking (per-mile operating cost with and without fuel, from the research institute's own survey of carriers) and farms (diesel's part of farm fuel spending).",
+          "sources": [
+            { "label": "American Transportation Research Institute (trucking industry research), Operational Costs of Trucking 2026", "url": "https://truckingresearch.org/2026/07/new-atri-report-details-accelerating-costs-and-low-profitability-despite-cuts/" },
+            { "label": "USDA National Agricultural Statistics Service, Farm Production Expenditures 2024", "url": "https://www.nass.usda.gov/Publications/Todays_Reports/reports/fpex0725.pdf" }
+          ]
+        },
+        {
+          "id": "mortgage-vs-fed",
+          "kind": "difference",
+          "q": "What is the difference between mortgage rates and the Fed's interest rate?",
+          "searched": "mortgage rates vs fed rates",
+          "chartIds": ["chart-mort"],
+          "brief": "What the Fed sets, what the 30-year mortgage rate follows instead, and why the two do not move together.",
+          "sources": [
+            { "label": "Federal Reserve Bank of St. Louis, What Determines Mortgage Rates? (2026)", "url": "https://www.stlouisfed.org/publications/page-one-economics/2026/oct/what-determines-mortgage-rates" }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Federal finances",
+      "questions": [
+        {
+          "id": "deficit-vs-debt",
+          "kind": "difference",
+          "q": "What is the difference between the deficit and the debt?",
+          "searched": "difference between deficit and debt",
+          "chartIds": ["chart-def", "chart-debt"],
+          "sources": [
+            { "label": "Treasury Fiscal Data, National Deficit", "url": "https://fiscaldata.treasury.gov/americas-finance-guide/national-deficit/" },
+            { "label": "Treasury Fiscal Data, Understanding the National Debt", "url": "https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/" }
+          ]
+        },
+        {
+          "id": "debt-holders",
+          "kind": "difference",
+          "q": "What is the difference between debt held by the public and intragovernmental debt?",
+          "searched": "who holds the national debt",
+          "chartIds": ["chart-debt"],
+          "brief": "Who each kind is owed to, and the share held by the public at the latest date in the data.",
+          "sources": [
+            { "label": "Treasury Fiscal Data, Understanding the National Debt", "url": "https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/" },
+            { "label": "Treasury Fiscal Data, Debt to the Penny", "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/", "facts": "debt" }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Jobs and output",
+      "questions": [
+        {
+          "id": "jobs-vs-unemployment",
+          "kind": "difference",
+          "q": "What is the difference between jobs added and the unemployment rate?",
+          "searched": "jobs report vs unemployment rate",
+          "chartIds": ["chart-jobs", "chart-un"],
+          "brief": "They come from two different surveys (businesses and households), count different things, and can point different ways in the same month.",
+          "sources": [
+            { "label": "Bureau of Labor Statistics, Comparing employment from the household and payroll surveys", "url": "https://www.bls.gov/web/empsit/ces_cps_trends.htm" }
+          ]
+        },
+        {
+          "id": "real-vs-nominal-gdp",
+          "kind": "difference",
+          "q": "What is the difference between real GDP and nominal GDP?",
+          "searched": "difference between gdp and real gdp",
+          "chartIds": ["chart-gdp"],
+          "sources": [
+            { "label": "Bureau of Economic Analysis, What to know about GDP", "url": "https://www.bea.gov/resources/learning-center/what-to-know-gdp" }
+          ]
+        }
+      ]
+    }
+  ]
+}

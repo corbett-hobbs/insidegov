@@ -35,9 +35,12 @@ export interface DecisionsChief {
   end: number;
 }
 
+/** One of the page's topics (`pipeline/reference/decision-groups.json`): our grouping of the database's codes. */
 export interface DecisionsArea {
   id: string;
   label: string;
+  /** What the topic holds, for the Topic menu's ⓘ, the tooltips and How to read this. */
+  description: string;
 }
 
 /** Per-term bucket arrays for a subset of cases, shaped like the payload's own `all` / `by` / `other`. */
@@ -46,14 +49,17 @@ export interface LandmarkCells {
   by: Bucket[][];
   other: Bucket[];
   caseCount: number;
-  /** Cases in the subset with no issue area. */
+  /** Cases in the subset with no topic (no SCDB issue area coded). */
   unclassified: number;
 }
 
 export interface DecisionsPayload {
   /** Every term from the first to the last, dense. */
   terms: number[];
+  /** The topics, in catalog order: every "area" below (indexes, `by`, the filter) is a topic. */
   areas: DecisionsArea[];
+  /** The Supreme Court Database's own 14 issue areas, for a case's tuple slot 15 (decision pages, outcome notes). */
+  scdbAreas: { id: string; label: string }[];
   /** Every case, unclassified included: `all[termIndex]`. */
   all: Bucket[];
   /** `by[areaIndex][termIndex]`, areas in catalog order. */
@@ -70,9 +76,9 @@ export interface DecisionsPayload {
   summarySource: { count: number; claude: number; fetched: string };
   /** Cases the list tags Liberal / Conservative, and those with no direction coded (no tag). */
   outcomeSource: { coded: number; none: number };
-  /** Counts of the areas outside `topAreas`, summed ("Other areas"): `other[termIndex]`. */
+  /** Counts outside every topic in `topAreas`, which is all of them: the cases with no issue area, `other[termIndex]`. */
   other: Bucket[];
-  /** Indexes (into `areas`) of the six biggest issue areas by total cases: card 1 draws each as its own series. */
+  /** Every topic's index (into `areas`), most cases first over the whole docket: card 1's stack order, bottom up. */
   topAreas: number[];
   chiefs: DecisionsChief[];
   /** The president in office for most of each term, oldest first; the slider's term band. */
@@ -103,11 +109,12 @@ export const ALL_AREAS = -1;
 export const OTHER_AREAS = -2;
 
 /**
- * One case in the list: `[term, date (ISO), name, cite, area index or -1, dissent band 0-4, majority, minority, landmark
+ * One case in the list: `[term, date (ISO), name, cite, topic index (into `areas`) or -1, dissent band 0-4, majority, minority, landmark
  * article title or "", landmark topics ("Fourth Amendment rights \u00b7 Search and seizure") or "", Wikipedia article
  * title / "" when no list names the case / null when the lists say it has no article, one sentence from that article saying how
  * the Court ruled or "", 1 when that sentence was written by the model rather than taken from the article, outcome direction:
- * 1 conservative / 2 liberal / 0 none coded, SCDB case id (the key into `court/justice_votes.json`)]`.
+ * 1 conservative / 2 liberal / 0 none coded, SCDB case id (the key into `court/justice_votes.json`), SCDB issue area index
+ * (into `scdbAreas`) or -1]`. The outcome direction is coded under the SCDB area, so its note reads slot 15, not the topic.
  * Arrays, not objects: 8,000+ of them travel to the browser.
  */
-export type DecisionCase = [number, string, string, string, number, number, number, number, string, string, string | null, string, 0 | 1, DecisionDirection | 0, string];
+export type DecisionCase = [number, string, string, string, number, number, number, number, string, string, string | null, string, 0 | 1, DecisionDirection | 0, string, number];

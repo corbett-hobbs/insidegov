@@ -9,7 +9,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Current Members of Congress by State and Party",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/congress/members", "Every current U.S. senator and representative: search by name or state, filter by party and chamber, and sort by ideology, seniority or net worth."),
+    description: hubDescription("/congress/members", "Browse all current members of Congress. Filter by chamber, party or state, sort by ideology, seniority or net worth, and open voting records and committees."),
     path: "/congress/members",
   });
 }

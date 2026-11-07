@@ -11,7 +11,7 @@ import type { DecisionCase, DecisionsPayload } from "./decisions-types";
 
 /**
  * Build-time reader for /supreme-court/decisions: parses `decisions_counts.json` and `decisions_meta.json` at the boundary
- * (a bad file fails the build), then hands the page one dense payload (80 terms x 14 issue areas x 5 dissent buckets, a few
+ * (a bad file fails the build), then hands the page one dense payload (80 terms x 12 topics x 5 dissent buckets, a few
  * tens of KB). Shaping is the pure, unit-tested `lib/decisions-derive.ts`; nothing pre-joined is stored.
  */
 const OUT = join(process.cwd(), "pipeline", "output");
@@ -22,10 +22,10 @@ let cache: DecisionsPayload | null = null;
 /** A short hash of the case list, for the fetch URL. */
 const casesVersion = (): string => createHash("sha1").update(JSON.stringify(getDecisionCases())).digest("hex").slice(0, 10);
 
-/** What a justice's case table needs from the Decisions data: the issue-area names and the cache key of the shared case list. */
-export function getJusticeVotesSource(): { casesVersion: string; areas: { id: string; label: string }[] } {
+/** What a justice's case table needs from the Decisions data: the topic and SCDB issue-area names and the cache key of the shared case list. */
+export function getJusticeVotesSource(): { casesVersion: string; areas: { id: string; label: string }[]; scdbAreas: { id: string; label: string }[] } {
   const d = getDecisionsPageData();
-  return { casesVersion: d.casesVersion, areas: d.areas.map((a) => ({ id: a.id, label: a.label })) };
+  return { casesVersion: d.casesVersion, areas: d.areas.map((a) => ({ id: a.id, label: a.label })), scdbAreas: d.scdbAreas };
 }
 
 export function getDecisionsPageData(): DecisionsPayload {
@@ -55,7 +55,8 @@ const topicText = (topics: readonly string[]): string => [...new Set(topics.map(
 export function getDecisionCases(): DecisionCase[] {
   if (casesCache) return casesCache;
   const meta = decisionsMeta.parse(read("decisions_meta.json"));
-  const index = new Map(meta.issue_areas.map((a, i) => [a.id, i]));
+  const index = new Map(meta.groups.map((a, i) => [a.id, i]));
+  const scdbIndex = new Map(meta.issue_areas.map((a, i) => [a.id, i]));
   const landmarks = new Map(z.array(landmarkRow).parse(read("decisions_landmarks.json")).map((r) => [r.case_id, r]));
   const articles = new Map(z.array(caseArticleRow).parse(read("decisions_articles.json")).map((r) => [r.case_id, r.title] as const));
   const summaries = new Map(z.array(caseSummaryRow).parse(read("decisions_summaries.json")).map((r) => [r.case_id, r] as const));
@@ -63,7 +64,7 @@ export function getDecisionCases(): DecisionCase[] {
   casesCache = rows
     .map((r): DecisionCase => {
       const lm = landmarks.get(r.case_id);
-      return [r.term, r.date, r.name, r.cite, r.issue_area_id === null ? -1 : (index.get(r.issue_area_id) ?? -1), r.band, r.maj, r.min, lm?.title ?? "", lm ? topicText(lm.topics) : "", lm ? lm.title : articles.has(r.case_id) ? articles.get(r.case_id) ?? null : "", summaries.get(r.case_id)?.summary ?? "", summaries.get(r.case_id)?.via === "claude" ? 1 : 0, r.direction === "conservative" ? 1 : r.direction === "liberal" ? 2 : 0, r.case_id];
+      return [r.term, r.date, r.name, r.cite, r.group_id === null ? -1 : (index.get(r.group_id) ?? -1), r.band, r.maj, r.min, lm?.title ?? "", lm ? topicText(lm.topics) : "", lm ? lm.title : articles.has(r.case_id) ? articles.get(r.case_id) ?? null : "", summaries.get(r.case_id)?.summary ?? "", summaries.get(r.case_id)?.via === "claude" ? 1 : 0, r.direction === "conservative" ? 1 : r.direction === "liberal" ? 2 : 0, r.case_id, r.issue_area_id === null ? -1 : (scdbIndex.get(r.issue_area_id) ?? -1)];
     })
     .reverse();
   return casesCache;

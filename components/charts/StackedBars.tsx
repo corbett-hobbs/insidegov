@@ -97,6 +97,8 @@ interface Props<C extends StackColumn> {
   /** The chart's height in px, narrow and wide, before the term band and control rows (default 300 and 360). */
   heights?: { narrow: number; wide: number };
   renderTooltip: (column: C) => ReactNode;
+  /** Drawn over the bars in plot coordinates: numbered notes tied to a column. */
+  overlay?: (ctx: { xOf: (i: number) => number; step: number; y: (v: number) => number }) => ReactNode;
 }
 
 const NARROW_W = 560;
@@ -140,6 +142,7 @@ export function StackedBars<C extends StackColumn>({
   marginTop,
   heights,
   renderTooltip,
+  overlay,
 }: Props<C>) {
   const hatchId = `hatch${useId().replace(/:/g, "")}`;
   const [wrapRef, measured] = useElementWidth<HTMLDivElement>();
@@ -333,6 +336,8 @@ export function StackedBars<C extends StackColumn>({
                   </g>
                 );
               })}
+
+              {overlay?.({ xOf, step, y: (v: number) => y(v) })}
 
               {/* Peak and low, labelled above their bars; they fade while a column is hovered or picked. */}
               <g pointerEvents="none" opacity={tip.state || selectedKey || activeKey ? 0.25 : 1} style={{ transition: "opacity .12s" }}>

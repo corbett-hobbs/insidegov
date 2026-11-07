@@ -1,0 +1,123 @@
+{
+  "asOf": "2026-10-28",
+  "groups": [
+    {
+      "row": "Troops abroad",
+      "items": [
+        {
+          "id": "why-bases-overseas",
+          "q": "Why does the U.S. have military bases overseas?",
+          "a": "Policymakers cite three main reasons for overseas bases: to allow rapid responses to military contingencies outside the United States, to deter adversaries from attacking the United States or its allies and partners, and to assure allied and partner nations of U.S. security commitments. The Department of Defense describes its global defense posture, which includes its overseas bases, as the fundamental enabler of U.S. defense activities and military operations overseas. The United States typically obtains basing rights through diplomatic arrangements with host nations, often bilateral executive agreements.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Overseas Basing: Background and Issues for Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48123/R48123.4.pdf"
+            }
+          ],
+          "chartIds": [
+            "how-many-troops-are-stationed-abroad",
+            "where-they-are-and-who-hosts-the-most"
+          ]
+        },
+        {
+          "id": "active-vs-reserve",
+          "q": "What is the difference between active duty and the reserves?",
+          "a": "Active duty is full-time military service. The seven reserve components, which include the Army National Guard and Air National Guard, are part-time: members of the Selected Reserve generally train one weekend a month and two weeks a year. Reservists can be ordered to active duty, and National Guard units can be ordered into federal service. As of September 30, 2025, 162.5K active-duty troops were abroad, out of 1.3M active-duty troops in all.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Defense Primer: Reserve Forces",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10540/IF10540.24.pdf"
+            },
+            {
+              "label": "Defense Manpower Data Center, active-duty personnel by country",
+              "url": "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports"
+            }
+          ],
+          "chartIds": [
+            "how-many-troops-are-stationed-abroad"
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Host countries",
+      "items": [
+        {
+          "id": "who-hosts-most",
+          "q": "Who hosts the most U.S. troops?",
+          "a": "Japan hosts the most U.S. active-duty troops. As of September 30, 2025, the five largest hosts were Japan (53.5K, 35% of troops at foreign hosts), Germany (36.3K, 24%), South Korea (23.6K, 15%), Italy (12.6K, 8%) and the United Kingdom (10.1K, 7%). The top three together held 74%. The March 31, 2026 figures keep the same order, with Japan at 54.9K and the top three still at 74%.",
+          "sources": [
+            {
+              "label": "Defense Manpower Data Center, active-duty personnel by country",
+              "url": "https://dwp.dmdc.osd.mil/dwp/app/dod-data-reports/workforce-reports"
+            }
+          ],
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most",
+            "who-s-hosted-the-most"
+          ]
+        },
+        {
+          "id": "sofa-vs-treaty",
+          "q": "What is the difference between a status of forces agreement and a treaty?",
+          "a": "A status of forces agreement (SOFA) is generally a bilateral agreement between the executive branch and a host government that can cover legal jurisdiction over U.S. personnel and tax and customs exemptions. It is typically separate from any treaty with that country, though it may be aligned with or governed by one, as the U.S.-Japan SOFA is under its mutual cooperation and security treaty. The United States is also party to a multilateral SOFA that applies to all NATO members.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Overseas Basing: Background and Issues for Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48123/R48123.4.pdf"
+            }
+          ],
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ]
+        },
+        {
+          "id": "why-japan",
+          "q": "Why does the U.S. have troops in Japan?",
+          "a": "The U.S.-Japan mutual defense treaty grants the United States the right to base U.S. troops and military assets on Japan's territory in return for U.S. security guarantees. About 55K U.S. troops are currently on active duty in Japan. Shared goals of the two countries include addressing the challenge posed by China and countering threats from North Korea.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S.-Japan Relations",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF10199/IF10199.49.pdf"
+            }
+          ],
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ]
+        },
+        {
+          "id": "why-south-korea",
+          "q": "Why does the U.S. have troops in South Korea?",
+          "a": "The United States and South Korea formed a military alliance after the Korean War (1950-1953). Under the U.S.-South Korea Mutual Defense Treaty, in force since 1954, the United States bases troops in South Korea to help it defend itself, particularly from North Korea. Approximately 28.5K U.S. troops, known as U.S. Forces Korea, are identified as stationed there.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S.-South Korea Special Measures Agreements",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF13050/IF13050.1.pdf"
+            }
+          ],
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ]
+        },
+        {
+          "id": "who-pays-troops-abroad",
+          "q": "Who pays for U.S. troops stationed abroad?",
+          "a": "The Department of Defense pays for U.S. forces abroad with funds Congress appropriates. Some host nations also share costs. South Korea, for example, defrays part of the cost of stationing U.S. troops under Special Measures Agreements, through cash and in-kind payments for labor, logistics and construction. Under the 12th agreement, its contribution is roughly $1.19 billion in 2026.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, U.S. Overseas Basing: Background and Issues for Congress",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R48123/R48123.4.pdf"
+            },
+            {
+              "label": "Congressional Research Service, U.S.-South Korea Special Measures Agreements",
+              "url": "https://www.congress.gov/crs_external_products/IF/PDF/IF13050/IF13050.1.pdf"
+            }
+          ],
+          "chartIds": [
+            "where-they-are-and-who-hosts-the-most"
+          ]
+        }
+      ]
+    }
+  ]
+}

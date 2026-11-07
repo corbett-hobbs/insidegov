@@ -1,7 +1,7 @@
 "use client";
 
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, type ReactNode } from "react";
 import { ReversibleSortToggle } from "@/components/charts/SortToggle";
 import { SwarmRows, type SwarmRowData } from "@/components/charts/SwarmRows";
 import { fmtMoney } from "@/lib/trade-chart";
@@ -87,6 +87,7 @@ export function TradePartnersCard({
   onPickCountry,
   loading,
   error,
+  jump,
 }: {
   map: TradePageData["worldMap"];
   /** The selected year's rows; while the next year loads, the previous one stays on screen. */
@@ -100,6 +101,8 @@ export function TradePartnersCard({
   onPickCountry: (code: string | null) => void;
   loading: boolean;
   error: boolean;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const [sort, setSort] = useState<SortState>({ key: "total", reversed: false });
   const shown = payload?.year ?? year;
@@ -132,6 +135,7 @@ export function TradePartnersCard({
 
   return (
     <ChartCard
+      id="who-the-u-s-trades-with"
       className="h-full min-w-0"
       title={`Who the U.S. trades with, ${shown}${partial ? " so far" : ""}`}
       takeaway={TRADE_TAKEAWAYS.partners.takeaway(through)}
@@ -204,6 +208,7 @@ export function TradePartnersCard({
           </p>
         </MethodologyNote>
         {rows.length > 0 && <DataTable rows={rows} year={shown} />}
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

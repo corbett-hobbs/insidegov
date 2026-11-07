@@ -13,7 +13,20 @@ export const siteInfo = {
   whyIBuiltIt: "",
   /** The public repo (the old congress-ideology name redirects here). */
   githubUrl: "https://github.com/corbett-hobbs/insidegov",
+  /** The accounts that post new charts when government data is released (pipeline/insights). Blank = not linked anywhere. */
+  blueskyUrl: "https://bsky.app/profile/insidegov.fyi",
+  xUrl: "https://x.com/insidegovfyi",
+  threadsUrl: "",
 } as const;
+
+/** The social accounts that are filled in, in display order. */
+export function socialLinks(): { label: string; url: string }[] {
+  return [
+    { label: "X", url: siteInfo.xUrl },
+    { label: "Bluesky", url: siteInfo.blueskyUrl },
+    { label: "Threads", url: siteInfo.threadsUrl },
+  ].filter((l) => l.url !== "");
+}
 
 /** Link to a methodology write-up in the public repo, on `main`. */
 export function docUrl(docPath: string): string {

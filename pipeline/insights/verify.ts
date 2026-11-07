@@ -24,13 +24,27 @@ export class CellIndex {
   private rows(file: string): Row[] {
     const cached = this.files.get(file);
     if (cached) return cached;
-    const rows = readOutput(file, this.ref);
+    // `file.json#prop`: the array at `prop` of a file that holds an object (treasury_fiscal.json).
+    const [path, prop] = file.split("#") as [string, string | undefined];
+    const data = readOutput<unknown>(path, this.ref);
+    const rows = (prop ? (data as Record<string, Row[]>)[prop] : data) as Row[];
     this.files.set(file, rows);
     return rows;
   }
 
-  /** The value of one cell; throws when the key matches no row or more than one. */
+  /** The value of one cell, derived from others when it says how (types.ts CellRef.derive); throws when a key matches no row or more than one. */
   resolve(cell: CellRef): number {
+    const own = this.read(cell);
+    const d = cell.derive;
+    let v = own;
+    if (d?.op === "pct_change") v = (own / this.resolve(d.from) - 1) * 100;
+    else if (d?.op === "diff") v = own - this.resolve(d.from);
+    else if (d?.op === "deflate") v = (own * this.resolve(d.base)) / this.resolve(d.by);
+    return cell.negate ? -v : v;
+  }
+
+  /** The number in the row a cell's key names, before any negation or derivation. */
+  private read(cell: CellRef): number {
     const fields = Object.keys(cell.key).sort();
     const sig = `${cell.file}|${fields.join(",")}`;
     let idx = this.indexes.get(sig);
@@ -45,9 +59,10 @@ export class CellIndex {
     const matches = idx.get(JSON.stringify(fields.map((f) => cell.key[f] ?? null))) ?? [];
     if (matches.length !== 1) throw new Error(`${cell.file} ${JSON.stringify(cell.key)}: ${matches.length} rows`);
     if (cell.field === "__row") return 1;
-    const v = matches[0]![cell.field];
-    if (typeof v !== "number") throw new Error(`${cell.file} ${JSON.stringify(cell.key)}.${cell.field} is not a number`);
-    return cell.negate ? -v : v;
+    const raw = matches[0]![cell.field];
+    const v = cell.index === undefined ? raw : Array.isArray(raw) ? raw[cell.index] : undefined;
+    if (typeof v !== "number") throw new Error(`${cell.file} ${JSON.stringify(cell.key)}.${cell.field}${cell.index === undefined ? "" : `[${cell.index}]`} is not a number`);
+    return v;
   }
 
   sum(cells: CellRef[]): number {
@@ -76,6 +91,12 @@ export function verifyFact(fact: Fact, index: CellIndex): string | null {
       case "change":
         value = index.sum(d.to) - index.sum(d.from);
         break;
+      case "share": {
+        const whole = index.sum(d.whole);
+        const part = index.sum(d.part);
+        value = (((d.remainder ? whole - part : part)) / whole) * 100;
+        break;
+      }
       case "date":
         value = d.date;
         break;

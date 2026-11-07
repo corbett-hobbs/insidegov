@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { area, line } from "d3-shape";
 import { SEGMENT_LABEL_STYLE } from "@/lib/chart-bars";
 import { placeBandLabels } from "@/lib/energy-chart";
@@ -11,7 +11,7 @@ import { FUEL_KEYS, type EnergyPayload, type FuelKey } from "@/lib/energy-types"
 import { monthStartDay, niceScale, termLabel, type Scale } from "@/lib/trade-chart";
 import { EnergyChart, type Panel } from "./EnergyChart";
 import { activeDay, useEnergyValues } from "./EnergyState";
-import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, statusText, Swatch } from "./shared";
+import { CommonKey, EnergyCardShell, FlagsTable, Legend, LineKey, lastIndexOf, monthMidDay, monthPoints, MonthTable, prelimBand, scaleOver, useViewThrough, statusText, Swatch } from "./shared";
 import { SourceLink } from "@/components/SourceLink";
 import { ENERGY_TAKEAWAYS, contextFor } from "./takeaways";
 
@@ -37,7 +37,7 @@ const fmtTwhTick = (v: number) => (v === 0 ? "0" : String(v / 1000));
  * amounts, with small-scale solar (rooftop and similar, estimated, from 2014) as its own line underneath instead
  * of spliced in. The 2022 climate-and-tax law and the 2025 reconciliation law are marked, as context only.
  */
-export function ElectricityCard({ payload, view }: { payload: EnergyPayload; view: readonly [number, number] }) {
+export function ElectricityCard({ payload, view: fullView, jump }: { payload: EnergyPayload; view: readonly [number, number]; jump?: ReactNode }) {
   const v = useEnergyValues();
   const m = payload.monthly;
   const [mode, setMode] = useState<Mode>("share");
@@ -54,6 +54,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
   const era = useMemo(() => ({ span: payload.span, rec: payload.rec, terms: payload.terms, control: payload.control }), [payload]);
   const prelim = useMemo(() => prelimBand(payload, [...FUEL_KEYS, "total"]), [payload]);
   const last = lastIndexOf(m.total);
+  const view = useViewThrough(fullView, last);
   const smallFirst = m.small.findIndex((x) => x !== null);
 
   const panels = useMemo<Panel[]>(() => {
@@ -166,9 +167,11 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
   const day = activeDay(v);
   const month = Math.min(day !== null ? monthOfDay(day) : last, last);
   const term = termAtDay(payload.terms, monthStartDay(month));
-  const gasShare = m.total[month] ? ((m.gas[month] as number) / (m.total[month] as number)) * 100 : null;
-  const gasText = `Gas ${gasShare === null ? "—" : `${gasShare.toFixed(0)}%`}`;
-  const readout = { values: [fmtTwh(m.total[month] as number), gasText], headline: mode === "share" ? gasText : fmtTwh(m.total[month] as number), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
+  // An isolated fuel is the only figure on the card. Otherwise Amount shows the month's total; Share shows no big figure,
+  // since six fuels split the whole and singling one out (gas) would imply it matters more than the rest.
+  const totalText = fmtTwh(m.total[month] as number);
+  const fuelText = only ? `${FUELS[only].short} ${m[only][month] == null ? "\u2014" : fmtTwh(m[only][month] as number)}` : null;
+  const readout = { values: fuelText ? [fuelText] : [totalText], headline: fuelText ?? (mode === "share" ? "" : totalText), date: `${monthLabel(month)}${isPreliminary(payload, "total", month) ? " (preliminary)" : ""}`, term: term ? termLabel(term) : undefined };
 
   return (
     <EnergyCardShell
@@ -204,7 +207,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
               return (
                 <div className="flex min-w-[13rem] flex-col gap-0.5 text-[0.78rem]">
                   <div className="opacity-75">{monthLabel(mo)}</div>
-                  {[...FUEL_KEYS].reverse().map((k) => {
+                  {[...FUEL_KEYS].reverse().filter((k) => !only || k === only).map((k) => {
                     const val = m[k][mo];
                     return (
                       <div key={k} className="flex items-center justify-between gap-3">
@@ -213,7 +216,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
                       </div>
                     );
                   })}
-                  <div className="flex items-center justify-between gap-3 font-medium"><span>Total</span><span className="font-mono">{tot == null ? "—" : fmtTwh(tot)}</span></div>
+                  {!only && <div className="flex items-center justify-between gap-3 font-medium"><span>Total</span><span className="font-mono">{tot == null ? "—" : fmtTwh(tot)}</span></div>}
                   {m.small[mo] != null && <div className="flex items-center justify-between gap-3"><span>Small-scale solar (est.)</span><span className="font-mono">{fmtTwh(m.small[mo] as number)}</span></div>}
                   {t && <div className="opacity-75">{termLabel(t)}</div>}
                   <div className="opacity-60">{statusText(isPreliminary(payload, "total", mo))}</div>
@@ -223,6 +226,7 @@ export function ElectricityCard({ payload, view }: { payload: EnergyPayload; vie
           />
         </>
       }
+      jump={jump}
       notes={
         <p>
           <SourceLink id="eia-electricity">Energy Information Administration</SourceLink> net generation by source, monthly, all sectors, <em>utility-scale only</em>: each fuel&rsquo;s share of the total or its amount. Small-scale solar such as rooftop panels is estimated separately from 2014 and drawn on its own line (about a quarter of all solar in 2025), so solar and the total are understated from then. &ldquo;Other&rdquo; is the total minus the six named fuels (petroleum, biomass, geothermal, waste, pumped storage, other gases). The hatched stretch is the current and previous calendar year, preliminary until EIA&rsquo;s annual figures. The 2022 Inflation Reduction Act and 2025 reconciliation flags mark when Congress acted, not any month&rsquo;s mix.

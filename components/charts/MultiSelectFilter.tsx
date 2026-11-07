@@ -13,6 +13,11 @@ export interface MultiOption<T> {
   swatch?: string;
   /** One muted line under the name, for an option worth explaining (Laws: what "Commemorations" holds). */
   hint?: string;
+  /**
+   * A sentence or two about the option (Decisions: what an issue area holds). Adds an ⓘ button at the right of the row that opens it
+   * under the name (tap or click; it never ticks the box), and the same text as a hover tooltip on the name.
+   */
+  info?: string;
 }
 
 /**
@@ -33,6 +38,7 @@ export function MultiSelectFilter<T extends string | number>({
   footerClassName = "",
   dotClassName = "sm:hidden",
   dot,
+  panelMaxWidth = "max-w-[min(18rem,calc(100vw-1rem))]",
 }: {
   /** Names the group for screen readers ("Policy area"). */
   label: string;
@@ -51,8 +57,11 @@ export function MultiSelectFilter<T extends string | number>({
   dotClassName?: string;
   /** When set, the button wears an accent dot (below `sm`) and says this to screen readers: a filter that lives in the footer is on. */
   dot?: string;
+  /** The panel's max-width class: wider for longer option labels, so none truncates (Decisions' topics). */
+  panelMaxWidth?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [explained, setExplained] = useState<ReadonlySet<T>>(new Set());
   const root = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -129,7 +138,7 @@ export function MultiSelectFilter<T extends string | number>({
         </svg>
       </button>
       {open && (
-        <div ref={panel} id={uid} role="group" aria-label={label} className="absolute left-0 top-[calc(100%+4px)] z-50 w-max min-w-[14rem] max-w-[min(18rem,calc(100vw-1rem))] overflow-hidden rounded-lg border border-line-strong bg-surface shadow-lg">
+        <div ref={panel} id={uid} role="group" aria-label={label} className={`absolute left-0 top-[calc(100%+4px)] z-50 w-max min-w-[14rem] ${panelMaxWidth} overflow-hidden rounded-lg border border-line-strong bg-surface shadow-lg`}>
           <div className="flex items-center justify-between gap-2 border-b border-line bg-surface-raised px-3 py-1.5">
             <span className="font-mono text-[0.66rem] text-ink-muted">
               {ticked} of {options.length} shown
@@ -149,16 +158,42 @@ export function MultiSelectFilter<T extends string | number>({
           <div className="touch-scroll max-h-[min(19rem,60vh)] overflow-y-auto overscroll-contain">
             {options.map((o) => {
               const on = isPicked(value, o.id);
+              const shown = o.info !== undefined && explained.has(o.id);
               return (
-                <label key={String(o.id)} className="flex min-h-[2.75rem] cursor-pointer items-center gap-2 px-3 py-1.5 text-[0.8rem] hover:bg-surface-raised sm:min-h-[2.1rem]">
+                <div key={String(o.id)} className="hover:bg-surface-raised">
+                <label className="flex min-h-[2.75rem] cursor-pointer items-center gap-2 px-3 py-1.5 text-[0.8rem] sm:min-h-[2.1rem]">
                   <input type="checkbox" checked={on} onChange={(e) => change(setPicked(value, o.id, e.target.checked, ids))} className="m-0 h-4 w-4 flex-none cursor-pointer accent-[var(--accent)]" />
                   {o.swatch && <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-[2px] ${on ? "" : "opacity-35"}`} style={{ background: o.swatch }} />}
-                  <span className="min-w-0 flex-1">
+                  <span className="min-w-0 flex-1" title={o.info}>
                     <span className={`block truncate ${on ? "text-ink" : "text-ink-muted"}`}>{o.label}</span>
                     {o.hint && <span className="block truncate text-[0.7rem] leading-tight text-ink-faint">{o.hint}</span>}
                   </span>
                   {o.count !== undefined && <span className="flex-none font-mono text-[0.72rem] tabular-nums text-ink-muted">{o.count}</span>}
+                  {o.info !== undefined && (
+                    <button
+                      type="button"
+                      aria-expanded={shown}
+                      aria-label={`About ${o.label}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setExplained((cur) => {
+                          const next = new Set(cur);
+                          if (!next.delete(o.id)) next.add(o.id);
+                          return next;
+                        });
+                      }}
+                      className="-mr-2 flex h-9 w-9 flex-none cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 text-ink-faint hover:text-ink focus-visible:outline-2 focus-visible:outline-focus sm:-mr-1 sm:h-7 sm:w-7"
+                    >
+                      <svg aria-hidden viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.3">
+                        <circle cx="8" cy="8" r="6.5" />
+                        <path d="M8 7.2v4" strokeLinecap="round" />
+                        <circle cx="8" cy="4.9" r="0.45" fill="currentColor" />
+                      </svg>
+                    </button>
+                  )}
                 </label>
+                {shown && <p className="m-0 px-3 pb-2 text-[0.72rem] leading-snug text-ink-muted">{o.info}</p>}
+                </div>
               );
             })}
           </div>

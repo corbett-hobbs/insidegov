@@ -1,4 +1,4 @@
-import type { DateStyle, UnitFormat } from "./types";
+import type { DateStyle, Frequency, UnitFormat } from "./types";
 
 /**
  * Number and date formatting for insight facts. Every number a caption may use is produced here, and verify.ts
@@ -40,11 +40,20 @@ export function pctDecimals(pct: number): number {
   return Math.abs(pct) < 10 ? 1 : 0;
 }
 
+/** The style without its year when `date` falls in the same year as `latest` (already stated once in the caption). */
+export function bareIfSameYear(style: DateStyle, date: string, latest: string): DateStyle {
+  if (date.slice(0, 4) !== latest.slice(0, 4)) return style;
+  return style === "month" ? "month_bare" : style === "day" ? "day_bare" : style;
+}
+
 export function fmtDate(date: string, style: DateStyle): string {
   const [y, m, d] = date.split("-").map(Number) as [number, number, number];
   if (style === "year") return String(y);
   if (style === "fiscal_year") return `fiscal ${y}`;
+  if (style === "quarter") return `Q${Math.floor((m - 1) / 3) + 1} ${y}`;
   if (style === "month") return `${MONTHS[m - 1]} ${y}`;
+  if (style === "month_bare") return MONTHS[m - 1]!;
+  if (style === "day_bare") return `${MONTHS[m - 1]} ${d}`;
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
 
@@ -83,7 +92,14 @@ export function addMonths(date: string, months: number): string {
   return `${yy}-${String(mm + 1).padStart(2, "0")}-01`;
 }
 
-/** The format a series' dates read in: monthly data by month, weekly by day, fiscal years by year. */
-export function dateStyleFor(frequency: "weekly" | "monthly" | "fiscal_year"): DateStyle {
-  return frequency === "weekly" ? "day" : frequency === "monthly" ? "month" : "fiscal_year";
+/** The same day of the previous month ("2026-10-26" -> "2026-09-26"), the last day when it has fewer ("2026-10-31" -> "2026-09-30"). addMonths snaps to the 1st, which is right for monthly data and eight weeks wrong for weekly. */
+export function monthEarlier(date: string): string {
+  const start = addMonths(date, -1);
+  const lastDay = new Date(Date.UTC(Number(start.slice(0, 4)), Number(start.slice(5, 7)), 0)).getUTCDate();
+  return `${start.slice(0, 8)}${String(Math.min(Number(date.slice(8, 10)), lastDay)).padStart(2, "0")}`;
+}
+
+/** The format a series' dates read in: monthly data by month, weekly by day, quarters as "Q2 2026", fiscal years by year. */
+export function dateStyleFor(frequency: Frequency): DateStyle {
+  return { weekly: "day", monthly: "month", quarterly: "quarter", annual: "year", fiscal_year: "fiscal_year" }[frequency] as DateStyle;
 }

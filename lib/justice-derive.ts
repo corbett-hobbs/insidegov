@@ -206,7 +206,8 @@ export function buildJusticeProfiles(input: ProfileInput): {
 
     const min = Math.min(...subject.s);
     const max = Math.max(...subject.s);
-    const last = subject.short;
+    // A justice's own page never needs the first initial that tells namesakes apart (the two never overlap).
+    const last = subject.short.replace(/^[A-Z]\. /, "");
     const overlap = peers.length;
 
     const bio = input.bios.get(subject.id);

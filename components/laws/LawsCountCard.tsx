@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ITEM, LEGEND_ROW } from "@/components/charts/legend";
@@ -33,7 +33,7 @@ type Mode = "count" | "share";
  * filter bar's ticks); a second click clears it. The in-progress Congress is hatched and left out of the peak and low labels,
  * the president under each bar signed most of that Congress's laws, and the House / Senate strips show on request.
  */
-export function LawsCountCard() {
+export function LawsCountCard({ jump }: { jump?: ReactNode }) {
   const { data, groups, major, bands, control, window: win, hover, pin } = useLawsValues();
   const { moveHover, leaveHover, togglePin, clearPin, setGroups } = useLawsActions();
   const [mode, setMode] = useState<Mode>("count");
@@ -97,6 +97,7 @@ export function LawsCountCard() {
 
   return (
     <ChartCard
+      id="how-many-laws-does-congress-pass"
       title={LAWS_TAKEAWAYS.count.title}
       takeaway={takeaway}
       action={
@@ -177,6 +178,7 @@ export function LawsCountCard() {
           head={["Congress", "Opened", "Laws", ...series.map((s) => s.label)]}
           rows={[...cols].reverse().map((c) => [ordinal(c.congress), openYear(c.congress), c.total, ...series.map((s) => c.values[s.id] ?? 0)])}
         />
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

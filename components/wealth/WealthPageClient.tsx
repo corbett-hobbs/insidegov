@@ -1,13 +1,11 @@
 "use client";
 
-import { HowToRead } from "@/components/HowToRead";
 import { SourceLink } from "@/components/SourceLink";
 import { useMemo, useState } from "react";
 import { stateName } from "@/lib/states";
 import type { ChamberView } from "@/lib/chamber";
 import type { WealthMember } from "@/lib/wealth-data";
 import type { WealthParty } from "@/lib/wealth-copy";
-import { HowToReadNotes } from "@/components/wealth/HowToReadNotes";
 import { WealthFilterBar } from "./WealthFilterBar";
 import { NetWorthScatterCard } from "./NetWorthScatterCard";
 import { WealthListsSection } from "./WealthListsSection";
@@ -82,14 +80,8 @@ export function WealthPageClient({ members }: { members: WealthMember[] }) {
       <main className="mx-auto flex w-full max-w-[1120px] flex-col gap-8 px-4 pb-16 pt-7 sm:px-6">
         <PageHeader eyebrow="Congress · Wealth" title="How Much Is Congress Worth?">
           <p>
-            Estimated net worth for every member of Congress, built from the
-            financial disclosures they file each year. Members write the laws
-            that move markets, and these estimates show whose wealth has grown
-            fastest since they took office.
+            Lawmakers write the rules that influence markets. Review estimated net worth calculations derived from yearly financial disclosures to see how member assets change over time.
           </p>
-          <HowToRead>
-            <HowToReadNotes />
-          </HowToRead>
         </PageHeader>
 
         <NetWorthScatterCard

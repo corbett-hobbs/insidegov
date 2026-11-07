@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { LEGEND_ITEM } from "@/components/charts/legend";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -16,7 +16,7 @@ import { useTakeawayContext } from "@/components/charts/ContextLine";
 import { TROOPS_BREAK_NOTE, TROOPS_TAKEAWAYS, contextFor } from "./takeaways";
 
 /** "How many troops are stationed abroad": the stacked-bar time series and everything that explains it. */
-export function TroopsChartCard() {
+export function TroopsChartCard({ jump }: { jump?: ReactNode }) {
   const { data, yi, range, country, measure } = useTroopsState();
   const { periods, years, places } = data.payload;
   const [by, setBy] = useState<"region" | "branch">("region");
@@ -60,6 +60,7 @@ export function TroopsChartCard() {
 
   return (
     <ChartCard
+      id="how-many-troops-are-stationed-abroad"
       title={TROOPS_TAKEAWAYS.abroad.title}
       takeaway={takeaway}
       action={
@@ -133,6 +134,7 @@ export function TroopsChartCard() {
             ))}
           </tbody>
         </TableView>
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

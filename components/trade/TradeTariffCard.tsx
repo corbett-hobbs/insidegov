@@ -2,7 +2,7 @@
 
 import { LegendToggle, useIsolate } from "@/components/charts/LegendToggle";
 import { TABLE_TOGGLE } from "@/components/charts/table-toggle";
-import { memo, useMemo } from "react";
+import { memo, useMemo, type ReactNode } from "react";
 import { MONTH_ABBR } from "@/lib/indicator-time";
 import { fmtDollars, fmtPercent, monthStartDay, rateReadingAtDay, rateScale, ratePercentSeries, termAtDay, termLabel } from "@/lib/trade-chart";
 import { MobileReadout } from "./MobileReadout";
@@ -84,6 +84,7 @@ export function TradeTariffCard({
   lastReviewed,
   loading,
   error,
+  jump,
 }: {
   national: { duties: Monthly; imports: Monthly };
   country: { duties: Monthly; imports: Monthly } | null;
@@ -94,6 +95,8 @@ export function TradeTariffCard({
   lastReviewed: string;
   loading: boolean;
   error: boolean;
+  /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
+  jump?: ReactNode;
 }) {
   const v = useTradeValues();
   const { showCong } = v;
@@ -107,13 +110,17 @@ export function TradeTariffCard({
   const lastIdx = main ? main.map((x) => x !== null).lastIndexOf(true) : -1;
   const rd = shown ? rateReadingAtDay(shown.duties, shown.imports, day ?? (lastIdx >= 0 ? monthStartDay(lastIdx) : -1)) : null;
   const pres = rd ? termAtDay(era.terms, monthStartDay(rd.month)) : undefined;
-  const mobileLine = rd ? { values: [`Duty rate ${rd.rate === null ? "\u2014" : fmtPercent(rd.rate)}`, ...(rd.duties !== null ? [`Duties ${fmtDollars(rd.duties)}`] : [])], date: rd.label, term: pres ? termLabel(pres) : undefined } : null;
+  // As before, the phone line reads the shown country; with the all-countries line isolated it reads that line alone.
+  const refRd = reference && only === "reference" ? rateReadingAtDay(national.duties, national.imports, day ?? (lastIdx >= 0 ? monthStartDay(lastIdx) : -1)) : null;
+  const line = refRd ?? rd;
+  const mobileLine = line ? { values: [`${refRd ? "All countries" : "Duty rate"} ${line.rate === null ? "\u2014" : fmtPercent(line.rate)}`, ...(line.duties !== null ? [`Duties ${fmtDollars(line.duties)}`] : [])], date: line.label, term: pres ? termLabel(pres) : undefined } : null;
   const title = countryName ? `Tariffs on imports from ${countryName}` : "Tariffs on imports";
   const context = useTakeawayContext(TRADE_TAKEAWAYS.tariff.takeaway, countryName ? null : contextFor("tariff"));
   const aria = `${title}: calculated duties as a share of imports, monthly from 1993, with ${flags.length} tariff actions and court rulings marked, presidential terms and recessions. The same data is in the table below.`;
 
   return (
-    <section className="min-w-0 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
+    // A fixed anchor: the title changes with the country, and social posts link here (`?country=CAN#tariffs`).
+    <section id="tariffs" className="min-w-0 scroll-mt-32 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
       <h2 className="m-0 font-serif text-[1.6rem] font-medium leading-tight">{title}</h2>
       {/* The takeaway is about all countries, so a country view goes without one. */}
       {!countryName && <p className="m-0 mt-1.5 text-[0.875rem] leading-[1.5] text-ink">{context.takeaway}</p>}
@@ -127,6 +134,9 @@ export function TradeTariffCard({
             duties={shown.duties}
             imports={shown.imports}
             reference={reference}
+            referenceDuties={national.duties}
+            referenceImports={national.imports}
+            mainLabel={countryName ?? undefined}
             only={only}
             scale={scale}
             era={era}
@@ -144,6 +154,7 @@ export function TradeTariffCard({
           {reference && <LegendToggle active={only === "reference"} dimmed={only === "main"} onClick={() => isolate("reference")}><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-faint)" strokeWidth="1.75" /></svg>All countries, for reference</LegendToggle>}
           <span className="inline-flex items-center gap-1.5"><svg width="22" height="10" aria-hidden><line x1="11" x2="11" y1="0" y2="10" stroke="var(--accent)" strokeWidth="1.4" /><circle cx="11" cy="3" r="2.8" fill="var(--accent)" /></svg>Tariff action (solid: major; dashed: other)</span>
           <span className="inline-flex items-center gap-1.5"><Swatch color="color-mix(in srgb, var(--ink) 9%, transparent)" border />Recession (NBER)</span>
+          <span className="inline-flex items-center gap-1.5"><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-muted)" strokeWidth="1" strokeDasharray="3 3" /></svg>Data source change, Jan 2010</span>
         </div>
             }
           />
@@ -157,10 +168,11 @@ export function TradeTariffCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            Calculated duties divided by the value of imports for consumption, monthly from January 1993, on the same timeline as the trade balance: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12). Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Tariff actions and court rulings are marked on the date each took effect; Census runs about two months behind, so later actions are pinned to the right edge. Legal status is as of {dateText(lastReviewed)}.
+            Calculated duties divided by the value of imports for consumption, monthly from January 1993, on the same timeline as the trade balance: <SourceLink id="census-trade">Census</SourceLink> data from January 2010, <SourceLink id="usitc-dataweb">U.S. International Trade Commission DataWeb</SourceLink> for 1993&ndash;2009 (the two match over 2010&ndash;12); the dashed vertical line marks the change. Duties are computed from import entries, not Treasury receipts, so the line can fall without any tariff cut if importers shift countries or products. Not seasonally adjusted. Tariff actions and court rulings are marked on the date each took effect; Census runs about two months behind, so later actions are pinned to the right edge. Legal status is as of {dateText(lastReviewed)}.
           </p>
         </MethodologyNote>
         <EventsTable flags={flags} lastReviewed={lastReviewed} />
+        {jump}
       </ChartNotesRow>
     </section>
   );

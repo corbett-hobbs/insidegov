@@ -9,6 +9,9 @@ import { ChartLegend, JusticeOverTimeChart, STACKED_CHART_HEIGHT } from "./Justi
 import { JusticeRosterCard } from "./JusticeRosterCard";
 import type { JusticeMode } from "./justice-mode";
 import { SourceLink } from "@/components/SourceLink";
+import { ProfileSection } from "@/components/profile/ProfileSection";
+import { SectionPills } from "@/components/SectionNav";
+import { CardMoreLink } from "@/components/charts/CardMoreLink";
 
 /**
  * A justice's profile page: identity row, then two cards side by side (the
@@ -41,6 +44,15 @@ export function JusticeProfileView({ profile, votes }: { profile: JusticeProfile
 
       <JusticeHeader profile={profile} />
 
+      {votes && (
+        <SectionPills
+          items={[{ id: "justice-ideology", label: "Ideology" }, { id: "justice-votes", label: "Decisions" }]}
+          numbered={false}
+          className="sm:hidden"
+        />
+      )}
+
+      <ProfileSection label="Ideology" id="justice-ideology">
       <section
         aria-label="Ideology"
         className="grid grid-cols-1 gap-5 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:items-stretch"
@@ -81,14 +93,20 @@ export function JusticeProfileView({ profile, votes }: { profile: JusticeProfile
               justice&rsquo;s first terms, and narrower as votes accumulate.
             </p>
           </details>
+          <CardMoreLink href="/supreme-court/ideology" label="Ideology page" />
         </section>
 
         <div data-testid="roster-card" className="flex min-w-0 flex-col [&>section]:flex-1">
           <JusticeRosterCard profile={profile} mode={mode} onMode={setMode} />
         </div>
       </section>
+      </ProfileSection>
 
-      {votes && <JusticeVotesCard justiceId={profile.justice.id} last={profile.last} source={votes} />}
+      {votes && (
+        <ProfileSection label="Decisions" id="justice-votes">
+          <JusticeVotesCard justiceId={profile.justice.id} last={profile.last} source={votes} />
+        </ProfileSection>
+      )}
 
       <footer>
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

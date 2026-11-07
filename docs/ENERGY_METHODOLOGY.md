@@ -24,7 +24,7 @@ All series are **not seasonally adjusted**.
 | SPR | `WCSSTUS1` SPR crude stocks | `petroleum/stoc/wstk` | weekly (week-ending) | 1982-08-20 | 2026-09-25 | thousand barrels |
 | Gas | `NGPRPUS` dry production | `total-energy` | monthly | 1973-01 | 2026-06 | billion cubic feet |
 | Gas | `N9133US2` LNG exports | `natural-gas/move/expc`, facet `series` | monthly | 1997-01 | 2026-07 | million cubic feet |
-| Electricity | `CLETPUS` coal, `NGETPUS` gas, `NUETPUS` nuclear, `HVETPUS` conventional hydro, `WYETPUS` wind, `SOETPUS` utility-scale solar, `PAETPUS` petroleum, `ELETPUS` total | `total-energy` | monthly | 1973-01 (wind 1983-01, solar 1984-01) | 2026-06 | million kilowatthours |
+| Electricity | `CLETPUS` coal, `NGETPUS` gas, `NUETPUS` nuclear, `HVETPUS` conventional hydro, `WYETPUS` wind, `SOETPUS` utility-scale solar, `PAETPUS` petroleum, `ELETPUS` total | `total-energy`, newest months from `electricity/electric-power-operational-data` | monthly | 1973-01 (wind 1983-01, solar 1984-01) | 2026-07 | million kilowatthours |
 | Electricity | `ELEC_SMALL_SOLAR` small-scale solar PV (estimated), fuel type `DPV`, all sectors, U.S. | `electricity/electric-power-operational-data` | monthly | 2014-01 | 2026-07 | thousand megawatthours |
 
 Not ingested, on purpose: energy CO2 (deferred), total primary energy balance, crude prices, retail gasoline (already on the Economy page
@@ -73,6 +73,11 @@ The newest petroleum month can come from the Monthly Energy Review and run beyon
 time of writing); the Monthly Energy Review says its newest month is "sometimes estimated or forecasted". Do not splice a Monthly Energy
 Review tail onto a Petroleum Supply Monthly history. Observed vintage gaps between the two for the same month: crude production
 2026-07 13,817 vs 13,948 (0.9%), 2026-06 13,792 vs 13,844 (0.4%).
+
+The electricity series are the exception to that rule. The Monthly Energy Review republishes the Electric Power Monthly about a month later, so
+the fetch appends the months after the Monthly Energy Review's last one from the Electric Power Monthly route (`extend` in
+`lib/energy-entities.ts`: all sectors, U.S., fuel codes COW, NG, NUC, HYC, WND, SUN, PET, ALL). Same quantity and units; checked 2026-10-21: the
+overlapping month (2026-06) matches to the last digit. Once the Monthly Energy Review catches up, its values replace the appended ones.
 
 ## Revisions and the weekly job
 

@@ -30,8 +30,27 @@ Some cases are decided by fewer than nine justices (vacancies, recusals); the pa
 ## Issue areas
 
 SCDB's own 14 `issueArea` categories, behind the catalog `pipeline/reference/decision-issue-areas.json` (`id`, `scdb_code`, `label`). The transform maps code to `id` through that file only and fails on an
-unknown code; the UI reads labels from `decisions_meta.json`. Cases with no `issueArea` (67 in 2026_01) are kept with `issue_area_id: null`, count in "All issue areas", and appear in no issue-area row.
-Swapping the taxonomy later = a new catalog and `issueAreaId` mapping, no UI change.
+unknown code. Every case row keeps its SCDB area (`issue_area_id`): a decision page shows it with the SCDB issue, and the Liberal / Conservative note reads it, because SCDB codes the outcome
+direction by issue area. The page's charts, filter and list group by topic instead (next section). Cases with no `issueArea` (67 in 2026_01) are kept with `issue_area_id: null`.
+
+## Topics
+
+The Decisions page groups cases into 12 topics (`pipeline/reference/decision-groups.json`: `id`, `label`, `description`, and the rules). They are **our grouping of SCDB's codes, not SCDB's**:
+the 14 issue areas bury the subjects readers look for (Heller is "miscellaneous criminal procedure", Trump v. United States is "self-incrimination, immunity from prosecution", Obergefell
+is "due process: miscellaneous"), so the topics pull those out. Each case gets exactly one topic, so the stacked charts, shares and heatmap still add up. `groupId` in
+`pipeline/transform/decisions.ts` assigns in three passes and stops at the first hit:
+
+1. **Hand-picked cases** (`cases`, SCDB caseIds). Only LGBTQ rights: SCDB has no code for it, and its cases are coded as privacy, due process, sex discrimination, protest or free exercise.
+   The list holds cases that turn on the legal treatment of gay or transgender people, including religious or speech objections to the laws that protect them (Masterpiece Cakeshop,
+   303 Creative, Fulton, Chiles); it leaves out cases where that is not the question before the Court (Mahmoud v. Taylor stays a religion case). Re-check it after each term.
+2. **Codes** (`issues`: SCDB `issue`; `law_supp`: SCDB `lawSupp`, the legal provision), topics tried in file order. The provision catches what the issue code hides: the Second Amendment
+   (`lawSupp` 239) for Heller, Bruen and Rahimi; Article II (131–135) and the APA (305) for presidential and agency power; the INA (344) for immigration. File order settles a case that two topics' codes
+   claim: Citizens United (campaign spending, First Amendment) is Elections; DHS v. Regents (deportation, APA) is Immigration.
+3. **Issue area** (`issue_areas`): every SCDB area belongs to exactly one topic, which takes what is left of it (the rest of First Amendment is Speech, religion & guns; the rest of Judicial power,
+   Due process and Attorneys is Courts & procedure).
+
+Gates (build-failing, `checkGroups` and `runGates`): every code is in the codebook and in one topic only; every issue area is in exactly one topic's fallback; every hand-picked case is on the page
+and in one topic; every topic has a case; a case has a topic exactly when it has an issue area (the 67 unclassified cases count only in "All topics"). The report lists `cases_by_topic`.
 
 ## Chief Justices
 
@@ -41,10 +60,10 @@ An unknown `chief` name fails the build; add a row when a new Chief takes the ch
 
 ## Output
 
-- `decisions_counts.json`: one row per `(term, issue_area_id)` that has at least one case, with `n` and `d0..d4`. Counts only, never percentages. Every term 1946–last has rows. `issue_area_id` is `null` for unclassified. ~77 KB.
-- `decisions_cases.json`: one row per case in scope, oldest first (~1.6 MB): `case_id`, `term`, `date`, `name`, `cite`, `issue_area_id`, `band`, `maj`, `min`. Names are SCDB's capitals re-cased for reading by `pipeline/transform/case-names.ts` (a word that already has lower-case letters is left as written; a curated acronym lookup of agencies, unions/organisations and company forms; dotted initials, Roman numerals and vowel-less tokens like "CSX" stay capitals unless listed as abbreviations like "Ltd"; small words lower-case; a few newer UTF-8 names repaired). To fix a name, add the acronym to `ACRONYMS` (or `ABBREVIATIONS`) there; the tests list real examples and fail if a listed acronym is ever title-cased in the data; `cite` is the U.S. Reports cite, else Supreme Court Reporter, else Lawyers' Edition, else Lexis.
-- `decisions_meta.json`: version, data-through term, exclusions, unclassified count, citation, licence, chief spans, issue-area catalog.
-- `decisions_report.json`: totals by bucket, decade and issue area, gate results (humans only).
+- `decisions_counts.json`: one row per `(term, group_id)` (topic) that has at least one case, with `n` and `d0..d4`. Counts only, never percentages. Every term 1946–last has rows. `group_id` is `null` for unclassified. ~77 KB.
+- `decisions_cases.json`: one row per case in scope, oldest first (~1.6 MB): `case_id`, `term`, `date`, `name`, `cite`, `group_id` (topic), `issue_area_id` (SCDB's), `band`, `maj`, `min`, `direction`. Names are SCDB's capitals re-cased for reading by `pipeline/transform/case-names.ts` (a word that already has lower-case letters is left as written; a curated acronym lookup of agencies, unions/organisations and company forms; dotted initials, Roman numerals and vowel-less tokens like "CSX" stay capitals unless listed as abbreviations like "Ltd"; small words lower-case; a few newer UTF-8 names repaired). To fix a name, add the acronym to `ACRONYMS` (or `ABBREVIATIONS`) there; the tests list real examples and fail if a listed acronym is ever title-cased in the data; `cite` is the U.S. Reports cite, else Supreme Court Reporter, else Lawyers' Edition, else Lexis.
+- `decisions_meta.json`: version, data-through term, exclusions, unclassified count, citation, licence, chief spans, issue-area catalog, topic catalog (id, label, description).
+- `decisions_report.json`: totals by bucket, decade, topic and issue area, hand-picked counts, gate results (humans only).
 
 ## Gates (the transform exits non-zero)
 

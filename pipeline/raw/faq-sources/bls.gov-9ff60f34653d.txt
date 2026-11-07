@@ -1,0 +1,224 @@
+# saved 2026-10-27 from https://www.bls.gov/web/empsit/ces_cps_trends.htm
+Comparing employment from the BLS household and payroll surveys
+Labor Force Statistics from the Current Population Survey
+SHARE ON: Search Labor Force Statistics from the Current Population Survey
+Comparing employment from the BLS household and payroll surveys
+On this page
+Why are there two monthly employment measures?
+Recent trends in household and payroll survey employment
+Interactive chart: Household and payroll survey employment (updated monthly)
+Chart data: Household and payroll survey employment time series
+Comparison of survey concepts, definitions, and methodologies
+Comparing employment trends from the two surveys
+Sampling error
+Payroll survey benchmark revisions
+Business births and deaths in the payroll survey
+Population controls in the household survey
+Worker classification in the household survey
+Survey reference periods
+"Off-the-books" employment
+Job changing
+Selected research on employment trend divergences
+Appendix: Household survey research series used for payroll employment comparisons
+Why are there two monthly employment measures?
+The Bureau of Labor Statistics (BLS) has two monthly surveys that measure employment levels and
+trends: the Current Population Survey (CPS) , also known as the household survey, and the Current
+Employment Statistics (CES) survey , also known as the payroll or establishment survey.
+Both surveys are needed for a complete picture of the labor market.
+The payroll survey (CES) is designed to measure employment, hours, and earnings in the nonfarm sector, with industry and geographic detail.
+The survey is best known for providing a highly reliable gauge of monthly change in nonfarm payroll employment.
+A representative sample of businesses in the U.S. provides the data for the payroll survey.
+The household survey (CPS) is designed to measure the labor force status of the civilian noninstitutional population with demographic detail.
+The national unemployment rate is the best-known statistic produced from the household survey. The survey also provides a measure of employed people, one
+that includes agricultural workers and the self-employed. A representative sample of U.S. households provides the information for the household survey.
+National employment estimates from both the household and payroll surveys are published in the Employment Situation news release each month. The estimates differ because the surveys have
+distinct definitions of employment and distinct survey and estimation methods. (See the Comparison of survey concepts, definitions, and methodologies below.)
+This documentation is intended to help data users better understand
+the differences in the two employment measures as well as trend divergences that sometimes occur.
+Recent trends in household and payroll survey employment
+Chart:
+In the chart, the household survey employment level (the red line) is higher than that of the payroll survey (the orange line) because the household survey has a broader employment definition than the payroll survey.
+See the Comparison of survey concepts, definitions, and methodologies section below for information about differences in the surveys' employment definitions.
+For research and comparison purposes, BLS creates an adjusted household survey employment research series (the blue line in the chart) that is more similar in concept and definition to
+payroll survey employment. See the Appendix for information about how the adjusted employment research series is developed.
+As illustrated in the chart, the adjusted household survey employment tracks much more closely with the payroll survey
+measure; nonetheless, occasional trend divergences occur. Possible causes of divergences are discussed below , along with links to selected research on past trend divergences.
+Chart data:
+Payroll survey employment, seasonally adjusted
+Household survey employment, seasonally adjusted
+Adjusted household survey employment research series, seasonally adjusted
+See the Appendix for more information about the adjusted household survey employment research series.
+Comparison of survey concepts, definitions, and methodologies
+The major features and distinctions of the two surveys are shown below.
+Comparison of:
+Household Survey (CPS)
+Payroll Survey (CES)
+Scope
+Civilian noninstitutional population age 16 and over
+Nonfarm wage and salary jobs
+Data source
+Monthly sample survey of approximately 60,000 eligible households
+Monthly sample survey of approximately 119,000 businesses and government agencies, representing about 622,000 individual worksites
+Major outputs
+Labor force, employment, unemployment, and associated rates with demographic detail
+Employment, hours, and earnings with industry and geographic detail
+Reference period
+Generally the calendar week that includes the 12th of the month (see note below )
+Employer pay period that includes the 12th of the month (could be weekly, biweekly, monthly, or other)
+Employment concept
+Estimate of employed people (multiple jobholders are counted only once). Includes people on unpaid leave from their jobs.
+Estimate of jobs (multiple jobholders are counted for each nonfarm payroll job). Includes only people who received pay for the reference pay period.
+Employment inclusions and exclusions
+Includes the unincorporated self-employed, unpaid family workers in family businesses, agriculture and related workers, workers in private households, and workers on unpaid leave. Excludes workers on furlough for the entire reference week, even if they receive pay for the furlough period (they are considered unemployed, on temporary layoff).
+Excludes all of the groups listed at left, except for the logging component of agriculture and related industries. Includes furloughed workers if they receive pay for any portion of the pay period that includes the furlough.
+Approximate size of over-the-month change in employment required for statistical significance
+at the 90-percent confidence level
+&plusmn; 650,000
+&plusmn; 122,000
+Benchmark adjustments to survey results
+No direct benchmark for employment. Adjustments to underlying population base made annually using intercensal population estimates, and every 10 years using the decennial census.
+Employment benchmarked annually to universe employment counts derived primarily from unemployment insurance (UI) tax records.
+Comparing employment trends from the two surveys
+Although the household and payroll survey employment measures track well over the long term, periodic divergences occur.
+The following sections discuss factors that are important to consider when comparing employment changes and trends from the two sources,
+and also describe some measurement areas that have been evaluated as possible sources of divergence in the past.
+Sampling error
+Employment estimates from both surveys are subject to sampling error. Household survey employment is
+subject to much greater sampling error than payroll survey employment, due to its smaller sample size.
+(The surveys' sample sizes and the sizes of the over-the-month changes in employment needed to be
+statistically significant are shown above .)
+When looking at short-term trends in either survey, especially over-the-month changes, it is critical to factor in sampling error.
+This is particularly true of changes in household survey employment, given its larger range of error.
+Over-the-year employment changes should be evaluated closely, too, as they are sensitive to the data endpoints used.
+If the time period includes a data outlier, the measured change in employment for that period will be affected as well.
+When comparing the two employment series over extended periods of time, however, other factors also need to be
+considered; some of these are discussed below.
+Payroll survey benchmark revisions
+Annual benchmark revisions are a standard part of the payroll survey estimation process. The benchmark
+revision represents a once-a-year re-anchoring of the sample-based employment estimates to full
+employment counts derived primarily from unemployment insurance (UI) tax records that nearly all
+employers are required to file.
+The benchmark adjustment procedure replaces the March sample-based employment estimate with the UI-based employment universe count for March.
+The sample-based estimates for the year preceding and the 9 months following the benchmark month of March are then subject to revision.
+The benchmark determines the final March employment level, while sample movements capture month-to-month trends in the revised estimates.
+The annual benchmark revision is the difference between the benchmark employment level for a given March and its corresponding sample-based estimate.
+The overall accuracy of the payroll survey is usually gauged by the size of this difference. The benchmark revision often is regarded as a proxy
+for total survey error, however this does not take into account error in the UI universe data or infrequent events such as historical reconstructions.
+The benchmark revision can be more precisely interpreted as the difference between two independently derived employment
+counts, each subject to its own error sources.
+Both the UI universe counts and the payroll survey estimates are subject to nonsampling errors common to all surveys—measurement, response, and processing errors. The error structures for both the monthly payroll survey and the UI universe are complex.
+Still, the two programs generally produce consistent total employment figures, each validating the other.
+Detailed information about the payroll survey's most recent benchmark, as well as
+previous benchmarks, can be found in the payroll survey benchmark documentation on the BLS website.
+Business births and deaths in the payroll survey
+The payroll survey's business sampling frame cannot include new firms immediately; they are incorporated with a lag. Similarly, the permanent closure of a firm is not always captured immediately.
+Because the sample cannot fully reflect business births and deaths in real time, the payroll survey estimation methodology
+includes a statistical procedure to account for the net effect of births and deaths in the final employment estimates.
+The methodology used for births and deaths prior to 2003 ("bias adjustment") had been evaluated as a possible source of divergence in
+household and payroll survey employment, along with some known limitations in the payroll survey sample design in use at that time.
+In 2003, BLS completed a comprehensive redesign of the payroll survey sample and introduced a new methodology to estimate the net employment effect of business births and deaths.
+These changes greatly improved the accuracy of the payroll employment estimates and reduced the size of the annual benchmark revisions .
+The net birth-death model introduced in 2003 was developed based on findings that actual net employment change from business births and deaths follows a relatively stable trend across years and
+is not highly correlated with changes in the business cycle, or with changes in overall employment.
+More information is available in the BLS report, How the Business Birth/Death Model Improves Payroll Employment Estimates ,
+and in the BLS article, Impact of business births and deaths in the payroll survey .
+In addition, research into the trend divergence following the 2001 recession looked at whether the normal lag in capturing new business births in the benchmark
+source data had grown. If this were to happen, the benchmark employment count could be understated. BLS issued a report in 2004, Assessing the Timeliness of Business Births in BLS Establishment Statistics ,
+finding no change in the normal lag of new business registration had occurred.
+Technical information about the birth/death model methodology used in the payroll survey estimates can be found in the payroll survey documentation on the BLS website; the monthly employment adjustments
+from the net birth/death model also are available.
+Population controls in the household survey
+Population controls are independent estimates of population used to weight the household survey sample results to reflect the civilian noninstitutional population age 16 and older.
+The U.S. Census Bureau develops the population controls. They are based on decennial census population counts, supplemented with birth and death data and estimates of net international migration.
+The population controls were a contributing factor to divergences in household and payroll survey employment in the
+1980s and 1990s when the household survey showed less employment growth than the payroll survey due to understated growth in the population controls. The population estimation
+methodology used by the Census Bureau has undergone significant change and enhancement since then, and the Census Bureau regularly reviews the methodology and makes improvements as needed.
+The Census Bureau adjusts the household survey population controls each year to include the latest information about population change and to incorporate any improvements in the estimation methodology.
+BLS introduces the annual population control adjustments into the household survey with data for January. BLS typically does not revise the historical household survey data series
+to reflect the updated population controls.
+Substantial adjustments to the population controls in some years resulted in level shifts that have created data comparability problems in the employment
+level. Data users should be aware that these level shifts can distort the employment trend from the household survey when calculating point-to-point changes that include the effected time periods.
+Information about the annual population control adjustments can be found in the household survey technical documentation on the BLS website.
+Worker classification in the household survey
+For comparison purposes with the payroll survey, BLS creates an adjusted household survey employment research series
+that is more like the payroll survey employment concept. (This adjusted series is featured in the chart .)
+The process to adjust household survey employment begins with the official household survey employment estimate and removes categories of workers
+not included in the payroll survey by subtracting agriculture and related employment, the nonagricultural self-employed, unpaid workers in
+family businesses, workers in private households, and workers on unpaid leave from their jobs. Then, to roughly adjust household survey employment
+from an employed people concept to a jobs concept, adds the number of nonagricultural wage and salary multiple jobholders.
+(More information about the adjusted research series is in the Appendix .)
+The adjustment process is imperfect, though, because precise data are not available in some cases to make the best possible adjustment.
+For example, the adjustment for multiple jobholding adds those whose primary job is as a nonagricultural wage and salary employee,
+but does not account for the characteristic of their secondary job. Someone who is self-employed or working in agriculture as their secondary job
+would not be included in the payroll survey, so their addition leads to overstatement in the adjusted household survey employment.
+Separately, past research has shown that some independent contractors are mistakenly reported as wage and salary employees, rather than self-employed, in the household survey.
+This, too, causes some overstatement in the adjusted household survey employment. Independent contractors were a focus of BLS research into the
+employment trend divergence following the 2001 recession, although the results were inconclusive.
+Outside research published by the National Bureau of Economic Research in 2009 (link and reference below ) provided additional
+information about multiple jobholding, independent contractors, and differences in the household and payroll survey employment measures.
+Survey reference periods
+The household and payroll survey reference periods are not strictly comparable.
+The household survey reference period is a 7-day calendar week, typically the week that includes the 12th of the month. See the note below about exceptions.
+The payroll survey reference period uses the employer's pay period that includes the 12th of the month.
+Employer pay periods vary in length; they may be weekly, biweekly or twice monthly, monthly, or some other variation. Biweekly pay periods are the most common.
+As a result, the payroll survey employment measure to some degree will reflect
+a longer reference period than the household survey measure.
+The possible effect of reference period differences on the surveys' employment measures is not known, and
+BLS is not able to adjust for it when comparing the two data series.
+Note about household survey reference week exceptions: The November and December household survey reference weeks are sometimes moved one week earlier in the month so that survey interviewers are not contacting households during major holiday periods.
+The November reference week will be moved one week earlier if Thanksgiving falls during the week that contains the 19th of the month, or if the Census Bureau determines that there is not enough data processing time before the survey week for December.
+If the calendar week including the 5th of December is contained entirely within the month of December, then it will be the December reference week instead of the week including the 12th.
+See the dates for household survey reference weeks for recent years.
+"Off-the-books" employment
+Workers who are paid "off-the-books" are not reported in the payroll survey. The household survey could possibly include some of these workers,
+but BLS cannot determine the extent to which they might be reflected in household survey employment.
+Outside research published by the National
+Bureau of Economic Research in 2009 (link and reference below ) provided insight into off-the-books employment and
+household and payroll survey employment differences.
+Job changing
+Employment estimates from the payroll survey are a count of jobs, while the household survey provides an estimate of the number of employed people.
+If a person changes jobs and is on the payrolls of two employers during the same reference period, both jobs would be counted in the payroll survey estimates.
+The household survey, on the other hand, will simply reflect one employed person in its measure.
+If the rate of job-to-job movement changed substantially in a given time period, it potentially could impact trends produced from the payroll survey.
+An acceleration in the rate of job changing was considered as a possible factor in the employment divergence between the surveys during the robust job growth period in the late 1990s.
+BLS research into this issue is available in the 2004 report, Effects of Job Changing on Payroll Survey Employment Trends .
+Selected research on employment trend divergences
+March 2009. Exploring Differences in Employment between Household and Establishment Data ,
+a National Bureau of Economic Research (NBER) working paper, examined micro-level household survey data
+linked to employer-reported administrative data to identify sources of divergence between household and payroll survey
+employment.
+February 2006. Understanding the employment measures from the CPS and CES survey , a
+BLS-authored Monthly Labor Review article, summarized historical sources of divergences between the two surveys,
+with a focus on BLS research into the trend divergences that occurred during the 1990s economic expansion and following the 2001 recession.
+December 2005. At the request of BLS, the Federal Economic Statistics Advisory Committee (FESAC) reviewed BLS data practices and areas of research related to recent employment trend divergences.
+Following the review, the FESAC issued a report with comments and recommendations for BLS.
+October 2003. At the request of the Federal Economic Statistics Advisory Committee (FESAC) , BLS presented its ongoing research
+into the employment trend divergence following the 2001 recession in the paper, Examining the Discrepancy in Employment Growth between the CPS and the CES .
+Appendix: Household survey research series used for payroll employment comparisons
+The comparisons of household and payroll survey employment in the chart accompanying this documentation use a special research series developed
+from the official household survey employment measure.
+"Adjusted" household survey employment research series
+The adjusted household survey employment research series used in the chart has been definitionally adjusted to be more similar
+to the payroll survey employment measure.
+The adjusted employment research series begins in January 1994 and is updated monthly.
+This series is not available for earlier years because the monthly multiple jobholding data used to create it were not available prior to January 1994.
+For data users who would like to make household and payroll survey employment comparisons for earlier years, the closest proxy series available is the household survey nonagricultural wage and salary employment series, seasonally adjusted .
+The process to adjust household survey employment begins with the official not seasonally adjusted household survey employment estimate and removes categories of workers not included in the payroll
+survey. Then, to roughly adjust household survey employment from an employed people concept to a jobs concept, adds the number of nonagricultural wage and
+salary multiple jobholders. The resulting series is then seasonally adjusted.
+Specifically, the calculation uses the following household survey data series:
+Total employment, not seasonally adjusted
+Minus:
+&minus; agriculture and related employment
+&minus; the unincorporated self employed
+&minus; unpaid family workers in family-owned businesses
+&minus; workers in private households such as nannies, housekeepers, etc.:
+1994–1999 , 2000–present
+&minus; nonagricultural wage and salary workers on unpaid leave from their jobs: 1967–1999 ( XLSX ), 2000–present
+Plus:
++ nonagricultural wage and salary multiple jobholders: 1994–1999 ( XLSX ), 2000–present
+Note: Prior to January 2019, the adjusted household survey employment research series was smoothed to remove level shifts that may occur from the annual adjustments to the household survey population controls . BLS discontinued series smoothing in 2018 ,
+and effective January 4, 2019, revised the entire adjusted household survey employment research series to remove the smoothings and to re-run
+seasonal adjustment. At the same time, the official household survey employment series shown in the chart above replaced the smoothed household survey
+employment research series previously shown in the chart.
+Last Modified Date: February 11, 2026

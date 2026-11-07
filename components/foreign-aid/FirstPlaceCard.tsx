@@ -2,7 +2,7 @@
 
 import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { useTakeawayContext } from "@/components/charts/ContextLine";
-import { useId, useMemo, useRef, useState, type PointerEvent } from "react";
+import { useId, useMemo, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { ChartFrame } from "@/components/charts/ChartFrame";
 import { ChartNotesRow } from "@/components/charts/ChartNotesRow";
@@ -24,7 +24,7 @@ const TICK = 5;
  * per year below (the No. 1's dollars, colored by its sector mix). The ticked sectors set the No. 1 within
  * those sectors; Country highlights the years that country led and dims the rest. Click or drag sets the year.
  */
-export function FirstPlaceCard() {
+export function FirstPlaceCard({ jump }: { jump?: ReactNode }) {
   const { data, year, range, setRange, country, secs, sole, isPartial, setYear } = useAidState();
   const sectorLabel = useSectorLabel();
   const names = data.payload.countries;
@@ -88,7 +88,7 @@ export function FirstPlaceCard() {
   const { takeaway, panel } = useTakeawayContext(AID_TAKEAWAYS.firstPlace, contextFor("firstPlace"));
   const peak = years.reduce<TopYear | null>((a, b) => (b.ranked[0] && (!a || !a.ranked[0] || topVal(b) > topVal(a)) ? b : a), null);
   return (
-    <ChartCard title="Who’s been No. 1" takeaway={takeaway}>
+    <ChartCard id="who-s-been-no-1" title="Who’s been No. 1" takeaway={takeaway}>
       {panel}
       {cur?.ranked[0] && (
         <CardReadout>
@@ -258,6 +258,7 @@ export function FirstPlaceCard() {
             })}
           </tbody>
         </TableView>
+        {jump}
       </ChartNotesRow>
     </ChartCard>
   );

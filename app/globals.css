@@ -12,6 +12,20 @@
 --------------------------------------------------------------------------- */
 
 :root {
+  --clem-pardon: #1c8fd1;
+  --clem-commutation: #e2641b;
+  --clem-group: #4a40b4;
+  --clem-denied: #8890a0;
+  --clem-closed: #c6ccd6;
+  --offense-drugs: #3e9886;
+  --offense-fraud: #c28a2c;
+  --offense-corruption: #7b4f87;
+  --offense-violent: #d0627f;
+  --offense-firearms: #4a4a4a;
+  --offense-property: #8a5a3c;
+  --offense-immigration: #6f9a3c;
+  --offense-regulatory: #5f7fa8;
+  --offense-other: #b3b9c4;
   --bg: #eef1f5;
   --surface: #ffffff;
   --surface-raised: #f7f8fa;
@@ -20,6 +34,8 @@
   --ink-faint: #8890a0;
   --line: #d7dce3;
   --line-strong: #b9c1cc;
+  /* "Fresh" dot beside a page's Updated date (PageHeader); validated >= 3:1 on --bg and --surface in both themes. */
+  --ok: #1f7a4d;
   --accent: #5c4b7a;
   --accent-ink: #ffffff;
   /* "One party held all four" on /timeline: fixed, so the page theme can recolour controls without recolouring data. */
@@ -82,6 +98,22 @@
   --fuel-wind: #708ca9;
   --fuel-solar: #878b36;
   --fuel-other: #526f64;
+  /* Supreme Court decision topics (components/decisions): one fixed colour per topic, all twelve stacked on card 1 in size
+     order (largest at the bottom). Twelve hues cannot all be told apart by colour alone, so validate_palette.js holds the
+     pairs that touch in that stack (and in the Topic menu's list) apart, >= 3:1 on every surface; legend, tooltip and menu
+     name every topic. The six biggest keep the fuel colours they wore before the topics replaced the issue areas. */
+  --court-topic-business-taxes: #4d425d;
+  --court-topic-crime-policing: #8c0403;
+  --court-topic-courts-procedure: #5d6dd3;
+  --court-topic-civil-rights: #1244a7;
+  --court-topic-speech-religion-guns: #708ca9;
+  --court-topic-workers-unions: #878b36;
+  --court-topic-states-tribes: #2f4f4f;
+  --court-topic-presidential-agency-power: #b8780a;
+  --court-topic-elections: #6b3fa0;
+  --court-topic-environment-energy: #1f5a24;
+  --court-topic-immigration: #c4621c;
+  --court-topic-abortion-privacy-lgbtq: #b0407a;
   /* Trade goods breakdown (an opened line in components/trade/TradeProductsCard): five solid colours for a chapter's top
      uses or a use's top chapters, in rank order, plus a neutral "Other". The first five of the palette validated for the
      product-to-use Sankey it replaced (PR #322). */
@@ -161,6 +193,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --clem-pardon: #2f9bd8;
+    --clem-commutation: #dc6a24;
+    --clem-group: #7c78e8;
+    --clem-denied: #7c8493;
+    --clem-closed: #3f4553;
+    --offense-drugs: #4fb7a2;
+    --offense-fraud: #e0b04e;
+    --offense-corruption: #b58ac4;
+    --offense-violent: #e88ca4;
+    --offense-firearms: #c1c1c1;
+    --offense-property: #c08a62;
+    --offense-immigration: #98c460;
+    --offense-regulatory: #8fb0d8;
+    --offense-other: #5b6270;
     --bg: #14161c;
     --surface: #1b1e26;
     --surface-raised: #20242e;
@@ -169,6 +215,7 @@
     --ink-faint: #6b7280;
     --line: #2a2e38;
     --line-strong: #3a4050;
+    --ok: #5cc28f;
     --accent: #9b84c7;
     --accent-ink: #14161c;
     --status-all4: #9b84c7;
@@ -214,6 +261,18 @@
     --fuel-wind: #5bf6ef;
     --fuel-solar: #eedb3c;
     --fuel-other: #ddb183;
+    --court-topic-business-taxes: #9c8ea2;
+    --court-topic-crime-policing: #ca7f23;
+    --court-topic-courts-procedure: #927aed;
+    --court-topic-civil-rights: #75bef6;
+    --court-topic-speech-religion-guns: #5bf6ef;
+    --court-topic-workers-unions: #eedb3c;
+    --court-topic-states-tribes: #6fae9c;
+    --court-topic-presidential-agency-power: #f0a04b;
+    --court-topic-elections: #c58af0;
+    --court-topic-environment-energy: #4caf50;
+    --court-topic-immigration: #ffc58a;
+    --court-topic-abortion-privacy-lgbtq: #f07aa8;
     --breakdown-1: #3987e5;
     --breakdown-2: #d95926;
     --breakdown-3: #199e70;
@@ -271,6 +330,20 @@
 }
 
 :root[data-theme="dark"] {
+  --clem-pardon: #2f9bd8;
+  --clem-commutation: #dc6a24;
+  --clem-group: #7c78e8;
+  --clem-denied: #7c8493;
+  --clem-closed: #3f4553;
+  --offense-drugs: #4fb7a2;
+  --offense-fraud: #e0b04e;
+  --offense-corruption: #b58ac4;
+  --offense-violent: #e88ca4;
+  --offense-firearms: #c1c1c1;
+  --offense-property: #c08a62;
+  --offense-immigration: #98c460;
+  --offense-regulatory: #8fb0d8;
+  --offense-other: #5b6270;
   --bg: #14161c;
   --surface: #1b1e26;
   --surface-raised: #20242e;
@@ -279,6 +352,7 @@
   --ink-faint: #6b7280;
   --line: #2a2e38;
   --line-strong: #3a4050;
+  --ok: #5cc28f;
   --accent: #9b84c7;
   --accent-ink: #14161c;
   --status-all4: #9b84c7;
@@ -324,6 +398,18 @@
   --fuel-wind: #5bf6ef;
   --fuel-solar: #eedb3c;
   --fuel-other: #ddb183;
+  --court-topic-business-taxes: #9c8ea2;
+  --court-topic-crime-policing: #ca7f23;
+  --court-topic-courts-procedure: #927aed;
+  --court-topic-civil-rights: #75bef6;
+  --court-topic-speech-religion-guns: #5bf6ef;
+  --court-topic-workers-unions: #eedb3c;
+  --court-topic-states-tribes: #6fae9c;
+  --court-topic-presidential-agency-power: #f0a04b;
+  --court-topic-elections: #c58af0;
+  --court-topic-environment-energy: #4caf50;
+  --court-topic-immigration: #ffc58a;
+  --court-topic-abortion-privacy-lgbtq: #f07aa8;
   --breakdown-1: #3987e5;
   --breakdown-2: #d95926;
   --breakdown-3: #199e70;
@@ -388,6 +474,7 @@
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-ok: var(--ok);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-dem: var(--dem);
@@ -1068,3 +1155,33 @@ html[data-home-motion] .home-card[data-seen] .home-rows > li:not(:last-child)::a
 :root[data-theme="dark"] :is([data-nav-branch="congress"], header[data-branch="congress"]) { --nav-branch: #7fcaa3; --nav-branch-wash: #1d2a25; }
 :root[data-theme="dark"] :is([data-nav-branch="supreme-court"], header[data-branch="supreme-court"]) { --nav-branch: #e29aa8; --nav-branch-wash: #2b1f24; }
 :root[data-theme="dark"] [data-nav-branch="timeline"] { --nav-branch: #c9c7c1; }
+
+/* Embedded chart (`?embed=<card id>`, lib/embed.ts, components/charts/EmbedMode.tsx): the head script marks
+   <html data-embed> and hides the page until EmbedMode has found the card; EmbedMode then hides every sibling
+   of the card's ancestors and flattens those ancestors, so the card alone fills the frame. */
+html[data-embed]:not([data-embed-ready]) body { visibility: hidden; }
+html[data-embed],
+html[data-embed] body { height: auto; min-height: 0; background: var(--bg); }
+html[data-embed] [data-embed-hide],
+html[data-embed] [data-share-slot] { display: none !important; }
+html[data-embed] [data-embed-flat] {
+  display: block !important;
+  position: static !important;
+  width: auto !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-embed] [data-embed-card] { margin: 0 !important; scroll-margin-top: 0; }
+.embed-credit {
+  margin-top: 0.75rem;
+  align-self: flex-start;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.embed-credit:hover { color: var(--ink); text-decoration: underline; }

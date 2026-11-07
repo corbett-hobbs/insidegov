@@ -48,21 +48,19 @@ export function HomeTimelineCard({ data }: { data: TimelinePayload }) {
   };
   const ticks = [1933, 1950, 1970, 1990, 2010].map((y) => ({ y, left: (pos(`${y}-01-01`) / VB) * 100 }));
 
-  const shareRow = (cells: { from: string; to: string; seats: [number, number, number] }[]) =>
-    cells.map(({ from, to, seats }) => {
-      const { x, w } = span(from, to);
-      const tot = seats[0] + seats[1] + seats[2];
-      const h = 36;
-      const hd = (h * seats[0]) / tot;
-      const hr = (h * seats[1]) / tot;
-      return (
-        <g key={from}>
-          <rect x={x} y={0} width={w + 0.4} height={h} fill="var(--oth)" />
-          <rect x={x} y={h - hd} width={w + 0.4} height={hd} fill="var(--dem)" />
-          <rect x={x} y={0} width={w + 0.4} height={hr} fill="var(--rep)" />
-        </g>
-      );
-    });
+  // One bar per Congress off the half-way line, like the Court's: up for a Republican majority, down for a Democratic one, as tall as its margin (full at 35% of seats).
+  const shareRow = (cells: { from: string; to: string; maj: "D" | "R"; seats: [number, number, number] }[]) => {
+    const h = 36;
+    return [
+      <rect key="bg" x={0} y={0} width={VB} height={h} fill="rgba(255,255,255,0.08)" />,
+      ...cells.map(({ from, to, maj, seats: [d, r, o] }) => {
+        const { x, w } = span(from, to);
+        const bar = Math.max(2, Math.min(1, Math.abs(d - r) / (d + r + o) / 0.35) * (h / 2));
+        return <rect key={from} x={x} y={maj === "R" ? h / 2 - bar : h / 2} width={w + 0.4} height={bar} fill={side(maj)} />;
+      }),
+      <line key="mid" x1={0} x2={VB} y1={h / 2} y2={h / 2} stroke="var(--ink-faint)" strokeWidth={1} vectorEffect="non-scaling-stroke" />,
+    ];
+  };
 
   const mid = 30;
   const lean = (v: number) => mid - (Math.max(-1.6, Math.min(1.6, v)) / 1.6) * mid;
@@ -83,9 +81,9 @@ export function HomeTimelineCard({ data }: { data: TimelinePayload }) {
       );
     }),
     S: shareRow(
-      data.congresses.flatMap((c) => c.senateMaj.map(([from], i) => ({ from, to: c.senateMaj[i + 1]?.[0] ?? c.end, seats: c.senate }))),
+      data.congresses.flatMap((c) => c.senateMaj.map(([from, maj], i) => ({ from, to: c.senateMaj[i + 1]?.[0] ?? c.end, maj, seats: c.senate }))),
     ),
-    H: shareRow(data.congresses.map((c) => ({ from: c.start, to: c.end, seats: c.house }))),
+    H: shareRow(data.congresses.map((c) => ({ from: c.start, to: c.end, maj: c.houseMaj, seats: c.house }))),
     C: (
       <>
         <rect x={0} y={0} width={VB} height={60} fill="rgba(255,255,255,0.08)" />

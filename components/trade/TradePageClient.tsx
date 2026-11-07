@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { HowToRead } from "@/components/HowToRead";
 import { dateOfDay, dayOf, MONTH_NAMES } from "@/lib/indicator-time";
 import { termAtDay, termLabel } from "@/lib/trade-chart";
-import type { TradePageData } from "@/lib/trade-data";
+import type { StoryCountryRates, TradePageData } from "@/lib/trade-data";
 import type { TradeCountryPayload, TradeYearPayload } from "@/lib/trade-types";
 import { ALL_PRODUCTS, type ProductPartnersPayload, type TradeProductsPayload } from "@/lib/trade-products";
 import { PRODUCT_USE_START_YEAR } from "@/lib/trade-product-use-entities";
@@ -20,26 +21,34 @@ import { TradeTariffCard } from "./TradeTariffCard";
 import { TradeStateProvider, useTradeActions, useTradeValues } from "./TradeState";
 import { SourceLink } from "@/components/SourceLink";
 import { UpNext } from "@/components/UpNext";
+import { NewsFaqBand, NewsQuestionsPills, useChartJump } from "@/components/news/NewsSections";
+import type { FaqFile, NewsFile } from "@/lib/news-types";
+import { tradeFaq, tradeNews } from "./trade-news";
+import { updatedLabel } from "@/lib/news-derive";
 import { codeParam, enumParam, flagParam, yearsParam } from "@/lib/url-state";
 import { useUrlState } from "@/lib/use-url-state";
 
 const MEASURE_PARAM = enumParam(["balance", "flows"] as const, "balance");
 
-export function TradePageClient({ data }: { data: TradePageData }) {
+/** `faqFile` is `faq_trade.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
+export function TradePageClient({ data, faqFile, newsFile, storyRates }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null; storyRates: StoryCountryRates }) {
   return (
     <TradeStateProvider lastYear={data.lastYear}>
-      <TradePage data={data} />
+      <TradePage data={data} faqFile={faqFile} newsFile={newsFile} storyRates={storyRates} />
     </TradeStateProvider>
   );
 }
 
-function TradePage({ data }: { data: TradePageData }) {
+function TradePage({ data, faqFile, newsFile, storyRates }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null; storyRates: StoryCountryRates }) {
   const v = useTradeValues();
   const { setRange, clearPin, setCountry, setShowCong, setYear, setMeasure } = useTradeActions();
   const { era, national, countries, firstYear, lastYear, initialYear, scatter, tariffFlags, tariffLastReviewed, worldMap, products, enduse } = data;
   const [loaded, setLoaded] = useState<Record<string, TradeCountryPayload>>({});
   const [failed, setFailed] = useState<string | null>(null);
   const inflight = useRef<AbortController | null>(null);
+  const faq = useMemo(() => tradeFaq(faqFile), [faqFile]);
+  const news = useMemo(() => tradeNews(newsFile, data.national, storyRates, setCountry), [newsFile, data.national, storyRates, setCountry]);
+  const { focus, jump } = useChartJump(news, faq);
   const [years, setYears] = useState<Record<number, TradeYearPayload>>({ [initialYear.year]: initialYear });
   const [yearFailed, setYearFailed] = useState<number | null>(null);
 
@@ -168,12 +177,16 @@ function TradePage({ data }: { data: TradePageData }) {
         <div aria-live="polite" className="sr-only">
           {announcement}
         </div>
-        <PageHeader eyebrow="Presidency · Trade" title="How Does the U.S. Trade With the World?">
+        <PageHeader eyebrow="Presidency · Trade" updated={newsFile?.asOf} title="How Does the U.S. Trade With the World?">
           <p>
-            Who the U.S. buys from and sells to, and what it charges in tariffs on what comes in. Tariffs change what
-            Americans pay and who they trade with, and the marked dates show when the courts, Congress and the White
-            House pulled the levers.
+            Track where goods flow and what the U.S. charges in tariffs. Measure import and export balances with global trading partners and see how effective duty rates shift over time&mdash;with major executive, legislative, and court actions marked along the timeline.
           </p>
+          <HowToRead>
+            <p>
+              The tariff line represents calculated duties divided by the total value of imports for consumption, sourced directly from Census Bureau and USITC data. Because these are computed from actual import entries rather than Treasury tax receipts, the effective rate can shift if importers pivot to different product types or partner countries, even without a formal policy change.
+            </p>
+          </HowToRead>
+          <NewsQuestionsPills news={news} groups={faq} />
         </PageHeader>
 
         <label className="-mb-2 flex w-fit cursor-pointer items-center gap-2 text-[0.8rem] text-ink">
@@ -188,12 +201,14 @@ function TradePage({ data }: { data: TradePageData }) {
 
         <TradeBalanceCard
           series={series}
+          lastPeriod={national.lastPeriod}
           countryName={countryRef?.name ?? null}
           adjusted={!v.country}
           era={era}
           view={view}
           loading={loadState === "loading"}
           error={loadState === "error"}
+          jump={jump("trade-balance")}
         />
 
         <TradeTariffCard
@@ -206,6 +221,7 @@ function TradePage({ data }: { data: TradePageData }) {
           lastReviewed={tariffLastReviewed}
           loading={loadState === "loading"}
           error={loadState === "error"}
+          jump={jump("tariffs")}
         />
 
         {/* One card: the list and the map share the year and the Total trade / Balance choice. */}
@@ -221,6 +237,7 @@ function TradePage({ data }: { data: TradePageData }) {
             onPickCountry={setCountry}
             loading={!yearPayload && yearFailed !== v.year}
             error={!yearPayload && yearFailed === v.year}
+            jump={jump("who-the-u-s-trades-with")}
           />
 
         {/* Full width, under the partners card whose year it shares: which goods, for the Country filter's partner (or all countries). */}
@@ -263,10 +280,13 @@ function TradePage({ data }: { data: TradePageData }) {
             setChapterUseWanted(true);
             chapterUseFile.retry();
           }}
+          jump={jump("what-the-u-s-trades")}
         />
 
         {/* Full width: the scatter needs the room for its labels. */}
-        <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} />
+        <TradeScatterCard rows={scatter.rows} windows={scatter.windows} country={v.country} onPickCountry={setCountry} topCodes={topCodes} totals={totals} jump={jump("did-tariffs-shift-trade")} />
+
+        <NewsFaqBand news={news} updated={updatedLabel(newsFile?.asOf)} groups={faq} focus={focus} />
 
         <UpNext />
         <p className="m-0 text-[0.8rem] leading-[1.6] text-ink-muted">

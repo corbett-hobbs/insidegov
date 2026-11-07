@@ -18,7 +18,7 @@ const SERIES: StackSeries[] = [0, 1, 2, 3, 4].map((k) => ({ id: String(k), label
 
 /**
  * "How divided is the Court?" grouped by decade: one 100% (or count) stacked bar per decade, the case count under each
- * ("n=39"). Used when a selection is too thin for per-term shares (the landmark filter, a small issue area): a term with
+ * ("n=39"). Used when a selection is too thin for per-term shares (the landmark filter, a small topic): a term with
  * four cases says nothing, a decade with forty does. The first and last decades are partial and say so in the tooltip.
  * The picked band (the page's vote filter) isolates in the same way as the area chart.
  */

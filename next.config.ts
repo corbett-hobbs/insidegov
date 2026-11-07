@@ -17,7 +17,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/wealth", destination: "/congress/wealth", permanent: true },
-      { source: "/executive-orders", destination: "/presidency/executive-orders", permanent: true },
+      { source: "/executive-orders", destination: "/presidency/executive-actions", permanent: true },
+      { source: "/presidency/executive-orders", destination: "/presidency/executive-actions", permanent: true },
+      { source: "/presidency/executive-orders/chart/:chart", destination: "/presidency/executive-actions/chart/:chart", permanent: true },
       { source: "/presidency/national-security", destination: "/presidency/troops-abroad", permanent: true },
       ...verticalRedirects().map((r) => ({ ...r, permanent: true })),
       ...["chamber", "state", "show"].map((key) => ({
@@ -26,6 +28,18 @@ const nextConfig: NextConfig = {
         destination: "/congress/ideology",
         permanent: true,
       })),
+    ];
+  },
+
+  // An embedded chart (`?embed=<card id>`, lib/embed.ts) is the same page with only the card showing:
+  // keep those URLs out of search so they never compete with the real page.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "query" as const, key: "embed" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
     ];
   },
 

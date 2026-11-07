@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState, type ReactNode, type UIEvent } from "react";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { ALL_AREAS_LABEL, areaFilterLabel, filterCases, fmtInt, wikiArticleUrl } from "@/lib/decisions-derive";
+import { ALL_AREAS_LABEL, areaFilterLabel, caseScdbArea, caseTopic, filterCases, fmtInt, wikiArticleUrl } from "@/lib/decisions-derive";
 import { isPicked, normalizePick } from "@/lib/multi-select";
 import { decisionPath } from "@/lib/decision-url";
 import { BAND_COLORS, BAND_KEYS, BAND_LONG, BAND_SHORT, type DecisionCase } from "@/lib/decisions-types";
@@ -37,7 +37,7 @@ function Chip({ children, onClear, label }: { children: string; onClear: () => v
 
 /**
  * Card 4: every argued case that matches the page's filters, newest first, in a fixed-height scrolling box (the
- * executive-order list pattern). It follows the pinned bar (years, issue area), the legend of card 1 (issue area), card 2's
+ * executive-order list pattern). It follows the pinned bar (years, topic), the legend of card 1 (topic), card 2's
  * band (how many dissented) and a pinned term; each active filter is a chip that clears itself. Rows are added as the box is
  * scrolled, so 8,000 cases never sit in the page at once.
  */
@@ -51,7 +51,7 @@ export function CaseListCard() {
   const matched = useMemo(() => {
     if (terms.length === 0) return rows;
     return rows.filter((c) => {
-      const hay = `${c[2]} ${c[3]} ${c[4] >= 0 ? data.areas[c[4]].label : ""} ${c[9] ?? ""} ${c[11] ?? ""}`.toLowerCase();
+      const hay = `${c[2]} ${c[3]} ${c[4] >= 0 ? data.areas[c[4]].label : ""} ${c[15] >= 0 ? data.scdbAreas[c[15]].label : ""} ${c[9] ?? ""} ${c[11] ?? ""}`.toLowerCase();
       return terms.every((t) => hay.includes(t));
     });
   }, [rows, terms, data]);
@@ -85,7 +85,7 @@ export function CaseListCard() {
           className="w-full rounded-md border border-line-strong bg-surface-raised px-2.5 py-1 text-[0.82rem] text-ink placeholder:text-ink-faint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:w-60"
         />
       }
-      lede={`Argued cases decided in ${pin !== null ? `the ${pin} term` : years}, newest first. The list follows the filters above and the charts: pick an issue area, a vote, an outcome or a term to narrow it. A Liberal or Conservative tag is the Supreme Court Database’s coding of who prevailed in the case, not a rating of the justices or the reasoning; select a tag to see what it means in that case’s issue area.`}>
+      lede={`Argued cases decided in ${pin !== null ? `the ${pin} term` : years}, newest first. The list follows the filters above and the charts: pick a topic, a vote, an outcome or a term to narrow it. A Liberal or Conservative tag is the Supreme Court Database’s coding of who prevailed in the case, not a rating of the justices or the reasoning; select a tag to see what it means for that case.`}>
       <div className="flex flex-wrap items-center gap-1.5 text-[0.78rem] text-ink-muted" aria-live="polite">
         <span className="tabular-nums text-ink">{cases ? `${fmtInt(matched.length)} case${matched.length === 1 ? "" : "s"}` : failed ? "Cases unavailable" : "Loading cases…"}</span>
         <div role="group" aria-label="Vote" className="flex flex-wrap items-center gap-1.5">
@@ -116,7 +116,7 @@ export function CaseListCard() {
           Landmark cases
         </button>
         {areas !== null && (
-          <Chip onClear={() => setAreas(null)} label="Clear the issue area filter">
+          <Chip onClear={() => setAreas(null)} label="Clear the topic filter">
             {areaFilterLabel(data, areas)}
           </Chip>
         )}
@@ -151,21 +151,21 @@ export function CaseListCard() {
         ) : (
           <ol className="m-0 list-none p-0">
             {matched.slice(0, n).map((c, i) => (
-              <CaseRow key={`${c[0]}-${c[1]}-${c[3]}-${i}`} c={c} area={c[4] >= 0 ? data.areas[c[4]].label : "No issue area"} areaId={c[4] >= 0 ? data.areas[c[4]].id : null} />
+              <CaseRow key={`${c[0]}-${c[1]}-${c[3]}-${i}`} c={c} area={caseTopic(data.areas, c)} areaId={caseScdbArea(data.scdbAreas, c)} />
             ))}
           </ol>
         )}
       </div>
       <MethodologyNote>
         <p>
-          The colour is how many justices dissented, so a 5&ndash;3 decision takes the 6&ndash;3 colour. Landmark badges follow <SourceLink id="wikipedia-landmark-decisions">Wikipedia&rsquo;s list of landmark decisions</SourceLink> ({fmtInt(data.landmarkSource.count)} cases, {data.landmarkSource.revisionDate} revision). The sentence under a case is Wikipedia&rsquo;s ruling sentence (CC BY-SA 4.0, read {data.summarySource.fetched}); for {fmtInt(data.summarySource.claude)}, tagged &ldquo;AI-written&rdquo;, Claude wrote it from the article opening. Neither is checked against the opinion. Liberal and Conservative tags ({fmtInt(data.outcomeSource.coded)} cases) are the database&rsquo;s &ldquo;decision direction&rdquo;: who prevailed under a fixed rule for each issue area, not the justices&rsquo; views.
+          The colour is how many justices dissented, so a 5&ndash;3 decision takes the 6&ndash;3 colour. Landmark badges follow <SourceLink id="wikipedia-landmark-decisions">Wikipedia&rsquo;s list of landmark decisions</SourceLink> ({fmtInt(data.landmarkSource.count)} cases, {data.landmarkSource.revisionDate} revision). The sentence under a case is Wikipedia&rsquo;s ruling sentence (CC BY-SA 4.0, read {data.summarySource.fetched}); for {fmtInt(data.summarySource.claude)}, tagged &ldquo;AI-written&rdquo;, Claude wrote it from the article opening. Neither is checked against the opinion. Liberal and Conservative tags ({fmtInt(data.outcomeSource.coded)} cases) are the database&rsquo;s &ldquo;decision direction&rdquo;: who prevailed under a fixed rule for each of the database&rsquo;s issue areas (shown on a case&rsquo;s page), not the justices&rsquo; views.
         </p>
       </MethodologyNote>
     </ChartCard>
   );
 }
 
-/** Wide-screen columns of a row with a qualifier: date, name, issue area, vote, how the justice voted. */
+/** Wide-screen columns of a row with a qualifier: date, name, topic, vote, how the justice voted. */
 export const JUSTICE_COLUMNS = "sm:grid-cols-[6rem_minmax(0,1fr)_8.5rem_4.5rem_13rem]";
 
 const BADGE = `${PILL_LANDMARK} hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus`;
@@ -185,10 +185,12 @@ export interface CaseQualifier {
 
 export function CaseRow({ c, area, areaId, qualifier, stacked = false, outcome = false }: {
   c: DecisionCase;
+  /** The topic shown on the row (`caseTopic`). */
   area: string;
+  /** The SCDB issue-area id the outcome tag's note is coded under (`caseScdbArea`), not the topic. */
   areaId: string | null;
   qualifier?: CaseQualifier;
-  /** One narrow column at every width, for a list that sits half-width beside another: name; date, citation and issue area; then the vote with its tags. */
+  /** One narrow column at every width, for a list that sits half-width beside another: name; date, citation and topic; then the vote with its tags. */
   stacked?: boolean;
   /** Tags read "Liberal outcome" / "Conservative outcome": for lists whose page does not already say what the tag means. */
   outcome?: boolean;
@@ -251,7 +253,7 @@ export function CaseRow({ c, area, areaId, qualifier, stacked = false, outcome =
         {fmtDate(c[1])}
         {c[3] && <span className="text-ink-faint sm:hidden">{` \u00b7 ${c[3]}`}</span>}
       </span>
-      {/* issue area; on phones the pills (outcome, Landmark, the justice's vote) follow it on the same line while they fit */}
+      {/* topic; on phones the pills (outcome, Landmark, the justice's vote) follow it on the same line while they fit */}
       <span className="col-span-2 col-start-1 row-start-3 min-w-0 text-[0.75rem] text-ink-muted max-sm:flex max-sm:flex-wrap max-sm:items-center max-sm:gap-x-2 max-sm:gap-y-1 sm:col-span-1 sm:col-start-3 sm:row-start-1 sm:block sm:truncate" title={area}>
         {area}
         {hasPills && (

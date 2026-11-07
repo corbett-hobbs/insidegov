@@ -84,3 +84,24 @@ export function yearRows(points: readonly SeriesPoint[]): YearRow[] {
   }
   return [...rows.values()].sort((a, b) => a.year - b.year);
 }
+
+/** What one point stands for on the axis: nothing but its own day (a line that should touch the edge), a week, a month, a quarter, a calendar year or a fiscal year. */
+export type Cadence = "point" | "weekly" | "monthly" | "quarterly" | "annual" | "fiscal";
+
+/**
+ * The exclusive axis day where a series' newest reading ends: the end of its month, quarter or year, so a chart
+ * stops where its data does instead of running on to the newest weekly reading shared by the page. Null for an empty series.
+ */
+export function seriesEnd(points: readonly SeriesPoint[], cadence: Cadence): number | null {
+  const last = points.reduce<SeriesPoint | null>((a, p) => (p.value !== null && (!a || p.day > a.day) ? p : a), null);
+  if (!last) return null;
+  const { year, month } = dateOfDay(last.day);
+  switch (cadence) {
+    case "point":
+    case "weekly": return last.day + 1;
+    case "monthly": return dayOf(year, month + 1, 1);
+    case "quarterly": return dayOf(year, Math.floor(month / 3) * 3 + 3, 1);
+    case "annual": return dayOf(year + 1, 0, 1);
+    case "fiscal": return dayOf(month >= 9 ? year + 1 : year, 9, 1);
+  }
+}

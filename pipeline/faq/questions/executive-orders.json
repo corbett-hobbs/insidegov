@@ -1,0 +1,238 @@
+{
+  "page": "executive-orders",
+  "dataFiles": [
+    "pipeline/output/clemency_years.json"
+  ],
+  "groups": [
+    {
+      "row": "What an executive order is",
+      "questions": [
+        {
+          "id": "eo-vs-law",
+          "kind": "difference",
+          "q": "What is the difference between an executive order and a law?",
+          "searched": "executive order vs law passed by congress",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "A law is passed by Congress and signed by the President (or passed over a veto); an executive order is a written directive from the President, mainly to officials in the executive branch, that rests on authority the Constitution or a law gives the President and cannot override a law. Do not say who can revoke an order; another answer on the page does. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-writes-eos",
+          "kind": "matters",
+          "q": "Who writes executive orders?",
+          "searched": "who writes executive orders",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "How a draft order is prepared and reviewed under the standing rules: proposed by an agency or the White House, submitted to the Office of Management and Budget, which circulates it for comment, and reviewed by the Attorney General's Office of Legal Counsel for form and legality before the President signs it. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Executive orders: limits and reach",
+      "questions": [
+        {
+          "id": "who-can-overturn-eo",
+          "kind": "matters",
+          "q": "Who can overturn an executive order?",
+          "searched": "who can overturn an executive order",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "A later President (or the same one) can revoke or change it; Congress can override it by passing a law, subject to a veto; courts can strike it down if it exceeds the President's authority. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        },
+        {
+          "id": "who-must-follow-eo",
+          "kind": "matters",
+          "q": "Who has to follow an executive order?",
+          "searched": "who has to follow executive orders",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "Officials and agencies of the executive branch, whom the orders direct; how an order can reach private parties through the rules and actions of those agencies, as the source puts it. The office (\"the President\", \"a later President\"), not named presidents; give no examples that name one.",
+          "sources": [
+            {
+              "label": "Congressional Research Service, Executive Orders: An Introduction",
+              "url": "https://www.congress.gov/crs_external_products/R/PDF/R46738/R46738.6.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Executive orders: counts",
+      "questions": [
+        {
+          "id": "who-signed-most-eos",
+          "kind": "matters",
+          "q": "Who signed the most executive orders?",
+          "searched": "which president signed the most executive orders",
+          "chartIds": [
+            "executive-orders-signed-per-year-by-topic"
+          ],
+          "brief": "The president with the most executive orders of any, with the total and the number of years in office, as the table gives them; that the table counts executive orders only, not memoranda or other directives. Name only that one president, without party letters.",
+          "allowNames": [
+            "Roosevelt"
+          ],
+          "sources": [
+            {
+              "label": "The American Presidency Project (UC Santa Barbara), Executive Orders",
+              "url": "https://www.presidency.ucsb.edu/statistics/data/executive-orders"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardons and commutations",
+      "questions": [
+        {
+          "id": "pardon-commutation-group",
+          "kind": "difference",
+          "q": "What is the difference between a pardon, a commutation and a group grant?",
+          "searched": "difference between pardon and commutation",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "A pardon is the President's forgiveness for a federal offense; it does not signify innocence. A commutation reduces a sentence being served, in full or in part, and leaves the conviction in place. Say plainly that \"group grant\" is this page's own label, not a legal term: one warrant or proclamation covering many people at once, such as the commutation of 1,499 people on December 12, 2024 or the January 6, 2021 proclamation. Do not say which kinds a group grant can be. Never write a proclamation number.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            },
+            {
+              "label": "U.S. Department of Justice, Commutations Granted by President Biden",
+              "url": "https://www.justice.gov/pardon/commutations-granted-president-joseph-biden-2021-2025"
+            },
+            {
+              "label": "Federal Register, Proclamation 10887",
+              "url": "https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-01950.htm"
+            }
+          ],
+          "allowNames": [
+            "Biden",
+            "Trump"
+          ]
+        },
+        {
+          "id": "pardon-vs-expungement",
+          "kind": "difference",
+          "q": "What is the difference between a pardon and an expungement?",
+          "searched": "does a pardon erase a conviction",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "A pardon does not erase a conviction: the Justice Department says it does not signify innocence and the pardoned offense stays on the record. Expungement is a separate remedy that courts rarely grant.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        },
+        {
+          "id": "pardon-before-conviction",
+          "kind": "power",
+          "q": "Can a president pardon someone before they are convicted?",
+          "searched": "can someone be pardoned before being convicted",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "Yes: the Justice Department says the President can pardon people who have not yet been convicted. Keep to that power and its reach; do not cover how to apply.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardon limits and process",
+      "questions": [
+        {
+          "id": "pardon-state-crimes",
+          "kind": "power",
+          "q": "Can a president pardon state crimes?",
+          "searched": "can a president pardon state crimes",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "No: the Constitution gives the power over offenses against the United States, except in cases of impeachment. State convictions go to the authorities of that state.",
+          "sources": [
+            {
+              "label": "National Archives, The Constitution, Article II, Section 2",
+              "url": "https://www.archives.gov/founding-docs/constitution-transcript"
+            },
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        },
+        {
+          "id": "pardon-against-doj-advice",
+          "kind": "power",
+          "q": "Can a president pardon someone against the Justice Department's advice?",
+          "searched": "does the president have to follow the pardon attorney",
+          "chartIds": [
+            "clemency-grants-per-fiscal-year"
+          ],
+          "brief": "Yes: the Justice Department's clemency rules are advisory, for the internal guidance of its staff, give applicants no enforceable rights and do not restrict the President's constitutional authority. The President decides applications, apart from certain administrative closures.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Office of the Pardon Attorney, Frequently Asked Questions",
+              "url": "https://www.justice.gov/pardon/frequently-asked-questions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "row": "Pardon counts",
+      "questions": [
+        {
+          "id": "who-most-clemency",
+          "kind": "matters",
+          "q": "Who has granted the most clemency?",
+          "searched": "which president granted the most pardons",
+          "chartIds": [
+            "grants-by-president"
+          ],
+          "brief": "Lead with the name: among presidents since 1993, Joe Biden has granted the most in the Justice Department's figures, 80 pardons and 4,165 commutations. Then say no president in its table, back to 1900, shows a larger number of grants.",
+          "sources": [
+            {
+              "label": "U.S. Department of Justice, Clemency Statistics",
+              "url": "https://www.justice.gov/pardon/clemency-statistics"
+            }
+          ],
+          "allowNames": [
+            "Biden",
+            "Joe Biden",
+            "Clinton"
+          ]
+        }
+      ]
+    }
+  ]
+}
