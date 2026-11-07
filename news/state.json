@@ -106,14 +106,47 @@
       "keep": [],
       "reason": "No single development is reported by multiple outlets with Canada tariffs central; the Canada-related headlines are a Carney budget story where tariffs are incidental and one NY Post report on Democrats' plans.",
       "chart": ""
+    },
+    "0497071362a8e2f00697": {
+      "at": "2026-11-07T09:55:05.556Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/us-jobs-report-october-2026",
+        "https://www.bloomberg.com/news/articles/2026-11-06/us-adds-165-000-jobs-above-all-forecasts-as-unemployment-falls",
+        "https://www.nbcnews.com/business/economy/us-added-jobs-october-risks-stagnation-rcna607812",
+        "https://thehill.com/business/6201764-us-jobs-report-october/",
+        "https://www.theguardian.com/business/2026/nov/06/us-job-growth-october",
+        "https://www.huffpost.com/entry/us-economy-jobs-report_n_6aeddca6e4b037ca10339122",
+        "https://www.cbsnews.com/news/october-jobs-report-us-labor-market-2026/",
+        "https://www.cnbc.com/2026/11/06/jobs-report-october-2026.html"
+      ],
+      "reason": "Eight outlets report the official October jobs report showing 165,000 nonfarm jobs added; excluded ADP, JOLTS, preview pieces, and the Bloomberg key-takeaways explainer.",
+      "chart": ""
+    },
+    "125f3c2c7376428b9a6a": {
+      "at": "2026-11-07T09:55:05.556Z",
+      "keep": [],
+      "reason": "The most-reported development is Stephen Miller's appointment as chief of staff, which is a staffing change rather than an immigration enforcement action; the remaining ICE items are a single-outlet feature or a local arrest.",
+      "chart": ""
+    },
+    "4546a866f6edbc0bfe94": {
+      "at": "2026-11-07T09:55:05.556Z",
+      "keep": [],
+      "reason": "The headlines are separate remarks by different central bankers (Fed, BOJ, ECB) rather than one shared U.S. development, and two are foreign with no U.S. policy angle.",
+      "chart": ""
+    },
+    "555ec13be7bcc9ee472b": {
+      "at": "2026-11-07T09:55:05.556Z",
+      "keep": [],
+      "reason": "No development is reported by several outlets: only headline 7 concerns Canada tariffs, and it is a single outlet's report on Democrats' plans, while headline 4 is a Canadian budget story with the trade war mentioned only in passing.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
       "since": "2026-11-06T17:24:38.524Z",
-      "at": "2026-11-07T02:41:19.540Z",
-      "count": 3
+      "at": "2026-11-07T09:55:05.556Z",
+      "count": 4
     },
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
