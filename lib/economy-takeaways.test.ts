@@ -172,7 +172,7 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
     },
   },
   ff: {
-    says: ["near zero from December 2008 to December 2015", "again from March 2020 to March 2022", "5.33% by August 2023, the highest since 2001", "By October 2026 it was back down to 3.88%"],
+    says: ["near zero from December 2008 to December 2015", "again from March 2020 to March 2022", "5.33% by August 2023, the highest since 2001", "By November 2026 it was back down to 3.88%"],
     check: () => {
       // "Near zero" is under 0.3%: every week of both stretches, and not the weeks on either side of them.
       for (const [from, to] of [["2008-12-10", "2015-12-16"], ["2020-03-25", "2022-03-16"]]) {
@@ -186,7 +186,7 @@ const cases: Record<keyof typeof SPECS, { says: string[]; check: () => void }> =
       expect(high.value).toBe(5.33);
       expect(high.date.slice(0, 7)).toBe("2023-08");
       expect(ff.filter((p) => p.value >= 5.33 && p.date < "2023").at(-1)!.date.slice(0, 4)).toBe("2001");
-      expect(ff.at(-1)!.date.slice(0, 7)).toBe("2026-10");
+      expect(ff.at(-1)!.date.slice(0, 7)).toBe("2026-11");
       expect(ff.at(-1)!.value).toBe(3.88);
     },
   },
