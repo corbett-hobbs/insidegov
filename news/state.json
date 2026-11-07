@@ -139,14 +139,42 @@
       "keep": [],
       "reason": "No development is reported by several outlets: only headline 7 concerns Canada tariffs, and it is a single outlet's report on Democrats' plans, while headline 4 is a Canadian budget story with the trade war mentioned only in passing.",
       "chart": ""
+    },
+    "f871a73db284c7743374": {
+      "at": "2026-11-07T16:18:49.116Z",
+      "keep": [
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
+      ],
+      "reason": "Outlets covered the same November 5 AI/tech stock sell-off that sent the S&P 500 down 4.4%; the other items are political reactions, rebounds, or explainers.",
+      "chart": ""
+    },
+    "1a1439e9076290892435": {
+      "at": "2026-11-07T16:18:49.116Z",
+      "keep": [],
+      "reason": "The BBC rate-hike headlines concern a UK rate rise (pounds, Faisal Islam, \"how rising rates hit pockets\") rather than a U.S. Federal Reserve action, and the lone NYT headline is an outlook piece reporting no single development shared by other outlets.",
+      "chart": ""
+    },
+    "aac6936af87ba95db113": {
+      "at": "2026-11-07T16:18:49.116Z",
+      "keep": [],
+      "reason": "No single U.S. development is shared by multiple headlines; the Williams remarks are one speech comment, and the others are foreign central bank commentary.",
+      "chart": ""
+    },
+    "d4a6dfab33f45b242632": {
+      "at": "2026-11-07T16:18:49.116Z",
+      "keep": [],
+      "reason": "The dominant story is Stephen Miller's appointment as White House chief of staff, where immigration is background at most; the Secret Service arrest near the White House is not an enforcement data story, and neither pick_chart option measures these developments, so no chart matches.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
       "release": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
       "since": "2026-11-06T17:24:38.524Z",
-      "at": "2026-11-07T09:55:05.556Z",
-      "count": 4
+      "at": "2026-11-07T16:18:49.116Z",
+      "count": 5
     },
     "trade-freshness.yml": {
       "release": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
