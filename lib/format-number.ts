@@ -32,3 +32,11 @@ export const compactDollars = (value: number): string => {
   const s = compactNumber(value);
   return s.startsWith("−") ? `−$${s.slice(1)}` : `$${s}`;
 };
+
+/**
+ * A figure prose should have shortened (rule 2g), for tests over takeaways and context lines: an exact count of 10,000 or
+ * more ("166,573"), a lowercase or two-decimal short form ("207.1k", "1.08M"), a dropped-able ".0" ("34.0K"), or a spelled-out
+ * thousand/million/billion ("1.08 million"). Trillions have no short unit here, so "$3.1 trillion" passes.
+ */
+export const UNCOMPACT_FIGURE =
+  /\b\d{2,3}(?:,\d{3})+\b|\b\d{1,3}(?:,\d{3}){2,}\b|\b\d+(?:\.\d+)?k\b|\b\d+\.\d{2,}[KMB]\b|\b\d+\.0[KMB]\b|\b\d+(?:\.\d+)? (?:thousand|million|billion)\b/;

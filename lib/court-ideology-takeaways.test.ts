@@ -46,7 +46,7 @@ const cases: Record<keyof typeof COURT_TAKEAWAYS, { says: string[]; check: () =>
     },
   },
   presidents: {
-    says: ["Nine Democratic appointees, most recently White in 1962, have conservative career averages", "six Republican appointees, most recently Souter in 1990, liberal ones", "All 11 justices appointed from 1991 through 2022", "Republican conservative, Democratic liberal"],
+    says: ["nine Democratic appointees, most recently White in 1962, have conservative career averages", "six Republican appointees, most recently Souter in 1990, liberal ones", "All 11 justices appointed from 1991 through 2022", "Republican conservative, Democratic liberal"],
     check: () => {
       const dRight = data.justices.filter((j) => j.party === "D" && j.career > 0).map((j) => j.id);
       const rLeft = data.justices.filter((j) => j.party === "R" && j.career < 0).map((j) => j.id);
@@ -64,7 +64,7 @@ const cases: Record<keyof typeof COURT_TAKEAWAYS, { says: string[]; check: () =>
     },
   },
   trajectory: {
-    says: ["lowest in the 1963 term (−1.13)", "highest in 1988 (1.10)", "from 1969 through 2024 it fell below zero only in 2014, 2015 and 2016", "Blackmun went from 1.63 in the 1971 term to −1.93 in 1993"],
+    says: ["its low was −1.13, in the 1963 term", "its high 1.10, in 1988", "From 1969 through 2024 the Court median fell below zero only in 2014, 2015 and 2016", "Blackmun went from 1.63 in the 1971 term to −1.93 in 1993"],
     check: () => {
       const lo = data.terms.reduce((a, b) => (b.median < a.median ? b : a));
       const hi = data.terms.reduce((a, b) => (b.median > a.median ? b : a));

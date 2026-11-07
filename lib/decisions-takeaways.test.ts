@@ -46,7 +46,7 @@ const rankBy = (k: number) => [...byArea].sort(([, a], [, b]) => b[k] / total(b)
 
 const claims: Record<keyof typeof DECISIONS_TAKEAWAYS, { says: string[]; check: () => void }> = {
   cases: {
-    says: ["at least 129 argued cases every term from 1970 through 1989", "a high of 156 in the 1972 and 1983 terms", "From 1993 through 2025 no term topped 94", "four had 57, the fewest"],
+    says: ["From 1993 through 2025 no term topped 94 argued cases", "four (2019, 2020, 2022 and 2025) had 57, the fewest", "at least 129 every term from 1970 through 1989", "a high of 156 in the 1972 and 1983 terms"],
     check: () => {
       expect(Math.min(...between(1970, 1989).map(cases))).toBe(129);
       expect(cases(1969)).toBeLessThan(129);
@@ -57,8 +57,7 @@ const claims: Record<keyof typeof DECISIONS_TAKEAWAYS, { says: string[]; check: 
       expect(cases(1992)).toBeGreaterThan(94);
       const low = Math.min(...terms.map(cases));
       expect(low).toBe(57);
-      expect(terms.filter((t) => cases(t) === low)).toHaveLength(4);
-      expect(terms.filter((t) => cases(t) === low).every((t) => t >= 1993)).toBe(true);
+      expect(terms.filter((t) => cases(t) === low)).toEqual([2019, 2020, 2022, 2025]);
     },
   },
   split: {
@@ -148,7 +147,7 @@ const sitting = (iso: string) => justices.filter((j) => j.service_start <= iso &
 
 const contextCases: Record<keyof typeof DECISIONS_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   cases: {
-    says: ["Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988)", "at least 129 cases every term from 1970 through 1989", "none topped 94 from 1993"],
+    says: ["Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988)", "at least 129 cases every term from 1970 through 1989", "none topped 94 from 1993 through 2025"],
     links: { "plaw-100-352": "STATUTE-102-Pg662" },
     check: () => {
       // The same run and ceiling the takeaway states; the Act was signed before the 1988 term opened.

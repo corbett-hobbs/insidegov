@@ -10,7 +10,7 @@ export const TROOPS_TAKEAWAYS = {
   abroad: {
     title: "How many troops are stationed abroad",
     takeaway:
-      "Troops abroad were highest in 1953, at about 1.08 million, and peaked again at 1.04 million in 1968; most were in East Asia and the Pacific. From 2018 through 2025, counting only permanent assignments, the total stayed between about 160,000 and 169,000.",
+      "Troops abroad reached 503.1K in 2005, the most since 1972, and from 2018 through 2025, counting only permanent assignments, stayed between 159.6K and 168.5K. The chart’s highs, mostly in East Asia and the Pacific, were 1.1M in 1953 and 1M in 1968.",
   },
   map: {
     title: "Where they are, and who hosts the most",
@@ -20,7 +20,7 @@ export const TROOPS_TAKEAWAYS = {
   firstPlace: {
     title: "Who’s hosted the most",
     takeaway:
-      "Germany was the largest host every year from 1954 through 2002 except 1966 to 1971, when Vietnam led, with a peak of about 537,000 in 1968. Iraq led from 2003 to 2009, Afghanistan from 2010 to 2012, and Japan from 2013 through 2025.",
+      "Japan was the largest host every year from 2013 through 2025, after Iraq (2003 to 2009) and Afghanistan (2010 to 2012). Germany led every year from 1954 through 2002 except 1966 to 1971, when Vietnam did, peaking at 537.4K in 1968.",
   },
 } as const;
 
@@ -42,21 +42,21 @@ export const TROOPS_BREAK_NOTE =
  */
 export const TROOPS_CONTEXT = {
   abroad: {
-    text: "The Korean War armistice was signed July 27, 1953, after the June 1953 high; troops abroad fell to 740.4k by 1955. Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia; troops abroad rose from 594.6k that year to the 1.04M peak in 1968.",
+    text: "The Korean War armistice was signed July 27, 1953, after the June 1953 high; troops abroad fell to 740.4K by 1955. Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia; troops abroad rose from 594.6K that year to the 1M peak in 1968.",
     sources: [
       { id: "korea-armistice-1953", label: "National Archives" },
       { id: "plaw-88-408", label: "Public Law 88-408" },
     ],
   },
   map: {
-    text: "On July 29, 2020, the Defense Department said about 11,900 troops would be moved out of Germany; on February 4, 2021, President Biden said planned withdrawals would stop. Germany stayed the second-largest host, with 34.0k to 36.3k troops every year from 2018 through 2025.",
+    text: "On July 29, 2020, the Defense Department said about 11.9K troops would be moved out of Germany; on February 4, 2021, President Biden said planned withdrawals would stop. Germany stayed the second-largest host, with 34K to 36.3K troops every year from 2018 through 2025.",
     sources: [
       { id: "dod-eucom-posture-2020", label: "Defense Department" },
       { id: "biden-state-dept-2021", label: "White House" },
     ],
   },
   firstPlace: {
-    text: "Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003. President Obama’s February 12, 2013 State of the Union said 34,000 more troops would leave Afghanistan within a year; Afghanistan fell to 48.8k in 2013, below Japan’s 53.0k.",
+    text: "Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003. President Obama’s February 12, 2013 State of the Union said 34K more troops would leave Afghanistan within a year; Afghanistan fell to 48.8K in 2013, below Japan’s 53K.",
     sources: [
       { id: "plaw-107-243", label: "Public Law 107-243" },
       { id: "obama-sotu-2013", label: "White House" },

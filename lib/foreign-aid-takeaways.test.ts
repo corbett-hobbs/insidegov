@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { AID_CONTEXT, AID_TAKEAWAYS } from "../components/foreign-aid/takeaways";
 import { SOURCE_LINKS } from "./source-links";
+import { compactDollars } from "./format-number";
 import { administration } from "./executive-orders-entities";
 import { aidMeta, aidRow } from "./foreign-aid-entities";
 import { notOnMap } from "./foreign-aid-map";
@@ -28,7 +29,6 @@ const first = payload.years[0];
 const last = payload.years[payload.years.length - 1];
 const name = (ci: number) => payload.countries[ci].name;
 const ci = (n: string) => payload.countries.findIndex((c) => c.name === n);
-const billions = (v: number, digits = 1) => (v / 1e9).toFixed(digits);
 
 const spending = spendingByYear(d, first, last, -1, null);
 const total = (fy: number) => spending.find((r) => r.fy === fy)!.total;
@@ -38,20 +38,20 @@ const runs = topRuns(tops).map((r) => ({ name: name(r.ci), from: payload.years[r
 
 const cases: Record<keyof typeof AID_TAKEAWAYS, { says: string[]; check: () => void }> = {
   spending: {
-    says: ["In nominal dollars", "$15.0 billion in FY2001", "between $42 billion and $49 billion a year from FY2010 through FY2021", "peaked at $80.5 billion in FY2023", "Peace and security was the largest sector every year through FY2020"],
+    says: ["In nominal dollars", "peaked at $80.5B in FY2023", "after $41.8B to $49.4B a year from FY2010 through FY2021 and $15B in FY2001", "Peace and security was the largest sector every year from FY2001 through FY2020"],
     check: () => {
       expect(meta.dollars).toBe("nominal");
       expect(first).toBe(2001);
-      expect(billions(total(2001))).toBe("15.0");
-      // FY2001 is the low point of the window's complete years, so "rose from" holds.
+      expect(compactDollars(total(2001))).toBe("$15B");
+      // FY2001 is the low point of the window's complete years.
       expect(Math.min(...complete.map((r) => r.total))).toBe(total(2001));
       const band = complete.filter((r) => r.fy >= 2010 && r.fy <= 2021).map((r) => r.total);
       expect(band).toHaveLength(12);
-      expect(billions(Math.min(...band), 0)).toBe("42");
-      expect(billions(Math.max(...band), 0)).toBe("49");
+      expect(compactDollars(Math.min(...band))).toBe("$41.8B");
+      expect(compactDollars(Math.max(...band))).toBe("$49.4B");
       const peak = spending.reduce((a, b) => (b.total > a.total ? b : a));
       expect(peak.fy).toBe(2023);
-      expect(billions(peak.total)).toBe("80.5");
+      expect(compactDollars(peak.total)).toBe("$80.5B");
       // Slot 0 (Peace and security) is the tallest band in every bar FY2001–FY2020, and not in FY2021.
       const leads = (r: (typeof spending)[number]) => r.slots.every((v, k) => k === SECTOR_PEACE || v < r.slots[SECTOR_PEACE]);
       expect(spending.filter((r) => r.fy <= 2020).every(leads)).toBe(true);
@@ -59,14 +59,14 @@ const cases: Record<keyof typeof AID_TAKEAWAYS, { says: string[]; check: () => v
     },
   },
   map: {
-    says: ["In FY2025", "Ukraine received the most, $6.8 billion", "Israel at $3.3 billion, nearly all of it military", "About a third of that year’s dollars went to global and regional programs"],
+    says: ["In FY2025", "Ukraine received the most, $6.8B", "Israel at $3.3B, nearly all of it military", "About a third of that year’s dollars went to global and regional programs"],
     check: () => {
       expect(payload.defaultYear).toBe(2025);
       const ranked = rankCountries(d, 2025, null);
       expect(name(ranked[0].ci)).toBe("Ukraine");
-      expect(billions(ranked[0].value)).toBe("6.8");
+      expect(compactDollars(ranked[0].value)).toBe("$6.8B");
       expect(name(ranked[1].ci)).toBe("Israel");
-      expect(billions(ranked[1].value)).toBe("3.3");
+      expect(compactDollars(ranked[1].value)).toBe("$3.3B");
       const isr = ci("Israel");
       expect(countryMilitary(d, isr, 2025 - first, null) / ranked[1].value).toBeGreaterThan(0.95);
       const programs = nonCountryValue(d, 2025 - first, null) / yearTotal(d, 2025, -1, null);
@@ -75,14 +75,14 @@ const cases: Record<keyof typeof AID_TAKEAWAYS, { says: string[]; check: () => v
     },
   },
   firstPlace: {
-    says: ["Afghanistan was the largest recipient for 13 straight years, FY2008 through FY2020", "Ukraine from FY2022 through FY2025", "$24.8 billion in FY2023 was 42% of the dollars tied to a single country, the largest share any No. 1 took"],
+    says: ["Ukraine was the largest recipient every year from FY2022 through FY2025", "after Afghanistan’s 13 straight years, FY2008 through FY2020", "Its $24.8B in FY2023 was 42% of the dollars tied to a single country, the largest share any No. 1 took"],
     check: () => {
       expect(runs).toContainEqual({ name: "Afghanistan", from: 2008, to: 2020 });
       expect(runs).toContainEqual({ name: "Ukraine", from: 2022, to: 2025 });
       const shares = tops.map((y) => ({ fy: y.fy, who: name(y.ranked[0].ci), value: y.ranked[0].value, share: y.ranked[0].value / y.countryTotal }));
       const ukr23 = shares.find((s) => s.fy === 2023)!;
       expect(ukr23.who).toBe("Ukraine");
-      expect(billions(ukr23.value)).toBe("24.8");
+      expect(compactDollars(ukr23.value)).toBe("$24.8B");
       expect(Math.round(ukr23.share * 100)).toBe(42);
       expect(Math.max(...shares.map((s) => s.share))).toBe(ukr23.share);
     },
@@ -131,22 +131,22 @@ const checkLawDates = () => {
 const countryTotal = (fy: number) => notOnMap(d, [], fy, null).countries;
 const contextCases: Record<keyof typeof AID_CONTEXT, { says: string[]; links: Record<string, string>; check: () => void }> = {
   spending: {
-    says: ["four laws adding emergency Ukraine aid from March to December 2022", "from $49.4 billion in FY2021 to $74.3 billion in FY2022 (nominal)", "Ukraine’s share of the $24.9 billion rise was $15.9 billion"],
+    says: ["four laws adding emergency Ukraine aid from March to December 2022", "from $49.4B in FY2021 to $74.3B in FY2022 (nominal)", "Ukraine’s share of the $24.9B rise was $15.9B"],
     links: UKRAINE_LAW_LINKS,
     check: () => {
       expect(meta.dollars).toBe("nominal");
       expect(checkLawDates()).toHaveLength(4);
-      expect(billions(total(2021))).toBe("49.4");
-      expect(billions(total(2022))).toBe("74.3");
+      expect(compactDollars(total(2021))).toBe("$49.4B");
+      expect(compactDollars(total(2022))).toBe("$74.3B");
       // FY2022 is the largest one-year rise in the window.
       const rises = complete.slice(1).map((r, k) => ({ fy: r.fy, rise: r.total - complete[k].total }));
       expect(rises.reduce((a, b) => (b.rise > a.rise ? b : a)).fy).toBe(2022);
-      expect(billions(total(2022) - total(2021))).toBe("24.9");
-      expect(billions(ukraineIn(2022) - ukraineIn(2021))).toBe("15.9");
+      expect(compactDollars(total(2022) - total(2021))).toBe("$24.9B");
+      expect(compactDollars(ukraineIn(2022) - ukraineIn(2021))).toBe("$15.9B");
     },
   },
   map: {
-    says: ["Executive Order 14169 told agencies on January 20, 2025, the fourth month of FY2025", "pause new obligations and disbursements of development aid for a 90-day review", "Disbursements to single countries that year were $31.5 billion (nominal), down from $46.6 billion in FY2024"],
+    says: ["Executive Order 14169 told agencies on January 20, 2025, the fourth month of FY2025", "pause new obligations and disbursements of development aid for a 90-day review", "Disbursements to single countries that year were $31.5B (nominal), down from $46.6B in FY2024"],
     links: { "fr-eo-14169": "2025-02091" },
     check: () => {
       // FY2025 runs October 2024 to September 2025, so January 2025 is its fourth month; it is the map's default year.
@@ -154,13 +154,13 @@ const contextCases: Record<keyof typeof AID_CONTEXT, { says: string[]; links: Re
       expect(fyOf("2025-01-20")).toBe(2025);
       expect(fiscalMonth("2025-01-20")).toBe(4);
       expect(payload.partialYears).not.toContain(2025);
-      expect(billions(countryTotal(2025))).toBe("31.5");
-      expect(billions(countryTotal(2024))).toBe("46.6");
+      expect(compactDollars(countryTotal(2025))).toBe("$31.5B");
+      expect(compactDollars(countryTotal(2024))).toBe("$46.6B");
       expect(countryTotal(2025) + nonCountryValue(d, 2025 - first, null)).toBeCloseTo(total(2025), 0);
     },
   },
   firstPlace: {
-    says: ["Ukraine went from 17th place and $0.6 billion in FY2021 to No. 1 and $16.5 billion in FY2022 (nominal)", "the fiscal year Congress passed three of the four 2022 laws adding emergency Ukraine aid"],
+    says: ["Ukraine went from 17th place and $613.5M in FY2021 to No. 1 and $16.5B in FY2022 (nominal)", "the fiscal year Congress passed three of the four 2022 laws adding emergency Ukraine aid"],
     links: UKRAINE_LAW_LINKS,
     check: () => {
       // Opens on this card's own feature, not the spending card's sentence about the same laws.
@@ -168,9 +168,9 @@ const contextCases: Record<keyof typeof AID_CONTEXT, { says: string[]; links: Re
       const fys = checkLawDates().map(fyOf);
       expect(fys.filter((fy) => fy === 2022)).toHaveLength(3);
       expect(rankCountries(d, 2021, null).findIndex((r) => r.ci === ukr) + 1).toBe(17);
-      expect(billions(ukraineIn(2021))).toBe("0.6");
+      expect(compactDollars(ukraineIn(2021))).toBe("$613.5M");
       expect(name(tops.find((y) => y.fy === 2022)!.ranked[0].ci)).toBe("Ukraine");
-      expect(billions(ukraineIn(2022))).toBe("16.5");
+      expect(compactDollars(ukraineIn(2022))).toBe("$16.5B");
       // FY2022 is where the No. 1 changes hands, the start of Ukraine's run.
       expect(name(tops.find((y) => y.fy === 2021)!.ranked[0].ci)).not.toBe("Ukraine");
       expect(runs).toContainEqual({ name: "Ukraine", from: 2022, to: 2025 });

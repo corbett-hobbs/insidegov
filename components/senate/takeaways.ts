@@ -48,9 +48,9 @@ export const IDEOLOGY_TAKEAWAYS: Record<
   trend: {
     title: "How far apart are the parties?",
     byView: {
-      both: "The gap between the party lines was narrowest in 1947 and stayed near that low through the 1970s. It widened in most Congresses after that, coming within 0.01 of its 1903 peak in 2025.",
-      senate: "In the Senate, the gap between the party lines was narrowest in 1939 and stayed near that low through the 1950s. It widened in most Congresses after that; its two widest gaps came in 2023 and 2025.",
-      house: "In the House, the gap between the party lines was narrowest in 1967, close to where it sat from the late 1930s through the 1970s. It widened in most Congresses after that; only 1903's gap was wider than 2025's.",
+      both: "The gap between the party lines widened in most Congresses after the 1970s and in 2025 came within 0.01 of its 1903 peak. It was narrowest in 1947 and stayed near that low through the 1970s.",
+      senate: "In the Senate, the gap between the party lines widened in most Congresses after the 1950s; its two widest gaps came in 2023 and 2025. It was narrowest in 1939 and stayed near that low through the 1950s.",
+      house: "In the House, the gap between the party lines widened in most Congresses after the 1970s; only 1903's gap was wider than 2025's. It was narrowest in 1967, close to where it sat from the late 1930s through the 1970s.",
     },
   },
 };

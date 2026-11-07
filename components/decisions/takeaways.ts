@@ -10,7 +10,7 @@ export const DECISIONS_TAKEAWAYS = {
   cases: {
     title: "How many cases does the Court decide?",
     takeaway:
-      "The Court decided at least 129 argued cases every term from 1970 through 1989, with a high of 156 in the 1972 and 1983 terms. From 1993 through 2025 no term topped 94; four had 57, the fewest.",
+      "From 1993 through 2025 no term topped 94 argued cases, and four (2019, 2020, 2022 and 2025) had 57, the fewest. The Court decided at least 129 every term from 1970 through 1989, with a high of 156 in the 1972 and 1983 terms.",
   },
   split: {
     title: "How divided is the Court?",
@@ -35,7 +35,7 @@ export const DECISIONS_TAKEAWAYS = {
  */
 export const DECISIONS_CONTEXT = {
   cases: {
-    text: "The Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988) ended most appeals the Court had to hear, so nearly all its cases became ones it chose. It decided at least 129 cases every term from 1970 through 1989; none topped 94 from 1993.",
+    text: "The Supreme Court Case Selections Act (P.L. 100-352, June 27, 1988) ended most appeals the Court had to hear, so it chose nearly all its cases. It decided at least 129 cases every term from 1970 through 1989; none topped 94 from 1993 through 2025.",
     sources: [{ id: "plaw-100-352", label: "P.L. 100-352" }],
   },
   split: {

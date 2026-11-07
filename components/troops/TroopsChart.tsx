@@ -14,6 +14,7 @@ import { SegmentLabel } from "@/components/charts/SegmentLabel";
 import { useElementWidth } from "@/lib/use-element-width";
 import type { StackSeries } from "@/lib/troops-regions";
 import { contingencyAt, formatCount, formatCountAxis, formatCountCompact, measureLabel, niceCountTicks, termOnDate, yearLabelEvery, type RegionStack } from "@/lib/troops-derive";
+import { compactNumber } from "@/lib/format-number";
 import { MEASURES } from "@/lib/troops-types";
 import { useTroopsState } from "./TroopsState";
 
@@ -133,7 +134,7 @@ export function TroopsChart({ stacks, series, by }: { stacks: RegionStack[]; ser
   // Peak and low of the drawn stacks (recomputed for the window, branch and country shown). Complete years only.
   const marks = (() => {
     const { peak, low } = findExtremes(stacks.map((s) => ({ day: s.yi, value: s.unavailable || s.total <= 0 || years[s.yi].partial ? null : s.total })));
-    return [peak, low].flatMap((p) => (p && p.day !== yi ? [{ i: p.day, text: `${years[p.day].fy}: ${formatCountCompact(byYi.get(p.day)!.total)}` }] : []));
+    return [peak, low].flatMap((p) => (p && p.day !== yi ? [{ i: p.day, text: `${years[p.day].fy}: ${compactNumber(byYi.get(p.day)!.total)}` }] : []));
   })();
   const sel = years[yi];
   const chipLabel = `${sel.fy}${sel.partial ? " · partial" : periods[sel.period].estimate ? " · estimate" : ""}`;

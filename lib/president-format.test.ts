@@ -15,8 +15,8 @@ describe("formats", () => {
     expect(fmtValue(10, "pct")).toBe("10%");
     expect(fmtValue(-3.14, "pctSigned")).toBe("−3.1%");
     expect(fmtValue(1.2, "pctSigned")).toBe("+1.2%");
-    expect(fmtValue(1_130_818, "count")).toBe("1.13M");
-    expect(fmtValue(74_654, "count")).toBe("75k");
+    expect(fmtValue(1_130_818, "count")).toBe("1.1M");
+    expect(fmtValue(74_654, "count")).toBe("74.7K");
     expect(fmtValue(9_876, "count")).toBe("9,876");
     expect(fmtValue(-46.71, "usdB")).toBe("−$46.7B");
     expect(fmtValue(702.8, "mbbl")).toBe("703M bbl");
@@ -43,7 +43,7 @@ describe("panelTakeaway", () => {
 
   it("names an inner low when the high is an end", () => {
     const p = panel("count", [pt("FY2009", 1_130_818), pt("FY2013", 990_553), pt("FY2016", 1_183_505)]);
-    expect(panelTakeaway(p, "New green cards", "numbered")).toBe("New green cards numbered 1.13M in FY2009 and 1.18M in FY2016, with a low of 991k in FY2013.");
+    expect(panelTakeaway(p, "New green cards", "numbered")).toBe("New green cards numbered 1.1M in FY2009 and 1.2M in FY2016, with a low of 990.6K in FY2013.");
   });
 
   it("joins two terms and says 'on' for a dated week", () => {

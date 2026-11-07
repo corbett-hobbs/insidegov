@@ -17,12 +17,12 @@ export const COURT_TAKEAWAYS = {
   presidents: {
     title: "Who each president appointed",
     takeaway:
-      "Nine Democratic appointees, most recently White in 1962, have conservative career averages, and six Republican appointees, most recently Souter in 1990, liberal ones. All 11 justices appointed from 1991 through 2022 average on their appointing party’s side: Republican conservative, Democratic liberal.",
+      "All 11 justices appointed from 1991 through 2022 average on their appointing party’s side: Republican conservative, Democratic liberal. Before them, nine Democratic appointees, most recently White in 1962, have conservative career averages, and six Republican appointees, most recently Souter in 1990, liberal ones.",
   },
   trajectory: {
     title: "How each justice moved",
     takeaway:
-      "The Court median was lowest in the 1963 term (−1.13) and highest in 1988 (1.10); from 1969 through 2024 it fell below zero only in 2014, 2015 and 2016. Blackmun went from 1.63 in the 1971 term to −1.93 in 1993.",
+      "From 1969 through 2024 the Court median fell below zero only in 2014, 2015 and 2016; its low was −1.13, in the 1963 term, and its high 1.10, in 1988. Blackmun went from 1.63 in the 1971 term to −1.93 in 1993.",
   },
 } as const;
 

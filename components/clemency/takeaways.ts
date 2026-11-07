@@ -28,7 +28,7 @@ export const CLEMENCY_TAKEAWAYS = {
   },
   pending: {
     title: "Petitions waiting",
-    takeaway: "Petitions pending at the start of the fiscal year rose from 3,055 in 2008 to a record 17,596 in 2023. They stood at 10,418 when Biden left office, the last figure DOJ has published.",
+    takeaway: "Petitions pending at the start of the fiscal year rose from 3,055 in 2008 to a record 17.6K in 2023. They stood at 10.4K when Biden left office, the last figure DOJ has published.",
   },
   list: { title: "Every grant since Clinton" },
 } as const;

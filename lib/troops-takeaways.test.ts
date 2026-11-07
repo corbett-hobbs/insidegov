@@ -4,6 +4,7 @@ import { TROOPS_BREAK_NOTE, TROOPS_CONTEXT, TROOPS_TAKEAWAYS } from "../componen
 import type { ContextEntry } from "./chart-context";
 import { SOURCE_LINKS } from "./source-links";
 import { administration } from "./executive-orders-entities";
+import { compactNumber } from "./format-number";
 import { buildTroopsPayload, decodeTroops, periodView, stackByRegion, topHostRuns, topHostsByYear } from "./troops-derive";
 import { historyMeta, historyRow, troopsMeta, troopsRow } from "./troops-entities";
 import { REGION_IDS } from "./troops-regions";
@@ -28,7 +29,6 @@ const last = payload.years.length - 1;
 const yidx = (fy: number) => payload.years.findIndex((y) => y.fy === fy);
 const fyRange = (from: number, to: number) => payload.years.map((_, i) => i).filter((i) => payload.years[i].fy >= from && payload.years[i].fy <= to);
 const placeName = (i: number) => payload.places[i].name;
-const k = (v: number) => Math.round(v / 1000);
 
 const stacks = stackByRegion(data, 0, 0, last);
 const stackOf = (fy: number) => stacks[yidx(fy)];
@@ -39,22 +39,27 @@ const run = (name: string, from: number) => runs.find((r) => r.name === name && 
 
 const cases: Record<keyof typeof TROOPS_TAKEAWAYS, { says: string[]; check: () => void }> = {
   abroad: {
-    says: ["highest in 1953, at about 1.08 million", "peaked again at 1.04 million in 1968", "most were in East Asia and the Pacific", "From 2018 through 2025, counting only permanent assignments", "between about 160,000 and 169,000"],
+    says: ["Troops abroad reached 503.1K in 2005, the most since 1972", "from 2018 through 2025, counting only permanent assignments, stayed between 159.6K and 168.5K", "The chart’s highs, mostly in East Asia and the Pacific, were 1.1M in 1953 and 1M in 1968"],
     check: () => {
       expect(payload.years[0].fy).toBe(1953);
       const totals = stacks.map((s) => s.total);
       expect(Math.max(...totals)).toBe(stackOf(1953).total);
-      expect(Math.round(stackOf(1953).total / 10_000) / 100).toBe(1.08);
+      expect(compactNumber(stackOf(1953).total)).toBe("1.1M");
       // 1968 is the highest year after 1953, the top of the 1965-72 rise.
       expect(Math.max(...totals.slice(1))).toBe(stackOf(1968).total);
-      expect(Math.round(stackOf(1968).total / 10_000) / 100).toBe(1.04);
+      expect(compactNumber(stackOf(1968).total)).toBe("1M");
       const eap = REGION_IDS.indexOf("east_asia_pacific");
       for (const fy of [1953, 1968]) expect(stackOf(fy).regions[eap] / stackOf(fy).total, `${fy}`).toBeGreaterThan(0.5);
+      // 2005 is the highest year after 1972: every year from 1973 through the latest is below it, and 1972 is above it.
+      const after72 = fyRange(1973, payload.years[last].fy).map((i) => stacks[i].total);
+      expect(Math.max(...after72)).toBe(stackOf(2005).total);
+      expect(stackOf(1972).total).toBeGreaterThan(stackOf(2005).total);
+      expect(compactNumber(stackOf(2005).total)).toBe("503.1K");
       expect(payload.years[payload.breakYear].fy).toBe(2018);
       const recent = fyRange(2018, 2025).map((i) => stacks[i]);
       expect(recent.every((s) => !payload.years[s.yi].partial && payload.periods[s.pi].basis === "permanently_assigned")).toBe(true);
-      expect(k(Math.min(...recent.map((s) => s.total)))).toBe(160);
-      expect(k(Math.max(...recent.map((s) => s.total)))).toBe(169);
+      expect(compactNumber(Math.min(...recent.map((s) => s.total)))).toBe("159.6K");
+      expect(compactNumber(Math.max(...recent.map((s) => s.total)))).toBe("168.5K");
     },
   },
   map: {
@@ -73,7 +78,7 @@ const cases: Record<keyof typeof TROOPS_TAKEAWAYS, { says: string[]; check: () =
     },
   },
   firstPlace: {
-    says: ["Germany was the largest host every year from 1954 through 2002 except 1966 to 1971, when Vietnam led", "a peak of about 537,000 in 1968", "Iraq led from 2003 to 2009", "Afghanistan from 2010 to 2012", "Japan from 2013 through 2025"],
+    says: ["Japan was the largest host every year from 2013 through 2025, after Iraq (2003 to 2009) and Afghanistan (2010 to 2012)", "Germany led every year from 1954 through 2002 except 1966 to 1971, when Vietnam did", "peaking at 537.4K in 1968"],
     check: () => {
       expect(run("Germany", 1954)?.to).toBe(1965);
       expect(run("Vietnam", 1966)?.to).toBe(1971);
@@ -84,7 +89,7 @@ const cases: Record<keyof typeof TROOPS_TAKEAWAYS, { says: string[]; check: () =
       expect(run("Japan", 2013)?.to).toBeGreaterThanOrEqual(2025);
       const vietnam = fyRange(1966, 1971).map((i) => tops[i].top[0].value);
       expect(Math.max(...vietnam)).toBe(tops[yidx(1968)].top[0].value);
-      expect(k(tops[yidx(1968)].top[0].value)).toBe(537);
+      expect(compactNumber(tops[yidx(1968)].top[0].value)).toBe("537.4K");
     },
   },
 };
@@ -93,25 +98,24 @@ const cases: Record<keyof typeof TROOPS_TAKEAWAYS, { says: string[]; check: () =
  * Every figure a context line cites (rule 7d), read through the same derive functions as the takeaways. The dated events
  * sit outside the pipeline, so each date and number is pinned to the phrase the line uses and must cite that document.
  */
-const tenth = (v: number) => Math.round(v / 100) / 10;
 const cites = (key: keyof typeof TROOPS_CONTEXT, id: string) => expect(TROOPS_CONTEXT[key].sources.map((s) => s.id)).toContain(id);
 const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check: () => void }> = {
   abroad: {
     // archives.gov: "This armistice signed on July 27, 1953, formally ended the war in Korea." 78 Stat. 384 (Public Law 88-408) is
     // dated August 10, 1964, "To promote the maintenance of international peace and security in southeast Asia".
-    says: ["Korean War armistice was signed July 27, 1953, after the June 1953 high", "troops abroad fell to 740.4k by 1955", "Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia", "troops abroad rose from 594.6k that year to the 1.04M peak in 1968"],
+    says: ["Korean War armistice was signed July 27, 1953, after the June 1953 high", "troops abroad fell to 740.4K by 1955", "Public Law 88-408 (August 10, 1964) authorized force in Southeast Asia", "troops abroad rose from 594.6K that year to the 1M peak in 1968"],
     check: () => {
       const y53 = payload.years[yidx(1953)];
       expect(payload.periods[y53.period].snapshot).toBe("june");
       expect(Math.max(...stacks.map((s) => s.total))).toBe(stackOf(1953).total);
       expect(stackOf(1954).total).toBeLessThan(stackOf(1953).total);
       expect(stackOf(1955).total).toBeLessThan(stackOf(1954).total);
-      expect(tenth(stackOf(1955).total)).toBe(740.4);
-      expect(tenth(stackOf(1964).total)).toBe(594.6);
+      expect(compactNumber(stackOf(1955).total)).toBe("740.4K");
+      expect(compactNumber(stackOf(1964).total)).toBe("594.6K");
       for (let fy = 1965; fy <= 1968; fy++) expect(stackOf(fy).total, `${fy}`).toBeGreaterThan(stackOf(fy - 1).total);
-      // "the 1.04M peak in 1968": the highest year after 1953, as the takeaway says.
+      // "the 1M peak in 1968": the highest year after 1953, as the takeaway says.
       expect(Math.max(...stacks.slice(1).map((s) => s.total))).toBe(stackOf(1968).total);
-      expect(Math.round(stackOf(1968).total / 10_000) / 100).toBe(1.04);
+      expect(compactNumber(stackOf(1968).total)).toBe("1M");
       cites("abroad", "korea-armistice-1953");
       cites("abroad", "plaw-88-408");
     },
@@ -119,14 +123,14 @@ const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check:
   map: {
     // DoD statement, July 29, 2020: "approximately 11,900 military personnel will be repositioned from Germany". Remarks,
     // February 4, 2021: "while this review is taking place, we'll be stopping any planned troop withdrawals from Germany."
-    says: ["On July 29, 2020, the Defense Department said about 11,900 troops would be moved out of Germany", "on February 4, 2021, President Biden said planned withdrawals would stop", "Germany stayed the second-largest host", "with 34.0k to 36.3k troops every year from 2018 through 2025"],
+    says: ["On July 29, 2020, the Defense Department said about 11.9K troops would be moved out of Germany", "on February 4, 2021, President Biden said planned withdrawals would stop", "Germany stayed the second-largest host", "with 34K to 36.3K troops every year from 2018 through 2025"],
     check: () => {
       const vs = views(2018, 2025);
       expect(vs).toHaveLength(8);
       for (const v of vs) expect(placeName(v.ranked[1].place)).toBe("Germany");
       const de = vs.map((v) => v.ranked[1].value);
-      expect(tenth(Math.min(...de)).toFixed(1)).toBe("34.0");
-      expect(tenth(Math.max(...de))).toBe(36.3);
+      expect(compactNumber(Math.min(...de))).toBe("34K");
+      expect(compactNumber(Math.max(...de))).toBe("36.3K");
       cites("map", "dod-eucom-posture-2020");
       cites("map", "biden-state-dept-2021");
     },
@@ -134,7 +138,7 @@ const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check:
   firstPlace: {
     // PLAW-107publ243 is dated Oct. 16, 2002, "To authorize the use of United States Armed Forces against Iraq". State of the
     // Union, February 12, 2013: "over the next year, another 34,000 American troops will come home from Afghanistan."
-    says: ["Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003", "President Obama’s February 12, 2013 State of the Union said 34,000 more troops would leave Afghanistan within a year", "Afghanistan fell to 48.8k in 2013, below Japan’s 53.0k"],
+    says: ["Public Law 107-243 (October 16, 2002) authorized force against Iraq, the largest host from 2003", "President Obama’s February 12, 2013 State of the Union said 34K more troops would leave Afghanistan within a year", "Afghanistan fell to 48.8K in 2013, below Japan’s 53K"],
     check: () => {
       expect(run("Germany", 1972)?.to).toBe(2002);
       expect(run("Iraq", 2003)).toBeDefined();
@@ -143,8 +147,8 @@ const contextCases: Record<keyof typeof TROOPS_CONTEXT, { says: string[]; check:
       const of = (v: typeof v12, name: string) => v.ranked.find((r) => placeName(r.place) === name)!.value;
       expect(placeName(v12.ranked[0].place)).toBe("Afghanistan");
       expect(of(v13, "Afghanistan")).toBeLessThan(of(v12, "Afghanistan"));
-      expect(tenth(of(v13, "Afghanistan"))).toBe(48.8);
-      expect(tenth(of(v13, "Japan"))).toBe(53);
+      expect(compactNumber(of(v13, "Afghanistan"))).toBe("48.8K");
+      expect(compactNumber(of(v13, "Japan"))).toBe("53K");
       expect(placeName(v13.ranked[0].place)).toBe("Japan");
       expect(placeName(v13.ranked[1].place)).toBe("Afghanistan");
       cites("firstPlace", "plaw-107-243");

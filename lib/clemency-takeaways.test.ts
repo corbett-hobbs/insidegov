@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { CLEMENCY_TAKEAWAYS as T, HERO_CONTEXT } from "../components/clemency/takeaways";
 import { SOURCE_LINKS } from "./source-links";
 import { buildClemencyPayload } from "./clemency-derive";
+import { compactNumber } from "./format-number";
 import type { ClemencyFile, ClemencyGrant } from "./clemency-types";
 
 /** Every figure a Pardons takeaway quotes, against pipeline/output. A refresh that makes a sentence untrue fails here: rewrite the sentence, then this. */
@@ -75,6 +76,7 @@ describe("the Pardons takeaways", () => {
     expect(at(2023)).toBe(17596);
     expect(Math.max(...d.pending.map((x) => x.value))).toBe(17596);
     expect(d.endOfBidenPending).toBe(10418);
-    say(T.pending.takeaway, "3,055", "17,596", "10,418");
+    expect([compactNumber(17596), compactNumber(10418)]).toEqual(["17.6K", "10.4K"]);
+    say(T.pending.takeaway, "3,055", "17.6K", "10.4K");
   });
 });

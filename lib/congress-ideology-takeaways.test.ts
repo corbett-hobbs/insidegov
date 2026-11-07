@@ -228,7 +228,7 @@ const cases: Record<Key, Record<View, { says: string[]; check: () => void }>> = 
   },
   trend: {
     both: {
-      says: ["narrowest in 1947", "stayed near that low through the 1970s", "widened in most Congresses after that", "within 0.01 of its 1903 peak in 2025"],
+      says: ["widened in most Congresses after the 1970s", "in 2025 came within 0.01 of its 1903 peak", "narrowest in 1947", "stayed near that low through the 1970s"],
       check: () => {
         const g = gaps("both");
         expect(lowYear(g)).toBe(1947);
@@ -239,7 +239,7 @@ const cases: Record<Key, Record<View, { says: string[]; check: () => void }>> = 
       },
     },
     senate: {
-      says: ["In the Senate", "narrowest in 1939", "stayed near that low through the 1950s", "widened in most Congresses after that", "its two widest gaps came in 2023 and 2025"],
+      says: ["In the Senate", "widened in most Congresses after the 1950s", "its two widest gaps came in 2023 and 2025", "narrowest in 1939", "stayed near that low through the 1950s"],
       check: () => {
         const g = gaps("senate");
         expect(lowYear(g)).toBe(1939);
@@ -249,7 +249,7 @@ const cases: Record<Key, Record<View, { says: string[]; check: () => void }>> = 
       },
     },
     house: {
-      says: ["In the House", "narrowest in 1967", "from the late 1930s through the 1970s", "widened in most Congresses after that", "only 1903's gap was wider than 2025's"],
+      says: ["In the House", "widened in most Congresses after the 1970s", "only 1903's gap was wider than 2025's", "narrowest in 1967", "from the late 1930s through the 1970s"],
       check: () => {
         const g = gaps("house");
         expect(lowYear(g)).toBe(1967);
