@@ -31,6 +31,6 @@
 {"country_code":"XGZ","year":2024,"months":12,"flow":"imports","value":204870,"con_value":42907,"duties":2819,"categories":[["14200",183645,21682,2819],["41220",20991,20991,0]],"special":[["50030",234,234,0]]},
 {"country_code":"XGZ","year":2025,"months":12,"flow":"exports","value":2636,"categories":[["12550",2636]],"special":[]},
 {"country_code":"XGZ","year":2025,"months":12,"flow":"imports","value":8626,"con_value":8626,"duties":1024,"categories":[["40000",6207,6207,1024]],"special":[["50030",2419,2419,0]]},
-{"country_code":"XGZ","year":2026,"months":8,"flow":"exports","value":413600,"categories":[["00360",399685],["21180",10561],["12550",3354]],"special":[]},
-{"country_code":"XGZ","year":2026,"months":8,"flow":"imports","value":4186,"con_value":4186,"duties":0,"categories":[],"special":[["50030",4186,4186,0]]}
+{"country_code":"XGZ","year":2026,"months":9,"flow":"exports","value":413600,"categories":[["00360",399685],["21180",10561],["12550",3354]],"special":[]},
+{"country_code":"XGZ","year":2026,"months":9,"flow":"imports","value":4186,"con_value":4186,"duties":0,"categories":[],"special":[["50030",4186,4186,0]]}
 ]

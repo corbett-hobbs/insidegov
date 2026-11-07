@@ -13,5 +13,5 @@
 {"country_code":"PRK","year":2024,"months":12,"flow":"imports","value":57465,"con_value":0,"duties":0,"categories":[["16120",57465,0,0]],"special":[]},
 {"country_code":"PRK","year":2025,"months":12,"flow":"exports","value":543162,"categories":[["12530",523000],["21160",13526],["12550",3987],["40120",2649]],"special":[]},
 {"country_code":"PRK","year":2025,"months":12,"flow":"imports","value":138902,"con_value":0,"duties":0,"categories":[["40120",138902,0,0]],"special":[]},
-{"country_code":"PRK","year":2026,"months":8,"flow":"exports","value":8773,"categories":[["40030",8773]],"special":[]}
+{"country_code":"PRK","year":2026,"months":9,"flow":"exports","value":8773,"categories":[["40030",8773]],"special":[]}
 ]

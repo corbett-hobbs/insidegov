@@ -31,6 +31,6 @@
 {"country_code":"SJM","year":2024,"months":12,"flow":"imports","value":41855,"con_value":41855,"duties":468,"categories":[["21100",16380,16380,410],["21610",9616,9616,0],["21301",8750,8750,0],["41120",3535,3535,0],["30230",2307,2307,58]],"special":[["50030",1267,1267,0]]},
 {"country_code":"SJM","year":2025,"months":12,"flow":"exports","value":569955,"categories":[["21400",474670],["21610",80612]],"special":[["60000",14673]]},
 {"country_code":"SJM","year":2025,"months":12,"flow":"imports","value":19172,"con_value":19172,"duties":78,"categories":[["30230",3107,3107,78]],"special":[["50020",15644,15644,0],["50030",421,421,0]]},
-{"country_code":"SJM","year":2026,"months":8,"flow":"exports","value":14075,"categories":[["21120",13710]],"special":[["60000",365]]},
-{"country_code":"SJM","year":2026,"months":8,"flow":"imports","value":5563,"con_value":5563,"duties":0,"categories":[],"special":[["50030",5563,5563,0]]}
+{"country_code":"SJM","year":2026,"months":9,"flow":"exports","value":14075,"categories":[["21120",13710]],"special":[["60000",365]]},
+{"country_code":"SJM","year":2026,"months":9,"flow":"imports","value":5563,"con_value":5563,"duties":0,"categories":[],"special":[["50030",5563,5563,0]]}
 ]

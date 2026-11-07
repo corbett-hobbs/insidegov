@@ -31,6 +31,6 @@
 {"country_code":"TKL","year":2024,"months":12,"flow":"imports","value":183055,"con_value":183055,"duties":0,"chapters":[["99",164186,164186,0],["98",10000,10000,0],["40",5470,5470,0],["90",3399,3399,0]],"headings":[["4009",5470,5470,0],["9026",3399,3399,0]],"special":[["9999",164186,164186,0],["9801",10000,10000,0]]},
 {"country_code":"TKL","year":2025,"months":12,"flow":"exports","value":264295,"chapters":[["08",124123],["39",88110],["98",52062]],"headings":[["0802",124123],["3901",88110]],"special":[["9880",52062]]},
 {"country_code":"TKL","year":2025,"months":12,"flow":"imports","value":101837,"con_value":101837,"duties":0,"chapters":[["99",101837,101837,0]],"headings":[],"special":[["9999",101837,101837,0]]},
-{"country_code":"TKL","year":2026,"months":8,"flow":"exports","value":271462,"chapters":[["88",195410],["84",49500],["98",26552]],"headings":[["8800",195410],["8419",49500]],"special":[["9880",26552]]},
-{"country_code":"TKL","year":2026,"months":8,"flow":"imports","value":124714,"con_value":124714,"duties":0,"chapters":[["99",116026,116026,0],["97",8688,8688,0]],"headings":[["9706",8688,8688,0]],"special":[["9999",116026,116026,0]]}
+{"country_code":"TKL","year":2026,"months":9,"flow":"exports","value":271462,"chapters":[["88",195410],["84",49500],["98",26552]],"headings":[["8800",195410],["8419",49500]],"special":[["9880",26552]]},
+{"country_code":"TKL","year":2026,"months":9,"flow":"imports","value":132775,"con_value":132775,"duties":0,"chapters":[["99",124087,124087,0],["97",8688,8688,0]],"headings":[["9706",8688,8688,0]],"special":[["9999",124087,124087,0]]}
 ]

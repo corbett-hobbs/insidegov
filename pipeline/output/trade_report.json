@@ -3,7 +3,7 @@
     "country.xlsx": {
       "rows": 9217,
       "first_period": "1985-01",
-      "last_period": "2026-08",
+      "last_period": "2026-09",
       "note": "output window starts 1991-01"
     },
     "gands.xlsx": {
@@ -13,9 +13,9 @@
       "note": "annual BOP, output window starts 1991"
     },
     "duties (census api)": {
-      "rows": 50273,
+      "rows": 50525,
       "first_period": "2010-01",
-      "last_period": "2026-08",
+      "last_period": "2026-09",
       "country_year_rows": 3942
     },
     "duties (usitc dataweb bridge)": {
@@ -37,21 +37,21 @@
     "distinct_country_codes": 241
   },
   "rows": {
-    "trade_national": 997,
+    "trade_national": 999,
     "trade_by_country": 8544,
-    "duties_national": 404,
+    "duties_national": 405,
     "duties_by_country": 7770
   },
   "coverage": {
     "trade_by_country": {
       "first_year": 1991,
       "last_year": 2026,
-      "last_month": 8
+      "last_month": 9
     },
     "duties_by_country": {
       "first_year": 1993,
       "last_year": 2026,
-      "last_period": "2026-08"
+      "last_period": "2026-09"
     }
   },
   "reconciliation": {
@@ -79,7 +79,7 @@
     "coverage": {
       "first_year": 2010,
       "last_year": 2026,
-      "last_year_months": 8
+      "last_year_months": 9
     },
     "rows": 7904,
     "partners": 236,
@@ -93,7 +93,7 @@
     },
     "heading_coverage_of_goods_value": {
       "median": 0.696,
-      "p10": 0.439
+      "p10": 0.44
     },
     "reconciliation": {
       "tolerances": {
@@ -106,24 +106,24 @@
       },
       "worst_chapters_vs_goods_file_share_partners_over_100m_usd_millions": {
         "key": "GRD|2026 exports",
-        "got": 132.085022,
-        "want": 132.29999999999998,
-        "gap": 0.2149779999999737,
-        "share": 0.0016249281934994234
+        "got": 151.457005,
+        "want": 151.7,
+        "gap": 0.2429949999999792,
+        "share": 0.0016018127883980172
       },
       "worst_chapters_vs_goods_file_abs_usd_millions": {
         "key": "PLW|2026 imports",
-        "got": 0.352378,
+        "got": 0.399903,
         "want": 0.1,
-        "gap": 0.252378,
-        "share": 2.52378
+        "gap": 0.29990300000000003,
+        "share": 2.9990300000000003
       },
       "canada_exports_year_in_progress_usd_millions": {
         "key": "CAN|2026 exports",
-        "got": 234176.187252,
-        "want": 235972.4,
-        "gap": 1796.2127479999908,
-        "share": 0.0076119611785106685
+        "got": 264039.032991,
+        "want": 265873.8,
+        "gap": 1834.7670090000029,
+        "share": 0.006900894367929457
       },
       "worst_chapter_duties_vs_duties_file": {
         "key": "ABW|2010 duties",
@@ -159,7 +159,7 @@
     "coverage": {
       "first_year": 2010,
       "last_year": 2026,
-      "last_year_months": 8
+      "last_year_months": 9
     },
     "rows": 7904,
     "partners": 236,
@@ -182,24 +182,24 @@
       },
       "worst_vs_goods_file_share_partners_over_100m_usd_millions": {
         "key": "GRD|2026 exports",
-        "got": 132.085022,
-        "want": 132.29999999999998,
-        "gap": 0.2149779999999737,
-        "share": 0.0016249281934994234
+        "got": 151.457005,
+        "want": 151.7,
+        "gap": 0.2429949999999792,
+        "share": 0.0016018127883980172
       },
       "worst_vs_goods_file_abs_usd_millions": {
         "key": "PLW|2026 imports",
-        "got": 0.352378,
+        "got": 0.399903,
         "want": 0.1,
-        "gap": 0.252378,
-        "share": 2.52378
+        "gap": 0.29990300000000003,
+        "share": 2.9990300000000003
       },
       "canada_exports_year_in_progress_usd_millions": {
         "key": "CAN|2026 exports",
-        "got": 234176.187252,
-        "want": 235972.4,
-        "gap": 1796.2127479999908,
-        "share": 0.0076119611785106685
+        "got": 264039.032991,
+        "want": 265873.8,
+        "gap": 1834.7670090000029,
+        "share": 0.006900894367929457
       },
       "worst_duties_vs_duties_file": {
         "key": "ABW|2010 duties",
@@ -270,11 +270,11 @@
     "coverage": {
       "first_year": 2010,
       "last_year": 2026,
-      "last_year_months": 8
+      "last_year_months": 9
     },
     "rows": {
       "exports": 30546,
-      "imports": 35447
+      "imports": 35449
     },
     "assigned_lines": [
       {
@@ -507,29 +507,29 @@
   ],
   "file_sizes_bytes": {
     "countries.json": 44087,
-    "trade_national.json": 148867,
-    "duties_national.json": 43713,
-    "trade_by_country/* (total)": 2005944,
+    "trade_national.json": 149172,
+    "duties_national.json": 43821,
+    "trade_by_country/* (total)": 2005949,
     "trade_by_country/* (largest year)": 59052,
-    "duties_by_country/* (total)": 3237201,
+    "duties_by_country/* (total)": 3238750,
     "duties_by_country/* (largest year)": 98838,
-    "trade_products/* (total)": 11988415,
+    "trade_products/* (total)": 11998033,
     "trade_products/* (largest partner)": {
       "file": "trade_products/CHN.json",
-      "bytes": 107436
+      "bytes": 107467
     },
-    "trade_products_national.json": 131056,
+    "trade_products_national.json": 131091,
     "trade_products_headings.json": 139950,
-    "trade_products_partners.json": 587860,
-    "trade_enduse/* (total)": 14456060,
+    "trade_products_partners.json": 588010,
+    "trade_enduse/* (total)": 14468762,
     "trade_enduse/* (largest partner)": {
       "file": "trade_enduse/CAN.json",
-      "bytes": 138750
+      "bytes": 138790
     },
-    "trade_enduse_national.json": 152628,
+    "trade_enduse_national.json": 152663,
     "trade_enduse_labels.json": 33943,
-    "trade_enduse_partners.json": 670051,
-    "trade_product_use/* (total)": 2323134,
+    "trade_enduse_partners.json": 670227,
+    "trade_product_use/* (total)": 2323659,
     "trade_product_use/* (largest year)": 141361
   }
 }

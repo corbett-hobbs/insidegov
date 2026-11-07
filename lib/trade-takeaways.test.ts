@@ -201,7 +201,7 @@ const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: 
     },
   },
   scatter: {
-    says: ["Between the two windows", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's duty rate went from 11.3% to 22.2%"],
+    says: ["Between the two windows", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's duty rate went from 11.0% to 21.6%"],
     check: () => {
       const s122 = action("2026-02-24-ieepa-ends-section-122-begins");
       expect(s122.rate_note).toMatch(/^Section 122 surcharge: 10 percent/);
@@ -211,7 +211,7 @@ const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: 
       for (const d of ["2026-02", "2026-07"]) expect(d > windows.baseline.to && d <= windows.latest.to, d).toBe(true);
       // What the scatter shows for China across those windows.
       const china = scatter.find((r) => r.code === "CHN")!;
-      expect([(china.baseRate! * 100).toFixed(1), (china.latestRate! * 100).toFixed(1)]).toEqual(["11.3", "22.2"]);
+      expect([(china.baseRate! * 100).toFixed(1), (china.latestRate! * 100).toFixed(1)]).toEqual(["11.0", "21.6"]);
       cites("2026-02-24-ieepa-ends-section-122-begins", "fr-section-122-2026");
       cites("2026-07-24-section-301-forced-labor", "fr-301-forced-labor-2026");
     },

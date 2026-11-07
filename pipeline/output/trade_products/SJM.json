@@ -31,6 +31,6 @@
 {"country_code":"SJM","year":2024,"months":12,"flow":"imports","value":41855,"con_value":41855,"duties":468,"chapters":[["84",25130,25130,410],["90",9616,9616,0],["89",3535,3535,0],["87",2307,2307,58],["99",1267,1267,0]],"headings":[["8414",16380,16380,410],["9015",9616,9616,0],["8443",8750,8750,0],["8907",3535,3535,0],["8708",2307,2307,58]],"special":[["9999",1267,1267,0]]},
 {"country_code":"SJM","year":2025,"months":12,"flow":"exports","value":569955,"chapters":[["85",471000],["90",84282],["98",14673]],"headings":[["8529",471000],["9015",80612],["9030",3670]],"special":[["9880",14673]]},
 {"country_code":"SJM","year":2025,"months":12,"flow":"imports","value":19172,"con_value":19172,"duties":78,"chapters":[["98",15644,15644,0],["87",3107,3107,78],["99",421,421,0]],"headings":[["8708",3107,3107,78]],"special":[["9801",15644,15644,0],["9999",421,421,0]]},
-{"country_code":"SJM","year":2026,"months":8,"flow":"exports","value":14075,"chapters":[["85",13710],["98",365]],"headings":[["8515",13710]],"special":[["9880",365]]},
-{"country_code":"SJM","year":2026,"months":8,"flow":"imports","value":5563,"con_value":5563,"duties":0,"chapters":[["99",5563,5563,0]],"headings":[],"special":[["9999",5563,5563,0]]}
+{"country_code":"SJM","year":2026,"months":9,"flow":"exports","value":14075,"chapters":[["85",13710],["98",365]],"headings":[["8515",13710]],"special":[["9880",365]]},
+{"country_code":"SJM","year":2026,"months":9,"flow":"imports","value":5563,"con_value":5563,"duties":0,"chapters":[["99",5563,5563,0]],"headings":[],"special":[["9999",5563,5563,0]]}
 ]

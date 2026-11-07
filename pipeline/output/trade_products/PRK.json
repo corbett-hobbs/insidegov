@@ -13,5 +13,5 @@
 {"country_code":"PRK","year":2024,"months":12,"flow":"imports","value":57465,"con_value":0,"duties":0,"chapters":[["39",57465,0,0]],"headings":[["3923",55173,0,0],["3917",2292,0,0]],"special":[]},
 {"country_code":"PRK","year":2025,"months":12,"flow":"exports","value":543162,"chapters":[["28",523000],["90",13526],["38",3987],["33",2649]],"headings":[["2804",523000],["9031",13526],["3822",3987],["3305",2649]],"special":[]},
 {"country_code":"PRK","year":2025,"months":12,"flow":"imports","value":138902,"con_value":0,"duties":0,"chapters":[["33",138902,0,0]],"headings":[["3304",138902,0,0]],"special":[]},
-{"country_code":"PRK","year":2026,"months":8,"flow":"exports","value":8773,"chapters":[["42",8773]],"headings":[["4202",8773]],"special":[]}
+{"country_code":"PRK","year":2026,"months":9,"flow":"exports","value":8773,"chapters":[["42",8773]],"headings":[["4202",8773]],"special":[]}
 ]

@@ -31,6 +31,6 @@
 {"country_code":"TKL","year":2024,"months":12,"flow":"imports","value":183055,"con_value":183055,"duties":0,"categories":[["16120",5470,5470,0],["21160",3399,3399,0]],"special":[["50030",164186,164186,0],["50020",10000,10000,0]]},
 {"country_code":"TKL","year":2025,"months":12,"flow":"exports","value":264295,"categories":[["00340",124123],["12500",88110]],"special":[["60000",52062]]},
 {"country_code":"TKL","year":2025,"months":12,"flow":"imports","value":101837,"con_value":101837,"duties":0,"categories":[],"special":[["50030",101837,101837,0]]},
-{"country_code":"TKL","year":2026,"months":8,"flow":"exports","value":271462,"categories":[["22090",195410],["21180",49500]],"special":[["60000",26552]]},
-{"country_code":"TKL","year":2026,"months":8,"flow":"imports","value":124714,"con_value":124714,"duties":0,"categories":[["41320",8688,8688,0]],"special":[["50030",116026,116026,0]]}
+{"country_code":"TKL","year":2026,"months":9,"flow":"exports","value":271462,"categories":[["22090",195410],["21180",49500]],"special":[["60000",26552]]},
+{"country_code":"TKL","year":2026,"months":9,"flow":"imports","value":132775,"con_value":132775,"duties":0,"categories":[["41320",8688,8688,0]],"special":[["50030",124087,124087,0]]}
 ]

@@ -29,5 +29,5 @@
 {"country_code":"PCN","year":2024,"months":12,"flow":"imports","value":9335,"con_value":9335,"duties":0,"chapters":[["09",5787,5787,0],["99",3548,3548,0]],"headings":[["0901",5787,5787,0]],"special":[["9999",3548,3548,0]]},
 {"country_code":"PCN","year":2025,"months":12,"flow":"exports","value":119552,"chapters":[["84",113148],["98",6404]],"headings":[["8429",113148]],"special":[["9880",6404]]},
 {"country_code":"PCN","year":2025,"months":12,"flow":"imports","value":2302,"con_value":2302,"duties":0,"chapters":[["99",2302,2302,0]],"headings":[],"special":[["9999",2302,2302,0]]},
-{"country_code":"PCN","year":2026,"months":8,"flow":"imports","value":4143,"con_value":4143,"duties":0,"chapters":[["99",4143,4143,0]],"headings":[],"special":[["9999",4143,4143,0]]}
+{"country_code":"PCN","year":2026,"months":9,"flow":"imports","value":4143,"con_value":4143,"duties":0,"chapters":[["99",4143,4143,0]],"headings":[],"special":[["9999",4143,4143,0]]}
 ]

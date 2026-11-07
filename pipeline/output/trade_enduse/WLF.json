@@ -31,6 +31,6 @@
 {"country_code":"WLF","year":2024,"months":12,"flow":"imports","value":39214,"con_value":39214,"duties":689,"categories":[["41020",17587,17587,518],["21140",5904,5904,171]],"special":[["50020",10519,10519,0],["50030",5204,5204,0]]},
 {"country_code":"WLF","year":2025,"months":12,"flow":"exports","value":144123,"categories":[["30000",132331],["21110",3802]],"special":[["60000",7990]]},
 {"country_code":"WLF","year":2025,"months":12,"flow":"imports","value":70061,"con_value":70061,"duties":37,"categories":[["40030",1490,1490,37]],"special":[["50020",63462,63462,0],["50030",5109,5109,0]]},
-{"country_code":"WLF","year":2026,"months":8,"flow":"exports","value":63834,"categories":[["30230",37008],["22090",6993],["12550",6162],["41000",3800],["30200",3457],["20005",3032]],"special":[["60000",3382]]},
-{"country_code":"WLF","year":2026,"months":8,"flow":"imports","value":389,"con_value":389,"duties":0,"categories":[],"special":[["50030",389,389,0]]}
+{"country_code":"WLF","year":2026,"months":9,"flow":"exports","value":63834,"categories":[["30230",37008],["22090",6993],["12550",6162],["41000",3800],["30200",3457],["20005",3032]],"special":[["60000",3382]]},
+{"country_code":"WLF","year":2026,"months":9,"flow":"imports","value":850,"con_value":850,"duties":0,"categories":[],"special":[["50030",850,850,0]]}
 ]
