@@ -4,6 +4,7 @@ import { z } from "zod";
 import { caseArticleRow } from "../../lib/decisions-entities";
 import { RAW_DIR } from "../fetch/lib";
 import { CASE_SUMMARIES_AI, aiSummaryCache, checkAiSummary, summarizeLead, type AiSummaryEntry } from "../transform/wikipedia-case-summaries";
+import { recordUsage, type Usage } from "../llm-usage";
 
 /**
  * One-sentence case summaries for the linked cases whose Wikipedia article does not open with a ruling sentence the plain
@@ -87,7 +88,8 @@ async function ask(title: string, lead: string): Promise<string | null | undefin
       console.error(`  ${title}: API ${res.status} ${(await res.text()).slice(0, 200)}`);
       return undefined;
     }
-    const json = (await res.json()) as { content?: { type: string; input?: Verdict }[] };
+    const json = (await res.json()) as { model?: string; usage?: Usage; content?: { type: string; input?: Verdict }[] };
+    recordUsage("case-summaries", json.model ?? MODEL, json.usage);
     const v = json.content?.find((c) => c.type === "tool_use")?.input;
     if (!v) return undefined;
     if (!v.ruling_stated) return null;

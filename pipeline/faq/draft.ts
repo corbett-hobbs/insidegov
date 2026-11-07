@@ -6,6 +6,7 @@ import { checkFaqAnswer, MAX_SENTENCES, MIN_SENTENCES, type CitedSource } from "
 import type { FaqDraft } from "./issue";
 import { FAQ_PAGES, readQuestionList, type FaqPage, type Question } from "./questions";
 import { readSource } from "./sources";
+import { recordUsage } from "../llm-usage";
 
 /**
  * Drafts the FAQ answers for one page from its reviewed question list (`questions/<page>.json`): fetches each question's
@@ -97,6 +98,7 @@ async function answer(q: Question): Promise<{ item: FaqItem } | { error: string 
       if (err instanceof Anthropic.APIError) return { error: `API ${err.status ?? ""} ${err.message.slice(0, 200)}` };
       throw err;
     }
+    recordUsage("faq-draft", res.model, res.usage);
     usage.input += res.usage.input_tokens;
     usage.output += res.usage.output_tokens;
     if (res.stop_reason === "refusal") return { error: "refused" };

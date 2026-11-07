@@ -47,6 +47,7 @@
     "classify:clemency:audit": "tsx pipeline/classification/clemency-offenses-audit.ts",
     "classify:eos": "tsx pipeline/classification/executive-orders.ts",
     "classify:eos:auto": "tsx pipeline/classification/executive-orders-auto.ts",
+    "llm:usage": "tsx pipeline/maintenance/llm-usage-report.ts",
     "summarize:cases": "tsx pipeline/classification/case-summaries-auto.ts",
     "summarize:eos": "tsx pipeline/classification/eo-summaries-auto.ts",
     "og:charts": "tsx scripts/og-charts.ts",

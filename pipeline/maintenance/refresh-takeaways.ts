@@ -14,6 +14,7 @@ import { existsSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import { applyEdits, type Edit } from "./takeaway-refresh";
+import { recordUsage, type Usage } from "../llm-usage";
 
 const MODEL = process.env.TAKEAWAY_REFRESH_MODEL ?? "claude-sonnet-5-5";
 const ROUNDS = 3;
@@ -89,7 +90,8 @@ async function propose(fails: ReturnType<typeof failures>, files: Record<string,
       continue;
     }
     if (!res.ok) throw new Error(`API ${res.status} ${(await res.text()).slice(0, 200)}`);
-    const json = (await res.json()) as { content?: { type: string; input?: { edits?: Edit[] } }[] };
+    const json = (await res.json()) as { model?: string; usage?: Usage; content?: { type: string; input?: { edits?: Edit[] } }[] };
+    recordUsage("refresh-takeaways", json.model ?? MODEL, json.usage);
     return json.content?.find((c) => c.type === "tool_use")?.input?.edits ?? [];
   }
   throw new Error("API unavailable after 3 attempts");

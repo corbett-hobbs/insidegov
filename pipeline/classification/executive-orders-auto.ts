@@ -8,6 +8,7 @@ import {
 } from "../../lib/executive-orders-entities";
 import { CACHE, oneRowPerLine, readCache, readRaw } from "../transform/executive-orders-run";
 import { inheritanceParents, normalizeRaw, parseNotes } from "../transform/executive-orders";
+import { recordUsage, type Usage } from "../llm-usage";
 
 /**
  * Unattended topic labelling for new executive orders. Run by
@@ -101,7 +102,8 @@ async function ask(row: Row, examples: string): Promise<Verdict | null> {
       console.error(`  EO ${row.eo_number}: API ${res.status} ${(await res.text()).slice(0, 200)}`);
       return null;
     }
-    const json = (await res.json()) as { content?: { type: string; input?: Record<string, unknown> }[] };
+    const json = (await res.json()) as { model?: string; usage?: Usage; content?: { type: string; input?: Record<string, unknown> }[] };
+    recordUsage("eo-classify", json.model ?? MODEL, json.usage);
     const input = json.content?.find((c) => c.type === "tool_use")?.input;
     const topic = input?.topic as EoTopic | undefined;
     const confidence = input?.confidence as Verdict["confidence"] | undefined;
