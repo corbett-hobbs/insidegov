@@ -15,6 +15,7 @@ export const siteInfo = {
   githubUrl: "https://github.com/corbett-hobbs/insidegov",
   /** The accounts that post new charts when government data is released (pipeline/insights). Blank = not linked anywhere. */
   blueskyUrl: "https://bsky.app/profile/insidegov.fyi",
+  instagramUrl: "https://www.instagram.com/_insidegov",
   xUrl: "https://x.com/insidegovfyi",
   threadsUrl: "",
 } as const;
@@ -22,6 +23,7 @@ export const siteInfo = {
 /** The social accounts that are filled in, in display order. */
 export function socialLinks(): { label: string; url: string }[] {
   return [
+    { label: "Instagram", url: siteInfo.instagramUrl },
     { label: "X", url: siteInfo.xUrl },
     { label: "Bluesky", url: siteInfo.blueskyUrl },
     { label: "Threads", url: siteInfo.threadsUrl },
