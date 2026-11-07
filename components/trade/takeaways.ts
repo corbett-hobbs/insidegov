@@ -59,7 +59,7 @@ export const TRADE_CONTEXT = {
     ],
   },
   scatter: {
-    text: "Between the two windows, a 10% Section 122 surcharge began (February 2026) and Section 301 tariffs began on 60 economies, China among them (July 2026). China's duty rate went from 11.3% to 22.2%.",
+    text: "Between the two windows, a 10% Section 122 surcharge began (February 2026) and Section 301 tariffs began on 60 economies, China among them (July 2026). China's duty rate went from 11.0% to 21.6%.",
     sources: [
       { id: "fr-section-122-2026", label: "Proclamation 11012" },
       { id: "fr-301-forced-labor-2026", label: "USTR, 2026" },
