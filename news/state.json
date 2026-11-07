@@ -167,6 +167,46 @@
       "keep": [],
       "reason": "The dominant story is Stephen Miller's appointment as White House chief of staff, where immigration is background at most; the Secret Service arrest near the White House is not an enforcement data story, and neither pick_chart option measures these developments, so no chart matches.",
       "chart": ""
+    },
+    "945a0e1c2f197ce55e61": {
+      "at": "2026-11-07T20:48:56.639Z",
+      "keep": [
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
+        "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
+      ],
+      "reason": "Core development is the Nov 5 AI/tech stock sell-off sending the S&P 500 down 4.4%; the Trump-blame headlines are political reactions, the rebound is a separate move, and no pick_chart item measures stock prices.",
+      "chart": ""
+    },
+    "c5bef6f1de9d653b267b": {
+      "at": "2026-11-07T20:48:56.639Z",
+      "keep": [],
+      "reason": "The dominant story is Stephen Miller's appointment as White House chief of staff, a personnel change where immigration enforcement is only background, and no headline reports a development centered on ICE or border encounters.",
+      "chart": ""
+    },
+    "36afe4d0938b6da376ab": {
+      "at": "2026-11-07T20:48:56.639Z",
+      "keep": [],
+      "reason": "Neither headline reports a current tariff development: one is speculative midterm political analysis and the other is about a DOJ investigation, with tariffs at most incidental.",
+      "chart": ""
+    },
+    "27e81d7740b94f116ca3": {
+      "at": "2026-11-07T20:48:56.639Z",
+      "keep": [],
+      "reason": "No shared U.S. development: only one U.S.-related headline (a Fed official's remark), the two ECB items are foreign with no U.S. angle, and the DSA item is off-topic.",
+      "chart": ""
+    },
+    "d15e9afd808a2e48d8fa": {
+      "at": "2026-11-07T20:48:56.639Z",
+      "keep": [],
+      "reason": "No qualifying development: the renewables headlines (2 and 3) are election-analysis pieces, and the others are about elections and 2028, not nuclear, coal, or renewables policy.",
+      "chart": ""
+    },
+    "f26fc22b63372ea25fe3": {
+      "at": "2026-11-07T20:48:56.639Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets. Only #6 centers on Canada tariffs, and it is a single outlet's report of a Democratic plan, not a government action. #3 mentions the trade war only in passing.",
+      "chart": ""
     }
   },
   "dispatched": {
