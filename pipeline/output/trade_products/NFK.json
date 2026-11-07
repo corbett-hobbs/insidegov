@@ -27,5 +27,5 @@
 {"country_code":"NFK","year":2022,"months":12,"flow":"imports","value":271194,"con_value":271194,"duties":14155,"chapters":[["29",245100,245100,13481],["39",15815,15815,664],["84",5487,5487,0],["99",2315,2315,0],["90",2070,2070,0],["40",407,407,10]],"headings":[["2914",245100,245100,13481],["3906",15815,15815,664],["8413",5487,5487,0],["9018",2070,2070,0],["4009",407,407,10]],"special":[["9999",2315,2315,0]]},
 {"country_code":"NFK","year":2023,"months":12,"flow":"imports","value":4048,"con_value":4048,"duties":101,"chapters":[["87",4048,4048,101]],"headings":[["8708",4048,4048,101]],"special":[]},
 {"country_code":"NFK","year":2024,"months":12,"flow":"imports","value":2626,"con_value":2626,"duties":0,"chapters":[["99",2626,2626,0]],"headings":[],"special":[["9999",2626,2626,0]]},
-{"country_code":"NFK","year":2026,"months":8,"flow":"imports","value":2060,"con_value":2060,"duties":0,"chapters":[["99",2060,2060,0]],"headings":[],"special":[["9999",2060,2060,0]]}
+{"country_code":"NFK","year":2026,"months":9,"flow":"imports","value":2266,"con_value":2266,"duties":0,"chapters":[["99",2266,2266,0]],"headings":[],"special":[["9999",2266,2266,0]]}
 ]

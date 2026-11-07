@@ -31,5 +31,5 @@
 {"country_code":"SPM","year":2024,"months":12,"flow":"imports","value":3435723,"con_value":3435723,"duties":0,"chapters":[["98",3430196,3430196,0],["85",2964,2964,0],["49",2500,2500,0],["99",63,63,0]],"headings":[["8504",2964,2964,0],["4907",2500,2500,0]],"special":[["9801",3430196,3430196,0],["9999",63,63,0]]},
 {"country_code":"SPM","year":2025,"months":12,"flow":"exports","value":59621,"chapters":[["84",49283],["85",5300],["98",5038]],"headings":[["8442",36000],["8419",13283],["8517",5300]],"special":[["9880",5038]]},
 {"country_code":"SPM","year":2025,"months":12,"flow":"imports","value":18158,"con_value":18158,"duties":0,"chapters":[["84",11240,11240,0],["97",6700,6700,0],["99",218,218,0]],"headings":[["8413",8173,8173,0],["9705",6700,6700,0],["8409",3067,3067,0]],"special":[["9999",218,218,0]]},
-{"country_code":"SPM","year":2026,"months":8,"flow":"imports","value":391,"con_value":391,"duties":0,"chapters":[["99",391,391,0]],"headings":[],"special":[["9999",391,391,0]]}
+{"country_code":"SPM","year":2026,"months":9,"flow":"imports","value":391,"con_value":391,"duties":0,"chapters":[["99",391,391,0]],"headings":[],"special":[["9999",391,391,0]]}
 ]

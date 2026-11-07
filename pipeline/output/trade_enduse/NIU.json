@@ -31,6 +31,6 @@
 {"country_code":"NIU","year":2024,"months":12,"flow":"imports","value":4318298,"con_value":4318298,"duties":4374,"categories":[["16120",2756055,2756055,579],["41300",1080022,1080022,0],["41320",296306,296306,0],["21140",46107,46107,2306],["20005",38668,38668,124],["12150",15541,15541,1152],["21180",4871,4871,47],["21610",2580,2580,0],["14280",2140,2140,0],["30230",1054,1054,26],["40020",645,645,140]],"special":[["50030",71759,71759,0],["50020",2550,2550,0]]},
 {"country_code":"NIU","year":2025,"months":12,"flow":"exports","value":12153,"categories":[["30000",7557],["40140",4596]],"special":[]},
 {"country_code":"NIU","year":2025,"months":12,"flow":"imports","value":782124,"con_value":782124,"duties":227,"categories":[["16120",745026,745026,227],["41300",14586,14586,0],["21301",2163,2163,0]],"special":[["50030",20349,20349,0]]},
-{"country_code":"NIU","year":2026,"months":8,"flow":"exports","value":111170,"categories":[["30000",105215]],"special":[["60000",5955]]},
-{"country_code":"NIU","year":2026,"months":8,"flow":"imports","value":42083,"con_value":42083,"duties":0,"categories":[["41300",2324,2324,0]],"special":[["50030",39759,39759,0]]}
+{"country_code":"NIU","year":2026,"months":9,"flow":"exports","value":116329,"categories":[["30000",105215],["21160",4883]],"special":[["60000",6231]]},
+{"country_code":"NIU","year":2026,"months":9,"flow":"imports","value":54085,"con_value":54085,"duties":0,"categories":[["41300",2324,2324,0]],"special":[["50030",51761,51761,0]]}
 ]

@@ -31,5 +31,5 @@
 {"country_code":"SPM","year":2024,"months":12,"flow":"imports","value":3435723,"con_value":3435723,"duties":0,"categories":[["20000",2964,2964,0],["41320",2500,2500,0]],"special":[["50020",3430196,3430196,0],["50030",63,63,0]]},
 {"country_code":"SPM","year":2025,"months":12,"flow":"exports","value":59621,"categories":[["21150",36000],["21190",13283],["21400",5300]],"special":[["60000",5038]]},
 {"country_code":"SPM","year":2025,"months":12,"flow":"imports","value":18158,"con_value":18158,"duties":0,"categories":[["21100",11240,11240,0],["41300",6700,6700,0]],"special":[["50030",218,218,0]]},
-{"country_code":"SPM","year":2026,"months":8,"flow":"imports","value":391,"con_value":391,"duties":0,"categories":[],"special":[["50030",391,391,0]]}
+{"country_code":"SPM","year":2026,"months":9,"flow":"imports","value":391,"con_value":391,"duties":0,"categories":[],"special":[["50030",391,391,0]]}
 ]

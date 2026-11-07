@@ -31,6 +31,6 @@
 {"country_code":"XGZ","year":2024,"months":12,"flow":"imports","value":204870,"con_value":42907,"duties":2819,"chapters":[["76",183645,21682,2819],["85",20991,20991,0],["99",234,234,0]],"headings":[["7606",183645,21682,2819],["8523",20991,20991,0]],"special":[["9999",234,234,0]]},
 {"country_code":"XGZ","year":2025,"months":12,"flow":"exports","value":2636,"chapters":[["38",2636]],"headings":[["3822",2636]],"special":[]},
 {"country_code":"XGZ","year":2025,"months":12,"flow":"imports","value":8626,"con_value":8626,"duties":1024,"chapters":[["61",6207,6207,1024],["99",2419,2419,0]],"headings":[["6109",6207,6207,1024]],"special":[["9999",2419,2419,0]]},
-{"country_code":"XGZ","year":2026,"months":8,"flow":"exports","value":413600,"chapters":[["21",399685],["84",10561],["38",3354]],"headings":[["2106",399685],["8479",10561],["3822",3354]],"special":[]},
-{"country_code":"XGZ","year":2026,"months":8,"flow":"imports","value":4186,"con_value":4186,"duties":0,"chapters":[["99",4186,4186,0]],"headings":[],"special":[["9999",4186,4186,0]]}
+{"country_code":"XGZ","year":2026,"months":9,"flow":"exports","value":413600,"chapters":[["21",399685],["84",10561],["38",3354]],"headings":[["2106",399685],["8479",10561],["3822",3354]],"special":[]},
+{"country_code":"XGZ","year":2026,"months":9,"flow":"imports","value":4186,"con_value":4186,"duties":0,"chapters":[["99",4186,4186,0]],"headings":[],"special":[["9999",4186,4186,0]]}
 ]
