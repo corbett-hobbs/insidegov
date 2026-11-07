@@ -432,6 +432,17 @@ describe("companion lines on a data release", () => {
     expect(verifyInsight(insight, new CellIndex())).toEqual([]);
     // The bigger picture comes first, then what drove it; the carousel and the thread agree.
     expect(slidePlan(insight).filter((s) => s.kind === "breakdown").map((s) => s.breakdown?.levels ?? false)).toEqual([true, false]);
+    // A carousel opens on its hook unless told to open on the chart; nothing else changes.
+    expect(slidePlan(insight)[0]!.kind).toBe("hook");
+    expect(slidePlan(insight, [], { hook: false }).map((s) => s.kind)).toEqual(slidePlan(insight).slice(1).map((s) => s.kind));
+    // A people list gets its own slide right after the chart; an empty one gets none.
+    const people = { title: "p", kicker: "k", note: "n", rows: [{ name: "A", detail: "D · TX", value: "37" }] };
+    expect(slidePlan({ ...insight, people }).map((s) => s.kind).slice(1, 3)).toEqual(["chart", "people"]);
+    expect(slidePlan({ ...insight, people: { ...people, rows: [] } }).some((s) => s.kind === "people")).toBe(false);
+    // A history chart gets one slide, straight after the breakdown cards.
+    const kinds = slidePlan({ ...insight, history: { title: "h", chart: insight.chart, source: "S" } }).map((s) => s.kind);
+    expect(kinds.filter((k) => k === "history")).toHaveLength(1);
+    expect(kinds.indexOf("history")).toBe(kinds.lastIndexOf("breakdown") + 1);
     const cards = planThread(insight)!.replies.flatMap((r) => (r.chart === undefined ? [] : [r.chart]));
     expect(cards[0]).toBe(0);
     expect(new Set(cards).size).toBe(cards.length);
