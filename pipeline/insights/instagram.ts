@@ -44,6 +44,7 @@ export const SERIES_HASHTAGS: Record<string, string[]> = {
   "economy.household_income": ["#income", "#economy", "#govdata"],
   "economy.deficit": ["#deficit", "#federalbudget", "#economy", "#govdata"],
   "economy.debt": ["#nationaldebt", "#federalbudget", "#economy", "#govdata"],
+  "congress.age.senate": ["#congress", "#senate", "#govdata"],
   "energy.crude_production": ["#oil", "#energy", "#govdata"],
   "energy.crude_exports": ["#oil", "#exports", "#energy", "#govdata"],
   "energy.petroleum_exports": ["#oil", "#exports", "#energy", "#govdata"],
