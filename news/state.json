@@ -237,6 +237,28 @@
       "keep": [],
       "reason": "The most-covered development is Stephen Miller's appointment as White House chief of staff, where immigration enforcement is background, not the central topic; the Wisconsin trooper ICE detention is a single incident, and no headline concerns border encounters or ICE removals.",
       "chart": ""
+    },
+    "9df10da2466f294c06c3": {
+      "at": "2026-11-08T15:00:07.848Z",
+      "keep": [],
+      "reason": "The tariff headlines (2, 4, 5) are analysis about whether Democrats could end Trump's tariffs, not a current government action, ruling, or official figure, and the rest are about midterm politics with tariffs incidental.",
+      "chart": ""
+    },
+    "6f6b401f12151a3c5160": {
+      "at": "2026-11-08T15:00:07.848Z",
+      "keep": [],
+      "reason": "Only two headlines about different items: a Fed official's remarks and a forecast of future inflation, not the same current development reported by multiple outlets.",
+      "chart": ""
+    },
+    "e269b01dc836e4be7ac1": {
+      "at": "2026-11-08T15:00:07.848Z",
+      "keep": [
+        "https://www.theguardian.com/us-news/2026/nov/07/wisconsin-state-trooper-ice-released",
+        "https://thehill.com/homenews/state-watch/6206341-wisconsin-trooper-ice-arrest/",
+        "https://thehill.com/homenews/state-watch/6206341-wisconsin-trooper-ice-arrest/"
+      ],
+      "reason": "Two national outlets (The Guardian, The Hill) report the same single enforcement event: a Wisconsin state trooper detained by ICE was released; the NYT piece is analysis and the other headlines cover different developments.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -245,12 +267,6 @@
       "since": "2026-11-06T17:24:38.524Z",
       "at": "2026-11-07T16:18:49.116Z",
       "count": 5
-    },
-    "energy-freshness.yml": {
-      "release": "https://www.washingtonexaminer.com/news/supreme-court/4793859/supreme-court-urged-protect-homeowners-property-rights-in-data-center-power-fight/",
-      "since": "2026-11-06T09:15:35.780Z",
-      "at": "2026-11-06T09:15:35.780Z",
-      "count": 1
     }
   },
   "laws": {
