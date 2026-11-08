@@ -1,6 +1,34 @@
 {
-  "asOf": "2026-11-04",
+  "asOf": "2026-11-07",
   "stories": [
+    {
+      "id": "enforcement-2026-11-06",
+      "date": "2026-11-06",
+      "topic": "Immigration enforcement",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Wisconsin state patrol trooper detained by ICE released from custody",
+          "url": "https://www.theguardian.com/us-news/2026/nov/07/wisconsin-state-trooper-ice-released"
+        },
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "ICE arrests Wisconsin state patrol trooper with pending asylum case at airport, attorneys say",
+          "url": "https://www.nbcnews.com/news/us-news/ice-arrests-wisconsin-state-patrol-trooper-pending-asylum-case-airport-rcna607911"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Wisconsin state trooper released from ICE custody after 'dramatic' arrest",
+          "url": "https://thehill.com/homenews/state-watch/6206341-wisconsin-trooper-ice-arrest/"
+        }
+      ]
+    },
     {
       "id": "enforcement-2026-11-01",
       "date": "2026-11-02",
@@ -26,34 +54,6 @@
           "lean": "Right",
           "title": "Mamdani threatens to sue Trump admin over ICE's use of city-owned lots for immigration enforcement",
           "url": "https://www.foxnews.com/politics/mamdani-threatens-sue-trump-admin-ices-use-city-owned-lots-immigration-enforcement"
-        }
-      ]
-    },
-    {
-      "id": "enforcement-2026-10-28",
-      "date": "2026-10-28",
-      "topic": "Immigration enforcement",
-      "headlines": [
-        {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "Details of thousands of US immigration agents leaked in major hack",
-          "url": "https://www.bbc.co.uk/news/articles/cq8jzkpjr28vo?at_medium=RSS&at_campaign=rss"
-        },
-        {
-          "outletId": "foxnews",
-          "outlet": "Fox News",
-          "lean": "Right",
-          "title": "DHS investigates massive data breach exposing 40,000 employees, including ICE and Border Patrol agents",
-          "url": "https://www.foxnews.com/us/dhs-investigates-massive-data-breach-exposing-40000-employees-including-ice-border-patrol-agents"
-        },
-        {
-          "outletId": "breitbart",
-          "outlet": "Breitbart",
-          "lean": "Right",
-          "title": "Hacker Leaks Data of 40,000+ Homeland Security Employees Including ICE Agents",
-          "url": "https://www.breitbart.com/tech/2026/10/29/hacker-leaks-data-of-40000-homeland-security-employees-including-ice-agents/"
         }
       ]
     },
