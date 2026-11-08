@@ -259,6 +259,18 @@
       ],
       "reason": "Two national outlets (The Guardian, The Hill) report the same single enforcement event: a Wisconsin state trooper detained by ICE was released; the NYT piece is analysis and the other headlines cover different developments.",
       "chart": ""
+    },
+    "b94f35a75e4f9521b2cb": {
+      "at": "2026-11-08T19:30:09.018Z",
+      "keep": [],
+      "reason": "Headlines are analysis and speculation about what Democrats might do on tariffs after the midterms, not a single concrete government action, ruling, or official figure.",
+      "chart": ""
+    },
+    "6d117a7778818c712403": {
+      "at": "2026-11-08T19:30:09.018Z",
+      "keep": [],
+      "reason": "The two NYT headlines are an analysis-style piece on Stephen Miller, and the CBS headline is a sourced report on ICE posture; they do not clearly report the same single development, so none qualifies.",
+      "chart": ""
     }
   },
   "dispatched": {
