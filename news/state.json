@@ -207,6 +207,24 @@
       "keep": [],
       "reason": "No single development is reported by multiple outlets. Only #6 centers on Canada tariffs, and it is a single outlet's report of a Democratic plan, not a government action. #3 mentions the trade war only in passing.",
       "chart": ""
+    },
+    "36529ff88b45e258f065": {
+      "at": "2026-11-08T00:25:04.032Z",
+      "keep": [],
+      "reason": "The main story is Trump naming Stephen Miller chief of staff, a personnel change where immigration enforcement is at most background; the armed-migrant arrest story is a Secret Service threat case, not enforcement data, and no chart measures either.",
+      "chart": ""
+    },
+    "0a50b21a1f6f4fe7b82b": {
+      "at": "2026-11-08T00:25:04.032Z",
+      "keep": [],
+      "reason": "No single U.S. inflation development is reported by multiple outlets; the headlines cover different speeches (Fed, ECB), a political story, and one outlook piece.",
+      "chart": ""
+    },
+    "674da5e42fc02f5c72c9": {
+      "at": "2026-11-08T00:25:04.032Z",
+      "keep": [],
+      "reason": "Headlines are about midterm election results; the only energy-related one (2) is analysis of what the election means for renewables, and none report a nuclear, coal, or renewables policy action or none of the pick_chart charts measure the election story.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -235,7 +253,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-07"
+      "last": "2026-11-08"
     }
   }
 }
