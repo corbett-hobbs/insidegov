@@ -1,6 +1,35 @@
 {
-  "asOf": "2026-11-07",
+  "asOf": "2026-11-08",
   "stories": [
+    {
+      "id": "removals-2026-11-08",
+      "date": "2026-11-08",
+      "topic": "Deportations",
+      "chartId": "chart-removals",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Trump says deportations were ‘too tough’ and hurt him during the midterms",
+          "url": "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Trump says after midterms defeat his immigration crackdown was 'too tough'",
+          "url": "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Trump backs away from hardline immigration policy after midterms blowout: ‘I think it was too tough’",
+          "url": "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/"
+        }
+      ]
+    },
     {
       "id": "enforcement-2026-11-06",
       "date": "2026-11-06",
