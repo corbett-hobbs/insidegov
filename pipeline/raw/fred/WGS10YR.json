@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-11-04T17:06:09.824Z","series":{"id":"WGS10YR","title":"Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an Investment Basis","units":"Percent","frequency":"Weekly, Ending Friday","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1962-01-05","observation_end":"2026-10-30","last_updated":"2026-11-02 15:16:50-06","notes":"H.15 Statistical Release notes (https://www.federalreserve.gov/releases/h15/default.htm) and the Treasury Yield Curve Methodology (https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics/treasury-yield-curve-methodology). For questions on the data, please contact the data source (https://www.federalreserve.gov/apps/ContactUs/feedback.aspx?refurl=/releases/h15/%). For questions on FRED functionality, please contact us here (https://fred.stlouisfed.org/contactus/).</p>"}},
+  "head": {"fetched_at":"2026-11-09T21:36:58.408Z","series":{"id":"WGS10YR","title":"Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an Investment Basis","units":"Percent","frequency":"Weekly, Ending Friday","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1962-01-05","observation_end":"2026-11-06","last_updated":"2026-11-09 15:16:29-06","notes":"H.15 Statistical Release notes (https://www.federalreserve.gov/releases/h15/default.htm) and the Treasury Yield Curve Methodology (https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics/treasury-yield-curve-methodology). For questions on the data, please contact the data source (https://www.federalreserve.gov/apps/ContactUs/feedback.aspx?refurl=/releases/h15/%). For questions on FRED functionality, please contact us here (https://fred.stlouisfed.org/contactus/).</p>"}},
   "observations": [
     ["1962-01-05","4.03"],
     ["1962-01-12","4.06"],
@@ -3383,6 +3383,7 @@
     ["2026-10-09","5.26"],
     ["2026-10-16","5.15"],
     ["2026-10-23","5.07"],
-    ["2026-10-30","4.99"]
+    ["2026-10-30","4.99"],
+    ["2026-11-06","4.89"]
   ]
 }
