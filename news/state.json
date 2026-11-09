@@ -1,38 +1,5 @@
 {
   "checks": {
-    "0497071362a8e2f00697": {
-      "at": "2026-11-07T09:55:05.556Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/us-jobs-report-october-2026",
-        "https://www.bloomberg.com/news/articles/2026-11-06/us-adds-165-000-jobs-above-all-forecasts-as-unemployment-falls",
-        "https://www.nbcnews.com/business/economy/us-added-jobs-october-risks-stagnation-rcna607812",
-        "https://thehill.com/business/6201764-us-jobs-report-october/",
-        "https://www.theguardian.com/business/2026/nov/06/us-job-growth-october",
-        "https://www.huffpost.com/entry/us-economy-jobs-report_n_6aeddca6e4b037ca10339122",
-        "https://www.cbsnews.com/news/october-jobs-report-us-labor-market-2026/",
-        "https://www.cnbc.com/2026/11/06/jobs-report-october-2026.html"
-      ],
-      "reason": "Eight outlets report the official October jobs report showing 165,000 nonfarm jobs added; excluded ADP, JOLTS, preview pieces, and the Bloomberg key-takeaways explainer.",
-      "chart": ""
-    },
-    "125f3c2c7376428b9a6a": {
-      "at": "2026-11-07T09:55:05.556Z",
-      "keep": [],
-      "reason": "The most-reported development is Stephen Miller's appointment as chief of staff, which is a staffing change rather than an immigration enforcement action; the remaining ICE items are a single-outlet feature or a local arrest.",
-      "chart": ""
-    },
-    "4546a866f6edbc0bfe94": {
-      "at": "2026-11-07T09:55:05.556Z",
-      "keep": [],
-      "reason": "The headlines are separate remarks by different central bankers (Fed, BOJ, ECB) rather than one shared U.S. development, and two are foreign with no U.S. policy angle.",
-      "chart": ""
-    },
-    "555ec13be7bcc9ee472b": {
-      "at": "2026-11-07T09:55:05.556Z",
-      "keep": [],
-      "reason": "No development is reported by several outlets: only headline 7 concerns Canada tariffs, and it is a single outlet's report on Democrats' plans, while headline 4 is a Canadian budget story with the trade war mentioned only in passing.",
-      "chart": ""
-    },
     "f871a73db284c7743374": {
       "at": "2026-11-07T16:18:49.116Z",
       "keep": [
@@ -215,6 +182,53 @@
         "https://www.nytimes.com/2026/11/08/us/politics/trump-immigration-crackdown-republicans-midterms.html"
       ],
       "reason": "Most outlets (NY Post, The Hill, BBC, NYT) reported Trump's statement that his immigration crackdown was 'too tough' and may have hurt Republicans in the midterms; the other headlines cover different developments.",
+      "chart": ""
+    },
+    "7a7713d9fa86a98839d5": {
+      "at": "2026-11-09T16:00:06.233Z",
+      "keep": [
+        "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/",
+        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
+        "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208",
+        "https://www.theguardian.com/us-news/2026/nov/09/trump-tells-60-minutes-deportation-policy-too-tough-ice-immigration",
+        "https://www.washingtonexaminer.com/news/white-house/4796970/trump-says-deportation-policy-too-tough-push-bipartisan-deal/"
+      ],
+      "reason": "Five outlets report Trump saying his deportation/immigration crackdown was \"too tough\"; the other headlines cover different developments (Miller appointment, a scuttled Iranian deportation flight).",
+      "chart": ""
+    },
+    "8a5547381537ecc0e3f3": {
+      "at": "2026-11-09T16:00:06.233Z",
+      "keep": [
+        "https://www.wsj.com/business/energy-oil/brent-crude-climbs-above-100-as-middle-east-oil-supply-risks-persist-caaf64bb?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/brent-crude-climbs-above-100-as-middle-east-oil-supply-risks-persist-caaf64bb?mod=pls_whats_news_us_business_f",
+        "https://www.nytimes.com/2026/11/09/business/energy-environment/oil-price-iran-trump-war.html",
+        "https://www.nytimes.com/2026/11/09/business/energy-environment/oil-price-iran-trump-war.html"
+      ],
+      "reason": "All four headlines report the same oil futures/price slide on hopes for U.S.-Iran or Middle East diplomacy, a notable market move; no pick_chart entry measures oil prices, and supply, SPR, and LNG charts only touch the topic.",
+      "chart": ""
+    },
+    "82846fd1e0b2f40b4980": {
+      "at": "2026-11-09T16:00:06.233Z",
+      "keep": [
+        "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/",
+        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
+        "https://www.nytimes.com/2026/11/08/us/politics/trump-60-minutes-republicans-election-immigration.html",
+        "https://www.nytimes.com/2026/11/08/us/politics/trump-60-minutes-republicans-election-immigration.html"
+      ],
+      "reason": "Four outlets report Trump's on-air statement that the immigration crackdown was \"too tough\" and may have hurt Republicans; the Raman headline covers a different story, and no pick_chart measures this political statement.",
+      "chart": ""
+    },
+    "5a6d924c493140d73185": {
+      "at": "2026-11-09T16:00:06.233Z",
+      "keep": [],
+      "reason": "No single U.S. development is reported by multiple outlets: the Fed remark is a speech, the Bloomberg U.S. item is a forecast, and the rest are foreign or local.",
+      "chart": ""
+    },
+    "3a7a818a1b86731b082c": {
+      "at": "2026-11-09T16:00:06.233Z",
+      "keep": [],
+      "reason": "Both headlines preview Congress's return with a multi-item agenda (funding, debt limit, other issues), not one single current development, so no story qualifies.",
       "chart": ""
     }
   },
