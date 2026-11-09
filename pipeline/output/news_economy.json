@@ -1,6 +1,27 @@
 {
-  "asOf": "2026-11-06",
+  "asOf": "2026-11-09",
   "stories": [
+    {
+      "id": "markets-2026-11-09",
+      "date": "2026-11-09",
+      "topic": "Stock market",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Nvidia shares sink while stock market surges",
+          "url": "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Dow surges 1,100 points after last week’s historic tech rout, while Jensen Huang’s Nvidia slumps",
+          "url": "https://nypost.com/2026/11/09/business/dow-surges-1000-points-after-last-weeks-historic-tech-rout-while-nvidia-slumps/"
+        }
+      ]
+    },
     {
       "id": "fed_rates-2026-11-06",
       "date": "2026-11-06",
@@ -135,35 +156,6 @@
           "lean": "Center",
           "title": "Debt Limit, Tariffs Top List of Likely Deals in Trump’s New Era",
           "url": "https://www.bloomberg.com/news/articles/2026-11-04/debt-limit-tariffs-top-list-of-likely-deals-in-trump-s-new-era"
-        }
-      ]
-    },
-    {
-      "id": "treasury_yields-2026-11-04",
-      "date": "2026-11-04",
-      "topic": "Treasury yields",
-      "chartId": "chart-ten",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "U.S. midterm elections in pictures: Democrats' sweeping victories deliver rebuke to Trump",
-          "url": "https://www.cnbc.com/2026/11/04/us-midterm-elections-in-pictures-democrats-republicans-trump.html"
-        },
-        {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Oil prices drop below $100 as midterms fuel hope for an end to the Iran war",
-          "url": "https://www.nbcnews.com/business/energy/oil-prices-iran-war-midterms-rcna607448"
-        },
-        {
-          "outletId": "foxbusiness",
-          "outlet": "Fox Business",
-          "lean": "Lean Right",
-          "title": "Trump blames Democrats for stock market plunge after sweeping midterm victories",
-          "url": "https://www.foxbusiness.com/politics/trump-blames-democrats-stock-market-plunge-after-sweeping-midterm-victories"
         }
       ]
     }
