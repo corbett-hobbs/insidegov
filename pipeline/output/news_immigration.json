@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-08",
+  "asOf": "2026-11-09",
   "stories": [
     {
       "id": "removals-2026-11-08",
@@ -8,25 +8,25 @@
       "chartId": "chart-removals",
       "headlines": [
         {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Trump says deportations were ‘too tough’ and hurt him during the midterms",
-          "url": "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208"
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Trump admits deportation policy was ‘too tough’ despite promotion of Stephen Miller",
+          "url": "https://www.theguardian.com/us-news/2026/nov/09/trump-tells-60-minutes-deportation-policy-too-tough-ice-immigration"
         },
         {
           "outletId": "bbc",
           "outlet": "BBC News",
           "lean": "Center",
-          "title": "Trump says after midterms defeat his immigration crackdown was 'too tough'",
+          "title": "Trump says immigration crackdown was 'too tough' and played part in midterms defeat",
           "url": "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss"
         },
         {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Trump backs away from hardline immigration policy after midterms blowout: ‘I think it was too tough’",
-          "url": "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/"
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Trump says deportation policy ‘too tough’ in push for bipartisan deal handing legal status to ‘good’ illegal immigrants",
+          "url": "https://www.washingtonexaminer.com/news/white-house/4796970/trump-says-deportation-policy-too-tough-push-bipartisan-deal/"
         }
       ]
     },
