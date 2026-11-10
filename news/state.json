@@ -1,17 +1,5 @@
 {
   "checks": {
-    "b94f35a75e4f9521b2cb": {
-      "at": "2026-11-08T19:30:09.018Z",
-      "keep": [],
-      "reason": "Headlines are analysis and speculation about what Democrats might do on tariffs after the midterms, not a single concrete government action, ruling, or official figure.",
-      "chart": ""
-    },
-    "6d117a7778818c712403": {
-      "at": "2026-11-08T19:30:09.018Z",
-      "keep": [],
-      "reason": "The two NYT headlines are an analysis-style piece on Stephen Miller, and the CBS headline is a sourced report on ICE posture; they do not clearly report the same single development, so none qualifies.",
-      "chart": ""
-    },
     "0e93f14a8df5bc794978": {
       "at": "2026-11-08T23:38:09.148Z",
       "keep": [
@@ -322,6 +310,93 @@
       "at": "2026-11-10T16:58:31.065Z",
       "keep": [],
       "reason": "Only CBS reports a specific government action (proposed stricter work search rules); Axios's generic \"low unemployment, job worries persist\" piece is not the same development, so no story qualifies.",
+      "chart": ""
+    },
+    "801008dc9d2e8529fced": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [],
+      "reason": "The headlines cover different developments: a Trump remark on deportations in the midterms, a scuttled Iranian deportation flight, Democrats' bill to restore Afghan protections, and a Trump remark on farm workers. No single development is reported by multiple outlets.",
+      "chart": ""
+    },
+    "f979920cca12331226ea": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [],
+      "reason": "No development is reported by more than one outlet: the Dana White headlines are off-topic, the Whitmer piece is a state-level action, the CNBC Democrats piece is explanatory, and only the White House tariff-vow headline is a single national item.",
+      "chart": ""
+    },
+    "50e3f71e9d0318fcc938": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-10/fed-s-waller-backs-december-rate-hike-says-open-to-larger-move",
+        "https://www.bloomberg.com/news/articles/2026-11-10/us-core-cpi-rises-more-than-forecast-0-3-supporting-rate-hike",
+        "https://www.nbcnews.com/business/economy/inflation-october-gas-prices-election-rcna608515",
+        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4797977/inflation-october-midterm-elections-affordability-democrats/",
+        "https://thehill.com/business/6208608-october-inflation-bls-data-cpi/",
+        "https://nypost.com/2026/11/10/business/inflation-hotter-than-expected-in-october-adding-to-feds-case-for-rate-hike/",
+        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
+        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
+        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html",
+        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/"
+      ],
+      "reason": "These headlines all report the October 2026 U.S. CPI release (consumer prices up 0.4%, hotter than expected); previews, live blogs, explainers, the Waller and Treasury-yield stories, and foreign news are excluded.",
+      "chart": ""
+    },
+    "66347fe10ccd3108f97a": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [],
+      "reason": "Two developments, each reported by only one outlet (NYT on ICE hiding detainee locations; Washington Examiner on habeas corpus cases), so no single development has broader outlet coverage; neither maps to the removals or encounters charts.",
+      "chart": ""
+    },
+    "34c3cdc28ed16d95541e": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Several outlets report the same market move: oil prices falling after Trump's statements on the Iran war. The NYT piece is an explainer, and the BBC heating-oil item is a different development.",
+      "chart": ""
+    },
+    "26388d0fa17841b475b0": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a company merger (NextEra and Dominion) and a Texas governor-elect's state-level price-freeze plan, so no single shared development.",
+      "chart": ""
+    },
+    "b59163c822123ebd2c6b": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
+      ],
+      "reason": "The Senate advancing a permitting bill is one current federal development, and only the Guardian headline makes gas pipelines central; the other headlines treat pipelines as incidental. The Guardian pipeline-datacenter story (1-2) is a different development.",
+      "chart": ""
+    },
+    "69b3312796eaf2fe36a9": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [
+        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
+        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
+        "https://www.cnbc.com/2026/11/10/us-gas-prices-below-four-dollars.html",
+        "https://nypost.com/2026/11/10/business/gas-prices-drop-below-4-a-gallon-for-first-time-since-july/",
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4798638/gas-price-drop-below-4-first-july-inflation-but-still-up-30-percent-from-pre-war-levels/",
+        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/"
+      ],
+      "reason": "Most outlets reported the same current development: the U.S. average gas price fell below $4 a gallon for the first time since July.",
+      "chart": ""
+    },
+    "66872480c683c199b095": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [],
+      "reason": "Headlines cover company news (Nvidia share moves and scandal, and the Claude maker's IPO), not a U.S. government action, court ruling, or national market-wide development, and no pick_chart item measures these.",
+      "chart": ""
+    },
+    "b1c72a9b882a353d9f1e": {
+      "at": "2026-11-10T22:17:29.806Z",
+      "keep": [],
+      "reason": "All headlines cover the Nvidia CEO Jensen Huang affair and spy probe, not a U.S. trade agreement, talks, or restriction, so no single trade development qualifies.",
       "chart": ""
     }
   },
