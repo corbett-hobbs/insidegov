@@ -1,10 +1,60 @@
 {
-  "asOf": "2026-11-09",
+  "asOf": "2026-11-10",
   "stories": [
+    {
+      "id": "oil_markets-2026-11-10",
+      "date": "2026-11-10",
+      "topic": "Oil markets",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Oil prices fall to lowest since August as Trump says Iran war is ‘effectively over’",
+          "url": "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Oil Prices Extend Decline After Trump Signals Restraint on Iran",
+          "url": "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f"
+        }
+      ]
+    },
+    {
+      "id": "drilling-2026-11-09",
+      "date": "2026-11-09",
+      "topic": "Drilling and pipelines",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Senate advances bill to speed up permit reviews for infrastructure projects",
+          "url": "https://www.theguardian.com/us-news/2026/nov/09/senate-advances-bill-energy-projects"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Senate advances Trump-backed bipartisan bill to speed critical infrastructure projects",
+          "url": "https://www.cnbc.com/2026/11/09/senate-infrastructure-bill-data-centers.html"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Senate advances bipartisan permitting reform bill, teeing up passage",
+          "url": "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/"
+        }
+      ]
+    },
     {
       "id": "power_sources-2026-11-09",
       "date": "2026-11-09",
       "topic": "Nuclear, coal and renewables",
+      "chartId": "electricity",
       "headlines": [
         {
           "outletId": "thehill",
@@ -85,11 +135,11 @@
           "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas"
         },
         {
-          "outletId": "thehill",
-          "outlet": "The Hill",
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
           "lean": "Center",
-          "title": "Trump plans to loosen methane rules for low-producing, high-emitting oil wells",
-          "url": "https://thehill.com/policy/energy-environment/6175227-trump-methane-regs-oil-gas-wells-energy-costs/"
+          "title": "Trump Moves to Weaken Methane Emissions Rules for Oil and Gas",
+          "url": "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f"
         },
         {
           "outletId": "washingtonexaminer",
@@ -97,35 +147,6 @@
           "lean": "Lean Right",
           "title": "Trump unveils plan to loosen methane rules for oil and gas industry",
           "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/"
-        }
-      ]
-    },
-    {
-      "id": "venezuela_oil-2026-10-27",
-      "date": "2026-10-27",
-      "topic": "Venezuelan oil",
-      "chartId": "oil",
-      "headlines": [
-        {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Trump shows off tanker with ‘1m barrels of oil’ and floats Venezuela as 51st state",
-          "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-oil-tanker-venezuela"
-        },
-        {
-          "outletId": "abcnews",
-          "outlet": "ABC News",
-          "lean": "Lean Left",
-          "title": "Trump and Rubio plan to visit oil tanker carrying Venezuelan crude in Texas",
-          "url": "https://abcnews.com/Politics/wireStory/trump-rubio-plan-visit-oil-tanker-carrying-venezuelan-137592774"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Trump brings 1 million barrels of oil from Venezuela to Texas ahead of rally as part of last push for GOP in midterms",
-          "url": "https://nypost.com/2026/10/27/us-news/trump-rubio-expected-to-greet-first-shipment-of-1-million-barrels-of-venezuelan-oil-arriving-in-texas-post-deal-with-us/"
         }
       ]
     }
