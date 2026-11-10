@@ -1,73 +1,5 @@
 {
   "checks": {
-    "f871a73db284c7743374": {
-      "at": "2026-11-07T16:18:49.116Z",
-      "keep": [
-        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
-        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
-        "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
-      ],
-      "reason": "Outlets covered the same November 5 AI/tech stock sell-off that sent the S&P 500 down 4.4%; the other items are political reactions, rebounds, or explainers.",
-      "chart": ""
-    },
-    "1a1439e9076290892435": {
-      "at": "2026-11-07T16:18:49.116Z",
-      "keep": [],
-      "reason": "The BBC rate-hike headlines concern a UK rate rise (pounds, Faisal Islam, \"how rising rates hit pockets\") rather than a U.S. Federal Reserve action, and the lone NYT headline is an outlook piece reporting no single development shared by other outlets.",
-      "chart": ""
-    },
-    "aac6936af87ba95db113": {
-      "at": "2026-11-07T16:18:49.116Z",
-      "keep": [],
-      "reason": "No single U.S. development is shared by multiple headlines; the Williams remarks are one speech comment, and the others are foreign central bank commentary.",
-      "chart": ""
-    },
-    "d4a6dfab33f45b242632": {
-      "at": "2026-11-07T16:18:49.116Z",
-      "keep": [],
-      "reason": "The dominant story is Stephen Miller's appointment as White House chief of staff, where immigration is background at most; the Secret Service arrest near the White House is not an enforcement data story, and neither pick_chart option measures these developments, so no chart matches.",
-      "chart": ""
-    },
-    "945a0e1c2f197ce55e61": {
-      "at": "2026-11-07T20:48:56.639Z",
-      "keep": [
-        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
-        "https://www.huffpost.com/entry/wipeout-ai-stocks-wall-street-midterms_n_6aecad69e4b0dcee62e325b2",
-        "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
-      ],
-      "reason": "Core development is the Nov 5 AI/tech stock sell-off sending the S&P 500 down 4.4%; the Trump-blame headlines are political reactions, the rebound is a separate move, and no pick_chart item measures stock prices.",
-      "chart": ""
-    },
-    "c5bef6f1de9d653b267b": {
-      "at": "2026-11-07T20:48:56.639Z",
-      "keep": [],
-      "reason": "The dominant story is Stephen Miller's appointment as White House chief of staff, a personnel change where immigration enforcement is only background, and no headline reports a development centered on ICE or border encounters.",
-      "chart": ""
-    },
-    "36afe4d0938b6da376ab": {
-      "at": "2026-11-07T20:48:56.639Z",
-      "keep": [],
-      "reason": "Neither headline reports a current tariff development: one is speculative midterm political analysis and the other is about a DOJ investigation, with tariffs at most incidental.",
-      "chart": ""
-    },
-    "27e81d7740b94f116ca3": {
-      "at": "2026-11-07T20:48:56.639Z",
-      "keep": [],
-      "reason": "No shared U.S. development: only one U.S.-related headline (a Fed official's remark), the two ECB items are foreign with no U.S. angle, and the DSA item is off-topic.",
-      "chart": ""
-    },
-    "d15e9afd808a2e48d8fa": {
-      "at": "2026-11-07T20:48:56.639Z",
-      "keep": [],
-      "reason": "No qualifying development: the renewables headlines (2 and 3) are election-analysis pieces, and the others are about elections and 2028, not nuclear, coal, or renewables policy.",
-      "chart": ""
-    },
-    "f26fc22b63372ea25fe3": {
-      "at": "2026-11-07T20:48:56.639Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple outlets. Only #6 centers on Canada tariffs, and it is a single outlet's report of a Democratic plan, not a government action. #3 mentions the trade war only in passing.",
-      "chart": ""
-    },
     "36529ff88b45e258f065": {
       "at": "2026-11-08T00:25:04.032Z",
       "keep": [],
@@ -230,23 +162,87 @@
       "keep": [],
       "reason": "Both headlines preview Congress's return with a multi-item agenda (funding, debt limit, other issues), not one single current development, so no story qualifies.",
       "chart": ""
+    },
+    "51adc0866ca098b04c0d": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [],
+      "reason": "All headlines cover one 60 Minutes interview remark by Trump about the immigration crackdown's electoral impact. That is a political comment, not a government action or measurable development, and neither border encounters nor ICE removals data is central to it.",
+      "chart": ""
+    },
+    "5de3ddb2e4211feee12d": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [],
+      "reason": "No single current development: the headlines are speculative analysis and explainers about how Democrats might act on tariffs after the midterms, and the Ryan piece is about bipartisanship in general.",
+      "chart": ""
+    },
+    "e2a511fa1cf2832a81fc": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [],
+      "reason": "No single U.S. development is reported by several outlets: the Fed remark is one headline, and the China and Mexico inflation stories are foreign news without a U.S. angle.",
+      "chart": ""
+    },
+    "1fad2cadd05dca0caf39": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-09/bls-will-not-publish-12-month-cpi-core-cpi-figures-for-october"
+      ],
+      "reason": "Only headline 4 reports a concrete government development (BLS will not publish October 12-month CPI and core CPI); the others are forecasts, commentary, or unrelated.",
+      "chart": ""
+    },
+    "d77152f3339f4938fb06": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [
+        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
+        "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208"
+      ],
+      "reason": "BBC and NBC both report Trump saying his deportation crackdown was 'too tough' and hurt him in the midterms, a current national political development central to deportations; the Iranian flight story (two outlets) is a narrower attorney claim.",
+      "chart": ""
+    },
+    "f9107c74f34c79eade23": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4797873/major-bill-cut-red-tape-energy-projects-clears-senate-hurdle/",
+        "https://www.cnbc.com/2026/11/09/senate-infrastructure-bill-data-centers.html"
+      ],
+      "reason": "Four outlets report the same current development: the Senate advancing a bipartisan bill to speed energy and pipeline project permitting. The Guardian datacenter pipeline piece (1-2) covers a different story, and none of the four pick_chart datasets measures permitting legislation.",
+      "chart": ""
+    },
+    "69b885095e75e8be7333": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [
+        "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290",
+        "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290",
+        "https://nypost.com/2026/11/09/business/dow-surges-1000-points-after-last-weeks-historic-tech-rout-while-nvidia-slumps/"
+      ],
+      "reason": "All three report the same notable U.S. market move on Nov 9, 2026: stocks surging with Nvidia falling. No pick_chart item directly measures the stock market, so no chart is linked.",
+      "chart": ""
+    },
+    "88b650223960a06e56a6": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [
+        "https://www.cnbc.com/2026/11/09/trump-unemployment-work-search-rule.html",
+        "https://www.cbsnews.com/news/trump-work-search-rules-unemployment-benefits/"
+      ],
+      "reason": "CNBC and CBS both report the same government action: the Trump administration proposing stricter work-search rules for unemployment benefits. Headline 1 is a trend commentary, not a single development.",
+      "chart": ""
+    },
+    "2d28daf303e68cdf618e": {
+      "at": "2026-11-10T00:08:56.787Z",
+      "keep": [],
+      "reason": "Only two headlines cover U.S. gas prices: CBS's expert forecast of falling below $4 and the Washington Examiner's White House claim of a drop to $4. These are not clearly the same single development, so I left both out.",
+      "chart": ""
     }
   },
-  "dispatched": {
-    "indicators-freshness.yml": {
-      "release": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
-      "since": "2026-11-06T17:24:38.524Z",
-      "at": "2026-11-07T16:18:49.116Z",
-      "count": 5
-    }
-  },
+  "dispatched": {},
   "laws": {
     "119-pub-133": {
       "outlets": [
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-09"
+      "last": "2026-11-10"
     }
   }
 }
