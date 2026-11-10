@@ -1,6 +1,64 @@
 {
-  "asOf": "2026-11-09",
+  "asOf": "2026-11-10",
   "stories": [
+    {
+      "id": "gasoline-2026-11-10",
+      "date": "2026-11-10",
+      "topic": "Gas prices",
+      "chartId": "chart-gas",
+      "headlines": [
+        {
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Gas prices fall below $4 per gallon for the first time since July",
+          "url": "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Average cost of gas drops to less than $4 per gallon for first time since July",
+          "url": "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Gas prices drop below $4 a gallon for first time since July, after Trump signal no Iran strikes anytime soon",
+          "url": "https://nypost.com/2026/11/10/business/gas-prices-drop-below-4-a-gallon-for-first-time-since-july/"
+        }
+      ]
+    },
+    {
+      "id": "inflation-2026-11-10",
+      "date": "2026-11-10",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "bls",
+          "outlet": "Bureau of Labor Statistics",
+          "lean": "Data",
+          "title": "CPI for all items increases 0.4% in October; shelter rises",
+          "url": "https://www.bls.gov/news.release/archives/cpi_11102026.htm"
+        },
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "US inflation rose 0.4% in October as price increases cooled and gas costs dipped",
+          "url": "https://www.theguardian.com/business/2026/nov/10/october-inflation-report"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Prices posted sharp 0.4% increase in October, showing inflation threat",
+          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4797977/inflation-october-midterm-elections-affordability-democrats/"
+        }
+      ]
+    },
     {
       "id": "markets-2026-11-09",
       "date": "2026-11-09",
@@ -106,56 +164,6 @@
           "lean": "Right",
           "title": "US employers surprisingly add 165K jobs in strong October, unemployment dips",
           "url": "https://nypost.com/2026/11/06/business/us-employers-add-165k-jobs-in-strong-october-unemployment-dips/"
-        }
-      ]
-    },
-    {
-      "id": "markets-2026-11-04",
-      "date": "2026-11-05",
-      "topic": "Stock market",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Voters say the economy drove them to the polls — and blame Trump for their troubles",
-          "url": "https://www.cnbc.com/2026/11/04/2026-midterms-trump-economy-iran-war.html"
-        },
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Trump on stock market losses: 'You only have yourselves to blame'",
-          "url": "https://thehill.com/homenews/administration/6203425-donald-trump-stock-market-losses-2026-midterms-economy/"
-        },
-        {
-          "outletId": "foxbusiness",
-          "outlet": "Fox Business",
-          "lean": "Lean Right",
-          "title": "Stocks plunge as Dem midterm sweep fuels AI regulatory concerns",
-          "url": "https://www.foxbusiness.com/markets/stocks-nov-5-2026"
-        }
-      ]
-    },
-    {
-      "id": "debt-2026-11-04",
-      "date": "2026-11-04",
-      "topic": "National debt",
-      "chartId": "chart-debt",
-      "headlines": [
-        {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "Trump's loss limits powers at home, but it will likely be different abroad",
-          "url": "https://www.bbc.co.uk/news/articles/crkg7wj8g201o?at_medium=RSS&at_campaign=rss"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Debt Limit, Tariffs Top List of Likely Deals in Trump’s New Era",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-04/debt-limit-tariffs-top-list-of-likely-deals-in-trump-s-new-era"
         }
       ]
     }

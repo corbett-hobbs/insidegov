@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-09",
+  "asOf": "2026-11-10",
   "stories": [
     {
       "id": "removals-2026-11-08",
@@ -93,25 +93,18 @@
       "chartId": "chart-removals",
       "headlines": [
         {
-          "outletId": "huffpost",
-          "outlet": "HuffPost",
-          "lean": "Left",
-          "title": "US Supreme Court Denies Immigration Judges The Power To Shelve Deportation Cases",
-          "url": "https://www.huffpost.com/entry/us-supreme-court-denies-immigration-judges-the-power-to-shelve-deportation-cases_n_6ae0d41ee4b059999c6307d2"
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Trump's unusual legal gambit against Biden-era deportation rule pays off at Supreme Court",
+          "url": "https://www.foxnews.com/politics/trumps-unusual-legal-gambit-against-biden-era-deportation-rule-pays-off-supreme-court"
         },
         {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Supreme Court Allows Texas’ Deal With Justice Dept. on Deportation Proceedings",
-          "url": "https://www.nytimes.com/2026/10/27/us/politics/supreme-court-texas-immigration.html"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Supreme Court declines to halt DOJ deal ending Biden-era immigration rule",
-          "url": "https://www.washingtonexaminer.com/news/supreme-court/4781315/supreme-court-declines-halt-doj-deal-ending-biden-immigration-rule/"
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Supreme Court blocks Biden-era regulation that allowed judges to pause deportations in win for Trump admin",
+          "url": "https://nypost.com/2026/10/27/us-news/supreme-court-sides-with-trump-order-to-block-biden-era-regulation-that-allowed-judges-to-pause-deportations/"
         }
       ]
     }
