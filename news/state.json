@@ -1,35 +1,5 @@
 {
   "checks": {
-    "36529ff88b45e258f065": {
-      "at": "2026-11-08T00:25:04.032Z",
-      "keep": [],
-      "reason": "The main story is Trump naming Stephen Miller chief of staff, a personnel change where immigration enforcement is at most background; the armed-migrant arrest story is a Secret Service threat case, not enforcement data, and no chart measures either.",
-      "chart": ""
-    },
-    "0a50b21a1f6f4fe7b82b": {
-      "at": "2026-11-08T00:25:04.032Z",
-      "keep": [],
-      "reason": "No single U.S. inflation development is reported by multiple outlets; the headlines cover different speeches (Fed, ECB), a political story, and one outlook piece.",
-      "chart": ""
-    },
-    "674da5e42fc02f5c72c9": {
-      "at": "2026-11-08T00:25:04.032Z",
-      "keep": [],
-      "reason": "Headlines are about midterm election results; the only energy-related one (2) is analysis of what the election means for renewables, and none report a nuclear, coal, or renewables policy action or none of the pick_chart charts measure the election story.",
-      "chart": ""
-    },
-    "c45d7521e7ebb7789cc5": {
-      "at": "2026-11-08T07:11:04.202Z",
-      "keep": [],
-      "reason": "No single U.S. development is reported by multiple outlets: the Fed remark is one speech, the ECB items are foreign, and the Bloomberg item is a forecast.",
-      "chart": ""
-    },
-    "0dc55fac2937d74ae532": {
-      "at": "2026-11-08T07:11:04.202Z",
-      "keep": [],
-      "reason": "The most-covered development is Stephen Miller's appointment as White House chief of staff, where immigration enforcement is background, not the central topic; the Wisconsin trooper ICE detention is a single incident, and no headline concerns border encounters or ICE removals.",
-      "chart": ""
-    },
     "9df10da2466f294c06c3": {
       "at": "2026-11-08T15:00:07.848Z",
       "keep": [],
@@ -232,6 +202,63 @@
       "at": "2026-11-10T00:08:56.787Z",
       "keep": [],
       "reason": "Only two headlines cover U.S. gas prices: CBS's expert forecast of falling below $4 and the Washington Examiner's White House claim of a drop to $4. These are not clearly the same single development, so I left both out.",
+      "chart": ""
+    },
+    "b67670a03ed0cd0a203c": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [
+        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
+        "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208"
+      ],
+      "reason": "BBC and NBC both report Trump saying deportation crackdown was 'too tough' and hurt him in the midterms, a current presidential statement central to deportations; the Iranian flight story (2 outlets) is tied in count but rests on an attorney's claim, so it is excluded.",
+      "chart": ""
+    },
+    "5dc22520c81447c18a01": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [],
+      "reason": "Only one headline covers the October jobs report, and it is an analysis piece; the Qantas headline is foreign corporate news unrelated to U.S. payrolls.",
+      "chart": ""
+    },
+    "40689e1db75eb8c62ee0": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4797873/major-bill-cut-red-tape-energy-projects-clears-senate-hurdle/",
+        "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/",
+        "https://www.cnbc.com/2026/11/09/senate-infrastructure-bill-data-centers.html",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-advances-bill-energy-projects",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
+      ],
+      "reason": "Most outlets report the same development: the Senate advancing a bipartisan permitting reform bill that speeds energy and pipeline project approvals; no chart measures permitting.",
+      "chart": ""
+    },
+    "8883af87ca07970481c8": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [],
+      "reason": "The headlines cover unrelated developments: a Fed official's remarks, China's wholesale inflation, and Mexico's inflation. Only one is U.S.-focused, so no single U.S. development is shared by multiple outlets.",
+      "chart": ""
+    },
+    "50803c021efba8984d56": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-09/bls-will-not-publish-12-month-cpi-core-cpi-figures-for-october"
+      ],
+      "reason": "Only the BLS announcement that it will not publish October 12-month CPI figures is a current official development; the other headlines are previews, forecasts, or unrelated remarks.",
+      "chart": ""
+    },
+    "e2fe2701696fac3caf1b": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [
+        "https://www.cnbc.com/2026/11/09/trump-unemployment-work-search-rule.html",
+        "https://www.cbsnews.com/news/trump-work-search-rules-unemployment-benefits/"
+      ],
+      "reason": "CNBC and CBS both report the same federal proposal to tighten work-search rules for unemployment benefits; Axios is generic commentary and the French story is foreign.",
+      "chart": ""
+    },
+    "58756cc9e79634a0795f": {
+      "at": "2026-11-10T08:17:23.209Z",
+      "keep": [],
+      "reason": "Only one outlet (BBC) covers Trump's remarks on the crackdown, duplicated; the NY Post items are separate individual arrests, not a shared national development.",
       "chart": ""
     }
   },
