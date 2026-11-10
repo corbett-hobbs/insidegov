@@ -1,27 +1,5 @@
 {
   "checks": {
-    "9df10da2466f294c06c3": {
-      "at": "2026-11-08T15:00:07.848Z",
-      "keep": [],
-      "reason": "The tariff headlines (2, 4, 5) are analysis about whether Democrats could end Trump's tariffs, not a current government action, ruling, or official figure, and the rest are about midterm politics with tariffs incidental.",
-      "chart": ""
-    },
-    "6f6b401f12151a3c5160": {
-      "at": "2026-11-08T15:00:07.848Z",
-      "keep": [],
-      "reason": "Only two headlines about different items: a Fed official's remarks and a forecast of future inflation, not the same current development reported by multiple outlets.",
-      "chart": ""
-    },
-    "e269b01dc836e4be7ac1": {
-      "at": "2026-11-08T15:00:07.848Z",
-      "keep": [
-        "https://www.theguardian.com/us-news/2026/nov/07/wisconsin-state-trooper-ice-released",
-        "https://thehill.com/homenews/state-watch/6206341-wisconsin-trooper-ice-arrest/",
-        "https://thehill.com/homenews/state-watch/6206341-wisconsin-trooper-ice-arrest/"
-      ],
-      "reason": "Two national outlets (The Guardian, The Hill) report the same single enforcement event: a Wisconsin state trooper detained by ICE was released; the NYT piece is analysis and the other headlines cover different developments.",
-      "chart": ""
-    },
     "b94f35a75e4f9521b2cb": {
       "at": "2026-11-08T19:30:09.018Z",
       "keep": [],
@@ -260,9 +238,101 @@
       "keep": [],
       "reason": "Only one outlet (BBC) covers Trump's remarks on the crackdown, duplicated; the NY Post items are separate individual arrests, not a shared national development.",
       "chart": ""
+    },
+    "37ba728b121670f51ed5": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [
+        "https://www.foxnews.com/politics/trump-says-deportation-push-hasnt-put-same-pressure-farm-workers-hotel-staff-not-even-close",
+        "https://nypost.com/2026/11/10/us-news/trump-says-deportation-push-hasnt-put-same-pressure-on-farm-workers-hotel-staff-not-even-close/"
+      ],
+      "reason": "Fox News and New York Post both report the same Trump remark that the deportation push hasn't put \"same pressure\" on farmworkers and hotel staff; the other headlines cover different developments.",
+      "chart": ""
+    },
+    "2d1b02dd26bceb606408": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [],
+      "reason": "Headline 1 concerns the Bank of England (foreign, no U.S. policy angle), and headline 2 describes inflation pressure rather than a concrete Fed action, announcement, or ruling, and no two headlines report the same development.",
+      "chart": ""
+    },
+    "fd68aca3b8c8cc5f3a13": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-10/us-core-cpi-rises-more-than-forecast-0-3-supporting-rate-hike",
+        "https://www.nbcnews.com/business/economy/inflation-october-gas-prices-election-rcna608515",
+        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4797977/inflation-october-midterm-elections-affordability-democrats/",
+        "https://thehill.com/business/6208608-october-inflation-bls-data-cpi/",
+        "https://nypost.com/2026/11/10/business/inflation-hotter-than-expected-in-october-adding-to-feds-case-for-rate-hike/",
+        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
+        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
+        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/",
+        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html"
+      ],
+      "reason": "These headlines all report the October 2026 U.S. CPI release on November 10, the single current development the chart measures; previews, live blogs, explainers, and the Treasury-yield story are excluded.",
+      "chart": ""
+    },
+    "4d25524b38efe757276a": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets"
+      ],
+      "reason": "Oil prices fell after Trump said the Iran war was effectively over; WSJ and Guardian both report this market move. Explainers, Iran-only headlines, and the heating oil rule are excluded.",
+      "chart": ""
+    },
+    "d5f3d006d8588e04f5d8": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [],
+      "reason": "No qualifying shared story: the merger headline is company news, and the Texas price-freeze plan is a state-level pricing issue, not about generation by source.",
+      "chart": ""
+    },
+    "78ac9797cd16cf8e5b3a": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [],
+      "reason": "The Senate permitting-reform headlines cover a general infrastructure bill, and only one mentions gas pipelines, so drilling and pipelines is not central. The datacenter pipeline story is a single outlet's analysis-style piece. No pick_chart measures permitting legislation, so no chart link.",
+      "chart": ""
+    },
+    "b3f620004cb32552fd74": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/white-house/4797438/white-house-gas-prices-drop-after-midterms/",
+        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
+        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
+        "https://www.cnbc.com/2026/11/10/us-gas-prices-below-four-dollars.html",
+        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/"
+      ],
+      "reason": "Five headlines report the same development: the national average U.S. gas price falling below $4 for the first time since July; the CBS \"on track\" forecast and the Iran-war oil story are excluded as different developments.",
+      "chart": ""
+    },
+    "b59eea5966b0105673a5": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [
+        "https://www.bbc.co.uk/news/articles/crpdgd723x2zo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/crpdgd723x2zo?at_medium=RSS&at_campaign=rss",
+        "https://nypost.com/2026/11/10/business/anthropic-targets-1-4t-market-value-in-blockbuster-ipo/",
+        "https://thehill.com/policy/technology/6210488-anthropic-seeking-trillion-ipo/",
+        "https://www.wsj.com/finance/stocks/anthropic-ipo-valuation-8337b669?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Five outlets reported Anthropic's planned U.S. stock market IPO and its valuation, the most widely covered development here; the Nvidia headlines cover a different story.",
+      "chart": ""
+    },
+    "cf2d718e6ea2fc87615a": {
+      "at": "2026-11-10T16:58:31.065Z",
+      "keep": [],
+      "reason": "Only CBS reports a specific government action (proposed stricter work search rules); Axios's generic \"low unemployment, job worries persist\" piece is not the same development, so no story qualifies.",
+      "chart": ""
     }
   },
-  "dispatched": {},
+  "dispatched": {
+    "indicators-freshness.yml": {
+      "release": "https://www.bls.gov/news.release/archives/cpi_11102026.htm",
+      "since": "2026-11-10T16:58:31.065Z",
+      "at": "2026-11-10T16:58:31.065Z",
+      "count": 1
+    }
+  },
   "laws": {
     "119-pub-133": {
       "outlets": [
