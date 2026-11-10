@@ -1,6 +1,27 @@
 {
-  "asOf": "2026-11-05",
+  "asOf": "2026-11-09",
   "stories": [
+    {
+      "id": "power_sources-2026-11-09",
+      "date": "2026-11-09",
+      "topic": "Nuclear, coal and renewables",
+      "headlines": [
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Trump says he 'will not approve wind turbines' despite support for permitting reform bill",
+          "url": "https://thehill.com/policy/energy-environment/6209267-trump-wind-turbines-permitting-reform-bill/"
+        },
+        {
+          "outletId": "newsweek",
+          "outlet": "Newsweek",
+          "lean": "Center",
+          "title": "Trump Backs Energy Bill ‘100%’ Before Balking at Wind Turbines",
+          "url": "https://www.newsweek.com/trump-wind-turbines-bipartisan-energy-permitting-bill-12691384"
+        }
+      ]
+    },
     {
       "id": "electricity-2026-11-05",
       "date": "2026-11-05",
