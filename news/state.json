@@ -1,39 +1,5 @@
 {
   "checks": {
-    "d39e29bd2c4abd61f17f": {
-      "at": "2026-11-09T06:02:11.247Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-09/trump-says-tough-deporation-policy-likely-hurt-gop-in-midterms",
-        "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/",
-        "https://thehill.com/homenews/6207170-trump-immigration-policy-midterm-losses/",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208",
-        "https://www.nytimes.com/2026/11/08/us/politics/trump-immigration-crackdown-republicans-midterms.html",
-        "https://www.theguardian.com/us-news/2026/nov/09/trump-tells-60-minutes-deportation-policy-too-tough-ice-immigration"
-      ],
-      "reason": "All seven headlines report the same development: Trump saying his immigration crackdown and deportation policy were \"too tough\" and hurt Republicans in the midterms.",
-      "chart": ""
-    },
-    "7886daa8fb01e98d34d0": {
-      "at": "2026-11-09T06:02:11.247Z",
-      "keep": [],
-      "reason": "No shared U.S. development: the Williams item is a speech remark, the Bloomberg item is an outlook rather than a new official figure, and the CNBC item is about China.",
-      "chart": ""
-    },
-    "95bbb074777efb7082d9": {
-      "at": "2026-11-09T06:02:11.247Z",
-      "keep": [
-        "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/",
-        "https://thehill.com/homenews/6207170-trump-immigration-policy-midterm-losses/",
-        "https://thehill.com/homenews/6207170-trump-immigration-policy-midterm-losses/",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.nytimes.com/2026/11/08/us/politics/trump-immigration-crackdown-republicans-midterms.html",
-        "https://www.nytimes.com/2026/11/08/us/politics/trump-immigration-crackdown-republicans-midterms.html"
-      ],
-      "reason": "Most outlets (NY Post, The Hill, BBC, NYT) reported Trump's statement that his immigration crackdown was 'too tough' and may have hurt Republicans in the midterms; the other headlines cover different developments.",
-      "chart": ""
-    },
     "7a7713d9fa86a98839d5": {
       "at": "2026-11-09T16:00:06.233Z",
       "keep": [
@@ -470,6 +436,81 @@
       "at": "2026-11-11T02:41:57.118Z",
       "keep": [],
       "reason": "Headlines all concern the Jensen Huang affair/Nvidia scandal, not trade deals, talks, or trade restrictions; no chart topic match.",
+      "chart": ""
+    },
+    "371cf61eafb63197ebec": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [],
+      "reason": "Headlines 2, 3, and 4 cover record credit card debt, which is not a Federal Reserve rate decision, and the Hill's framing turns on a Democratic push to cap rates; headline 1 is commentary on inflation pressure, not a specific development.",
+      "chart": ""
+    },
+    "9c97a6c28eba5fe4375a": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
+        "https://thehill.com/business/6208608-october-inflation-bls-data-cpi/",
+        "https://nypost.com/2026/11/10/business/inflation-hotter-than-expected-in-october-adding-to-feds-case-for-rate-hike/",
+        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
+        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
+        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/",
+        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html"
+      ],
+      "reason": "These headlines all report the October 2026 U.S. CPI release from BLS (published Nov 10), the same current development the monthly CPI chart tracks.",
+      "chart": ""
+    },
+    "d6d96425312c0179232c": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Guardian and WSJ both report the same development: oil prices falling after Trump signals the Iran war is over or that he is restraining action. The NYT \"why prices tumbled\" piece is explainer-style, and the WSJ rebound story is a different development, so both are left out.",
+      "chart": ""
+    },
+    "c278a8a8eb623c14c37c": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a corporate merger (NYT) and a bill increase that appears to be UK news (BBC), so no single shared U.S. development qualifies.",
+      "chart": ""
+    },
+    "caf34fb163bf43a56775": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets: the Trump wind-turbine remark and the Senate permitting bill are each from The Hill only, and the Guardian UK offshore wind item is foreign news. No pick_chart item directly measures a permitting or wind-approval policy story, so no chart is linked.",
+      "chart": ""
+    },
+    "245fc3d8eabfe8d8d422": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [
+        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
+        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
+        "https://www.cnbc.com/2026/11/10/us-gas-prices-below-four-dollars.html",
+        "https://nypost.com/2026/11/10/business/gas-prices-drop-below-4-a-gallon-for-first-time-since-july/",
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4798638/gas-price-drop-below-4-first-july-inflation-but-still-up-30-percent-from-pre-war-levels/",
+        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
+        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
+      ],
+      "reason": "Seven outlets report the same new official-average development: U.S. gas prices fell below $4 a gallon for the first time since July.",
+      "chart": ""
+    },
+    "8ace38e81ca38ec639e5": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple headlines: Axios is a general trend piece, CBS covers a proposed work-search rule change reported by only one outlet, and Bloomberg is about South Korea.",
+      "chart": ""
+    },
+    "f5669c2a9a04967ca36d": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [],
+      "reason": "Headlines cover two different developments (an Nvidia share move and an AI company's IPO), each from only one outlet with duplicate entries, so no single development is reported by multiple outlets; no listed chart measures stock prices.",
+      "chart": ""
+    },
+    "bb7b3145bb6766c0e06a": {
+      "at": "2026-11-11T10:42:15.795Z",
+      "keep": [],
+      "reason": "All headlines cover Jensen Huang's personal affair and Nvidia's internal probe, not a trade deal, talks, or trade restriction; none links to the trade balance or tariff charts.",
       "chart": ""
     }
   },
