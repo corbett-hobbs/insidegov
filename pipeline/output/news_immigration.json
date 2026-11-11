@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-10",
+  "asOf": "2026-11-11",
   "stories": [
     {
       "id": "removals-2026-11-08",
@@ -76,28 +76,6 @@
           "lean": "Right",
           "title": "Mamdani threatens to sue Trump admin over ICE's use of city-owned lots for immigration enforcement",
           "url": "https://www.foxnews.com/politics/mamdani-threatens-sue-trump-admin-ices-use-city-owned-lots-immigration-enforcement"
-        }
-      ]
-    },
-    {
-      "id": "removals-2026-10-27",
-      "date": "2026-10-27",
-      "topic": "Deportations",
-      "chartId": "chart-removals",
-      "headlines": [
-        {
-          "outletId": "foxnews",
-          "outlet": "Fox News",
-          "lean": "Right",
-          "title": "Trump's unusual legal gambit against Biden-era deportation rule pays off at Supreme Court",
-          "url": "https://www.foxnews.com/politics/trumps-unusual-legal-gambit-against-biden-era-deportation-rule-pays-off-supreme-court"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Supreme Court blocks Biden-era regulation that allowed judges to pause deportations in win for Trump admin",
-          "url": "https://nypost.com/2026/10/27/us-news/supreme-court-sides-with-trump-order-to-block-biden-era-regulation-that-allowed-judges-to-pause-deportations/"
         }
       ]
     }
