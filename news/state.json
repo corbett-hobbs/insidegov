@@ -1,52 +1,5 @@
 {
   "checks": {
-    "7a7713d9fa86a98839d5": {
-      "at": "2026-11-09T16:00:06.233Z",
-      "keep": [
-        "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208",
-        "https://www.theguardian.com/us-news/2026/nov/09/trump-tells-60-minutes-deportation-policy-too-tough-ice-immigration",
-        "https://www.washingtonexaminer.com/news/white-house/4796970/trump-says-deportation-policy-too-tough-push-bipartisan-deal/"
-      ],
-      "reason": "Five outlets report Trump saying his deportation/immigration crackdown was \"too tough\"; the other headlines cover different developments (Miller appointment, a scuttled Iranian deportation flight).",
-      "chart": ""
-    },
-    "8a5547381537ecc0e3f3": {
-      "at": "2026-11-09T16:00:06.233Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/brent-crude-climbs-above-100-as-middle-east-oil-supply-risks-persist-caaf64bb?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/brent-crude-climbs-above-100-as-middle-east-oil-supply-risks-persist-caaf64bb?mod=pls_whats_news_us_business_f",
-        "https://www.nytimes.com/2026/11/09/business/energy-environment/oil-price-iran-trump-war.html",
-        "https://www.nytimes.com/2026/11/09/business/energy-environment/oil-price-iran-trump-war.html"
-      ],
-      "reason": "All four headlines report the same oil futures/price slide on hopes for U.S.-Iran or Middle East diplomacy, a notable market move; no pick_chart entry measures oil prices, and supply, SPR, and LNG charts only touch the topic.",
-      "chart": ""
-    },
-    "82846fd1e0b2f40b4980": {
-      "at": "2026-11-09T16:00:06.233Z",
-      "keep": [
-        "https://nypost.com/2026/11/08/us-news/trump-backs-away-from-hardline-immigration-policy-after-midterms-blowout-i-think-it-was-too-tough/",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.nytimes.com/2026/11/08/us/politics/trump-60-minutes-republicans-election-immigration.html",
-        "https://www.nytimes.com/2026/11/08/us/politics/trump-60-minutes-republicans-election-immigration.html"
-      ],
-      "reason": "Four outlets report Trump's on-air statement that the immigration crackdown was \"too tough\" and may have hurt Republicans; the Raman headline covers a different story, and no pick_chart measures this political statement.",
-      "chart": ""
-    },
-    "5a6d924c493140d73185": {
-      "at": "2026-11-09T16:00:06.233Z",
-      "keep": [],
-      "reason": "No single U.S. development is reported by multiple outlets: the Fed remark is a speech, the Bloomberg U.S. item is a forecast, and the rest are foreign or local.",
-      "chart": ""
-    },
-    "3a7a818a1b86731b082c": {
-      "at": "2026-11-09T16:00:06.233Z",
-      "keep": [],
-      "reason": "Both headlines preview Congress's return with a multi-item agenda (funding, debt limit, other issues), not one single current development, so no story qualifies.",
-      "chart": ""
-    },
     "51adc0866ca098b04c0d": {
       "at": "2026-11-10T00:08:56.787Z",
       "keep": [],
@@ -512,6 +465,74 @@
       "keep": [],
       "reason": "All headlines cover Jensen Huang's personal affair and Nvidia's internal probe, not a trade deal, talks, or trade restriction; none links to the trade balance or tariff charts.",
       "chart": ""
+    },
+    "a0a7821715c0bd8a43c1": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [],
+      "reason": "Each outlet ran a different single-case story (an individual's lawsuit, habeas petitions trend, one ICE detainer, one detainee arrest), with no development reported by multiple outlets.",
+      "chart": ""
+    },
+    "e34d90b630d9fbbd8d1f": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a Michigan governor pressing the administration on tariffs and grocery reimbursements, and a White House vow to keep tariffs despite backlash. They do not report the same single development.",
+      "chart": ""
+    },
+    "451e302fc0d0e0abfee4": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
+        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
+        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
+        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html",
+        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/"
+      ],
+      "reason": "Most outlets reported the same development: the October 2026 U.S. CPI report, released Nov 10, showing consumer prices up 0.4% and hotter than expected.",
+      "chart": ""
+    },
+    "667566c188d8aede7893": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets"
+      ],
+      "reason": "Guardian reports a market move (oil prices falling after Trump's Iran war statement); the NYT piece is an explainer and the WSJ and Newsweek headlines cover other developments or are unrelated. No chart measures oil prices or OPEC output, so no chart link.",
+      "chart": ""
+    },
+    "4b9f92b3f5bbfb2e912f": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a Democratic lawmakers' push on Afghan protections, and a single arrest case; no one development is reported by multiple outlets.",
+      "chart": ""
+    },
+    "b7bda39c8ab1d4593fa7": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [
+        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
+        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
+        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
+        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
+      ],
+      "reason": "Four outlets report the same current development: the U.S. average gas price fell below $4 a gallon for the first time since July.",
+      "chart": ""
+    },
+    "489151341960c8f5840f": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [
+        "https://thehill.com/policy/energy-environment/6209267-trump-wind-turbines-permitting-reform-bill/",
+        "https://thehill.com/policy/energy-environment/6209267-trump-wind-turbines-permitting-reform-bill/"
+      ],
+      "reason": "Both are the same Hill headline on Trump saying he will not approve wind turbines, a government action on wind power that the electricity-by-source chart measures; the other headlines cover different developments (Senate advance and Progressive Caucus opposition to the permitting bill).",
+      "chart": "electricity"
+    },
+    "5049e3006c00e338b825": {
+      "at": "2026-11-11T18:36:16.336Z",
+      "keep": [
+        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/",
+        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/"
+      ],
+      "reason": "The Hill's Bessent story on calling for more balanced U.S.-China trade ahead of Trump-Xi talks is a current government statement on trade talks; the duplicate entries report the same item, and the Nvidia headlines and China surplus story are off-topic or not U.S. developments.",
+      "chart": "trade-balance"
     }
   },
   "dispatched": {
