@@ -1,23 +1,5 @@
 {
   "checks": {
-    "0e93f14a8df5bc794978": {
-      "at": "2026-11-08T23:38:09.148Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/07/us/politics/stephen-miller-midterm-elections.html",
-        "https://www.nytimes.com/2026/11/07/us/politics/stephen-miller-midterm-elections.html",
-        "https://www.cbsnews.com/news/ice-crackdown-stephen-miller-illegal-immigration/",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Three outlets (NYT, CBS, BBC) report the same development: the administration will keep up its immigration crackdown after the midterm defeat, citing Stephen Miller and White House statements.",
-      "chart": ""
-    },
-    "f9404f45c5580aad1fc6": {
-      "at": "2026-11-08T23:38:09.148Z",
-      "keep": [],
-      "reason": "No headline reports a qualifying U.S. development: the blue wave items are election coverage, one is analysis, the Ukrainian nuclear plant story is foreign, and the New York Post item is about a local election dispute.",
-      "chart": ""
-    },
     "d39e29bd2c4abd61f17f": {
       "at": "2026-11-09T06:02:11.247Z",
       "keep": [
@@ -398,6 +380,97 @@
       "keep": [],
       "reason": "All headlines cover the Nvidia CEO Jensen Huang affair and spy probe, not a U.S. trade agreement, talks, or restriction, so no single trade development qualifies.",
       "chart": ""
+    },
+    "8e7b6c470f7313390e86": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [
+        "https://www.foxnews.com/us/twice-deported-illegal-immigrant-accused-trying-storm-united-cockpit-threatening-bomb-dhs",
+        "https://nypost.com/2026/11/10/us-news/illegal-immigrant-idd-as-united-flier-accused-of-bomb-threat-hijack-attempt-was-previously-busted-by-ice-but-judge-let-him-go/"
+      ],
+      "reason": "Headlines 3 and 4 both report the same incident: a twice-deported immigrant accused of trying to breach a United cockpit, with DHS statements and the prior ICE removal central. Headline 1 is a different event and headline 2 is a legislative push, so both are left out.",
+      "chart": ""
+    },
+    "29c328fc329ef83e978e": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [],
+      "reason": "Headlines cover three different developments, each from a single outlet (NYT detainee-location policy, HuffPost individual lawsuit, Washington Examiner habeas case count), so no one development is reported by multiple outlets; none of the pick_chart charts directly measures these stories.",
+      "chart": ""
+    },
+    "6f099d8e9b0cfe4cc1af": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [],
+      "reason": "No qualifying shared development: the BOE item is foreign, the NYT item is pressure-analysis rather than a Fed action, and the credit card debt stories (NY Fed data) do not centrally involve the federal funds rate.",
+      "chart": ""
+    },
+    "b4a2f9776479d06a1d7d": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [],
+      "reason": "No two headlines report the same development: #4 (White House vows to continue tariffs) stands alone, #2 is an explainer on Democrats' plans, #3 is a governor's request, and #1 is unrelated.",
+      "chart": ""
+    },
+    "ece891455cece06a2f46": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-10/us-core-cpi-rises-more-than-forecast-0-3-supporting-rate-hike",
+        "https://www.nbcnews.com/business/economy/inflation-october-gas-prices-election-rcna608515",
+        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
+        "https://thehill.com/business/6208608-october-inflation-bls-data-cpi/",
+        "https://nypost.com/2026/11/10/business/inflation-hotter-than-expected-in-october-adding-to-feds-case-for-rate-hike/",
+        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
+        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
+        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html"
+      ],
+      "reason": "These outlets report the October 2026 U.S. CPI release (released Nov 10) with its new official inflation figures; previews, live blogs, explainers, Fed commentary, and market pieces are excluded.",
+      "chart": ""
+    },
+    "2b9b8f900a9537041fa3": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Guardian and WSJ both report the same development: oil prices falling after Trump's statements on the Iran war. The NYT piece is an explainer, so it is excluded. No pick_chart option measures oil prices, so chart is none.",
+      "chart": ""
+    },
+    "0a18fb3669db2e29bfa6": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [
+        "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/",
+        "https://www.cnbc.com/2026/11/09/senate-infrastructure-bill-data-centers.html",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
+        "https://thehill.com/homenews/6212389-senate-advances-infrastructure-energy-bill/"
+      ],
+      "reason": "Most outlets report the same Senate action advancing the bipartisan permitting reform bill, which covers gas pipeline approvals; the Guardian datacenter-pipeline headlines describe a different development and are left out.",
+      "chart": ""
+    },
+    "aa6e2e4420d10c9768da": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [
+        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
+        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
+        "https://www.cnbc.com/2026/11/10/us-gas-prices-below-four-dollars.html",
+        "https://nypost.com/2026/11/10/business/gas-prices-drop-below-4-a-gallon-for-first-time-since-july/",
+        "https://www.washingtonexaminer.com/policy/energy-and-environment/4798638/gas-price-drop-below-4-first-july-inflation-but-still-up-30-percent-from-pre-war-levels/",
+        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
+        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
+      ],
+      "reason": "Seven outlets report the same development: the average U.S. gas price fell below $4 a gallon for the first time since July, matching the weekly retail gasoline chart.",
+      "chart": ""
+    },
+    "5d8894de576cb0c35f26": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [],
+      "reason": "Headlines are a roundup of agenda items and an unrelated impeachment vote; no single shared debt development.",
+      "chart": ""
+    },
+    "19680705031edc6d3d1f": {
+      "at": "2026-11-11T02:41:57.118Z",
+      "keep": [],
+      "reason": "Headlines all concern the Jensen Huang affair/Nvidia scandal, not trade deals, talks, or trade restrictions; no chart topic match.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -414,7 +487,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-10"
+      "last": "2026-11-11"
     }
   }
 }
