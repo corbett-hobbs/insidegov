@@ -31,8 +31,8 @@
           "outletId": "guardian",
           "outlet": "The Guardian",
           "lean": "Left",
-          "title": "Senate advances bill to speed up permit reviews for infrastructure projects",
-          "url": "https://www.theguardian.com/us-news/2026/nov/09/senate-advances-bill-energy-projects"
+          "title": "Senate advances bill to speed up projects from gas pipelines to clean energy",
+          "url": "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
         },
         {
           "outletId": "cnbc",
@@ -135,18 +135,18 @@
           "url": "https://www.theguardian.com/us-news/2026/oct/27/trump-biden-era-methane-emissions-rules-oil-gas"
         },
         {
-          "outletId": "wsj",
-          "outlet": "Wall Street Journal",
-          "lean": "Center",
-          "title": "Trump Moves to Weaken Methane Emissions Rules for Oil and Gas",
-          "url": "https://www.wsj.com/politics/policy/trump-moves-to-weaken-methane-emissions-rules-for-oil-and-gas-71736afd?mod=pls_whats_news_us_business_f"
+          "outletId": "politico",
+          "outlet": "Politico",
+          "lean": "Lean Left",
+          "title": "Trump kills methane rule days after a plume was found near his rally",
+          "url": "https://www.politico.com/news/2026/10/28/methane-trump-climate-oil-gas-01137313"
         },
         {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
           "lean": "Lean Right",
-          "title": "Trump unveils plan to loosen methane rules for oil and gas industry",
-          "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4781110/trump-plan-loosen-methane-rules-oil-gas-industry/"
+          "title": "Trump announces end of Biden-era methane rule, citing $45B in savings",
+          "url": "https://www.foxbusiness.com/politics/trump-announces-end-biden-era-methane-rule-citing-45b-savings"
         }
       ]
     }
