@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-10",
+  "asOf": "2026-11-11",
   "stories": [
+    {
+      "id": "diesel-2026-11-11",
+      "date": "2026-11-11",
+      "topic": "Diesel prices",
+      "chartId": "chart-diesel",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Tanker Carrying Illegal Russian Diesel No Longer Headed For U.S. Coast, Foiling Trump’s Scheme",
+          "url": "https://www.huffpost.com/entry/trump-diesel-scheme-fail_n_6af497a6e4b0a8468d8c5803"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Trump’s Plan to Import Russian Diesel Stalls on the High Seas",
+          "url": "https://www.wsj.com/business/energy-oil/trumps-plan-to-import-russian-diesel-stalls-on-the-high-seas-a5b26b66?mod=pls_whats_news_us_business_f"
+        }
+      ]
+    },
     {
       "id": "gasoline-2026-11-10",
       "date": "2026-11-10",
@@ -135,35 +157,6 @@
           "lean": "Lean Right",
           "title": "Economy added 165,000 jobs in October, showing strength of expansion",
           "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4794797/economy-october-jobs-trump-labor-market/"
-        }
-      ]
-    },
-    {
-      "id": "unemployment-2026-11-06",
-      "date": "2026-11-06",
-      "topic": "Unemployment",
-      "chartId": "chart-un",
-      "headlines": [
-        {
-          "outletId": "bls",
-          "outlet": "Bureau of Labor Statistics",
-          "lean": "Data",
-          "title": "Payroll employment rises by 165,000 in October; unemployment rate changes little at 4.1%",
-          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Traders Trim Canada Rate-Hike Bets as Unemployment Rises to 6.7%",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-06/canada-jobless-rate-rises-to-6-7-amid-small-employment-decline"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "US employers surprisingly add 165K jobs in strong October, unemployment dips",
-          "url": "https://nypost.com/2026/11/06/business/us-employers-add-165k-jobs-in-strong-october-unemployment-dips/"
         }
       ]
     }
