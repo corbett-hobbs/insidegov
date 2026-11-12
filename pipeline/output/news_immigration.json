@@ -1,6 +1,63 @@
 {
-  "asOf": "2026-11-11",
+  "asOf": "2026-11-12",
   "stories": [
+    {
+      "id": "removals-2026-11-12",
+      "date": "2026-11-12",
+      "topic": "Deportations",
+      "chartId": "chart-removals",
+      "headlines": [
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "ICE deportations and arrests hit record high",
+          "url": "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/"
+        },
+        {
+          "outletId": "newsweek",
+          "outlet": "Newsweek",
+          "lean": "Center",
+          "title": "ICE Touts Record Arrest Numbers Days After Trump Called Policy 'Too Tough'",
+          "url": "https://www.newsweek.com/ice-touts-record-arrest-numbers-days-after-trump-called-policy-too-tough-12705370"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "ICE shatters illegal immigrant arrest and deportation records in 2026",
+          "url": "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/"
+        }
+      ]
+    },
+    {
+      "id": "asylum_status-2026-11-11",
+      "date": "2026-11-11",
+      "topic": "Asylum and legal status",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Trump Hints at Immigration Deal, Then Reverses. He’s Done That Before.",
+          "url": "https://www.nytimes.com/2026/11/11/us/politics/trump-immigration-election-democrats-republicans.html"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Trump’s new immigration proposal could go further than 2018 DACA deal",
+          "url": "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Trump opens door to immigration deal, but Republicans have one condition",
+          "url": "https://www.foxnews.com/politics/trump-opens-door-immigration-deal-republicans-have-one-condition"
+        }
+      ]
+    },
     {
       "id": "removals-2026-11-08",
       "date": "2026-11-08",
