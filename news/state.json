@@ -1,90 +1,5 @@
 {
   "checks": {
-    "37ba728b121670f51ed5": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [
-        "https://www.foxnews.com/politics/trump-says-deportation-push-hasnt-put-same-pressure-farm-workers-hotel-staff-not-even-close",
-        "https://nypost.com/2026/11/10/us-news/trump-says-deportation-push-hasnt-put-same-pressure-on-farm-workers-hotel-staff-not-even-close/"
-      ],
-      "reason": "Fox News and New York Post both report the same Trump remark that the deportation push hasn't put \"same pressure\" on farmworkers and hotel staff; the other headlines cover different developments.",
-      "chart": ""
-    },
-    "2d1b02dd26bceb606408": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [],
-      "reason": "Headline 1 concerns the Bank of England (foreign, no U.S. policy angle), and headline 2 describes inflation pressure rather than a concrete Fed action, announcement, or ruling, and no two headlines report the same development.",
-      "chart": ""
-    },
-    "fd68aca3b8c8cc5f3a13": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-10/us-core-cpi-rises-more-than-forecast-0-3-supporting-rate-hike",
-        "https://www.nbcnews.com/business/economy/inflation-october-gas-prices-election-rcna608515",
-        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4797977/inflation-october-midterm-elections-affordability-democrats/",
-        "https://thehill.com/business/6208608-october-inflation-bls-data-cpi/",
-        "https://nypost.com/2026/11/10/business/inflation-hotter-than-expected-in-october-adding-to-feds-case-for-rate-hike/",
-        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
-        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
-        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/",
-        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html"
-      ],
-      "reason": "These headlines all report the October 2026 U.S. CPI release on November 10, the single current development the chart measures; previews, live blogs, explainers, and the Treasury-yield story are excluded.",
-      "chart": ""
-    },
-    "4d25524b38efe757276a": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f",
-        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
-        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets"
-      ],
-      "reason": "Oil prices fell after Trump said the Iran war was effectively over; WSJ and Guardian both report this market move. Explainers, Iran-only headlines, and the heating oil rule are excluded.",
-      "chart": ""
-    },
-    "d5f3d006d8588e04f5d8": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [],
-      "reason": "No qualifying shared story: the merger headline is company news, and the Texas price-freeze plan is a state-level pricing issue, not about generation by source.",
-      "chart": ""
-    },
-    "78ac9797cd16cf8e5b3a": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [],
-      "reason": "The Senate permitting-reform headlines cover a general infrastructure bill, and only one mentions gas pipelines, so drilling and pipelines is not central. The datacenter pipeline story is a single outlet's analysis-style piece. No pick_chart measures permitting legislation, so no chart link.",
-      "chart": ""
-    },
-    "b3f620004cb32552fd74": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/white-house/4797438/white-house-gas-prices-drop-after-midterms/",
-        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
-        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
-        "https://www.cnbc.com/2026/11/10/us-gas-prices-below-four-dollars.html",
-        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/"
-      ],
-      "reason": "Five headlines report the same development: the national average U.S. gas price falling below $4 for the first time since July; the CBS \"on track\" forecast and the Iran-war oil story are excluded as different developments.",
-      "chart": ""
-    },
-    "b59eea5966b0105673a5": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [
-        "https://www.bbc.co.uk/news/articles/crpdgd723x2zo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/crpdgd723x2zo?at_medium=RSS&at_campaign=rss",
-        "https://nypost.com/2026/11/10/business/anthropic-targets-1-4t-market-value-in-blockbuster-ipo/",
-        "https://thehill.com/policy/technology/6210488-anthropic-seeking-trillion-ipo/",
-        "https://www.wsj.com/finance/stocks/anthropic-ipo-valuation-8337b669?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Five outlets reported Anthropic's planned U.S. stock market IPO and its valuation, the most widely covered development here; the Nvidia headlines cover a different story.",
-      "chart": ""
-    },
-    "cf2d718e6ea2fc87615a": {
-      "at": "2026-11-10T16:58:31.065Z",
-      "keep": [],
-      "reason": "Only CBS reports a specific government action (proposed stricter work search rules); Axios's generic \"low unemployment, job worries persist\" piece is not the same development, so no story qualifies.",
-      "chart": ""
-    },
     "801008dc9d2e8529fced": {
       "at": "2026-11-10T22:17:29.806Z",
       "keep": [],
@@ -533,13 +448,120 @@
       ],
       "reason": "Two identical Washington Examiner headlines report Trump's new immigration proposal; the NYT piece covers a hint-and-reversal, a different angle, and neither the encounters nor removals chart directly measures DACA or legal status.",
       "chart": ""
+    },
+    "b1c0b9097ed56072ce19": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [],
+      "reason": "Each headline covers a different development (a lawsuit, habeas petitions, a detainer, Democratic pushback, a Miller commentary piece, a detention of one person, and ICE arrest figures), and no single development is reported by multiple outlets, so none qualifies.",
+      "chart": ""
+    },
+    "be5e12d8c03934bd79d8": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [],
+      "reason": "The two headlines cover different things: one is analysis of inflation pressure on the Fed, and the other is a single outlet's report of a Fed policy change, so no development is shared across outlets.",
+      "chart": ""
+    },
+    "c2e27bac87c3ba889d7e": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [],
+      "reason": "The four headlines do not report one shared development: a White House vow, a Greer TV interview, a Democratic plan, and an unrelated legal story.",
+      "chart": ""
+    },
+    "7d9ac568a7dc33447897": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
+        "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html",
+        "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html"
+      ],
+      "reason": "Oil prices rose on Nov 12 after Trump said the U.S. does not need an Iran deal; these four headlines center on that oil market move, while the others focus on Trump and Vance politics. No pick_chart option measures oil prices, so no chart is linked.",
+      "chart": ""
+    },
+    "40f2ed90f730d7f930d1": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [],
+      "reason": "Both headlines report a home sales drop to a 16-year low; mortgage rates appear only as background, not as the development itself, so the weekly 30-year rate chart is not the central topic.",
+      "chart": ""
+    },
+    "dbb06e133affb0f7c3be": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [],
+      "reason": "Headlines 1-5 cover foreign inflation (Romania, Turkey, Peru, India, Brazil) with no U.S. angle; headline 6 is a general Fed outlook piece, not a single concrete U.S. development, so no story qualifies.",
+      "chart": ""
+    },
+    "0923b02fac60a9c2619a": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
+        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
+        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
+        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
+      ],
+      "reason": "Four outlets report the same development: the national average gas price dropped below $4 per gallon for the first time since July.",
+      "chart": ""
+    },
+    "707494f11328b5e8f1c3": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290",
+        "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290"
+      ],
+      "reason": "Both headlines report the same market move (stock market surging while Nvidia shares fall); the Claude IPO and Nvidia CEO departure stories are single-outlet company news, so they are left out.",
+      "chart": ""
+    },
+    "ac62183fdc751a34a6b1": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
+        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/"
+      ],
+      "reason": "CBS and Washington Examiner both report the same new official ICE figures showing record deportations and arrests, which the removals chart directly measures.",
+      "chart": ""
+    },
+    "d8a1c1b59f6824e5a615": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/",
+        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
+      ],
+      "reason": "Senate advancing the bipartisan permitting reform bill is the development most outlets covered; headlines 1-2 center on a Trump wind-turbine statement and 5-6 are a single outlet's nuclear bill story.",
+      "chart": ""
+    },
+    "333db69977dec469eac8": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [],
+      "reason": "Headlines 1 and 2 are duplicates from one outlet about a Treasury secretary's rhetoric ahead of talks, not a concrete government action or agreement, and headline 3 covers a different development (chip curbs); no chart directly measures the story.",
+      "chart": ""
+    },
+    "0007a9510b50b9afd35a": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-12/trump-threatens-to-double-tariffs-on-mexican-goods-over-migrants",
+        "https://www.foxnews.com/politics/trump-threatens-double-tariffs-mexico-migrant-caravans-not-stopped",
+        "https://nypost.com/2026/11/12/us-news/trump-threatens-to-double-mexico-tariffs-if-migrant-caravan-reaches-us/",
+        "https://www.washingtonexaminer.com/policy/immigration/4801179/trump-threatens-tariffs-mexico-migrant-caravan/"
+      ],
+      "reason": "Four outlets report the same development: Trump's announced threat to double tariffs on Mexico over migrant caravans, which centrally involves tariffs. Headline 5 covers the caravans without mentioning tariffs, so it is left out.",
+      "chart": ""
+    },
+    "c1e1271f7f708995924a": {
+      "at": "2026-11-12T18:08:59.082Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
+        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
+        "https://www.nytimes.com/2026/11/11/us/politics/trump-immigration-election-democrats-republicans.html",
+        "https://www.foxnews.com/politics/trump-opens-door-immigration-deal-republicans-have-one-condition"
+      ],
+      "reason": "Headlines 1, 2, 3 and 5 all report Trump's new immigration deal proposal (DACA-style legal status) with Democrats; 4 is analysis of the odds and is left out.",
+      "chart": ""
     }
   },
   "dispatched": {
-    "indicators-freshness.yml": {
-      "release": "https://www.bls.gov/news.release/archives/cpi_11102026.htm",
-      "since": "2026-11-10T16:58:31.065Z",
-      "at": "2026-11-10T16:58:31.065Z",
+    "energy-freshness.yml": {
+      "release": "https://www.eia.gov/todayinenergy/detail.php?id=68444",
+      "since": "2026-11-12T18:08:59.082Z",
+      "at": "2026-11-12T18:08:59.082Z",
       "count": 1
     }
   },
