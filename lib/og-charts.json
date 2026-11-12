@@ -114,6 +114,34 @@
       {
         "id": "executive-orders-signed-per-year-by-topic",
         "title": "Executive orders signed per year, by topic"
+      },
+      {
+        "id": "clemency-grants-per-fiscal-year",
+        "title": "Clemency grants per fiscal year"
+      },
+      {
+        "id": "grants-by-president",
+        "title": "Grants by president"
+      },
+      {
+        "id": "what-happened-to-petitions",
+        "title": "What happened to petitions"
+      },
+      {
+        "id": "what-the-offenses-were",
+        "title": "What the offenses were"
+      },
+      {
+        "id": "when-in-the-term",
+        "title": "When in the term"
+      },
+      {
+        "id": "years-from-sentence-to-pardon",
+        "title": "Years from sentence to pardon"
+      },
+      {
+        "id": "petitions-waiting",
+        "title": "Petitions waiting"
       }
     ],
     "/presidency/foreign-aid": [
@@ -127,7 +155,7 @@
       },
       {
         "id": "who-s-been-no-1",
-        "title": "Who\u2019s been No. 1"
+        "title": "Who’s been No. 1"
       }
     ],
     "/presidency/immigration": [
@@ -149,7 +177,7 @@
       },
       {
         "id": "who-s-sent-the-most-refugees",
-        "title": "Who\u2019s sent the most refugees"
+        "title": "Who’s sent the most refugees"
       },
       {
         "id": "border-encounters-by-fiscal-year",
@@ -201,7 +229,7 @@
       },
       {
         "id": "who-s-hosted-the-most",
-        "title": "Who\u2019s hosted the most"
+        "title": "Who’s hosted the most"
       }
     ],
     "/supreme-court/decisions": [
