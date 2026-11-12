@@ -54,6 +54,7 @@
       "id": "power_sources-2026-11-09",
       "date": "2026-11-09",
       "topic": "Nuclear, coal and renewables",
+      "chartId": "electricity",
       "headlines": [
         {
           "outletId": "thehill",
