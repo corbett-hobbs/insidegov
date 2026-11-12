@@ -1,6 +1,35 @@
 {
-  "asOf": "2026-11-04",
+  "asOf": "2026-11-12",
   "stories": [
+    {
+      "id": "tariff.MEX-2026-11-12",
+      "date": "2026-11-12",
+      "topic": "Tariffs involving Mexico",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Trump Threatens to Double Tariffs on Mexico Over Migrants",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-12/trump-threatens-to-double-tariffs-on-mexican-goods-over-migrants"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Trump threatens to double tariffs on Mexico if it doesn’t stop latest migrant caravan",
+          "url": "https://www.washingtonexaminer.com/policy/immigration/4801179/trump-threatens-tariffs-mexico-migrant-caravan/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Trump threatens to double tariffs on Mexico if migrant caravans not stopped",
+          "url": "https://www.foxnews.com/politics/trump-threatens-double-tariffs-mexico-migrant-caravans-not-stopped"
+        }
+      ]
+    },
     {
       "id": "tariff.all-2026-11-04",
       "date": "2026-11-04",
@@ -20,28 +49,6 @@
           "lean": "Center",
           "title": "US midterm results a 'victory' for Canadians hopeful of tariff relief",
           "url": "https://www.bbc.co.uk/news/articles/cqev3mw3e0kdo?at_medium=RSS&at_campaign=rss"
-        }
-      ]
-    },
-    {
-      "id": "tariff.CAN-2026-11-01",
-      "date": "2026-11-01",
-      "topic": "Tariffs involving Canada",
-      "chartId": "tariffs",
-      "headlines": [
-        {
-          "outletId": "pbsnewshour",
-          "outlet": "PBS NewsHour",
-          "lean": "Lean Left",
-          "title": "Canada's Carney reports progress in trade talks with U.S. and Trump talks up 'concept' of a deal",
-          "url": "https://www.pbs.org/newshour/world/canadian-prime-minister-carney-reports-progress-in-trade-talks-with-trump-days-before-u-s-midterms"
-        },
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Trump says aides have 'concept' of Canada trade deal",
-          "url": "https://thehill.com/homenews/administration/6188730-trump-canada-trade-deal-concept/"
         }
       ]
     }
