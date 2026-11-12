@@ -1,62 +1,5 @@
 {
   "checks": {
-    "b67670a03ed0cd0a203c": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [
-        "https://www.bbc.co.uk/news/articles/cmg476w7wnl2o?at_medium=RSS&at_campaign=rss",
-        "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208"
-      ],
-      "reason": "BBC and NBC both report Trump saying deportation crackdown was 'too tough' and hurt him in the midterms, a current presidential statement central to deportations; the Iranian flight story (2 outlets) is tied in count but rests on an attorney's claim, so it is excluded.",
-      "chart": ""
-    },
-    "5dc22520c81447c18a01": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [],
-      "reason": "Only one headline covers the October jobs report, and it is an analysis piece; the Qantas headline is foreign corporate news unrelated to U.S. payrolls.",
-      "chart": ""
-    },
-    "40689e1db75eb8c62ee0": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4797873/major-bill-cut-red-tape-energy-projects-clears-senate-hurdle/",
-        "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/",
-        "https://www.cnbc.com/2026/11/09/senate-infrastructure-bill-data-centers.html",
-        "https://www.theguardian.com/us-news/2026/nov/09/senate-advances-bill-energy-projects",
-        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote",
-        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
-      ],
-      "reason": "Most outlets report the same development: the Senate advancing a bipartisan permitting reform bill that speeds energy and pipeline project approvals; no chart measures permitting.",
-      "chart": ""
-    },
-    "8883af87ca07970481c8": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [],
-      "reason": "The headlines cover unrelated developments: a Fed official's remarks, China's wholesale inflation, and Mexico's inflation. Only one is U.S.-focused, so no single U.S. development is shared by multiple outlets.",
-      "chart": ""
-    },
-    "50803c021efba8984d56": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-09/bls-will-not-publish-12-month-cpi-core-cpi-figures-for-october"
-      ],
-      "reason": "Only the BLS announcement that it will not publish October 12-month CPI figures is a current official development; the other headlines are previews, forecasts, or unrelated remarks.",
-      "chart": ""
-    },
-    "e2fe2701696fac3caf1b": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [
-        "https://www.cnbc.com/2026/11/09/trump-unemployment-work-search-rule.html",
-        "https://www.cbsnews.com/news/trump-work-search-rules-unemployment-benefits/"
-      ],
-      "reason": "CNBC and CBS both report the same federal proposal to tighten work-search rules for unemployment benefits; Axios is generic commentary and the French story is foreign.",
-      "chart": ""
-    },
-    "58756cc9e79634a0795f": {
-      "at": "2026-11-10T08:17:23.209Z",
-      "keep": [],
-      "reason": "Only one outlet (BBC) covers Trump's remarks on the crackdown, duplicated; the NY Post items are separate individual arrests, not a shared national development.",
-      "chart": ""
-    },
     "37ba728b121670f51ed5": {
       "at": "2026-11-10T16:58:31.065Z",
       "keep": [
@@ -541,6 +484,54 @@
         "https://www.nytimes.com/2026/11/11/us/politics/trump-immigration-election-democrats-republicans.html"
       ],
       "reason": "Washington Examiner and NYT headlines cover the same Trump immigration deal/DACA-related proposal; the hijacking-asylum story is a single outlet's individual case, and the AI-booking story is off topic.",
+      "chart": ""
+    },
+    "6278c768ae71c1ffcbc4": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [],
+      "reason": "Each headline is a different development from a single outlet (a lawsuit, habeas case count, one detainer, a Democratic political push), so no one development is reported by multiple outlets; none fits either pick_chart measure.",
+      "chart": ""
+    },
+    "324647e6184549ea0702": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [],
+      "reason": "No headline reports a single shared U.S. Fed development: the NYT item is commentary on inflation pressure, the credit card headlines are about consumer debt, and the Bloomberg item is about China.",
+      "chart": ""
+    },
+    "4e3f1483f36add56f465": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [],
+      "reason": "No headline reports a single U.S. inflation development: Romania and Turkey are foreign news, and the CNBC piece is a preview of Treasury yields with no clear inflation development.",
+      "chart": ""
+    },
+    "6d201db778d311536065": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [],
+      "reason": "No single development is reported by most outlets: the oil price moves (Iran war 'over', rebound, U.S.-Iran diplomacy) are separate, one is an explainer, and the heating-cost stories are about consumer heating costs rather than the oil markets topic. None of the pick_chart options directly measures oil prices or OPEC.",
+      "chart": ""
+    },
+    "9ceeebcfae1627f7f66f": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [],
+      "reason": "No development is reported by multiple outlets: headline 1 is a single NBC item about a Democratic proposal, and headlines 2 and 3 are both Fox News but cover different developments (a cockpit arrest and a later asylum grant).",
+      "chart": ""
+    },
+    "8006e111034fac9516c1": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [
+        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/",
+        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/"
+      ],
+      "reason": "Two identical The Hill headlines report Treasury Secretary Bessent's call for more balanced US-China trade ahead of Trump-Xi talks; the other headlines cover different developments or are foreign or non-policy stories.",
+      "chart": ""
+    },
+    "db2304809a39fd39ee47": {
+      "at": "2026-11-12T09:41:50.378Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
+        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/"
+      ],
+      "reason": "Two identical Washington Examiner headlines report Trump's new immigration proposal; the NYT piece covers a hint-and-reversal, a different angle, and neither the encounters nor removals chart directly measures DACA or legal status.",
       "chart": ""
     }
   },
