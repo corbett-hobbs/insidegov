@@ -3,8 +3,8 @@
   "counts": {
     "GASREGW": 1885,
     "GASDESW": 1704,
-    "MORTGAGE30US": 2902,
-    "FF": 3775,
+    "MORTGAGE30US": 2903,
+    "FF": 3776,
     "WGS10YR": 3384,
     "PAYEMS": 1054,
     "UNRATE": 945,
@@ -24,8 +24,8 @@
   "last_observation": {
     "GASREGW": "2026-11-09",
     "GASDESW": "2026-11-09",
-    "MORTGAGE30US": "2026-11-05",
-    "FF": "2026-11-04",
+    "MORTGAGE30US": "2026-11-12",
+    "FF": "2026-11-11",
     "WGS10YR": "2026-11-06",
     "PAYEMS": "2026-10-01",
     "UNRATE": "2026-10-01",
