@@ -2,6 +2,28 @@
   "asOf": "2026-11-12",
   "stories": [
     {
+      "id": "fed_rates-2026-11-12",
+      "date": "2026-11-12",
+      "topic": "Federal Reserve and interest rates",
+      "chartId": "chart-ff",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Fed Will Not Hold Policy Vote at October 2027 Meeting",
+          "url": "https://www.nytimes.com/2026/11/12/business/economy/fed-warsh-october.html"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "In a policy switch, the Fed says its October 2027 meeting will not see a vote on interest rates",
+          "url": "https://www.cnbc.com/2026/11/12/in-policy-switch-fed-says-its-october-2027-meeting-will-not-see-a-vote-on-interest-rates.html"
+        }
+      ]
+    },
+    {
       "id": "diesel-2026-11-11",
       "date": "2026-11-11",
       "topic": "Diesel prices",
@@ -128,35 +150,6 @@
           "lean": "Center",
           "title": "Fed’s New FOMC Schedule Turns Back the Clock for ‘Strategy’ Sessions",
           "url": "https://www.bloomberg.com/news/articles/2026-11-06/fed-s-new-fomc-schedule-turns-back-the-clock-for-strategy-sessions"
-        }
-      ]
-    },
-    {
-      "id": "jobs-2026-11-06",
-      "date": "2026-11-06",
-      "topic": "Jobs report",
-      "chartId": "chart-jobs",
-      "headlines": [
-        {
-          "outletId": "bls",
-          "outlet": "Bureau of Labor Statistics",
-          "lean": "Data",
-          "title": "Payroll employment rises by 165,000 in October; unemployment rate changes little at 4.1%",
-          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm"
-        },
-        {
-          "outletId": "huffpost",
-          "outlet": "HuffPost",
-          "lean": "Left",
-          "title": "U.S. Employers Added A Surprising 165,000 Jobs In October; Unemployment Rate Dipped To 4.1%",
-          "url": "https://www.huffpost.com/entry/us-economy-jobs-report_n_6aeddca6e4b037ca10339122"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Economy added 165,000 jobs in October, showing strength of expansion",
-          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4794797/economy-october-jobs-trump-labor-market/"
         }
       ]
     }
