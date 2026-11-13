@@ -1,73 +1,5 @@
 {
   "checks": {
-    "a0a7821715c0bd8a43c1": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [],
-      "reason": "Each outlet ran a different single-case story (an individual's lawsuit, habeas petitions trend, one ICE detainer, one detainee arrest), with no development reported by multiple outlets.",
-      "chart": ""
-    },
-    "e34d90b630d9fbbd8d1f": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments: a Michigan governor pressing the administration on tariffs and grocery reimbursements, and a White House vow to keep tariffs despite backlash. They do not report the same single development.",
-      "chart": ""
-    },
-    "451e302fc0d0e0abfee4": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
-        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
-        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
-        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html",
-        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/"
-      ],
-      "reason": "Most outlets reported the same development: the October 2026 U.S. CPI report, released Nov 10, showing consumer prices up 0.4% and hotter than expected.",
-      "chart": ""
-    },
-    "667566c188d8aede7893": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [
-        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets",
-        "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets"
-      ],
-      "reason": "Guardian reports a market move (oil prices falling after Trump's Iran war statement); the NYT piece is an explainer and the WSJ and Newsweek headlines cover other developments or are unrelated. No chart measures oil prices or OPEC output, so no chart link.",
-      "chart": ""
-    },
-    "4b9f92b3f5bbfb2e912f": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments: a Democratic lawmakers' push on Afghan protections, and a single arrest case; no one development is reported by multiple outlets.",
-      "chart": ""
-    },
-    "b7bda39c8ab1d4593fa7": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [
-        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
-        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
-        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
-        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
-      ],
-      "reason": "Four outlets report the same current development: the U.S. average gas price fell below $4 a gallon for the first time since July.",
-      "chart": ""
-    },
-    "489151341960c8f5840f": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [
-        "https://thehill.com/policy/energy-environment/6209267-trump-wind-turbines-permitting-reform-bill/",
-        "https://thehill.com/policy/energy-environment/6209267-trump-wind-turbines-permitting-reform-bill/"
-      ],
-      "reason": "Both are the same Hill headline on Trump saying he will not approve wind turbines, a government action on wind power that the electricity-by-source chart measures; the other headlines cover different developments (Senate advance and Progressive Caucus opposition to the permitting bill).",
-      "chart": "electricity"
-    },
-    "5049e3006c00e338b825": {
-      "at": "2026-11-11T18:36:16.336Z",
-      "keep": [
-        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/",
-        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/"
-      ],
-      "reason": "The Hill's Bessent story on calling for more balanced U.S.-China trade ahead of Trump-Xi talks is a current government statement on trade talks; the duplicate entries report the same item, and the Nvidia headlines and China surplus story are off-topic or not U.S. developments.",
-      "chart": "trade-balance"
-    },
     "230b193f6347a1dabb47": {
       "at": "2026-11-12T01:28:06.789Z",
       "keep": [],
@@ -469,6 +401,75 @@
         "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
       ],
       "reason": "Three outlets report the same new official figure: the U.S. wholesale (producer price) inflation release, which rose to its fastest pace since 2022. It is a wholesale index, not the consumer price index the chart measures, so the match is approximate.",
+      "chart": ""
+    },
+    "885a2012d7aa1999d45f": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
+        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
+        "https://nypost.com/2026/11/12/us-news/dhs-says-record-number-of-illegal-immigrants-deported-in-past-year/",
+        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
+        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
+      ],
+      "reason": "Five outlets report the same development: DHS/ICE touting record-high deportations (and arrests) over the past year, which is central to the removals chart.",
+      "chart": ""
+    },
+    "0e10ec70f83c1af7e9f8": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [
+        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Only the two WSJ headlines center oil prices on the Trump Iran-deal remarks; the CNBC and NBC headlines are about the Iran deal with oil not mentioned, so the oil topic is incidental there.",
+      "chart": ""
+    },
+    "6e4c45d0f218a504c62a": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [
+        "https://www.cbsnews.com/news/china-us-export-controls-chips-nvidia-huang-scandal/",
+        "https://www.cbsnews.com/news/china-us-export-controls-chips-nvidia-huang-scandal/"
+      ],
+      "reason": "Both CBS headlines report China's warning against new U.S. chip export controls, a government trade restriction. The HuffPost Megaspeed story is company news about an inspection, and neither chart measures export controls.",
+      "chart": ""
+    },
+    "cb6552d4789298055571": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.bloomberg.com/news/articles/2026-11-13/supreme-court-to-weigh-keeping-trump-southern-border-asylum-ban",
+        "https://www.bloomberg.com/news/articles/2026-11-13/supreme-court-to-weigh-keeping-trump-southern-border-asylum-ban",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.theguardian.com/us-news/2026/nov/13/supreme-court-us-mexico-border-asylum",
+        "https://www.theguardian.com/us-news/2026/nov/13/supreme-court-us-mexico-border-asylum",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html"
+      ],
+      "reason": "Ten headlines from NBC, Bloomberg, CBS, The Guardian and NYT report the same development: the Supreme Court agreed to hear Trump's southern border asylum ban. Headline 1 is a retrospective and 12 concerns Robinhood, so both are left out.",
+      "chart": ""
+    },
+    "a3a7010bb97aba66a786": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [],
+      "reason": "No single current development is reported by multiple outlets: the White House tariff vow and the Greer interview are general statements, and the Pence and Stephen A. Smith headlines are off-topic or commentary.",
+      "chart": ""
+    },
+    "875e8c016a262471aca9": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
+        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
+        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
+      ],
+      "reason": "Three outlets report the same new federal wholesale inflation (PPI) release; it is an inflation figure, though it measures producer prices rather than the consumer CPI on this chart.",
+      "chart": ""
+    },
+    "db35c575bcecbb8b2f72": {
+      "at": "2026-11-13T22:29:54.183Z",
+      "keep": [],
+      "reason": "The only development covered by more than one outlet is a single ICE detention of a viral pet's former owner, which is not a development of national significance; the other item is covered by one outlet only, and neither chart measures ICE detentions directly.",
       "chart": ""
     }
   },
