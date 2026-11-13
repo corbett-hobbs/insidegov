@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-12",
+  "asOf": "2026-11-13",
   "stories": [
     {
       "id": "removals-2026-11-12",
@@ -8,11 +8,11 @@
       "chartId": "chart-removals",
       "headlines": [
         {
-          "outletId": "cbsnews",
-          "outlet": "CBS News",
-          "lean": "Lean Left",
-          "title": "ICE deportations and arrests hit record high",
-          "url": "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/"
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Trump Admin Brags About Deportation Record Days After Midterm Bloodbath",
+          "url": "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97"
         },
         {
           "outletId": "newsweek",

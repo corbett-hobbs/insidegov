@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-12",
+  "asOf": "2026-11-13",
   "stories": [
     {
       "id": "oil_markets-2026-11-10",
@@ -47,7 +47,6 @@
       "id": "power_sources-2026-11-09",
       "date": "2026-11-09",
       "topic": "Nuclear, coal and renewables",
-      "chartId": "electricity",
       "headlines": [
         {
           "outletId": "thehill",
@@ -93,11 +92,11 @@
       "topic": "Oil markets",
       "headlines": [
         {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Oil price falls amid hope of a breakthrough to end Iran war",
-          "url": "https://www.theguardian.com/business/2026/nov/02/oil-price-falls-amid-hope-of-a-breakthrough-to-end-iran-war"
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Crude oil prices sell off more than 7% on Iran peace talk hopes ahead of U.S. midterms",
+          "url": "https://www.cnbc.com/2026/11/02/oil-prices-fall-as-iran-us-pursue-diplomacy.html"
         },
         {
           "outletId": "wsj",
