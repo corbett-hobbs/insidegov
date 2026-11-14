@@ -1,85 +1,5 @@
 {
   "checks": {
-    "230b193f6347a1dabb47": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [],
-      "reason": "All three headlines cover the stalled Trump plan to import Russian diesel, a supply-logistics story that does not center on retail diesel prices, which the chart measures; unsure, so excluded.",
-      "chart": ""
-    },
-    "299d5ceb7e5cdeafae5a": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple outlets: the lawsuit, habeas petitions, Honduran detainer, and Democratic push are each covered by one outlet, and the Senate agenda story is not about immigration.",
-      "chart": ""
-    },
-    "04362e65cc675a9e764d": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/cpi-inflation-october-2026",
-        "https://www.bbc.co.uk/news/articles/cwy8lx3pg4k2o?at_medium=RSS&at_campaign=rss",
-        "https://www.theguardian.com/business/2026/nov/10/october-inflation-report",
-        "https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html",
-        "https://www.cbsnews.com/news/october-cpi-report-elevated-inflation/"
-      ],
-      "reason": "Headlines 5, 6, 7, 9 and 10 all report the same current development: the October 2026 U.S. CPI report, showing consumer prices up 0.4% and hotter than expected. Previews (2, 3), the China story (1), and the vague or analytical pieces (4, 8) are excluded.",
-      "chart": ""
-    },
-    "b4e5a7e6a4b35c8a7fbb": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/11/business/energy-environment/winter-heating-oil-costs.html",
-        "https://nypost.com/2026/11/11/business/heating-costs-to-jump-this-winter-due-to-iran-war-devastating/",
-        "https://nypost.com/2026/11/11/business/heating-costs-to-jump-this-winter-due-to-iran-war-devastating/",
-        "https://thehill.com/policy/energy-environment/6214369-home-heating-costs-rise/"
-      ],
-      "reason": "Most outlets (NYT, NY Post, The Hill) reported the new official forecast that U.S. winter heating costs will rise about 7%; the other items are explainers or different oil-price and OPEC developments.",
-      "chart": ""
-    },
-    "50cc92225d46f5dda8de": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [],
-      "reason": "Only the Whitmer and White House tariff headlines are relevant, and they describe different developments (a governor's pressure versus a White House vow); the Megaspeed headline is unrelated to tariffs.",
-      "chart": ""
-    },
-    "24c729a53427e5c30fb8": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [
-        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
-        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
-        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
-        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
-      ],
-      "reason": "Four outlets report the same development: the U.S. average gas price fell below $4 per gallon for the first time since July.",
-      "chart": ""
-    },
-    "78c4d812685be3aaa428": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [],
-      "reason": "Headlines are company-specific (Nvidia shares, Nvidia CEO report, Claude maker IPO) rather than one national market development, and no listed chart measures stock market moves.",
-      "chart": ""
-    },
-    "cd37d75cc234ac6da94d": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [],
-      "reason": "Only one headline covers the October jobs report, and it is analysis (\"3 unexpected reasons\"); the Qantas and AARP headlines are about other developments.",
-      "chart": ""
-    },
-    "e7678d911e32af1fbe36": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [],
-      "reason": "Headlines 1-2 are one Politico item about an incoming senator's call for a funding delay, a position rather than a government action, and no single outlet pair qualifies as a wider development; headlines 3-4 are about Germany with no U.S. policy angle; no pick_chart entry directly measures the story.",
-      "chart": ""
-    },
-    "ef1ea390c96805d56fd8": {
-      "at": "2026-11-12T01:28:06.789Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
-        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
-        "https://www.nytimes.com/2026/11/11/us/politics/trump-immigration-election-democrats-republicans.html"
-      ],
-      "reason": "Washington Examiner and NYT headlines cover the same Trump immigration deal/DACA-related proposal; the hijacking-asylum story is a single outlet's individual case, and the AI-booking story is off topic.",
-      "chart": ""
-    },
     "6278c768ae71c1ffcbc4": {
       "at": "2026-11-12T09:41:50.378Z",
       "keep": [],
@@ -471,6 +391,45 @@
       "keep": [],
       "reason": "The only development covered by more than one outlet is a single ICE detention of a viral pet's former owner, which is not a development of national significance; the other item is covered by one outlet only, and neither chart measures ICE detentions directly.",
       "chart": ""
+    },
+    "db1a3bf58c31713c3496": {
+      "at": "2026-11-14T03:03:36.575Z",
+      "keep": [],
+      "reason": "No single shared development: the CNBC item is a Greer interview mentioning tariff threats, and the Pence and Rubio items are midterm-election commentary, not a tariff action or figure.",
+      "chart": ""
+    },
+    "e9460a75b5bbf0d7eb3a": {
+      "at": "2026-11-14T03:03:36.575Z",
+      "keep": [
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
+        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/",
+        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/"
+      ],
+      "reason": "Eight headlines from NBC, CBS, NYT and Washington Examiner report the Supreme Court agreeing to hear the challenge to Trump's border asylum ban; the Robinhood item and the retrospective White House counsel piece are different stories.",
+      "chart": ""
+    },
+    "a1053454fdcdeb9907f7": {
+      "at": "2026-11-14T03:03:36.575Z",
+      "keep": [],
+      "reason": "Headlines cover visa problems for African Miss Universe contestants, a niche entertainment story rather than a development of national significance; neither pick_chart option measures visa policy.",
+      "chart": ""
+    },
+    "07c21181104ebfa33a79": {
+      "at": "2026-11-14T03:03:36.575Z",
+      "keep": [],
+      "reason": "The only concrete development is the wholesale (PPI) inflation report, which the consumer price index chart does not measure; the other headlines are commentary, Fed remarks, or analysis.",
+      "chart": ""
+    },
+    "10029dc90fd896410fdb": {
+      "at": "2026-11-14T03:03:36.575Z",
+      "keep": [],
+      "reason": "No single current national development is shared by the headlines: one is an ambassador's warning, one is Canada's threat against Stellantis (company news), and one is a critical piece on trade policy architects.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -493,7 +452,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-13"
+      "last": "2026-11-14"
     }
   }
 }
