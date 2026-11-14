@@ -1,112 +1,5 @@
 {
   "checks": {
-    "b1c0b9097ed56072ce19": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [],
-      "reason": "Each headline covers a different development (a lawsuit, habeas petitions, a detainer, Democratic pushback, a Miller commentary piece, a detention of one person, and ICE arrest figures), and no single development is reported by multiple outlets, so none qualifies.",
-      "chart": ""
-    },
-    "be5e12d8c03934bd79d8": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [],
-      "reason": "The two headlines cover different things: one is analysis of inflation pressure on the Fed, and the other is a single outlet's report of a Fed policy change, so no development is shared across outlets.",
-      "chart": ""
-    },
-    "c2e27bac87c3ba889d7e": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [],
-      "reason": "The four headlines do not report one shared development: a White House vow, a Greer TV interview, a Democratic plan, and an unrelated legal story.",
-      "chart": ""
-    },
-    "7d9ac568a7dc33447897": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html",
-        "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html"
-      ],
-      "reason": "Oil prices rose on Nov 12 after Trump said the U.S. does not need an Iran deal; these four headlines center on that oil market move, while the others focus on Trump and Vance politics. No pick_chart option measures oil prices, so no chart is linked.",
-      "chart": ""
-    },
-    "40f2ed90f730d7f930d1": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [],
-      "reason": "Both headlines report a home sales drop to a 16-year low; mortgage rates appear only as background, not as the development itself, so the weekly 30-year rate chart is not the central topic.",
-      "chart": ""
-    },
-    "dbb06e133affb0f7c3be": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [],
-      "reason": "Headlines 1-5 cover foreign inflation (Romania, Turkey, Peru, India, Brazil) with no U.S. angle; headline 6 is a general Fed outlook piece, not a single concrete U.S. development, so no story qualifies.",
-      "chart": ""
-    },
-    "0923b02fac60a9c2619a": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498",
-        "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/",
-        "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/",
-        "https://www.foxbusiness.com/economy/gas-prices-fall-below-4-gallon-first-time-since-july"
-      ],
-      "reason": "Four outlets report the same development: the national average gas price dropped below $4 per gallon for the first time since July.",
-      "chart": ""
-    },
-    "707494f11328b5e8f1c3": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290",
-        "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290"
-      ],
-      "reason": "Both headlines report the same market move (stock market surging while Nvidia shares fall); the Claude IPO and Nvidia CEO departure stories are single-outlet company news, so they are left out.",
-      "chart": ""
-    },
-    "ac62183fdc751a34a6b1": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/"
-      ],
-      "reason": "CBS and Washington Examiner both report the same new official ICE figures showing record deportations and arrests, which the removals chart directly measures.",
-      "chart": ""
-    },
-    "d8a1c1b59f6824e5a615": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/",
-        "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
-      ],
-      "reason": "Senate advancing the bipartisan permitting reform bill is the development most outlets covered; headlines 1-2 center on a Trump wind-turbine statement and 5-6 are a single outlet's nuclear bill story.",
-      "chart": ""
-    },
-    "333db69977dec469eac8": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [],
-      "reason": "Headlines 1 and 2 are duplicates from one outlet about a Treasury secretary's rhetoric ahead of talks, not a concrete government action or agreement, and headline 3 covers a different development (chip curbs); no chart directly measures the story.",
-      "chart": ""
-    },
-    "0007a9510b50b9afd35a": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-12/trump-threatens-to-double-tariffs-on-mexican-goods-over-migrants",
-        "https://www.foxnews.com/politics/trump-threatens-double-tariffs-mexico-migrant-caravans-not-stopped",
-        "https://nypost.com/2026/11/12/us-news/trump-threatens-to-double-mexico-tariffs-if-migrant-caravan-reaches-us/",
-        "https://www.washingtonexaminer.com/policy/immigration/4801179/trump-threatens-tariffs-mexico-migrant-caravan/"
-      ],
-      "reason": "Four outlets report the same development: Trump's announced threat to double tariffs on Mexico over migrant caravans, which centrally involves tariffs. Headline 5 covers the caravans without mentioning tariffs, so it is left out.",
-      "chart": ""
-    },
-    "c1e1271f7f708995924a": {
-      "at": "2026-11-12T18:08:59.082Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
-        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
-        "https://www.nytimes.com/2026/11/11/us/politics/trump-immigration-election-democrats-republicans.html",
-        "https://www.foxnews.com/politics/trump-opens-door-immigration-deal-republicans-have-one-condition"
-      ],
-      "reason": "Headlines 1, 2, 3 and 5 all report Trump's new immigration deal proposal (DACA-style legal status) with Democrats; 4 is analysis of the odds and is left out.",
-      "chart": ""
-    },
     "b2b2f72d003f530870b8": {
       "at": "2026-11-13T00:08:13.528Z",
       "keep": [
@@ -486,6 +379,22 @@
         "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
       ],
       "reason": "Both headlines report the same November 13 wholesale inflation (PPI) release; the other items are commentary, analysis, or unrelated stories.",
+      "chart": ""
+    },
+    "a2b4e617b5528e2774e3": {
+      "at": "2026-11-14T21:21:30.437Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
+        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
+        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
+      ],
+      "reason": "Three outlets report the same DHS/ICE announcement of record deportation and removal numbers, which is central to the removals chart.",
+      "chart": ""
+    },
+    "ce3135a732ffa2b60f4b": {
+      "at": "2026-11-14T21:21:30.437Z",
+      "keep": [],
+      "reason": "Only the Washington Examiner headline reports the Mexico tariff threat; The Hill headline covers caravans without mentioning tariffs, so no shared development is confirmed, and the Miller headlines are not about tariffs.",
       "chart": ""
     }
   },
