@@ -1,53 +1,5 @@
 {
   "checks": {
-    "6278c768ae71c1ffcbc4": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [],
-      "reason": "Each headline is a different development from a single outlet (a lawsuit, habeas case count, one detainer, a Democratic political push), so no one development is reported by multiple outlets; none fits either pick_chart measure.",
-      "chart": ""
-    },
-    "324647e6184549ea0702": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [],
-      "reason": "No headline reports a single shared U.S. Fed development: the NYT item is commentary on inflation pressure, the credit card headlines are about consumer debt, and the Bloomberg item is about China.",
-      "chart": ""
-    },
-    "4e3f1483f36add56f465": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [],
-      "reason": "No headline reports a single U.S. inflation development: Romania and Turkey are foreign news, and the CNBC piece is a preview of Treasury yields with no clear inflation development.",
-      "chart": ""
-    },
-    "6d201db778d311536065": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [],
-      "reason": "No single development is reported by most outlets: the oil price moves (Iran war 'over', rebound, U.S.-Iran diplomacy) are separate, one is an explainer, and the heating-cost stories are about consumer heating costs rather than the oil markets topic. None of the pick_chart options directly measures oil prices or OPEC.",
-      "chart": ""
-    },
-    "9ceeebcfae1627f7f66f": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [],
-      "reason": "No development is reported by multiple outlets: headline 1 is a single NBC item about a Democratic proposal, and headlines 2 and 3 are both Fox News but cover different developments (a cockpit arrest and a later asylum grant).",
-      "chart": ""
-    },
-    "8006e111034fac9516c1": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [
-        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/",
-        "https://thehill.com/homenews/administration/6212824-scott-bessent-donald-trump-xi-jinping-us-china-trade-talks/"
-      ],
-      "reason": "Two identical The Hill headlines report Treasury Secretary Bessent's call for more balanced US-China trade ahead of Trump-Xi talks; the other headlines cover different developments or are foreign or non-policy stories.",
-      "chart": ""
-    },
-    "db2304809a39fd39ee47": {
-      "at": "2026-11-12T09:41:50.378Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/",
-        "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/"
-      ],
-      "reason": "Two identical Washington Examiner headlines report Trump's new immigration proposal; the NYT piece covers a hint-and-reversal, a different angle, and neither the encounters nor removals chart directly measures DACA or legal status.",
-      "chart": ""
-    },
     "b1c0b9097ed56072ce19": {
       "at": "2026-11-12T18:08:59.082Z",
       "keep": [],
@@ -429,6 +381,48 @@
       "at": "2026-11-14T03:03:36.575Z",
       "keep": [],
       "reason": "No single current national development is shared by the headlines: one is an ambassador's warning, one is Canada's threat against Stellantis (company news), and one is a critical piece on trade policy architects.",
+      "chart": ""
+    },
+    "bf7851fe333a6227984d": {
+      "at": "2026-11-14T10:08:37.958Z",
+      "keep": [],
+      "reason": "Headlines cover two separate items from one outlet each (a Senate appropriations committee leadership bid and a Democrat's proposed budget bill plan), neither a completed government action or official figure, and no chart directly measures them.",
+      "chart": ""
+    },
+    "45c9578b8d420330d98b": {
+      "at": "2026-11-14T10:08:37.958Z",
+      "keep": [
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
+        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/",
+        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/"
+      ],
+      "reason": "All eight headlines report the Supreme Court agreeing to hear the challenge to Trump's southern border asylum ban; the Robinhood headline (7) is a different case.",
+      "chart": ""
+    },
+    "25d2e107087ec5b04ca2": {
+      "at": "2026-11-14T10:08:37.958Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
+        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
+        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
+        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
+      ],
+      "reason": "Four outlets report the same development: DHS/ICE announcing record deportation and arrest figures, which the removals chart measures.",
+      "chart": ""
+    },
+    "5ec0902f514e11dd4e16": {
+      "at": "2026-11-14T10:08:37.958Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
+        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
+        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
+      ],
+      "reason": "Three outlets report the same new official wholesale (producer) price figure for last month; the Fed official remarks, analysis, and explainers are excluded as commentary.",
       "chart": ""
     }
   },
