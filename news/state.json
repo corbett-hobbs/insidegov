@@ -424,6 +424,69 @@
       ],
       "reason": "Three outlets report the same new official wholesale (producer) price figure for last month; the Fed official remarks, analysis, and explainers are excluded as commentary.",
       "chart": ""
+    },
+    "0c5b27b5c82605d9d5df": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
+        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
+        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
+        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
+      ],
+      "reason": "Four outlets report the same development: DHS/ICE announcing record deportation and arrest figures, which the ICE removals chart directly measures.",
+      "chart": ""
+    },
+    "70afb99df90e7d60af74": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [
+        "https://www.wsj.com/business/energy-oil/oil-prices-rise-as-middle-east-supply-risks-persist-2066e758?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-rise-as-middle-east-supply-risks-persist-2066e758?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Both WSJ headlines report the same notable market move, crude futures posting back-to-back weekly losses; the CNBC heating-oil story is a regional Maine angle and is excluded.",
+      "chart": ""
+    },
+    "1afac4b3b17cb61b5fb6": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [
+        "https://www.newsweek.com/carney-draws-red-line-us-trump-trade-deal-auto-jobs-12715092",
+        "https://www.newsweek.com/carney-draws-red-line-us-trump-trade-deal-auto-jobs-12715092"
+      ],
+      "reason": "Both Newsweek headlines report Canadian PM Carney's stance in U.S.-Canada trade deal talks; the other stories are company news or a China reaction, and the tariff and trade balance charts don't measure deal talks.",
+      "chart": ""
+    },
+    "7ce13e2fba00479529a0": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [],
+      "reason": "Headline 1 is a White House stance on tariffs, headline 2 is an interview with Greer, and headline 3 is Pence commentary across several issues; none clearly report the same single development.",
+      "chart": ""
+    },
+    "9f5ee9fa3c85bd1c7840": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
+        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html"
+      ],
+      "reason": "Six headlines from NBC, CBS, and NYT all report the Supreme Court agreeing to hear the challenge to Trump's border asylum ban; the CNBC Robinhood headline is unrelated.",
+      "chart": ""
+    },
+    "b36ed8b67d7f5dc688fd": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [],
+      "reason": "Largest cluster is one ICE detention of a viral pet's former owner, a human-interest story of doubtful national significance; the $495M detention-center probe and Kansas raids pieces are a separate single-outlet item and an analysis piece, and no chart measures detentions.",
+      "chart": ""
+    },
+    "dff9d85c3e8b6d4991ce": {
+      "at": "2026-11-14T16:58:24.685Z",
+      "keep": [
+        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
+        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
+      ],
+      "reason": "Both headlines report the same November 13 wholesale inflation (PPI) release; the other items are commentary, analysis, or unrelated stories.",
+      "chart": ""
     }
   },
   "dispatched": {
