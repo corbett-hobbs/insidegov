@@ -2,6 +2,27 @@
   "asOf": "2026-11-13",
   "stories": [
     {
+      "id": "immigration_courts-2026-11-13",
+      "date": "2026-11-13",
+      "topic": "Immigration court rulings",
+      "headlines": [
+        {
+          "outletId": "apnews",
+          "outlet": "Associated Press",
+          "lean": "Lean Left",
+          "title": "Supreme Court will consider Trump’s executive order suspending asylum access at the southern border",
+          "url": "https://apnews.com/article/supreme-court-trump-asylum-aeed6eb39a46b6f9e56f4b6940a5cfe4?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Supreme Court takes up challenge to Trump’s southern border asylum ban",
+          "url": "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/"
+        }
+      ]
+    },
+    {
       "id": "removals-2026-11-12",
       "date": "2026-11-12",
       "topic": "Deportations",

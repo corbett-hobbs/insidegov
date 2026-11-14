@@ -88,11 +88,11 @@
           "url": "https://www.bls.gov/news.release/archives/cpi_11102026.htm"
         },
         {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "US inflation rose 0.4% in October as price increases cooled and gas costs dipped",
-          "url": "https://www.theguardian.com/business/2026/nov/10/october-inflation-report"
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Here's the inflation breakdown for October 2026 — in one chart",
+          "url": "https://www.cnbc.com/2026/11/10/october-2026-cpi-inflation-breakdown.html"
         },
         {
           "outletId": "washingtonexaminer",
