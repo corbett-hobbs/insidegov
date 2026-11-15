@@ -12,8 +12,8 @@
     },
     {
       "path": "pipeline/raw/congress-legislators/legislators-current.yaml",
-      "bytes": 1081187,
-      "sha256": "fcd8e7f3b8b8286d99056a2be95907c7f6bce4d2dce069a074aa2f6970ecc717"
+      "bytes": 1081522,
+      "sha256": "e805231b79539bf1a0d2ae2fc0698f41a60165ee28ec1f467ba7730884e5e753"
     },
     {
       "path": "pipeline/raw/congress-legislators/legislators-historical.yaml",
@@ -55,7 +55,7 @@
         1,
         119
       ],
-      "collisionsMerged": 9,
+      "collisionsMerged": 10,
       "missingParty": 462
     },
     "ideologyScores": {
