@@ -1,50 +1,5 @@
 {
   "checks": {
-    "374e561a6ad4a0f2314e": {
-      "at": "2026-11-13T07:48:15.635Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/12/business/economy/fed-warsh-october.html",
-        "https://www.cnbc.com/2026/11/12/in-policy-switch-fed-says-its-october-2027-meeting-will-not-see-a-vote-on-interest-rates.html"
-      ],
-      "reason": "Both NYT and CNBC report the Fed's announcement that its October 2027 meeting will have no rate vote; headline 1 is pressure analysis and headline 4 is about Peru.",
-      "chart": ""
-    },
-    "e144fec71d715171e107": {
-      "at": "2026-11-13T07:48:15.635Z",
-      "keep": [],
-      "reason": "Only headlines 1 and 2 concern tariffs, and they describe different things (a White House vow amid backlash versus a Greer TV interview), so no single development is shared by multiple outlets.",
-      "chart": ""
-    },
-    "8c6d5033fc1fa9d8aa7a": {
-      "at": "2026-11-13T07:48:15.635Z",
-      "keep": [
-        "https://www.theguardian.com/us-news/2026/nov/12/trump-jd-vance-iran-war",
-        "https://www.cnbc.com/2026/11/12/trump-iran-deal-hormuz-strait.html",
-        "https://www.nbcnews.com/politics/donald-trump/us-doesnt-need-peace-deal-iran-vance-corruption-trump-rcna609027",
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Most outlets report the same Trump statement that the U.S. does not need an Iran deal, and the WSJ ties the resulting oil price rebound to it; the oil-market link is central only in the WSJ headline.",
-      "chart": ""
-    },
-    "b916d92d968321f0ba65": {
-      "at": "2026-11-13T07:48:15.635Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://nypost.com/2026/11/12/us-news/dhs-says-record-number-of-illegal-immigrants-deported-in-past-year/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Five outlets report the same development: DHS/ICE announced record deportation and arrest figures, which is the central topic of the removals chart.",
-      "chart": ""
-    },
-    "c8845994ec39774fb717": {
-      "at": "2026-11-13T07:48:15.635Z",
-      "keep": [],
-      "reason": "No single shared development: Axios is analysis on rate-hike pressure, the two Bloomberg Fed-official remarks (Daly, Williams) are separate statements, Argentina is foreign news, and the BBC headline is generic cost-of-living coverage.",
-      "chart": ""
-    },
     "f4585b9a3b5ef18dfd1a": {
       "at": "2026-11-13T16:08:51.273Z",
       "keep": [
@@ -346,6 +301,16 @@
       "at": "2026-11-15T01:45:33.438Z",
       "keep": [],
       "reason": "Only headline 1 clearly reports the Trump tariff threat on Mexico; headline 2 is about caravans without mentioning tariffs, and headline 3 covers a different story (negotiators), so no single development is reported by multiple outlets.",
+      "chart": ""
+    },
+    "940cd9e978c26c1657d9": {
+      "at": "2026-11-15T09:11:51.679Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
+        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
+        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
+      ],
+      "reason": "Three outlets report the same DHS/ICE announcement of record deportation and arrest numbers, which is central to the ICE removals chart.",
       "chart": ""
     }
   },
