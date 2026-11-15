@@ -1,75 +1,5 @@
 {
   "checks": {
-    "b2b2f72d003f530870b8": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html",
-        "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html"
-      ],
-      "reason": "Oil prices rose on Trump's remarks that the U.S. doesn't need an Iran deal; WSJ and CNBC both report this market move, while the other Iran-remark headlines don't centre on oil.",
-      "chart": ""
-    },
-    "084f6b3359e9ea83d639": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/12/business/economy/fed-warsh-october.html",
-        "https://www.cnbc.com/2026/11/12/in-policy-switch-fed-says-its-october-2027-meeting-will-not-see-a-vote-on-interest-rates.html"
-      ],
-      "reason": "Headlines 2 and 3 both report the Fed's announcement that its October 2027 meeting will have no interest rate vote; headline 1 is about inflation pressure and is a different topic.",
-      "chart": ""
-    },
-    "669401c3dcea15daa733": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [],
-      "reason": "No shared single development: headline 1 is a general vow to keep pursuing tariffs, headline 2 is an interview with Greer, and headline 3 is unrelated.",
-      "chart": ""
-    },
-    "5eaafb38d73f1ea6a918": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [],
-      "reason": "Most headlines are about foreign inflation (Turkey, Peru, India, Brazil, Argentina) with no U.S. angle; the two Fed items (Axios pressure piece and Daly's remarks) do not describe the same single development.",
-      "chart": ""
-    },
-    "8fed201b96dde1181553": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://nypost.com/2026/11/12/us-news/dhs-says-record-number-of-illegal-immigrants-deported-in-past-year/"
-      ],
-      "reason": "Three outlets report the same development: ICE and DHS announcing record deportation and arrest figures, which the removals chart directly measures.",
-      "chart": ""
-    },
-    "f6a44b06d14593fb7e76": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [],
-      "reason": "Headlines cover different developments (a senator's call for a December funding punt, Moran's committee bid, Democrats weighing a deadline over the Iran war), and the only repeated item is one Politico story, which is a political proposal rather than an enacted action; no chart directly measures it.",
-      "chart": ""
-    },
-    "45774e5e6fa803c9cb3a": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [],
-      "reason": "The matched headlines cover separate items: an individual ICE detention of the former Peanut the Squirrel owner, a detainer for a Honduran passenger, and a habeas case count, with no single development of national significance that most outlets share; neither chart measures these detentions or detainers.",
-      "chart": ""
-    },
-    "1270e6c0e23dd3638af3": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [
-        "https://www.foxnews.com/politics/trump-threatens-double-tariffs-mexico-migrant-caravans-not-stopped",
-        "https://nypost.com/2026/11/12/us-news/trump-threatens-to-double-mexico-tariffs-if-migrant-caravan-reaches-us/",
-        "https://www.washingtonexaminer.com/policy/immigration/4801179/trump-threatens-tariffs-mexico-migrant-caravan/"
-      ],
-      "reason": "Headlines 1-3 all report Trump's announced threat to double tariffs on Mexico over migrant caravans, which is central to the tariff-rate chart; headline 4 is a caravan quote without the tariff angle.",
-      "chart": ""
-    },
-    "bbd91cf4e5ca17f713ef": {
-      "at": "2026-11-13T00:08:13.528Z",
-      "keep": [],
-      "reason": "The only same-development headlines (1 and 2) are speculative analysis of a proposal (\"could go further than DACA deal\"), and 3 and 4 are political analysis or a different angle; none clearly reports a concrete government action.",
-      "chart": ""
-    },
     "374e561a6ad4a0f2314e": {
       "at": "2026-11-13T07:48:15.635Z",
       "keep": [
@@ -396,15 +326,30 @@
       "keep": [],
       "reason": "Only the Washington Examiner headline reports the Mexico tariff threat; The Hill headline covers caravans without mentioning tariffs, so no shared development is confirmed, and the Miller headlines are not about tariffs.",
       "chart": ""
+    },
+    "c0b4dfa08a80008a4914": {
+      "at": "2026-11-15T01:45:33.438Z",
+      "keep": [
+        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
+        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
+      ],
+      "reason": "The Hill and New York Post both report the same new official wholesale inflation (PPI) release; it is a different index than the CPI chart, so the match is approximate.",
+      "chart": ""
+    },
+    "18ad5b96e2deffab841a": {
+      "at": "2026-11-15T01:45:33.438Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments (an ambassador's warning about tariff costs and Carney's comments on trade-deal progress), so no single shared development qualifies.",
+      "chart": ""
+    },
+    "91b29d9592cd22df3614": {
+      "at": "2026-11-15T01:45:33.438Z",
+      "keep": [],
+      "reason": "Only headline 1 clearly reports the Trump tariff threat on Mexico; headline 2 is about caravans without mentioning tariffs, and headline 3 covers a different story (negotiators), so no single development is reported by multiple outlets.",
+      "chart": ""
     }
   },
   "dispatched": {
-    "energy-freshness.yml": {
-      "release": "https://www.eia.gov/todayinenergy/detail.php?id=68444",
-      "since": "2026-11-12T18:08:59.082Z",
-      "at": "2026-11-13T00:08:13.528Z",
-      "count": 2
-    },
     "indicators-freshness.yml": {
       "release": "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
       "since": "2026-11-13T16:08:51.273Z",
@@ -418,7 +363,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-14"
+      "last": "2026-11-15"
     }
   }
 }
