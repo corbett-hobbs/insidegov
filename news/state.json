@@ -1,58 +1,5 @@
 {
   "checks": {
-    "f4585b9a3b5ef18dfd1a": {
-      "at": "2026-11-13T16:08:51.273Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Only the Wall Street Journal oil-price headline centers on oil; the other Iran-deal headlines don't make oil central, and no chart measures oil prices or OPEC.",
-      "chart": ""
-    },
-    "96295fdaea068ce68bb5": {
-      "at": "2026-11-13T16:08:51.273Z",
-      "keep": [
-        "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-congress-resign-ai-chips.html",
-        "https://www.cbsnews.com/news/china-us-export-controls-chips-nvidia-huang-scandal/",
-        "https://www.cbsnews.com/news/china-us-export-controls-chips-nvidia-huang-scandal/"
-      ],
-      "reason": "Headlines 3-5 report the same development: new U.S. export controls on chips to China. Headlines 1-2 cover a different Megaspeed story, and 6 is commentary. Neither the trade-balance nor the tariffs chart measures export controls, so no chart fits.",
-      "chart": ""
-    },
-    "4c0a57ab30d13be60c1c": {
-      "at": "2026-11-13T16:08:51.273Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://nypost.com/2026/11/12/us-news/dhs-says-record-number-of-illegal-immigrants-deported-in-past-year/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Five outlets report the same DHS announcement of record ICE deportations and removals, which the removals chart directly measures.",
-      "chart": ""
-    },
-    "c2976a27d6232e679364": {
-      "at": "2026-11-13T16:08:51.273Z",
-      "keep": [],
-      "reason": "No single development is shared by the headlines with diesel retail prices central: the Russian diesel tanker, the Iran-deal oil price move, and the IEA global surplus report are different stories, and the IEA pieces are about global oil supply rather than U.S. retail diesel.",
-      "chart": ""
-    },
-    "247a2dc90e2e3e250830": {
-      "at": "2026-11-13T16:08:51.273Z",
-      "keep": [],
-      "reason": "Only one headline (White House vowing to keep tariffs) is about a tariff development, and no other headline reports the same development; the Greer interview and the other two headlines are not about tariffs.",
-      "chart": ""
-    },
-    "b9eaf704ca7d5115e067": {
-      "at": "2026-11-13T16:08:51.273Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
-        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
-        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
-      ],
-      "reason": "Three outlets report the same new official figure: the U.S. wholesale (producer price) inflation release, which rose to its fastest pace since 2022. It is a wholesale index, not the consumer price index the chart measures, so the match is approximate.",
-      "chart": ""
-    },
     "885a2012d7aa1999d45f": {
       "at": "2026-11-13T22:29:54.183Z",
       "keep": [
@@ -314,14 +261,7 @@
       "chart": ""
     }
   },
-  "dispatched": {
-    "indicators-freshness.yml": {
-      "release": "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
-      "since": "2026-11-13T16:08:51.273Z",
-      "at": "2026-11-13T16:08:51.273Z",
-      "count": 1
-    }
-  },
+  "dispatched": {},
   "laws": {
     "119-pub-133": {
       "outlets": [
