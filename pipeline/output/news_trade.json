@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-12",
+  "asOf": "2026-11-14",
   "stories": [
+    {
+      "id": "tariff.CAN-2026-11-14",
+      "date": "2026-11-14",
+      "topic": "Tariffs involving Canada",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "abcnews",
+          "outlet": "ABC News",
+          "lean": "Lean Left",
+          "title": "Canada’s Carney reports progress in trade talks with Trump as he expands ties with Asia",
+          "url": "https://abcnews.com/US/wireStory/canadas-carney-reports-progress-trade-talks-trump-expands-138136808"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Carney says he's 'making progress' with Trump on possible US-Canada trade deal",
+          "url": "https://thehill.com/policy/international/6221010-carney-trump-canada-us-trade-progress/"
+        }
+      ]
+    },
     {
       "id": "tariff.MEX-2026-11-12",
       "date": "2026-11-12",
@@ -27,28 +49,6 @@
           "lean": "Right",
           "title": "Trump threatens to double tariffs on Mexico if migrant caravans not stopped",
           "url": "https://www.foxnews.com/politics/trump-threatens-double-tariffs-mexico-migrant-caravans-not-stopped"
-        }
-      ]
-    },
-    {
-      "id": "tariff.all-2026-11-04",
-      "date": "2026-11-04",
-      "topic": "Tariffs",
-      "chartId": "tariffs",
-      "headlines": [
-        {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "‘Thrilled, scared but hopeful’: readers react to historic Democratic victory in US midterms",
-          "url": "https://www.theguardian.com/us-news/2026/nov/04/reactions-midterm-election-results-democrats"
-        },
-        {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "US midterm results a 'victory' for Canadians hopeful of tariff relief",
-          "url": "https://www.bbc.co.uk/news/articles/cqev3mw3e0kdo?at_medium=RSS&at_campaign=rss"
         }
       ]
     }
