@@ -3,11 +3,11 @@
     "committee_id": "HLIG",
     "source": "wikipedia",
     "title": "United States House Permanent Select Committee on Intelligence",
-    "extract": "It is the primary committee in the U.S. House of Representatives charged with the oversight of the United States Intelligence Community, though it does share some jurisdiction with other committees in the House, including the Armed Services Committee for some matters dealing with the Department of Defense and the various branches of the U.S. military.",
+    "extract": "It is the primary committee in the House charged with the oversight of the United States Intelligence Community, though it does share some jurisdiction with other House committees, including the Armed Services Committee for some matters dealing with the Department of Defense and the various branches of the U.S. military.",
     "url": "https://en.wikipedia.org/wiki/United_States_House_Permanent_Select_Committee_on_Intelligence",
-    "revision": "1372182384",
-    "fetched_at": "2026-10-13",
-    "needs_review": false
+    "revision": "1385153860",
+    "fetched_at": "2026-11-16",
+    "needs_review": true
   },
   {
     "committee_id": "HSAG",
