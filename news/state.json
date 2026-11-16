@@ -1,44 +1,5 @@
 {
   "checks": {
-    "db1a3bf58c31713c3496": {
-      "at": "2026-11-14T03:03:36.575Z",
-      "keep": [],
-      "reason": "No single shared development: the CNBC item is a Greer interview mentioning tariff threats, and the Pence and Rubio items are midterm-election commentary, not a tariff action or figure.",
-      "chart": ""
-    },
-    "e9460a75b5bbf0d7eb3a": {
-      "at": "2026-11-14T03:03:36.575Z",
-      "keep": [
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
-        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/",
-        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/"
-      ],
-      "reason": "Eight headlines from NBC, CBS, NYT and Washington Examiner report the Supreme Court agreeing to hear the challenge to Trump's border asylum ban; the Robinhood item and the retrospective White House counsel piece are different stories.",
-      "chart": ""
-    },
-    "a1053454fdcdeb9907f7": {
-      "at": "2026-11-14T03:03:36.575Z",
-      "keep": [],
-      "reason": "Headlines cover visa problems for African Miss Universe contestants, a niche entertainment story rather than a development of national significance; neither pick_chart option measures visa policy.",
-      "chart": ""
-    },
-    "07c21181104ebfa33a79": {
-      "at": "2026-11-14T03:03:36.575Z",
-      "keep": [],
-      "reason": "The only concrete development is the wholesale (PPI) inflation report, which the consumer price index chart does not measure; the other headlines are commentary, Fed remarks, or analysis.",
-      "chart": ""
-    },
-    "10029dc90fd896410fdb": {
-      "at": "2026-11-14T03:03:36.575Z",
-      "keep": [],
-      "reason": "No single current national development is shared by the headlines: one is an ambassador's warning, one is Canada's threat against Stellantis (company news), and one is a critical piece on trade policy architects.",
-      "chart": ""
-    },
     "bf7851fe333a6227984d": {
       "at": "2026-11-14T10:08:37.958Z",
       "keep": [],
