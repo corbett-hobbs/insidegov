@@ -1,74 +1,5 @@
 {
   "checks": {
-    "885a2012d7aa1999d45f": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://nypost.com/2026/11/12/us-news/dhs-says-record-number-of-illegal-immigrants-deported-in-past-year/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Five outlets report the same development: DHS/ICE touting record-high deportations (and arrests) over the past year, which is central to the removals chart.",
-      "chart": ""
-    },
-    "0e10ec70f83c1af7e9f8": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Only the two WSJ headlines center oil prices on the Trump Iran-deal remarks; the CNBC and NBC headlines are about the Iran deal with oil not mentioned, so the oil topic is incidental there.",
-      "chart": ""
-    },
-    "6e4c45d0f218a504c62a": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [
-        "https://www.cbsnews.com/news/china-us-export-controls-chips-nvidia-huang-scandal/",
-        "https://www.cbsnews.com/news/china-us-export-controls-chips-nvidia-huang-scandal/"
-      ],
-      "reason": "Both CBS headlines report China's warning against new U.S. chip export controls, a government trade restriction. The HuffPost Megaspeed story is company news about an inspection, and neither chart measures export controls.",
-      "chart": ""
-    },
-    "cb6552d4789298055571": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.bloomberg.com/news/articles/2026-11-13/supreme-court-to-weigh-keeping-trump-southern-border-asylum-ban",
-        "https://www.bloomberg.com/news/articles/2026-11-13/supreme-court-to-weigh-keeping-trump-southern-border-asylum-ban",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.theguardian.com/us-news/2026/nov/13/supreme-court-us-mexico-border-asylum",
-        "https://www.theguardian.com/us-news/2026/nov/13/supreme-court-us-mexico-border-asylum",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html"
-      ],
-      "reason": "Ten headlines from NBC, Bloomberg, CBS, The Guardian and NYT report the same development: the Supreme Court agreed to hear Trump's southern border asylum ban. Headline 1 is a retrospective and 12 concerns Robinhood, so both are left out.",
-      "chart": ""
-    },
-    "a3a7010bb97aba66a786": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [],
-      "reason": "No single current development is reported by multiple outlets: the White House tariff vow and the Greer interview are general statements, and the Pence and Stephen A. Smith headlines are off-topic or commentary.",
-      "chart": ""
-    },
-    "875e8c016a262471aca9": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
-        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
-        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
-      ],
-      "reason": "Three outlets report the same new federal wholesale inflation (PPI) release; it is an inflation figure, though it measures producer prices rather than the consumer CPI on this chart.",
-      "chart": ""
-    },
-    "db35c575bcecbb8b2f72": {
-      "at": "2026-11-13T22:29:54.183Z",
-      "keep": [],
-      "reason": "The only development covered by more than one outlet is a single ICE detention of a viral pet's former owner, which is not a development of national significance; the other item is covered by one outlet only, and neither chart measures ICE detentions directly.",
-      "chart": ""
-    },
     "db1a3bf58c31713c3496": {
       "at": "2026-11-14T03:03:36.575Z",
       "keep": [],
@@ -268,7 +199,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-15"
+      "last": "2026-11-16"
     }
   }
 }
