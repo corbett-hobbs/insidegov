@@ -1,6 +1,57 @@
 {
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-16",
   "stories": [
+    {
+      "id": "diesel-2026-11-15",
+      "date": "2026-11-15",
+      "topic": "Diesel prices",
+      "chartId": "chart-diesel",
+      "headlines": [
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "Diesel prices dip below $6 a gallon for first time since September",
+          "url": "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+        },
+        {
+          "outletId": "axios",
+          "outlet": "Axios",
+          "lean": "Lean Left",
+          "title": "Average diesel prices are under $6 per gallon for the first time in months",
+          "url": "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "US diesel below $6 a gallon at 2-month low on easing tensions, weaker demand",
+          "url": "https://nypost.com/2026/11/15/business/us-diesel-below-6-a-gallon-at-2-month-low-on-easing-tensions-weaker-demand/"
+        }
+      ]
+    },
+    {
+      "id": "inflation-2026-11-15",
+      "date": "2026-11-15",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Fed's Schmid says central bank has 'work to do' on inflation",
+          "url": "https://thehill.com/business/6222328-schmid-fed-inflation-warning/"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Schmid Says Fed Has More Work to Do to Bring Down Inflation",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-15/schmid-says-fed-has-more-work-to-do-to-bring-down-inflation"
+        }
+      ]
+    },
     {
       "id": "fed_rates-2026-11-12",
       "date": "2026-11-12",
@@ -59,11 +110,11 @@
           "url": "https://www.nbcnews.com/business/energy/gas-prices-fall-4-gallon-oil-markets-trump-iran-war-russia-ukraine-rcna608498"
         },
         {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Average cost of gas drops to less than $4 per gallon for first time since July",
-          "url": "https://thehill.com/policy/energy-environment/6210134-average-gas-price-drops-post-election-inflation-iran-war/"
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "Gas prices slip below $4 a gallon for first time since July",
+          "url": "https://www.cbsnews.com/news/gas-prices-below-4-gallon-november/"
         },
         {
           "outletId": "washingtonexaminer",
@@ -88,11 +139,11 @@
           "url": "https://www.bls.gov/news.release/archives/cpi_11102026.htm"
         },
         {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Here's the inflation breakdown for October 2026 — in one chart",
-          "url": "https://www.cnbc.com/2026/11/10/october-2026-cpi-inflation-breakdown.html"
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "US inflation rose 0.4% in October as price increases cooled and gas costs dipped",
+          "url": "https://www.theguardian.com/business/2026/nov/10/october-inflation-report"
         },
         {
           "outletId": "washingtonexaminer",
@@ -100,56 +151,6 @@
           "lean": "Lean Right",
           "title": "Prices posted sharp 0.4% increase in October, showing inflation threat",
           "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4797977/inflation-october-midterm-elections-affordability-democrats/"
-        }
-      ]
-    },
-    {
-      "id": "markets-2026-11-09",
-      "date": "2026-11-09",
-      "topic": "Stock market",
-      "headlines": [
-        {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Nvidia shares sink while stock market surges",
-          "url": "https://www.nbcnews.com/business/markets/nvidia-stock-falls-probe-ceos-relationship-chinese-spy-rcna608290"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Dow surges 1,100 points after last week’s historic tech rout, while Jensen Huang’s Nvidia slumps",
-          "url": "https://nypost.com/2026/11/09/business/dow-surges-1000-points-after-last-weeks-historic-tech-rout-while-nvidia-slumps/"
-        }
-      ]
-    },
-    {
-      "id": "fed_rates-2026-11-06",
-      "date": "2026-11-06",
-      "topic": "Federal Reserve and interest rates",
-      "chartId": "chart-ff",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Stable Labor Market Keeps Fed on Track to Raise Rates Gradually",
-          "url": "https://www.nytimes.com/2026/11/06/business/economy/stable-labor-market-to-keep-fed-on-track-to-raise-rates-gradually.html"
-        },
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Democratic sweep gives markets a reason to rethink path of interest rates",
-          "url": "https://www.cnbc.com/2026/11/06/oil-prices-interest-rates-midterms.html"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Fed’s New FOMC Schedule Turns Back the Clock for ‘Strategy’ Sessions",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-06/fed-s-new-fomc-schedule-turns-back-the-clock-for-strategy-sessions"
         }
       ]
     }
