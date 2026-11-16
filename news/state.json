@@ -1,110 +1,5 @@
 {
   "checks": {
-    "bf7851fe333a6227984d": {
-      "at": "2026-11-14T10:08:37.958Z",
-      "keep": [],
-      "reason": "Headlines cover two separate items from one outlet each (a Senate appropriations committee leadership bid and a Democrat's proposed budget bill plan), neither a completed government action or official figure, and no chart directly measures them.",
-      "chart": ""
-    },
-    "45c9578b8d420330d98b": {
-      "at": "2026-11-14T10:08:37.958Z",
-      "keep": [
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
-        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/",
-        "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/"
-      ],
-      "reason": "All eight headlines report the Supreme Court agreeing to hear the challenge to Trump's southern border asylum ban; the Robinhood headline (7) is a different case.",
-      "chart": ""
-    },
-    "25d2e107087ec5b04ca2": {
-      "at": "2026-11-14T10:08:37.958Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Four outlets report the same development: DHS/ICE announcing record deportation and arrest figures, which the removals chart measures.",
-      "chart": ""
-    },
-    "5ec0902f514e11dd4e16": {
-      "at": "2026-11-14T10:08:37.958Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-13/us-wholesale-inflation-remained-elevated-in-october",
-        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
-        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
-      ],
-      "reason": "Three outlets report the same new official wholesale (producer) price figure for last month; the Fed official remarks, analysis, and explainers are excluded as commentary.",
-      "chart": ""
-    },
-    "0c5b27b5c82605d9d5df": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-deportations-arrests-hit-record-high/",
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Four outlets report the same development: DHS/ICE announcing record deportation and arrest figures, which the ICE removals chart directly measures.",
-      "chart": ""
-    },
-    "70afb99df90e7d60af74": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [
-        "https://www.wsj.com/business/energy-oil/oil-prices-rise-as-middle-east-supply-risks-persist-2066e758?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/business/energy-oil/oil-prices-rise-as-middle-east-supply-risks-persist-2066e758?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Both WSJ headlines report the same notable market move, crude futures posting back-to-back weekly losses; the CNBC heating-oil story is a regional Maine angle and is excluded.",
-      "chart": ""
-    },
-    "1afac4b3b17cb61b5fb6": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [
-        "https://www.newsweek.com/carney-draws-red-line-us-trump-trade-deal-auto-jobs-12715092",
-        "https://www.newsweek.com/carney-draws-red-line-us-trump-trade-deal-auto-jobs-12715092"
-      ],
-      "reason": "Both Newsweek headlines report Canadian PM Carney's stance in U.S.-Canada trade deal talks; the other stories are company news or a China reaction, and the tariff and trade balance charts don't measure deal talks.",
-      "chart": ""
-    },
-    "7ce13e2fba00479529a0": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [],
-      "reason": "Headline 1 is a White House stance on tariffs, headline 2 is an interview with Greer, and headline 3 is Pence commentary across several issues; none clearly report the same single development.",
-      "chart": ""
-    },
-    "9f5ee9fa3c85bd1c7840": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.cbsnews.com/news/supreme-court-trump-asylum-u-s-mexico-border/",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html",
-        "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html"
-      ],
-      "reason": "Six headlines from NBC, CBS, and NYT all report the Supreme Court agreeing to hear the challenge to Trump's border asylum ban; the CNBC Robinhood headline is unrelated.",
-      "chart": ""
-    },
-    "b36ed8b67d7f5dc688fd": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [],
-      "reason": "Largest cluster is one ICE detention of a viral pet's former owner, a human-interest story of doubtful national significance; the $495M detention-center probe and Kansas raids pieces are a separate single-outlet item and an analysis piece, and no chart measures detentions.",
-      "chart": ""
-    },
-    "dff9d85c3e8b6d4991ce": {
-      "at": "2026-11-14T16:58:24.685Z",
-      "keep": [
-        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
-        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
-      ],
-      "reason": "Both headlines report the same November 13 wholesale inflation (PPI) release; the other items are commentary, analysis, or unrelated stories.",
-      "chart": ""
-    },
     "a2b4e617b5528e2774e3": {
       "at": "2026-11-14T21:21:30.437Z",
       "keep": [
@@ -151,6 +46,49 @@
       ],
       "reason": "Three outlets report the same DHS/ICE announcement of record deportation and arrest numbers, which is central to the ICE removals chart.",
       "chart": ""
+    },
+    "fba5964da52762290b33": {
+      "at": "2026-11-16T20:18:25.072Z",
+      "keep": [],
+      "reason": "The headlines cover two separate incident reports (a family's claim about an ICE run-over and a pepper-spray video), each from one outlet, not a government action, ruling, or official figure; neither matches a chart's data.",
+      "chart": ""
+    },
+    "3530204361c797bddfb1": {
+      "at": "2026-11-16T20:18:25.072Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a company acquisition (Blackstone/Amazon) and a permitting bill, so no single shared development is reported by all.",
+      "chart": ""
+    },
+    "83cbc50b97fd71229103": {
+      "at": "2026-11-16T20:18:25.072Z",
+      "keep": [
+        "https://nypost.com/2026/11/15/business/us-diesel-below-6-a-gallon-at-2-month-low-on-easing-tensions-weaker-demand/",
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "All three report that the U.S. average diesel price fell below $6 a gallon, the same current market development.",
+      "chart": ""
+    },
+    "214fcc4984346301675a": {
+      "at": "2026-11-16T20:18:25.072Z",
+      "keep": [],
+      "reason": "Headlines 1 and 2 are foreign inflation news with no U.S. policy angle, and headline 3 is a single Fed official's remark that no other headline shares, so no development is reported by multiple outlets.",
+      "chart": ""
+    },
+    "8f864b3ab7fde8810c20": {
+      "at": "2026-11-16T20:18:25.072Z",
+      "keep": [
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
+        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564"
+      ],
+      "reason": "Two identical NBC headlines report the Supreme Court agreeing to rule on Trump's asylum ban, a court action on immigration policy; the DEI grant headlines are a different topic.",
+      "chart": ""
+    },
+    "9632a977c2c3bf5bf0c6": {
+      "at": "2026-11-16T20:18:25.072Z",
+      "keep": [],
+      "reason": "Both headlines cover AAA's Thanksgiving travel forecast; gas prices are only one factor in it, so the chart's topic is not central, and I am unsure enough to leave both out.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -160,6 +98,13 @@
         "guardian"
       ],
       "first": "2026-11-03",
+      "last": "2026-11-16"
+    },
+    "119-pub-142": {
+      "outlets": [
+        "foxbusiness"
+      ],
+      "first": "2026-11-16",
       "last": "2026-11-16"
     }
   }
