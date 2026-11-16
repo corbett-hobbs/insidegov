@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-14",
+  "asOf": "2026-11-16",
   "stories": [
+    {
+      "id": "tariff.all-2026-11-16",
+      "date": "2026-11-16",
+      "topic": "Tariffs",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "apnews",
+          "outlet": "Associated Press",
+          "lean": "Lean Left",
+          "title": "Carney says Canada could turn to Chinese automakers if Trump trade talks fail",
+          "url": "https://apnews.com/article/canada-carney-trump-china-trade-autos-cbb2d3f90eed95925ffa4cb9a4b25239?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Canada could turn to Chinese automakers without US deal: Carney",
+          "url": "https://thehill.com/policy/international/6223278-carney-threatens-china-auto-deal/"
+        }
+      ]
+    },
     {
       "id": "tariff.CAN-2026-11-14",
       "date": "2026-11-14",
@@ -20,35 +42,6 @@
           "lean": "Center",
           "title": "Carney says he's 'making progress' with Trump on possible US-Canada trade deal",
           "url": "https://thehill.com/policy/international/6221010-carney-trump-canada-us-trade-progress/"
-        }
-      ]
-    },
-    {
-      "id": "tariff.MEX-2026-11-12",
-      "date": "2026-11-12",
-      "topic": "Tariffs involving Mexico",
-      "chartId": "tariffs",
-      "headlines": [
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Trump Threatens to Double Tariffs on Mexico Over Migrants",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-12/trump-threatens-to-double-tariffs-on-mexican-goods-over-migrants"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Trump threatens to double tariffs on Mexico if it doesn’t stop latest migrant caravan",
-          "url": "https://www.washingtonexaminer.com/policy/immigration/4801179/trump-threatens-tariffs-mexico-migrant-caravan/"
-        },
-        {
-          "outletId": "foxnews",
-          "outlet": "Fox News",
-          "lean": "Right",
-          "title": "Trump threatens to double tariffs on Mexico if migrant caravans not stopped",
-          "url": "https://www.foxnews.com/politics/trump-threatens-double-tariffs-mexico-migrant-caravans-not-stopped"
         }
       ]
     }

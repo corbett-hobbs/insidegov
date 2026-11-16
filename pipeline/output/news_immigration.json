@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-16",
   "stories": [
     {
       "id": "immigration_courts-2026-11-13",
@@ -10,8 +10,15 @@
           "outletId": "apnews",
           "outlet": "Associated Press",
           "lean": "Lean Left",
-          "title": "Supreme Court will consider Trump’s executive order suspending asylum access at the southern border",
-          "url": "https://apnews.com/article/supreme-court-trump-asylum-aeed6eb39a46b6f9e56f4b6940a5cfe4?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+          "title": "The Latest: Supreme Court to consider Trump’s order suspending asylum access at southern border",
+          "url": "https://apnews.com/article/trump-congress-elections-fallout-3ed27e89abf3b0489d463fd30dacf37d?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+        },
+        {
+          "outletId": "pbsnewshour",
+          "outlet": "PBS NewsHour",
+          "lean": "Lean Left",
+          "title": "Supreme Court will consider Trump's executive order suspending asylum access at the southern border",
+          "url": "https://www.pbs.org/newshour/politics/supreme-court-will-consider-trumps-executive-order-suspending-asylum-access-at-the-southern-border"
         },
         {
           "outletId": "washingtonexaminer",
