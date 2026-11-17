@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-16",
+  "asOf": "2026-11-17",
   "stories": [
+    {
+      "id": "trade_deals-2026-11-17",
+      "date": "2026-11-17",
+      "topic": "Trade deals and talks",
+      "chartId": "who-the-u-s-trades-with",
+      "headlines": [
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Thailand Opening Markets Wider to US to Secure Trade Deal",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-17/us-thailand-reach-substantial-conclusion-of-trade-deal"
+        },
+        {
+          "outletId": "washingtontimes",
+          "outlet": "Washington Times",
+          "lean": "Lean Right",
+          "title": "Trump signs trade pact with Thai leader",
+          "url": "https://www.washingtontimes.com/news/2026/nov/17/donald-trump-signs-trade-pact-thai-leader/"
+        }
+      ]
+    },
     {
       "id": "tariff.all-2026-11-16",
       "date": "2026-11-16",
