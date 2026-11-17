@@ -1,42 +1,5 @@
 {
   "checks": {
-    "a2b4e617b5528e2774e3": {
-      "at": "2026-11-14T21:21:30.437Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Three outlets report the same DHS/ICE announcement of record deportation and removal numbers, which is central to the removals chart.",
-      "chart": ""
-    },
-    "ce3135a732ffa2b60f4b": {
-      "at": "2026-11-14T21:21:30.437Z",
-      "keep": [],
-      "reason": "Only the Washington Examiner headline reports the Mexico tariff threat; The Hill headline covers caravans without mentioning tariffs, so no shared development is confirmed, and the Miller headlines are not about tariffs.",
-      "chart": ""
-    },
-    "c0b4dfa08a80008a4914": {
-      "at": "2026-11-15T01:45:33.438Z",
-      "keep": [
-        "https://thehill.com/business/wholesale-inflation-ppi-economy/",
-        "https://nypost.com/2026/11/13/business/wholesale-inflation-jumps-6-5-from-last-year-biggest-increase-since-2022/"
-      ],
-      "reason": "The Hill and New York Post both report the same new official wholesale inflation (PPI) release; it is a different index than the CPI chart, so the match is approximate.",
-      "chart": ""
-    },
-    "18ad5b96e2deffab841a": {
-      "at": "2026-11-15T01:45:33.438Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments (an ambassador's warning about tariff costs and Carney's comments on trade-deal progress), so no single shared development qualifies.",
-      "chart": ""
-    },
-    "91b29d9592cd22df3614": {
-      "at": "2026-11-15T01:45:33.438Z",
-      "keep": [],
-      "reason": "Only headline 1 clearly reports the Trump tariff threat on Mexico; headline 2 is about caravans without mentioning tariffs, and headline 3 covers a different story (negotiators), so no single development is reported by multiple outlets.",
-      "chart": ""
-    },
     "940cd9e978c26c1657d9": {
       "at": "2026-11-15T09:11:51.679Z",
       "keep": [
@@ -89,6 +52,33 @@
       "keep": [],
       "reason": "Both headlines cover AAA's Thanksgiving travel forecast; gas prices are only one factor in it, so the chart's topic is not central, and I am unsure enough to leave both out.",
       "chart": ""
+    },
+    "6bb1f9b8eb3921713c3f": {
+      "at": "2026-11-17T03:41:59.327Z",
+      "keep": [],
+      "reason": "No shared U.S. development: headlines cover Brazil, Nigeria and Australia, plus one Fed official's remarks reported by a single outlet.",
+      "chart": ""
+    },
+    "0fe7837d08d5c502bde7": {
+      "at": "2026-11-17T03:41:59.327Z",
+      "keep": [
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "Both headlines report the same current development: the U.S. average diesel price falling below $6 a gallon, which is the subject of the weekly diesel price chart.",
+      "chart": ""
+    },
+    "295a45c0f2032cafa4c8": {
+      "at": "2026-11-17T03:41:59.327Z",
+      "keep": [],
+      "reason": "The two pairs cover different individual incidents (a family's claim about an ICE run-over, and a DHS statement on one Rikers release), not one national government action, ruling, or official figure; neither is measured by the border encounters or ICE removals charts.",
+      "chart": ""
+    },
+    "51eeda7f1f54a041eaad": {
+      "at": "2026-11-17T03:41:59.327Z",
+      "keep": [],
+      "reason": "Headlines cover different developments: a White House comment on a possible full appropriations bill, a Senate GOP defense spending bill unveiling, a Ron Johnson remark, and a UK Milburn welfare report. No single development is shared, and none is measured directly by a listed chart.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -98,14 +88,14 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-16"
+      "last": "2026-11-17"
     },
     "119-pub-142": {
       "outlets": [
         "foxbusiness"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-16"
+      "last": "2026-11-17"
     }
   }
 }
