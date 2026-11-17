@@ -93,18 +93,18 @@
       "topic": "Oil markets",
       "headlines": [
         {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Stocks Surge, And The Dow Soars 1,500 Points As Oil Prices Tumble Following The U.S. Midterm Elections",
+          "url": "https://www.huffpost.com/entry/stocks-rally-dow-soars-more-than-1000-points-after-midterm-elections_n_6aeb4895e4b08d8d4a8cba9d"
+        },
+        {
           "outletId": "nbcnews",
           "outlet": "NBC News",
           "lean": "Lean Left",
           "title": "Oil prices drop below $100 as midterms fuel hope for an end to the Iran war",
           "url": "https://www.nbcnews.com/business/energy/oil-prices-iran-war-midterms-rcna607448"
-        },
-        {
-          "outletId": "politico",
-          "outlet": "Politico",
-          "lean": "Lean Left",
-          "title": "Oil prices fall on Vance's post-midterms Iran war repudiation",
-          "url": "https://www.politico.com/news/2026/11/04/midtermtrump-renewed-strikes-iran-01149427"
         },
         {
           "outletId": "wsj",
