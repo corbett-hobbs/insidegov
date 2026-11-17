@@ -1,15 +1,5 @@
 {
   "checks": {
-    "940cd9e978c26c1657d9": {
-      "at": "2026-11-15T09:11:51.679Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/",
-        "https://www.huffpost.com/entry/trump-administration-brags-about-record-deportation-numbers-days-after-midterm-bloodbath_n_6af634cae4b0653429066f97",
-        "https://www.foxnews.com/us/dhs-touts-highest-ice-deportations-history-mullin-says-agency-unleashed"
-      ],
-      "reason": "Three outlets report the same DHS/ICE announcement of record deportation and arrest numbers, which is central to the ICE removals chart.",
-      "chart": ""
-    },
     "fba5964da52762290b33": {
       "at": "2026-11-16T20:18:25.072Z",
       "keep": [],
@@ -78,6 +68,42 @@
       "at": "2026-11-17T03:41:59.327Z",
       "keep": [],
       "reason": "Headlines cover different developments: a White House comment on a possible full appropriations bill, a Senate GOP defense spending bill unveiling, a Ron Johnson remark, and a UK Milburn welfare report. No single development is shared, and none is measured directly by a listed chart.",
+      "chart": ""
+    },
+    "4c9d4490f446c269e8c8": {
+      "at": "2026-11-17T13:06:45.234Z",
+      "keep": [],
+      "reason": "No single U.S. inflation development is shared by multiple headlines; the Fed remark is one outlet only and the others concern foreign economies.",
+      "chart": ""
+    },
+    "290ee70864920e2e4472": {
+      "at": "2026-11-17T13:06:45.234Z",
+      "keep": [
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "Axios and CBS both report the national average diesel price dipping below $6 per gallon, the same current market development the chart tracks; the Nvidia headline is unrelated.",
+      "chart": ""
+    },
+    "4b335fb0f672647146b5": {
+      "at": "2026-11-17T13:06:45.234Z",
+      "keep": [],
+      "reason": "The CBS headlines report a family's claim about an ICE incident, and the Fox and NY Post headlines cover a single local Rikers release case, not a national government action; no keep set qualifies, and no chart measures these stories.",
+      "chart": ""
+    },
+    "fbdb4ba781de89d8131d": {
+      "at": "2026-11-17T13:06:45.234Z",
+      "keep": [
+        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/",
+        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/"
+      ],
+      "reason": "Both The Hill headlines report the Senate GOP unveiling a nearly $1.1T defense appropriations bill, a federal spending action; the Johnson headline is a senator's hope rather than a clear development, and the UK report is foreign.",
+      "chart": ""
+    },
+    "cc3f6a10a2532b43d4f2": {
+      "at": "2026-11-17T13:06:45.234Z",
+      "keep": [],
+      "reason": "Headline 1 is about UK real wages, which has no U.S. policy angle, and headline 2 is Nvidia company earnings news, not a wage development; no single qualifying U.S. story is shared.",
       "chart": ""
     }
   },
