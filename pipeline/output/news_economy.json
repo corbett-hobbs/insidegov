@@ -2,6 +2,27 @@
   "asOf": "2026-11-17",
   "stories": [
     {
+      "id": "markets-2026-11-17",
+      "date": "2026-11-17",
+      "topic": "Stock market",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Stocks Down Just Ahead of Nvidia’s Earnings Report",
+          "url": "https://www.nytimes.com/2026/11/17/business/economy/stock-market-nvidia-earnings.html"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Dow plummets 800 points as Nasdaq slides ahead of Nvidia earnings, Anthropic IPO",
+          "url": "https://nypost.com/2026/11/17/business/dow-plummets-800-points-nasdaq-slides-ahead-of-nvidia-earnings-anthropic-ipo/"
+        }
+      ]
+    },
+    {
       "id": "diesel-2026-11-15",
       "date": "2026-11-15",
       "topic": "Diesel prices",
@@ -122,35 +143,6 @@
           "lean": "Lean Right",
           "title": "Gas prices drop below $4 for first time since July despite inflation",
           "url": "https://www.washingtonexaminer.com/policy/energy-and-environment/4798638/gas-price-drop-below-4-first-july-inflation-but-still-up-30-percent-from-pre-war-levels/"
-        }
-      ]
-    },
-    {
-      "id": "inflation-2026-11-10",
-      "date": "2026-11-10",
-      "topic": "Inflation",
-      "chartId": "chart-infl",
-      "headlines": [
-        {
-          "outletId": "bls",
-          "outlet": "Bureau of Labor Statistics",
-          "lean": "Data",
-          "title": "CPI for all items increases 0.4% in October; shelter rises",
-          "url": "https://www.bls.gov/news.release/archives/cpi_11102026.htm"
-        },
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Here's the inflation breakdown for October 2026 — in one chart",
-          "url": "https://www.cnbc.com/2026/11/10/october-2026-cpi-inflation-breakdown.html"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Prices posted sharp 0.4% increase in October, showing inflation threat",
-          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4797977/inflation-october-midterm-elections-affordability-democrats/"
         }
       ]
     }
