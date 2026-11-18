@@ -165,6 +165,48 @@
       ],
       "reason": "Headlines 2, 3 and 4 report the same U.S. stock market decline ahead of Nvidia earnings; the preview (1) and the Nvidia-specific Huang resignation story (5) are excluded, and no listed chart directly measures stock market moves.",
       "chart": ""
+    },
+    "3151245126d659065394": {
+      "at": "2026-11-18T03:38:05.603Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/immigration/4805745/judge-throws-out-dhs-rule-student-visa/",
+        "https://www.washingtonexaminer.com/policy/immigration/4805745/judge-throws-out-dhs-rule-student-visa/"
+      ],
+      "reason": "Both Washington Examiner headlines report one court ruling striking down a DHS student visa rule; the HuffPost items are a multi-story live blog, so they are excluded.",
+      "chart": ""
+    },
+    "6a6ffa5f4cffff2d1036": {
+      "at": "2026-11-18T03:38:05.603Z",
+      "keep": [],
+      "reason": "Each candidate development (Thailand deal, Nvidia export panel, Xi trade barriers) appears only from a single outlet, duplicated, so no development is reported by multiple outlets; neither chart directly measures these stories.",
+      "chart": ""
+    },
+    "865bb44c844790a74084": {
+      "at": "2026-11-18T03:38:05.603Z",
+      "keep": [],
+      "reason": "No headline reports a shared U.S. development: one is a Fed official's remark, and the other two are foreign (Germany, Australia) with no U.S. angle.",
+      "chart": ""
+    },
+    "b8329c2b785059dbb961": {
+      "at": "2026-11-18T03:38:05.603Z",
+      "keep": [
+        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/",
+        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/"
+      ],
+      "reason": "Two Hill headlines report the same Senate GOP unveiling of a roughly $1.1 trillion defense appropriations bill; the Politico Johnson piece is a senator's comment, and the BOJ story is foreign.",
+      "chart": ""
+    },
+    "f640c12afd7b470f21fd": {
+      "at": "2026-11-18T03:38:05.603Z",
+      "keep": [],
+      "reason": "Three different incidents, each repeated by only one outlet (Fox News or The Guardian); no single development is reported across outlets, and none is about border encounters or removals data.",
+      "chart": ""
+    },
+    "46689603f54b38693c4e": {
+      "at": "2026-11-18T03:38:05.603Z",
+      "keep": [],
+      "reason": "The three headlines cover different, unrelated developments (a crash, a New Jersey governor's funding, an individual boxer's ICE arrest), with no single national development shared by multiple outlets.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -174,14 +216,14 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-17"
+      "last": "2026-11-18"
     },
     "119-pub-142": {
       "outlets": [
         "foxbusiness"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-17"
+      "last": "2026-11-18"
     }
   }
 }
