@@ -207,6 +207,54 @@
       "keep": [],
       "reason": "The three headlines cover different, unrelated developments (a crash, a New Jersey governor's funding, an individual boxer's ICE arrest), with no single national development shared by multiple outlets.",
       "chart": ""
+    },
+    "e1887dff342cfa7b5a99": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [],
+      "reason": "Each development appears from only one outlet (Politico, The Hill, HuffPost, plus two foreign Bloomberg stories), so no single development is clearly most reported; no listed chart directly measures appropriations or shutdown news.",
+      "chart": ""
+    },
+    "89e0b720cc805772ebc5": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [],
+      "reason": "Both headlines cover a forecast of when the debt limit will be hit, made by outside forecasters rather than a government action, ruling, or official figure, so it falls under analysis and is excluded.",
+      "chart": ""
+    },
+    "ced9b6b8a149804dec1c": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [],
+      "reason": "Headlines 1-2 are one NYT item (duplicate) about a pipeline executive's ties, with no clear government action shown from multiple outlets; headlines 3-4 are a CNBC piece on Southeast Asian data centers and China, not drilling or pipelines; no listed chart measures the topic.",
+      "chart": ""
+    },
+    "7685fce3970e1f2aa9fc": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
+      ],
+      "reason": "Both headlines are the same New York Post story that Trump announced a completed trade deal with the Philippines; no other outlet reports that deal as a headline topic, and the rest are summit, export-control, or pre-summit coverage.",
+      "chart": "tariffs"
+    },
+    "7d4078bbb747b170b353": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "Axios and CBS both report that U.S. average diesel prices fell below $6 a gallon, the same current development the weekly diesel price chart tracks.",
+      "chart": ""
+    },
+    "cd06b1b6a8be6e5ad843": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [],
+      "reason": "Headlines cover UK and South African inflation, which have no U.S. angle, plus one Fed official's remark reported by a single outlet; no shared U.S. development matches the chart.",
+      "chart": ""
+    },
+    "9b29a7406c36dc24e00b": {
+      "at": "2026-11-18T12:56:45.718Z",
+      "keep": [],
+      "reason": "Each headline comes from a single outlet (Fox News or The Hill) and covers a different local incident, so no national development is reported by several outlets; the ICE removals and border encounters charts do not measure these stories.",
+      "chart": ""
     }
   },
   "dispatched": {},
