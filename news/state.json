@@ -1,48 +1,5 @@
 {
   "checks": {
-    "fba5964da52762290b33": {
-      "at": "2026-11-16T20:18:25.072Z",
-      "keep": [],
-      "reason": "The headlines cover two separate incident reports (a family's claim about an ICE run-over and a pepper-spray video), each from one outlet, not a government action, ruling, or official figure; neither matches a chart's data.",
-      "chart": ""
-    },
-    "3530204361c797bddfb1": {
-      "at": "2026-11-16T20:18:25.072Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments: a company acquisition (Blackstone/Amazon) and a permitting bill, so no single shared development is reported by all.",
-      "chart": ""
-    },
-    "83cbc50b97fd71229103": {
-      "at": "2026-11-16T20:18:25.072Z",
-      "keep": [
-        "https://nypost.com/2026/11/15/business/us-diesel-below-6-a-gallon-at-2-month-low-on-easing-tensions-weaker-demand/",
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "All three report that the U.S. average diesel price fell below $6 a gallon, the same current market development.",
-      "chart": ""
-    },
-    "214fcc4984346301675a": {
-      "at": "2026-11-16T20:18:25.072Z",
-      "keep": [],
-      "reason": "Headlines 1 and 2 are foreign inflation news with no U.S. policy angle, and headline 3 is a single Fed official's remark that no other headline shares, so no development is reported by multiple outlets.",
-      "chart": ""
-    },
-    "8f864b3ab7fde8810c20": {
-      "at": "2026-11-16T20:18:25.072Z",
-      "keep": [
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564",
-        "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564"
-      ],
-      "reason": "Two identical NBC headlines report the Supreme Court agreeing to rule on Trump's asylum ban, a court action on immigration policy; the DEI grant headlines are a different topic.",
-      "chart": ""
-    },
-    "9632a977c2c3bf5bf0c6": {
-      "at": "2026-11-16T20:18:25.072Z",
-      "keep": [],
-      "reason": "Both headlines cover AAA's Thanksgiving travel forecast; gas prices are only one factor in it, so the chart's topic is not central, and I am unsure enough to leave both out.",
-      "chart": ""
-    },
     "6bb1f9b8eb3921713c3f": {
       "at": "2026-11-17T03:41:59.327Z",
       "keep": [],
@@ -255,9 +212,83 @@
       "keep": [],
       "reason": "Each headline comes from a single outlet (Fox News or The Hill) and covers a different local incident, so no national development is reported by several outlets; the ICE removals and border encounters charts do not measure these stories.",
       "chart": ""
+    },
+    "50fd3c2dfe8e5ad245c4": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [],
+      "reason": "No single current national development is reported by multiple outlets: the Politico item is a senator's hope about a future spending bill, the HuffPost item is a shutdown being considered, and the Washington Examiner item is Virginia state tax news; none of the listed charts directly measures these stories.",
+      "chart": ""
+    },
+    "3719e64d7c55b5e59011": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [],
+      "reason": "No development is reported by multiple outlets: the permitting bill (1) stands alone, the Nvidia chip story (2) is unrelated, and the data center power-use piece (3) is an analysis rather than a current development.",
+      "chart": ""
+    },
+    "761f176ae77be218f1ec": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a crime case involving one deported person, and an ICE contract with a flight contractor. No single development is shared, so nothing qualifies.",
+      "chart": ""
+    },
+    "24b11d9bfeb257106981": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-18/trump-reassures-philippines-of-us-support-ahead-of-xi-meeting",
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
+      ],
+      "reason": "Trump announced a trade deal with the Philippines, reported by Bloomberg and the New York Post; the other headlines cover the wider Asia trip or the China summit.",
+      "chart": ""
+    },
+    "1b4601d49d35a7f93f9c": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
+        "https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html"
+      ],
+      "reason": "Bloomberg and CNBC both report the same Fed minutes release showing officials expect more rate hikes, with inflation central; the other items are UK/NZ stories, opinion-style remarks, or a different development.",
+      "chart": ""
+    },
+    "7f3be6805ee58e437fe9": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
+        "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
+      ],
+      "reason": "Headlines 2 and 3 both report the Fed minutes release showing officials expect more rate hikes, which is central to the federal funds rate chart; headline 1 covers mortgage demand and mortgage rates instead.",
+      "chart": ""
+    },
+    "3c77dcb14b366acf99d9": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [
+        "https://www.cbsnews.com/news/thanksgiving-travel-likely-dip-prices/",
+        "https://thehill.com/policy/transportation/6223078-airfare-gas-prices-thanksgiving-holiday-travel-predictions/"
+      ],
+      "reason": "CBS and The Hill both report the same AAA Thanksgiving travel forecast, which cites gas prices as a key factor; Axios's piece is a general analysis of drivers absorbing high prices, so it is left out.",
+      "chart": ""
+    },
+    "ab05ab37af7aabb72962": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [],
+      "reason": "No single U.S. tariff development is reported by multiple headlines; the items cover different diplomatic meetings, a refund-spending report, and Canada-China ties.",
+      "chart": ""
+    },
+    "ee9bab7365c711e4a2c2": {
+      "at": "2026-11-18T21:20:23.469Z",
+      "keep": [],
+      "reason": "Headlines cover a local California deputy incident and a New York governor's letter about a detention center; neither is a national development, and neither is measured by the border encounters or ICE removals charts.",
+      "chart": ""
     }
   },
-  "dispatched": {},
+  "dispatched": {
+    "indicators-freshness.yml": {
+      "release": "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
+      "since": "2026-11-18T21:20:23.469Z",
+      "at": "2026-11-18T21:20:23.469Z",
+      "count": 1
+    }
+  },
   "laws": {
     "119-pub-133": {
       "outlets": [
