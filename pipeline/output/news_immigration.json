@@ -2,6 +2,28 @@
   "asOf": "2026-11-17",
   "stories": [
     {
+      "id": "green_cards-2026-11-16",
+      "date": "2026-11-16",
+      "topic": "Green cards",
+      "chartId": "chart-green-cards",
+      "headlines": [
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "US Proposes Tighter Rules for Employer-Sponsored Green Cards",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-16/us-proposes-tighter-rules-for-employer-sponsored-green-cards"
+        },
+        {
+          "outletId": "breitbart",
+          "outlet": "Breitbart",
+          "lean": "Right",
+          "title": "Trump Deputies Set Rule to Curb Employers' Green Card Fraud",
+          "url": "https://www.breitbart.com/politics/2026/11/17/trump-deputies-set-rule-to-curb-employers-green-card-fraud/"
+        }
+      ]
+    },
+    {
       "id": "immigration_courts-2026-11-13",
       "date": "2026-11-13",
       "topic": "Immigration court rulings",
