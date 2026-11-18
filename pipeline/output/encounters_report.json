@@ -1,16 +1,16 @@
 {
   "first_period": 1980,
-  "last_period": 2026,
-  "rows": 156,
-  "monthly_rows": 524,
+  "last_period": 2027,
+  "rows": 160,
+  "monthly_rows": 532,
   "coverage": {
     "usbp": {
       "first": 1980,
-      "last": 2026
+      "last": 2027
     },
     "ofo": {
       "first": 2004,
-      "last": 2026
+      "last": 2027
     },
     "title42": {
       "first": 2020,
@@ -27,7 +27,7 @@
       },
       "full": {
         "first": 2020,
-        "last": 2026
+        "last": 2027
       }
     }
   },
@@ -46,7 +46,12 @@
       {
         "source": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
         "first": 2023,
-        "last": 2026
+        "last": 2023
+      },
+      {
+        "source": "nationwide-encounters-fy24-fy27-oct-aor.csv",
+        "first": 2024,
+        "last": 2027
       }
     ],
     "ofo": [
@@ -73,17 +78,22 @@
       {
         "source": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
         "first": 2023,
-        "last": 2026
+        "last": 2023
+      },
+      {
+        "source": "nationwide-encounters-fy24-fy27-oct-aor.csv",
+        "first": 2024,
+        "last": 2027
       }
     ]
   },
   "status": {
-    "final": 46,
+    "final": 47,
     "preliminary": 1
   },
   "preliminary": {
-    "fy": 2026,
-    "months": 11
+    "fy": 2027,
+    "months": 1
   },
   "blended_periods": [
     1981,
@@ -115,14 +125,36 @@
       "through": "aug",
       "posted": "2026-09",
       "years_used": [
-        2023,
+        2023
+      ]
+    },
+    {
+      "file": "nationwide-encounters-fy24-fy27-oct-aor.csv",
+      "fy_start": 2024,
+      "fy_end": 2027,
+      "through": "oct",
+      "posted": "2026-11",
+      "years_used": [
         2024,
         2025,
-        2026
+        2026,
+        2027
       ]
     }
   ],
   "csv_overlaps": [
+    {
+      "fy": 2024,
+      "used": "nationwide-encounters-fy24-fy27-oct-aor.csv",
+      "compared": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
+      "max_abs_diff": 0
+    },
+    {
+      "fy": 2025,
+      "used": "nationwide-encounters-fy24-fy27-oct-aor.csv",
+      "compared": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",
+      "max_abs_diff": 0
+    },
     {
       "fy": 2023,
       "used": "nationwide-encounters-fy23-fy26-aug-aor_0.csv",

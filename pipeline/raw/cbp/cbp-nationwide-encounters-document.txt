@@ -262,28 +262,10 @@ Return to the Public Data Portal
 Encounter data includes U.S. Border Patrol Title 8 apprehensions, Office of Field Operations Title 8 inadmissibles, and all Title 42 expulsions for fiscal years 2020 to date. Data is available for the Northern Land Border, Southwest Land Border, and Nationwide (i.e., air, land, and sea modes of transportation) encounters.
 Data is extracted from live CBP systems and data sources. Statistical information is subject to change due to corrections, systems changes, change in data definition, additional information, or encounters pending final review. Final statistics are available at the conclusion of each fiscal year.
 Dashboard Dataset
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - August
-FY23 - FY26 (FYTD) Nationwide Encounters by State - August
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - July
-FY23 - FY26 (FYTD) Nationwide Encounters by State - July
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - June
-FY23 - FY26 (FYTD) Nationwide Encounters by State - June
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - May
-FY23 - FY26 (FYTD) Nationwide Encounters by State - May
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - April
-FY23 - FY26 (FYTD) Nationwide Encounters by State - April
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - March
-FY23 - FY26 (FYTD) Nationwide Encounters by State - March
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - February
-FY23 - FY26 (FYTD) Nationwide Encounters by State - February
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - January
-FY23 - FY26 (FYTD) Nationwide Encounters by State - January
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - December
-FY23 - FY26 (FYTD) Nationwide Encounters by State - December
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - November
-FY23 - FY26 (FYTD) Nationwide Encounters by State - November
-FY23 - FY26 (FYTD) Nationwide Encounters by Area of Responsibility - October
-FY23 - FY26 (FYTD) Nationwide Encounters by State - October
+FY24 - FY27 Nationwide Encounters by Area of Responsibility - October
+FY24 - FY27 Nationwide Encounters by State - October
+FY23 - FY26 Nationwide Encounters by Area of Responsibility
+FY23 - FY26 Nationwide Encounters by State
 FY22 - FY25 Nationwide Encounters by Area of Responsibility
 FY22 - FY25 Nationwide Encounters by State
 FY21 - FY24 Nationwide Encounters by Area of Responsibility
@@ -306,94 +288,22 @@ Nationwide Encounters Data Dictionary
 PDF
 122.02 KB
 09/29/2023
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - August
+Nationwide Encounters Dataset FY24-FY27 by Area of Responsibility - October
 CSV
-6.42 MB
-09/04/2026
-Nationwide Encounters Dataset FY23-FY26 by State - August
+4.74 MB
+11/05/2026
+Nationwide Encounters Dataset FY24-FY27 by State - October
 CSV
-2.74 MB
-09/04/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - July
+2.09 MB
+11/05/2026
+Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility
 CSV
-6.31 MB
-08/05/2026
-Nationwide Encounters Dataset FY23-FY26 by State - July
+6.44 MB
+10/15/2026
+Nationwide Encounters Dataset FY23-FY26 by State
 CSV
-2.69 MB
-08/05/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - June
-CSV
-6.20 MB
-07/06/2026
-Nationwide Encounters Dataset FY23-FY26 by State - June
-CSV
-2.65 MB
-07/06/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - May
-CSV
-6.10 MB
-06/04/2026
-Nationwide Encounters Dataset FY23-FY26 by State - May
-CSV
-2.60 MB
-06/04/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - April
-CSV
-6.00 MB
-05/05/2026
-Nationwide Encounters Dataset FY23-FY26 by State - April
-CSV
-2.57 MB
-05/05/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - March
-CSV
-5.91 MB
-04/03/2026
-Nationwide Encounters Dataset FY23-FY26 by State - March
-CSV
-2.53 MB
-04/03/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - February
-CSV
-5.82 MB
-03/05/2026
-Nationwide Encounters Dataset FY23-FY26 by State - February
-CSV
-2.49 MB
-03/05/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - January
-CSV
-5.73 MB
-02/04/2026
-Nationwide Encounters Dataset FY23-FY26 by State - January
-CSV
-2.45 MB
-02/04/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - December
-CSV
-5.62 MB
-01/06/2026
-Nationwide Encounters Dataset FY23-FY26 by State - December
-CSV
-2.41 MB
-01/06/2026
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - November
-CSV
-5.52 MB
-12/03/2025
-Nationwide Encounters Dataset FY23-FY26 by State - November
-CSV
-2.37 MB
-12/03/2025
-Nationwide Encounters Dataset FY23-FY26 by Area of Responsibility - October
-CSV
-5.43 MB
-11/05/2025
-Nationwide Encounters Dataset FY23-FY26 by State - October
-CSV
-2.33 MB
-11/05/2025
+2.71 MB
+10/15/2026
 Nationwide Encounters Dataset FY22 - FY25 by Area of Responsibility
 CSV
 6.89 MB
@@ -420,7 +330,7 @@ CSV
 11/07/2023
 Topics
 Statistics
-Last Modified: Sep 16, 2026
+Last Modified: Nov 17, 2026
 CBP.gov
 An official website of the
 U.S. Department of Homeland Security
