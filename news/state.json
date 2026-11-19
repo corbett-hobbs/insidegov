@@ -1,32 +1,5 @@
 {
   "checks": {
-    "6bb1f9b8eb3921713c3f": {
-      "at": "2026-11-17T03:41:59.327Z",
-      "keep": [],
-      "reason": "No shared U.S. development: headlines cover Brazil, Nigeria and Australia, plus one Fed official's remarks reported by a single outlet.",
-      "chart": ""
-    },
-    "0fe7837d08d5c502bde7": {
-      "at": "2026-11-17T03:41:59.327Z",
-      "keep": [
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "Both headlines report the same current development: the U.S. average diesel price falling below $6 a gallon, which is the subject of the weekly diesel price chart.",
-      "chart": ""
-    },
-    "295a45c0f2032cafa4c8": {
-      "at": "2026-11-17T03:41:59.327Z",
-      "keep": [],
-      "reason": "The two pairs cover different individual incidents (a family's claim about an ICE run-over, and a DHS statement on one Rikers release), not one national government action, ruling, or official figure; neither is measured by the border encounters or ICE removals charts.",
-      "chart": ""
-    },
-    "51eeda7f1f54a041eaad": {
-      "at": "2026-11-17T03:41:59.327Z",
-      "keep": [],
-      "reason": "Headlines cover different developments: a White House comment on a possible full appropriations bill, a Senate GOP defense spending bill unveiling, a Ron Johnson remark, and a UK Milburn welfare report. No single development is shared, and none is measured directly by a listed chart.",
-      "chart": ""
-    },
     "4c9d4490f446c269e8c8": {
       "at": "2026-11-17T13:06:45.234Z",
       "keep": [],
@@ -338,6 +311,73 @@
         "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
       ],
       "reason": "Headlines 2 and 3 both report the same Fed minutes release showing officials expect further rate hikes, which is central to the federal funds rate chart.",
+      "chart": ""
+    },
+    "4f5c1cac094bee344bee": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [
+        "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e",
+        "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e",
+        "https://thehill.com/homenews/senate/6228970-senate-democrats-avoid-shutdown/"
+      ],
+      "reason": "HuffPost and The Hill both report Democrats weighing a government shutdown over the Iran war; no listed chart directly measures shutdown risk, so no chart link.",
+      "chart": ""
+    },
+    "652d292ecc59b429d77e": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [],
+      "reason": "The only pair on one development (AAA Thanksgiving travel forecast) centers on travel, with gas prices only a factor, and AAA is not a government source; the other headlines are analysis, a reader survey, or a regional map.",
+      "chart": ""
+    },
+    "7aaabed0a8eeafb785c2": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [],
+      "reason": "No single development is shared by multiple headlines: the permitting bill, the Nvidia chip news, the data center power comparison, the WSJ explainer, and the IEA forecast are all different stories or not qualifying.",
+      "chart": ""
+    },
+    "341d7b4dd260afc77e6e": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
+      ],
+      "reason": "Trump announcing a completed \"very big trade deal\" with the Philippines is a single current U.S. trade agreement; only the New York Post (duplicated entries) reports it directly, and the summit headlines are about diplomacy rather than trade.",
+      "chart": "tariffs"
+    },
+    "543d5d55296423104f1d": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "Axios and CBS both report the same development: the U.S. average diesel price falling below $6 a gallon. Headline 6 is an explainer on a different angle, and headline 4 is UK news.",
+      "chart": ""
+    },
+    "525d008ace6f9993038d": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [
+        "https://www.foxbusiness.com/fox-news-tech/anthropic-prices-ipo-83-share-blowing-target-range-report",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4808336/anthropic-ipo-83-share-stock-market-debut/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4808336/anthropic-ipo-83-share-stock-market-debut/",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Five headlines from Fox Business, Washington Examiner and BBC cover one development, Anthropic's IPO pricing and record-breaking U.S. stock market debut; the CNBC Walmart item is a different story.",
+      "chart": ""
+    },
+    "7fd58fb82c4e9f55470b": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [],
+      "reason": "The four headlines cover different developments (Xi's trade remarks, company use of tariff refunds, Carney on Canada-China ties, Canada's car industry), so none is a shared U.S. development.",
+      "chart": ""
+    },
+    "2cc054d6d761e4478335": {
+      "at": "2026-11-19T12:51:00.138Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
+        "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
+      ],
+      "reason": "Headlines 1 and 2 both report the same development: Fed minutes showing officials expect further rate hikes. Headline 3 is about vehicle affordability, with interest rates only incidental.",
       "chart": ""
     }
   },
