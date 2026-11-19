@@ -279,6 +279,66 @@
       "keep": [],
       "reason": "Headlines cover a local California deputy incident and a New York governor's letter about a detention center; neither is a national development, and neither is measured by the border encounters or ICE removals charts.",
       "chart": ""
+    },
+    "ffe5b6f259b80df91881": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a local crime story about one individual, and a Supreme Court case on Venezuelan deportation protections reported by only one outlet.",
+      "chart": ""
+    },
+    "91c3d4a5136121e71540": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [],
+      "reason": "Only the NYT and Bloomberg headlines relate to the permitting bill's data center power provisions, and they describe different developments (a charge versus an exemption push); the other two are unrelated or not a single development.",
+      "chart": ""
+    },
+    "66ad37b444e000aa279a": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
+        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
+      ],
+      "reason": "Trump's announcement of a wrapped-up trade deal with the Philippines is a government trade agreement; tariffs chart fits since a deal would set tariff rates on imports from that partner. Other headlines cover the Trump-Xi-Putin summit, export controls, or are passing mentions.",
+      "chart": "tariffs"
+    },
+    "eae954ee28534cd39c0a": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "Axios and CBS both report that average U.S. diesel prices fell below $6 a gallon, a single current market development central to the diesel price chart.",
+      "chart": ""
+    },
+    "23c61238536e0206fa62": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
+        "https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html"
+      ],
+      "reason": "Bloomberg and CNBC both report the same Fed minutes release, showing officials expect more rate hikes amid inflation concerns.",
+      "chart": ""
+    },
+    "183ec68c3038280a8e71": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [],
+      "reason": "No single current U.S. tariff development is reported by multiple headlines; the items cover China-Xi remarks, a company refund report, Canada-China ties, and a South Korean stock rally.",
+      "chart": ""
+    },
+    "9a03c3f4e3167dc3a948": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [],
+      "reason": "All headlines cover one company's IPO (Anthropic), which is company news rather than a national market development, and no listed chart directly measures IPO pricing or valuations.",
+      "chart": ""
+    },
+    "d3ee817044b6ec0a3489": {
+      "at": "2026-11-19T03:12:06.099Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
+        "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
+      ],
+      "reason": "Headlines 2 and 3 both report the same Fed minutes release showing officials expect further rate hikes, which is central to the federal funds rate chart.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -295,14 +355,15 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-18"
+      "last": "2026-11-19"
     },
     "119-pub-142": {
       "outlets": [
-        "foxbusiness"
+        "foxbusiness",
+        "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-18"
+      "last": "2026-11-19"
     }
   }
 }
