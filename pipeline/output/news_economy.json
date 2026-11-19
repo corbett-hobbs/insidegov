@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-18",
+  "asOf": "2026-11-19",
   "stories": [
     {
       "id": "debt-2026-11-18",
@@ -49,6 +49,27 @@
           "lean": "Right",
           "title": "Fed Minutes Show Officials Raised Possibility of Bigger December Hike",
           "url": "https://www.breitbart.com/economy/2026/11/18/fed-minutes-show-officials-raised-possibility-of-bigger-december-hike/"
+        }
+      ]
+    },
+    {
+      "id": "budget_taxes-2026-11-17",
+      "date": "2026-11-17",
+      "topic": "Federal budget and taxes",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Democrats Consider Government Shutdown To Force Trump To End The Iran War",
+          "url": "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e"
+        },
+        {
+          "outletId": "newsweek",
+          "outlet": "Newsweek",
+          "lean": "Center",
+          "title": "Democrats Weigh Shutdown Over Iran War But Some Warn Against the Risk",
+          "url": "https://www.newsweek.com/democrats-weigh-shutdown-over-iran-war-but-some-warn-against-the-risk-12742468"
         }
       ]
     },
@@ -121,28 +142,6 @@
           "lean": "Center",
           "title": "Schmid Says Fed Has More Work to Do to Bring Down Inflation",
           "url": "https://www.bloomberg.com/news/articles/2026-11-15/schmid-says-fed-has-more-work-to-do-to-bring-down-inflation"
-        }
-      ]
-    },
-    {
-      "id": "fed_rates-2026-11-12",
-      "date": "2026-11-12",
-      "topic": "Federal Reserve and interest rates",
-      "chartId": "chart-ff",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Fed Will Not Hold Policy Vote at October 2027 Meeting",
-          "url": "https://www.nytimes.com/2026/11/12/business/economy/fed-warsh-october.html"
-        },
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "In a policy switch, the Fed says its October 2027 meeting will not see a vote on interest rates",
-          "url": "https://www.cnbc.com/2026/11/12/in-policy-switch-fed-says-its-october-2027-meeting-will-not-see-a-vote-on-interest-rates.html"
         }
       ]
     }
