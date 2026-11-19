@@ -1,41 +1,5 @@
 {
   "checks": {
-    "4c9d4490f446c269e8c8": {
-      "at": "2026-11-17T13:06:45.234Z",
-      "keep": [],
-      "reason": "No single U.S. inflation development is shared by multiple headlines; the Fed remark is one outlet only and the others concern foreign economies.",
-      "chart": ""
-    },
-    "290ee70864920e2e4472": {
-      "at": "2026-11-17T13:06:45.234Z",
-      "keep": [
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "Axios and CBS both report the national average diesel price dipping below $6 per gallon, the same current market development the chart tracks; the Nvidia headline is unrelated.",
-      "chart": ""
-    },
-    "4b335fb0f672647146b5": {
-      "at": "2026-11-17T13:06:45.234Z",
-      "keep": [],
-      "reason": "The CBS headlines report a family's claim about an ICE incident, and the Fox and NY Post headlines cover a single local Rikers release case, not a national government action; no keep set qualifies, and no chart measures these stories.",
-      "chart": ""
-    },
-    "fbdb4ba781de89d8131d": {
-      "at": "2026-11-17T13:06:45.234Z",
-      "keep": [
-        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/",
-        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/"
-      ],
-      "reason": "Both The Hill headlines report the Senate GOP unveiling a nearly $1.1T defense appropriations bill, a federal spending action; the Johnson headline is a senator's hope rather than a clear development, and the UK report is foreign.",
-      "chart": ""
-    },
-    "cc3f6a10a2532b43d4f2": {
-      "at": "2026-11-17T13:06:45.234Z",
-      "keep": [],
-      "reason": "Headline 1 is about UK real wages, which has no U.S. policy angle, and headline 2 is Nvidia company earnings news, not a wage development; no single qualifying U.S. story is shared.",
-      "chart": ""
-    },
     "19a22dbd76b311baabbb": {
       "at": "2026-11-17T21:44:04.731Z",
       "keep": [],
@@ -378,6 +342,95 @@
         "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
       ],
       "reason": "Headlines 1 and 2 both report the same development: Fed minutes showing officials expect further rate hikes. Headline 3 is about vehicle affordability, with interest rates only incidental.",
+      "chart": ""
+    },
+    "1a28a07a35877325ea8a": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [
+        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
+        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://nypost.com/2026/11/19/business/anthropic-to-begin-trading-at-about-110-per-share-in-record-setting-ipo/",
+        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
+        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
+        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
+        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/"
+      ],
+      "reason": "Headlines report the same development, Anthropic's Nasdaq IPO debut and first-day trading, a notable market event; the Axios pricing headline, the \"who stands to gain\" explainer, and no chart measures stock market or IPO activity, so chart is none.",
+      "chart": ""
+    },
+    "2941d9a8b74cec06dfe3": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [],
+      "reason": "Neither headline reports a discrete current development: one is a general observation about drivers absorbing high prices and the other is a reader call for stories.",
+      "chart": ""
+    },
+    "15f5c5f119e37caca9ca": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [
+        "https://www.nytimes.com/2026/11/18/us/politics/supreme-court-trump-deportation-venezuelans.html",
+        "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/"
+      ],
+      "reason": "Both report the Trump administration taking the Venezuelan TPS (deportation protection) fight to the Supreme Court after an appeals court ruling; the chart measures removals, so the link is somewhat indirect.",
+      "chart": ""
+    },
+    "c1a4c52d4f7a60a4610d": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [
+        "https://www.nytimes.com/2026/11/16/climate/permitting-bill-data-centers-electricity-rates.html",
+        "https://www.bloomberg.com/news/articles/2026-11-18/senate-permit-bill-authors-seek-exemption-for-data-centers",
+        "https://thehill.com/policy/energy-environment/6230386-data-center-ban-permitting-reform-bill/"
+      ],
+      "reason": "Headlines 1, 4 and 6 all cover the same Senate energy permitting bill fight over data centers' power costs and exemptions; the others are a chip export story, analysis, and a feature.",
+      "chart": ""
+    },
+    "3fe632c1f5c44adac64f": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [],
+      "reason": "Headlines center on Trump's China trip and the Xi-Putin summit; trade is at most incidental, and the only trade-themed item (Xi calling for removing trade barriers) is a single outlet's duplicate and not a U.S. trade deal or action.",
+      "chart": ""
+    },
+    "20404a10c4d7accbb202": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [
+        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
+        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
+      ],
+      "reason": "Axios and CBS both report that average U.S. diesel prices fell below $6 a gallon, the same current market development the weekly retail diesel chart measures.",
+      "chart": ""
+    },
+    "5027fde49cbb6d88fa67": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [],
+      "reason": "No headline covers a current U.S. inflation development: the BBC and Bloomberg pieces concern UK and eurozone inflation, and the NY Post item is a poll on tariffs.",
+      "chart": ""
+    },
+    "02f677d531625fe7b911": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple headlines: the vehicle affordability piece is off-topic, the Bloomberg bond-trader story is market commentary, and the Goolsbee remark is a single official's comment.",
+      "chart": ""
+    },
+    "32fef99f01b8a19c7583": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/",
+        "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/"
+      ],
+      "reason": "Appeals court ruling halting the bid to revive Venezuelan temporary protected status, a legal-status development; headlines 2 and 3 are identical. Headline 1 concerns a different topic.",
+      "chart": ""
+    },
+    "8eca7f006b873b9f7409": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [],
+      "reason": "Headlines are duplicates from single outlets: a New York governor's letter about one detention facility (state-level) and a Fox story on a House member accused of assaulting an ICE agent; no shared national development that a chart measures.",
+      "chart": ""
+    },
+    "31fe7e0e0ee065cbe6f1": {
+      "at": "2026-11-19T21:23:11.980Z",
+      "keep": [],
+      "reason": "Headlines cover a Virginia state tax-credit dispute (state news) and speculation about a shutdown's political effects (analysis), with no qualifying national development; no listed chart directly measures these.",
       "chart": ""
     }
   },
