@@ -24,6 +24,35 @@
       ]
     },
     {
+      "id": "fed_rates-2026-11-18",
+      "date": "2026-11-18",
+      "topic": "Federal Reserve and interest rates",
+      "chartId": "chart-ff",
+      "headlines": [
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Fed Minutes Show Almost All Officials Expect More Rate Hikes",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Fed officials expect to hike rates in December after last meeting marked by dissension: minutes",
+          "url": "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
+        },
+        {
+          "outletId": "breitbart",
+          "outlet": "Breitbart",
+          "lean": "Right",
+          "title": "Fed Minutes Show Officials Raised Possibility of Bigger December Hike",
+          "url": "https://www.breitbart.com/economy/2026/11/18/fed-minutes-show-officials-raised-possibility-of-bigger-december-hike/"
+        }
+      ]
+    },
+    {
       "id": "markets-2026-11-17",
       "date": "2026-11-17",
       "topic": "Stock market",
@@ -114,28 +143,6 @@
           "lean": "Lean Left",
           "title": "In a policy switch, the Fed says its October 2027 meeting will not see a vote on interest rates",
           "url": "https://www.cnbc.com/2026/11/12/in-policy-switch-fed-says-its-october-2027-meeting-will-not-see-a-vote-on-interest-rates.html"
-        }
-      ]
-    },
-    {
-      "id": "diesel-2026-11-11",
-      "date": "2026-11-11",
-      "topic": "Diesel prices",
-      "chartId": "chart-diesel",
-      "headlines": [
-        {
-          "outletId": "huffpost",
-          "outlet": "HuffPost",
-          "lean": "Left",
-          "title": "Tanker Carrying Illegal Russian Diesel No Longer Headed For U.S. Coast, Foiling Trump’s Scheme",
-          "url": "https://www.huffpost.com/entry/trump-diesel-scheme-fail_n_6af497a6e4b0a8468d8c5803"
-        },
-        {
-          "outletId": "wsj",
-          "outlet": "Wall Street Journal",
-          "lean": "Center",
-          "title": "Trump’s Plan to Import Russian Diesel Stalls on the High Seas",
-          "url": "https://www.wsj.com/business/energy-oil/trumps-plan-to-import-russian-diesel-stalls-on-the-high-seas-a5b26b66?mod=pls_whats_news_us_business_f"
         }
       ]
     }
