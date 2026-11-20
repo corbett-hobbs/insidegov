@@ -1,4 +1,34 @@
 {
-  "asOf": "2026-10-28",
-  "stories": []
+  "asOf": "2026-11-19",
+  "stories": [
+    {
+      "id": "new_laws-2026-11-19",
+      "date": "2026-11-19",
+      "topic": "Bills signed into law",
+      "chartId": "how-many-laws-does-congress-pass",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Senate Passes Major Permitting Bill to Speed Up Energy Projects",
+          "url": "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Senate approves key permitting reform bill, sends to House",
+          "url": "https://thehill.com/homenews/senate/6229829-senate-passes-permitting-reform/"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Senate passes historic bill to cut environmental red tape on energy projects",
+          "url": "https://www.washingtonexaminer.com/policy/4807637/senate-passes-historic-bill-cut-environmental-red-tape-energy/"
+        }
+      ]
+    }
+  ]
 }
