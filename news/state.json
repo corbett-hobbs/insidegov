@@ -1,65 +1,5 @@
 {
   "checks": {
-    "19a22dbd76b311baabbb": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [],
-      "reason": "Only two distinct stories, each carried by a single outlet (Guardian coal-waste feature, a local/investigative piece; Bloomberg New Jersey wind permit item), so no development is reported by several outlets; neither maps to a chart's data.",
-      "chart": ""
-    },
-    "42a8a9abceb43d69a40a": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [],
-      "reason": "No single U.S. development is reported by multiple outlets: one Fed official remark, plus euro zone and German inflation stories that are foreign news.",
-      "chart": ""
-    },
-    "2ac5083ed28c05d4effe": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [],
-      "reason": "Headlines cover separate local or individual incidents (a family's claim about an ICE vehicle incident, a Rikers release with a DHS statement, a California sheriff's staffing action), not one national government action, and none is measured by the border encounters or ICE removals charts.",
-      "chart": ""
-    },
-    "496d7fd9a0ed1958a728": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [],
-      "reason": "Only one outlet (Bloomberg, duplicated) covers the Thailand market-opening deal, and the Nvidia export-control panel is company news; neither story is a national-level development that either pick_chart measures directly.",
-      "chart": ""
-    },
-    "99a805f135fbd3a5e318": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "Axios and CBS both report diesel average retail prices falling below $6/gallon, a current national price development central to the chart; headlines 3 and 4 are unrelated.",
-      "chart": ""
-    },
-    "4bff15b5a7776490c971": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [
-        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/",
-        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/"
-      ],
-      "reason": "Both The Hill headlines report the same concrete government action: Senate GOP unveiling a nearly $1.1 trillion defense appropriations bill. The Politico Ron Johnson headlines are a senator's hope about a future spending bill, not a completed development, so they are left out.",
-      "chart": ""
-    },
-    "102e0156f8c7bd4dec2c": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/energy-and-environment/4805945/gasoline-prices-fall-lowest-level-since-march/"
-      ],
-      "reason": "Only headline 3 centers gas prices itself (a national price move to a low since March); headlines 1 and 2 are about a AAA Thanksgiving travel forecast where gas prices are just one factor.",
-      "chart": ""
-    },
-    "e1311ad5bd3841e3b7d0": {
-      "at": "2026-11-17T21:44:04.731Z",
-      "keep": [
-        "https://nypost.com/2026/11/17/business/dow-plummets-800-points-nasdaq-slides-ahead-of-nvidia-earnings-anthropic-ipo/",
-        "https://nypost.com/2026/11/17/business/dow-plummets-800-points-nasdaq-slides-ahead-of-nvidia-earnings-anthropic-ipo/",
-        "https://www.nytimes.com/2026/11/17/business/economy/stock-market-nvidia-earnings.html"
-      ],
-      "reason": "Headlines 2, 3 and 4 report the same U.S. stock market decline ahead of Nvidia earnings; the preview (1) and the Nvidia-specific Huang resignation story (5) are excluded, and no listed chart directly measures stock market moves.",
-      "chart": ""
-    },
     "3151245126d659065394": {
       "at": "2026-11-18T03:38:05.603Z",
       "keep": [
@@ -432,6 +372,57 @@
       "keep": [],
       "reason": "Headlines cover a Virginia state tax-credit dispute (state news) and speculation about a shutdown's political effects (analysis), with no qualifying national development; no listed chart directly measures these.",
       "chart": ""
+    },
+    "10f2ee29506be169ac96": {
+      "at": "2026-11-20T02:59:27.936Z",
+      "keep": [
+        "https://www.politico.com/live-updates/2026/11/18/congress/debt-limit-deadline-01172032",
+        "https://www.nytimes.com/2026/11/18/business/economy/us-debt-limit.html"
+      ],
+      "reason": "Politico and NYT both report the same forecast that the U.S. will hit the $41T debt limit by February or March; headline 3 covers a different development (Thune's view on a future debt-limit fight).",
+      "chart": ""
+    },
+    "990e74367db6fe7633d4": {
+      "at": "2026-11-20T02:59:27.936Z",
+      "keep": [],
+      "reason": "Headlines cover different items: a permitting bill's data center charges (NYT) and stalled energy bill votes (The Hill) are only two outlets on a related bill, the CBS and WSJ pieces are analysis, and none clearly reports one shared development central to a generation-by-source chart.",
+      "chart": ""
+    },
+    "fc63421ac6a096e6c331": {
+      "at": "2026-11-20T02:59:27.936Z",
+      "keep": [
+        "https://www.axios.com/2026/11/18/anthropic-ipo-1-trillion",
+        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
+        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
+        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
+        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
+        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
+        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Headlines report the same development, Anthropic's Nasdaq IPO and stock market debut; excluded the opinion column (12-13), the \"who stands to gain\" explainer (8-9), and the SoftBank sell-off story (16), which covers a different development.",
+      "chart": ""
+    },
+    "41d6b74e7d36c55a51dc": {
+      "at": "2026-11-20T02:59:27.936Z",
+      "keep": [],
+      "reason": "No single U.S. CPI development is reported by multiple outlets; the matches are UK, Japan, ECB, and Sri Lanka news, explainers, or Fed official remarks on different points.",
+      "chart": ""
+    },
+    "b17bac60a5dd5aca1460": {
+      "at": "2026-11-20T02:59:27.936Z",
+      "keep": [],
+      "reason": "No single current U.S. trade development is reported by most outlets with trade central; the headlines cover the Trump-Xi-Putin summit, a Nvidia internal panel, and a California subpoena, which are either company or state news or only mention trade in passing.",
+      "chart": ""
+    },
+    "6e3bb1c2b80b13f0bc7a": {
+      "at": "2026-11-20T02:59:27.936Z",
+      "keep": [],
+      "reason": "Each development (Hochul detention inquiry, Trump-House progressive episode, California ICE mask ruling, Ninth Circuit knock-and-talk hearing) appears from only one outlet, so no single development is reported by multiple outlets.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -448,7 +439,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-19"
+      "last": "2026-11-20"
     },
     "119-pub-142": {
       "outlets": [
@@ -456,7 +447,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-19"
+      "last": "2026-11-20"
     }
   }
 }
