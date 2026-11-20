@@ -1,47 +1,5 @@
 {
   "checks": {
-    "3151245126d659065394": {
-      "at": "2026-11-18T03:38:05.603Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/immigration/4805745/judge-throws-out-dhs-rule-student-visa/",
-        "https://www.washingtonexaminer.com/policy/immigration/4805745/judge-throws-out-dhs-rule-student-visa/"
-      ],
-      "reason": "Both Washington Examiner headlines report one court ruling striking down a DHS student visa rule; the HuffPost items are a multi-story live blog, so they are excluded.",
-      "chart": ""
-    },
-    "6a6ffa5f4cffff2d1036": {
-      "at": "2026-11-18T03:38:05.603Z",
-      "keep": [],
-      "reason": "Each candidate development (Thailand deal, Nvidia export panel, Xi trade barriers) appears only from a single outlet, duplicated, so no development is reported by multiple outlets; neither chart directly measures these stories.",
-      "chart": ""
-    },
-    "865bb44c844790a74084": {
-      "at": "2026-11-18T03:38:05.603Z",
-      "keep": [],
-      "reason": "No headline reports a shared U.S. development: one is a Fed official's remark, and the other two are foreign (Germany, Australia) with no U.S. angle.",
-      "chart": ""
-    },
-    "b8329c2b785059dbb961": {
-      "at": "2026-11-18T03:38:05.603Z",
-      "keep": [
-        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/",
-        "https://thehill.com/homenews/senate/6224030-senate-gop-defense-appropriations-bill/"
-      ],
-      "reason": "Two Hill headlines report the same Senate GOP unveiling of a roughly $1.1 trillion defense appropriations bill; the Politico Johnson piece is a senator's comment, and the BOJ story is foreign.",
-      "chart": ""
-    },
-    "f640c12afd7b470f21fd": {
-      "at": "2026-11-18T03:38:05.603Z",
-      "keep": [],
-      "reason": "Three different incidents, each repeated by only one outlet (Fox News or The Guardian); no single development is reported across outlets, and none is about border encounters or removals data.",
-      "chart": ""
-    },
-    "46689603f54b38693c4e": {
-      "at": "2026-11-18T03:38:05.603Z",
-      "keep": [],
-      "reason": "The three headlines cover different, unrelated developments (a crash, a New Jersey governor's funding, an individual boxer's ICE arrest), with no single national development shared by multiple outlets.",
-      "chart": ""
-    },
     "e1887dff342cfa7b5a99": {
       "at": "2026-11-18T12:56:45.718Z",
       "keep": [],
@@ -423,6 +381,60 @@
       "keep": [],
       "reason": "Each development (Hochul detention inquiry, Trump-House progressive episode, California ICE mask ruling, Ninth Circuit knock-and-talk hearing) appears from only one outlet, so no single development is reported by multiple outlets.",
       "chart": ""
+    },
+    "24f5016a4796b09fa40e": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [
+        "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
+        "https://thehill.com/homenews/senate/6229829-senate-passes-permitting-reform/",
+        "https://www.washingtonexaminer.com/policy/4807637/senate-passes-historic-bill-cut-environmental-red-tape-energy/",
+        "https://www.nbcnews.com/politics/congress/senate-passes-sweeping-bill-simplifying-permitting-rules-build-america-rcna610196",
+        "https://www.foxnews.com/politics/senate-republicans-break-through-washington-gridlock-massive-american-energy-data-center-overhaul",
+        "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html",
+        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=rss_usnews",
+        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=pls_whats_news_us_business_f",
+        "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html",
+        "https://www.cbsnews.com/news/senate-bipartisan-permitting-reform-bill-energy-baaja-trump/",
+        "https://www.huffpost.com/entry/congress-energy-permitting_n_6affcee5e4b0976dc4a2a97b"
+      ],
+      "reason": "All these headlines report the Senate's passage of the bipartisan permitting reform bill on Nov 20, a single current federal legislative action covering energy project approvals; the earlier procedural, amendment, and data-center analysis headlines are a different development or commentary and are excluded.",
+      "chart": ""
+    },
+    "0d3d744dd5302f490a2e": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple outlets: the law-firm free-work stories (1, 3) are not about deportations, and the House Democrat bill (2) and empty-beds story (4) each appear from one outlet only.",
+      "chart": ""
+    },
+    "8d769b5183f12a82efc0": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [],
+      "reason": "No single U.S. inflation development is reported by multiple outlets; the Fed remarks on AI and inflation are separate speeches, and the rest are UK, Japan, Sri Lanka, ECB, RBA, or commentary.",
+      "chart": ""
+    },
+    "dbe7cfdc1cd0466adef6": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [],
+      "reason": "All headlines cover one company's IPO (Anthropic's Nasdaq debut), which is company news rather than a national policy or market-wide development, and no pick_chart measures it.",
+      "chart": ""
+    },
+    "d0c18dad364a6e99db7d": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [],
+      "reason": "Headlines cover the Trump-Xi-Putin summit, Nvidia export controls, and other separate items; no single trade development is reported by most outlets, and neither tariff collection nor the trade balance is the central topic.",
+      "chart": ""
+    },
+    "632a27eb3d077b320fce": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [],
+      "reason": "Headline 1 is a poll of public opinion, not a government action or official figure, and headline 2 is foreign news (UK-India deal) with no U.S. policy angle; no single qualifying development.",
+      "chart": ""
+    },
+    "b32aaa5a3e4985f9f8ac": {
+      "at": "2026-11-20T11:20:31.503Z",
+      "keep": [],
+      "reason": "Headlines cover a Virginia state tax credit dispute, political commentary on a possible December shutdown, and Democratic reactions, with no single national government action or official figure; none of the charts directly measures a shutdown.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -430,6 +442,12 @@
       "release": "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
       "since": "2026-11-18T21:20:23.469Z",
       "at": "2026-11-18T21:20:23.469Z",
+      "count": 1
+    },
+    "energy-freshness.yml": {
+      "release": "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
+      "since": "2026-11-20T11:20:31.503Z",
+      "at": "2026-11-20T11:20:31.503Z",
       "count": 1
     }
   },
