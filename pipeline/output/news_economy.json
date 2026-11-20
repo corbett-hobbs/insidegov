@@ -65,11 +65,18 @@
           "url": "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e"
         },
         {
-          "outletId": "newsweek",
-          "outlet": "Newsweek",
-          "lean": "Center",
-          "title": "Democrats Weigh Shutdown Over Iran War But Some Warn Against the Risk",
-          "url": "https://www.newsweek.com/democrats-weigh-shutdown-over-iran-war-but-some-warn-against-the-risk-12742468"
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "What Democrats are saying about the possibility of a government shutdown in December",
+          "url": "https://www.washingtonexaminer.com/news/house/4809015/democrats-government-shutdown-possibility-december/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Democrats could enter congressional majority in a government shutdown",
+          "url": "https://www.foxnews.com/politics/democrats-enter-congressional-majority-government-shutdown"
         }
       ]
     },
