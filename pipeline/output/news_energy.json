@@ -1,6 +1,63 @@
 {
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-20",
   "stories": [
+    {
+      "id": "electricity-2026-11-19",
+      "date": "2026-11-19",
+      "topic": "Electricity",
+      "chartId": "electricity",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "US Senate approves bill to speed up permitting reviews for energy projects and datacenters",
+          "url": "https://www.theguardian.com/us-news/2026/nov/20/senate-energy-datacenters-review-bill"
+        },
+        {
+          "outletId": "wsj",
+          "outlet": "Wall Street Journal",
+          "lean": "Center",
+          "title": "Senate Passes Measure Designed to Speed Up Energy Projects, Lower Consumer Costs",
+          "url": "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=rss_usnews"
+        },
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Senate passes historic bill to cut environmental red tape on energy projects",
+          "url": "https://www.washingtonexaminer.com/policy/4807637/senate-passes-historic-bill-cut-environmental-red-tape-energy/"
+        }
+      ]
+    },
+    {
+      "id": "power_sources-2026-11-19",
+      "date": "2026-11-19",
+      "topic": "Nuclear, coal and renewables",
+      "headlines": [
+        {
+          "outletId": "nytimes",
+          "outlet": "New York Times",
+          "lean": "Lean Left",
+          "title": "Senate Passes Major Permitting Bill to Speed Up Energy Projects",
+          "url": "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html"
+        },
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "Senate passes bipartisan permitting bill designed to boost energy projects",
+          "url": "https://www.cbsnews.com/news/senate-bipartisan-permitting-reform-bill-energy-baaja-trump/"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "Senate Passes Landmark Bill to Overhaul US Energy Permitting",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-20/senate-passes-landmark-bill-to-overhaul-us-energy-permitting"
+        }
+      ]
+    },
     {
       "id": "oil_markets-2026-11-10",
       "date": "2026-11-10",
@@ -83,28 +140,6 @@
           "lean": "Center",
           "title": "Oil Futures Slide As Market Holds Out Hopes for Middle East Diplomacy",
           "url": "https://www.wsj.com/business/energy-oil/brent-crude-climbs-above-100-as-middle-east-oil-supply-risks-persist-caaf64bb?mod=pls_whats_news_us_business_f"
-        }
-      ]
-    },
-    {
-      "id": "electricity-2026-11-05",
-      "date": "2026-11-05",
-      "topic": "Electricity",
-      "chartId": "electricity",
-      "headlines": [
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Hinojosa vows to protect Texas citizens from data centers",
-          "url": "https://thehill.com/homenews/state-watch/6203045-texas-hinojosa-data-centers/"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Supreme Court urged to protect homeowners’ property rights in data center power fight",
-          "url": "https://www.washingtonexaminer.com/news/supreme-court/4793859/supreme-court-urged-protect-homeowners-property-rights-in-data-center-power-fight/"
         }
       ]
     }
