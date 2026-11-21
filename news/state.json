@@ -1,65 +1,5 @@
 {
   "checks": {
-    "ffe5b6f259b80df91881": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments: a local crime story about one individual, and a Supreme Court case on Venezuelan deportation protections reported by only one outlet.",
-      "chart": ""
-    },
-    "91c3d4a5136121e71540": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [],
-      "reason": "Only the NYT and Bloomberg headlines relate to the permitting bill's data center power provisions, and they describe different developments (a charge versus an exemption push); the other two are unrelated or not a single development.",
-      "chart": ""
-    },
-    "66ad37b444e000aa279a": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [
-        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
-        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
-      ],
-      "reason": "Trump's announcement of a wrapped-up trade deal with the Philippines is a government trade agreement; tariffs chart fits since a deal would set tariff rates on imports from that partner. Other headlines cover the Trump-Xi-Putin summit, export controls, or are passing mentions.",
-      "chart": "tariffs"
-    },
-    "eae954ee28534cd39c0a": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "Axios and CBS both report that average U.S. diesel prices fell below $6 a gallon, a single current market development central to the diesel price chart.",
-      "chart": ""
-    },
-    "23c61238536e0206fa62": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
-        "https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html"
-      ],
-      "reason": "Bloomberg and CNBC both report the same Fed minutes release, showing officials expect more rate hikes amid inflation concerns.",
-      "chart": ""
-    },
-    "183ec68c3038280a8e71": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [],
-      "reason": "No single current U.S. tariff development is reported by multiple headlines; the items cover China-Xi remarks, a company refund report, Canada-China ties, and a South Korean stock rally.",
-      "chart": ""
-    },
-    "9a03c3f4e3167dc3a948": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [],
-      "reason": "All headlines cover one company's IPO (Anthropic), which is company news rather than a national market development, and no listed chart directly measures IPO pricing or valuations.",
-      "chart": ""
-    },
-    "d3ee817044b6ec0a3489": {
-      "at": "2026-11-19T03:12:06.099Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
-        "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
-      ],
-      "reason": "Headlines 2 and 3 both report the same Fed minutes release showing officials expect further rate hikes, which is central to the federal funds rate chart.",
-      "chart": ""
-    },
     "4f5c1cac094bee344bee": {
       "at": "2026-11-19T12:51:00.138Z",
       "keep": [
@@ -434,6 +374,29 @@
       "at": "2026-11-21T01:22:56.462Z",
       "keep": [],
       "reason": "Headlines 1 and 2 are duplicates about a Texas governor-elect's pledge on state-level H-1B restrictions, not a national development; headline 3 is about the death penalty; no listed chart measures visa policy.",
+      "chart": ""
+    },
+    "5d42a5a300d49ed1a45f": {
+      "at": "2026-11-21T09:37:46.401Z",
+      "keep": [
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/"
+      ],
+      "reason": "Most outlets reported the same broad U.S. stock selloff that pushed the S&P 500 and Dow into correction and erased Nasdaq's 2026 gains; Anthropic IPO coverage, explainers and commentary were left out.",
+      "chart": ""
+    },
+    "21cb69e40f2db837d4ca": {
+      "at": "2026-11-21T09:37:46.401Z",
+      "keep": [],
+      "reason": "Each headline comes from a single outlet and covers a different development (a Hochul request, a Ninth Circuit hearing, an NYT report on ICE training), so no development is reported by multiple outlets.",
       "chart": ""
     }
   },
