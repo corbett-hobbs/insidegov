@@ -1,94 +1,5 @@
 {
   "checks": {
-    "1a28a07a35877325ea8a": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [
-        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
-        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://nypost.com/2026/11/19/business/anthropic-to-begin-trading-at-about-110-per-share-in-record-setting-ipo/",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/"
-      ],
-      "reason": "Headlines report the same development, Anthropic's Nasdaq IPO debut and first-day trading, a notable market event; the Axios pricing headline, the \"who stands to gain\" explainer, and no chart measures stock market or IPO activity, so chart is none.",
-      "chart": ""
-    },
-    "2941d9a8b74cec06dfe3": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [],
-      "reason": "Neither headline reports a discrete current development: one is a general observation about drivers absorbing high prices and the other is a reader call for stories.",
-      "chart": ""
-    },
-    "15f5c5f119e37caca9ca": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/18/us/politics/supreme-court-trump-deportation-venezuelans.html",
-        "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/"
-      ],
-      "reason": "Both report the Trump administration taking the Venezuelan TPS (deportation protection) fight to the Supreme Court after an appeals court ruling; the chart measures removals, so the link is somewhat indirect.",
-      "chart": ""
-    },
-    "c1a4c52d4f7a60a4610d": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/16/climate/permitting-bill-data-centers-electricity-rates.html",
-        "https://www.bloomberg.com/news/articles/2026-11-18/senate-permit-bill-authors-seek-exemption-for-data-centers",
-        "https://thehill.com/policy/energy-environment/6230386-data-center-ban-permitting-reform-bill/"
-      ],
-      "reason": "Headlines 1, 4 and 6 all cover the same Senate energy permitting bill fight over data centers' power costs and exemptions; the others are a chip export story, analysis, and a feature.",
-      "chart": ""
-    },
-    "3fe632c1f5c44adac64f": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [],
-      "reason": "Headlines center on Trump's China trip and the Xi-Putin summit; trade is at most incidental, and the only trade-themed item (Xi calling for removing trade barriers) is a single outlet's duplicate and not a U.S. trade deal or action.",
-      "chart": ""
-    },
-    "20404a10c4d7accbb202": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "Axios and CBS both report that average U.S. diesel prices fell below $6 a gallon, the same current market development the weekly retail diesel chart measures.",
-      "chart": ""
-    },
-    "5027fde49cbb6d88fa67": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [],
-      "reason": "No headline covers a current U.S. inflation development: the BBC and Bloomberg pieces concern UK and eurozone inflation, and the NY Post item is a poll on tariffs.",
-      "chart": ""
-    },
-    "02f677d531625fe7b911": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple headlines: the vehicle affordability piece is off-topic, the Bloomberg bond-trader story is market commentary, and the Goolsbee remark is a single official's comment.",
-      "chart": ""
-    },
-    "32fef99f01b8a19c7583": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/",
-        "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/"
-      ],
-      "reason": "Appeals court ruling halting the bid to revive Venezuelan temporary protected status, a legal-status development; headlines 2 and 3 are identical. Headline 1 concerns a different topic.",
-      "chart": ""
-    },
-    "8eca7f006b873b9f7409": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [],
-      "reason": "Headlines are duplicates from single outlets: a New York governor's letter about one detention facility (state-level) and a Fox story on a House member accused of assaulting an ICE agent; no shared national development that a chart measures.",
-      "chart": ""
-    },
-    "31fe7e0e0ee065cbe6f1": {
-      "at": "2026-11-19T21:23:11.980Z",
-      "keep": [],
-      "reason": "Headlines cover a Virginia state tax-credit dispute (state news) and speculation about a shutdown's political effects (analysis), with no qualifying national development; no listed chart directly measures these.",
-      "chart": ""
-    },
     "10f2ee29506be169ac96": {
       "at": "2026-11-20T02:59:27.936Z",
       "keep": [
@@ -372,6 +283,39 @@
       "at": "2026-11-21T17:21:38.114Z",
       "keep": [],
       "reason": "No qualifying development: the China drug-supply alarm is not a trade action, the Democrat's call on Carney is a political statement, and the Trump immigration/healthcare deals item is off-topic; neither pick_chart measure directly matches a trade deal story.",
+      "chart": ""
+    },
+    "7043207cb154d6cfa3f9": {
+      "at": "2026-11-21T23:03:22.839Z",
+      "keep": [
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/",
+        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html",
+        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html"
+      ],
+      "reason": "Most outlets reported the same U.S. stock market sell-off that pushed the S&P 500 and Dow into correction territory; the Anthropic IPO debut and HuffPost's commentary headlines were excluded.",
+      "chart": ""
+    },
+    "1c9bbd942884c876c1f1": {
+      "at": "2026-11-21T23:03:22.839Z",
+      "keep": [],
+      "reason": "Headlines cover two different single incidents (a California ICE arrest protest and an Alaska Airlines passenger arrest), each from only one outlet, so no single development is reported by multiple outlets; neither is clearly national policy, and no pick_chart option directly measures arrests.",
+      "chart": ""
+    },
+    "bc9914dddc0811fe1645": {
+      "at": "2026-11-21T23:03:22.839Z",
+      "keep": [],
+      "reason": "No headlines cover a Federal Reserve or federal funds rate development. The credit card rate cap headlines concern a Trump statement about consumer credit, not the policy rate the chart measures.",
       "chart": ""
     }
   },
