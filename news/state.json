@@ -1,72 +1,5 @@
 {
   "checks": {
-    "4f5c1cac094bee344bee": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [
-        "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e",
-        "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e",
-        "https://thehill.com/homenews/senate/6228970-senate-democrats-avoid-shutdown/"
-      ],
-      "reason": "HuffPost and The Hill both report Democrats weighing a government shutdown over the Iran war; no listed chart directly measures shutdown risk, so no chart link.",
-      "chart": ""
-    },
-    "652d292ecc59b429d77e": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [],
-      "reason": "The only pair on one development (AAA Thanksgiving travel forecast) centers on travel, with gas prices only a factor, and AAA is not a government source; the other headlines are analysis, a reader survey, or a regional map.",
-      "chart": ""
-    },
-    "7aaabed0a8eeafb785c2": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [],
-      "reason": "No single development is shared by multiple headlines: the permitting bill, the Nvidia chip news, the data center power comparison, the WSJ explainer, and the IEA forecast are all different stories or not qualifying.",
-      "chart": ""
-    },
-    "341d7b4dd260afc77e6e": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [
-        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
-        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
-      ],
-      "reason": "Trump announcing a completed \"very big trade deal\" with the Philippines is a single current U.S. trade agreement; only the New York Post (duplicated entries) reports it directly, and the summit headlines are about diplomacy rather than trade.",
-      "chart": "tariffs"
-    },
-    "543d5d55296423104f1d": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [
-        "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon",
-        "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-      ],
-      "reason": "Axios and CBS both report the same development: the U.S. average diesel price falling below $6 a gallon. Headline 6 is an explainer on a different angle, and headline 4 is UK news.",
-      "chart": ""
-    },
-    "525d008ace6f9993038d": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [
-        "https://www.foxbusiness.com/fox-news-tech/anthropic-prices-ipo-83-share-blowing-target-range-report",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4808336/anthropic-ipo-83-share-stock-market-debut/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4808336/anthropic-ipo-83-share-stock-market-debut/",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Five headlines from Fox Business, Washington Examiner and BBC cover one development, Anthropic's IPO pricing and record-breaking U.S. stock market debut; the CNBC Walmart item is a different story.",
-      "chart": ""
-    },
-    "7fd58fb82c4e9f55470b": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [],
-      "reason": "The four headlines cover different developments (Xi's trade remarks, company use of tariff refunds, Carney on Canada-China ties, Canada's car industry), so none is a shared U.S. development.",
-      "chart": ""
-    },
-    "2cc054d6d761e4478335": {
-      "at": "2026-11-19T12:51:00.138Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
-        "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
-      ],
-      "reason": "Headlines 1 and 2 both report the same development: Fed minutes showing officials expect further rate hikes. Headline 3 is about vehicle affordability, with interest rates only incidental.",
-      "chart": ""
-    },
     "1a28a07a35877325ea8a": {
       "at": "2026-11-19T21:23:11.980Z",
       "keep": [
@@ -398,6 +331,48 @@
       "keep": [],
       "reason": "Each headline comes from a single outlet and covers a different development (a Hochul request, a Ninth Circuit hearing, an NYT report on ICE training), so no development is reported by multiple outlets.",
       "chart": ""
+    },
+    "6962cce03bf9913ec2bc": {
+      "at": "2026-11-21T17:21:38.114Z",
+      "keep": [],
+      "reason": "The matched story is the Senate passing a permitting reform bill, which is about approving energy projects and data center power costs; the chart shows monthly electricity generation by source, which the story does not measure, so the topic is not central to the chart.",
+      "chart": ""
+    },
+    "9c7c056f8e0300e7a800": {
+      "at": "2026-11-21T17:21:38.114Z",
+      "keep": [
+        "https://www.washingtontimes.com/news/2026/nov/20/us-stocks-tumble-sp-500-falls-sell-ai-stocks-accelerates/",
+        "https://www.washingtontimes.com/news/2026/nov/20/us-stocks-tumble-sp-500-falls-sell-ai-stocks-accelerates/",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/"
+      ],
+      "reason": "Most outlets reported the same current U.S. market move: the AI-led sell-off pushing the S&P 500, Dow and Nasdaq into correction territory; explainers and opinion pieces were left out.",
+      "chart": ""
+    },
+    "63ec18f55433052a7157": {
+      "at": "2026-11-21T17:21:38.114Z",
+      "keep": [],
+      "reason": "Each development appears only from a single outlet (duplicated headlines from the same outlet), so no story is reported by several outlets, and none is about border encounters or ICE removals counts.",
+      "chart": ""
+    },
+    "06b8edb96108546bb8f2": {
+      "at": "2026-11-21T17:21:38.114Z",
+      "keep": [],
+      "reason": "No single U.S. development is reported by multiple headlines: the rest are UK/Japan/ECB foreign news, explainers, a company story, or separate Fed official remarks.",
+      "chart": ""
+    },
+    "50de59d2b2365697ddc3": {
+      "at": "2026-11-21T17:21:38.114Z",
+      "keep": [],
+      "reason": "No qualifying development: the China drug-supply alarm is not a trade action, the Democrat's call on Carney is a political statement, and the Trump immigration/healthcare deals item is off-topic; neither pick_chart measure directly matches a trade deal story.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -419,6 +394,7 @@
     "119-pub-142": {
       "outlets": [
         "foxbusiness",
+        "guardian",
         "wsj"
       ],
       "first": "2026-11-16",
