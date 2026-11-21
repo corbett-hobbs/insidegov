@@ -1,72 +1,5 @@
 {
   "checks": {
-    "50fd3c2dfe8e5ad245c4": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [],
-      "reason": "No single current national development is reported by multiple outlets: the Politico item is a senator's hope about a future spending bill, the HuffPost item is a shutdown being considered, and the Washington Examiner item is Virginia state tax news; none of the listed charts directly measures these stories.",
-      "chart": ""
-    },
-    "3719e64d7c55b5e59011": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [],
-      "reason": "No development is reported by multiple outlets: the permitting bill (1) stands alone, the Nvidia chip story (2) is unrelated, and the data center power-use piece (3) is an analysis rather than a current development.",
-      "chart": ""
-    },
-    "761f176ae77be218f1ec": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments: a crime case involving one deported person, and an ICE contract with a flight contractor. No single development is shared, so nothing qualifies.",
-      "chart": ""
-    },
-    "24b11d9bfeb257106981": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-18/trump-reassures-philippines-of-us-support-ahead-of-xi-meeting",
-        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/",
-        "https://nypost.com/2026/11/18/us-news/trump-says-us-wrapped-up-very-big-trade-deal-with-philippines/"
-      ],
-      "reason": "Trump announced a trade deal with the Philippines, reported by Bloomberg and the New York Post; the other headlines cover the wider Asia trip or the China summit.",
-      "chart": ""
-    },
-    "1b4601d49d35a7f93f9c": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
-        "https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html"
-      ],
-      "reason": "Bloomberg and CNBC both report the same Fed minutes release showing officials expect more rate hikes, with inflation central; the other items are UK/NZ stories, opinion-style remarks, or a different development.",
-      "chart": ""
-    },
-    "7f3be6805ee58e437fe9": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
-        "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
-      ],
-      "reason": "Headlines 2 and 3 both report the Fed minutes release showing officials expect more rate hikes, which is central to the federal funds rate chart; headline 1 covers mortgage demand and mortgage rates instead.",
-      "chart": ""
-    },
-    "3c77dcb14b366acf99d9": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [
-        "https://www.cbsnews.com/news/thanksgiving-travel-likely-dip-prices/",
-        "https://thehill.com/policy/transportation/6223078-airfare-gas-prices-thanksgiving-holiday-travel-predictions/"
-      ],
-      "reason": "CBS and The Hill both report the same AAA Thanksgiving travel forecast, which cites gas prices as a key factor; Axios's piece is a general analysis of drivers absorbing high prices, so it is left out.",
-      "chart": ""
-    },
-    "ab05ab37af7aabb72962": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [],
-      "reason": "No single U.S. tariff development is reported by multiple headlines; the items cover different diplomatic meetings, a refund-spending report, and Canada-China ties.",
-      "chart": ""
-    },
-    "ee9bab7365c711e4a2c2": {
-      "at": "2026-11-18T21:20:23.469Z",
-      "keep": [],
-      "reason": "Headlines cover a local California deputy incident and a New York governor's letter about a detention center; neither is a national development, and neither is measured by the border encounters or ICE removals charts.",
-      "chart": ""
-    },
     "ffe5b6f259b80df91881": {
       "at": "2026-11-19T03:12:06.099Z",
       "keep": [],
@@ -433,15 +366,78 @@
       "keep": [],
       "reason": "No development is reported by multiple outlets: the Hochul/DHS story is state-level, the Trump/House story is political, and the Ninth Circuit item is only an oral argument from one outlet. None is about border encounters or ICE removals.",
       "chart": ""
+    },
+    "e72691806935ba8ac84e": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [
+        "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
+        "https://thehill.com/homenews/senate/6229829-senate-passes-permitting-reform/",
+        "https://www.nbcnews.com/politics/congress/senate-passes-sweeping-bill-simplifying-permitting-rules-build-america-rcna610196",
+        "https://www.foxnews.com/politics/senate-republicans-break-through-washington-gridlock-massive-american-energy-data-center-overhaul",
+        "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html",
+        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=rss_usnews",
+        "https://www.cbsnews.com/news/senate-bipartisan-permitting-reform-bill-energy-baaja-trump/",
+        "https://www.huffpost.com/entry/congress-energy-permitting_n_6affcee5e4b0976dc4a2a97b",
+        "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html",
+        "https://www.theguardian.com/us-news/2026/nov/20/senate-energy-datacenters-review-bill",
+        "https://nypost.com/2026/11/20/us-news/senate-approves-bipartisan-bill-to-speed-up-permitting-reviews-force-data-centers-to-pay-for-energy/"
+      ],
+      "reason": "Most outlets report the same development: the Senate passing the bipartisan permitting reform bill on Nov 20, 2026. The chart on electricity generation by source is only loosely related to permitting, so no chart is linked.",
+      "chart": ""
+    },
+    "dd22c413043ed22edafe": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [],
+      "reason": "The empty-beds spending report (headlines 2 and 3) concerns detention costs, not removal counts, so the chart's topic is not central; headline 1 is a separate law-firm story.",
+      "chart": ""
+    },
+    "a6c27d4e0979a6ecd0ae": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [
+        "https://www.nytimes.com/2026/11/20/us/politics/training-ice-immigration-inspector-general.html",
+        "https://www.nytimes.com/2026/11/20/us/politics/training-ice-immigration-inspector-general.html"
+      ],
+      "reason": "Both NYT headlines report the same official findings on problems with ICE training under the immigration crackdown; the other developments (NY detention center inquiry, facility family-detention plan, Ninth Circuit arguments) are local or single-outlet items about different events.",
+      "chart": ""
+    },
+    "4b2823d14f97647146d3": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
+        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
+        "https://www.foxbusiness.com/markets/anthropic-makes-stock-market-debut-who-could-gain-from-blockbuster-ipo",
+        "https://www.foxbusiness.com/markets/anthropic-makes-stock-market-debut-who-could-gain-from-blockbuster-ipo",
+        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
+        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
+        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss",
+        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Most headlines cover the Anthropic record-breaking Nasdaq IPO debut on Nov 19; the Nov 20 market correction was reported by fewer outlets. No chart measures individual stock listings, so no chart link.",
+      "chart": ""
+    },
+    "49cb76768bdc6f38508f": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [],
+      "reason": "Headline 1 reports a poll, not a government action, ruling, or official figure; headline 2 is a broad roundup of unresolved trade, Taiwan, and tech issues, not a single development.",
+      "chart": ""
+    },
+    "856ab9cfe3b46eee43ea": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [],
+      "reason": "Headlines cover a China drug supply chain alarm and an EU trade power, which are not U.S. government actions on trade, and neither story matches the trade balance or tariff charts.",
+      "chart": ""
+    },
+    "45cb170c9ddb52fdbf96": {
+      "at": "2026-11-21T01:22:56.462Z",
+      "keep": [],
+      "reason": "Headlines 1 and 2 are duplicates about a Texas governor-elect's pledge on state-level H-1B restrictions, not a national development; headline 3 is about the death penalty; no listed chart measures visa policy.",
+      "chart": ""
     }
   },
   "dispatched": {
-    "indicators-freshness.yml": {
-      "release": "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes",
-      "since": "2026-11-18T21:20:23.469Z",
-      "at": "2026-11-18T21:20:23.469Z",
-      "count": 1
-    },
     "energy-freshness.yml": {
       "release": "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
       "since": "2026-11-20T11:20:31.503Z",
@@ -455,7 +451,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-20"
+      "last": "2026-11-21"
     },
     "119-pub-142": {
       "outlets": [
@@ -463,7 +459,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-20"
+      "last": "2026-11-21"
     }
   }
 }
