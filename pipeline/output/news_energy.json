@@ -8,25 +8,25 @@
       "chartId": "electricity",
       "headlines": [
         {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
           "lean": "Left",
-          "title": "US Senate approves bill to speed up permitting reviews for energy projects and datacenters",
-          "url": "https://www.theguardian.com/us-news/2026/nov/20/senate-energy-datacenters-review-bill"
+          "title": "Senate Approves Bill To Speed Up Permitting Reviews, Force Data Centers To Pay For Energy Costs",
+          "url": "https://www.huffpost.com/entry/congress-energy-permitting_n_6affcee5e4b0976dc4a2a97b"
         },
         {
           "outletId": "wsj",
           "outlet": "Wall Street Journal",
           "lean": "Center",
           "title": "Senate Passes Measure Designed to Speed Up Energy Projects, Lower Consumer Costs",
-          "url": "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=rss_usnews"
+          "url": "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=pls_whats_news_us_business_f"
         },
         {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Senate passes historic bill to cut environmental red tape on energy projects",
-          "url": "https://www.washingtonexaminer.com/policy/4807637/senate-passes-historic-bill-cut-environmental-red-tape-energy/"
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Senate Republicans break through Washington gridlock with massive American energy, data center overhaul",
+          "url": "https://www.foxnews.com/politics/senate-republicans-break-through-washington-gridlock-massive-american-energy-data-center-overhaul"
         }
       ]
     },
@@ -36,13 +36,6 @@
       "topic": "Nuclear, coal and renewables",
       "headlines": [
         {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Senate Passes Major Permitting Bill to Speed Up Energy Projects",
-          "url": "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html"
-        },
-        {
           "outletId": "cbsnews",
           "outlet": "CBS News",
           "lean": "Lean Left",
@@ -50,11 +43,18 @@
           "url": "https://www.cbsnews.com/news/senate-bipartisan-permitting-reform-bill-energy-baaja-trump/"
         },
         {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Senate Passes Landmark Bill to Overhaul US Energy Permitting",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-20/senate-passes-landmark-bill-to-overhaul-us-energy-permitting"
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Senate passes BAAJA permitting reform bill backed by AI, energy sectors",
+          "url": "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html"
+        },
+        {
+          "outletId": "npr",
+          "outlet": "NPR",
+          "lean": "Lean Left",
+          "title": "Senate passes bipartisan energy bill amid environmental concerns",
+          "url": "https://www.npr.org/2026/11/20/g-s1-154579/senate-bipartisan-energy-bill"
         }
       ]
     },
