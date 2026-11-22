@@ -1,6 +1,27 @@
 {
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-21",
   "stories": [
+    {
+      "id": "enforcement-2026-11-20",
+      "date": "2026-11-20",
+      "topic": "Immigration enforcement",
+      "headlines": [
+        {
+          "outletId": "guardian",
+          "outlet": "The Guardian",
+          "lean": "Left",
+          "title": "Federal judge denies request to release man shot by immigration agents in New York",
+          "url": "https://www.theguardian.com/us-news/2026/nov/21/new-york-judge-ice-shooting-immigration"
+        },
+        {
+          "outletId": "abcnews",
+          "outlet": "ABC News",
+          "lean": "Lean Left",
+          "title": "Federal judge denies a request to release man shot by immigration agents in New York",
+          "url": "https://abcnews.com/US/wireStory/federal-judge-denies-request-release-man-shot-immigration-138336454"
+        }
+      ]
+    },
     {
       "id": "immigration_courts-2026-11-19",
       "date": "2026-11-19",
@@ -120,34 +141,6 @@
           "lean": "Lean Right",
           "title": "ICE shatters illegal immigrant arrest and deportation records in 2026",
           "url": "https://www.washingtonexaminer.com/news/white-house/4801339/ice-arrests-deportations-records-2026-trump-administration-dhs/"
-        }
-      ]
-    },
-    {
-      "id": "asylum_status-2026-11-11",
-      "date": "2026-11-11",
-      "topic": "Asylum and legal status",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Trump Hints at Immigration Deal, Then Reverses. He’s Done That Before.",
-          "url": "https://www.nytimes.com/2026/11/11/us/politics/trump-immigration-election-democrats-republicans.html"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Trump’s new immigration proposal could go further than 2018 DACA deal",
-          "url": "https://www.washingtonexaminer.com/news/white-house/4799118/trump-immigration-proposal-2018-daca-deal/"
-        },
-        {
-          "outletId": "foxnews",
-          "outlet": "Fox News",
-          "lean": "Right",
-          "title": "Trump opens door to immigration deal, but Republicans have one condition",
-          "url": "https://www.foxnews.com/politics/trump-opens-door-immigration-deal-republicans-have-one-condition"
         }
       ]
     }
