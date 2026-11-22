@@ -1,59 +1,5 @@
 {
   "checks": {
-    "24f5016a4796b09fa40e": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [
-        "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
-        "https://thehill.com/homenews/senate/6229829-senate-passes-permitting-reform/",
-        "https://www.washingtonexaminer.com/policy/4807637/senate-passes-historic-bill-cut-environmental-red-tape-energy/",
-        "https://www.nbcnews.com/politics/congress/senate-passes-sweeping-bill-simplifying-permitting-rules-build-america-rcna610196",
-        "https://www.foxnews.com/politics/senate-republicans-break-through-washington-gridlock-massive-american-energy-data-center-overhaul",
-        "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html",
-        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=rss_usnews",
-        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=pls_whats_news_us_business_f",
-        "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html",
-        "https://www.cbsnews.com/news/senate-bipartisan-permitting-reform-bill-energy-baaja-trump/",
-        "https://www.huffpost.com/entry/congress-energy-permitting_n_6affcee5e4b0976dc4a2a97b"
-      ],
-      "reason": "All these headlines report the Senate's passage of the bipartisan permitting reform bill on Nov 20, a single current federal legislative action covering energy project approvals; the earlier procedural, amendment, and data-center analysis headlines are a different development or commentary and are excluded.",
-      "chart": ""
-    },
-    "0d3d744dd5302f490a2e": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple outlets: the law-firm free-work stories (1, 3) are not about deportations, and the House Democrat bill (2) and empty-beds story (4) each appear from one outlet only.",
-      "chart": ""
-    },
-    "8d769b5183f12a82efc0": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [],
-      "reason": "No single U.S. inflation development is reported by multiple outlets; the Fed remarks on AI and inflation are separate speeches, and the rest are UK, Japan, Sri Lanka, ECB, RBA, or commentary.",
-      "chart": ""
-    },
-    "dbe7cfdc1cd0466adef6": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [],
-      "reason": "All headlines cover one company's IPO (Anthropic's Nasdaq debut), which is company news rather than a national policy or market-wide development, and no pick_chart measures it.",
-      "chart": ""
-    },
-    "d0c18dad364a6e99db7d": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [],
-      "reason": "Headlines cover the Trump-Xi-Putin summit, Nvidia export controls, and other separate items; no single trade development is reported by most outlets, and neither tariff collection nor the trade balance is the central topic.",
-      "chart": ""
-    },
-    "632a27eb3d077b320fce": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [],
-      "reason": "Headline 1 is a poll of public opinion, not a government action or official figure, and headline 2 is foreign news (UK-India deal) with no U.S. policy angle; no single qualifying development.",
-      "chart": ""
-    },
-    "b32aaa5a3e4985f9f8ac": {
-      "at": "2026-11-20T11:20:31.503Z",
-      "keep": [],
-      "reason": "Headlines cover a Virginia state tax credit dispute, political commentary on a possible December shutdown, and Democratic reactions, with no single national government action or official figure; none of the charts directly measures a shutdown.",
-      "chart": ""
-    },
     "6ea0c7a7706ef2dfd267": {
       "at": "2026-11-20T19:58:42.948Z",
       "keep": [],
@@ -351,16 +297,60 @@
       ],
       "reason": "Three outlets report the same development: a tentative labor agreement averting a strike at major U.S. ports (Los Angeles and busiest ports), which is central to the ports topic.",
       "chart": ""
+    },
+    "c993309803d65630766b": {
+      "at": "2026-11-22T18:27:09.899Z",
+      "keep": [
+        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
+        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
+        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
+        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
+        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html",
+        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html",
+        "https://www.washingtonexaminer.com/policy/immigration/4811477/masked-immigration-officers-distressing-scene-seattle-airport/",
+        "https://www.foxnews.com/politics/dhs-dem-officials-clash-ice-arrest-seattle-airport",
+        "https://www.foxnews.com/politics/dhs-dem-officials-clash-ice-arrest-seattle-airport"
+      ],
+      "reason": "Most outlets reported the same ICE arrest of two passengers at Seattle airport; excluded the Bloomberg headlines (2, 3) because they don't name Seattle, and the training and student-enrollment stories are different developments.",
+      "chart": ""
+    },
+    "667b1978d93ef443c00d": {
+      "at": "2026-11-22T18:27:09.899Z",
+      "keep": [
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/",
+        "https://www.cnbc.com/2026/11/20/sp-500-correction-market-sell-off.html",
+        "https://www.cnbc.com/2026/11/20/sp-500-correction-market-sell-off.html",
+        "https://www.washingtontimes.com/news/2026/nov/21/unnerving-not-unusual-investors-navigating-10-drop-stock-market/",
+        "https://www.washingtontimes.com/news/2026/nov/21/unnerving-not-unusual-investors-navigating-10-drop-stock-market/"
+      ],
+      "reason": "Most outlets reported the Nov 20-21 U.S. stock sell-off that pushed the S&P 500 and Dow into correction territory; the Anthropic IPO debut was the other cluster but was covered less, and no listed chart measures stock prices.",
+      "chart": ""
+    },
+    "e28121a160180bfaf453": {
+      "at": "2026-11-22T18:27:09.899Z",
+      "keep": [],
+      "reason": "No single shared U.S. development: headline 1 is a general consumer feature, 2 is Swiss inflation, 3 is a progressive wage proposal, and 4 is a weekly roundup.",
+      "chart": ""
+    },
+    "177c7af5483530588eb0": {
+      "at": "2026-11-22T18:27:09.899Z",
+      "keep": [],
+      "reason": "Headlines cover two different offshore wind stories (a fishers feature and a Hill piece on a bill), with no single shared development, and neither clearly reports a concrete government action.",
+      "chart": ""
     }
   },
-  "dispatched": {
-    "energy-freshness.yml": {
-      "release": "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
-      "since": "2026-11-20T11:20:31.503Z",
-      "at": "2026-11-20T11:20:31.503Z",
-      "count": 1
-    }
-  },
+  "dispatched": {},
   "laws": {
     "119-pub-133": {
       "outlets": [
