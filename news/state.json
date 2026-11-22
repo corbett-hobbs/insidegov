@@ -303,6 +303,54 @@
       ],
       "reason": "Most outlets reported the same current development: a sharp U.S. stock market sell-off pushing the S&P 500 and Dow into correction territory. Explainer and \"why\" headlines were left out, as were Anthropic-debut-only stories.",
       "chart": ""
+    },
+    "c0148a184e5b59b03b95": {
+      "at": "2026-11-22T11:04:25.374Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-22/ice-arrest-at-airport-prompts-outcry-from-officials-politicians",
+        "https://www.bloomberg.com/news/articles/2026-11-22/ice-arrest-at-airport-prompts-outcry-from-officials-politicians",
+        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
+        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
+        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
+        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
+        "https://nypost.com/2026/11/21/us-news/masked-ice-agents-drag-passengers-off-seattle-jet-bridge-delaying-la-flight/",
+        "https://nypost.com/2026/11/21/us-news/masked-ice-agents-drag-passengers-off-seattle-jet-bridge-delaying-la-flight/",
+        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html",
+        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html"
+      ],
+      "reason": "All headlines report the same ICE enforcement action: officers arresting passengers boarding a flight at Seattle airport, which drew official and political reaction.",
+      "chart": ""
+    },
+    "a627bd86db3a9cf832c6": {
+      "at": "2026-11-22T11:04:25.374Z",
+      "keep": [
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/",
+        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html",
+        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html"
+      ],
+      "reason": "Most outlets reported the Nov 20-21 U.S. stock sell-off that pushed the S&P 500 and Dow into correction territory; the Anthropic IPO debut was covered by fewer outlets and is a different development.",
+      "chart": ""
+    },
+    "9c56aa0354a63a6bb1be": {
+      "at": "2026-11-22T11:04:25.374Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-21/los-angeles-port-strike-threat-resolved-with-tentative-agreement",
+        "https://www.bloomberg.com/news/articles/2026-11-21/los-angeles-port-strike-threat-resolved-with-tentative-agreement",
+        "https://www.wsj.com/logistics-report/tentative-deal-averts-strike-threat-at-busiest-u-s-ports-6f9a60d1?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Three outlets report the same development: a tentative labor agreement averting a strike at major U.S. ports (Los Angeles and busiest ports), which is central to the ports topic.",
+      "chart": ""
     }
   },
   "dispatched": {
