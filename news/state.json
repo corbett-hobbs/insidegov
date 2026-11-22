@@ -1,56 +1,5 @@
 {
   "checks": {
-    "10f2ee29506be169ac96": {
-      "at": "2026-11-20T02:59:27.936Z",
-      "keep": [
-        "https://www.politico.com/live-updates/2026/11/18/congress/debt-limit-deadline-01172032",
-        "https://www.nytimes.com/2026/11/18/business/economy/us-debt-limit.html"
-      ],
-      "reason": "Politico and NYT both report the same forecast that the U.S. will hit the $41T debt limit by February or March; headline 3 covers a different development (Thune's view on a future debt-limit fight).",
-      "chart": ""
-    },
-    "990e74367db6fe7633d4": {
-      "at": "2026-11-20T02:59:27.936Z",
-      "keep": [],
-      "reason": "Headlines cover different items: a permitting bill's data center charges (NYT) and stalled energy bill votes (The Hill) are only two outlets on a related bill, the CBS and WSJ pieces are analysis, and none clearly reports one shared development central to a generation-by-source chart.",
-      "chart": ""
-    },
-    "fc63421ac6a096e6c331": {
-      "at": "2026-11-20T02:59:27.936Z",
-      "keep": [
-        "https://www.axios.com/2026/11/18/anthropic-ipo-1-trillion",
-        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
-        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Headlines report the same development, Anthropic's Nasdaq IPO and stock market debut; excluded the opinion column (12-13), the \"who stands to gain\" explainer (8-9), and the SoftBank sell-off story (16), which covers a different development.",
-      "chart": ""
-    },
-    "41d6b74e7d36c55a51dc": {
-      "at": "2026-11-20T02:59:27.936Z",
-      "keep": [],
-      "reason": "No single U.S. CPI development is reported by multiple outlets; the matches are UK, Japan, ECB, and Sri Lanka news, explainers, or Fed official remarks on different points.",
-      "chart": ""
-    },
-    "b17bac60a5dd5aca1460": {
-      "at": "2026-11-20T02:59:27.936Z",
-      "keep": [],
-      "reason": "No single current U.S. trade development is reported by most outlets with trade central; the headlines cover the Trump-Xi-Putin summit, a Nvidia internal panel, and a California subpoena, which are either company or state news or only mention trade in passing.",
-      "chart": ""
-    },
-    "6e3bb1c2b80b13f0bc7a": {
-      "at": "2026-11-20T02:59:27.936Z",
-      "keep": [],
-      "reason": "Each development (Hochul detention inquiry, Trump-House progressive episode, California ICE mask ruling, Ninth Circuit knock-and-talk hearing) appears from only one outlet, so no single development is reported by multiple outlets.",
-      "chart": ""
-    },
     "24f5016a4796b09fa40e": {
       "at": "2026-11-20T11:20:31.503Z",
       "keep": [
@@ -317,6 +266,43 @@
       "keep": [],
       "reason": "No headlines cover a Federal Reserve or federal funds rate development. The credit card rate cap headlines concern a Trump statement about consumer credit, not the policy rate the chart measures.",
       "chart": ""
+    },
+    "81ac67419937a57cdd32": {
+      "at": "2026-11-22T02:59:46.764Z",
+      "keep": [],
+      "reason": "All headlines cover one local incident, an ICE arrest of two passengers at Seattle airport, which is local news rather than a national-significance development, and no chart measures arrests.",
+      "chart": ""
+    },
+    "1d4317d2da8a49444e8d": {
+      "at": "2026-11-22T02:59:46.764Z",
+      "keep": [],
+      "reason": "Headlines 3-6 cover Trump's vow to work with Democrats on a credit card rate cap, which is a political proposal about consumer card rates, not the Fed's federal funds rate the chart measures; no headline reports a Fed action or rate decision.",
+      "chart": ""
+    },
+    "bb68227877aca5c1031c": {
+      "at": "2026-11-22T02:59:46.764Z",
+      "keep": [],
+      "reason": "All four headlines cover Trump's comments on capping credit card interest rates, a consumer-lending issue; the federal funds rate chart does not measure it, so the chart's topic is not central.",
+      "chart": ""
+    },
+    "d7a9d0066c774dc2ae4d": {
+      "at": "2026-11-22T02:59:46.764Z",
+      "keep": [
+        "https://www.washingtontimes.com/news/2026/nov/20/us-stocks-tumble-sp-500-falls-sell-ai-stocks-accelerates/",
+        "https://www.washingtontimes.com/news/2026/nov/20/us-stocks-tumble-sp-500-falls-sell-ai-stocks-accelerates/",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/"
+      ],
+      "reason": "Most outlets reported the same current development: a sharp U.S. stock market sell-off pushing the S&P 500 and Dow into correction territory. Explainer and \"why\" headlines were left out, as were Anthropic-debut-only stories.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -333,7 +319,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-21"
+      "last": "2026-11-22"
     },
     "119-pub-142": {
       "outlets": [
@@ -342,7 +328,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-21"
+      "last": "2026-11-22"
     }
   }
 }
