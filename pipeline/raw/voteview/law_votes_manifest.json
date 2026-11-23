@@ -5,325 +5,325 @@
       "congress": 93,
       "chamber": "H",
       "bytes": 11852815,
-      "last_modified": "Sat, 14 Nov 2026 07:12:59 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:03:23 GMT"
     },
     {
       "congress": 93,
       "chamber": "S",
-      "bytes": 3009241,
-      "last_modified": "Sat, 14 Nov 2026 07:12:59 GMT"
+      "bytes": 3009220,
+      "last_modified": "Sat, 21 Nov 2026 07:03:24 GMT"
     },
     {
       "congress": 94,
       "chamber": "H",
       "bytes": 13965081,
-      "last_modified": "Sat, 14 Nov 2026 07:13:33 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:03:51 GMT"
     },
     {
       "congress": 94,
       "chamber": "S",
-      "bytes": 3475435,
-      "last_modified": "Sat, 14 Nov 2026 07:13:34 GMT"
+      "bytes": 3475393,
+      "last_modified": "Sat, 21 Nov 2026 07:03:51 GMT"
     },
     {
       "congress": 95,
       "chamber": "H",
       "bytes": 16928557,
-      "last_modified": "Sat, 14 Nov 2026 07:14:04 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:04:21 GMT"
     },
     {
       "congress": 95,
       "chamber": "S",
-      "bytes": 3082488,
-      "last_modified": "Sat, 14 Nov 2026 07:14:05 GMT"
+      "bytes": 3082480,
+      "last_modified": "Sat, 21 Nov 2026 07:04:21 GMT"
     },
     {
       "congress": 96,
       "chamber": "H",
       "bytes": 14057787,
-      "last_modified": "Sat, 14 Nov 2026 07:14:31 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:04:48 GMT"
     },
     {
       "congress": 96,
       "chamber": "S",
-      "bytes": 2799125,
-      "last_modified": "Sat, 14 Nov 2026 07:14:31 GMT"
+      "bytes": 2799098,
+      "last_modified": "Sat, 21 Nov 2026 07:04:48 GMT"
     },
     {
       "congress": 97,
       "chamber": "H",
-      "bytes": 8866728,
-      "last_modified": "Sat, 14 Nov 2026 07:14:51 GMT"
+      "bytes": 8866729,
+      "last_modified": "Sat, 21 Nov 2026 07:05:07 GMT"
     },
     {
       "congress": 97,
       "chamber": "S",
-      "bytes": 2555741,
-      "last_modified": "Sat, 14 Nov 2026 07:14:52 GMT"
+      "bytes": 2555722,
+      "last_modified": "Sat, 21 Nov 2026 07:05:08 GMT"
     },
     {
       "congress": 98,
       "chamber": "H",
       "bytes": 9974092,
-      "last_modified": "Sat, 14 Nov 2026 07:15:10 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:05:25 GMT"
     },
     {
       "congress": 98,
       "chamber": "S",
       "bytes": 1758114,
-      "last_modified": "Sat, 14 Nov 2026 07:15:10 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:05:26 GMT"
     },
     {
       "congress": 99,
       "chamber": "H",
-      "bytes": 9795069,
-      "last_modified": "Sat, 14 Nov 2026 07:15:27 GMT"
+      "bytes": 9795068,
+      "last_modified": "Sat, 21 Nov 2026 07:05:43 GMT"
     },
     {
       "congress": 99,
       "chamber": "S",
       "bytes": 1970067,
-      "last_modified": "Sat, 14 Nov 2026 07:15:28 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:05:43 GMT"
     },
     {
       "congress": 100,
       "chamber": "H",
-      "bytes": 10657959,
-      "last_modified": "Sat, 14 Nov 2026 07:15:46 GMT"
+      "bytes": 10657958,
+      "last_modified": "Sat, 21 Nov 2026 07:06:02 GMT"
     },
     {
       "congress": 100,
       "chamber": "S",
       "bytes": 2182715,
-      "last_modified": "Sat, 14 Nov 2026 07:15:46 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:06:02 GMT"
     },
     {
       "congress": 101,
       "chamber": "H",
-      "bytes": 10018522,
-      "last_modified": "Sat, 14 Nov 2026 07:16:04 GMT"
+      "bytes": 10018523,
+      "last_modified": "Sat, 21 Nov 2026 07:06:20 GMT"
     },
     {
       "congress": 101,
       "chamber": "S",
       "bytes": 1735838,
-      "last_modified": "Sat, 14 Nov 2026 07:16:04 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:06:20 GMT"
     },
     {
       "congress": 102,
       "chamber": "H",
-      "bytes": 10314543,
-      "last_modified": "Sat, 14 Nov 2026 07:16:22 GMT"
+      "bytes": 10314544,
+      "last_modified": "Sat, 21 Nov 2026 07:06:38 GMT"
     },
     {
       "congress": 102,
       "chamber": "S",
       "bytes": 1517224,
-      "last_modified": "Sat, 14 Nov 2026 07:16:22 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:06:38 GMT"
     },
     {
       "congress": 103,
       "chamber": "H",
       "bytes": 12679436,
-      "last_modified": "Sat, 14 Nov 2026 07:16:46 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:07:02 GMT"
     },
     {
       "congress": 103,
       "chamber": "S",
       "bytes": 2012187,
-      "last_modified": "Sat, 14 Nov 2026 07:16:46 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:07:02 GMT"
     },
     {
       "congress": 104,
       "chamber": "H",
       "bytes": 15397751,
-      "last_modified": "Sat, 14 Nov 2026 07:17:13 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:07:29 GMT"
     },
     {
       "congress": 104,
       "chamber": "S",
       "bytes": 2548007,
-      "last_modified": "Sat, 14 Nov 2026 07:17:14 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:07:30 GMT"
     },
     {
       "congress": 105,
       "chamber": "H",
       "bytes": 13352026,
-      "last_modified": "Sat, 14 Nov 2026 07:17:36 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:07:52 GMT"
     },
     {
       "congress": 105,
       "chamber": "S",
       "bytes": 1675142,
-      "last_modified": "Sat, 14 Nov 2026 07:17:36 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:07:52 GMT"
     },
     {
       "congress": 106,
       "chamber": "H",
       "bytes": 13708248,
-      "last_modified": "Sat, 14 Nov 2026 07:17:59 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:08:14 GMT"
     },
     {
       "congress": 106,
       "chamber": "S",
-      "bytes": 1844525,
-      "last_modified": "Sat, 14 Nov 2026 07:17:59 GMT"
+      "bytes": 1844524,
+      "last_modified": "Sat, 21 Nov 2026 07:08:15 GMT"
     },
     {
       "congress": 107,
       "chamber": "H",
       "bytes": 11079068,
-      "last_modified": "Sat, 14 Nov 2026 07:18:18 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:08:34 GMT"
     },
     {
       "congress": 107,
       "chamber": "S",
       "bytes": 1713939,
-      "last_modified": "Sat, 14 Nov 2026 07:18:19 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:08:34 GMT"
     },
     {
       "congress": 108,
       "chamber": "H",
-      "bytes": 13796480,
-      "last_modified": "Sat, 14 Nov 2026 07:18:41 GMT"
+      "bytes": 13796479,
+      "last_modified": "Sat, 21 Nov 2026 07:08:57 GMT"
     },
     {
       "congress": 108,
       "chamber": "S",
-      "bytes": 1848441,
-      "last_modified": "Sat, 14 Nov 2026 07:18:42 GMT"
+      "bytes": 1848449,
+      "last_modified": "Sat, 21 Nov 2026 07:08:57 GMT"
     },
     {
       "congress": 109,
       "chamber": "H",
-      "bytes": 13741312,
-      "last_modified": "Sat, 14 Nov 2026 07:19:05 GMT"
+      "bytes": 13741310,
+      "last_modified": "Sat, 21 Nov 2026 07:09:20 GMT"
     },
     {
       "congress": 109,
       "chamber": "S",
-      "bytes": 1773918,
-      "last_modified": "Sat, 14 Nov 2026 07:19:05 GMT"
+      "bytes": 1773916,
+      "last_modified": "Sat, 21 Nov 2026 07:09:20 GMT"
     },
     {
       "congress": 110,
       "chamber": "H",
-      "bytes": 21530804,
-      "last_modified": "Sat, 14 Nov 2026 07:19:40 GMT"
+      "bytes": 21530803,
+      "last_modified": "Sat, 21 Nov 2026 07:09:55 GMT"
     },
     {
       "congress": 110,
       "chamber": "S",
-      "bytes": 1813139,
-      "last_modified": "Sat, 14 Nov 2026 07:19:41 GMT"
+      "bytes": 1813140,
+      "last_modified": "Sat, 21 Nov 2026 07:09:56 GMT"
     },
     {
       "congress": 111,
       "chamber": "H",
       "bytes": 18500379,
-      "last_modified": "Sat, 14 Nov 2026 07:20:14 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:10:29 GMT"
     },
     {
       "congress": 111,
       "chamber": "S",
-      "bytes": 1934257,
-      "last_modified": "Sat, 14 Nov 2026 07:20:14 GMT"
+      "bytes": 1934256,
+      "last_modified": "Sat, 21 Nov 2026 07:10:29 GMT"
     },
     {
       "congress": 112,
       "chamber": "H",
-      "bytes": 18830268,
-      "last_modified": "Sat, 14 Nov 2026 07:20:42 GMT"
+      "bytes": 18830277,
+      "last_modified": "Sat, 21 Nov 2026 07:10:57 GMT"
     },
     {
       "congress": 112,
       "chamber": "S",
       "bytes": 1342797,
-      "last_modified": "Sat, 14 Nov 2026 07:20:42 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:10:57 GMT"
     },
     {
       "congress": 113,
       "chamber": "H",
-      "bytes": 13946042,
-      "last_modified": "Sat, 14 Nov 2026 07:21:05 GMT"
+      "bytes": 13946043,
+      "last_modified": "Sat, 21 Nov 2026 07:11:20 GMT"
     },
     {
       "congress": 113,
       "chamber": "S",
-      "bytes": 1827408,
-      "last_modified": "Sat, 14 Nov 2026 07:21:05 GMT"
+      "bytes": 1827400,
+      "last_modified": "Sat, 21 Nov 2026 07:11:20 GMT"
     },
     {
       "congress": 114,
       "chamber": "H",
-      "bytes": 16530176,
-      "last_modified": "Sat, 14 Nov 2026 07:21:44 GMT"
+      "bytes": 16530175,
+      "last_modified": "Sat, 21 Nov 2026 07:12:01 GMT"
     },
     {
       "congress": 114,
       "chamber": "S",
       "bytes": 1474354,
-      "last_modified": "Sat, 14 Nov 2026 07:21:45 GMT"
+      "last_modified": "Sat, 21 Nov 2026 07:12:02 GMT"
     },
     {
       "congress": 115,
       "chamber": "H",
-      "bytes": 13851303,
-      "last_modified": "Sat, 14 Nov 2026 07:22:24 GMT"
+      "bytes": 13851309,
+      "last_modified": "Sat, 21 Nov 2026 07:12:42 GMT"
     },
     {
       "congress": 115,
       "chamber": "S",
-      "bytes": 1670474,
-      "last_modified": "Sat, 14 Nov 2026 07:22:25 GMT"
+      "bytes": 1670475,
+      "last_modified": "Sat, 21 Nov 2026 07:12:42 GMT"
     },
     {
       "congress": 116,
       "chamber": "H",
-      "bytes": 11011051,
-      "last_modified": "Sat, 14 Nov 2026 07:22:58 GMT"
+      "bytes": 11011046,
+      "last_modified": "Sat, 21 Nov 2026 07:13:16 GMT"
     },
     {
       "congress": 116,
       "chamber": "S",
-      "bytes": 2026442,
-      "last_modified": "Sat, 14 Nov 2026 07:22:58 GMT"
+      "bytes": 2026453,
+      "last_modified": "Sat, 21 Nov 2026 07:13:17 GMT"
     },
     {
       "congress": 117,
       "chamber": "H",
-      "bytes": 11467321,
-      "last_modified": "Sat, 14 Nov 2026 07:23:34 GMT"
+      "bytes": 11467313,
+      "last_modified": "Sat, 21 Nov 2026 07:13:53 GMT"
     },
     {
       "congress": 117,
       "chamber": "S",
-      "bytes": 2684243,
-      "last_modified": "Sat, 14 Nov 2026 07:23:35 GMT"
+      "bytes": 2684245,
+      "last_modified": "Sat, 21 Nov 2026 07:13:54 GMT"
     },
     {
       "congress": 118,
       "chamber": "H",
-      "bytes": 14621326,
-      "last_modified": "Sat, 14 Nov 2026 07:24:15 GMT"
+      "bytes": 14621311,
+      "last_modified": "Sat, 21 Nov 2026 07:14:34 GMT"
     },
     {
       "congress": 118,
       "chamber": "S",
-      "bytes": 1950168,
-      "last_modified": "Sat, 14 Nov 2026 07:24:15 GMT"
+      "bytes": 1950162,
+      "last_modified": "Sat, 21 Nov 2026 07:14:35 GMT"
     },
     {
       "congress": 119,
       "chamber": "H",
-      "bytes": 7898543,
-      "last_modified": "Sat, 14 Nov 2026 07:24:44 GMT"
+      "bytes": 7942401,
+      "last_modified": "Sun, 22 Nov 2026 06:14:27 GMT"
     },
     {
       "congress": 119,
       "chamber": "S",
-      "bytes": 2624916,
-      "last_modified": "Sat, 14 Nov 2026 07:24:44 GMT"
+      "bytes": 2673380,
+      "last_modified": "Sun, 22 Nov 2026 06:14:28 GMT"
     }
   ]
 }
