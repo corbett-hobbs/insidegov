@@ -1,74 +1,5 @@
 {
   "checks": {
-    "e72691806935ba8ac84e": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [
-        "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill",
-        "https://thehill.com/homenews/senate/6229829-senate-passes-permitting-reform/",
-        "https://www.nbcnews.com/politics/congress/senate-passes-sweeping-bill-simplifying-permitting-rules-build-america-rcna610196",
-        "https://www.foxnews.com/politics/senate-republicans-break-through-washington-gridlock-massive-american-energy-data-center-overhaul",
-        "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html",
-        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=pls_whats_news_us_business_f",
-        "https://www.wsj.com/politics/policy/senate-passes-measure-designed-to-speed-up-energy-projects-lower-consumer-costs-dcacc9c6?mod=rss_usnews",
-        "https://www.cbsnews.com/news/senate-bipartisan-permitting-reform-bill-energy-baaja-trump/",
-        "https://www.huffpost.com/entry/congress-energy-permitting_n_6affcee5e4b0976dc4a2a97b",
-        "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html",
-        "https://www.theguardian.com/us-news/2026/nov/20/senate-energy-datacenters-review-bill",
-        "https://nypost.com/2026/11/20/us-news/senate-approves-bipartisan-bill-to-speed-up-permitting-reviews-force-data-centers-to-pay-for-energy/"
-      ],
-      "reason": "Most outlets report the same development: the Senate passing the bipartisan permitting reform bill on Nov 20, 2026. The chart on electricity generation by source is only loosely related to permitting, so no chart is linked.",
-      "chart": ""
-    },
-    "dd22c413043ed22edafe": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [],
-      "reason": "The empty-beds spending report (headlines 2 and 3) concerns detention costs, not removal counts, so the chart's topic is not central; headline 1 is a separate law-firm story.",
-      "chart": ""
-    },
-    "a6c27d4e0979a6ecd0ae": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [
-        "https://www.nytimes.com/2026/11/20/us/politics/training-ice-immigration-inspector-general.html",
-        "https://www.nytimes.com/2026/11/20/us/politics/training-ice-immigration-inspector-general.html"
-      ],
-      "reason": "Both NYT headlines report the same official findings on problems with ICE training under the immigration crackdown; the other developments (NY detention center inquiry, facility family-detention plan, Ninth Circuit arguments) are local or single-outlet items about different events.",
-      "chart": ""
-    },
-    "4b2823d14f97647146d3": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.foxbusiness.com/markets/anthropic-makes-stock-market-debut-who-could-gain-from-blockbuster-ipo",
-        "https://www.foxbusiness.com/markets/anthropic-makes-stock-market-debut-who-could-gain-from-blockbuster-ipo",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Most headlines cover the Anthropic record-breaking Nasdaq IPO debut on Nov 19; the Nov 20 market correction was reported by fewer outlets. No chart measures individual stock listings, so no chart link.",
-      "chart": ""
-    },
-    "49cb76768bdc6f38508f": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [],
-      "reason": "Headline 1 reports a poll, not a government action, ruling, or official figure; headline 2 is a broad roundup of unresolved trade, Taiwan, and tech issues, not a single development.",
-      "chart": ""
-    },
-    "856ab9cfe3b46eee43ea": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [],
-      "reason": "Headlines cover a China drug supply chain alarm and an EU trade power, which are not U.S. government actions on trade, and neither story matches the trade balance or tariff charts.",
-      "chart": ""
-    },
-    "45cb170c9ddb52fdbf96": {
-      "at": "2026-11-21T01:22:56.462Z",
-      "keep": [],
-      "reason": "Headlines 1 and 2 are duplicates about a Texas governor-elect's pledge on state-level H-1B restrictions, not a national development; headline 3 is about the death penalty; no listed chart measures visa policy.",
-      "chart": ""
-    },
     "5d42a5a300d49ed1a45f": {
       "at": "2026-11-21T09:37:46.401Z",
       "keep": [
@@ -329,6 +260,34 @@
       "at": "2026-11-23T00:11:35.690Z",
       "keep": [],
       "reason": "Headlines 1 and 2 are separate remarks by two different Fed officials on AI and inflation, not one shared development; the rest are company, foreign, opinion, or incidental-topic stories.",
+      "chart": ""
+    },
+    "29377f716cd59005288b": {
+      "at": "2026-11-23T08:53:45.039Z",
+      "keep": [],
+      "reason": "All headlines cover one local incident (ICE arrests of two passengers at Seattle airport), which is local news and not a national development; neither border encounters nor ICE removals directly measure airport arrests.",
+      "chart": ""
+    },
+    "ca0fe3bb0ff0bd7eb99f": {
+      "at": "2026-11-23T08:53:45.039Z",
+      "keep": [
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory"
+      ],
+      "reason": "Most outlets reported the November 20-21 U.S. stock sell-off (S&P 500 and Nasdaq losses, correction territory); the Anthropic IPO debut headlines cover a different development, and the 7-8 and 18-19 headlines are analysis or stock-pick angles, so they are excluded.",
+      "chart": ""
+    },
+    "66de4cd5480bf8ba057f": {
+      "at": "2026-11-23T08:53:45.039Z",
+      "keep": [],
+      "reason": "No single development is reported by multiple headlines: the two AI-inflation items come from different Fed officials' remarks, and the others are a retail earnings story, a Japan story, a consumer-spending feature, and a minimum wage proposal.",
       "chart": ""
     }
   },
