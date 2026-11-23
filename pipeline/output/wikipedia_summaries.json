@@ -209,10 +209,10 @@
   {
     "bioguide_id": "B001277",
     "title": "Richard Blumenthal",
-    "extract": "Richard Blumenthal is an American politician and attorney serving as the senior United States senator from Connecticut. A member of the Democratic Party, he has been a member of the Senate since 2011.",
+    "extract": "Richard Blumenthal is an American politician and attorney serving as the senior United States senator from Connecticut, a seat he has held since 2011.",
     "url": "https://en.wikipedia.org/wiki/Richard_Blumenthal",
-    "revision": "1375382924",
-    "fetched_at": "2026-09-29",
+    "revision": "1387270986",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -353,19 +353,19 @@
   {
     "bioguide_id": "B001303",
     "title": "Lisa Blunt Rochester",
-    "extract": "Lisa LaTrelle Blunt Rochester is an American politician and former management consultant serving as the junior United States senator from Delaware, a seat she has held since 2025.",
+    "extract": "Lisa LaTrelle Blunt Rochester is an American politician and former management consultant serving since 2025 as the junior United States senator from Delaware. A member of the Democratic Party, she previously served as the U.S. representative for Delaware's at-large congressional district from 2017 to 2025.",
     "url": "https://en.wikipedia.org/wiki/Lisa_Blunt_Rochester",
-    "revision": "1377330638",
-    "fetched_at": "2026-09-29",
+    "revision": "1387319510",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
     "bioguide_id": "B001305",
     "title": "Ted Budd",
-    "extract": "Theodore Paul Budd is an American businessman and politician serving since 2023 as the junior United States senator for North Carolina. A member of the Republican Party, he was the U.S. representative for North Carolina's 13th congressional district from 2017 to 2023.",
+    "extract": "Theodore Paul Budd is an American businessman and politician serving since 2023 as the junior United States senator from North Carolina. A member of the Republican Party, he was the U.S. representative for North Carolina's 13th congressional district from 2017 to 2023.",
     "url": "https://en.wikipedia.org/wiki/Ted_Budd",
-    "revision": "1372206352",
-    "fetched_at": "2026-09-29",
+    "revision": "1387272229",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -416,10 +416,10 @@
   {
     "bioguide_id": "B001315",
     "title": "Nikki Budzinski",
-    "extract": "Nicole Jai Budzinski is an American trade unionist and politician. She has served as the U.S. representative for Illinois's 13th congressional district since 2023, and is a member of the Democratic Party.",
+    "extract": "Nicole Jai Budzinski is an American trade unionist and politician. A member of the Democratic Party, she has served as the U.S. representative for Illinois's 13th congressional district since 2023.",
     "url": "https://en.wikipedia.org/wiki/Nikki_Budzinski",
-    "revision": "1376263289",
-    "fetched_at": "2026-09-29",
+    "revision": "1387005652",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -587,10 +587,10 @@
   {
     "bioguide_id": "C001047",
     "title": "Shelley Moore Capito",
-    "extract": "Shelley Wellons Moore Capito is an American politician serving as the senior United States senator from West Virginia. A member of the Republican Party, Capito served from 2001 to 2015 as the U.S. representative from West Virginia's 2nd congressional district.",
+    "extract": "Shelley Wellons Moore Capito is an American politician serving as the senior United States senator from West Virginia, a seat she has held since 2015. A member of the Republican Party, Capito served from 2001 to 2015 as the U.S. representative from West Virginia's 2nd congressional district.",
     "url": "https://en.wikipedia.org/wiki/Shelley_Moore_Capito",
-    "revision": "1375693620",
-    "fetched_at": "2026-09-29",
+    "revision": "1387415056",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -623,10 +623,10 @@
   {
     "bioguide_id": "C001056",
     "title": "John Cornyn",
-    "extract": "John Cornyn III is an American politician and former judge who is the senior United States senator for Texas, a seat he has held since 2002. He is a member of the Republican Party.",
+    "extract": "John Cornyn III is an American politician and former judge serving as the senior United States senator from Texas, a seat he has held since 2002. He is a member of the Republican Party.",
     "url": "https://en.wikipedia.org/wiki/John_Cornyn",
-    "revision": "1376579056",
-    "fetched_at": "2026-09-29",
+    "revision": "1387270184",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -758,10 +758,10 @@
   {
     "bioguide_id": "C001096",
     "title": "Kevin Cramer",
-    "extract": "Kevin John Cramer is an American politician who has served as the junior United States senator for North Dakota since 2019. A member of the Republican Party, he represented North Dakota's at-large congressional district in the United States House of Representatives from 2013 to 2019.",
+    "extract": "Kevin John Cramer is an American politician who has served as the junior United States senator from North Dakota since 2019. A member of the Republican Party, he represented North Dakota's at-large congressional district in the United States House of Representatives from 2013 to 2019.",
     "url": "https://en.wikipedia.org/wiki/Kevin_Cramer",
-    "revision": "1377285608",
-    "fetched_at": "2026-09-29",
+    "revision": "1387272262",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -776,10 +776,10 @@
   {
     "bioguide_id": "C001101",
     "title": "Katherine Clark",
-    "extract": "Katherine Marlea Clark is an American lawyer and politician who has served as House minority whip since 2023 and is currently in her seventh term as the U.S. representative for Massachusetts's 5th congressional district, having held the post since 2013.",
+    "extract": "Katherine Marlea Clark is an American lawyer and politician who has served as House minority whip since 2023 and is in her seventh term as the U.S. representative for Massachusetts's 5th congressional district, having held the post since 2013.",
     "url": "https://en.wikipedia.org/wiki/Katherine_Clark",
-    "revision": "1374425324",
-    "fetched_at": "2026-09-29",
+    "revision": "1387200860",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -947,10 +947,10 @@
   {
     "bioguide_id": "C001131",
     "title": "Greg Casar",
-    "extract": "Gregorio Eduardo Casar is an American politician serving as a U.S. representative from Texas's 35th congressional district since 2023. He served as a member of the Austin City Council from the 4th district from 2015 to 2022.",
+    "extract": "Gregorio Eduardo Casar is an American politician serving as a U.S. representative from Texas's 35th congressional district since 2023. Casar is a member of the Democratic Party and is endorsed by the Working Families Party.",
     "url": "https://en.wikipedia.org/wiki/Greg_Casar",
-    "revision": "1376346162",
-    "fetched_at": "2026-09-29",
+    "revision": "1387343291",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -1064,10 +1064,10 @@
   {
     "bioguide_id": "D000594",
     "title": "Monica De La Cruz",
-    "extract": "Mónica de la Cruz is an American politician and insurance agent serving as the U.S. representative for Texas's 15th congressional district since 2023. She is a member of the Republican Party.",
+    "extract": "Monica De La Cruz is an American politician and insurance agent serving as the U.S. representative for Texas's 15th congressional district since 2023. She is a member of the Republican Party.",
     "url": "https://en.wikipedia.org/wiki/Monica_De_La_Cruz",
-    "revision": "1376901764",
-    "fetched_at": "2026-09-29",
+    "revision": "1387401261",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -1082,10 +1082,10 @@
   {
     "bioguide_id": "D000616",
     "title": "Scott DesJarlais",
-    "extract": "Scott Eugene DesJarlais is an American politician and physician serving as the U.S. representative for Tennessee's 4th congressional district since 2011. The district stretches across East and Middle Tennessee.",
+    "extract": "Scott Eugene DesJarlais is an American politician and physician serving as the U.S. representative for Tennessee's 4th congressional district since 2011. He is a member of the Republican Party.",
     "url": "https://en.wikipedia.org/wiki/Scott_DesJarlais",
-    "revision": "1351625698",
-    "fetched_at": "2026-09-29",
+    "revision": "1387396873",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -1361,19 +1361,19 @@
   {
     "bioguide_id": "F000466",
     "title": "Brian Fitzpatrick (American politician)",
-    "extract": "Brian Kevin Fitzpatrick is an American politician, attorney, and former FBI agent serving in the U.S. House of Representatives since 2017.",
+    "extract": "Brian Kevin Fitzpatrick is an American politician, attorney, and former Federal Bureau of Investigation (FBI) agent serving in the U.S. House of Representatives since 2017.",
     "url": "https://en.wikipedia.org/wiki/Brian_Fitzpatrick_(American_politician)",
-    "revision": "1376184506",
-    "fetched_at": "2026-09-29",
+    "revision": "1387269152",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
     "bioguide_id": "F000468",
     "title": "Lizzie Fletcher",
-    "extract": "Elizabeth Ann Fletcher is an American attorney and politician from Texas. A Democrat, she has represented Texas's 7th congressional district in the United States House of Representatives since 2019.",
+    "extract": "Elizabeth Ann Fletcher is an American attorney and politician from Texas. A member of the Democratic Party, she has represented Texas's 7th congressional district in the United States House of Representatives since 2019.",
     "url": "https://en.wikipedia.org/wiki/Lizzie_Fletcher",
-    "revision": "1373489399",
-    "fetched_at": "2026-09-29",
+    "revision": "1386989279",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -1910,10 +1910,10 @@
   {
     "bioguide_id": "H001076",
     "title": "Maggie Hassan",
-    "extract": "Margaret Wood Hassan is an American politician and attorney serving as the junior United States senator for New Hampshire since 2017. A member of the Democratic Party, Hassan was the 81st governor of New Hampshire, from 2013 to 2017.",
+    "extract": "Margaret Coldwell Hassan is an American politician and attorney serving as the junior United States senator from New Hampshire since 2017. A member of the Democratic Party, Hassan was the 81st governor of New Hampshire, from 2013 to 2017.",
     "url": "https://en.wikipedia.org/wiki/Maggie_Hassan",
-    "revision": "1368828871",
-    "fetched_at": "2026-09-29",
+    "revision": "1387272000",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -1928,10 +1928,10 @@
   {
     "bioguide_id": "H001079",
     "title": "Cindy Hyde-Smith",
-    "extract": "Cindy Hyde-Smith is an American politician serving since 2018 as the junior United States senator from Mississippi. A member of the Republican Party, she served from 2000 to 2012 in the Mississippi State Senate, and from 2012 to 2018 as the Mississippi Commissioner of Agriculture and Commerce.",
+    "extract": "Cindy Hyde-Smith is an American politician who has served as the junior United States senator from Mississippi since 2018. A member of the Republican Party, she served from 2000 to 2012 in the Mississippi State Senate, and from 2012 to 2018 as the Mississippi Commissioner of Agriculture and Commerce.",
     "url": "https://en.wikipedia.org/wiki/Cindy_Hyde-Smith",
-    "revision": "1386028366",
-    "fetched_at": "2026-11-16",
+    "revision": "1386772319",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -2306,19 +2306,19 @@
   {
     "bioguide_id": "K000383",
     "title": "Angus King",
-    "extract": "Angus Stanley King Jr. is an American lawyer and politician serving as the junior United States senator from Maine, a seat he has held since 2013. A political independent who caucuses with the Democratic Party, he served from 1995 to 2003 as the 72nd governor of Maine.",
+    "extract": "Angus Stanley King Jr. is an American lawyer and politician serving as the junior United States senator from Maine since 2013. A political independent who caucuses with the Democratic Party, he served from 1995 to 2003 as the 72nd governor of Maine.",
     "url": "https://en.wikipedia.org/wiki/Angus_King",
-    "revision": "1383173693",
-    "fetched_at": "2026-11-02",
+    "revision": "1387381539",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
     "bioguide_id": "K000384",
     "title": "Tim Kaine",
-    "extract": "Timothy Michael Kaine is an American lawyer and politician serving as the junior United States senator from Virginia, a seat he has held since 2013. A member of the Democratic Party, he served from 2006 to 2010 as the 70th governor of Virginia and from 2002 to 2006 as the 38th lieutenant governor of Virginia.",
+    "extract": "Timothy Michael Kaine is an American lawyer and politician serving as the junior United States senator from Virginia since 2013. A member of the Democratic Party, he served from 2006 to 2010 as the 70th governor of Virginia and from 2002 to 2006 as the 38th lieutenant governor of Virginia.",
     "url": "https://en.wikipedia.org/wiki/Tim_Kaine",
-    "revision": "1375824954",
-    "fetched_at": "2026-09-29",
+    "revision": "1387270415",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -2711,10 +2711,10 @@
   {
     "bioguide_id": "M000133",
     "title": "Ed Markey",
-    "extract": "Edward John Markey is an American politician serving as the junior United States senator from the state of Massachusetts, a seat he has held since 2013. A member of the Democratic Party, he served 20 terms as the U.S. representative for Massachusetts's 7th congressional district from 1976 to 2013.",
+    "extract": "Edward John Markey is an American politician serving as the junior United States senator from the state of Massachusetts since 2013. A member of the Democratic Party, he served 20 terms as the U.S. representative for Massachusetts's 7th congressional district from 1976 to 2013.",
     "url": "https://en.wikipedia.org/wiki/Ed_Markey",
-    "revision": "1373349998",
-    "fetched_at": "2026-09-29",
+    "revision": "1387271907",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -2747,10 +2747,10 @@
   {
     "bioguide_id": "M000355",
     "title": "Mitch McConnell",
-    "extract": "Addison Mitchell McConnell III is an American politician and attorney who has been a United States senator from Kentucky since 1985 and has been Kentucky's senior U.S. senator since 1999.",
+    "extract": "Addison Mitchell McConnell III is an American politician and attorney serving as the senior United States senator from Kentucky, a seat he has held since 1985. A member of the Republican Party, McConnell is in his seventh Senate term, making him the longest-serving senator in Kentucky history.",
     "url": "https://en.wikipedia.org/wiki/Mitch_McConnell",
-    "revision": "1377524882",
-    "fetched_at": "2026-09-29",
+    "revision": "1387269967",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -2819,10 +2819,10 @@
   {
     "bioguide_id": "M001153",
     "title": "Lisa Murkowski",
-    "extract": "Lisa Ann Murkowski is an American attorney and politician serving as the senior United States senator from the state of Alaska, having held the seat since 2002. She is the first woman to represent Alaska in the U.S. Congress and is the Senate's second-most senior Republican woman.",
+    "extract": "Lisa Ann Murkowski is an American attorney and politician serving as the senior United States senator from Alaska, having held the seat since 2002. She is the first woman to represent Alaska in the U.S. Congress and is the Senate's second-most senior Republican woman.",
     "url": "https://en.wikipedia.org/wiki/Lisa_Murkowski",
-    "revision": "1377316120",
-    "fetched_at": "2026-09-29",
+    "revision": "1387412969",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -2864,10 +2864,10 @@
   {
     "bioguide_id": "M001176",
     "title": "Jeff Merkley",
-    "extract": "Jeffrey Alan Merkley is an American politician who is the junior United States senator from Oregon. He was first elected to the Senate in 2008.",
+    "extract": "Jeffrey Alan Merkley is an American politician serving as the junior United States senator from Oregon since 2009.",
     "url": "https://en.wikipedia.org/wiki/Jeff_Merkley",
-    "revision": "1375879336",
-    "fetched_at": "2026-09-29",
+    "revision": "1387272391",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -2918,10 +2918,10 @@
   {
     "bioguide_id": "M001198",
     "title": "Roger Marshall",
-    "extract": "Roger Wayne Marshall is an American politician and physician serving as the junior United States senator from Kansas, a seat he has held since 2021. A member of the Republican Party, he served as the U.S. representative for Kansas's 1st congressional district from 2017 until 2021.",
+    "extract": "Roger Wayne Marshall is an American politician and physician serving as the junior United States senator from Kansas since 2021. A member of the Republican Party, he served as the U.S. representative for Kansas's 1st congressional district from 2017 until 2021.",
     "url": "https://en.wikipedia.org/wiki/Roger_Marshall",
-    "revision": "1384125898",
-    "fetched_at": "2026-11-09",
+    "revision": "1387271307",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -3233,10 +3233,10 @@
   {
     "bioguide_id": "M001240",
     "title": "Addison McDowell",
-    "extract": "Addison Parker McDowell is an American politician and lobbyist serving as the U.S. representative for North Carolina's 6th congressional district since 2025. A member of the Republican Party, McDowell was first elected in 2024 and defeated for reelection in 2026.",
+    "extract": "Addison Parker McDowell is an American politician and lobbyist serving as the U.S. representative for North Carolina's 6th congressional district since 2025. A member of the Republican Party, McDowell was first elected in 2024 and was defeated for reelection in 2026 by Democrat Cyril Jefferson.",
     "url": "https://en.wikipedia.org/wiki/Addison_McDowell",
-    "revision": "1384921272",
-    "fetched_at": "2026-11-16",
+    "revision": "1386622274",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -3269,10 +3269,10 @@
   {
     "bioguide_id": "M001244",
     "title": "Ashley Moody",
-    "extract": "Ashley Brooke Moody is an American politician and attorney serving since 2025 as the junior United States Senator from Florida. A member of the Republican Party, she served from 2019 to 2025 as the 38th Florida Attorney General.",
+    "extract": "Ashley Brooke Moody is an American politician and attorney serving since 2025 as the junior United States senator from Florida. A member of the Republican Party, she served from 2019 to 2025 as the 38th Florida attorney general.",
     "url": "https://en.wikipedia.org/wiki/Ashley_Moody",
-    "revision": "1386060019",
-    "fetched_at": "2026-11-16",
+    "revision": "1386831001",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -3917,10 +3917,10 @@
   {
     "bioguide_id": "S001150",
     "title": "Adam Schiff",
-    "extract": "Adam Bennett Schiff is an American lawyer and politician serving as the junior United States senator from California, a seat he has held since 2024. A member of the Democratic Party, Schiff served in the United States House of Representatives from 2001 to 2024 and in the California State Senate from 1996 to 2000.",
+    "extract": "Adam Bennett Schiff is an American lawyer and politician serving as the junior United States senator from California since 2024. A member of the Democratic Party, Schiff served in the United States House of Representatives from 2001 to 2024 and in the California State Senate from 1996 to 2000.",
     "url": "https://en.wikipedia.org/wiki/Adam_Schiff",
-    "revision": "1375241760",
-    "fetched_at": "2026-09-29",
+    "revision": "1387270861",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -4052,10 +4052,10 @@
   {
     "bioguide_id": "S001198",
     "title": "Dan Sullivan (U.S. senator)",
-    "extract": "Daniel Scott Sullivan is an American politician, attorney, and Marine Corps veteran serving as the junior United States senator from Alaska, a seat he has held since 2015.",
+    "extract": "Daniel Scott Sullivan is an American politician, attorney, and Marine Corps veteran serving as the junior United States senator from Alaska since 2015.",
     "url": "https://en.wikipedia.org/wiki/Dan_Sullivan_(U.S._senator)",
-    "revision": "1378183508",
-    "fetched_at": "2026-10-05",
+    "revision": "1387270666",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -4088,10 +4088,10 @@
   {
     "bioguide_id": "S001203",
     "title": "Tina Smith",
-    "extract": "Christine Elizabeth \"Tina\" Smith is an American politician, retired Democratic political consultant, and former businesswoman serving as the junior United States senator from Minnesota, a seat she has held since 2018.",
+    "extract": "Christine Elizabeth \"Tina\" Smith is an American politician, retired political consultant, and former businesswoman serving as the junior United States senator from Minnesota since 2018.",
     "url": "https://en.wikipedia.org/wiki/Tina_Smith",
-    "revision": "1374634376",
-    "fetched_at": "2026-09-29",
+    "revision": "1387272530",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -4151,10 +4151,10 @@
   {
     "bioguide_id": "S001215",
     "title": "Haley Stevens",
-    "extract": "Haley Maria Stevens is an American politician serving as the U.S. representative from Michigan's 11th congressional district since 2019. Elected as a member of the Democratic Party, Stevens represents most of urbanized Oakland County, including many of Detroit's northern suburbs.",
+    "extract": "Haley Maria Stevens is an American politician serving as the U.S. representative from Michigan's 11th congressional district since 2019.",
     "url": "https://en.wikipedia.org/wiki/Haley_Stevens",
-    "revision": "1383443390",
-    "fetched_at": "2026-11-02",
+    "revision": "1387030669",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -4331,10 +4331,10 @@
   {
     "bioguide_id": "T000460",
     "title": "Mike Thompson",
-    "extract": "Charles Michael Thompson is an American politician serving as the U.S. representative for California's 4th congressional district since 1999. The district, in the outer northern portion of the San Francisco Bay Area, includes all of Lake and Napa counties and parts of Contra Costa, Solano, Yolo and Sonoma counties.",
+    "extract": "Charles Michael Thompson is an American politician serving as the U.S. representative for California's 4th congressional district since 1999. The district, in the northern portion of the San Francisco Bay Area, includes all of Lake and Napa counties and parts of Solano, Yolo and Sonoma counties.",
     "url": "https://en.wikipedia.org/wiki/Mike_Thompson",
-    "revision": "1374157027",
-    "fetched_at": "2026-09-29",
+    "revision": "1387267106",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -4394,10 +4394,10 @@
   {
     "bioguide_id": "T000476",
     "title": "Thom Tillis",
-    "extract": "Thomas Roland Tillis is an American businessman and politician who has served as the senior United States senator from North Carolina since 2015. From 2007 to 2015, Tillis served in the North Carolina House of Representatives, of which he was speaker from 2011 to 2015.",
+    "extract": "Thomas Roland Tillis is an American businessman and politician who has served as a United States senator from North Carolina since 2015. He did not seek another term in the 2026 election.",
     "url": "https://en.wikipedia.org/wiki/Thom_Tillis",
-    "revision": "1374228250",
-    "fetched_at": "2026-09-29",
+    "revision": "1386790384",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
@@ -4673,10 +4673,10 @@
   {
     "bioguide_id": "W000802",
     "title": "Sheldon Whitehouse",
-    "extract": "Sheldon Whitehouse is an American politician and attorney serving as the junior United States senator from Rhode Island, a seat he has held since 2007.",
+    "extract": "Sheldon Whitehouse is an American politician and attorney serving as the junior United States senator from Rhode Island since 2007.",
     "url": "https://en.wikipedia.org/wiki/Sheldon_Whitehouse",
-    "revision": "1367847559",
-    "fetched_at": "2026-09-29",
+    "revision": "1387272671",
+    "fetched_at": "2026-11-23",
     "needs_review": false
   },
   {
