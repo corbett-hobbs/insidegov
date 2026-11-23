@@ -1,51 +1,5 @@
 {
   "checks": {
-    "6ea0c7a7706ef2dfd267": {
-      "at": "2026-11-20T19:58:42.948Z",
-      "keep": [],
-      "reason": "The Senate permitting bill is the most-reported development, but it concerns project permitting and data center cost rules, not the monthly generation mix by source that this chart measures, so the chart topic is not central.",
-      "chart": ""
-    },
-    "9e8abebc9aed2468cbc8": {
-      "at": "2026-11-20T19:58:42.948Z",
-      "keep": [
-        "https://www.huffpost.com/entry/anthropic-ipo-wall-street_n_6aff0d09e4b0f8ebfa4a7875",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.foxbusiness.com/markets/anthropic-begins-trading-nasdaq-record-breaking-ipo",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.cbsnews.com/news/anthropic-ipo-nasdaq-debut-claude-ai/",
-        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss",
-        "https://www.bbc.co.uk/news/articles/c3x29ggenz12o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Most outlets reported Anthropic's first-day Nasdaq IPO debut; the day-two slump and opinion or analysis pieces were excluded.",
-      "chart": ""
-    },
-    "845426b4a80bef0f3c6b": {
-      "at": "2026-11-20T19:58:42.948Z",
-      "keep": [],
-      "reason": "No single U.S. development is covered by most headlines: UK and Japan/ECB items are foreign, the Fed AI-inflation items are two officials' speeches (commentary, not an official action or data release), and the rest are explainers or unrelated.",
-      "chart": ""
-    },
-    "a962c7e5945f0f68e18c": {
-      "at": "2026-11-20T19:58:42.948Z",
-      "keep": [],
-      "reason": "No qualifying single national development: headlines cover a company's internal export panel, an Axios alarm piece on drug supply chains, and a California AG subpoena to Nvidia, none of which is a U.S. trade deal, talks, or tariff measure, and neither pick_chart option measures these topics.",
-      "chart": ""
-    },
-    "87ede6675af7a74335ce": {
-      "at": "2026-11-20T19:58:42.948Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple headlines: one is a poll on steel tariffs, one is a roundup of unresolved trade tensions, and one is a Trump remark about a possible Mexico deal.",
-      "chart": ""
-    },
-    "47933e958635a920cb74": {
-      "at": "2026-11-20T19:58:42.948Z",
-      "keep": [],
-      "reason": "No development is reported by multiple outlets: the Hochul/DHS story is state-level, the Trump/House story is political, and the Ninth Circuit item is only an oral argument from one outlet. None is about border encounters or ICE removals.",
-      "chart": ""
-    },
     "e72691806935ba8ac84e": {
       "at": "2026-11-21T01:22:56.462Z",
       "keep": [
@@ -348,6 +302,34 @@
       "keep": [],
       "reason": "Headlines cover two different offshore wind stories (a fishers feature and a Hill piece on a bill), with no single shared development, and neither clearly reports a concrete government action.",
       "chart": ""
+    },
+    "935ef27b07c6fde27de9": {
+      "at": "2026-11-23T00:11:35.690Z",
+      "keep": [],
+      "reason": "All headlines cover one local incident, an ICE arrest of two passengers at Seattle airport, which is not a national-level development, and neither the border encounters nor the ICE removals chart directly measures airport arrests.",
+      "chart": ""
+    },
+    "874fbb04ce82a4cd738b": {
+      "at": "2026-11-23T00:11:35.690Z",
+      "keep": [
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
+        "https://www.cnbc.com/2026/11/22/the-nasdaq-is-in-freefall-heres-one-stock-to-look-at.html",
+        "https://www.cnbc.com/2026/11/22/the-nasdaq-is-in-freefall-heres-one-stock-to-look-at.html"
+      ],
+      "reason": "Most outlets reported the November 20-21 U.S. stock sell-off (S&P 500, Nasdaq, Dow correction); I kept straight news headlines on that and left out the Anthropic IPO debut, analysis pieces, and explainers.",
+      "chart": ""
+    },
+    "8ca687ec07c698257bce": {
+      "at": "2026-11-23T00:11:35.690Z",
+      "keep": [],
+      "reason": "Headlines 1 and 2 are separate remarks by two different Fed officials on AI and inflation, not one shared development; the rest are company, foreign, opinion, or incidental-topic stories.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -357,7 +339,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-22"
+      "last": "2026-11-23"
     },
     "119-pub-142": {
       "outlets": [
@@ -366,7 +348,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-22"
+      "last": "2026-11-23"
     }
   }
 }
