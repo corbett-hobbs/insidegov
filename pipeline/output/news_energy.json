@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-21",
+  "asOf": "2026-11-22",
   "stories": [
     {
       "id": "electricity-2026-11-19",
@@ -97,7 +97,6 @@
       "id": "power_sources-2026-11-09",
       "date": "2026-11-09",
       "topic": "Nuclear, coal and renewables",
-      "chartId": "electricity",
       "headlines": [
         {
           "outletId": "thehill",
