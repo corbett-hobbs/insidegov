@@ -1,6 +1,56 @@
 {
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-23",
   "stories": [
+    {
+      "id": "markets-2026-11-23",
+      "date": "2026-11-23",
+      "topic": "Stock market",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Tech stocks see monster rally after Jensen Huang returns as Nvidia CEO",
+          "url": "https://www.cnbc.com/2026/11/23/anthropic-nvidia-shares.html"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Nvidia value climbs by almost $1tn and tech stocks rally after Jensen Huang returns",
+          "url": "https://www.bbc.co.uk/news/articles/cq62pn6j42jko?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Nasdaq surges 6.5% in second-largest one-day gain ever as Nvidia leads tech, AI stocks higher",
+          "url": "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/"
+        }
+      ]
+    },
+    {
+      "id": "gasoline-2026-11-20",
+      "date": "2026-11-20",
+      "topic": "Gas prices",
+      "chartId": "chart-gas",
+      "headlines": [
+        {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Gas prices continue to drop as travelers hit the road for Thanksgiving",
+          "url": "https://www.washingtonexaminer.com/travel/4812261/gas-prices-drop-travel-thanksgiving/"
+        },
+        {
+          "outletId": "breitbart",
+          "outlet": "Breitbart",
+          "lean": "Right",
+          "title": "AAA: Gas Prices Continue Dropping, Demand Increasing",
+          "url": "https://www.breitbart.com/economy/2026/11/20/aaa-gas-prices-continue-dropping-demand-increasing/"
+        }
+      ]
+    },
     {
       "id": "debt-2026-11-18",
       "date": "2026-11-18",
@@ -65,18 +115,18 @@
           "url": "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e"
         },
         {
+          "outletId": "axios",
+          "outlet": "Axios",
+          "lean": "Lean Left",
+          "title": "House Democrats recoil at forcing December shutdown to cut Iran war funding",
+          "url": "https://www.axios.com/2026/11/19/government-shutdown-funding-iran-democrat"
+        },
+        {
           "outletId": "washingtonexaminer",
           "outlet": "Washington Examiner",
           "lean": "Lean Right",
           "title": "What Democrats are saying about the possibility of a government shutdown in December",
           "url": "https://www.washingtonexaminer.com/news/house/4809015/democrats-government-shutdown-possibility-december/"
-        },
-        {
-          "outletId": "foxnews",
-          "outlet": "Fox News",
-          "lean": "Right",
-          "title": "Democrats could enter congressional majority in a government shutdown",
-          "url": "https://www.foxnews.com/politics/democrats-enter-congressional-majority-government-shutdown"
         }
       ]
     },
@@ -98,57 +148,6 @@
           "lean": "Right",
           "title": "Dow plummets 800 points as Nasdaq slides ahead of Nvidia earnings, Anthropic IPO",
           "url": "https://nypost.com/2026/11/17/business/dow-plummets-800-points-nasdaq-slides-ahead-of-nvidia-earnings-anthropic-ipo/"
-        }
-      ]
-    },
-    {
-      "id": "diesel-2026-11-15",
-      "date": "2026-11-15",
-      "topic": "Diesel prices",
-      "chartId": "chart-diesel",
-      "headlines": [
-        {
-          "outletId": "cbsnews",
-          "outlet": "CBS News",
-          "lean": "Lean Left",
-          "title": "Diesel prices dip below $6 a gallon for first time since September",
-          "url": "https://www.cbsnews.com/news/diesel-prices-fall-below-6-gallon/"
-        },
-        {
-          "outletId": "axios",
-          "outlet": "Axios",
-          "lean": "Lean Left",
-          "title": "Average diesel prices are under $6 per gallon for the first time in months",
-          "url": "https://www.axios.com/2026/11/16/diesel-dips-below-6-per-gallon"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "US diesel below $6 a gallon at 2-month low on easing tensions, weaker demand",
-          "url": "https://nypost.com/2026/11/15/business/us-diesel-below-6-a-gallon-at-2-month-low-on-easing-tensions-weaker-demand/"
-        }
-      ]
-    },
-    {
-      "id": "inflation-2026-11-15",
-      "date": "2026-11-15",
-      "topic": "Inflation",
-      "chartId": "chart-infl",
-      "headlines": [
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Fed's Schmid says central bank has 'work to do' on inflation",
-          "url": "https://thehill.com/business/6222328-schmid-fed-inflation-warning/"
-        },
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Schmid Says Fed Has More Work to Do to Bring Down Inflation",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-15/schmid-says-fed-has-more-work-to-do-to-bring-down-inflation"
         }
       ]
     }
