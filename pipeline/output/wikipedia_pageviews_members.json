@@ -1,3775 +1,3775 @@
 {
   "source": "https://wikimedia.org/api/rest_v1/metrics/pageviews",
   "agent": "user",
-  "start": "2026-08-17",
-  "end": "2026-11-14",
+  "start": "2026-08-24",
+  "end": "2026-11-21",
   "days": 90,
-  "fetched_at": "2026-11-16",
+  "fetched_at": "2026-11-23",
   "rows": [
     {
       "id": "A000055",
       "title": "Robert Aderholt",
-      "median": 84,
-      "total": 9609,
+      "median": 87,
+      "total": 10099,
       "redirects": 5
     },
     {
       "id": "A000148",
       "title": "Jake Auchincloss",
-      "median": 443,
-      "total": 59093,
+      "median": 459,
+      "total": 57361,
       "redirects": 0
     },
     {
       "id": "A000369",
       "title": "Mark Amodei",
-      "median": 125,
-      "total": 18528,
+      "median": 143,
+      "total": 19484,
       "redirects": 5
     },
     {
       "id": "A000370",
       "title": "Alma Adams",
-      "median": 74,
-      "total": 12353,
+      "median": 79,
+      "total": 13219,
       "redirects": 3
     },
     {
       "id": "A000371",
       "title": "Pete Aguilar",
-      "median": 135,
-      "total": 20043,
+      "median": 140,
+      "total": 28646,
       "redirects": 3
     },
     {
       "id": "A000372",
       "title": "Rick Allen (politician)",
       "median": 55,
-      "total": 6339,
+      "total": 6537,
       "redirects": 2
     },
     {
       "id": "A000375",
       "title": "Jodey Arrington",
-      "median": 80,
-      "total": 8653,
+      "median": 85,
+      "total": 9011,
       "redirects": 2
     },
     {
       "id": "A000379",
       "title": "Mark Alford",
-      "median": 90,
-      "total": 10682,
+      "median": 88,
+      "total": 10773,
       "redirects": 1
     },
     {
       "id": "A000380",
       "title": "Gabe Amo",
-      "median": 112,
-      "total": 14725,
+      "median": 115,
+      "total": 15864,
       "redirects": 4
     },
     {
       "id": "A000381",
       "title": "Yassamin Ansari",
-      "median": 369,
-      "total": 95143,
+      "median": 392,
+      "total": 98273,
       "redirects": 1
     },
     {
       "id": "A000382",
       "title": "Angela Alsobrooks",
-      "median": 358,
-      "total": 70751,
+      "median": 383,
+      "total": 81124,
       "redirects": 5
     },
     {
       "id": "A000383",
       "title": "Alan Armstrong",
-      "median": 370,
-      "total": 49562,
+      "median": 398,
+      "total": 56883,
       "redirects": 4
     },
     {
       "id": "B000490",
       "title": "Sanford Bishop",
-      "median": 109,
-      "total": 13457,
+      "median": 112,
+      "total": 13964,
       "redirects": 8
     },
     {
       "id": "B000668",
       "title": "Cliff Bentz",
-      "median": 64,
-      "total": 8081,
+      "median": 67,
+      "total": 8333,
       "redirects": 0
     },
     {
       "id": "B000740",
       "title": "Stephanie Bice",
-      "median": 184,
-      "total": 19669,
+      "median": 197,
+      "total": 20368,
       "redirects": 4
     },
     {
       "id": "B000825",
       "title": "Lauren Boebert",
-      "median": 1403,
-      "total": 696036,
+      "median": 1604,
+      "total": 741012,
       "redirects": 11
     },
     {
       "id": "B001230",
       "title": "Tammy Baldwin",
-      "median": 476,
-      "total": 73463,
+      "median": 481,
+      "total": 77860,
       "redirects": 10
     },
     {
       "id": "B001236",
       "title": "John Boozman",
-      "median": 200,
-      "total": 26413,
+      "median": 207,
+      "total": 28356,
       "redirects": 8
     },
     {
       "id": "B001243",
       "title": "Marsha Blackburn",
-      "median": 1626,
-      "total": 269623,
-      "redirects": 9
+      "median": 1873,
+      "total": 285389,
+      "redirects": 10
     },
     {
       "id": "B001257",
       "title": "Gus Bilirakis",
-      "median": 138,
-      "total": 13767,
+      "median": 132,
+      "total": 13369,
       "redirects": 3
     },
     {
       "id": "B001260",
       "title": "Vern Buchanan",
-      "median": 103,
-      "total": 10727,
+      "median": 104,
+      "total": 10323,
       "redirects": 4
     },
     {
       "id": "B001261",
       "title": "John Barrasso",
-      "median": 355,
-      "total": 54316,
+      "median": 366,
+      "total": 56293,
       "redirects": 19
     },
     {
       "id": "B001267",
       "title": "Michael Bennet",
-      "median": 443,
-      "total": 56897,
+      "median": 467,
+      "total": 61227,
       "redirects": 15
     },
     {
       "id": "B001277",
       "title": "Richard Blumenthal",
-      "median": 929,
-      "total": 104493,
+      "median": 974,
+      "total": 116737,
       "redirects": 10
     },
     {
       "id": "B001278",
       "title": "Suzanne Bonamici",
-      "median": 85,
-      "total": 9832,
+      "median": 94,
+      "total": 10197,
       "redirects": 3
     },
     {
       "id": "B001281",
       "title": "Joyce Beatty",
-      "median": 148,
-      "total": 44178,
+      "median": 145,
+      "total": 44864,
       "redirects": 8
     },
     {
       "id": "B001282",
       "title": "Andy Barr",
-      "median": 721,
-      "total": 129289,
+      "median": 781,
+      "total": 136348,
       "redirects": 13
     },
     {
       "id": "B001285",
       "title": "Julia Brownley",
-      "median": 70,
-      "total": 13999,
+      "median": 73,
+      "total": 15305,
       "redirects": 3
     },
     {
       "id": "B001287",
       "title": "Ami Bera",
-      "median": 132,
-      "total": 20897,
+      "median": 136,
+      "total": 21773,
       "redirects": 5
     },
     {
       "id": "B001288",
       "title": "Cory Booker",
-      "median": 2174,
-      "total": 274539,
+      "median": 2274,
+      "total": 285304,
       "redirects": 7
     },
     {
       "id": "B001291",
       "title": "Brian Babin",
-      "median": 71,
-      "total": 7990,
+      "median": 72,
+      "total": 8002,
       "redirects": 5
     },
     {
       "id": "B001292",
       "title": "Don Beyer",
-      "median": 207,
-      "total": 27295,
+      "median": 216,
+      "total": 27887,
       "redirects": 13
     },
     {
       "id": "B001295",
       "title": "Mike Bost",
-      "median": 110,
-      "total": 13779,
+      "median": 112,
+      "total": 13985,
       "redirects": 5
     },
     {
       "id": "B001296",
       "title": "Brendan Boyle",
-      "median": 146,
-      "total": 23415,
+      "median": 155,
+      "total": 27121,
       "redirects": 3
     },
     {
       "id": "B001298",
       "title": "Don Bacon",
-      "median": 352,
-      "total": 51530,
+      "median": 410,
+      "total": 54178,
       "redirects": 4
     },
     {
       "id": "B001299",
       "title": "Jim Banks",
-      "median": 241,
-      "total": 29039,
+      "median": 243,
+      "total": 31375,
       "redirects": 4
     },
     {
       "id": "B001300",
       "title": "Nanette Barragán",
-      "median": 67,
-      "total": 7699,
+      "median": 69,
+      "total": 8071,
       "redirects": 6
     },
     {
       "id": "B001301",
       "title": "Jack Bergman",
-      "median": 171,
-      "total": 26955,
+      "median": 159,
+      "total": 23430,
       "redirects": 3
     },
     {
       "id": "B001302",
       "title": "Andy Biggs",
-      "median": 675,
-      "total": 80360,
+      "median": 671,
+      "total": 78892,
       "redirects": 4
     },
     {
       "id": "B001303",
       "title": "Lisa Blunt Rochester",
-      "median": 272,
-      "total": 40268,
+      "median": 299,
+      "total": 44573,
       "redirects": 7
     },
     {
       "id": "B001305",
       "title": "Ted Budd",
-      "median": 354,
-      "total": 57182,
+      "median": 386,
+      "total": 62355,
       "redirects": 7
     },
     {
       "id": "B001306",
       "title": "Troy Balderson",
-      "median": 65,
-      "total": 6908,
+      "median": 69,
+      "total": 6966,
       "redirects": 3
     },
     {
       "id": "B001307",
       "title": "Jim Baird (politician)",
-      "median": 63,
-      "total": 9701,
+      "median": 66,
+      "total": 9898,
       "redirects": 4
     },
     {
       "id": "B001309",
       "title": "Tim Burchett",
-      "median": 372,
-      "total": 49379,
+      "median": 380,
+      "total": 52974,
       "redirects": 4
     },
     {
       "id": "B001313",
       "title": "Shontel Brown",
-      "median": 123,
-      "total": 16379,
+      "median": 134,
+      "total": 17252,
       "redirects": 2
     },
     {
       "id": "B001314",
       "title": "Aaron Bean",
-      "median": 82,
-      "total": 8529,
+      "median": 84,
+      "total": 8343,
       "redirects": 1
     },
     {
       "id": "B001315",
       "title": "Nikki Budzinski",
-      "median": 81,
-      "total": 10081,
+      "median": 84,
+      "total": 10499,
       "redirects": 2
     },
     {
       "id": "B001316",
       "title": "Eric Burlison",
-      "median": 100,
-      "total": 10564,
+      "median": 105,
+      "total": 10680,
       "redirects": 1
     },
     {
       "id": "B001317",
       "title": "Josh Brecheen",
-      "median": 54,
-      "total": 6307,
+      "median": 55,
+      "total": 7006,
       "redirects": 1
     },
     {
       "id": "B001318",
       "title": "Becca Balint",
-      "median": 240,
-      "total": 30802,
+      "median": 257,
+      "total": 32327,
       "redirects": 3
     },
     {
       "id": "B001319",
       "title": "Katie Britt",
-      "median": 739,
-      "total": 246320,
+      "median": 856,
+      "total": 252303,
       "redirects": 11
     },
     {
       "id": "B001321",
       "title": "Tom Barrett (Michigan politician)",
-      "median": 411,
-      "total": 46603,
+      "median": 413,
+      "total": 46929,
       "redirects": 0
     },
     {
       "id": "B001322",
       "title": "Michael Baumgartner",
-      "median": 162,
-      "total": 21148,
+      "median": 170,
+      "total": 21774,
       "redirects": 1
     },
     {
       "id": "B001323",
       "title": "Nick Begich III",
-      "median": 553,
-      "total": 99498,
+      "median": 565,
+      "total": 115734,
       "redirects": 1
     },
     {
       "id": "B001324",
       "title": "Wesley Bell",
-      "median": 195,
-      "total": 24054,
+      "median": 198,
+      "total": 25343,
       "redirects": 1
     },
     {
       "id": "B001325",
       "title": "Sheri Biggs",
-      "median": 69,
-      "total": 9479,
+      "median": 70,
+      "total": 9988,
       "redirects": 0
     },
     {
       "id": "B001326",
       "title": "Janelle Bynum",
-      "median": 173,
-      "total": 20690,
+      "median": 166,
+      "total": 20578,
       "redirects": 3
     },
     {
       "id": "B001327",
       "title": "Rob Bresnahan",
-      "median": 295,
-      "total": 38528,
+      "median": 313,
+      "total": 39292,
       "redirects": 2
     },
     {
       "id": "B001328",
       "title": "Everton Blair",
-      "median": 289,
-      "total": 50614,
+      "median": 318,
+      "total": 53290,
       "redirects": 2
     },
     {
       "id": "C000059",
       "title": "Ken Calvert",
-      "median": 169,
-      "total": 29896,
+      "median": 230,
+      "total": 31716,
       "redirects": 3
     },
     {
       "id": "C000127",
       "title": "Maria Cantwell",
-      "median": 301,
-      "total": 44978,
+      "median": 328,
+      "total": 50268,
       "redirects": 8
     },
     {
       "id": "C000537",
       "title": "Jim Clyburn",
-      "median": 323,
-      "total": 72520,
+      "median": 362,
+      "total": 77753,
       "redirects": 5
     },
     {
       "id": "C000880",
       "title": "Mike Crapo",
-      "median": 193,
-      "total": 25489,
+      "median": 204,
+      "total": 27591,
       "redirects": 9
     },
     {
       "id": "C001035",
       "title": "Susan Collins",
-      "median": 3480,
-      "total": 595791,
+      "median": 3523,
+      "total": 608630,
       "redirects": 5
     },
     {
       "id": "C001039",
       "title": "Kat Cammack",
-      "median": 148,
-      "total": 18440,
+      "median": 146,
+      "total": 17635,
       "redirects": 2
     },
     {
       "id": "C001047",
       "title": "Shelley Moore Capito",
-      "median": 374,
-      "total": 61745,
+      "median": 412,
+      "total": 65870,
       "redirects": 12
     },
     {
       "id": "C001051",
       "title": "John Carter (Texas politician)",
-      "median": 98,
-      "total": 13396,
+      "median": 100,
+      "total": 13567,
       "redirects": 3
     },
     {
       "id": "C001053",
       "title": "Tom Cole",
-      "median": 112,
-      "total": 12783,
+      "median": 118,
+      "total": 13783,
       "redirects": 3
     },
     {
       "id": "C001055",
       "title": "Ed Case",
       "median": 128,
-      "total": 14365,
+      "total": 14908,
       "redirects": 5
     },
     {
       "id": "C001056",
       "title": "John Cornyn",
-      "median": 1874,
-      "total": 332726,
+      "median": 2115,
+      "total": 350337,
       "redirects": 11
     },
     {
       "id": "C001059",
       "title": "Jim Costa",
-      "median": 135,
-      "total": 15680,
+      "median": 142,
+      "total": 16144,
       "redirects": 4
     },
     {
       "id": "C001061",
       "title": "Emanuel Cleaver",
-      "median": 140,
-      "total": 19296,
+      "median": 141,
+      "total": 19250,
       "redirects": 4
     },
     {
       "id": "C001063",
       "title": "Henry Cuellar",
-      "median": 284,
-      "total": 40332,
+      "median": 298,
+      "total": 41805,
       "redirects": 8
     },
     {
       "id": "C001066",
       "title": "Kathy Castor",
-      "median": 565,
-      "total": 56375,
+      "median": 551,
+      "total": 56476,
       "redirects": 4
     },
     {
       "id": "C001067",
       "title": "Yvette Clarke",
-      "median": 144,
-      "total": 19626,
+      "median": 151,
+      "total": 21200,
       "redirects": 5
     },
     {
       "id": "C001068",
       "title": "Steve Cohen (politician)",
-      "median": 309,
-      "total": 39268,
+      "median": 338,
+      "total": 40937,
       "redirects": 3
     },
     {
       "id": "C001069",
       "title": "Joe Courtney (politician)",
-      "median": 70,
-      "total": 8661,
+      "median": 73,
+      "total": 8959,
       "redirects": 4
     },
     {
       "id": "C001072",
       "title": "André Carson",
-      "median": 151,
-      "total": 28361,
+      "median": 161,
+      "total": 29713,
       "redirects": 3
     },
     {
       "id": "C001075",
       "title": "Bill Cassidy",
-      "median": 633,
-      "total": 100586,
+      "median": 664,
+      "total": 111548,
       "redirects": 8
     },
     {
       "id": "C001080",
       "title": "Judy Chu",
       "median": 141,
-      "total": 16496,
+      "total": 16862,
       "redirects": 4
     },
     {
       "id": "C001087",
       "title": "Rick Crawford (politician)",
-      "median": 86,
-      "total": 10560,
+      "median": 90,
+      "total": 11174,
       "redirects": 3
     },
     {
       "id": "C001088",
       "title": "Chris Coons",
-      "median": 447,
-      "total": 59264,
+      "median": 493,
+      "total": 66920,
       "redirects": 9
     },
     {
       "id": "C001091",
       "title": "Joaquin Castro",
-      "median": 162,
-      "total": 20151,
+      "median": 171,
+      "total": 22739,
       "redirects": 1
     },
     {
       "id": "C001095",
       "title": "Tom Cotton",
-      "median": 1006,
-      "total": 146332,
+      "median": 1066,
+      "total": 151022,
       "redirects": 9
     },
     {
       "id": "C001096",
       "title": "Kevin Cramer",
-      "median": 129,
-      "total": 17776,
+      "median": 135,
+      "total": 18871,
       "redirects": 5
     },
     {
       "id": "C001098",
       "title": "Ted Cruz",
-      "median": 3372,
-      "total": 639333,
+      "median": 3693,
+      "total": 655591,
       "redirects": 23
     },
     {
       "id": "C001101",
       "title": "Katherine Clark",
-      "median": 369,
-      "total": 90409,
+      "median": 380,
+      "total": 131807,
       "redirects": 2
     },
     {
       "id": "C001103",
       "title": "Buddy Carter",
-      "median": 138,
-      "total": 20607,
+      "median": 140,
+      "total": 20891,
       "redirects": 5
     },
     {
       "id": "C001108",
       "title": "James Comer",
-      "median": 240,
-      "total": 32064,
+      "median": 270,
+      "total": 41567,
       "redirects": 7
     },
     {
       "id": "C001110",
       "title": "Lou Correa",
-      "median": 140,
-      "total": 23168,
+      "median": 141,
+      "total": 24095,
       "redirects": 2
     },
     {
       "id": "C001112",
       "title": "Salud Carbajal",
-      "median": 86,
-      "total": 9957,
+      "median": 89,
+      "total": 10126,
       "redirects": 2
     },
     {
       "id": "C001113",
       "title": "Catherine Cortez Masto",
-      "median": 269,
-      "total": 38010,
+      "median": 273,
+      "total": 41601,
       "redirects": 11
     },
     {
       "id": "C001114",
       "title": "John Curtis",
-      "median": 297,
-      "total": 45478,
+      "median": 326,
+      "total": 48002,
       "redirects": 9
     },
     {
       "id": "C001115",
       "title": "Michael Cloud",
-      "median": 55,
-      "total": 6525,
+      "median": 56,
+      "total": 6618,
       "redirects": 3
     },
     {
       "id": "C001116",
       "title": "Andrew Clyde",
       "median": 75,
-      "total": 8683,
+      "total": 8797,
       "redirects": 2
     },
     {
       "id": "C001117",
       "title": "Sean Casten",
-      "median": 129,
-      "total": 17167,
+      "median": 142,
+      "total": 17912,
       "redirects": 3
     },
     {
       "id": "C001118",
       "title": "Ben Cline",
-      "median": 151,
-      "total": 15732,
+      "median": 150,
+      "total": 15947,
       "redirects": 3
     },
     {
       "id": "C001119",
       "title": "Angie Craig",
-      "median": 313,
-      "total": 41702,
+      "median": 319,
+      "total": 45288,
       "redirects": 3
     },
     {
       "id": "C001120",
       "title": "Dan Crenshaw",
-      "median": 723,
-      "total": 158773,
+      "median": 724,
+      "total": 160573,
       "redirects": 6
     },
     {
       "id": "C001121",
       "title": "Jason Crow",
-      "median": 380,
-      "total": 63291,
+      "median": 412,
+      "total": 64367,
       "redirects": 1
     },
     {
       "id": "C001123",
       "title": "Gil Cisneros",
-      "median": 110,
-      "total": 13780,
+      "median": 113,
+      "total": 14455,
       "redirects": 8
     },
     {
       "id": "C001125",
       "title": "Troy Carter (politician)",
-      "median": 87,
-      "total": 11891,
+      "median": 91,
+      "total": 12890,
       "redirects": 3
     },
     {
       "id": "C001126",
       "title": "Mike Carey (politician)",
-      "median": 128,
-      "total": 18675,
+      "median": 152,
+      "total": 20488,
       "redirects": 0
     },
     {
       "id": "C001129",
       "title": "Mike Collins (politician)",
-      "median": 1585,
-      "total": 236962,
+      "median": 1333,
+      "total": 229243,
       "redirects": 1
     },
     {
       "id": "C001130",
       "title": "Jasmine Crockett",
-      "median": 2491,
-      "total": 391345,
+      "median": 2651,
+      "total": 397971,
       "redirects": 3
     },
     {
       "id": "C001131",
       "title": "Greg Casar",
-      "median": 366,
-      "total": 58756,
+      "median": 388,
+      "total": 59760,
       "redirects": 0
     },
     {
       "id": "C001132",
       "title": "Eli Crane",
-      "median": 318,
-      "total": 41833,
+      "median": 339,
+      "total": 43193,
       "redirects": 0
     },
     {
       "id": "C001133",
       "title": "Juan Ciscomani",
-      "median": 240,
-      "total": 27808,
+      "median": 246,
+      "total": 28206,
       "redirects": 2
     },
     {
       "id": "C001136",
       "title": "Herb Conaway",
-      "median": 88,
-      "total": 10320,
+      "median": 99,
+      "total": 10745,
       "redirects": 0
     },
     {
       "id": "C001137",
       "title": "Jeff Crank",
-      "median": 189,
-      "total": 22746,
+      "median": 190,
+      "total": 22926,
       "redirects": 0
     },
     {
       "id": "D000032",
       "title": "Byron Donalds",
-      "median": 4612,
-      "total": 1158694,
-      "redirects": 0
+      "median": 4371,
+      "total": 1001259,
+      "redirects": 1
     },
     {
       "id": "D000096",
       "title": "Danny Davis (Illinois politician)",
-      "median": 89,
-      "total": 10504,
+      "median": 92,
+      "total": 10831,
       "redirects": 4
     },
     {
       "id": "D000197",
       "title": "Diana DeGette",
-      "median": 211,
-      "total": 33061,
+      "median": 216,
+      "total": 34560,
       "redirects": 5
     },
     {
       "id": "D000216",
       "title": "Rosa DeLauro",
-      "median": 561,
-      "total": 60081,
+      "median": 587,
+      "total": 65475,
       "redirects": 5
     },
     {
       "id": "D000230",
       "title": "Don Davis (North Carolina politician)",
-      "median": 462,
-      "total": 44735,
+      "median": 470,
+      "total": 47026,
       "redirects": 4
     },
     {
       "id": "D000399",
       "title": "Lloyd Doggett",
-      "median": 157,
-      "total": 20155,
+      "median": 167,
+      "total": 20822,
       "redirects": 7
     },
     {
       "id": "D000530",
       "title": "Chris Deluzio",
-      "median": 203,
-      "total": 33471,
+      "median": 209,
+      "total": 38447,
       "redirects": 1
     },
     {
       "id": "D000563",
       "title": "Dick Durbin",
-      "median": 683,
-      "total": 108945,
+      "median": 723,
+      "total": 118988,
       "redirects": 9
     },
     {
       "id": "D000594",
       "title": "Monica De La Cruz",
-      "median": 406,
-      "total": 60797,
+      "median": 427,
+      "total": 63175,
       "redirects": 1
     },
     {
       "id": "D000600",
       "title": "Mario Díaz-Balart",
-      "median": 203,
-      "total": 27589,
+      "median": 209,
+      "total": 27379,
       "redirects": 24
     },
     {
       "id": "D000616",
       "title": "Scott DesJarlais",
-      "median": 66,
-      "total": 38163,
+      "median": 68,
+      "total": 47798,
       "redirects": 4
     },
     {
       "id": "D000617",
       "title": "Suzan DelBene",
-      "median": 128,
-      "total": 17423,
+      "median": 137,
+      "total": 17937,
       "redirects": 10
     },
     {
       "id": "D000618",
       "title": "Steve Daines",
-      "median": 270,
-      "total": 33017,
+      "median": 296,
+      "total": 35782,
       "redirects": 8
     },
     {
       "id": "D000622",
       "title": "Tammy Duckworth",
-      "median": 774,
-      "total": 132122,
+      "median": 826,
+      "total": 165055,
       "redirects": 10
     },
     {
       "id": "D000623",
       "title": "Mark DeSaulnier",
-      "median": 90,
-      "total": 10141,
+      "median": 93,
+      "total": 10496,
       "redirects": 4
     },
     {
       "id": "D000624",
       "title": "Debbie Dingell",
-      "median": 390,
-      "total": 137405,
+      "median": 486,
+      "total": 139879,
       "redirects": 11
     },
     {
       "id": "D000626",
       "title": "Warren Davidson",
-      "median": 102,
-      "total": 13107,
+      "median": 109,
+      "total": 14784,
       "redirects": 3
     },
     {
       "id": "D000628",
       "title": "Neal Dunn",
       "median": 96,
-      "total": 12298,
+      "total": 11096,
       "redirects": 3
     },
     {
       "id": "D000629",
       "title": "Sharice Davids",
-      "median": 252,
-      "total": 39753,
+      "median": 267,
+      "total": 43592,
       "redirects": 3
     },
     {
       "id": "D000631",
       "title": "Madeleine Dean",
-      "median": 187,
-      "total": 33398,
+      "median": 233,
+      "total": 35199,
       "redirects": 3
     },
     {
       "id": "D000634",
       "title": "Troy Downing",
-      "median": 100,
-      "total": 13558,
+      "median": 108,
+      "total": 14227,
       "redirects": 2
     },
     {
       "id": "D000635",
       "title": "Maxine Dexter",
-      "median": 103,
-      "total": 13018,
+      "median": 124,
+      "total": 13935,
       "redirects": 1
     },
     {
       "id": "E000071",
       "title": "Jake Ellzey",
       "median": 75,
-      "total": 9096,
+      "total": 9012,
       "redirects": 0
     },
     {
       "id": "E000235",
       "title": "Mike Ezell",
-      "median": 46,
-      "total": 6738,
+      "median": 48,
+      "total": 6974,
       "redirects": 2
     },
     {
       "id": "E000246",
       "title": "Chuck Edwards",
-      "median": 280,
-      "total": 51918,
+      "median": 278,
+      "total": 49647,
       "redirects": 2
     },
     {
       "id": "E000294",
       "title": "Tom Emmer",
-      "median": 384,
-      "total": 69945,
+      "median": 409,
+      "total": 76211,
       "redirects": 12
     },
     {
       "id": "E000295",
       "title": "Joni Ernst",
-      "median": 641,
-      "total": 96772,
+      "median": 683,
+      "total": 101615,
       "redirects": 12
     },
     {
       "id": "E000296",
       "title": "Dwight Evans (politician)",
-      "median": 76,
-      "total": 9727,
+      "median": 78,
+      "total": 10295,
       "redirects": 2
     },
     {
       "id": "E000297",
       "title": "Adriano Espaillat",
-      "median": 224,
-      "total": 27412,
+      "median": 227,
+      "total": 28292,
       "redirects": 5
     },
     {
       "id": "E000298",
       "title": "Ron Estes",
-      "median": 71,
-      "total": 7900,
+      "median": 74,
+      "total": 8189,
       "redirects": 3
     },
     {
       "id": "E000299",
       "title": "Veronica Escobar",
-      "median": 107,
-      "total": 14808,
+      "median": 115,
+      "total": 15433,
       "redirects": 1
     },
     {
       "id": "E000300",
       "title": "Gabe Evans",
-      "median": 665,
-      "total": 62433,
+      "median": 687,
+      "total": 67189,
       "redirects": 0
     },
     {
       "id": "E000301",
       "title": "Sarah Elfreth",
-      "median": 110,
-      "total": 12481,
+      "median": 112,
+      "total": 12982,
       "redirects": 1
     },
     {
       "id": "F000110",
       "title": "Cleo Fields",
-      "median": 136,
-      "total": 16872,
+      "median": 139,
+      "total": 19144,
       "redirects": 1
     },
     {
       "id": "F000246",
       "title": "Pat Fallon",
-      "median": 98,
-      "total": 11334,
+      "median": 101,
+      "total": 11172,
       "redirects": 1
     },
     {
       "id": "F000446",
       "title": "Randy Feenstra",
-      "median": 182,
-      "total": 19837,
+      "median": 184,
+      "total": 20052,
       "redirects": 3
     },
     {
       "id": "F000450",
       "title": "Virginia Foxx",
-      "median": 306,
-      "total": 243611,
+      "median": 365,
+      "total": 381714,
       "redirects": 8
     },
     {
       "id": "F000454",
       "title": "Bill Foster (politician)",
-      "median": 105,
-      "total": 13641,
+      "median": 106,
+      "total": 13799,
       "redirects": 6
     },
     {
       "id": "F000459",
       "title": "Chuck Fleischmann",
-      "median": 76,
-      "total": 10765,
+      "median": 77,
+      "total": 11806,
       "redirects": 3
     },
     {
       "id": "F000462",
       "title": "Lois Frankel",
-      "median": 195,
-      "total": 25548,
+      "median": 202,
+      "total": 25165,
       "redirects": 2
     },
     {
       "id": "F000463",
       "title": "Deb Fischer",
-      "median": 205,
-      "total": 24051,
+      "median": 218,
+      "total": 25361,
       "redirects": 6
     },
     {
       "id": "F000466",
       "title": "Brian Fitzpatrick (American politician)",
-      "median": 888,
-      "total": 111500,
+      "median": 947,
+      "total": 116593,
       "redirects": 2
     },
     {
       "id": "F000468",
       "title": "Lizzie Fletcher",
-      "median": 116,
-      "total": 14539,
+      "median": 126,
+      "total": 15381,
       "redirects": 13
     },
     {
       "id": "F000469",
       "title": "Russ Fulcher",
-      "median": 68,
-      "total": 7619,
+      "median": 72,
+      "total": 7966,
       "redirects": 4
     },
     {
       "id": "F000470",
       "title": "Michelle Fischbach",
-      "median": 125,
-      "total": 17059,
+      "median": 129,
+      "total": 17770,
       "redirects": 4
     },
     {
       "id": "F000471",
       "title": "Scott Fitzgerald (politician)",
-      "median": 63,
-      "total": 7529,
+      "median": 64,
+      "total": 7775,
       "redirects": 1
     },
     {
       "id": "F000472",
       "title": "Scott Franklin (politician)",
       "median": 52,
-      "total": 5633,
+      "total": 5564,
       "redirects": 4
     },
     {
       "id": "F000474",
       "title": "Mike Flood (politician)",
-      "median": 127,
-      "total": 17170,
+      "median": 128,
+      "total": 17701,
       "redirects": 2
     },
     {
       "id": "F000475",
       "title": "Brad Finstad",
-      "median": 172,
-      "total": 22715,
+      "median": 205,
+      "total": 25457,
       "redirects": 0
     },
     {
       "id": "F000476",
       "title": "Maxwell Frost",
-      "median": 684,
-      "total": 106588,
+      "median": 700,
+      "total": 109371,
       "redirects": 3
     },
     {
       "id": "F000477",
       "title": "Valerie Foushee",
-      "median": 108,
-      "total": 12837,
+      "median": 111,
+      "total": 13575,
       "redirects": 1
     },
     {
       "id": "F000478",
       "title": "Russell Fry",
-      "median": 89,
-      "total": 12714,
+      "median": 87,
+      "total": 10722,
       "redirects": 1
     },
     {
       "id": "F000479",
       "title": "John Fetterman",
-      "median": 2420,
-      "total": 568516,
+      "median": 3000,
+      "total": 632499,
       "redirects": 11
     },
     {
       "id": "F000480",
       "title": "Vince Fong",
-      "median": 147,
-      "total": 26021,
+      "median": 149,
+      "total": 27399,
       "redirects": 2
     },
     {
       "id": "F000481",
       "title": "Shomari Figures",
-      "median": 249,
-      "total": 46524,
+      "median": 285,
+      "total": 48957,
       "redirects": 2
     },
     {
       "id": "F000482",
       "title": "Julie Fedorchak",
-      "median": 104,
-      "total": 13419,
+      "median": 109,
+      "total": 14084,
       "redirects": 3
     },
     {
       "id": "F000483",
       "title": "Laura Friedman",
       "median": 103,
-      "total": 11511,
+      "total": 11773,
       "redirects": 0
     },
     {
       "id": "F000484",
       "title": "Randy Fine",
-      "median": 767,
-      "total": 113587,
+      "median": 763,
+      "total": 85349,
       "redirects": 3
     },
     {
       "id": "F000485",
       "title": "Clay Fuller",
       "median": 157,
-      "total": 21858,
+      "total": 22558,
       "redirects": 1
     },
     {
       "id": "G000386",
       "title": "Chuck Grassley",
-      "median": 2797,
-      "total": 416845,
+      "median": 2919,
+      "total": 425811,
       "redirects": 16
     },
     {
       "id": "G000546",
       "title": "Sam Graves",
-      "median": 81,
-      "total": 11957,
+      "median": 82,
+      "total": 12240,
       "redirects": 8
     },
     {
       "id": "G000553",
       "title": "Al Green (politician)",
-      "median": 363,
-      "total": 64819,
+      "median": 385,
+      "total": 94322,
       "redirects": 3
     },
     {
       "id": "G000555",
       "title": "Kirsten Gillibrand",
-      "median": 826,
-      "total": 121875,
+      "median": 854,
+      "total": 131261,
       "redirects": 32
     },
     {
       "id": "G000558",
       "title": "Brett Guthrie",
-      "median": 68,
-      "total": 7409,
+      "median": 71,
+      "total": 7582,
       "redirects": 2
     },
     {
       "id": "G000559",
       "title": "John Garamendi",
-      "median": 142,
-      "total": 16201,
+      "median": 146,
+      "total": 16836,
       "redirects": 4
     },
     {
       "id": "G000565",
       "title": "Paul Gosar",
-      "median": 245,
-      "total": 32406,
+      "median": 255,
+      "total": 33199,
       "redirects": 7
     },
     {
       "id": "G000568",
       "title": "Morgan Griffith",
-      "median": 86,
-      "total": 9757,
+      "median": 87,
+      "total": 9933,
       "redirects": 2
     },
     {
       "id": "G000574",
       "title": "Ruben Gallego",
-      "median": 673,
-      "total": 97003,
+      "median": 680,
+      "total": 103641,
       "redirects": 8
     },
     {
       "id": "G000576",
       "title": "Glenn Grothman",
-      "median": 95,
-      "total": 11219,
+      "median": 93,
+      "total": 10843,
       "redirects": 4
     },
     {
       "id": "G000581",
       "title": "Vicente Gonzalez (American politician)",
-      "median": 284,
-      "total": 32707,
+      "median": 292,
+      "total": 33545,
       "redirects": 0
     },
     {
       "id": "G000583",
       "title": "Josh Gottheimer",
-      "median": 350,
-      "total": 41020,
+      "median": 373,
+      "total": 43300,
       "redirects": 6
     },
     {
       "id": "G000585",
       "title": "Jimmy Gomez",
-      "median": 172,
-      "total": 45866,
+      "median": 176,
+      "total": 28345,
       "redirects": 0
     },
     {
       "id": "G000586",
       "title": "Chuy García",
-      "median": 133,
-      "total": 15234,
+      "median": 137,
+      "total": 16033,
       "redirects": 11
     },
     {
       "id": "G000587",
       "title": "Sylvia Garcia",
-      "median": 65,
-      "total": 7635,
+      "median": 67,
+      "total": 7920,
       "redirects": 3
     },
     {
       "id": "G000589",
       "title": "Lance Gooden",
-      "median": 61,
-      "total": 9040,
+      "median": 65,
+      "total": 9270,
       "redirects": 1
     },
     {
       "id": "G000591",
       "title": "Michael Guest (politician)",
-      "median": 59,
-      "total": 8016,
+      "median": 65,
+      "total": 8917,
       "redirects": 3
     },
     {
       "id": "G000592",
       "title": "Jared Golden",
-      "median": 306,
-      "total": 62985,
+      "median": 327,
+      "total": 65768,
       "redirects": 6
     },
     {
       "id": "G000593",
       "title": "Carlos A. Gimenez",
-      "median": 173,
-      "total": 19258,
+      "median": 171,
+      "total": 19092,
       "redirects": 3
     },
     {
       "id": "G000597",
       "title": "Andrew Garbarino",
-      "median": 124,
-      "total": 15671,
+      "median": 130,
+      "total": 18609,
       "redirects": 4
     },
     {
       "id": "G000598",
       "title": "Robert Garcia (California congressman)",
-      "median": 299,
-      "total": 163551,
+      "median": 349,
+      "total": 185574,
       "redirects": 2
     },
     {
       "id": "G000599",
       "title": "Dan Goldman",
-      "median": 483,
-      "total": 49874,
+      "median": 448,
+      "total": 57534,
       "redirects": 8
     },
     {
       "id": "G000600",
       "title": "Marie Gluesenkamp Perez",
-      "median": 982,
-      "total": 136679,
+      "median": 1051,
+      "total": 139065,
       "redirects": 6
     },
     {
       "id": "G000601",
       "title": "Craig Goldman",
-      "median": 69,
-      "total": 7665,
+      "median": 71,
+      "total": 7574,
       "redirects": 0
     },
     {
       "id": "G000602",
       "title": "Laura Gillen",
       "median": 170,
-      "total": 27012,
+      "total": 27326,
       "redirects": 0
     },
     {
       "id": "G000603",
       "title": "Brandon Gill",
-      "median": 2566,
-      "total": 356016,
+      "median": 2569,
+      "total": 356475,
       "redirects": 1
     },
     {
       "id": "G000604",
       "title": "Maggie Goodlander",
-      "median": 474,
-      "total": 56390,
+      "median": 506,
+      "total": 62595,
       "redirects": 2
     },
     {
       "id": "G000605",
       "title": "Adam Gray",
-      "median": 232,
-      "total": 23175,
+      "median": 234,
+      "total": 23114,
       "redirects": 1
     },
     {
       "id": "G000606",
       "title": "Adelita Grijalva",
-      "median": 187,
-      "total": 24163,
+      "median": 211,
+      "total": 25290,
       "redirects": 1
     },
     {
       "id": "G000608",
       "title": "Darline Graham",
-      "median": 3489,
-      "total": 705984,
+      "median": 3062,
+      "total": 638958,
       "redirects": 12
     },
     {
       "id": "H000273",
       "title": "John Hickenlooper",
-      "median": 489,
-      "total": 73960,
+      "median": 674,
+      "total": 78155,
       "redirects": 14
     },
     {
       "id": "H000601",
       "title": "Bill Hagerty",
-      "median": 430,
-      "total": 56617,
+      "median": 463,
+      "total": 58568,
       "redirects": 10
     },
     {
       "id": "H000874",
       "title": "Steny Hoyer",
-      "median": 245,
-      "total": 40241,
+      "median": 272,
+      "total": 46854,
       "redirects": 5
     },
     {
       "id": "H001042",
       "title": "Mazie Hirono",
-      "median": 319,
-      "total": 42255,
+      "median": 331,
+      "total": 47019,
       "redirects": 8
     },
     {
       "id": "H001046",
       "title": "Martin Heinrich",
-      "median": 242,
-      "total": 32655,
+      "median": 253,
+      "total": 36309,
       "redirects": 8
     },
     {
       "id": "H001047",
       "title": "Jim Himes",
-      "median": 269,
-      "total": 36851,
+      "median": 339,
+      "total": 40220,
       "redirects": 4
     },
     {
       "id": "H001052",
       "title": "Andy Harris (politician)",
-      "median": 234,
-      "total": 123427,
+      "median": 372,
+      "total": 131098,
       "redirects": 6
     },
     {
       "id": "H001058",
       "title": "Bill Huizenga",
-      "median": 218,
-      "total": 31770,
+      "median": 228,
+      "total": 32143,
       "redirects": 6
     },
     {
       "id": "H001061",
       "title": "John Hoeven",
-      "median": 137,
-      "total": 18164,
+      "median": 140,
+      "total": 19792,
       "redirects": 14
     },
     {
       "id": "H001066",
       "title": "Steven Horsford",
-      "median": 140,
-      "total": 16326,
+      "median": 142,
+      "total": 16873,
       "redirects": 4
     },
     {
       "id": "H001067",
       "title": "Richard Hudson (American politician)",
-      "median": 132,
-      "total": 50815,
+      "median": 159,
+      "total": 53788,
       "redirects": 7
     },
     {
       "id": "H001068",
       "title": "Jared Huffman",
-      "median": 234,
-      "total": 32876,
+      "median": 235,
+      "total": 29832,
       "redirects": 5
     },
     {
       "id": "H001072",
       "title": "French Hill (politician)",
-      "median": 153,
-      "total": 20203,
+      "median": 161,
+      "total": 20641,
       "redirects": 2
     },
     {
       "id": "H001076",
       "title": "Maggie Hassan",
-      "median": 432,
-      "total": 59591,
+      "median": 456,
+      "total": 63696,
       "redirects": 12
     },
     {
       "id": "H001077",
       "title": "Clay Higgins",
-      "median": 197,
-      "total": 22782,
+      "median": 214,
+      "total": 24227,
       "redirects": 3
     },
     {
       "id": "H001079",
       "title": "Cindy Hyde-Smith",
-      "median": 461,
-      "total": 599271,
+      "median": 552,
+      "total": 627953,
       "redirects": 3
     },
     {
       "id": "H001081",
       "title": "Jahana Hayes",
-      "median": 91,
-      "total": 11692,
+      "median": 96,
+      "total": 12057,
       "redirects": 2
     },
     {
       "id": "H001082",
       "title": "Kevin Hern",
-      "median": 189,
-      "total": 39421,
+      "median": 211,
+      "total": 43915,
       "redirects": 3
     },
     {
       "id": "H001085",
       "title": "Chrissy Houlahan",
-      "median": 120,
-      "total": 15892,
+      "median": 124,
+      "total": 16786,
       "redirects": 10
     },
     {
       "id": "H001086",
       "title": "Diana Harshbarger",
-      "median": 75,
-      "total": 8901,
+      "median": 76,
+      "total": 9062,
       "redirects": 1
     },
     {
       "id": "H001089",
       "title": "Josh Hawley",
       "median": 2160,
-      "total": 231618,
+      "total": 238956,
       "redirects": 11
     },
     {
       "id": "H001090",
       "title": "Josh Harder",
-      "median": 97,
-      "total": 11425,
+      "median": 102,
+      "total": 11718,
       "redirects": 3
     },
     {
       "id": "H001091",
       "title": "Ashley Hinson",
-      "median": 2085,
-      "total": 285116,
+      "median": 2109,
+      "total": 281879,
       "redirects": 3
     },
     {
       "id": "H001093",
       "title": "Erin Houchin",
-      "median": 88,
-      "total": 12162,
+      "median": 93,
+      "total": 12585,
       "redirects": 0
     },
     {
       "id": "H001094",
       "title": "Val Hoyle",
-      "median": 80,
-      "total": 9005,
+      "median": 85,
+      "total": 9382,
       "redirects": 1
     },
     {
       "id": "H001095",
       "title": "Wesley Hunt",
-      "median": 314,
-      "total": 46410,
+      "median": 329,
+      "total": 48471,
       "redirects": 1
     },
     {
       "id": "H001096",
       "title": "Harriet Hageman",
-      "median": 364,
-      "total": 78519,
+      "median": 368,
+      "total": 76800,
       "redirects": 3
     },
     {
       "id": "H001098",
       "title": "Abraham Hamadeh",
-      "median": 317,
-      "total": 49409,
+      "median": 328,
+      "total": 49536,
       "redirects": 3
     },
     {
       "id": "H001099",
       "title": "Mike Haridopolos",
       "median": 140,
-      "total": 14987,
+      "total": 14344,
       "redirects": 1
     },
     {
       "id": "H001100",
       "title": "Jeff Hurd",
-      "median": 145,
-      "total": 26428,
+      "median": 154,
+      "total": 28318,
       "redirects": 2
     },
     {
       "id": "H001101",
       "title": "Pat Harrigan",
-      "median": 99,
-      "total": 15894,
+      "median": 105,
+      "total": 18495,
       "redirects": 0
     },
     {
       "id": "H001102",
       "title": "Mark Harris (North Carolina politician)",
-      "median": 91,
-      "total": 13108,
+      "median": 99,
+      "total": 13588,
       "redirects": 0
     },
     {
       "id": "H001103",
       "title": "Pablo Hernández Rivera",
-      "median": 117,
-      "total": 13638,
+      "median": 121,
+      "total": 16356,
       "redirects": 2
     },
     {
       "id": "H001104",
       "title": "Jon Husted",
-      "median": 2772,
-      "total": 502824,
-      "redirects": 7
+      "median": 3111,
+      "total": 516060,
+      "redirects": 8
     },
     {
       "id": "I000056",
       "title": "Darrell Issa",
-      "median": 338,
-      "total": 38945,
+      "median": 358,
+      "total": 41261,
       "redirects": 4
     },
     {
       "id": "I000058",
       "title": "Glenn Ivey",
-      "median": 81,
-      "total": 10284,
+      "median": 86,
+      "total": 10934,
       "redirects": 1
     },
     {
       "id": "J000288",
       "title": "Hank Johnson",
-      "median": 300,
-      "total": 42970,
+      "median": 305,
+      "total": 41419,
       "redirects": 6
     },
     {
       "id": "J000289",
       "title": "Jim Jordan",
-      "median": 500,
-      "total": 203971,
+      "median": 529,
+      "total": 223214,
       "redirects": 13
     },
     {
       "id": "J000293",
       "title": "Ron Johnson",
-      "median": 411,
-      "total": 69258,
+      "median": 425,
+      "total": 82942,
       "redirects": 13
     },
     {
       "id": "J000294",
       "title": "Hakeem Jeffries",
-      "median": 2096,
-      "total": 848239,
-      "redirects": 4
+      "median": 2164,
+      "total": 1077600,
+      "redirects": 5
     },
     {
       "id": "J000295",
       "title": "David Joyce (politician)",
-      "median": 88,
-      "total": 9498,
+      "median": 91,
+      "total": 9650,
       "redirects": 4
     },
     {
       "id": "J000298",
       "title": "Pramila Jayapal",
-      "median": 661,
-      "total": 89648,
+      "median": 757,
+      "total": 94158,
       "redirects": 1
     },
     {
       "id": "J000299",
       "title": "Mike Johnson",
-      "median": 2507,
-      "total": 410737,
+      "median": 2779,
+      "total": 437031,
       "redirects": 17
     },
     {
       "id": "J000301",
       "title": "Dusty Johnson",
-      "median": 94,
-      "total": 11027,
+      "median": 99,
+      "total": 12464,
       "redirects": 10
     },
     {
       "id": "J000302",
       "title": "John Joyce (American politician)",
-      "median": 66,
-      "total": 7444,
+      "median": 68,
+      "total": 7588,
       "redirects": 4
     },
     {
       "id": "J000304",
       "title": "Ronny Jackson",
-      "median": 213,
-      "total": 22527,
+      "median": 220,
+      "total": 22849,
       "redirects": 2
     },
     {
       "id": "J000305",
       "title": "Sara Jacobs",
-      "median": 301,
-      "total": 40994,
+      "median": 317,
+      "total": 44480,
       "redirects": 2
     },
     {
       "id": "J000307",
       "title": "John James (Michigan politician)",
-      "median": 995,
-      "total": 151320,
+      "median": 974,
+      "total": 150397,
       "redirects": 4
     },
     {
       "id": "J000309",
       "title": "Jonathan Jackson (Illinois politician)",
-      "median": 133,
-      "total": 20981,
+      "median": 141,
+      "total": 21726,
       "redirects": 3
     },
     {
       "id": "J000310",
       "title": "Julie Johnson (politician)",
-      "median": 135,
-      "total": 20148,
+      "median": 141,
+      "total": 20956,
       "redirects": 1
     },
     {
       "id": "J000311",
       "title": "Brian Jack",
-      "median": 79,
-      "total": 10765,
+      "median": 80,
+      "total": 11653,
       "redirects": 0
     },
     {
       "id": "J000312",
       "title": "Jim Justice",
-      "median": 595,
-      "total": 79442,
+      "median": 634,
+      "total": 85792,
       "redirects": 7
     },
     {
       "id": "K000009",
       "title": "Marcy Kaptur",
-      "median": 438,
-      "total": 58232,
+      "median": 460,
+      "total": 59397,
       "redirects": 8
     },
     {
       "id": "K000367",
       "title": "Amy Klobuchar",
-      "median": 1838,
-      "total": 357034,
+      "median": 1979,
+      "total": 369762,
       "redirects": 17
     },
     {
       "id": "K000375",
       "title": "Bill Keating",
-      "median": 115,
-      "total": 15909,
+      "median": 116,
+      "total": 16036,
       "redirects": 6
     },
     {
       "id": "K000376",
       "title": "Mike Kelly (Pennsylvania politician)",
-      "median": 108,
-      "total": 12605,
+      "median": 113,
+      "total": 12854,
       "redirects": 7
     },
     {
       "id": "K000377",
       "title": "Mark Kelly",
-      "median": 2331,
-      "total": 272251,
+      "median": 2424,
+      "total": 278346,
       "redirects": 7
     },
     {
       "id": "K000383",
       "title": "Angus King",
-      "median": 675,
-      "total": 127921,
+      "median": 803,
+      "total": 137722,
       "redirects": 10
     },
     {
       "id": "K000384",
       "title": "Tim Kaine",
-      "median": 726,
-      "total": 88099,
+      "median": 776,
+      "total": 95067,
       "redirects": 12
     },
     {
       "id": "K000385",
       "title": "Robin Kelly",
-      "median": 128,
-      "total": 15622,
+      "median": 138,
+      "total": 16346,
       "redirects": 2
     },
     {
       "id": "K000388",
       "title": "Trent Kelly",
-      "median": 64,
-      "total": 9309,
+      "median": 66,
+      "total": 9854,
       "redirects": 2
     },
     {
       "id": "K000389",
       "title": "Ro Khanna",
-      "median": 1715,
-      "total": 257481,
+      "median": 1728,
+      "total": 263016,
       "redirects": 2
     },
     {
       "id": "K000391",
       "title": "Raja Krishnamoorthi",
-      "median": 345,
-      "total": 48883,
+      "median": 375,
+      "total": 50715,
       "redirects": 5
     },
     {
       "id": "K000392",
       "title": "David Kustoff",
-      "median": 67,
-      "total": 6936,
+      "median": 70,
+      "total": 7037,
       "redirects": 4
     },
     {
       "id": "K000393",
       "title": "John Kennedy (Louisiana politician)",
-      "median": 3474,
-      "total": 443400,
+      "median": 4216,
+      "total": 480148,
       "redirects": 8
     },
     {
       "id": "K000394",
       "title": "Andy Kim",
-      "median": 444,
-      "total": 57710,
+      "median": 486,
+      "total": 61830,
       "redirects": 7
     },
     {
       "id": "K000397",
       "title": "Young Kim",
-      "median": 373,
-      "total": 45709,
+      "median": 407,
+      "total": 47142,
       "redirects": 1
     },
     {
       "id": "K000398",
       "title": "Thomas Kean Jr.",
-      "median": 575,
-      "total": 71341,
+      "median": 569,
+      "total": 70706,
       "redirects": 11
     },
     {
       "id": "K000399",
       "title": "Jen Kiggans",
-      "median": 348,
-      "total": 37411,
+      "median": 347,
+      "total": 36993,
       "redirects": 1
     },
     {
       "id": "K000400",
       "title": "Sydney Kamlager-Dove",
-      "median": 142,
-      "total": 20714,
+      "median": 153,
+      "total": 22169,
       "redirects": 3
     },
     {
       "id": "K000401",
       "title": "Kevin Kiley (politician)",
-      "median": 621,
-      "total": 84428,
+      "median": 636,
+      "total": 84017,
       "redirects": 2
     },
     {
       "id": "K000402",
       "title": "Tim Kennedy (politician)",
-      "median": 113,
-      "total": 14204,
+      "median": 119,
+      "total": 14908,
       "redirects": 1
     },
     {
       "id": "K000403",
       "title": "Mike Kennedy",
-      "median": 116,
-      "total": 13311,
+      "median": 123,
+      "total": 13658,
       "redirects": 4
     },
     {
       "id": "K000404",
       "title": "Kimberlyn King-Hinds",
-      "median": 78,
-      "total": 10427,
+      "median": 79,
+      "total": 11148,
       "redirects": 0
     },
     {
       "id": "K000405",
       "title": "Brad Knott",
-      "median": 90,
-      "total": 15419,
+      "median": 92,
+      "total": 15862,
       "redirects": 0
     },
     {
       "id": "L000273",
       "title": "Teresa Leger Fernández",
-      "median": 112,
-      "total": 11862,
+      "median": 110,
+      "total": 11676,
       "redirects": 9
     },
     {
       "id": "L000397",
       "title": "Zoe Lofgren",
       "median": 128,
-      "total": 14495,
+      "total": 14612,
       "redirects": 4
     },
     {
       "id": "L000491",
       "title": "Frank Lucas (Oklahoma politician)",
-      "median": 52,
-      "total": 5740,
+      "median": 54,
+      "total": 5974,
       "redirects": 4
     },
     {
       "id": "L000557",
       "title": "John B. Larson",
       "median": 155,
-      "total": 17746,
+      "total": 16624,
       "redirects": 2
     },
     {
       "id": "L000560",
       "title": "Rick Larsen",
-      "median": 73,
-      "total": 8586,
+      "median": 77,
+      "total": 9170,
       "redirects": 2
     },
     {
       "id": "L000562",
       "title": "Stephen Lynch (politician)",
-      "median": 134,
-      "total": 26959,
+      "median": 135,
+      "total": 23952,
       "redirects": 4
     },
     {
       "id": "L000566",
       "title": "Bob Latta",
-      "median": 76,
+      "median": 75,
       "total": 7556,
       "redirects": 5
     },
     {
       "id": "L000570",
       "title": "Ben Ray Luján",
-      "median": 284,
-      "total": 40267,
+      "median": 311,
+      "total": 42885,
       "redirects": 8
     },
     {
       "id": "L000571",
       "title": "Cynthia Lummis",
-      "median": 292,
-      "total": 44808,
+      "median": 298,
+      "total": 44390,
       "redirects": 10
     },
     {
       "id": "L000575",
       "title": "James Lankford",
-      "median": 234,
-      "total": 31385,
+      "median": 248,
+      "total": 34340,
       "redirects": 7
     },
     {
       "id": "L000577",
       "title": "Mike Lee",
-      "median": 418,
-      "total": 53126,
+      "median": 449,
+      "total": 56364,
       "redirects": 13
     },
     {
       "id": "L000582",
       "title": "Ted Lieu",
-      "median": 389,
-      "total": 60427,
+      "median": 418,
+      "total": 70723,
       "redirects": 5
     },
     {
       "id": "L000583",
       "title": "Barry Loudermilk",
-      "median": 67,
-      "total": 7923,
+      "median": 71,
+      "total": 8146,
       "redirects": 3
     },
     {
       "id": "L000585",
       "title": "Darin LaHood",
-      "median": 139,
-      "total": 17097,
+      "median": 150,
+      "total": 17721,
       "redirects": 5
     },
     {
       "id": "L000590",
       "title": "Susie Lee",
-      "median": 323,
-      "total": 66087,
+      "median": 346,
+      "total": 69017,
       "redirects": 1
     },
     {
       "id": "L000593",
       "title": "Mike Levin",
-      "median": 137,
-      "total": 15429,
+      "median": 136,
+      "total": 15298,
       "redirects": 4
     },
     {
       "id": "L000595",
       "title": "Julia Letlow",
-      "median": 415,
-      "total": 115990,
+      "median": 490,
+      "total": 126685,
       "redirects": 11
     },
     {
       "id": "L000596",
       "title": "Anna Paulina Luna",
-      "median": 1587,
-      "total": 198883,
+      "median": 1588,
+      "total": 197877,
       "redirects": 4
     },
     {
       "id": "L000597",
       "title": "Laurel Lee",
-      "median": 126,
-      "total": 14461,
+      "median": 141,
+      "total": 18183,
       "redirects": 3
     },
     {
       "id": "L000598",
       "title": "Nick LaLota",
-      "median": 188,
-      "total": 24623,
+      "median": 189,
+      "total": 25224,
       "redirects": 3
     },
     {
       "id": "L000599",
       "title": "Mike Lawler",
-      "median": 1251,
-      "total": 173524,
+      "median": 1288,
+      "total": 177502,
       "redirects": 5
     },
     {
       "id": "L000600",
       "title": "Nick Langworthy",
-      "median": 106,
-      "total": 12156,
+      "median": 108,
+      "total": 12252,
       "redirects": 4
     },
     {
       "id": "L000601",
       "title": "Greg Landsman",
-      "median": 192,
-      "total": 19489,
+      "median": 190,
+      "total": 19425,
       "redirects": 1
     },
     {
       "id": "L000602",
       "title": "Summer Lee",
-      "median": 300,
-      "total": 42838,
+      "median": 306,
+      "total": 44673,
       "redirects": 3
     },
     {
       "id": "L000603",
       "title": "Morgan Luttrell",
-      "median": 228,
-      "total": 23296,
+      "median": 238,
+      "total": 37681,
       "redirects": 0
     },
     {
       "id": "L000606",
       "title": "George Latimer (New York politician)",
-      "median": 153,
-      "total": 21153,
+      "median": 160,
+      "total": 22770,
       "redirects": 2
     },
     {
       "id": "L000607",
       "title": "Sam Liccardo",
-      "median": 128,
-      "total": 14704,
+      "median": 129,
+      "total": 15373,
       "redirects": 1
     },
     {
       "id": "M000133",
       "title": "Ed Markey",
-      "median": 843,
-      "total": 187231,
+      "median": 839,
+      "total": 173398,
       "redirects": 8
     },
     {
       "id": "M000194",
       "title": "Nancy Mace",
-      "median": 2613,
-      "total": 538909,
+      "median": 2639,
+      "total": 426824,
       "redirects": 8
     },
     {
       "id": "M000312",
       "title": "Jim McGovern (American politician)",
-      "median": 240,
-      "total": 26861,
+      "median": 236,
+      "total": 27859,
       "redirects": 6
     },
     {
       "id": "M000317",
       "title": "Nicole Malliotakis",
-      "median": 271,
-      "total": 37575,
+      "median": 290,
+      "total": 38582,
       "redirects": 2
     },
     {
       "id": "M000355",
       "title": "Mitch McConnell",
-      "median": 6696,
-      "total": 1093625,
+      "median": 6951,
+      "total": 1103998,
       "redirects": 44
     },
     {
       "id": "M000687",
       "title": "Kweisi Mfume",
-      "median": 147,
-      "total": 17204,
+      "median": 152,
+      "total": 18306,
       "redirects": 10
     },
     {
       "id": "M000871",
       "title": "Tracey Mann",
-      "median": 95,
-      "total": 10683,
+      "median": 98,
+      "total": 11070,
       "redirects": 1
     },
     {
       "id": "M000934",
       "title": "Jerry Moran",
-      "median": 300,
-      "total": 49465,
+      "median": 331,
+      "total": 53999,
       "redirects": 7
     },
     {
       "id": "M001111",
       "title": "Patty Murray",
-      "median": 528,
-      "total": 88168,
+      "median": 545,
+      "total": 98329,
       "redirects": 14
     },
     {
       "id": "M001136",
       "title": "Lisa McClain",
-      "median": 268,
-      "total": 41432,
+      "median": 301,
+      "total": 43026,
       "redirects": 6
     },
     {
       "id": "M001137",
       "title": "Gregory Meeks",
-      "median": 160,
-      "total": 19440,
+      "median": 167,
+      "total": 21300,
       "redirects": 4
     },
     {
       "id": "M001143",
       "title": "Betty McCollum",
-      "median": 97,
-      "total": 11894,
+      "median": 104,
+      "total": 12427,
       "redirects": 5
     },
     {
       "id": "M001153",
       "title": "Lisa Murkowski",
-      "median": 761,
-      "total": 167458,
+      "median": 796,
+      "total": 192272,
       "redirects": 7
     },
     {
       "id": "M001157",
       "title": "Michael McCaul",
-      "median": 126,
-      "total": 13353,
+      "median": 128,
+      "total": 16999,
       "redirects": 9
     },
     {
       "id": "M001160",
       "title": "Gwen Moore",
-      "median": 70,
-      "total": 9032,
+      "median": 71,
+      "total": 9470,
       "redirects": 4
     },
     {
       "id": "M001163",
       "title": "Doris Matsui",
-      "median": 376,
-      "total": 50588,
+      "median": 404,
+      "total": 51934,
       "redirects": 8
     },
     {
       "id": "M001169",
       "title": "Chris Murphy",
-      "median": 724,
-      "total": 290610,
+      "median": 853,
+      "total": 296107,
       "redirects": 8
     },
     {
       "id": "M001176",
       "title": "Jeff Merkley",
-      "median": 320,
-      "total": 52278,
+      "median": 340,
+      "total": 58584,
       "redirects": 9
     },
     {
       "id": "M001177",
       "title": "Tom McClintock",
-      "median": 125,
-      "total": 16678,
+      "median": 132,
+      "total": 17601,
       "redirects": 8
     },
     {
       "id": "M001184",
       "title": "Thomas Massie",
-      "median": 2070,
-      "total": 724444,
+      "median": 2187,
+      "total": 752008,
       "redirects": 9
     },
     {
       "id": "M001188",
       "title": "Grace Meng",
-      "median": 148,
-      "total": 20241,
+      "median": 150,
+      "total": 22105,
       "redirects": 1
     },
     {
       "id": "M001194",
       "title": "John Moolenaar",
-      "median": 104,
-      "total": 14450,
+      "median": 113,
+      "total": 16855,
       "redirects": 3
     },
     {
       "id": "M001196",
       "title": "Seth Moulton",
-      "median": 379,
-      "total": 131279,
+      "median": 361,
+      "total": 109872,
       "redirects": 5
     },
     {
       "id": "M001198",
       "title": "Roger Marshall",
-      "median": 1956,
-      "total": 269170,
+      "median": 1990,
+      "total": 276060,
       "redirects": 5
     },
     {
       "id": "M001199",
       "title": "Brian Mast",
-      "median": 392,
-      "total": 69663,
+      "median": 406,
+      "total": 70558,
       "redirects": 4
     },
     {
       "id": "M001204",
       "title": "Dan Meuser",
-      "median": 109,
-      "total": 13780,
+      "median": 117,
+      "total": 14154,
       "redirects": 2
     },
     {
       "id": "M001205",
       "title": "Carol Miller (politician)",
-      "median": 68,
-      "total": 9009,
+      "median": 72,
+      "total": 9562,
       "redirects": 2
     },
     {
       "id": "M001206",
       "title": "Joseph Morelle",
-      "median": 96,
-      "total": 10969,
+      "median": 97,
+      "total": 11349,
       "redirects": 4
     },
     {
       "id": "M001208",
       "title": "Lucy McBath",
-      "median": 180,
-      "total": 23067,
+      "median": 183,
+      "total": 22784,
       "redirects": 11
     },
     {
       "id": "M001210",
       "title": "Greg Murphy (politician)",
-      "median": 166,
-      "total": 27746,
+      "median": 190,
+      "total": 30574,
       "redirects": 2
     },
     {
       "id": "M001211",
       "title": "Mary Miller (politician)",
-      "median": 147,
-      "total": 17014,
+      "median": 151,
+      "total": 17718,
       "redirects": 3
     },
     {
       "id": "M001212",
       "title": "Barry Moore (American politician)",
-      "median": 280,
-      "total": 53992,
+      "median": 306,
+      "total": 57852,
       "redirects": 2
     },
     {
       "id": "M001213",
       "title": "Blake Moore",
-      "median": 121,
-      "total": 16966,
+      "median": 133,
+      "total": 17975,
       "redirects": 3
     },
     {
       "id": "M001214",
       "title": "Frank J. Mrvan",
-      "median": 104,
-      "total": 17089,
+      "median": 119,
+      "total": 17937,
       "redirects": 2
     },
     {
       "id": "M001215",
       "title": "Mariannette Miller-Meeks",
-      "median": 392,
-      "total": 49420,
+      "median": 391,
+      "total": 49723,
       "redirects": 7
     },
     {
       "id": "M001216",
       "title": "Cory Mills",
-      "median": 252,
-      "total": 67781,
+      "median": 238,
+      "total": 27172,
       "redirects": 1
     },
     {
       "id": "M001217",
       "title": "Jared Moskowitz",
-      "median": 611,
-      "total": 86389,
+      "median": 587,
+      "total": 66711,
       "redirects": 2
     },
     {
       "id": "M001218",
       "title": "Rich McCormick",
-      "median": 311,
-      "total": 35438,
+      "median": 328,
+      "total": 36859,
       "redirects": 0
     },
     {
       "id": "M001219",
       "title": "James Moylan",
-      "median": 99,
-      "total": 20959,
+      "median": 102,
+      "total": 21812,
       "redirects": 3
     },
     {
       "id": "M001220",
       "title": "Morgan McGarvey",
-      "median": 84,
-      "total": 11813,
+      "median": 86,
+      "total": 12505,
       "redirects": 0
     },
     {
       "id": "M001222",
       "title": "Max Miller (politician)",
-      "median": 1096,
-      "total": 133773,
+      "median": 1044,
+      "total": 129801,
       "redirects": 3
     },
     {
       "id": "M001223",
       "title": "Seth Magaziner",
-      "median": 121,
-      "total": 14098,
+      "median": 125,
+      "total": 15526,
       "redirects": 1
     },
     {
       "id": "M001224",
       "title": "Nathaniel Moran",
-      "median": 74,
-      "total": 8854,
+      "median": 77,
+      "total": 8968,
       "redirects": 0
     },
     {
       "id": "M001225",
       "title": "Kevin Mullin",
-      "median": 91,
-      "total": 10267,
+      "median": 93,
+      "total": 10399,
       "redirects": 0
     },
     {
       "id": "M001226",
       "title": "Rob Menendez",
-      "median": 212,
-      "total": 25696,
+      "median": 214,
+      "total": 26206,
       "redirects": 2
     },
     {
       "id": "M001227",
       "title": "Jennifer McClellan",
-      "median": 87,
-      "total": 9910,
+      "median": 92,
+      "total": 10003,
       "redirects": 3
     },
     {
       "id": "M001228",
       "title": "Celeste Maloy",
-      "median": 113,
-      "total": 14880,
+      "median": 133,
+      "total": 15549,
       "redirects": 0
     },
     {
       "id": "M001229",
       "title": "LaMonica McIver",
-      "median": 160,
-      "total": 37618,
+      "median": 177,
+      "total": 42461,
       "redirects": 1
     },
     {
       "id": "M001230",
       "title": "Ryan Mackenzie",
-      "median": 338,
-      "total": 38216,
+      "median": 319,
+      "total": 34285,
       "redirects": 2
     },
     {
       "id": "M001231",
       "title": "John Mannion (American politician)",
-      "median": 97,
-      "total": 10788,
+      "median": 95,
+      "total": 10924,
       "redirects": 0
     },
     {
       "id": "M001232",
       "title": "April McClain Delaney",
-      "median": 113,
-      "total": 12887,
+      "median": 130,
+      "total": 13399,
       "redirects": 2
     },
     {
       "id": "M001233",
       "title": "Mark Messmer",
-      "median": 53,
-      "total": 6326,
+      "median": 54,
+      "total": 6415,
       "redirects": 1
     },
     {
       "id": "M001234",
       "title": "Kelly Morrison",
-      "median": 116,
-      "total": 23024,
+      "median": 124,
+      "total": 26167,
       "redirects": 1
     },
     {
       "id": "M001235",
       "title": "Riley Moore",
-      "median": 179,
-      "total": 22186,
+      "median": 195,
+      "total": 23300,
       "redirects": 2
     },
     {
       "id": "M001236",
       "title": "Tim Moore (North Carolina politician)",
-      "median": 107,
-      "total": 33390,
+      "median": 124,
+      "total": 34993,
       "redirects": 2
     },
     {
       "id": "M001237",
       "title": "Kristen McDonald Rivet",
-      "median": 190,
-      "total": 20273,
+      "median": 194,
+      "total": 20714,
       "redirects": 0
     },
     {
       "id": "M001238",
       "title": "Sarah McBride",
-      "median": 797,
-      "total": 174612,
+      "median": 941,
+      "total": 193596,
       "redirects": 4
     },
     {
       "id": "M001239",
       "title": "John McGuire (Virginia politician)",
-      "median": 202,
-      "total": 23738,
+      "median": 209,
+      "total": 24281,
       "redirects": 1
     },
     {
       "id": "M001240",
       "title": "Addison McDowell",
-      "median": 82,
-      "total": 16306,
+      "median": 87,
+      "total": 17751,
       "redirects": 0
     },
     {
       "id": "M001241",
       "title": "Dave Min",
-      "median": 193,
-      "total": 23071,
+      "median": 208,
+      "total": 23956,
       "redirects": 2
     },
     {
       "id": "M001242",
       "title": "Bernie Moreno",
-      "median": 1213,
-      "total": 187289,
+      "median": 1249,
+      "total": 191369,
       "redirects": 4
     },
     {
       "id": "M001243",
       "title": "Dave McCormick",
-      "median": 827,
-      "total": 122745,
+      "median": 940,
+      "total": 130360,
       "redirects": 6
     },
     {
       "id": "M001244",
       "title": "Ashley Moody",
-      "median": 2065,
-      "total": 349198,
+      "median": 1976,
+      "total": 311352,
       "redirects": 7
     },
     {
       "id": "M001245",
       "title": "Christian Menefee",
-      "median": 244,
-      "total": 32029,
+      "median": 249,
+      "total": 38863,
       "redirects": 2
     },
     {
       "id": "M001246",
       "title": "Analilia Mejia",
-      "median": 286,
-      "total": 38325,
+      "median": 301,
+      "total": 39884,
       "redirects": 2
     },
     {
       "id": "N000002",
       "title": "Jerry Nadler",
-      "median": 304,
-      "total": 39137,
+      "median": 309,
+      "total": 40351,
       "redirects": 7
     },
     {
       "id": "N000015",
       "title": "Richard Neal",
-      "median": 203,
-      "total": 29307,
+      "median": 196,
+      "total": 28325,
       "redirects": 6
     },
     {
       "id": "N000026",
       "title": "Troy Nehls",
       "median": 114,
-      "total": 16420,
+      "total": 17390,
       "redirects": 3
     },
     {
       "id": "N000147",
       "title": "Eleanor Holmes Norton",
-      "median": 191,
-      "total": 25018,
+      "median": 202,
+      "total": 26780,
       "redirects": 6
     },
     {
       "id": "N000188",
       "title": "Donald Norcross",
-      "median": 89,
-      "total": 10569,
+      "median": 101,
+      "total": 10897,
       "redirects": 2
     },
     {
       "id": "N000189",
       "title": "Dan Newhouse",
-      "median": 89,
-      "total": 10679,
+      "median": 92,
+      "total": 11066,
       "redirects": 3
     },
     {
       "id": "N000190",
       "title": "Ralph Norman",
-      "median": 325,
-      "total": 111128,
+      "median": 317,
+      "total": 85978,
       "redirects": 5
     },
     {
       "id": "N000191",
       "title": "Joe Neguse",
-      "median": 368,
-      "total": 55064,
+      "median": 387,
+      "total": 73258,
       "redirects": 3
     },
     {
       "id": "N000193",
       "title": "Zach Nunn",
-      "median": 282,
-      "total": 33416,
+      "median": 268,
+      "total": 33015,
       "redirects": 7
     },
     {
       "id": "O000019",
       "title": "Jay Obernolte",
-      "median": 119,
-      "total": 20300,
+      "median": 123,
+      "total": 22284,
       "redirects": 3
     },
     {
       "id": "O000086",
       "title": "Burgess Owens",
-      "median": 142,
-      "total": 17796,
+      "median": 150,
+      "total": 18749,
       "redirects": 2
     },
     {
       "id": "O000172",
       "title": "Alexandria Ocasio-Cortez",
-      "median": 8375,
-      "total": 976909,
+      "median": 8291,
+      "total": 984156,
       "redirects": 27
     },
     {
       "id": "O000173",
       "title": "Ilhan Omar",
-      "median": 3703,
-      "total": 1437511,
+      "median": 4206,
+      "total": 1475053,
       "redirects": 21
     },
     {
       "id": "O000174",
       "title": "Jon Ossoff",
-      "median": 15745,
-      "total": 3135766,
+      "median": 15876,
+      "total": 2909740,
       "redirects": 9
     },
     {
       "id": "O000175",
       "title": "Andy Ogles",
-      "median": 270,
-      "total": 30404,
+      "median": 269,
+      "total": 29766,
       "redirects": 8
     },
     {
       "id": "O000176",
       "title": "Johnny Olszewski",
-      "median": 83,
-      "total": 10130,
+      "median": 94,
+      "total": 11428,
       "redirects": 5
     },
     {
       "id": "O000177",
       "title": "Bob Onder",
-      "median": 68,
-      "total": 8778,
+      "median": 70,
+      "total": 8966,
       "redirects": 2
     },
     {
       "id": "P000034",
       "title": "Frank Pallone",
-      "median": 114,
-      "total": 13983,
+      "median": 125,
+      "total": 14793,
       "redirects": 9
     },
     {
       "id": "P000048",
       "title": "August Pfluger",
-      "median": 101,
-      "total": 14457,
+      "median": 108,
+      "total": 15466,
       "redirects": 3
     },
     {
       "id": "P000145",
       "title": "Alex Padilla",
-      "median": 638,
-      "total": 81252,
+      "median": 655,
+      "total": 85786,
       "redirects": 2
     },
     {
       "id": "P000197",
       "title": "Nancy Pelosi",
-      "median": 2804,
-      "total": 425786,
+      "median": 2923,
+      "total": 457654,
       "redirects": 20
     },
     {
       "id": "P000595",
       "title": "Gary Peters",
-      "median": 755,
-      "total": 193965,
+      "median": 873,
+      "total": 199963,
       "redirects": 11
     },
     {
       "id": "P000597",
       "title": "Chellie Pingree",
-      "median": 281,
-      "total": 41230,
+      "median": 302,
+      "total": 43851,
       "redirects": 12
     },
     {
       "id": "P000603",
       "title": "Rand Paul",
-      "median": 1089,
-      "total": 139863,
+      "median": 1105,
+      "total": 142100,
       "redirects": 21
     },
     {
       "id": "P000605",
       "title": "Scott Perry",
-      "median": 387,
-      "total": 53006,
+      "median": 407,
+      "total": 53745,
       "redirects": 7
     },
     {
       "id": "P000607",
       "title": "Mark Pocan",
-      "median": 130,
-      "total": 17545,
+      "median": 132,
+      "total": 18169,
       "redirects": 5
     },
     {
       "id": "P000608",
       "title": "Scott Peters (politician)",
-      "median": 99,
-      "total": 11045,
+      "median": 104,
+      "total": 11357,
       "redirects": 4
     },
     {
       "id": "P000609",
       "title": "Gary Palmer",
-      "median": 46,
-      "total": 5521,
+      "median": 47,
+      "total": 5728,
       "redirects": 5
     },
     {
       "id": "P000610",
       "title": "Stacey Plaskett",
-      "median": 191,
-      "total": 51440,
+      "median": 201,
+      "total": 56378,
       "redirects": 2
     },
     {
       "id": "P000613",
       "title": "Jimmy Panetta",
-      "median": 179,
-      "total": 18740,
+      "median": 187,
+      "total": 19176,
       "redirects": 5
     },
     {
       "id": "P000614",
       "title": "Chris Pappas (American politician)",
-      "median": 2195,
-      "total": 515735,
+      "median": 2286,
+      "total": 523665,
       "redirects": 4
     },
     {
       "id": "P000617",
       "title": "Ayanna Pressley",
-      "median": 736,
-      "total": 135947,
+      "median": 790,
+      "total": 165192,
       "redirects": 7
     },
     {
       "id": "P000620",
       "title": "Brittany Pettersen",
-      "median": 113,
-      "total": 19059,
+      "median": 114,
+      "total": 19659,
       "redirects": 1
     },
     {
       "id": "P000621",
       "title": "Nellie Pou",
-      "median": 136,
-      "total": 14194,
+      "median": 135,
+      "total": 14185,
       "redirects": 1
     },
     {
       "id": "P000622",
       "title": "Jimmy Patronis",
-      "median": 154,
-      "total": 20145,
+      "median": 159,
+      "total": 18964,
       "redirects": 0
     },
     {
       "id": "Q000023",
       "title": "Mike Quigley",
-      "median": 164,
-      "total": 17613,
+      "median": 175,
+      "total": 18077,
       "redirects": 5
     },
     {
       "id": "R000122",
       "title": "Jack Reed (Rhode Island politician)",
-      "median": 354,
-      "total": 46958,
+      "median": 366,
+      "total": 48879,
       "redirects": 6
     },
     {
       "id": "R000305",
       "title": "Deborah Ross (politician)",
-      "median": 102,
-      "total": 12914,
+      "median": 107,
+      "total": 13946,
       "redirects": 3
     },
     {
       "id": "R000395",
       "title": "Hal Rogers",
-      "median": 211,
-      "total": 37736,
+      "median": 229,
+      "total": 40821,
       "redirects": 6
     },
     {
       "id": "R000575",
       "title": "Mike Rogers (Alabama politician)",
-      "median": 165,
-      "total": 20911,
+      "median": 181,
+      "total": 22000,
       "redirects": 4
     },
     {
       "id": "R000579",
       "title": "Pat Ryan (politician)",
-      "median": 267,
-      "total": 35852,
+      "median": 277,
+      "total": 36757,
       "redirects": 1
     },
     {
       "id": "R000584",
       "title": "Jim Risch",
-      "median": 462,
-      "total": 57345,
+      "median": 480,
+      "total": 58861,
       "redirects": 9
     },
     {
       "id": "R000599",
       "title": "Raul Ruiz (politician)",
-      "median": 85,
-      "total": 9138,
+      "median": 88,
+      "total": 9538,
       "redirects": 2
     },
     {
       "id": "R000600",
       "title": "Amata Coleman Radewagen",
-      "median": 80,
-      "total": 10118,
+      "median": 79,
+      "total": 10784,
       "redirects": 13
     },
     {
       "id": "R000603",
       "title": "David Rouzer",
-      "median": 79,
-      "total": 10661,
+      "median": 95,
+      "total": 11784,
       "redirects": 5
     },
     {
       "id": "R000605",
       "title": "Mike Rounds",
-      "median": 230,
-      "total": 25889,
+      "median": 246,
+      "total": 28473,
       "redirects": 9
     },
     {
       "id": "R000606",
       "title": "Jamie Raskin",
-      "median": 743,
-      "total": 126956,
+      "median": 852,
+      "total": 134627,
       "redirects": 8
     },
     {
       "id": "R000608",
       "title": "Jacky Rosen",
-      "median": 229,
-      "total": 29022,
+      "median": 234,
+      "total": 31300,
       "redirects": 10
     },
     {
       "id": "R000609",
       "title": "John Rutherford (Florida politician)",
-      "median": 66,
-      "total": 8017,
+      "median": 64,
+      "total": 7324,
       "redirects": 4
     },
     {
       "id": "R000610",
       "title": "Guy Reschenthaler",
-      "median": 84,
-      "total": 10107,
+      "median": 87,
+      "total": 10285,
       "redirects": 4
     },
     {
       "id": "R000612",
       "title": "John Rose (Tennessee politician)",
-      "median": 92,
-      "total": 9448,
+      "median": 91,
+      "total": 9193,
       "redirects": 2
     },
     {
       "id": "R000614",
       "title": "Chip Roy",
-      "median": 285,
-      "total": 60956,
+      "median": 321,
+      "total": 81805,
       "redirects": 1
     },
     {
       "id": "R000617",
       "title": "Delia Ramirez",
-      "median": 216,
-      "total": 40042,
+      "median": 231,
+      "total": 44303,
       "redirects": 2
     },
     {
       "id": "R000618",
       "title": "Pete Ricketts",
-      "median": 777,
-      "total": 111557,
+      "median": 781,
+      "total": 113219,
       "redirects": 8
     },
     {
       "id": "R000619",
       "title": "Michael Rulli",
-      "median": 66,
-      "total": 7409,
+      "median": 68,
+      "total": 7541,
       "redirects": 1
     },
     {
       "id": "R000620",
       "title": "Luz Rivas",
-      "median": 69,
-      "total": 7910,
+      "median": 73,
+      "total": 8102,
       "redirects": 1
     },
     {
       "id": "R000621",
       "title": "Emily Randall",
-      "median": 104,
-      "total": 13419,
+      "median": 107,
+      "total": 13908,
       "redirects": 0
     },
     {
       "id": "R000622",
       "title": "Josh Riley",
       "median": 169,
-      "total": 17804,
+      "total": 17572,
       "redirects": 0
     },
     {
       "id": "S000033",
       "title": "Bernie Sanders",
-      "median": 4973,
-      "total": 707028,
+      "median": 5387,
+      "total": 741348,
       "redirects": 22
     },
     {
       "id": "S000148",
       "title": "Chuck Schumer",
-      "median": 2047,
-      "total": 636584,
+      "median": 2134,
+      "total": 728265,
       "redirects": 16
     },
     {
       "id": "S000168",
       "title": "María Elvira Salazar",
-      "median": 506,
-      "total": 120147,
+      "median": 526,
+      "total": 123389,
       "redirects": 2
     },
     {
       "id": "S000185",
       "title": "Bobby Scott (politician)",
-      "median": 111,
-      "total": 13259,
+      "median": 116,
+      "total": 13806,
       "redirects": 4
     },
     {
       "id": "S000250",
       "title": "Pete Sessions",
-      "median": 156,
-      "total": 21329,
+      "median": 171,
+      "total": 21707,
       "redirects": 4
     },
     {
       "id": "S000344",
       "title": "Brad Sherman",
-      "median": 138,
-      "total": 17944,
+      "median": 145,
+      "total": 18375,
       "redirects": 7
     },
     {
       "id": "S000510",
       "title": "Adam Smith (Washington politician)",
-      "median": 185,
-      "total": 23268,
+      "median": 193,
+      "total": 23953,
       "redirects": 3
     },
     {
       "id": "S000522",
       "title": "Chris Smith (New Jersey politician)",
-      "median": 185,
-      "total": 37016,
+      "median": 200,
+      "total": 38678,
       "redirects": 5
     },
     {
       "id": "S000929",
       "title": "Victoria Spartz",
-      "median": 222,
-      "total": 87547,
+      "median": 296,
+      "total": 94008,
       "redirects": 2
     },
     {
       "id": "S001145",
       "title": "Jan Schakowsky",
       "median": 95,
-      "total": 11524,
+      "total": 12265,
       "redirects": 7
     },
     {
       "id": "S001148",
       "title": "Mike Simpson",
-      "median": 72,
-      "total": 8763,
+      "median": 73,
+      "total": 9182,
       "redirects": 7
     },
     {
       "id": "S001150",
       "title": "Adam Schiff",
-      "median": 965,
-      "total": 113375,
+      "median": 992,
+      "total": 118792,
       "redirects": 7
     },
     {
       "id": "S001156",
       "title": "Linda Sánchez",
       "median": 90,
-      "total": 11638,
+      "total": 12720,
       "redirects": 5
     },
     {
       "id": "S001159",
       "title": "Marilyn Strickland",
-      "median": 92,
-      "total": 19074,
+      "median": 105,
+      "total": 20325,
       "redirects": 0
     },
     {
       "id": "S001172",
       "title": "Adrian Smith (politician)",
-      "median": 66,
-      "total": 7192,
+      "median": 70,
+      "total": 7379,
       "redirects": 4
     },
     {
       "id": "S001176",
       "title": "Steve Scalise",
-      "median": 460,
-      "total": 83873,
+      "median": 483,
+      "total": 90381,
       "redirects": 7
     },
     {
       "id": "S001181",
       "title": "Jeanne Shaheen",
-      "median": 858,
-      "total": 122096,
+      "median": 893,
+      "total": 125962,
       "redirects": 11
     },
     {
       "id": "S001183",
       "title": "David Schweikert",
-      "median": 178,
-      "total": 22142,
+      "median": 194,
+      "total": 25372,
       "redirects": 4
     },
     {
       "id": "S001184",
       "title": "Tim Scott",
-      "median": 993,
-      "total": 154675,
+      "median": 1065,
+      "total": 155983,
       "redirects": 9
     },
     {
       "id": "S001185",
       "title": "Terri Sewell",
-      "median": 117,
-      "total": 19589,
+      "median": 126,
+      "total": 20588,
       "redirects": 6
     },
     {
       "id": "S001188",
       "title": "Marlin Stutzman",
-      "median": 84,
-      "total": 18974,
+      "median": 87,
+      "total": 19949,
       "redirects": 3
     },
     {
       "id": "S001189",
       "title": "Austin Scott",
-      "median": 63,
-      "total": 7287,
+      "median": 65,
+      "total": 7485,
       "redirects": 5
     },
     {
       "id": "S001190",
       "title": "Brad Schneider",
-      "median": 131,
-      "total": 15399,
+      "median": 133,
+      "total": 15852,
       "redirects": 4
     },
     {
       "id": "S001194",
       "title": "Brian Schatz",
-      "median": 304,
-      "total": 55547,
+      "median": 324,
+      "total": 62824,
       "redirects": 8
     },
     {
       "id": "S001195",
       "title": "Jason Smith (American politician)",
-      "median": 127,
-      "total": 22423,
+      "median": 138,
+      "total": 23229,
       "redirects": 3
     },
     {
       "id": "S001196",
       "title": "Elise Stefanik",
-      "median": 703,
-      "total": 138514,
+      "median": 744,
+      "total": 152425,
       "redirects": 8
     },
     {
       "id": "S001198",
       "title": "Dan Sullivan (U.S. senator)",
-      "median": 1220,
-      "total": 251090,
+      "median": 1249,
+      "total": 277938,
       "redirects": 13
     },
     {
       "id": "S001199",
       "title": "Lloyd Smucker",
-      "median": 88,
-      "total": 10316,
+      "median": 92,
+      "total": 10575,
       "redirects": 3
     },
     {
       "id": "S001200",
       "title": "Darren Soto",
-      "median": 273,
-      "total": 31342,
+      "median": 272,
+      "total": 30967,
       "redirects": 2
     },
     {
       "id": "S001201",
       "title": "Tom Suozzi",
-      "median": 709,
-      "total": 68902,
+      "median": 713,
+      "total": 69531,
       "redirects": 4
     },
     {
       "id": "S001203",
       "title": "Tina Smith",
-      "median": 398,
-      "total": 71914,
+      "median": 417,
+      "total": 77996,
       "redirects": 10
     },
     {
       "id": "S001205",
       "title": "Mary Gay Scanlon",
-      "median": 106,
-      "total": 12873,
+      "median": 113,
+      "total": 13352,
       "redirects": 0
     },
     {
       "id": "S001208",
       "title": "Elissa Slotkin",
-      "median": 2140,
-      "total": 428211,
+      "median": 2465,
+      "total": 465911,
       "redirects": 5
     },
     {
       "id": "S001211",
       "title": "Greg Stanton",
-      "median": 126,
-      "total": 14814,
+      "median": 139,
+      "total": 15600,
       "redirects": 4
     },
     {
       "id": "S001212",
       "title": "Pete Stauber",
-      "median": 119,
-      "total": 13036,
+      "median": 122,
+      "total": 12965,
       "redirects": 2
     },
     {
       "id": "S001213",
       "title": "Bryan Steil",
       "median": 321,
-      "total": 41082,
+      "total": 39726,
       "redirects": 3
     },
     {
       "id": "S001214",
       "title": "Greg Steube",
-      "median": 84,
-      "total": 13727,
+      "median": 86,
+      "total": 13597,
       "redirects": 5
     },
     {
       "id": "S001215",
       "title": "Haley Stevens",
-      "median": 1359,
-      "total": 1731899,
+      "median": 1644,
+      "total": 1752332,
       "redirects": 8
     },
     {
       "id": "S001216",
       "title": "Kim Schrier",
-      "median": 87,
-      "total": 10198,
+      "median": 92,
+      "total": 10569,
       "redirects": 4
     },
     {
       "id": "S001217",
       "title": "Rick Scott",
-      "median": 1137,
-      "total": 142112,
+      "median": 1169,
+      "total": 137705,
       "redirects": 14
     },
     {
       "id": "S001218",
       "title": "Melanie Stansbury",
-      "median": 254,
-      "total": 41939,
+      "median": 262,
+      "total": 42700,
       "redirects": 5
     },
     {
       "id": "S001220",
       "title": "Dale Strong",
-      "median": 65,
-      "total": 7461,
+      "median": 69,
+      "total": 8283,
       "redirects": 0
     },
     {
       "id": "S001221",
       "title": "Hillary Scholten",
-      "median": 252,
-      "total": 43050,
+      "median": 250,
+      "total": 42987,
       "redirects": 0
     },
     {
       "id": "S001223",
       "title": "Emilia Sykes",
-      "median": 194,
-      "total": 19503,
+      "median": 199,
+      "total": 20022,
       "redirects": 1
     },
     {
       "id": "S001224",
       "title": "Keith Self",
-      "median": 149,
-      "total": 22941,
+      "median": 163,
+      "total": 23297,
       "redirects": 1
     },
     {
       "id": "S001225",
       "title": "Eric Sorensen (politician)",
-      "median": 73,
-      "total": 9840,
+      "median": 76,
+      "total": 10614,
       "redirects": 0
     },
     {
       "id": "S001226",
       "title": "Andrea Salinas",
-      "median": 60,
-      "total": 6679,
+      "median": 61,
+      "total": 6871,
       "redirects": 1
     },
     {
       "id": "S001227",
       "title": "Eric Schmitt",
-      "median": 450,
-      "total": 248415,
+      "median": 513,
+      "total": 255198,
       "redirects": 7
     },
     {
       "id": "S001228",
       "title": "Derek Schmidt",
-      "median": 142,
-      "total": 14959,
+      "median": 150,
+      "total": 15600,
       "redirects": 4
     },
     {
       "id": "S001229",
       "title": "Jefferson Shreve",
-      "median": 103,
-      "total": 12740,
+      "median": 116,
+      "total": 13040,
       "redirects": 0
     },
     {
       "id": "S001230",
       "title": "Suhas Subramanyam",
-      "median": 268,
-      "total": 45186,
+      "median": 281,
+      "total": 46476,
       "redirects": 1
     },
     {
       "id": "S001231",
       "title": "Lateefah Simon",
-      "median": 206,
-      "total": 29489,
+      "median": 218,
+      "total": 30414,
       "redirects": 1
     },
     {
       "id": "S001232",
       "title": "Tim Sheehy",
       "median": 466,
-      "total": 54788,
+      "total": 58479,
       "redirects": 7
     },
     {
       "id": "T000165",
       "title": "Tom Tiffany",
-      "median": 895,
-      "total": 117819,
+      "median": 868,
+      "total": 116325,
       "redirects": 4
     },
     {
       "id": "T000193",
       "title": "Bennie Thompson",
-      "median": 154,
-      "total": 45951,
+      "median": 160,
+      "total": 51286,
       "redirects": 3
     },
     {
       "id": "T000250",
       "title": "John Thune",
-      "median": 1089,
-      "total": 216045,
+      "median": 1159,
+      "total": 232890,
       "redirects": 11
     },
     {
       "id": "T000278",
       "title": "Tommy Tuberville",
-      "median": 1867,
-      "total": 291526,
+      "median": 2133,
+      "total": 305766,
       "redirects": 8
     },
     {
       "id": "T000460",
       "title": "Mike Thompson",
-      "median": 368,
-      "total": 38929,
+      "median": 397,
+      "total": 42323,
       "redirects": 1
     },
     {
       "id": "T000463",
       "title": "Mike Turner",
-      "median": 148,
-      "total": 33805,
+      "median": 182,
+      "total": 36505,
       "redirects": 4
     },
     {
       "id": "T000467",
       "title": "Glenn Thompson (politician)",
-      "median": 86,
-      "total": 9920,
+      "median": 89,
+      "total": 10220,
       "redirects": 11
     },
     {
       "id": "T000468",
       "title": "Dina Titus",
-      "median": 186,
-      "total": 19305,
+      "median": 195,
+      "total": 19839,
       "redirects": 6
     },
     {
       "id": "T000469",
       "title": "Paul Tonko",
       "median": 90,
-      "total": 10191,
+      "total": 10347,
       "redirects": 4
     },
     {
       "id": "T000472",
       "title": "Mark Takano",
-      "median": 116,
-      "total": 15934,
+      "median": 122,
+      "total": 16842,
       "redirects": 5
     },
     {
       "id": "T000474",
       "title": "Norma Torres",
-      "median": 70,
-      "total": 8889,
+      "median": 74,
+      "total": 9123,
       "redirects": 8
     },
     {
       "id": "T000476",
       "title": "Thom Tillis",
-      "median": 1067,
-      "total": 228073,
-      "redirects": 8
+      "median": 1358,
+      "total": 236834,
+      "redirects": 10
     },
     {
       "id": "T000478",
       "title": "Claudia Tenney",
       "median": 230,
-      "total": 26718,
+      "total": 26884,
       "redirects": 2
     },
     {
       "id": "T000480",
       "title": "William Timmons",
-      "median": 73,
-      "total": 8551,
+      "median": 70,
+      "total": 9064,
       "redirects": 4
     },
     {
       "id": "T000481",
       "title": "Rashida Tlaib",
-      "median": 1235,
-      "total": 173425,
+      "median": 1245,
+      "total": 177044,
       "redirects": 10
     },
     {
       "id": "T000482",
       "title": "Lori Trahan",
-      "median": 169,
-      "total": 24600,
+      "median": 182,
+      "total": 25211,
       "redirects": 9
     },
     {
       "id": "T000486",
       "title": "Ritchie Torres",
-      "median": 356,
-      "total": 48472,
+      "median": 394,
+      "total": 50848,
       "redirects": 0
     },
     {
       "id": "T000487",
       "title": "Jill Tokuda",
-      "median": 122,
-      "total": 15356,
+      "median": 127,
+      "total": 16095,
       "redirects": 2
     },
     {
       "id": "T000488",
       "title": "Shri Thanedar",
-      "median": 393,
-      "total": 55177,
+      "median": 400,
+      "total": 71609,
       "redirects": 6
     },
     {
       "id": "T000490",
       "title": "David Taylor (Ohio politician)",
       "median": 60,
-      "total": 6668,
+      "total": 6683,
       "redirects": 2
     },
     {
       "id": "T000491",
       "title": "Derek Tran",
-      "median": 182,
-      "total": 23162,
+      "median": 199,
+      "total": 23702,
       "redirects": 0
     },
     {
       "id": "U000040",
       "title": "Lauren Underwood",
-      "median": 131,
-      "total": 18408,
+      "median": 135,
+      "total": 25546,
       "redirects": 2
     },
     {
       "id": "V000081",
       "title": "Nydia Velázquez",
-      "median": 155,
-      "total": 18689,
+      "median": 165,
+      "total": 19501,
       "redirects": 14
     },
     {
       "id": "V000128",
       "title": "Chris Van Hollen",
-      "median": 718,
-      "total": 646531,
+      "median": 764,
+      "total": 816867,
       "redirects": 17
     },
     {
       "id": "V000129",
       "title": "David Valadao",
-      "median": 266,
-      "total": 36201,
+      "median": 291,
+      "total": 37576,
       "redirects": 4
     },
     {
       "id": "V000130",
       "title": "Juan Vargas",
-      "median": 58,
-      "total": 6768,
+      "median": 60,
+      "total": 7037,
       "redirects": 2
     },
     {
       "id": "V000131",
       "title": "Marc Veasey",
-      "median": 73,
-      "total": 9224,
+      "median": 76,
+      "total": 10534,
       "redirects": 4
     },
     {
       "id": "V000133",
       "title": "Jeff Van Drew",
-      "median": 195,
-      "total": 54418,
+      "median": 210,
+      "total": 57302,
       "redirects": 7
     },
     {
       "id": "V000134",
       "title": "Beth Van Duyne",
-      "median": 278,
-      "total": 34439,
+      "median": 299,
+      "total": 37004,
       "redirects": 3
     },
     {
       "id": "V000135",
       "title": "Derrick Van Orden",
-      "median": 422,
-      "total": 53412,
+      "median": 446,
+      "total": 60343,
       "redirects": 1
     },
     {
       "id": "V000136",
       "title": "Gabe Vasquez",
-      "median": 190,
-      "total": 18907,
+      "median": 187,
+      "total": 18829,
       "redirects": 0
     },
     {
       "id": "V000138",
       "title": "Eugene Vindman",
-      "median": 590,
-      "total": 87958,
+      "median": 549,
+      "total": 59178,
       "redirects": 3
     },
     {
       "id": "V000139",
       "title": "Matt Van Epps",
-      "median": 101,
-      "total": 11413,
+      "median": 113,
+      "total": 12005,
       "redirects": 1
     },
     {
       "id": "W000187",
       "title": "Maxine Waters",
-      "median": 545,
-      "total": 68123,
+      "median": 595,
+      "total": 72845,
       "redirects": 12
     },
     {
       "id": "W000437",
       "title": "Roger Wicker",
-      "median": 273,
-      "total": 99911,
+      "median": 336,
+      "total": 108103,
       "redirects": 7
     },
     {
       "id": "W000779",
       "title": "Ron Wyden",
-      "median": 429,
-      "total": 58687,
+      "median": 454,
+      "total": 65346,
       "redirects": 15
     },
     {
       "id": "W000788",
       "title": "Nikema Williams",
-      "median": 93,
-      "total": 12160,
+      "median": 94,
+      "total": 12741,
       "redirects": 0
     },
     {
       "id": "W000790",
       "title": "Raphael Warnock",
-      "median": 1444,
-      "total": 262350,
+      "median": 1680,
+      "total": 266446,
       "redirects": 12
     },
     {
       "id": "W000795",
       "title": "Joe Wilson",
-      "median": 283,
-      "total": 37095,
+      "median": 309,
+      "total": 39566,
       "redirects": 20
     },
     {
       "id": "W000797",
       "title": "Debbie Wasserman Schultz",
-      "median": 402,
-      "total": 85262,
+      "median": 382,
+      "total": 49451,
       "redirects": 12
     },
     {
       "id": "W000798",
       "title": "Tim Walberg",
-      "median": 100,
-      "total": 11701,
+      "median": 104,
+      "total": 12085,
       "redirects": 4
     },
     {
       "id": "W000800",
       "title": "Peter Welch",
-      "median": 370,
-      "total": 56080,
+      "median": 398,
+      "total": 60306,
       "redirects": 5
     },
     {
       "id": "W000802",
       "title": "Sheldon Whitehouse",
-      "median": 469,
-      "total": 60375,
+      "median": 519,
+      "total": 67096,
       "redirects": 6
     },
     {
       "id": "W000804",
       "title": "Rob Wittman",
-      "median": 377,
-      "total": 45093,
+      "median": 385,
+      "total": 45740,
       "redirects": 3
     },
     {
       "id": "W000805",
       "title": "Mark Warner",
-      "median": 903,
-      "total": 121010,
+      "median": 992,
+      "total": 129425,
       "redirects": 9
     },
     {
       "id": "W000806",
       "title": "Daniel Webster (Florida politician)",
-      "median": 87,
-      "total": 10389,
+      "median": 88,
+      "total": 9897,
       "redirects": 4
     },
     {
       "id": "W000808",
       "title": "Frederica Wilson",
-      "median": 122,
-      "total": 18809,
+      "median": 123,
+      "total": 18465,
       "redirects": 8
     },
     {
       "id": "W000809",
       "title": "Steve Womack",
-      "median": 84,
-      "total": 9206,
+      "median": 89,
+      "total": 9559,
       "redirects": 4
     },
     {
       "id": "W000812",
       "title": "Ann Wagner",
-      "median": 187,
-      "total": 37339,
+      "median": 204,
+      "total": 39393,
       "redirects": 8
     },
     {
       "id": "W000814",
       "title": "Randy Weber",
-      "median": 77,
-      "total": 9195,
+      "median": 80,
+      "total": 9116,
       "redirects": 4
     },
     {
       "id": "W000816",
       "title": "Roger Williams (Texas politician)",
-      "median": 67,
-      "total": 7519,
+      "median": 69,
+      "total": 7654,
       "redirects": 1
     },
     {
       "id": "W000817",
       "title": "Elizabeth Warren",
-      "median": 1420,
-      "total": 179886,
+      "median": 1481,
+      "total": 189759,
       "redirects": 15
     },
     {
       "id": "W000821",
       "title": "Bruce Westerman",
       "median": 72,
-      "total": 7896,
+      "total": 8015,
       "redirects": 3
     },
     {
       "id": "W000822",
       "title": "Bonnie Watson Coleman",
-      "median": 102,
-      "total": 14284,
+      "median": 103,
+      "total": 14988,
       "redirects": 6
     },
     {
       "id": "W000829",
       "title": "Tony Wied",
-      "median": 72,
-      "total": 8656,
+      "median": 74,
+      "total": 8754,
       "redirects": 3
     },
     {
       "id": "W000830",
       "title": "George T. Whitesides",
-      "median": 119,
-      "total": 13119,
+      "median": 127,
+      "total": 15569,
       "redirects": 3
     },
     {
       "id": "W000831",
       "title": "James Walkinshaw",
-      "median": 181,
-      "total": 20671,
+      "median": 187,
+      "total": 24519,
       "redirects": 3
     },
     {
       "id": "W000832",
       "title": "Aisha Wahab",
-      "median": 600,
-      "total": 201324,
+      "median": 565,
+      "total": 112763,
       "redirects": 1
     },
     {
       "id": "Y000064",
       "title": "Todd Young",
-      "median": 278,
-      "total": 36870,
+      "median": 282,
+      "total": 41061,
       "redirects": 2
     },
     {
       "id": "Y000067",
       "title": "Rudy Yakym",
-      "median": 82,
-      "total": 10651,
+      "median": 92,
+      "total": 11031,
       "redirects": 2
     },
     {
       "id": "Z000018",
       "title": "Ryan Zinke",
-      "median": 245,
-      "total": 37547,
+      "median": 262,
+      "total": 39106,
       "redirects": 5
     }
   ]
