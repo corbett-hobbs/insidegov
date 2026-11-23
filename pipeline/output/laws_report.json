@@ -280,7 +280,7 @@
       "list_rows_beyond_laws": null,
       "independent_count": 383,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-13",
+      "fetched": "2026-11-23",
       "source_corrections": [],
       "multiple_became_law_dates": []
     },
@@ -358,7 +358,7 @@
       "list_rows_beyond_laws": null,
       "independent_count": 362,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-13",
+      "fetched": "2026-11-23",
       "source_corrections": [],
       "multiple_became_law_dates": []
     },
@@ -371,7 +371,7 @@
       "list_rows_beyond_laws": null,
       "independent_count": 274,
       "pending_without_signing_date": [],
-      "fetched": "2026-10-26",
+      "fetched": "2026-11-23",
       "source_corrections": [],
       "multiple_became_law_dates": []
     },
@@ -384,7 +384,7 @@
       "list_rows_beyond_laws": null,
       "independent_count": null,
       "pending_without_signing_date": [],
-      "fetched": "2026-11-16",
+      "fetched": "2026-11-23",
       "source_corrections": [
         "119-pub-120: Bill Status also lists it on HR 766, which has no signing action; kept S 766"
       ],
@@ -1418,10 +1418,9 @@
       },
       "2020s": {
         "laws": 778,
-        "with_sentence": 719,
+        "with_sentence": 720,
         "too-long": 58,
-        "empty": 1,
-        "fill": "92%"
+        "fill": "93%"
       }
     },
     "length_median": 162,
