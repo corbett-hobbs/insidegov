@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20",
+ "updated": "2026-11-23",
  "endOfBidenPending": 10418,
  "proclamations": [
   {
@@ -554,7 +554,7 @@
   {
    "fy": 2027,
    "term": "trump2",
-   "pardons": 2,
+   "pardons": 3,
    "commutations": 0,
    "group": 0,
    "respites": 0,

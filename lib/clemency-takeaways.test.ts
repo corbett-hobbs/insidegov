@@ -40,10 +40,10 @@ describe("the Pardons takeaways", () => {
     expect(p("biden").total).toBe(4245);
     expect(Math.max(...d.presidents.map((x) => x.total))).toBe(4245);
     expect(p("biden").group).toBe(3989);
-    expect(Math.round(p("trump2").total / 10) * 10).toBe(1740);
+    expect(Math.round(p("trump2").total / 10) * 10).toBe(1750);
     expect(Math.round(p("trump2").group / 10) * 10).toBe(1580);
-    expect(file.updated.slice(0, 7)).toBe("2026-10");
-    say(T.presidents.takeaway, "4,245", "3,989", "about 1,740", "about 1,580", "October 2026");
+    expect(file.updated.slice(0, 7)).toBe("2026-11");
+    say(T.presidents.takeaway, "4,245", "3,989", "about 1,750", "about 1,580", "November 2026");
   });
   it("outcomes", () => {
     const share = (t: string) => Math.round(p(t).outcome!.share * 100);
@@ -53,8 +53,8 @@ describe("the Pardons takeaways", () => {
   });
   it("offenses", () => {
     const s = (t: string, c: "drugs" | "fraud" | "regulatory") => round(p(t).offense.counts[c], p(t).offense.n);
-    expect([s("obama", "drugs"), s("biden", "drugs"), s("trump2", "drugs"), s("trump2", "fraud"), s("trump2", "regulatory")]).toEqual([91, 85, 17, 25, 24]);
-    say(T.offenses.takeaway, "91%", "85%", "17%", "25%", "24%");
+    expect([s("obama", "drugs"), s("biden", "drugs"), s("trump2", "drugs"), s("trump2", "fraud"), s("trump2", "regulatory")]).toEqual([91, 85, 17, 26, 24]);
+    say(T.offenses.takeaway, "91%", "85%", "17%", "26%", "24%");
   });
   it("timing", () => {
     const l = (t: string) => round(p(t).timing.counts.last90, p(t).timing.n);
