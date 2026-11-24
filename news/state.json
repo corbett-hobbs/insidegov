@@ -1,53 +1,5 @@
 {
   "checks": {
-    "c0148a184e5b59b03b95": {
-      "at": "2026-11-22T11:04:25.374Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-22/ice-arrest-at-airport-prompts-outcry-from-officials-politicians",
-        "https://www.bloomberg.com/news/articles/2026-11-22/ice-arrest-at-airport-prompts-outcry-from-officials-politicians",
-        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
-        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
-        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
-        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
-        "https://nypost.com/2026/11/21/us-news/masked-ice-agents-drag-passengers-off-seattle-jet-bridge-delaying-la-flight/",
-        "https://nypost.com/2026/11/21/us-news/masked-ice-agents-drag-passengers-off-seattle-jet-bridge-delaying-la-flight/",
-        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html",
-        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html"
-      ],
-      "reason": "All headlines report the same ICE enforcement action: officers arresting passengers boarding a flight at Seattle airport, which drew official and political reaction.",
-      "chart": ""
-    },
-    "a627bd86db3a9cf832c6": {
-      "at": "2026-11-22T11:04:25.374Z",
-      "keep": [
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/",
-        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html",
-        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html"
-      ],
-      "reason": "Most outlets reported the Nov 20-21 U.S. stock sell-off that pushed the S&P 500 and Dow into correction territory; the Anthropic IPO debut was covered by fewer outlets and is a different development.",
-      "chart": ""
-    },
-    "9c56aa0354a63a6bb1be": {
-      "at": "2026-11-22T11:04:25.374Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-21/los-angeles-port-strike-threat-resolved-with-tentative-agreement",
-        "https://www.bloomberg.com/news/articles/2026-11-21/los-angeles-port-strike-threat-resolved-with-tentative-agreement",
-        "https://www.wsj.com/logistics-report/tentative-deal-averts-strike-threat-at-busiest-u-s-ports-6f9a60d1?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Three outlets report the same development: a tentative labor agreement averting a strike at major U.S. ports (Los Angeles and busiest ports), which is central to the ports topic.",
-      "chart": ""
-    },
     "c993309803d65630766b": {
       "at": "2026-11-22T18:27:09.899Z",
       "keep": [
@@ -254,6 +206,53 @@
       ],
       "reason": "Most headlines cover Jensen Huang's reinstatement at Nvidia, which is not a trade development; the trade-relevant story is the Commerce Department adding Megaspeed to the trade blacklist, reported by many outlets.",
       "chart": ""
+    },
+    "6f7a098b28d521b21242": {
+      "at": "2026-11-24T17:29:45.724Z",
+      "keep": [],
+      "reason": "The most-covered item is a single local ICE arrest incident at Seattle airport, which is local news and not a national development; the Massachusetts lawsuit and DOJ threat case are each covered by only one outlet, and neither chart (border encounters or ICE removals) measures arrests.",
+      "chart": ""
+    },
+    "3b6844c41eff05cff7ef": {
+      "at": "2026-11-24T17:29:45.724Z",
+      "keep": [],
+      "reason": "Headlines 1-4 cover Trump's comments on capping credit card interest rates, which is not the Fed's policy rate the chart measures; headline 5 is about commercial real estate activity, not a Fed development.",
+      "chart": ""
+    },
+    "5ca6fbc6076eeeb26ded": {
+      "at": "2026-11-24T17:29:45.724Z",
+      "keep": [],
+      "reason": "Both headlines report one Senate probe of JD Vance's ties to a Venezuelan oil contract, but the story is about a political investigation and contract, not the total U.S. petroleum imports and exports the chart measures, so the chart's topic is not central.",
+      "chart": ""
+    },
+    "0104fbc397c61a0b1c75": {
+      "at": "2026-11-24T17:29:45.724Z",
+      "keep": [
+        "https://www.nbcnews.com/business/markets/stocks-rebound-ai-tech-selloff-nvidia-rcna610833",
+        "https://www.foxbusiness.com/markets/stocks-november-23-2026",
+        "https://www.washingtontimes.com/news/2026/nov/23/us-stocks-soar-recover-half-last-weeks-plunge-jensen-huangs-return/",
+        "https://www.bbc.co.uk/news/articles/cq62pn6j42jko?at_medium=RSS&at_campaign=rss",
+        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
+        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
+        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/",
+        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
+      ],
+      "reason": "Most outlets reported the same one-day U.S. stock market surge (Nasdaq up 6.5%) after Jensen Huang's reinstatement at Nvidia; the other headlines are about the Huang saga, commentary, or other events.",
+      "chart": ""
+    },
+    "ca2fcd02a0c8ec30a9d0": {
+      "at": "2026-11-24T17:29:45.724Z",
+      "keep": [],
+      "reason": "Headlines cover different oil price moves (a fall on Nov 23, a rebound on Nov 24, a fall on Nov 24) and a separate tanker-attack story, so no single development is shared; none of the listed charts directly measures oil prices or Gulf shipping risk.",
+      "chart": ""
+    },
+    "8b8ef888d4f50024a5b3": {
+      "at": "2026-11-24T17:29:45.724Z",
+      "keep": [],
+      "reason": "No development is reported by two or more U.S. outlets: the ECB and Mexico items are foreign, and the Fed remarks and consumer confidence story are different developments.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -272,6 +271,13 @@
         "wsj"
       ],
       "first": "2026-11-16",
+      "last": "2026-11-24"
+    },
+    "119-pub-43": {
+      "outlets": [
+        "washingtontimes"
+      ],
+      "first": "2026-11-24",
       "last": "2026-11-24"
     }
   }
