@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-22",
+  "asOf": "2026-11-24",
   "stories": [
     {
       "id": "electricity-2026-11-19",
@@ -69,48 +69,6 @@
           "lean": "Center",
           "title": "Oil Prices Extend Decline After Trump Signals Restraint on Iran",
           "url": "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f"
-        }
-      ]
-    },
-    {
-      "id": "drilling-2026-11-09",
-      "date": "2026-11-09",
-      "topic": "Drilling and pipelines",
-      "headlines": [
-        {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Senate advances bill to speed up projects from gas pipelines to clean energy",
-          "url": "https://www.theguardian.com/us-news/2026/nov/09/senate-energy-infrastructure-bill-vote"
-        },
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Senate advances bipartisan permitting reform bill, teeing up passage",
-          "url": "https://thehill.com/policy/energy-environment/6208626-bipartisan-permitting-reform-bill-energy-infrastructure/"
-        }
-      ]
-    },
-    {
-      "id": "power_sources-2026-11-09",
-      "date": "2026-11-09",
-      "topic": "Nuclear, coal and renewables",
-      "headlines": [
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Trump says he 'will not approve wind turbines' despite support for permitting reform bill",
-          "url": "https://thehill.com/policy/energy-environment/6209267-trump-wind-turbines-permitting-reform-bill/"
-        },
-        {
-          "outletId": "newsweek",
-          "outlet": "Newsweek",
-          "lean": "Center",
-          "title": "Trump Backs Energy Bill ‘100%’ Before Balking at Wind Turbines",
-          "url": "https://www.newsweek.com/trump-wind-turbines-bipartisan-energy-permitting-bill-12691384"
         }
       ]
     }

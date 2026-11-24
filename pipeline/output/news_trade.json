@@ -1,6 +1,34 @@
 {
-  "asOf": "2026-11-22",
+  "asOf": "2026-11-24",
   "stories": [
+    {
+      "id": "trade_deals-2026-11-23",
+      "date": "2026-11-23",
+      "topic": "Trade deals and talks",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "U.S. adds Megaspeed to trade blacklist over export control concerns amid Nvidia controversy",
+          "url": "https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html"
+        },
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "US to blacklist Asian AI firm Megaspeed after Nvidia scandal",
+          "url": "https://www.bbc.co.uk/news/articles/cv98xpg5dg5zo?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Trump admin adds Megaspeed to Commerce Department trade blacklist after Nvidia scandal",
+          "url": "https://www.foxbusiness.com/politics/trump-admin-adds-megaspeed-commerce-department-trade-blacklist-after-nvidia-scandal"
+        }
+      ]
+    },
     {
       "id": "tariff.THA-2026-11-17",
       "date": "2026-11-17",

@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-23",
+  "asOf": "2026-11-24",
   "stories": [
     {
       "id": "markets-2026-11-23",
@@ -7,11 +7,11 @@
       "topic": "Stock market",
       "headlines": [
         {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
           "lean": "Lean Left",
-          "title": "Tech stocks see monster rally after Jensen Huang returns as Nvidia CEO",
-          "url": "https://www.cnbc.com/2026/11/23/anthropic-nvidia-shares.html"
+          "title": "Nasdaq gains 6.5% after Huang reinstated as Nvidia CEO",
+          "url": "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
         },
         {
           "outletId": "bbc",
@@ -21,11 +21,11 @@
           "url": "https://www.bbc.co.uk/news/articles/cq62pn6j42jko?at_medium=RSS&at_campaign=rss"
         },
         {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Nasdaq surges 6.5% in second-largest one-day gain ever as Nvidia leads tech, AI stocks higher",
-          "url": "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/"
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Stock market roars back after Jensen Huang’s abrupt return to Nvidia",
+          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/"
         }
       ]
     },
@@ -103,6 +103,28 @@
       ]
     },
     {
+      "id": "inflation-2026-11-18",
+      "date": "2026-11-18",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Fed officials expect more rate hikes, worry about AI impact on inflation, minutes show",
+          "url": "https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html"
+        },
+        {
+          "outletId": "abcnews",
+          "outlet": "ABC News",
+          "lean": "Lean Left",
+          "title": "Fed minutes: Higher interest rates needed in December as inflation worries mount",
+          "url": "https://abcnews.com/US/wireStory/fed-minutes-higher-interest-rates-needed-december-inflation-138258781"
+        }
+      ]
+    },
+    {
       "id": "budget_taxes-2026-11-17",
       "date": "2026-11-17",
       "topic": "Federal budget and taxes",
@@ -127,27 +149,6 @@
           "lean": "Lean Right",
           "title": "What Democrats are saying about the possibility of a government shutdown in December",
           "url": "https://www.washingtonexaminer.com/news/house/4809015/democrats-government-shutdown-possibility-december/"
-        }
-      ]
-    },
-    {
-      "id": "markets-2026-11-17",
-      "date": "2026-11-17",
-      "topic": "Stock market",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Stocks Down Just Ahead of Nvidia’s Earnings Report",
-          "url": "https://www.nytimes.com/2026/11/17/business/economy/stock-market-nvidia-earnings.html"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Dow plummets 800 points as Nasdaq slides ahead of Nvidia earnings, Anthropic IPO",
-          "url": "https://nypost.com/2026/11/17/business/dow-plummets-800-points-nasdaq-slides-ahead-of-nvidia-earnings-anthropic-ipo/"
         }
       ]
     }

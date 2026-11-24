@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-20",
+  "asOf": "2026-11-24",
   "stories": [
     {
       "id": "new_laws-2026-11-19",
@@ -22,11 +22,11 @@
           "url": "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html"
         },
         {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Senate approves key permitting reform bill, sends to House",
-          "url": "https://thehill.com/homenews/senate/6229829-senate-passes-permitting-reform/"
+          "outletId": "nbcnews",
+          "outlet": "NBC News",
+          "lean": "Lean Left",
+          "title": "Senate passes bill simplifying permitting rules to build in America, sending it to House",
+          "url": "https://www.nbcnews.com/politics/congress/senate-passes-sweeping-bill-simplifying-permitting-rules-build-america-rcna610196"
         }
       ]
     }
