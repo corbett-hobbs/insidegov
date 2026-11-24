@@ -8,7 +8,7 @@ export const CLEMENCY_TAKEAWAYS = {
   },
   presidents: {
     title: "Grants by president",
-    takeaway: "Biden’s 4,245 grants are the most of any president shown, with 3,989 on group warrants. Trump has about 1,740 through October 2026, about 1,580 of them by proclamation.",
+    takeaway: "Biden’s 4,245 grants are the most of any president shown, with 3,989 on group warrants. Trump has about 1,750 through November 2026, about 1,580 of them by proclamation.",
   },
   outcomes: {
     title: "What happened to petitions",
@@ -16,15 +16,15 @@ export const CLEMENCY_TAKEAWAYS = {
   },
   offenses: {
     title: "What the offenses were",
-    takeaway: "Drug offenses were 91% of Obama’s listed grants and 85% of Biden’s. In Trump’s second term they are 17%, behind fraud and financial crimes at 25% and regulatory and environmental offenses at 24%.",
+    takeaway: "Drug offenses were 91% of Obama’s listed grants and 85% of Biden’s. In Trump’s second term they are 17%, behind fraud and financial crimes at 26% and regulatory and environmental offenses at 24%.",
   },
   timing: {
     title: "When in the term",
-    takeaway: "Biden made 96% of his grants in his last 90 days and Trump 82% in his first term’s. In Trump’s second term, 97% through October 2026 came in the first year, most of them January 6 grants.",
+    takeaway: "Biden made 96% of his grants in his last 90 days and Trump 82% in his first term’s. In Trump’s second term, 97% through November 2026 came in the first year, most of them January 6 grants.",
   },
   age: {
     title: "Years from sentence to pardon",
-    takeaway: "The median pardon in Trump’s second term came 2 years after sentencing, through October 2026. From Clinton through Biden, each president’s median is between 12 and 24 years.",
+    takeaway: "The median pardon in Trump’s second term came 2 years after sentencing, through November 2026. From Clinton through Biden, each president’s median is between 12 and 24 years.",
   },
   pending: {
     title: "Petitions waiting",
