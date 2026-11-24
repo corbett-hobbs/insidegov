@@ -1,75 +1,5 @@
 {
   "checks": {
-    "7043207cb154d6cfa3f9": {
-      "at": "2026-11-21T23:03:22.839Z",
-      "keep": [
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/",
-        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html",
-        "https://www.cnbc.com/2026/11/20/anthropic-ipo-ai-stock-market-selloff.html"
-      ],
-      "reason": "Most outlets reported the same U.S. stock market sell-off that pushed the S&P 500 and Dow into correction territory; the Anthropic IPO debut and HuffPost's commentary headlines were excluded.",
-      "chart": ""
-    },
-    "1c9bbd942884c876c1f1": {
-      "at": "2026-11-21T23:03:22.839Z",
-      "keep": [],
-      "reason": "Headlines cover two different single incidents (a California ICE arrest protest and an Alaska Airlines passenger arrest), each from only one outlet, so no single development is reported by multiple outlets; neither is clearly national policy, and no pick_chart option directly measures arrests.",
-      "chart": ""
-    },
-    "bc9914dddc0811fe1645": {
-      "at": "2026-11-21T23:03:22.839Z",
-      "keep": [],
-      "reason": "No headlines cover a Federal Reserve or federal funds rate development. The credit card rate cap headlines concern a Trump statement about consumer credit, not the policy rate the chart measures.",
-      "chart": ""
-    },
-    "81ac67419937a57cdd32": {
-      "at": "2026-11-22T02:59:46.764Z",
-      "keep": [],
-      "reason": "All headlines cover one local incident, an ICE arrest of two passengers at Seattle airport, which is local news rather than a national-significance development, and no chart measures arrests.",
-      "chart": ""
-    },
-    "1d4317d2da8a49444e8d": {
-      "at": "2026-11-22T02:59:46.764Z",
-      "keep": [],
-      "reason": "Headlines 3-6 cover Trump's vow to work with Democrats on a credit card rate cap, which is a political proposal about consumer card rates, not the Fed's federal funds rate the chart measures; no headline reports a Fed action or rate decision.",
-      "chart": ""
-    },
-    "bb68227877aca5c1031c": {
-      "at": "2026-11-22T02:59:46.764Z",
-      "keep": [],
-      "reason": "All four headlines cover Trump's comments on capping credit card interest rates, a consumer-lending issue; the federal funds rate chart does not measure it, so the chart's topic is not central.",
-      "chart": ""
-    },
-    "d7a9d0066c774dc2ae4d": {
-      "at": "2026-11-22T02:59:46.764Z",
-      "keep": [
-        "https://www.washingtontimes.com/news/2026/nov/20/us-stocks-tumble-sp-500-falls-sell-ai-stocks-accelerates/",
-        "https://www.washingtontimes.com/news/2026/nov/20/us-stocks-tumble-sp-500-falls-sell-ai-stocks-accelerates/",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/"
-      ],
-      "reason": "Most outlets reported the same current development: a sharp U.S. stock market sell-off pushing the S&P 500 and Dow into correction territory. Explainer and \"why\" headlines were left out, as were Anthropic-debut-only stories.",
-      "chart": ""
-    },
     "c0148a184e5b59b03b95": {
       "at": "2026-11-22T11:04:25.374Z",
       "keep": [
@@ -280,6 +210,50 @@
       "keep": [],
       "reason": "All headlines concern Nvidia's CEO reinstatement, which is not a trade deal or talks story; the only trade headline (UK-Thailand deal) is foreign with no U.S. angle.",
       "chart": ""
+    },
+    "9bbaf1e6e58afe3ef715": {
+      "at": "2026-11-24T05:54:40.856Z",
+      "keep": [],
+      "reason": "The Seattle airport ICE arrest of two passengers is a single local incident, not a national-level government action, and no listed chart (border encounters or ICE removals) measures such arrests; the Guardian piece is a separate analysis story.",
+      "chart": ""
+    },
+    "91f31774d415b99ec91f": {
+      "at": "2026-11-24T05:54:40.856Z",
+      "keep": [
+        "https://www.nbcnews.com/business/markets/stocks-rebound-ai-tech-selloff-nvidia-rcna610833",
+        "https://www.foxbusiness.com/markets/stocks-november-23-2026",
+        "https://www.washingtontimes.com/news/2026/nov/23/us-stocks-soar-recover-half-last-weeks-plunge-jensen-huangs-return/",
+        "https://www.cnbc.com/2026/11/23/anthropic-nvidia-shares.html",
+        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
+        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
+        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/",
+        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
+      ],
+      "reason": "Most headlines on the stock market move report the same rally after Jensen Huang's return to Nvidia; the other Huang-reinstatement headlines treat markets as incidental, so they are left out.",
+      "chart": ""
+    },
+    "1c7d3d59fa2304a44db4": {
+      "at": "2026-11-24T05:54:40.856Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments (a DoJ admission about a deported citizen and a Virginia court ruling on a state anti-ICE law), and each was reported by only one outlet, so no single shared story qualifies.",
+      "chart": ""
+    },
+    "a7ebb7b57bbc239f420a": {
+      "at": "2026-11-24T05:54:40.856Z",
+      "keep": [
+        "https://www.cbsnews.com/news/megaspeed-trade-blacklist-nvidia-jensen-huang/",
+        "https://www.foxbusiness.com/politics/trump-admin-adds-megaspeed-commerce-department-trade-blacklist-after-nvidia-scandal",
+        "https://thehill.com/policy/technology/6238594-commerce-blacklists-megaspeed-nvidia/",
+        "https://www.bbc.co.uk/news/articles/cv98xpg5dg5zo?at_medium=RSS&at_campaign=rss",
+        "https://nypost.com/2026/11/23/us-news/commerce-department-blacklists-megaspeed-after-nvidia-reinstates-jensen-huang-as-ceo/",
+        "https://www.theguardian.com/us-news/2026/nov/23/megaspeed-us-trade-blacklist-nvidia",
+        "https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html",
+        "https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html"
+      ],
+      "reason": "Most headlines cover Jensen Huang's reinstatement at Nvidia, which is not a trade development; the trade-relevant story is the Commerce Department adding Megaspeed to the trade blacklist, reported by many outlets.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -289,7 +263,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-23"
+      "last": "2026-11-24"
     },
     "119-pub-142": {
       "outlets": [
@@ -298,7 +272,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-23"
+      "last": "2026-11-24"
     }
   }
 }
