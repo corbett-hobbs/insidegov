@@ -22,11 +22,11 @@
           "url": "https://www.nytimes.com/2026/11/19/climate/senate-passes-baaja-permitting-bill-energy.html"
         },
         {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
+          "outletId": "axios",
+          "outlet": "Axios",
           "lean": "Lean Left",
-          "title": "Senate passes bill simplifying permitting rules to build in America, sending it to House",
-          "url": "https://www.nbcnews.com/politics/congress/senate-passes-sweeping-bill-simplifying-permitting-rules-build-america-rcna610196"
+          "title": "Senate passes Trump-backed permitting bill",
+          "url": "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill"
         }
       ]
     }
