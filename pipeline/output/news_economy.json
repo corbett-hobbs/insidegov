@@ -125,30 +125,30 @@
       ]
     },
     {
-      "id": "budget_taxes-2026-11-17",
-      "date": "2026-11-17",
-      "topic": "Federal budget and taxes",
+      "id": "markets-2026-11-18",
+      "date": "2026-11-18",
+      "topic": "Stock market",
       "headlines": [
         {
-          "outletId": "huffpost",
-          "outlet": "HuffPost",
-          "lean": "Left",
-          "title": "Democrats Consider Government Shutdown To Force Trump To End The Iran War",
-          "url": "https://www.huffpost.com/entry/iran-war-government-shutdown-chris-van-hollen_n_6afb3345e4b0e902c238907e"
+          "outletId": "pbsnewshour",
+          "outlet": "PBS NewsHour",
+          "lean": "Lean Left",
+          "title": "Anthropic prices its IPO at $83 per share, valuing the AI giant at $1.5 trillion",
+          "url": "https://www.pbs.org/newshour/economy/anthropic-prices-its-ipo-at-83-per-share-valuing-the-ai-giant-at-1-5-trillion"
         },
         {
-          "outletId": "axios",
-          "outlet": "Axios",
-          "lean": "Lean Left",
-          "title": "House Democrats recoil at forcing December shutdown to cut Iran war funding",
-          "url": "https://www.axios.com/2026/11/19/government-shutdown-funding-iran-democrat"
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "Anthropic raises $81bn in record-breaking stock market debut",
+          "url": "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss"
         },
         {
           "outletId": "washingtonexaminer",
           "outlet": "Washington Examiner",
           "lean": "Lean Right",
-          "title": "What Democrats are saying about the possibility of a government shutdown in December",
-          "url": "https://www.washingtonexaminer.com/news/house/4809015/democrats-government-shutdown-possibility-december/"
+          "title": "Anthropic prices IPO at $83 per share ahead of stock market debut",
+          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4808336/anthropic-ipo-83-share-stock-market-debut/"
         }
       ]
     }
