@@ -33,12 +33,12 @@ export const TRADE_TAKEAWAYS = {
   products: {
     title: "What the U.S. trades",
     takeaway: (through: string) =>
-      `Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021 and led each year through ${through} 2026. By use, computers became the largest goods import in 2026 through ${through}, passing pharmaceuticals.`,
+      `By use, computers became the largest goods import in 2026 through ${through}, passing pharmaceuticals. By chapter, oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021 and led each year through ${through} 2026.`,
   },
   scatter: {
     title: "Did tariffs shift trade?",
     takeaway: (baseline: string, latest: string) =>
-      `From ${baseline} to ${latest}, duty rates rose on goods from most countries. Of the five largest partners, China's rate rose the most and only imports from China fell; imports from Taiwan and Vietnam grew the most.`,
+      `From ${baseline} to ${latest}, tariff rates rose on goods from most countries. Of the five largest partners, China's rate rose the most and only imports from China fell; imports from Taiwan and Vietnam grew the most.`,
   },
 } as const;
 
@@ -59,7 +59,7 @@ export const TRADE_CONTEXT = {
     ],
   },
   scatter: {
-    text: "Between the two windows, a 10% Section 122 surcharge began (February 2026) and Section 301 tariffs began on 60 economies, China among them (July 2026). China's duty rate went from 11.0% to 21.6%.",
+    text: "Between the two windows, a 10% Section 122 surcharge began (February 2026) and Section 301 tariffs began on 60 economies, China among them (July 2026). China's tariff rate went from 11.0% to 21.6%.",
     sources: [
       { id: "fr-section-122-2026", label: "Proclamation 11012" },
       { id: "fr-301-forced-labor-2026", label: "USTR, 2026" },

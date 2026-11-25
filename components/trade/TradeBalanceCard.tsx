@@ -28,7 +28,7 @@ import { TRADE_TAKEAWAYS } from "./takeaways";
 
 const MEASURES = [
   { value: "balance", label: "Balance" },
-  { value: "flows", label: "Exports & imports" },
+  { value: "flows", label: "Imports & exports" },
 ] as const;
 
 const Swatch = ({ color, border }: { color: string; border?: boolean }) => (
@@ -53,15 +53,15 @@ const DataTable = memo(function DataTable({ series, era, caption }: { series: Fl
   return (
     <details className="mt-3">
       <summary className={TABLE_TOGGLE}>View as table</summary>
-      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">Month, exports, imports, balance, and president, in a table, for screen readers and copying.</p>
+      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">Month, imports, exports, balance, and president, in a table, for screen readers and copying.</p>
       <div className="mt-2 max-h-72 overflow-auto">
         <table className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
           <caption className="sr-only">{caption}</caption>
           <thead className="sticky top-0 bg-surface-raised">
             <tr className="font-mono text-[0.65rem] uppercase tracking-[0.05em] text-ink-muted">
               <th scope="col" className="px-2 py-1.5">Month</th>
-              <th scope="col" className="px-2 py-1.5">Exports</th>
               <th scope="col" className="px-2 py-1.5">Imports</th>
+              <th scope="col" className="px-2 py-1.5">Exports</th>
               <th scope="col" className="px-2 py-1.5">Balance</th>
               <th scope="col" className="px-2 py-1.5">President</th>
             </tr>
@@ -70,8 +70,8 @@ const DataTable = memo(function DataTable({ series, era, caption }: { series: Fl
             {rows.map((r) => (
               <tr key={r.key} className="border-t border-line">
                 <th scope="row" className="px-2 py-1 font-normal">{r.label}</th>
-                <td className="px-2 py-1">{fmtMoney(r.e)}</td>
                 <td className="px-2 py-1">{fmtMoney(r.i)}</td>
+                <td className="px-2 py-1">{fmtMoney(r.e)}</td>
                 <td className="px-2 py-1">{fmtMoney(r.b, { signed: true })}</td>
                 <td className="px-2 py-1">{r.pres}</td>
               </tr>
@@ -84,7 +84,7 @@ const DataTable = memo(function DataTable({ series, era, caption }: { series: Fl
 });
 
 /**
- * Chart 1: the goods trade balance (or exports and imports), national or for one
+ * Chart 1: the goods trade balance (or imports and exports), national or for one
  * country, month by month under each president. `series` is null while a country's
  * file is loading.
  */
@@ -122,14 +122,14 @@ export function TradeBalanceCard({
   const pres = reading ? termAtDay(era.terms, monthStartDay(reading.month)) : undefined;
   const mobileLine = reading
     ? {
-        values: measure === "balance" ? [`Balance ${reading.balance === null ? "\u2014" : fmtMoney(reading.balance, { signed: true })}`] : [`Exports ${reading.exports === null ? "\u2014" : fmtMoney(reading.exports)}`, `Imports ${reading.imports === null ? "\u2014" : fmtMoney(reading.imports)}`],
-        headline: measure === "balance" ? (reading.balance === null ? "—" : fmtMoney(reading.balance, { signed: true })) : reading.exports === null || reading.imports === null ? "—" : `${fmtMoney(reading.exports)} / ${fmtMoney(reading.imports)}`,
+        values: measure === "balance" ? [`Balance ${reading.balance === null ? "\u2014" : fmtMoney(reading.balance, { signed: true })}`] : [`Imports ${reading.imports === null ? "\u2014" : fmtMoney(reading.imports)}`, `Exports ${reading.exports === null ? "\u2014" : fmtMoney(reading.exports)}`],
+        headline: measure === "balance" ? (reading.balance === null ? "—" : fmtMoney(reading.balance, { signed: true })) : reading.exports === null || reading.imports === null ? "—" : `${fmtMoney(reading.imports)} / ${fmtMoney(reading.exports)}`,
         date: reading.label,
         term: pres ? termLabel(pres) : undefined,
       }
     : null;
   const adjLabel = adjusted ? "Seasonally adjusted" : "Not seasonally adjusted";
-  const aria = `${title}, monthly, ${adjLabel.toLowerCase()}, ${measure === "balance" ? "exports minus imports" : "exports and imports"}, with presidential terms and recessions marked. The same data is in the table below.`;
+  const aria = `${title}, monthly, ${adjLabel.toLowerCase()}, ${measure === "balance" ? "exports minus imports" : "imports and exports"}, with presidential terms and recessions marked. The same data is in the table below.`;
 
   return (
     // A fixed anchor: the title changes with the country, and social posts link here.
@@ -157,8 +157,8 @@ export function TradeBalanceCard({
       <div className={`${LEGEND_ROW} mt-2.5`}>
         {measure === "flows" && (
           <>
-            <span className="inline-flex items-center gap-1.5"><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>Exports</span>
             <span className="inline-flex items-center gap-1.5"><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink-faint)" strokeWidth="2" strokeDasharray="4 3" /></svg>Imports</span>
+            <span className="inline-flex items-center gap-1.5"><svg width="22" height="8" aria-hidden><line x1="0" x2="22" y1="4" y2="4" stroke="var(--ink)" strokeWidth="2" /></svg>Exports</span>
           </>
         )}
         <span className="inline-flex items-center gap-1.5"><Swatch color="color-mix(in srgb, var(--ink) 9%, transparent)" border />Recession (NBER)</span>

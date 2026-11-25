@@ -40,7 +40,7 @@ const DataTable = memo(function DataTable({ rows, year }: { rows: PartnerChartRo
   return (
     <details className="mt-3">
       <summary className={TABLE_TOGGLE}>View as table</summary>
-      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">Partner, imports, exports, balance and calculated duty rate for {year}, for screen readers and copying.</p>
+      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">Partner, imports, exports, balance and calculated tariff rate for {year}, for screen readers and copying.</p>
       <div className="mt-2 max-h-72 overflow-auto">
         <table className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
           <caption className="sr-only">{`U.S. goods trade with each partner, ${year}`}</caption>
@@ -50,7 +50,7 @@ const DataTable = memo(function DataTable({ rows, year }: { rows: PartnerChartRo
               <th scope="col" className="px-2 py-1.5">Imports</th>
               <th scope="col" className="px-2 py-1.5">Exports</th>
               <th scope="col" className="px-2 py-1.5">Balance</th>
-              <th scope="col" className="px-2 py-1.5">Duty rate</th>
+              <th scope="col" className="px-2 py-1.5">Tariff rate</th>
             </tr>
           </thead>
           <tbody>
