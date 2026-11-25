@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultYearRange } from "@/lib/year-range";
 import { SourceLink } from "@/components/SourceLink";
 import { useMemo, useState } from "react";
 import { EconomyStateProvider, activeDay, useEconomyActions, useEconomyValues } from "./EconomyState";
@@ -30,8 +31,9 @@ function Swatch({ color, border }: { color: string; border?: boolean }) {
 }
 
 export function EconomyPageClient(props: PageProps) {
+  const { span } = props.payload;
   return (
-    <EconomyStateProvider>
+    <EconomyStateProvider initialRange={defaultYearRange(dateOfDay(0).year, dateOfDay(span - 1).year)}>
       <EconomyPage {...props} />
     </EconomyStateProvider>
   );
@@ -97,10 +99,11 @@ function EconomyPage({
   const firstYear = dateOfDay(0).year;
   const lastYear = dateOfDay(data.span - 1).year;
   const range = useMemo<[number, number]>(() => values.range ?? [firstYear, lastYear], [values.range, firstYear, lastYear]);
+  const defaultRange = useMemo(() => defaultYearRange(firstYear, lastYear), [firstYear, lastYear]);
   const view = useMemo<[number, number]>(() => [dayOf(range[0], 0, 1), Math.min(data.span, dayOf(range[1] + 1, 0, 1))], [range, data.span]);
   // Year window, deficit/debt unit and the Congress toggle live in the URL so a view can be linked (lib/use-url-state.ts).
   useUrlState(
-    { years: yearsParam.format(values.range, firstYear, lastYear), unit: UNIT_PARAM.format(unit), cong: flagParam.format(showCong) },
+    { years: yearsParam.format(range, defaultRange), unit: UNIT_PARAM.format(unit), cong: flagParam.format(showCong) },
     (q) => {
       const r = yearsParam.parse(q.get("years"), firstYear, lastYear);
       if (r) setRange(r);

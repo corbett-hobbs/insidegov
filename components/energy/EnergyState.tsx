@@ -28,10 +28,10 @@ export interface EnergyActions {
 const ValuesCtx = createContext<EnergyValues | null>(null);
 const ActionsCtx = createContext<EnergyActions | null>(null);
 
-export function EnergyStateProvider({ children }: { children: ReactNode }) {
+export function EnergyStateProvider({ initialRange, children }: { initialRange: YearRange; children: ReactNode }) {
   const [hover, setHover] = useState<number | null>(null);
   const [pin, setPin] = useState<number | null>(null);
-  const [range, setRangeState] = useState<YearRange | null>(null);
+  const [range, setRangeState] = useState<YearRange | null>(initialRange);
   const pending = useRef<number | null>(null);
   const raf = useRef(0);
 

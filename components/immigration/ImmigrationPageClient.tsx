@@ -3,6 +3,7 @@
 import { ImmigrationWindowProvider } from "./TermWindowContext";
 import { useMemo, useState } from "react";
 import { intParam, yearsParam } from "@/lib/url-state";
+import { defaultYearRange } from "@/lib/year-range";
 import { useUrlState } from "@/lib/use-url-state";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionPills, SectionStrip, SectionToc, useSectionScroll, type SectionNavItem } from "@/components/SectionNav";
@@ -45,13 +46,14 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
   // The slider spans every year the page has data for: from the refugee series' first year (FY1980; green cards begin in FY1977 and
   // ICE in FY2003) to the newest year all three sections share. Each section clamps to its own years below.
   const bounds: [number, number] = [refugees.years[0].fy, Math.min(lpr.lastFy, data.lastFy)];
-  const [range, setRangeRaw] = useState<[number, number]>(bounds);
+  const defaultRange = defaultYearRange(bounds[0], bounds[1]);
+  const [range, setRangeRaw] = useState<[number, number]>(defaultRange);
   // The newest year in the window that has a country table, else the window's last year.
   const pickYear = (r: readonly [number, number]) => {
     for (let f = r[1]; f >= r[0]; f--) if (covered.has(f)) return f;
     return r[1];
   };
-  const [fy, setFyRaw] = useState(() => pickYear(bounds));
+  const [fy, setFyRaw] = useState(() => pickYear(defaultRange));
   const setFy = (f: number) => setFyRaw(Math.min(range[1], Math.max(range[0], f)));
   const setRange = (r: [number, number]) => {
     setRangeRaw(r);
@@ -59,7 +61,7 @@ export function ImmigrationPageClient({ data, countries, refugees, lpr, encounte
   };
   // The window and the selected year live in the URL (`?years=2009-2016&fy=2012`) so a view can be linked (lib/use-url-state.ts).
   useUrlState(
-    { years: yearsParam.format(range, bounds[0], bounds[1]), fy: intParam.format(fy, pickYear(range)) },
+    { years: yearsParam.format(range, defaultRange), fy: intParam.format(fy, pickYear(range)) },
     (q) => {
       const r = yearsParam.parse(q.get("years"), bounds[0], bounds[1]) ?? range;
       const f = intParam.parse(q.get("fy"), r[0], r[1]);

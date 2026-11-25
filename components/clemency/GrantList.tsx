@@ -44,6 +44,10 @@ function Row({ g }: { g: ClemencyGrant }) {
   );
 }
 
+/**
+ * Every grant, newest first. Browsing follows the page's year window; a typed search looks through every year, so a name from before
+ * the window (the page opens on 2017 on) is still found. The picked bar's year, Type and Offense narrow both.
+ */
 export function GrantList({ query, range, fy, types, offenses, onClearFy }: { query: string; range: readonly [number, number]; fy: number | null; types: Picked<ClemencyType>; offenses: Picked<OffensePick>; onClearFy: () => void }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [near, setNear] = useState(false);
@@ -60,7 +64,8 @@ export function GrantList({ query, range, fy, types, offenses, onClearFy }: { qu
   const shown = useMemo(() => {
     if (!rows) return [];
     return rows.filter((g, i) => {
-      if (g.fy < range[0] || g.fy > range[1] || (fy != null && g.fy !== fy) || !isPicked(types, g.type)) return false;
+      if (words.length === 0 && (g.fy < range[0] || g.fy > range[1])) return false;
+      if ((fy != null && g.fy !== fy) || !isPicked(types, g.type)) return false;
       if (offenses && !isPicked(offenses, (g.category ?? "none") as OffenseCategory | "none")) return false;
       return words.every((w) => searchable[i]!.includes(w));
     });
@@ -77,7 +82,7 @@ export function GrantList({ query, range, fy, types, offenses, onClearFy }: { qu
     <div ref={hostRef} className="mt-2 overflow-hidden rounded-lg border border-line">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-line px-5 py-3">
         <h3 className="m-0 font-serif text-[1.05rem] font-medium">
-          {rows ? (groupOnly ? "Group grants" : `${shown.length.toLocaleString("en-US")} ${shown.length === 1 ? "row" : "rows"}${fy != null ? `, fiscal ${fy}` : ""}`) : "Loading the list…"}
+          {rows ? (groupOnly ? "Group grants" : `${shown.length.toLocaleString("en-US")} ${shown.length === 1 ? "row" : "rows"}${fy != null ? `, fiscal ${fy}` : words.length > 0 ? ", all years" : ""}`) : "Loading the list…"}
         </h3>
         {fy != null && <button type="button" onClick={onClearFy} className="text-[0.78rem] font-medium text-accent hover:underline">Show all years</button>}
       </div>

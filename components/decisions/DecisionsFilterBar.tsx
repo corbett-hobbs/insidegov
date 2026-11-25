@@ -5,11 +5,10 @@ import { PartyFilter } from "@/components/charts/PartyFilter";
 import { BAND_COLORS, BAND_KEYS, BAND_SHORT, type DecisionDirection } from "@/lib/decisions-types";
 import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand } from "@/components/charts/TermBand";
-import { fmtInt, presidentBandTerms, sumBucket, windowSum } from "@/lib/decisions-derive";
-import { sameRange } from "@/lib/year-range";
+import { fmtInt, modernTermRange, presidentBandTerms, sumBucket, windowSum } from "@/lib/decisions-derive";
 import { useDecisionsActions, useDecisionsValues } from "./DecisionsState";
 import { areaFill } from "./shared";
 
@@ -31,7 +30,6 @@ export function DecisionsFilterBar() {
   const terms = useMemo(() => presidentBandTerms(data), [data]);
   const lo = data.terms[0];
   const hi = data.terms[data.terms.length - 1];
-  const full = sameRange(range, [lo, hi]);
   // Every topic, most cases first (in the years shown, landmark filter included), so each row says what ticking it adds.
   const options = useMemo<MultiOption<number>[]>(
     () =>
@@ -100,7 +98,7 @@ export function DecisionsFilterBar() {
             format={String}
             ariaLabel="Years shown"
             below={<TermBand terms={terms} min={lo} max={hi} value={range} onChange={(r) => setRange(r)} />}
-            action={<RangeReset show={!full} onReset={() => setRange([lo, hi])} className="mt-0.5 font-sans leading-none" />}
+            action={<YearsToggle value={range} full={[lo, hi]} recent={modernTermRange(data)} onChange={setRange} />}
             className="min-w-0 lg:flex-[1_1_0%] xl:flex-[1.2_1_0%]"
           />
         </div>

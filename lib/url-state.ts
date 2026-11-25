@@ -5,9 +5,9 @@
  * link falls back to the page's default instead of breaking it. Every `format`
  * returns `null` for the default, so a page at rest keeps a clean URL.
  */
-import type { YearRange } from "./year-range";
+import { sameRange, type YearRange } from "./year-range";
 
-/** `?years=2001-2020` (or `2008` for a one-year window), clamped to `[lo, hi]`; the full span formats as null. */
+/** `?years=2001-2020` (or `2008` for a one-year window), clamped to `[lo, hi]`; the page's default window formats as null, so any other, the full span included, is written out. */
 export const yearsParam = {
   parse(raw: string | null, lo: number, hi: number): YearRange | undefined {
     const m = raw?.match(/^(\d{4})(?:-(\d{4}))?$/);
@@ -19,8 +19,8 @@ export const yearsParam = {
     b = Math.min(hi, b);
     return a <= b ? [a, b] : undefined;
   },
-  format(r: readonly [number, number] | null, lo: number, hi: number): string | null {
-    if (!r || (r[0] <= lo && r[1] >= hi)) return null;
+  format(r: readonly [number, number], fallback: readonly [number, number]): string | null {
+    if (sameRange(r, fallback)) return null;
     return r[0] === r[1] ? String(r[0]) : `${r[0]}-${r[1]}`;
   },
 };

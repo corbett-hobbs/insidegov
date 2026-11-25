@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, type ReactNode } from "react";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
+import { defaultYearRange } from "@/lib/year-range";
 
 /**
  * The pinned filter bar for /presidency/immigration, directly under the site navigation: one two-handle fiscal-year
@@ -51,7 +52,6 @@ export function ImmigrationFilterBar({
       return [{ id: t.termId, label, last: t.last, initials: t.president.split(" ").map((w) => w[0]).join(""), party: t.party, from: Math.min(...fys), to: Math.max(...fys) }];
     });
   }, [terms, years]);
-  const full = range[0] === bounds[0] && range[1] === bounds[1];
   return (
     <div className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur sm:shadow-none">
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
@@ -63,7 +63,7 @@ export function ImmigrationFilterBar({
           format={(v) => `FY${String(v).slice(2)}`}
           ariaLabel="Fiscal years shown"
           below={<TermBand terms={bandTerms} min={bounds[0]} max={bounds[1]} value={range} onChange={(r) => onRange(r)} />}
-          action={<RangeReset show={!full} onReset={() => onRange([bounds[0], bounds[1]])} className="mt-0.5 font-sans leading-none" />}
+          action={<YearsToggle value={range} full={bounds} recent={defaultYearRange(bounds[0], bounds[1])} onChange={onRange} />}
           className="min-w-0"
         />
         {children}

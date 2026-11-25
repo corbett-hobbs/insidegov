@@ -31,10 +31,10 @@ export interface EconomyActions {
 const ValuesCtx = createContext<EconomyValues | null>(null);
 const ActionsCtx = createContext<EconomyActions | null>(null);
 
-export function EconomyStateProvider({ children }: { children: ReactNode }) {
+export function EconomyStateProvider({ initialRange, children }: { initialRange: YearRange; children: ReactNode }) {
   const [hover, setHover] = useState<number | null>(null);
   const [pin, setPin] = useState<number | null>(null);
-  const [range, setRangeState] = useState<YearRange | null>(null);
+  const [range, setRangeState] = useState<YearRange | null>(initialRange);
   const pending = useRef<number | null>(null);
   const raf = useRef(0);
 
