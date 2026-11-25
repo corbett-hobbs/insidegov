@@ -2,6 +2,86 @@
   "asOf": "2026-11-25",
   "stories": [
     {
+      "id": "gasoline-2026-11-25",
+      "date": "2026-11-25",
+      "topic": "Gas prices",
+      "chartId": "chart-gas",
+      "headlines": [
+        {
+          "outletId": "apnews",
+          "outlet": "Associated Press",
+          "lean": "Lean Left",
+          "title": "Inflation remains uncomfortably high despite a retreat in gas prices as challenges mount for the Fed",
+          "url": "https://apnews.com/article/consumer-spending-prices-inflation-tariffs-31fab1e32dda1ad3a29c192f620d5733?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
+        },
+        {
+          "outletId": "pbsnewshour",
+          "outlet": "PBS NewsHour",
+          "lean": "Lean Left",
+          "title": "Inflation remains stubbornly high, despite a drop in gas prices",
+          "url": "https://www.pbs.org/newshour/economy/inflation-remains-stubbornly-high-despite-a-drop-in-gas-prices"
+        }
+      ]
+    },
+    {
+      "id": "gdp-2026-11-25",
+      "date": "2026-11-25",
+      "topic": "Economic growth",
+      "chartId": "chart-gdp",
+      "headlines": [
+        {
+          "outletId": "bea",
+          "outlet": "Bureau of Economic Analysis",
+          "lean": "Data",
+          "title": "GDP, (Second Estimate) and Corporate Profits, 3rd Quarter 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-3rd-quarter-2026"
+        },
+        {
+          "outletId": "axios",
+          "outlet": "Axios",
+          "lean": "Lean Left",
+          "title": "U.S. economy grew at rapid 4.3% pace in third quarter",
+          "url": "https://www.axios.com/2026/11/25/economy-gdp-inflation-ai"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "US economy grew at a solid pace in third quarter, revised data shows",
+          "url": "https://www.foxbusiness.com/economy/us-economy-q3-2026-second-estimate"
+        }
+      ]
+    },
+    {
+      "id": "inflation-2026-11-25",
+      "date": "2026-11-25",
+      "topic": "Inflation",
+      "chartId": "chart-infl",
+      "headlines": [
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Fed’s preferred inflation gauge accelerated to 3.8% in October, raising the 2027 stakes for the central bank",
+          "url": "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Fed's preferred inflation metric rose in October as final 2026 rate meeting nears",
+          "url": "https://thehill.com/business/6239346-october-pce-inflation-data/"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Fed's favored inflation gauge rose in October ahead of expected Fed rate hike next month",
+          "url": "https://www.foxbusiness.com/economy/october-2026-pce-inflation"
+        }
+      ]
+    },
+    {
       "id": "markets-2026-11-23",
       "date": "2026-11-23",
       "topic": "Stock market",
@@ -69,79 +149,6 @@
           "lean": "Right",
           "title": "Democrats could enter congressional majority in a government shutdown",
           "url": "https://www.foxnews.com/politics/democrats-enter-congressional-majority-government-shutdown"
-        }
-      ]
-    },
-    {
-      "id": "debt-2026-11-18",
-      "date": "2026-11-18",
-      "topic": "National debt",
-      "chartId": "chart-debt",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "The U.S. Could Hit Its Debt Limit by February",
-          "url": "https://www.nytimes.com/2026/11/18/business/economy/us-debt-limit.html"
-        },
-        {
-          "outletId": "politico",
-          "outlet": "Politico",
-          "lean": "Lean Left",
-          "title": "US to reach $41T debt limit in February or March, forecasters predict",
-          "url": "https://www.politico.com/live-updates/2026/11/18/congress/debt-limit-deadline-01172032"
-        }
-      ]
-    },
-    {
-      "id": "fed_rates-2026-11-18",
-      "date": "2026-11-18",
-      "topic": "Federal Reserve and interest rates",
-      "chartId": "chart-ff",
-      "headlines": [
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "Fed Minutes Show Almost All Officials Expect More Rate Hikes",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-18/fed-minutes-show-almost-all-officials-expect-more-rate-hikes"
-        },
-        {
-          "outletId": "nypost",
-          "outlet": "New York Post",
-          "lean": "Right",
-          "title": "Fed officials expect to hike rates in December after last meeting marked by dissension: minutes",
-          "url": "https://nypost.com/2026/11/18/business/fed-officials-expect-december-rate-hike-after-last-meeting-marked-by-dissension-minutes/"
-        },
-        {
-          "outletId": "breitbart",
-          "outlet": "Breitbart",
-          "lean": "Right",
-          "title": "Fed Minutes Show Officials Raised Possibility of Bigger December Hike",
-          "url": "https://www.breitbart.com/economy/2026/11/18/fed-minutes-show-officials-raised-possibility-of-bigger-december-hike/"
-        }
-      ]
-    },
-    {
-      "id": "inflation-2026-11-18",
-      "date": "2026-11-18",
-      "topic": "Inflation",
-      "chartId": "chart-infl",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Fed officials expect more rate hikes, worry about AI impact on inflation, minutes show",
-          "url": "https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html"
-        },
-        {
-          "outletId": "abcnews",
-          "outlet": "ABC News",
-          "lean": "Lean Left",
-          "title": "Fed minutes: Higher interest rates needed in December as inflation worries mount",
-          "url": "https://abcnews.com/US/wireStory/fed-minutes-higher-interest-rates-needed-december-inflation-138258781"
         }
       ]
     }

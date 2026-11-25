@@ -31,6 +31,35 @@
       ]
     },
     {
+      "id": "tariff.CHN-2026-11-24",
+      "date": "2026-11-24",
+      "topic": "Tariffs involving China",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "U.S. Ready To Slap Tariffs On China, EU And Others Over Subsidized Production, Sources Say",
+          "url": "https://www.huffpost.com/entry/trump-tariffs-subsidized-production_n_6b06b4b1e4b01a3571b9445d"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "US Readies Tariff Hike on China, EU Goods as Soon as Tuesday",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-24/us-readies-tariff-hike-on-china-eu-goods-as-soon-as-tuesday"
+        },
+        {
+          "outletId": "foxbusiness",
+          "outlet": "Fox Business",
+          "lean": "Lean Right",
+          "title": "Trump admin to raise tariffs on China, EU, other trading partners",
+          "url": "https://www.foxbusiness.com/fox-news-global-economy/trump-admin-raise-tariffs-china-eu-other-trading-partners"
+        }
+      ]
+    },
+    {
       "id": "trade_deals-2026-11-23",
       "date": "2026-11-23",
       "topic": "Trade deals and talks",
@@ -43,40 +72,11 @@
           "url": "https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html"
         },
         {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "US to blacklist Asian AI firm Megaspeed after Nvidia scandal",
-          "url": "https://www.bbc.co.uk/news/articles/cv98xpg5dg5zo?at_medium=RSS&at_campaign=rss"
-        },
-        {
           "outletId": "foxbusiness",
           "outlet": "Fox Business",
           "lean": "Lean Right",
           "title": "Trump admin adds Megaspeed to Commerce Department trade blacklist after Nvidia scandal",
           "url": "https://www.foxbusiness.com/politics/trump-admin-adds-megaspeed-commerce-department-trade-blacklist-after-nvidia-scandal"
-        }
-      ]
-    },
-    {
-      "id": "tariff.THA-2026-11-17",
-      "date": "2026-11-17",
-      "topic": "Tariffs involving Thailand",
-      "chartId": "tariffs",
-      "headlines": [
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Trump says Thailand will eliminate tariffs on US exports under new deal",
-          "url": "https://thehill.com/homenews/administration/6224521-trump-thailand-trade-deal/"
-        },
-        {
-          "outletId": "breitbart",
-          "outlet": "Breitbart",
-          "lean": "Right",
-          "title": "Trump Meets Quad Leaders, Signs Trade Deal with Thailand on Sidelines of ASEAN Summit",
-          "url": "https://www.breitbart.com/asia/2026/11/17/trump-meets-quad-leaders-signs-trade-deal-with-thailand-on-sidelines-of-asean-summit/"
         }
       ]
     },
