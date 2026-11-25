@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-11-18T21:21:26.186Z","series":{"id":"GASDESW","title":"US Diesel Sales Price","units":"Dollars per Gallon","frequency":"Weekly, Ending Monday","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1994-03-21","observation_end":"2026-11-16","last_updated":"2026-11-17 09:03:28-06","notes":"Weighted average based on sampling of approximately 350 retail outlets, as reported for the week. See (http://www.eia.doe.gov/oil_gas/petroleum/data_publications/wrgp/mogas_home_page.html) for further definitions."}},
+  "head": {"fetched_at":"2026-11-25T22:25:31.661Z","series":{"id":"GASDESW","title":"US Diesel Sales Price","units":"Dollars per Gallon","frequency":"Weekly, Ending Monday","seasonal_adjustment":"Not Seasonally Adjusted","observation_start":"1994-03-21","observation_end":"2026-11-23","last_updated":"2026-11-24 09:03:33-06","notes":"Weighted average based on sampling of approximately 350 retail outlets, as reported for the week. See (http://www.eia.doe.gov/oil_gas/petroleum/data_publications/wrgp/mogas_home_page.html) for further definitions."}},
   "observations": [
     ["1994-03-21","1.106"],
     ["1994-03-28","1.107"],
@@ -1705,6 +1705,7 @@
     ["2026-10-26","6.352"],
     ["2026-11-02","6.292"],
     ["2026-11-09","6.127"],
-    ["2026-11-16","5.937"]
+    ["2026-11-16","5.937"],
+    ["2026-11-23","5.695"]
   ]
 }
