@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-24",
+  "asOf": "2026-11-25",
   "stories": [
     {
       "id": "new_laws-2026-11-19",
@@ -7,13 +7,6 @@
       "topic": "Bills signed into law",
       "chartId": "how-many-laws-does-congress-pass",
       "headlines": [
-        {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "US Senate approves bill to speed up permitting reviews for energy projects and datacenters",
-          "url": "https://www.theguardian.com/us-news/2026/nov/20/senate-energy-datacenters-review-bill"
-        },
         {
           "outletId": "nytimes",
           "outlet": "New York Times",
@@ -27,6 +20,13 @@
           "lean": "Lean Left",
           "title": "Senate passes Trump-backed permitting bill",
           "url": "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill"
+        },
+        {
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Senate passes BAAJA permitting reform bill backed by AI, energy sectors",
+          "url": "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html"
         }
       ]
     }
