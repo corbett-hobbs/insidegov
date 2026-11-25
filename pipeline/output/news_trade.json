@@ -1,6 +1,35 @@
 {
-  "asOf": "2026-11-24",
+  "asOf": "2026-11-25",
   "stories": [
+    {
+      "id": "tariff.all-2026-11-24",
+      "date": "2026-11-24",
+      "topic": "Tariffs",
+      "chartId": "tariffs",
+      "headlines": [
+        {
+          "outletId": "bbc",
+          "outlet": "BBC News",
+          "lean": "Center",
+          "title": "US preparing to unveil plan for new tariffs on global trading partners",
+          "url": "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+        },
+        {
+          "outletId": "bloomberg",
+          "outlet": "Bloomberg",
+          "lean": "Center",
+          "title": "New Trump Tariffs Won’t Top Trade Deal Levels, Will Be Targeted",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-24/new-trump-tariffs-won-t-top-trade-deal-levels-will-be-targeted"
+        },
+        {
+          "outletId": "nypost",
+          "outlet": "New York Post",
+          "lean": "Right",
+          "title": "Trump eyes tariff blitz on China, EU, Mexico and Japan",
+          "url": "https://nypost.com/2026/11/24/business/trump-eyes-tariff-blitz-on-china-eu-mexico-and-japan/"
+        }
+      ]
+    },
     {
       "id": "trade_deals-2026-11-23",
       "date": "2026-11-23",
@@ -70,28 +99,6 @@
           "lean": "Lean Right",
           "title": "Trump signs trade pact with Thai leader",
           "url": "https://www.washingtontimes.com/news/2026/nov/17/donald-trump-signs-trade-pact-thai-leader/"
-        }
-      ]
-    },
-    {
-      "id": "tariff.CAN-2026-11-14",
-      "date": "2026-11-14",
-      "topic": "Tariffs involving Canada",
-      "chartId": "tariffs",
-      "headlines": [
-        {
-          "outletId": "abcnews",
-          "outlet": "ABC News",
-          "lean": "Lean Left",
-          "title": "Canada’s Carney reports progress in trade talks with Trump as he expands ties with Asia",
-          "url": "https://abcnews.com/US/wireStory/canadas-carney-reports-progress-trade-talks-trump-expands-138136808"
-        },
-        {
-          "outletId": "thehill",
-          "outlet": "The Hill",
-          "lean": "Center",
-          "title": "Carney says he's 'making progress' with Trump on possible US-Canada trade deal",
-          "url": "https://thehill.com/policy/international/6221010-carney-trump-canada-us-trade-progress/"
         }
       ]
     }

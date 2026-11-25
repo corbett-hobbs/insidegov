@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-24",
+  "asOf": "2026-11-25",
   "stories": [
     {
       "id": "markets-2026-11-23",
@@ -48,6 +48,27 @@
           "lean": "Right",
           "title": "AAA: Gas Prices Continue Dropping, Demand Increasing",
           "url": "https://www.breitbart.com/economy/2026/11/20/aaa-gas-prices-continue-dropping-demand-increasing/"
+        }
+      ]
+    },
+    {
+      "id": "budget_taxes-2026-11-19",
+      "date": "2026-11-19",
+      "topic": "Federal budget and taxes",
+      "headlines": [
+        {
+          "outletId": "axios",
+          "outlet": "Axios",
+          "lean": "Lean Left",
+          "title": "House Democrats recoil at forcing December shutdown to cut Iran war funding",
+          "url": "https://www.axios.com/2026/11/19/government-shutdown-funding-iran-democrat"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Democrats could enter congressional majority in a government shutdown",
+          "url": "https://www.foxnews.com/politics/democrats-enter-congressional-majority-government-shutdown"
         }
       ]
     },
@@ -121,34 +142,6 @@
           "lean": "Lean Left",
           "title": "Fed minutes: Higher interest rates needed in December as inflation worries mount",
           "url": "https://abcnews.com/US/wireStory/fed-minutes-higher-interest-rates-needed-december-inflation-138258781"
-        }
-      ]
-    },
-    {
-      "id": "markets-2026-11-18",
-      "date": "2026-11-18",
-      "topic": "Stock market",
-      "headlines": [
-        {
-          "outletId": "pbsnewshour",
-          "outlet": "PBS NewsHour",
-          "lean": "Lean Left",
-          "title": "Anthropic prices its IPO at $83 per share, valuing the AI giant at $1.5 trillion",
-          "url": "https://www.pbs.org/newshour/economy/anthropic-prices-its-ipo-at-83-per-share-valuing-the-ai-giant-at-1-5-trillion"
-        },
-        {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "Anthropic raises $81bn in record-breaking stock market debut",
-          "url": "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Anthropic prices IPO at $83 per share ahead of stock market debut",
-          "url": "https://www.washingtonexaminer.com/policy/finance-and-economy/4808336/anthropic-ipo-83-share-stock-market-debut/"
         }
       ]
     }

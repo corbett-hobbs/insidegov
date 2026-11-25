@@ -1,6 +1,28 @@
 {
-  "asOf": "2026-11-24",
+  "asOf": "2026-11-25",
   "stories": [
+    {
+      "id": "venezuela_oil-2026-11-23",
+      "date": "2026-11-23",
+      "topic": "Venezuelan oil",
+      "chartId": "oil",
+      "headlines": [
+        {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "JD Vance's Ties To Prized Venezuelan Oil Contract Under Investigation By Senate Panel",
+          "url": "https://www.huffpost.com/entry/jd-vance-vitol-venezuela_n_6b04a59de4b0da866ee29d19"
+        },
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Democrat opens investigation into Venezuela oil deal with reported tie to Vance",
+          "url": "https://thehill.com/homenews/senate/6241094-hassan-investigates-vance-vitol/"
+        }
+      ]
+    },
     {
       "id": "electricity-2026-11-19",
       "date": "2026-11-19",
@@ -52,23 +74,23 @@
       ]
     },
     {
-      "id": "oil_markets-2026-11-10",
-      "date": "2026-11-10",
+      "id": "oil_markets-2026-11-12",
+      "date": "2026-11-12",
       "topic": "Oil markets",
       "headlines": [
         {
-          "outletId": "guardian",
-          "outlet": "The Guardian",
-          "lean": "Left",
-          "title": "Oil prices fall to lowest since August as Trump says Iran war is ‘effectively over’",
-          "url": "https://www.theguardian.com/business/2026/nov/10/oil-prices-fall-donald-trump-iran-war-ftse-100-markets"
+          "outletId": "cnbc",
+          "outlet": "CNBC",
+          "lean": "Lean Left",
+          "title": "Oil prices rise after Trump says no Iran deal needed: 'We've got their Strait'",
+          "url": "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html"
         },
         {
           "outletId": "wsj",
           "outlet": "Wall Street Journal",
           "lean": "Center",
-          "title": "Oil Prices Extend Decline After Trump Signals Restraint on Iran",
-          "url": "https://www.wsj.com/business/energy-oil/oil-prices-extend-decline-after-trump-signals-restraint-on-iran-0441437f?mod=pls_whats_news_us_business_f"
+          "title": "Oil Prices Rebound as Trump Questions Need for Iran Deal",
+          "url": "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f"
         }
       ]
     }
