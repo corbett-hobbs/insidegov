@@ -62,10 +62,10 @@ const DataTable = memo(function DataTable({ rows, windows }: { rows: ScatterRow[
   return (
     <details className="mt-3">
       <summary className={TABLE_TOGGLE}>View as table</summary>
-      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">Country, change in duty rate, change in imports, and months covered, in a table. Countries missing months in either window are listed but not plotted.</p>
+      <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">Country, change in tariff rate, change in imports, and months covered, in a table. Countries missing months in either window are listed but not plotted.</p>
       <div className="mt-2 max-h-72 overflow-auto">
         <table className="w-full border-collapse text-left text-[0.75rem] tabular-nums">
-          <caption className="sr-only">{`Change in calculated duty rate and imports by country, ${windowText(windows.baseline)} to ${windowText(windows.latest)}`}</caption>
+          <caption className="sr-only">{`Change in calculated tariff rate and imports by country, ${windowText(windows.baseline)} to ${windowText(windows.latest)}`}</caption>
           <thead className="sticky top-0 bg-surface-raised">
             <tr className="font-mono text-[0.65rem] uppercase tracking-[0.05em] text-ink-muted">
               <th scope="col" className="px-2 py-1.5">Country</th>
@@ -218,7 +218,7 @@ export function TradeScatterCard({
   const drawOrder = useMemo(() => [...dots].sort((a, b) => Number(a.row.code === country) - Number(b.row.code === country)), [dots, country]);
   const xTick = (v: number) => (v === 0 ? "0 pp" : `${v > 0 ? "+" : "−"}${Math.abs(v)} pp`);
   const yTick = (v: number) => (v === 0 ? "0" : fmtPct(v));
-  const aria = `Scatter plot of ${plotted} countries. Across: change in calculated duties as a share of imports, in percentage points, from ${windowText(windows.baseline)} to ${windowText(windows.latest)}. Up: change in imports over the same months, on a symmetric log scale capped at plus ${Y_CAP_PCT} percent. ${higher} of ${plotted} saw a higher duty rate. The same data is in the table below.`;
+  const aria = `Scatter plot of ${plotted} countries. Across: change in calculated duties as a share of imports, in percentage points, from ${windowText(windows.baseline)} to ${windowText(windows.latest)}. Up: change in imports over the same months, on a symmetric log scale capped at plus ${Y_CAP_PCT} percent. ${higher} of ${plotted} saw a higher tariff rate. The same data is in the table below.`;
 
   return (
     <section id="did-tariffs-shift-trade" className="min-w-0 scroll-mt-32 rounded-[10px] border border-line bg-surface p-5 sm:p-6">
@@ -270,7 +270,7 @@ export function TradeScatterCard({
       <div className="mt-2">{context.panel}</div>
 
       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.78rem] text-ink-muted">
-        <span><b className="text-ink">{plotted ? `${Math.round((higher / plotted) * 100)}%` : "—"}</b> higher duty rate</span>
+        <span><b className="text-ink">{plotted ? `${Math.round((higher / plotted) * 100)}%` : "—"}</b> higher tariff rate</span>
         <span><b className="text-ink">{sortedMedian === null ? "—" : fmtPp(sortedMedian)}</b> median rate change</span>
         <span><b className="text-ink">{plotted}</b> plotted</span>
       </div>
@@ -285,7 +285,7 @@ export function TradeScatterCard({
               <Axis scale={x} orientation="bottom" ticks={xTicksShown} offset={ph} gridExtent={ph} zeroAt={0} format={xTick} />
               <Axis scale={y} orientation="left" ticks={yTicksShown} offset={0} gridExtent={pw} zeroAt={0} format={yTick} />
               <text className="axis-caption" x={pw / 2} y={ph + 44} textAnchor="middle">
-                {compact ? "Change in duty rate" : "Change in duties as a share of the country’s imports"}
+                {compact ? "Change in tariff rate" : "Change in duties as a share of the country’s imports"}
               </text>
               <text className="axis-caption" transform={`translate(${-(margin.left - 14)},${ph / 2}) rotate(-90)`} textAnchor="middle">
                 {compact ? "Change in imports" : "Change in U.S. imports from the country"}
@@ -353,7 +353,7 @@ export function TradeScatterCard({
           {({ row, d }) => (
             <div className="flex min-w-[10rem] flex-col gap-0.5 text-[0.78rem]">
               <div className="font-medium">{row.name}</div>
-              <div>Duty rate <span className="font-mono">{pctRate(row.baseRate)} → {pctRate(row.latestRate)}</span></div>
+              <div>Tariff rate <span className="font-mono">{pctRate(row.baseRate)} → {pctRate(row.latestRate)}</span></div>
               <div>Change <span className="font-mono">{fmtPp(row.rateChangePp as number)}</span></div>
               <div>Imports <span className="font-mono">{fmtPct((row.importsChange as number) * 100)}</span>{d.pinned ? <span className="opacity-75"> (pinned to the edge)</span> : null}</div>
               <div className="opacity-75">{fmtMoney(row.baseImports / 1e6)} → {fmtMoney(row.latestImports / 1e6)} imports for consumption</div>
@@ -371,7 +371,7 @@ export function TradeScatterCard({
           {({ row, d }) => (
             <div className="flex min-w-[10rem] flex-col gap-0.5 text-[0.78rem]">
               <div className="font-medium">{row.name}</div>
-              <div>Duty rate <span className="font-mono">{pctRate(row.baseRate)} → {pctRate(row.latestRate)}</span></div>
+              <div>Tariff rate <span className="font-mono">{pctRate(row.baseRate)} → {pctRate(row.latestRate)}</span></div>
               <div>Change <span className="font-mono">{fmtPp(row.rateChangePp as number)}</span></div>
               <div>Imports <span className="font-mono">{fmtPct((row.importsChange as number) * 100)}</span>{d.pinned ? <span className="opacity-75"> (pinned to the edge)</span> : null}</div>
               <div className="opacity-75">{fmtMoney(row.baseImports / 1e6)} → {fmtMoney(row.latestImports / 1e6)} imports for consumption</div>

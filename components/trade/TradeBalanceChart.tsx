@@ -95,7 +95,7 @@ const StaticLayer = memo(function StaticLayer({ series, measure, scale, era, sho
   );
 });
 
-/** Peak and low of the plotted series inside the window (balance: the best and worst month; exports and imports: the peak of each). Fades while a date is hovered or pinned. */
+/** Peak and low of the plotted series inside the window (balance: the best and worst month; imports and exports: the peak of each). Fades while a date is hovered or pinned. */
 function Marks({ W, series, measure, scale, view, showCong }: { W: number; series: FlowSeries; measure: Measure; scale: Scale; view: readonly [number, number]; showCong: boolean }) {
   const v = useTradeValues();
   const g = geometry(W, view, scale, showCong);
@@ -212,8 +212,8 @@ export function TradeBalanceChart(props: Props) {
                 <div className="font-mono text-[0.95rem] font-medium">{r.balance === null ? "—" : fmtMoney(r.balance, { signed: true })}</div>
               ) : (
                 <>
-                  <div>Exports <span className="font-mono">{r.exports === null ? "—" : fmtMoney(r.exports)}</span></div>
                   <div>Imports <span className="font-mono">{r.imports === null ? "—" : fmtMoney(r.imports)}</span></div>
+                  <div>Exports <span className="font-mono">{r.exports === null ? "—" : fmtMoney(r.exports)}</span></div>
                 </>
               )}
               {t && <div className="opacity-75">{termLabel(t)}</div>}

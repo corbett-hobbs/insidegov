@@ -34,8 +34,8 @@ import {
 import { TRADE_TAKEAWAYS } from "./takeaways";
 
 const FLOWS = [
-  { value: "exports", label: "Exports" },
   { value: "imports", label: "Imports" },
+  { value: "exports", label: "Exports" },
 ] as const;
 
 /** One solid colour for every bar in both lists (rule 8): each list is a single series, and the toggle says which flow. */
@@ -78,14 +78,14 @@ const DataTable = memo(function DataTable({ flow, period, sections, where }: { f
     <details className="mt-3">
       <summary className={TABLE_TOGGLE}>View as table</summary>
       <p className="m-0 mt-1.5 text-[0.75rem] text-ink-muted">
-        Every chapter, then every use, for {where}, {period}, for screen readers and copying.{imports ? " Duty rate: calculated duties over imports for consumption." : ""}
+        Every chapter, then every use, for {where}, {period}, for screen readers and copying.{imports ? " Tariff rate: calculated duties over imports for consumption." : ""}
       </p>
       <div className="mt-2 max-h-72 overflow-auto">
         {sections.map((t, i) => (
           <div key={t.caption}>
             <table className={`${i > 0 ? "mt-4 " : ""}w-full border-collapse text-left text-[0.75rem] tabular-nums`}>
               <caption className="sr-only">{`${t.caption}, ${where}, ${period}`}</caption>
-              {head(imports ? [t.code, t.name, "Imports", "Share", "Duty rate"] : [t.code, t.name, "Exports", "Share"])}
+              {head(imports ? [t.code, t.name, "Imports", "Share", "Tariff rate"] : [t.code, t.name, "Exports", "Share"])}
               <tbody>
                 {t.lines.map((l) => (
                   <tr key={l.code} className="border-t border-line">
@@ -159,19 +159,18 @@ const lowerFirst = (s: string) => (s.length > 1 && /[a-z]/.test(s[1]) ? s[0].toL
  * parts and an Other line, each with its share of the line and, under its name, how much of that whole use (or
  * chapter) this line accounts for.
  */
-function BreakdownSection({ line, kind, flow, parts, count, state }: { line: ProductLine; kind: BreakdownKind; flow: ProductsFlow; parts: BreakdownPart[] | null; count: number; state: Loaded }) {
+function BreakdownSection({ line, kind, flow, parts, state }: { line: ProductLine; kind: BreakdownKind; flow: ProductsFlow; parts: BreakdownPart[] | null; state: Loaded }) {
   const chapter = kind === "chapter";
   const title = chapter ? "What it’s used for" : "Where it comes from";
   if (state === "error") return note(`${title}: couldn’t load. Tap the line again to retry.`);
   if (state === "loading" || !parts) return note(`${title}: loading…`);
   if (parts.length === 0) return note(`${title}: nothing recorded.`);
-  const noun = chapter ? (count === 1 ? "use" : "uses") : count === 1 ? "chapter" : "chapters";
   const colour = (p: BreakdownPart, i: number) => (p.special ? PART_SPECIAL : p.code === null ? PART_OTHER : PART_COLOURS[i] ?? PART_OTHER);
   const context = (p: BreakdownPart) =>
     p.whole === null || p.value >= p.whole * 0.995 ? null : chapter ? `${fmtPct(p.value / p.whole)} of all ${lowerFirst(p.name)} ${flow}` : `${fmtPct(p.value / p.whole)} of the chapter’s ${flow}`;
   return (
     <PanelSection
-      caption={`${title} · ${count} ${noun}`}
+      caption={title}
       right="Share"
       segments={parts.map((p, i) => ({ key: p.code ?? p.name, value: p.share, colour: colour(p, i), title: `${p.name}: ${fmtDollars(p.value)}, ${fmtPct(p.share)} of ${line.name}` }))}
     >
@@ -195,7 +194,7 @@ function BreakdownSection({ line, kind, flow, parts, count, state }: { line: Pro
   );
 }
 
-/** The countries behind an open line: one grey bar on the line's own scale, then a row per country with its duty rate (imports) or share. */
+/** The countries behind an open line: one grey bar on the line's own scale, then a row per country with its tariff rate (imports) or share. */
 function CountriesSection({ line, flow, partners, state }: { line: ProductLine; flow: ProductsFlow; partners: PartnerLine[] | null; state: Loaded }) {
   const imports = flow === "imports";
   if (state === "error") return note("Couldn’t load the countries. Tap the line again to retry.");
@@ -205,7 +204,7 @@ function CountriesSection({ line, flow, partners, state }: { line: ProductLine; 
   return (
     <PanelSection
       caption={`Top ${partners.length} ${imports ? "suppliers" : "buyers"} · ${fmtPct(Math.min(1, covered))} of line`}
-      right={imports ? "Duty rate" : "Share"}
+      right={imports ? "Tariff rate" : "Share"}
       segments={partners.map((p, i) => ({ key: p.code, value: p.value / line.value, colour: countryTone(i), title: `${p.name}: ${fmtDollars(p.value)}, ${fmtPct(p.share)} of ${line.name}` }))}
     >
       {partners.map((p, i) => (
@@ -262,7 +261,7 @@ export interface ListFiles<P, Q> {
  * "What the U.S. trades": goods two ways side by side, on one dollar scale, for the year the partners card above shows (the
  * page's one selected year; this card's own YearPicker sets the same year) and the page's Country filter (all countries
  * when none is picked). Left, Harmonized System chapters (what the goods are); right, Census end-use categories (what they
- * are for). An Exports / Imports toggle; imports carry each line's collected rate (calculated duties over imports for
+ * are for). An Imports / Exports toggle (imports first); imports carry each line's collected rate (calculated duties over imports for
  * consumption). Special entries (chapters 98-99; minimum-value shipments and returned goods) are never ranked: a footnote
  * line under the lists sums each.
  *
@@ -309,7 +308,7 @@ export function TradeProductsCard({
   /** The "2 questions ↓" link at the end of the notes row (`ChartJumpLink`). */
   jump?: ReactNode;
 }) {
-  const [flow, setFlow] = useState<ProductsFlow>("exports");
+  const [flow, setFlow] = useState<ProductsFlow>("imports");
   const [open, setOpen] = useState<Open | null>(null);
   const [panelRef, panelH] = useHeight();
   const chapterView = chapters.payload && year >= firstYear ? productsView(chapters.payload, year, flow) : null;
@@ -319,7 +318,7 @@ export function TradeProductsCard({
   const where = countryName ?? "all countries";
   const title = `What the U.S. trades${countryName ? ` with ${countryName}` : ""}, ${year}${partial ? " so far" : ""}`;
   const imports = flow === "imports";
-  const rateHead = imports ? "Duty rate" : "Share";
+  const rateHead = imports ? "Tariff rate" : "Share";
   const period = view ? periodText(view.year, view.months, MONTH_NAMES) : String(year);
 
   // A line stays open across a year or flow change only while it is still in the list; a country closes it.
@@ -349,7 +348,7 @@ export function TradeProductsCard({
     const partnersState: Loaded = files.partnersState === "error" ? "error" : files.partners ? "ok" : "loading";
     return (
       <div ref={panelRef} className="mb-1.5 mt-0.5 rounded-md bg-[color-mix(in_oklab,var(--ink)_4%,transparent)] py-1.5">
-        <BreakdownSection line={l} kind={kind} flow={flow} parts={b?.parts ?? null} count={b?.count ?? 0} state={pairsState} />
+        <BreakdownSection line={l} kind={kind} flow={flow} parts={b?.parts ?? null} state={pairsState} />
         <div className="mx-2 my-2 border-t border-line" />
         <CountriesSection line={l} flow={flow} partners={lines} state={partnersState} />
       </div>
@@ -377,7 +376,7 @@ export function TradeProductsCard({
         values: [fmtDollars(view.total)],
         headline: fmtDollars(view.total),
         date: `Goods ${flow}, ${period}`,
-        term: view.rate !== null ? `Duty rate ${fmtPct(view.rate)}` : undefined,
+        term: view.rate !== null ? `Tariff rate ${fmtPct(view.rate)}` : undefined,
       }
     : null;
 
@@ -435,8 +434,7 @@ export function TradeProductsCard({
                 <div key={c.kind} className="flex min-w-0 flex-col">
                   <div className="flex h-4 items-baseline justify-between gap-2 px-2 leading-4">
                     <h3 className={CAPTION}>
-                      {c.head}
-                      {c.lines.length > 0 ? ` · ${c.lines.length}` : ""} <span className="normal-case tracking-normal">({c.what})</span>
+                      {c.head} <span className="normal-case tracking-normal">({c.what})</span>
                     </h3>
                     <span className={CAPTION}>{rateHead}</span>
                   </div>
@@ -466,7 +464,7 @@ export function TradeProductsCard({
               </svg>
               {imports ? "Imports" : "Exports"}, dollars (both lists on one scale)
             </span>
-            <span className={LEGEND_ITEM}>{imports ? "Duty rate: calculated duties ÷ imports for consumption" : "Share: of all goods exports"}</span>
+            <span className={LEGEND_ITEM}>{imports ? "Tariff rate: calculated duties ÷ imports for consumption" : "Share: of all goods exports"}</span>
           </div>
         </>
       )}
@@ -474,7 +472,7 @@ export function TradeProductsCard({
       <ChartNotesRow>
         <MethodologyNote>
           <p>
-            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade two ways, 2010 on, in dollars: total exports and general imports, the same totals as the cards above. By chapter: the 96 product groups of the Harmonized System, the tariff schedule’s own groups. By use: Census’s end-use categories (what goods are for, about 140 kinds from soybeans to semiconductors). Exports publish civilian aircraft, engines and parts as one use; imports split them into three, so add those up to compare. The duty rate is calculated duties over imports for consumption. Special entries (chapters 98 and 99: returned American goods, repairs, estimated low-value shipments; and the matching end-use entries such as minimum-value shipments) are not kinds of goods, so neither list ranks them; the note under the lists sums them. Opening a line splits it the other way (all countries only), from every ten-digit import or export line, each filed under one chapter and, through Census’s concordance, one use; special entries are their own part when they are 0.5% of the line or more. A chapter’s split adds up to its total above; a use’s can differ from its published total by a few percent, because the concordance does not quite match Census’s own category totals. The line also names the five countries with the most of it, each with its own duty rate on imports.
+            <SourceLink id="census-trade">Census Bureau</SourceLink> goods trade two ways, 2010 on, in dollars: general imports and total exports, the same totals as the cards above. By chapter: the 96 product groups of the Harmonized System, the tariff schedule’s own groups. By use: Census’s end-use categories (what goods are for, about 140 kinds from soybeans to semiconductors). Imports split civilian aircraft, engines and parts into three uses and exports publish them as one, so add the three up to compare. The tariff rate is calculated duties over imports for consumption. Special entries (chapters 98 and 99: returned American goods, repairs, estimated low-value shipments; and the matching end-use entries such as minimum-value shipments) are not kinds of goods, so neither list ranks them; the note under the lists sums them. Opening a line splits it the other way (all countries only), from every ten-digit import or export line, each filed under one chapter and, through Census’s concordance, one use; special entries are their own part when they are 0.5% of the line or more. A chapter’s split adds up to its total above; a use’s can differ from its published total by a few percent, because the concordance does not quite match Census’s own category totals. The line also names the five countries with the most of it, each with its own tariff rate on imports.
             {partial && view ? ` ${view.year} covers January to ${MONTH_NAMES[view.months - 1]}.` : ""}
             {lagNotes.map((l) => lagText(l)).join("")}
           </p>

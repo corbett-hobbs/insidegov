@@ -138,7 +138,7 @@ const cases: { title: string; text: string; says: string[]; check: () => void }[
   {
     title: TRADE_TAKEAWAYS.products.title,
     text: productsText,
-    says: ["Oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021", `led each year through ${throughYear}`, `computers became the largest goods import in 2026 through ${through}`, "passing pharmaceuticals"],
+    says: ["oil, gas and coal overtook machinery and computers as the largest U.S. goods export in 2021", `led each year through ${throughYear}`, `computers became the largest goods import in 2026 through ${through}`, "passing pharmaceuticals"],
     check: () => {
       expect(lastYear).toBe(2026);
       expect(productsIn(2026, "exports").months).toBe(Number(national.lastPeriod.slice(5)));
@@ -152,7 +152,7 @@ const cases: { title: string; text: string; says: string[]; check: () => void }[
   {
     title: TRADE_TAKEAWAYS.scatter.title,
     text: scatterText,
-    says: ["duty rates rose on goods from most countries", "China's rate rose the most", "only imports from China fell", "Taiwan and Vietnam grew the most"],
+    says: ["tariff rates rose on goods from most countries", "China's rate rose the most", "only imports from China fell", "Taiwan and Vietnam grew the most"],
     check: () => {
       const plotted = scatter.filter((r) => r.plotted);
       expect(plotted.filter((r) => r.rateChangePp! > 0).length / plotted.length).toBeGreaterThan(0.5);
@@ -201,7 +201,7 @@ const contextCases: Record<keyof typeof TRADE_CONTEXT, { says: string[]; check: 
     },
   },
   scatter: {
-    says: ["Between the two windows", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's duty rate went from 11.0% to 21.6%"],
+    says: ["Between the two windows", "a 10% Section 122 surcharge began (February 2026)", "Section 301 tariffs began on 60 economies, China among them (July 2026)", "China's tariff rate went from 11.0% to 21.6%"],
     check: () => {
       const s122 = action("2026-02-24-ieepa-ends-section-122-begins");
       expect(s122.rate_note).toMatch(/^Section 122 surcharge: 10 percent/);
