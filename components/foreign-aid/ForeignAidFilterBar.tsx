@@ -5,12 +5,13 @@ import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSe
 import { formatAidMoney, sectorName, slotOfSector, yearTotal } from "@/lib/foreign-aid-derive";
 import type { TradeCountryRef } from "@/lib/trade-types";
 import { FilterCaption } from "@/components/charts/FilterBarParts";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import { useMemo } from "react";
 import { useAidState } from "./ForeignAidState";
 import { slotColor } from "./shared";
+import { defaultYearRange } from "@/lib/year-range";
 
 
 /**
@@ -30,7 +31,6 @@ export function ForeignAidFilterBar() {
     () => terms.map((t) => ({ id: t.termId, label: t.label, last: t.last, initials: t.president.split(" ").map((w) => w[0]).join(""), party: t.party, from: t.fromFy, to: t.toFy })),
     [terms],
   );
-  const full = range[0] === first && range[1] === last;
   // Dollars per sector over the years shown (every country plus regional and global programs), so a row says what ticking it adds.
   const sectorOptions = useMemo<MultiOption<number>[]>(
     () =>
@@ -67,7 +67,7 @@ export function ForeignAidFilterBar() {
             format={(v) => `FY${String(v).slice(2)}`}
             ariaLabel="Fiscal years shown"
             below={<TermBand terms={bandTerms} min={first} max={last} value={range} onChange={(r) => setRange(r)} />}
-            action={<RangeReset show={!full} onReset={() => setRange([first, last])} className="mt-0.5 font-sans leading-none" />}
+            action={<YearsToggle value={range} full={[first, last]} recent={defaultYearRange(first, last)} onChange={setRange} />}
             className="col-span-2 min-w-0 sm:ml-auto sm:min-w-[14rem] sm:flex-1"
           />
         </div>

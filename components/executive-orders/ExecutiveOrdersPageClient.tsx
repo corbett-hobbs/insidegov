@@ -6,7 +6,7 @@ import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { PillGroup } from "@/components/charts/PillGroup";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import { StackedBars, type StackBand, type StackColumn, type StackSeries } from "@/components/charts/StackedBars";
@@ -28,7 +28,7 @@ import {
   type EoYear,
 } from "@/lib/executive-orders-types";
 import { isOnly, isPicked, pickLabel, toggleOnly, type Picked } from "@/lib/multi-select";
-import { sameRange, type YearRange } from "@/lib/year-range";
+import { defaultYearRange, type YearRange } from "@/lib/year-range";
 import { LegendToggle } from "@/components/charts/LegendToggle";
 import { LEGEND_ROW_CAPPED } from "@/components/charts/legend";
 import { TopicSwatch } from "./TopicSwatch";
@@ -112,12 +112,11 @@ export function ExecutiveOrdersPageClient({ data, clemency, faqFile }: { data: E
     [data.years],
   );
   // The one window runs on the slider's years, from fiscal 1993; orders count by calendar year from 1994 and clemency by fiscal year.
-  const [range, setRange] = useState<YearRange | null>(null);
   const lastYear = data.years[data.years.length - 1].year;
   const fullFy: YearRange = [clemency.firstFy, clemency.lastFy];
-  const win = range ?? fullFy;
-  const setWindow = (r: YearRange) => setRange(sameRange(r, fullFy) ? null : r);
-  useUrlState({ years: yearsParam.format(win, fullFy[0], fullFy[1]) }, (q) => {
+  const defaultRange = defaultYearRange(fullFy[0], fullFy[1]);
+  const [win, setWindow] = useState<YearRange>(defaultRange);
+  useUrlState({ years: yearsParam.format(win, defaultRange) }, (q) => {
     const r = yearsParam.parse(q.get("years"), fullFy[0], fullFy[1]);
     if (r) setWindow(r);
   });
@@ -177,7 +176,7 @@ export function ExecutiveOrdersPageClient({ data, clemency, faqFile }: { data: E
             format={String}
             ariaLabel="Years shown"
             below={<TermBand terms={bandTerms} min={fullFy[0]} max={fullFy[1]} value={win} onChange={setWindow} />}
-            action={<RangeReset show={!sameRange(win, fullFy)} onReset={() => setRange(null)} className="mt-0.5 font-sans leading-none" />}
+            action={<YearsToggle value={win} full={fullFy} recent={defaultRange} onChange={setWindow} />}
             className="min-w-0"
           />
           {stuck && <SectionStrip items={SECTIONS} extras={extras} active={active} />}
@@ -235,7 +234,7 @@ export function ExecutiveOrdersPageClient({ data, clemency, faqFile }: { data: E
             renderTooltip={(c) => <YearTooltip col={c} admins={adminById} mode={mode} topics={topics} throughDate={data.throughDate} />}
           />
 
-          <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setRange(null)} runTerms={runTerms} topics={topics} admins={adminById} onClearTopics={() => setTopics(null)} throughDate={data.throughDate} />
+          <YearList year={selectedYear} years={data.years} range={[from, to]} president={president} onClearPresident={() => setWindow(fullFy)} runTerms={runTerms} topics={topics} admins={adminById} onClearTopics={() => setTopics(null)} throughDate={data.throughDate} />
 
           <ChartNotesRow>
             <MethodologyNote>

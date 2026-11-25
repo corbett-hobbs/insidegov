@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { decodeTroops, type TroopsData } from "@/lib/troops-derive";
 import type { TroopsPayload, TroopsTerm } from "@/lib/troops-types";
+import { defaultYearRange, MODERN_ERA_YEAR } from "@/lib/year-range";
 
 /**
  * The troops page's one source of truth: selected fiscal year, president, country and branch. Every chart reads these.
@@ -44,6 +45,10 @@ export function useTroopsState(): TroopsState {
   if (!v) throw new Error("useTroopsState must be used inside <TroopsStateProvider>");
   return v;
 }
+
+/** The year-index window from FY2017 on, for the slider's years link. */
+export const modernRange = (years: readonly { fy: number }[]): [number, number] =>
+  defaultYearRange(0, years.length - 1, years.findIndex((y) => y.fy >= MODERN_ERA_YEAR));
 
 export function TroopsStateProvider({ payload, children }: { payload: TroopsPayload; children: ReactNode }) {
   const data = useMemo(() => decodeTroops(payload), [payload]);

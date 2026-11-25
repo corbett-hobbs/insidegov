@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import type { EconomyTerm } from "@/lib/economy-presidents";
-import { sameRange, termYearRange, type YearRange } from "@/lib/year-range";
+import { defaultYearRange, sameRange, termYearRange, type YearRange } from "@/lib/year-range";
 
 /**
  * The pinned filter bar for /presidency/economy: a Years-shown range slider with the presidential-term band under its
@@ -36,7 +36,6 @@ export function EconomyFilterBar({
   onClear: () => void;
 }) {
   const full: YearRange = [firstYear, lastYear];
-  const isFull = sameRange(range, full);
   const bandTerms = useMemo<BandTerm[]>(
     () =>
       terms.map((t) => {
@@ -57,7 +56,7 @@ export function EconomyFilterBar({
             format={String}
             ariaLabel="Years shown"
             below={<TermBand terms={bandTerms} min={firstYear} max={lastYear} value={range} onChange={(r) => onRange(sameRange(r, full) ? null : r)} />}
-            action={<RangeReset show={!isFull} onReset={() => onRange(null)} className="mt-0.5 font-sans leading-none" />}
+            action={<YearsToggle value={range} full={full} recent={defaultYearRange(firstYear, lastYear)} onChange={(r) => onRange(sameRange(r, full) ? null : r)} />}
             className="w-full sm:w-auto sm:min-w-[220px] sm:flex-1"
           />
           <div className="order-first flex min-w-0 items-center gap-2.5">

@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultYearRange } from "@/lib/year-range";
 import { useMemo } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { EIA_ATTRIBUTION } from "@/lib/energy-entities";
@@ -24,7 +25,7 @@ import { updatedLabel } from "@/lib/news-derive";
 /** `faqFile` is `faq_energy.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
 export function EnergyPageClient({ payload, faqFile, newsFile }: { payload: EnergyPayload; faqFile: FaqFile | null; newsFile: NewsFile | null }) {
   return (
-    <EnergyStateProvider>
+    <EnergyStateProvider initialRange={defaultYearRange(dateOfDay(0).year, dateOfDay(payload.span - 1).year)}>
       <EnergyPage payload={payload} faqFile={faqFile} newsFile={newsFile} />
     </EnergyStateProvider>
   );

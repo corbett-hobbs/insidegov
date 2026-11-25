@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { TermBand, type BandTerm } from "@/components/charts/TermBand";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { FilterCaption } from "@/components/charts/FilterBarParts";
 import { CountryCombobox } from "@/components/trade/CountryCombobox";
 import { MEASURES } from "@/lib/troops-types";
 import type { TradeCountryRef } from "@/lib/trade-types";
-import { useTroopsState } from "./TroopsState";
+import { modernRange, useTroopsState } from "./TroopsState";
 
 const SELECT =
   "min-w-0 rounded-md border border-line-strong bg-surface-raised px-[0.55rem] py-[0.42rem] text-[0.8rem] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus sm:flex-none";
@@ -29,7 +29,7 @@ export function TroopsFilterBar() {
     () => terms.filter((t) => t.to >= t.from).map((t) => ({ id: t.termId, label: t.label, last: t.last, initials: t.president.split(" ").map((w) => w[0]).join(""), party: t.party, from: t.from, to: t.to })),
     [terms],
   );
-  const full = range[0] === 0 && range[1] === years.length - 1;
+  const recent = modernRange(years);
   return (
     <div className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur sm:shadow-none">
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
@@ -64,7 +64,7 @@ export function TroopsFilterBar() {
               format={(i) => String(years[i].fy)}
               ariaLabel="Years shown"
               className="min-w-0 flex-1"
-              action={<RangeReset show={!full} onReset={() => setRange([0, years.length - 1])} className="mt-0.5 font-sans leading-none" />}
+              action={<YearsToggle value={range} full={[0, years.length - 1]} recent={recent} sinceYear={years[recent[0]].fy} onChange={setRange} />}
               below={<TermBand terms={bandTerms} min={0} max={years.length - 1} value={range} onChange={setRange} />}
             />
           </div>

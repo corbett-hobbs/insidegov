@@ -4,12 +4,12 @@ import { useMemo } from "react";
 import { MultiSelectFilter, type MultiOption } from "@/components/charts/MultiSelectFilter";
 import { PartyFilter } from "@/components/charts/PartyFilter";
 import { FilterCaption } from "@/components/charts/FilterBarParts";
-import { RangeReset } from "@/components/charts/RangeReset";
+import { YearsToggle } from "@/components/charts/YearsToggle";
 import { RangeSelector } from "@/components/charts/RangeSelector";
 import { TermBand } from "@/components/charts/TermBand";
 import { SUPPORT_COLORS, SUPPORT_ORDER, SUPPORT_SHORT, groupOptions, groupWindowTotals, presidentBand, windowBands, yearSpan } from "@/lib/laws-derive";
 import { fmtInt } from "@/lib/decisions-derive";
-import { sameRange } from "@/lib/year-range";
+import { defaultYearRange } from "@/lib/year-range";
 import { groupFills } from "./shared";
 import { useLawsActions, useLawsValues } from "./LawsState";
 
@@ -33,7 +33,6 @@ export function LawsFilterBar() {
   const { setRange, setGroups, setMajor, setBands, setParty } = useLawsActions();
   const terms = useMemo(() => presidentBand(data), [data]);
   const [lo, hi] = yearSpan(data);
-  const full = sameRange(range, [lo, hi]);
   const fills = useMemo(() => groupFills(data), [data]);
   const totals = useMemo(() => groupWindowTotals(data, win, major), [data, win, major]);
   const areaOptions = useMemo<MultiOption<string>[]>(() => groupOptions(data).map((o) => ({ ...o, swatch: fills.get(o.id), count: fmtInt(totals.get(o.id) ?? 0), hint: o.id === "commemorations" ? COMMEMORATIONS_HINT : undefined })), [data, fills, totals]);
@@ -88,7 +87,7 @@ export function LawsFilterBar() {
             format={String}
             ariaLabel="Years shown"
             below={<TermBand terms={terms} min={lo} max={hi} value={range} onChange={(r) => setRange(r)} />}
-            action={<RangeReset show={!full} onReset={() => setRange([lo, hi])} className="mt-0.5 font-sans leading-none" />}
+            action={<YearsToggle value={range} full={[lo, hi]} recent={defaultYearRange(lo, hi)} onChange={setRange} />}
             className="min-w-0 lg:flex-[1_1_0%] xl:flex-[1.2_1_0%]"
           />
         </div>

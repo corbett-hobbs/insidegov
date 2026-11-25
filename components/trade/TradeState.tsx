@@ -41,10 +41,10 @@ export interface TradeActions {
 const ValuesCtx = createContext<TradeValues | null>(null);
 const ActionsCtx = createContext<TradeActions | null>(null);
 
-export function TradeStateProvider({ lastYear, children }: { lastYear: number; children: ReactNode }) {
+export function TradeStateProvider({ lastYear, initialRange, children }: { lastYear: number; initialRange: YearRange; children: ReactNode }) {
   const [hover, setHover] = useState<number | null>(null);
   const [pin, setPin] = useState<number | null>(null);
-  const [range, setRangeState] = useState<YearRange | null>(null);
+  const [range, setRangeState] = useState<YearRange | null>(initialRange);
   const [country, setCountryState] = useState<string | null>(null);
   const [measure, setMeasureState] = useState<Measure>("balance");
   const [showCong, setShowCongState] = useState(false);

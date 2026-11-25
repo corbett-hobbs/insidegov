@@ -400,7 +400,7 @@ export function PardonsSection({ data, range, onRange, heading }: { data: Clemen
         <ChartCard id="every-grant-since-clinton" title={T.list.title} takeaway={`Search all ${n0(data.listed)} rows by name, offense or district: every warrant DOJ lists by name, plus the group warrants and proclamations.`} action={<ListSearch value={query} onChange={setQuery} label="Search grants" />}>
           <GrantList query={query} range={range} fy={fy} types={types} offenses={offenses} onClearFy={() => setFy(null)} />
           <ChartNotesRow share={false} className="mt-auto">
-            <MethodologyNote><p>From the Office of the Pardon Attorney’s <SourceLink id="doj-clemency-recipients">recipient lists</SourceLink>, Clinton onward. These lists don’t always match the yearly totals exactly (Obama’s commutations are 1,716 listed, 1,715 counted), because of amended grants and people listed twice. An amended warrant is listed but not counted again. Being listed here records a grant of clemency, and a pardon doesn’t mean the person was innocent.</p></MethodologyNote>
+            <MethodologyNote><p>From the Office of the Pardon Attorney’s <SourceLink id="doj-clemency-recipients">recipient lists</SourceLink>, Clinton onward. The list shows the years on the slider; a search looks through every year. These lists don’t always match the yearly totals exactly (Obama’s commutations are 1,716 listed, 1,715 counted), because of amended grants and people listed twice. An amended warrant is listed but not counted again. Being listed here records a grant of clemency, and a pardon doesn’t mean the person was innocent.</p></MethodologyNote>
           </ChartNotesRow>
         </ChartCard>
       </div>

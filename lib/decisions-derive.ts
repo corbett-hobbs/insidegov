@@ -5,7 +5,7 @@ import { initialsOf } from "./term-label";
 import { ALL_AREAS, OTHER_AREAS, type AreaSort, type AreaSortKey, type Bucket, type DecisionCase, type DecisionDirection, type DecisionsChief, type DecisionsPayload, type DecisionsPresident, type LandmarkCells, type SplitMode, BAND_SHORT } from "./decisions-types";
 import { isPicked, pickLabel, type Picked } from "./multi-select";
 import type { Administration } from "./executive-orders-entities";
-import type { YearRange } from "./year-range";
+import { defaultYearRange, MODERN_ERA_YEAR, type YearRange } from "./year-range";
 
 /**
  * Pure shaping for /supreme-court/decisions (no file I/O; `lib/decisions-data.ts` reads the files). Unit-tested over the
@@ -316,6 +316,10 @@ export function presidentBandTerms(d: DecisionsPayload): BandTerm[] {
     to: p.end,
   }));
 }
+
+/** The modern-era terms for the slider's years link: from the first term of the president in office through most of the 2017 term, so Trump's first is whole (it opens with the 2016 term). */
+export const modernTermRange = (d: DecisionsPayload): YearRange =>
+  defaultYearRange(d.terms[0], d.terms[d.terms.length - 1], presidentOfTerm(d, MODERN_ERA_YEAR)?.start);
 
 export const chiefOfTerm = (d: DecisionsPayload, term: number): DecisionsChief | undefined => d.chiefs.find((c) => term >= c.start && term <= c.end);
 export const presidentOfTerm = (d: DecisionsPayload, term: number): DecisionsPresident | undefined => d.presidents.find((p) => term >= p.start && term <= p.end);

@@ -3,13 +3,14 @@
 import { useMemo } from "react";
 import { FILTER_SELECT, FilterCaption, HelpTip } from "../charts/FilterBarParts";
 import { PillGroup } from "../charts/PillGroup";
-import { RangeReset } from "../charts/RangeReset";
+import { YearsToggle } from "../charts/YearsToggle";
 import { RangeSelector } from "../charts/RangeSelector";
 import { TermBand, type BandTerm } from "../charts/TermBand";
 import { soleOf, type Picked } from "@/lib/multi-select";
 import { initialsOf } from "@/lib/term-label";
 import { lastName, termYears, type CourtMode, type Kind } from "@/lib/timeline-derive";
 import type { TimelinePayload } from "@/lib/timeline-types";
+import { defaultYearRange } from "@/lib/year-range";
 
 const MODES: { value: CourtMode; label: string }[] = [
   { value: "lean", label: "By lean" },
@@ -60,7 +61,6 @@ export function TimelineFilterBar({
     () => [{ value: "all", label: "All" }, { value: "law", label: "Laws" }, { value: "case", label: "Cases" }],
     [],
   );
-  const full = range[0] === minYear && range[1] === maxYear;
   return (
     <div data-pinned-bar className="sticky top-0 z-40 border-b border-line-strong bg-surface/95 shadow-[0_2px_6px_rgba(26,34,51,0.08)] backdrop-blur sm:shadow-none">
       <div className="mx-auto w-full max-w-[1180px] px-4 pb-2 pt-2 sm:px-6 sm:py-2.5">
@@ -88,7 +88,7 @@ export function TimelineFilterBar({
             format={String}
             ariaLabel="Years shown"
             below={<TermBand terms={terms} min={minYear} max={maxYear} value={range} onChange={onRange} />}
-            action={<RangeReset show={!full} onReset={() => onRange([minYear, maxYear])} className="mt-0.5 font-sans leading-none" />}
+            action={<YearsToggle value={range} full={[minYear, maxYear]} recent={defaultYearRange(minYear, maxYear)} onChange={onRange} />}
             className="w-full min-w-0 sm:ml-auto sm:w-auto sm:min-w-[14rem] sm:flex-1"
           />
         </div>

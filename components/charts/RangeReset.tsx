@@ -2,8 +2,8 @@
 
 /**
  * "Reset" link that sits beside a `RangeSelector` and puts the year window back to its
- * full range. Renders nothing while the window is already full, so it only appears when
- * there is something to reset. `ariaLabel` overrides the default for the single-value Congress / Court sliders, where it puts them back on the latest value. Used by every Presidency page's pinned filter bar.
+ * full range (a page's pinned year filter uses `YearsToggle` instead). Renders nothing while the window is already full, so it only appears when
+ * there is something to reset. `ariaLabel` overrides the default for the single-value Congress / Court sliders, where it puts them back on the latest value.
  */
 export function RangeReset({ show, onReset, className = "", ariaLabel = "Reset years shown to the full range" }: { show: boolean; onReset: () => void; className?: string; ariaLabel?: string }) {
   if (!show) return null;

@@ -11,4 +11,15 @@ export function termYearRange(startYear: number, endYear: number | null, firstYe
   return [Math.max(firstYear, startYear), Math.min(lastYear, endYear ?? lastYear)];
 }
 
+/**
+ * The modern era: the Trump, Biden and second Trump terms. The Economy, Trade, Energy, Immigration and Executive actions year filters
+ * open on it, the other pages open on every year, and on all of them `charts/YearsToggle` flips between the two.
+ */
+export const MODERN_ERA_YEAR = 2017;
+
+/** The modern-era window: `from` to the last year in the data, clamped to the slider. */
+export function defaultYearRange(firstYear: number, lastYear: number, from: number = MODERN_ERA_YEAR): YearRange {
+  return [Math.min(lastYear, Math.max(firstYear, from)), lastYear];
+}
+
 export const sameRange = (a: readonly [number, number], b: readonly [number, number]) => a[0] === b[0] && a[1] === b[1];

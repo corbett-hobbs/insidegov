@@ -1,5 +1,6 @@
 "use client";
 
+import { defaultYearRange } from "@/lib/year-range";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { HowToRead } from "@/components/HowToRead";
@@ -33,7 +34,7 @@ const MEASURE_PARAM = enumParam(["balance", "flows"] as const, "balance");
 /** `faqFile` is `faq_trade.json`; null (or empty) leaves out the FAQ section, its header link and the cards' jump links. */
 export function TradePageClient({ data, faqFile, newsFile, storyRates }: { data: TradePageData; faqFile: FaqFile | null; newsFile: NewsFile | null; storyRates: StoryCountryRates }) {
   return (
-    <TradeStateProvider lastYear={data.lastYear}>
+    <TradeStateProvider lastYear={data.lastYear} initialRange={defaultYearRange(data.firstYear, data.lastYear)}>
       <TradePage data={data} faqFile={faqFile} newsFile={newsFile} storyRates={storyRates} />
     </TradeStateProvider>
   );
@@ -130,12 +131,14 @@ function TradePage({ data, faqFile, newsFile, storyRates }: { data: TradePageDat
 
   const range = useMemo<[number, number]>(() => v.range ?? [firstYear, lastYear], [v.range, firstYear, lastYear]);
 
+  const defaultRange = useMemo(() => defaultYearRange(firstYear, lastYear), [firstYear, lastYear]);
+
   // Country, year window, measure and the Congress toggle live in the URL so a view can be linked (lib/use-url-state.ts).
   const countryCodes = useMemo(() => new Set(countries.map((c) => c.code)), [countries]);
   useUrlState(
     {
       country: codeParam.format(v.country),
-      years: yearsParam.format(v.range, firstYear, lastYear),
+      years: yearsParam.format(range, defaultRange),
       measure: MEASURE_PARAM.format(v.measure),
       cong: flagParam.format(v.showCong),
     },
