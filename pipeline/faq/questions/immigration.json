@@ -3,6 +3,34 @@
   "dataFiles": ["pipeline/output/encounters_series.json"],
   "groups": [
     {
+      "row": "Border & removals",
+      "questions": [
+        {
+          "id": "removal-vs-return",
+          "kind": "difference",
+          "q": "What is the difference between a removal and a return?",
+          "searched": "deportation vs voluntary departure",
+          "chartIds": ["chart-removals"],
+          "sources": [
+            { "label": "DHS Office of Homeland Security Statistics, Glossary", "url": "https://ohss.dhs.gov/glossary0" }
+          ]
+        },
+        {
+          "id": "ports-vs-between",
+          "kind": "difference",
+          "q": "What is the difference between encounters at ports of entry and Border Patrol apprehensions?",
+          "searched": "border encounters by year",
+          "chartIds": ["chart-encounters"],
+          "brief": "Which part of CBP makes each kind, where, and the latest fiscal year's split between them and how much of each is on the southwest border.",
+          "sources": [
+            { "label": "U.S. Customs and Border Protection, Nationwide Encounters", "url": "https://www.cbp.gov/newsroom/stats/nationwide-encounters", "facts": "encounters" },
+            { "label": "U.S. Customs and Border Protection, Field Operations", "url": "https://www.cbp.gov/border-security/ports-entry/field-operations" },
+            { "label": "U.S. Customs and Border Protection, Border Patrol overview", "url": "https://www.cbp.gov/border-security/along-us-borders/overview" }
+          ]
+        }
+      ]
+    },
+    {
       "row": "Green cards",
       "questions": [
         {
@@ -57,34 +85,6 @@
           "brief": "Who sets the yearly ceiling, when, after consulting whom, and whether it can change during the year. The office, not the person holding it.",
           "sources": [
             { "label": "Immigration and Nationality Act, section 207 (8 U.S.C. 1157)", "url": "https://www.govinfo.gov/content/pkg/USCODE-2023-title8/html/USCODE-2023-title8-chap12-subchapII-partI-sec1157.htm" }
-          ]
-        }
-      ]
-    },
-    {
-      "row": "Border & removals",
-      "questions": [
-        {
-          "id": "removal-vs-return",
-          "kind": "difference",
-          "q": "What is the difference between a removal and a return?",
-          "searched": "deportation vs voluntary departure",
-          "chartIds": ["chart-removals"],
-          "sources": [
-            { "label": "DHS Office of Homeland Security Statistics, Glossary", "url": "https://ohss.dhs.gov/glossary0" }
-          ]
-        },
-        {
-          "id": "ports-vs-between",
-          "kind": "difference",
-          "q": "What is the difference between encounters at ports of entry and Border Patrol apprehensions?",
-          "searched": "border encounters by year",
-          "chartIds": ["chart-encounters"],
-          "brief": "Which part of CBP makes each kind, where, and the latest fiscal year's split between them and how much of each is on the southwest border.",
-          "sources": [
-            { "label": "U.S. Customs and Border Protection, Nationwide Encounters", "url": "https://www.cbp.gov/newsroom/stats/nationwide-encounters", "facts": "encounters" },
-            { "label": "U.S. Customs and Border Protection, Field Operations", "url": "https://www.cbp.gov/border-security/ports-entry/field-operations" },
-            { "label": "U.S. Customs and Border Protection, Border Patrol overview", "url": "https://www.cbp.gov/border-security/along-us-borders/overview" }
           ]
         }
       ]

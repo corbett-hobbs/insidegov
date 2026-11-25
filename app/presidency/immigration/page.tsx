@@ -11,12 +11,12 @@ import { getRemovalsCountryPayload } from "@/lib/removals-country-data";
 import { getFaqFile, getNewsFile } from "@/lib/news-data";
 import { TopicDatasetLd } from "@/components/TopicDatasetLd";
 
-/** /presidency/immigration — green cards and naturalizations, refugee admissions against the presidential ceiling, CBP border encounters and ICE removals, by fiscal year and administration. */
+/** /presidency/immigration — CBP border encounters and ICE removals, green cards and naturalizations, and refugee admissions against the presidential ceiling, by fiscal year and administration. */
 export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "U.S. Immigration Statistics by President",
     // A headline finding from the page's data (lib/hub-seo.ts); the plain line stands in if the data cannot be read.
-    description: hubDescription("/presidency/immigration", "Green cards, refugee admissions, border encounters and ICE deportations by fiscal year, showing how immigration policy shifts between administrations."),
+    description: hubDescription("/presidency/immigration", "Border encounters, ICE deportations, green cards and refugee admissions by fiscal year, showing how immigration policy shifts between administrations."),
     path: "/presidency/immigration",
     topic: "presidency/immigration",
   });

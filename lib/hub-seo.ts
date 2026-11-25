@@ -82,9 +82,9 @@ const BUILDERS: Record<string, () => string[]> = {
     const since = above ? `, the most since fiscal ${above.fy}` : `, the most in any year since ${ys[0]!.fy}`;
     const prelim = last.status === "preliminary" ? " (preliminary)" : "";
     return [
-      `The U.S. removed ${int(last.value!)} people in fiscal ${last.fy}${prelim}${since}. See green cards, refugee admissions, border encounters and deportations under every president.`,
-      `The U.S. removed ${int(last.value!)} people in fiscal ${last.fy}${since}. See green cards, refugee admissions, border encounters and deportations under every president.`,
-      `The U.S. removed ${int(last.value!)} people in fiscal ${last.fy}${since}. See green cards, refugees, border encounters and deportations by president.`,
+      `The U.S. removed ${int(last.value!)} people in fiscal ${last.fy}${prelim}${since}. See border encounters, deportations, green cards and refugee admissions under every president.`,
+      `The U.S. removed ${int(last.value!)} people in fiscal ${last.fy}${since}. See border encounters, deportations, green cards and refugee admissions under every president.`,
+      `The U.S. removed ${int(last.value!)} people in fiscal ${last.fy}${since}. See border encounters, deportations, green cards and refugees by president.`,
     ];
   },
   "/presidency/economy": () => {
