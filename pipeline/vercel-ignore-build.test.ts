@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { affectsSite, needsBuild } from "../scripts/vercel-ignore-build.mjs";
+import { affectsSite, isBotPreview, needsBuild } from "../scripts/vercel-ignore-build.mjs";
 
 /**
  * Vercel bills build CPU per minute, so scripts/vercel-ignore-build.mjs skips builds that cannot change the site. The
@@ -54,5 +54,14 @@ describe("vercel ignored build step", () => {
     expect(needsBuild([".github/workflows/ci.yml", "pipeline/insights/why.ts"])).toBe(false);
     expect(needsBuild([".github/workflows/ci.yml", "lib/site.ts"])).toBe(true);
     expect(needsBuild([])).toBe(true);
+  });
+
+  it("skips previews of the pipeline's data/* branches but never a production deploy or a human branch", () => {
+    expect(isBotPreview("data/news-pages", "preview")).toBe(true);
+    expect(isBotPreview("data/laws-refresh", "preview")).toBe(true);
+    expect(isBotPreview("data/laws-refresh", "production")).toBe(false);
+    expect(isBotPreview("main", "production")).toBe(false);
+    expect(isBotPreview("claude/some-feature", "preview")).toBe(false);
+    expect(isBotPreview(undefined, "preview")).toBe(false);
   });
 });
