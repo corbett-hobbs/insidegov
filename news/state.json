@@ -1,33 +1,5 @@
 {
   "checks": {
-    "29377f716cd59005288b": {
-      "at": "2026-11-23T08:53:45.039Z",
-      "keep": [],
-      "reason": "All headlines cover one local incident (ICE arrests of two passengers at Seattle airport), which is local news and not a national development; neither border encounters nor ICE removals directly measure airport arrests.",
-      "chart": ""
-    },
-    "ca0fe3bb0ff0bd7eb99f": {
-      "at": "2026-11-23T08:53:45.039Z",
-      "keep": [
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory"
-      ],
-      "reason": "Most outlets reported the November 20-21 U.S. stock sell-off (S&P 500 and Nasdaq losses, correction territory); the Anthropic IPO debut headlines cover a different development, and the 7-8 and 18-19 headlines are analysis or stock-pick angles, so they are excluded.",
-      "chart": ""
-    },
-    "66de4cd5480bf8ba057f": {
-      "at": "2026-11-23T08:53:45.039Z",
-      "keep": [],
-      "reason": "No single development is reported by multiple headlines: the two AI-inflation items come from different Fed officials' remarks, and the others are a retail earnings story, a Japan story, a consumer-spending feature, and a minimum wage proposal.",
-      "chart": ""
-    },
     "14f3f19755a6ecd16146": {
       "at": "2026-11-23T21:13:01.662Z",
       "keep": [
@@ -248,6 +220,70 @@
         "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
       ],
       "reason": "All three report the same current development: the administration preparing a new round of targeted tariffs on trading partners. The chart measures tariff rates actually collected, so tariffs are central.",
+      "chart": ""
+    },
+    "4e2b019ed333fcb813c0": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [],
+      "reason": "All headlines concern Jensen Huang's resignation and return as Nvidia CEO and related governance, scandal, and probes; none reports a trade deal, talks, or trade restriction as the central development, and the export-control mentions are incidental.",
+      "chart": ""
+    },
+    "c3db285b2251e6c1c283": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [],
+      "reason": "No single development is shared by multiple qualifying U.S. headlines: the Thanksgiving gas-price item stands alone, the Amtrak story only mentions gas prices in passing, and the UK energy-bill stories are foreign news without a U.S. angle.",
+      "chart": ""
+    },
+    "877531f7756c2f625464": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [],
+      "reason": "Two different developments, each reported by only one outlet (Fox News on threat charges against ICE agents, CBS News on DOJ litigators for detainee suits), so no single development has multi-outlet coverage; neither matches a chart's data.",
+      "chart": ""
+    },
+    "22efce37e57a1b309178": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [],
+      "reason": "Headlines 1 and 2 cover a Trump credit card rate cap comment, not the Fed funds rate, and headline 3 is a single outlet's report on FOMC regional board views, so no development is shared by the matched headlines.",
+      "chart": ""
+    },
+    "ec36bc8f4132afa1306a": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [
+        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
+        "https://www.washingtonexaminer.com/policy/immigration/4814596/kilmar-abrego-garcia-leave-us-spain/",
+        "https://www.nbcnews.com/news/us-news/kilmar-abrego-garcia-rcna611215",
+        "https://www.foxnews.com/politics/kilmar-abrego-garcia-leave-us-voluntarily-europe-avoiding-forced-deportation",
+        "https://www.huffpost.com/entry/ap-us-deportation-error-abrego-garcia_n_6b062b22e4b01a3571b8db1b",
+        "https://thehill.com/policy/international/6241572-kilmar-abrego-garcia-self-deports/",
+        "https://www.bbc.co.uk/news/articles/c6808pyy5dl9o?at_medium=RSS&at_campaign=rss",
+        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/",
+        "https://www.nytimes.com/2026/11/24/us/politics/abrego-garcia-leave-deportation.html"
+      ],
+      "reason": "All nine headlines report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain after a deportation battle, a high-profile removal case central to the deportations topic.",
+      "chart": ""
+    },
+    "84a082fe5f7309c3d158": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [],
+      "reason": "Headlines cover foreign central banks (Bank of Canada, BOJ) and a consumer confidence story, not a U.S. CPI development reported by multiple outlets.",
+      "chart": ""
+    },
+    "439e2e93c982e2dd2a4d": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-25/china-dismisses-us-tariff-prospect-as-political-maneuvering",
+        "https://www.wsj.com/logistics-report/china-and-other-countries-face-higher-u-s-tariffs-over-industrial-subsidies-399e2747?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Headlines 2 and 3 both report the same U.S. tariff action under consideration: higher tariffs on China and others over industrial subsidies. Headline 1 is an ex-negotiator's comment on talks, a different development.",
+      "chart": ""
+    },
+    "c1ccfc54b9807964309e": {
+      "at": "2026-11-25T12:35:51.717Z",
+      "keep": [
+        "https://nypost.com/2026/11/24/business/trump-eyes-tariff-blitz-on-china-eu-mexico-and-japan/",
+        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Both headlines report the same current development: the administration preparing new tariffs on major trading partners, which is central to the tariff-rate chart.",
       "chart": ""
     }
   },
