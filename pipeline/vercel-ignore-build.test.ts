@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { affectsSite, isBotPreview, needsBuild } from "../scripts/vercel-ignore-build.mjs";
+import { affectsSite, DEPLOY_MARKER, holdsForScheduledDeploy, isBotPreview, needsBuild } from "../scripts/vercel-ignore-build.mjs";
 
 /**
  * Vercel bills build CPU per minute, so scripts/vercel-ignore-build.mjs skips builds that cannot change the site. The
@@ -63,5 +63,20 @@ describe("vercel ignored build step", () => {
     expect(isBotPreview("main", "production")).toBe(false);
     expect(isBotPreview("claude/some-feature", "preview")).toBe(false);
     expect(isBotPreview(undefined, "preview")).toBe(false);
+  });
+
+  it("holds a production deploy of only pipeline data for the scheduled deploy, and builds everything else at once", () => {
+    const data = ["pipeline/output/news_economy.json", "pipeline/output/laws.json", "pipeline/raw/wikipedia-cases/manifest.json"];
+    expect(holdsForScheduledDeploy(data, "production", "chore(pipeline): refresh In the news cards (#1)")).toBe(true);
+    // the scheduled deploy's own commit always builds, even though the diff since the last deploy is only data
+    expect(holdsForScheduledDeploy(data, "production", `${DEPLOY_MARKER} publish pipeline data`)).toBe(false);
+    // any code, content or config file in the diff builds, and carries the held data with it
+    expect(holdsForScheduledDeploy([...data, "lib/site.ts"], "production", "fix")).toBe(false);
+    expect(holdsForScheduledDeploy([...data, "public/og/economy.png"], "production", "refresh")).toBe(false);
+    expect(holdsForScheduledDeploy([...data, "package.json"], "production", "bump")).toBe(false);
+    // previews, an empty diff and a missing message are not held
+    expect(holdsForScheduledDeploy(data, "preview", "refresh")).toBe(false);
+    expect(holdsForScheduledDeploy([], "production", "refresh")).toBe(false);
+    expect(holdsForScheduledDeploy(data, "production", undefined)).toBe(true);
   });
 });

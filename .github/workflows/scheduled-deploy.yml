@@ -1,0 +1,54 @@
+name: Scheduled production deploy
+
+# Vercel skips a production deploy whose changes since the last deploy are only pipeline data (scripts/vercel-ignore-build.mjs):
+# the refresh workflows merge to main several times a day and every deploy bills build CPU and stores a full copy of the site.
+# This workflow publishes what was held. Twice a day it pushes an empty commit whose subject starts with "chore(deploy):",
+# which the ignored build step always builds. It pushes only when something the site reads changed since the last such commit,
+# so a quiet day deploys nothing. Run it by hand ("Run workflow") to publish a data fix right away.
+#
+# Times (UTC): 16:00 is after Monday's weekly refreshes and the morning "In the news" run (11:17) have merged; 00:30 is after
+# the evening "In the news" run (23:17). Change them here and nowhere else.
+
+on:
+  schedule:
+    - cron: "0 16 * * *"
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scheduled-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Push the deploy commit if the site has changed since the last one
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          last=$(git log -1 --format=%H --grep='^chore(deploy):' || true)
+          if [ -z "$last" ]; then range="HEAD"; else range="$last..HEAD"; fi
+          git diff --name-only --no-renames "${last:-$(git rev-list --max-parents=0 HEAD | tail -1)}" HEAD > "$RUNNER_TEMP/changed.txt"
+          if node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            import { needsBuild } from "./scripts/vercel-ignore-build.mjs";
+            const files = readFileSync(process.argv[1], "utf8").split("\n").filter(Boolean);
+            process.exit(files.length > 0 && needsBuild(files) ? 0 : 1);
+          ' "$RUNNER_TEMP/changed.txt"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "chore(deploy): publish pipeline data refreshes"
+            git push origin HEAD:main || { git pull --rebase origin main && git push origin HEAD:main; }
+          else
+            echo "Nothing the site reads has changed since the last scheduled deploy ($range): no deploy."
+          fi
