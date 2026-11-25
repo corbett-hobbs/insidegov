@@ -1,84 +1,5 @@
 {
   "checks": {
-    "c993309803d65630766b": {
-      "at": "2026-11-22T18:27:09.899Z",
-      "keep": [
-        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
-        "https://www.huffpost.com/entry/distressing-scene-ice-officers-detain-two-people-in-crowded-jet-bridge-seattle-airport_n_6b0245f4e4b0db04454ad81e",
-        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
-        "https://www.cbsnews.com/news/ice-arrest-alaska-airlines-flight-seattle/",
-        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html",
-        "https://www.nytimes.com/2026/11/22/us/ice-arrest-passengers-seattle-airport.html",
-        "https://www.washingtonexaminer.com/policy/immigration/4811477/masked-immigration-officers-distressing-scene-seattle-airport/",
-        "https://www.foxnews.com/politics/dhs-dem-officials-clash-ice-arrest-seattle-airport",
-        "https://www.foxnews.com/politics/dhs-dem-officials-clash-ice-arrest-seattle-airport"
-      ],
-      "reason": "Most outlets reported the same ICE arrest of two passengers at Seattle airport; excluded the Bloomberg headlines (2, 3) because they don't name Seattle, and the training and student-enrollment stories are different developments.",
-      "chart": ""
-    },
-    "667b1978d93ef443c00d": {
-      "at": "2026-11-22T18:27:09.899Z",
-      "keep": [
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://nypost.com/2026/11/20/business/sp-500-and-dow-enter-correction-territory-nasdaq-loses-2026-gains-as-anthropic-dives/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://thehill.com/business/6234002-stocks-plummet-anthropic-record-ipo/",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.cbsnews.com/news/stocks-enter-correction-territory-ai-fears/",
-        "https://www.cnbc.com/2026/11/20/sp-500-correction-market-sell-off.html",
-        "https://www.cnbc.com/2026/11/20/sp-500-correction-market-sell-off.html",
-        "https://www.washingtontimes.com/news/2026/nov/21/unnerving-not-unusual-investors-navigating-10-drop-stock-market/",
-        "https://www.washingtontimes.com/news/2026/nov/21/unnerving-not-unusual-investors-navigating-10-drop-stock-market/"
-      ],
-      "reason": "Most outlets reported the Nov 20-21 U.S. stock sell-off that pushed the S&P 500 and Dow into correction territory; the Anthropic IPO debut was the other cluster but was covered less, and no listed chart measures stock prices.",
-      "chart": ""
-    },
-    "e28121a160180bfaf453": {
-      "at": "2026-11-22T18:27:09.899Z",
-      "keep": [],
-      "reason": "No single shared U.S. development: headline 1 is a general consumer feature, 2 is Swiss inflation, 3 is a progressive wage proposal, and 4 is a weekly roundup.",
-      "chart": ""
-    },
-    "177c7af5483530588eb0": {
-      "at": "2026-11-22T18:27:09.899Z",
-      "keep": [],
-      "reason": "Headlines cover two different offshore wind stories (a fishers feature and a Hill piece on a bill), with no single shared development, and neither clearly reports a concrete government action.",
-      "chart": ""
-    },
-    "935ef27b07c6fde27de9": {
-      "at": "2026-11-23T00:11:35.690Z",
-      "keep": [],
-      "reason": "All headlines cover one local incident, an ICE arrest of two passengers at Seattle airport, which is not a national-level development, and neither the border encounters nor the ICE removals chart directly measures airport arrests.",
-      "chart": ""
-    },
-    "874fbb04ce82a4cd738b": {
-      "at": "2026-11-23T00:11:35.690Z",
-      "keep": [
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.huffpost.com/entry/stocks-tumble-sell-off-ai-stocks-accelerates_n_6b008099e4b0edd18eddc169",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.bbc.co.uk/news/articles/c6808ym10vzgo?at_medium=RSS&at_campaign=rss",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.foxbusiness.com/markets/wall-street-suffers-historic-losses-dow-sp-500-plunge-correction-territory",
-        "https://www.cnbc.com/2026/11/22/the-nasdaq-is-in-freefall-heres-one-stock-to-look-at.html",
-        "https://www.cnbc.com/2026/11/22/the-nasdaq-is-in-freefall-heres-one-stock-to-look-at.html"
-      ],
-      "reason": "Most outlets reported the November 20-21 U.S. stock sell-off (S&P 500, Nasdaq, Dow correction); I kept straight news headlines on that and left out the Anthropic IPO debut, analysis pieces, and explainers.",
-      "chart": ""
-    },
-    "8ca687ec07c698257bce": {
-      "at": "2026-11-23T00:11:35.690Z",
-      "keep": [],
-      "reason": "Headlines 1 and 2 are separate remarks by two different Fed officials on AI and inflation, not one shared development; the rest are company, foreign, opinion, or incidental-topic stories.",
-      "chart": ""
-    },
     "29377f716cd59005288b": {
       "at": "2026-11-23T08:53:45.039Z",
       "keep": [],
@@ -253,6 +174,81 @@
       "keep": [],
       "reason": "No development is reported by two or more U.S. outlets: the ECB and Mexico items are foreign, and the Fed remarks and consumer confidence story are different developments.",
       "chart": ""
+    },
+    "5cd79839c9513e1b69ee": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [
+        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
+        "https://www.theguardian.com/us-news/2026/nov/24/kilmar-abrego-garcia-leaves-us",
+        "https://www.washingtontimes.com/news/2026/nov/24/kilmar-abrego-garcia-accept-deportation-ending-year-long-battle-trump/",
+        "https://www.foxnews.com/politics/kilmar-abrego-garcia-leave-us-voluntarily-europe-avoiding-forced-deportation",
+        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/",
+        "https://www.bbc.co.uk/news/articles/c6808pyy5dl9o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Six outlets report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain as the end of his deportation case; headline 1 is about a different California bill.",
+      "chart": ""
+    },
+    "68fa4a59867be77d2de2": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [],
+      "reason": "All headlines concern Nvidia CEO Jensen Huang's resignation, return, and related scrutiny; none reports a trade deal, trade talks, or tariff action, and the chip export-control angle is incidental. Neither the goods trade balance nor tariffs chart directly measures this story.",
+      "chart": ""
+    },
+    "c512443099358faca158": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [
+        "https://www.nbcnews.com/tech/tech-news/nvidia-reinstates-jensen-huang-rcna610864",
+        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/",
+        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
+      ],
+      "reason": "Two outlets (NBC, CBS) report the same development: Jensen Huang's reinstatement as Nvidia CEO and the resulting Nasdaq gain; no listed chart measures stock market moves, so chart is none.",
+      "chart": ""
+    },
+    "410d11f16f727e374831": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [],
+      "reason": "Only one headline centers on gas prices (a Thanksgiving travel item with no corroborating outlet); the others treat gas prices as incidental to consumer confidence and Amtrak ridership.",
+      "chart": ""
+    },
+    "50ee613f35b341d963bc": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [],
+      "reason": "No qualifying shared U.S. development: two headlines are about Mexico's and Canada's inflation (foreign), and the CNBC piece is about consumer confidence with inflation only incidental.",
+      "chart": ""
+    },
+    "9ccecf412cc0f9bebca3": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [
+        "https://www.foxnews.com/politics/massachusetts-sues-trump-admin-stop-ice-courthouse-arrests-unnecessary-fear",
+        "https://www.foxnews.com/politics/massachusetts-sues-trump-admin-stop-ice-courthouse-arrests-unnecessary-fear"
+      ],
+      "reason": "Massachusetts lawsuit against the Trump administration over ICE courthouse arrests is a single government/court development, but no chart measures courthouse arrests, so no chart is linked.",
+      "chart": ""
+    },
+    "f1c4fd403909526a0f3d": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [],
+      "reason": "The two Trump credit card rate-cap headlines are about card APRs, not the federal funds rate, and the Bloomberg Fed-minutes headline has no matching outlet coverage, so no qualifying shared development.",
+      "chart": ""
+    },
+    "0c41924957dba688d98d": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [
+        "https://www.huffpost.com/entry/jd-vance-vitol-venezuela_n_6b04a59de4b0da866ee29d19",
+        "https://thehill.com/homenews/senate/6241094-hassan-investigates-vance-vitol/"
+      ],
+      "reason": "Headlines 1 and 3 both report the same Senate investigation into Vance's ties to the Venezuelan oil contract; headline 2 is about healthcare and is unrelated.",
+      "chart": ""
+    },
+    "b19a31a996f8af7a75a5": {
+      "at": "2026-11-25T02:15:31.462Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-24/new-trump-tariffs-won-t-top-trade-deal-levels-will-be-targeted",
+        "https://nypost.com/2026/11/24/business/trump-eyes-tariff-blitz-on-china-eu-mexico-and-japan/",
+        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "All three report the same current development: the administration preparing a new round of targeted tariffs on trading partners. The chart measures tariff rates actually collected, so tariffs are central.",
+      "chart": ""
     }
   },
   "dispatched": {},
@@ -262,16 +258,17 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-24"
+      "last": "2026-11-25"
     },
     "119-pub-142": {
       "outlets": [
         "foxbusiness",
         "guardian",
+        "nypost",
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-24"
+      "last": "2026-11-25"
     },
     "119-pub-43": {
       "outlets": [
