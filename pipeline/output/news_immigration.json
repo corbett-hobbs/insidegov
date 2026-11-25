@@ -2,6 +2,48 @@
   "asOf": "2026-11-25",
   "stories": [
     {
+      "id": "asylum_status-2026-11-25",
+      "date": "2026-11-25",
+      "topic": "Asylum and legal status",
+      "headlines": [
+        {
+          "outletId": "thehill",
+          "outlet": "The Hill",
+          "lean": "Center",
+          "title": "Second judge invalidates Trump's new attempt to restrict birthright citizenship",
+          "url": "https://thehill.com/regulation/court-battles/6243427-second-judge-blocks-trump-birthright-citizenship/"
+        },
+        {
+          "outletId": "newsweek",
+          "outlet": "Newsweek",
+          "lean": "Center",
+          "title": "Federal Judge Blocks Trump’s Birthright Citizenship Order",
+          "url": "https://www.newsweek.com/federal-judge-blocks-trump-birthright-citizenship-lawsuit-12768697"
+        }
+      ]
+    },
+    {
+      "id": "enforcement-2026-11-24",
+      "date": "2026-11-24",
+      "topic": "Immigration enforcement",
+      "headlines": [
+        {
+          "outletId": "cbsnews",
+          "outlet": "CBS News",
+          "lean": "Lean Left",
+          "title": "DOJ directs array of litigators to help with ICE detainee lawsuits",
+          "url": "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "DOJ lawyers ordered to swarm 'frivolous' 97,000-lawsuit wave from ICE detainees",
+          "url": "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees"
+        }
+      ]
+    },
+    {
       "id": "removals-2026-11-24",
       "date": "2026-11-24",
       "topic": "Deportations",
@@ -15,11 +57,11 @@
           "url": "https://www.theguardian.com/us-news/2026/nov/24/kilmar-abrego-garcia-leaves-us"
         },
         {
-          "outletId": "wsj",
-          "outlet": "Wall Street Journal",
+          "outletId": "thehill",
+          "outlet": "The Hill",
           "lean": "Center",
-          "title": "Kilmar Abrego Garcia Is Leaving the U.S. for Spain After Arranging Own Exit",
-          "url": "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews"
+          "title": "Van Hollen: Abrego Garcia leaving US, 'will be safe' amid self-deportation reports",
+          "url": "https://thehill.com/policy/international/6241572-kilmar-abrego-garcia-self-deports/"
         },
         {
           "outletId": "washingtonexaminer",
@@ -91,56 +133,6 @@
           "lean": "Lean Left",
           "title": "Trump administration appeals to Supreme Court over legal protections for Venezuelan migrants",
           "url": "https://apnews.com/article/supreme-court-trump-administration-immigration-venezuela-34f5293fe85f3befb2a599f513308d60?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
-        }
-      ]
-    },
-    {
-      "id": "green_cards-2026-11-16",
-      "date": "2026-11-16",
-      "topic": "Green cards",
-      "chartId": "chart-green-cards",
-      "headlines": [
-        {
-          "outletId": "bloomberg",
-          "outlet": "Bloomberg",
-          "lean": "Center",
-          "title": "US Proposes Tighter Rules for Employer-Sponsored Green Cards",
-          "url": "https://www.bloomberg.com/news/articles/2026-11-16/us-proposes-tighter-rules-for-employer-sponsored-green-cards"
-        },
-        {
-          "outletId": "breitbart",
-          "outlet": "Breitbart",
-          "lean": "Right",
-          "title": "Trump Deputies Set Rule to Curb Employers' Green Card Fraud",
-          "url": "https://www.breitbart.com/politics/2026/11/17/trump-deputies-set-rule-to-curb-employers-green-card-fraud/"
-        }
-      ]
-    },
-    {
-      "id": "immigration_courts-2026-11-13",
-      "date": "2026-11-13",
-      "topic": "Immigration court rulings",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Supreme Court Set to Hear Trump’s Ban on Asylum Claims at Border",
-          "url": "https://www.nytimes.com/2026/11/13/us/politics/supreme-court-trump-asylum-border.html"
-        },
-        {
-          "outletId": "nbcnews",
-          "outlet": "NBC News",
-          "lean": "Lean Left",
-          "title": "Supreme Court to rule on Trump’s asylum ban",
-          "url": "https://www.nbcnews.com/politics/supreme-court/supreme-court-takes-trumps-asylum-ban-case-rcna608564"
-        },
-        {
-          "outletId": "washingtonexaminer",
-          "outlet": "Washington Examiner",
-          "lean": "Lean Right",
-          "title": "Supreme Court takes up challenge to Trump’s southern border asylum ban",
-          "url": "https://www.washingtonexaminer.com/news/supreme-court/4803086/supreme-court-takes-up-challenge-trump-southern-border-asylum-ban/"
         }
       ]
     }
