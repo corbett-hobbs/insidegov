@@ -160,6 +160,22 @@
     ],
     "/presidency/immigration": [
       {
+        "id": "border-encounters-by-fiscal-year",
+        "title": "Border encounters by fiscal year"
+      },
+      {
+        "id": "removals-returns-and-detention-by-fiscal-year",
+        "title": "Removals, returns and detention by fiscal year"
+      },
+      {
+        "id": "criminal-history-of-those-removed",
+        "title": "Criminal history of those removed"
+      },
+      {
+        "id": "who-gets-removed",
+        "title": "Who gets removed"
+      },
+      {
         "id": "green-cards-and-citizenships-by-fiscal-year",
         "title": "Green cards and citizenships by fiscal year"
       },
@@ -178,22 +194,6 @@
       {
         "id": "who-s-sent-the-most-refugees",
         "title": "Who’s sent the most refugees"
-      },
-      {
-        "id": "border-encounters-by-fiscal-year",
-        "title": "Border encounters by fiscal year"
-      },
-      {
-        "id": "removals-returns-and-detention-by-fiscal-year",
-        "title": "Removals, returns and detention by fiscal year"
-      },
-      {
-        "id": "criminal-history-of-those-removed",
-        "title": "Criminal history of those removed"
-      },
-      {
-        "id": "who-gets-removed",
-        "title": "Who gets removed"
       }
     ],
     "/presidency/trade": [
