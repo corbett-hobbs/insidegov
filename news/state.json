@@ -341,6 +341,108 @@
       "keep": [],
       "reason": "Both headlines cover new home sales data, and mortgage rates appear only in passing in one headline, so the chart's topic is not central.",
       "chart": ""
+    },
+    "e2caf9db89c19f125657": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [
+        "https://www.huffpost.com/entry/trump-tariffs-subsidized-production_n_6b06b4b1e4b01a3571b9445d",
+        "https://www.wsj.com/logistics-report/china-and-other-countries-face-higher-u-s-tariffs-over-industrial-subsidies-399e2747?mod=pls_whats_news_us_business_f",
+        "https://www.bloomberg.com/news/articles/2026-11-25/us-targets-china-eu-with-new-tariffs-after-overcapacity-probe",
+        "https://www.axios.com/2026/11/25/trump-tariffs-china",
+        "https://www.nbcnews.com/business/economy/trump-country-specific-tariffs-excess-capacity-rcna611087",
+        "https://thehill.com/homenews/administration/6242105-trump-administration-new-tariffs-china-european-union/",
+        "https://www.foxbusiness.com/fox-news-global-economy/trump-admin-raise-tariffs-china-eu-other-trading-partners",
+        "https://www.theguardian.com/us-news/2026/nov/25/trump-new-china-tariffs-europe",
+        "https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html",
+        "https://www.cbsnews.com/news/trump-administration-tariffs-14-trading-partners/",
+        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Eleven headlines report the same Nov 25, 2026 development: the administration proposing or rolling out new tariffs on China, the EU and other partners over subsidies or overcapacity. Headline 11 covers the trade-truce implications, a different angle, so it is left out.",
+      "chart": ""
+    },
+    "b090941bfa2645235fb6": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [],
+      "reason": "All headlines cover Jensen Huang's return as Nvidia CEO and related governance and probe news; trade talks or agreements are at most incidental, and no trade chart measures this story.",
+      "chart": ""
+    },
+    "184ec84cadf7c9eda76f": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
+        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
+        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees",
+        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees"
+      ],
+      "reason": "CBS and Fox both report the same DOJ directive assigning litigators to ICE detainee lawsuits, the development most outlets covered here.",
+      "chart": ""
+    },
+    "edd9f431a0337585f7d3": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [
+        "https://nypost.com/2026/11/25/business/us-proposes-new-tariffs-on-14-trading-partners-including-china-japan-eu-and-india/",
+        "https://www.bloomberg.com/news/articles/2026-11-25/us-proposes-excess-capacity-tariffs-full-list",
+        "https://www.washingtonexaminer.com/news/white-house/4814966/new-trump-administration-tariffs-china-eu/"
+      ],
+      "reason": "Headlines 1, 2 and 3 all report the same development: the Trump administration's proposed new tariffs on 14 trading partners. Headline 4 is an explainer, and 5 and 7 are reactions from other countries rather than reports of the announcement itself.",
+      "chart": ""
+    },
+    "43448d064d0a18232868": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
+        "https://thehill.com/business/6239346-october-pce-inflation-data/",
+        "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
+        "https://www.theguardian.com/business/2026/nov/25/consumer-prices-september-october-energy-inflation",
+        "https://nypost.com/2026/11/25/business/feds-preferred-inflation-gauge-jumps-to-3-8-as-wall-street-braces-for-rate-hike/"
+      ],
+      "reason": "Five outlets report the same November 25 release showing October inflation at 3.8%, which is the Fed's preferred PCE gauge; the Guardian's 3.8% \"highest since May\" matches it, though its headline doesn't name the measure. Excluded market roundups, the Russia story, and the vague Hill piece.",
+      "chart": ""
+    },
+    "54f03635a2af6f179b02": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [],
+      "reason": "Only one U.S. headline (Washington Examiner, Thanksgiving travel framing) and it is not a clear single national development; the BBC headline is about UK energy bills, a different development.",
+      "chart": ""
+    },
+    "8a8c631037c930958df4": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/immigration/4814596/kilmar-abrego-garcia-leave-us-spain/",
+        "https://www.nbcnews.com/news/us-news/kilmar-abrego-garcia-rcna611215",
+        "https://www.foxnews.com/politics/kilmar-abrego-garcia-leave-us-voluntarily-europe-avoiding-forced-deportation",
+        "https://www.huffpost.com/entry/ap-us-deportation-error-abrego-garcia_n_6b062b22e4b01a3571b8db1b",
+        "https://thehill.com/policy/international/6242020-kilmar-abrego-garcia-self-deport-spain-arrival/",
+        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
+        "https://www.nytimes.com/2026/11/24/us/politics/abrego-garcia-leave-deportation.html",
+        "https://www.bbc.co.uk/news/articles/c6808pyy5dl9o?at_medium=RSS&at_campaign=rss",
+        "https://www.theguardian.com/us-news/2026/nov/25/kilmar-abrego-garcia-spain",
+        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/"
+      ],
+      "reason": "Ten headlines report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain. Headline 7 (Khalil judge promotion) and 12 (court release of getaway details) are different angles, so they are left out.",
+      "chart": ""
+    },
+    "e431cdc88a112d2e6a5d": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [],
+      "reason": "The headlines report a court ruling on birthright citizenship, which is citizenship rather than the asylum, humanitarian parole, or temporary status the page covers, and neither pick_chart option measures it.",
+      "chart": ""
+    },
+    "3985d9e1f044bf0759e3": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [],
+      "reason": "Only the Newsweek headline centers on mortgage rates, and it is a personal-finance angle; the other headlines cover new home sales or South Korea, so no shared rate development qualifies.",
+      "chart": ""
+    },
+    "cddb476d2dd36acf0c43": {
+      "at": "2026-11-26T04:55:14.370Z",
+      "keep": [
+        "https://www.foxnews.com/politics/trumps-birthright-citizenship-restrictions-struck-down-dc-federal-judge-called-hater",
+        "https://www.foxnews.com/politics/trumps-birthright-citizenship-restrictions-struck-down-dc-federal-judge-called-hater",
+        "https://www.washingtonexaminer.com/news/justice/4815735/judge-blocks-trump-second-attempt-birthright-citizenship/"
+      ],
+      "reason": "All three headlines report the same federal court ruling blocking Trump's birthright citizenship restrictions, a nationally significant current court action.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -353,8 +455,8 @@
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
       "since": "2026-11-25T22:24:23.278Z",
-      "at": "2026-11-25T22:24:23.278Z",
-      "count": 1
+      "at": "2026-11-26T04:55:14.370Z",
+      "count": 2
     }
   },
   "laws": {
@@ -363,7 +465,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-25"
+      "last": "2026-11-26"
     },
     "119-pub-142": {
       "outlets": [
@@ -373,7 +475,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-25"
+      "last": "2026-11-26"
     },
     "119-pub-43": {
       "outlets": [
