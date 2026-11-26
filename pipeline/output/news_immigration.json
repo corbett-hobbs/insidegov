@@ -7,6 +7,13 @@
       "topic": "Asylum and legal status",
       "headlines": [
         {
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "Judge Blocks Trump's Second Attempt To Strip Birthright Citizenship",
+          "url": "https://www.huffpost.com/entry/trump-birthright-citizenship_n_6b0740c4e4b01d8bd1db4758"
+        },
+        {
           "outletId": "thehill",
           "outlet": "The Hill",
           "lean": "Center",
@@ -14,11 +21,32 @@
           "url": "https://thehill.com/regulation/court-battles/6243427-second-judge-blocks-trump-birthright-citizenship/"
         },
         {
+          "outletId": "washingtonexaminer",
+          "outlet": "Washington Examiner",
+          "lean": "Lean Right",
+          "title": "Judge Christopher Cooper blocks Trump’s second attempt at limiting birthright citizenship",
+          "url": "https://www.washingtonexaminer.com/news/justice/4815735/judge-blocks-trump-second-attempt-birthright-citizenship/"
+        }
+      ]
+    },
+    {
+      "id": "immigration_courts-2026-11-25",
+      "date": "2026-11-25",
+      "topic": "Immigration court rulings",
+      "headlines": [
+        {
           "outletId": "newsweek",
           "outlet": "Newsweek",
           "lean": "Center",
           "title": "Federal Judge Blocks Trump’s Birthright Citizenship Order",
           "url": "https://www.newsweek.com/federal-judge-blocks-trump-birthright-citizenship-lawsuit-12768697"
+        },
+        {
+          "outletId": "foxnews",
+          "outlet": "Fox News",
+          "lean": "Right",
+          "title": "Trump's birthright citizenship restrictions struck down again by DC federal judge he called 'hater'",
+          "url": "https://www.foxnews.com/politics/trumps-birthright-citizenship-restrictions-struck-down-dc-federal-judge-called-hater"
         }
       ]
     },
@@ -94,9 +122,9 @@
       ]
     },
     {
-      "id": "immigration_courts-2026-11-19",
+      "id": "asylum_status-2026-11-19",
       "date": "2026-11-19",
-      "topic": "Immigration court rulings",
+      "topic": "Asylum and legal status",
       "headlines": [
         {
           "outletId": "abcnews",
@@ -111,28 +139,6 @@
           "lean": "Lean Right",
           "title": "Appeals court halts bid to revive Venezuelan temporary protected status after Trump goes to Supreme Court",
           "url": "https://www.washingtonexaminer.com/news/justice/4808711/appeals-court-halts-bid-revive-venezuela-tps-trump-supreme-court/"
-        }
-      ]
-    },
-    {
-      "id": "removals-2026-11-18",
-      "date": "2026-11-18",
-      "topic": "Deportations",
-      "chartId": "chart-removals",
-      "headlines": [
-        {
-          "outletId": "nytimes",
-          "outlet": "New York Times",
-          "lean": "Lean Left",
-          "title": "Fight Over Deportation Protections for Venezuelans Escalates With Request to Supreme Court",
-          "url": "https://www.nytimes.com/2026/11/18/us/politics/supreme-court-trump-deportation-venezuelans.html"
-        },
-        {
-          "outletId": "apnews",
-          "outlet": "Associated Press",
-          "lean": "Lean Left",
-          "title": "Trump administration appeals to Supreme Court over legal protections for Venezuelan migrants",
-          "url": "https://apnews.com/article/supreme-court-trump-administration-immigration-venezuela-34f5293fe85f3befb2a599f513308d60?utm_source=flipboard&utm_content=AssociatedPress%2Fmagazine%2FTop+Stories"
         }
       ]
     }

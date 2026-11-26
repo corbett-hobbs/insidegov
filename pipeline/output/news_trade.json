@@ -8,11 +8,11 @@
       "chartId": "tariffs",
       "headlines": [
         {
-          "outletId": "bbc",
-          "outlet": "BBC News",
-          "lean": "Center",
-          "title": "US preparing to unveil plan for new tariffs on global trading partners",
-          "url": "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+          "outletId": "huffpost",
+          "outlet": "HuffPost",
+          "lean": "Left",
+          "title": "U.S. Plans To Hike Tariffs, Another Controversial Twist In Trump's Economic Policy",
+          "url": "https://www.huffpost.com/entry/trump-tariffs_n_6b06e042e4b03d2283613751"
         },
         {
           "outletId": "bloomberg",
