@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-25",
+  "asOf": "2026-11-26",
   "stories": [
     {
       "id": "new_laws-2026-11-19",
@@ -20,13 +20,6 @@
           "lean": "Lean Left",
           "title": "Senate passes Trump-backed permitting bill",
           "url": "https://www.axios.com/2026/11/20/senate-passes-energy-permitting-bill"
-        },
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Senate passes BAAJA permitting reform bill backed by AI, energy sectors",
-          "url": "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html"
         }
       ]
     }
