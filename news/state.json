@@ -1,52 +1,5 @@
 {
   "checks": {
-    "6f7a098b28d521b21242": {
-      "at": "2026-11-24T17:29:45.724Z",
-      "keep": [],
-      "reason": "The most-covered item is a single local ICE arrest incident at Seattle airport, which is local news and not a national development; the Massachusetts lawsuit and DOJ threat case are each covered by only one outlet, and neither chart (border encounters or ICE removals) measures arrests.",
-      "chart": ""
-    },
-    "3b6844c41eff05cff7ef": {
-      "at": "2026-11-24T17:29:45.724Z",
-      "keep": [],
-      "reason": "Headlines 1-4 cover Trump's comments on capping credit card interest rates, which is not the Fed's policy rate the chart measures; headline 5 is about commercial real estate activity, not a Fed development.",
-      "chart": ""
-    },
-    "5ca6fbc6076eeeb26ded": {
-      "at": "2026-11-24T17:29:45.724Z",
-      "keep": [],
-      "reason": "Both headlines report one Senate probe of JD Vance's ties to a Venezuelan oil contract, but the story is about a political investigation and contract, not the total U.S. petroleum imports and exports the chart measures, so the chart's topic is not central.",
-      "chart": ""
-    },
-    "0104fbc397c61a0b1c75": {
-      "at": "2026-11-24T17:29:45.724Z",
-      "keep": [
-        "https://www.nbcnews.com/business/markets/stocks-rebound-ai-tech-selloff-nvidia-rcna610833",
-        "https://www.foxbusiness.com/markets/stocks-november-23-2026",
-        "https://www.washingtontimes.com/news/2026/nov/23/us-stocks-soar-recover-half-last-weeks-plunge-jensen-huangs-return/",
-        "https://www.bbc.co.uk/news/articles/cq62pn6j42jko?at_medium=RSS&at_campaign=rss",
-        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
-        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
-        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/",
-        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
-      ],
-      "reason": "Most outlets reported the same one-day U.S. stock market surge (Nasdaq up 6.5%) after Jensen Huang's reinstatement at Nvidia; the other headlines are about the Huang saga, commentary, or other events.",
-      "chart": ""
-    },
-    "ca2fcd02a0c8ec30a9d0": {
-      "at": "2026-11-24T17:29:45.724Z",
-      "keep": [],
-      "reason": "Headlines cover different oil price moves (a fall on Nov 23, a rebound on Nov 24, a fall on Nov 24) and a separate tanker-attack story, so no single development is shared; none of the listed charts directly measures oil prices or Gulf shipping risk.",
-      "chart": ""
-    },
-    "8b8ef888d4f50024a5b3": {
-      "at": "2026-11-24T17:29:45.724Z",
-      "keep": [],
-      "reason": "No development is reported by two or more U.S. outlets: the ECB and Mexico items are foreign, and the Fed remarks and consumer confidence story are different developments.",
-      "chart": ""
-    },
     "5cd79839c9513e1b69ee": {
       "at": "2026-11-25T02:15:31.462Z",
       "keep": [
@@ -482,6 +435,92 @@
       "keep": [],
       "reason": "Only one headline is about U.S. mortgage-related news (new home sales, with rates incidental), and the other is about South Korea; no development is reported by multiple outlets.",
       "chart": ""
+    },
+    "34294b14f86db981244b": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [
+        "https://www.huffpost.com/entry/trump-tariffs-subsidized-production_n_6b06b4b1e4b01a3571b9445d",
+        "https://www.wsj.com/logistics-report/china-and-other-countries-face-higher-u-s-tariffs-over-industrial-subsidies-399e2747?mod=pls_whats_news_us_business_f",
+        "https://www.axios.com/2026/11/25/trump-tariffs-china",
+        "https://www.nbcnews.com/business/economy/trump-country-specific-tariffs-excess-capacity-rcna611087",
+        "https://thehill.com/homenews/administration/6242105-trump-administration-new-tariffs-china-european-union/",
+        "https://www.foxbusiness.com/fox-news-global-economy/trump-admin-raise-tariffs-china-eu-other-trading-partners",
+        "https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html",
+        "https://www.cbsnews.com/news/trump-administration-tariffs-14-trading-partners/",
+        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Headlines 1-9 all report the same U.S. government action: proposed new tariffs on China, the EU and other partners over subsidized production; headline 10 covers foreign reactions instead, so it is left out.",
+      "chart": ""
+    },
+    "f338919505f270c5b1e8": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [],
+      "reason": "All headlines concern Nvidia's CEO reinstatement and related probes, not a U.S. trade deal, talks, or restriction; neither the trade balance nor tariffs chart measures this story.",
+      "chart": ""
+    },
+    "4ba66efd68f2b3b7a5aa": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/news/white-house/4814966/new-trump-administration-tariffs-china-eu/"
+      ],
+      "reason": "Only the Washington Examiner headline clearly reports the new tariffs announcement; HuffPost's vague \"plans to hike\" and CNBC's \"threats\" are unclear matches, and the BBC piece is analysis.",
+      "chart": ""
+    },
+    "629d25ac5659deaf62d8": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
+        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
+        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees",
+        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees"
+      ],
+      "reason": "Two outlets (CBS, Fox) reported the DOJ directive assigning litigators to ICE detainee lawsuits; the other stories are a single outlet's coverage or an individual arrest.",
+      "chart": ""
+    },
+    "966d214a6e237c6031ab": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
+        "https://thehill.com/business/6239346-october-pce-inflation-data/",
+        "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
+        "https://www.theguardian.com/business/2026/nov/25/consumer-prices-september-october-energy-inflation"
+      ],
+      "reason": "Four headlines report the same official release: the October inflation gauge (PCE) rising to 3.8% over the year, which is central to the U.S. inflation chart.",
+      "chart": ""
+    },
+    "484d7a52ccdb07b53820": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [
+        "https://www.bloomberg.com/news/articles/2026-11-26/trump-says-revised-gdp-numbers-fake-calls-for-investigation",
+        "https://thehill.com/homenews/administration/6244608-trump-revised-gdp-data-probe/",
+        "https://www.axios.com/2026/11/26/trump-gdp-investigation-economy-statistics",
+        "https://nypost.com/2026/11/26/us-news/president-trump-calls-for-probe-into-why-economic-growth-figures-revised-up-so-sharply-after-election-alleges-purposeful-error/",
+        "https://www.foxbusiness.com/politics/trump-demands-probe-pre-election-gdp-data-revision",
+        "https://www.theguardian.com/us-news/2026/nov/26/trump-fake-economic-figures-midterms",
+        "https://www.washingtonexaminer.com/news/white-house/4816296/trump-investigation-commerce-department-gdp-figures/",
+        "https://www.cnbc.com/2026/11/26/trump-gdp-revision-investigation.html",
+        "https://www.cbsnews.com/news/trump-thanksgiving-commerce-department-gdp-investigation/",
+        "https://www.newsweek.com/trump-calls-gdp-fake-his-white-house-called-it-a-surge-in-october-12772108"
+      ],
+      "reason": "Most outlets reported Trump's demand for a probe into the revised Q3 GDP data; the Q3 growth-revision headlines (1, 2) are a separate development with fewer outlets, and the rest are off-topic.",
+      "chart": ""
+    },
+    "369eb32ba6c1b307870f": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [
+        "https://www.wsj.com/world/middle-east/oil-prices-fall-as-traders-weigh-supply-outlook-renewed-middle-east-tensions-182b1198?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/world/middle-east/oil-prices-fall-as-traders-weigh-supply-outlook-renewed-middle-east-tensions-182b1198?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-mixed-as-traders-weigh-middle-east-supply-risks-opec-meeting-c234598a?mod=pls_whats_news_us_business_f",
+        "https://www.wsj.com/business/energy-oil/oil-prices-mixed-as-traders-weigh-middle-east-supply-risks-opec-meeting-c234598a?mod=pls_whats_news_us_business_f"
+      ],
+      "reason": "Wall Street Journal headlines report the same current oil price rise tied to Middle East tensions and the OPEC+ meeting; the OPEC surplus piece is analysis and the Alberta story is not U.S.",
+      "chart": ""
+    },
+    "e62c1b921517624bf42b": {
+      "at": "2026-11-26T23:43:15.416Z",
+      "keep": [],
+      "reason": "The Pritzker headlines concern a single state governor's decision on a tax-credit program, which is state-level news, and the Portugal headlines are foreign news with no U.S. angle; no pick_chart measures either story.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -494,8 +533,8 @@
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
       "since": "2026-11-25T22:24:23.278Z",
-      "at": "2026-11-26T14:58:52.114Z",
-      "count": 3
+      "at": "2026-11-26T23:43:15.416Z",
+      "count": 4
     }
   },
   "laws": {
