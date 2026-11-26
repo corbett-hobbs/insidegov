@@ -1,49 +1,5 @@
 {
   "checks": {
-    "9bbaf1e6e58afe3ef715": {
-      "at": "2026-11-24T05:54:40.856Z",
-      "keep": [],
-      "reason": "The Seattle airport ICE arrest of two passengers is a single local incident, not a national-level government action, and no listed chart (border encounters or ICE removals) measures such arrests; the Guardian piece is a separate analysis story.",
-      "chart": ""
-    },
-    "91f31774d415b99ec91f": {
-      "at": "2026-11-24T05:54:40.856Z",
-      "keep": [
-        "https://www.nbcnews.com/business/markets/stocks-rebound-ai-tech-selloff-nvidia-rcna610833",
-        "https://www.foxbusiness.com/markets/stocks-november-23-2026",
-        "https://www.washingtontimes.com/news/2026/nov/23/us-stocks-soar-recover-half-last-weeks-plunge-jensen-huangs-return/",
-        "https://www.cnbc.com/2026/11/23/anthropic-nvidia-shares.html",
-        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
-        "https://nypost.com/2026/11/23/business/nasdaq-surges-6-5-in-second-largest-one-day-gain-ever-as-nvidia-leads-tech-ai-stocks-higher/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
-        "https://www.washingtonexaminer.com/policy/finance-and-economy/4813208/stock-market-jensen-huang-reinstated-nvidia/",
-        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/",
-        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
-      ],
-      "reason": "Most headlines on the stock market move report the same rally after Jensen Huang's return to Nvidia; the other Huang-reinstatement headlines treat markets as incidental, so they are left out.",
-      "chart": ""
-    },
-    "1c7d3d59fa2304a44db4": {
-      "at": "2026-11-24T05:54:40.856Z",
-      "keep": [],
-      "reason": "The two headlines cover different developments (a DoJ admission about a deported citizen and a Virginia court ruling on a state anti-ICE law), and each was reported by only one outlet, so no single shared story qualifies.",
-      "chart": ""
-    },
-    "a7ebb7b57bbc239f420a": {
-      "at": "2026-11-24T05:54:40.856Z",
-      "keep": [
-        "https://www.cbsnews.com/news/megaspeed-trade-blacklist-nvidia-jensen-huang/",
-        "https://www.foxbusiness.com/politics/trump-admin-adds-megaspeed-commerce-department-trade-blacklist-after-nvidia-scandal",
-        "https://thehill.com/policy/technology/6238594-commerce-blacklists-megaspeed-nvidia/",
-        "https://www.bbc.co.uk/news/articles/cv98xpg5dg5zo?at_medium=RSS&at_campaign=rss",
-        "https://nypost.com/2026/11/23/us-news/commerce-department-blacklists-megaspeed-after-nvidia-reinstates-jensen-huang-as-ceo/",
-        "https://www.theguardian.com/us-news/2026/nov/23/megaspeed-us-trade-blacklist-nvidia",
-        "https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html",
-        "https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html"
-      ],
-      "reason": "Most headlines cover Jensen Huang's reinstatement at Nvidia, which is not a trade development; the trade-relevant story is the Commerce Department adding Megaspeed to the trade blacklist, reported by many outlets.",
-      "chart": ""
-    },
     "6f7a098b28d521b21242": {
       "at": "2026-11-24T17:29:45.724Z",
       "keep": [],
@@ -443,6 +399,89 @@
       ],
       "reason": "All three headlines report the same federal court ruling blocking Trump's birthright citizenship restrictions, a nationally significant current court action.",
       "chart": ""
+    },
+    "42b6a021eea6ded71333": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [
+        "https://www.huffpost.com/entry/trump-tariffs-subsidized-production_n_6b06b4b1e4b01a3571b9445d",
+        "https://www.wsj.com/logistics-report/china-and-other-countries-face-higher-u-s-tariffs-over-industrial-subsidies-399e2747?mod=pls_whats_news_us_business_f",
+        "https://www.axios.com/2026/11/25/trump-tariffs-china",
+        "https://www.nbcnews.com/business/economy/trump-country-specific-tariffs-excess-capacity-rcna611087",
+        "https://thehill.com/homenews/administration/6242105-trump-administration-new-tariffs-china-european-union/",
+        "https://www.foxbusiness.com/fox-news-global-economy/trump-admin-raise-tariffs-china-eu-other-trading-partners",
+        "https://www.theguardian.com/us-news/2026/nov/25/trump-new-china-tariffs-europe",
+        "https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html",
+        "https://www.cbsnews.com/news/trump-administration-tariffs-14-trading-partners/",
+        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
+      ],
+      "reason": "Headlines 1-9 and 11 all report the same Nov 25 government action: the Trump administration's proposed new tariffs on China, the EU and other partners over industrial subsidies. Headlines 10 and 12 cover China's reaction, so they are left out.",
+      "chart": ""
+    },
+    "ed8f888150d21bdecd53": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [],
+      "reason": "All headlines cover Jensen Huang's Nvidia reinstatement and governance; none reports a trade deal, talks, or tariff action as the central development, and no chart measures this story.",
+      "chart": ""
+    },
+    "a51d2b473904430f460b": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [
+        "https://www.huffpost.com/entry/trump-tariffs_n_6b06e042e4b03d2283613751",
+        "https://nypost.com/2026/11/25/business/us-proposes-new-tariffs-on-14-trading-partners-including-china-japan-eu-and-india/",
+        "https://www.washingtonexaminer.com/news/white-house/4814966/new-trump-administration-tariffs-china-eu/"
+      ],
+      "reason": "Headlines 2, 3 and 4 all report the Trump administration's proposed new tariffs on 14 trading partners, the main development of the period.",
+      "chart": ""
+    },
+    "af3fd9ecd13bbbd5ab41": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [
+        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
+        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
+        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees",
+        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees"
+      ],
+      "reason": "CBS and Fox both report the same DOJ directive assigning litigators to ICE detainee lawsuits, the development most outlets covered; the Ábrego García and lottery-arrest stories are single-outlet or incidental.",
+      "chart": ""
+    },
+    "e947fbd32381b3134467": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
+        "https://thehill.com/business/6239346-october-pce-inflation-data/",
+        "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
+        "https://www.theguardian.com/business/2026/nov/25/consumer-prices-september-october-energy-inflation",
+        "https://nypost.com/2026/11/25/business/feds-preferred-inflation-gauge-jumps-to-3-8-as-wall-street-braces-for-rate-hike/"
+      ],
+      "reason": "Five outlets report the same official October PCE inflation release (3.8% annual rise). The chart tracks CPI, so this is related inflation news rather than the exact measure; other headlines mention inflation only in passing or cover markets.",
+      "chart": ""
+    },
+    "b4857eebb8f316537f20": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [
+        "https://www.washingtonexaminer.com/policy/immigration/4814596/kilmar-abrego-garcia-leave-us-spain/",
+        "https://www.nbcnews.com/news/us-news/kilmar-abrego-garcia-rcna611215",
+        "https://www.huffpost.com/entry/ap-us-deportation-error-abrego-garcia_n_6b062b22e4b01a3571b8db1b",
+        "https://thehill.com/policy/international/6242020-kilmar-abrego-garcia-self-deport-spain-arrival/",
+        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
+        "https://www.nytimes.com/2026/11/24/us/politics/abrego-garcia-leave-deportation.html",
+        "https://www.theguardian.com/us-news/2026/nov/25/kilmar-abrego-garcia-spain",
+        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/"
+      ],
+      "reason": "Eight headlines report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain. Headline 10 (judge releasing details) and 6 (judge promotion) are different developments, so they are excluded.",
+      "chart": ""
+    },
+    "e33c04895908e45460b1": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [],
+      "reason": "No qualifying U.S. national development: the headlines cover an Illinois state tax-credit dispute and foreign (EU candidate and Portugal) tax stories, and none matches a chart's data.",
+      "chart": ""
+    },
+    "e6b7b516296fd5383702": {
+      "at": "2026-11-26T14:58:52.114Z",
+      "keep": [],
+      "reason": "Only one headline is about U.S. mortgage-related news (new home sales, with rates incidental), and the other is about South Korea; no development is reported by multiple outlets.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -455,8 +494,8 @@
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
       "since": "2026-11-25T22:24:23.278Z",
-      "at": "2026-11-26T04:55:14.370Z",
-      "count": 2
+      "at": "2026-11-26T14:58:52.114Z",
+      "count": 3
     }
   },
   "laws": {
@@ -469,7 +508,9 @@
     },
     "119-pub-142": {
       "outlets": [
+        "cnbc",
         "foxbusiness",
+        "foxnews",
         "guardian",
         "nypost",
         "wsj"
