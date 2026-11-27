@@ -1,69 +1,5 @@
 {
   "checks": {
-    "4e2b019ed333fcb813c0": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [],
-      "reason": "All headlines concern Jensen Huang's resignation and return as Nvidia CEO and related governance, scandal, and probes; none reports a trade deal, talks, or trade restriction as the central development, and the export-control mentions are incidental.",
-      "chart": ""
-    },
-    "c3db285b2251e6c1c283": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [],
-      "reason": "No single development is shared by multiple qualifying U.S. headlines: the Thanksgiving gas-price item stands alone, the Amtrak story only mentions gas prices in passing, and the UK energy-bill stories are foreign news without a U.S. angle.",
-      "chart": ""
-    },
-    "877531f7756c2f625464": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [],
-      "reason": "Two different developments, each reported by only one outlet (Fox News on threat charges against ICE agents, CBS News on DOJ litigators for detainee suits), so no single development has multi-outlet coverage; neither matches a chart's data.",
-      "chart": ""
-    },
-    "22efce37e57a1b309178": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [],
-      "reason": "Headlines 1 and 2 cover a Trump credit card rate cap comment, not the Fed funds rate, and headline 3 is a single outlet's report on FOMC regional board views, so no development is shared by the matched headlines.",
-      "chart": ""
-    },
-    "ec36bc8f4132afa1306a": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [
-        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
-        "https://www.washingtonexaminer.com/policy/immigration/4814596/kilmar-abrego-garcia-leave-us-spain/",
-        "https://www.nbcnews.com/news/us-news/kilmar-abrego-garcia-rcna611215",
-        "https://www.foxnews.com/politics/kilmar-abrego-garcia-leave-us-voluntarily-europe-avoiding-forced-deportation",
-        "https://www.huffpost.com/entry/ap-us-deportation-error-abrego-garcia_n_6b062b22e4b01a3571b8db1b",
-        "https://thehill.com/policy/international/6241572-kilmar-abrego-garcia-self-deports/",
-        "https://www.bbc.co.uk/news/articles/c6808pyy5dl9o?at_medium=RSS&at_campaign=rss",
-        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/",
-        "https://www.nytimes.com/2026/11/24/us/politics/abrego-garcia-leave-deportation.html"
-      ],
-      "reason": "All nine headlines report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain after a deportation battle, a high-profile removal case central to the deportations topic.",
-      "chart": ""
-    },
-    "84a082fe5f7309c3d158": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [],
-      "reason": "Headlines cover foreign central banks (Bank of Canada, BOJ) and a consumer confidence story, not a U.S. CPI development reported by multiple outlets.",
-      "chart": ""
-    },
-    "439e2e93c982e2dd2a4d": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-25/china-dismisses-us-tariff-prospect-as-political-maneuvering",
-        "https://www.wsj.com/logistics-report/china-and-other-countries-face-higher-u-s-tariffs-over-industrial-subsidies-399e2747?mod=pls_whats_news_us_business_f"
-      ],
-      "reason": "Headlines 2 and 3 both report the same U.S. tariff action under consideration: higher tariffs on China and others over industrial subsidies. Headline 1 is an ex-negotiator's comment on talks, a different development.",
-      "chart": ""
-    },
-    "c1ccfc54b9807964309e": {
-      "at": "2026-11-25T12:35:51.717Z",
-      "keep": [
-        "https://nypost.com/2026/11/24/business/trump-eyes-tariff-blitz-on-china-eu-mexico-and-japan/",
-        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Both headlines report the same current development: the administration preparing new tariffs on major trading partners, which is central to the tariff-rate chart.",
-      "chart": ""
-    },
     "5a98e961796665484ae2": {
       "at": "2026-11-25T22:24:23.278Z",
       "keep": [
@@ -494,6 +430,42 @@
       "keep": [],
       "reason": "Headlines cover an Illinois governor's opt-out from a state-level education tax credit (state news) and a UK tax-cut opinion/analysis piece (foreign), so no qualifying national U.S. development and no chart measures them.",
       "chart": ""
+    },
+    "f87f3423b630b720734d": {
+      "at": "2026-11-27T18:08:16.204Z",
+      "keep": [
+        "https://thehill.com/homenews/administration/6244608-trump-revised-gdp-data-probe/",
+        "https://www.axios.com/2026/11/26/trump-gdp-investigation-economy-statistics",
+        "https://nypost.com/2026/11/26/us-news/president-trump-calls-for-probe-into-why-economic-growth-figures-revised-up-so-sharply-after-election-alleges-purposeful-error/",
+        "https://www.foxbusiness.com/politics/trump-demands-probe-pre-election-gdp-data-revision",
+        "https://www.washingtonexaminer.com/news/white-house/4816296/trump-investigation-commerce-department-gdp-figures/",
+        "https://www.huffpost.com/entry/trump-probe-gdp-data-midterms_n_6b08d6efe4b01d8bd1dbcce0",
+        "https://www.cnbc.com/2026/11/26/trump-gdp-revision-investigation.html"
+      ],
+      "reason": "Most outlets reported Trump's demand for a probe into the revised pre-midterm GDP data, which is central to the quarterly GDP chart; the Q3 growth release itself was covered by only two outlets, and the Guardian newsletter and The Hill \"what to know\" piece were left out.",
+      "chart": ""
+    },
+    "a7e029bb7af5f4d6939d": {
+      "at": "2026-11-27T18:08:16.204Z",
+      "keep": [],
+      "reason": "Headline 1 reports a plan to hike tariffs, headline 2 covers threats pressuring partners to sign trade deals, and headline 3 is analysis, so no single development is clearly shared by the qualifying headlines.",
+      "chart": ""
+    },
+    "5aa06faf29d14c8f395f": {
+      "at": "2026-11-27T18:08:16.204Z",
+      "keep": [],
+      "reason": "Headlines come from only two outlets, each repeating one story; none is a single development reported by several outlets, and the WSJ oil-price and OPEC pieces are daily market or analysis coverage.",
+      "chart": ""
+    },
+    "01479c1b50205b1ff793": {
+      "at": "2026-11-27T18:08:16.204Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
+        "https://thehill.com/business/6239346-october-pce-inflation-data/",
+        "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html"
+      ],
+      "reason": "Three outlets report the same new official figure: the Fed's preferred inflation gauge (PCE) rose in October. It is a related but different measure from the CPI chart, so this is a close match. Other headlines cover consumer confidence, a market sell-off, or non-U.S. inflation.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -504,10 +476,10 @@
       "count": 1
     },
     "energy-freshness.yml": {
-      "release": "https://www.eia.gov/todayinenergy/detail.php?id=68504",
-      "since": "2026-11-25T22:24:23.278Z",
-      "at": "2026-11-26T23:43:15.416Z",
-      "count": 4
+      "release": "https://www.eia.gov/todayinenergy/detail.php?id=68525",
+      "since": "2026-11-27T18:08:16.204Z",
+      "at": "2026-11-27T18:08:16.204Z",
+      "count": 1
     }
   },
   "laws": {
