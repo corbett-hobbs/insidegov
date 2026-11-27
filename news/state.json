@@ -1,80 +1,5 @@
 {
   "checks": {
-    "5cd79839c9513e1b69ee": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [
-        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
-        "https://www.theguardian.com/us-news/2026/nov/24/kilmar-abrego-garcia-leaves-us",
-        "https://www.washingtontimes.com/news/2026/nov/24/kilmar-abrego-garcia-accept-deportation-ending-year-long-battle-trump/",
-        "https://www.foxnews.com/politics/kilmar-abrego-garcia-leave-us-voluntarily-europe-avoiding-forced-deportation",
-        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/",
-        "https://www.bbc.co.uk/news/articles/c6808pyy5dl9o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Six outlets report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain as the end of his deportation case; headline 1 is about a different California bill.",
-      "chart": ""
-    },
-    "68fa4a59867be77d2de2": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [],
-      "reason": "All headlines concern Nvidia CEO Jensen Huang's resignation, return, and related scrutiny; none reports a trade deal, trade talks, or tariff action, and the chip export-control angle is incidental. Neither the goods trade balance nor tariffs chart directly measures this story.",
-      "chart": ""
-    },
-    "c512443099358faca158": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [
-        "https://www.nbcnews.com/tech/tech-news/nvidia-reinstates-jensen-huang-rcna610864",
-        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/",
-        "https://www.cbsnews.com/news/us-stock-futures-rebound-tech-rout/"
-      ],
-      "reason": "Two outlets (NBC, CBS) report the same development: Jensen Huang's reinstatement as Nvidia CEO and the resulting Nasdaq gain; no listed chart measures stock market moves, so chart is none.",
-      "chart": ""
-    },
-    "410d11f16f727e374831": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [],
-      "reason": "Only one headline centers on gas prices (a Thanksgiving travel item with no corroborating outlet); the others treat gas prices as incidental to consumer confidence and Amtrak ridership.",
-      "chart": ""
-    },
-    "50ee613f35b341d963bc": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [],
-      "reason": "No qualifying shared U.S. development: two headlines are about Mexico's and Canada's inflation (foreign), and the CNBC piece is about consumer confidence with inflation only incidental.",
-      "chart": ""
-    },
-    "9ccecf412cc0f9bebca3": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [
-        "https://www.foxnews.com/politics/massachusetts-sues-trump-admin-stop-ice-courthouse-arrests-unnecessary-fear",
-        "https://www.foxnews.com/politics/massachusetts-sues-trump-admin-stop-ice-courthouse-arrests-unnecessary-fear"
-      ],
-      "reason": "Massachusetts lawsuit against the Trump administration over ICE courthouse arrests is a single government/court development, but no chart measures courthouse arrests, so no chart is linked.",
-      "chart": ""
-    },
-    "f1c4fd403909526a0f3d": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [],
-      "reason": "The two Trump credit card rate-cap headlines are about card APRs, not the federal funds rate, and the Bloomberg Fed-minutes headline has no matching outlet coverage, so no qualifying shared development.",
-      "chart": ""
-    },
-    "0c41924957dba688d98d": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [
-        "https://www.huffpost.com/entry/jd-vance-vitol-venezuela_n_6b04a59de4b0da866ee29d19",
-        "https://thehill.com/homenews/senate/6241094-hassan-investigates-vance-vitol/"
-      ],
-      "reason": "Headlines 1 and 3 both report the same Senate investigation into Vance's ties to the Venezuelan oil contract; headline 2 is about healthcare and is unrelated.",
-      "chart": ""
-    },
-    "b19a31a996f8af7a75a5": {
-      "at": "2026-11-25T02:15:31.462Z",
-      "keep": [
-        "https://www.bloomberg.com/news/articles/2026-11-24/new-trump-tariffs-won-t-top-trade-deal-levels-will-be-targeted",
-        "https://nypost.com/2026/11/24/business/trump-eyes-tariff-blitz-on-china-eu-mexico-and-japan/",
-        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "All three report the same current development: the administration preparing a new round of targeted tariffs on trading partners. The chart measures tariff rates actually collected, so tariffs are central.",
-      "chart": ""
-    },
     "4e2b019ed333fcb813c0": {
       "at": "2026-11-25T12:35:51.717Z",
       "keep": [],
@@ -521,13 +446,61 @@
       "keep": [],
       "reason": "The Pritzker headlines concern a single state governor's decision on a tax-credit program, which is state-level news, and the Portugal headlines are foreign news with no U.S. angle; no pick_chart measures either story.",
       "chart": ""
+    },
+    "15eb140927be959405a9": {
+      "at": "2026-11-27T08:06:54.891Z",
+      "keep": [
+        "https://thehill.com/homenews/administration/6244608-trump-revised-gdp-data-probe/",
+        "https://www.axios.com/2026/11/26/trump-gdp-investigation-economy-statistics",
+        "https://nypost.com/2026/11/26/us-news/president-trump-calls-for-probe-into-why-economic-growth-figures-revised-up-so-sharply-after-election-alleges-purposeful-error/",
+        "https://www.foxbusiness.com/politics/trump-demands-probe-pre-election-gdp-data-revision",
+        "https://www.theguardian.com/us-news/2026/nov/26/trump-fake-economic-figures-midterms",
+        "https://www.washingtonexaminer.com/news/white-house/4816296/trump-investigation-commerce-department-gdp-figures/",
+        "https://www.cnbc.com/2026/11/26/trump-gdp-revision-investigation.html",
+        "https://www.newsweek.com/trump-calls-gdp-fake-his-white-house-called-it-a-surge-in-october-12772108",
+        "https://www.huffpost.com/entry/trump-probe-gdp-data-midterms_n_6b08d6efe4b01d8bd1dbcce0"
+      ],
+      "reason": "Most outlets reported Trump's demand for an investigation into the revised Q3 GDP data; headlines 1 and 2 covered the GDP revision itself, a different development, so they are excluded.",
+      "chart": ""
+    },
+    "0a8cf0197461803001d4": {
+      "at": "2026-11-27T08:06:54.891Z",
+      "keep": [
+        "https://www.huffpost.com/entry/trump-tariffs_n_6b06e042e4b03d2283613751",
+        "https://www.cnbc.com/2026/11/26/us-tariffs-hike-trade-agreement.html"
+      ],
+      "reason": "Headlines 2 and 4 both report the U.S. government's plan to raise tariffs, the most-reported current development; the others are a Democratic challenge, a different Huang story, or analysis.",
+      "chart": ""
+    },
+    "6ba9ce37d3d2ea7a33f1": {
+      "at": "2026-11-27T08:06:54.891Z",
+      "keep": [
+        "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
+        "https://thehill.com/business/6239346-october-pce-inflation-data/",
+        "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
+        "https://www.theguardian.com/business/2026/nov/25/consumer-prices-september-october-energy-inflation"
+      ],
+      "reason": "Four outlets report the same Nov. 25 release of October U.S. inflation (3.8%, PCE gauge); this is a PCE figure rather than the CPI measured by the chart, so the link is approximate.",
+      "chart": ""
+    },
+    "95ff4aa42304a4603029": {
+      "at": "2026-11-27T08:06:54.891Z",
+      "keep": [],
+      "reason": "The two headlines cover different developments: a CNBC analysis of how tariff moves favor India, and a Bloomberg report on trade deal talks, so no single development is shared by multiple outlets.",
+      "chart": ""
+    },
+    "22503dcfa7ce2f1c8672": {
+      "at": "2026-11-27T08:06:54.891Z",
+      "keep": [],
+      "reason": "Headlines cover an Illinois governor's opt-out from a state-level education tax credit (state news) and a UK tax-cut opinion/analysis piece (foreign), so no qualifying national U.S. development and no chart measures them.",
+      "chart": ""
     }
   },
   "dispatched": {
     "indicators-freshness.yml": {
-      "release": "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
-      "since": "2026-11-25T22:24:23.278Z",
-      "at": "2026-11-25T22:24:23.278Z",
+      "release": "https://thehill.com/homenews/administration/6244608-trump-revised-gdp-data-probe/",
+      "since": "2026-11-27T08:06:54.891Z",
+      "at": "2026-11-27T08:06:54.891Z",
       "count": 1
     },
     "energy-freshness.yml": {
@@ -543,7 +516,7 @@
         "guardian"
       ],
       "first": "2026-11-03",
-      "last": "2026-11-26"
+      "last": "2026-11-27"
     },
     "119-pub-142": {
       "outlets": [
@@ -555,7 +528,7 @@
         "wsj"
       ],
       "first": "2026-11-16",
-      "last": "2026-11-26"
+      "last": "2026-11-27"
     },
     "119-pub-43": {
       "outlets": [
