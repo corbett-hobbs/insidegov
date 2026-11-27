@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-25",
+  "asOf": "2026-11-27",
   "stories": [
     {
       "id": "venezuela_oil-2026-11-23",
@@ -70,27 +70,6 @@
           "lean": "Lean Left",
           "title": "Senate passes BAAJA permitting reform bill backed by AI, energy sectors",
           "url": "https://www.cnbc.com/2026/11/20/baaja-bill-senate-passes-permitting-reform.html"
-        }
-      ]
-    },
-    {
-      "id": "oil_markets-2026-11-12",
-      "date": "2026-11-12",
-      "topic": "Oil markets",
-      "headlines": [
-        {
-          "outletId": "cnbc",
-          "outlet": "CNBC",
-          "lean": "Lean Left",
-          "title": "Oil prices rise after Trump says no Iran deal needed: 'We've got their Strait'",
-          "url": "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html"
-        },
-        {
-          "outletId": "wsj",
-          "outlet": "Wall Street Journal",
-          "lean": "Center",
-          "title": "Oil Prices Rebound as Trump Questions Need for Iran Deal",
-          "url": "https://www.wsj.com/business/energy-oil/oil-prices-fall-as-investors-weigh-u-s-iran-diplomacy-296e2847?mod=pls_whats_news_us_business_f"
         }
       ]
     }
