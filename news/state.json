@@ -1,88 +1,5 @@
 {
   "checks": {
-    "42b6a021eea6ded71333": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [
-        "https://www.huffpost.com/entry/trump-tariffs-subsidized-production_n_6b06b4b1e4b01a3571b9445d",
-        "https://www.wsj.com/logistics-report/china-and-other-countries-face-higher-u-s-tariffs-over-industrial-subsidies-399e2747?mod=pls_whats_news_us_business_f",
-        "https://www.axios.com/2026/11/25/trump-tariffs-china",
-        "https://www.nbcnews.com/business/economy/trump-country-specific-tariffs-excess-capacity-rcna611087",
-        "https://thehill.com/homenews/administration/6242105-trump-administration-new-tariffs-china-european-union/",
-        "https://www.foxbusiness.com/fox-news-global-economy/trump-admin-raise-tariffs-china-eu-other-trading-partners",
-        "https://www.theguardian.com/us-news/2026/nov/25/trump-new-china-tariffs-europe",
-        "https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html",
-        "https://www.cbsnews.com/news/trump-administration-tariffs-14-trading-partners/",
-        "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss"
-      ],
-      "reason": "Headlines 1-9 and 11 all report the same Nov 25 government action: the Trump administration's proposed new tariffs on China, the EU and other partners over industrial subsidies. Headlines 10 and 12 cover China's reaction, so they are left out.",
-      "chart": ""
-    },
-    "ed8f888150d21bdecd53": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [],
-      "reason": "All headlines cover Jensen Huang's Nvidia reinstatement and governance; none reports a trade deal, talks, or tariff action as the central development, and no chart measures this story.",
-      "chart": ""
-    },
-    "a51d2b473904430f460b": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [
-        "https://www.huffpost.com/entry/trump-tariffs_n_6b06e042e4b03d2283613751",
-        "https://nypost.com/2026/11/25/business/us-proposes-new-tariffs-on-14-trading-partners-including-china-japan-eu-and-india/",
-        "https://www.washingtonexaminer.com/news/white-house/4814966/new-trump-administration-tariffs-china-eu/"
-      ],
-      "reason": "Headlines 2, 3 and 4 all report the Trump administration's proposed new tariffs on 14 trading partners, the main development of the period.",
-      "chart": ""
-    },
-    "af3fd9ecd13bbbd5ab41": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [
-        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
-        "https://www.cbsnews.com/news/ice-detainee-lawsuits-justice-department-non-immigration-attorneys/",
-        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees",
-        "https://www.foxnews.com/politics/doj-lawyers-ordered-swarm-frivolous-97000-lawsuit-wave-ice-detainees"
-      ],
-      "reason": "CBS and Fox both report the same DOJ directive assigning litigators to ICE detainee lawsuits, the development most outlets covered; the Ábrego García and lottery-arrest stories are single-outlet or incidental.",
-      "chart": ""
-    },
-    "e947fbd32381b3134467": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [
-        "https://www.foxbusiness.com/economy/october-2026-pce-inflation",
-        "https://thehill.com/business/6239346-october-pce-inflation-data/",
-        "https://www.cnbc.com/2026/11/25/pce-inflation-report-october-2026.html",
-        "https://www.theguardian.com/business/2026/nov/25/consumer-prices-september-october-energy-inflation",
-        "https://nypost.com/2026/11/25/business/feds-preferred-inflation-gauge-jumps-to-3-8-as-wall-street-braces-for-rate-hike/"
-      ],
-      "reason": "Five outlets report the same official October PCE inflation release (3.8% annual rise). The chart tracks CPI, so this is related inflation news rather than the exact measure; other headlines mention inflation only in passing or cover markets.",
-      "chart": ""
-    },
-    "b4857eebb8f316537f20": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [
-        "https://www.washingtonexaminer.com/policy/immigration/4814596/kilmar-abrego-garcia-leave-us-spain/",
-        "https://www.nbcnews.com/news/us-news/kilmar-abrego-garcia-rcna611215",
-        "https://www.huffpost.com/entry/ap-us-deportation-error-abrego-garcia_n_6b062b22e4b01a3571b8db1b",
-        "https://thehill.com/policy/international/6242020-kilmar-abrego-garcia-self-deport-spain-arrival/",
-        "https://www.wsj.com/us-news/law/kilmar-abrego-garcia-is-leaving-the-u-s-to-a-country-of-his-choosing-117cad88?mod=rss_usnews",
-        "https://www.nytimes.com/2026/11/24/us/politics/abrego-garcia-leave-deportation.html",
-        "https://www.theguardian.com/us-news/2026/nov/25/kilmar-abrego-garcia-spain",
-        "https://www.cbsnews.com/news/kilmar-abrego-garcia-leaving-us-europe/"
-      ],
-      "reason": "Eight headlines report the same development: Kilmar Abrego Garcia leaving the U.S. for Spain. Headline 10 (judge releasing details) and 6 (judge promotion) are different developments, so they are excluded.",
-      "chart": ""
-    },
-    "e33c04895908e45460b1": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [],
-      "reason": "No qualifying U.S. national development: the headlines cover an Illinois state tax-credit dispute and foreign (EU candidate and Portugal) tax stories, and none matches a chart's data.",
-      "chart": ""
-    },
-    "e6b7b516296fd5383702": {
-      "at": "2026-11-26T14:58:52.114Z",
-      "keep": [],
-      "reason": "Only one headline is about U.S. mortgage-related news (new home sales, with rates incidental), and the other is about South Korea; no development is reported by multiple outlets.",
-      "chart": ""
-    },
     "34294b14f86db981244b": {
       "at": "2026-11-26T23:43:15.416Z",
       "keep": [
@@ -311,6 +228,28 @@
       "keep": [],
       "reason": "Headlines are about Black Friday shopping and retailer pricing, not a single national inflation development such as a new CPI release.",
       "chart": ""
+    },
+    "4b8daa6e964896d938a0": {
+      "at": "2026-11-28T18:49:57.478Z",
+      "keep": [],
+      "reason": "Both headlines are about Black Friday shopping and retailer pricing, not a new national inflation data release, government action, or market move; the CPI chart is not central to either.",
+      "chart": ""
+    },
+    "fd0c457b35f2b9eacf75": {
+      "at": "2026-11-28T18:49:57.478Z",
+      "keep": [],
+      "reason": "Headlines cover different developments: an individual's lottery-related ICE detention (CBS, Washington Examiner), a DHS accusation against California (Fox, two headlines), and an ICE agent's prosecution (Fox). The lottery detention is a single case, not a national-significance development, so nothing qualifies.",
+      "chart": ""
+    },
+    "34cceafbefc0fb1ec884": {
+      "at": "2026-11-28T18:49:57.478Z",
+      "keep": [
+        "https://nypost.com/2026/11/27/business/nasdaq-marks-best-week-in-seven-months-as-tech-stocks-rebound/",
+        "https://nypost.com/2026/11/27/business/nasdaq-marks-best-week-in-seven-months-as-tech-stocks-rebound/",
+        "https://www.washingtonexaminer.com/policy/finance-and-economy/4816683/tech-stocks-finish-thanksgiving-week-high-note/"
+      ],
+      "reason": "Three outlets report the same U.S. market move: Nasdaq and tech stocks rebounding to their best week in months. No listed chart directly measures stock prices, so no chart is linked.",
+      "chart": ""
     }
   },
   "dispatched": {
@@ -323,8 +262,8 @@
     "energy-freshness.yml": {
       "release": "https://www.eia.gov/todayinenergy/detail.php?id=68525",
       "since": "2026-11-27T18:08:16.204Z",
-      "at": "2026-11-28T10:12:02.336Z",
-      "count": 3
+      "at": "2026-11-28T18:49:57.478Z",
+      "count": 4
     }
   },
   "laws": {
@@ -342,6 +281,7 @@
         "foxnews",
         "guardian",
         "nypost",
+        "washingtontimes",
         "wsj"
       ],
       "first": "2026-11-16",
