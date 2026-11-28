@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-11-03T19:30:29.521Z","series":{"id":"PAPRPUS","title":"Crude Oil Production, Total in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PAPRPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
+  "head": {"fetched_at":"2026-11-28T18:51:26.145Z","series":{"id":"PAPRPUS","title":"Crude Oil Production, Total in Thousand Barrels per Day","units":"Thousand Barrels per Day","route":"total-energy","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=PAPRPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":646}},
   "observations": [
     ["1973-01","9175.935"],
     ["1973-02","9395.214"],
@@ -642,9 +642,10 @@
     ["2026-03","13725.603"],
     ["2026-04","13981.377"],
     ["2026-05","13810.826"],
-    ["2026-06","13843.846"],
-    ["2026-07","13947.584"],
-    ["2026-08","13850.419"],
-    ["2026-09","13952.7"]
+    ["2026-06","13865.222"],
+    ["2026-07","13946.031"],
+    ["2026-08","13964.686"],
+    ["2026-09","13952.7"],
+    ["2026-10","13761.484"]
   ]
 }

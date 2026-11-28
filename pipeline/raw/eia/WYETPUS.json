@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-11-03T19:31:50.990Z","series":{"id":"WYETPUS","title":"Electricity Net Generation From Wind, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-07","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=WYETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-28T18:53:25.663Z","series":{"id":"WYETPUS","title":"Electricity Net Generation From Wind, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-08","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=WYETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=WND&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","Not Available"],
     ["1973-02","Not Available"],
@@ -637,13 +637,14 @@
     ["2025-10","39533.581"],
     ["2025-11","40956.799"],
     ["2025-12","47047.659"],
-    ["2026-01","44433.718"],
-    ["2026-02","39707.241"],
-    ["2026-03","52219.087"],
-    ["2026-04","49135.977"],
-    ["2026-05","41157.206"],
-    ["2026-06","41887.969"],
-    ["2026-07","32183.928"],
-    ["2026-08","33317.43101"]
+    ["2026-01","44442.03"],
+    ["2026-02","39566.669"],
+    ["2026-03","52358.615"],
+    ["2026-04","49033.63"],
+    ["2026-05","41052.457"],
+    ["2026-06","41707.397"],
+    ["2026-07","31888.523"],
+    ["2026-08","33317.431"],
+    ["2026-09","33647.68519"]
   ]
 }
