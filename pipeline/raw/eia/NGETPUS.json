@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-11-03T19:31:29.634Z","series":{"id":"NGETPUS","title":"Electricity Net Generation From Natural Gas, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-07","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NGETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-28T18:52:44.620Z","series":{"id":"NGETPUS","title":"Electricity Net Generation From Natural Gas, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-08","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=NGETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=NG&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","21184.967"],
     ["1973-02","20252.525"],
@@ -637,13 +637,14 @@
     ["2025-10","143984.762"],
     ["2025-11","131565.306"],
     ["2025-12","148027.396"],
-    ["2026-01","151629.695"],
-    ["2026-02","132089.232"],
-    ["2026-03","127375.17"],
-    ["2026-04","124449.351"],
-    ["2026-05","137271.02"],
-    ["2026-06","163236.526"],
-    ["2026-07","205294.088"],
-    ["2026-08","209842.94095"]
+    ["2026-01","151782.299"],
+    ["2026-02","132118.034"],
+    ["2026-03","127968.463"],
+    ["2026-04","123801.786"],
+    ["2026-05","137539.352"],
+    ["2026-06","163096.475"],
+    ["2026-07","205225.07"],
+    ["2026-08","209842.941"],
+    ["2026-09","176756.50701"]
   ]
 }

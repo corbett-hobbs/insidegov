@@ -1,5 +1,5 @@
 {
-  "head": {"fetched_at":"2026-11-03T19:31:58.305Z","series":{"id":"SOETPUS","title":"Electricity Net Generation From Solar, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-07","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=SOETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":644}},
+  "head": {"fetched_at":"2026-11-28T18:53:38.009Z","series":{"id":"SOETPUS","title":"Electricity Net Generation From Solar, All Sectors in Million Kilowatthours","units":"Million Kilowatthours","route":"total-energy + electricity/electric-power-operational-data for periods after 2026-08","query":"frequency=monthly&data%5B0%5D=value&facets%5Bmsn%5D%5B%5D=SOETPUS&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000 + frequency=monthly&data%5B0%5D=generation&facets%5Bfueltypeid%5D%5B%5D=SUN&facets%5Bsectorid%5D%5B%5D=99&facets%5Blocation%5D%5B%5D=US&sort%5B0%5D%5Bcolumn%5D=period&sort%5B0%5D%5Bdirection%5D=asc&offset=0&length=5000","total":645}},
   "observations": [
     ["1973-01","Not Available"],
     ["1973-02","Not Available"],
@@ -637,13 +637,14 @@
     ["2025-10","24605.458"],
     ["2025-11","18592.066"],
     ["2025-12","15392.377"],
-    ["2026-01","17985.255"],
-    ["2026-02","21305.149"],
-    ["2026-03","29000.431"],
-    ["2026-04","31103.652"],
-    ["2026-05","36418.42"],
-    ["2026-06","38923.392"],
-    ["2026-07","41411.776"],
-    ["2026-08","38818.73419"]
+    ["2026-01","18399.766"],
+    ["2026-02","21686.468"],
+    ["2026-03","29523.294"],
+    ["2026-04","30986.141"],
+    ["2026-05","36368.643"],
+    ["2026-06","38526.999"],
+    ["2026-07","41043.996"],
+    ["2026-08","38818.734"],
+    ["2026-09","33023.11413"]
   ]
 }
